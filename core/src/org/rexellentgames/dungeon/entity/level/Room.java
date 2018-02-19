@@ -23,7 +23,7 @@ public class Room extends Rect implements GraphNode {
 
 		private Method paint;
 
-		private Type(Class<? extends Painter> painter) {
+		Type(Class<? extends Painter> painter) {
 			try {
 				paint = painter.getMethod("paint", Level.class, Room.class);
 			} catch (Exception e) {

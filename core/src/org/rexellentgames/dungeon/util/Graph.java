@@ -35,7 +35,6 @@ public class Graph {
 		T room = from;
 
 		while (room != to) {
-
 			int min = room.getDistance();
 			T next = null;
 

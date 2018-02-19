@@ -67,6 +67,8 @@ public class RegularLevel extends Level {
 			connected.add(room);
 		}
 
+
+		Graph.buildDistanceMap(this.rooms, this.exit);
 		path = Graph.buildPath(this.rooms, this.entrance, this.exit);
 		room = this.entrance;
 
