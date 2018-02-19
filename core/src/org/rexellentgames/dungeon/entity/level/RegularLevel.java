@@ -208,6 +208,9 @@ public class RegularLevel extends Level {
 				case TUNNEL:
 					this.set(door.x, door.y, Terrain.GRASS);
 					break;
+				case SECRET:
+					this.set(door.x, door.y, Terrain.SECRET_DOOR);
+					break;
 			}
 		}
 	}
