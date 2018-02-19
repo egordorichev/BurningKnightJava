@@ -30,7 +30,7 @@ public class RegularLevel extends Level {
 			// Make sure that the entrance is big enough
 			do {
 				this.entrance = this.rooms.get(Random.newInt(this.rooms.size()));
-			} while (this.entrance.getWidth() < 4 && this.exit.getHeight() < 4);
+			} while (this.entrance.getWidth() < 4 && this.entrance.getHeight() < 4);
 
 			// Make sure that the exit is big enough
 			do {
@@ -51,7 +51,118 @@ public class RegularLevel extends Level {
 		this.entrance.setType(Room.Type.ENTRANCE);
 		this.exit.setType(Room.Type.EXIT);
 
+		ArrayList<Room> connected = new ArrayList<Room>();
+		connected.add(this.entrance);
+
+		// Is it needed? :thinking:
+		Graph.buildDistanceMap(this.rooms, this.exit);
+		ArrayList<Room> path = Graph.buildPath(this.rooms, this.entrance, this.exit);
+		Room room = this.entrance;
+
+		for (Room next : path) {
+			room.connectWithRoom(next);
+			room = next;
+			room.setPrice(this.entrance.getDistance());
+
+			connected.add(room);
+		}
+
+		path = Graph.buildPath(this.rooms, this.entrance, this.exit);
+		room = this.entrance;
+
+		for (Room next : path) {
+			room.connectWithRoom(next);
+			room = next;
+
+			connected.add(room);
+		}
+
+		int nConnected = (int) (rooms.size() * Random.newFloat(0.5f, 0.7f));
+
+		while (connected.size() < nConnected) {
+			Room cr = connected.get(Random.newInt(connected.size()));
+			Room or = cr.getRandomNeighbour();
+
+			if (!connected.contains(or)) {
+				cr.connectWithRoom(or);
+				connected.add(or);
+			}
+		}
+
+		this.assignRooms();
+		this.paint();
+		this.paintGrass();
+		this.paintWater();
+
 		return true;
+	}
+
+	protected void assignRooms() {
+		for (Room room : this.rooms) {
+			// todo: special rooms
+			if (room.getType() == Room.Type.NULL && room.getConnected().size() > 0) {
+				room.setType(Room.Type.REGULAR);
+			}
+		}
+	}
+
+	protected void paint() {
+		for (Room room : this.rooms) {
+			if (room.getType() != Room.Type.NULL) {
+				this.placeDoors(room);
+				room.getType().paint(this, room);
+			}
+		}
+
+		for (Room room : this.rooms) {
+			this.paintDoors(room);
+		}
+	}
+
+	protected void placeDoors(Room room) {
+		for (Room n : room.getConnected().keySet()) {
+			Door door = room.getConnected().get(n);
+
+			if (door == null) {
+				Rect i = room.intersect(n);
+
+				if (i.getWidth() == 0) {
+					door = new Door(i.left, Random.newInt(i.top + 1, i.bottom));
+				} else {
+					door = new Door(Random.newInt(i.left + 1, i.right), i.top);
+				}
+
+				room.getConnected().put(n, door);
+				n.getConnected().put(room, door);
+			}
+		}
+	}
+
+	protected void paintDoors(Room room) {
+		for (Room other : room.getConnected().keySet()) {
+			Door door = room.getConnected().get(other);
+
+			// todo: proper tiles here
+			switch (door.getType()) {
+				case EMPTY:
+					this.set(door.x, door.y, Terrain.DOOR);
+					break;
+				case REGULAR:
+					this.set(door.x, door.y, Terrain.DOOR);
+					break;
+				case TUNNEL:
+					this.set(door.x, door.y, Terrain.DOOR);
+					break;
+			}
+		}
+	}
+
+	protected void paintGrass() {
+
+	}
+
+	protected void paintWater() {
+
 	}
 
 	protected boolean initRooms() {

@@ -1,8 +1,12 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.level.painter.*;
+import org.rexellentgames.dungeon.entity.level.painter.EntrancePainter;
+import org.rexellentgames.dungeon.entity.level.painter.ExitPainter;
+import org.rexellentgames.dungeon.entity.level.painter.Painter;
+import org.rexellentgames.dungeon.entity.level.painter.RegularPainter;
 import org.rexellentgames.dungeon.util.GraphNode;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Rect;
 
 import java.lang.reflect.Method;
@@ -38,7 +42,7 @@ public class Room extends Rect implements GraphNode {
 
 	private ArrayList<Room> neighbours = new ArrayList<Room>();
 	private HashMap<Room, Door> connected = new HashMap<Room, Door>();
-	private Type type;
+	private Type type = Type.NULL;
 	private int price = 1;
 	private int distance = 0;
 
@@ -58,6 +62,13 @@ public class Room extends Rect implements GraphNode {
 
 			this.neighbours.add(room);
 			room.neighbours.add(this);
+		}
+	}
+
+	public void connectWithRoom(Room room) {
+		if (!this.connected.containsKey(room)) {
+			this.connected.put(room, null);
+			room.connected.put(this, null);
 		}
 	}
 
@@ -84,5 +95,13 @@ public class Room extends Rect implements GraphNode {
 	@Override
 	public Collection<? extends GraphNode> getEdges() {
 		return neighbours;
+	}
+
+	public Room getRandomNeighbour() {
+		return this.neighbours.get(Random.newInt(this.neighbours.size()));
+	}
+
+	public HashMap<Room, Door> getConnected() {
+		return this.connected;
 	}
 }
