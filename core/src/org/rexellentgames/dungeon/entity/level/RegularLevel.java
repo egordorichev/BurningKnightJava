@@ -189,12 +189,40 @@ public class RegularLevel extends Level {
 		}
 	}
 
-	protected void paintGrass() {
+	protected boolean[] getGrass() {
+		return Patch.generate(0.4f, 5);
+	}
 
+	protected boolean[] getWater() {
+		return Patch.generate(0.4f, 4);
+	}
+
+	protected void paintGrass() {
+		boolean[] grass = this.getGrass();
+
+		for (int i = WIDTH + 1; i < SIZE - WIDTH - 1; i++) {
+			if (grass[i] && this.get(i) == Terrain.FLOOR) {
+				int count = 1;
+
+				for (int n : NEIGHBOURS8) {
+					if (grass[i + n]) {
+						count++;
+					}
+				}
+
+				this.set(i, (Random.newFloat() < count / 12f) ? Terrain.GRASS : Terrain.LOW_GRASS);
+			}
+		}
 	}
 
 	protected void paintWater() {
+		boolean[] grass = this.getWater();
 
+		for (int i = WIDTH + 1; i < SIZE - WIDTH - 1; i++) {
+			if (grass[i] && this.get(i) == Terrain.FLOOR) {
+				this.set(i, Terrain.WATER);
+			}
+		}
 	}
 
 	protected boolean initRooms() {

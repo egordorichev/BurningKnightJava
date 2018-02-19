@@ -8,7 +8,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 public class ExitPainter extends Painter {
 	public static void paint(Level level, Room room) {
 		fill(level, room, Terrain.WALL);
-		fill(level, room.left + 1, room.top + 1, room.getWidth() - 2, room.getHeight() - 2, Terrain.GRASS);
+		fill(level, room.left + 1, room.top + 1, room.getWidth() - 2, room.getHeight() - 2, Terrain.FLOOR);
 
 		for (Door door : room.getConnected().values()) {
 			door.setType(Door.Type.REGULAR);
