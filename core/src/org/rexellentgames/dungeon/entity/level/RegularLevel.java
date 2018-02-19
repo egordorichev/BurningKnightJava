@@ -8,8 +8,8 @@ import org.rexellentgames.dungeon.util.Rect;
 import java.util.ArrayList;
 
 public class RegularLevel extends Level {
-	private static int MIN_ROOM_SIZE = 9;
-	private static int MAX_ROOM_SIZE = 11;
+	private static int MIN_ROOM_SIZE = 7;
+	private static int MAX_ROOM_SIZE = 9;
 
 	protected ArrayList<Room> rooms = new ArrayList<Room>();
 
@@ -54,19 +54,18 @@ public class RegularLevel extends Level {
 		ArrayList<Room> connected = new ArrayList<Room>();
 		connected.add(this.entrance);
 
-		// Is it needed? :thinking:
 		Graph.buildDistanceMap(this.rooms, this.exit);
 		ArrayList<Room> path = Graph.buildPath(this.rooms, this.entrance, this.exit);
+
 		Room room = this.entrance;
 
 		for (Room next : path) {
 			room.connectWithRoom(next);
-			room = next;
 			room.setPrice(this.entrance.getDistance());
+			room = next;
 
 			connected.add(room);
 		}
-
 
 		Graph.buildDistanceMap(this.rooms, this.exit);
 		path = Graph.buildPath(this.rooms, this.entrance, this.exit);
