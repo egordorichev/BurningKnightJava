@@ -11,13 +11,11 @@ public class InGameState extends State {
 	public void init() {
 		this.area = new Area(this);
 
-		Level level = new RegularLevel();
+		Level level = (Level) this.area.add(new RegularLevel());
 
 		if (!level.generate()) {
 			Log.error("Failed to generate the level!");
 		}
-
-		this.area.add(level);
 	}
 
 	@Override

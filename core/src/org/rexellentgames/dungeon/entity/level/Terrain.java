@@ -1,10 +1,12 @@
 package org.rexellentgames.dungeon.entity.level;
 
 public class Terrain {
-	public static int EMPTY = 0;
-	public static int WALL = 33;
+	public static short EMPTY = 0;
+	public static short DOOR = 3;
+	public static short GRASS = 4;
+	public static short WALL = 33;
 	// don't forget to update this value!
-	public static int TERRAIN_MAX = 34;
+	public static short TERRAIN_MAX = 34;
 
 	public static int[] flags = new int[TERRAIN_MAX];
 
@@ -13,6 +15,8 @@ public class Terrain {
 
 	static {
 		flags[EMPTY] = PASSABLE;
+		flags[GRASS] = PASSABLE;
 		flags[WALL] = SOLID;
+		flags[DOOR] = PASSABLE;
 	}
 }

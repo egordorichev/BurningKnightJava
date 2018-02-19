@@ -4,7 +4,7 @@ import org.rexellentgames.dungeon.util.Point;
 
 public class Door extends Point {
 	public enum Type {
-		EMPTY, TUNNEL, REGULAR, UNLOCKED, LOCKED
+		EMPTY, TUNNEL, REGULAR
 	}
 
 	private Type type = Type.EMPTY;
