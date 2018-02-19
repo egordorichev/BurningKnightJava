@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.util.Rect;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -17,7 +18,8 @@ public class Room extends Rect implements GraphNode {
 		REGULAR(RegularPainter.class),
 		ENTRANCE(EntrancePainter.class),
 		EXIT(ExitPainter.class),
-		TUNNEL(TunnelPainter.class);
+		TUNNEL(TunnelPainter.class),
+		HOLE(HolePainter.class);
 
 		private Method paint;
 
@@ -37,6 +39,10 @@ public class Room extends Rect implements GraphNode {
 			}
 		}
 	}
+
+	public static final ArrayList<Type> SPECIAL = new ArrayList<Type>(Arrays.asList(
+		Type.HOLE
+	));
 
 	private ArrayList<Room> neighbours = new ArrayList<Room>();
 	private HashMap<Room, Door> connected = new HashMap<Room, Door>();

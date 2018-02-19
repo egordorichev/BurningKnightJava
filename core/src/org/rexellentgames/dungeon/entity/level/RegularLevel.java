@@ -12,6 +12,7 @@ public class RegularLevel extends Level {
 	private static int MAX_ROOM_SIZE = 9;
 
 	protected ArrayList<Room> rooms = new ArrayList<Room>();
+	protected ArrayList<Room.Type> special;
 
 	protected Room entrance;
 	protected Room exit;
@@ -90,6 +91,8 @@ public class RegularLevel extends Level {
 			}
 		}
 
+		this.special = new ArrayList<Room.Type>(Room.SPECIAL);
+
 		this.assignRooms();
 		this.paint();
 		this.paintGrass();
@@ -99,10 +102,30 @@ public class RegularLevel extends Level {
 	}
 
 	protected void assignRooms() {
+		int specialRooms = 0;
+
+		for (Room room : rooms) {
+			if (room.getType() == Room.Type.NULL &&
+				room.getConnected().size() == 1) {
+
+				if (this.special.size() > 0 &&
+					room.getWidth() > 3 && room.getHeight() > 3 &&
+					Random.newInt(specialRooms * specialRooms + 2) == 0) {
+
+					int n = this.special.size();
+					Room.Type type = this.special.get(Math.min(Random.newInt(n), Random.newInt(n)));
+
+					room.setType(type);
+
+					this.special.remove(type);
+					specialRooms++;
+				}
+			}
+		}
+
 		int count = 0;
 
 		for (Room room : this.rooms) {
-			// todo: special rooms
 			int connected = room.getConnected().size();
 
 			if (room.getType() == Room.Type.NULL && connected > 0) {
@@ -190,11 +213,11 @@ public class RegularLevel extends Level {
 	}
 
 	protected boolean[] getGrass() {
-		return Patch.generate(0.4f, 5);
+		return Patch.generate(0.5f, 5);
 	}
 
 	protected boolean[] getWater() {
-		return Patch.generate(0.4f, 4);
+		return Patch.generate(0.5f, 4);
 	}
 
 	protected void paintGrass() {
