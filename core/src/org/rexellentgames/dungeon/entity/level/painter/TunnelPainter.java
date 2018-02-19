@@ -9,7 +9,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class TunnelPainter extends Painter {
 	public static void paint(Level level, Room room) {
-		Point c = room.center();
+		Point c = room.getCenter();
 		short floor = Terrain.FLOOR;
 
 		if (room.getWidth() > room.getHeight() || (room.getWidth() == room.getHeight() && Random.newInt(2) == 0)) {

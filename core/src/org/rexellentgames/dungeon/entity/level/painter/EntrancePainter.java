@@ -4,11 +4,15 @@ import org.rexellentgames.dungeon.entity.level.Door;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Room;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.util.Point;
 
 public class EntrancePainter extends Painter {
 	public static void paint(Level level, Room room) {
 		fill(level, room, Terrain.WALL);
 		fill(level, room.left + 1, room.top + 1, room.getWidth() - 2, room.getHeight() - 2, Terrain.FLOOR);
+
+		Point c = room.getCenter();
+		level.set(c.x, c.y, Terrain.ENTRANCE);
 
 		for (Door door : room.getConnected().values()) {
 			door.setType(Door.Type.REGULAR);

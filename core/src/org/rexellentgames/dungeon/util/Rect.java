@@ -49,7 +49,7 @@ public class Rect {
 		return this.bottom - this.top;
 	}
 
-	public Point center() {
+	public Point getCenter() {
 		return new Point(
 			(left + right) / 2 + (((right - left) & 1) == 1 ? Random.newInt(2) : 0),
 			(top + bottom) / 2 + (((bottom - top) & 1) == 1 ? Random.newInt(2) : 0));
