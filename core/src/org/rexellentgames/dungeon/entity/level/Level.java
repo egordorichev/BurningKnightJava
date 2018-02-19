@@ -4,9 +4,12 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 
 public class Level extends Entity {
-	public static int WIDTH = 32;
-	public static int HEIGHT = 32;
-	public static int SIZE = WIDTH * HEIGHT;
+	public static final int WIDTH = 32;
+	public static final int HEIGHT = 32;
+	public static final int SIZE = WIDTH * HEIGHT;
+	public static final int[] NEIGHBOURS4 = {-WIDTH, +1, +WIDTH, -1};
+	public static final int[] NEIGHBOURS8 = {+1, -1, +WIDTH, -WIDTH, +1+WIDTH, +1-WIDTH, -1+WIDTH, -1-WIDTH};
+	public static final int[] NEIGHBOURS9 = {0, +1, -1, +WIDTH, -WIDTH, +1+WIDTH, +1-WIDTH, -1+WIDTH, -1-WIDTH};
 
 	protected short[] data;
 

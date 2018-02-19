@@ -4,14 +4,13 @@ import org.rexellentgames.dungeon.entity.level.Door;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Room;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Point;
 import org.rexellentgames.dungeon.util.Random;
 
 public class TunnelPainter extends Painter {
 	public static void paint(Level level, Room room) {
 		Point c = room.center();
-		short floor = Terrain.GRASS;
+		short floor = Terrain.FLOOR;
 
 		if (room.getWidth() > room.getHeight() || (room.getWidth() == room.getHeight() && Random.newInt(2) == 0)) {
 			int from = room.right - 1;
