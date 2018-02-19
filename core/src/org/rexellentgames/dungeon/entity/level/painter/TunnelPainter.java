@@ -97,8 +97,8 @@ public class TunnelPainter extends Painter {
 	private static void set(Level level, int x, int y, short v) {
 		level.set(x, y, v);
 
-		for (int xx = Math.max(0, x - 1); xx < Math.min(Level.HEIGHT - 1, x + 2); xx++) {
-			for (int yy = Math.max(0, y - 1); yy < Math.min(Level.HEIGHT - 1, y + 2); yy++) {
+		for (int xx = Math.max(0, x - 1); xx < Math.min(Level.HEIGHT, x + 2); xx++) {
+			for (int yy = Math.max(0, y - 1); yy < Math.min(Level.HEIGHT, y + 2); yy++) {
 				if (level.get(xx, yy) == Terrain.EMPTY) {
 					level.set(xx, yy, Terrain.WALL);
 				}
