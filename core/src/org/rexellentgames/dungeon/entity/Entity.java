@@ -3,7 +3,7 @@ package org.rexellentgames.dungeon.entity;
 import org.rexellentgames.dungeon.game.Area;
 
 public class Entity {
-	private Area area;
+	protected Area area;
 
 	public void init() {
 

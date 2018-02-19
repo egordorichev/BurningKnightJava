@@ -11,11 +11,13 @@ public class Area {
 		this.state = state;
 	}
 
-	public void add(Entity entity) {
+	public Entity add(Entity entity) {
 		this.elements.add(entity);
 
 		entity.setArea(this);
 		entity.init();
+
+		return entity;
 	}
 
 	public void remove(Entity element) {
