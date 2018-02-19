@@ -100,12 +100,43 @@ public class RegularLevel extends Level {
 	}
 
 	protected void assignRooms() {
+		int count = 0;
+
 		for (Room room : this.rooms) {
 			// todo: special rooms
-			if (room.getType() == Room.Type.NULL && room.getConnected().size() > 0) {
-				room.setType(Room.Type.REGULAR);
+			int connected = room.getConnected().size();
+
+			if (room.getType() == Room.Type.NULL && connected > 0) {
+				if (Random.newInt(connected * connected) == 0) {
+					room.setType(Room.Type.REGULAR);
+					count++;
+				} else {
+					room.setType(Room.Type.TUNNEL);
+				}
 			}
 		}
+
+		// Make sure, we have enough rooms
+		while (count < 4) {
+			Room room = this.randomRoom(Room.Type.TUNNEL, 1);
+
+			if (room != null) {
+				room.setType(Room.Type.TUNNEL);
+				count++;
+			}
+		}
+	}
+
+	public Room randomRoom(Room.Type type, int attempts) {
+		for (int i = 0; i < attempts; i++) {
+			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
+
+			if (room.getType() == type) {
+				return room;
+			}
+		}
+
+		return null;
 	}
 
 	protected void paint() {
@@ -147,13 +178,13 @@ public class RegularLevel extends Level {
 			// todo: proper tiles here
 			switch (door.getType()) {
 				case EMPTY:
-					this.set(door.x, door.y, Terrain.DOOR);
+					this.set(door.x, door.y, Terrain.GRASS);
 					break;
 				case REGULAR:
 					this.set(door.x, door.y, Terrain.DOOR);
 					break;
 				case TUNNEL:
-					this.set(door.x, door.y, Terrain.DOOR);
+					this.set(door.x, door.y, Terrain.GRASS);
 					break;
 			}
 		}

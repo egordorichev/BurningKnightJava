@@ -1,10 +1,7 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.level.painter.EntrancePainter;
-import org.rexellentgames.dungeon.entity.level.painter.ExitPainter;
-import org.rexellentgames.dungeon.entity.level.painter.Painter;
-import org.rexellentgames.dungeon.entity.level.painter.RegularPainter;
+import org.rexellentgames.dungeon.entity.level.painter.*;
 import org.rexellentgames.dungeon.util.GraphNode;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Rect;
@@ -19,7 +16,8 @@ public class Room extends Rect implements GraphNode {
 		NULL(null),
 		REGULAR(RegularPainter.class),
 		ENTRANCE(EntrancePainter.class),
-		EXIT(ExitPainter.class);
+		EXIT(ExitPainter.class),
+		TUNNEL(TunnelPainter.class);
 
 		private Method paint;
 
