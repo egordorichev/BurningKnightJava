@@ -11,7 +11,7 @@ public class Rect {
 	}
 
 	public Rect(Rect other) {
-		this(other.left, other.top, other.right, other.bottom);
+		this.set(other);
 	}
 
 	public Rect(int left, int top, int right, int bottom) {
@@ -19,6 +19,26 @@ public class Rect {
 		this.top = top;
 		this.right = right;
 		this.bottom = bottom;
+	}
+
+	public Rect set(Rect other) {
+		this.left = other.left;
+		this.top = other.top;
+		this.right = other.right;
+		this.bottom = other.bottom;
+
+		return this;
+	}
+
+	public Rect intersect(Rect other) {
+		Rect result = new Rect();
+
+		result.left = Math.max(this.left, other.left);
+		result.right = Math.min(this.right, other.right);
+		result.top = Math.max(this.top, other.top);
+		result.bottom = Math.min(this.bottom, other.bottom);
+
+		return result;
 	}
 
 	public int getWidth() {
