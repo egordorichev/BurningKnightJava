@@ -2,9 +2,9 @@ package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.painter.*;
-import org.rexellentgames.dungeon.util.GraphNode;
+import org.rexellentgames.dungeon.util.path.GraphNode;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.Rect;
+import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

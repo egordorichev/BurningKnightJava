@@ -4,7 +4,7 @@ import org.rexellentgames.dungeon.entity.level.Door;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Room;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.util.Point;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class ExitPainter extends Painter {
 	public static void paint(Level level, Room room) {

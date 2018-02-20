@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.util;
+package org.rexellentgames.dungeon.util.path;
 
 import java.util.Collection;
 

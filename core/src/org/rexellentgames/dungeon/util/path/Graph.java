@@ -1,27 +1,29 @@
-package org.rexellentgames.dungeon.util;
+package org.rexellentgames.dungeon.util.path;
+
+import org.rexellentgames.dungeon.util.path.GraphNode;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
 public class Graph {
-	public static <T extends GraphNode> void buildDistanceMap(Collection<T> nodes, T from) {
+	public static <T extends org.rexellentgames.dungeon.util.path.GraphNode> void buildDistanceMap(Collection<T> nodes, T from) {
 		for (T node : nodes) {
 			node.setDistance(Integer.MAX_VALUE);
 		}
 
-		LinkedList<GraphNode> queue = new LinkedList<GraphNode>();
+		LinkedList<org.rexellentgames.dungeon.util.path.GraphNode> queue = new LinkedList<org.rexellentgames.dungeon.util.path.GraphNode>();
 
 		from.setDistance(0);
 		queue.add(from);
 
 		while (!queue.isEmpty()) {
-			GraphNode node = queue.poll();
+			org.rexellentgames.dungeon.util.path.GraphNode node = queue.poll();
 
 			int distance = node.getDistance();
 			int price = node.getPrice();
 
-			for (GraphNode edge : node.getEdges()) {
+			for (org.rexellentgames.dungeon.util.path.GraphNode edge : node.getEdges()) {
 				if (edge.getDistance() > distance + price) {
 					queue.add(edge);
 					edge.setDistance(distance + price);
@@ -30,7 +32,7 @@ public class Graph {
 		}
 	}
 
-	public static <T extends GraphNode> ArrayList<T> buildPath(Collection<T> nodes, T from, T to) {
+	public static <T extends org.rexellentgames.dungeon.util.path.GraphNode> ArrayList<T> buildPath(Collection<T> nodes, T from, T to) {
 		ArrayList<T> path = new ArrayList<T>();
 		T room = from;
 
@@ -38,7 +40,7 @@ public class Graph {
 			int min = room.getDistance();
 			T next = null;
 
-			Collection<? extends GraphNode> edges = room.getEdges();
+			Collection<? extends org.rexellentgames.dungeon.util.path.GraphNode> edges = room.getEdges();
 
 			for (GraphNode edge : edges) {
 				int distance = edge.getDistance();

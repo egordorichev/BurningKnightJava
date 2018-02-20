@@ -15,6 +15,8 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		Gdx.graphics.setTitle("Dungeon " + Version.asString());
+
 		Assets.init();
 		Box2D.init();
 

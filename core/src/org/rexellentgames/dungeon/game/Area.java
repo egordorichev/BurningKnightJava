@@ -4,7 +4,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import java.util.ArrayList;
 
 public class Area {
-	private ArrayList<Entity> elements = new ArrayList<Entity>();
+	private ArrayList<Entity> entitys = new ArrayList<Entity>();
 	private State state;
 
 	public Area(State state) {
@@ -12,7 +12,7 @@ public class Area {
 	}
 
 	public Entity add(Entity entity) {
-		this.elements.add(entity);
+		this.entitys.add(entity);
 
 		entity.setArea(this);
 		entity.init();
@@ -20,20 +20,26 @@ public class Area {
 		return entity;
 	}
 
-	public void remove(Entity element) {
-		this.elements.remove(element);
-		element.destroy();
+	public void remove(Entity entity) {
+		this.entitys.remove(entity);
+		entity.destroy();
 	}
 
 	public void update(float dt) {
-		for (Entity element : this.elements) {
-			element.update(dt);
+		for (Entity entity : this.entitys) {
+			entity.update(dt);
 		}
 	}
 
 	public void render() {
-		for (Entity element : this.elements) {
-			element.render();
+		for (Entity entity : this.entitys) {
+			entity.render();
+		}
+	}
+
+	public void renderUi() {
+		for (Entity entity : this.entitys) {
+			entity.renderUi();
 		}
 	}
 

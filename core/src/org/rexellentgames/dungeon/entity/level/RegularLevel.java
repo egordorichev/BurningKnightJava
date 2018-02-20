@@ -2,10 +2,11 @@ package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import org.rexellentgames.dungeon.util.Graph;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.util.path.Graph;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.Rect;
+import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,8 @@ public class RegularLevel extends Level {
 
 	protected ArrayList<Room> rooms = new ArrayList<Room>();
 	protected ArrayList<Room.Type> special;
+	private ArrayList<Item> toSpawn = new ArrayList<Item>();
+	private boolean[] busy;
 
 	protected Room entrance;
 	protected Room exit;
@@ -103,9 +106,22 @@ public class RegularLevel extends Level {
 		this.paintGrass();
 		this.paintWater();
 
+		this.busy = new boolean[SIZE];
+
+		this.spawnItems();
+		this.spawnMobs();
+
 		this.addPhysics();
 
 		return true;
+	}
+
+	private void spawnItems() {
+
+	}
+
+	private void spawnMobs() {
+
 	}
 
 	private void addPhysics() {
@@ -116,11 +132,12 @@ public class RegularLevel extends Level {
 
 		Body body = world.createBody(def);
 
+		ArrayList<Vector2> marked = new ArrayList<Vector2>();
+
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
 				if (this.checkFor(x, y, Terrain.SOLID)) {
 					int total = 0;
-					int i = toIndex(x, y);
 
 					for (Vector2 vec : NEIGHBOURS8V) {
 						Vector2 v = new Vector2(x + vec.x, y + vec.y);
@@ -150,6 +167,10 @@ public class RegularLevel extends Level {
 						body.createFixture(fixture);
 
 						poly.dispose();
+
+						if (this.get(x, y) == Terrain.WALL) {
+							marked.add(new Vector2(x, y));
+						}
 					}
 				}
 			}
