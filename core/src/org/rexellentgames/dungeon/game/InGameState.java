@@ -31,8 +31,7 @@ public class InGameState extends State {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				level.generate();
-				// level.load();
+				level.load();
 			}
 		}).run();
 
@@ -40,9 +39,9 @@ public class InGameState extends State {
 		this.light.setBlurNum(1);
 		this.light.setAmbientLight(0f);
 
-		this.point = new PointLight(this.light, 128, new Color(1, 1, 0.8f, 0.8f), 512, 300, 300);
+		this.point = new PointLight(this.light, 128, new Color(1, 1, 1f, 0.7f), 512, 300, 300);
 		this.point.setSoft(true);
-		this.point.setSoftnessLength(16.0f);
+		this.point.setSoftnessLength(32.0f);
 	}
 
 	@Override

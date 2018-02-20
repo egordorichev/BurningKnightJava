@@ -113,9 +113,15 @@ public class Level extends Entity {
 			}
 
 			stream.close();
+			this.addPhysics();
+
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}
+	}
+
+	protected void addPhysics() {
+
 	}
 
 	public void save() {

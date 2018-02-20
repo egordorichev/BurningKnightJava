@@ -206,7 +206,8 @@ public class RegularLevel extends Level {
 		return new Knight();
 	}
 
-	private void addPhysics() {
+	@Override
+	protected void addPhysics() {
 		World world = this.area.getState().getWorld();
 
 		BodyDef def = new BodyDef();
@@ -478,10 +479,11 @@ public class RegularLevel extends Level {
 	protected void writeData(FileWriter stream) throws Exception {
 		stream.writeInt32(this.saveable.size());
 
-		/*for (int i = 0; i < this.saveable.size(); i++) {
+		for (int i = 0; i < this.saveable.size(); i++) {
 			SaveableEntity entity = this.saveable.get(i);
 
 			stream.writeString(entity.getClass().toString());
-		}*/
+			entity.save(stream);
+		}
 	}
 }
