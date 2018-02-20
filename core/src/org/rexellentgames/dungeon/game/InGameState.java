@@ -31,7 +31,8 @@ public class InGameState extends State {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				level.load();
+				level.generate();
+				// level.load();
 			}
 		}).run();
 

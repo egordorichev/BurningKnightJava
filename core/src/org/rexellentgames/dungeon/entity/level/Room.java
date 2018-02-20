@@ -32,7 +32,7 @@ public class Room extends Rect implements GraphNode {
 			}
 		}
 
-		public void paint( Level level, Room room ) {
+		public void paint(Level level, Room room) {
 			try {
 				paint.invoke(null, level, room);
 			} catch (Exception e) {
@@ -75,6 +75,13 @@ public class Room extends Rect implements GraphNode {
 			this.connected.put(room, null);
 			room.connected.put(this, null);
 		}
+	}
+
+	public int getRandomCell() {
+		int x = Random.newInt(this.left + 1, this.right);
+		int y = Random.newInt(this.top + 1, this.bottom);
+
+		return x + y * Level.WIDTH;
 	}
 
 	@Override

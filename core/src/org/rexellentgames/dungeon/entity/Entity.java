@@ -1,8 +1,9 @@
 package org.rexellentgames.dungeon.entity;
 
 import org.rexellentgames.dungeon.game.Area;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class Entity {
+public class Entity extends Point {
 	protected Area area;
 
 	public void init() {
