@@ -22,10 +22,6 @@ public class Entity extends Point {
 
 	}
 
-	public void renderUi() {
-
-	}
-
 	public void setArea(Area area) {
 		this.area = area;
 	}

@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.game.InGameState;
 
 public class Dungeon extends ApplicationAdapter {
 	private Game game;
+	public static int level = 0;
 
 	@Override
 	public void create() {
