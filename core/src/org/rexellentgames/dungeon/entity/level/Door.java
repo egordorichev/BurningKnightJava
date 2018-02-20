@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.entity.level;
 
-import org.rexellentgames.dungeon.util.Point;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Door extends Point {
 	public enum Type {

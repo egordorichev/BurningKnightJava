@@ -1,4 +1,6 @@
-package org.rexellentgames.dungeon.util;
+package org.rexellentgames.dungeon.util.geometry;
+
+import org.rexellentgames.dungeon.util.Random;
 
 public class Rect {
 	public int left;

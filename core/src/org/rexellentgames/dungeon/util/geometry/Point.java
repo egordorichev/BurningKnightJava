@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.util;
+package org.rexellentgames.dungeon.util.geometry;
 
 public class Point {
 	public int x;

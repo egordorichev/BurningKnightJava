@@ -21,6 +21,10 @@ public class Entity {
 
 	}
 
+	public void renderUi() {
+
+	}
+
 	public void setArea(Area area) {
 		this.area = area;
 	}
