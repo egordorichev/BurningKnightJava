@@ -8,7 +8,6 @@ import org.rexellentgames.dungeon.util.Point;
 
 public class ExitPainter extends Painter {
 	public static void paint(Level level, Room room) {
-		fill(level, room, Terrain.WALL);
 		fill(level, room.left + 1, room.top + 1, room.getWidth() - 2, room.getHeight() - 2, Terrain.FLOOR);
 
 		Point c = room.getCenter();

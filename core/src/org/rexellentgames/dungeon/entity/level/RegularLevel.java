@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Rect;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RegularLevel extends Level {
 	private static int MIN_ROOM_SIZE = 7;
@@ -22,6 +23,8 @@ public class RegularLevel extends Level {
 		if (!this.initRooms()) {
 			return false;
 		}
+
+		Arrays.fill(this.data, Terrain.WALL);
 
 		int distance;
 		int retry = 0;

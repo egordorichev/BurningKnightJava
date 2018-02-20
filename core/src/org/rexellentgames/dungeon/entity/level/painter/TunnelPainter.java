@@ -23,13 +23,13 @@ public class TunnelPainter extends Painter {
 					from = room.left + 1;
 
 					for (int i = door.y; i != c.y; i += step) {
-						set(level, from, i, floor);
+						level.set(from, i, floor);
 					}
 				} else if (door.x == room.right) {
 					to = room.right - 1;
 
 					for (int i = door.y; i != c.y; i += step) {
-						set(level, to, i, floor);
+						level.set(to, i, floor);
 					}
 				} else {
 					if (door.x < from) {
@@ -41,13 +41,13 @@ public class TunnelPainter extends Painter {
 					}
 
 					for (int i = door.y + step; i != c.y; i += step) {
-						set(level, door.x, i, floor);
+						level.set(door.x, i, floor);
 					}
 				}
 			}
 
 			for (int i = from; i <= to; i++) {
-				set(level, i, c.y, floor);
+				level.set(i, c.y, floor);
 			}
 		} else {
 			int from = room.bottom - 1;
@@ -60,13 +60,13 @@ public class TunnelPainter extends Painter {
 					from = room.top + 1;
 
 					for (int i = door.x; i != c.x; i += step) {
-						set(level, i, from, floor);
+						level.set(i, from, floor);
 					}
 				} else if (door.y == room.bottom) {
 					to = room.bottom - 1;
 
 					for (int i = door.x; i != c.x; i += step) {
-						set(level, i, to, floor);
+						level.set(i, to, floor);
 					}
 				} else {
 					if (door.y < from) {
@@ -78,30 +78,18 @@ public class TunnelPainter extends Painter {
 					}
 
 					for (int i = door.x + step; i != c.x; i += step) {
-						set(level, i, door.y, floor);
+						level.set(i, door.y, floor);
 					}
 				}
 			}
 
 			for (int i = from; i <= to; i++) {
-				set(level, c.x, i, floor);
+				level.set(c.x, i, floor);
 			}
 		}
 
 		for (Door door : room.getConnected().values()) {
 			door.setType(Door.Type.TUNNEL);
-		}
-	}
-
-	private static void set(Level level, int x, int y, short v) {
-		level.set(x, y, v);
-
-		for (int xx = Math.max(0, x - 1); xx < Math.min(Level.HEIGHT, x + 2); xx++) {
-			for (int yy = Math.max(0, y - 1); yy < Math.min(Level.HEIGHT, y + 2); yy++) {
-				if (level.get(xx, yy) == Terrain.EMPTY) {
-					level.set(xx, yy, Terrain.WALL);
-				}
-			}
 		}
 	}
 }
