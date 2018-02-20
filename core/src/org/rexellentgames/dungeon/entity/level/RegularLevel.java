@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.Money;
 import org.rexellentgames.dungeon.util.path.Graph;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -116,8 +117,62 @@ public class RegularLevel extends Level {
 		return true;
 	}
 
-	private void spawnItems() {
+	public void addItemToSpawn(Item item) {
+		this.toSpawn.add(item);
+	}
 
+	private void spawnItems() {
+		int n = 3;
+
+		while (Random.newFloat() < 0.4f) {
+			n++;
+		}
+
+		for (int i = 0; i < n; i++) {
+			this.drop(this.getRandomCell(), this.getRandomItem());
+		}
+	}
+
+	protected int getRandomCell() {
+		while (true) {
+			Room room = this.getRandomRoom(Room.Type.REGULAR);
+
+			if (room == null) {
+				continue;
+			}
+
+			int cell = room.getRandomCell();
+
+			if (!this.busy[cell] && this.checkFor(cell, Terrain.PASSABLE)) {
+				return cell;
+			}
+		}
+	}
+
+	public Room getRandomRoom(Room.Type type) {
+		for (int i = 0; i < 10; i++) {
+			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
+
+			if (room.getType() == type) {
+				return room;
+			}
+		}
+
+		return null;
+	}
+
+	protected Item getRandomItem() {
+		// todo: random!
+		return new Money().randomize();
+	}
+
+	protected void drop(int cell, Item item) {
+		this.busy[cell] = true;
+
+		item.x = cell % WIDTH * 16;
+		item.y = (int) (Math.floor(cell / WIDTH) * 16);
+
+		this.area.add(item);
 	}
 
 	private void spawnMobs() {
