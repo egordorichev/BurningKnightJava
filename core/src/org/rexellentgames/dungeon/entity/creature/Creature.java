@@ -1,9 +1,9 @@
 package org.rexellentgames.dungeon.entity.creature;
 
-import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
 
-public class Creature extends Entity {
+public class Creature extends SaveableEntity {
 	protected int hp;
 	protected int hpMax;
 	protected boolean dead;

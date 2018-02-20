@@ -2,8 +2,13 @@ package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.mob.Knight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Money;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.path.Graph;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -19,6 +24,7 @@ public class RegularLevel extends Level {
 	protected ArrayList<Room> rooms = new ArrayList<Room>();
 	protected ArrayList<Room.Type> special;
 	private ArrayList<Item> toSpawn = new ArrayList<Item>();
+	private ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	private boolean[] busy;
 
 	protected Room entrance;
@@ -175,8 +181,29 @@ public class RegularLevel extends Level {
 		this.area.add(item);
 	}
 
-	private void spawnMobs() {
+	public void addSaveable(SaveableEntity thing) {
+		this.saveable.add(thing);
+	}
 
+	protected int getNumberOfMobsToSpawn() {
+		return 2 + Dungeon.level % 5 + Random.newInt(3);
+	}
+
+	private void spawnMobs() {
+		int n = this.getNumberOfMobsToSpawn();
+
+		for (int i = 0; i < n; i++) {
+			Mob mob = this.getRandomMob();
+			int cell = this.getRandomCell();
+
+			mob.x = cell % WIDTH * 16;
+			mob.y = (int) (Math.floor(cell / WIDTH) * 16);
+		}
+	}
+
+	protected Mob getRandomMob() {
+		// todo: random!
+		return new Knight();
 	}
 
 	private void addPhysics() {
@@ -440,5 +467,21 @@ public class RegularLevel extends Level {
 				this.split(new Rect(rect.left, vh, rect.right, rect.bottom));
 			}
 		}
+	}
+
+	@Override
+	protected void loadData(FileReader stream) throws Exception {
+		int count = stream.readInt32();
+	}
+
+	@Override
+	protected void writeData(FileWriter stream) throws Exception {
+		stream.writeInt32(this.saveable.size());
+
+		/*for (int i = 0; i < this.saveable.size(); i++) {
+			SaveableEntity entity = this.saveable.get(i);
+
+			stream.writeString(entity.getClass().toString());
+		}*/
 	}
 }

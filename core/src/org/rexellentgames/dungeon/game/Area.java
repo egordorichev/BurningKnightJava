@@ -37,12 +37,6 @@ public class Area {
 		}
 	}
 
-	public void renderUi() {
-		for (Entity entity : this.entitys) {
-			entity.renderUi();
-		}
-	}
-
 	public State getState() {
 		return this.state;
 	}

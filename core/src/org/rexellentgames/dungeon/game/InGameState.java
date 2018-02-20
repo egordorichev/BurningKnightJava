@@ -39,7 +39,10 @@ public class InGameState extends State {
 		this.light = new RayHandler(this.world);
 		this.light.setBlurNum(1);
 		this.light.setAmbientLight(0f);
+
 		this.point = new PointLight(this.light, 128, new Color(1, 1, 0.8f, 0.8f), 512, 300, 300);
+		this.point.setSoft(true);
+		this.point.setSoftnessLength(16.0f);
 	}
 
 	@Override
@@ -75,8 +78,7 @@ public class InGameState extends State {
 		this.area.render();
 		this.light.setCombinedMatrix(Camera.instance.getCamera().combined);
 		Graphics.batch.end();
-		// this.light.updateAndRender();
+		this.light.updateAndRender();
 		Graphics.batch.begin();
-		this.area.renderUi();
 	}
 }

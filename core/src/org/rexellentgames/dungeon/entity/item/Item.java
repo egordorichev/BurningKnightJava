@@ -1,8 +1,8 @@
 package org.rexellentgames.dungeon.entity.item;
 
-import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 
-public class Item extends Entity {
+public class Item extends SaveableEntity {
 	protected short sprite = 0;
 	protected String name = "Missing Item Name";
 	protected boolean stackable = false;

@@ -136,4 +136,12 @@ public class Level extends Entity {
 			Dungeon.reportException(e);
 		}
 	}
+
+	protected void writeData(FileWriter stream) throws Exception {
+
+	}
+
+	protected void loadData(FileReader stream) throws Exception {
+
+	}
 }
