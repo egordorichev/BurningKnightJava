@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon.entity.level;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.util.Graph;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -82,7 +84,7 @@ public class RegularLevel extends Level {
 			connected.add(room);
 		}
 
-		int nConnected = (int) (rooms.size() * Random.newFloat(0.5f, 0.7f));
+		int nConnected = (int) (rooms.size() * Random.newFloat(0.7f, 0.9f));
 
 		while (connected.size() < nConnected) {
 			Room cr = connected.get(Random.newInt(connected.size()));
@@ -101,7 +103,65 @@ public class RegularLevel extends Level {
 		this.paintGrass();
 		this.paintWater();
 
+		this.addPhysics();
+
 		return true;
+	}
+
+	private void addPhysics() {
+		World world = this.area.getState().getWorld();
+
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.StaticBody;
+
+		Body body = world.createBody(def);
+
+		for (int x = 0; x < WIDTH; x++) {
+			for (int y = 0; y < HEIGHT; y++) {
+				if (this.checkFor(x, y, Terrain.SOLID)) {
+					int total = 0;
+					int i = toIndex(x, y);
+
+					for (Vector2 vec : NEIGHBOURS8V) {
+						Vector2 v = new Vector2(x + vec.x, y + vec.y);
+
+						if (v.x >= 0 && v.y >= 0 && v.x < WIDTH && v.y < WIDTH) {
+							if (this.checkFor((int) v.x, (int) v.y, Terrain.SOLID)) {
+								total++;
+							}
+						}
+					}
+
+					if (total < 8) {
+						PolygonShape poly = new PolygonShape();
+						int xx = x * 16;
+						int yy = y * 16;
+
+						poly.set(new Vector2[]{
+							new Vector2(xx, yy), new Vector2(xx + 16, yy),
+							new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)
+						});
+
+						FixtureDef fixture = new FixtureDef();
+
+						fixture.shape = poly;
+						fixture.friction = 0;
+
+						body.createFixture(fixture);
+
+						poly.dispose();
+					}
+				}
+			}
+		}
+	}
+
+	public boolean checkFor(int i, int flag) {
+		return (Terrain.flags[this.get(i)] & flag) == flag;
+	}
+
+	public boolean checkFor(int x, int y, int flag) {
+		return (Terrain.flags[this.get(x, y)] & flag) == flag;
 	}
 
 	protected void assignRooms() {
@@ -203,13 +263,13 @@ public class RegularLevel extends Level {
 			// todo: proper tiles here
 			switch (door.getType()) {
 				case EMPTY:
-					this.set(door.x, door.y, Terrain.GRASS);
+					this.set(door.x, door.y, Terrain.FLOOR);
 					break;
 				case REGULAR:
 					this.set(door.x, door.y, Terrain.DOOR);
 					break;
 				case TUNNEL:
-					this.set(door.x, door.y, Terrain.GRASS);
+					this.set(door.x, door.y, Terrain.FLOOR);
 					break;
 				case SECRET:
 					this.set(door.x, door.y, Terrain.SECRET_DOOR);

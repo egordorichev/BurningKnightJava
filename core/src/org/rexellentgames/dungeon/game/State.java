@@ -1,6 +1,10 @@
 package org.rexellentgames.dungeon.game;
 
+import com.badlogic.gdx.physics.box2d.World;
+
 public class State {
+	protected World world;
+
 	public State() {
 
 	}
@@ -19,5 +23,9 @@ public class State {
 
 	public void render() {
 
+	}
+
+	public World getWorld() {
+		return this.world;
 	}
 }
