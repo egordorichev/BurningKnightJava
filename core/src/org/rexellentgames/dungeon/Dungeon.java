@@ -3,8 +3,10 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.InGameState;
 
@@ -14,6 +16,7 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void create() {
 		Assets.init();
+		Box2D.init();
 
 		this.game = new Game();
 		this.game.setState(new InGameState());
@@ -26,6 +29,7 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.batch.begin();
 		this.game.render();
 		Graphics.batch.end();
