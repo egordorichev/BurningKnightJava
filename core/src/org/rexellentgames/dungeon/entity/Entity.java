@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Entity extends Point {
 	protected Area area;
+	protected int depth = 0;
 
 	public void init() {
 
@@ -24,5 +25,9 @@ public class Entity extends Point {
 
 	public void setArea(Area area) {
 		this.area = area;
+	}
+
+	public int getDepth() {
+		return this.depth;
 	}
 }

@@ -2,6 +2,10 @@ package org.rexellentgames.dungeon.entity.creature;
 
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
+
+import java.io.IOException;
 
 public class Creature extends SaveableEntity {
 	protected int hp;
@@ -41,5 +45,19 @@ public class Creature extends SaveableEntity {
 
 	public int getHpMax() {
 		return this.hpMax;
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeInt32(this.hp);
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		this.hp = reader.readInt32();
 	}
 }

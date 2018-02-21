@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 
 public class Item extends SaveableEntity {

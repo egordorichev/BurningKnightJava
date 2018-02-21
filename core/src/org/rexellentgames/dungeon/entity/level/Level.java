@@ -27,11 +27,16 @@ public class Level extends Entity {
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
 
+	public static final Vector2[] NEIGHBOURS4V = {new Vector2(0, -1),
+		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, 1)};
+
+
 	protected short[] data;
 
 	@Override
 	public void init() {
 		this.data = new short[SIZE];
+		this.depth = -10;
 	}
 
 	@Override
@@ -42,7 +47,7 @@ public class Level extends Entity {
 			for (int y = 0; y < HEIGHT; y++) {
 				short tile = this.get(x, y);
 
-				if (tile > 0) {
+				if (tile > -1) {
 					int xx = tile % 32 * 16;
 					int yy = (int) (Math.floor(tile / 32) * 16);
 
