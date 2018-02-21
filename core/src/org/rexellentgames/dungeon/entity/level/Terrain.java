@@ -2,17 +2,18 @@ package org.rexellentgames.dungeon.entity.level;
 
 public class Terrain {
 	public static short EMPTY = 0;
-	public static short DOOR = 3;
-	public static short GRASS = 4;
-	public static short FLOOR = 5;
-	public static short ENTRANCE = 6;
-	public static short EXIT = 7;
-	public static short SECRET_DOOR = 8;
+	public static short DOOR = 5;
+	public static short GRASS = 6;
+	public static short FLOOR = 7;
+	public static short ENTRANCE = 8;
+	public static short EXIT = 9;
+	public static short SECRET_DOOR = 10;
 	public static short WALL = 33;
-	public static short LOW_GRASS = 36;
-	public static short WATER = 68;
+	public static short LOW_GRASS = 38;
+	public static short FRONT_WALL = 65;
+	public static short WATER = 70;
 	// don't forget to update this value!
-	public static short TERRAIN_MAX = 69;
+	public static short TERRAIN_MAX = 71;
 
 	public static int[] flags = new int[TERRAIN_MAX];
 
@@ -31,5 +32,6 @@ public class Terrain {
 		flags[EXIT] = PASSABLE;
 		flags[ENTRANCE] = PASSABLE;
 		flags[SECRET_DOOR] = SOLID | SECRET;
+		flags[FRONT_WALL] = SOLID;
 	}
 }

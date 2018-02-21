@@ -1,10 +1,14 @@
 package org.rexellentgames.dungeon.game;
 
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.util.Log;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Area {
-	private ArrayList<Entity> entitys = new ArrayList<Entity>();
+	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private State state;
 
 	public Area(State state) {
@@ -12,7 +16,7 @@ public class Area {
 	}
 
 	public Entity add(Entity entity) {
-		this.entitys.add(entity);
+		this.entities.add(entity);
 
 		entity.setArea(this);
 		entity.init();
@@ -21,18 +25,29 @@ public class Area {
 	}
 
 	public void remove(Entity entity) {
-		this.entitys.remove(entity);
+		this.entities.remove(entity);
 		entity.destroy();
 	}
 
 	public void update(float dt) {
-		for (Entity entity : this.entitys) {
+		for (Entity entity : this.entities) {
 			entity.update(dt);
 		}
 	}
 
 	public void render() {
-		for (Entity entity : this.entitys) {
+		Collections.sort(this.entities, new Comparator<Entity>() {
+			@Override
+			public int compare(Entity a, Entity b) {
+				// -1 - less than, 1 - greater than, 0 - equal
+				int ad = a.getDepth();
+				int bd = b.getDepth();
+
+				return ad > bd ? -1 : (ad < bd ? 1 : 0);
+			}
+		});
+
+		for (Entity entity : this.entities) {
 			entity.render();
 		}
 	}

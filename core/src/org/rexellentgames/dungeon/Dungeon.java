@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Game;
+import org.rexellentgames.dungeon.game.GeneratorState;
 import org.rexellentgames.dungeon.game.InGameState;
 
 public class Dungeon extends ApplicationAdapter {
@@ -22,7 +23,7 @@ public class Dungeon extends ApplicationAdapter {
 		Box2D.init();
 
 		this.game = new Game();
-		this.game.setState(new InGameState());
+		this.game.setState(new GeneratorState());
 	}
 
 	@Override

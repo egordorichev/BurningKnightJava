@@ -4,12 +4,16 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
-public class SaveableEntity extends Entity {
-	public void save(FileWriter writer) {
+import java.io.IOException;
 
+public class SaveableEntity extends Entity {
+	public void save(FileWriter writer) throws IOException {
+		writer.writeInt32(this.x);
+		writer.writeInt32(this.y);
 	}
 
-	public void load(FileReader reader) {
-
+	public void load(FileReader reader) throws IOException {
+		this.x = reader.readInt32();
+		this.y = reader.readInt32();
 	}
 }

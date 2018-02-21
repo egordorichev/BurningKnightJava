@@ -14,12 +14,21 @@ import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RegularLevel extends Level {
-	private static int MIN_ROOM_SIZE = 7;
-	private static int MAX_ROOM_SIZE = 9;
+	private static final int MIN_ROOM_SIZE = 7;
+	private static final int MAX_ROOM_SIZE = 9;
+
+	private static final short[] WALLS = new short[] { 99, 67, 96, 64, 3, 35, 0, 32, 98, 66, 97, 65, 2, 34, 1, 33 };
+	private static final short[] CORNERS = new short[] { 33, 128, 129, 130, 131, 160, 161, 162, 163, 192, 193, 194, 195,
+		224, 225, 33 };
+
+	private static final short[] LEFT_SLOPE = new short[] { 32, 256, 257, 258 };
+	private static final short[] RIGHT_SLOPE = new short[] { 34, 288, 289, 290 };
+	private static final short[] TOP_SLOPE = new short[] { 1, 320, 321, 322 };
 
 	protected ArrayList<Room> rooms = new ArrayList<Room>();
 	protected ArrayList<Room.Type> special;
@@ -120,7 +129,82 @@ public class RegularLevel extends Level {
 
 		this.addPhysics();
 
+		this.tileUp();
+
 		return true;
+	}
+
+	private void tileUp() {
+		for (int x = 0; x < WIDTH; x++) {
+			for (int y = 0; y < HEIGHT; y++) {
+				if (this.isAWall(x, y)) {
+					int count = 0;
+
+					if (this.isAWall(x, y + 1)) { count += 1; }
+					if (this.isAWall(x + 1, y)) { count += 2; }
+					if (this.isAWall(x, y - 1)) { count += 4; }
+					if (this.isAWall(x - 1, y)) { count += 8; }
+
+					int tile = 0;
+
+					if (count == 15) {
+						count = 0;
+
+						if (!this.isAWall(x + 1, y + 1)) { count += 1; }
+						if (!this.isAWall(x + 1, y - 1)) { count += 2; }
+						if (!this.isAWall(x - 1, y - 1)) { count += 4; }
+						if (!this.isAWall(x - 1, y + 1)) { count += 8; }
+
+						tile = CORNERS[count];
+					} else if (count == 7) {
+						count = 0;
+
+						if (!this.isAWall(x + 1, y + 1)) { count += 1; }
+						if (!this.isAWall(x + 1, y - 1)) { count += 2; }
+
+						tile = LEFT_SLOPE[count];
+					} else if (count == 13) {
+						count = 0;
+
+						if (!this.isAWall(x - 1, y + 1)) {
+							count += 1;
+						}
+						if (!this.isAWall(x - 1, y - 1)) {
+							count += 2;
+						}
+
+						tile = RIGHT_SLOPE[count];
+					} else if (count == 14) {
+						count = 0;
+
+						if (!this.isAWall(x + 1, y - 1)) {
+							count += 1;
+						}
+						if (!this.isAWall(x - 1, y - 1)) {
+							count += 2;
+						}
+
+						tile = TOP_SLOPE[count];
+					} else {
+						tile = WALLS[count];
+					}
+
+					this.set(x, y, (short) tile);
+				}
+			}
+		}
+	}
+
+	private boolean isAWall(int x, int y) {
+		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+			return true;
+		}
+
+		int tile = this.get(x, y);
+		int xx = tile % 32;
+		int yy = (int) (Math.floor(tile / 32));
+
+		return xx < 5 && yy < 12;
 	}
 
 	public void addItemToSpawn(Item item) {
@@ -179,6 +263,7 @@ public class RegularLevel extends Level {
 		item.y = (int) (Math.floor(cell / WIDTH) * 16);
 
 		this.area.add(item);
+		this.addSaveable(item);
 	}
 
 	public void addSaveable(SaveableEntity thing) {
@@ -198,6 +283,8 @@ public class RegularLevel extends Level {
 
 			mob.x = cell % WIDTH * 16;
 			mob.y = (int) (Math.floor(cell / WIDTH) * 16);
+
+			this.addSaveable(mob);
 		}
 	}
 
@@ -473,6 +560,20 @@ public class RegularLevel extends Level {
 	@Override
 	protected void loadData(FileReader stream) throws Exception {
 		int count = stream.readInt32();
+
+		for (int i = 0; i < count; i++) {
+			String type = stream.readString();
+			Class<?> clazz = Class.forName(type);
+			Constructor<?> constructor = clazz.getConstructor();
+			Object object = constructor.newInstance(new Object[] {});
+
+			SaveableEntity entity = (SaveableEntity) object;
+
+			this.area.add(entity);
+			this.saveable.add(entity);
+
+			entity.load(stream);
+		}
 	}
 
 	@Override
@@ -482,7 +583,7 @@ public class RegularLevel extends Level {
 		for (int i = 0; i < this.saveable.size(); i++) {
 			SaveableEntity entity = this.saveable.get(i);
 
-			stream.writeString(entity.getClass().toString());
+			stream.writeString(entity.getClass().getName());
 			entity.save(stream);
 		}
 	}
