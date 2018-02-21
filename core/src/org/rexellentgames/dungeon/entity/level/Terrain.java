@@ -12,10 +12,8 @@ public class Terrain {
 	public static short LOW_GRASS = 38;
 	public static short FRONT_WALL = 65;
 	public static short WATER = 70;
-	// don't forget to update this value!
-	public static short TERRAIN_MAX = 71;
 
-	public static int[] flags = new int[TERRAIN_MAX];
+	public static int[] flags = new int[512];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
@@ -33,5 +31,11 @@ public class Terrain {
 		flags[ENTRANCE] = PASSABLE;
 		flags[SECRET_DOOR] = SOLID | SECRET;
 		flags[FRONT_WALL] = SOLID;
+
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 12; y++) {
+				flags[x + y * Level.WIDTH] = SOLID;
+			}
+		}
 	}
 }
