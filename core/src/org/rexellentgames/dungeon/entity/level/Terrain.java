@@ -7,7 +7,6 @@ public class Terrain {
 	public static short FLOOR = 7;
 	public static short ENTRANCE = 67;
 	public static short EXIT = 68;
-	public static short SECRET_DOOR = 10;
 	public static short WALL = 33;
 	public static short LOW_GRASS = 36;
 	public static short WATER = 385;
@@ -28,10 +27,9 @@ public class Terrain {
 		flags[WATER] = PASSABLE;
 		flags[EXIT] = PASSABLE;
 		flags[ENTRANCE] = PASSABLE;
-		flags[SECRET_DOOR] = SOLID | SECRET;
 
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 12; y++) {
+		for (int x = 0; x < 4; x++) {
+			for (int y = 0; y < 11; y++) {
 				flags[x + y * Level.WIDTH] = SOLID;
 			}
 		}

@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.GeneratorState;
+import org.rexellentgames.dungeon.game.InGameState;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Log;
 
@@ -25,8 +26,20 @@ public class Dungeon extends ApplicationAdapter {
 
 		new Input();
 
+		Input.instance.bind("left", "Left");
+		Input.instance.bind("left", "A");
+
+		Input.instance.bind("right", "Right");
+		Input.instance.bind("right", "D");
+
+		Input.instance.bind("up", "Up");
+		Input.instance.bind("up", "W");
+
+		Input.instance.bind("down", "Down");
+		Input.instance.bind("down", "S");
+
 		this.game = new Game();
-		this.game.setState(new GeneratorState());
+		this.game.setState(new InGameState());
 	}
 
 	@Override

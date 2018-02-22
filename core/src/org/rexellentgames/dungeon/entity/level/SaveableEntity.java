@@ -8,8 +8,8 @@ import java.io.IOException;
 
 public class SaveableEntity extends Entity {
 	public void save(FileWriter writer) throws IOException {
-		writer.writeInt32(this.x);
-		writer.writeInt32(this.y);
+		writer.writeInt32((int) this.x);
+		writer.writeInt32((int) this.y);
 	}
 
 	public void load(FileReader reader) throws IOException {

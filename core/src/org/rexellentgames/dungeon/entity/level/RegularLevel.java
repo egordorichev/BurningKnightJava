@@ -5,10 +5,12 @@ import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Money;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.path.Graph;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -489,16 +491,17 @@ public class RegularLevel extends Level {
 			// todo: proper tiles here
 			switch (door.getType()) {
 				case EMPTY:
-					this.set(door.x, door.y, Terrain.FLOOR);
+					this.set((int) door.x, (int) door.y, Terrain.FLOOR);
 					break;
 				case REGULAR:
-					this.set(door.x, door.y, Terrain.DOOR);
+					this.set((int) door.x, (int) door.y, Terrain.DOOR);
 					break;
 				case TUNNEL:
-					this.set(door.x, door.y, Terrain.FLOOR);
+					this.set((int) door.x, (int) door.y, Terrain.FLOOR);
 					break;
 				case SECRET:
-					this.set(door.x, door.y, Terrain.SECRET_DOOR);
+					// Todo
+					// this.set(door.x, door.y, Terrain.SECRET_DOOR);
 					break;
 			}
 		}

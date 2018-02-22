@@ -10,9 +10,6 @@ import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 public class Level extends Entity {
 	public static final byte VERSION = 0;
 	private static final String SAVE_PATH = ".ldg/save.dat";
@@ -51,7 +48,7 @@ public class Level extends Entity {
 					int xx = tile % 32 * 16;
 					int yy = (int) (Math.floor(tile / 32) * 16);
 
-					Graphics.batch.draw(Graphics.spriteSheet, x * 16, y * 16, 16, 16,
+					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16, 16, 16,
 						xx, yy, 16, 16, false, false);
 				}
 			}
