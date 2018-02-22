@@ -23,7 +23,8 @@ public class Dungeon extends ApplicationAdapter {
 		Assets.init();
 		Box2D.init();
 
-		Input.bind("A");
+		new Input();
+		Input.instance.bind("A");
 
 		this.game = new Game();
 		this.game.setState(new GeneratorState());
@@ -32,16 +33,16 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void render() {
 		this.game.update(Gdx.graphics.getDeltaTime());
-
-		// Log.info(Input.isDown("A") + "");
-		Input.update();
+		Input.instance.update();
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.batch.begin();
+
 		this.game.render();
+
 		Graphics.batch.end();
 	}
 
