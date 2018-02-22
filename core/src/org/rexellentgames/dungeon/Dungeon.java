@@ -24,7 +24,6 @@ public class Dungeon extends ApplicationAdapter {
 		Box2D.init();
 
 		new Input();
-		Input.instance.bind("A");
 
 		this.game = new Game();
 		this.game.setState(new GeneratorState());
