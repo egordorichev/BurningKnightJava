@@ -9,7 +9,7 @@ public class Graphics {
 	public static Texture spriteSheet;
 
 	public static void init() {
-		spriteSheet = new Texture("sprites/sprites.png");
+		spriteSheet = new Texture("sprites/tiles-1.png");
 	}
 
 	public static void destroy() {
