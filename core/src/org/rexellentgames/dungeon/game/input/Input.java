@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ public class Input implements InputProcessor {
 	}
 
 	private HashMap<String, State> keys = new HashMap<String, State>();
+	private HashMap<String, ArrayList<String>> bindings = new HashMap<String, ArrayList<String>>();
 	private int amount;
 
 	public Input() {
@@ -29,8 +31,19 @@ public class Input implements InputProcessor {
 		this.keys.put("MouseWheel", State.RELEASED);
 	}
 
-	public void bind(String key) {
+	public void bind(String name, String key) {
 		this.keys.put(key, State.RELEASED);
+
+		ArrayList<String> array;
+
+		if (this.bindings.containsKey(name)) {
+			array = this.bindings.get(name);
+		} else {
+			array = new ArrayList<String>();
+			this.bindings.put(name, array);
+		}
+
+		array.add(key);
 	}
 
 	public void update() {
@@ -46,16 +59,35 @@ public class Input implements InputProcessor {
 	}
 
 	public boolean isDown(String key) {
-		State state = this.keys.get(key);
-		return state == State.DOWN || state == State.HELD;
+		for (String id : this.bindings.get(key)) {
+			State state = this.keys.get(id);
+
+			if (state == State.DOWN || state == State.HELD) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean wasPressed(String key) {
-		return this.keys.get(key) == State.DOWN;
+		for (String id : this.bindings.get(key)) {
+			if (this.keys.get(id) == State.DOWN) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean wasReleased(String key) {
-		return this.keys.get(key) == State.UP;
+		for (String id : this.bindings.get(key)) {
+			if (this.keys.get(id) == State.UP) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public int getAmount() {
