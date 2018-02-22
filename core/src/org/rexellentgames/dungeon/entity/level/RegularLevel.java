@@ -190,6 +190,15 @@ public class RegularLevel extends Level {
 					}
 
 					this.set(x, y, (short) tile);
+				} else if (this.isWater(x, y)) {
+					int count = 0;
+
+					if (this.isWater(x, y + 1)) { count += 1; }
+					if (this.isWater(x + 1, y)) { count += 2; }
+					if (this.isWater(x, y - 1)) { count += 4; }
+					if (this.isWater(x - 1, y)) { count += 8; }
+
+					this.set(x, y, (short) (WALLS[count] + 352));
 				}
 			}
 		}
@@ -204,7 +213,19 @@ public class RegularLevel extends Level {
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		return xx < 5 && yy < 12;
+		return xx < 5 && yy < 11;
+	}
+
+	private boolean isWater(int x, int y) {
+		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+			return true;
+		}
+
+		int tile = this.get(x, y);
+		int xx = tile % 32;
+		int yy = (int) (Math.floor(tile / 32));
+
+		return (xx < 4 && yy > 10 && yy < 15) || this.isAWall(x, y);
 	}
 
 	public void addItemToSpawn(Item item) {
