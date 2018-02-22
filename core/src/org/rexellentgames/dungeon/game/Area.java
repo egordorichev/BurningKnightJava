@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon.game;
 
+import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Log;
 
@@ -48,6 +50,8 @@ public class Area {
 		});
 
 		for (Entity entity : this.entities) {
+			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+
 			entity.render();
 		}
 	}
