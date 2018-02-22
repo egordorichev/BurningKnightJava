@@ -8,7 +8,9 @@ import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Game;
-import org.rexellentgames.dungeon.game.InGameState;
+import org.rexellentgames.dungeon.game.GeneratorState;
+import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 
 public class Dungeon extends ApplicationAdapter {
 	private Game game;
@@ -21,13 +23,18 @@ public class Dungeon extends ApplicationAdapter {
 		Assets.init();
 		Box2D.init();
 
+		Input.bind("A");
+
 		this.game = new Game();
-		this.game.setState(new InGameState());
+		this.game.setState(new GeneratorState());
 	}
 
 	@Override
 	public void render() {
 		this.game.update(Gdx.graphics.getDeltaTime());
+
+		// Log.info(Input.isDown("A") + "");
+		Input.update();
 
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
