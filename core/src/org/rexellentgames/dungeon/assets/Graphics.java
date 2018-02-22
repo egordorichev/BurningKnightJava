@@ -6,17 +6,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Graphics {
 	public static SpriteBatch batch = new SpriteBatch();
-	public static Texture spriteSheet;
+	public static Texture tiles;
+	public static Texture sprites;
 
 	public static void init() {
-		spriteSheet = new Texture("sprites/tiles-1.png");
+		tiles = new Texture("sprites/tiles-1.png");
+		sprites = new Texture("sprites/sprites.png");
 	}
 
 	public static void destroy() {
-		spriteSheet.dispose();
-	}
-
-	public static TextureRegion getTexture(int x, int y) {
-		return new TextureRegion(spriteSheet, x, y, 16, 16);
+		tiles.dispose();
+		sprites.dispose();
 	}
 }

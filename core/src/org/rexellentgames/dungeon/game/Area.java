@@ -40,8 +40,8 @@ public class Area {
 			@Override
 			public int compare(Entity a, Entity b) {
 				// -1 - less than, 1 - greater than, 0 - equal
-				int ad = a.getDepth();
-				int bd = b.getDepth();
+				int ad = b.getDepth();
+				int bd = a.getDepth();
 
 				return ad > bd ? -1 : (ad < bd ? 1 : 0);
 			}

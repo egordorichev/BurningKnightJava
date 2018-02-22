@@ -11,7 +11,7 @@ public class ExitPainter extends Painter {
 		fill(level, room.left + 1, room.top + 1, room.getWidth() - 2, room.getHeight() - 2, Terrain.FLOOR);
 
 		Point c = room.getCenter();
-		level.set(c.x, c.y, Terrain.EXIT);
+		level.set((int) c.x, (int) c.y, Terrain.EXIT);
 
 		for (Door door : room.getConnected().values()) {
 			door.setType(Door.Type.REGULAR);
