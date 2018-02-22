@@ -44,7 +44,12 @@ public class Dungeon extends ApplicationAdapter {
 		this.game.render();
 		Graphics.batch.end();
 	}
-	
+
+	@Override
+	public void resize(int width, int height) {
+		Camera.instance.resize(width, height);
+	}
+
 	@Override
 	public void dispose() {
 		this.game.destroy();
