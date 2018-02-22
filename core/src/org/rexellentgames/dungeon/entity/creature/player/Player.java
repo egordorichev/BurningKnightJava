@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Player extends Creature {
@@ -21,10 +22,10 @@ public class Player extends Creature {
 	public void init() {
 		this.createBody(14, 14);
 
-		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 1, 1f, 0.8f),
+		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 1, 1f, 0.7f),
 			512, 300, 300);
 		this.light.setSoft(true);
-		this.light.setSoftnessLength(32.0f);
+		this.light.setSoftnessLength(64.0f);
 
 		this.light.attachToBody(this.body);
 

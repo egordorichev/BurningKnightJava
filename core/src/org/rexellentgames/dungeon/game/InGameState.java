@@ -19,6 +19,7 @@ public class InGameState extends State {
 	private Level level;
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
+	private Player player;
 
 	@Override
 	public void init() {
@@ -28,13 +29,13 @@ public class InGameState extends State {
 
 		this.light = new RayHandler(this.world);
 		this.light.setBlurNum(1);
-		this.light.setAmbientLight(0.5f);
+		this.light.setAmbientLight(0f);
 
 		this.area.add(new Camera());
 		this.level = (Level) this.area.add(new RegularLevel());
 
-		Player player = (Player) this.area.add(new Player());
-		player.getBody().setTransform(300, 300, 0);
+		this.player = (Player) this.area.add(new Player());
+		//player.getBody().setTransform(300, 300, 0);
 
 		new Thread(new Runnable() {
 			@Override
