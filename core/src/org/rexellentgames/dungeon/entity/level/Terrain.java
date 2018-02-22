@@ -11,7 +11,7 @@ public class Terrain {
 	public static short WALL = 33;
 	public static short LOW_GRASS = 38;
 	public static short FRONT_WALL = 65;
-	public static short WATER = 70;
+	public static short WATER = 385;
 
 	public static int[] flags = new int[512];
 
