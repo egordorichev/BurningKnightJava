@@ -185,6 +185,10 @@ public class RegularLevel extends Level {
 						}
 
 						tile = TOP_SLOPE[count];
+					} else if (count == 6) {
+						tile = (this.isAWall(x + 1, y - 1) ? 0 : 227);
+					} else if (count == 12) {
+						tile = (this.isAWall(x - 1, y - 1) ? 2 : 259);
 					} else {
 						tile = WALLS[count];
 					}
@@ -199,6 +203,16 @@ public class RegularLevel extends Level {
 					if (this.isWater(x - 1, y)) { count += 8; }
 
 					this.set(x, y, (short) (WALLS[count] + 352));
+				} else {
+					int tile = this.get(x, y);
+
+					if (tile == Terrain.FLOOR) {
+						int replace = Random.newInt(7);
+
+						if (replace != 0) {
+							this.set(x, y, (short) (6 + replace));
+						}
+					}
 				}
 			}
 		}
@@ -213,7 +227,7 @@ public class RegularLevel extends Level {
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		return xx < 5 && yy < 11;
+		return xx < 4 && yy < 11;
 	}
 
 	private boolean isWater(int x, int y) {
@@ -225,7 +239,7 @@ public class RegularLevel extends Level {
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		return (xx < 4 && yy > 10 && yy < 15) || this.isAWall(x, y);
+		return (xx < 3 && yy > 10 && yy < 15) || this.isAWall(x, y);
 	}
 
 	public void addItemToSpawn(Item item) {
@@ -491,11 +505,11 @@ public class RegularLevel extends Level {
 	}
 
 	protected boolean[] getGrass() {
-		return Patch.generate(0.5f, 5);
+		return Patch.generate(0.4f, 5);
 	}
 
 	protected boolean[] getWater() {
-		return Patch.generate(0.5f, 4);
+		return Patch.generate(0.4f, 4);
 	}
 
 	protected void paintGrass() {
