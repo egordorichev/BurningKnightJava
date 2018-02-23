@@ -19,8 +19,8 @@ public class Room extends Rect implements GraphNode {
 		ENTRANCE(EntrancePainter.class),
 		EXIT(ExitPainter.class),
 		TUNNEL(TunnelPainter.class),
-		HOLE(HolePainter.class),
-		SECRET(SecretPainter.class);
+		HOLE(HolePainter.class);
+		// SECRET(SecretPainter.class);
 
 		private Method paint;
 
@@ -42,7 +42,7 @@ public class Room extends Rect implements GraphNode {
 	}
 
 	public static final ArrayList<Type> SPECIAL = new ArrayList<Type>(Arrays.asList(
-		Type.HOLE, Type.SECRET
+		Type.HOLE //, Type.SECRET
 	));
 
 	private ArrayList<Room> neighbours = new ArrayList<Room>();

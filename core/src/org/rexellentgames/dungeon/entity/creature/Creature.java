@@ -14,6 +14,8 @@ public class Creature extends SaveableEntity {
 	protected int hpMax;
 	protected boolean dead;
 	protected Body body;
+	protected String state = "idle";
+	protected float t = 0;
 
 	@Override
 	public void init() {
@@ -22,7 +24,7 @@ public class Creature extends SaveableEntity {
 		this.hp = this.hpMax;
 	}
 
-	protected void createBody(int w, int h) {
+	protected void createBody(int x, int y, int w, int h) {
 		World world = this.area.getState().getWorld();
 
 		BodyDef def = new BodyDef();
@@ -33,8 +35,8 @@ public class Creature extends SaveableEntity {
 		PolygonShape poly = new PolygonShape();
 
 		poly.set(new Vector2[]{
-			new Vector2(0, 0), new Vector2(w, 0),
-			new Vector2(0, h), new Vector2(w, h)
+			new Vector2(x, y), new Vector2(x + w, y),
+			new Vector2(x, y + h), new Vector2(x + w, y + h)
 		});
 
 		FixtureDef fixture = new FixtureDef();
@@ -51,9 +53,18 @@ public class Creature extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.t += dt;
+
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
+		}
+	}
+
+	public void become(String state) {
+		if (!this.state.equals(state)) {
+			this.state = state;
+			this.t = 0;
 		}
 	}
 
