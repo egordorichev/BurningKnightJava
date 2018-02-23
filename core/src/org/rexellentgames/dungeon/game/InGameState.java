@@ -28,7 +28,7 @@ public class InGameState extends State {
 		this.debug = new Box2DDebugRenderer();
 
 		this.light = new RayHandler(this.world);
-		this.light.setBlurNum(1);
+		this.light.setBlurNum(10);
 		this.light.setAmbientLight(0f);
 
 		this.area.add(new Camera());

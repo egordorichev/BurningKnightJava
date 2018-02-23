@@ -1,5 +1,6 @@
-package org.rexellentgames.dungeon.entity.level;
+package org.rexellentgames.dungeon.entity.level.painter;
 
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.util.Random;
 
 public class Patch {

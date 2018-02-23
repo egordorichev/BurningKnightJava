@@ -16,4 +16,15 @@ public class Point {
 		this.x = x;
 		this.y = y;
 	}
+
+	public void cap(int v) {
+		float s = (Math.abs(this.x) + Math.abs(this.y));
+
+		if (s > v) {
+			float m = v / s;
+
+			this.x *= m;
+			this.y *= m;
+		}
+	}
 }

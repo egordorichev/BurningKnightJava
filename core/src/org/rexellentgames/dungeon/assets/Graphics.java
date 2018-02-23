@@ -12,6 +12,9 @@ public class Graphics {
 	public static void init() {
 		tiles = new Texture("sprites/tiles-1.png");
 		sprites = new Texture("sprites/sprites.png");
+
+		tiles.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		sprites.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 	}
 
 	public static void destroy() {

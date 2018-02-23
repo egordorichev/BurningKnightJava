@@ -1,8 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.painter;
 
-import org.rexellentgames.dungeon.entity.level.Door;
+import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.Room;
+import org.rexellentgames.dungeon.entity.level.features.Room;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 
 public class RegularPainter extends Painter {
