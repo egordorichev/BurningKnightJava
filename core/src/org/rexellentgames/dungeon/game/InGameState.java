@@ -34,15 +34,17 @@ public class InGameState extends State {
 		this.area.add(new Camera());
 		this.level = (Level) this.area.add(new RegularLevel());
 
-		this.player = (Player) this.area.add(new Player());
-		//player.getBody().setTransform(300, 300, 0);
-
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				level.generateUntilGood();
 			}
 		}).run();
+
+		Vector2 pos = this.level.getSpawn();
+
+		this.player = (Player) this.area.add(new Player());
+		player.getBody().setTransform(pos.x * 16, pos.y * 16, 0);
 	}
 
 	@Override
@@ -67,8 +69,8 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
-		this.area.update(dt);
 		this.doPhysicsStep(dt);
+		this.area.update(dt);
 	}
 
 	@Override
@@ -81,7 +83,11 @@ public class InGameState extends State {
 			viewport.getScreenWidth(), viewport.getScreenHeight());
 
 		this.light.setCombinedMatrix((OrthographicCamera) Camera.instance.getCamera());
+
+		Graphics.batch.end();
 		this.light.updateAndRender();
-		this.debug.render(this.world, Camera.instance.getCamera().combined);
+		Graphics.batch.begin();
+
+		// this.debug.render(this.world, Camera.instance.getCamera().combined);
 	}
 }

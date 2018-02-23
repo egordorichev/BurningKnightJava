@@ -37,6 +37,7 @@ public class RegularLevel extends Level {
 	private ArrayList<Item> toSpawn = new ArrayList<Item>();
 	private ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	private boolean[] busy;
+	private Vector2 spawn;
 
 	protected Room entrance;
 	protected Room exit;
@@ -134,6 +135,16 @@ public class RegularLevel extends Level {
 		this.tileUp();
 
 		return true;
+	}
+
+	@Override
+	public void setSpawn(Vector2 spawn) {
+		this.spawn = spawn;
+	}
+
+	@Override
+	public Vector2 getSpawn() {
+		return this.spawn;
 	}
 
 	private void tileUp() {

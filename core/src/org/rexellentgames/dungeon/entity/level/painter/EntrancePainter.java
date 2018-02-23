@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.painter;
 
+import com.badlogic.gdx.math.Vector2;
 import org.rexellentgames.dungeon.entity.level.Door;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Room;
@@ -12,6 +13,8 @@ public class EntrancePainter extends Painter {
 
 		Point c = room.getCenter();
 		level.set((int) c.x, (int) c.y, Terrain.ENTRANCE);
+
+		level.setSpawn(new Vector2(c.x, c.y));
 
 		for (Door door : room.getConnected().values()) {
 			door.setType(Door.Type.REGULAR);

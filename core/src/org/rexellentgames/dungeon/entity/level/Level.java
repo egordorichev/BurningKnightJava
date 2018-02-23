@@ -55,6 +55,15 @@ public class Level extends Entity {
 		}
 	}
 
+
+	public void setSpawn(Vector2 spawn) {
+
+	}
+
+	public Vector2 getSpawn() {
+		return null;
+	}
+
 	public void set(int i, short v) {
 		this.data[i] = v;
 	}
