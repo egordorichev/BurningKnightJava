@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.player;
 
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -28,10 +29,10 @@ public class Player extends Creature {
 
 	@Override
 	public void init() {
-		this.createBody(3, 1, 10, 10);
+		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
 		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 1, 1f, 0.7f),
-			512, 300, 300);
+			64, 300, 300);
 		this.light.setSoft(true);
 		this.light.setSoftnessLength(16.0f);
 

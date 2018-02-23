@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -24,6 +25,8 @@ public class InGameState extends State {
 	public void init() {
 		this.area = new Area(this);
 		this.world = new World(new Vector2(0, 0), true);
+		this.world.setContactListener(new Collisions());
+
 		this.debug = new Box2DDebugRenderer();
 
 		this.light = new RayHandler(this.world);
