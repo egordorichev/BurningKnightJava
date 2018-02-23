@@ -41,6 +41,8 @@ public class Camera extends Entity {
 
 	public void follow(Entity entity) {
 		this.target = entity;
+		this.camera.position.set(entity.x + 8, entity.y + 8, 0);
+		this.camera.update();
 	}
 
 	public void apply() {

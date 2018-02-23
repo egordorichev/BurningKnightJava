@@ -19,7 +19,6 @@ public class InGameState extends State {
 	private Level level;
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
-	private Player player;
 
 	@Override
 	public void init() {
@@ -37,14 +36,9 @@ public class InGameState extends State {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				level.generateUntilGood();
+				level.load();
 			}
 		}).run();
-
-		Vector2 pos = this.level.getSpawn();
-
-		this.player = (Player) this.area.add(new Player());
-		player.getBody().setTransform(pos.x * 16, pos.y * 16, 0);
 	}
 
 	@Override

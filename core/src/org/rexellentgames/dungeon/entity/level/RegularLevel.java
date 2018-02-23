@@ -3,8 +3,10 @@ package org.rexellentgames.dungeon.entity.level;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Money;
 import org.rexellentgames.dungeon.entity.level.features.Door;
@@ -38,7 +40,6 @@ public class RegularLevel extends Level {
 	private ArrayList<Item> toSpawn = new ArrayList<Item>();
 	private ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	private boolean[] busy;
-	private Vector2 spawn;
 
 	protected org.rexellentgames.dungeon.entity.level.features.Room entrance;
 	protected org.rexellentgames.dungeon.entity.level.features.Room exit;
@@ -135,17 +136,13 @@ public class RegularLevel extends Level {
 
 		this.tileUp();
 
+		Player player = (Player) this.area.add(new Player());
+		player.getBody().setTransform(this.spawn.x * 16, this.spawn.y * 16, 0);
+		
+		Camera.instance.follow(player);
+		this.addSaveable(player);
+
 		return true;
-	}
-
-	@Override
-	public void setSpawn(Vector2 spawn) {
-		this.spawn = spawn;
-	}
-
-	@Override
-	public Vector2 getSpawn() {
-		return this.spawn;
 	}
 
 	private void tileUp() {
@@ -621,6 +618,7 @@ public class RegularLevel extends Level {
 
 		for (int i = 0; i < count; i++) {
 			String type = stream.readString();
+
 			Class<?> clazz = Class.forName(type);
 			Constructor<?> constructor = clazz.getConstructor();
 			Object object = constructor.newInstance(new Object[] {});
