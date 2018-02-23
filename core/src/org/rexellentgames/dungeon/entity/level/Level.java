@@ -2,9 +2,12 @@ package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -14,8 +17,8 @@ public class Level extends Entity {
 	public static final byte VERSION = 0;
 	private static final String SAVE_PATH = ".ldg/save.dat";
 
-	public static final int WIDTH = 32;
-	public static final int HEIGHT = 32;
+	public static final int WIDTH = 64;
+	public static final int HEIGHT = 64;
 	public static final int SIZE = WIDTH * HEIGHT;
 
 	public static final int[] NEIGHBOURS4 = {-WIDTH, +1, +WIDTH, -1};
@@ -38,10 +41,19 @@ public class Level extends Entity {
 
 	@Override
 	public void render() {
-		// todo: better render, using camera bounds
+		OrthographicCamera camera = (OrthographicCamera) Camera.instance.getCamera();
 
-		for (int x = 0; x < WIDTH; x++) {
-			for (int y = 0; y < HEIGHT; y++) {
+		float cx = camera.position.x - Display.GAME_WIDTH / 2;
+		float cy = camera.position.y - Display.GAME_HEIGHT / 2;
+
+		int sx = (int) (Math.floor(cx / 16) - 1);
+		int sy = (int) (Math.floor(cy / 16) - 1);
+
+		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
 				short tile = this.get(x, y);
 
 				if (tile > -1) {

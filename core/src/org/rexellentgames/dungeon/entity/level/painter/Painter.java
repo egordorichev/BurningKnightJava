@@ -1,7 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.painter;
 
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.Room;
+import org.rexellentgames.dungeon.entity.level.features.Room;
 
 public class Painter {
 	public static void fill(Level level, Room room, short v) {

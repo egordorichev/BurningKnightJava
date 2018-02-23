@@ -30,7 +30,7 @@ public class Terrain {
 
 		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 11; y++) {
-				flags[x + y * Level.WIDTH] = SOLID;
+				flags[x + y * 32] = SOLID;
 			}
 		}
 	}

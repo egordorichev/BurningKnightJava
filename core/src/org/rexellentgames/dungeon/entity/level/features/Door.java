@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.level;
+package org.rexellentgames.dungeon.entity.level.features;
 
 import org.rexellentgames.dungeon.util.geometry.Point;
 

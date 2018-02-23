@@ -1,6 +1,7 @@
-package org.rexellentgames.dungeon.entity.level;
+package org.rexellentgames.dungeon.entity.level.features;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.painter.*;
 import org.rexellentgames.dungeon.util.path.GraphNode;
 import org.rexellentgames.dungeon.util.Random;
@@ -46,7 +47,7 @@ public class Room extends Rect implements GraphNode {
 	));
 
 	private ArrayList<Room> neighbours = new ArrayList<Room>();
-	private HashMap<Room, Door> connected = new HashMap<Room, Door>();
+	private HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
 	private Type type = Type.NULL;
 	private int price = 1;
 	private int distance = 0;

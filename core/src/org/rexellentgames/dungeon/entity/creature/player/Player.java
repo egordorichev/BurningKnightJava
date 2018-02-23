@@ -25,7 +25,7 @@ public class Player extends Creature {
 
 	@Override
 	public void init() {
-		this.createBody(3, 1, 11, 11);
+		this.createBody(3, 1, 10, 10);
 
 		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 1, 1f, 0.7f),
 			512, 300, 300);
@@ -69,9 +69,11 @@ public class Player extends Creature {
 			this.flipped = false;
 		}
 
+		this.vel.cap(100);
+
 		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
-		if (v > 9) {
+		if (v > 9.9) {
 			this.become("run");
 		} else {
 			this.become("idle");
