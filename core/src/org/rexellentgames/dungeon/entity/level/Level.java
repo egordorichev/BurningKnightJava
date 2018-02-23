@@ -31,6 +31,7 @@ public class Level extends Entity {
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, 1)};
 
 
+	protected Vector2 spawn;
 	protected short[] data;
 
 	@Override
@@ -69,11 +70,7 @@ public class Level extends Entity {
 
 
 	public void setSpawn(Vector2 spawn) {
-
-	}
-
-	public Vector2 getSpawn() {
-		return null;
+		this.spawn = spawn;
 	}
 
 	public void set(int i, short v) {
@@ -135,6 +132,8 @@ public class Level extends Entity {
 				this.data[i] = stream.readInt16();
 			}
 
+			this.loadData(stream);
+
 			stream.close();
 			this.addPhysics();
 
@@ -159,6 +158,8 @@ public class Level extends Entity {
 			for (int i = 0; i < SIZE; i++) {
 				stream.writeInt16(this.data[i]);
 			}
+
+			this.writeData(stream);
 
 			stream.close();
 		} catch (Exception e) {

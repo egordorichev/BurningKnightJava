@@ -8,7 +8,10 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.geometry.Point;
+
+import java.io.IOException;
 
 public class Player extends Creature {
 	{
@@ -33,8 +36,6 @@ public class Player extends Creature {
 		this.light.setSoftnessLength(16.0f);
 
 		this.vel = new Point();
-
-		Camera.instance.follow(this);
 	}
 
 	@Override
@@ -99,5 +100,13 @@ public class Player extends Creature {
 	@Override
 	public void destroy() {
 		this.light.dispose();
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		this.body.setTransform(this.x, this.y, 0);
+		Camera.instance.follow(this);
 	}
 }
