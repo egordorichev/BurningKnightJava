@@ -24,31 +24,6 @@ public class Creature extends SaveableEntity {
 		this.hp = this.hpMax;
 	}
 
-	protected void createBody(int x, int y, int w, int h) {
-		World world = this.area.getState().getWorld();
-
-		BodyDef def = new BodyDef();
-		def.type = BodyDef.BodyType.DynamicBody;
-
-		this.body = world.createBody(def);
-
-		PolygonShape poly = new PolygonShape();
-
-		poly.set(new Vector2[]{
-			new Vector2(x, y), new Vector2(x + w, y),
-			new Vector2(x, y + h), new Vector2(x + w, y + h)
-		});
-
-		FixtureDef fixture = new FixtureDef();
-
-		fixture.shape = poly;
-		fixture.friction = 0;
-
-		body.createFixture(fixture);
-
-		poly.dispose();
-	}
-
 	@Override
 	public void update(float dt) {
 		super.update(dt);

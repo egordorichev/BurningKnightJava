@@ -58,11 +58,7 @@ public class Level extends Entity {
 				short tile = this.get(x, y);
 
 				if (tile > -1) {
-					int xx = tile % 32 * 16;
-					int yy = (int) (Math.floor(tile / 32) * 16);
-
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16, 16, 16,
-						xx, yy, 16, 16, false, false);
+					Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
 				}
 			}
 		}

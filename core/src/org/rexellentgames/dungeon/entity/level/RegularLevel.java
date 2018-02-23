@@ -138,7 +138,7 @@ public class RegularLevel extends Level {
 
 		Player player = (Player) this.area.add(new Player());
 		player.getBody().setTransform(this.spawn.x * 16, this.spawn.y * 16, 0);
-		
+
 		Camera.instance.follow(player);
 		this.addSaveable(player);
 
@@ -220,9 +220,14 @@ public class RegularLevel extends Level {
 					if (tile == Terrain.FLOOR) {
 						int replace = Random.newInt(7);
 
-						if (replace != 0) {
+						if (replace != 0 && Random.newFloat() > 0.5) {
 							this.set(x, y, (short) (6 + replace));
 						}
+					} else if (tile == Terrain.DOOR) {
+						this.set(x, y, Terrain.FLOOR);
+						this.addSaveable((SaveableEntity) this.area.add(new org.rexellentgames.dungeon.entity.level.entities.Door(
+							x, y, this.checkFor(x, y + 1, Terrain.SOLID)
+						)));
 					}
 				}
 			}
