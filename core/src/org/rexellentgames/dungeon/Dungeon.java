@@ -43,7 +43,7 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("down", "S");
 
 		this.game = new Game();
-		this.game.setState(new InGameState());
+		this.game.setState(new GeneratorState());
 	}
 
 	@Override

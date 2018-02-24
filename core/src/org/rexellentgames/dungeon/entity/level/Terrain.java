@@ -10,15 +10,18 @@ public class Terrain {
 	public static short WALL = 33;
 	public static short LOW_GRASS = 36;
 	public static short WATER = 385;
+	public static short FALL = 102;
 
 	public static int[] flags = new int[512];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
 	public static int SECRET = 0x4;
+	public static int HOLE = 0x8;
 
 	static {
-		flags[EMPTY] = PASSABLE;
+		flags[EMPTY] = HOLE;
+		flags[FALL] = HOLE;
 		flags[GRASS] = PASSABLE;
 		flags[WALL] = SOLID;
 		flags[DOOR] = PASSABLE;

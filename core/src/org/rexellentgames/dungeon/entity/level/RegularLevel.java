@@ -156,7 +156,7 @@ public class RegularLevel extends Level {
 					if (this.isAWall(x, y - 1)) { count += 4; }
 					if (this.isAWall(x - 1, y)) { count += 8; }
 
-					int tile = 0;
+					int tile;
 
 					if (count == 15) {
 						count = 0;
@@ -180,6 +180,7 @@ public class RegularLevel extends Level {
 						if (!this.isAWall(x - 1, y + 1)) {
 							count += 1;
 						}
+
 						if (!this.isAWall(x - 1, y - 1)) {
 							count += 2;
 						}
@@ -228,6 +229,10 @@ public class RegularLevel extends Level {
 						this.addSaveable((SaveableEntity) this.area.add(new org.rexellentgames.dungeon.entity.level.entities.Door(
 							x, y, this.checkFor(x, y + 1, Terrain.SOLID)
 						)));
+					} else if (tile == Terrain.EMPTY) {
+						if (this.checkFor(x, y + 1, Terrain.PASSABLE))  {
+							this.set(x, y, Terrain.FALL);
+						}
 					}
 				}
 			}
@@ -419,10 +424,11 @@ public class RegularLevel extends Level {
 
 			if (room.getType() == org.rexellentgames.dungeon.entity.level.features.Room.Type.NULL && connected > 0) {
 				if (Random.newInt(connected * connected) == 0) {
-					room.setType(org.rexellentgames.dungeon.entity.level.features.Room.Type.REGULAR);
+					// todo: fix back
+					room.setType(Random.newFloat() > 0.5 ? Room.Type.REGULAR : Room.Type.HOLE);
 					count++;
 				} else {
-					room.setType(org.rexellentgames.dungeon.entity.level.features.Room.Type.TUNNEL);
+					room.setType(Room.Type.TUNNEL);
 				}
 			}
 		}
