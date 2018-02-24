@@ -29,8 +29,10 @@ public class Player extends Creature {
 	public void init() {
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
-		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 0.9f),
-			64, 300, 300);
+		if (this.area.getState().getLight() != null) {
+			this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 0.9f),
+				32, 300, 300);
+		}
 	}
 
 	@Override
@@ -55,7 +57,9 @@ public class Player extends Creature {
 			this.vel.y -= this.speed;
 		}
 
-		this.light.setPosition(this.x + 8, this.y + 8);
+		if (this.light != null) {
+			this.light.setPosition(this.x + 8, this.y + 8);
+		}
 
 		this.vel.cap(100);
 
