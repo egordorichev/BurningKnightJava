@@ -234,30 +234,6 @@ public class RegularLevel extends Level {
 		}
 	}
 
-	private boolean isAWall(int x, int y) {
-		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
-			return true;
-		}
-
-		int tile = this.get(x, y);
-		int xx = tile % 32;
-		int yy = (int) (Math.floor(tile / 32));
-
-		return xx < 4 && yy < 11;
-	}
-
-	private boolean isWater(int x, int y) {
-		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
-			return true;
-		}
-
-		int tile = this.get(x, y);
-		int xx = tile % 32;
-		int yy = (int) (Math.floor(tile / 32));
-
-		return (xx < 3 && yy > 10 && yy < 15) || this.isAWall(x, y);
-	}
-
 	public void addItemToSpawn(Item item) {
 		this.toSpawn.add(item);
 	}
