@@ -56,6 +56,10 @@ public class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
 
+		Rectangle scissors = new Rectangle();
+		Rectangle clipBounds = new Rectangle(0, 0, Level.WIDTH * 16, Level.HEIGHT * 16);
+		ScissorStack.calculateScissors(camera, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
+		ScissorStack.pushScissors(scissors);
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
@@ -76,6 +80,9 @@ public class Level extends Entity {
 				}
 			}
 		}
+
+		Graphics.batch.flush();
+		ScissorStack.popScissors();
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
