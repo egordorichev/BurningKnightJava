@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -8,6 +9,7 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Creature extends SaveableEntity {
 	protected int hp;
@@ -18,6 +20,7 @@ public class Creature extends SaveableEntity {
 	protected float t = 0;
 	protected boolean flipped = false;
 	protected Point vel = new Point();
+	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
 
 	@Override
 	public void init() {
@@ -101,5 +104,15 @@ public class Creature extends SaveableEntity {
 
 	public Body getBody() {
 		return this.body;
+	}
+
+	protected boolean canHaveBuff(Buff buff) {
+		return true;
+	}
+
+	public void addBuff(Buff buff) {
+		if (this.canHaveBuff(buff)) {
+			this.buffs.add(buff);
+		}
 	}
 }
