@@ -30,7 +30,9 @@ public class Camera extends Entity {
 	@Override
 	public void update(float dt) {
 		if (this.target != null) {
-			camera.position.lerp(new Vector3(this.target.x + 8, this.target.y + 8, 0), dt * 1f);
+			this.camera.position.lerp(new Vector3(this.target.x + 8, this.target.y + 8, 0), dt * 1f);
+			this.camera.position.x = (float) (Math.floor(this.camera.position.x * 16) / 16);
+			this.camera.position.y = (float) (Math.floor(this.camera.position.y * 16) / 16);
 			this.camera.update();
 		}
 	}
