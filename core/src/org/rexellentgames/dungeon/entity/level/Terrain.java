@@ -1,7 +1,7 @@
 package org.rexellentgames.dungeon.entity.level;
 
 public class Terrain {
-	public static short EMPTY = 38;
+	public static short EMPTY = 101;
 	public static short DOOR = 5;
 	public static short GRASS = 4;
 	public static short FLOOR = 7;

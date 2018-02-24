@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
@@ -42,6 +43,8 @@ public class InGameState extends State {
 				level.load();
 			}
 		}).run();
+
+		this.area.add(new BurningKnight());
 	}
 
 	@Override

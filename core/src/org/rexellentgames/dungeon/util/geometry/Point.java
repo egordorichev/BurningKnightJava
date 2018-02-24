@@ -27,4 +27,9 @@ public class Point {
 			this.y *= m;
 		}
 	}
+
+	public void mul(float v) {
+		this.x *= v;
+		this.y *= v;
+	}
 }

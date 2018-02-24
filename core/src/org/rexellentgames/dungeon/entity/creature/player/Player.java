@@ -19,30 +19,25 @@ public class Player extends Creature {
 		hpMax = 20;
 	}
 
-	private static Animation idle = new Animation(Graphics.sprites, 0.1f, 0, 1, 2, 3, 4, 5, 6, 7);
-	private static Animation run = new Animation(Graphics.sprites, 0.1f, 8, 9, 10, 11, 12, 13, 14, 15);
+	private static Animation idle = new Animation(Graphics.sprites, 0.1f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
+	private static Animation run = new Animation(Graphics.sprites, 0.1f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 
 	private PointLight light;
-	private Point vel;
-	private boolean flipped = false;
 	private int speed = 10;
 
 	@Override
 	public void init() {
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
-		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 1, 1f, 0.9f),
+		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 0.9f),
 			64, 300, 300);
-
-		this.vel = new Point();
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-		this.vel.x *= 0.9;
-		this.vel.y *= 0.9;
+		this.vel.mul(0.8f);
 
 		if (Input.instance.isDown("left")) {
 			this.vel.x -= this.speed;
@@ -61,13 +56,6 @@ public class Player extends Creature {
 		}
 
 		this.light.setPosition(this.x + 8, this.y + 8);
-		this.body.setLinearVelocity(this.vel.x, this.vel.y);
-
-		if (this.vel.x < 0) {
-			this.flipped = true;
-		} else if (this.vel.x > 0) {
-			this.flipped = false;
-		}
 
 		this.vel.cap(100);
 
@@ -81,6 +69,8 @@ public class Player extends Creature {
 			this.vel.x = 0;
 			this.vel.y = 0;
 		}
+
+		super.common();
 	}
 
 	@Override

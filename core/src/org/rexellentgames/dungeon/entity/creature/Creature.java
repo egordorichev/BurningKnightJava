@@ -1,11 +1,11 @@
 package org.rexellentgames.dungeon.entity.creature;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 
@@ -16,6 +16,8 @@ public class Creature extends SaveableEntity {
 	protected Body body;
 	protected String state = "idle";
 	protected float t = 0;
+	protected boolean flipped = false;
+	protected Point vel = new Point();
 
 	@Override
 	public void init() {
@@ -33,6 +35,18 @@ public class Creature extends SaveableEntity {
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
+		}
+	}
+
+	protected void common() {
+		if (this.vel.x < 0) {
+			this.flipped = true;
+		} else if (this.vel.x > 0) {
+			this.flipped = false;
+		}
+
+		if (this.body != null) {
+			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		}
 	}
 
