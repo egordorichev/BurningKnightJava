@@ -3,7 +3,9 @@ package org.rexellentgames.dungeon.entity.level;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -12,6 +14,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.path.Graph;
 
 public class Level extends Entity {
 	public static final byte VERSION = 0;
@@ -53,17 +56,23 @@ public class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH - 1); x += 2) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT - 1); y += 2) {
-				if (this.isWater(x, y, false) || this.isWater(x + 1, y, false) ||
-					this.isWater(x, y + 1, false) || this.isWater(x + 1, y + 1, false) ||
-					this.isWater(x, y - 1, false) || this.isWater(x + 1, y - 1, false)) {
 
-					x = (int) (Math.floor(x / 2) * 2);
-					y = (int) (Math.floor(y / 2) * 2);
+		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
+				if (this.isWater(x, y, false)) {
+					int xx = 96 + x % 2 * 16;
 
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 - Dungeon.time * 6 % 32, 32, 32,
-						96, 16, 32, 32, false, false);
+					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 - Dungeon.time * 5 % 32, 16, 16,
+						xx, 16 + y % 2 * 16, 16, 16, false, false);
+
+					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 + 16 - Dungeon.time * 5 % 32, 16, 16,
+						xx, 16 + (y + 1) % 2 * 16, 16, 16, false, false);
+
+					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 + 32 - Dungeon.time * 5 % 32, 16, 16,
+						xx, 16 + y % 2 * 16, 16, 16, false, false);
+
+					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 + 48 - Dungeon.time * 5 % 32, 16, 16,
+						xx, 16 + (y + 1) % 2 * 16, 16, 16, false, false);
 				}
 			}
 		}

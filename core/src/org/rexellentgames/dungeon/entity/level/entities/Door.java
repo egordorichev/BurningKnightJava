@@ -31,7 +31,10 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
-		Graphics.render(Graphics.tiles, this.vertical ? (this.open ? 5 : 37) : (this.open ? 37 : 5), this.x, this.y);
+		Graphics.render(Graphics.tiles, this.vertical ? (this.open ? 5 : 37) : (this.open ? 37 : 5),
+			this.x, this.y, 1, this.vertical ? 2 : 1);
+
+		// Graphics.render(Graphics.tiles, 37, this.x, this.y, 1, 2);
 	}
 
 	@Override

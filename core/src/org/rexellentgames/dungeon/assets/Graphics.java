@@ -18,11 +18,15 @@ public class Graphics {
 	}
 
 	public static void render(Texture texture, int tile, float x, float y) {
+		render(texture, tile, x, y, 1, 1);
+	}
+
+	public static void render(Texture texture, int tile, float x, float y, int w, int h) {
 		int xx = tile % 32 * 16;
 		int yy = (int) (Math.floor(tile / 32) * 16);
 
-		Graphics.batch.draw(Graphics.tiles, x, y, 16, 16,
-			xx, yy, 16, 16, false, false);
+		Graphics.batch.draw(Graphics.tiles, x, y, 16 * w, 16 * h,
+			xx, yy, 16 * w, 16 * h, false, false);
 	}
 
 	public static void destroy() {
