@@ -61,22 +61,15 @@ public class Level extends Entity {
 		ScissorStack.calculateScissors(camera, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
 		ScissorStack.pushScissors(scissors);
 
+		float m = Dungeon.time * 5 % 32;
+
 		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
 				if (this.isWater(x, y, false)) {
-					int xx = 96 + x % 2 * 16;
-
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 - Dungeon.time * 5 % 32, 16, 16,
-						xx, 16 + y % 2 * 16, 16, 16, false, false);
-
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 + 16 - Dungeon.time * 5 % 32, 16, 16,
-						xx, 16 + (y + 1) % 2 * 16, 16, 16, false, false);
-
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 + 32 - Dungeon.time * 5 % 32, 16, 16,
-						xx, 16 + y % 2 * 16, 16, 16, false, false);
-
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 + 48 - Dungeon.time * 5 % 32, 16, 16,
-						xx, 16 + (y + 1) % 2 * 16, 16, 16, false, false);
+					Graphics.render(Graphics.tiles, 38 + x % 2 + y % 2 * 32, x * 16, y * 16 - m);
+					Graphics.render(Graphics.tiles, 38 + x % 2 + (y + 1) % 2 * 32, x * 16, y * 16 - m + 16);
+					Graphics.render(Graphics.tiles, 38 + x % 2 + y % 2 * 32, x * 16, y * 16 - m + 32);
+					Graphics.render(Graphics.tiles, 38 + x % 2 + (y + 1) % 2 * 32, x * 16, y * 16 - m + 48);
 				}
 			}
 		}
