@@ -18,11 +18,16 @@ public class Door extends SaveableEntity {
 		this.x = x * 16;
 		this.y = y * 16;
 		this.vertical = vertical;
-
-		this.body = this.createBody(0, 0, 16, this.vertical ? 24 : 16, BodyDef.BodyType.DynamicBody, true);
 	}
 
 	public Door() {}
+
+	@Override
+	public void init() {
+		if (this.body == null) {
+		 	this.body = this.createBody((int) this.x, (int) this.y, 16, this.vertical ? 24 : 16, BodyDef.BodyType.DynamicBody, true);
+		}
+	}
 
 	@Override
 	public void render() {

@@ -6,7 +6,7 @@ public class Terrain {
 	public static short GRASS = 4;
 	public static short FLOOR = 7;
 	public static short ENTRANCE = 68;
-	public static short EXIT = 69;
+	public static short EXIT = 100;
 	public static short WALL = 33;
 	public static short LOW_GRASS = 36;
 	public static short WATER = 385;
