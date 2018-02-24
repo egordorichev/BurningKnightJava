@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.util.Log;
 public class Dungeon extends ApplicationAdapter {
 	private Game game;
 	public static int level = 0;
+	public static float time;
 
 	private Color background = Color.valueOf("#323c39");
 
@@ -47,7 +48,11 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		this.game.update(Gdx.graphics.getDeltaTime());
+		float dt = Gdx.graphics.getDeltaTime();
+
+		time += dt;
+
+		this.game.update(dt);
 		Input.instance.update();
 
 		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);

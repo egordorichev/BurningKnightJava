@@ -53,10 +53,16 @@ public class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
-				if (this.isWater(x, y, false)) {
-					Graphics.batch.draw(Graphics.tiles, xill see, y, 16, 16,
+		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH - 1); x += 2) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT - 1); y += 2) {
+				if (this.isWater(x, y, false) || this.isWater(x + 1, y, false) ||
+					this.isWater(x, y + 1, false) || this.isWater(x + 1, y + 1, false) ||
+					this.isWater(x, y - 1, false) || this.isWater(x + 1, y - 1, false)) {
+
+					x = (int) (Math.floor(x / 2) * 2);
+					y = (int) (Math.floor(y / 2) * 2);
+
+					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16 - Dungeon.time * 6 % 32, 32, 32,
 						96, 16, 32, 32, false, false);
 				}
 			}
