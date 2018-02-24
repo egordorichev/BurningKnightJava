@@ -113,7 +113,7 @@ public class Level extends Entity {
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		if (xx < 3 && yy > 10 && yy < 15) {
+		if (xx < 4 && yy > 10 && yy < 15) {
 			return true;
 		}
 
