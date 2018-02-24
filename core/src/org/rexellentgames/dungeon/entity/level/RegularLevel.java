@@ -506,11 +506,11 @@ public class RegularLevel extends Level {
 	}
 
 	protected boolean[] getGrass() {
-		return Patch.generate(0.4f, 5);
+		return Patch.generate(0.5f, 5);
 	}
 
 	protected boolean[] getWater() {
-		return Patch.generate(0.4f, 4);
+		return Patch.generate(0.5f, 4);
 	}
 
 	protected void paintGrass() {
