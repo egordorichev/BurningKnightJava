@@ -22,7 +22,9 @@ public class BurningKnight extends Mob {
 		this.light.setXray(true);
 		this.assignTarget();
 
-		this.body.setTransform(this.target.x, this.target.y, 0);
+		if (this.target != null) {
+			this.body.setTransform(this.target.x, this.target.y, 0);
+		}
 	}
 
 	@Override
