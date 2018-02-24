@@ -55,6 +55,15 @@ public class Level extends Entity {
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
+				if (this.isWater(x, y, false)) {
+					Graphics.batch.draw(Graphics.tiles, xill see, y, 16, 16,
+						96, 16, 32, 32, false, false);
+				}
+			}
+		}
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
 				short tile = this.get(x, y);
 
 				if (tile > -1) {
@@ -64,6 +73,37 @@ public class Level extends Entity {
 		}
 	}
 
+	protected boolean isAWall(int x, int y) {
+		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+			return true;
+		}
+
+		int tile = this.get(x, y);
+		int xx = tile % 32;
+		int yy = (int) (Math.floor(tile / 32));
+
+		return xx < 4 && yy < 11;
+	}
+
+	protected boolean isWater(int x, int y) {
+		return this.isWater(x, y, true);
+	}
+
+	protected boolean isWater(int x, int y, boolean wall) {
+		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+			return true;
+		}
+
+		int tile = this.get(x, y);
+		int xx = tile % 32;
+		int yy = (int) (Math.floor(tile / 32));
+
+		if (xx < 3 && yy > 10 && yy < 15) {
+			return true;
+		}
+
+		return wall && this.isAWall(x, y);
+	}
 
 	public void setSpawn(Vector2 spawn) {
 		this.spawn = spawn;

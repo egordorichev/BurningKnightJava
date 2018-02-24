@@ -31,10 +31,8 @@ public class Player extends Creature {
 	public void init() {
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
-		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 1, 1f, 0.7f),
+		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 1, 1f, 0.9f),
 			64, 300, 300);
-		this.light.setSoft(true);
-		this.light.setSoftnessLength(16.0f);
 
 		this.vel = new Point();
 	}
