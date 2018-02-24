@@ -22,12 +22,10 @@ public class Graphics {
 	}
 
 	public static void render(Texture texture, int tile, float x, float y, int w, int h) {
-		boolean tl = texture == tiles;
-		int s = (tl ? 18 : 16);
-		int xx = tile % 32 * s + (tl ? 1 : 0);
-		int yy = (int) (Math.floor(tile / 32) * s) + (tl ? 1 : 0);
+		int xx = tile % 32 * 16;
+		int yy = (int) (Math.floor(tile / 32) * 16);
 
-		Graphics.batch.draw(Graphics.tiles, x, y, 16 * w, 16 * h,
+		Graphics.batch.draw(texture, x, y, 16 * w, 16 * h,
 			xx, yy, 16 * w, 16 * h, false, false);
 	}
 
