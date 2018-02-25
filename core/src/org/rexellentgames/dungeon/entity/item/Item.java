@@ -1,38 +1,27 @@
 package org.rexellentgames.dungeon.entity.item;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
-public class Item extends SaveableEntity {
+public class Item {
 	protected short sprite = 0;
 	protected String name = "Missing Item Name";
 	protected boolean stackable = false;
 	protected int count = 0;
-	protected Body body;
 	protected boolean autoPickup = false;
 
-	@Override
-	public void init() {
-		super.init();
+	public void save(FileWriter writer) throws IOException {
 
-		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+	}
+
+	public void load(FileReader reader) throws IOException {
+
 	}
 
 	public short getSprite() {
 		return this.sprite;
-	}
-
-	@Override
-	public void render() {
-		this.body.setTransform(this.x, this.y, 0);
-		Graphics.render(Graphics.items, this.sprite, this.x, this.y);
 	}
 
 	public String getName() {
@@ -41,6 +30,10 @@ public class Item extends SaveableEntity {
 
 	public boolean isStackable() {
 		return this.stackable;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	public int getCount() {

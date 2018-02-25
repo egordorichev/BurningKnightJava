@@ -41,7 +41,6 @@ public class Area {
 
 	public void remove(Entity entity) {
 		this.entities.remove(entity);
-		entity.destroy();
 	}
 
 	public void update(float dt) {

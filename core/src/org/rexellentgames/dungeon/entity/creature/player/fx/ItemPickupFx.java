@@ -5,13 +5,14 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 
 public class ItemPickupFx extends Entity {
 	private String text;
 
-	public ItemPickupFx(Item item, Player player) {
+	public ItemPickupFx(ItemHolder item, Player player) {
 		this.depth = 10;
-		this.text = item.getName();
+		this.text = item.getItem().getName();
 
 		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
 

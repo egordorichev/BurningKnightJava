@@ -7,12 +7,15 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
@@ -29,12 +32,15 @@ public class Player extends Creature {
 	private PointLight light;
 	private int speed = 10;
 	private ItemPickupFx pickupFx;
+	private Inventory inventory;
 
 	@Override
 	public void init() {
 		instance = this;
 
 		this.alwaysActive = true;
+		this.inventory = new Inventory(this, 24);
+
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
 		if (this.area.getState().getLight() != null) {
@@ -106,17 +112,24 @@ public class Player extends Creature {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
+		this.inventory.load(reader);
 
 		this.body.setTransform(this.x, this.y, 0);
 		Camera.instance.follow(this);
 	}
 
 	@Override
-	public void onCollision(Entity entity) {
-		if (entity instanceof Item) {
-			Item item = (Item) entity;
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		this.inventory.save(writer);
+	}
 
-			if (item.hasAutoPickup()) {
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof ItemHolder) {
+			ItemHolder item = (ItemHolder) entity;
+
+			if (item.getItem().hasAutoPickup()) {
 				this.tryToPickup(item);
 			} else if (this.pickupFx == null) {
 				this.pickupFx = new ItemPickupFx(item, this);
@@ -127,7 +140,7 @@ public class Player extends Creature {
 
 	@Override
 	public void onCollisionEnd(Entity entity) {
-		if (entity instanceof Item) {
+		if (entity instanceof ItemHolder) {
 			if (this.pickupFx != null) {
 				this.pickupFx.done = true;
 				this.pickupFx = null;
@@ -135,8 +148,9 @@ public class Player extends Creature {
 		}
 	}
 
-	public void tryToPickup(Item item) {
-		// todo
-		Log.info("try to pickup");
+	public void tryToPickup(ItemHolder item) {
+		if (this.inventory.add(item)) {
+			this.area.remove(item);
+		}
 	}
 }
