@@ -149,8 +149,6 @@ public class Player extends Creature {
 	}
 
 	public void tryToPickup(ItemHolder item) {
-		if (this.inventory.add(item)) {
-			this.area.remove(item);
-		}
+		this.inventory.add(item);
 	}
 }

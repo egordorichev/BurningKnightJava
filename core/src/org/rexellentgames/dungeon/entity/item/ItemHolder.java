@@ -24,6 +24,12 @@ public class ItemHolder extends SaveableEntity {
 	}
 
 	@Override
+	public void destroy() {
+		super.destroy();
+		this.body.getWorld().destroyBody(this.body);
+	}
+
+	@Override
 	public void render() {
 		this.body.setTransform(this.x, this.y, 0);
 		Graphics.render(Graphics.items, this.item.getSprite(), this.x, this.y);

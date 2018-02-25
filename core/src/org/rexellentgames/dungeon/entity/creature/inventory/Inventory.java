@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -24,7 +25,7 @@ public class Inventory {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (reader.readBoolean()) {
 				String type = reader.readString();
-
+				
 				try {
 					Class<?> clazz = Class.forName(type);
 					Constructor<?> constructor = clazz.getConstructor();
@@ -75,6 +76,8 @@ public class Inventory {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (this.isEmpty(i)) {
 				this.setSlot(i, item);
+				holder.done = true;
+
 				return true;
 			}
 		}

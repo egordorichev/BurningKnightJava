@@ -303,7 +303,12 @@ public class RegularLevel extends Level {
 	}
 
 	public void addSaveable(SaveableEntity thing) {
+		thing.setLevel(this);
 		this.saveable.add(thing);
+	}
+
+	public void removeSaveable(SaveableEntity thing) {
+		this.saveable.remove(thing);
 	}
 
 	protected int getNumberOfMobsToSpawn() {
@@ -612,9 +617,11 @@ public class RegularLevel extends Level {
 
 			Class<?> clazz = Class.forName(type);
 			Constructor<?> constructor = clazz.getConstructor();
-			Object object = constructor.newInstance(new Object[] {});
+			Object object = constructor.newInstance(new Object[] { });
 
 			SaveableEntity entity = (SaveableEntity) object;
+
+			entity.setLevel(this);
 
 			this.area.add(entity);
 			this.saveable.add(entity);
