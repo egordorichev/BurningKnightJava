@@ -9,7 +9,9 @@ public class UiInventory extends Entity {
 	private Inventory inventory;
 	private Item currentSlot;
 	private UiSlot[] slots;
+	private int active = 0;
 	private boolean open = false;
+	public boolean handled;
 
 	public UiInventory(Inventory inventory) {
 		this.inventory = inventory;
@@ -29,10 +31,28 @@ public class UiInventory extends Entity {
 		return this.inventory;
 	}
 
+	public int getActive() {
+		return this.active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
+	public boolean isOpen() {
+		return this.open;
+	}
+
 	@Override
 	public void update(float dt) {
+		this.handled = true;
+
 		if (Input.instance.wasPressed("toggle_inventory")) {
 			this.open = !this.open;
+		}
+
+		if (Input.instance.wasPressed("scroll")) {
+			this.active = (this.active + Input.instance.getAmount()) % 6;
 		}
 	}
 

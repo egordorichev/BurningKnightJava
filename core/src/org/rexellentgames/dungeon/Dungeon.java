@@ -49,6 +49,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Input.instance.bind("mouse0", "Mouse0");
 		Input.instance.bind("mouse1", "Mouse1");
+		Input.instance.bind("scroll", "MouseWheel");
 
 		game = new Game();
 		game.setState(new InGameState());
