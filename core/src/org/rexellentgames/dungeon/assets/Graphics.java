@@ -51,15 +51,21 @@ public class Graphics {
 	}
 
 	public static void render(Texture texture, int tile, float x, float y) {
-		render(texture, tile, x, y, 1, 1);
+		render(texture, tile, x, y, 1, 1, 0, 8, 8, false, false);
 	}
 
 	public static void render(Texture texture, int tile, float x, float y, int w, int h) {
+		render(texture, tile, x, y, w, h, 0, w * 8, h * 8, false, false);
+	}
+
+	public static void render(Texture texture, int tile, float x, float y, int w, int h, float a, float ox, float oy,
+		boolean fx, boolean fy) {
+
 		int xx = tile % 32 * 16;
 		int yy = (int) (Math.floor(tile / 32) * 16);
 
-		Graphics.batch.draw(texture, x, y, 16 * w, 16 * h,
-			xx, yy, 16 * w, 16 * h, false, false);
+		Graphics.batch.draw(texture, x, y, ox, oy, 16 * w, 16 * h, 1, 1, a,
+			xx, yy, 16 * w, 16 * h, fx, fy);
 	}
 
 	public static void destroy() {

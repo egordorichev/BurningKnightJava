@@ -119,4 +119,8 @@ public class Creature extends SaveableEntity {
 			this.buffs.add(buff);
 		}
 	}
+
+	public boolean isFlipped() {
+		return this.flipped;
+	}
 }

@@ -1,13 +1,14 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
+import com.badlogic.gdx.Gdx;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 
 public class UiInventory extends Entity {
 	private Inventory inventory;
@@ -20,6 +21,8 @@ public class UiInventory extends Entity {
 	public UiInventory(Inventory inventory) {
 		this.inventory = inventory;
 		this.alwaysActive = true;
+
+		Player.instance.setUi(this);
 	}
 
 	@Override
@@ -49,14 +52,18 @@ public class UiInventory extends Entity {
 
 	@Override
 	public void update(float dt) {
-		this.handled = true;
+		this.handled = false;
 
 		if (Input.instance.wasPressed("toggle_inventory")) {
 			this.open = !this.open;
 		}
 
 		if (Input.instance.wasPressed("scroll")) {
-			this.active = (this.active + Input.instance.getAmount()) % 6;
+			this.active = (this.active + Input.instance.getAmount()) % 5;
+
+			if (this.active == -1) {
+				this.active = 5;
+			}
 		}
 
 		if (Input.instance.wasPressed("drop_item") && !this.open) {
@@ -79,7 +86,29 @@ public class UiInventory extends Entity {
 	public void renderUi() {
 		for (int i = 0; i < (this.open ? 24 : 6); i++) {
 			Item item = this.inventory.getSlot(i);
+			float dt = Gdx.graphics.getDeltaTime();
+
+			if (item != null) {
+				item.update(dt);
+			}
+
 			this.slots[i].render(item == null ? -1 : item.getSprite(), item == null ? 0 : item.getCount());
+		}
+
+		if (!this.handled) {
+			if (Input.instance.wasPressed("mouse0")) {
+				Item slot = this.inventory.getSlot(this.active);
+
+				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
+					slot.use();
+				}
+			} else if (Input.instance.wasPressed("mouse1")) {
+				Item slot = this.inventory.getSlot(this.active);
+
+				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
+					slot.secondUse();
+				}
+			}
 		}
 	}
 
@@ -91,6 +120,14 @@ public class UiInventory extends Entity {
 			if (count > 1) {
 				Graphics.small.draw(Graphics.batch, String.valueOf(count), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 4);
 			}
+		}
+	}
+
+	public void renderOnPlayer(Player player) {
+		Item slot = this.inventory.getSlot(this.active);
+
+		if (slot != null) {
+			slot.render(player.x, player.y, player.isFlipped());
 		}
 	}
 
