@@ -148,8 +148,12 @@ public class Player extends Creature {
 		}
 	}
 
-	public void tryToPickup(ItemHolder item) {
-		this.inventory.add(item);
+	public boolean tryToPickup(ItemHolder item) {
+		if (!item.done) {
+			return this.inventory.add(item);
+		}
+
+		return false;
 	}
 
 	public Inventory getInventory() {
