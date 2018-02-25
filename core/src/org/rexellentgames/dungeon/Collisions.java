@@ -2,6 +2,8 @@ package org.rexellentgames.dungeon;
 
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.util.Log;
 
@@ -15,6 +17,10 @@ public class Collisions implements ContactListener {
 			((Door) a).setOpen(true);
 		} else if (b instanceof Door && a instanceof Entity) {
 			((Door) b).setOpen(true);
+		} else if (a instanceof Item && b instanceof Player) {
+
+		} else if (b instanceof Player && b instanceof Item) {
+
 		}
 	}
 

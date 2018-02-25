@@ -82,12 +82,12 @@ public class InGameState extends State {
 		this.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(),
 			viewport.getScreenWidth(), viewport.getScreenHeight());
 
-		this.light.setCombinedMatrix((OrthographicCamera) Camera.instance.getCamera());
+		this.light.setCombinedMatrix(Camera.instance.getCamera());
 
 		Graphics.batch.end();
-		this.light.updateAndRender();
+		// this.light.updateAndRender();
 		Graphics.batch.begin();
 
-		// this.debug.render(this.world, Camera.instance.getCamera().combined);
+		this.debug.render(this.world, Camera.instance.getCamera().combined);
 	}
 }

@@ -3,13 +3,14 @@ package org.rexellentgames.dungeon.entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
 
 public class Camera extends Entity {
 	public static Camera instance;
 
-	private com.badlogic.gdx.graphics.Camera camera;
+	private OrthographicCamera camera;
 	private Viewport viewport;
 	private Entity target;
 
@@ -17,6 +18,7 @@ public class Camera extends Entity {
 	public void init() {
 		instance = this;
 
+		this.alwaysActive = true;
 		this.camera = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
 		this.camera.update();
@@ -37,7 +39,7 @@ public class Camera extends Entity {
 		}
 	}
 
-	public com.badlogic.gdx.graphics.Camera getCamera() {
+	public OrthographicCamera getCamera() {
 		return this.camera;
 	}
 
