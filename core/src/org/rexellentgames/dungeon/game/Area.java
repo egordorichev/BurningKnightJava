@@ -1,10 +1,7 @@
 package org.rexellentgames.dungeon.game;
 
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -23,10 +20,15 @@ public class Area {
 			@Override
 			public int compare(Entity a, Entity b) {
 				// -1 - less than, 1 - greater than, 0 - equal
-				int ad = b.getDepth();
-				int bd = a.getDepth();
+				float ad = b.getDepth();
+				float bd = a.getDepth();
 
-				return ad > bd ? -1 : (ad < bd ? 1 : 0);
+				if (ad == bd) {
+					ad = a.y;
+					bd = b.y;
+				}
+
+				return Float.compare(bd, ad);
 			}
 		};
 	}

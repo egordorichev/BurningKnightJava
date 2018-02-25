@@ -19,6 +19,8 @@ public class ItemHolder extends SaveableEntity {
 	public void init() {
 		super.init();
 
+		this.depth = -1;
+
 		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 	}
@@ -31,7 +33,6 @@ public class ItemHolder extends SaveableEntity {
 
 	@Override
 	public void render() {
-		this.body.setTransform(this.x, this.y, 0);
 		Graphics.render(Graphics.items, this.item.getSprite(), this.x, this.y);
 	}
 
@@ -46,6 +47,7 @@ public class ItemHolder extends SaveableEntity {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
+		this.body.setTransform(this.x, this.y, 0);
 
 		String type = reader.readString();
 

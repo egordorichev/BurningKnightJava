@@ -3,6 +3,9 @@ package org.rexellentgames.dungeon.game.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
+import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +14,9 @@ import java.util.Map;
 public class Input implements InputProcessor {
 	public static InputMultiplexer multiplexer = new InputMultiplexer();
 	public static Input instance;
+
+	public Point uiMouse = new Point();
+	public Point worldMouse = new Point();
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
@@ -29,6 +35,18 @@ public class Input implements InputProcessor {
 		multiplexer.addProcessor(this);
 
 		this.keys.put("MouseWheel", State.RELEASED);
+	}
+
+	public void updateMousePosition() {
+		Vector3 mouse = Camera.ui.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+		this.uiMouse.x = mouse.x;
+		this.uiMouse.y = mouse.y;
+
+		mouse = Camera.instance.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+		this.worldMouse.x = mouse.x;
+		this.worldMouse.y = mouse.y;
 	}
 
 	public void bind(String name, String key) {

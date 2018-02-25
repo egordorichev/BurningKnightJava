@@ -151,4 +151,8 @@ public class Player extends Creature {
 	public void tryToPickup(ItemHolder item) {
 		this.inventory.add(item);
 	}
+
+	public Inventory getInventory() {
+		return this.inventory;
+	}
 }

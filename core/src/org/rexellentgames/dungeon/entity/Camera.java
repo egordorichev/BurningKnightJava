@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.Display;
 
 public class Camera extends Entity {
 	public static Camera instance;
+	public static OrthographicCamera ui;
 
 	private OrthographicCamera camera;
 	private Viewport viewport;
@@ -17,6 +18,10 @@ public class Camera extends Entity {
 	@Override
 	public void init() {
 		instance = this;
+
+		ui = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		ui.update();
 
 		this.alwaysActive = true;
 		this.camera = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);

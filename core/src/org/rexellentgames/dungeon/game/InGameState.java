@@ -1,18 +1,24 @@
 package org.rexellentgames.dungeon.game;
 
 import box2dLight.RayHandler;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
+import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
+import org.rexellentgames.dungeon.game.input.Input;
 
 public class InGameState extends State {
 	private static final float TIME_STEP = 1 / 45.f;
@@ -20,6 +26,7 @@ public class InGameState extends State {
 	private Level level;
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
+	private UiInventory inventory;
 
 	@Override
 	public void init() {
@@ -44,7 +51,10 @@ public class InGameState extends State {
 		}).run();
 
 		this.area.add(new BurningKnight());
-	}
+
+		this.inventory = new UiInventory(Player.instance.getInventory());
+		this.area.add(this.inventory);
+		}
 
 	@Override
 	public void destroy() {
@@ -68,6 +78,7 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		Input.instance.updateMousePosition();
 		this.doPhysicsStep(dt);
 		this.area.update(dt);
 	}
@@ -87,6 +98,12 @@ public class InGameState extends State {
 		this.light.updateAndRender();
 		Graphics.batch.begin();
 
-		// this.debug.render(this.world, Camera.instance.getCamera().combined);
+		this.debug.render(this.world, Camera.instance.getCamera().combined);
+
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 6, 2);
+
+		Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8);
+		this.inventory.renderUi();
 	}
 }
