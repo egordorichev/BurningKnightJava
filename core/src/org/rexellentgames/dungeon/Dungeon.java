@@ -46,6 +46,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Input.instance.bind("pickup", "Q");
 		Input.instance.bind("toggle_inventory", "E");
+		Input.instance.bind("drop_item", "R");
 
 		Input.instance.bind("mouse0", "Mouse0");
 		Input.instance.bind("mouse1", "Mouse1");
