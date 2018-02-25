@@ -44,7 +44,7 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("down", "Down");
 		Input.instance.bind("down", "S");
 
-		Input.instance.bind("pickup", "q");
+		Input.instance.bind("pickup", "Q");
 
 		game = new Game();
 		game.setState(new InGameState());

@@ -30,7 +30,9 @@ public class ItemPickupFx extends Entity {
 		super.update(dt);
 
 		if (Input.instance.isDown("pickup")) {
-			this.player.tryToPickup(this.item);
+			if (this.player.tryToPickup(this.item)) {
+				this.done = true;
+			}
 		}
 	}
 
