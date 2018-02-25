@@ -3,16 +3,16 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Game;
-import org.rexellentgames.dungeon.game.GeneratorState;
 import org.rexellentgames.dungeon.game.InGameState;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.Log;
 
 public class Dungeon extends ApplicationAdapter {
 	public static Game game;
@@ -24,6 +24,8 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void create() {
 		Gdx.graphics.setTitle("Burning Knight " + Version.asString());
+		Cursor customCursor = Gdx.graphics.newCursor(new Pixmap(1, 1, Pixmap.Format.RGBA8888), 0, 0);
+		Gdx.graphics.setCursor(customCursor);
 
 		Assets.init();
 		Box2D.init();
@@ -42,7 +44,7 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("down", "Down");
 		Input.instance.bind("down", "S");
 
-		Input.instance.bind("pickup", "Q");
+		Input.instance.bind("pickup", "q");
 
 		game = new Game();
 		game.setState(new InGameState());

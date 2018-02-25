@@ -25,7 +25,7 @@ public class Inventory {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (reader.readBoolean()) {
 				String type = reader.readString();
-				
+
 				try {
 					Class<?> clazz = Class.forName(type);
 					Constructor<?> constructor = clazz.getConstructor();
