@@ -9,15 +9,15 @@ public class Item {
 	protected short sprite = 0;
 	protected String name = "Missing Item Name";
 	protected boolean stackable = false;
-	protected int count = 0;
+	protected int count = 1;
 	protected boolean autoPickup = false;
 
 	public void save(FileWriter writer) throws IOException {
-
+		writer.writeInt32(this.count);
 	}
 
 	public void load(FileReader reader) throws IOException {
-
+		this.count = reader.readInt32();
 	}
 
 	public short getSprite() {

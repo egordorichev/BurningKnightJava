@@ -106,5 +106,7 @@ public class InGameState extends State {
 
 		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 6, 2);
 		Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8);
+
+		this.inventory.renderCurrentSlot();
 	}
 }

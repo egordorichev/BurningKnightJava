@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
