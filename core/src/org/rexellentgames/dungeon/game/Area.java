@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.game;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -54,6 +55,11 @@ public class Area {
 			}
 
 			if (entity.done) {
+				if (entity instanceof SaveableEntity) {
+					SaveableEntity saveableEntity = (SaveableEntity) entity;
+					saveableEntity.getLevel().removeSaveable(saveableEntity);
+				}
+
 				entity.destroy();
 				this.entities.remove(i);
 			}
