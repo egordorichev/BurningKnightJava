@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.InGameState;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class Dungeon extends ApplicationAdapter {
 	public static Game game;
@@ -62,6 +63,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		time += dt;
 
+		Tween.update(dt);
 		game.update(dt);
 
 		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);

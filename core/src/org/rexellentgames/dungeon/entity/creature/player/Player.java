@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
+import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -33,6 +34,11 @@ public class Player extends Creature {
 	private int speed = 10;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
+	private UiInventory ui;
+
+	public void setUi(UiInventory ui) {
+		this.ui = ui;
+	}
 
 	@Override
 	public void init() {
@@ -102,6 +108,10 @@ public class Player extends Creature {
 		}
 
 		animation.render(this.x, this.y, this.t, this.flipped);
+
+		if (this.ui != null) {
+			this.ui.renderOnPlayer(this);
+		}
 	}
 
 	@Override

@@ -8,6 +8,7 @@ public class Gold extends Item {
 		stackable = true;
 		sprite = 1;
 		autoPickup = true;
+		useable = false;
 	}
 
 	@Override
