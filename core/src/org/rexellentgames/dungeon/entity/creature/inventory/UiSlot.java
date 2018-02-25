@@ -1,10 +1,10 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
-import org.rexellentgames.dungeon.util.Log;
 
 public class UiSlot {
 	private int x;
@@ -23,17 +23,47 @@ public class UiSlot {
 	private void update() {
 		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, this.y, 24, 24);
 
-		if (this.hovered && Input.instance.wasPressed("mouse0")) {
-			Item current = this.inventory.getCurrentSlot();
-			Item self = this.inventory.getInventory().getSlot(this.id);
+		if (this.hovered) {
+			if (Input.instance.wasPressed("mouse0")) {
+				Item current = this.inventory.getCurrentSlot();
+				Item self = this.inventory.getInventory().getSlot(this.id);
 
-			if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
-				current.setCount(current.getCount() + self.getCount());
-				this.inventory.getInventory().setSlot(this.id, current);
-				this.inventory.setCurrentSlot(null);
-			} else {
-				this.inventory.setCurrentSlot(self);
-				this.inventory.getInventory().setSlot(this.id, current);
+				if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
+					current.setCount(current.getCount() + self.getCount());
+					this.inventory.getInventory().setSlot(this.id, current);
+					this.inventory.setCurrentSlot(null);
+				} else {
+					this.inventory.setCurrentSlot(self);
+					this.inventory.getInventory().setSlot(this.id, current);
+				}
+			} else if (Input.instance.wasPressed("mouse1")) {
+				Item self = this.inventory.getInventory().getSlot(this.id);
+				Item current = this.inventory.getCurrentSlot();
+
+				if (self == null || !self.isStackable()) {
+					return;
+				}
+
+				if (current != null && self.getClass() != current.getClass()) {
+					return;
+				}
+
+				if (current == null) {
+					try {
+						current = self.getClass().newInstance();
+						current.setCount(0);
+						this.inventory.setCurrentSlot(current);
+					} catch (Exception e) {
+						Dungeon.reportException(e);
+					}
+				}
+
+				if (self.getCount() == 1) {
+					this.inventory.getInventory().setSlot(this.id, null);
+				}
+
+				current.setCount(current.getCount() + 1);
+				self.setCount(self.getCount() - 1);
 			}
 		}
 	}
