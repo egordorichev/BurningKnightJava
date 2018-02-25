@@ -1,0 +1,59 @@
+package org.rexellentgames.dungeon.entity.creature.inventory;
+
+import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.CollisionHelper;
+import org.rexellentgames.dungeon.util.Log;
+
+public class UiSlot {
+	private int x;
+	private int y;
+	private int id;
+	private boolean hovered = false;
+	private UiInventory inventory;
+
+	public UiSlot(UiInventory inventory, int id, int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.id = id;
+		this.inventory = inventory;
+	}
+
+	private void update() {
+		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, this.y, 24, 24);
+
+		if (this.hovered && Input.instance.wasPressed("mouse0")) {
+			Item current = this.inventory.getCurrentSlot();
+			Item self = this.inventory.getInventory().getSlot(this.id);
+
+			if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
+				current.setCount(current.getCount() + self.getCount());
+				this.inventory.getInventory().setSlot(this.id, current);
+				this.inventory.setCurrentSlot(null);
+			} else {
+				this.inventory.setCurrentSlot(self);
+				this.inventory.getInventory().setSlot(this.id, current);
+			}
+		}
+	}
+
+	public void render(int sprite, int count) {
+		this.update();
+
+		if (this.hovered) {
+			Graphics.batch.setColor(1, 1, 0.5f, 1);
+		}
+
+		Graphics.render(Graphics.ui, 64, this.x, this.y, 2, 2);
+		Graphics.batch.setColor(1, 1, 1, 1);
+
+		if (sprite > -1) {
+			Graphics.render(Graphics.items, sprite, this.x + 4, this.y + 12, 1, 1);
+
+			if (count > 1) {
+				Graphics.small.draw(Graphics.batch, String.valueOf(count), this.x + 3, this.y + 16);
+			}
+		}
+	}
+}

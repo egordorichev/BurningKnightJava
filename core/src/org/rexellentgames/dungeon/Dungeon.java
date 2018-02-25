@@ -47,6 +47,8 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("pickup", "Q");
 		Input.instance.bind("toggle_inventory", "E");
 
+		Input.instance.bind("mouse0", "Mouse0");
+
 		game = new Game();
 		game.setState(new InGameState());
 	}
@@ -58,7 +60,6 @@ public class Dungeon extends ApplicationAdapter {
 		time += dt;
 
 		game.update(dt);
-		Input.instance.update();
 
 		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -69,6 +70,7 @@ public class Dungeon extends ApplicationAdapter {
 		game.render();
 
 		Graphics.batch.end();
+		Input.instance.update();
 	}
 
 	@Override
