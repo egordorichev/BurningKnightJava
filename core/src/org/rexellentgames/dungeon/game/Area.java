@@ -59,7 +59,10 @@ public class Area {
 			if (entity.done) {
 				if (entity instanceof SaveableEntity) {
 					SaveableEntity saveableEntity = (SaveableEntity) entity;
-					saveableEntity.getLevel().removeSaveable(saveableEntity);
+
+					if (saveableEntity.getLevel() != null) {
+						saveableEntity.getLevel().removeSaveable(saveableEntity);
+					}
 				}
 
 				entity.destroy();

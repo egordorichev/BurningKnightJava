@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RegularLevel extends Level {
+	public static RegularLevel instance;
+
 	private static final int MIN_ROOM_SIZE = 14;
 	private static final int MAX_ROOM_SIZE = 18;
 
@@ -45,6 +47,10 @@ public class RegularLevel extends Level {
 
 	protected Room entrance;
 	protected Room exit;
+
+	public RegularLevel() {
+		instance = this;
+	}
 
 	@Override
 	public boolean generate() {

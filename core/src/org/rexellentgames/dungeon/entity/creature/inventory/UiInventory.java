@@ -2,7 +2,11 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class UiInventory extends Entity {
@@ -53,6 +57,22 @@ public class UiInventory extends Entity {
 
 		if (Input.instance.wasPressed("scroll")) {
 			this.active = (this.active + Input.instance.getAmount()) % 6;
+		}
+
+		if (Input.instance.wasPressed("drop_item") && !this.open) {
+			Item slot = this.inventory.getSlot(this.active);
+
+			if (slot != null && !slot.hasAutoPickup()) {
+				ItemHolder holder = new ItemHolder();
+
+				holder.setItem(slot);
+				holder.x = (float) Math.floor(Player.instance.x);
+				holder.y = (float) Math.floor(Player.instance.y);
+				RegularLevel.instance.addSaveable(holder);
+
+				this.inventory.setSlot(this.active, null);
+				this.area.add(holder);
+			}
 		}
 	}
 
