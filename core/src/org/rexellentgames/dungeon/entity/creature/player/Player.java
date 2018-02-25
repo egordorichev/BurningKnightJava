@@ -19,14 +19,15 @@ public class Player extends Creature {
 		hpMax = 20;
 	}
 
-	private static Animation idle = new Animation(Graphics.sprites, 0.1f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
-	private static Animation run = new Animation(Graphics.sprites, 0.1f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
+	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
+	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 
 	private PointLight light;
 	private int speed = 10;
 
 	@Override
 	public void init() {
+		this.alwaysActive = true;
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
 		if (this.area.getState().getLight() != null) {

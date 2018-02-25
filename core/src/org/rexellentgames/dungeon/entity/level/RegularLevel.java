@@ -35,14 +35,14 @@ public class RegularLevel extends Level {
 	private static final short[] RIGHT_SLOPE = new short[] { 34, 288, 289, 290 };
 	private static final short[] TOP_SLOPE = new short[] { 1, 320, 321, 322 };
 
-	protected ArrayList<org.rexellentgames.dungeon.entity.level.features.Room> rooms = new ArrayList<org.rexellentgames.dungeon.entity.level.features.Room>();
-	protected ArrayList<org.rexellentgames.dungeon.entity.level.features.Room.Type> special;
+	protected ArrayList<Room> rooms = new ArrayList<Room>();
+	protected ArrayList<Room.Type> special;
 	private ArrayList<Item> toSpawn = new ArrayList<Item>();
 	private ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	private boolean[] busy;
 
-	protected org.rexellentgames.dungeon.entity.level.features.Room entrance;
-	protected org.rexellentgames.dungeon.entity.level.features.Room exit;
+	protected Room entrance;
+	protected Room exit;
 
 	@Override
 	public boolean generate() {
@@ -78,18 +78,18 @@ public class RegularLevel extends Level {
 
 		Log.info("The distance is " + distance);
 
-		this.entrance.setType(org.rexellentgames.dungeon.entity.level.features.Room.Type.ENTRANCE);
-		this.exit.setType(org.rexellentgames.dungeon.entity.level.features.Room.Type.EXIT);
+		this.entrance.setType(Room.Type.ENTRANCE);
+		this.exit.setType(Room.Type.EXIT);
 
-		ArrayList<org.rexellentgames.dungeon.entity.level.features.Room> connected = new ArrayList<org.rexellentgames.dungeon.entity.level.features.Room>();
+		ArrayList<Room> connected = new ArrayList<Room>();
 		connected.add(this.entrance);
 
 		Graph.buildDistanceMap(this.rooms, this.exit);
-		ArrayList<org.rexellentgames.dungeon.entity.level.features.Room> path = Graph.buildPath(this.rooms, this.entrance, this.exit);
+		ArrayList<Room> path = Graph.buildPath(this.rooms, this.entrance, this.exit);
 
-		org.rexellentgames.dungeon.entity.level.features.Room room = this.entrance;
-
-		for (org.rexellentgames.dungeon.entity.level.features.Room next : path) {
+		Room room = this.entrance;
+		
+		for (Room next : path) {
 			room.connectWithRoom(next);
 			room.setPrice(this.entrance.getDistance());
 			room = next;
@@ -101,7 +101,7 @@ public class RegularLevel extends Level {
 		path = Graph.buildPath(this.rooms, this.entrance, this.exit);
 		room = this.entrance;
 
-		for (org.rexellentgames.dungeon.entity.level.features.Room next : path) {
+		for (Room next : path) {
 			room.connectWithRoom(next);
 			room = next;
 
@@ -111,8 +111,8 @@ public class RegularLevel extends Level {
 		int nConnected = (int) (rooms.size() * Random.newFloat(0.7f, 0.9f));
 
 		while (connected.size() < nConnected) {
-			org.rexellentgames.dungeon.entity.level.features.Room cr = connected.get(Random.newInt(connected.size()));
-			org.rexellentgames.dungeon.entity.level.features.Room or = cr.getRandomNeighbour();
+			Room cr = connected.get(Random.newInt(connected.size()));
+			Room or = cr.getRandomNeighbour();
 
 			if (!connected.contains(or)) {
 				cr.connectWithRoom(or);
@@ -120,7 +120,7 @@ public class RegularLevel extends Level {
 			}
 		}
 
-		this.special = new ArrayList<org.rexellentgames.dungeon.entity.level.features.Room.Type>(org.rexellentgames.dungeon.entity.level.features.Room.SPECIAL);
+		this.special = new ArrayList<Room.Type>(Room.SPECIAL);
 
 		this.assignRooms();
 		this.paint();
@@ -257,7 +257,7 @@ public class RegularLevel extends Level {
 
 	protected int getRandomCell() {
 		while (true) {
-			org.rexellentgames.dungeon.entity.level.features.Room room = this.getRandomRoom(org.rexellentgames.dungeon.entity.level.features.Room.Type.REGULAR);
+			Room room = this.getRandomRoom(Room.Type.REGULAR);
 
 			if (room == null) {
 				continue;
@@ -271,9 +271,9 @@ public class RegularLevel extends Level {
 		}
 	}
 
-	public org.rexellentgames.dungeon.entity.level.features.Room getRandomRoom(org.rexellentgames.dungeon.entity.level.features.Room.Type type) {
+	public Room getRandomRoom(Room.Type type) {
 		for (int i = 0; i < 10; i++) {
-			org.rexellentgames.dungeon.entity.level.features.Room room = this.rooms.get(Random.newInt(this.rooms.size()));
+			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
 
 			if (room.getType() == type) {
 				return room;
@@ -303,7 +303,7 @@ public class RegularLevel extends Level {
 	}
 
 	protected int getNumberOfMobsToSpawn() {
-		return 2 + Dungeon.level % 5 + Random.newInt(3);
+		return 30 + 10 * Dungeon.level % 5 + Random.newInt(10);
 	}
 
 	private void spawnMobs() {
@@ -316,6 +316,7 @@ public class RegularLevel extends Level {
 			mob.x = cell % WIDTH * 16;
 			mob.y = (int) (Math.floor(cell / WIDTH) * 16);
 
+			this.area.add(mob);
 			this.addSaveable(mob);
 		}
 	}
@@ -398,8 +399,8 @@ public class RegularLevel extends Level {
 	protected void assignRooms() {
 		int specialRooms = 0;
 
-		for (org.rexellentgames.dungeon.entity.level.features.Room room : rooms) {
-			if (room.getType() == org.rexellentgames.dungeon.entity.level.features.Room.Type.NULL &&
+		for (Room room : rooms) {
+			if (room.getType() == Room.Type.NULL &&
 				room.getConnected().size() == 1) {
 
 				if (this.special.size() > 0 &&
@@ -407,7 +408,7 @@ public class RegularLevel extends Level {
 					Random.newInt(specialRooms * specialRooms + 2) == 0) {
 
 					int n = this.special.size();
-					org.rexellentgames.dungeon.entity.level.features.Room.Type type = this.special.get(Math.min(Random.newInt(n), Random.newInt(n)));
+					Room.Type type = this.special.get(Math.min(Random.newInt(n), Random.newInt(n)));
 
 					room.setType(type);
 
@@ -419,10 +420,10 @@ public class RegularLevel extends Level {
 
 		int count = 0;
 
-		for (org.rexellentgames.dungeon.entity.level.features.Room room : this.rooms) {
+		for (Room room : this.rooms) {
 			int connected = room.getConnected().size();
 
-			if (room.getType() == org.rexellentgames.dungeon.entity.level.features.Room.Type.NULL && connected > 0) {
+			if (room.getType() == Room.Type.NULL && connected > 0) {
 				if (Random.newInt(connected * connected) == 0) {
 					// todo: fix back
 					room.setType(Random.newFloat() > 0.5 ? Room.Type.REGULAR : Room.Type.HOLE);
@@ -435,18 +436,18 @@ public class RegularLevel extends Level {
 
 		// Make sure, we have enough rooms
 		while (count < 4) {
-			org.rexellentgames.dungeon.entity.level.features.Room room = this.randomRoom(org.rexellentgames.dungeon.entity.level.features.Room.Type.TUNNEL, 1);
+			Room room = this.randomRoom(Room.Type.TUNNEL, 1);
 
 			if (room != null) {
-				room.setType(org.rexellentgames.dungeon.entity.level.features.Room.Type.TUNNEL);
+				room.setType(Room.Type.TUNNEL);
 				count++;
 			}
 		}
 	}
 
-	public org.rexellentgames.dungeon.entity.level.features.Room randomRoom(org.rexellentgames.dungeon.entity.level.features.Room.Type type, int attempts) {
+	public Room randomRoom(Room.Type type, int attempts) {
 		for (int i = 0; i < attempts; i++) {
-			org.rexellentgames.dungeon.entity.level.features.Room room = this.rooms.get(Random.newInt(this.rooms.size()));
+			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
 
 			if (room.getType() == type) {
 				return room;
@@ -457,29 +458,29 @@ public class RegularLevel extends Level {
 	}
 
 	protected void paint() {
-		for (org.rexellentgames.dungeon.entity.level.features.Room room : this.rooms) {
-			if (room.getType() != org.rexellentgames.dungeon.entity.level.features.Room.Type.NULL) {
+		for (Room room : this.rooms) {
+			if (room.getType() != Room.Type.NULL) {
 				this.placeDoors(room);
 				room.getType().paint(this, room);
 			}
 		}
 
-		for (org.rexellentgames.dungeon.entity.level.features.Room room : this.rooms) {
+		for (Room room : this.rooms) {
 			this.paintDoors(room);
 		}
 	}
 
-	protected void placeDoors(org.rexellentgames.dungeon.entity.level.features.Room room) {
-		for (org.rexellentgames.dungeon.entity.level.features.Room n : room.getConnected().keySet()) {
-			org.rexellentgames.dungeon.entity.level.features.Door door = room.getConnected().get(n);
+	protected void placeDoors(Room room) {
+		for (Room n : room.getConnected().keySet()) {
+			Door door = room.getConnected().get(n);
 
 			if (door == null) {
 				Rect i = room.intersect(n);
 
 				if (i.getWidth() == 0) {
-					door = new org.rexellentgames.dungeon.entity.level.features.Door(i.left, Random.newInt(i.top + 1, i.bottom));
+					door = new Door(i.left, Random.newInt(i.top + 1, i.bottom));
 				} else {
-					door = new org.rexellentgames.dungeon.entity.level.features.Door(Random.newInt(i.left + 1, i.right), i.top);
+					door = new Door(Random.newInt(i.left + 1, i.right), i.top);
 				}
 
 				room.getConnected().put(n, door);
@@ -488,8 +489,8 @@ public class RegularLevel extends Level {
 		}
 	}
 
-	protected void paintDoors(org.rexellentgames.dungeon.entity.level.features.Room room) {
-		for (org.rexellentgames.dungeon.entity.level.features.Room other : room.getConnected().keySet()) {
+	protected void paintDoors(Room room) {
+		for (Room other : room.getConnected().keySet()) {
 			Door door = room.getConnected().get(other);
 
 			// todo: proper tiles here
@@ -583,7 +584,7 @@ public class RegularLevel extends Level {
 			(rect.getWidth() * rect.getHeight())) && w <= MAX_ROOM_SIZE && h <= MAX_ROOM_SIZE)
 			|| w < MIN_ROOM_SIZE || h < MIN_ROOM_SIZE) {
 
-			this.rooms.add((org.rexellentgames.dungeon.entity.level.features.Room) new Room().set(rect));
+			this.rooms.add((Room) new Room().set(rect));
 		} else {
 			if (Random.newFloat() < (float) (w - 2) / (w + h - 4)) {
 				int vw = Random.newInt(rect.left + 3, rect.right - 3);

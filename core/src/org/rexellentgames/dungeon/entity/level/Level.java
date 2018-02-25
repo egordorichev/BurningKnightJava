@@ -39,13 +39,14 @@ public class Level extends Entity {
 
 	@Override
 	public void init() {
+		this.alwaysActive = true;
 		this.data = new short[SIZE];
 		this.depth = -10;
 	}
 
 	@Override
 	public void render() {
-		OrthographicCamera camera = (OrthographicCamera) Camera.instance.getCamera();
+		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float cx = camera.position.x - Display.GAME_WIDTH / 2;
 		float cy = camera.position.y - Display.GAME_HEIGHT / 2;

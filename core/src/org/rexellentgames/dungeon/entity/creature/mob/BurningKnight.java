@@ -7,13 +7,17 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Animation;
 
 public class BurningKnight extends Mob {
-	private static Animation idle = new Animation(Graphics.sprites, 0.1f, 32, 160, 162,
+	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 32, 160, 162,
 		164, 166, 168, 170, 172, 174, 176, 178, 180, 182);
 
 	private PointLight light;
 
 	@Override
 	public void init() {
+		this.w = 32;
+		this.h = 32;
+		this.alwaysActive = true;
+
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 
 		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(0.6f, 0.6f, 1f, 0.8f),

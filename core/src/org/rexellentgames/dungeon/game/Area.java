@@ -46,7 +46,11 @@ public class Area {
 
 	public void update(float dt) {
 		for (Entity entity : this.entities) {
-			entity.update(dt);
+			entity.onScreen = (entity.alwaysActive || entity.isOnScreen());
+
+			if (entity.onScreen) {
+				entity.update(dt);
+			}
 		}
 	}
 
@@ -54,7 +58,9 @@ public class Area {
 		Collections.sort(this.entities, this.comparator);
 
 		for (Entity entity : this.entities) {
-			entity.render();
+			if (entity.onScreen) {
+				entity.render();
+			}
 		}
 	}
 

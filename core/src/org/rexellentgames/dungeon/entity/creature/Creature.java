@@ -1,9 +1,12 @@
 package org.rexellentgames.dungeon.entity.creature;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Body;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -26,6 +29,7 @@ public class Creature extends SaveableEntity {
 	public void init() {
 		super.init();
 
+		this.t = Random.newFloat(1024);
 		this.hp = this.hpMax;
 	}
 
