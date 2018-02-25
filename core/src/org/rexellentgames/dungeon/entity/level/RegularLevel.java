@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Gold;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.Sword;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.features.Room;
@@ -291,12 +292,14 @@ public class RegularLevel extends Level {
 
 	protected void drop(int cell, Item item) {
 		this.busy[cell] = true;
+		ItemHolder holder = new ItemHolder();
 
-		item.x = cell % WIDTH * 16;
-		item.y = (int) (Math.floor(cell / WIDTH) * 16);
+		holder.setItem(item);
+		holder.x = cell % WIDTH * 16;
+		holder.y = (int) (Math.floor(cell / WIDTH) * 16);
 
-		this.area.add(item);
-		this.addSaveable(item);
+		this.area.add(holder);
+		this.addSaveable(holder);
 	}
 
 	public void addSaveable(SaveableEntity thing) {
