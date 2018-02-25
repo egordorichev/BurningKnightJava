@@ -14,6 +14,7 @@ public class Entity extends Point {
 	public float h = 16;
 	public boolean onScreen = true;
 	public boolean alwaysActive = false;
+	public boolean done = false;
 
 	public void init() {
 
@@ -64,6 +65,14 @@ public class Entity extends Point {
 		poly.dispose();
 
 		return body;
+	}
+
+	public void onCollision(Entity entity) {
+
+	}
+
+	public void onCollisionEnd(Entity entity) {
+
 	}
 
 	public boolean isOnScreen() {

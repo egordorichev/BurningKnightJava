@@ -8,7 +8,8 @@ import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.Money;
+import org.rexellentgames.dungeon.entity.item.Gold;
+import org.rexellentgames.dungeon.entity.item.Sword;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.features.Room;
 import org.rexellentgames.dungeon.entity.level.painter.Patch;
@@ -244,7 +245,7 @@ public class RegularLevel extends Level {
 	}
 
 	private void spawnItems() {
-		int n = 3;
+		int n = 32;
 
 		while (Random.newFloat() < 0.4f) {
 			n++;
@@ -285,7 +286,7 @@ public class RegularLevel extends Level {
 
 	protected Item getRandomItem() {
 		// todo: random!
-		return new Money().randomize();
+		return (Random.newFloat() > 0.5 ? new Gold().randomize() : new Sword());
 	}
 
 	protected void drop(int cell, Item item) {
@@ -425,8 +426,7 @@ public class RegularLevel extends Level {
 
 			if (room.getType() == Room.Type.NULL && connected > 0) {
 				if (Random.newInt(connected * connected) == 0) {
-					// todo: fix back
-					room.setType(Random.newFloat() > 0.5 ? Room.Type.REGULAR : Room.Type.HOLE);
+					room.setType(Room.Type.REGULAR);
 					count++;
 				} else {
 					room.setType(Room.Type.TUNNEL);

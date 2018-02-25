@@ -2,11 +2,12 @@ package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.util.Random;
 
-public class Money extends Item {
+public class Gold extends Item {
 	{
 		name = "Gold";
 		stackable = true;
-		// todo: sprite
+		sprite = 1;
+		autoPickup = true;
 	}
 
 	@Override

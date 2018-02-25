@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class State {
 	protected World world;
 	protected RayHandler light;
+	protected Area area;
 
 	public State() {
 
@@ -33,5 +34,9 @@ public class State {
 
 	public RayHandler getLight() {
 		return this.light;
+	}
+
+	public Area getArea() {
+		return this.area;
 	}
 }

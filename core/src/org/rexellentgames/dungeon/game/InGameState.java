@@ -17,7 +17,6 @@ import org.rexellentgames.dungeon.entity.level.RegularLevel;
 public class InGameState extends State {
 	private static final float TIME_STEP = 1 / 45.f;
 
-	private Area area;
 	private Level level;
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
@@ -85,9 +84,9 @@ public class InGameState extends State {
 		this.light.setCombinedMatrix(Camera.instance.getCamera());
 
 		Graphics.batch.end();
-		// this.light.updateAndRender();
+		this.light.updateAndRender();
 		Graphics.batch.begin();
 
-		this.debug.render(this.world, Camera.instance.getCamera().combined);
+		// this.debug.render(this.world, Camera.instance.getCamera().combined);
 	}
 }

@@ -5,7 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
@@ -22,11 +25,15 @@ public class Player extends Creature {
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
 	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 
+	public static Player instance;
 	private PointLight light;
 	private int speed = 10;
+	private ItemPickupFx pickupFx;
 
 	@Override
 	public void init() {
+		instance = this;
+
 		this.alwaysActive = true;
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
@@ -102,5 +109,34 @@ public class Player extends Creature {
 
 		this.body.setTransform(this.x, this.y, 0);
 		Camera.instance.follow(this);
+	}
+
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Item) {
+			Item item = (Item) entity;
+
+			if (item.hasAutoPickup()) {
+				this.tryToPickup(item);
+			} else if (this.pickupFx == null) {
+				this.pickupFx = new ItemPickupFx(item, this);
+				this.area.add(this.pickupFx);
+			}
+		}
+	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (entity instanceof Item) {
+			if (this.pickupFx != null) {
+				this.pickupFx.done = true;
+				this.pickupFx = null;
+			}
+		}
+	}
+
+	public void tryToPickup(Item item) {
+		// todo
+		Log.info("try to pickup");
 	}
 }

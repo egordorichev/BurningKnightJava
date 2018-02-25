@@ -3,7 +3,10 @@ package org.rexellentgames.dungeon.entity.level.entities;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -13,6 +16,7 @@ public class Door extends SaveableEntity {
 	private boolean open = false;
 	private boolean vertical;
 	private Body body;
+	private int numCollisions;
 
 	public Door(int x, int y, boolean vertical) {
 		this.x = x * 16;
@@ -20,7 +24,9 @@ public class Door extends SaveableEntity {
 		this.vertical = vertical;
 	}
 
-	public Door() {}
+	public Door() {
+
+	}
 
 	@Override
 	public void init() {
@@ -31,10 +37,29 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
-		Graphics.render(Graphics.tiles, this.vertical ? (this.open ? 5 : 37) : (this.open ? 37 : 5),
-			this.x, this.y, 1, this.vertical ? 2 : 1);
+		int w = 1;
+		int h = 1;
+		int sprite;
 
-		// Graphics.render(Graphics.tiles, 37, this.x, this.y, 1, 2);
+		if (this.vertical) {
+			if (this.open) {
+				w = 2;
+				h = 2;
+				sprite = 197;
+			} else {
+				h = 2;
+				sprite = 37;
+			}
+		} else {
+			if (this.open) {
+				sprite = 133;
+				h = 2;
+			} else {
+				sprite = 5;
+			}
+		}
+
+		Graphics.render(Graphics.tiles, sprite, this.x, this.y, w, h);
 	}
 
 	@Override
@@ -54,7 +79,23 @@ public class Door extends SaveableEntity {
 		writer.writeBoolean(this.vertical);
 	}
 
-	public void setOpen(boolean open) {
-		this.open = open;
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Creature) {
+			this.numCollisions += 1;
+			this.open = true;
+		}
+	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (entity instanceof Creature) {
+			this.numCollisions -= 1;
+
+			if (this.numCollisions <= 0) {
+				this.open = false;
+				this.numCollisions = 0; // to make sure
+			}
+		}
 	}
 }
