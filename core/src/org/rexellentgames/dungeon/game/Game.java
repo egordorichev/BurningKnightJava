@@ -18,6 +18,10 @@ public class Game {
 		this.state.init();
 	}
 
+	public State getState() {
+		return this.state;
+	}
+
 	public void update(float dt) {
 		if (this.state != null) {
 			this.state.update(dt);

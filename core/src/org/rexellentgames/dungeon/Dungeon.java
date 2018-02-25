@@ -15,7 +15,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Log;
 
 public class Dungeon extends ApplicationAdapter {
-	private Game game;
+	public static Game game;
 	public static int level = 0;
 	public static float time;
 
@@ -42,8 +42,8 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("down", "Down");
 		Input.instance.bind("down", "S");
 
-		this.game = new Game();
-		this.game.setState(new InGameState());
+		game = new Game();
+		game.setState(new InGameState());
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		time += dt;
 
-		this.game.update(dt);
+		game.update(dt);
 		Input.instance.update();
 
 		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
@@ -61,7 +61,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.batch.begin();
 
-		this.game.render();
+		game.render();
 
 		Graphics.batch.end();
 	}
@@ -73,7 +73,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
-		this.game.destroy();
+		game.destroy();
 		Assets.destroy();
 	}
 

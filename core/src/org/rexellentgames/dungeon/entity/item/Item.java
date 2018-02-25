@@ -15,6 +15,7 @@ public class Item extends SaveableEntity {
 	protected boolean stackable = false;
 	protected int count = 0;
 	protected Body body;
+	protected boolean autoPickup = false;
 
 	@Override
 	public void init() {
@@ -48,5 +49,9 @@ public class Item extends SaveableEntity {
 
 	public Item randomize() {
 		return this;
+	}
+
+	public boolean hasAutoPickup() {
+		return this.autoPickup;
 	}
 }

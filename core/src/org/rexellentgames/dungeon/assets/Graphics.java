@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.assets;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,7 +32,7 @@ public class Graphics {
 		ui.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		small = generateFont("fonts/pico.ttf", 4);
-		medium = generateFont("fonts/font.ttf", 12);
+		medium = generateFont("fonts/large.ttf", 16);
 	}
 
 	private static BitmapFont generateFont(String path, int size) {
@@ -39,6 +40,8 @@ public class Graphics {
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		parameter.size = size;
+		parameter.borderWidth = 1;
+		parameter.borderColor = Color.BLACK;
 		parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
 
 		BitmapFont font = generator.generateFont(parameter);

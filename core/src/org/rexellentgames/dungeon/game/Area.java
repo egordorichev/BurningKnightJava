@@ -45,11 +45,18 @@ public class Area {
 	}
 
 	public void update(float dt) {
-		for (Entity entity : this.entities) {
+		for (int i = this.entities.size() - 1; i >= 0; i--) {
+			Entity entity = this.entities.get(i);
+
 			entity.onScreen = (entity.alwaysActive || entity.isOnScreen());
 
 			if (entity.onScreen) {
 				entity.update(dt);
+			}
+
+			if (entity.done) {
+				entity.destroy();
+				this.entities.remove(i);
 			}
 		}
 	}
