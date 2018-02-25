@@ -48,6 +48,7 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("toggle_inventory", "E");
 
 		Input.instance.bind("mouse0", "Mouse0");
+		Input.instance.bind("mouse1", "Mouse1");
 
 		game = new Game();
 		game.setState(new InGameState());
