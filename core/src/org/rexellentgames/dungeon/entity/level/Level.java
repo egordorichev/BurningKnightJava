@@ -105,12 +105,42 @@ public class Level extends Entity {
 		return this.isWater(x, y, true);
 	}
 
+	public boolean checkFor(int i, int flag) {
+		return (Terrain.flags[this.get(i)] & flag) == flag;
+	}
+
+	public boolean checkFor(int x, int y, int flag) {
+		return (Terrain.flags[this.get(x, y)] & flag) == flag;
+	}
+
+	protected boolean isWaterOrFall(int x, int y) {
+		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+			return true;
+		}
+
+		int tile = this.get(x, y);
+
+		if ((tile == Terrain.FALL || tile == Terrain.WATER_FALL || tile == Terrain.EMPTY) && this.checkFor(x, y + 1, Terrain.PASSABLE)) {
+			return true;
+		}
+
+		int xx = tile % 32;
+		int yy = (int) (Math.floor(tile / 32));
+
+		if (xx < 4 && yy > 10 && yy < 15) {
+			return true;
+		}
+
+		return false;
+	}
+
 	protected boolean isWater(int x, int y, boolean wall) {
 		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
 			return true;
 		}
 
 		int tile = this.get(x, y);
+
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 

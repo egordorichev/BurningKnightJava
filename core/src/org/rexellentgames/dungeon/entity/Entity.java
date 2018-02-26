@@ -40,7 +40,7 @@ public class Entity extends Point {
 		return this.depth;
 	}
 
-	protected Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
+	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
 		World world = this.area.getState().getWorld();
 
 		BodyDef def = new BodyDef();

@@ -11,6 +11,7 @@ public class Terrain {
 	public static short LOW_GRASS = 36;
 	public static short WATER = 385;
 	public static short FALL = 102;
+	public static short WATER_FALL = 103;
 
 	public static int[] flags = new int[512];
 
@@ -22,6 +23,7 @@ public class Terrain {
 	static {
 		flags[EMPTY] = HOLE;
 		flags[FALL] = HOLE;
+		flags[WATER_FALL] = HOLE;
 		flags[GRASS] = PASSABLE;
 		flags[WALL] = SOLID;
 		flags[DOOR] = PASSABLE;
