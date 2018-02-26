@@ -105,7 +105,11 @@ public class InGameState extends State {
 		this.inventory.renderUi();
 
 		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 6, 2);
-		Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8);
+
+		float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
+
+		Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8, 1, 1,
+			Dungeon.time * 60, s / 2, s / 2, false, false, s, s);
 
 		this.inventory.renderCurrentSlot();
 	}
