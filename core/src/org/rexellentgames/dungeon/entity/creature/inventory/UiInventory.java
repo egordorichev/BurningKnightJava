@@ -81,6 +81,30 @@ public class UiInventory extends Entity {
 				this.area.add(holder);
 			}
 		}
+
+		if (Input.instance.wasPressed("1")) {
+			this.active = 0;
+		}
+
+		if (Input.instance.wasPressed("2")) {
+			this.active = 1;
+		}
+
+		if (Input.instance.wasPressed("3")) {
+			this.active = 2;
+		}
+
+		if (Input.instance.wasPressed("4")) {
+			this.active = 3;
+		}
+
+		if (Input.instance.wasPressed("5")) {
+			this.active = 4;
+		}
+
+		if (Input.instance.wasPressed("6")) {
+			this.active = 5;
+		}
 	}
 
 	public void renderUi() {
