@@ -24,6 +24,7 @@ import java.io.IOException;
 public class Player extends Creature {
 	{
 		hpMax = 20;
+		speed = 10;
 	}
 
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
@@ -31,7 +32,6 @@ public class Player extends Creature {
 
 	public static Player instance;
 	private PointLight light;
-	private int speed = 10;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private UiInventory ui;

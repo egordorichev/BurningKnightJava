@@ -79,8 +79,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Tween.update(dt);
 		game.update(dt);
-
-		// Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
+		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);

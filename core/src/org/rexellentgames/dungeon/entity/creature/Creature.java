@@ -21,6 +21,7 @@ public class Creature extends SaveableEntity {
 	protected float t = 0;
 	protected boolean flipped = false;
 	protected Point vel = new Point();
+	protected float speed;
 	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
 
 	@Override

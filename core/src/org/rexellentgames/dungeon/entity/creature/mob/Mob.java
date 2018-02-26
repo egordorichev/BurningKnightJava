@@ -17,7 +17,7 @@ public class Mob extends Creature {
 
 	public Point getCloser(Creature target) {
 		int from = (int) (Math.floor(this.x / 16) + Math.floor(this.y / 16) * Level.WIDTH);
-		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.WIDTH);
+		int to = (int) (Math.floor((target.x) / 16) + Math.floor((target.y ) / 16) * Level.WIDTH);
 
 		int step = PathFinder.getStep(from, to, RegularLevel.instance.getPassable());
 

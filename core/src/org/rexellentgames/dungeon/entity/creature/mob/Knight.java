@@ -39,24 +39,36 @@ public class Knight extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		this.vel.mul(0f);
 
 		if (this.target != null) {
 			if (this.t % 1 <= 0.017) {
-				if (this.point != null) {
+				this.point = this.getCloser(this.target);
+			}
+
+			if (this.point != null) {
+				float dx = this.point.x - this.x;
+				float dy = this.point.y - this.y;
+				float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+				if (d < 1) {
 					this.x = this.point.x;
 					this.y = this.point.y;
-					this.body.setTransform(x, y, 0);
+
 					this.point = this.getCloser(this.target);
 				} else {
-					this.point = this.getCloser(this.target);
+					this.vel.x = dx / d * this.speed;
+					this.vel.y = dy / d * this.speed;
 				}
+			} else {
+				this.point = this.getCloser(this.target);
 			}
 		} else {
 			this.assignTarget();
 		}
 
 		// todo: cap
-		/*float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
+		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (v > 9.9) {
 			this.become("run");
@@ -65,7 +77,7 @@ public class Knight extends Mob {
 
 			this.vel.x = 0;
 			this.vel.y = 0;
-		}*/
+		}
 
 		super.common();
 	}
