@@ -68,6 +68,16 @@ public class Graphics {
 			xx, yy, 16 * w, 16 * h, fx, fy);
 	}
 
+	public static void render(Texture texture, int tile, float x, float y, int w, int h, float a, float ox, float oy,
+			boolean fx, boolean fy, float dw, float dh) {
+
+		int xx = tile % 32 * 16;
+		int yy = (int) (Math.floor(tile / 32) * 16);
+
+		Graphics.batch.draw(texture, x, y, ox, oy, dw, dh, 1, 1, a,
+			xx, yy, 16 * w, 16 * h, fx, fy);
+	}
+
 	public static void destroy() {
 		tiles.dispose();
 		sprites.dispose();
