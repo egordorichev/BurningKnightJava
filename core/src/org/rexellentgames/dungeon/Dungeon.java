@@ -56,8 +56,15 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("mouse1", "Z");
 		Input.instance.bind("scroll", "MouseWheel");
 
+		Input.instance.bind("1", "1");
+		Input.instance.bind("2", "2");
+		Input.instance.bind("3", "3");
+		Input.instance.bind("4", "4");
+		Input.instance.bind("5", "5");
+		Input.instance.bind("6", "6");
+
 		game = new Game();
-		game.setState(new GeneratorState());
+		game.setState(new InGameState());
 	}
 
 	@Override

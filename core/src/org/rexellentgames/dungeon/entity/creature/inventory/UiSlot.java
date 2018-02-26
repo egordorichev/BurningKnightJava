@@ -27,50 +27,46 @@ public class UiSlot {
 		if (this.hovered) {
 			this.inventory.handled = true;
 
-			if (this.inventory.isOpen()) {
-				if (Input.instance.wasPressed("mouse0")) {
-					Item current = this.inventory.getCurrentSlot();
-					Item self = this.inventory.getInventory().getSlot(this.id);
+			if (Input.instance.wasPressed("mouse0")) {
+				Item current = this.inventory.getCurrentSlot();
+				Item self = this.inventory.getInventory().getSlot(this.id);
 
-					if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
-						current.setCount(current.getCount() + self.getCount());
-						this.inventory.getInventory().setSlot(this.id, current);
-						this.inventory.setCurrentSlot(null);
-					} else {
-						this.inventory.setCurrentSlot(self);
-						this.inventory.getInventory().setSlot(this.id, current);
-					}
-				} else if (Input.instance.wasPressed("mouse1")) {
-					Item self = this.inventory.getInventory().getSlot(this.id);
-					Item current = this.inventory.getCurrentSlot();
-
-					if (self == null || !self.isStackable()) {
-						return;
-					}
-
-					if (current != null && self.getClass() != current.getClass()) {
-						return;
-					}
-
-					if (current == null) {
-						try {
-							current = self.getClass().newInstance();
-							current.setCount(0);
-							this.inventory.setCurrentSlot(current);
-						} catch (Exception e) {
-							Dungeon.reportException(e);
-						}
-					}
-
-					if (self.getCount() == 1) {
-						this.inventory.getInventory().setSlot(this.id, null);
-					}
-
-					current.setCount(current.getCount() + 1);
-					self.setCount(self.getCount() - 1);
+				if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
+					current.setCount(current.getCount() + self.getCount());
+					this.inventory.getInventory().setSlot(this.id, current);
+					this.inventory.setCurrentSlot(null);
+				} else {
+					this.inventory.setCurrentSlot(self);
+					this.inventory.getInventory().setSlot(this.id, current);
 				}
-			} else if (this.id < 6 && Input.instance.wasPressed("mouse0")) {
-				this.inventory.setActive(this.id);
+			} else if (Input.instance.wasPressed("mouse1")) {
+				Item self = this.inventory.getInventory().getSlot(this.id);
+				Item current = this.inventory.getCurrentSlot();
+
+				if (self == null || !self.isStackable()) {
+					return;
+				}
+
+				if (current != null && self.getClass() != current.getClass()) {
+					return;
+				}
+
+				if (current == null) {
+					try {
+						current = self.getClass().newInstance();
+						current.setCount(0);
+						this.inventory.setCurrentSlot(current);
+					} catch (Exception e) {
+						Dungeon.reportException(e);
+					}
+				}
+
+				if (self.getCount() == 1) {
+					this.inventory.getInventory().setSlot(this.id, null);
+				}
+
+				current.setCount(current.getCount() + 1);
+				self.setCount(self.getCount() - 1);
 			}
 		}
 	}
