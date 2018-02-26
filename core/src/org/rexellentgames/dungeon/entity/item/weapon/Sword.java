@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;
@@ -11,15 +10,15 @@ public class Sword extends Weapon {
 		sprite = 0;
 	}
 
-	protected float angle;
 	protected float added;
 
 	@Override
 	public void render(float x, float y, boolean flipped) {
-		float angle = (float) Math.toDegrees(Math.atan2(y - Input.instance.worldMouse.y,
-			x - Input.instance.worldMouse.x)) + added;
+		//(float) Math.toDegrees(Math.atan2(y - Input.instance.worldMouse.y,
+		//	x - Input.instance.worldMouse.x))
+		float angle = (flipped ? this.added : -this.added);
 
-		Graphics.render(Graphics.items, this.sprite, x, y + 1, 1, 1, angle, 8, 3, false,
+		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -3 : 3), y, 1, 1, angle, 8, 3, false,
 			false);
 	}
 
