@@ -74,7 +74,7 @@ public class Graphics {
 		int xx = tile % 32 * 16;
 		int yy = (int) (Math.floor(tile / 32) * 16);
 
-		Graphics.batch.draw(texture, x, y, ox, oy, dw, dh, 1, 1, a,
+		Graphics.batch.draw(texture, x, y, ox, oy, 16 * w, 16 * h, 1, 1, a,
 			xx, yy, 16 * w, 16 * h, fx, fy);
 	}
 

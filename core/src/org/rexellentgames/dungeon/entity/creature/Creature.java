@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
+import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
@@ -13,15 +14,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Creature extends SaveableEntity {
+	// Stats
 	protected int hp;
 	protected int hpMax;
+	protected float speed = 10;
+	protected float damage = 1;
+	protected float defense = 1;
+
 	protected boolean dead;
 	protected Body body;
 	protected String state = "idle";
 	protected float t = 0;
 	protected boolean flipped = false;
 	protected Point vel = new Point();
-	protected float speed;
 	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
 
 	@Override
@@ -68,6 +73,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
+		this.area.add(new HpFx(this, amount));
 		this.hp = MathUtils.clamp(0, this.hpMax, this.hp + amount);
 
 		if (this.hp == 0) {

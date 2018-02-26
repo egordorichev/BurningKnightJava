@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class ItemPickupFx extends Entity {
 	private String text;
@@ -22,7 +23,19 @@ public class ItemPickupFx extends Entity {
 		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
 
 		this.x = item.x + 8 - layout.width / 2;
-		this.y = item.y + 32;
+		this.y = item.y + 16;
+
+		Tween.to(new Tween.Task(item.y + 32, 0.3f) {
+			@Override
+			public void setValue(float value) {
+				y = value;
+			}
+
+			@Override
+			public float getValue() {
+				return y;
+			}
+		});
 	}
 
 	@Override
