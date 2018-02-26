@@ -2,8 +2,9 @@ package org.rexellentgames.dungeon;
 
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 
-public class Collisions implements ContactListener {
+public class Collisions implements ContactListener, ContactFilter {
 	@Override
 	public void beginContact(Contact contact) {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
@@ -34,5 +35,13 @@ public class Collisions implements ContactListener {
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 
+	}
+
+	@Override
+	public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
+		Object a = fixtureA.getBody().getUserData();
+		Object b = fixtureB.getBody().getUserData();
+
+		return !(a instanceof Creature && b instanceof Creature);
 	}
 }

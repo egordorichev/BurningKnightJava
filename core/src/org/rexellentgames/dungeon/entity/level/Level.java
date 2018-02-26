@@ -36,6 +36,11 @@ public class Level extends Entity {
 
 	protected Vector2 spawn;
 	protected short[] data;
+	protected boolean[] passable;
+
+	public boolean[] getPassable() {
+		return passable;
+	}
 
 	@Override
 	public void init() {

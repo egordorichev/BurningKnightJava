@@ -10,10 +10,12 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.GeneratorState;
 import org.rexellentgames.dungeon.game.InGameState;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Dungeon extends ApplicationAdapter {
@@ -28,6 +30,8 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.graphics.setTitle("Burning Knight " + Version.asString());
 		Cursor customCursor = Gdx.graphics.newCursor(new Pixmap(1, 1, Pixmap.Format.RGBA8888), 0, 0);
 		Gdx.graphics.setCursor(customCursor);
+
+		PathFinder.setMapSize(Level.WIDTH, Level.HEIGHT);
 
 		Assets.init();
 		Box2D.init();
@@ -76,7 +80,7 @@ public class Dungeon extends ApplicationAdapter {
 		Tween.update(dt);
 		game.update(dt);
 
-		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
+		// Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
