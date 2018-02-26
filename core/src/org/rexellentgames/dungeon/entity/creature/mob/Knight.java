@@ -26,6 +26,7 @@ public class Knight extends Mob {
 	public void init() {
 		super.init();
 
+		this.speed = 32;
 		this.body = this.createBody(1, 2, 12, 14, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
