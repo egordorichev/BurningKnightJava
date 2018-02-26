@@ -42,6 +42,8 @@ public class Player extends Creature {
 
 	@Override
 	public void init() {
+		super.init();
+
 		instance = this;
 
 		this.alwaysActive = true;
@@ -91,6 +93,13 @@ public class Player extends Creature {
 
 			this.vel.x = 0;
 			this.vel.y = 0;
+		}
+
+		if (Input.instance.wasPressed("mouse0")) {
+			this.modifyHp(-1);
+		}
+		if (Input.instance.wasPressed("mouse1")) {
+			this.modifyHp(1);
 		}
 
 		super.common();

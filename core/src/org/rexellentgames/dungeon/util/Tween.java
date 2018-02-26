@@ -14,7 +14,7 @@ public class Tween {
 			Task task = tasks.get(i);
 			task.progress += dt * task.rate;
 
-			float x = (task.progress >= 1 ? 1 : task.function(task.progress));
+			float x = (task.progress >= 1 ? task.function(1) : task.function(task.progress));
 
 			task.setValue(task.start + x * task.difference);
 
