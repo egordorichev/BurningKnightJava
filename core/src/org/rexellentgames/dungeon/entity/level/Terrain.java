@@ -33,6 +33,16 @@ public class Terrain {
 		flags[EXIT] = PASSABLE;
 		flags[ENTRANCE] = PASSABLE;
 
+		for (int x = 6; x < 14; x++) {
+			flags[x] = PASSABLE;
+		}
+
+		for (int x = 0; x < 4; x++) {
+			for (int y = 11; y < 15; y++) {
+				flags[x + y * 32] = PASSABLE;
+			}
+		}
+
 		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 11; y++) {
 				flags[x + y * 32] = SOLID;

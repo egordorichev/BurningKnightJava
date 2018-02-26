@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.features.Room;
 import org.rexellentgames.dungeon.entity.level.painter.Patch;
+import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.path.Graph;
@@ -151,6 +152,14 @@ public class RegularLevel extends Level {
 		this.addSaveable(player);
 
 		return true;
+	}
+
+	public void loadPassable() {
+		this.passable = new boolean[SIZE];
+
+		for (int i = 0; i < SIZE; i++) {
+			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
+		}
 	}
 
 	private void tileUp() {
@@ -435,8 +444,7 @@ public class RegularLevel extends Level {
 					room.setType(Room.Type.REGULAR);
 					count++;
 				} else {
-					// FIXME
-					room.setType(Room.Type.HOLE);
+					room.setType(Room.Type.TUNNEL);
 				}
 			}
 		}

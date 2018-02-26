@@ -81,8 +81,7 @@ public class Player extends Creature {
 			this.light.setPosition(this.x + 8, this.y + 8);
 		}
 
-		this.vel.cap(100);
-
+		// todo: cap
 		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (v > 9.9) {

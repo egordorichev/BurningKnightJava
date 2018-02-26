@@ -32,7 +32,11 @@ public class InGameState extends State {
 	public void init() {
 		this.area = new Area(this);
 		this.world = new World(new Vector2(0, 0), true);
-		this.world.setContactListener(new Collisions());
+
+		Collisions collisions = new Collisions();
+
+		this.world.setContactListener(collisions);
+		this.world.setContactFilter(collisions);
 
 		this.debug = new Box2DDebugRenderer();
 
@@ -49,6 +53,7 @@ public class InGameState extends State {
 				level.load();
 			}
 		}).run();
+		((RegularLevel) this.level).loadPassable();
 
 		this.area.add(new BurningKnight());
 
