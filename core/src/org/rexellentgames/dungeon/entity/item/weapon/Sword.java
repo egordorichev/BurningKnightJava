@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;

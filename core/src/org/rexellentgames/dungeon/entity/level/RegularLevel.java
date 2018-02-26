@@ -217,10 +217,10 @@ public class RegularLevel extends Level {
 				} else if (this.isWater(x, y)) {
 					int count = 0;
 
-					if (this.isWater(x, y + 1)) { count += 1; }
-					if (this.isWater(x + 1, y)) { count += 2; }
-					if (this.isWater(x, y - 1)) { count += 4; }
-					if (this.isWater(x - 1, y)) { count += 8; }
+					if (this.isWaterOrFall(x, y + 1)) { count += 1; }
+					if (this.isWaterOrFall(x + 1, y)) { count += 2; }
+					if (this.isWaterOrFall(x, y - 1)) { count += 4; }
+					if (this.isWaterOrFall(x - 1, y)) { count += 8; }
 
 					this.set(x, y, (short) (WALLS[count] + 352));
 				} else {
@@ -239,7 +239,7 @@ public class RegularLevel extends Level {
 						)));
 					} else if (tile == Terrain.EMPTY) {
 						if (this.checkFor(x, y + 1, Terrain.PASSABLE))  {
-							this.set(x, y, Terrain.FALL);
+							this.set(x, y, this.isWater(x, y + 1) ? Terrain.WATER_FALL : Terrain.FALL);
 						}
 					}
 				}
@@ -403,14 +403,6 @@ public class RegularLevel extends Level {
 		}
 	}
 
-	public boolean checkFor(int i, int flag) {
-		return (Terrain.flags[this.get(i)] & flag) == flag;
-	}
-
-	public boolean checkFor(int x, int y, int flag) {
-		return (Terrain.flags[this.get(x, y)] & flag) == flag;
-	}
-
 	protected void assignRooms() {
 		int specialRooms = 0;
 
@@ -443,7 +435,8 @@ public class RegularLevel extends Level {
 					room.setType(Room.Type.REGULAR);
 					count++;
 				} else {
-					room.setType(Room.Type.TUNNEL);
+					// FIXME
+					room.setType(Room.Type.HOLE);
 				}
 			}
 		}

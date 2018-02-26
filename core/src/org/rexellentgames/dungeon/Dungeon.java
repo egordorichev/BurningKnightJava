@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Game;
+import org.rexellentgames.dungeon.game.GeneratorState;
 import org.rexellentgames.dungeon.game.InGameState;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;
@@ -50,11 +51,13 @@ public class Dungeon extends ApplicationAdapter {
 		Input.instance.bind("drop_item", "R");
 
 		Input.instance.bind("mouse0", "Mouse0");
+		Input.instance.bind("mouse0", "X");
 		Input.instance.bind("mouse1", "Mouse1");
+		Input.instance.bind("mouse1", "Z");
 		Input.instance.bind("scroll", "MouseWheel");
 
 		game = new Game();
-		game.setState(new InGameState());
+		game.setState(new GeneratorState());
 	}
 
 	@Override
