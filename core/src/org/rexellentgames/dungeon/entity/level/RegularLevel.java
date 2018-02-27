@@ -11,6 +11,8 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.PotionRegistry;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.features.Room;
@@ -151,6 +153,8 @@ public class RegularLevel extends Level {
 
 		Camera.instance.follow(player);
 		this.addSaveable(player);
+
+		PotionRegistry.generate();
 
 		return true;
 	}
@@ -623,6 +627,7 @@ public class RegularLevel extends Level {
 
 	@Override
 	protected void loadData(FileReader stream) throws Exception {
+		PotionRegistry.load(stream);
 		int count = stream.readInt32();
 
 		for (int i = 0; i < count; i++) {
@@ -645,6 +650,7 @@ public class RegularLevel extends Level {
 
 	@Override
 	protected void writeData(FileWriter stream) throws Exception {
+		PotionRegistry.save(stream);
 		stream.writeInt32(this.saveable.size());
 
 		for (int i = 0; i < this.saveable.size(); i++) {

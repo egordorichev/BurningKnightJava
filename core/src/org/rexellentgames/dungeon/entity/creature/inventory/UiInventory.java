@@ -112,8 +112,14 @@ public class UiInventory extends Entity {
 			Item item = this.inventory.getSlot(i);
 			float dt = Gdx.graphics.getDeltaTime();
 
+
 			if (item != null) {
 				item.update(dt);
+
+				if (item.getCount() == 0) {
+					this.inventory.setSlot(i, null);
+					item = null;
+				}
 			}
 
 			this.slots[i].render(item == null ? -1 : item.getSprite(), item == null ? 0 : item.getCount());

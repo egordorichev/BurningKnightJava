@@ -23,7 +23,7 @@ public class Creature extends SaveableEntity {
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
-	protected int damage = 1;
+	protected int damage = 2;
 	protected int defense = 1;
 	protected float invt = 0;
 
@@ -91,7 +91,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (amount < 0) {
-			amount -= this.defense;
+			amount += this.defense;
 
 			if (this.invt > 0) {
 				return;

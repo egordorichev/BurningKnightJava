@@ -10,23 +10,21 @@ import org.rexellentgames.dungeon.util.Log;
 public class BurningKnight extends Mob {
 	{
 		hpMax = 10000;
+		damage = 10;
+		w = 32;
+		h = 32;
+		alwaysActive = true;
 	}
 
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 32, 160, 162,
 		164, 166, 168, 170, 172, 174, 176, 178, 180, 182);
-
 	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 32, 184, 186);
 	private static Animation killed = new Animation(Graphics.sprites, 0.1f, 32, 188);
-
 	private PointLight light;
 
 	@Override
 	public void init() {
 		super.init();
-
-		this.w = 32;
-		this.h = 32;
-		this.alwaysActive = true;
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 

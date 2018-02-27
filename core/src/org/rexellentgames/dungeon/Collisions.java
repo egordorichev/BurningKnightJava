@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 
 public class Collisions implements ContactListener, ContactFilter {
 	@Override
@@ -29,7 +30,12 @@ public class Collisions implements ContactListener, ContactFilter {
 
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
+		Object a = contact.getFixtureA().getBody().getUserData();
+		Object b = contact.getFixtureB().getBody().getUserData();
 
+		if (a instanceof Creature && b instanceof Creature) {
+			contact.setEnabled(false);
+		}
 	}
 
 	@Override
@@ -39,9 +45,6 @@ public class Collisions implements ContactListener, ContactFilter {
 
 	@Override
 	public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-		Object a = fixtureA.getBody().getUserData();
-		Object b = fixtureB.getBody().getUserData();
-
-		return !(a instanceof Creature && b instanceof Creature);
+		return true;
 	}
 }
