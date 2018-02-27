@@ -52,11 +52,6 @@ public class Creature extends SaveableEntity {
 	}
 
 	@Override
-	public void render() {
-		Graphics.batch.setColor(1, 1, 1, this.a);
-	}
-
-	@Override
 	public void update(float dt) {
 		super.update(dt);
 

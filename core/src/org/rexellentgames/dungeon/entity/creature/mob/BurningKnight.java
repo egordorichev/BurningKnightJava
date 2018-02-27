@@ -89,7 +89,7 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void render() {
-		super.render();
+		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		Animation animation;
 

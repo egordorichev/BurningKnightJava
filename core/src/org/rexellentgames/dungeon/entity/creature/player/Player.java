@@ -106,7 +106,7 @@ public class Player extends Creature {
 
 	@Override
 	public void render() {
-		super.render();
+		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		Animation animation;
 

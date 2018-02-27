@@ -10,6 +10,8 @@ public class Weapon extends Item {
 	protected Body body;
 	protected int damage = 1;
 	protected float knockback = 10f;
+	protected boolean penetrates = false;
+	private boolean used = false;
 
 	@Override
 	public void use() {
@@ -59,15 +61,22 @@ public class Weapon extends Item {
 	public void endUse() {
 		this.body.getWorld().destroyBody(this.body);
 		this.body = null;
+		this.used = false;
 	}
 
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature && entity != this.owner) {
+			if (this.used && !this.penetrates) {
+				return;
+			}
+
+			this.used = true;
+
 			Creature creature = (Creature) entity;
 
 			if (creature.isDead()) {
-
+				return;
 			}
 
 			creature.modifyHp(-this.damage);
