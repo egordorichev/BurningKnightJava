@@ -17,11 +17,11 @@ public class HpFx extends Entity {
 	private float a = 1f;
 
 	public HpFx(Creature creature, int change) {
-		this.text = String.valueOf(change);
+		this.text = String.valueOf(Math.abs(change));
 
-		GlyphLayout layout = new GlyphLayout(Graphics.small, this.text);
+		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
 
-		this.x = creature.x + creature.w / 2 - layout.width / 2 - 6 + Random.newInt(3);
+		this.x = creature.x + creature.w / 2 - layout.width / 2;
 		this.y = creature.y + creature.h - 4;
 		this.low = change < 0;
 		this.depth = 10;
@@ -63,8 +63,8 @@ public class HpFx extends Entity {
 	public void render() {
 		Color color = this.low ? bad : good;
 
-		Graphics.small.setColor(color.r, color.g, color.b, this.a);
-		Graphics.small.draw(Graphics.batch, this.text, this.x, this.y);
-		Graphics.small.setColor(1, 1, 1, 1);
+		Graphics.medium.setColor(color.r, color.g, color.b, this.a);
+		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y);
+		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }

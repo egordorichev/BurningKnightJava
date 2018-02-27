@@ -15,6 +15,7 @@ public class Graphics {
 	public static Texture items;
 	public static Texture buffs;
 	public static Texture ui;
+	public static Texture effects;
 	public static BitmapFont small;
 	public static BitmapFont medium;
 
@@ -24,12 +25,14 @@ public class Graphics {
 		items = new Texture("sprites/items.png");
 		buffs = new Texture("sprites/buffs.png");
 		ui = new Texture("sprites/ui.png");
+		effects = new Texture("sprites/effects.png");
 
 		tiles.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		sprites.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		items.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		buffs.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		ui.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		effects.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		small = generateFont("fonts/pico.ttf", 4);
 		medium = generateFont("fonts/large.ttf", 16);

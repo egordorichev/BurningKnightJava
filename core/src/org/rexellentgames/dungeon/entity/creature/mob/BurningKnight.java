@@ -13,6 +13,7 @@ public class BurningKnight extends Mob {
 		damage = 10;
 		w = 32;
 		h = 32;
+		depth = 6;
 		alwaysActive = true;
 	}
 
