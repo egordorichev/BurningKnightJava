@@ -5,15 +5,25 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Log;
 
 public class BurningKnight extends Mob {
+	{
+		hpMax = 10000;
+	}
+
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 32, 160, 162,
 		164, 166, 168, 170, 172, 174, 176, 178, 180, 182);
+
+	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 32, 184, 186);
+	private static Animation killed = new Animation(Graphics.sprites, 0.1f, 32, 188);
 
 	private PointLight light;
 
 	@Override
 	public void init() {
+		super.init();
+
 		this.w = 32;
 		this.h = 32;
 		this.alwaysActive = true;
@@ -24,11 +34,6 @@ public class BurningKnight extends Mob {
 			300, 300, 300);
 
 		this.light.setXray(true);
-		this.assignTarget();
-
-		if (this.target != null) {
-			this.body.setTransform(this.target.x, this.target.y, 0);
-		}
 	}
 
 	@Override
@@ -36,6 +41,24 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		this.vel.mul(0.8f);
+
+		if (this.light != null) {
+			this.light.setPosition(this.x + 16, this.y + 16);
+		}
+
+		if (this.target == null) {
+			this.assignTarget();
+		}
+
+		if (this.dead) {
+			super.common();
+			return;
+		}
+
+		if (this.invt > 0) {
+			this.common();
+			return;
+		}
 
 		if (this.target != null) {
 			float dx = this.target.x - this.x - 8;
@@ -50,12 +73,34 @@ public class BurningKnight extends Mob {
 			}
 		}
 
-		this.light.setPosition(this.x + 16, this.y + 16);
 		super.common();
 	}
 
 	@Override
+	protected void die() {
+		super.die();
+		this.light.remove(true);
+	}
+
+	@Override
+	protected void onHurt() {
+		this.vel.mul(0f);
+	}
+
+	@Override
 	public void render() {
-		idle.render(this.x, this.y, this.t, this.flipped);
+		super.render();
+
+		Animation animation;
+
+		if (this.dead) {
+			animation = killed;
+		} else if (this.invt > 0) {
+			animation = hurt;
+		} else {
+			animation = idle;
+		}
+
+		animation.render(this.x, this.y, this.t, this.flipped);
 	}
 }

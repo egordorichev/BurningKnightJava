@@ -12,6 +12,11 @@ public class Gold extends Item {
 	}
 
 	@Override
+	public void render(float x, float y, boolean flipped) {
+
+	}
+
+	@Override
 	public Item randomize() {
 		this.count = Random.newInt(20, 40);
 

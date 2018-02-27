@@ -55,11 +55,9 @@ public class InGameState extends State {
 		}).run();
 		((RegularLevel) this.level).loadPassable();
 
-		this.area.add(new BurningKnight());
-
 		this.inventory = new UiInventory(Player.instance.getInventory());
 		this.area.add(this.inventory);
-		}
+	}
 
 	@Override
 	public void destroy() {

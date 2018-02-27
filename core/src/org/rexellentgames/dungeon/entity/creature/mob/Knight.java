@@ -20,27 +20,29 @@ public class Knight extends Mob {
 	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 232, 233, 234, 235,
 		236, 237, 238, 239);
 
+	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 16, 240, 241);
+	private static Animation killed = new Animation(Graphics.sprites, 1f, 16, 242);
+
 	private Point point;
 
 	@Override
 	public void init() {
 		super.init();
 
-		this.speed = 32;
+		this.speed = 10;
 		this.body = this.createBody(1, 2, 12, 14, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
-	}
-
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.vel.mul(0f);
+		this.vel.mul(0.8f);
+
+		if (this.dead) {
+			super.common();
+			return;
+		}
 
 		if (this.target != null) {
 			float dx = this.target.x - this.x;
@@ -65,8 +67,8 @@ public class Knight extends Mob {
 
 						this.point = this.getCloser(this.target);
 					} else {
-						this.vel.x = dx / d * this.speed;
-						this.vel.y = dy / d * this.speed;
+						this.vel.x += dx / d * this.speed;
+						this.vel.y += dy / d * this.speed;
 					}
 				} else {
 					this.point = this.getCloser(this.target);
@@ -93,10 +95,15 @@ public class Knight extends Mob {
 
 	@Override
 	public void render() {
+		super.render();
+
 		Animation animation;
 
-		// todo: hurt anim
-		if (this.state.equals("run")) {
+		if (this.dead) {
+			animation = killed;
+		} else if (this.invt > 0) {
+			animation = hurt;
+		} else if (this.state.equals("run")) {
 			animation = run;
 		} else {
 			animation = idle;

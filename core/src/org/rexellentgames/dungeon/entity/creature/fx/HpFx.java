@@ -21,7 +21,7 @@ public class HpFx extends Entity {
 
 		GlyphLayout layout = new GlyphLayout(Graphics.small, this.text);
 
-		this.x = creature.x + creature.w - layout.width / 2 - 6 + Random.newInt(3);
+		this.x = creature.x + creature.w / 2 - layout.width / 2 - 6 + Random.newInt(3);
 		this.y = creature.y + creature.h - 4;
 		this.low = change < 0;
 		this.depth = 10;
