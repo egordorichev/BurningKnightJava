@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.game;
 
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Random;

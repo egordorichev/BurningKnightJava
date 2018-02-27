@@ -65,6 +65,6 @@ public class HpFx extends Entity {
 
 		Graphics.small.setColor(color.r, color.g, color.b, this.a);
 		Graphics.small.draw(Graphics.batch, this.text, this.x, this.y);
-		Graphics.small.setColor(1, 1, 1, this.a);
+		Graphics.small.setColor(1, 1, 1, 1);
 	}
 }
