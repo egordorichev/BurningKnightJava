@@ -7,13 +7,14 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -22,21 +23,20 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import java.io.IOException;
 
 public class Player extends Creature {
-	{
-		hpMax = 2000;
-		speed = 10;
-	}
-
+	public static Player instance;
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
 	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 16, 16, 17);
 	private static Animation killed = new Animation(Graphics.sprites, 1f, 16, 18);
-
-	public static Player instance;
 	private PointLight light;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private UiInventory ui;
+
+	{
+		hpMax = 2000;
+		speed = 10;
+	}
 
 	public void setUi(UiInventory ui) {
 		this.ui = ui;
@@ -60,6 +60,8 @@ public class Player extends Creature {
 			this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 0.9f),
 				32, 300, 300);
 		}
+
+		this.addBuff(new BurningBuff());
 	}
 
 	@Override
@@ -136,6 +138,7 @@ public class Player extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
+		this.renderBuffs();
 	}
 
 	@Override
@@ -184,6 +187,10 @@ public class Player extends Creature {
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
 			if (this.inventory.add(item)) {
+				if (item.getItem().hasAutoPickup()) {
+					this.area.add(new ItemPickedFx(item));
+				}
+
 				return true;
 			}
 		}

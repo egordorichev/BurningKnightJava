@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -86,33 +87,47 @@ public class InGameState extends State {
 		this.area.update(dt);
 	}
 
-	@Override
-	public void render() {
+	private void renderGame() {
 		this.area.render();
-
 		Viewport viewport = Camera.instance.getViewport();
-
-		this.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(),
-			viewport.getScreenWidth(), viewport.getScreenHeight());
-
+		this.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 		this.light.setCombinedMatrix(Camera.instance.getCamera());
 
 		Graphics.batch.end();
-		this.light.updateAndRender();
+		// this.light.updateAndRender();
 		Graphics.batch.begin();
 
 		// this.debug.render(this.world, Camera.instance.getCamera().combined);
+	}
 
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
+	private void renderUi() {
 		// Inventory
 		this.inventory.renderUi();
 
 		// Top ui
-		int sz = (int) (57 * ((float) (Player.instance.getHp()) / (float) (Player.instance.getHpMax())));
+		int sz = (int) Math.ceil(57 * ((float) (Player.instance.getHp()) / (float) (Player.instance.getHpMax())));
 		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 6, 2);
 		Graphics.batch.draw(Graphics.ui, 27, Display.GAME_HEIGHT - 15, sz, 8, 112,
 			0, sz, 8, false, false);
+
+		for (int i = 0; i < Player.instance.getBuffs().size(); i++) {
+			Buff buff = Player.instance.getBuffs().get(i);
+
+			int sprite = buff.getSprite();
+			int xx = sprite % 32 * 8;
+			int yy = (int) (Math.floor(sprite % 32) * 8);
+
+			Graphics.batch.draw(Graphics.buffs, 6 + i * 9, Display.GAME_HEIGHT - 44, 8, 8, xx, yy, 8, 8, false, false);
+		}
+	}
+
+	@Override
+	public void render() {
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+
+		this.renderGame();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		this.renderUi();
 
 		// Cursor
 		float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
