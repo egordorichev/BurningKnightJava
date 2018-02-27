@@ -41,6 +41,10 @@ public class Mob extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (this.dead) {
+			return;
+		}
+
 		for (Player player : this.colliding) {
 			player.modifyHp(-this.damage);
 		}

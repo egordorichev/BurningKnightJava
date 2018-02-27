@@ -1,11 +1,9 @@
 package org.rexellentgames.dungeon.entity.creature;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
@@ -18,17 +16,13 @@ import java.util.ArrayList;
 
 public class Creature extends SaveableEntity {
 	public static final float INV_TIME = 0.4f;
-
-	// Stats
+	public Point vel = new Point();
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
 	protected int damage = 2;
 	protected int defense = 1;
 	protected float invt = 0;
-
-	public Point vel = new Point();
-
 	protected boolean dead;
 	protected Body body;
 	protected String state = "idle";
@@ -61,6 +55,10 @@ public class Creature extends SaveableEntity {
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
+		}
+
+		for (int i = this.buffs.size() - 1; i >= 0; i--) {
+			this.buffs.get(i).update(dt);
 		}
 	}
 
@@ -137,6 +135,11 @@ public class Creature extends SaveableEntity {
 			public float function(float p) {
 				return p;
 			}
+
+			@Override
+			public void onEnd() {
+				done = true;
+			}
 		});
 
 		this.dead = true;
@@ -146,16 +149,22 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	protected void renderBuffs() {
+		for (Buff buff : this.buffs) {
+			buff.render(this);
+		}
+	}
+
 	public int getHp() {
 		return this.hp;
 	}
 
-	public void setHpMax(int hpMax) {
-		this.hpMax = hpMax;
-	}
-
 	public int getHpMax() {
 		return this.hpMax;
+	}
+
+	public void setHpMax(int hpMax) {
+		this.hpMax = hpMax;
 	}
 
 	@Override
@@ -187,10 +196,19 @@ public class Creature extends SaveableEntity {
 	public void addBuff(Buff buff) {
 		if (this.canHaveBuff(buff)) {
 			this.buffs.add(buff);
+			buff.setOwner(this);
 		}
+	}
+
+	public void removeBuff(Buff buff) {
+		this.buffs.remove(buff);
 	}
 
 	public boolean isFlipped() {
 		return this.flipped;
+	}
+
+	public ArrayList<Buff> getBuffs() {
+		return this.buffs;
 	}
 }
