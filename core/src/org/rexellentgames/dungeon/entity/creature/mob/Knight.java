@@ -93,10 +93,15 @@ public class Knight extends Mob {
 
 	@Override
 	public void render() {
+		Animation animation;
+
+		// todo: hurt anim
 		if (this.state.equals("run")) {
-			run.render(this.x, this.y, this.t, this.flipped);
+			animation = run;
 		} else {
-			idle.render(this.x, this.y, this.t, this.flipped);
+			animation = idle;
 		}
+
+		animation.render(this.x, this.y, this.t, this.flipped);
 	}
 }

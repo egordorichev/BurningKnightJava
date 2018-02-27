@@ -8,6 +8,7 @@ public class Sword extends Weapon {
 	{
 		name = "Sword";
 		sprite = 0;
+		damage = 3;
 	}
 
 	protected float added;
@@ -48,6 +49,11 @@ public class Sword extends Weapon {
 					@Override
 					public void setValue(float value) {
 						added = value;
+					}
+
+					@Override
+					public void onEnd() {
+						endUse();
 					}
 				});
 			}

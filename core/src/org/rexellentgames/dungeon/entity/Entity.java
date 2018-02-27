@@ -67,6 +67,10 @@ public class Entity extends Point {
 		return body;
 	}
 
+	public Area getArea() {
+		return this.area;
+	}
+
 	public void onCollision(Entity entity) {
 
 	}
