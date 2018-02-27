@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -16,6 +17,11 @@ public class Item extends Entity {
 	protected boolean useable = true;
 	protected float delay = 0;
 	protected float useTime = 0.5f;
+	protected Creature owner;
+
+	public void setOwner(Creature owner) {
+		this.owner = owner;
+	}
 
 	public void render(float x, float y, boolean flipped) {
 		Graphics.render(Graphics.items, this.sprite, x, y);

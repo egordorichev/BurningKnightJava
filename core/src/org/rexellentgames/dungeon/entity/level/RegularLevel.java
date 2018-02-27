@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -343,6 +344,11 @@ public class RegularLevel extends Level {
 			this.area.add(mob);
 			this.addSaveable(mob);
 		}
+
+		BurningKnight knight = new BurningKnight();
+
+		this.addSaveable(knight);
+		this.area.add(knight);
 	}
 
 	protected Mob getRandomMob() {

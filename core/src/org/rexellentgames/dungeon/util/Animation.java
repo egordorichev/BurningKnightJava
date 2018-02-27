@@ -28,5 +28,6 @@ public class Animation {
 		TextureRegion frame = this.frames.get(id);
 
 		Graphics.batch.draw(frame, flip ? x + this.size : x, y, 0, 0, this.size, this.size, flip ? -1 : 1, 1, 0);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }

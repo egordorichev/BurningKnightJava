@@ -15,8 +15,6 @@ public class Sword extends Weapon {
 
 	@Override
 	public void render(float x, float y, boolean flipped) {
-		//(float) Math.toDegrees(Math.atan2(y - Input.instance.worldMouse.y,
-		//	x - Input.instance.worldMouse.x))
 		float angle = (flipped ? this.added : -this.added);
 
 		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -3 : 3), y, 1, 1, angle, 8, 3, false,

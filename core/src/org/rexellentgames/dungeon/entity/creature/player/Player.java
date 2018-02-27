@@ -64,6 +64,11 @@ public class Player extends Creature {
 
 		this.vel.mul(0.8f);
 
+		if (this.dead) {
+			super.common();
+			return;
+		}
+
 		if (Input.instance.isDown("left")) {
 			this.vel.x -= this.speed;
 		}
@@ -101,6 +106,8 @@ public class Player extends Creature {
 
 	@Override
 	public void render() {
+		super.render();
+
 		Animation animation;
 
 		if (this.invt > 0) {
@@ -128,7 +135,6 @@ public class Player extends Creature {
 		super.load(reader);
 		this.inventory.load(reader);
 
-		this.body.setTransform(this.x, this.y, 0);
 		Camera.instance.follow(this);
 	}
 

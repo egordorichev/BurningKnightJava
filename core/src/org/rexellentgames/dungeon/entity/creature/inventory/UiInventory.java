@@ -124,12 +124,14 @@ public class UiInventory extends Entity {
 				Item slot = this.inventory.getSlot(this.active);
 
 				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
+					slot.setOwner(Player.instance);
 					slot.use();
 				}
 			} else if (Input.instance.wasPressed("mouse1")) {
 				Item slot = this.inventory.getSlot(this.active);
 
 				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
+					slot.setOwner(Player.instance);
 					slot.secondUse();
 				}
 			}
