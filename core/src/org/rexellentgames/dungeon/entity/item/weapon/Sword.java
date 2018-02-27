@@ -17,7 +17,7 @@ public class Sword extends Weapon {
 	public void render(float x, float y, boolean flipped) {
 		float angle = (flipped ? this.added : -this.added);
 
-		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -3 : 3), y, 1, 1, angle, 8, 3, false,
+		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -3 : 3), y + 3, 1, 1, angle, 8, 0, false,
 			false);
 	}
 
