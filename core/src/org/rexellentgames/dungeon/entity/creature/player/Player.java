@@ -10,14 +10,12 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
-import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 
@@ -30,6 +28,7 @@ public class Player extends Creature {
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
 	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 16, 16, 17);
+	private static Animation killed = new Animation(Graphics.sprites, 1f, 16, 18);
 
 	public static Player instance;
 	private PointLight light;
@@ -46,6 +45,9 @@ public class Player extends Creature {
 		super.init();
 
 		instance = this;
+
+		this.w = 16;
+		this.h = 16;
 
 		this.alwaysActive = true;
 		this.inventory = new Inventory(this, 24);
@@ -110,7 +112,9 @@ public class Player extends Creature {
 
 		Animation animation;
 
-		if (this.invt > 0) {
+		if (this.dead) {
+			animation = killed;
+		} else if (this.invt > 0) {
 			animation = hurt;
 		} else if (this.state.equals("run")) {
 			animation = run;
@@ -119,10 +123,13 @@ public class Player extends Creature {
 		}
 
 		animation.render(this.x, this.y, this.t, this.flipped);
+		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {
 			this.ui.renderOnPlayer(this);
 		}
+		
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	@Override

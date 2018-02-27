@@ -105,10 +105,16 @@ public class InGameState extends State {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
+		// Inventory
 		this.inventory.renderUi();
 
+		// Top ui
+		int sz = (int) (57 * ((float) (Player.instance.getHp()) / (float) (Player.instance.getHpMax())));
 		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 6, 2);
+		Graphics.batch.draw(Graphics.ui, 27, Display.GAME_HEIGHT - 15, sz, 8, 112,
+			0, sz, 8, false, false);
 
+		// Cursor
 		float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
 
 		Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8, 1, 1,

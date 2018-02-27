@@ -1,15 +1,19 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
+import java.util.ArrayList;
+
 public class Mob extends Creature {
 	protected Creature target;
+	protected float knockback = 32f;
+	protected ArrayList<Player> colliding = new ArrayList<Player>();
 
 	protected void assignTarget() {
 		this.target = (Creature) this.area.getRandomEntity(Player.class);
@@ -31,5 +35,40 @@ public class Mob extends Creature {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		for (Player player : this.colliding) {
+			player.modifyHp(-this.damage);
+		}
+	}
+
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+
+			if (player.isDead()) {
+				return;
+			}
+
+			this.colliding.add(player);
+		}
+	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+
+			if (player.isDead()) {
+				return;
+			}
+
+			this.colliding.remove(player);
+		}
 	}
 }
