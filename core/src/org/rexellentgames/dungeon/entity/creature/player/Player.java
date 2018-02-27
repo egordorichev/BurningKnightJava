@@ -9,7 +9,9 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
+import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
+import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -21,7 +23,7 @@ import java.io.IOException;
 
 public class Player extends Creature {
 	{
-		hpMax = 20;
+		hpMax = 2000;
 		speed = 10;
 	}
 
@@ -96,6 +98,10 @@ public class Player extends Creature {
 
 		if (v > 9.9) {
 			this.become("run");
+
+			if (this.t % 0.2 <= 0.017) {
+				this.area.add(new RunFx(this.x, this.y - 8));
+			}
 		} else {
 			this.become("idle");
 
@@ -128,7 +134,7 @@ public class Player extends Creature {
 		if (this.ui != null) {
 			this.ui.renderOnPlayer(this);
 		}
-		
+
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
@@ -177,7 +183,9 @@ public class Player extends Creature {
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
-			return this.inventory.add(item);
+			if (this.inventory.add(item)) {
+				return true;
+			}
 		}
 
 		return false;

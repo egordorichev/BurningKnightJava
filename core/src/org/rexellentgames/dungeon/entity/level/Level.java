@@ -37,6 +37,7 @@ public class Level extends Entity {
 	protected Vector2 spawn;
 	protected short[] data;
 	protected boolean[] passable;
+	protected boolean[] low;
 
 	public boolean[] getPassable() {
 		return passable;
@@ -47,6 +48,36 @@ public class Level extends Entity {
 		this.alwaysActive = true;
 		this.data = new short[SIZE];
 		this.depth = -10;
+
+		SolidLevel l = new SolidLevel();
+		l.setLevel(this);
+
+		this.area.add(l);
+	}
+
+	public void renderSolid() {
+		OrthographicCamera camera = Camera.instance.getCamera();
+
+		float cx = camera.position.x - Display.GAME_WIDTH / 2;
+		float cy = camera.position.y - Display.GAME_HEIGHT / 2;
+
+		int sx = (int) (Math.floor(cx / 16) - 1);
+		int sy = (int) (Math.floor(cy / 16) - 1);
+
+		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
+				if (!this.low[x + y * WIDTH]) {
+					short tile = this.get(x, y);
+
+					if (tile > -1) {
+						Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -85,10 +116,12 @@ public class Level extends Entity {
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
-				short tile = this.get(x, y);
+				if (this.low[x + y * WIDTH]) {
+					short tile = this.get(x, y);
 
-				if (tile > -1) {
-					Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
+					if (tile > -1) {
+						Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
+					}
 				}
 			}
 		}

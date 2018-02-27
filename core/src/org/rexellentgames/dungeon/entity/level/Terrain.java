@@ -17,13 +17,13 @@ public class Terrain {
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
-	public static int SECRET = 0x4;
-	public static int HOLE = 0x8;
+	public static int HOLE = 0x4;
+	public static int LOW = 0x8;
 
 	static {
-		flags[EMPTY] = HOLE;
-		flags[FALL] = HOLE;
-		flags[WATER_FALL] = HOLE;
+		flags[EMPTY] = HOLE | LOW;
+		flags[FALL] = HOLE | LOW;
+		flags[WATER_FALL] = HOLE | LOW;
 		flags[GRASS] = PASSABLE;
 		flags[WALL] = SOLID;
 		flags[DOOR] = PASSABLE;
@@ -46,6 +46,12 @@ public class Terrain {
 		for (int x = 0; x < 4; x++) {
 			for (int y = 0; y < 11; y++) {
 				flags[x + y * 32] = SOLID;
+			}
+		}
+
+		for (int y = 2; y < 4; y++) {
+			for (int x = 0; x < 4; x++) {
+				flags[x + y * 32] = SOLID | LOW;
 			}
 		}
 	}

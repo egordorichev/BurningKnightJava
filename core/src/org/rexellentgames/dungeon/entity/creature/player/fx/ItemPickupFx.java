@@ -24,18 +24,6 @@ public class ItemPickupFx extends Entity {
 
 		this.x = item.x + 8 - layout.width / 2;
 		this.y = item.y + 16;
-
-		Tween.to(new Tween.Task(item.y + 32, 0.3f) {
-			@Override
-			public void setValue(float value) {
-				y = value;
-			}
-
-			@Override
-			public float getValue() {
-				return y;
-			}
-		});
 	}
 
 	@Override
@@ -45,6 +33,7 @@ public class ItemPickupFx extends Entity {
 		if (Input.instance.wasPressed("pickup")) {
 			if (this.player.tryToPickup(this.item)) {
 				this.done = true;
+				this.area.add(new ItemPickedFx(this.text, this));
 			}
 		}
 	}

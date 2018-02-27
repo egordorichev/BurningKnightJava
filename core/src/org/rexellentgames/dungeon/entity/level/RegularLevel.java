@@ -151,6 +151,10 @@ public class RegularLevel extends Level {
 		Player player = (Player) this.area.add(new Player());
 		player.getBody().setTransform(this.spawn.x * 16, this.spawn.y * 16, 0);
 
+		ItemHolder sword = new ItemHolder();
+		sword.setItem(new Sword());
+		player.getInventory().add(sword);
+
 		Camera.instance.follow(player);
 		this.addSaveable(player);
 
@@ -161,9 +165,11 @@ public class RegularLevel extends Level {
 
 	public void loadPassable() {
 		this.passable = new boolean[SIZE];
+		this.low = new boolean[SIZE];
 
 		for (int i = 0; i < SIZE; i++) {
 			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
+			this.low[i] = this.passable[i] || this.checkFor(i, Terrain.LOW);
 		}
 	}
 
