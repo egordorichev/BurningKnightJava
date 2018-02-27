@@ -29,6 +29,7 @@ public class Player extends Creature {
 
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
 	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
+	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 16, 16, 17);
 
 	public static Player instance;
 	private PointLight light;
@@ -95,13 +96,6 @@ public class Player extends Creature {
 			this.vel.y = 0;
 		}
 
-		if (Input.instance.wasPressed("mouse0")) {
-			this.modifyHp(-1);
-		}
-		if (Input.instance.wasPressed("mouse1")) {
-			this.modifyHp(1);
-		}
-
 		super.common();
 	}
 
@@ -109,7 +103,9 @@ public class Player extends Creature {
 	public void render() {
 		Animation animation;
 
-		if (this.state.equals("run")) {
+		if (this.invt > 0) {
+			animation = hurt;
+		} else if (this.state.equals("run")) {
 			animation = run;
 		} else {
 			animation = idle;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -14,12 +15,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Creature extends SaveableEntity {
+	public static final float INV_TIME = 0.25f;
+
 	// Stats
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
-	protected float damage = 1;
-	protected float defense = 1;
+	protected int damage = 1;
+	protected int defense = 1;
+	protected float invt = 0;
 
 	protected boolean dead;
 	protected Body body;
@@ -42,6 +46,7 @@ public class Creature extends SaveableEntity {
 		super.update(dt);
 
 		this.t += dt;
+		this.invt = Math.max(0, this.invt - dt);
 
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
@@ -73,6 +78,16 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
+		if (amount < 0) {
+			amount -= this.defense;
+
+			if (this.invt > 0) {
+				return;
+			}
+
+			this.invt = INV_TIME;
+		}
+
 		this.area.add(new HpFx(this, amount));
 		this.hp = MathUtils.clamp(0, this.hpMax, this.hp + amount);
 
@@ -83,6 +98,7 @@ public class Creature extends SaveableEntity {
 
 	protected void die() {
 		this.dead = true;
+		this.done = true;
 	}
 
 	public int getHp() {

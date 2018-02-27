@@ -1,12 +1,13 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
-public class Item {
+public class Item extends Entity {
 	protected short sprite = 0;
 	protected String name = "Missing Item Name";
 	protected boolean stackable = false;
@@ -20,6 +21,7 @@ public class Item {
 		Graphics.render(Graphics.items, this.sprite, x, y);
 	}
 
+	@Override
 	public void update(float dt) {
 		this.delay = Math.max(0, this.delay - dt);
 	}
@@ -30,6 +32,10 @@ public class Item {
 
 	public void secondUse() {
 		this.delay = this.useTime;
+	}
+
+	public void endUse() {
+
 	}
 
 	public float getDelay() {
