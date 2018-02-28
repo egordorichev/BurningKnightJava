@@ -32,8 +32,8 @@ import java.util.Arrays;
 public class RegularLevel extends Level {
 	public static RegularLevel instance;
 
-	private static final int MIN_ROOM_SIZE = 14;
-	private static final int MAX_ROOM_SIZE = 18;
+	private static final int MIN_ROOM_SIZE = 13;
+	private static final int MAX_ROOM_SIZE = 11;
 
 	private static final short[] WALLS = new short[] { 99, 67, 96, 64, 3, 35, 0, 32, 98, 66, 97, 65, 2, 34, 1, 33 };
 	private static final short[] CORNERS = new short[] { 33, 128, 129, 130, 131, 160, 161, 162, 163, 192, 193, 194, 195,
