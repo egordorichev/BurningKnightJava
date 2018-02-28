@@ -20,8 +20,8 @@ public class Level extends Entity {
 	public static final byte VERSION = 0;
 	private static final String SAVE_PATH = ".ldg/save.dat";
 
-	public static final int WIDTH = 64;
-	public static final int HEIGHT = 64;
+	public static final int WIDTH = 36;
+	public static final int HEIGHT = 36;
 	public static final int SIZE = WIDTH * HEIGHT;
 
 	public static final int[] NEIGHBOURS4 = {-WIDTH, +1, +WIDTH, -1};
