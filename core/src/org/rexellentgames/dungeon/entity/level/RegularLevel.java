@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.PotionRegistry;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
@@ -159,6 +160,10 @@ public class RegularLevel extends Level {
 		this.addSaveable(player);
 
 		PotionRegistry.generate();
+
+		Item item = new HealingPotion();
+		item.setCount(999);
+		Player.instance.getInventory().setSlot(2, item);
 
 		return true;
 	}

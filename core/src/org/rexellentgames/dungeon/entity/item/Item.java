@@ -17,6 +17,8 @@ public class Item extends Entity {
 	protected boolean useable = true;
 	protected float delay = 0;
 	protected float useTime = 0.5f;
+	protected boolean identified;
+	protected boolean cursed;
 	protected Creature owner;
 
 	public void setOwner(Creature owner) {
@@ -86,5 +88,17 @@ public class Item extends Entity {
 
 	public boolean hasAutoPickup() {
 		return this.autoPickup;
+	}
+
+	public boolean isCursed() {
+		return this.cursed;
+	}
+
+	public boolean isIdentified() {
+		return this.identified;
+	}
+
+	public void identify() {
+		this.identified = true;
 	}
 }

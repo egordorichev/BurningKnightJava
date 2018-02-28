@@ -11,6 +11,7 @@ import java.util.*;
 
 public class PotionRegistry {
 	public static HashMap<String, Type> types = new HashMap<String, Type>();
+	public static HashMap<Type, Boolean> identified = new HashMap<Type, Boolean>();
 
 	public enum Type {
 		RED(32),
@@ -36,6 +37,7 @@ public class PotionRegistry {
 				Type type = Type.valueOf(reader.readString());
 
 				types.put(name, type);
+				identified.put(type, reader.readBoolean());
 			} catch (Exception e) {
 				Dungeon.reportException(e);
 			}
@@ -48,6 +50,7 @@ public class PotionRegistry {
 		for (Map.Entry<String, Type> entry : types.entrySet()) {
 			writer.writeString(entry.getKey());
 			writer.writeString(entry.getValue().toString());
+			writer.writeBoolean(identified.get(entry.getValue()));
 		}
 	}
 
@@ -59,6 +62,7 @@ public class PotionRegistry {
 		for (Type type : Type.values()) {
 			int i = Random.newInt(potions.size());
 			types.put(potions.get(i).getSimpleName(), type);
+			identified.put(type, false);
 			potions.remove(i);
 		}
 	}
