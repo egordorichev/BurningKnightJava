@@ -12,6 +12,7 @@ public class Terrain {
 	public static short WATER = 385;
 	public static short FALL = 102;
 	public static short WATER_FALL = 103;
+	public static short DECO = 40;
 
 	public static int[] flags = new int[512];
 
@@ -54,5 +55,7 @@ public class Terrain {
 				flags[x + y * 32] = SOLID | LOW;
 			}
 		}
+
+		flags[DECO] = SOLID | LOW;
 	}
 }

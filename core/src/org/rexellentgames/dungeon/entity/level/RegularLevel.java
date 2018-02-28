@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.PotionRegistry;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
+import org.rexellentgames.dungeon.entity.level.entities.Torch;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.features.Room;
 import org.rexellentgames.dungeon.entity.level.painter.Patch;
@@ -161,10 +162,6 @@ public class RegularLevel extends Level {
 
 		PotionRegistry.generate();
 
-		Item item = new HealingPotion();
-		item.setCount(999);
-		Player.instance.getInventory().setSlot(2, item);
-
 		return true;
 	}
 
@@ -234,6 +231,12 @@ public class RegularLevel extends Level {
 						tile = (this.isAWall(x + 1, y - 1) ? 0 : 227);
 					} else if (count == 12) {
 						tile = (this.isAWall(x - 1, y - 1) ? 2 : 259);
+					} else if (count == 11 && Random.newFloat() > 0.9) {
+						tile = Terrain.DECO;
+						Torch torch = new Torch(x * 16, y * 16);
+
+						this.area.add(torch);
+						this.addSaveable(torch);
 					} else {
 						tile = WALLS[count];
 					}

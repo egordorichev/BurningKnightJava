@@ -97,7 +97,7 @@ public class InGameState extends State {
 		this.light.setCombinedMatrix(Camera.instance.getCamera());
 
 		Graphics.batch.end();
-		// this.light.updateAndRender();
+		this.light.updateAndRender();
 		Graphics.batch.begin();
 
 		// this.debug.render(this.world, Camera.instance.getCamera().combined);
