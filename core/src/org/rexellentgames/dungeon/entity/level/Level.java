@@ -14,12 +14,12 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
-import org.rexellentgames.dungeon.util.path.Graph;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Level extends Entity {
 	public static final byte VERSION = 0;
-	private static final String SAVE_PATH = ".ldg/save.dat";
-
 	public static final int WIDTH = 36;
 	public static final int HEIGHT = 36;
 	public static final int SIZE = WIDTH * HEIGHT;
@@ -38,6 +38,11 @@ public class Level extends Entity {
 	protected short[] data;
 	protected boolean[] passable;
 	protected boolean[] low;
+	protected int level;
+
+	public static int toIndex(int x, int y) {
+		return x + y * WIDTH;
+	}
 
 	public boolean[] getPassable() {
 		return passable;
@@ -48,6 +53,7 @@ public class Level extends Entity {
 		this.alwaysActive = true;
 		this.data = new short[SIZE];
 		this.depth = -10;
+		this.level = Dungeon.depth;
 
 		SolidLevel l = new SolidLevel();
 		l.setLevel(this);
@@ -214,10 +220,6 @@ public class Level extends Entity {
 		return this.data[toIndex(x, y)];
 	}
 
-	public static int toIndex(int x, int y) {
-		return x + y * WIDTH;
-	}
-
 	public boolean generate() {
 		return false;
 	}
@@ -230,15 +232,43 @@ public class Level extends Entity {
 		}
 	}
 
-	public void load() {
-		FileHandle save = Gdx.files.external(SAVE_PATH);
-
-		if (!save.exists()) {
-			generateUntilGood();
-			return;
+	public String getSavePath(DataType type) {
+		if (type == DataType.LEVEL) {
+			return ".ldg/save" + this.level + ".dat";
 		}
 
-		Log.info("Loading...");
+		return ".ldg/player.dat";
+	}
+
+	protected void addPhysics() {
+
+	}
+
+	public void load(DataType type) {
+		FileHandle save = Gdx.files.external(this.getSavePath(type));
+
+		if (!save.exists()) {
+			Dungeon.loaded = false;
+
+			if (type == DataType.LEVEL) {
+				generateUntilGood();
+				return;
+			} else {
+				File file = save.file();
+				file.getParentFile().mkdirs();
+
+				try {
+					file.createNewFile();
+					return;
+				} catch (IOException e) {
+					Dungeon.reportException(e);
+				}
+			}
+		} else {
+			Dungeon.loaded = true;
+		}
+
+		Log.info("Loading... " + type.toString());
 
 		try {
 			FileReader stream = new FileReader(save.file().getAbsolutePath());
@@ -253,50 +283,56 @@ public class Level extends Entity {
 				return;
 			}
 
-			for (int i = 0; i < SIZE; i++) {
-				this.data[i] = stream.readInt16();
+			if (type == DataType.LEVEL) {
+				for (int i = 0; i < SIZE; i++) {
+					this.data[i] = stream.readInt16();
+				}
 			}
 
-			this.loadData(stream);
+			this.loadData(stream, type);
 
 			stream.close();
-			this.addPhysics();
 
+			if (type == Level.DataType.LEVEL) {
+				this.addPhysics();
+			}
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}
 	}
 
-	protected void addPhysics() {
-
-	}
-
-	public void save() {
-		FileHandle save = Gdx.files.external(SAVE_PATH);
-		Log.info("Saving...");
+	public void save(DataType type) {
+		FileHandle save = Gdx.files.external(this.getSavePath(type));
+		Log.info("Saving... " + type.toString());
 
 		try {
 			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
 
 			stream.writeByte(VERSION);
 
-			for (int i = 0; i < SIZE; i++) {
-				stream.writeInt16(this.data[i]);
+			if (type == Level.DataType.LEVEL) {
+				for (int i = 0; i < SIZE; i++) {
+					stream.writeInt16(this.data[i]);
+				}
 			}
 
-			this.writeData(stream);
-
+			this.writeData(stream, type);
 			stream.close();
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}
 	}
 
-	protected void writeData(FileWriter stream) throws Exception {
+	protected void writeData(FileWriter stream, DataType type) throws Exception {
 
 	}
 
-	protected void loadData(FileReader stream) throws Exception {
+	protected void loadData(FileReader stream, DataType type) throws Exception {
 
+	}
+
+	public enum DataType {
+		LEVEL,
+		PLAYER
 	}
 }

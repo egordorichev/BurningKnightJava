@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
@@ -143,10 +144,7 @@ public class Creature extends SaveableEntity {
 		});
 
 		this.dead = true;
-
-		if (this.level != null) {
-			this.level.removeSaveable(this);
-		}
+		Dungeon.level.removeSaveable(this);
 	}
 
 	protected void renderBuffs() {

@@ -2,9 +2,11 @@ package org.rexellentgames.dungeon.entity.level.entities;
 
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ public class Torch extends SaveableEntity {
 	public Torch(float x, float y) {
 		this.x = x;
 		this.y = y;
+		this.t = Random.newFloat(1024);
 	}
 
 	public Torch() {
@@ -24,7 +27,7 @@ public class Torch extends SaveableEntity {
 
 	@Override
 	public void init() {
-		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.7f, 0.5f, 0.9f),
+		this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.7f, 0.5f, 0.9f),
 			96, this.x + 8, this.y);
 	}
 

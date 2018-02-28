@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Scaling;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 
 public class Camera extends Entity {
 	public static Camera instance;
@@ -39,8 +41,8 @@ public class Camera extends Entity {
 	public void update(float dt) {
 		if (this.target != null) {
 			// this.camera.position.lerp(new Vector3(this.target.x + 8, this.target.y + 8, 0), dt * 1f);
-			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + this.target.x);
-			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y);
+			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + this.target.x + 8);
+			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y + 8);
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
 			this.camera.position.x = (float) (Math.floor(this.camera.position.x * 16) / 16);

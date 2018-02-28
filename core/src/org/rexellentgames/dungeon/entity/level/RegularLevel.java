@@ -24,6 +24,7 @@ import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 import org.rexellentgames.dungeon.util.path.Graph;
 
@@ -49,10 +50,12 @@ public class RegularLevel extends Level {
 	protected ArrayList<Room.Type> special;
 	private ArrayList<Item> toSpawn = new ArrayList<Item>();
 	private ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
+	private ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
 	private boolean[] busy;
 
 	protected Room entrance;
 	protected Room exit;
+	protected Body body;
 
 	public RegularLevel() {
 		instance = this;
@@ -150,15 +153,20 @@ public class RegularLevel extends Level {
 
 		this.tileUp();
 
-		Player player = (Player) this.area.add(new Player());
-		player.getBody().setTransform(this.spawn.x * 16, this.spawn.y * 16, 0);
+		if (this.level == 0) {
+			Player player = (Player) this.area.add(new Player());
+			player.x = this.spawn.x * 16;
+			player.y = this.spawn.y * 16;
+			player.getBody().setTransform(player.x, player.y, 0);
 
-		ItemHolder sword = new ItemHolder();
-		sword.setItem(new Dagger());
-		player.getInventory().add(sword);
+			ItemHolder sword = new ItemHolder();
+			sword.setItem(new Dagger());
+			player.getInventory().add(sword);
 
-		Camera.instance.follow(player);
-		this.addSaveable(player);
+			this.addPlayerSaveable(player);
+		}
+
+		Camera.instance.follow(Player.instance);
 
 		PotionRegistry.generate();
 
@@ -354,8 +362,11 @@ public class RegularLevel extends Level {
 	}
 
 	public void addSaveable(SaveableEntity thing) {
-		thing.setLevel(this);
 		this.saveable.add(thing);
+	}
+
+	public void addPlayerSaveable(SaveableEntity thing) {
+		this.playerSaveable.add(thing);
 	}
 
 	public void removeSaveable(SaveableEntity thing) {
@@ -363,7 +374,7 @@ public class RegularLevel extends Level {
 	}
 
 	protected int getNumberOfMobsToSpawn() {
-		return 5 + 3 * Dungeon.level % 5 + Random.newInt(10);
+		return 5 + 3 * this.level % 5 + Random.newInt(10);
 	}
 
 	private void spawnMobs() {
@@ -380,10 +391,12 @@ public class RegularLevel extends Level {
 			this.addSaveable(mob);
 		}
 
-		BurningKnight knight = new BurningKnight();
+		if (this.level == 0) {
+			BurningKnight knight = new BurningKnight();
 
-		this.addSaveable(knight);
-		this.area.add(knight);
+			this.addPlayerSaveable(knight);
+			this.area.add(knight);
+		}
 	}
 
 	protected Mob getRandomMob() {
@@ -393,12 +406,14 @@ public class RegularLevel extends Level {
 
 	@Override
 	protected void addPhysics() {
-		World world = this.area.getState().getWorld();
+		if (body != null) {
+			body.getWorld().destroyBody(body);
+		}
 
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.StaticBody;
 
-		Body body = world.createBody(def);
+		body = Dungeon.world.createBody(def);
 
 		ArrayList<Vector2> marked = new ArrayList<Vector2>();
 
@@ -451,6 +466,12 @@ public class RegularLevel extends Level {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body.getWorld().destroyBody(this.body);
 	}
 
 	protected void assignRooms() {
@@ -657,38 +678,72 @@ public class RegularLevel extends Level {
 	}
 
 	@Override
-	protected void loadData(FileReader stream) throws Exception {
-		PotionRegistry.load(stream);
-		int count = stream.readInt32();
+	protected void loadData(FileReader stream, DataType type) throws Exception {
+		if (type == DataType.PLAYER) {
+			PotionRegistry.load(stream);
 
-		for (int i = 0; i < count; i++) {
-			String type = stream.readString();
+			int count = stream.readInt32();
 
-			Class<?> clazz = Class.forName(type);
-			Constructor<?> constructor = clazz.getConstructor();
-			Object object = constructor.newInstance(new Object[] { });
+			for (int i = 0; i < count; i++) {
+				String t = stream.readString();
 
-			SaveableEntity entity = (SaveableEntity) object;
+				Class<?> clazz = Class.forName(t);
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
 
-			entity.setLevel(this);
+				SaveableEntity entity = (SaveableEntity) object;
 
-			this.area.add(entity);
-			this.saveable.add(entity);
+				this.area.add(entity);
+				this.playerSaveable.add(entity);
 
-			entity.load(stream);
+				entity.load(stream);
+			}
+		} else {
+			int count = stream.readInt32();
+
+			for (int i = 0; i < count; i++) {
+				String t = stream.readString();
+
+				Class<?> clazz = Class.forName(t);
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
+
+				SaveableEntity entity = (SaveableEntity) object;
+
+				this.area.add(entity);
+				this.saveable.add(entity);
+
+				entity.load(stream);
+			}
 		}
 	}
 
+	public ArrayList<SaveableEntity> getPlayerSaveable() {
+		return this.playerSaveable;
+	}
+
 	@Override
-	protected void writeData(FileWriter stream) throws Exception {
-		PotionRegistry.save(stream);
-		stream.writeInt32(this.saveable.size());
+	protected void writeData(FileWriter stream, DataType type) throws Exception {
+		if (type == DataType.PLAYER) {
+			PotionRegistry.save(stream);
 
-		for (int i = 0; i < this.saveable.size(); i++) {
-			SaveableEntity entity = this.saveable.get(i);
+			stream.writeInt32(this.playerSaveable.size());
 
-			stream.writeString(entity.getClass().getName());
-			entity.save(stream);
+			for (int i = 0; i < this.playerSaveable.size(); i++) {
+				SaveableEntity entity = this.playerSaveable.get(i);
+
+				stream.writeString(entity.getClass().getName());
+				entity.save(stream);
+			}
+		} else {
+			stream.writeInt32(this.saveable.size());
+
+			for (int i = 0; i < this.saveable.size(); i++) {
+				SaveableEntity entity = this.saveable.get(i);
+
+				stream.writeString(entity.getClass().getName());
+				entity.save(stream);
+			}
 		}
 	}
 }
