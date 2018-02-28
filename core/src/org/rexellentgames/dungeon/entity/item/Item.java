@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Item extends Entity {
 	protected short sprite = 0;
 	protected String name = "Missing Item Name";
+	protected String description = "";
 	protected boolean stackable = false;
 	protected int count = 1;
 	protected boolean autoPickup = false;
@@ -100,5 +101,9 @@ public class Item extends Entity {
 
 	public void identify() {
 		this.identified = true;
+	}
+
+	public String getDescription() {
+		return this.description;
 	}
 }

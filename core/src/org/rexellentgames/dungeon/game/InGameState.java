@@ -1,12 +1,9 @@
 package org.rexellentgames.dungeon.game;
 
 import box2dLight.RayHandler;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
@@ -15,13 +12,11 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
 	private static final float TIME_STEP = 1 / 45.f;
@@ -87,6 +82,7 @@ public class InGameState extends State {
 	public void update(float dt) {
 		Input.instance.updateMousePosition();
 		this.doPhysicsStep(dt);
+		Tween.update(dt);
 		this.area.update(dt);
 	}
 
@@ -100,6 +96,7 @@ public class InGameState extends State {
 		this.light.updateAndRender();
 		Graphics.batch.begin();
 
+		// De
 		// this.debug.render(this.world, Camera.instance.getCamera().combined);
 	}
 

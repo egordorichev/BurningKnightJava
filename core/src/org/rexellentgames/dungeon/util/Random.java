@@ -20,4 +20,8 @@ public class Random {
 	public static int newInt(int min, int max) {
 		return min + (int) (Math.random() * (max - min));
 	}
+
+	public static boolean chance(int a) {
+		return newFloat(100) <= a;
+	}
 }

@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
-import com.badlogic.gdx.Gdx;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -8,7 +7,6 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.Log;
 
 public class UiInventory extends Entity {
 	private Inventory inventory;
@@ -105,24 +103,9 @@ public class UiInventory extends Entity {
 		if (Input.instance.wasPressed("6")) {
 			this.active = 5;
 		}
-	}
 
-	public void renderUi() {
-		for (int i = 0; i < (this.open ? 24 : 6); i++) {
-			Item item = this.inventory.getSlot(i);
-			float dt = Gdx.graphics.getDeltaTime();
-
-
-			if (item != null) {
-				item.update(dt);
-
-				if (item.getCount() == 0) {
-					this.inventory.setSlot(i, null);
-					item = null;
-				}
-			}
-
-			this.slots[i].render(item == null ? -1 : item.getSprite(), item == null ? 0 : item.getCount());
+		for (UiSlot slot : this.slots) {
+			slot.update(dt);
 		}
 
 		if (!this.handled) {
@@ -141,6 +124,13 @@ public class UiInventory extends Entity {
 					slot.secondUse();
 				}
 			}
+		}
+	}
+
+	public void renderUi() {
+		for (int i = 0; i < (this.open ? 24 : 6); i++) {
+			Item item = this.inventory.getSlot(i);
+			this.slots[i].render(item == null ? -1 : item.getSprite(), item == null ? 0 : item.getCount());
 		}
 	}
 

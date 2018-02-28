@@ -27,6 +27,15 @@ public class Weapon extends Item {
 		this.createHitbox();
 	}
 
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (this.body != null) {
+			this.body.setTransform(this.owner.x + (this.owner.isFlipped() ? -8 : 8), this.owner.y - 8, 0);
+		}
+	}
+
 	protected void createHitbox() {
 		World world = this.owner.getArea().getState().getWorld();
 
