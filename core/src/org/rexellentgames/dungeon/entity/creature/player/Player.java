@@ -26,6 +26,7 @@ import java.io.IOException;
 
 public class Player extends Creature {
 	public static Player instance;
+	private static final int LIGHT_SIZE = 32;
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
 	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 16, 16, 17);
@@ -60,7 +61,7 @@ public class Player extends Creature {
 
 		if (this.area.getState().getLight() != null) {
 			this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 1f),
-				48, 300, 300);
+				LIGHT_SIZE, 300, 300);
 		}
 	}
 
@@ -93,6 +94,7 @@ public class Player extends Creature {
 
 		if (this.light != null) {
 			this.light.setPosition(this.x + 8, this.y + 8);
+			this.light.setDistance((float) (LIGHT_SIZE + Math.cos(this.t * 3) * 8));
 		}
 
 		// todo: cap

@@ -29,6 +29,7 @@ public class FlameFx extends Entity {
 		this.owner = owner;
 		this.color = Random.newFloat() < 0.7 ? orange : red;
 		this.t = Random.newFloat(1024);
+		this.depth = 6;
 
 		Tween.to(new Tween.Task(4, 0.05f) {
 			@Override
