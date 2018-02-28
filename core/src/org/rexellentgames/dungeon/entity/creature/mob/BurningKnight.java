@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
@@ -29,7 +30,7 @@ public class BurningKnight extends Mob {
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 
-		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(0.6f, 0.6f, 1f, 0.8f),
+		this.light = new PointLight(Dungeon.light, 128, new Color(0.6f, 0.6f, 1f, 0.8f),
 			200, 300, 300);
 
 		this.light.setXray(true);

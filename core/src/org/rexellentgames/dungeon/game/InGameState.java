@@ -1,10 +1,6 @@
 package org.rexellentgames.dungeon.game;
 
-import box2dLight.RayHandler;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
@@ -15,58 +11,41 @@ import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
 	private static final float TIME_STEP = 1 / 45.f;
 
-	private Level level;
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
 	private UiInventory inventory;
 
 	@Override
 	public void init() {
-		this.area = new Area(this);
-		this.world = new World(new Vector2(0, 0), true);
-
 		Collisions collisions = new Collisions();
 
-		this.world.setContactListener(collisions);
-		this.world.setContactFilter(collisions);
+		Dungeon.world.setContactListener(collisions);
+		Dungeon.world.setContactFilter(collisions);
 
 		this.debug = new Box2DDebugRenderer();
 
-		this.light = new RayHandler(this.world);
-		this.light.setBlurNum(10);
-		this.light.setAmbientLight(0f);
-
-		this.area.add(new Camera());
-		this.level = (Level) this.area.add(new RegularLevel());
-
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				level.load();
-			}
-		}).run();
-
-		((RegularLevel) this.level).loadPassable();
+		Camera.instance.follow(Player.instance);
 
 		this.inventory = new UiInventory(Player.instance.getInventory());
-		this.area.add(this.inventory);
+		Dungeon.area.add(this.inventory);
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
 
-		this.level.save();
+		Dungeon.level.save(Level.DataType.PLAYER);
+		Dungeon.level.save(Level.DataType.LEVEL);
 
-		this.world.dispose();
-		this.light.dispose();
+		if (Dungeon.area != null) {
+			Dungeon.area.destroy();
+		}
 	}
 
 	private void doPhysicsStep(float deltaTime) {
@@ -74,7 +53,7 @@ public class InGameState extends State {
 		this.accumulator += frameTime;
 
 		while (accumulator >= TIME_STEP) {
-			this.world.step(TIME_STEP, 6, 2);
+			Dungeon.world.step(TIME_STEP, 6, 2);
 			this.accumulator -= TIME_STEP;
 		}
 	}
@@ -84,21 +63,22 @@ public class InGameState extends State {
 		Input.instance.updateMousePosition();
 		this.doPhysicsStep(dt);
 		Tween.update(dt);
-		this.area.update(dt);
+		Dungeon.area.update(dt);
 	}
 
 	private void renderGame() {
-		this.area.render();
+		Dungeon.area.render();
+
 		Viewport viewport = Camera.instance.getViewport();
-		this.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
-		this.light.setCombinedMatrix(Camera.instance.getCamera());
+		Dungeon.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
+		Dungeon.light.setCombinedMatrix(Camera.instance.getCamera());
 
 		Graphics.batch.end();
-		this.light.updateAndRender();
+		Dungeon.light.updateAndRender();
 		Graphics.batch.begin();
 
-		// De
-		// this.debug.render(this.world, Camera.instance.getCamera().combined);
+		// Debug
+		// this.debug.render(Dungeon.world, Camera.instance.getCamera().combined);
 	}
 
 	private void renderUi() {

@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.game;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
@@ -11,12 +12,9 @@ import java.util.Comparator;
 
 public class Area {
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private State state;
 	private Comparator<Entity> comparator;
 
-	public Area(State state) {
-		this.state = state;
-
+	public Area() {
 		this.comparator = new Comparator<Entity>() {
 			@Override
 			public int compare(Entity a, Entity b) {
@@ -60,10 +58,7 @@ public class Area {
 			if (entity.done) {
 				if (entity instanceof SaveableEntity) {
 					SaveableEntity saveableEntity = (SaveableEntity) entity;
-
-					if (saveableEntity.getLevel() != null) {
-						saveableEntity.getLevel().removeSaveable(saveableEntity);
-					}
+					Dungeon.level.removeSaveable(saveableEntity);
 				}
 
 				entity.destroy();
@@ -98,7 +93,11 @@ public class Area {
 		return list.get(Random.newInt(list.size()));
 	}
 
-	public State getState() {
-		return this.state;
+	public void destroy() {
+		for (Entity entity : this.entities) {
+			entity.destroy();
+		}
+
+		this.entities.clear();
 	}
 }

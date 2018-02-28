@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -41,12 +42,10 @@ public class Entity extends Point {
 	}
 
 	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
-		World world = this.area.getState().getWorld();
-
 		BodyDef def = new BodyDef();
 		def.type = type;
 
-		Body body = world.createBody(def);
+		Body body = Dungeon.world.createBody(def);
 		PolygonShape poly = new PolygonShape();
 
 		poly.set(new Vector2[]{

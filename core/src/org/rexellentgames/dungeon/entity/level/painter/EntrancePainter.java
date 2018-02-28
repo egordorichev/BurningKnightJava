@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.painter;
 
 import com.badlogic.gdx.math.Vector2;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.features.Room;

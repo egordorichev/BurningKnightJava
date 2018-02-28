@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon.game;
 
+import org.rexellentgames.dungeon.Dungeon;
+
 public class Game {
 	public static Game instance;
 
@@ -10,12 +12,15 @@ public class Game {
 	}
 
 	public void setState(State state) {
+		this.destroyState();
+		this.state = state;
+		this.state.init();
+	}
+
+	public void destroyState() {
 		if (this.state != null) {
 			this.state.destroy();
 		}
-
-		this.state = state;
-		this.state.init();
 	}
 
 	public State getState() {
@@ -35,8 +40,6 @@ public class Game {
 	}
 
 	public void destroy() {
-		if (this.state != null) {
-			this.state.destroy();
-		}
+		this.destroyState();
 	}
 }

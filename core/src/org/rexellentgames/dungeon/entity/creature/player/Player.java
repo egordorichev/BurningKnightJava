@@ -3,20 +3,16 @@ package org.rexellentgames.dungeon.entity.creature.player;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
-import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -25,8 +21,8 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import java.io.IOException;
 
 public class Player extends Creature {
-	public static Player instance;
 	private static final int LIGHT_SIZE = 32;
+	public static Player instance;
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
 	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 16, 16, 17);
@@ -59,8 +55,8 @@ public class Player extends Creature {
 
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
-		if (this.area.getState().getLight() != null) {
-			this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 1f),
+		if (Dungeon.light != null) {
+			this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.9f, 0.8f, 1f),
 				LIGHT_SIZE, 300, 300);
 		}
 	}
@@ -145,15 +141,13 @@ public class Player extends Creature {
 
 	@Override
 	public void destroy() {
-		this.light.dispose();
+		this.light.remove(true);
 	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.inventory.load(reader);
-
-		Camera.instance.follow(this);
 	}
 
 	@Override
