@@ -30,7 +30,7 @@ public class BurningKnight extends Mob {
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 
 		this.light = new PointLight(this.area.getState().getLight(), 128, new Color(0.6f, 0.6f, 1f, 0.8f),
-			300, 300, 300);
+			200, 300, 300);
 
 		this.light.setXray(true);
 	}

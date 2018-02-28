@@ -14,6 +14,8 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.PotionRegistry;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
+import org.rexellentgames.dungeon.entity.level.entities.Entrance;
+import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.entities.Torch;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.features.Room;
@@ -267,6 +269,23 @@ public class RegularLevel extends Level {
 						if (this.checkFor(x, y + 1, Terrain.PASSABLE))  {
 							this.set(x, y, this.isWater(x, y + 1) ? Terrain.WATER_FALL : Terrain.FALL);
 						}
+					} else if (tile == Terrain.EXIT) {
+						Exit exit = new Exit();
+
+						exit.x = x * 16;
+						exit.y = y * 16;
+
+						this.area.add(exit);
+						this.addSaveable(exit);
+					} else if (tile == Terrain.ENTRANCE) {
+						Entrance entrance = new Entrance();
+
+						entrance.x = x * 16;
+						entrance.y = y * 16;
+
+						this.area.add(entrance);
+						this.addSaveable(entrance);
+						this.set(x, y, Terrain.FLOOR);
 					}
 				}
 			}
@@ -344,7 +363,7 @@ public class RegularLevel extends Level {
 	}
 
 	protected int getNumberOfMobsToSpawn() {
-		return 30 + 10 * Dungeon.level % 5 + Random.newInt(10);
+		return 5 + 3 * Dungeon.level % 5 + Random.newInt(10);
 	}
 
 	private void spawnMobs() {

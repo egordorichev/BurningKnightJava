@@ -44,6 +44,7 @@ public class Torch extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.light.setDistance((float) (Math.cos(this.t * 5) * 16 + 96));
 		this.t += dt;
 
 		if (this.t % 0.1 <= 0.017) {
