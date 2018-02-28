@@ -8,6 +8,7 @@ public class BurningBuff extends Buff {
 		name = "Burning";
 		description = "You are on fire!";
 		sprite = 0;
+		bad = true;
 	}
 
 	@Override

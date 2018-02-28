@@ -7,10 +7,12 @@ import org.rexellentgames.dungeon.util.Tween;
 
 public class Potion extends Consumable {
 	protected float added;
+	protected PotionRegistry.Type type;
 
 	public Potion() {
-		Log.info(this.getClass().getSimpleName());
-		this.sprite = (short) PotionRegistry.types.get(this.getClass().getSimpleName()).getSprite();
+		this.type = PotionRegistry.types.get(this.getClass().getSimpleName());
+		this.sprite = (short) this.type.getSprite();
+		this.identified = PotionRegistry.identified.get(this.type);
 	}
 
 	@Override
@@ -26,6 +28,7 @@ public class Potion extends Consumable {
 	@Override
 	public void use() {
 		super.use();
+		this.identify();
 
 		Tween.to(new Tween.Task(-70, 0.3f) {
 			@Override
@@ -44,5 +47,23 @@ public class Potion extends Consumable {
 				added = 0;
 			}
 		});
+	}
+
+	@Override
+	public String getName() {
+		if (this.identified) {
+			return super.getName();
+		} else {
+			String name = this.type.toString().toLowerCase();
+			name = name.substring(0, 1).toUpperCase() + name.substring(1);
+
+			return name + " Potion";
+		}
+	}
+
+	@Override
+	public void identify() {
+		super.identify();
+		PotionRegistry.identified.put(this.type, true);
 	}
 }
