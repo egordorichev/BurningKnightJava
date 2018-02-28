@@ -59,8 +59,8 @@ public class Player extends Creature {
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
 		if (this.area.getState().getLight() != null) {
-			this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 0.9f),
-				32, 300, 300);
+			this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 1f),
+				48, 300, 300);
 		}
 
 		this.addBuff(new BurningBuff());

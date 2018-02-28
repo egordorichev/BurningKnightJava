@@ -133,6 +133,11 @@ public class Level extends Entity {
 		}
 
 		int tile = this.get(x, y);
+
+		if (tile == Terrain.DECO) {
+			return true;
+		}
+
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 

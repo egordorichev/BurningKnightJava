@@ -23,9 +23,9 @@ public class FlameFx extends Entity {
 	private float size = 1f;
 	private float range = 1;
 	private float angle;
-	private Creature owner;
+	private Entity owner;
 
-	public FlameFx(Creature owner) {
+	public FlameFx(Entity owner) {
 		this.owner = owner;
 		this.color = Random.newFloat() < 0.7 ? orange : red;
 		this.t = Random.newFloat(1024);
@@ -86,7 +86,7 @@ public class FlameFx extends Entity {
 		float s = this.size / 2;
 
 		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.8f);
-		Graphics.shape.rect(this.x + this.owner.x + 8, this.y + this.owner.y, s, s, this.size,
+		Graphics.shape.rect(this.x + this.owner.x + this.owner.w / 2, this.y + this.owner.y + this.owner.h / 3, s, s, this.size,
 			this.size, 1, 1, this.angle);
 		Graphics.shape.end();
 
