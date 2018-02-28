@@ -20,9 +20,18 @@ public class UiSlot {
 		this.inventory = inventory;
 	}
 
-	private void update() {
-
+	public void update(float dt) {
 		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, this.y, 24, 24);
+
+		Item item = this.inventory.getInventory().getSlot(this.id);
+
+		if (item != null) {
+			item.update(dt);
+
+			if (item.getCount() == 0) {
+				this.inventory.getInventory().setSlot(this.id, null);
+			}
+		}
 
 		if (this.hovered) {
 			this.inventory.handled = true;
@@ -72,8 +81,6 @@ public class UiSlot {
 	}
 
 	public void render(int sprite, int count) {
-		this.update();
-
 		if (this.inventory.getActive() == this.id) {
 			Graphics.batch.setColor(1, 1, 0.2f, 1);
 		} else if (this.hovered) {

@@ -3,17 +3,20 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.util.PathFinder;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 
 public class Mob extends Creature {
 	protected Creature target;
-	protected float knockback = 32f;
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
+	protected boolean drop;
 
 	protected void assignTarget() {
 		this.target = (Creature) this.area.getRandomEntity(Player.class);
@@ -40,6 +43,21 @@ public class Mob extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.drop) {
+			this.drop = false;
+			ArrayList<Item> items = this.getDrops();
+
+			for (Item item : items) {
+				ItemHolder holder = new ItemHolder();
+
+				holder.setItem(item);
+				holder.x = this.x;
+				holder.y = this.y;
+
+				this.area.add(holder);
+			}
+		}
 
 		if (this.dead) {
 			return;
@@ -74,5 +92,18 @@ public class Mob extends Creature {
 
 			this.colliding.remove(player);
 		}
+	}
+
+	protected ArrayList<Item> getDrops() {
+		return new ArrayList<Item>();
+	}
+
+	@Override
+	protected void die() {
+		if (!this.dead) {
+			this.drop = true;
+		}
+
+		super.die();
 	}
 }

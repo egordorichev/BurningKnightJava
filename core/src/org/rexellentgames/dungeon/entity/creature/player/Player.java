@@ -62,8 +62,6 @@ public class Player extends Creature {
 			this.light = new PointLight(this.area.getState().getLight(), 128, new Color(1, 0.9f, 0.8f, 1f),
 				48, 300, 300);
 		}
-
-		this.addBuff(new BurningBuff());
 	}
 
 	@Override

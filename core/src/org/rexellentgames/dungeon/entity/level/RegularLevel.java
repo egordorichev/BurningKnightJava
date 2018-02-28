@@ -8,24 +8,22 @@ import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Gold;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.PotionRegistry;
+import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.level.entities.Torch;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.features.Room;
 import org.rexellentgames.dungeon.entity.level.painter.Patch;
-import org.rexellentgames.dungeon.util.PathFinder;
-import org.rexellentgames.dungeon.util.file.FileReader;
-import org.rexellentgames.dungeon.util.file.FileWriter;
-import org.rexellentgames.dungeon.util.path.Graph;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Rect;
+import org.rexellentgames.dungeon.util.path.Graph;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -154,7 +152,7 @@ public class RegularLevel extends Level {
 		player.getBody().setTransform(this.spawn.x * 16, this.spawn.y * 16, 0);
 
 		ItemHolder sword = new ItemHolder();
-		sword.setItem(new Sword());
+		sword.setItem(new Dagger());
 		player.getInventory().add(sword);
 
 		Camera.instance.follow(player);

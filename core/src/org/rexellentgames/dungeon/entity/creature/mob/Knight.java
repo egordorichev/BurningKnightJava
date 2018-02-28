@@ -2,12 +2,18 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
+import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.geometry.Point;
+import org.rexellentgames.dungeon.util.path.Graph;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Knight extends Mob {
 	{
@@ -24,12 +30,15 @@ public class Knight extends Mob {
 	private static Animation killed = new Animation(Graphics.sprites, 1f, 16, 242);
 
 	private Point point;
+	private Sword sword;
 
 	@Override
 	public void init() {
 		super.init();
 
 		this.speed = 10;
+		this.sword = new IronSword();
+		this.sword.setOwner(this);
 		this.body = this.createBody(1, 2, 12, 14, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
@@ -49,7 +58,7 @@ public class Knight extends Mob {
 			float dy = this.target.y - this.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d < 16) {
+			if (d < 24) {
 				// attack
 			} else {
 				if (this.t % 1 <= 0.017) {
@@ -110,5 +119,19 @@ public class Knight extends Mob {
 		}
 
 		animation.render(this.x, this.y, this.t, this.flipped);
+		Graphics.batch.setColor(1, 1, 1, this.a);
+		this.sword.render(this.x, this.y, this.flipped);
+		Graphics.batch.setColor(1, 1, 1, 1);
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = super.getDrops();
+
+		if (Random.chance(5)) {
+			items.add(this.sword);
+		}
+
+		return items;
 	}
 }
