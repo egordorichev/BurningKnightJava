@@ -27,7 +27,8 @@ public class Creature extends SaveableEntity {
 	protected boolean dead;
 	protected Body body;
 	protected String state = "idle";
-	protected float t = 0;
+	protected float t;
+	protected float timer;
 	protected boolean flipped = false;
 	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
 	protected float a = 1f;
@@ -61,6 +62,7 @@ public class Creature extends SaveableEntity {
 		super.update(dt);
 
 		this.t += dt;
+		this.timer += dt;
 		this.invt = Math.max(0, this.invt - dt);
 
 		if (this.body != null) {
