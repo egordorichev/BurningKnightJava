@@ -40,6 +40,9 @@ public class Graphics {
 
 		small = generateFont("fonts/pico.ttf", 4);
 		medium = generateFont("fonts/large.ttf", 16);
+
+		small.getData().markupEnabled = true;
+		medium.getData().markupEnabled = true;
 	}
 
 	private static BitmapFont generateFont(String path, int size) {

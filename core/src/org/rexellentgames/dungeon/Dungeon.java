@@ -3,10 +3,7 @@ package org.rexellentgames.dungeon;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.assets.Assets;
@@ -44,7 +41,9 @@ public class Dungeon extends ApplicationAdapter {
 		PathFinder.setMapSize(Level.WIDTH, Level.HEIGHT);
 		Assets.init();
 		Box2D.init();
+		new UiLog();
 
+		this.initColors();
 		this.initInput();
 
 		game = new Game();
@@ -132,5 +131,12 @@ public class Dungeon extends ApplicationAdapter {
 	private void setupCursor() {
 		Cursor customCursor = Gdx.graphics.newCursor(new Pixmap(1, 1, Pixmap.Format.RGBA8888), 0, 0);
 		Gdx.graphics.setCursor(customCursor);
+	}
+
+	private void initColors() {
+		Colors.put("black", Color.valueOf("#000000"));
+		Colors.put("orange", Color.valueOf("#df7126"));
+		Colors.put("red", Color.valueOf("#ac3232"));
+		Colors.put("green", Color.valueOf("#6abe30"));
 	}
 }

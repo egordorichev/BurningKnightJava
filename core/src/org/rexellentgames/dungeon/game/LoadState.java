@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
@@ -53,6 +54,7 @@ public class LoadState extends State {
 				Dungeon.level.load(Level.DataType.LEVEL);
 
 				Dungeon.level.loadPassable();
+				UiLog.instance.print("[orange]Welcome to level " + Dungeon.depth + "!");
 
 				ready = true;
 			}

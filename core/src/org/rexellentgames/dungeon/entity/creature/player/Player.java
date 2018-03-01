@@ -4,6 +4,7 @@ import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -233,5 +234,11 @@ public class Player extends Creature {
 
 	public int getLevel() {
 		return this.level;
+	}
+
+	@Override
+	protected void die() {
+		super.die();
+		UiLog.instance.print("[red]You died!");
 	}
 }
