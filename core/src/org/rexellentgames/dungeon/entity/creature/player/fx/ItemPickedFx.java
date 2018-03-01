@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.player.fx;
 
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -19,9 +18,8 @@ public class ItemPickedFx extends Entity {
 			this.text += " (" + i.getCount() + ")";
 		}
 
-		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
-
-		this.x = item.x + 8 - layout.width / 2;
+		Graphics.layout.setText(Graphics.medium, this.text);
+		this.x = item.x + 8 - Graphics.layout.width / 2;
 		this.y = item.y + 32;
 
 		this.depth = 10;

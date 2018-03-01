@@ -35,6 +35,7 @@ public class UiSlot {
 		}
 
 		if (this.hovered) {
+			this.inventory.hoveredSlot = this.id;
 			this.inventory.handled = true;
 
 			if (Input.instance.wasPressed("mouse0")) {
@@ -81,7 +82,7 @@ public class UiSlot {
 		}
 	}
 
-	public void render(int sprite, int count, float delay, float maxDelay) {
+	public void render(Item item) {
 		if (this.inventory.getActive() == this.id) {
 			Graphics.batch.setColor(1, 1, 0.2f, 1);
 		} else if (this.hovered) {
@@ -90,8 +91,10 @@ public class UiSlot {
 
 		Graphics.render(Graphics.ui, 64, this.x, this.y, 2, 2);
 
+		if (item != null && item.getDelay() != 0) {
+			float delay = item.getDelay();
+			float maxDelay = item.getUseTime();
 
-		if (delay != 0) {
 			int w = (int) ((delay / maxDelay) * 32);
 			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1f);
 			Graphics.batch.draw(Graphics.ui, this.x, this.y, w, 32, 0, 32,
@@ -101,11 +104,16 @@ public class UiSlot {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 
-		if (sprite > -1) {
-			Graphics.render(Graphics.items, sprite, this.x + 4, this.y + 12, 1, 1);
+		if (item != null) {
+			int sprite = item.getSprite();
+			int count = item.getCount();
 
-			if (count > 1) {
-				Graphics.small.draw(Graphics.batch, String.valueOf(count), this.x + 3, this.y + 16);
+			if (sprite > -1) {
+				Graphics.render(Graphics.items, sprite, this.x + 4, this.y + 12, 1, 1);
+
+				if (count > 1) {
+					Graphics.small.draw(Graphics.batch, String.valueOf(count), this.x + 3, this.y + 16);
+				}
 			}
 		}
 	}

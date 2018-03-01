@@ -31,10 +31,19 @@ public class Player extends Creature {
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private UiInventory ui;
+	protected int mana;
+	protected int manaMax;
+	protected int experience;
+	protected int experienceMax;
+	protected int level;
 
 	{
 		hpMax = 100;
+		manaMax = 100;
+		level = 1;
+		experienceMax = 10;
 		speed = 10;
+		alwaysActive = true;
 	}
 
 	public void setUi(UiInventory ui) {
@@ -44,15 +53,10 @@ public class Player extends Creature {
 	@Override
 	public void init() {
 		super.init();
-
 		instance = this;
 
-		this.w = 16;
-		this.h = 16;
-
-		this.alwaysActive = true;
+		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 24);
-
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
 		if (Dungeon.light != null) {
@@ -93,8 +97,7 @@ public class Player extends Creature {
 			this.light.setDistance((float) (LIGHT_SIZE + Math.cos(this.t * 3) * 8));
 		}
 
-		// todo: cap
-		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
+		float v = this.vel.len2();
 
 		if (v > 9.9) {
 			this.become("run");
@@ -147,13 +150,27 @@ public class Player extends Creature {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
+
 		this.inventory.load(reader);
+
+		this.mana = reader.readInt32();
+		this.manaMax = reader.readInt32();
+		this.experience = reader.readInt32();
+		this.experienceMax = reader.readInt32();
+		this.level = reader.readInt32();
 	}
 
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
+
 		this.inventory.save(writer);
+
+		writer.writeInt32(this.mana);
+		writer.writeInt32(this.manaMax);
+		writer.writeInt32(this.experience);
+		writer.writeInt32(this.experienceMax);
+		writer.writeInt32(this.level);
 	}
 
 	@Override
@@ -196,5 +213,25 @@ public class Player extends Creature {
 
 	public Inventory getInventory() {
 		return this.inventory;
+	}
+
+	public int getExperience() {
+		return this.experience;
+	}
+
+	public int getExperienceMax() {
+		return this.experienceMax;
+	}
+
+	public int getMana() {
+		return this.mana;
+	}
+
+	public int getManaMax() {
+		return this.manaMax;
+	}
+
+	public int getLevel() {
+		return this.level;
 	}
 }

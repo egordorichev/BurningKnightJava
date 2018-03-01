@@ -9,6 +9,7 @@ public class Gold extends Item {
 		sprite = 1;
 		autoPickup = true;
 		useable = false;
+		description = "$$$";
 	}
 
 	@Override

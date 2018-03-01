@@ -1,13 +1,10 @@
 package org.rexellentgames.dungeon.entity.creature.player.fx;
 
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.Tween;
 
 public class ItemPickupFx extends Entity {
 	private String text;
@@ -20,9 +17,8 @@ public class ItemPickupFx extends Entity {
 		this.item = item;
 		this.player = player;
 
-		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
-
-		this.x = item.x + 8 - layout.width / 2;
+		Graphics.layout.setText(Graphics.medium, this.text);
+		this.x = item.x + 8 - Graphics.layout.width / 2;
 		this.y = item.y + 16;
 	}
 

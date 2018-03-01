@@ -20,6 +20,8 @@ public class InGameState extends State {
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
 	private UiInventory inventory;
+	private int lastLevel;
+	private float w;
 
 	@Override
 	public void init() {
@@ -86,10 +88,30 @@ public class InGameState extends State {
 		this.inventory.renderUi();
 
 		// Top ui
+		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 5, 2);
+
 		int sz = (int) Math.ceil(57 * ((float) (Player.instance.getHp()) / (float) (Player.instance.getHpMax())));
-		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 6, 2);
+
 		Graphics.batch.draw(Graphics.ui, 27, Display.GAME_HEIGHT - 15, sz, 8, 112,
 			0, sz, 8, false, false);
+
+		sz = (int) Math.ceil(19 * ((float) (Player.instance.getExperience()) / (float) (Player.instance.getExperienceMax())));
+
+		if (Player.instance.getLevel() != this.lastLevel) {
+			this.lastLevel = Player.instance.getLevel();
+			Graphics.layout.setText(Graphics.medium, String.valueOf(this.lastLevel));
+			this.w = Graphics.layout.width;
+		}
+
+		Graphics.batch.draw(Graphics.ui, 4, Display.GAME_HEIGHT - 25, 16, sz, 80,
+			19 - sz, 16, sz, false, false);
+
+		Graphics.medium.draw(Graphics.batch, String.valueOf(Player.instance.getLevel()), 4 + (16 - this.w) / 2, Display.GAME_HEIGHT - 10);
+
+		sz = (int) Math.ceil(37 * ((float) (Player.instance.getMana()) / (float) (Player.instance.getManaMax())));
+
+		Graphics.batch.draw(Graphics.ui, 25, Display.GAME_HEIGHT - 25, sz, 6, 112,
+			16, sz, 6, false, false);
 
 		for (int i = 0; i < Player.instance.getBuffs().size(); i++) {
 			Buff buff = Player.instance.getBuffs().get(i);
