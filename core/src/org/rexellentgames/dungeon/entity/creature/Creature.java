@@ -21,6 +21,7 @@ public class Creature extends SaveableEntity {
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
+	protected float maxSpeed = 50;
 	protected int damage = 2;
 	protected int defense = 1;
 	protected float invt = 0;
@@ -85,6 +86,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.body != null) {
+			this.vel.clamp(0, this.maxSpeed);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		}
 	}

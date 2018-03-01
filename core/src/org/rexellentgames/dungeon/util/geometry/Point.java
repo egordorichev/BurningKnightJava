@@ -1,9 +1,8 @@
 package org.rexellentgames.dungeon.util.geometry;
 
-public class Point {
-	public float x;
-	public float y;
+import com.badlogic.gdx.math.Vector2;
 
+public class Point extends Vector2 {
 	public Point() {
 		this(0, 0);
 	}
@@ -15,17 +14,6 @@ public class Point {
 	public Point(float x, float y) {
 		this.x = x;
 		this.y = y;
-	}
-
-	public void cap(int v) {
-		float s = (Math.abs(this.x) + Math.abs(this.y));
-
-		if (s > v) {
-			float m = v / s;
-
-			this.x *= m;
-			this.y *= m;
-		}
 	}
 
 	public void mul(float v) {

@@ -101,4 +101,15 @@ public class Weapon extends Item {
 			creature.vel.y += Math.sin(a) * this.knockback * 50;
 		}
 	}
+
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+
+		builder.append('\n');
+		builder.append(this.damage);
+		builder.append(" damage");
+
+		return builder;
+	}
 }

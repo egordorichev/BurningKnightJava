@@ -375,7 +375,7 @@ public class RegularLevel extends Level {
 	}
 
 	protected int getNumberOfMobsToSpawn() {
-		return 8 + 2 * this.level % 5 + Random.newInt(5);
+		return 4 + 2 * this.level % 5 + Random.newInt(3);
 	}
 
 	private void spawnMobs() {

@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -7,6 +8,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.MathUtils;
 
 public class UiInventory extends Entity {
 	private Inventory inventory;
@@ -15,6 +17,7 @@ public class UiInventory extends Entity {
 	private int active = 0;
 	private boolean open = false;
 	public boolean handled;
+	public int hoveredSlot = -1;
 
 	public UiInventory(Inventory inventory) {
 		this.inventory = inventory;
@@ -130,7 +133,7 @@ public class UiInventory extends Entity {
 	public void renderUi() {
 		for (int i = 0; i < (this.open ? 24 : 6); i++) {
 			Item item = this.inventory.getSlot(i);
-			this.slots[i].render(item == null ? -1 : item.getSprite(), item == null ? 0 : item.getCount(), item == null ? 0 : item.getDelay(), item == null ? 0 : item.getUseTime());
+			this.slots[i].render(item);
 		}
 	}
 
@@ -141,6 +144,17 @@ public class UiInventory extends Entity {
 
 			if (count > 1) {
 				Graphics.small.draw(Graphics.batch, String.valueOf(count), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 4);
+			}
+		} else if (this.open && this.hoveredSlot != -1) {
+			Item item = this.inventory.getSlot(this.hoveredSlot);
+
+			if (item != null) {
+				String info = item.buildInfo().toString();
+				Graphics.layout.setText(Graphics.small, info);
+				Graphics.small.draw(Graphics.batch, info,
+					MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 8),
+					MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y));
+				this.hoveredSlot = -1;
 			}
 		}
 	}

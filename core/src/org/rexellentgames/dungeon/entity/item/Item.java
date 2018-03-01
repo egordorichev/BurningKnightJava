@@ -110,4 +110,14 @@ public class Item extends Entity {
 	public float getUseTime() {
 		return this.useTime;
 	}
+
+	public StringBuilder buildInfo() {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(this.getName());
+		builder.append('\n');
+		builder.append(this.getDescription());
+
+		return builder;
+	}
 }
