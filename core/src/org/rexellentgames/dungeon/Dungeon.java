@@ -56,10 +56,6 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		if (Input.instance.isDown("1")) {
-			to = Dungeon.depth + 1;
-		}
-
 		if (to != -1) {
 			Dungeon.depth = to;
 			game.setState(new LoadState());

@@ -18,6 +18,7 @@ public class Input implements InputProcessor {
 
 	public Point uiMouse = new Point();
 	public Point worldMouse = new Point();
+	public boolean blocked = false;
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
@@ -78,6 +79,10 @@ public class Input implements InputProcessor {
 	}
 
 	public boolean isDown(String key) {
+		if (blocked) {
+			return false;
+		}
+
 		for (String id : this.bindings.get(key)) {
 			State state = this.keys.get(id);
 
@@ -90,6 +95,10 @@ public class Input implements InputProcessor {
 	}
 
 	public boolean wasPressed(String key) {
+		if (blocked) {
+			return false;
+		}
+
 		for (String id : this.bindings.get(key)) {
 			if (this.keys.get(id) == State.DOWN) {
 				return true;
@@ -100,6 +109,10 @@ public class Input implements InputProcessor {
 	}
 
 	public boolean wasReleased(String key) {
+		if (blocked) {
+			return false;
+		}
+
 		for (String id : this.bindings.get(key)) {
 			if (this.keys.get(id) == State.UP) {
 				return true;
