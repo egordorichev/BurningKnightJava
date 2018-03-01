@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.item.weapon.Sword;
+import org.rexellentgames.dungeon.entity.item.weapon.TheSword;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
 
@@ -25,18 +27,19 @@ public class BurningKnight extends Mob {
 	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 32, 184, 186);
 	private static Animation killed = new Animation(Graphics.sprites, 0.1f, 32, 188);
 	private PointLight light;
+	private Sword sword;
 
 	@Override
 	public void init() {
 		instance = this;
-
 		super.init();
 
-		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
+		this.sword = new TheSword();
+		this.sword.setOwner(this);
 
+		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 		this.light = new PointLight(Dungeon.light, 128, new Color(0.6f, 0.6f, 1f, 0.8f),
 			200, 300, 300);
-
 		this.light.setXray(true);
 	}
 
@@ -44,6 +47,7 @@ public class BurningKnight extends Mob {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.sword.update(dt);
 		this.vel.mul(0.8f);
 
 		if (this.light != null) {
@@ -69,11 +73,13 @@ public class BurningKnight extends Mob {
 			float dy = this.target.y - this.y - 8;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d > 1) {
-				d /= 3;
+			if (d > 16) {
+				d /= (this.timer % 10f <= 1f ? 10 : 3);
 
 				this.vel.x += dx / d;
 				this.vel.y += dy / d;
+			} else if (this.sword.getDelay() == 0 && this.timer % 1f <= 0.0175f) {
+				this.sword.use();
 			}
 		}
 
@@ -116,5 +122,8 @@ public class BurningKnight extends Mob {
 		}
 
 		animation.render(this.x, this.y, this.t, this.flipped);
+		Graphics.batch.setColor(1, 1, 1, this.a);
+		this.sword.render(this.x, this.y, this.flipped);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }

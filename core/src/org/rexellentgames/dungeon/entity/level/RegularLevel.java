@@ -347,7 +347,7 @@ public class RegularLevel extends Level {
 
 	protected Item getRandomItem() {
 		// todo: random!
-		return (Random.newFloat() > 0.5 ? new Gold().randomize() : new Sword());
+		return new Gold().randomize();
 	}
 
 	protected void drop(int cell, Item item) {
@@ -375,7 +375,7 @@ public class RegularLevel extends Level {
 	}
 
 	protected int getNumberOfMobsToSpawn() {
-		return 3 + 2 * this.level % 5 + Random.newInt(5);
+		return 8 + 2 * this.level % 5 + Random.newInt(5);
 	}
 
 	private void spawnMobs() {

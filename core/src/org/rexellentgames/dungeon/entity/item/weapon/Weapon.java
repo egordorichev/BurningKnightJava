@@ -1,10 +1,14 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Item;
 
 public class Weapon extends Item {
@@ -44,8 +48,8 @@ public class Weapon extends Item {
 		body = Dungeon.world.createBody(def);
 		PolygonShape poly = new PolygonShape();
 
-		int w = 16;
-		int h = 24;
+		int w = (int) this.owner.w;
+		int h = (int) (this.owner.h * 2);
 
 		poly.set(new Vector2[]{
 			new Vector2(0, 0), new Vector2(w, 0),
@@ -62,7 +66,7 @@ public class Weapon extends Item {
 		body.setUserData(this);
 		poly.dispose();
 
-		this.body.setTransform(this.owner.x + (this.owner.isFlipped() ? -8 : 8), this.owner.y - 8, 0);
+		this.body.setTransform(this.owner.x + (this.owner.isFlipped() ? -this.owner.w / 2 : this.owner.w / 2), this.owner.y - this.owner.h / 2, 0);
 	}
 
 	@Override
@@ -83,7 +87,7 @@ public class Weapon extends Item {
 
 			Creature creature = (Creature) entity;
 
-			if (creature.isDead()) {
+			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob))) {
 				return;
 			}
 

@@ -108,7 +108,7 @@ public class UiInventory extends Entity {
 			slot.update(dt);
 		}
 
-		if (!this.handled) {
+		if (!this.handled && !Player.instance.isDead()) {
 			if (Input.instance.wasPressed("mouse0")) {
 				Item slot = this.inventory.getSlot(this.active);
 

@@ -31,7 +31,6 @@ public class Knight extends Mob {
 
 	private Point point;
 	private Sword sword;
-	private float timer;
 	private float runDelay;
 
 	@Override
@@ -63,7 +62,6 @@ public class Knight extends Mob {
 		}
 
 		this.sword.update(dt);
-		this.timer += dt;
 
 		if (!this.noticed) {
 			this.vel.mul(0f);
@@ -75,7 +73,7 @@ public class Knight extends Mob {
 				float dy = this.target.y - this.y;
 				float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-				if (d < 24) {
+				if (d < 20) {
 					this.attack();
 				} else {
 					if (this.t % 0.5 <= 0.017) {
