@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
@@ -47,8 +48,13 @@ public class InGameState extends State {
 	public void destroy() {
 		super.destroy();
 
-		Dungeon.level.save(Level.DataType.PLAYER);
-		Dungeon.level.save(Level.DataType.LEVEL);
+		if (Dungeon.reset) {
+			Gdx.files.external(".ldg/").deleteDirectory();
+			Dungeon.reset = false;
+		} else {
+			Dungeon.level.save(Level.DataType.PLAYER);
+			Dungeon.level.save(Level.DataType.LEVEL);
+		}
 
 		if (Dungeon.area != null) {
 			Dungeon.area.destroy();

@@ -26,6 +26,7 @@ public class Creature extends SaveableEntity {
 	protected int defense = 1;
 	protected float invt = 0;
 	protected boolean dead;
+	protected boolean unhittable = false;
 	protected Body body;
 	protected String state = "idle";
 	protected float t;
@@ -104,6 +105,10 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (amount < 0) {
+			if (this.unhittable) {
+				return;
+			}
+
 			amount += this.defense;
 
 			if (this.invt > 0) {
@@ -120,6 +125,10 @@ public class Creature extends SaveableEntity {
 		if (this.hp == 0) {
 			this.die();
 		}
+	}
+
+	public void setUnhittable(boolean unhittable) {
+		this.unhittable = unhittable;
 	}
 
 	public boolean isDead() {

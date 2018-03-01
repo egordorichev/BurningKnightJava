@@ -29,7 +29,7 @@ public class LoadState extends State {
 		}
 
 		if (Dungeon.world != null) {
-			Dungeon.world.dispose();
+		//	Dungeon.world.dispose();
 		}
 
 		Dungeon.world = new World(new Vector2(0, 0), true);

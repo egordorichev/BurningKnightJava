@@ -54,7 +54,7 @@ public class UiLog {
 		for (int i = 0; i < this.lines.size(); i++) {
 			Line line = this.lines.get(i);
 
-			line.label.setPosition(2, (this.lines.size() - i) * 8 + 2);
+			line.label.setPosition(Display.GAME_WIDTH - line.w - 2, (this.lines.size() - i - 1) * 7 + 2);
 			line.label.draw(Graphics.batch, 1);
 			line.label.setColor(1, 1, 1, line.a);
 		}
@@ -65,8 +65,11 @@ public class UiLog {
 		public float time;
 		public boolean remove;
 		public float a = 1f;
+		public int w;
 
 		public Line(String string) {
+			Graphics.layout.setText(Graphics.small, string);
+			this.w = (int) Graphics.layout.width;
 			this.label = new Label(string, new Label.LabelStyle(Graphics.small, Color.WHITE));
 		}
 	}
