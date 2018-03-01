@@ -155,9 +155,10 @@ public class RegularLevel extends Level {
 
 		if (this.level == 0) {
 			Player player = (Player) this.area.add(new Player());
-			player.x = this.spawn.x * 16;
-			player.y = this.spawn.y * 16;
-			player.getBody().setTransform(player.x, player.y, 0);
+			player.tp(this.spawn.x * 16, this.spawn.y * 16);
+
+			double a = Random.newFloat((float) (Math.PI * 2));
+			BurningKnight.instance.tp((float) (Player.instance.x + Math.cos(a) * 64), (float) (Player.instance.y + Math.sin(a) * 64));
 
 			ItemHolder sword = new ItemHolder();
 			sword.setItem(new Dagger());
@@ -269,7 +270,7 @@ public class RegularLevel extends Level {
 							this.set(x, y, (short) (6 + replace));
 						}
 					} else if (tile == Terrain.DOOR) {
-						this.set(x, y, Terrain.FLOOR);
+						this.set(x, y, (short) 13);
 						this.addSaveable((SaveableEntity) this.area.add(new org.rexellentgames.dungeon.entity.level.entities.Door(
 							x, y, this.checkFor(x, y + 1, Terrain.SOLID)
 						)));
@@ -374,7 +375,7 @@ public class RegularLevel extends Level {
 	}
 
 	protected int getNumberOfMobsToSpawn() {
-		return 5 + 3 * this.level % 5 + Random.newInt(10);
+		return 3 + 2 * this.level % 5 + Random.newInt(5);
 	}
 
 	private void spawnMobs() {
