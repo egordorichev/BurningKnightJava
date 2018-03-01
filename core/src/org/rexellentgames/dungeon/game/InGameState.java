@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
@@ -66,6 +67,7 @@ public class InGameState extends State {
 		this.doPhysicsStep(dt);
 		Tween.update(dt);
 		Dungeon.area.update(dt);
+		UiLog.instance.update(dt);
 	}
 
 	private void renderGame() {
@@ -86,6 +88,9 @@ public class InGameState extends State {
 	private void renderUi() {
 		// Inventory
 		this.inventory.renderUi();
+
+		// Log
+		UiLog.instance.render();
 
 		// Top ui
 		Graphics.render(Graphics.ui, 0, 1, Display.GAME_HEIGHT - 33, 5, 2);
