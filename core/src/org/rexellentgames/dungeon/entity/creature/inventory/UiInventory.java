@@ -130,7 +130,7 @@ public class UiInventory extends Entity {
 	public void renderUi() {
 		for (int i = 0; i < (this.open ? 24 : 6); i++) {
 			Item item = this.inventory.getSlot(i);
-			this.slots[i].render(item == null ? -1 : item.getSprite(), item == null ? 0 : item.getCount());
+			this.slots[i].render(item == null ? -1 : item.getSprite(), item == null ? 0 : item.getCount(), item == null ? 0 : item.getDelay(), item == null ? 0 : item.getUseTime());
 		}
 	}
 
