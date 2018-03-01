@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
@@ -23,6 +24,7 @@ public class InGameState extends State {
 	private UiInventory inventory;
 	private int lastLevel;
 	private float w;
+	private Console console;
 
 	@Override
 	public void init() {
@@ -37,6 +39,8 @@ public class InGameState extends State {
 
 		this.inventory = new UiInventory(Player.instance.getInventory());
 		Dungeon.area.add(this.inventory);
+
+		this.console = new Console();
 	}
 
 	@Override
@@ -63,6 +67,8 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		this.console.update(dt);
+
 		Input.instance.updateMousePosition();
 		this.doPhysicsStep(dt);
 		Tween.update(dt);
@@ -127,6 +133,8 @@ public class InGameState extends State {
 
 			Graphics.batch.draw(Graphics.buffs, 6 + i * 9, Display.GAME_HEIGHT - 44, 8, 8, xx, yy, 8, 8, false, false);
 		}
+
+		this.console.render();
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class UiLog {
 	}
 
 	public void print(String string) {
-		System.out.println(string);
+		// System.out.println(string);
 		this.lines.add(new Line(string));
 	}
 
@@ -54,7 +54,7 @@ public class UiLog {
 		for (int i = 0; i < this.lines.size(); i++) {
 			Line line = this.lines.get(i);
 
-			line.label.setPosition(2, i * 18 + 2);
+			line.label.setPosition(2, (this.lines.size() - i) * 8 + 2);
 			line.label.draw(Graphics.batch, 1);
 			line.label.setColor(1, 1, 1, line.a);
 		}

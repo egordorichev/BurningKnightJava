@@ -54,7 +54,7 @@ public class LoadState extends State {
 				Dungeon.level.load(Level.DataType.LEVEL);
 
 				Dungeon.level.loadPassable();
-				UiLog.instance.print("[orange]Welcome to level " + Dungeon.depth + "!");
+				UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
 
 				ready = true;
 			}
