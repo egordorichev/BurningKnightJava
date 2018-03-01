@@ -8,10 +8,12 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 
 import java.io.IOException;
@@ -29,11 +31,16 @@ public class Entrance extends SaveableEntity {
 			64, this.x + 8, this.y + 8);
 		this.body.setTransform(this.x, this.y, 0);
 
+		this.add();
+	}
+
+	private void add() {
 		if (!Dungeon.up && Player.instance != null) {
-			Player.instance.getBody().setTransform(this.x, this.y - 2, 0);
-			Player.instance.x = this.x;
-			Player.instance.y = this.y - 2;
+			Player.instance.tp(this.x, this.y - 2);
 			Camera.instance.follow(Player.instance);
+
+			double a = Random.newFloat((float) (Math.PI * 2));
+			BurningKnight.instance.tp((float) (Player.instance.x + Math.cos(a) * 64), (float) (Player.instance.y + Math.sin(a) * 64));
 		}
 	}
 
@@ -49,13 +56,7 @@ public class Entrance extends SaveableEntity {
 		super.load(reader);
 		this.body.setTransform(this.x, this.y, 0);
 		this.light.setPosition(this.x + 8, this.y + 8);
-
-		if (!Dungeon.up) {
-			Player.instance.getBody().setTransform(this.x, this.y - 2, 0);
-			Player.instance.x = this.x;
-			Player.instance.y = this.y - 2;
-			Camera.instance.follow(Player.instance);
-		}
+		this.add();
 	}
 
 	@Override

@@ -32,6 +32,15 @@ public class Creature extends SaveableEntity {
 	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
 	protected float a = 1f;
 
+	public void tp(float x, float y) {
+		this.x = x;
+		this.y = y;
+
+		if (this.body != null) {
+			this.body.setTransform(x, y, 0);
+		}
+	}
+
 	@Override
 	public void destroy() {
 		super.destroy();
