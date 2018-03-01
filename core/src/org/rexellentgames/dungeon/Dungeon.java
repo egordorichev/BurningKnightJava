@@ -25,7 +25,8 @@ public class Dungeon extends ApplicationAdapter {
 	public static RayHandler light;
 	public static World world;
 	public static Area area;
-	public static boolean up = false;
+	public static boolean up;
+	public static boolean reset;
 
 	private static int to = -1;
 	private Color background = Color.valueOf("#323c39");

@@ -18,6 +18,9 @@ public class Console implements InputProcessor {
 
 		this.commands.add(new HelpCommand());
 		this.commands.add(new GiveCommand());
+		this.commands.add(new HealCommand());
+		this.commands.add(new GodModeCommand());
+		this.commands.add(new GenerateCommand());
 	}
 
 	public void update(float dt) {
@@ -26,7 +29,7 @@ public class Console implements InputProcessor {
 
 	public void render() {
 		if (this.open) {
-			Graphics.small.draw(Graphics.batch, this.input, 2, 8);
+			Graphics.small.draw(Graphics.batch, this.input + "|", 2, 8);
 		}
 	}
 
@@ -41,6 +44,8 @@ public class Console implements InputProcessor {
 		} else if (keycode == Input.Keys.ENTER && this.open) {
 			String string = this.input;
 			this.input = "";
+			this.open = false;
+			org.rexellentgames.dungeon.game.input.Input.instance.blocked = false;
 			this.runCommand(string);
 		} else if (keycode == Input.Keys.BACKSPACE && this.open && this.input.length() > 0) {
 			this.input = this.input.substring(0, this.input.length() - 1);
