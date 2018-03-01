@@ -248,8 +248,6 @@ public class Level extends Entity {
 		FileHandle save = Gdx.files.external(this.getSavePath(type));
 
 		if (!save.exists()) {
-			Dungeon.loaded = false;
-
 			if (type == DataType.LEVEL) {
 				generateUntilGood();
 				return;
@@ -264,8 +262,6 @@ public class Level extends Entity {
 					Dungeon.reportException(e);
 				}
 			}
-		} else {
-			Dungeon.loaded = true;
 		}
 
 		Log.info("Loading... " + type.toString());
@@ -287,6 +283,9 @@ public class Level extends Entity {
 				for (int i = 0; i < SIZE; i++) {
 					this.data[i] = stream.readInt16();
 				}
+			} else {
+				Dungeon.depth = stream.readInt32();
+				this.level = Dungeon.depth;
 			}
 
 			this.loadData(stream, type);
@@ -314,6 +313,8 @@ public class Level extends Entity {
 				for (int i = 0; i < SIZE; i++) {
 					stream.writeInt16(this.data[i]);
 				}
+			} else {
+				stream.writeInt32(Dungeon.depth); // Probably updated, if going up or down
 			}
 
 			this.writeData(stream, type);

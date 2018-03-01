@@ -18,6 +18,8 @@ public class BurningKnight extends Mob {
 		alwaysActive = true;
 	}
 
+	public static BurningKnight instance;
+
 	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 32, 160, 162,
 		164, 166, 168, 170, 172, 174, 176, 178, 180, 182);
 	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 32, 184, 186);
@@ -26,6 +28,8 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void init() {
+		instance = this;
+
 		super.init();
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
@@ -80,6 +84,16 @@ public class BurningKnight extends Mob {
 	protected void die() {
 		super.die();
 		this.light.remove(true);
+		this.light = null;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		if (this.light != null) {
+			this.light.remove(true);
+		}
 	}
 
 	@Override

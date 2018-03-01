@@ -100,4 +100,8 @@ public class Area {
 
 		this.entities.clear();
 	}
+
+	public ArrayList<Entity> getEntities() {
+		return this.entities;
+	}
 }

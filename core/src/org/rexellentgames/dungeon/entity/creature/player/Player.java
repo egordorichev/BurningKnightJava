@@ -33,7 +33,7 @@ public class Player extends Creature {
 	private UiInventory ui;
 
 	{
-		hpMax = 2000;
+		hpMax = 100;
 		speed = 10;
 	}
 

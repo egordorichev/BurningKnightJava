@@ -62,7 +62,7 @@ public class Knight extends Mob {
 				// attack
 			} else {
 				if (this.t % 0.5 <= 0.017) {
-					//this.point = this.getCloser(this.target);
+					this.point = this.getCloser(this.target);
 				}
 
 				if (this.point != null) {
@@ -80,7 +80,7 @@ public class Knight extends Mob {
 						this.vel.y += dy / d * this.speed;
 					}
 				} else {
-					//this.point = this.getCloser(this.target);
+					this.point = this.getCloser(this.target);
 				}
 			}
 		} else {

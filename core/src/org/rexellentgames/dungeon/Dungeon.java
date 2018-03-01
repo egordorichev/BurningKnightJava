@@ -29,7 +29,6 @@ public class Dungeon extends ApplicationAdapter {
 	public static World world;
 	public static Area area;
 	public static boolean up = false;
-	public static boolean loaded = false;
 
 	private static int to = -1;
 	private Color background = Color.valueOf("#323c39");
@@ -49,7 +48,7 @@ public class Dungeon extends ApplicationAdapter {
 		this.initInput();
 
 		game = new Game();
-		this.goToLevel(0);
+		goToLevel(0);
 	}
 
 	public static void goToLevel(int level) {
