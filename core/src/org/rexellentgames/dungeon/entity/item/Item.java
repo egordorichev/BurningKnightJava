@@ -106,4 +106,8 @@ public class Item extends Entity {
 	public String getDescription() {
 		return this.description;
 	}
+
+	public float getUseTime() {
+		return this.useTime;
+	}
 }

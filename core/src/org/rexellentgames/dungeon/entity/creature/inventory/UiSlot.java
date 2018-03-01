@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
+import org.rexellentgames.dungeon.util.Log;
 
 public class UiSlot {
 	private int x;
@@ -80,7 +81,7 @@ public class UiSlot {
 		}
 	}
 
-	public void render(int sprite, int count) {
+	public void render(int sprite, int count, float delay, float maxDelay) {
 		if (this.inventory.getActive() == this.id) {
 			Graphics.batch.setColor(1, 1, 0.2f, 1);
 		} else if (this.hovered) {
@@ -88,6 +89,16 @@ public class UiSlot {
 		}
 
 		Graphics.render(Graphics.ui, 64, this.x, this.y, 2, 2);
+
+
+		if (delay != 0) {
+			int w = (int) ((delay / maxDelay) * 32);
+			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1f);
+			Graphics.batch.draw(Graphics.ui, this.x, this.y, w, 32, 0, 32,
+				w, 32, false, false);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
+
 		Graphics.batch.setColor(1, 1, 1, 1);
 
 		if (sprite > -1) {
