@@ -4,7 +4,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 
 public class BurningBuff extends Buff {
 	{
-		duration = 600.0f;
+		duration = 5.0f;
 		name = "Burning";
 		description = "You are on fire!";
 		sprite = 0;

@@ -104,7 +104,7 @@ public class Item extends Entity {
 	}
 
 	public String getDescription() {
-		return this.description;
+		return this.identified ? this.description : "???";
 	}
 
 	public float getUseTime() {

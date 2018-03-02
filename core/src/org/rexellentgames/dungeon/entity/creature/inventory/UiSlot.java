@@ -95,7 +95,7 @@ public class UiSlot {
 			float delay = item.getDelay();
 			float maxDelay = item.getUseTime();
 
-			int w = (int) ((delay / maxDelay) * 32);
+			int w = (int) ((delay / maxDelay) * 24);
 			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1f);
 			Graphics.batch.draw(Graphics.ui, this.x, this.y, w, 32, 0, 32,
 				w, 32, false, false);

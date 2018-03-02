@@ -41,6 +41,7 @@ public class Player extends Creature {
 	protected int experienceMax;
 	protected int level;
 	protected int forThisLevel;
+	public float lightModifier;
 
 	{
 		hpMax = 100;
@@ -48,6 +49,11 @@ public class Player extends Creature {
 		level = 1;
 		speed = 10;
 		alwaysActive = true;
+	}
+
+	@Override
+	public PointLight getLight() {
+		return this.light;
 	}
 
 	public void setUi(UiInventory ui) {
@@ -100,7 +106,7 @@ public class Player extends Creature {
 
 		if (this.light != null) {
 			this.light.setPosition(this.x + 8, this.y + 8);
-			this.light.setDistance((float) (LIGHT_SIZE + Math.cos(this.t * 3) * 8));
+			this.light.setDistance((float) (LIGHT_SIZE + Math.cos(this.t * 3) * 8 + this.lightModifier));
 		}
 
 		float v = this.vel.len2();

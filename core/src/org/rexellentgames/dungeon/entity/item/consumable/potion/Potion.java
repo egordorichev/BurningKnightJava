@@ -1,18 +1,22 @@
 package org.rexellentgames.dungeon.entity.item.consumable.potion;
 
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Potion extends Consumable {
 	protected float added;
-	protected PotionRegistry.Type type;
+	protected ChangableRegistry.Type type;
+
+	{
+		useTime = 10f;
+	}
 
 	public Potion() {
-		this.type = PotionRegistry.types.get(this.getClass().getSimpleName());
+		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
 		this.sprite = (short) this.type.getSprite();
-		this.identified = PotionRegistry.identified.get(this.type);
+		this.identified = ChangableRegistry.identified.get(this.type);
 	}
 
 	@Override
@@ -64,6 +68,6 @@ public class Potion extends Consumable {
 	@Override
 	public void identify() {
 		super.identify();
-		PotionRegistry.identified.put(this.type, true);
+		ChangableRegistry.identified.put(this.type, true);
 	}
 }

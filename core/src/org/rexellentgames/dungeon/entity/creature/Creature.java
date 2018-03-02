@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.physics.box2d.Body;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
@@ -218,6 +219,7 @@ public class Creature extends SaveableEntity {
 		if (this.canHaveBuff(buff)) {
 			this.buffs.add(buff);
 			buff.setOwner(this);
+			buff.onStart();
 		}
 	}
 
@@ -231,5 +233,9 @@ public class Creature extends SaveableEntity {
 
 	public ArrayList<Buff> getBuffs() {
 		return this.buffs;
+	}
+
+	public PointLight getLight() {
+		return null;
 	}
 }

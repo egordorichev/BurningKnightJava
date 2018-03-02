@@ -11,9 +11,8 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.PotionRegistry;
+import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
-import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.entities.Torch;
@@ -24,7 +23,6 @@ import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
-import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 import org.rexellentgames.dungeon.util.path.Graph;
 
@@ -169,7 +167,7 @@ public class RegularLevel extends Level {
 
 		Camera.instance.follow(Player.instance);
 
-		PotionRegistry.generate();
+		ChangableRegistry.generate();
 
 		return true;
 	}
@@ -681,7 +679,7 @@ public class RegularLevel extends Level {
 	@Override
 	protected void loadData(FileReader stream, DataType type) throws Exception {
 		if (type == DataType.PLAYER) {
-			PotionRegistry.load(stream);
+			ChangableRegistry.load(stream);
 
 			int count = stream.readInt32();
 
@@ -726,7 +724,7 @@ public class RegularLevel extends Level {
 	@Override
 	protected void writeData(FileWriter stream, DataType type) throws Exception {
 		if (type == DataType.PLAYER) {
-			PotionRegistry.save(stream);
+			ChangableRegistry.save(stream);
 
 			stream.writeInt32(this.playerSaveable.size());
 
