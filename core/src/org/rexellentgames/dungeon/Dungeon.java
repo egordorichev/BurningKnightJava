@@ -25,6 +25,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static RayHandler light;
 	public static World world;
 	public static Area area;
+	public static Area ui;
 	public static boolean up;
 	public static boolean reset;
 
@@ -42,7 +43,6 @@ public class Dungeon extends ApplicationAdapter {
 		PathFinder.setMapSize(Level.WIDTH, Level.HEIGHT);
 		Assets.init();
 		Box2D.init();
-		new UiLog();
 
 		this.initColors();
 		this.initInput();
@@ -88,6 +88,9 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		ui.destroy();
+		area.destroy();
+
 		game.destroy();
 		world.dispose();
 		Assets.destroy();

@@ -8,9 +8,10 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
 
-public class UiInventory extends Entity {
+public class UiInventory extends UiEntity {
 	private Inventory inventory;
 	private Item currentSlot;
 	private UiSlot[] slots;
@@ -21,7 +22,6 @@ public class UiInventory extends Entity {
 
 	public UiInventory(Inventory inventory) {
 		this.inventory = inventory;
-		this.alwaysActive = true;
 
 		Player.instance.setUi(this);
 	}
@@ -130,7 +130,8 @@ public class UiInventory extends Entity {
 		}
 	}
 
-	public void renderUi() {
+	@Override
+	public void render() {
 		for (int i = 0; i < (this.open ? 24 : 6); i++) {
 			Item item = this.inventory.getSlot(i);
 			this.slots[i].render(item);

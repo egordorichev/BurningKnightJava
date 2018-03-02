@@ -3,11 +3,12 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
 
-public class UiLog {
+public class UiLog extends UiEntity {
 	public static UiLog instance;
 	private ArrayList<Line> lines = new ArrayList<Line>();
 
@@ -20,6 +21,7 @@ public class UiLog {
 		this.lines.add(new Line(string));
 	}
 
+	@Override
 	public void update(float dt) {
 		for (int i = this.lines.size() - 1; i >= 0; i--) {
 			final Line line = this.lines.get(i);
@@ -50,6 +52,7 @@ public class UiLog {
 		}
 	}
 
+	@Override
 	public void render() {
 		for (int i = 0; i < this.lines.size(); i++) {
 			Line line = this.lines.get(i);
