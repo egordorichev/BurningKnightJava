@@ -16,6 +16,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.Bar;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
@@ -86,11 +87,11 @@ public class InGameState extends State {
 
 		this.health.setValue(Player.instance.getHp());
 		this.mana.setValue(Player.instance.getMana());
-		this.exp.setValue(Player.instance.getExperience());
+		this.exp.setValue(Player.instance.getExperienceForLevel());
 
 		this.health.setMax(Player.instance.getHpMax());
 		this.mana.setMax(Player.instance.getManaMax());
-		this.exp.setMax(Player.instance.getExperienceMax());
+		this.exp.setMax(Player.instance.getExperienceMaxForLevel());
 	}
 
 	private void renderGame() {
@@ -176,7 +177,7 @@ public class InGameState extends State {
 		this.exp.w = 16;
 		this.exp.h = 19;
 		this.exp.x = 2;
-		this.exp.y = Display.GAME_HEIGHT - 23;
+		this.exp.y = Display.GAME_HEIGHT - 22;
 		this.exp.vertical = true;
 		this.exp.setTexture(80, 0);
 

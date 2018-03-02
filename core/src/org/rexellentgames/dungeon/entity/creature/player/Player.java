@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -39,12 +40,12 @@ public class Player extends Creature {
 	protected int experience;
 	protected int experienceMax;
 	protected int level;
+	protected int forThisLevel;
 
 	{
 		hpMax = 100;
 		manaMax = 100;
 		level = 1;
-		experienceMax = 10;
 		speed = 10;
 		alwaysActive = true;
 	}
@@ -58,6 +59,8 @@ public class Player extends Creature {
 		super.init();
 		instance = this;
 
+		this.experienceMax = expNeeded(this.level);
+		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 24);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
@@ -73,10 +76,6 @@ public class Player extends Creature {
 		super.update(dt);
 
 		this.vel.mul(0.8f);
-
-		if (Random.chance(25)) {
-			Dungeon.ui.add(new ExpFx(this.x + this.w / 2, this.y + this.w / 2));
-		}
 
 		if (this.dead) {
 			super.common();
@@ -165,6 +164,7 @@ public class Player extends Creature {
 		this.experience = reader.readInt32();
 		this.experienceMax = reader.readInt32();
 		this.level = reader.readInt32();
+		this.forThisLevel = expNeeded(this.level);
 	}
 
 	@Override
@@ -230,6 +230,18 @@ public class Player extends Creature {
 		return this.experienceMax;
 	}
 
+	public int getExperienceForLevel() {
+		return this.experience;
+	}
+
+	public int getExperienceMaxForLevel() {
+		return this.experienceMax;
+	}
+
+	public int getForThisLevel() {
+		return this.forThisLevel;
+	}
+
 	public int getMana() {
 		return this.mana;
 	}
@@ -246,5 +258,29 @@ public class Player extends Creature {
 	protected void die() {
 		super.die();
 		UiLog.instance.print("[red]You died!");
+	}
+
+	public void addExperience(int am) {
+		this.experience += am;
+
+		if (this.experience >= this.experienceMax) {
+			this.level += 1;
+			this.experience -= this.experienceMax;
+			this.forThisLevel = expNeeded(this.level);
+			this.experienceMax = expNeeded(this.level + 1);
+
+			UiLog.instance.print("[green]You reached level " + this.level + "!");
+		}
+	}
+
+
+	public static int expNeeded(int level) {
+		if (level == 1) {
+			return 0;
+		}
+
+		level -= 1;
+
+		return level * 2;
 	}
 }
