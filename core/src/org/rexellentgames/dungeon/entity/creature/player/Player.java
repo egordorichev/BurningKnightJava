@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
@@ -16,6 +17,7 @@ import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -71,6 +73,10 @@ public class Player extends Creature {
 		super.update(dt);
 
 		this.vel.mul(0.8f);
+
+		if (Random.chance(25)) {
+			Dungeon.ui.add(new ExpFx(this.x + this.w / 2, this.y + this.w / 2));
+		}
 
 		if (this.dead) {
 			super.common();

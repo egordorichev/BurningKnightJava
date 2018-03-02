@@ -3,15 +3,14 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.util.Line;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
@@ -21,10 +20,15 @@ public class Mob extends Creature {
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
 	protected boolean noticed = false;
+	protected int experienceDropped = 1;
 
 	public void notice(Player player) {
 		this.noticed = true;
 		this.target = player;
+	}
+
+	public int getExperienceDropped() {
+		return this.experienceDropped;
 	}
 
 	protected void assignTarget() {
@@ -137,6 +141,12 @@ public class Mob extends Creature {
 	protected void die() {
 		if (!this.dead) {
 			this.drop = true;
+		}
+
+		if (!Player.instance.isDead()) {
+			for (int i = 0; i < this.experienceDropped; i++) {
+				Dungeon.ui.add(new ExpFx(this.x + this.w / 2, this.y + this.w / 2));
+			}
 		}
 
 		super.die();

@@ -74,7 +74,7 @@ public class BurningKnight extends Mob {
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 			if (d > 16) {
-				d /= (this.timer % 10f <= 1f ? 10 : 3);
+				d /= (this.timer % 10f <= 1f ? 10 : 2);
 
 				this.vel.x += dx / d;
 				this.vel.y += dy / d;
