@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.ui;
 
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.CollisionHelper;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Bar extends UiEntity {
@@ -10,19 +12,30 @@ public class Bar extends UiEntity {
 	protected int tx;
 	protected int ty;
 	public boolean vertical;
+	public boolean hovered;
+
+	@Override
+	public void update(float dt) {
+		this.hovered = (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x, (int) this.y,
+			(int) this.w, (int) this.h));
+	}
 
 	@Override
 	public void render() {
-		int w = (int) (this.vertical ? this.w : this.w * (this.last / this.max));
-		int h = (int) (this.vertical ? this.h * (this.last / this.max) : this.h);
-		int ww = (int) (this.vertical ? this.w : this.w * (this.val / this.max));
-		int hh = (int) (this.vertical ? this.h * (this.val / this.max) : this.h);
+		int w = (int) Math.ceil(this.vertical ? this.w : this.w * (this.last / this.max));
+		int h = (int) Math.ceil(this.vertical ? this.h * (this.last / this.max) : this.h);
+		int ww = (int) Math.ceil(this.vertical ? this.w : this.w * (this.val / this.max));
+		int hh = (int) Math.ceil(this.vertical ? this.h * (this.val / this.max) : this.h);
 
 		Graphics.batch.setColor(0.8f, 0.8f, 0.8f, 1);
 		Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - hh), w, hh);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - h), ww, h);
+	}
+
+	public void renderInfo() {
+		Graphics.medium.draw(Graphics.batch, (int) this.val + " / " + (int) this.max, Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y + 6);
 	}
 
 	public void setValue(float v) {

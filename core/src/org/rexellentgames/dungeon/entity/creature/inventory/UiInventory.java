@@ -153,8 +153,8 @@ public class UiInventory extends UiEntity {
 				String info = item.buildInfo().toString();
 				Graphics.layout.setText(Graphics.small, info);
 				Graphics.small.draw(Graphics.batch, info,
-					MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 8),
-					MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y));
+					MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 12),
+					MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y + 2));
 				this.hoveredSlot = -1;
 			}
 		}
