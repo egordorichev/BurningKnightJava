@@ -19,10 +19,10 @@ public class Buff {
 	}
 
 	public Buff() {
-		this.onStart();
+
 	}
 
-	protected void onStart() {
+	public void onStart() {
 
 	}
 

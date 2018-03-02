@@ -1,6 +1,9 @@
-package org.rexellentgames.dungeon.entity.item.consumable.potion;
+package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -9,7 +12,7 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class PotionRegistry {
+public class ChangableRegistry {
 	public static HashMap<String, Type> types = new HashMap<String, Type>();
 	public static HashMap<Type, Boolean> identified = new HashMap<Type, Boolean>();
 
