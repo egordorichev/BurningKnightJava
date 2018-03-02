@@ -123,7 +123,6 @@ public class InGameState extends State {
 
 		Graphics.medium.draw(Graphics.batch, String.valueOf(Player.instance.getLevel()), 3 + (16 - this.w) / 2, Display.GAME_HEIGHT - 8);
 
-
 		for (int i = 0; i < Player.instance.getBuffs().size(); i++) {
 			Buff buff = Player.instance.getBuffs().get(i);
 
@@ -133,6 +132,10 @@ public class InGameState extends State {
 
 			Graphics.batch.draw(Graphics.buffs, 6 + i * 9, Display.GAME_HEIGHT - 44, 8, 8, xx, yy, 8, 8, false, false);
 		}
+
+		if (this.health.hovered) { this.health.renderInfo(); }
+		if (this.mana.hovered) { this.mana.renderInfo(); }
+		if (this.exp.hovered) { this.exp.renderInfo(); }
 
 		this.console.render();
 	}

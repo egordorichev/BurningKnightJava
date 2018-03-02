@@ -263,7 +263,7 @@ public class Player extends Creature {
 	public void addExperience(int am) {
 		this.experience += am;
 
-		if (this.experience >= this.experienceMax) {
+		while (this.experience >= this.experienceMax) {
 			this.level += 1;
 			this.experience -= this.experienceMax;
 			this.forThisLevel = expNeeded(this.level);
