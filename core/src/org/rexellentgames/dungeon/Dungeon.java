@@ -88,8 +88,10 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
-		ui.destroy();
-		area.destroy();
+		if (area != null) {
+			ui.destroy();
+			area.destroy();
+		}
 
 		game.destroy();
 		world.dispose();
