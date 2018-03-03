@@ -1,10 +1,9 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
-import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -18,7 +17,22 @@ public class ChangableRegistry {
 
 	public enum Type {
 		RED(32),
-		BLUE(33);
+		BLUE(33),
+		ORANGE(34),
+		GREEN(35),
+		YELLOW(36),
+		CORAL(37),
+		PINK(38),
+		BROWN(39),
+
+		JERA(64),
+		/*THURISAZ(65),
+		FEHU(66),
+		RAIDO(67),
+		MANNAZ(68),
+		TEIWAZ(69),
+		SOWULO(70),
+		HAGALAZ(71)*/;
 
 		private int sprite;
 
@@ -59,14 +73,35 @@ public class ChangableRegistry {
 
 	public static void generate() {
 		ArrayList<Class<? extends Potion>> potions = new ArrayList<Class<? extends Potion>>(Arrays.asList(
-			HealingPotion.class, SunPotion.class
+			HealingPotion.class, SunPotion.class, FirePotion.class, InvisibilityPotion.class, SpeedPotion.class,
+			RegenerationPotion.class, PoisonPotion.class, DefensePotion.class
 		));
 
-		for (Type type : Type.values()) {
+		ArrayList<Type> potionTypes = new ArrayList<Type>(Arrays.asList(
+			Type.RED, Type.BLUE, Type.ORANGE, Type.GREEN, Type.YELLOW, Type.CORAL, Type.PINK, Type.BROWN
+		));
+
+		for (Type type : potionTypes) {
 			int i = Random.newInt(potions.size());
 			types.put(potions.get(i).getSimpleName(), type);
 			identified.put(type, false);
 			potions.remove(i);
+		}
+
+		ArrayList<Class<? extends Spell>> spells = new ArrayList<Class<? extends Spell>>(Arrays.asList(
+			SpellOfTeleportation.class
+		));
+
+		ArrayList<Type> spellTypes = new ArrayList<Type>(Arrays.asList(
+			Type.JERA//, Type.THURISAZ, Type.FEHU, Type.RAIDO,
+			//Type.MANNAZ, Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
+		));
+
+		for (Type type : spellTypes) {
+			int i = Random.newInt(spells.size());
+			types.put(spells.get(i).getSimpleName(), type);
+			identified.put(type, false);
+			spells.remove(i);
 		}
 	}
 }

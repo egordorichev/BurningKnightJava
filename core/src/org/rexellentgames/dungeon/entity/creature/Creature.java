@@ -34,7 +34,12 @@ public class Creature extends SaveableEntity {
 	protected float timer;
 	protected boolean flipped = false;
 	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
-	protected float a = 1f;
+	public float a = 1f;
+	public boolean invisible;
+
+	public void modifyDefense(int amount) {
+		this.defense += amount;
+	}
 
 	public void tp(float x, float y) {
 		this.x = x;
@@ -100,7 +105,20 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	public void modifySpeed(int amount) {
+		this.speed += amount;
+		this.maxSpeed += amount * 5;
+	}
+
 	public void modifyHp(int amount) {
+		this.modifyHp(amount, false);
+	}
+
+	public boolean isUnhittable() {
+		return unhittable;
+	}
+
+	public void modifyHp(int amount, boolean ignoreArmor) {
 		if (this.dead) {
 			return;
 		}
@@ -110,7 +128,13 @@ public class Creature extends SaveableEntity {
 				return;
 			}
 
-			amount += this.defense;
+			if (!ignoreArmor) {
+				amount += this.defense;
+
+				if (amount > 0) {
+					amount = 0;
+				}
+			}
 
 			if (this.invt > 0) {
 				return;

@@ -47,7 +47,6 @@ public class Player extends Creature {
 		hpMax = 100;
 		manaMax = 100;
 		level = 1;
-		speed = 10;
 		alwaysActive = true;
 	}
 

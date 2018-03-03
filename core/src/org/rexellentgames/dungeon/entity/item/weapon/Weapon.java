@@ -71,8 +71,11 @@ public class Weapon extends Item {
 
 	@Override
 	public void endUse() {
-		this.body.getWorld().destroyBody(this.body);
-		this.body = null;
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+			this.body = null;
+		}
+
 		this.used = false;
 	}
 

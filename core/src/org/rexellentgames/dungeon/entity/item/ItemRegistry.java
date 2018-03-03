@@ -1,7 +1,7 @@
 package org.rexellentgames.dungeon.entity.item;
 
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
 
 import java.util.HashMap;
@@ -16,6 +16,13 @@ public class ItemRegistry {
 		register("gold", Gold.class);
 		register("healing_potion", HealingPotion.class);
 		register("sun_potion", SunPotion.class);
+		register("fire_potion", FirePotion.class);
+		register("invis_potion", InvisibilityPotion.class);
+		register("speed_potion", SpeedPotion.class);
+		register("regen_potion", RegenerationPotion.class);
+		register("poison_potion", PoisonPotion.class);
+		register("defense_potion", DefensePotion.class);
+		register("tp_spell", SpellOfTeleportation.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

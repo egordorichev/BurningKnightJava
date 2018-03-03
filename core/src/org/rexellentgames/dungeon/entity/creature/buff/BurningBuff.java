@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
 import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
+import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 
 public class BurningBuff extends Buff {
 	{
@@ -15,6 +17,11 @@ public class BurningBuff extends Buff {
 	protected void onUpdate(float dt) {
 		if (this.time % 0.1 <= 0.017) {
 			this.addFlame();
+
+			if (Random.chance(30)) {
+				Log.info("hit");
+				this.owner.modifyHp(-1, true);
+			}
 		}
 	}
 
