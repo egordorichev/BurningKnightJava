@@ -12,7 +12,12 @@ public class GodModeCommand extends ConsoleCommand {
 
 	@Override
 	public void run(Console console, String[] args) {
-		Player.instance.setUnhittable(true);
-		UiLog.instance.print("[green]You are now unkillable");
+		Player.instance.setUnhittable(!Player.instance.isUnhittable());
+
+		if (Player.instance.isUnhittable()) {
+			UiLog.instance.print("[green]You are now unkillable!");
+		} else {
+			UiLog.instance.print("[red]You are now killable!");
+		}
 	}
 }

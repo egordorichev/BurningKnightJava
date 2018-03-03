@@ -28,6 +28,12 @@ public class GiveCommand extends ConsoleCommand {
 
 			try {
 				Class<?> clazz = ItemRegistry.items.get(name);
+
+				if (clazz == null) {
+					UiLog.instance.print("[red]Unknown item");
+					return;
+				}
+
 				Constructor<?> constructor = clazz.getConstructor();
 				Item item = (Item) constructor.newInstance(new Object[] { });
 				ItemHolder itemHolder = new ItemHolder();

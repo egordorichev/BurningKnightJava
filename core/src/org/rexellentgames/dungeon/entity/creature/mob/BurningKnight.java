@@ -68,7 +68,7 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
-		if (this.target != null) {
+		if (this.target != null && !this.target.invisible) {
 			float dx = this.target.x - this.x - 8;
 			float dy = this.target.y - this.y - 8;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);

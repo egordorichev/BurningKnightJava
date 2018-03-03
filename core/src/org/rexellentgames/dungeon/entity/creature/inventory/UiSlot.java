@@ -22,8 +22,6 @@ public class UiSlot {
 	}
 
 	public void update(float dt) {
-		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, this.y, 24, 24);
-
 		Item item = this.inventory.getInventory().getSlot(this.id);
 
 		if (item != null) {
@@ -33,6 +31,12 @@ public class UiSlot {
 				this.inventory.getInventory().setSlot(this.id, null);
 			}
 		}
+
+		if (!this.inventory.isOpen() && this.id >= 6) {
+			return;
+		}
+
+		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, this.y, 24, 24);
 
 		if (this.hovered) {
 			this.inventory.hoveredSlot = this.id;

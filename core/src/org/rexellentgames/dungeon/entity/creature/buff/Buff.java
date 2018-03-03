@@ -7,7 +7,7 @@ public class Buff {
 	protected String name;
 	protected String description;
 	protected int sprite;
-	protected float duration;
+	protected float duration = 10f;
 	protected float time;
 	protected boolean bad = false;
 	protected Creature owner;
@@ -15,11 +15,10 @@ public class Buff {
 
 	public Buff(float duration) {
 		this.duration = duration;
-		this.onStart();
 	}
 
 	public Buff() {
-
+		this.duration = this.time;
 	}
 
 	public void onStart() {

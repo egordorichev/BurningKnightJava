@@ -51,6 +51,8 @@ public class InGameState extends State {
 	public void destroy() {
 		super.destroy();
 
+		this.console.destroy();
+
 		if (Dungeon.reset) {
 			Gdx.files.external(".ldg/").deleteDirectory();
 			Dungeon.reset = false;
@@ -128,9 +130,9 @@ public class InGameState extends State {
 
 			int sprite = buff.getSprite();
 			int xx = sprite % 32 * 8;
-			int yy = (int) (Math.floor(sprite % 32) * 8);
+			int yy = (int) (Math.floor(sprite / 32) * 8);
 
-			Graphics.batch.draw(Graphics.buffs, 6 + i * 9, Display.GAME_HEIGHT - 44, 8, 8, xx, yy, 8, 8, false, false);
+			Graphics.batch.draw(Graphics.buffs, 2 + i * 9, Display.GAME_HEIGHT - 36, xx, yy, 8, 8);
 		}
 
 		if (this.health.hovered) { this.health.renderInfo(); }

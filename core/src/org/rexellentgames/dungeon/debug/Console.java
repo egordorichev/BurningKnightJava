@@ -23,6 +23,10 @@ public class Console implements InputProcessor {
 		this.commands.add(new GenerateCommand());
 	}
 
+	public void destroy() {
+		org.rexellentgames.dungeon.game.input.Input.multiplexer.removeProcessor(this);
+	}
+
 	public void update(float dt) {
 
 	}
