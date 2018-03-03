@@ -8,7 +8,7 @@ public class Spell extends Consumable {
 	protected ChangableRegistry.Type type;
 
 	{
-		useTime = 5f;
+		useTime = 1f;
 	}
 
 	public Spell() {
@@ -20,13 +20,14 @@ public class Spell extends Consumable {
 	@Override
 	public void render(float x, float y, boolean flipped) {
 		if (this.delay > 0) {
-			Graphics.render(Graphics.items, this.sprite, x + (flipped ? -3 : 3), y - 4, 1, 1, 0, 8,8, !flipped, false);
+			Graphics.render(Graphics.items, this.sprite, x + (flipped ? -8 : 8), y, 1, 1, 0, 8,8, !flipped, false);
 		}
 	}
 
 	@Override
 	public void use() {
 		this.identify();
+		this.count -= 1;
 		super.use();
 	}
 

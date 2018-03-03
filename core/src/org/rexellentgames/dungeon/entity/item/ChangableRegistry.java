@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.item;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -26,8 +27,8 @@ public class ChangableRegistry {
 		BROWN(39),
 
 		JERA(64),
-		/*THURISAZ(65),
-		FEHU(66),
+		THURISAZ(65),
+		/*FEHU(66),
 		RAIDO(67),
 		MANNAZ(68),
 		TEIWAZ(69),
@@ -89,11 +90,11 @@ public class ChangableRegistry {
 		}
 
 		ArrayList<Class<? extends Spell>> spells = new ArrayList<Class<? extends Spell>>(Arrays.asList(
-			SpellOfTeleportation.class
+			SpellOfTeleportation.class, SpellOfDamage.class
 		));
 
 		ArrayList<Type> spellTypes = new ArrayList<Type>(Arrays.asList(
-			Type.JERA//, Type.THURISAZ, Type.FEHU, Type.RAIDO,
+			Type.JERA, Type.THURISAZ//, Type.FEHU, Type.RAIDO,
 			//Type.MANNAZ, Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
 		));
 
