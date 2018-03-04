@@ -10,6 +10,7 @@ public class Buff {
 	protected float duration = 10f;
 	protected float time;
 	protected boolean bad = false;
+	protected boolean infinite = false;
 	protected Creature owner;
 	protected boolean ended;
 
@@ -29,6 +30,10 @@ public class Buff {
 
 	}
 
+	public void setDuration(float duration) {
+		this.duration = duration;
+	}
+
 	protected void onUpdate(float dt) {
 
 	}
@@ -42,9 +47,13 @@ public class Buff {
 		this.onUpdate(dt);
 
 		if (this.time >= this.duration) {
-			this.ended = true;
-			this.onEnd();
-			this.owner.removeBuff(this);
+			if (this.infinite) {
+				this.time = 0;
+			} else {
+				this.ended = true;
+				this.onEnd();
+				this.owner.removeBuff(this.getClass());
+			}
 		}
 	}
 

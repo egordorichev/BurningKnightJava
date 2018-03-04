@@ -6,6 +6,7 @@ public class PoisonBuff extends Buff {
 		description = "You are slowly losing your life";
 		duration = 60f;
 		sprite = 5;
+		bad = true;
 	}
 
 	@Override

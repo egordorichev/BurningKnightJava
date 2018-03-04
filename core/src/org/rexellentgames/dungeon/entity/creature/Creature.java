@@ -15,6 +15,8 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
 	public static final float INV_TIME = 0.4f;
@@ -33,7 +35,7 @@ public class Creature extends SaveableEntity {
 	protected float t;
 	protected float timer;
 	protected boolean flipped = false;
-	protected ArrayList<Buff> buffs = new ArrayList<Buff>();
+	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
 	public float a = 1f;
 	public boolean invisible;
 
@@ -78,8 +80,10 @@ public class Creature extends SaveableEntity {
 			this.y = this.body.getPosition().y;
 		}
 
-		for (int i = this.buffs.size() - 1; i >= 0; i--) {
-			this.buffs.get(i).update(dt);
+		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
+
+		for (int i = buffs.length - 1; i >= 0; i--) {
+			buffs[i].update(dt);
 		}
 	}
 
@@ -145,7 +149,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		this.area.add(new HpFx(this, amount));
-		this.hp = MathUtils.clamp(0, this.hpMax, this.hp + amount);
+		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);
 
 		if (this.hp == 0) {
 			this.die();
@@ -196,7 +200,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void renderBuffs() {
-		for (Buff buff : this.buffs) {
+		for (Buff buff : this.buffs.values()) {
 			buff.render(this);
 		}
 	}
@@ -241,13 +245,20 @@ public class Creature extends SaveableEntity {
 
 	public void addBuff(Buff buff) {
 		if (this.canHaveBuff(buff)) {
-			this.buffs.add(buff);
-			buff.setOwner(this);
-			buff.onStart();
+			Buff b = this.buffs.get(buff.getClass());
+
+			if (b != null) {
+				b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
+			} else {
+				this.buffs.put(buff.getClass(), buff);
+
+				buff.setOwner(this);
+				buff.onStart();
+			}
 		}
 	}
 
-	public void removeBuff(Buff buff) {
+	public void removeBuff(Class<? extends Buff> buff) {
 		this.buffs.remove(buff);
 	}
 
@@ -255,8 +266,8 @@ public class Creature extends SaveableEntity {
 		return this.flipped;
 	}
 
-	public ArrayList<Buff> getBuffs() {
-		return this.buffs;
+	public Collection<Buff> getBuffs() {
+		return this.buffs.values();
 	}
 
 	public PointLight getLight() {

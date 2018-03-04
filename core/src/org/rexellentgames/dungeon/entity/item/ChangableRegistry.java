@@ -28,8 +28,8 @@ public class ChangableRegistry {
 
 		JERA(64),
 		THURISAZ(65),
-		/*FEHU(66),
-		RAIDO(67),
+		FEHU(66),
+		/*RAIDO(67),
 		MANNAZ(68),
 		TEIWAZ(69),
 		SOWULO(70),

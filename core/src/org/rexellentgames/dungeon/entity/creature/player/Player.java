@@ -8,6 +8,8 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
@@ -18,6 +20,7 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -42,12 +45,37 @@ public class Player extends Creature {
 	protected int level;
 	protected int forThisLevel;
 	public float lightModifier;
+	private float hunger;
 
 	{
 		hpMax = 100;
 		manaMax = 100;
 		level = 1;
+		hunger = 10;
 		alwaysActive = true;
+	}
+
+	public float getHunger() {
+		return this.hunger;
+	}
+
+	public void setHunger(float hunger) {
+		float old = this.hunger;
+		this.hunger = MathUtils.clamp(0, 360, hunger);
+
+		if (old < 360 && this.hunger == 360) {
+			this.addBuff(new StarvingBuff());
+		} else if (old < 260 && this.hunger >= 260) {
+			this.addBuff(new HungryBuff());
+		}
+
+		if (this.hunger != 360) {
+			this.removeBuff(StarvingBuff.class);
+		}
+
+		if (this.hunger < 260 || this.hunger == 360) {
+			this.removeBuff(HungryBuff.class);
+		}
 	}
 
 	@Override
@@ -86,6 +114,8 @@ public class Player extends Creature {
 			super.common();
 			return;
 		}
+
+		this.setHunger(this.hunger + dt);
 
 		if (Input.instance.isDown("left")) {
 			this.vel.x -= this.speed;
@@ -170,6 +200,8 @@ public class Player extends Creature {
 		this.experienceMax = reader.readInt32();
 		this.level = reader.readInt32();
 		this.forThisLevel = expNeeded(this.level);
+
+		this.setHunger(reader.readInt16());
 	}
 
 	@Override
@@ -183,6 +215,8 @@ public class Player extends Creature {
 		writer.writeInt32(this.experience);
 		writer.writeInt32(this.experienceMax);
 		writer.writeInt32(this.level);
+
+		writer.writeInt16((short) this.hunger);
 	}
 
 	@Override
