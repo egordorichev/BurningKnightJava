@@ -17,7 +17,6 @@ public class UiLog extends UiEntity {
 	}
 
 	public void print(String string) {
-		// System.out.println(string);
 		this.lines.add(new Line(string));
 	}
 

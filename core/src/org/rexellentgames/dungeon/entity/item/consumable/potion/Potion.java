@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.item.consumable.potion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Potion extends Consumable {
@@ -69,5 +70,24 @@ public class Potion extends Consumable {
 	public void identify() {
 		super.identify();
 		ChangableRegistry.identified.put(this.type, true);
+	}
+
+	public static Potion random() {
+		int random = Random.newInt(8);
+
+		switch (random) {
+			case 0: case 1:
+				return new RegenerationPotion();
+			case 2:
+				return new PoisonPotion();
+			case 3:
+				return new DefensePotion();
+			case 4: case 5:
+				return new SunPotion();
+			case 6:
+				return new InvisibilityPotion();
+			case 7: case 8: default:
+				return new SpeedPotion();
+		}
 	}
 }

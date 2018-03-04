@@ -65,7 +65,7 @@ public class Player extends Creature {
 
 		if (old < 360 && this.hunger == 360) {
 			this.addBuff(new StarvingBuff());
-		} else if (old < 260 && this.hunger >= 260) {
+		} else if ((old < 260 || old == 360) && this.hunger >= 260) {
 			this.addBuff(new HungryBuff());
 		}
 
