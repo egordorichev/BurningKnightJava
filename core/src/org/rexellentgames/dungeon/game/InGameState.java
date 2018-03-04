@@ -125,8 +125,10 @@ public class InGameState extends State {
 
 		Graphics.medium.draw(Graphics.batch, String.valueOf(Player.instance.getLevel()), 3 + (16 - this.w) / 2, Display.GAME_HEIGHT - 8);
 
-		for (int i = 0; i < Player.instance.getBuffs().size(); i++) {
-			Buff buff = Player.instance.getBuffs().get(i);
+		Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[] {});
+
+		for (int i = 0; i < buffs.length; i++) {
+			Buff buff = buffs[i];
 
 			int sprite = buff.getSprite();
 			int xx = sprite % 32 * 8;

@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import org.rexellentgames.dungeon.entity.item.consumable.food.Bread;
+import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
@@ -25,6 +27,8 @@ public class ItemRegistry {
 		register("defense_potion", DefensePotion.class);
 		register("tp_spell", SpellOfTeleportation.class);
 		register("damage_spell", SpellOfDamage.class);
+		register("bread", Bread.class);
+		register("chicken", Chicken.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {
