@@ -12,7 +12,13 @@ import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
+import org.rexellentgames.dungeon.entity.item.consumable.food.Bread;
+import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
+import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.entities.Torch;
@@ -144,6 +150,11 @@ public class RegularLevel extends Level {
 
 		this.busy = new boolean[SIZE];
 
+		ChangableRegistry.generate();
+
+		this.addItemToSpawn(new HealingPotion());
+		this.addItemToSpawn(Random.chance(50) ? new Chicken() : new Bread());
+
 		this.spawnItems();
 		this.spawnMobs();
 
@@ -166,8 +177,6 @@ public class RegularLevel extends Level {
 		}
 
 		Camera.instance.follow(Player.instance);
-
-		ChangableRegistry.generate();
 
 		return true;
 	}
@@ -304,7 +313,7 @@ public class RegularLevel extends Level {
 	}
 
 	private void spawnItems() {
-		int n = 32;
+		int n = 10;
 
 		while (Random.newFloat() < 0.4f) {
 			n++;
@@ -312,6 +321,10 @@ public class RegularLevel extends Level {
 
 		for (int i = 0; i < n; i++) {
 			this.drop(this.getRandomCell(), this.getRandomItem());
+		}
+
+		for (Item item : this.toSpawn) {
+			this.drop(this.getRandomCell(), item);
 		}
 	}
 
@@ -344,8 +357,18 @@ public class RegularLevel extends Level {
 	}
 
 	protected Item getRandomItem() {
-		// todo: random!
-		return new Gold().randomize();
+		int random = Random.newInt(11);
+
+		switch (random) {
+			case 0: case 1: case 2:
+				return new Gold().randomize();
+			case 3: case 4: case 5: case 6: case 7:
+				return Potion.random();
+			case 8: case 9: case 10:
+				return Spell.random();
+			case 11: default:
+				return new IronSword();
+		}
 	}
 
 	protected void drop(int cell, Item item) {

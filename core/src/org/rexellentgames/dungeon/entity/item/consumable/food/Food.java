@@ -12,6 +12,7 @@ public class Food extends Consumable {
 	{
 		useTime = 10f;
 		hunger = 10;
+		identified = true;
 	}
 
 	@Override
