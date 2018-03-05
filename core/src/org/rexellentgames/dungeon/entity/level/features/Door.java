@@ -9,8 +9,8 @@ public class Door extends Point {
 
 	private Type type = Type.EMPTY;
 
-	public Door(int x, int y) {
-		super(x, y);
+	public Door(Point p) {
+		super(p);
 	}
 
 	public void setType(Type type) {

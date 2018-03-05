@@ -20,4 +20,10 @@ public class Point extends Vector2 {
 		this.x *= v;
 		this.y *= v;
 	}
+
+	public Point offset(Point d) {
+		x += d.x;
+		y += d.y;
+		return this;
+	}
 }

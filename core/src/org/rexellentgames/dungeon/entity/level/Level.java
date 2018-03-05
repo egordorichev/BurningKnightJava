@@ -42,7 +42,7 @@ public abstract class Level extends Entity {
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, 1)};
 
 
-	protected short[] data;
+	public short[] data;
 	protected boolean[] passable;
 	protected boolean[] low;
 	protected Body body;
@@ -57,9 +57,7 @@ public abstract class Level extends Entity {
 	public static void setSize(int width, int height) {
 		Level.WIDTH = width;
 		Level.HEIGHT = height;
-		Level.SIZE = width * height;
-
-		Log.info(width + " " + height);
+		Level.SIZE = width * (height + 1);
 	}
 
 	public void fill() {
@@ -301,6 +299,8 @@ public abstract class Level extends Entity {
 
 		ArrayList<Vector2> marked = new ArrayList<Vector2>();
 
+		Log.info(getWIDTH() + " " + getHEIGHT() + " is the size");
+
 		for (int x = 0; x < getWIDTH(); x++) {
 			for (int y = 0; y < getHEIGHT(); y++) {
 				if (this.checkFor(x, y, Terrain.SOLID)) {
@@ -402,10 +402,6 @@ public abstract class Level extends Entity {
 			this.loadData(stream, type);
 
 			stream.close();
-
-			if (type == Level.DataType.LEVEL) {
-				this.addPhysics();
-			}
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}

@@ -22,4 +22,9 @@ public class HallLevel extends BetterLevel {
 
 		return builder;
 	}
+
+	@Override
+	protected int getNumRegularRooms() {
+		return 15;
+	}
 }

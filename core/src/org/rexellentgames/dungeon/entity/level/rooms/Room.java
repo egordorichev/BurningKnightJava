@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
+import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -19,8 +20,8 @@ public abstract class Room extends Rect implements GraphNode {
 		Type.HOLE
 	));
 
-	private ArrayList<Room> neighbours = new ArrayList<Room>();
-	private HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
+	protected ArrayList<Room> neighbours = new ArrayList<Room>();
+	protected HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
 	private Type type;
 	private int price = 1;
 	private int distance = 0;
@@ -50,15 +51,7 @@ public abstract class Room extends Rect implements GraphNode {
 	public abstract int getMinConnections(Connection side);
 
 	public void paint(Level level) {
-		fill(level, this.left, this.top, this.right - 1, this.bottom - 1, Terrain.FLOOR);
-	}
-
-	protected void fill(Level level, int l, int t, int r, int b, int v) {
-		for (int x = l; x < r; x++) {
-			for (int y = t; y < b; y++) {
-				level.set(x, y, (short) v);
-			}
-		}
+		Painter.fill(level, this, 1, Terrain.FLOOR);
 	}
 
 	public Type getType() {
