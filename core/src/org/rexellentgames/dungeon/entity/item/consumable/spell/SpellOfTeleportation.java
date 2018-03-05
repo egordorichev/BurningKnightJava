@@ -20,8 +20,8 @@ public class SpellOfTeleportation extends Spell {
 		int y;
 
 		do {
-			x = Random.newInt(1, Level.WIDTH - 2);
-			y = Random.newInt(1, Level.HEIGHT - 2);
+			x = Random.newInt(1, Level.getWIDTH() - 2);
+			y = Random.newInt(1, Level.getHEIGHT() - 2);
 		} while (!check(x, y));
 
 		Player.instance.tp(x * 16, y * 16);

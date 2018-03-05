@@ -3,6 +3,9 @@ package org.rexellentgames.dungeon.game.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.util.Log;
@@ -12,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Input implements InputProcessor {
+public class Input implements InputProcessor, ControllerListener {
 	public static InputMultiplexer multiplexer = new InputMultiplexer();
 	public static Input instance;
 
@@ -22,6 +25,59 @@ public class Input implements InputProcessor {
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
+	}
+
+	@Override
+	public void connected(Controller controller) {
+
+	}
+
+	@Override
+	public void disconnected(Controller controller) {
+
+	}
+
+	@Override
+	public boolean buttonDown(Controller controller, int buttonCode) {
+		this.keys.put("Controller" + buttonCode, State.DOWN);
+		return false;
+	}
+
+	@Override
+	public boolean buttonUp(Controller controller, int buttonCode) {
+		this.keys.put("Controller" + buttonCode, State.UP);
+		return false;
+	}
+
+	@Override
+	public boolean axisMoved(Controller controller, int axisCode, float value) {
+		if (value < 0) {
+			this.keys.put("ControllerAxisMinus" + axisCode, State.DOWN);
+		} else {
+			this.keys.put("ControllerAxisPlus" + axisCode, State.DOWN);
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
+		return false;
+	}
+
+	@Override
+	public boolean xSliderMoved(Controller controller, int sliderCode, boolean value) {
+		return false;
+	}
+
+	@Override
+	public boolean ySliderMoved(Controller controller, int sliderCode, boolean value) {
+		return false;
+	}
+
+	@Override
+	public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value) {
+		return false;
 	}
 
 	public enum State {

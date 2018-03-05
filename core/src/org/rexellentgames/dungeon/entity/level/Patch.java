@@ -1,17 +1,16 @@
-package org.rexellentgames.dungeon.entity.level.painter;
+package org.rexellentgames.dungeon.entity.level;
 
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.util.Random;
 
 public class Patch {
-	private static boolean[] cur = new boolean[Level.SIZE];
-	private static boolean[] off = new boolean[Level.SIZE];
+	private static boolean[] cur = new boolean[Level.getSIZE()];
+	private static boolean[] off = new boolean[Level.getSIZE()];
 
 	public static boolean[] generate(float seed, int octaves) {
-		int w = Level.WIDTH;
-		int h = Level.HEIGHT;
+		int w = Level.getWIDTH();
+		int h = Level.getHEIGHT();
 
-		for (int i = 0; i < Level.SIZE; i++) {
+		for (int i = 0; i < Level.getSIZE(); i++) {
 			off[i] = Random.newFloat() < seed;
 		}
 

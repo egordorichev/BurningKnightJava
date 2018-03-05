@@ -3,21 +3,14 @@ package org.rexellentgames.dungeon.game;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.HallLevel;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.RegularLevel;
-import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.util.Log;
-
-import java.util.ArrayList;
+import org.rexellentgames.dungeon.util.PathFinder;
 
 public class LoadState extends State {
 	private boolean ready = false;
@@ -44,7 +37,7 @@ public class LoadState extends State {
 			Dungeon.light.setAmbientLight(0f);
 		}
 
-		Dungeon.level = new RegularLevel();
+		Dungeon.level = new HallLevel();
 		Dungeon.area.add(Dungeon.level);
 
 		new Thread(new Runnable() {
@@ -54,6 +47,10 @@ public class LoadState extends State {
 				Dungeon.level.load(Level.DataType.LEVEL);
 
 				Dungeon.level.loadPassable();
+				Dungeon.level.addPhysics();
+
+				PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
+
 				UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
 
 				ready = true;

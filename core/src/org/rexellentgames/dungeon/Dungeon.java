@@ -10,7 +10,6 @@ import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.LoadState;
@@ -21,7 +20,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static Game game;
 	public static int depth = 0;
 	public static float time;
-	public static RegularLevel level;
+	public static Level level;
 	public static RayHandler light;
 	public static World world;
 	public static Area area;
@@ -40,7 +39,6 @@ public class Dungeon extends ApplicationAdapter {
 	public void create() {
 		this.setupCursor();
 
-		PathFinder.setMapSize(Level.WIDTH, Level.HEIGHT);
 		Assets.init();
 		Box2D.init();
 
