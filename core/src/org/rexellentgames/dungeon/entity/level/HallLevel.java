@@ -25,6 +25,6 @@ public class HallLevel extends BetterLevel {
 
 	@Override
 	protected int getNumRegularRooms() {
-		return 15;
+		return 10;
 	}
 }

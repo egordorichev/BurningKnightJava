@@ -31,11 +31,11 @@ public abstract class Room extends Rect implements GraphNode {
 	}
 
 	public int getMinWidth() {
-		return 3;
+		return 5;
 	}
 
 	public int getMinHeight() {
-		return 3;
+		return 5;
 	}
 
 	public int getMaxWidth() {
@@ -52,6 +52,10 @@ public abstract class Room extends Rect implements GraphNode {
 
 	public void paint(Level level) {
 		Painter.fill(level, this, 1, Terrain.FLOOR);
+
+		for (Door door : this.connected.values()) {
+			door.setType(Door.Type.REGULAR);
+		}
 	}
 
 	public Type getType() {

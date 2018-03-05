@@ -4,7 +4,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class RegularRoom extends Room {
 	public enum Size {
-		NORMAL(4, 10, 1),
+		NORMAL(6, 10, 1),
 		LARGE(10, 14, 2),
 		GIANT(14, 18, 3);
 
