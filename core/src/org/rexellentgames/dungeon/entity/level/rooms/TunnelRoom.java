@@ -16,7 +16,7 @@ public class TunnelRoom extends ConnectionRoom {
 
 	@Override
 	public void paint(Level level) {
-		int floor = Terrain.FLOOR;
+		int floor = Terrain.GRASS;
 
 		Rect c = getConnectionSpace();
 
@@ -55,6 +55,10 @@ public class TunnelRoom extends ConnectionRoom {
 
 			Painter.drawLine(level, start, mid, floor);
 			Painter.drawLine(level, mid, end, floor);
+		}
+
+		for (Door door : this.connected.values()) {
+			door.setType(Door.Type.TUNNEL);
 		}
 	}
 

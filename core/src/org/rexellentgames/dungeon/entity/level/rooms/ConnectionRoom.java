@@ -21,12 +21,12 @@ public class ConnectionRoom extends Room {
 
 	@Override
 	public int getMaxWidth() {
-		return 9;
+		return 10;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 9;
+		return 10;
 	}
 
 	@Override

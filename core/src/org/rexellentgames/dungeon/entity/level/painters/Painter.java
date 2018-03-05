@@ -58,7 +58,12 @@ public class Painter {
 		for (Room r : rooms) {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
-				level.set((int) d.x, (int) d.y, Terrain.DOOR);
+
+				if (d.getType() == Door.Type.REGULAR) {
+					level.set((int) d.x, (int) d.y, Terrain.DOOR);
+				} else {
+					level.set((int) d.x, (int) d.y, Terrain.FLOOR);
+				}
 			}
 		}
 	}
