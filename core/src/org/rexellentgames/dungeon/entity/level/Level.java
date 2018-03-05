@@ -5,28 +5,36 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Level extends Entity {
+public abstract class Level extends Entity {
 	public static final byte VERSION = 0;
-	public static final int WIDTH = 36;
-	public static final int HEIGHT = 36;
-	public static final int SIZE = WIDTH * HEIGHT;
+	private static int WIDTH = 36;
+	private static int HEIGHT = 36;
+	private static int SIZE = getWIDTH() * getHEIGHT();
 
-	public static final int[] NEIGHBOURS4 = {-WIDTH, +1, +WIDTH, -1};
-	public static final int[] NEIGHBOURS8 = {+1, -1, +WIDTH, -WIDTH, +1 + WIDTH, +1 - WIDTH, -1 + WIDTH, -1 - WIDTH};
-	public static final int[] NEIGHBOURS9 = {0, +1, -1, +WIDTH, -WIDTH, +1 + WIDTH, +1 - WIDTH, -1 + WIDTH, -1 - WIDTH};
+	public static final int[] NEIGHBOURS4 = {-getWIDTH(), +1, +getWIDTH(), -1};
+	public static final int[] NEIGHBOURS8 = {+1, -1, +getWIDTH(), -getWIDTH(), +1 + getWIDTH(), +1 - getWIDTH(), -1 + getWIDTH(), -1 - getWIDTH()};
+	public static final int[] NEIGHBOURS9 = {0, +1, -1, +getWIDTH(), -getWIDTH(), +1 + getWIDTH(), +1 - getWIDTH(), -1 + getWIDTH(), -1 - getWIDTH()};
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
 
@@ -34,24 +42,79 @@ public class Level extends Entity {
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, 1)};
 
 
-	protected Vector2 spawn;
 	protected short[] data;
 	protected boolean[] passable;
 	protected boolean[] low;
+	protected Body body;
 	protected int level;
+	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
+	protected ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
+
+	public static int getWIDTH() {
+		return WIDTH;
+	}
+
+	public static void setSize(int width, int height) {
+		Level.WIDTH = width;
+		Level.HEIGHT = height;
+		Level.SIZE = width * height;
+
+		Log.info(width + " " + height);
+	}
+
+	public void fill() {
+		this.data = new short[getSIZE()];
+
+		for (int i = 0; i < getSIZE(); i++) {
+			this.data[i] = Terrain.WALL;
+		}
+	}
+
+	public static int getHEIGHT() {
+		return HEIGHT;
+	}
+
+	public static int getSIZE() {
+		return SIZE;
+	}
+
+	public void addSaveable(SaveableEntity entity) {
+		this.saveable.add(entity);
+	}
+
+	public void removeSaveable(SaveableEntity entity) {
+		this.saveable.remove(entity);
+	}
+
+	public void addPlayerSaveable(SaveableEntity entity) {
+		this.playerSaveable.add(entity);
+	}
+
+	public void removePlayerSaveable(SaveableEntity entity) {
+		this.playerSaveable.remove(entity);
+	}
+
+	public void loadPassable() {
+		this.passable = new boolean[getSIZE()];
+		this.low = new boolean[getSIZE()];
+
+		for (int i = 0; i < getSIZE(); i++) {
+			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
+			this.low[i] = this.checkFor(i, Terrain.LOW);
+		}
+	}
 
 	public static int toIndex(int x, int y) {
-		return x + y * WIDTH;
+		return x + y * getWIDTH();
 	}
 
 	public boolean[] getPassable() {
-		return passable;
+		return this.passable;
 	}
 
 	@Override
 	public void init() {
 		this.alwaysActive = true;
-		this.data = new short[SIZE];
 		this.depth = -10;
 		this.level = Dungeon.depth;
 
@@ -73,9 +136,9 @@ public class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
-				if (!this.low[x + y * WIDTH]) {
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
+				if (!this.low[x + y * getWIDTH()]) {
 					short tile = this.get(x, y);
 
 					if (tile > -1) {
@@ -100,14 +163,14 @@ public class Level extends Entity {
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
 
 		Rectangle scissors = new Rectangle();
-		Rectangle clipBounds = new Rectangle(0, 0, Level.WIDTH * 16, Level.HEIGHT * 16);
+		Rectangle clipBounds = new Rectangle(0, 0, Level.getWIDTH() * 16, Level.getHEIGHT() * 16);
 		ScissorStack.calculateScissors(camera, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
 		ScissorStack.pushScissors(scissors);
 
 		float m = Dungeon.time * 5 % 32;
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
 				if (this.isWater(x, y, false)) {
 					Graphics.render(Graphics.tiles, 38 + x % 2 + y % 2 * 32, x * 16, y * 16 - m);
 					Graphics.render(Graphics.tiles, 38 + x % 2 + (y + 1) % 2 * 32, x * 16, y * 16 - m + 16);
@@ -120,9 +183,9 @@ public class Level extends Entity {
 		Graphics.batch.flush();
 		ScissorStack.popScissors();
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, WIDTH); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, HEIGHT); y++) {
-				if (this.low[x + y * WIDTH]) {
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
+				if (this.low[x + y * getWIDTH()]) {
 					short tile = this.get(x, y);
 
 					if (tile > -1) {
@@ -134,7 +197,7 @@ public class Level extends Entity {
 	}
 
 	protected boolean isAWall(int x, int y) {
-		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
 			return true;
 		}
 
@@ -163,7 +226,7 @@ public class Level extends Entity {
 	}
 
 	protected boolean isWaterOrFall(int x, int y) {
-		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
 			return true;
 		}
 
@@ -184,7 +247,7 @@ public class Level extends Entity {
 	}
 
 	protected boolean isWater(int x, int y, boolean wall) {
-		if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT) {
+		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
 			return true;
 		}
 
@@ -198,10 +261,6 @@ public class Level extends Entity {
 		}
 
 		return wall && this.isAWall(x, y);
-	}
-
-	public void setSpawn(Vector2 spawn) {
-		this.spawn = spawn;
 	}
 
 	public void set(int i, short v) {
@@ -220,17 +279,7 @@ public class Level extends Entity {
 		return this.data[toIndex(x, y)];
 	}
 
-	public boolean generate() {
-		return false;
-	}
-
-	public void generateUntilGood() {
-		Log.info("Generating...");
-
-		while (!this.generate()) {
-			Log.error("Failed to generate the level!");
-		}
-	}
+	public abstract void generate();
 
 	public String getSavePath(DataType type) {
 		if (type == DataType.LEVEL) {
@@ -240,8 +289,67 @@ public class Level extends Entity {
 		return ".ldg/player.dat";
 	}
 
-	protected void addPhysics() {
+	public void addPhysics() {
+		if (body != null) {
+			body.getWorld().destroyBody(body);
+		}
 
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.StaticBody;
+
+		body = Dungeon.world.createBody(def);
+
+		ArrayList<Vector2> marked = new ArrayList<Vector2>();
+
+		for (int x = 0; x < getWIDTH(); x++) {
+			for (int y = 0; y < getHEIGHT(); y++) {
+				if (this.checkFor(x, y, Terrain.SOLID)) {
+					int total = 0;
+
+					for (Vector2 vec : NEIGHBOURS8V) {
+						Vector2 v = new Vector2(x + vec.x, y + vec.y);
+
+						if (v.x >= 0 && v.y >= 0 && v.x < getWIDTH() && v.y < getWIDTH()) {
+							if (this.checkFor((int) v.x, (int) v.y, Terrain.SOLID)) {
+								total++;
+							}
+						}
+					}
+
+					if (total < 8) {
+						PolygonShape poly = new PolygonShape();
+						int xx = x * 16;
+						int yy = y * 16;
+
+
+						if (yy == 0 || this.checkFor(x, y - 1, Terrain.SOLID)) {
+							poly.set(new Vector2[]{
+								new Vector2(xx, yy), new Vector2(xx + 16, yy),
+								new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)
+							});
+						} else {
+							poly.set(new Vector2[]{
+								new Vector2(xx, yy + 8), new Vector2(xx + 16, yy + 8),
+								new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)
+							});
+						}
+
+						FixtureDef fixture = new FixtureDef();
+
+						fixture.shape = poly;
+						fixture.friction = 0;
+
+						body.createFixture(fixture);
+
+						poly.dispose();
+
+						if (this.get(x, y) == Terrain.WALL) {
+							marked.add(new Vector2(x, y));
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void load(DataType type) {
@@ -249,7 +357,7 @@ public class Level extends Entity {
 
 		if (!save.exists()) {
 			if (type == DataType.LEVEL) {
-				generateUntilGood();
+				this.generate();
 				return;
 			} else {
 				File file = save.file();
@@ -280,7 +388,10 @@ public class Level extends Entity {
 			}
 
 			if (type == DataType.LEVEL) {
-				for (int i = 0; i < SIZE; i++) {
+				setSize(stream.readInt32(), stream.readInt32());
+				this.data = new short[getSIZE()];
+
+				for (int i = 0; i < getSIZE(); i++) {
 					this.data[i] = stream.readInt16();
 				}
 			} else {
@@ -310,7 +421,10 @@ public class Level extends Entity {
 			stream.writeByte(VERSION);
 
 			if (type == Level.DataType.LEVEL) {
-				for (int i = 0; i < SIZE; i++) {
+				stream.writeInt32(getWIDTH());
+				stream.writeInt32(getHEIGHT());
+
+				for (int i = 0; i < getSIZE(); i++) {
 					stream.writeInt16(this.data[i]);
 				}
 			} else {
@@ -324,12 +438,72 @@ public class Level extends Entity {
 		}
 	}
 
-	protected void writeData(FileWriter stream, DataType type) throws Exception {
+	protected void loadData(FileReader stream, DataType type) throws Exception {
+		if (type == DataType.PLAYER) {
+			ChangableRegistry.load(stream);
 
+			int count = stream.readInt32();
+
+			for (int i = 0; i < count; i++) {
+				String t = stream.readString();
+
+				Class<?> clazz = Class.forName(t);
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
+
+				SaveableEntity entity = (SaveableEntity) object;
+
+				this.area.add(entity);
+				this.playerSaveable.add(entity);
+
+				entity.load(stream);
+			}
+		} else {
+			int count = stream.readInt32();
+
+			for (int i = 0; i < count; i++) {
+				String t = stream.readString();
+
+				Class<?> clazz = Class.forName(t);
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
+
+				SaveableEntity entity = (SaveableEntity) object;
+
+				this.area.add(entity);
+				this.saveable.add(entity);
+
+				entity.load(stream);
+			}
+		}
 	}
 
-	protected void loadData(FileReader stream, DataType type) throws Exception {
+	public ArrayList<SaveableEntity> getPlayerSaveable() {
+		return this.playerSaveable;
+	}
 
+	protected void writeData(FileWriter stream, DataType type) throws Exception {
+		if (type == DataType.PLAYER) {
+			ChangableRegistry.save(stream);
+
+			stream.writeInt32(this.playerSaveable.size());
+
+			for (int i = 0; i < this.playerSaveable.size(); i++) {
+				SaveableEntity entity = this.playerSaveable.get(i);
+
+				stream.writeString(entity.getClass().getName());
+				entity.save(stream);
+			}
+		} else {
+			stream.writeInt32(this.saveable.size());
+
+			for (int i = 0; i < this.saveable.size(); i++) {
+				SaveableEntity entity = this.saveable.get(i);
+
+				stream.writeString(entity.getClass().getName());
+				entity.save(stream);
+			}
+		}
 	}
 
 	public enum DataType {

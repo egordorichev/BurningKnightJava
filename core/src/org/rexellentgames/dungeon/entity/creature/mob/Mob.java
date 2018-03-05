@@ -8,7 +8,6 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -40,16 +39,16 @@ public class Mob extends Creature {
 	}
 
 	public Point getCloser(Creature target) {
-		int from = (int) (Math.floor((this.x + 8) / 16) + Math.floor((this.y + 8) / 16) * Level.WIDTH);
-		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.WIDTH);
+		int from = (int) (Math.floor((this.x + 8) / 16) + Math.floor((this.y + 8) / 16) * Level.getWIDTH());
+		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.getWIDTH());
 
-		int step = PathFinder.getStep(from, to, RegularLevel.instance.getPassable());
+		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable());
 
 		if (step != -1) {
 			Point p = new Point();
 
-			p.x = step % Level.WIDTH * 16;
-			p.y = (float) (Math.floor(step / Level.WIDTH) * 16);
+			p.x = step % Level.getWIDTH() * 16;
+			p.y = (float) (Math.floor(step / Level.getWIDTH()) * 16);
 
 			return p;
 		}
@@ -90,8 +89,8 @@ public class Mob extends Creature {
 			boolean found = false;
 
 			for (Point point : line.getPoints()) {
-				int i = (int) (point.x + point.y * Level.WIDTH);
-				if (i < 0 || i >= Level.SIZE || (!passable[i] && Dungeon.level.get(i) != 13)) {
+				int i = (int) (point.x + point.y * Level.getWIDTH());
+				if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
 					found = true;
 					break;
 				}

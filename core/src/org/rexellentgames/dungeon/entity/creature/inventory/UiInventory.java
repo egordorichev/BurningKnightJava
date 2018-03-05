@@ -1,12 +1,11 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -76,7 +75,7 @@ public class UiInventory extends UiEntity {
 				holder.setItem(slot);
 				holder.x = (float) Math.floor(Player.instance.x);
 				holder.y = (float) Math.floor(Player.instance.y);
-				RegularLevel.instance.addSaveable(holder);
+				Dungeon.level.addSaveable(holder);
 
 				this.inventory.setSlot(this.active, null);
 				this.area.add(holder);
