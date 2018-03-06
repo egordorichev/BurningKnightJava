@@ -208,7 +208,7 @@ public abstract class Level extends Entity {
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		return xx < 4 && yy < 11;
+		return xx < 17 && yy == 0;
 	}
 
 	protected boolean isWater(int x, int y) {
@@ -237,11 +237,7 @@ public abstract class Level extends Entity {
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		if (xx < 4 && yy > 10 && yy < 15) {
-			return true;
-		}
-
-		return false;
+		return (xx > 16 && yy == 0);
 	}
 
 	protected boolean isWater(int x, int y, boolean wall) {
@@ -498,6 +494,36 @@ public abstract class Level extends Entity {
 
 				stream.writeString(entity.getClass().getName());
 				entity.save(stream);
+			}
+		}
+	}
+
+	public void tile() {
+		for (int x = 1; x < getWIDTH() - 1; x++) {
+			for (int y = 1; y < getHEIGHT() - 1; y++) {
+				if (this.checkFor(x, y, Terrain.PASSABLE)) {
+					int count = 0;
+
+					if (this.get(x, y + 1) == Terrain.WALL) {
+						count += 1;
+					}
+
+					if (this.get(x + 1, y) == Terrain.WALL) {
+						count += 2;
+					}
+
+					if (this.get(x, y - 1) == Terrain.WALL) {
+						count += 4;
+					}
+
+					if (this.get(x - 1, y) == Terrain.WALL) {
+						count += 8;
+					}
+
+					if (count != 0) {
+						this.set(x, y, (short) (1 + count));
+					}
+				}
 			}
 		}
 	}

@@ -1,18 +1,18 @@
 package org.rexellentgames.dungeon.entity.level;
 
 public class Terrain {
-	public static short EMPTY = 101;
-	public static short DOOR = 5;
-	public static short GRASS = 4;
-	public static short FLOOR = 7;
-	public static short ENTRANCE = 68;
-	public static short EXIT = 100;
-	public static short WALL = 33;
-	public static short LOW_GRASS = 36;
-	public static short WATER = 385;
-	public static short FALL = 102;
-	public static short WATER_FALL = 103;
-	public static short DECO = 40;
+	public static short EMPTY = 67;
+	public static short DOOR = 66;
+	public static short GRASS = 32;
+	public static short FLOOR = 1;
+	public static short ENTRANCE = 64;
+	public static short EXIT = 65;
+	public static short WALL = 0;
+	public static short LOW_GRASS = 33;
+	public static short WATER = 17;
+	public static short FALL = 68;
+	public static short WATER_FALL = 69;
+	public static short DECO = 43;
 
 	public static int[] flags = new int[512];
 
@@ -34,28 +34,8 @@ public class Terrain {
 		flags[EXIT] = PASSABLE;
 		flags[ENTRANCE] = PASSABLE;
 
-		for (int x = 6; x < 14; x++) {
+		for (int x = 1; x < 32; x++) {
 			flags[x] = PASSABLE;
 		}
-
-		for (int x = 0; x < 4; x++) {
-			for (int y = 11; y < 15; y++) {
-				flags[x + y * 32] = PASSABLE;
-			}
-		}
-
-		for (int x = 0; x < 4; x++) {
-			for (int y = 0; y < 11; y++) {
-				flags[x + y * 32] = SOLID;
-			}
-		}
-
-		for (int y = 2; y < 4; y++) {
-			for (int x = 0; x < 4; x++) {
-				flags[x + y * 32] = SOLID | LOW;
-			}
-		}
-
-		flags[DECO] = SOLID | LOW;
 	}
 }

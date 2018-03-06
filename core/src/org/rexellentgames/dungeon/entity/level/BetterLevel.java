@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.level;
 
-import com.badlogic.gdx.Gdx;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -8,6 +7,10 @@ import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.*;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -44,7 +47,10 @@ public abstract class BetterLevel extends Level {
 		Log.info("Painting...");
 
 		Painter painter = this.getPainter();
+
 		painter.paint(this, this.rooms);
+		this.tile();
+		painter.draw(this, this.rooms);
 
 		Log.info("Adding entities...");
 
@@ -71,7 +77,7 @@ public abstract class BetterLevel extends Level {
 		int special = this.getNumSpecialRooms();
 
 		for (int i = 0; i < regular; i++) {
-			RegularRoom room;
+			org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom room;
 
 			do {
 				room = RegularRoom.create();
