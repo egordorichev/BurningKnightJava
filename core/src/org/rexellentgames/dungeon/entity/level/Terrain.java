@@ -25,17 +25,17 @@ public class Terrain {
 		flags[EMPTY] = HOLE | LOW;
 		flags[FALL] = HOLE | LOW;
 		flags[WATER_FALL] = HOLE | LOW;
-		flags[GRASS] = PASSABLE;
+		flags[GRASS] = PASSABLE | LOW;
 		flags[WALL] = SOLID;
 		flags[DOOR] = PASSABLE;
-		flags[FLOOR] = PASSABLE;
-		flags[LOW_GRASS] = PASSABLE;
-		flags[WATER] = PASSABLE;
+		flags[FLOOR] = PASSABLE | LOW;
+		flags[LOW_GRASS] = PASSABLE | LOW;
+		flags[WATER] = PASSABLE | LOW;
 		flags[EXIT] = PASSABLE;
 		flags[ENTRANCE] = PASSABLE;
 
 		for (int x = 1; x < 32; x++) {
-			flags[x] = PASSABLE;
+			flags[x] = PASSABLE | LOW;
 		}
 	}
 }

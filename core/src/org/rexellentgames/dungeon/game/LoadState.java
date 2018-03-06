@@ -47,7 +47,7 @@ public class LoadState extends State {
 				Dungeon.level.load(Level.DataType.LEVEL);
 
 				Dungeon.level.loadPassable();
-				// Dungeon.level.addPhysics();
+				Dungeon.level.addPhysics();
 
 				PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
 

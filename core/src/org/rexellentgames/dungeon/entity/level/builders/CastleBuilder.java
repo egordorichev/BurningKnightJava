@@ -31,7 +31,10 @@ public class CastleBuilder extends RegularBuilder {
 
 		roomsToBranch.addAll(this.singleConnection);
 
-		this.createBranches(init, branchable, roomsToBranch, this.branchTunnelChances);
+		if (!this.createBranches(init, branchable, roomsToBranch, this.branchTunnelChances)) {
+			return null;
+		}
+
 		findNeighbours(init);
 
 		for (Room r : init) {

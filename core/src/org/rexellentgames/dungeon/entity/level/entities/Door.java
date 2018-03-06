@@ -31,7 +31,7 @@ public class Door extends SaveableEntity {
 	@Override
 	public void init() {
 		if (this.body == null) {
-		 	this.body = this.createBody((int) this.x, (int) this.y, 16, this.vertical ? 24 : 16, BodyDef.BodyType.DynamicBody, true);
+		 	this.body = this.createBody((int) this.x, (int) this.y, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		}
 
 		this.depth = -2;
@@ -47,17 +47,17 @@ public class Door extends SaveableEntity {
 			if (this.open) {
 				w = 2;
 				h = 2;
-				sprite = 197;
+				sprite = 144;
 			} else {
 				h = 2;
-				sprite = 37;
+				sprite = 97;
 			}
 		} else {
 			if (this.open) {
-				sprite = 133;
+				sprite = 96;
 				h = 2;
 			} else {
-				sprite = 5;
+				sprite = 66;
 			}
 		}
 
@@ -70,7 +70,7 @@ public class Door extends SaveableEntity {
 
 		this.vertical = reader.readBoolean();
 
-		this.body = this.createBody(0, 0, 16, this.vertical ? 24 : 16, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 

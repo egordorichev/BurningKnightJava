@@ -32,15 +32,8 @@ public abstract class Level extends Entity {
 	private static int HEIGHT = 36;
 	private static int SIZE = getWIDTH() * getHEIGHT();
 
-	public static final int[] NEIGHBOURS4 = {-getWIDTH(), +1, +getWIDTH(), -1};
-	public static final int[] NEIGHBOURS8 = {+1, -1, +getWIDTH(), -getWIDTH(), +1 + getWIDTH(), +1 - getWIDTH(), -1 + getWIDTH(), -1 - getWIDTH()};
-	public static final int[] NEIGHBOURS9 = {0, +1, -1, +getWIDTH(), -getWIDTH(), +1 + getWIDTH(), +1 - getWIDTH(), -1 + getWIDTH(), -1 - getWIDTH()};
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
-
-	public static final Vector2[] NEIGHBOURS4V = {new Vector2(0, -1),
-		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, 1)};
-
 
 	public short[] data;
 	protected boolean[] passable;
@@ -194,7 +187,7 @@ public abstract class Level extends Entity {
 		}
 	}
 
-	protected boolean isAWall(int x, int y) {
+	public boolean isAWall(int x, int y) {
 		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
 			return true;
 		}
@@ -318,15 +311,15 @@ public abstract class Level extends Entity {
 						int yy = y * 16;
 
 
-						if (yy == 0 || this.checkFor(x, y - 1, Terrain.SOLID)) {
+						if (this.checkFor(x, y + 1, Terrain.SOLID)) {
 							poly.set(new Vector2[]{
 								new Vector2(xx, yy), new Vector2(xx + 16, yy),
 								new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)
 							});
 						} else {
 							poly.set(new Vector2[]{
-								new Vector2(xx, yy + 8), new Vector2(xx + 16, yy + 8),
-								new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)
+								new Vector2(xx, yy), new Vector2(xx + 16, yy),
+								new Vector2(xx, yy + 12), new Vector2(xx + 16, yy + 12)
 							});
 						}
 

@@ -263,6 +263,40 @@ public abstract class Room extends Rect implements GraphNode {
 		this.connected.clear();
 	}
 
+	public boolean canPlaceWater(Point p) {
+		return inside(p);
+	}
+
+	public final ArrayList<Point> waterPlaceablePoints() {
+		ArrayList<Point> points = new ArrayList<Point>();
+
+		for (int i = left + 2; i <= right - 2; i++) {
+			for (int j = top + 2; j <= bottom - 2; j++) {
+				Point p = new Point(i, j);
+				if (canPlaceWater(p)) points.add(p);
+			}
+		}
+
+		return points;
+	}
+
+	public boolean canPlaceGrass(Point p) {
+		return inside(p);
+	}
+
+	public final ArrayList<Point> grassPlaceablePoints() {
+		ArrayList<Point> points = new ArrayList<Point>();
+
+		for (int i = left + 2; i <= right - 2; i++) {
+			for (int j = top + 2; j <= bottom - 2; j++) {
+				Point p = new Point(i, j);
+				if (canPlaceGrass(p)) points.add(p);
+			}
+		}
+
+		return points;
+	}
+
 	public enum Connection {
 		ALL, LEFT, RIGHT, TOP, BOTTOM
 	}

@@ -1,10 +1,11 @@
 package org.rexellentgames.dungeon.entity.level.painters;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
@@ -13,6 +14,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Painter {
+	private float grass = 0f;
+	private float water = 0f;
+
+	public Painter setWater(float v) {
+		this.water = v;
+		return this;
+	}
+
+	public Painter setGrass(float v) {
+		this.grass = v;
+		return this;
+	}
+
 	public void paint(Level level, ArrayList<Room> rooms) {
 		int leftMost = Integer.MAX_VALUE, topMost = Integer.MAX_VALUE;
 
@@ -45,10 +59,45 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 		}
+
+		if (this.grass > 0) {
+			this.paintGrass(level, rooms);
+		}
+
+		if (this.water > 0) {
+			this.paintWater(level, rooms);
+		}
+
+		this.paintDoors(level, rooms);
+	}
+
+	private void paintWater(Level level, ArrayList<Room> rooms) {
+		boolean[] lake = Patch.generate(this.water, 5);
+
+		for (Room r : rooms) {
+			for (Point p : r.waterPlaceablePoints()) {
+				int i = level.toIndex((int) p.x, (int) p.y);
+				if (lake[i] && level.data[i] == Terrain.FLOOR) {
+					level.data[i] = Terrain.WATER;
+				}
+			}
+		}
+	}
+
+	private void paintGrass(Level level, ArrayList<Room> rooms) {
+		boolean[] grass = Patch.generate(this.grass, 5);
+
+		for (Room r : rooms) {
+			for (Point p : r.grassPlaceablePoints()) {
+				int i = level.toIndex((int) p.x, (int) p.y);
+				if (grass[i] && level.data[i] == Terrain.FLOOR) {
+					level.data[i] = Terrain.GRASS;
+				}
+			}
+		}
 	}
 
 	public void draw(Level level, ArrayList<Room> rooms) {
-		this.paintDoors(level, rooms);
 		this.decorate(level, rooms);
 	}
 
@@ -62,10 +111,14 @@ public class Painter {
 				Door d = r.getConnected().get(n);
 
 				if (d.getType() == Door.Type.REGULAR) {
-					level.set((int) d.x, (int) d.y, Terrain.DOOR);
-				} else {
-					level.set((int) d.x, (int) d.y, Terrain.FLOOR);
+					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
+						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
+
+					level.addSaveable(door);
+					Dungeon.area.add(door);
 				}
+
+				level.set((int) d.x, (int) d.y, Terrain.FLOOR);
 			}
 		}
 	}
