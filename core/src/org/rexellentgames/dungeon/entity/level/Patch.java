@@ -3,12 +3,12 @@ package org.rexellentgames.dungeon.entity.level;
 import org.rexellentgames.dungeon.util.Random;
 
 public class Patch {
-	private static boolean[] cur = new boolean[Level.getSIZE()];
-	private static boolean[] off = new boolean[Level.getSIZE()];
-
 	public static boolean[] generate(float seed, int octaves) {
 		int w = Level.getWIDTH();
 		int h = Level.getHEIGHT();
+
+		boolean[] cur = new boolean[Level.getSIZE()];
+		boolean[] off = new boolean[Level.getSIZE()];
 
 		for (int i = 0; i < Level.getSIZE(); i++) {
 			off[i] = Random.newFloat() < seed;

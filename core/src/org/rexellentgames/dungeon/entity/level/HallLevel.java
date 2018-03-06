@@ -19,9 +19,7 @@ public class HallLevel extends BetterLevel {
 		ArrayList<Room> rooms = super.createRooms();
 
 		if (Dungeon.depth == 0) {
-			for (int i = 0; i < 4; i++) {
-				rooms.add(new TowerBaseRoom());
-			}
+			rooms.add(new TowerBaseRoom());
 		}
 
 		return rooms;
@@ -29,7 +27,7 @@ public class HallLevel extends BetterLevel {
 
 	@Override
 	protected Painter getPainter() {
-		return new HallPainter();
+		return new HallPainter().setGrass(0.45f).setWater(0.45f);
 	}
 
 	@Override

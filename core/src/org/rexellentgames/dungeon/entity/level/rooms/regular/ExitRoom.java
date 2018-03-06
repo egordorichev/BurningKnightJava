@@ -1,8 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class ExitRoom extends RegularRoom {
@@ -15,7 +15,15 @@ public class ExitRoom extends RegularRoom {
 		super.paint(level);
 
 		Point point = this.getCenter();
-		Painter.set(level, (int) point.x, (int) point.y, Terrain.EXIT);
+		// Painter.set(level, (int) point.x, (int) point.y, Terrain.EXIT);
+
+		Exit exit = new Exit();
+
+		exit.x = point.x * 16;
+		exit.y = point.y * 16;
+
+		level.addSaveable(exit);
+		Dungeon.area.add(exit);
 	}
 
 	@Override

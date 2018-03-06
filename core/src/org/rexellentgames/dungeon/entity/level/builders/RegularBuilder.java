@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.TowerBaseRoom;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -87,8 +88,9 @@ public class RegularBuilder extends Builder {
 		this.extraConnectionChance = chance;
 	}
 
-	protected void createBranches(ArrayList<Room> rooms, ArrayList<Room> branchable, ArrayList<Room> roomsToBranch, float[] connChances) {
+	protected boolean createBranches(ArrayList<Room> rooms, ArrayList<Room> branchable, ArrayList<Room> roomsToBranch, float[] connChances) {
 		int i = 0;
+		int n = 0;
 		float angle;
 		int tries;
 		Room curr;
@@ -98,6 +100,7 @@ public class RegularBuilder extends Builder {
 
 		while (i < roomsToBranch.size()) {
 			Room r = roomsToBranch.get(i);
+			n++;
 			connectingRoomsThisBranch.clear();
 
 			do {
@@ -121,7 +124,6 @@ public class RegularBuilder extends Builder {
 					angle = placeRoom(rooms, curr, t, randomBranchAngle(curr));
 					tries--;
 				} while (angle == -1 && tries > 0);
-
 				if (angle == -1) {
 					for (Room c : connectingRoomsThisBranch) {
 						c.clearConnections();
@@ -139,6 +141,10 @@ public class RegularBuilder extends Builder {
 			}
 
 			if (connectingRoomsThisBranch.size() != connectingRooms) {
+				if (n > 30) {
+					return false;
+				}
+
 				continue;
 			}
 
@@ -148,12 +154,18 @@ public class RegularBuilder extends Builder {
 				angle = placeRoom(rooms, curr, r, randomBranchAngle(curr));
 				tries--;
 			} while (angle == -1 && tries > 0);
+
 			if (angle == -1) {
 				for (Room t : connectingRoomsThisBranch) {
 					t.clearConnections();
 					rooms.remove(t);
 				}
 				connectingRoomsThisBranch.clear();
+
+				if (n > 30) {
+					return false;
+				}
+
 				continue;
 			}
 
@@ -173,6 +185,8 @@ public class RegularBuilder extends Builder {
 
 			i++;
 		}
+
+		return true;
 	}
 
 	protected float randomBranchAngle(Room r) {

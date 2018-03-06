@@ -14,10 +14,12 @@ public class LoopBuilder extends RegularBuilder {
 	private float offset;
 	private Point loopCenter;
 
-	public void setShape(int exponent, float intensity, float offset) {
+	public LoopBuilder setShape(int exponent, float intensity, float offset) {
 		this.exponent = Math.abs(exponent);
 		this.intensity = intensity % 1;
 		this.offset = offset % 0.5f;
+
+		return this;
 	}
 
 	private float targetAngle(float percentAlong) {
