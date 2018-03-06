@@ -272,7 +272,9 @@ public abstract class Room extends Rect implements GraphNode {
 		ENTRANCE,
 		EXIT,
 		TUNNEL,
-		HOLE
+		HOLE,
+		GARDEN,
+		TOWER_BASE
 	}
 
 	@Override
@@ -283,5 +285,9 @@ public abstract class Room extends Rect implements GraphNode {
 	@Override
 	public int getHeight() {
 		return super.getHeight() + 1;
+	}
+
+	public Point getCenter() {
+		return new Point(this.left + this.getWidth() / 2, this.top + this.getHeight() / 2);
 	}
 }

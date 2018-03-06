@@ -45,7 +45,9 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 		}
+	}
 
+	public void draw(Level level, ArrayList<Room> rooms) {
 		this.paintDoors(level, rooms);
 		this.decorate(level, rooms);
 	}

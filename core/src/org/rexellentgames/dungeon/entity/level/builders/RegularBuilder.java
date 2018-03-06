@@ -1,6 +1,11 @@
 package org.rexellentgames.dungeon.entity.level.builders;
 
-import org.rexellentgames.dungeon.entity.level.rooms.*;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.special.TowerBaseRoom;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -8,8 +13,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 
 public class RegularBuilder extends Builder {
-	protected EntranceRoom entrance;
-	protected ExitRoom exit;
+	protected org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom entrance;
+	protected org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom exit;
 	protected float pathVariance = 45f;
 	protected float pathLength = 0.5f;
 	protected float[] pathLenJitterChances = new float[]{0, 1, 0};
@@ -27,13 +32,15 @@ public class RegularBuilder extends Builder {
 		this.singleConnection.clear();
 
 		for (Room room : rooms) {
-			room.setEmpty();
+			if (!(room instanceof TowerBaseRoom)) {
+				room.setEmpty();
+			}
 		}
 
 		for (Room room : rooms) {
-			if (room instanceof ExitRoom) {
+			if (room instanceof org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom) {
 				this.exit = (ExitRoom) room;
-			} else if (room instanceof EntranceRoom) {
+			} else if (room instanceof org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom) {
 				this.entrance = (EntranceRoom) room;
 			} else if (room.getMaxConnections(Room.Connection.ALL) == 1) {
 				this.singleConnection.add(room);
@@ -49,8 +56,8 @@ public class RegularBuilder extends Builder {
 
 	protected void weightRooms(ArrayList<Room> rooms) {
 		for (Room room : rooms.toArray(new Room[0])) {
-			if (room instanceof RegularRoom) {
-				for (int i = 1; i < ((RegularRoom) room).getSize().getConnectionWeight(); i++) {
+			if (room instanceof org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom) {
+				for (int i = 1; i < ((org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom) room).getSize().getConnectionWeight(); i++) {
 					rooms.add(room);
 				}
 			}
@@ -88,15 +95,14 @@ public class RegularBuilder extends Builder {
 		ArrayList<Room> connectingRoomsThisBranch = new ArrayList<Room>();
 
 		float[] connectionChances = connChances.clone();
+
 		while (i < roomsToBranch.size()) {
-
 			Room r = roomsToBranch.get(i);
-
 			connectingRoomsThisBranch.clear();
 
 			do {
 				curr = branchable.get(Random.newInt(branchable.size()));
-			} while (curr instanceof ConnectionRoom);
+			} while (curr instanceof org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom);
 
 			int connectingRooms = Random.chances(connectionChances);
 
@@ -108,7 +114,7 @@ public class RegularBuilder extends Builder {
 			connectionChances[connectingRooms]--;
 
 			for (int j = 0; j < connectingRooms; j++) {
-				ConnectionRoom t = ConnectionRoom.create();
+				org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom t = ConnectionRoom.create();
 				tries = 3;
 
 				do {
@@ -142,7 +148,6 @@ public class RegularBuilder extends Builder {
 				angle = placeRoom(rooms, curr, r, randomBranchAngle(curr));
 				tries--;
 			} while (angle == -1 && tries > 0);
-
 			if (angle == -1) {
 				for (Room t : connectingRoomsThisBranch) {
 					t.clearConnections();
@@ -157,7 +162,7 @@ public class RegularBuilder extends Builder {
 			}
 
 			if (r.getMaxConnections(Room.Connection.ALL) > 1 && Random.newInt(3) == 0) {
-				if (r instanceof RegularRoom) {
+				if (r instanceof org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom) {
 					for (int j = 0; j < ((RegularRoom) r).getSize().getConnectionWeight(); j++) {
 						branchable.add(r);
 					}

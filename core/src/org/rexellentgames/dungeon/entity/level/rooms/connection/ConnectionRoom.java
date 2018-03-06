@@ -1,4 +1,6 @@
-package org.rexellentgames.dungeon.entity.level.rooms;
+package org.rexellentgames.dungeon.entity.level.rooms.connection;
+
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
 
 public class ConnectionRoom extends Room {
 	public ConnectionRoom(Type type) {
