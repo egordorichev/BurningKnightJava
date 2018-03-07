@@ -2,20 +2,28 @@ package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
 public class LineBuilder extends RegularBuilder {
+	private float direction = Random.newFloat(0, 360);
+
+	public LineBuilder setAngle(float angle) {
+		this.direction = angle % 360f;
+		return this;
+	}
+
 	@Override
 	public ArrayList<Room> build(ArrayList<Room> init) {
 		setupRooms(init);
 
 		if (entrance == null) {
+			Log.error("No entrance!");
 			return null;
 		}
 
-		float direction = Random.newFloat(0, 360);
 		ArrayList<Room> branchable = new ArrayList<Room>();
 
 		entrance.setSize();
@@ -39,12 +47,14 @@ public class LineBuilder extends RegularBuilder {
 			}
 			pathTunnels[tunnels]--;
 
-			for (int j = 0; j < tunnels; j++) {
-				ConnectionRoom t = ConnectionRoom.create();
-				placeRoom(init, curr, t, direction + Random.newFloat(-pathVariance, pathVariance));
-				branchable.add(t);
-				init.add(t);
-				curr = t;
+			if (i != 0) {
+				for (int j = 0; j < tunnels; j++) {
+					ConnectionRoom t = ConnectionRoom.create();
+					placeRoom(init, curr, t, direction + Random.newFloat(-pathVariance, pathVariance));
+					branchable.add(t);
+					init.add(t);
+					curr = t;
+				}
 			}
 
 			Room r = (i == roomsOnPath ? exit : this.multiConnection.get(i));

@@ -12,6 +12,10 @@ public class EntranceRoom extends RegularRoom {
 		super(Type.ENTRANCE);
 	}
 
+	public EntranceRoom(Type type) {
+		super(type);
+	}
+
 	@Override
 	public void paint(Level level) {
 		super.paint(level);

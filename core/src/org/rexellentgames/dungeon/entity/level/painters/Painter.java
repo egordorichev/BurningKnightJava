@@ -39,6 +39,11 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
+		if (Dungeon.depth < 1) {
+			leftMost -= 10;
+			topMost -= 10;
+		}
+
 		int rightMost = 0, bottomMost = 0;
 
 		for (Room r : rooms) {
@@ -50,6 +55,11 @@ public class Painter {
 		//add 1 for padding
 		rightMost++;
 		bottomMost++;
+
+		if (Dungeon.depth < 1) {
+			leftMost += 10;
+			topMost += 10;
+		}
 
 		//add 1 to account for 0 values
 		level.setSize(rightMost + 1, bottomMost + 1);
@@ -151,6 +161,16 @@ public class Painter {
 		set(level, x + y * level.getWIDTH(), value);
 	}
 
+	public static void setBold(Level level, int x, int y, int value) {
+		for (int xx = x - 1; xx < x + 2; xx++) {
+			for (int yy = y - 1; yy < y + 2; yy++) {
+				if (level.get(xx, yy) != value) {
+					set(level, xx, yy, (xx == x && yy == y) ? value : Terrain.WALL);
+				}
+			}
+		}
+	}
+
 	public static void set(Level level, Point p, int value) {
 		set(level, (int) p.x, (int) p.y, value);
 	}
@@ -177,6 +197,10 @@ public class Painter {
 	}
 
 	public static void drawLine(Level level, Point from, Point to, int value) {
+		drawLine(level, from, to, value, false);
+	}
+
+	public static void drawLine(Level level, Point from, Point to, int value, boolean bold) {
 		float x = from.x;
 		float y = from.y;
 		float dx = to.x - from.x;
@@ -192,13 +216,21 @@ public class Painter {
 			dy /= Math.abs(dy);
 		}
 
-		set(level, Math.round(x), Math.round(y), value);
+		if (bold) {
+			setBold(level, Math.round(x), Math.round(y), value);
+		} else {
+			set(level, Math.round(x), Math.round(y), value);
+		}
 
 		while ((movingbyX && to.x != x) || (!movingbyX && to.y != y)) {
 			x += dx;
 			y += dy;
 
-			set(level, Math.round(x), Math.round(y), value);
+			if (bold) {
+				setBold(level, Math.round(x), Math.round(y), value);
+			} else {
+				set(level, Math.round(x), Math.round(y), value);
+			}
 		}
 	}
 

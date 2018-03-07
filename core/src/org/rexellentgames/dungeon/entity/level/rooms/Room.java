@@ -51,6 +51,7 @@ public abstract class Room extends Rect implements GraphNode {
 	public abstract int getMinConnections(Connection side);
 
 	public void paint(Level level) {
+		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.FLOOR);
 
 		for (Door door : this.connected.values()) {
@@ -170,11 +171,11 @@ public abstract class Room extends Rect implements GraphNode {
 		return false;
 	}
 
-	public int getRandomCell() {
+	public Point getRandomCell() {
 		int x = Random.newInt(this.left + 1, this.right);
 		int y = Random.newInt(this.top + 1, this.bottom);
 
-		return x + y * Level.getWIDTH();
+		return new Point(x, y);
 	}
 
 	@Override
@@ -308,7 +309,9 @@ public abstract class Room extends Rect implements GraphNode {
 		TUNNEL,
 		HOLE,
 		GARDEN,
-		TOWER_BASE
+		TOWER_BASE,
+		CASTLE_ENTRANCE,
+		CASTLE_EXIT
 	}
 
 	@Override

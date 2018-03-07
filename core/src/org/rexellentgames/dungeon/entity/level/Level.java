@@ -15,10 +15,16 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,10 +44,12 @@ public abstract class Level extends Entity {
 	public short[] data;
 	protected boolean[] passable;
 	protected boolean[] low;
+	protected boolean[] free;
 	protected Body body;
 	protected int level;
 	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
+	protected ArrayList<Room> rooms;
 
 	public static int getWIDTH() {
 		return WIDTH;
@@ -56,8 +64,10 @@ public abstract class Level extends Entity {
 	public void fill() {
 		this.data = new short[getSIZE()];
 
+		short tile = this.level == 0 ? Terrain.GRASS : Terrain.WALL;
+
 		for (int i = 0; i < getSIZE(); i++) {
-			this.data[i] = Terrain.WALL;
+			this.data[i] = tile;
 		}
 	}
 
@@ -288,8 +298,6 @@ public abstract class Level extends Entity {
 
 		ArrayList<Vector2> marked = new ArrayList<Vector2>();
 
-		Log.info(getWIDTH() + " " + getHEIGHT() + " is the size");
-
 		for (int x = 0; x < getWIDTH(); x++) {
 			for (int y = 0; y < getHEIGHT(); y++) {
 				if (this.checkFor(x, y, Terrain.SOLID)) {
@@ -361,7 +369,7 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		Log.info("Loading... " + type.toString());
+		Log.info("Loading " + type.toString().toLowerCase() + "...");
 
 		try {
 			FileReader stream = new FileReader(save.file().getAbsolutePath());
@@ -398,7 +406,7 @@ public abstract class Level extends Entity {
 
 	public void save(DataType type) {
 		FileHandle save = Gdx.files.external(this.getSavePath(type));
-		Log.info("Saving... " + type.toString());
+		Log.info("Saving " + type.toString().toLowerCase() + "...");
 
 		try {
 			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
@@ -519,6 +527,87 @@ public abstract class Level extends Entity {
 				}
 			}
 		}
+	}
+
+	protected Room getRandomRoom(Room.Type type) {
+		for (int i = 0; i < 30; i++) {
+			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
+
+			if (room.getType() == type) {
+				return room;
+			}
+		}
+
+		return null;
+	}
+
+	protected Point getRandomFreePoint(Room.Type type) {
+		for (int i = 0; i < 10; i++) {
+			Room room = this.getRandomRoom(type);
+
+			if (room == null) {
+				continue;
+			}
+
+			for (int j = 0; j < 100; j++) {
+				Point point = room.getRandomCell();
+				int in = (int) (point.x + point.y * getWIDTH());
+
+				if (!this.free[in]) {
+					this.free[in] = true;
+					return point;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public void spawnItems() {
+		ArrayList<Item> items = this.generateItems();
+
+		for (Item item : items) {
+			Point point = null;
+
+			while (point == null) {
+				point = this.getRandomFreePoint(Room.Type.REGULAR);
+			}
+
+			ItemHolder holder = new ItemHolder();
+
+			holder.setItem(item);
+			holder.x = point.x * 16;
+			holder.y = point.y * 16;
+
+			this.addSaveable(holder);
+			this.area.add(holder);
+		}
+	}
+
+	public void spawnCreatures() {
+		ArrayList<Creature> creatures = this.generateCreatures();
+
+		for (Creature creature : creatures) {
+			Point point = null;
+
+			while (point == null) {
+				point = this.getRandomFreePoint(Room.Type.REGULAR);
+			}
+
+			creature.x = point.x * 16;
+			creature.y = point.y * 16;
+
+			this.addSaveable(creature);
+			this.area.add(creature);
+		}
+	}
+
+	protected ArrayList<Item> generateItems() {
+		return new ArrayList<Item>();
+	}
+
+	protected ArrayList<Creature> generateCreatures() {
+		return new ArrayList<Creature>();
 	}
 
 	public enum DataType {
