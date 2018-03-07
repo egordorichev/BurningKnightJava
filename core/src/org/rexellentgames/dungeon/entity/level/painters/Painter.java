@@ -108,6 +108,19 @@ public class Painter {
 	}
 
 	public void draw(Level level, ArrayList<Room> rooms) {
+		for (int x = 1; x < Level.getWIDTH() - 1; x++) {
+			for (int y = 1; y < Level.getHEIGHT() - 1; y++) {
+				short tile = level.get(x, y);
+				boolean bottomEmpty = (level.get(x, y - 1) == Terrain.EMPTY);
+
+				if (tile == Terrain.WOOD && bottomEmpty) {
+					level.set(x, y - 1, Terrain.WOOD_SUPPORT);
+				} else if (tile == Terrain.FLOOR && bottomEmpty) {
+					level.set(x, y - 1, Terrain.FALL);
+				}
+			}
+		}
+
 		this.decorate(level, rooms);
 	}
 
@@ -116,6 +129,8 @@ public class Painter {
 	}
 
 	private void paintDoors(Level level, ArrayList<Room> rooms) {
+		short floor = level.getFloor();
+
 		for (Room r : rooms) {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
@@ -128,7 +143,7 @@ public class Painter {
 					Dungeon.area.add(door);
 				}
 
-				level.set((int) d.x, (int) d.y, Terrain.FLOOR);
+				level.set((int) d.x, (int) d.y, floor);
 			}
 		}
 	}
