@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
+	public static boolean GENERATED = false;
+
 	public static final byte VERSION = 0;
 	private static int WIDTH = 36;
 	private static int HEIGHT = 36;
@@ -287,10 +289,10 @@ public abstract class Level extends Entity {
 
 	public String getSavePath(DataType type) {
 		if (type == DataType.LEVEL) {
-			return ".ldg/save" + this.level + ".dat";
+			return ".ldg/depth" + this.level + ".save";
 		}
 
-		return ".ldg/player.dat";
+		return ".ldg/player.save";
 	}
 
 	public void addPhysics() {
@@ -398,9 +400,6 @@ public abstract class Level extends Entity {
 				for (int i = 0; i < getSIZE(); i++) {
 					this.data[i] = stream.readInt16();
 				}
-			} else {
-				Dungeon.depth = stream.readInt32();
-				this.level = Dungeon.depth;
 			}
 
 			this.loadData(stream, type);
@@ -427,8 +426,6 @@ public abstract class Level extends Entity {
 				for (int i = 0; i < getSIZE(); i++) {
 					stream.writeInt16(this.data[i]);
 				}
-			} else {
-				stream.writeInt32(Dungeon.depth); // Probably updated, if going up or down
 			}
 
 			this.writeData(stream, type);

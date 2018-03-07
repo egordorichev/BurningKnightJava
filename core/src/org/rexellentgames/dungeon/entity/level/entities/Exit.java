@@ -10,9 +10,11 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 
@@ -23,6 +25,9 @@ public class Exit extends SaveableEntity {
 	private PointLight light;
 	private LadderFx fx;
 
+	public static int ID = -1;
+	private int id;
+
 	@Override
 	public void init() {
 		super.init();
@@ -31,17 +36,34 @@ public class Exit extends SaveableEntity {
 			64, this.x + 8, this.y + 8);
 		this.body.setTransform(this.x, this.y, 0);
 
-		this.add();
+		if (Level.GENERATED) {
+			this.add();
+		}
 
 		this.depth = -1;
+		this.id = ID++;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	private void add() {
-		if (Dungeon.up && Player.instance != null) {
+		if (Dungeon.up && Player.instance != null && (Dungeon.ladderId == this.id || !Player.REGISTERED)) {
 			Player.instance.tp(this.x, this.y - 2);
+
+			Log.info("Set player position to " + (int) (this.x / 16) + ":" + (int) (this.y / 16) + ", self id = " + this.id);
 
 			if (BurningKnight.instance != null) {
 				BurningKnight.instance.tpToPlayer();
+			}
+
+			if (Dungeon.ladderId == this.id) {
+				Player.REGISTERED = true;
 			}
 		}
 	}

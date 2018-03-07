@@ -48,8 +48,7 @@ public class Creature extends SaveableEntity {
 		this.y = y;
 
 		if (this.body != null) {
-			this.body.setTransform(x, y, 0
-			);
+			this.body.setTransform(x, y, 0);
 		}
 	}
 

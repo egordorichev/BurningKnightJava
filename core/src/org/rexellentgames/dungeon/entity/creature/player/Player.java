@@ -10,6 +10,8 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
@@ -47,12 +49,19 @@ public class Player extends Creature {
 	public float lightModifier;
 	private float hunger;
 
+	public static boolean REGISTERED = false;
+
 	{
 		hpMax = 100;
 		manaMax = 100;
 		level = 1;
 		hunger = 10;
 		alwaysActive = true;
+	}
+
+	public void generate() {
+		Item sword = new Dagger();
+		this.inventory.add(new ItemHolder().setItem(sword));
 	}
 
 	public float getHunger() {

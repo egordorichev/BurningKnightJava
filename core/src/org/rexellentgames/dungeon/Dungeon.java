@@ -19,7 +19,7 @@ import org.rexellentgames.dungeon.util.PathFinder;
 
 public class Dungeon extends ApplicationAdapter {
 	public static Game game;
-	public static int depth = -1;
+	public static int depth;
 	public static float time;
 	public static Level level;
 	public static RayHandler light;
@@ -28,6 +28,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static Area ui;
 	public static boolean up;
 	public static boolean reset;
+	public static int ladderId;
 
 	private static int to = -2;
 	private Color background = Color.valueOf("#323c39");
@@ -47,7 +48,7 @@ public class Dungeon extends ApplicationAdapter {
 		this.initInput();
 
 		game = new Game();
-		goToLevel(-1);
+		goToLevel(0);
 	}
 
 	public static void goToLevel(int level) {
@@ -57,8 +58,6 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void render() {
 		if (to != -2) {
-			Log.info("Going to depth " + to);
-
 			Dungeon.depth = to;
 			game.setState(new LoadState());
 			to = -2;
@@ -97,6 +96,8 @@ public class Dungeon extends ApplicationAdapter {
 		game.destroy();
 		world.dispose();
 		Assets.destroy();
+
+		LoadState.writeDepth();
 	}
 
 	private void initInput() {

@@ -33,15 +33,12 @@ public class LadderFx extends Entity {
 
 			if (this.ladder instanceof Entrance) {
 				Dungeon.up = true;
-
-				if (Dungeon.depth > 0) {
-					Dungeon.goToLevel(Dungeon.depth - 1);
-				} else {
-					// todo: log, that you cant
-				}
+				Dungeon.goToLevel(Dungeon.depth - 1);
+				Dungeon.ladderId = ((Entrance) this.ladder).getId();
 			} else if (this.ladder instanceof Exit) {
 				Dungeon.up = false;
 				Dungeon.goToLevel(Dungeon.depth + 1);
+				Dungeon.ladderId = ((Exit) this.ladder).getId();
 			}
 		}
 	}
