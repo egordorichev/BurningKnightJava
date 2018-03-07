@@ -1,8 +1,11 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Log;
 
 public class CastleExitRoom extends ExitRoom {
 	public CastleExitRoom() {
@@ -13,6 +16,14 @@ public class CastleExitRoom extends ExitRoom {
 	public void paint(Level level) {
 		Painter.fill(level, this, 0, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.FLOOR);
+
+		Exit exit = new Exit();
+
+		exit.x = (this.left + this.getWidth() / 2) * 16;
+		exit.y = (this.top + this.getHeight() / 4) * 16;
+
+		level.addSaveable(exit);
+		Dungeon.area.add(exit);
 	}
 
 	@Override

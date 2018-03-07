@@ -64,7 +64,14 @@ public abstract class Level extends Entity {
 	public void fill() {
 		this.data = new short[getSIZE()];
 
-		short tile = this.level == 0 ? Terrain.GRASS : Terrain.WALL;
+		short tile = Terrain.WALL;
+
+		switch (Dungeon.depth) {
+			case -1: tile = Terrain.EMPTY; break;
+			case 0: tile = Terrain.GRASS; break;
+		}
+
+		Log.info("Filling the level with " + tile);
 
 		for (int i = 0; i < getSIZE(); i++) {
 			this.data[i] = tile;

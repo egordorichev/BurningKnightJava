@@ -14,11 +14,12 @@ import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.LoadState;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 
 public class Dungeon extends ApplicationAdapter {
 	public static Game game;
-	public static int depth = 0;
+	public static int depth = -1;
 	public static float time;
 	public static Level level;
 	public static RayHandler light;
@@ -28,7 +29,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean up;
 	public static boolean reset;
 
-	private static int to = -1;
+	private static int to = -2;
 	private Color background = Color.valueOf("#323c39");
 
 	public static void reportException(Exception e) {
@@ -46,7 +47,7 @@ public class Dungeon extends ApplicationAdapter {
 		this.initInput();
 
 		game = new Game();
-		goToLevel(0);
+		goToLevel(-1);
 	}
 
 	public static void goToLevel(int level) {
@@ -55,10 +56,12 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		if (to != -1) {
+		if (to != -2) {
+			Log.info("Going to depth " + to);
+
 			Dungeon.depth = to;
 			game.setState(new LoadState());
-			to = -1;
+			to = -2;
 			return;
 		}
 

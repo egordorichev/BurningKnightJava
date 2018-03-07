@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -30,13 +32,23 @@ public class Exit extends SaveableEntity {
 		this.body.setTransform(this.x, this.y, 0);
 
 		this.add();
+
+		this.depth = -1;
 	}
 
 	private void add() {
 		if (Dungeon.up && Player.instance != null) {
 			Player.instance.tp(this.x, this.y - 2);
-			BurningKnight.instance.tpToPlayer();
+
+			if (BurningKnight.instance != null) {
+				BurningKnight.instance.tpToPlayer();
+			}
 		}
+	}
+
+	@Override
+	public void render() {
+		Graphics.render(Graphics.tiles, Terrain.EXIT, this.x, this.y);
 	}
 
 	@Override

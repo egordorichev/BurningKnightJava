@@ -59,12 +59,14 @@ public abstract class BetterLevel extends Level {
 			player.tp(point.x * 16, point.y * 16);
 		}
 
-		BurningKnight knight = new BurningKnight();
+		if (Dungeon.depth > 0) {
+			BurningKnight knight = new BurningKnight();
 
-		Dungeon.area.add(knight);
-		this.addPlayerSaveable(knight);
+			Dungeon.area.add(knight);
+			this.addPlayerSaveable(knight);
 
-		knight.instance.tpToPlayer();
+			knight.instance.tpToPlayer();
+		}
 	}
 
 	protected void paint() {
@@ -117,7 +119,7 @@ public abstract class BetterLevel extends Level {
 		int special = this.getNumSpecialRooms();
 
 		for (int i = 0; i < regular; i++) {
-			org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom room;
+			RegularRoom room;
 
 			do {
 				room = RegularRoom.create();

@@ -37,7 +37,10 @@ public class Entrance extends SaveableEntity {
 	private void add() {
 		if (!Dungeon.up && Player.instance != null) {
 			Player.instance.tp(this.x, this.y - 2);
-			BurningKnight.instance.tpToPlayer();
+
+			if (BurningKnight.instance != null) {
+				BurningKnight.instance.tpToPlayer();
+			}
 		}
 	}
 
