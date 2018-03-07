@@ -63,8 +63,9 @@ public class ItemHolder extends SaveableEntity {
 		}
 	}
 
-	public void setItem(Item item) {
+	public ItemHolder setItem(Item item) {
 		this.item = item;
+		return this;
 	}
 
 	public Item getItem() {

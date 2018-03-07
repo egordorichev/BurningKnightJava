@@ -24,6 +24,8 @@ public abstract class BetterLevel extends Level {
 
 	@Override
 	public void generate() {
+		Level.GENERATED = true;
+
 		this.build();
 		this.paint();
 
@@ -47,25 +49,27 @@ public abstract class BetterLevel extends Level {
 	protected void spawnEntities() {
 		Log.info("Adding entities...");
 
-		Player player = new Player();
+		if (Player.instance == null) {
+			Player player = new Player();
+			Dungeon.area.add(player);
+			this.addPlayerSaveable(player);
+			player.generate();
 
-		Dungeon.area.add(player);
-		this.addPlayerSaveable(player);
+			if (this.entrance != null) {
+				Point point = this.entrance.getRandomCell();
 
-		if (this.entrance != null) {
-			Point point = this.entrance.getRandomCell();
-
-			Log.info("Setting player spawn to " + (int) point.x + ":" + (int) point.y + "...");
-			player.tp(point.x * 16, point.y * 16);
+				Log.info("Setting player spawn to " + (int) point.x + ":" + (int) point.y + "...");
+				player.tp(point.x * 16, point.y * 16);
+			}
 		}
 
-		if (Dungeon.depth > 0) {
+		if (Dungeon.depth > 0 && BurningKnight.instance == null) {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
 			this.addPlayerSaveable(knight);
 
-			knight.instance.tpToPlayer();
+			knight.tpToPlayer();
 		}
 	}
 

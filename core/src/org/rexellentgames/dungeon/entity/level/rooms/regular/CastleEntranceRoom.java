@@ -24,16 +24,6 @@ public class CastleEntranceRoom extends EntranceRoom {
 		Painter.fill(level, topTower, Terrain.WALL);
 		Painter.fill(level, topTower, 1, Terrain.FLOOR);
 
-		int x = topTower.left + 6;
-		int y = topTower.top + 2;
-
-		Painter.set(level, x, y, Terrain.FLOOR);
-
-		Door door = new Door(x, y, true);
-
-		level.addSaveable(door);
-		Dungeon.area.add(door);
-
 		Rect bottomTower = new Rect(this.left - 3, this.top - 3, this.left + 4,  this.top + 4);
 
 		Painter.fill(level, bottomTower, Terrain.WALL);
@@ -41,6 +31,16 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 		Painter.drawLine(level, new Point(this.left, topTower.top - 2), new Point(this.left, bottomTower.bottom + 1),
 			Terrain.FLOOR);
+
+		int x = bottomTower.left + 6;
+		int y = bottomTower.bottom - 2;
+
+		Painter.set(level, x, y, Terrain.FLOOR);
+
+		Door door = new Door(x, y, true);
+
+		level.addSaveable(door);
+		Dungeon.area.add(door);
 
 		this.addEntrance(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2);
 		this.addEntrance(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2);
