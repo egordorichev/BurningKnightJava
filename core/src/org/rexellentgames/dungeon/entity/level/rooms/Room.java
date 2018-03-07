@@ -311,7 +311,9 @@ public abstract class Room extends Rect implements GraphNode {
 		GARDEN,
 		TOWER_BASE,
 		CASTLE_ENTRANCE,
-		CASTLE_EXIT
+		CASTLE_EXIT,
+		SKY_ENTRANCE,
+		SKY_EXIT
 	}
 
 	@Override

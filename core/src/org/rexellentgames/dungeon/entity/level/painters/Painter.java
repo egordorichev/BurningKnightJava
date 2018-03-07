@@ -57,8 +57,8 @@ public class Painter {
 		bottomMost++;
 
 		if (Dungeon.depth < 1) {
-			leftMost += 10;
-			topMost += 10;
+			rightMost += 10;
+			bottomMost += 10;
 		}
 
 		//add 1 to account for 0 values

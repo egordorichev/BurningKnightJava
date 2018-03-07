@@ -10,6 +10,8 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.level.HallLevel;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.SkyLevel;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 
 public class LoadState extends State {
@@ -37,7 +39,13 @@ public class LoadState extends State {
 			Dungeon.light.setAmbientLight(Dungeon.depth > 1 ? 0f : 0.7f);
 		}
 
-		Dungeon.level = new HallLevel();
+		switch (Dungeon.depth) {
+			case -1: Dungeon.level = new SkyLevel(); break;
+			case 0: default: Dungeon.level = new HallLevel(); break;
+		}
+
+		Log.info("Dungeon depth " + Dungeon.depth + ", level is instance of " + Dungeon.level.getClass().getSimpleName());
+
 		Dungeon.area.add(Dungeon.level);
 
 		new Thread(new Runnable() {
