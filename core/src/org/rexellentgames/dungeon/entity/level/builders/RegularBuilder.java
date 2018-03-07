@@ -39,9 +39,9 @@ public class RegularBuilder extends Builder {
 		}
 
 		for (Room room : rooms) {
-			if (room instanceof org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom) {
+			if (room instanceof ExitRoom) {
 				this.exit = (ExitRoom) room;
-			} else if (room instanceof org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom) {
+			} else if (room instanceof EntranceRoom) {
 				this.entrance = (EntranceRoom) room;
 			} else if (room.getMaxConnections(Room.Connection.ALL) == 1) {
 				this.singleConnection.add(room);
@@ -70,22 +70,26 @@ public class RegularBuilder extends Builder {
 		return init;
 	}
 
-	public void setPathVariance(float var) {
+	public RegularBuilder setPathVariance(float var) {
 		this.pathVariance = var;
+		return this;
 	}
 
-	public void setPathLength(float len, float[] jitter) {
+	public RegularBuilder setPathLength(float len, float[] jitter) {
 		this.pathLength = len;
 		this.pathLenJitterChances = jitter;
+		return this;
 	}
 
-	public void setTunnelLength(float[] path, float[] branch) {
+	public RegularBuilder setTunnelLength(float[] path, float[] branch) {
 		this.pathTunnelChances = path;
 		this.branchTunnelChances = branch;
+		return this;
 	}
 
-	public void setExtraConnectionChance(float chance) {
+	public RegularBuilder setExtraConnectionChance(float chance) {
 		this.extraConnectionChance = chance;
+		return this;
 	}
 
 	protected boolean createBranches(ArrayList<Room> rooms, ArrayList<Room> branchable, ArrayList<Room> roomsToBranch, float[] connChances) {

@@ -10,6 +10,10 @@ public class ExitRoom extends RegularRoom {
 		super(Type.EXIT);
 	}
 
+	public ExitRoom(Type type) {
+		super(type);
+	}
+
 	@Override
 	public void paint(Level level) {
 		super.paint(level);

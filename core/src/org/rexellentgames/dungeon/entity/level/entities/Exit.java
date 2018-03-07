@@ -35,10 +35,7 @@ public class Exit extends SaveableEntity {
 	private void add() {
 		if (Dungeon.up && Player.instance != null) {
 			Player.instance.tp(this.x, this.y - 2);
-			Camera.instance.follow(Player.instance);
-
-			double a = Random.newFloat((float) (Math.PI * 2));
-			BurningKnight.instance.tp((float) (Player.instance.x + Math.cos(a) * 64), (float) (Player.instance.y + Math.sin(a) * 64));
+			BurningKnight.instance.tpToPlayer();
 		}
 	}
 

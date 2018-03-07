@@ -1,29 +1,83 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.entity.level.rooms.*;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class BetterLevel extends Level {
-	protected ArrayList<Room> rooms;
 	protected Room entrance;
 	protected Room exit;
 
 	@Override
 	public void generate() {
+		this.build();
+		this.paint();
+
+		ChangableRegistry.generate();
+
+		this.spawnLevelEntities();
+		this.spawnEntities();
+
+		Log.info("Done!");
+	}
+
+	protected void spawnLevelEntities() {
+		this.free = new boolean[this.getSIZE()];
+
+		Log.info("Adding items...");
+
+		this.spawnItems();
+		this.spawnCreatures();
+	}
+
+	protected void spawnEntities() {
+		Log.info("Adding entities...");
+
+		Player player = new Player();
+
+		Dungeon.area.add(player);
+		this.addPlayerSaveable(player);
+
+		if (this.entrance != null) {
+			Point point = this.entrance.getRandomCell();
+
+			Log.info("Setting player spawn to " + (int) point.x + ":" + (int) point.y + "...");
+			player.tp(point.x * 16, point.y * 16);
+		}
+
+		BurningKnight knight = new BurningKnight();
+
+		Dungeon.area.add(knight);
+		this.addPlayerSaveable(knight);
+
+		knight.instance.tpToPlayer();
+	}
+
+	protected void paint() {
+		Log.info("Painting...");
+
+		Painter painter = this.getPainter();
+
+		painter.paint(this, this.rooms);
+		this.tile();
+		painter.draw(this, this.rooms);
+	}
+
+	protected void build() {
 		Builder builder = this.getBuilder();
 
 		ArrayList<Room> rooms = this.createRooms();
@@ -40,38 +94,24 @@ public abstract class BetterLevel extends Level {
 			this.rooms = builder.build((ArrayList<Room>) rooms.clone());
 
 			if (this.rooms == null) {
-				Log.info("Failed!");
+				Log.error("Failed!");
 			}
 		} while (this.rooms == null);
-
-		Log.info("Painting...");
-
-		Painter painter = this.getPainter();
-
-		painter.paint(this, this.rooms);
-		this.tile();
-		painter.draw(this, this.rooms);
-
-		Log.info("Adding entities...");
-
-		Player player = new Player();
-
-		Dungeon.area.add(player);
-		this.addPlayerSaveable(player);
-
-		BurningKnight knight = new BurningKnight();
-
-		Dungeon.area.add(knight);
-		this.addPlayerSaveable(knight);
-
-		Log.info("Done!");
 	}
 
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
-		rooms.add(this.entrance = new EntranceRoom());
-		rooms.add(this.exit = new ExitRoom());
+		if (Dungeon.depth == 0) {
+			this.entrance = new CastleEntranceRoom();
+			this.exit = new CastleExitRoom();
+		} else {
+			this.entrance = new EntranceRoom();
+			this.exit = new ExitRoom();
+		}
+
+		rooms.add(this.entrance);
+		rooms.add(this.exit);
 
 		int regular = this.getNumRegularRooms();
 		int special = this.getNumSpecialRooms();
@@ -81,7 +121,7 @@ public abstract class BetterLevel extends Level {
 
 			do {
 				room = RegularRoom.create();
-			} while(!room.setSize(0, regular - i));
+			} while (!room.setSize(0, regular - i));
 
 			i += room.getSize().roomValue - 1;
 			rooms.add(room);
@@ -110,9 +150,5 @@ public abstract class BetterLevel extends Level {
 
 	protected int getNumSpecialRooms() {
 		return 0;
-	}
-
-	protected int getNumItems() {
-		return 10 + Random.newInt(5);
 	}
 }

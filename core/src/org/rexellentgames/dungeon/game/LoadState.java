@@ -34,7 +34,7 @@ public class LoadState extends State {
 			Dungeon.light = new RayHandler(Dungeon.world);
 
 			Dungeon.light.setBlurNum(10);
-			Dungeon.light.setAmbientLight(0f);
+			Dungeon.light.setAmbientLight(Dungeon.depth > 1 ? 0f : 0.7f);
 		}
 
 		Dungeon.level = new HallLevel();

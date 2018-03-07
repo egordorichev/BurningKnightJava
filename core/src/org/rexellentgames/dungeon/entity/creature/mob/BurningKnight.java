@@ -5,10 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.TheSword;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 
 public class BurningKnight extends Mob {
 	{
@@ -28,6 +31,13 @@ public class BurningKnight extends Mob {
 	private static Animation killed = new Animation(Graphics.sprites, 0.1f, 32, 188);
 	private PointLight light;
 	private Sword sword;
+
+	public void tpToPlayer() {
+		Camera.instance.follow(Player.instance);
+
+		double a = Random.newFloat((float) (Math.PI * 2));
+		this.tp((float) (Player.instance.x + Math.cos(a) * 128), (float) (Player.instance.y + Math.sin(a) * 128));
+	}
 
 	@Override
 	public void init() {

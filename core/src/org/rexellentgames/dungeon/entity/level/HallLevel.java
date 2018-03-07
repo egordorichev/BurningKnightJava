@@ -1,6 +1,12 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.Knight;
+import org.rexellentgames.dungeon.entity.item.Gold;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
@@ -19,10 +25,40 @@ public class HallLevel extends BetterLevel {
 		ArrayList<Room> rooms = super.createRooms();
 
 		if (Dungeon.depth == 0) {
-			rooms.add(new TowerBaseRoom());
+			// todo: throne room
 		}
 
 		return rooms;
+	}
+
+	@Override
+	protected ArrayList<Creature> generateCreatures() {
+		ArrayList<Creature> creatures = super.generateCreatures();
+
+		for (int i = 0; i < 10; i++) {
+			creatures.add(new Knight());
+		}
+
+		return creatures;
+	}
+
+	@Override
+	protected ArrayList<Item> generateItems() {
+		ArrayList<Item> items = super.generateItems();
+
+		for (int i = 0; i < 5; i++) {
+			items.add(Potion.random());
+		}
+
+		for (int i = 0; i < 3; i++) {
+			items.add(Spell.random());
+		}
+
+		for (int i = 0; i < 10; i++) {
+			items.add(new Gold().randomize());
+		}
+
+		return items;
 	}
 
 	@Override
@@ -32,7 +68,11 @@ public class HallLevel extends BetterLevel {
 
 	@Override
 	protected Builder getBuilder() {
-		return new CastleBuilder();
+		if (Dungeon.depth == 0) {
+			return new LineBuilder().setAngle(90).setPathLength(0.3f, new float[]{3,3,3});
+		} else {
+			return new CastleBuilder();
+		}
 	}
 
 	@Override
