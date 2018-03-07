@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.HallLevel;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SkyLevel;
+import org.rexellentgames.dungeon.entity.level.StorageLevel;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.util.Log;
@@ -59,8 +60,10 @@ public class LoadState extends State {
 		Dungeon.light.setAmbientLight(Dungeon.depth > 0 ? 0f : 0.7f);
 
 		switch (Dungeon.depth) {
-			case -1: Dungeon.level = new SkyLevel(); break;
-			case 0: default: Dungeon.level = new HallLevel(); break;
+			case -1: Dungeon.level = new SkyLevel(); Graphics.tiles = Graphics.tiles1; break;
+			case 0: case 1: case 2: case 3: default: Dungeon.level = new HallLevel(); Graphics.tiles = Graphics.tiles1; break;
+			// todo: case 4: boss level
+			case 5: case 6: case 7: case 8: Dungeon.level = new StorageLevel(); Graphics.tiles = Graphics.tiles2; break;
 		}
 
 		Log.info("Dungeon depth " + Dungeon.depth + ", level is instance of " + Dungeon.level.getClass().getSimpleName());
@@ -75,6 +78,7 @@ public class LoadState extends State {
 
 				Dungeon.level.loadPassable();
 				Dungeon.level.addPhysics();
+				Dungeon.level.tile();
 
 				PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
 

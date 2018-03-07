@@ -48,7 +48,7 @@ public class Dungeon extends ApplicationAdapter {
 		this.initInput();
 
 		game = new Game();
-		goToLevel(0);
+		goToLevel(5);
 	}
 
 	public static void goToLevel(int level) {

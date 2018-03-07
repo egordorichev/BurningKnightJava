@@ -104,7 +104,7 @@ public class InGameState extends State {
 		Dungeon.light.setCombinedMatrix(Camera.instance.getCamera());
 
 		Graphics.batch.end();
-		Dungeon.light.updateAndRender();
+		// Dungeon.light.updateAndRender();
 		Graphics.batch.begin();
 
 		// Debug

@@ -13,29 +13,33 @@ public class Terrain {
 	public static short FALL = 68;
 	public static short WATER_FALL = 69;
 	public static short DECO = 43;
+	public static short WOOD = 44;
+	public static short WOOD_SUPPORT = 45;
 
 	public static int[] flags = new int[512];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
 	public static int HOLE = 0x4;
-	public static int LOW = 0x8;
+	public static int HIGH = 0x8;
 
 	static {
-		flags[EMPTY] = HOLE | LOW;
-		flags[FALL] = HOLE | LOW;
-		flags[WATER_FALL] = HOLE | LOW;
-		flags[GRASS] = PASSABLE | LOW;
-		flags[WALL] = SOLID;
+		flags[EMPTY] = HOLE;
+		flags[FALL] = HOLE;
+		flags[WATER_FALL] = HOLE;
+		flags[GRASS] = PASSABLE;
+		flags[WALL] = SOLID | HIGH;
 		flags[DOOR] = PASSABLE;
-		flags[FLOOR] = PASSABLE | LOW;
-		flags[LOW_GRASS] = PASSABLE | LOW;
-		flags[WATER] = PASSABLE | LOW;
+		flags[FLOOR] = PASSABLE;
+		flags[LOW_GRASS] = PASSABLE;
+		flags[WATER] = PASSABLE;
 		flags[EXIT] = PASSABLE;
 		flags[ENTRANCE] = PASSABLE;
+		flags[WOOD] = PASSABLE;
+		flags[WOOD_SUPPORT] = HOLE;
 
 		for (int x = 1; x < 32; x++) {
-			flags[x] = PASSABLE | LOW;
+			flags[x] = PASSABLE;
 		}
 	}
 }

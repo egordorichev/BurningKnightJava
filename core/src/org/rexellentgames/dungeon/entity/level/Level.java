@@ -47,6 +47,7 @@ public abstract class Level extends Entity {
 	protected boolean[] passable;
 	protected boolean[] low;
 	protected boolean[] free;
+	protected byte[] counts;
 	protected Body body;
 	protected int level;
 	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
@@ -63,6 +64,10 @@ public abstract class Level extends Entity {
 		Level.SIZE = width * (height + 1);
 	}
 
+	public short getFloor() {
+		return Terrain.FLOOR;
+	}
+
 	public void fill() {
 		this.data = new short[getSIZE()];
 
@@ -71,6 +76,7 @@ public abstract class Level extends Entity {
 		switch (Dungeon.depth) {
 			case -1: tile = Terrain.EMPTY; break;
 			case 0: tile = Terrain.GRASS; break;
+			case 5: case 6: case 7: case 8: tile = Terrain.EMPTY;
 		}
 
 		Log.info("Filling the level with " + tile);
@@ -110,7 +116,7 @@ public abstract class Level extends Entity {
 
 		for (int i = 0; i < getSIZE(); i++) {
 			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
-			this.low[i] = this.checkFor(i, Terrain.LOW);
+			this.low[i] = !this.checkFor(i, Terrain.HIGH);
 		}
 	}
 
@@ -148,11 +154,19 @@ public abstract class Level extends Entity {
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
-				if (!this.low[x + y * getWIDTH()]) {
-					short tile = this.get(x, y);
+				int i = x + y * getWIDTH();
+
+				if (!this.low[i]) {
+					short tile = this.get(i);
 
 					if (tile > -1) {
 						Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
+					}
+				} else {
+					byte count = this.counts[i];
+
+					if (count != 0 && (count & (1L)) == 0) {
+						Graphics.render(Graphics.tiles, 1 + count, x * 16, y * 16);
 					}
 				}
 			}
@@ -172,35 +186,30 @@ public abstract class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
 
-		Rectangle scissors = new Rectangle();
-		Rectangle clipBounds = new Rectangle(0, 0, Level.getWIDTH() * 16, Level.getHEIGHT() * 16);
-		ScissorStack.calculateScissors(camera, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
-		ScissorStack.pushScissors(scissors);
-
-		float m = Dungeon.time * 5 % 32;
-
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
 				if (this.isWater(x, y, false)) {
-					Graphics.render(Graphics.tiles, 38 + x % 2 + y % 2 * 32, x * 16, y * 16 - m);
-					Graphics.render(Graphics.tiles, 38 + x % 2 + (y + 1) % 2 * 32, x * 16, y * 16 - m + 16);
-					Graphics.render(Graphics.tiles, 38 + x % 2 + y % 2 * 32, x * 16, y * 16 - m + 32);
-					Graphics.render(Graphics.tiles, 38 + x % 2 + (y + 1) % 2 * 32, x * 16, y * 16 - m + 48);
+					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16, 144 + x % 2 * 16, Math.round(48 +
+						(y % 2 * 16 - Dungeon.time * 8) % 32), 16, 16);
 				}
 			}
 		}
 
-		Graphics.batch.flush();
-		ScissorStack.popScissors();
-
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
-				if (this.low[x + y * getWIDTH()]) {
-					short tile = this.get(x, y);
+				int i = x + y * getWIDTH();
+
+				if (this.low[i]) {
+					short tile = this.get(i);
 
 					if (tile > -1) {
 						Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
 					}
+				}
+				byte count = this.counts[i];
+
+				if (count != 0 && (count & (1L)) != 0) {
+					Graphics.render(Graphics.tiles, 1 + count, x * 16, y * 16);
 				}
 			}
 		}
@@ -211,16 +220,7 @@ public abstract class Level extends Entity {
 			return true;
 		}
 
-		int tile = this.get(x, y);
-
-		if (tile == Terrain.DECO) {
-			return true;
-		}
-
-		int xx = tile % 32;
-		int yy = (int) (Math.floor(tile / 32));
-
-		return xx < 17 && yy == 0;
+		return this.get(x, y) == Terrain.WALL;
 	}
 
 	protected boolean isWater(int x, int y) {
@@ -262,7 +262,7 @@ public abstract class Level extends Entity {
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		if (xx < 4 && yy > 10 && yy < 15) {
+		if (xx > 16 && yy == 0) {
 			return true;
 		}
 
@@ -504,33 +504,41 @@ public abstract class Level extends Entity {
 	}
 
 	public void tile() {
-		for (int x = 1; x < getWIDTH() - 1; x++) {
-			for (int y = 1; y < getHEIGHT() - 1; y++) {
-				if (this.checkFor(x, y, Terrain.PASSABLE)) {
+		this.counts = new byte[getSIZE()];
+
+		for (int x = 0; x < getWIDTH(); x++) {
+			for (int y = 0; y < getHEIGHT(); y++) {
+				if (this.get(x, y) != Terrain.WALL) {
 					int count = 0;
 
-					if (this.get(x, y + 1) == Terrain.WALL) {
+					if (this.check(x, y + 1)) {
 						count += 1;
 					}
 
-					if (this.get(x + 1, y) == Terrain.WALL) {
+					if (this.check(x + 1, y)) {
 						count += 2;
 					}
 
-					if (this.get(x, y - 1) == Terrain.WALL) {
+					if (this.check(x, y - 1)) {
 						count += 4;
 					}
 
-					if (this.get(x - 1, y) == Terrain.WALL) {
+					if (this.check(x - 1, y)) {
 						count += 8;
 					}
 
-					if (count != 0) {
-						this.set(x, y, (short) (1 + count));
-					}
+					this.counts[toIndex(x, y)] = (byte) count;
 				}
 			}
 		}
+	}
+
+	private boolean check(int x, int y) {
+		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
+			return false;
+		}
+
+		return this.get(x, y) == Terrain.WALL;
 	}
 
 	protected Room getRandomRoom(Room.Type type) {

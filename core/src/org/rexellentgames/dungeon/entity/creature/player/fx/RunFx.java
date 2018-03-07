@@ -10,7 +10,7 @@ public class RunFx extends Entity {
 
 	public RunFx(float x, float y) {
 		this.x = x;
-		this.y = y;
+		this.y = y - 8;
 		this.depth = -1;
 	}
 
@@ -25,6 +25,6 @@ public class RunFx extends Entity {
 
 	@Override
 	public void render() {
-		animation.render(this.x, this.y, this.t, false);
+		animation.render(this.x, this.y + 8, this.t, false);
 	}
 }
