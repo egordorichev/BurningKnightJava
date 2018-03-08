@@ -315,7 +315,10 @@ public abstract class Room extends Rect implements GraphNode {
 		SKY_ENTRANCE,
 		SKY_EXIT,
 		RING_CONNECTION,
-		CIRCLE_ROOM
+		CIRCLE_ROOM,
+		SPIKED,
+		SPIKED_TUNNEL,
+		CHASM_ROOM
 	}
 
 	@Override

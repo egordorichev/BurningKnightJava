@@ -15,6 +15,7 @@ public class Terrain {
 	public static short DECO = 43;
 	public static short WOOD = 44;
 	public static short WOOD_SUPPORT = 45;
+	public static short SPIKES = 46;
 
 	public static int[] flags = new int[512];
 
@@ -37,8 +38,13 @@ public class Terrain {
 		flags[ENTRANCE] = PASSABLE;
 		flags[WOOD] = PASSABLE;
 		flags[WOOD_SUPPORT] = HOLE;
+		flags[SPIKES] = 0;
 
 		for (int x = 1; x < 32; x++) {
+			flags[x] = PASSABLE;
+		}
+
+		for (int x = 34; x < 41; x++) {
 			flags[x] = PASSABLE;
 		}
 	}

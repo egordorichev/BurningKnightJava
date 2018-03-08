@@ -250,10 +250,7 @@ public abstract class Level extends Entity {
 			return true;
 		}
 
-		int xx = tile % 32;
-		int yy = (int) (Math.floor(tile / 32));
-
-		return (xx > 16 && yy == 0);
+		return this.isWater(x, y);
 	}
 
 	public boolean isWater(int x, int y, boolean wall) {
