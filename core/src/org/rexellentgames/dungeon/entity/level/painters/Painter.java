@@ -107,6 +107,10 @@ public class Painter {
 		}
 	}
 
+	private static short[] floors = new short[]{
+		1, 34, 35, 36, 37, 38, 39, 40
+	};
+
 	public void draw(Level level, ArrayList<Room> rooms) {
 		for (int x = 1; x < Level.getWIDTH() - 1; x++) {
 			for (int y = 1; y < Level.getHEIGHT() - 1; y++) {
@@ -118,25 +122,27 @@ public class Painter {
 				} else if (level.isWater(x, y, false)) {
 					int count = 0;
 
-					if (level.isWater(x, y + 1)) {
+					if (level.isWaterOrFall(x, y + 1)) {
 						count += 1;
 					}
 
-					if (level.isWater(x + 1, y)) {
+					if (level.isWaterOrFall(x + 1, y)) {
 						count += 2;
 					}
 
-					if (level.isWater(x, y - 1)) {
+					if (level.isWaterOrFall(x, y - 1)) {
 						count += 4;
 					}
 
-					if (level.isWater(x - 1, y)) {
+					if (level.isWaterOrFall(x - 1, y)) {
 						count += 8;
 					}
 
 					level.set(x, y, count == 15 ? Terrain.WATER : (short) (17 + count));
+				} else if (tile == Terrain.FLOOR) {
+					level.set(x, y, floors[Random.newInt(floors.length)]);
 				}
-				
+
 				if (level.checkFor(x, y, Terrain.PASSABLE) && bottomEmpty) {
 					level.set(x, y - 1, level.isWater(x, y, false) ? Terrain.WATER_FALL : Terrain.FALL);
 				}

@@ -72,11 +72,13 @@ public class RegularRoom extends Room {
 	}
 
 	private static ArrayList<Class<? extends RegularRoom>> rooms = new ArrayList<Class<? extends RegularRoom>>(Arrays.asList(
-		RegularRoom.class, GardenRoom.class, FloodedRoom.class, CircleRoom.class
+		RegularRoom.class, GardenRoom.class, FloodedRoom.class, CircleRoom.class, SpikedRoom.class,
+		ChasmRoom.class
 	));
 
 	private static float[] chances = new float[] {
-		5, 1, 1, 5
+		5, 2, 1, 3, 1,
+		1
 	};
 
 	public static RegularRoom create() {
