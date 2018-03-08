@@ -76,7 +76,7 @@ public abstract class Level extends Entity {
 		switch (Dungeon.depth) {
 			case -1: tile = Terrain.EMPTY; break;
 			case 0: tile = Terrain.GRASS; break;
-			case 5: case 6: case 7: case 8: tile = Terrain.EMPTY;
+			case 15: case 16: case 17: case 18: tile = Terrain.EMPTY;
 		}
 
 		Log.info("Filling the level with " + tile);
@@ -143,14 +143,16 @@ public abstract class Level extends Entity {
 	public void renderSolid() {
 		OrthographicCamera camera = Camera.instance.getCamera();
 
-		float cx = camera.position.x - Display.GAME_WIDTH / 2;
-		float cy = camera.position.y - Display.GAME_HEIGHT / 2;
+		float zoom = camera.zoom;
+
+		float cx = camera.position.x - Display.GAME_WIDTH / 2 * zoom;
+		float cy = camera.position.y - Display.GAME_HEIGHT / 2 * zoom;
 
 		int sx = (int) (Math.floor(cx / 16) - 1);
 		int sy = (int) (Math.floor(cy / 16) - 1);
 
-		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
-		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
+		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
@@ -177,14 +179,16 @@ public abstract class Level extends Entity {
 	public void render() {
 		OrthographicCamera camera = Camera.instance.getCamera();
 
-		float cx = camera.position.x - Display.GAME_WIDTH / 2;
-		float cy = camera.position.y - Display.GAME_HEIGHT / 2;
+		float zoom = camera.zoom;
+
+		float cx = camera.position.x - Display.GAME_WIDTH / 2 * zoom;
+		float cy = camera.position.y - Display.GAME_HEIGHT / 2 * zoom;
 
 		int sx = (int) (Math.floor(cx / 16) - 1);
 		int sy = (int) (Math.floor(cy / 16) - 1);
 
-		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH) / 16) + 1);
-		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT) / 16) + 1);
+		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {

@@ -21,6 +21,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new HealCommand());
 		this.commands.add(new GodModeCommand());
 		this.commands.add(new GenerateCommand());
+		this.commands.add(new LevelCommand());
 	}
 
 	public void destroy() {

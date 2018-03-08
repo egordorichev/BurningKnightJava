@@ -4,13 +4,14 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class Patch {
 	public static boolean[] generate(float seed, int octaves) {
-		int w = Level.getWIDTH();
-		int h = Level.getHEIGHT();
+		return generate(Level.getWIDTH(), Level.getHEIGHT(), seed, octaves);
+	}
 
-		boolean[] cur = new boolean[Level.getSIZE()];
-		boolean[] off = new boolean[Level.getSIZE()];
+	public static boolean[] generate(int w, int h, float seed, int octaves) {
+		boolean[] cur = new boolean[w * h];
+		boolean[] off = new boolean[w * h];
 
-		for (int i = 0; i < Level.getSIZE(); i++) {
+		for (int i = 0; i < w * h; i++) {
 			off[i] = Random.newFloat() < seed;
 		}
 

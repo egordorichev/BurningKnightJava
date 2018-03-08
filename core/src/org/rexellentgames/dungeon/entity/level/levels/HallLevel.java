@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.level;
+package org.rexellentgames.dungeon.entity.level.levels;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
+import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;

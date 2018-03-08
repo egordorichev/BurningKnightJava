@@ -81,9 +81,11 @@ public class Entity extends Point {
 	public boolean isOnScreen() {
 		OrthographicCamera camera = Camera.instance.getCamera();
 
-		return this.x + this.w >= camera.position.x - Display.GAME_WIDTH / 2 &&
-			this.y + this.h >= camera.position.y - Display.GAME_HEIGHT / 2 &&
-			this.x <= camera.position.x + Display.GAME_WIDTH / 2 &&
-			this.y <= camera.position.y + Display.GAME_HEIGHT / 2;
+		float zoom = camera.zoom;
+
+		return this.x + this.w >= camera.position.x - Display.GAME_WIDTH / 2 * zoom &&
+			this.y + this.h >= camera.position.y - Display.GAME_HEIGHT / 2 * zoom &&
+			this.x <= camera.position.x + Display.GAME_WIDTH / 2 * zoom &&
+			this.y <= camera.position.y + Display.GAME_HEIGHT / 2 * zoom;
 	}
 }
