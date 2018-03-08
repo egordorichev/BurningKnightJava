@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
@@ -94,6 +95,36 @@ public class InGameState extends State {
 		this.health.setMax(Player.instance.getHpMax());
 		this.mana.setMax(Player.instance.getManaMax());
 		this.exp.setMax(Player.instance.getExperienceMaxForLevel());
+
+		if (Input.instance.wasPressed("1")) {
+			final OrthographicCamera cam = Camera.instance.getCamera();
+
+			Tween.to(new Tween.Task(cam.zoom * 1.1f, 0.2f) {
+				@Override
+				public float getValue() {
+					return cam.zoom;
+				}
+
+				@Override
+				public void setValue(float value) {
+					cam.zoom = value;
+				}
+			});
+		} else if (Input.instance.wasPressed("2")) {
+			final OrthographicCamera cam = Camera.instance.getCamera();
+
+			Tween.to(new Tween.Task(cam.zoom * 0.9f, 0.2f) {
+				@Override
+				public float getValue() {
+					return cam.zoom;
+				}
+
+				@Override
+				public void setValue(float value) {
+					cam.zoom = value;
+				}
+			});
+		}
 	}
 
 	private void renderGame() {

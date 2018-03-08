@@ -78,8 +78,12 @@ public abstract class BetterLevel extends Level {
 
 		Painter painter = this.getPainter();
 
-		painter.paint(this, this.rooms);
-		painter.draw(this, this.rooms);
+		if (painter != null) {
+			painter.paint(this, this.rooms);
+			painter.draw(this, this.rooms);
+		} else {
+			Log.error("No painter!");
+		}
 	}
 
 	protected void build() {

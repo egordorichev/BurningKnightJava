@@ -15,8 +15,7 @@ public class Graphics {
 	public static ShapeRenderer shape = new ShapeRenderer();
 	public static GlyphLayout layout = new GlyphLayout();
 	public static Texture tiles;
-	public static Texture tiles1;
-	public static Texture tiles2;
+	public static Texture[] tilesets;
 	public static Texture sprites;
 	public static Texture items;
 	public static Texture buffs;
@@ -26,16 +25,21 @@ public class Graphics {
 	public static BitmapFont medium;
 
 	public static void init() {
-		tiles1 = new Texture("sprites/tiles-1.png");
-		tiles2 = new Texture("sprites/tiles-2.png");
+		tilesets = new Texture[5];
+
+		for (int i = 0; i < 5; i++) {
+			Texture set = new Texture("sprites/tiles-" + i + ".png");
+			set.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+			tilesets[i] = set;
+		}
+
 		sprites = new Texture("sprites/sprites.png");
 		items = new Texture("sprites/items.png");
 		buffs = new Texture("sprites/buffs.png");
 		ui = new Texture("sprites/ui.png");
 		effects = new Texture("sprites/effects.png");
 
-		tiles1.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-		tiles2.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		sprites.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		items.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		buffs.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

@@ -112,7 +112,7 @@ public class PathFinder {
 		return mins;
 	}
 
-	private static boolean buildDistanceMap(int from, int to, boolean[] passable) {
+	public static boolean buildDistanceMap(int from, int to, boolean[] passable) {
 		if (from == to) {
 			return false;
 		}
@@ -186,7 +186,7 @@ public class PathFinder {
 		}
 	}
 
-	private static boolean buildDistanceMap(int from, boolean[] to, boolean[] passable) {
+	public static boolean buildDistanceMap(int from, boolean[] to, boolean[] passable) {
 
 		if (to[from]) {
 			return false;
@@ -232,7 +232,7 @@ public class PathFinder {
 		return pathFound;
 	}
 
-	private static int buildEscapeDistanceMap(int cur, int from, float factor, boolean[] passable) {
+	public static int buildEscapeDistanceMap(int cur, int from, float factor, boolean[] passable) {
 
 		Arrays.fill(distance, Integer.MAX_VALUE);
 
@@ -279,7 +279,7 @@ public class PathFinder {
 	}
 
 	@SuppressWarnings("unused")
-	private static void buildDistanceMap(int to, boolean[] passable) {
+	public static void buildDistanceMap(int to, boolean[] passable) {
 
 		Arrays.fill(distance, Integer.MAX_VALUE);
 

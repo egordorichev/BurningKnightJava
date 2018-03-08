@@ -1,14 +1,15 @@
-package org.rexellentgames.dungeon.entity.level;
+package org.rexellentgames.dungeon.entity.level.levels;
 
+import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
+import org.rexellentgames.dungeon.entity.level.painters.LibraryPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.entity.level.painters.StoragePainter;
 
-public class StorageLevel extends BetterLevel {
+public class LibraryLevel extends BetterLevel {
 	@Override
 	protected Painter getPainter() {
-		return new StoragePainter().setGrass(0.4f).setWater(0.3f);
+		return new LibraryPainter();
 	}
 
 	@Override

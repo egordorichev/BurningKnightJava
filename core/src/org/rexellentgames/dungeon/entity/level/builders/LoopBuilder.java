@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -107,7 +108,8 @@ public class LoopBuilder extends RegularBuilder {
 		// should just write a general function for stitching two rooms together in builder
 
 		while (!prev.connectTo(this.entrance)) {
-			ConnectionRoom c = ConnectionRoom.create();
+			// ConnectionRoom c = ConnectionRoom.create();
+			RegularRoom c = RegularRoom.create();
 
 			if (placeRoom(loop, prev, c, angleBetweenRooms(prev, this.entrance)) == -1) {
 				Log.info("2");
