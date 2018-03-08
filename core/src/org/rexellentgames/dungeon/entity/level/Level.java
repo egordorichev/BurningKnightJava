@@ -227,7 +227,7 @@ public abstract class Level extends Entity {
 		return this.get(x, y) == Terrain.WALL;
 	}
 
-	protected boolean isWater(int x, int y) {
+	public boolean isWater(int x, int y) {
 		return this.isWater(x, y, true);
 	}
 
@@ -239,7 +239,7 @@ public abstract class Level extends Entity {
 		return (Terrain.flags[this.get(x, y)] & flag) == flag;
 	}
 
-	protected boolean isWaterOrFall(int x, int y) {
+	public boolean isWaterOrFall(int x, int y) {
 		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
 			return true;
 		}
@@ -256,12 +256,16 @@ public abstract class Level extends Entity {
 		return (xx > 16 && yy == 0);
 	}
 
-	protected boolean isWater(int x, int y, boolean wall) {
+	public boolean isWater(int x, int y, boolean wall) {
 		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
 			return true;
 		}
 
 		int tile = this.get(x, y);
+
+		if (tile == Terrain.WATER || (wall && tile == Terrain.WOOD)) {
+			return true;
+		}
 
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));

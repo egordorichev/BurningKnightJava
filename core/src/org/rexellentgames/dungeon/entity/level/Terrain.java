@@ -9,7 +9,7 @@ public class Terrain {
 	public static short EXIT = 65;
 	public static short WALL = 0;
 	public static short LOW_GRASS = 33;
-	public static short WATER = 17;
+	public static short WATER = 63;
 	public static short FALL = 68;
 	public static short WATER_FALL = 69;
 	public static short DECO = 43;

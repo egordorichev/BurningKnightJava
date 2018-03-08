@@ -115,8 +115,30 @@ public class Painter {
 
 				if (tile == Terrain.WOOD && bottomEmpty) {
 					level.set(x, y - 1, Terrain.WOOD_SUPPORT);
-				} else if (tile == Terrain.FLOOR && bottomEmpty) {
-					level.set(x, y - 1, Terrain.FALL);
+				} else if (level.isWater(x, y, false)) {
+					int count = 0;
+
+					if (level.isWater(x, y + 1)) {
+						count += 1;
+					}
+
+					if (level.isWater(x + 1, y)) {
+						count += 2;
+					}
+
+					if (level.isWater(x, y - 1)) {
+						count += 4;
+					}
+
+					if (level.isWater(x - 1, y)) {
+						count += 8;
+					}
+
+					level.set(x, y, count == 15 ? Terrain.WATER : (short) (17 + count));
+				}
+				
+				if (level.checkFor(x, y, Terrain.PASSABLE) && bottomEmpty) {
+					level.set(x, y - 1, level.isWater(x, y, false) ? Terrain.WATER_FALL : Terrain.FALL);
 				}
 			}
 		}

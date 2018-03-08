@@ -99,7 +99,7 @@ public class InGameState extends State {
 		if (Input.instance.wasPressed("1")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
-			Tween.to(new Tween.Task(cam.zoom * 1.1f, 0.2f) {
+			Tween.to(new Tween.Task(cam.zoom * 1.3f, 0.2f) {
 				@Override
 				public float getValue() {
 					return cam.zoom;
@@ -113,7 +113,7 @@ public class InGameState extends State {
 		} else if (Input.instance.wasPressed("2")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
-			Tween.to(new Tween.Task(cam.zoom * 0.9f, 0.2f) {
+			Tween.to(new Tween.Task(cam.zoom * 0.7f, 0.2f) {
 				@Override
 				public float getValue() {
 					return cam.zoom;

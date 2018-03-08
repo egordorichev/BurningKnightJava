@@ -39,11 +39,11 @@ public abstract class Room extends Rect implements GraphNode {
 	}
 
 	public int getMaxWidth() {
-		return 9;
+		return 16;
 	}
 
 	public int getMaxHeight() {
-		return 9;
+		return 16;
 	}
 
 	public abstract int getMaxConnections(Connection side);
@@ -313,7 +313,9 @@ public abstract class Room extends Rect implements GraphNode {
 		CASTLE_ENTRANCE,
 		CASTLE_EXIT,
 		SKY_ENTRANCE,
-		SKY_EXIT
+		SKY_EXIT,
+		RING_CONNECTION,
+		CIRCLE_ROOM
 	}
 
 	@Override
