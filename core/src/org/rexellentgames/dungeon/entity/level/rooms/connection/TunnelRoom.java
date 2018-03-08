@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.level.levels.StorageLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -16,10 +17,26 @@ public class TunnelRoom extends ConnectionRoom {
 		super(Type.TUNNEL);
 	}
 
+	public TunnelRoom(Type type) {
+		super(type);
+	}
+
+	protected void fill(Level level) {
+
+	}
+
 	@Override
 	public void paint(Level level) {
+		for (Door door : this.connected.values()) {
+			door.setType(Door.Type.TUNNEL);
+		}
+
 		int floor = Terrain.FLOOR;
-		boolean bold = !(Dungeon.level instanceof StorageLevel);
+		boolean bold = (Dungeon.depth == 0);
+
+		if (!bold) {
+			this.fill(level);
+		}
 
 		Rect c = getConnectionSpace();
 
@@ -58,10 +75,6 @@ public class TunnelRoom extends ConnectionRoom {
 
 			Painter.drawLine(level, start, mid, floor, bold);
 			Painter.drawLine(level, mid, end, floor, bold);
-		}
-
-		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.TUNNEL);
 		}
 	}
 
