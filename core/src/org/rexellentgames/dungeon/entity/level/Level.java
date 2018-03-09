@@ -207,7 +207,7 @@ public abstract class Level extends Entity {
 					short tile = this.get(i);
 
 					if (tile > -1) {
-						Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
+						 Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
 					}
 				}
 				byte count = this.counts[i];

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class HallPainter extends Painter {
 	@Override
-	public void paint(Level level, ArrayList<Room> rooms) {
-		super.paint(level, rooms);
+	protected void decorate(Level level, ArrayList<Room> rooms) {
+
 	}
 }

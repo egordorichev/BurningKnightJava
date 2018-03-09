@@ -25,10 +25,10 @@ public class BurningKnight extends Mob {
 
 	public static BurningKnight instance;
 
-	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 32, 160, 162,
+	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 32, 160, 162,
 		164, 166, 168, 170, 172, 174, 176, 178, 180, 182);
-	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 32, 184, 186);
-	private static Animation killed = new Animation(Graphics.sprites, 0.1f, 32, 188);
+	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 32, 184, 186);
+	private static Animation killed = Animation.make(Graphics.sprites, 0.1f, 32, 188);
 	private PointLight light;
 	private Sword sword;
 
@@ -48,9 +48,12 @@ public class BurningKnight extends Mob {
 		this.sword.setOwner(this);
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
-		this.light = new PointLight(Dungeon.light, 128, new Color(0.6f, 0.6f, 1f, 0.8f),
-			200, 300, 300);
-		this.light.setXray(true);
+
+		if (Dungeon.light != null) {
+			this.light = new PointLight(Dungeon.light, 128, new Color(0.6f, 0.6f, 1f, 0.8f),
+				200, 300, 300);
+			this.light.setXray(true);
+		}
 	}
 
 	@Override
@@ -99,8 +102,11 @@ public class BurningKnight extends Mob {
 	@Override
 	protected void die() {
 		super.die();
-		this.light.remove(true);
-		this.light = null;
+
+		if (this.light != null) {
+			this.light.remove(true);
+			this.light = null;
+		}
 	}
 
 	@Override

@@ -2,53 +2,36 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
-import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.geometry.Point;
-import org.rexellentgames.dungeon.util.path.Graph;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-public class Knight extends Mob {
+public class Clown extends Mob {
 	{
-		hpMax = 10;
-		speed = 10;
+		hpMax = 3;
+		speed = 15;
 	}
 
-	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 224, 225, 226, 227,
-		228, 229, 230, 231);
+	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 256, 257, 258, 259,
+		260, 261, 262, 263);
 
-	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 232, 233, 234, 235,
-		236, 237, 238, 239);
+	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 264, 265, 266, 267,
+		268, 269, 270, 271);
 
-	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 240, 241);
-	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 242);
+	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 272, 273);
+	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 274);
 
 	private Point point;
-	private Sword sword;
-	private float runDelay;
 
 	@Override
 	public void init() {
 		super.init();
 
-		this.runDelay = Random.newFloat(3f, 6f);
-		this.sword = new IronSword();
-		this.sword.setOwner(this);
 		this.body = this.createBody(1, 2, 12, 14, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	private void attack() {
-		if (this.sword.getDelay() == 0 && this.timer % 0.1 <= 0.017f) {
-			this.sword.use();
-		}
+		
 	}
 
 	@Override
@@ -61,12 +44,8 @@ public class Knight extends Mob {
 			return;
 		}
 
-		this.sword.update(dt);
-
 		if (!this.noticed) {
 			this.vel.mul(0f);
-		} else if (this.timer % this.runDelay <= 1f) {
-			this.vel.mul(0);
 		} else if (this.target != null && !this.target.isDead()) {
 			float dx = this.target.x - this.x;
 			float dy = this.target.y - this.y;
@@ -97,11 +76,9 @@ public class Knight extends Mob {
 					this.point = this.getCloser(this.target);
 				}
 			}
-		} else {
-			this.assignTarget();
 		}
 
-		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
+			float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (v > 9.9) {
 			this.become("run");
@@ -118,7 +95,6 @@ public class Knight extends Mob {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
-
 		Animation animation;
 
 		if (this.dead) {
@@ -132,19 +108,5 @@ public class Knight extends Mob {
 		}
 
 		animation.render(this.x, this.y, this.t, this.flipped);
-		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.sword.render(this.x, this.y, this.flipped);
-		Graphics.batch.setColor(1, 1, 1, 1);
-	}
-
-	@Override
-	protected ArrayList<Item> getDrops() {
-		ArrayList<Item> items = super.getDrops();
-
-		if (Random.chance(5)) {
-			items.add(this.sword);
-		}
-
-		return items;
 	}
 }

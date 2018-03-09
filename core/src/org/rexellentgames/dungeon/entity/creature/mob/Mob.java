@@ -33,7 +33,7 @@ public class Mob extends Creature {
 	protected void assignTarget() {
 		this.target = (Creature) this.area.getRandomEntity(Player.class);
 
-		if (this.target.invisible) {
+		if (this.target != null && this.target.invisible) {
 			this.target = null;
 		}
 	}

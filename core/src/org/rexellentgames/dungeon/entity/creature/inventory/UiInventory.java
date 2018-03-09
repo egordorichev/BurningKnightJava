@@ -73,8 +73,8 @@ public class UiInventory extends UiEntity {
 				ItemHolder holder = new ItemHolder();
 
 				holder.setItem(slot);
-				holder.x = (float) Math.floor(Player.instance.x);
-				holder.y = (float) Math.floor(Player.instance.y);
+				holder.x = (float) Math.floor(Player.instance.x + Player.instance.w / 2);
+				holder.y = (float) Math.floor(Player.instance.y + Player.instance.h / 2);
 				Dungeon.level.addSaveable(holder);
 
 				this.inventory.setSlot(this.active, null);

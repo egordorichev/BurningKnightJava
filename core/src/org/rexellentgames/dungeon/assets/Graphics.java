@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Graphics {
-	public static SpriteBatch batch = new SpriteBatch();
-	public static ShapeRenderer shape = new ShapeRenderer();
-	public static GlyphLayout layout = new GlyphLayout();
+	public static SpriteBatch batch;
+	public static ShapeRenderer shape;
+	public static GlyphLayout layout;
 	public static Texture tiles;
 	public static Texture[] tilesets;
 	public static Texture sprites;
@@ -26,6 +26,9 @@ public class Graphics {
 
 	public static void init() {
 		tilesets = new Texture[5];
+		batch = new SpriteBatch();
+		shape = new ShapeRenderer();
+		layout = new GlyphLayout();
 
 		for (int i = 0; i < 5; i++) {
 			Texture set = new Texture("sprites/tiles-" + i + ".png");

@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
@@ -11,11 +12,18 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.CaveRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
 public class HellLevel extends BetterLevel {
+	public HellLevel() {
+		if (!Network.SERVER) {
+			Graphics.tiles = Graphics.tilesets[4];
+		}
+	}
+
 	@Override
 	protected Builder getBuilder() {
 		return new CastleBuilder();

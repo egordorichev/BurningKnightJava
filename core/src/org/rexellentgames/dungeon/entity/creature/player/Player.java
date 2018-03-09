@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
@@ -32,10 +33,10 @@ import java.io.IOException;
 public class Player extends Creature {
 	private static final int LIGHT_SIZE = 32;
 	public static Player instance;
-	private static Animation idle = new Animation(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
-	private static Animation run = new Animation(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
-	private static Animation hurt = new Animation(Graphics.sprites, 0.1f, 16, 16, 17);
-	private static Animation killed = new Animation(Graphics.sprites, 1f, 16, 18);
+	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
+	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
+	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 16, 17);
+	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 18);
 	private PointLight light;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
@@ -194,7 +195,9 @@ public class Player extends Creature {
 
 	@Override
 	public void destroy() {
-		this.light.remove(true);
+		if (this.light != null) {
+			this.light.remove(true);
+		}
 	}
 
 	@Override
@@ -235,7 +238,7 @@ public class Player extends Creature {
 
 			if (item.getItem().hasAutoPickup()) {
 				this.tryToPickup(item);
-			} else if (this.pickupFx == null) {
+			} else if (this.pickupFx == null && !Network.SERVER) {
 				this.pickupFx = new ItemPickupFx(item, this);
 				this.area.add(this.pickupFx);
 			}

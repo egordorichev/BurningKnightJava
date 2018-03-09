@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
@@ -147,7 +148,10 @@ public class Creature extends SaveableEntity {
 			this.onHurt();
 		}
 
-		this.area.add(new HpFx(this, amount));
+		if (!Network.SERVER) {
+			this.area.add(new HpFx(this, amount));
+		}
+
 		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);
 
 		if (this.hp == 0) {
