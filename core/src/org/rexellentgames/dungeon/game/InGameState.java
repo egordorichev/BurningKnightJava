@@ -16,6 +16,7 @@ import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.Bar;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
@@ -36,7 +37,10 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
-		this.debug = new Box2DDebugRenderer();
+		if (!Network.SERVER) {
+			this.debug = new Box2DDebugRenderer();
+		}
+
 		Collisions collisions = new Collisions();
 
 		Dungeon.world.setContactListener(collisions);
@@ -44,7 +48,10 @@ public class InGameState extends State {
 
 		Camera.instance.follow(Player.instance);
 
-		this.setupUi();
+		if (!Network.SERVER) {
+			this.setupUi();
+		}
+
 		this.console = new Console();
 	}
 
@@ -88,13 +95,15 @@ public class InGameState extends State {
 		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
 
-		this.health.setValue(Player.instance.getHp());
-		this.mana.setValue(Player.instance.getMana());
-		this.exp.setValue(Player.instance.getExperienceForLevel());
+		if (!Network.SERVER) {
+			this.health.setValue(Player.instance.getHp());
+			this.mana.setValue(Player.instance.getMana());
+			this.exp.setValue(Player.instance.getExperienceForLevel());
 
-		this.health.setMax(Player.instance.getHpMax());
-		this.mana.setMax(Player.instance.getManaMax());
-		this.exp.setMax(Player.instance.getExperienceMaxForLevel());
+			this.health.setMax(Player.instance.getHpMax());
+			this.mana.setMax(Player.instance.getManaMax());
+			this.exp.setMax(Player.instance.getExperienceMaxForLevel());
+		}
 
 		if (Input.instance.wasPressed("1")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();

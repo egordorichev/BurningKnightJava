@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.LoadState;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 
@@ -39,9 +40,11 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		this.setupCursor();
+		if (!Network.SERVER) {
+			this.setupCursor();
+			Assets.init();
+		}
 
-		Assets.init();
 		Box2D.init();
 
 		this.initColors();
@@ -68,15 +71,17 @@ public class Dungeon extends ApplicationAdapter {
 		time += dt;
 		game.update(dt);
 
-		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-		Graphics.batch.begin();
+		if (!Network.SERVER) {
+			Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.batch.begin();
 
-		game.render();
+			game.render();
 
-		Graphics.batch.end();
-		Input.instance.update();
+			Graphics.batch.end();
+			Input.instance.update();
+		}
 	}
 
 	@Override

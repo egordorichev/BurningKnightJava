@@ -1,7 +1,9 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -16,17 +18,30 @@ import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.special.TowerBaseRoom;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
 public class HallLevel extends BetterLevel {
+	public HallLevel() {
+		if (!Network.SERVER) {
+			Graphics.tiles = Graphics.tilesets[0];
+		}
+	}
+
 	@Override
 	protected ArrayList<Creature> generateCreatures() {
 		ArrayList<Creature> creatures = super.generateCreatures();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			creatures.add(new Knight());
+		}
+
+		if (Dungeon.depth > 0) {
+			for (int i = 0; i < 5; i++) {
+				creatures.add(new Clown());
+			}
 		}
 
 		return creatures;

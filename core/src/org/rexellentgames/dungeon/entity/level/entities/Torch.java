@@ -27,27 +27,38 @@ public class Torch extends SaveableEntity {
 
 	@Override
 	public void init() {
-		this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.7f, 0.5f, 0.9f),
-			96, this.x + 8, this.y);
+		if (Dungeon.light != null) {
+			this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.7f, 0.5f, 0.9f),
+				96, this.x + 8, this.y);
+		}
 	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
-		this.light.setPosition(this.x + 8, this.y);
+
+		if (Dungeon.light != null) {
+			this.light.setPosition(this.x + 8, this.y);
+		}
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.light.remove(true);
+
+		if (Dungeon.light != null) {
+			this.light.remove(true);
+		}
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-		this.light.setDistance((float) (Math.cos(this.t * 5) * 16 + 96));
+		if (Dungeon.light != null) {
+			this.light.setDistance((float) (Math.cos(this.t * 5) * 16 + 96));
+		}
+
 		this.t += dt;
 
 		if (this.t % 0.1 <= 0.017) {

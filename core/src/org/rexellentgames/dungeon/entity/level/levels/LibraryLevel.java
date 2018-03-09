@@ -1,12 +1,20 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.LibraryPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.net.Network;
 
 public class LibraryLevel extends BetterLevel {
+	public LibraryLevel() {
+		if (!Network.SERVER) {
+			Graphics.tiles = Graphics.tilesets[3];
+		}
+	}
+
 	@Override
 	protected Painter getPainter() {
 		return new LibraryPainter();

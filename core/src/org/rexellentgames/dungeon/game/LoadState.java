@@ -19,6 +19,7 @@ import org.rexellentgames.dungeon.entity.level.levels.LibraryLevel;
 import org.rexellentgames.dungeon.entity.level.levels.PrisonLevel;
 import org.rexellentgames.dungeon.entity.level.levels.SkyLevel;
 import org.rexellentgames.dungeon.entity.level.levels.StorageLevel;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -55,24 +56,26 @@ public class LoadState extends State {
 			this.readDepth();
 		}
 
-		if (Dungeon.light == null) {
-			Dungeon.light = new RayHandler(Dungeon.world);
-			Dungeon.light.setBlurNum(10);
+		if (!Network.SERVER) {
+			if (Dungeon.light == null) {
+				Dungeon.light = new RayHandler(Dungeon.world);
+				Dungeon.light.setBlurNum(10);
+			}
+
+			Dungeon.light.setAmbientLight(Dungeon.depth > 0 ? 0f : 0.7f);
 		}
 
-		Dungeon.light.setAmbientLight(Dungeon.depth > 0 ? 0f : 0.7f);
-
 		switch (Dungeon.depth) {
-			case -1: Dungeon.level = new SkyLevel(); Graphics.tiles = Graphics.tilesets[0]; break;
-			case 0: case 1: case 2: case 3: default: Dungeon.level = new HallLevel(); Graphics.tiles = Graphics.tilesets[0]; break;
+			case -1: Dungeon.level = new SkyLevel(); break;
+			case 0: case 1: case 2: case 3: default: Dungeon.level = new HallLevel(); break;
 			// todo: case 4: boss level
-			case 5: case 6: case 7: case 8: Dungeon.level = new StorageLevel(); Graphics.tiles = Graphics.tilesets[1]; break;
+			case 5: case 6: case 7: case 8: Dungeon.level = new StorageLevel(); break;
 			// todo: case 9: boss level
-			case 10: case 11: case 12: case 13: Dungeon.level = new PrisonLevel(); Graphics.tiles = Graphics.tilesets[2]; break;
+			case 10: case 11: case 12: case 13: Dungeon.level = new PrisonLevel(); break;
 			// todo: case 14: boss level
-			case 15: case 16: case 17: case 18: Dungeon.level = new LibraryLevel(); Graphics.tiles = Graphics.tilesets[3]; break;
+			case 15: case 16: case 17: case 18: Dungeon.level = new LibraryLevel(); break;
 			// todo: case 19: boss level
-			case 20: case 21: case 22: case 23: Dungeon.level = new HellLevel(); Graphics.tiles = Graphics.tilesets[4]; break;
+			case 20: case 21: case 22: case 23: Dungeon.level = new HellLevel(); break;
 			// todo: case 24: THE FINAL BOSS LEVEL
 		}
 

@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.util;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,14 @@ public class Animation {
 	private ArrayList<TextureRegion> frames = new ArrayList<TextureRegion>();
 	private float delay;
 	private int size;
+
+	public static Animation make(Texture texture, float delay, int size, int ... frames) {
+		if (Network.SERVER) {
+			return null;
+		} else {
+			return new Animation(texture, delay, size, frames);
+		}
+	}
 
 	public Animation(Texture texture, float delay, int size, int ... frames) {
 		for (int frame : frames) {

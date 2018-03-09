@@ -318,7 +318,9 @@ public abstract class Room extends Rect implements GraphNode {
 		CIRCLE_ROOM,
 		SPIKED,
 		SPIKED_TUNNEL,
-		CHASM_ROOM
+		CHASM_ROOM,
+		MAZE_ROOM,
+		MAZE_FLOOR
 	}
 
 	@Override

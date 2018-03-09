@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Sword extends Weapon {

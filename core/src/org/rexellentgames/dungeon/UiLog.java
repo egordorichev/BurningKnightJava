@@ -25,7 +25,10 @@ public class UiLog extends UiEntity {
 		for (int i = this.lines.size() - 1; i >= 0; i--) {
 			final Line line = this.lines.get(i);
 
-			line.label.act(dt);
+			if (line.label != null) {
+				line.label.act(dt);
+			}
+
 			line.time += dt;
 
 			if (line.time > 7f && !line.remove) {
@@ -68,11 +71,16 @@ public class UiLog extends UiEntity {
 		public boolean remove;
 		public float a = 1f;
 		public int w;
+		public String string;
 
 		public Line(String string) {
-			Graphics.layout.setText(Graphics.small, string);
-			this.w = (int) Graphics.layout.width;
-			this.label = new Label(string, new Label.LabelStyle(Graphics.small, Color.WHITE));
+			if (Graphics.layout != null) {
+				Graphics.layout.setText(Graphics.small, string);
+				this.w = (int) Graphics.layout.width;
+				this.label = new Label(string, new Label.LabelStyle(Graphics.small, Color.WHITE));
+			}
+
+			this.string = string;
 		}
 	}
 }

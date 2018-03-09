@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.item.Gold;
@@ -14,10 +15,16 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.SkyEntrance;
+import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;
 
 public class SkyLevel extends BetterLevel {
+	public SkyLevel() {
+		if (!Network.SERVER) {
+			Graphics.tiles = Graphics.tilesets[0];
+		}
+	}
 
 	@Override
 	protected ArrayList<Creature> generateCreatures() {

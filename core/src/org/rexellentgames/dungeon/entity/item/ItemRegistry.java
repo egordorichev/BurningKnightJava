@@ -29,6 +29,7 @@ public class ItemRegistry {
 		register("damage_spell", SpellOfDamage.class);
 		register("bread", Bread.class);
 		register("chicken", Chicken.class);
+		register("bomb", Bomb.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

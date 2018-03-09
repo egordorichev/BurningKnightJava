@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
@@ -112,6 +113,8 @@ public class Painter {
 	};
 
 	public void draw(Level level, ArrayList<Room> rooms) {
+		Log.info("Making all pretty...");
+
 		for (int x = 1; x < Level.getWIDTH() - 1; x++) {
 			for (int y = 1; y < Level.getHEIGHT() - 1; y++) {
 				short tile = level.get(x, y);
