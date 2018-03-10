@@ -49,6 +49,8 @@ public class ClientHandler extends Listener {
 			this.entityRemoved((Packets.EntityRemoved) object);
 		} else if (object instanceof Packets.SetEntityPosition) {
 			this.setEntityPosition((Packets.SetEntityPosition) object);
+		} else if (object instanceof Packets.SetEntityState) {
+			this.setEntityState((Packets.SetEntityState) object);
 		}
 	}
 
@@ -97,6 +99,7 @@ public class ClientHandler extends Listener {
 		NetworkedEntity entity = this.entities.get(packet.id);
 
 		if (entity == null) {
+			Log.error("Updated entity is not found");
 			return;
 		}
 
@@ -106,6 +109,20 @@ public class ClientHandler extends Listener {
 			entity.x = packet.x;
 			entity.y = packet.y;
 		}
+
+		entity.vel.x = packet.vx;
+		entity.vel.y = packet.vy;
+	}
+
+	private void setEntityState(Packets.SetEntityState packet) {
+		NetworkedEntity entity = this.entities.get(packet.id);
+
+		if (entity == null) {
+			Log.error("Updated entity is not found");
+			return;
+		}
+
+		entity.become(packet.state);
 	}
 
 	public GameClient getClient() {

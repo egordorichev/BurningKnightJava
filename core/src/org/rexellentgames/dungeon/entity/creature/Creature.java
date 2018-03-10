@@ -31,8 +31,6 @@ public class Creature extends SaveableEntity {
 	protected boolean dead;
 	protected boolean unhittable = false;
 	protected Body body;
-	protected String state = "idle";
-	protected float t;
 	protected float timer;
 	protected boolean flipped = false;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
@@ -98,13 +96,6 @@ public class Creature extends SaveableEntity {
 		if (this.body != null) {
 			this.vel.clamp(0, this.maxSpeed);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
-		}
-	}
-
-	public void become(String state) {
-		if (!this.state.equals(state)) {
-			this.state = state;
-			this.t = 0;
 		}
 	}
 

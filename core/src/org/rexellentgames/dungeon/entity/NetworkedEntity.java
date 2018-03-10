@@ -1,5 +1,8 @@
 package org.rexellentgames.dungeon.entity;
 
+import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class NetworkedEntity extends Entity {
@@ -7,6 +10,8 @@ public class NetworkedEntity extends Entity {
 	private boolean sleeping;
 	protected Point oldPosition = new Point();
 	private int id;
+	protected float t;
+	protected String state = "idle";
 
 	public void setId(int id) {
 		this.id = id;
@@ -32,5 +37,16 @@ public class NetworkedEntity extends Entity {
 
 		oldPosition.x = this.x;
 		oldPosition.y = this.y;
+	}
+
+	public void become(String state) {
+		if (!this.state.equals(state)) {
+			this.state = state;
+			this.t = 0;
+
+			if (Network.SERVER) {
+				Network.server.getServerHandler().sendToAll(Packets.makeSetEntityState(this.getId(), this.state));
+			}
+		}
 	}
 }
