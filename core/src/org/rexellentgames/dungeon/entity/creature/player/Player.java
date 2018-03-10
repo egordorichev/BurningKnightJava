@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.player;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -10,17 +11,16 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
-import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
-import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -32,25 +32,28 @@ import java.io.IOException;
 
 public class Player extends Creature {
 	private static final int LIGHT_SIZE = 32;
+	public static String NAME;
 	public static Player instance;
-	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 0,  1, 2, 3, 4, 5, 6, 7);
+	public static boolean REGISTERED = false;
+	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 0, 1, 2, 3, 4, 5, 6, 7);
 	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
 	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 16, 17);
 	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 18);
-	private PointLight light;
-	private ItemPickupFx pickupFx;
-	private Inventory inventory;
-	private UiInventory ui;
+	public float lightModifier;
+	public int connectionId;
+	public boolean main;
 	protected int mana;
 	protected int manaMax;
 	protected int experience;
 	protected int experienceMax;
 	protected int level;
 	protected int forThisLevel;
-	public float lightModifier;
+	private PointLight light;
+	private ItemPickupFx pickupFx;
+	private Inventory inventory;
+	private UiInventory ui;
 	private float hunger;
-
-	public static boolean REGISTERED = false;
+	private String name;
 
 	{
 		hpMax = 100;
@@ -58,6 +61,42 @@ public class Player extends Creature {
 		level = 1;
 		hunger = 10;
 		alwaysActive = true;
+	}
+
+	public Player() {
+		this("NO NAME?");
+	}
+
+	public Player(String name) {
+		this.name = name;
+
+		if (instance == null) {
+			instance = this;
+			main = true;
+		}
+	}
+
+	public static int expNeeded(int level) {
+		if (level == 1) {
+			return 0;
+		}
+
+		level -= 1;
+
+		return level * 2;
+	}
+
+	@Override
+	public String getParam() {
+		return this.name;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void generate() {
@@ -100,13 +139,19 @@ public class Player extends Creature {
 	@Override
 	public void init() {
 		super.init();
-		instance = this;
+
+		if (instance == null) {
+			instance = this;
+		}
 
 		this.experienceMax = expNeeded(this.level);
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 24);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
+
+		// for idk what
+		this.tp(Random.newInt(0, Display.GAME_WIDTH - 16), Random.newInt(0, Display.GAME_HEIGHT - 16));
 
 		if (Dungeon.light != null) {
 			this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.9f, 0.8f, 1f),
@@ -127,20 +172,26 @@ public class Player extends Creature {
 
 		this.setHunger(this.hunger + dt);
 
-		if (Input.instance.isDown("left")) {
-			this.vel.x -= this.speed;
+		if (Network.SERVER) {
+			Input.set(this.getId());
 		}
 
-		if (Input.instance.isDown("right")) {
-			this.vel.x += this.speed;
-		}
+		if (Network.SERVER || this.main) {
+			if (Input.instance.isDown("left")) {
+				this.vel.x -= this.speed;
+			}
 
-		if (Input.instance.isDown("up")) {
-			this.vel.y += this.speed;
-		}
+			if (Input.instance.isDown("right")) {
+				this.vel.x += this.speed;
+			}
 
-		if (Input.instance.isDown("down")) {
-			this.vel.y -= this.speed;
+			if (Input.instance.isDown("up")) {
+				this.vel.y += this.speed;
+			}
+
+			if (Input.instance.isDown("down")) {
+				this.vel.y -= this.speed;
+			}
 		}
 
 		if (this.light != null) {
@@ -153,7 +204,7 @@ public class Player extends Creature {
 		if (v > 9.9) {
 			this.become("run");
 
-			if (this.t % 0.2 <= 0.017) {
+			if (this.t % 0.2 <= 0.017 && !Network.SERVER) {
 				this.area.add(new RunFx(this.x, this.y - 8));
 			}
 		} else {
@@ -191,6 +242,10 @@ public class Player extends Creature {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
+
+		if (this.name != null) {
+			Graphics.small.draw(Graphics.batch, this.name, this.x, this.y - 4);
+		}
 	}
 
 	@Override
@@ -322,16 +377,5 @@ public class Player extends Creature {
 
 			UiLog.instance.print("[green]You reached level " + this.level + "!");
 		}
-	}
-
-
-	public static int expNeeded(int level) {
-		if (level == 1) {
-			return 0;
-		}
-
-		level -= 1;
-
-		return level * 2;
 	}
 }

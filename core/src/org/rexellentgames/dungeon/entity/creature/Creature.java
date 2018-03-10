@@ -21,7 +21,6 @@ import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
 	public static final float INV_TIME = 0.4f;
-	public Point vel = new Point();
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;

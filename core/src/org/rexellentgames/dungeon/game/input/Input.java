@@ -8,6 +8,9 @@ import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -18,10 +21,15 @@ import java.util.Map;
 public class Input implements InputProcessor, ControllerListener {
 	public static InputMultiplexer multiplexer = new InputMultiplexer();
 	public static Input instance;
+	public static HashMap<Integer, Input> inputs = new HashMap<Integer, Input>();
 
 	public Point uiMouse = new Point();
 	public Point worldMouse = new Point();
 	public boolean blocked = false;
+
+	public static void set(int id) {
+		instance = inputs.get(id);
+	}
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
@@ -81,18 +89,59 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 
 	public enum State {
-		UP, DOWN, HELD, RELEASED
+		UP(0), DOWN(1), HELD(2), RELEASED(3);
+		private int value;
+
+		public int getValue() {
+			return this.value;
+		}
+
+		State(int value) {
+			this.value = value;
+		}
 	}
 
 	private HashMap<String, State> keys = new HashMap<String, State>();
 	private HashMap<String, ArrayList<String>> bindings = new HashMap<String, ArrayList<String>>();
 	private int amount;
 
-	public Input() {
+	public HashMap<String, State> getKeys() {
+		return this.keys;
+	}
+
+	public Input(int id) {
 		instance = this;
 		multiplexer.addProcessor(this);
-
+		inputs.put(id, this);
 		this.keys.put("MouseWheel", State.RELEASED);
+
+		bind("left", "Left");
+		bind("left", "A");
+
+		bind("right", "Right");
+		bind("right", "D");
+
+		bind("up", "Up");
+		bind("up", "W");
+
+		bind("down", "Down");
+		bind("down", "S");
+
+		bind("pickup", "Q");
+		bind("toggle_inventory", "E");
+		bind("drop_item", "R");
+
+		bind("mouse0", "Mouse0");
+		bind("mouse1", "Mouse1");
+		bind("scroll", "MouseWheel");
+
+		bind("action", "X");
+		bind("1", "1");
+		bind("2", "2");
+		bind("3", "3");
+		bind("4", "4");
+		bind("5", "5");
+		bind("6", "6");
 	}
 
 	public void updateMousePosition() {
@@ -184,13 +233,25 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		this.keys.put(com.badlogic.gdx.Input.Keys.toString(keycode), State.DOWN);
+		String id = com.badlogic.gdx.Input.Keys.toString(keycode);
+		this.keys.put(id, State.DOWN);
+
+		if (Network.client != null && Player.instance != null) {
+			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.DOWN, id, 0));
+		}
+
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		this.keys.put(com.badlogic.gdx.Input.Keys.toString(keycode), State.UP);
+		String id = com.badlogic.gdx.Input.Keys.toString(keycode);
+		this.keys.put(id, State.UP);
+
+		if (Network.client != null && Player.instance != null) {
+			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.UP, id, 0));
+		}
+
 		return false;
 	}
 
@@ -202,12 +263,22 @@ public class Input implements InputProcessor, ControllerListener {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		this.keys.put("Mouse" + button, State.DOWN);
+
+		if (Network.client != null && Player.instance != null) {
+			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.DOWN, "Mouse" + button, 0));
+		}
+
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		this.keys.put("Mouse" + button, State.UP);
+
+		if (Network.client != null && Player.instance != null) {
+			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.UP, "Mouse" + button, 0));
+		}
+
 		return false;
 	}
 
@@ -226,6 +297,14 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("MouseWheel", State.DOWN);
 		this.amount = amount;
 
+		if (Network.client != null && Player.instance != null) {
+			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.UP, "MouseWheel", amount));
+		}
+
 		return false;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 }

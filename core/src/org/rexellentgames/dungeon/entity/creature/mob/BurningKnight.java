@@ -33,7 +33,9 @@ public class BurningKnight extends Mob {
 	private Sword sword;
 
 	public void tpToPlayer() {
-		Camera.instance.follow(Player.instance);
+		if (Player.instance != null) {
+			Camera.instance.follow(Player.instance);
+		}
 
 		double a = Random.newFloat((float) (Math.PI * 2));
 		this.tp((float) (Player.instance.x + Math.cos(a) * 128), (float) (Player.instance.y + Math.sin(a) * 128));

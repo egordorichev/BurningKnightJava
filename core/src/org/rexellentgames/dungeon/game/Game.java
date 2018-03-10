@@ -1,17 +1,17 @@
 package org.rexellentgames.dungeon.game;
 
-import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.game.state.State;
 
 public class Game {
 	public static Game instance;
 
-	private State state;
+	private org.rexellentgames.dungeon.game.state.State state;
 
 	public Game() {
 		instance = this;
 	}
 
-	public void setState(State state) {
+	public void setState(org.rexellentgames.dungeon.game.state.State state) {
 		this.destroyState();
 		this.state = state;
 		this.state.init();

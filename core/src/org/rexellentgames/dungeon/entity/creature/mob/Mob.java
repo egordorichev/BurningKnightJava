@@ -79,7 +79,7 @@ public class Mob extends Creature {
 			return;
 		}
 
-		if (!this.noticed && this.t % 0.25f <= 0.017f && !Player.instance.invisible) {
+		if (!this.noticed && this.t % 0.25f <= 0.017f && Player.instance != null && !Player.instance.invisible) {
 			Player player = Player.instance;
 
 			Line line = new Line((int) Math.floor((this.x + 8) / 16), (int) Math.floor((this.y + 8) / 16),

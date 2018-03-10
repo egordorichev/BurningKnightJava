@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
+import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -49,7 +50,7 @@ public abstract class BetterLevel extends Level {
 	protected void spawnEntities() {
 		Log.info("Adding entities...");
 
-		if (Player.instance == null) {
+		if (Player.instance == null && !Network.SERVER) {
 			Player player = new Player();
 			Dungeon.area.add(player);
 			this.addPlayerSaveable(player);

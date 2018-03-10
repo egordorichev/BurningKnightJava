@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.game;
+package org.rexellentgames.dungeon.game.state;
 
 public class State {
 	public State() {
