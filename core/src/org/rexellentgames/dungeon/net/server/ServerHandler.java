@@ -40,7 +40,7 @@ public class ServerHandler extends Listener {
 	public void sendPackages(float dt) {
 		for (NetworkedEntity entity : this.entities.values()) {
 			if (!entity.isSleeping()) {
-				this.sendToAll(Packets.makeSetEntityPosition(entity.getId(), entity.x, entity.y));
+				this.sendToAll(Packets.makeSetEntityPosition(entity.getId(), entity.x, entity.y, entity.vel));
 			}
 		}
 	}

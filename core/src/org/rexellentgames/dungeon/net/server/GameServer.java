@@ -14,6 +14,10 @@ public class GameServer implements ApplicationListener {
 	private ServerHandler serverHandler;
 	private float t;
 
+	public ServerHandler getServerHandler() {
+		return this.serverHandler;
+	}
+
 	public void run() throws IOException {
 		this.server = new Server();
 

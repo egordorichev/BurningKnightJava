@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.net;
 import com.esotericsoftware.kryo.Kryo;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Packets {
 	public static class PlayerConnected {
@@ -78,14 +79,32 @@ public class Packets {
 		public int id;
 		public float x;
 		public float y;
+		public float vx;
+		public float vy;
 	}
 
-	public static SetEntityPosition makeSetEntityPosition(int id, float x, float y) {
+	public static SetEntityPosition makeSetEntityPosition(int id, float x, float y, Point vel) {
 		SetEntityPosition packet = new SetEntityPosition();
 
 		packet.x = x;
 		packet.y = y;
 		packet.id = id;
+		packet.vx = vel.x;
+		packet.vy = vel.y;
+
+		return packet;
+	}
+
+	public static class SetEntityState {
+		public int id;
+		public String state;
+	}
+
+	public static SetEntityState makeSetEntityState(int id, String state) {
+		SetEntityState packet = new SetEntityState();
+
+		packet.id = id;
+		packet.state = state;
 
 		return packet;
 	}
@@ -97,5 +116,6 @@ public class Packets {
 		kryo.register(EntityAdded.class);
 		kryo.register(EntityRemoved.class);
 		kryo.register(SetEntityPosition.class);
+		kryo.register(SetEntityState.class);
 	}
 }
