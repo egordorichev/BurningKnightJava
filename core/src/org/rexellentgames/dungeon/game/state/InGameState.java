@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.game;
+package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,8 +17,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.ui.Bar;
-import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.ui.UiBar;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
@@ -29,9 +28,9 @@ public class InGameState extends State {
 	private float accumulator = 0;
 	private UiInventory inventory;
 	private Console console;
-	private Bar health;
-	private Bar mana;
-	private Bar exp;
+	private UiBar health;
+	private UiBar mana;
+	private UiBar exp;
 	private int lastLevel;
 	private int w;
 
@@ -45,8 +44,6 @@ public class InGameState extends State {
 
 		Dungeon.world.setContactListener(collisions);
 		Dungeon.world.setContactFilter(collisions);
-
-		Camera.instance.follow(Player.instance);
 
 		if (!Network.SERVER) {
 			this.setupUi();
@@ -87,11 +84,8 @@ public class InGameState extends State {
 	@Override
 	public void update(float dt) {
 		this.console.update(dt);
-
-		Input.instance.updateMousePosition();
 		this.doPhysicsStep(dt);
 		Tween.update(dt);
-		Dungeon.area.update(dt);
 		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
 
@@ -137,8 +131,6 @@ public class InGameState extends State {
 	}
 
 	private void renderGame() {
-		Dungeon.area.render();
-
 		Viewport viewport = Camera.instance.getViewport();
 		Dungeon.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 		Dungeon.light.setCombinedMatrix(Camera.instance.getCamera());
@@ -192,18 +184,12 @@ public class InGameState extends State {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		this.renderUi();
 
-		// Cursor
-		float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
-
-		Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8, 1, 1,
-			Dungeon.time * 60, s / 2, s / 2, false, false, s, s);
-
 		this.inventory.renderCurrentSlot();
 	}
 
 	private void setupUi() {
 		this.inventory = new UiInventory(Player.instance.getInventory());
-		this.health = new Bar();
+		this.health = new UiBar();
 
 		this.health.w = 49;
 		this.health.h = 8;
@@ -211,7 +197,7 @@ public class InGameState extends State {
 		this.health.y = Display.GAME_HEIGHT - 12;
 		this.health.setTexture(112, 0);
 
-		this.mana = new Bar();
+		this.mana = new UiBar();
 
 		this.mana.w = 37;
 		this.mana.h = 6;
@@ -219,7 +205,7 @@ public class InGameState extends State {
 		this.mana.y = Display.GAME_HEIGHT - 23;
 		this.mana.setTexture(112, 16);
 
-		this.exp = new Bar();
+		this.exp = new UiBar();
 
 		this.exp.w = 16;
 		this.exp.h = 19;

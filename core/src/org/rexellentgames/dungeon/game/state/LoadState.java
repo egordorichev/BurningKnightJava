@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.game;
+package org.rexellentgames.dungeon.game.state;
 
 import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
@@ -19,6 +19,8 @@ import org.rexellentgames.dungeon.entity.level.levels.LibraryLevel;
 import org.rexellentgames.dungeon.entity.level.levels.PrisonLevel;
 import org.rexellentgames.dungeon.entity.level.levels.SkyLevel;
 import org.rexellentgames.dungeon.entity.level.levels.StorageLevel;
+import org.rexellentgames.dungeon.game.Area;
+import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
@@ -83,24 +85,26 @@ public class LoadState extends State {
 
 		Dungeon.area.add(Dungeon.level);
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Dungeon.level.load(Level.DataType.PLAYER);
-				Dungeon.level.load(Level.DataType.LEVEL);
+		if (Network.SERVER) {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Dungeon.level.load(Level.DataType.PLAYER);
+					Dungeon.level.load(Level.DataType.LEVEL);
 
-				Dungeon.level.loadPassable();
-				Dungeon.level.addPhysics();
-				Dungeon.level.tile();
+					Dungeon.level.loadPassable();
+					Dungeon.level.addPhysics();
+					Dungeon.level.tile();
 
-				PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
+					PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
 
-				UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
-				Log.info("Loading done, last exit id = " + (Exit.ID) + ", last entrance id = " + (Entrance.ID));
+					UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
+					Log.info("Loading done, last exit id = " + (Exit.ID) + ", last entrance id = " + (Entrance.ID));
 
-				ready = true;
-			}
-		}).run();
+					ready = true;
+				}
+			}).run();
+		}
 	}
 
 	public static void writeDepth() {

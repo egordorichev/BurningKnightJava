@@ -100,7 +100,18 @@ public class Graphics {
 	}
 
 	public static void destroy() {
-		tiles.dispose();
+		for (int i = 0; i < 5; i++) {
+			tilesets[i].dispose();
+		}
+
+		medium.dispose();
+		small.dispose();
+		batch.dispose();
+		shape.dispose();
 		sprites.dispose();
+		items.dispose();
+		buffs.dispose();
+		ui.dispose();
+		effects.dispose();
 	}
 }

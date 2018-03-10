@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.ui.UiInput;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -85,18 +86,9 @@ public class Console implements InputProcessor {
 		return false;
 	}
 
-	private boolean isPrintableChar(char c) {
-		Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
-
-		return (!Character.isISOControl(c)) &&
-			c != KeyEvent.CHAR_UNDEFINED &&
-			block != null &&
-			block != Character.UnicodeBlock.SPECIALS;
-	}
-
 	@Override
 	public boolean keyTyped(char character) {
-		if (this.open && this.isPrintableChar(character)) {
+		if (this.open && UiInput.isPrintableChar(character)) {
 			this.input += character;
 		}
 

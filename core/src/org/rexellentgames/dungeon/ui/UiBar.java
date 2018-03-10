@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
 import org.rexellentgames.dungeon.util.Tween;
 
-public class Bar extends UiEntity {
+public class UiBar extends UiEntity {
 	protected float max;
 	protected float val;
 	protected float last;

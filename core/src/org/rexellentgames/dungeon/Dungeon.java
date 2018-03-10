@@ -12,11 +12,16 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
-import org.rexellentgames.dungeon.game.LoadState;
+import org.rexellentgames.dungeon.game.state.HubState;
+import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.game.state.LoginState;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.net.client.GameClient;
 import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.PathFinder;
+
+import java.io.IOException;
 
 public class Dungeon extends ApplicationAdapter {
 	public static Game game;
@@ -31,6 +36,12 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean reset;
 	public static int ladderId;
 
+	public static Mode mode = Mode.NORMAL;
+
+	public enum Mode {
+		NORMAL
+	}
+
 	private static int to = -2;
 	private Color background = Color.valueOf("#323c39");
 
@@ -43,6 +54,8 @@ public class Dungeon extends ApplicationAdapter {
 		if (!Network.SERVER) {
 			this.setupCursor();
 			Assets.init();
+
+			Log.info("Init assets...");
 		}
 
 		Box2D.init();
@@ -51,7 +64,15 @@ public class Dungeon extends ApplicationAdapter {
 		this.initInput();
 
 		game = new Game();
-		goToLevel(1);
+
+		if (!Network.SERVER) {
+			game.setState(new LoginState());
+		} else {
+			game.setState(new HubState());
+		}
+
+		area = new Area();
+		area.add(new Camera());
 	}
 
 	public static void goToLevel(int level) {
@@ -61,26 +82,62 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void render() {
 		if (to != -2) {
-			Dungeon.depth = to;
-			game.setState(new LoadState());
+			if (Network.SERVER) {
+				Dungeon.depth = to;
+				game.setState(new LoadState());
+			}
+
 			to = -2;
 			return;
 		}
 
 		float dt = Gdx.graphics.getDeltaTime();
 		time += dt;
+
+		if (Input.instance != null && !Network.SERVER) {
+			Input.instance.updateMousePosition();
+		}
+
+		if (Network.server != null) {
+			Network.server.update(dt);
+		} else if (Network.client != null) {
+			Network.client.update(dt);
+		}
+
+		area.update(dt);
 		game.update(dt);
 
 		if (!Network.SERVER) {
 			Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+
+			if (Camera.instance != null) {
+				Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+			}
+
 			Graphics.batch.begin();
 
+			area.render();
 			game.render();
 
+			// Cursor
+
+			if (Camera.ui != null) {
+				Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+			}
+
+			float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
+
+			Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8, 1, 1,
+				Dungeon.time * 60, s / 2, s / 2, false, false, s, s);
+
 			Graphics.batch.end();
-			Input.instance.update();
+
+			if (Input.instance != null) {
+				for (Input input : Input.inputs.values()) {
+					input.update();
+				}
+			}
 		}
 	}
 
@@ -99,42 +156,20 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		game.destroy();
-		world.dispose();
+
+		if (world != null) {
+			world.dispose();
+		}
+
 		Assets.destroy();
 
 		LoadState.writeDepth();
 	}
 
 	private void initInput() {
-		new Input();
-
-		Input.instance.bind("left", "Left");
-		Input.instance.bind("left", "A");
-
-		Input.instance.bind("right", "Right");
-		Input.instance.bind("right", "D");
-
-		Input.instance.bind("up", "Up");
-		Input.instance.bind("up", "W");
-
-		Input.instance.bind("down", "Down");
-		Input.instance.bind("down", "S");
-
-		Input.instance.bind("pickup", "Q");
-		Input.instance.bind("toggle_inventory", "E");
-		Input.instance.bind("drop_item", "R");
-
-		Input.instance.bind("mouse0", "Mouse0");
-		Input.instance.bind("mouse1", "Mouse1");
-		Input.instance.bind("scroll", "MouseWheel");
-
-		Input.instance.bind("action", "X");
-		Input.instance.bind("1", "1");
-		Input.instance.bind("2", "2");
-		Input.instance.bind("3", "3");
-		Input.instance.bind("4", "4");
-		Input.instance.bind("5", "5");
-		Input.instance.bind("6", "6");
+		if (!Network.SERVER) {
+			new Input(0);
+		}
 	}
 
 	private void setupCursor() {

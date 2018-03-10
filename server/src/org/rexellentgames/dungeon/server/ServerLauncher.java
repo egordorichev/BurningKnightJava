@@ -24,11 +24,11 @@ public class ServerLauncher extends ApplicationAdapter {
 		Log.info("Starting the server...");
 
 		try {
-			GameServer server = new GameServer();
+			Network.server = new GameServer();
 			Gdx.gl = Mockito.mock(GL20.class);
 
-			new HeadlessApplication(server);
-			server.run();
+			new HeadlessApplication(Network.server);
+			Network.server.run();
 		} catch (IOException e) {
 			Log.error("Error: port already in use!");
 		}
