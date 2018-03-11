@@ -140,6 +140,11 @@ public class ClientHandler extends Listener {
 		if (entity instanceof Creature) {
 			Creature creature = (Creature) entity;
 
+			if (!creature.local) {
+				entity.vel.x = packet.vx;
+				entity.vel.y = packet.vy;
+			}
+
 			if (creature.local && packet.t < creature.lastIndex) {
 				if (compare(packet.x, creature.x) > 32f || compare(packet.y, creature.y) > 32f) {
 					creature.tp(packet.x, packet.y);
@@ -156,7 +161,7 @@ public class ClientHandler extends Listener {
 
 			creature.states.remove(packet.t);
 
-			if (compare(packet.x, creature.x) > 1f || compare(packet.y, creature.y) > 1f) {
+			if (compare(packet.x, state.x) > 1f || compare(packet.y, state.y) > 1f) {
 				creature.tp(packet.x, packet.y);
 			} else {
 				return;
