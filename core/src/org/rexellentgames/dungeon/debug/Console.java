@@ -4,6 +4,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.ui.UiInput;
 
 import java.awt.event.KeyEvent;
@@ -41,12 +44,9 @@ public class Console implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (!this.open && keycode == Input.Keys.SLASH) {
-			this.open = true;
-			org.rexellentgames.dungeon.game.input.Input.instance.blocked = true;
-		} else if (keycode == Input.Keys.ESCAPE) {
-			this.open = false;
-			org.rexellentgames.dungeon.game.input.Input.instance.blocked = false;
+		if (!this.open && keycode == Input.Keys.ESCAPE) {
+			this.open = !this.open;
+			org.rexellentgames.dungeon.game.input.Input.instance.blocked = this.open;
 		} else if (keycode == Input.Keys.ENTER && this.open) {
 			String string = this.input;
 			this.input = "";
@@ -61,6 +61,16 @@ public class Console implements InputProcessor {
 	}
 
 	private void runCommand(String input) {
+		if (!input.startsWith("/")) {
+			String string = Player.instance.getName() + ": " + input;
+			UiLog.instance.print(string);
+
+			if (Network.client != null) {
+				Network.client.getClientHandler().send(Packets.makeChatMessage(string));
+			}
+			return;
+		}
+
 		String[] parts = input.split("\\s+");
 		String name = parts[0];
 

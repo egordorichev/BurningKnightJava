@@ -85,7 +85,6 @@ public class InGameState extends State {
 	public void update(float dt) {
 		this.console.update(dt);
 		this.doPhysicsStep(dt);
-		Tween.update(dt);
 		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
 

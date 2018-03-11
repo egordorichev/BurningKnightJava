@@ -20,6 +20,7 @@ import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.net.client.GameClient;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Tween;
 
 import java.io.IOException;
 
@@ -106,6 +107,7 @@ public class Dungeon extends ApplicationAdapter {
 			Network.client.update(dt);
 		}
 
+		Tween.update(dt);
 		area.update(dt);
 		game.update(dt);
 
@@ -181,8 +183,12 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void initColors() {
 		Colors.put("black", Color.valueOf("#000000"));
+		Colors.put("white", Color.valueOf("#ffffff"));
 		Colors.put("orange", Color.valueOf("#df7126"));
 		Colors.put("red", Color.valueOf("#ac3232"));
 		Colors.put("green", Color.valueOf("#6abe30"));
+		Colors.put("blue", Color.valueOf("#306082"));
+		Colors.put("yellow", Color.valueOf("#fbf236"));
+		Colors.put("brown", Color.valueOf("#8f563b"));
 	}
 }
