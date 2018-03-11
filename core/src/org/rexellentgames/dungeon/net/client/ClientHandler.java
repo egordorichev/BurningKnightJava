@@ -3,9 +3,11 @@ package org.rexellentgames.dungeon.net.client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.HubState;
 import org.rexellentgames.dungeon.game.state.LoginState;
 import org.rexellentgames.dungeon.game.state.NetLoadState;
@@ -15,6 +17,8 @@ import org.rexellentgames.dungeon.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientHandler extends Listener {
 	private GameClient client;
@@ -32,6 +36,12 @@ public class ClientHandler extends Listener {
 	public void update(float dt) {
 		while (this.packages.size() > 0) {
 			PackageInfo info = this.packages.remove(0);
+
+			if (info == null) {
+				Log.error("Empty package");
+				return;
+			}
+
 			this.processPackage(info.connection, info.object);
 		}
 	}
@@ -54,6 +64,17 @@ public class ClientHandler extends Listener {
 		}
 	}
 
+	public void send(Packets.Packet object) {
+		final Object o = object;
+
+		/*new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {*/
+				client.getClient().sendTCP(o);
+			/*}
+		}, 100);*/
+	}
+
 	private void entityAdded(Packets.EntityAdded packet) {
 		try {
 			NetworkedEntity entity = (NetworkedEntity) Class.forName(packet.clazz).newInstance();
@@ -69,10 +90,19 @@ public class ClientHandler extends Listener {
 				player.setName(packet.param);
 
 				this.players.add(player);
+				Dungeon.longTime = 0;
+
+				if (player.local) {
+					Camera.instance.follow(entity);
+				}
 			}
 
 			Dungeon.area.add(entity);
 			this.entities.put(packet.id, entity);
+
+			if (entity instanceof Creature) {
+				((Creature) entity).tp(packet.x, packet.y);
+			}
 		} catch (Exception e) {
 			Log.error("Failed to create an entity!");
 			e.printStackTrace();
@@ -104,7 +134,29 @@ public class ClientHandler extends Listener {
 		}
 
 		if (entity instanceof Creature) {
-			((Creature) entity).tp(packet.x, packet.y);
+			Creature creature = (Creature) entity;
+
+			if (creature.local && packet.t < creature.lastIndex) {
+				if (compare(packet.x, creature.x) > 32f || compare(packet.y, creature.y) > 32f) {
+					creature.tp(packet.x, packet.y);
+				}
+
+				return;
+			}
+
+			Creature.State state = creature.states.get(packet.t);
+
+			if (state == null) {
+				return;
+			}
+
+			creature.states.remove(packet.t);
+
+			if (compare(packet.x, creature.x) > 1f || compare(packet.y, creature.y) > 1f) {
+				creature.tp(packet.x, packet.y);
+			} else {
+				return;
+			}
 		} else {
 			entity.x = packet.x;
 			entity.y = packet.y;
@@ -112,6 +164,10 @@ public class ClientHandler extends Listener {
 
 		entity.vel.x = packet.vx;
 		entity.vel.y = packet.vy;
+	}
+
+	private static float compare(float a, float b) {
+		return Math.max(a, b) - Math.min(a, b);
 	}
 
 	private void setEntityState(Packets.SetEntityState packet) {

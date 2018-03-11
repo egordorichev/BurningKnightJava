@@ -13,6 +13,8 @@ public class HungryBuff extends Buff {
 
 	@Override
 	public void onStart() {
-		UiLog.instance.print("[orange]You are hungry!");
+		if (UiLog.instance != null) {
+			UiLog.instance.print("[orange]You are hungry!");
+		}
 	}
 }

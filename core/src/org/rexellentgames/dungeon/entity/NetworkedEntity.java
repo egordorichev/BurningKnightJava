@@ -12,6 +12,7 @@ public class NetworkedEntity extends Entity {
 	private int id;
 	protected float t;
 	protected String state = "idle";
+	public boolean local = false;
 
 	public void setId(int id) {
 		this.id = id;

@@ -21,6 +21,7 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -73,6 +74,7 @@ public class Player extends Creature {
 		if (instance == null) {
 			instance = this;
 			main = true;
+			local = true;
 		}
 	}
 
@@ -363,7 +365,10 @@ public class Player extends Creature {
 	@Override
 	protected void die() {
 		super.die();
-		UiLog.instance.print("[red]You died!");
+
+		if (UiLog.instance != null) {
+			UiLog.instance.print("[red]You died!");
+		}
 	}
 
 	public void addExperience(int am) {

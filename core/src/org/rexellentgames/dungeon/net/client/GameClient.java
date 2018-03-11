@@ -15,6 +15,10 @@ public class GameClient {
 	private Client client;
 	private ClientHandler clientHandler;
 
+	public ClientHandler getClientHandler() {
+		return this.clientHandler;
+	}
+
 	public void update(float dt) {
 		if (this.clientHandler != null) {
 			this.clientHandler.update(dt);

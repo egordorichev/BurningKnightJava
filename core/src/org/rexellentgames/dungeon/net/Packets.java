@@ -1,12 +1,18 @@
 package org.rexellentgames.dungeon.net;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Connection;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Packets {
-	public static class PlayerConnected {
+	public static class Packet {
+
+	}
+
+	public static class PlayerConnected extends Packet {
 		public String name;
 	}
 
@@ -17,7 +23,11 @@ public class Packets {
 		return packet;
 	}
 
-	public static class SetGameState {
+	public static class PlayerDisconnected extends Packet {
+
+	}
+
+	public static class SetGameState extends Packet {
 		public String name;
 	}
 
@@ -28,10 +38,11 @@ public class Packets {
 		return packet;
 	}
 
-	public static class InputChange {
+	public static class InputChange extends Packet {
 		public byte state;
 		public String type;
 		public byte data;
+		public long t;
 	}
 
 	public static InputChange makeInputChanged(Input.State state, String type, int data) {
@@ -40,11 +51,12 @@ public class Packets {
 		packet.state = (byte) state.getValue();
 		packet.type = type;
 		packet.data = (byte) data;
+		packet.t = Dungeon.longTime;
 
 		return packet;
 	}
 
-	public static class EntityAdded {
+	public static class EntityAdded extends Packet {
 		public String clazz;
 		public float x;
 		public float y;
@@ -64,7 +76,7 @@ public class Packets {
 		return packet;
 	}
 
-	public static class EntityRemoved {
+	public static class EntityRemoved extends Packet {
 		public int id;
 	}
 
@@ -75,15 +87,16 @@ public class Packets {
 		return packet;
 	}
 
-	public static class SetEntityPosition {
+	public static class SetEntityPosition extends Packet {
 		public int id;
 		public float x;
 		public float y;
 		public float vx;
 		public float vy;
+		public long t;
 	}
 
-	public static SetEntityPosition makeSetEntityPosition(int id, float x, float y, Point vel) {
+	public static SetEntityPosition makeSetEntityPosition(int id, float x, float y, Point vel, long t) {
 		SetEntityPosition packet = new SetEntityPosition();
 
 		packet.x = x;
@@ -91,11 +104,12 @@ public class Packets {
 		packet.id = id;
 		packet.vx = vel.x;
 		packet.vy = vel.y;
+		packet.t = t;
 
 		return packet;
 	}
 
-	public static class SetEntityState {
+	public static class SetEntityState extends Packet {
 		public int id;
 		public String state;
 	}
