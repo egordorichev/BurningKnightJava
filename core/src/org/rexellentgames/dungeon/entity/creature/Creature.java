@@ -44,8 +44,6 @@ public class Creature extends SaveableEntity {
 	public static class State {
 		public float x;
 		public float y;
-		public float vx;
-		public float vy;
 	}
 
 	public void registerState() {
@@ -53,8 +51,6 @@ public class Creature extends SaveableEntity {
 
 		state.x = this.x;
 		state.y = this.y;
-		state.vx = this.vel.x;
-		state.vy = this.vel.y;
 
 		this.states.put(Dungeon.longTime, state);
 	}
