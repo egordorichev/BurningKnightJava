@@ -62,6 +62,7 @@ public class HubState extends State {
 	@Override
 	public void render() {
 		super.render();
+		Graphics.medium.draw(Graphics.batch, "Hub", 0, 12);
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Dungeon.ui.render();
