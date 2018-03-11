@@ -95,6 +95,9 @@ public class ServerHandler extends Listener {
 		Log.info("User " + connection.getID() + " " + packet.name + " connected");
 		Player player = new Player();
 
+		player.x = 0;
+		player.y = 0;
+
 		player.setName(packet.name);
 		player.connectionId = connection.getID();
 

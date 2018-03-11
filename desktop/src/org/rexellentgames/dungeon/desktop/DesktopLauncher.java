@@ -17,8 +17,8 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.width = Display.GAME_WIDTH;
-		config.height = Display.GAME_HEIGHT;
+		config.width = Display.GAME_WIDTH * 2;
+		config.height = Display.GAME_HEIGHT * 2;
 		config.title = "Burning Knight " + Version.asString();
 
 		new LwjglApplication(new Client(), config);

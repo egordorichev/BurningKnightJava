@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.game.state;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.Dungeon;
@@ -9,8 +10,10 @@ import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.client.ClientHandler;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class HubState extends State {
 	private static final float TIME_STEP = 1 / 45.f;
@@ -57,12 +60,44 @@ public class HubState extends State {
 		this.doPhysicsStep(dt);
 		console.update(dt);
 		Dungeon.ui.update(dt);
+
+		if (!Network.SERVER) {
+
+			if (Input.instance.wasPressed("1")) {
+				final OrthographicCamera cam = Camera.instance.getCamera();
+
+				Tween.to(new Tween.Task(cam.zoom * 1.3f, 0.2f) {
+					@Override
+					public float getValue() {
+						return cam.zoom;
+					}
+
+					@Override
+					public void setValue(float value) {
+						cam.zoom = value;
+					}
+				});
+			} else if (Input.instance.wasPressed("2")) {
+				final OrthographicCamera cam = Camera.instance.getCamera();
+
+				Tween.to(new Tween.Task(cam.zoom * 0.7f, 0.2f) {
+					@Override
+					public float getValue() {
+						return cam.zoom;
+					}
+
+					@Override
+					public void setValue(float value) {
+						cam.zoom = value;
+					}
+				});
+			}
+		}
 	}
 
 	@Override
 	public void render() {
 		super.render();
-		Graphics.medium.draw(Graphics.batch, "Hub", 0, 12);
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Dungeon.ui.render();
