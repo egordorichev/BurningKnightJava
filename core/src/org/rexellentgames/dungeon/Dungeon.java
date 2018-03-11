@@ -121,6 +121,10 @@ public class Dungeon extends ApplicationAdapter {
 
 			Graphics.batch.begin();
 
+			if (game.getState() instanceof HubState) {
+				Graphics.medium.draw(Graphics.batch, "[gray]Hub", 0, 12);
+			}
+
 			area.render();
 			game.render();
 
@@ -183,6 +187,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void initColors() {
 		Colors.put("black", Color.valueOf("#000000"));
+		Colors.put("gray", Color.valueOf("#696a6a"));
 		Colors.put("white", Color.valueOf("#ffffff"));
 		Colors.put("orange", Color.valueOf("#df7126"));
 		Colors.put("red", Color.valueOf("#ac3232"));

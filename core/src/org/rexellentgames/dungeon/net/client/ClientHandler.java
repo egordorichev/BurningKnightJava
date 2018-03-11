@@ -129,6 +129,11 @@ public class ClientHandler extends Listener {
 		Dungeon.area.remove(entity);
 	}
 
+	/*
+	 * DO NOT TOUCH THIS METHOD WITHOUT ASKING @egordorichev
+	 * ABOUT IT. I SPEND SO MUCH TIME TO GET THIS WORKING.
+	 * DO NOT TOUCH THIS CODE
+	 */
 	private void setEntityPosition(Packets.SetEntityPosition packet) {
 		NetworkedEntity entity = this.entities.get(packet.id);
 
