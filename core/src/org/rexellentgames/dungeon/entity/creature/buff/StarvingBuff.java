@@ -13,7 +13,9 @@ public class StarvingBuff extends Buff {
 
 	@Override
 	public void onStart() {
-		UiLog.instance.print("[red]You are starving!");
+		if (UiLog.instance != null) {
+			UiLog.instance.print("[red]You are starving!");
+		}
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Listener;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.LoadState;
@@ -14,10 +15,7 @@ import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ServerHandler extends Listener {
 	private GameServer server;
@@ -39,10 +37,40 @@ public class ServerHandler extends Listener {
 
 	public void sendPackages(float dt) {
 		for (NetworkedEntity entity : this.entities.values()) {
-			if (!entity.isSleeping()) {
-				this.sendToAll(Packets.makeSetEntityPosition(entity.getId(), entity.x, entity.y, entity.vel));
-			}
+			//if (!entity.isSleeping()) {
+				long t = 0;
+
+				if (entity instanceof Creature) {
+					t = ((Creature) entity).lastIndex;
+				}
+
+				this.sendToAll(Packets.makeSetEntityPosition(entity.getId(), entity.x, entity.y, entity.vel, t));
+			//}
 		}
+	}
+
+	public void send(int id, Object object) {
+		final Object o = object;
+		final int i = id;
+
+		/*new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {*/
+				server.getServer().sendToTCP(i, o);
+			/*}
+		}, 100);*/
+	}
+
+	public void send(Connection connection, Object object) {
+		final Object o = object;
+		final Connection c = connection;
+
+		/*new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {*/
+				c.sendTCP(o);
+			/*}
+		}, 100);*/
 	}
 
 	@Override
@@ -56,6 +84,8 @@ public class ServerHandler extends Listener {
 			this.playerConnected(connection, (Packets.PlayerConnected) object);
 		} else if (object instanceof Packets.InputChange) {
 			this.inputChange(connection, (Packets.InputChange) object);
+		} else if (object instanceof Packets.PlayerDisconnected) {
+			this.playerDisconnected(connection);
 		}
 	}
 
@@ -66,28 +96,18 @@ public class ServerHandler extends Listener {
 		player.setName(packet.name);
 		player.connectionId = connection.getID();
 
-		// Random pos on screen, todo: remove
-		player.x = Random.newInt(0, Display.GAME_WIDTH - 16);
-		player.y = Random.newInt(0, Display.GAME_HEIGHT - 16);
-
-		connection.sendTCP(Packets.makeEntityAdded(Player.class, this.lastId, player.x, player.y, packet.name));
+		this.send(connection, Packets.makeEntityAdded(Player.class, this.lastId, player.x, player.y, packet.name));
 		this.sendAllTo(connection);
 
 		this.onEntityAdded(player);
 		this.players.put(connection.getID(), player);
 
 		new Input(player.getId());
+
+		Dungeon.longTime = 0;
 	}
 
-	private void inputChange(Connection connection, Packets.InputChange packet) {
-		Player player = this.players.get(connection.getID());
-		Input.inputs.get(player.getId()).getKeys().put(packet.type, Input.State.values()[packet.state]);
-	}
-
-	@Override
-	public void disconnected(Connection connection) {
-		super.disconnected(connection);
-
+	private void playerDisconnected(Connection connection) {
 		Log.info("User disconnected");
 		int id = -1;
 
@@ -98,8 +118,8 @@ public class ServerHandler extends Listener {
 			Player player = array[i];
 
 			if (player.connectionId == connection.getID()) {
-				this.players.remove(player);
-				this.entities.remove(player);
+				this.players.remove(connection.getID());
+				this.entities.remove(player.getId());
 				id = player.getId();
 
 				break;
@@ -113,15 +133,28 @@ public class ServerHandler extends Listener {
 		}
 	}
 
+	private void inputChange(Connection connection, Packets.InputChange packet) {
+		Player player = this.players.get(connection.getID());
+		player.lastIndex = packet.t;
+
+		Input.inputs.get(player.getId()).getKeys().put(packet.type, Input.State.values()[packet.state]);
+	}
+
+	@Override
+	public void disconnected(Connection connection) {
+		super.disconnected(connection);
+		this.packages.add(new PackageInfo(new Packets.PlayerDisconnected(), connection));
+	}
+
 	public void sendToAll(Object object) {
 		for (Player player : this.players.values()) {
-			this.server.getServer().sendToTCP(player.connectionId, object);
+			this.send(player.connectionId, object);
 		}
 	}
 
 	public void sendAllTo(Connection connection) {
 		for (NetworkedEntity entity : this.entities.values()) {
-			connection.sendTCP(Packets.makeEntityAdded(entity.getClass(), entity.getId(), entity.x, entity.y, entity.getParam()));
+			this.send(connection, Packets.makeEntityAdded(entity.getClass(), entity.getId(), entity.x, entity.y, entity.getParam()));
 		}
 
 		// todo: send the map

@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.game.state;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.net.Network;
@@ -29,6 +30,7 @@ public class HubState extends State {
 		}
 
 		Dungeon.area = new Area();
+		Dungeon.area.add(new Camera());
 
 		if (!Network.SERVER) {
 			for (Player player : ClientHandler.instance.getPlayers()) {

@@ -35,6 +35,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean up;
 	public static boolean reset;
 	public static int ladderId;
+	public static long longTime;
 
 	public static Mode mode = Mode.NORMAL;
 
@@ -93,6 +94,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		float dt = Gdx.graphics.getDeltaTime();
 		time += dt;
+		longTime += 1;
 
 		if (Input.instance != null && !Network.SERVER) {
 			Input.instance.updateMousePosition();

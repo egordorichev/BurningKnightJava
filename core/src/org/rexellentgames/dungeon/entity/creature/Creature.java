@@ -5,8 +5,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
@@ -35,7 +37,23 @@ public class Creature extends SaveableEntity {
 	protected boolean flipped = false;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
 	public float a = 1f;
+	public long lastIndex;
 	public boolean invisible;
+	public HashMap<Long, State> states = new HashMap<Long, State>();
+
+	public static class State {
+		public float x;
+		public float y;
+	}
+
+	public void registerState() {
+		Creature.State state = new Creature.State();
+
+		state.x = this.x;
+		state.y = this.y;
+
+		this.states.put(Dungeon.longTime, state);
+	}
 
 	public void modifyDefense(int amount) {
 		this.defense += amount;
@@ -91,6 +109,15 @@ public class Creature extends SaveableEntity {
 			} else if (this.vel.x > 0) {
 				this.flipped = false;
 			}
+
+			if (!Network.SERVER) {
+				this.registerState();
+				this.states.remove((long) (Dungeon.time * 60 - 60));
+			}
+		}
+
+		if (this.vel.len2() > 1) {
+			this.lastIndex = Dungeon.longTime;
 		}
 
 		if (this.body != null) {
@@ -189,7 +216,10 @@ public class Creature extends SaveableEntity {
 		});
 
 		this.dead = true;
-		Dungeon.level.removeSaveable(this);
+
+		if (Dungeon.level != null) {
+			Dungeon.level.removeSaveable(this);
+		}
 	}
 
 	protected void renderBuffs() {

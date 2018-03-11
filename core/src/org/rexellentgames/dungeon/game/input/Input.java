@@ -7,7 +7,9 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
@@ -237,7 +239,8 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put(id, State.DOWN);
 
 		if (Network.client != null && Player.instance != null) {
-			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.DOWN, id, 0));
+			Network.client.getClientHandler().send(Packets.makeInputChanged(State.DOWN, id, 0));
+			Player.instance.registerState();
 		}
 
 		return false;
@@ -249,7 +252,8 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put(id, State.UP);
 
 		if (Network.client != null && Player.instance != null) {
-			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.UP, id, 0));
+			Network.client.getClientHandler().send(Packets.makeInputChanged(State.UP, id, 0));
+			Player.instance.registerState();
 		}
 
 		return false;
@@ -265,7 +269,8 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("Mouse" + button, State.DOWN);
 
 		if (Network.client != null && Player.instance != null) {
-			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.DOWN, "Mouse" + button, 0));
+			Network.client.getClientHandler().send(Packets.makeInputChanged(State.DOWN, "Mouse" + button, 0));
+			Player.instance.registerState();
 		}
 
 		return false;
@@ -276,7 +281,8 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("Mouse" + button, State.UP);
 
 		if (Network.client != null && Player.instance != null) {
-			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.UP, "Mouse" + button, 0));
+			Network.client.getClientHandler().send(Packets.makeInputChanged(State.UP, "Mouse" + button, 0));
+			Player.instance.registerState();
 		}
 
 		return false;
@@ -298,7 +304,8 @@ public class Input implements InputProcessor, ControllerListener {
 		this.amount = amount;
 
 		if (Network.client != null && Player.instance != null) {
-			Network.client.getClient().sendTCP(Packets.makeInputChanged(State.UP, "MouseWheel", amount));
+			Network.client.getClientHandler().send(Packets.makeInputChanged(State.UP, "MouseWheel", amount));
+			Player.instance.registerState();
 		}
 
 		return false;

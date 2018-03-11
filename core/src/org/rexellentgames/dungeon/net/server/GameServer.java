@@ -35,7 +35,7 @@ public class GameServer implements ApplicationListener {
 		if (this.serverHandler != null) {
 			this.serverHandler.update(dt);
 
-			if (this.t % 0.2 <= 0.175f) {
+			if (this.t % 0.05 <= 0.175f) {
 				this.serverHandler.sendPackages(dt);
 			}
 		}
