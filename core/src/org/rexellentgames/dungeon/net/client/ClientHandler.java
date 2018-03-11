@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.net.client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -61,6 +62,8 @@ public class ClientHandler extends Listener {
 			this.setEntityPosition((Packets.SetEntityPosition) object);
 		} else if (object instanceof Packets.SetEntityState) {
 			this.setEntityState((Packets.SetEntityState) object);
+		} else if (object instanceof Packets.ChatMessage) {
+			UiLog.instance.print(((Packets.ChatMessage) object).message);
 		}
 	}
 
@@ -123,6 +126,7 @@ public class ClientHandler extends Listener {
 		}
 
 		this.entities.remove(packet.id);
+		Dungeon.area.remove(entity);
 	}
 
 	private void setEntityPosition(Packets.SetEntityPosition packet) {

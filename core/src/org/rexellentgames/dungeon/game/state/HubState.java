@@ -3,6 +3,9 @@ package org.rexellentgames.dungeon.game.state;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
@@ -12,6 +15,7 @@ import org.rexellentgames.dungeon.net.client.ClientHandler;
 public class HubState extends State {
 	private static final float TIME_STEP = 1 / 45.f;
 	private float accumulator;
+	private Console console;
 
 	private void doPhysicsStep(float deltaTime) {
 		float frameTime = Math.min(deltaTime, 0.25f);
@@ -32,6 +36,14 @@ public class HubState extends State {
 		Dungeon.area = new Area();
 		Dungeon.area.add(new Camera());
 
+		if (Dungeon.ui == null) {
+			Dungeon.ui = new Area();
+		}
+
+		Dungeon.ui.add(new UiLog());
+
+		console = new Console();
+
 		if (!Network.SERVER) {
 			for (Player player : ClientHandler.instance.getPlayers()) {
 				Dungeon.area.add(player);
@@ -43,6 +55,17 @@ public class HubState extends State {
 	public void update(float dt) {
 		super.update(dt);
 		this.doPhysicsStep(dt);
+		console.update(dt);
+		Dungeon.ui.update(dt);
+	}
+
+	@Override
+	public void render() {
+		super.render();
+
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		Dungeon.ui.render();
+		console.render();
 	}
 
 	@Override

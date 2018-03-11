@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.ui.UiEntity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class UiLog extends UiEntity {
 
 	public void print(String string) {
 		this.lines.add(new Line(string));
+		System.out.println(string);
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class UiLog extends UiEntity {
 
 			line.time += dt;
 
-			if (line.time > 7f && !line.remove) {
+			if (line.time > 10f && !line.remove) {
 				line.remove = true;
 
 				Tween.to(new Tween.Task(0, 3f) {

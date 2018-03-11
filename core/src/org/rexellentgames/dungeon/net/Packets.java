@@ -123,6 +123,17 @@ public class Packets {
 		return packet;
 	}
 
+	public static class ChatMessage extends Packet {
+		public String message;
+	}
+
+	public static ChatMessage makeChatMessage(String message) {
+		ChatMessage packet = new ChatMessage();
+		packet.message = message;
+
+		return packet;
+	}
+
 	public static void bind(Kryo kryo) {
 		kryo.register(PlayerConnected.class);
 		kryo.register(SetGameState.class);
@@ -131,5 +142,6 @@ public class Packets {
 		kryo.register(EntityRemoved.class);
 		kryo.register(SetEntityPosition.class);
 		kryo.register(SetEntityState.class);
+		kryo.register(ChatMessage.class);
 	}
 }

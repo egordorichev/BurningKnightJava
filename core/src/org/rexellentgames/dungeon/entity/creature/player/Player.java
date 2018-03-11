@@ -65,7 +65,7 @@ public class Player extends Creature {
 	}
 
 	public Player() {
-		this("NO NAME?");
+		this("player");
 	}
 
 	public Player(String name) {
@@ -114,6 +114,8 @@ public class Player extends Creature {
 		float old = this.hunger;
 		this.hunger = MathUtils.clamp(0, 360, hunger);
 
+		// todo
+		/*
 		if (old < 360 && this.hunger == 360) {
 			this.addBuff(new StarvingBuff());
 		} else if ((old < 260 || old == 360) && this.hunger >= 260) {
@@ -126,7 +128,7 @@ public class Player extends Creature {
 
 		if (this.hunger < 260 || this.hunger == 360) {
 			this.removeBuff(HungryBuff.class);
-		}
+		}*/
 	}
 
 	@Override

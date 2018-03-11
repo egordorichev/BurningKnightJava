@@ -86,6 +86,8 @@ public class ServerHandler extends Listener {
 			this.inputChange(connection, (Packets.InputChange) object);
 		} else if (object instanceof Packets.PlayerDisconnected) {
 			this.playerDisconnected(connection);
+		} else if (object instanceof Packets.ChatMessage) {
+			this.sendToAllExcept(object, connection);
 		}
 	}
 
@@ -104,12 +106,16 @@ public class ServerHandler extends Listener {
 
 		new Input(player.getId());
 
+		this.send(connection, Packets.makeChatMessage("[green]Welcome to the hub! Type esc for chat"));
+		this.sendToAllExcept(Packets.makeChatMessage("[green]" + packet.name + " connected!"), connection);
+
 		Dungeon.longTime = 0;
 	}
 
 	private void playerDisconnected(Connection connection) {
 		Log.info("User disconnected");
 		int id = -1;
+		String name = "";
 
 		Collection<Player> values = this.players.values();
 		Player[] array = values.toArray(new Player[] {});
@@ -121,6 +127,7 @@ public class ServerHandler extends Listener {
 				this.players.remove(connection.getID());
 				this.entities.remove(player.getId());
 				id = player.getId();
+				name = player.getName();
 
 				break;
 			}
@@ -130,6 +137,7 @@ public class ServerHandler extends Listener {
 			Log.error("Removed entity is not found");
 		} else {
 			this.sendToAll(Packets.makeEntityRemoved(id));
+			this.sendToAllExcept(Packets.makeChatMessage("[orange]" + name + " disconnected!"), connection);
 		}
 	}
 
@@ -149,6 +157,14 @@ public class ServerHandler extends Listener {
 	public void sendToAll(Object object) {
 		for (Player player : this.players.values()) {
 			this.send(player.connectionId, object);
+		}
+	}
+
+	public void sendToAllExcept(Object object, Connection connection) {
+		for (Player player : this.players.values()) {
+			if (player.connectionId != connection.getID()) {
+				this.send(player.connectionId, object);
+			}
 		}
 	}
 
