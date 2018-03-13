@@ -68,7 +68,11 @@ public class Dungeon extends ApplicationAdapter {
 		game = new Game();
 
 		if (!Network.SERVER) {
-			game.setState(new LoginState());
+			if (!Network.NONE) {
+				game.setState(new LoginState());
+			} else {
+				Dungeon.goToLevel(1);
+			}
 		} else {
 			game.setState(new HubState());
 		}
@@ -84,7 +88,7 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void render() {
 		if (to != -2) {
-			if (Network.SERVER) {
+			if (Network.SERVER || Network.NONE) {
 				Dungeon.depth = to;
 				game.setState(new LoadState());
 			}

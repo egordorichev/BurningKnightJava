@@ -134,6 +134,11 @@ public class Packets {
 		return packet;
 	}
 
+	public static class Level extends Packet {
+		public int depth;
+		public short[] data;
+	}
+
 	public static void bind(Kryo kryo) {
 		kryo.register(PlayerConnected.class);
 		kryo.register(SetGameState.class);
@@ -143,5 +148,6 @@ public class Packets {
 		kryo.register(SetEntityPosition.class);
 		kryo.register(SetEntityState.class);
 		kryo.register(ChatMessage.class);
+		kryo.register(Level.class);
 	}
 }

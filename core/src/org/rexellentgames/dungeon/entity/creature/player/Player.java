@@ -71,7 +71,7 @@ public class Player extends Creature {
 	public Player(String name) {
 		this.name = name;
 
-		if (instance == null) {
+		if (instance == null || Network.NONE) {
 			instance = this;
 			main = true;
 			local = true;
@@ -247,7 +247,7 @@ public class Player extends Creature {
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
 
-		if (this.name != null) {
+		if (this.name != null && !Network.NONE) {
 			Graphics.small.draw(Graphics.batch, this.name, this.x, this.y - 4);
 		}
 	}

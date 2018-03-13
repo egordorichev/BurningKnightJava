@@ -110,7 +110,7 @@ public class Creature extends SaveableEntity {
 				this.flipped = false;
 			}
 
-			if (!Network.SERVER) {
+			if (!Network.SERVER && !Network.NONE) {
 				this.registerState();
 				this.states.remove((long) (Dungeon.time * 60 - 60));
 			}
