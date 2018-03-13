@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Network {
 	public static boolean SERVER = false;
+	public static boolean NONE = true;
 
 	public static final String IP = "localhost";
 	public static final int TCP_PORT = 3333;

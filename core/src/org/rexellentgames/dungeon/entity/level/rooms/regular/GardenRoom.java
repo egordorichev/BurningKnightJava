@@ -13,13 +13,13 @@ public class GardenRoom extends RegularRoom {
 		Painter.fill(level, this, Terrain.WALL);
 
 		if (Random.chance(50)) {
-			for (int x = this.left + 1; x < this.right - 1; x++) {
-				Painter.drawLine(level, new Point(x, this.top + 1), new Point(x, this.bottom - 1),
+			for (int x = this.left; x < this.right; x++) {
+				Painter.drawLine(level, new Point(x, this.top), new Point(x, this.bottom),
 					x % 2 == 0 ? Terrain.GRASS : Terrain.WOOD);
 			}
 		} else {
-			for (int y = this.top + 1; y < this.bottom - 1; y++) {
-				Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y),
+			for (int y = this.top; y < this.bottom; y++) {
+				Painter.drawLine(level, new Point(this.left, y), new Point(this.right, y),
 					y % 2 == 0 ? Terrain.GRASS : Terrain.WOOD);
 			}
 		}

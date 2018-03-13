@@ -38,6 +38,9 @@ public class LoadState extends State {
 	public void init() {
 		if (Dungeon.area != null) {
 			Dungeon.area.destroy();
+		}
+
+		if (Dungeon.ui != null) {
 			Dungeon.ui.destroy();
 		}
 
@@ -85,7 +88,7 @@ public class LoadState extends State {
 
 		Dungeon.area.add(Dungeon.level);
 
-		if (Network.SERVER) {
+		if (Network.SERVER || Network.NONE) {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {

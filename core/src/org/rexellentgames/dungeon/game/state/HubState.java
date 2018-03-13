@@ -62,7 +62,6 @@ public class HubState extends State {
 		Dungeon.ui.update(dt);
 
 		if (!Network.SERVER) {
-
 			if (Input.instance.wasPressed("1")) {
 				final OrthographicCamera cam = Camera.instance.getCamera();
 
