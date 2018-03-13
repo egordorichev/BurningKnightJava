@@ -13,14 +13,6 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class TunnelRoom extends ConnectionRoom {
-	public TunnelRoom() {
-		super(Type.TUNNEL);
-	}
-
-	public TunnelRoom(Type type) {
-		super(type);
-	}
-
 	protected void fill(Level level) {
 
 	}

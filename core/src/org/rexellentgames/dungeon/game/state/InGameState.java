@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.UiBar;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
@@ -129,13 +130,14 @@ public class InGameState extends State {
 		}
 	}
 
-	private void renderGame() {
+	@Override
+	public void render() {
 		Viewport viewport = Camera.instance.getViewport();
 		Dungeon.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
 		Dungeon.light.setCombinedMatrix(Camera.instance.getCamera());
 
 		Graphics.batch.end();
-		Dungeon.light.updateAndRender();
+		// Dungeon.light.updateAndRender();
 		Graphics.batch.begin();
 
 		// Debug
@@ -144,7 +146,8 @@ public class InGameState extends State {
 		}
 	}
 
-	private void renderUi() {
+	@Override
+	public void renderUi() {
 		Graphics.render(Graphics.ui, 0, 0, Display.GAME_HEIGHT - 32, 5, 2);
 		Dungeon.ui.render();
 
@@ -173,16 +176,6 @@ public class InGameState extends State {
 		if (this.exp.hovered) { this.exp.renderInfo(); }
 
 		this.console.render();
-	}
-
-	@Override
-	public void render() {
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
-
-		this.renderGame();
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		this.renderUi();
-
 		this.inventory.renderCurrentSlot();
 	}
 

@@ -2,11 +2,9 @@ package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.special.TowerBaseRoom;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -14,8 +12,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 
 public class RegularBuilder extends Builder {
-	protected org.rexellentgames.dungeon.entity.level.rooms.regular.EntranceRoom entrance;
-	protected org.rexellentgames.dungeon.entity.level.rooms.regular.ExitRoom exit;
+	protected EntranceRoom entrance;
+	protected ExitRoom exit;
 	protected float pathVariance = 45f;
 	protected float pathLength = 0.5f;
 	protected float[] pathLenJitterChances = new float[]{0, 1, 0};
@@ -33,9 +31,7 @@ public class RegularBuilder extends Builder {
 		this.singleConnection.clear();
 
 		for (Room room : rooms) {
-			if (!(room instanceof TowerBaseRoom)) {
-				room.setEmpty();
-			}
+			room.setEmpty();
 		}
 
 		for (Room room : rooms) {

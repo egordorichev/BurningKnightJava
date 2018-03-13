@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.special.TowerBaseRoom;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;

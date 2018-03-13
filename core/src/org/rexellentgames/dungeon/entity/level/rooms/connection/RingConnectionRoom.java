@@ -8,10 +8,6 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class RingConnectionRoom extends TunnelRoom {
-	public RingConnectionRoom() {
-		super(Type.RING_CONNECTION);
-	}
-
 	@Override
 	public int getMinWidth() {
 		return Math.max(5, super.getMinWidth());

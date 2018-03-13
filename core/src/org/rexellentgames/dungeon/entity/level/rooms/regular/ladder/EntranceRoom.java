@@ -1,22 +1,20 @@
-package org.rexellentgames.dungeon.entity.level.rooms.special;
+package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
-import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class TowerBaseRoom extends SpecialRoom {
-	public TowerBaseRoom() {
-		super(Type.TOWER_BASE);
-	}
-
+public class EntranceRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
-		Painter.fill(level, this, 1, Terrain.LOW_GRASS);
+		super.paint(level);
+
 		Point point = this.getCenter();
+		// Painter.set(level, (int) point.x, (int) point.y, Terrain.ENTRANCE);
 
 		Entrance entrance = new Entrance();
 
@@ -25,10 +23,24 @@ public class TowerBaseRoom extends SpecialRoom {
 
 		level.addSaveable(entrance);
 		Dungeon.area.add(entrance);
+	}
 
-		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.REGULAR);
+	@Override
+	public int getMaxConnections(Connection side) {
+		if (side == Connection.ALL) {
+			return 16;
 		}
+
+		return 4;
+	}
+
+	@Override
+	public int getMinConnections(Connection side) {
+		if (side == Connection.ALL) {
+			return 1;
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -43,11 +55,11 @@ public class TowerBaseRoom extends SpecialRoom {
 
 	@Override
 	public int getMaxWidth() {
-		return 6;
+		return 9;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 6;
+		return 9;
 	}
 }

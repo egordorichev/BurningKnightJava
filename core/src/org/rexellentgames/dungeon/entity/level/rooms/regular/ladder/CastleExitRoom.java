@@ -1,17 +1,12 @@
-package org.rexellentgames.dungeon.entity.level.rooms.regular;
+package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.util.Log;
 
 public class CastleExitRoom extends ExitRoom {
-	public CastleExitRoom() {
-		super(Type.CASTLE_EXIT);
-	}
-
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, 0, Terrain.WALL);

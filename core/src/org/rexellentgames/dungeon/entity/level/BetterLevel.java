@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
@@ -10,10 +9,13 @@ import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
@@ -113,6 +115,7 @@ public abstract class BetterLevel extends Level {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
 		if (Dungeon.depth == 0) {
+			Log.info("Spawning castle exits");
 			this.entrance = new CastleEntranceRoom();
 			this.exit = new CastleExitRoom();
 		} else {

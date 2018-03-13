@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.level.rooms.regular;
+package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -10,10 +10,6 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class CastleEntranceRoom extends EntranceRoom {
-	public CastleEntranceRoom() {
-		super(Type.CASTLE_ENTRANCE);
-	}
-
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, 0, Terrain.WALL);

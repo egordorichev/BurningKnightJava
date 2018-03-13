@@ -15,10 +15,6 @@ public class ConnectionRoom extends Room {
 		5, 3, 2, 2
 	};
 
-	public ConnectionRoom(Type type) {
-		super(type);
-	}
-
 	public static ConnectionRoom create() {
 		try {
 			return rooms.get(Random.chances(chances)).newInstance();

@@ -1,5 +1,9 @@
 package org.rexellentgames.dungeon.game;
 
+import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.state.State;
 
 public class Game {
@@ -12,6 +16,11 @@ public class Game {
 	}
 
 	public void setState(org.rexellentgames.dungeon.game.state.State state) {
+		if (!(this.state instanceof LoadState)) {
+			Dungeon.ui.destroy();
+			Dungeon.area.destroy();
+		}
+
 		this.destroyState();
 		this.state = state;
 		this.state.init();
@@ -35,7 +44,10 @@ public class Game {
 
 	public void render() {
 		if (this.state != null) {
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			this.state.render();
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+			this.state.renderUi();
 		}
 	}
 

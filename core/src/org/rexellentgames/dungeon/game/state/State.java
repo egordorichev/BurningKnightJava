@@ -20,4 +20,8 @@ public class State {
 	public void render() {
 
 	}
+
+	public void renderUi() {
+
+	}
 }

@@ -3,10 +3,6 @@ package org.rexellentgames.dungeon.entity.level.rooms.special;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 
 public class SpecialRoom extends Room {
-	public SpecialRoom(Type type) {
-		super(type);
-	}
-
 	@Override
 	public int getMaxConnections(Connection side) {
 		return 1;
@@ -22,6 +18,6 @@ public class SpecialRoom extends Room {
 	}
 
 	public static SpecialRoom create() {
-		return new GardenRoom();
+		return null;
 	}
 }

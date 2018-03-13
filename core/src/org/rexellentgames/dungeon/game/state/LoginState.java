@@ -17,7 +17,6 @@ import java.io.IOException;
 public class LoginState extends State {
 	@Override
 	public void init() {
-		Dungeon.ui = new Area();
 		this.setupUi();
 	}
 
@@ -27,7 +26,7 @@ public class LoginState extends State {
 	}
 
 	@Override
-	public void render() {
+	public void renderUi() {
 		Dungeon.ui.render();
 	}
 

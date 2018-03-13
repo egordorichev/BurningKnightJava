@@ -6,10 +6,6 @@ import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 
 public class CircleRoom extends RegularRoom {
-	public CircleRoom() {
-		super(Type.CIRCLE_ROOM);
-	}
-
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
