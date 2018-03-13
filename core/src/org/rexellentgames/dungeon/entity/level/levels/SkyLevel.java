@@ -14,7 +14,7 @@ import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.SkyEntrance;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.SkyEntrance;
 import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;

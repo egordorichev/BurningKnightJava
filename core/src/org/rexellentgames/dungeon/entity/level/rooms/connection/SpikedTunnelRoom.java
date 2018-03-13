@@ -6,10 +6,6 @@ import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 
 public class SpikedTunnelRoom extends TunnelRoom {
-	public SpikedTunnelRoom() {
-		super(Type.SPIKED_TUNNEL);
-	}
-
 	@Override
 	protected void fill(Level level) {
 		Painter.fill(level, this, Terrain.WALL);

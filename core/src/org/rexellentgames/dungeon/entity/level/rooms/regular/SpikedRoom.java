@@ -6,10 +6,6 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Random;
 
 public class SpikedRoom extends RegularRoom {
-	public SpikedRoom() {
-		super(Type.SPIKED);
-	}
-
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);

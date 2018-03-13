@@ -7,10 +7,6 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Maze;
 
 public class MazeFloorRoom extends RegularRoom {
-	public MazeFloorRoom() {
-		super(Type.MAZE_FLOOR);
-	}
-
 	@Override
 	public void paint(Level level) {
 		boolean[][] maze = Maze.generate(this);

@@ -7,10 +7,6 @@ import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 
 public class ChasmRoom extends RegularRoom {
-	public ChasmRoom() {
-		super(Type.CHASM_ROOM);
-	}
-
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);

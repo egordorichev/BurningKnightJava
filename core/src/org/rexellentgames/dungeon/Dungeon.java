@@ -65,6 +65,9 @@ public class Dungeon extends ApplicationAdapter {
 		this.initColors();
 		this.initInput();
 
+		ui = new Area();
+		area = new Area();
+
 		game = new Game();
 
 		if (!Network.SERVER) {
@@ -77,7 +80,6 @@ public class Dungeon extends ApplicationAdapter {
 			game.setState(new HubState());
 		}
 
-		area = new Area();
 		area.add(new Camera());
 	}
 

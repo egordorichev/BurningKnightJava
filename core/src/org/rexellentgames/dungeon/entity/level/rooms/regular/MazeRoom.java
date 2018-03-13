@@ -8,10 +8,6 @@ import org.rexellentgames.dungeon.util.Maze;
 import org.rexellentgames.dungeon.util.Random;
 
 public class MazeRoom extends RegularRoom {
-	public MazeRoom() {
-		super(Type.MAZE_ROOM);
-	}
-
 	private static short[] types = new short[] { Terrain.WALL, Terrain.EMPTY, Terrain.SPIKES };
 
 	@Override

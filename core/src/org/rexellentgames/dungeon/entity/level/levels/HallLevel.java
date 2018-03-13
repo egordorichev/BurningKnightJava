@@ -13,13 +13,9 @@ import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
-import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.special.TowerBaseRoom;
 import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 

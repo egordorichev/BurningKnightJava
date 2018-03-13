@@ -20,6 +20,7 @@ import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -546,11 +547,11 @@ public abstract class Level extends Entity {
 		return this.get(x, y) == Terrain.WALL;
 	}
 
-	protected Room getRandomRoom(Room.Type type) {
+	protected Room getRandomRoom(Class<? extends Room> type) {
 		for (int i = 0; i < 30; i++) {
 			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
 
-			if (room.getType() == type) {
+			if (type.isInstance(room)) {
 				return room;
 			}
 		}
@@ -558,7 +559,7 @@ public abstract class Level extends Entity {
 		return null;
 	}
 
-	protected Point getRandomFreePoint(Room.Type type) {
+	protected Point getRandomFreePoint(Class<? extends Room> type) {
 		for (int i = 0; i < 10; i++) {
 			Room room = this.getRandomRoom(type);
 
@@ -587,7 +588,7 @@ public abstract class Level extends Entity {
 			Point point = null;
 
 			while (point == null) {
-				point = this.getRandomFreePoint(Room.Type.REGULAR);
+				point = this.getRandomFreePoint(RegularRoom.class);
 			}
 
 			ItemHolder holder = new ItemHolder();
@@ -608,7 +609,7 @@ public abstract class Level extends Entity {
 			Point point = null;
 
 			while (point == null) {
-				point = this.getRandomFreePoint(Room.Type.REGULAR);
+				point = this.getRandomFreePoint(RegularRoom.class);
 			}
 
 			creature.x = point.x * 16;

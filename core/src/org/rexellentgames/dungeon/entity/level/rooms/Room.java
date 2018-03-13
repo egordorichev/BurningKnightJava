@@ -16,19 +16,10 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class Room extends Rect implements GraphNode {
-	public static final ArrayList<Type> SPECIAL = new ArrayList<Type>(Arrays.asList(
-		Type.HOLE
-	));
-
 	protected ArrayList<Room> neighbours = new ArrayList<Room>();
 	protected HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
-	private Type type;
 	private int price = 1;
 	private int distance = 0;
-
-	public Room(Type type) {
-		this.type = type;
-	}
 
 	public int getMinWidth() {
 		return 5;
@@ -57,14 +48,6 @@ public abstract class Room extends Rect implements GraphNode {
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
 		}
-	}
-
-	public Type getType() {
-		return this.type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
 	}
 
 	public int getCurrentConnections(Connection direction) {
@@ -300,27 +283,6 @@ public abstract class Room extends Rect implements GraphNode {
 
 	public enum Connection {
 		ALL, LEFT, RIGHT, TOP, BOTTOM
-	}
-
-	public enum Type {
-		REGULAR,
-		ENTRANCE,
-		EXIT,
-		TUNNEL,
-		HOLE,
-		GARDEN,
-		TOWER_BASE,
-		CASTLE_ENTRANCE,
-		CASTLE_EXIT,
-		SKY_ENTRANCE,
-		SKY_EXIT,
-		RING_CONNECTION,
-		CIRCLE_ROOM,
-		SPIKED,
-		SPIKED_TUNNEL,
-		CHASM_ROOM,
-		MAZE_ROOM,
-		MAZE_FLOOR
 	}
 
 	@Override

@@ -51,10 +51,7 @@ public class LoadState extends State {
 
 		Dungeon.world = new World(new Vector2(0, 0), true);
 
-		Dungeon.area = new Area();
 		Dungeon.area.add(new Camera());
-
-		Dungeon.ui = new Area();
 		Dungeon.ui.add(new UiLog());
 
 		if (Player.instance == null) {

@@ -2,11 +2,15 @@ package org.rexellentgames.dungeon.entity.creature;
 
 import box2dLight.PointLight;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -35,11 +39,17 @@ public class Creature extends SaveableEntity {
 	protected Body body;
 	protected float timer;
 	protected boolean flipped = false;
+	private int hx, hy, hw, hh;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
+	protected boolean flying = false;
 	public HashMap<Long, State> states = new HashMap<Long, State>();
+
+	public boolean isFlying() {
+		return this.flying;
+	}
 
 	public static class State {
 		public float x;
@@ -53,6 +63,16 @@ public class Creature extends SaveableEntity {
 		state.y = this.y;
 
 		this.states.put(Dungeon.longTime, state);
+	}
+
+	@Override
+	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
+		this.hx = x;
+		this.hy = y;
+		this.hw = w;
+		this.hh = h;
+
+		return super.createBody(x, y, w, h, type, sensor);
 	}
 
 	public void modifyDefense(int amount) {
@@ -99,6 +119,32 @@ public class Creature extends SaveableEntity {
 
 		for (int i = buffs.length - 1; i >= 0; i--) {
 			buffs[i].update(dt);
+		}
+
+		boolean onGround = false;
+
+		for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
+			for (int y = (int) Math.floor((this.hy + this.y) / 16); y < Math.ceil((this.hy + this.y + this.hh / 3) / 16); y++) {
+				short t = Dungeon.level.get(x, y);
+
+				if (!Dungeon.level.checkFor(x, y, Terrain.HOLE)) {
+					onGround = true;
+				}
+
+				this.onTouch(t);
+			}
+		}
+
+		if (!onGround && !this.flying && !this.dead) {
+			this.die(); // todo: anim....
+		}
+	}
+
+	protected void onTouch(short t) {
+		if (t == Terrain.WATER) {
+			this.buffs.remove(BurningBuff.class);
+		} else if (t == Terrain.SPIKES) {
+			this.modifyHp(-20, true);
 		}
 	}
 

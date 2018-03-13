@@ -36,16 +36,10 @@ public class HubState extends State {
 			Dungeon.world = new World(new Vector2(0, 0), true);
 		}
 
-		Dungeon.area = new Area();
 		Dungeon.area.add(new Camera());
-
-		if (Dungeon.ui == null) {
-			Dungeon.ui = new Area();
-		}
-
 		Dungeon.ui.add(new UiLog());
 
-		console = new Console();
+		this.console = new Console();
 
 		if (!Network.SERVER) {
 			for (Player player : ClientHandler.instance.getPlayers()) {
@@ -95,12 +89,9 @@ public class HubState extends State {
 	}
 
 	@Override
-	public void render() {
-		super.render();
-
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+	public void renderUi() {
 		Dungeon.ui.render();
-		console.render();
+		this.console.render();
 	}
 
 	@Override

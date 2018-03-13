@@ -29,14 +29,6 @@ public class RegularRoom extends Room {
 
 	protected Size size = Size.NORMAL;
 
-	public RegularRoom() {
-		super(Type.REGULAR);
-	}
-
-	public RegularRoom(Type type) {
-		super(type);
-	}
-
 	public boolean setSize(int min, int max) {
 		float[] chances = this.getSizeChance();
 		Size[] sizes = Size.values();
@@ -64,7 +56,7 @@ public class RegularRoom extends Room {
 	}
 
 	protected float[] getSizeChance() {
-		return new float[]{5, 2, 1};
+		return new float[]{1,0,0};
 	}
 
 	public Size getSize() {
@@ -73,12 +65,12 @@ public class RegularRoom extends Room {
 
 	private static ArrayList<Class<? extends RegularRoom>> rooms = new ArrayList<Class<? extends RegularRoom>>(Arrays.asList(
 		RegularRoom.class, GardenRoom.class, FloodedRoom.class, CircleRoom.class, SpikedRoom.class,
-		ChasmRoom.class, MazeRoom.class, MazeFloorRoom.class
+		ChasmRoom.class, MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class
 	));
 
 	private static float[] chances = new float[] {
-		5, 2, 1, 4, 1,
-		1, 2, 1
+		5, 2, 1, 1, 1,
+		1, 0.5f, 1, 1
 	};
 
 	public static RegularRoom create() {

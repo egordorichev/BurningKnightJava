@@ -21,6 +21,7 @@ public class BurningKnight extends Mob {
 		h = 32;
 		depth = 6;
 		alwaysActive = true;
+		flying = true;
 	}
 
 	public static BurningKnight instance;

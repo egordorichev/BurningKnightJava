@@ -1,19 +1,12 @@
-package org.rexellentgames.dungeon.entity.level.rooms.regular;
+package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class ExitRoom extends RegularRoom {
-	public ExitRoom() {
-		super(Type.EXIT);
-	}
-
-	public ExitRoom(Type type) {
-		super(type);
-	}
-
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
@@ -50,11 +43,21 @@ public class ExitRoom extends RegularRoom {
 
 	@Override
 	public int getMinWidth() {
-		return Math.max(super.getMinWidth(), 8);
+		return 5;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return Math.max(super.getMinHeight(), 8);
+		return 5;
+	}
+
+	@Override
+	public int getMaxWidth() {
+		return 9;
+	}
+
+	@Override
+	public int getMaxHeight() {
+		return 9;
 	}
 }
