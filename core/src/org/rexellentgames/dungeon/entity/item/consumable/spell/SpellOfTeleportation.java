@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.Random;
 
 public class SpellOfTeleportation extends Spell {
@@ -29,7 +30,6 @@ public class SpellOfTeleportation extends Spell {
 	}
 
 	private static boolean check(int x, int y) {
-		short t = Dungeon.level.get(x, y);
-		return t > 5 && t < 14;
+		return Dungeon.level.checkFor(x, y, Terrain.PASSABLE);
 	}
 }

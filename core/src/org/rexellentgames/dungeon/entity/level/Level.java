@@ -2,7 +2,9 @@ package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,6 +23,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
+import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -45,6 +48,10 @@ public abstract class Level extends Entity {
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
 
 	public short[] data;
+	protected float[] light;
+	protected float[] lightR;
+	protected float[] lightG;
+	protected float[] lightB;
 	protected boolean[] passable;
 	protected boolean[] low;
 	protected boolean[] free;
@@ -71,6 +78,10 @@ public abstract class Level extends Entity {
 
 	public void fill() {
 		this.data = new short[getSIZE()];
+		this.light = new float[getSIZE()];
+		this.lightR = new float[getSIZE()];
+		this.lightG = new float[getSIZE()];
+		this.lightB = new float[getSIZE()];
 
 		short tile = Terrain.WALL;
 
@@ -141,6 +152,58 @@ public abstract class Level extends Entity {
 		this.area.add(l);
 	}
 
+	public void renderLight() {
+		OrthographicCamera camera = Camera.instance.getCamera();
+
+		Graphics.batch.end();
+
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+		float zoom = camera.zoom;
+
+		float cx = camera.position.x - Display.GAME_WIDTH / 2 * zoom;
+		float cy = camera.position.y - Display.GAME_HEIGHT / 2 * zoom;
+
+		int sx = (int) (Math.floor(cx / 16) - 1);
+		int sy = (int) (Math.floor(cy / 16) - 1);
+
+		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
+
+		float dt = Gdx.graphics.getDeltaTime() / 5;
+
+		for (int i = 0; i < this.getSIZE(); i++) {
+			float v = this.light[i];
+
+			if (v > 0) {
+				this.light[i] = Math.max(0, v - dt);
+				this.lightR[i] = Math.max(0, this.lightR[i] - dt);
+				this.lightG[i] = Math.max(0, this.lightG[i] - dt);
+				this.lightB[i] = Math.max(0, this.lightB[i] - dt);
+			}
+
+		}
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
+				int i = x + y * getWIDTH();
+				float v = this.light[i];
+				float r = this.lightR[i];
+				float g = this.lightG[i];
+				float b = this.lightB[i];
+
+				Graphics.shape.setColor(r, g, b, 1f - v);
+				Graphics.shape.rect(x * 16, y * 16, 16, 16);
+			}
+		}
+
+		Graphics.shape.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
+		Graphics.batch.begin();
+	}
+
 	public void renderSolid() {
 		OrthographicCamera camera = Camera.instance.getCamera();
 
@@ -203,6 +266,7 @@ public abstract class Level extends Entity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
 				int i = x + y * getWIDTH();
+				float v = this.light[i];
 
 				if (this.low[i]) {
 					short tile = this.get(i);
@@ -211,6 +275,7 @@ public abstract class Level extends Entity {
 						 Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
 					}
 				}
+
 				byte count = this.counts[i];
 
 				if (count != 0 && (count & (1L)) != 0) {
@@ -218,6 +283,58 @@ public abstract class Level extends Entity {
 				}
 			}
 		}
+	}
+
+	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
+		float dt = Gdx.graphics.getDeltaTime();
+		int i = (int) (Math.floor(x / 16) + Math.floor(y / 16) * getWIDTH());
+
+		if (i < 0 || i >= this.getSIZE()) {
+			return;
+		}
+
+		if (this.light[i] < max) {
+			this.light[i] = Math.min(this.light[i] + a * dt, max);
+		}
+
+		if (this.lightR[i] < max) {
+			this.lightR[i] = Math.min(this.lightR[i] + r * dt, max);
+		}
+
+		if (this.lightG[i] < max) {
+			this.lightG[i] = Math.min(this.lightG[i] + g * dt, max);
+		}
+
+		if (this.lightB[i] < max) {
+			this.lightB[i] = Math.min(this.lightB[i] + b * dt, max);
+		}
+	}
+
+	public void addLightInRadius(float x, float y, float r, float g, float b, float a, float rd, boolean xray, int w, int h) {
+		int fx = (int) Math.floor((x) / 16);
+		int fy = (int) Math.floor((y) / 16);
+
+		for (int xx = (int) -rd; xx <= rd; xx++) {
+			for (int yy = (int) -rd; yy <= rd; yy++) {
+				float d = (float) Math.sqrt(xx * xx + yy * yy);
+
+				if (d < rd && (xray || this.canSee(fx, fy, fx + xx, fy + yy))) {
+					Dungeon.level.addLight(x + xx * 16, y + yy * 16, r, g, b, a, (rd - d) / rd);
+				}
+			}
+		}
+	}
+
+	public boolean canSee(int x, int y, int px, int py) {
+		Line line = new Line(x, y, px, py);
+
+		for (Point point : line.getPoints()) {
+			if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WALL) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public boolean isAWall(int x, int y) {
@@ -402,6 +519,10 @@ public abstract class Level extends Entity {
 			if (type == DataType.LEVEL) {
 				setSize(stream.readInt32(), stream.readInt32());
 				this.data = new short[getSIZE()];
+				this.light = new float[getSIZE()];
+				this.lightR = new float[getSIZE()];
+				this.lightG = new float[getSIZE()];
+				this.lightB = new float[getSIZE()];
 
 				for (int i = 0; i < getSIZE(); i++) {
 					this.data[i] = stream.readInt16();

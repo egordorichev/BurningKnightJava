@@ -155,9 +155,6 @@ public class Player extends Creature {
 		this.inventory = new Inventory(this, 24);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
-		// for idk what
-		this.tp(Random.newInt(0, Display.GAME_WIDTH - 16), Random.newInt(0, Display.GAME_HEIGHT - 16));
-
 		if (Dungeon.light != null) {
 			this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.9f, 0.8f, 1f),
 				LIGHT_SIZE, 300, 300);
@@ -167,8 +164,9 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-
 		this.vel.mul(0.8f);
+
+		Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.7f, 3f + this.lightModifier, false, 8, 8);
 
 		if (this.dead) {
 			super.common();
@@ -220,6 +218,7 @@ public class Player extends Creature {
 		}
 
 		super.common();
+
 	}
 
 	@Override
