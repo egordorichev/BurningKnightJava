@@ -62,6 +62,7 @@ public class BurningKnight extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0.3f, 0.5f, 8f, true, 16, 16);
 
 		this.sword.update(dt);
 		this.vel.mul(0.8f);

@@ -143,7 +143,7 @@ public class Creature extends SaveableEntity {
 	protected void onTouch(short t) {
 		if (t == Terrain.WATER) {
 			this.buffs.remove(BurningBuff.class);
-		} else if (t == Terrain.SPIKES) {
+		} else if (t == Terrain.SPIKES && !this.flying) {
 			this.modifyHp(-20, true);
 		}
 	}

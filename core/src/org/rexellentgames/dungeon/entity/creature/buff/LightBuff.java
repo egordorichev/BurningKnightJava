@@ -13,7 +13,7 @@ public class LightBuff extends Buff {
 	@Override
 	public void onStart() {
 		if (this.owner instanceof Player) {
-			((Player) this.owner).lightModifier = 64;
+			((Player) this.owner).lightModifier = 5;
 			this.owner.getLight().setXray(true);
 		}
 	}
