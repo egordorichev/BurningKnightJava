@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon.net.client;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import org.rexellentgames.dungeon.Dungeon;
@@ -8,13 +10,18 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.HubState;
+import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.game.state.LoginState;
 import org.rexellentgames.dungeon.game.state.NetLoadState;
 import org.rexellentgames.dungeon.net.PackageInfo;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.PathFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,18 +71,13 @@ public class ClientHandler extends Listener {
 			this.setEntityState((Packets.SetEntityState) object);
 		} else if (object instanceof Packets.ChatMessage) {
 			UiLog.instance.print(((Packets.ChatMessage) object).message);
+		} else if (object instanceof Packets.Level) {
+			this.loadLevel((Packets.Level) object);
 		}
 	}
 
 	public void send(Packets.Packet object) {
-		final Object o = object;
-
-		/*new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {*/
-				client.getClient().sendTCP(o);
-			/*}
-		}, 100);*/
+		this.client.getClient().sendTCP(object);
 	}
 
 	private void entityAdded(Packets.EntityAdded packet) {
@@ -99,6 +101,8 @@ public class ClientHandler extends Listener {
 					Camera.instance.follow(entity);
 				}
 			}
+
+			Log.info(packet.clazz + " added");
 
 			Dungeon.area.add(entity);
 			this.entities.put(packet.id, entity);
@@ -193,6 +197,50 @@ public class ClientHandler extends Listener {
 		}
 
 		entity.become(packet.state);
+	}
+
+	private void loadLevel(Packets.Level packet) {
+		Dungeon.game.setState(new InGameState());
+
+		Player.REGISTERED = false;
+		Level.GENERATED = false;
+
+		Dungeon.world = new World(new Vector2(0, 0), true);
+
+		Dungeon.area.add(new Camera());
+		Dungeon.ui.add(new UiLog());
+
+		Dungeon.level = Level.forDepth(packet.depth);
+		Dungeon.level.setData(packet.data);
+
+		Level.setWIDTH(packet.w);
+		Level.setHEIGHT(packet.h);
+
+		Log.info("Set level size to " + packet.w + ":" + packet.h);
+
+		Dungeon.level.loadPassable();
+		Dungeon.level.addPhysics();
+		Dungeon.level.tile();
+
+		Dungeon.level.initLight();
+
+		Dungeon.area.add(Dungeon.level);
+
+		UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
+		Log.info("Loading done!");
+
+		Dungeon.area.add(Camera.instance);
+
+		for (Player player : this.players) {
+			Dungeon.area.add(player);
+		}
+
+		Log.info("Entities: " + Dungeon.area.getEntities().size());
+
+		PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
+
+		Player.instance.tp(packet.w * 8, packet.h * 8);
+		Camera.instance.follow(Player.instance);
 	}
 
 	public GameClient getClient() {

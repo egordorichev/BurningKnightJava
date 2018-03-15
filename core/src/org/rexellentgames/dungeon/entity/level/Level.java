@@ -21,6 +21,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.Line;
@@ -76,12 +77,16 @@ public abstract class Level extends Entity {
 		return Terrain.FLOOR;
 	}
 
-	public void fill() {
-		this.data = new short[getSIZE()];
+	public void initLight() {
 		this.light = new float[getSIZE()];
 		this.lightR = new float[getSIZE()];
 		this.lightG = new float[getSIZE()];
 		this.lightB = new float[getSIZE()];
+	}
+
+	public void fill() {
+		this.data = new short[getSIZE()];
+		this.initLight();
 
 		short tile = Terrain.WALL;
 
@@ -314,8 +319,16 @@ public abstract class Level extends Entity {
 		int fx = (int) Math.floor((x) / 16);
 		int fy = (int) Math.floor((y) / 16);
 
+		if (fx < 0 || fy < 0) {
+			return;
+		}
+
 		for (int xx = (int) -rd; xx <= rd; xx++) {
 			for (int yy = (int) -rd; yy <= rd; yy++) {
+				if (xx + fx < 0 || yy + fy < 0 || xx + fx >= Level.getWIDTH() || yy + fy >= Level.getHEIGHT()) {
+					continue;
+				}
+
 				float d = (float) Math.sqrt(xx * xx + yy * yy);
 
 				if (d < rd && (xray || this.canSee(fx, fy, fx + xx, fy + yy))) {
@@ -323,6 +336,10 @@ public abstract class Level extends Entity {
 				}
 			}
 		}
+	}
+
+	public short[] getData() {
+		return this.data;
 	}
 
 	public boolean canSee(int x, int y, int px, int py) {
@@ -519,10 +536,7 @@ public abstract class Level extends Entity {
 			if (type == DataType.LEVEL) {
 				setSize(stream.readInt32(), stream.readInt32());
 				this.data = new short[getSIZE()];
-				this.light = new float[getSIZE()];
-				this.lightR = new float[getSIZE()];
-				this.lightG = new float[getSIZE()];
-				this.lightB = new float[getSIZE()];
+				this.initLight();
 
 				for (int i = 0; i < getSIZE(); i++) {
 					this.data[i] = stream.readInt16();
@@ -747,6 +761,58 @@ public abstract class Level extends Entity {
 
 	protected ArrayList<Creature> generateCreatures() {
 		return new ArrayList<Creature>();
+	}
+
+	public static BetterLevel forDepth(int depth) {
+		switch (depth) {
+			case -1:
+				return new SkyLevel();
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+			default:
+				return new HallLevel();
+			// todo: case 4: boss level
+			case 5:
+			case 6:
+			case 7:
+			case 8:
+				return new StorageLevel();
+			// todo: case 9: boss level
+			case 10:
+			case 11:
+			case 12:
+			case 13:
+				return new PrisonLevel();
+			// todo: case 14: boss level
+			case 15:
+			case 16:
+			case 17:
+			case 18:
+				return new LibraryLevel();
+			// todo: case 19: boss level
+			case 20:
+			case 21:
+			case 22:
+			case 23:
+				return new HellLevel();
+			// todo: case 24: THE FINAL BOSS LEVEL
+		}
+	}
+
+	public static void setWIDTH(int WIDTH) {
+		Level.WIDTH = WIDTH;
+		Level.SIZE = Level.WIDTH * Level.HEIGHT;
+	}
+
+	public static void setHEIGHT(int HEIGHT) {
+		Level.HEIGHT = HEIGHT;
+		Level.SIZE = Level.WIDTH * Level.HEIGHT;
+	}
+
+	public void setData(short[] data) {
+		this.data = data;
 	}
 
 	public enum DataType {

@@ -21,6 +21,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Animation;
@@ -155,7 +156,9 @@ public class Player extends Creature {
 		super.update(dt);
 		this.vel.mul(0.8f);
 
-		Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.7f, 3f + this.lightModifier, false);
+		if (Dungeon.level != null) {
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.7f, 3f + this.lightModifier, false);
+		}
 
 		if (this.dead) {
 			super.common();
@@ -166,6 +169,10 @@ public class Player extends Creature {
 
 		if (Network.SERVER) {
 			Input.set(this.getId());
+
+			if (this.y >= 60 - 16) {
+				Dungeon.goToLevel(0);
+			}
 		}
 
 		if (Network.SERVER || this.main) {

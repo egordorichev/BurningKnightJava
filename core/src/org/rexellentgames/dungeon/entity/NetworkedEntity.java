@@ -9,21 +9,12 @@ public class NetworkedEntity extends Entity {
 	public Point vel = new Point();
 	private boolean sleeping;
 	protected Point oldPosition = new Point();
-	private int id;
 	protected float t;
 	protected String state = "idle";
 	public boolean local = false;
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getParam() {
 		return "";
-	}
-
-	public int getId() {
-		return this.id;
 	}
 
 	public boolean isSleeping() {

@@ -121,22 +121,28 @@ public class Creature extends SaveableEntity {
 			buffs[i].update(dt);
 		}
 
-		boolean onGround = false;
+		if (Dungeon.level != null) {
+			boolean onGround = false;
 
-		for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
-			for (int y = (int) Math.floor((this.hy + this.y) / 16); y < Math.ceil((this.hy + this.y + this.hh / 3) / 16); y++) {
-				short t = Dungeon.level.get(x, y);
+			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
+				for (int y = (int) Math.floor((this.hy + this.y) / 16); y < Math.ceil((this.hy + this.y + this.hh / 3) / 16); y++) {
+					if (x < 0 || y < 0 || x >= Level.getWIDTH() || y >= Level.getHEIGHT()) {
+						continue;
+					}
 
-				if (!Dungeon.level.checkFor(x, y, Terrain.HOLE)) {
-					onGround = true;
+					short t = Dungeon.level.get(x, y);
+
+					if (!Dungeon.level.checkFor(x, y, Terrain.HOLE)) {
+						onGround = true;
+					}
+
+					this.onTouch(t);
 				}
-
-				this.onTouch(t);
 			}
-		}
 
-		if (!onGround && !this.flying && !this.dead) {
-			this.die(); // todo: anim....
+			if (!onGround && !this.flying && !this.dead) {
+				this.die(); // todo: anim....
+			}
 		}
 	}
 

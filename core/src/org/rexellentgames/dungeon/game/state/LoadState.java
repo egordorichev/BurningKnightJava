@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.game.state;
 
-import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
@@ -10,18 +9,11 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.*;
-import org.rexellentgames.dungeon.entity.level.entities.Entrance;
-import org.rexellentgames.dungeon.entity.level.entities.Exit;
-import org.rexellentgames.dungeon.entity.level.levels.HallLevel;
-import org.rexellentgames.dungeon.entity.level.levels.HellLevel;
-import org.rexellentgames.dungeon.entity.level.levels.LibraryLevel;
-import org.rexellentgames.dungeon.entity.level.levels.PrisonLevel;
-import org.rexellentgames.dungeon.entity.level.levels.SkyLevel;
-import org.rexellentgames.dungeon.entity.level.levels.StorageLevel;
-import org.rexellentgames.dungeon.game.Area;
+import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -34,18 +26,20 @@ import java.io.IOException;
 public class LoadState extends State {
 	private boolean ready = false;
 
+	public static void writeDepth() {
+		FileHandle save = Gdx.files.external(".ldg/depth.save");
+
+		try {
+			FileWriter writer = new FileWriter(save.file().getPath());
+			writer.writeInt32(Dungeon.depth);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void init() {
-		if (Dungeon.area != null) {
-			Dungeon.area.destroy();
-		}
-
-		if (Dungeon.ui != null) {
-			Dungeon.ui.destroy();
-		}
-
-		Entrance.ID = -1;
-		Exit.ID = -1;
 		Player.REGISTERED = false;
 		Level.GENERATED = false;
 
@@ -58,19 +52,7 @@ public class LoadState extends State {
 			this.readDepth();
 		}
 
-		switch (Dungeon.depth) {
-			case -1: Dungeon.level = new SkyLevel(); break;
-			case 0: case 1: case 2: case 3: default: Dungeon.level = new HallLevel(); break;
-			// todo: case 4: boss level
-			case 5: case 6: case 7: case 8: Dungeon.level = new StorageLevel(); break;
-			// todo: case 9: boss level
-			case 10: case 11: case 12: case 13: Dungeon.level = new PrisonLevel(); break;
-			// todo: case 14: boss level
-			case 15: case 16: case 17: case 18: Dungeon.level = new LibraryLevel(); break;
-			// todo: case 19: boss level
-			case 20: case 21: case 22: case 23: Dungeon.level = new HellLevel(); break;
-			// todo: case 24: THE FINAL BOSS LEVEL
-		}
+		Dungeon.level = Level.forDepth(Dungeon.depth);
 
 		Log.info("Dungeon depth " + Dungeon.depth + ", level is instance of " + Dungeon.level.getClass().getSimpleName());
 
@@ -90,23 +72,15 @@ public class LoadState extends State {
 					PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
 
 					UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
-					Log.info("Loading done, last exit id = " + (Exit.ID) + ", last entrance id = " + (Entrance.ID));
+					Log.info("Loading done!");
+
+					if (Network.SERVER) {
+						Network.server.getServerHandler().sendToAll(Packets.makeLevel(Dungeon.level.getData(), Dungeon.depth, Level.getWIDTH(), Level.getHEIGHT()));
+					}
 
 					ready = true;
 				}
 			}).run();
-		}
-	}
-
-	public static void writeDepth() {
-		FileHandle save = Gdx.files.external(".ldg/depth.save");
-
-		try {
-			FileWriter writer = new FileWriter(save.file().getPath());
-			writer.writeInt32(Dungeon.depth);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 

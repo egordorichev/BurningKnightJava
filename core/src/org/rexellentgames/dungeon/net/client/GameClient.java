@@ -26,7 +26,7 @@ public class GameClient {
 	}
 
 	public void run(String name) throws IOException {
-		this.client = new Client();
+		this.client = new Client(1024 * 32, 1024 * 32);
 
 		Packets.bind(this.client.getKryo());
 
