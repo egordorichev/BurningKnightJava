@@ -29,7 +29,6 @@ public class Dungeon extends ApplicationAdapter {
 	public static int depth;
 	public static float time;
 	public static Level level;
-	public static RayHandler light;
 	public static World world;
 	public static Area area;
 	public static Area ui;

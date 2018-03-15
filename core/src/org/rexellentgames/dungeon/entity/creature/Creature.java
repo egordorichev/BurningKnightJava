@@ -338,8 +338,4 @@ public class Creature extends SaveableEntity {
 	public Collection<Buff> getBuffs() {
 		return this.buffs.values();
 	}
-
-	public PointLight getLight() {
-		return null;
-	}
 }
