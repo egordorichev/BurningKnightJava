@@ -45,6 +45,10 @@ public class FileReader {
 		return this.stream.readDouble();
 	}
 
+	public float readFloat() throws IOException {
+		return this.stream.readFloat();
+	}
+
 	public void close() throws IOException {
 		this.stream.close();
 	}

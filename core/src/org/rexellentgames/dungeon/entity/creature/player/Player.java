@@ -154,10 +154,9 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.vel.mul(0.8f);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.7f, 3f + this.lightModifier, false);
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.5f, 3f + this.lightModifier, false);
 		}
 
 		if (this.dead) {

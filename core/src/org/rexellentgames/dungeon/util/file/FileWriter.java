@@ -50,6 +50,9 @@ public class FileWriter {
 		this.stream.writeDouble(value);
 	}
 
+	public void writeFloat(float value) throws IOException {
+		this.stream.writeFloat(value);
+	}
 	public void close() throws IOException {
 		this.stream.close();
 	}

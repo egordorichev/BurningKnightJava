@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class Network {
 	public static boolean SERVER = false;
-	public static boolean NONE = false;
+	public static boolean NONE = true;
 
-	public static final String IP = "localhost"; // "188.134.72.186";
+	public static final String IP = "188.134.72.186";
 	public static final int TCP_PORT = 3333;
 	public static final int UDP_PORT = TCP_PORT + 1;
 
