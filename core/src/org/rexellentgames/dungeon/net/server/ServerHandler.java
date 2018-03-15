@@ -37,7 +37,7 @@ public class ServerHandler extends Listener {
 
 	public void sendPackages(float dt) {
 		for (NetworkedEntity entity : this.entities.values()) {
-			//if (!entity.isSleeping()) {
+			if (!entity.isSleeping()) {
 				long t = 0;
 
 				if (entity instanceof Creature) {
@@ -45,32 +45,16 @@ public class ServerHandler extends Listener {
 				}
 
 				this.sendToAll(Packets.makeSetEntityPosition(entity.getId(), entity.x, entity.y, entity.vel, t));
-			//}
+			}
 		}
 	}
 
 	public void send(int id, Object object) {
-		final Object o = object;
-		final int i = id;
-
-		/*new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {*/
-				server.getServer().sendToTCP(i, o);
-			/*}
-		}, 100);*/
+		this.server.getServer().sendToTCP(id, object);
 	}
 
 	public void send(Connection connection, Object object) {
-		final Object o = object;
-		final Connection c = connection;
-
-		/*new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {*/
-				c.sendTCP(o);
-			/*}
-		}, 100);*/
+		connection.sendTCP(object);
 	}
 
 	@Override

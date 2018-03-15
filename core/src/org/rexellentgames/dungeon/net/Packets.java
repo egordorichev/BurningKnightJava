@@ -137,9 +137,23 @@ public class Packets {
 	public static class Level extends Packet {
 		public int depth;
 		public short[] data;
+		public int w;
+		public int h;
+	}
+
+	public static Level makeLevel(short[] data, int depth, int w, int h) {
+		Level packet = new Level();
+
+		packet.data = data;
+		packet.depth = depth;
+		packet.w = w;
+		packet.h = h;
+
+		return packet;
 	}
 
 	public static void bind(Kryo kryo) {
+		kryo.register(short[].class);
 		kryo.register(PlayerConnected.class);
 		kryo.register(SetGameState.class);
 		kryo.register(InputChange.class);

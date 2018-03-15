@@ -16,6 +16,15 @@ public class Entity extends Point {
 	public boolean onScreen = true;
 	public boolean alwaysActive = false;
 	public boolean done = false;
+	public int id;
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return this.id;
+	}
 
 	public void init() {
 

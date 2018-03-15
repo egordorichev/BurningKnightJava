@@ -19,7 +19,7 @@ public class GameServer implements ApplicationListener {
 	}
 
 	public void run() throws IOException {
-		this.server = new Server();
+		this.server = new Server(1024 * 32, 1024 * 32);
 
 		Packets.bind(this.server.getKryo());
 

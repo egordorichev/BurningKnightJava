@@ -92,6 +92,10 @@ public class Dungeon extends ApplicationAdapter {
 			if (Network.SERVER || Network.NONE) {
 				Dungeon.depth = to;
 				game.setState(new LoadState());
+
+				if (Network.SERVER) {
+					Network.server.getServerHandler().sendToAll(Packets.makeChatMessage("[green]We are starting the game..."));
+				}
 			}
 
 			to = -2;
@@ -128,6 +132,7 @@ public class Dungeon extends ApplicationAdapter {
 
 			if (game.getState() instanceof HubState) {
 				Graphics.medium.draw(Graphics.batch, "[gray]Hub", 0, 12);
+				Graphics.medium.draw(Graphics.batch, "[green]Start", 0, 60);
 			}
 
 			area.render();

@@ -132,7 +132,7 @@ public class InGameState extends State {
 
 	@Override
 	public void render() {
-		Dungeon.level.renderLight();
+		// Dungeon.level.renderLight();
 
 		// Debug
 		if (DRAW_DEBUG) {

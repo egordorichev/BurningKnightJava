@@ -20,6 +20,7 @@ public class RingConnectionRoom extends TunnelRoom {
 
 	@Override
 	public void paint(Level level) {
+		Painter.fill(level, this, Terrain.WALL);
 		super.paint(level);
 
 		Rect ring = getConnectionSpace();
