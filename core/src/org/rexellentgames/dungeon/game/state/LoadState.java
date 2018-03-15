@@ -78,6 +78,8 @@ public class LoadState extends State {
 						Network.server.getServerHandler().sendToAll(Packets.makeLevel(Dungeon.level.getData(), Dungeon.depth, Level.getWIDTH(), Level.getHEIGHT()));
 					}
 
+					Camera.instance.follow(Player.instance);
+
 					ready = true;
 				}
 			}).run();

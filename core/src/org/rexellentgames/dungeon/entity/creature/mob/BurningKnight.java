@@ -57,7 +57,7 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			// Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0.3f, 0.5f, 8f, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0.3f, 0.5f, 8f, true);
 		}
 
 		this.sword.update(dt);
