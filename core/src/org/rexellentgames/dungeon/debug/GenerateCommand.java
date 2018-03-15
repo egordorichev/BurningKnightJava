@@ -16,6 +16,8 @@ public class GenerateCommand extends ConsoleCommand {
 		Dungeon.reset = true;
 		Player.instance = null;
 		BurningKnight.instance = null;
+		Dungeon.level = null;
+		Dungeon.area.destroy();
 		Dungeon.goToLevel(0);
 	}
 }

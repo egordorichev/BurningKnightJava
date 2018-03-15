@@ -1,33 +1,25 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
-import box2dLight.PointLight;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
-import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
-import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
+import org.rexellentgames.dungeon.entity.creature.player.fx.FootFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -56,6 +48,7 @@ public class Player extends Creature {
 	private UiInventory ui;
 	private float hunger;
 	private String name;
+	private float watery;
 
 	{
 		hpMax = 100;
@@ -159,6 +152,8 @@ public class Player extends Creature {
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.5f, 3f + this.lightModifier, false);
 		}
 
+		this.watery = Math.max(0, this.watery - dt);
+
 		if (this.dead) {
 			super.common();
 			return;
@@ -200,6 +195,10 @@ public class Player extends Creature {
 			if (this.t % 0.2 <= 0.017 && !Network.SERVER) {
 				this.area.add(new RunFx(this.x, this.y - 8));
 			}
+
+			if (this.t % 0.3 <= 0.017 && !Network.SERVER && this.watery > 0) {
+				this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
+			}
 		} else {
 			this.become("idle");
 
@@ -209,6 +208,15 @@ public class Player extends Creature {
 
 		super.common();
 
+	}
+
+	@Override
+	protected void onTouch(short t, int x, int y) {
+		super.onTouch(t, x, y);
+
+		if (Dungeon.level.isWater(x, y)) {
+			this.watery = 5f;
+		}
 	}
 
 	@Override

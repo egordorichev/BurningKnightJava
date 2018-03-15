@@ -20,8 +20,7 @@ public class Plant extends SaveableEntity {
 
 		if (this.growProgress < 1) {
 			float a = Dungeon.level.getLight((int) this.x / 16, (int) this.y / 16);
-
-			this.growProgress += this.growSpeed * a * dt * 0.2;
+			this.growProgress += this.growSpeed * a * dt * 0.05f;
 
 			if (this.growProgress > 1) {
 				this.growProgress = 1;

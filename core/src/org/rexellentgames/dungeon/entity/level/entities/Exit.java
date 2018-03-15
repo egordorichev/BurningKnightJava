@@ -24,8 +24,10 @@ public class Exit extends SaveableEntity {
 	@Override
 	public void init() {
 		super.init();
-		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 
+		this.alwaysActive = true;
+
+		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 
 		if (Level.GENERATED) {

@@ -137,7 +137,7 @@ public class Creature extends SaveableEntity {
 						onGround = true;
 					}
 
-					this.onTouch(t);
+					this.onTouch(t, x, y);
 				}
 			}
 
@@ -147,8 +147,8 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected void onTouch(short t) {
-		if (t == Terrain.WATER) {
+	protected void onTouch(short t, int x, int y) {
+		if (Dungeon.level.isWater(x, y)) {
 			this.buffs.remove(BurningBuff.class);
 		} else if (t == Terrain.SPIKES && !this.flying) {
 			this.modifyHp(-20, true);
