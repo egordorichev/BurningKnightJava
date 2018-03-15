@@ -132,14 +132,6 @@ public class InGameState extends State {
 
 	@Override
 	public void render() {
-		Viewport viewport = Camera.instance.getViewport();
-		Dungeon.light.useCustomViewport(viewport.getScreenX(), viewport.getScreenY(), viewport.getScreenWidth(), viewport.getScreenHeight());
-		Dungeon.light.setCombinedMatrix(Camera.instance.getCamera());
-
-		// Graphics.batch.end();
-		// Dungeon.light.updateAndRender();
-		// Graphics.batch.begin();
-
 		Dungeon.level.renderLight();
 
 		// Debug

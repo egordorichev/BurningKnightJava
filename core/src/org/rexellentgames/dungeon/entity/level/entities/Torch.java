@@ -26,38 +26,15 @@ public class Torch extends SaveableEntity {
 	}
 
 	@Override
-	public void init() {
-		if (Dungeon.light != null) {
-			this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.7f, 0.5f, 0.9f),
-				96, this.x + 8, this.y);
-		}
-	}
-
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-
-		if (Dungeon.light != null) {
-			this.light.setPosition(this.x + 8, this.y);
-		}
-	}
-
-	@Override
 	public void destroy() {
-		super.destroy();
-
-		if (Dungeon.light != null) {
-			this.light.remove(true);
-		}
-	}
+		super.destroy(); }
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Dungeon.light != null) {
-			this.light.setDistance((float) (Math.cos(this.t * 5) * 16 + 96));
-		}
+		Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0.0f, 0.5f, 3f, false);
+		// todo: move with time
 
 		this.t += dt;
 

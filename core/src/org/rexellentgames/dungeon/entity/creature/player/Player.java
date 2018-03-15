@@ -50,7 +50,6 @@ public class Player extends Creature {
 	protected int experienceMax;
 	protected int level;
 	protected int forThisLevel;
-	private PointLight light;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private UiInventory ui;
@@ -132,11 +131,6 @@ public class Player extends Creature {
 		}*/
 	}
 
-	@Override
-	public PointLight getLight() {
-		return this.light;
-	}
-
 	public void setUi(UiInventory ui) {
 		this.ui = ui;
 	}
@@ -154,11 +148,6 @@ public class Player extends Creature {
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 24);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
-
-		if (Dungeon.light != null) {
-			this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.9f, 0.8f, 1f),
-				LIGHT_SIZE, 300, 300);
-		}
 	}
 
 	@Override
@@ -166,7 +155,7 @@ public class Player extends Creature {
 		super.update(dt);
 		this.vel.mul(0.8f);
 
-		Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.7f, 3f + this.lightModifier, false, 8, 8);
+		Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.7f, 3f + this.lightModifier, false);
 
 		if (this.dead) {
 			super.common();
@@ -195,11 +184,6 @@ public class Player extends Creature {
 			if (Input.instance.isDown("down")) {
 				this.vel.y -= this.speed;
 			}
-		}
-
-		if (this.light != null) {
-			this.light.setPosition(this.x + 8, this.y + 8);
-			this.light.setDistance((float) (LIGHT_SIZE + Math.cos(this.t * 3) * 8 + this.lightModifier));
 		}
 
 		float v = this.vel.len2();
@@ -249,13 +233,6 @@ public class Player extends Creature {
 
 		if (this.name != null && !Network.NONE) {
 			Graphics.small.draw(Graphics.batch, this.name, this.x, this.y - 4);
-		}
-	}
-
-	@Override
-	public void destroy() {
-		if (this.light != null) {
-			this.light.remove(true);
 		}
 	}
 

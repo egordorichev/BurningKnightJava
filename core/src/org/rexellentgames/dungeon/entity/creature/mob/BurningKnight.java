@@ -30,7 +30,6 @@ public class BurningKnight extends Mob {
 		164, 166, 168, 170, 172, 174, 176, 178, 180, 182);
 	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 32, 184, 186);
 	private static Animation killed = Animation.make(Graphics.sprites, 0.1f, 32, 188);
-	private PointLight light;
 	private Sword sword;
 
 	public void tpToPlayer() {
@@ -51,25 +50,15 @@ public class BurningKnight extends Mob {
 		this.sword.setOwner(this);
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
-
-		if (Dungeon.light != null) {
-			this.light = new PointLight(Dungeon.light, 128, new Color(0.6f, 0.6f, 1f, 0.8f),
-				200, 300, 300);
-			this.light.setXray(true);
-		}
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0.3f, 0.5f, 8f, true, 16, 16);
+		Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0.3f, 0.5f, 8f, true);
 
 		this.sword.update(dt);
 		this.vel.mul(0.8f);
-
-		if (this.light != null) {
-			this.light.setPosition(this.x + 16, this.y + 16);
-		}
 
 		if (this.target == null) {
 			this.assignTarget();
@@ -101,25 +90,6 @@ public class BurningKnight extends Mob {
 		}
 
 		super.common();
-	}
-
-	@Override
-	protected void die() {
-		super.die();
-
-		if (this.light != null) {
-			this.light.remove(true);
-			this.light = null;
-		}
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-
-		if (this.light != null) {
-			this.light.remove(true);
-		}
 	}
 
 	@Override

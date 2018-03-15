@@ -58,15 +58,6 @@ public class LoadState extends State {
 			this.readDepth();
 		}
 
-		if (!Network.SERVER) {
-			if (Dungeon.light == null) {
-				Dungeon.light = new RayHandler(Dungeon.world);
-				Dungeon.light.setBlurNum(10);
-			}
-
-			Dungeon.light.setAmbientLight(Dungeon.depth > 0 ? 0f : 0.7f);
-		}
-
 		switch (Dungeon.depth) {
 			case -1: Dungeon.level = new SkyLevel(); break;
 			case 0: case 1: case 2: case 3: default: Dungeon.level = new HallLevel(); break;

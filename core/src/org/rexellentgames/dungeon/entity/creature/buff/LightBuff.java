@@ -14,14 +14,12 @@ public class LightBuff extends Buff {
 	public void onStart() {
 		if (this.owner instanceof Player) {
 			((Player) this.owner).lightModifier = 5;
-			this.owner.getLight().setXray(true);
 		}
 	}
 
 	protected void onEnd() {
 		if (this.owner instanceof Player) {
 			((Player) this.owner).lightModifier = 0;
-			this.owner.getLight().setXray(false);
 		}
 	}
 }

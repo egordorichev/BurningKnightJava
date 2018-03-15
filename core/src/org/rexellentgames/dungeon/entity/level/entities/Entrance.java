@@ -23,7 +23,6 @@ import java.io.IOException;
 
 public class Entrance extends SaveableEntity {
 	private Body body;
-	private PointLight light;
 	private LadderFx fx;
 
 	public static int ID = -1;
@@ -33,12 +32,6 @@ public class Entrance extends SaveableEntity {
 	public void init() {
 		super.init();
 		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-
-		if (Dungeon.light != null) {
-			this.light = new PointLight(Dungeon.light, 128, new Color(1, 0.8f, 0.8f, 0.5f),
-				64, this.x + 8, this.y + 8);
-		}
-
 		this.body.setTransform(this.x, this.y, 0);
 
 		if (Level.GENERATED) {
@@ -73,24 +66,17 @@ public class Entrance extends SaveableEntity {
 	}
 
 	@Override
-	public void destroy() {
-		super.destroy();
-
-		if (this.light != null) {
-			this.light.remove(true);
-		}
-	}
-
-	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.body.setTransform(this.x, this.y, 0);
 
-		if (this.light != null) {
-			this.light.setPosition(this.x + 8, this.y + 8);
-		}
-
 		this.add();
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+		Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0.0f, 0.5f, 3f, false);
 	}
 
 	@Override

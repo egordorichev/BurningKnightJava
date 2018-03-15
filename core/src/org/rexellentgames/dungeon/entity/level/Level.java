@@ -310,7 +310,7 @@ public abstract class Level extends Entity {
 		}
 	}
 
-	public void addLightInRadius(float x, float y, float r, float g, float b, float a, float rd, boolean xray, int w, int h) {
+	public void addLightInRadius(float x, float y, float r, float g, float b, float a, float rd, boolean xray) {
 		int fx = (int) Math.floor((x) / 16);
 		int fy = (int) Math.floor((y) / 16);
 
