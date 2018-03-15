@@ -101,7 +101,6 @@ public class ClientHandler extends Listener {
 					Camera.instance.follow(entity);
 				}
 			}
-
 			Log.info(packet.clazz + " added");
 
 			Dungeon.area.add(entity);

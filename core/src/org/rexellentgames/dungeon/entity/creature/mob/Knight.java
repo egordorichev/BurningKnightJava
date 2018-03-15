@@ -54,7 +54,6 @@ public class Knight extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.vel.mul(0.8f);
 
 		if (this.dead) {
 			super.common();

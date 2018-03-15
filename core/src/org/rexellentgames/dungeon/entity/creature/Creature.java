@@ -105,6 +105,7 @@ public class Creature extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		this.vel.mul(0.8f);
 
 		this.t += dt;
 		this.timer += dt;

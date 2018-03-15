@@ -299,20 +299,30 @@ public abstract class Level extends Entity {
 		}
 
 		if (this.light[i] < max) {
-			this.light[i] = Math.min(this.light[i] + a * dt, max);
+			this.light[i] = this.light[i] + a * dt;
 		}
 
 		if (this.lightR[i] < max) {
-			this.lightR[i] = Math.min(this.lightR[i] + r * dt, max);
+			this.lightR[i] = this.lightR[i] + r * dt;
 		}
 
 		if (this.lightG[i] < max) {
-			this.lightG[i] = Math.min(this.lightG[i] + g * dt, max);
+			this.lightG[i] = this.lightG[i] + g * dt;
 		}
 
 		if (this.lightB[i] < max) {
-			this.lightB[i] = Math.min(this.lightB[i] + b * dt, max);
+			this.lightB[i] = this.lightB[i] + b * dt;
 		}
+	}
+
+	public float getLight(int x, int y) {
+		int i = toIndex(x, y);
+
+		if (i < 0 || i >= getSIZE()) {
+			return 0;
+		}
+
+		return this.light[i];
 	}
 
 	public void addLightInRadius(float x, float y, float r, float g, float b, float a, float rd, boolean xray) {

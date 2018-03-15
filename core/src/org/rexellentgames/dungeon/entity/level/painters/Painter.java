@@ -72,7 +72,7 @@ public class Painter {
 		}
 
 		if (this.grass > 0) {
-			this.paintGrass(level, rooms);
+			// this.paintGrass(level, rooms);
 		}
 
 		if (this.water > 0) {
