@@ -16,12 +16,12 @@ public class GardenRoom extends RegularRoom {
 		if (Random.chance(50)) {
 			for (int x = this.left + 1; x < this.right - 1; x++) {
 				Painter.drawLine(level, new Point(x, this.top + 1), new Point(x, this.bottom - 1),
-					x % 2 == 0 ? Terrain.GRASS : Terrain.WOOD);
+					x % 2 == 0 ? Terrain.DIRT : Terrain.WOOD);
 			}
 		} else {
 			for (int y = this.top + 1; y < this.bottom - 1; y++) {
 				Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y),
-					y % 2 == 0 ? Terrain.GRASS : Terrain.WOOD);
+					y % 2 == 0 ? Terrain.DIRT : Terrain.WOOD);
 			}
 		}
 

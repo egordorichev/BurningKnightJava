@@ -17,7 +17,7 @@ public class MazeFloorRoom extends RegularRoom {
 		for (int x = 1; x < this.getWidth() - 1; x++) {
 			for (int y = 1; y < this.getHeight() - 1; y++) {
 				if (maze[x][y] == Maze.FILLED) {
-					Painter.set(level, this.left + x, this.top + y, Terrain.GRASS);
+					Painter.set(level, this.left + x, this.top + y, Terrain.DIRT);
 				}
 			}
 		}

@@ -3,12 +3,12 @@ package org.rexellentgames.dungeon.entity.level;
 public class Terrain {
 	public static short EMPTY = 67;
 	public static short DOOR = 66;
-	public static short GRASS = 32;
+	public static short DIRT = 70;
+	public static short GOOD_DIRT = 71;
 	public static short FLOOR = 1;
 	public static short ENTRANCE = 64;
 	public static short EXIT = 65;
 	public static short WALL = 0;
-	public static short LOW_GRASS = 33;
 	public static short WATER = 63;
 	public static short FALL = 68;
 	public static short WATER_FALL = 69;
@@ -28,11 +28,10 @@ public class Terrain {
 		flags[EMPTY] = HOLE;
 		flags[FALL] = HOLE;
 		flags[WATER_FALL] = HOLE;
-		flags[GRASS] = PASSABLE;
+		flags[DIRT] = PASSABLE;
 		flags[WALL] = SOLID | HIGH;
 		flags[DOOR] = PASSABLE;
 		flags[FLOOR] = PASSABLE;
-		flags[LOW_GRASS] = PASSABLE;
 		flags[WATER] = PASSABLE;
 		flags[EXIT] = PASSABLE;
 		flags[ENTRANCE] = PASSABLE;

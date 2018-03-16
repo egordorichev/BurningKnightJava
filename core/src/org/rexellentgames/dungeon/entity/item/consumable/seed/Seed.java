@@ -71,7 +71,7 @@ public class Seed extends Consumable {
 		int y = Math.round(this.owner.y / 16);
 
 		if (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) &&
-			Dungeon.level.get(x, y) != Terrain.GRASS) {
+			Dungeon.level.get(x, y) != Terrain.DIRT) {
 
 			Plant plant = this.createPlant();
 
@@ -80,7 +80,7 @@ public class Seed extends Consumable {
 				plant.y = y * 16 + 4;
 
 				Dungeon.area.add(plant);
-				Dungeon.level.set(x, y, Terrain.GRASS);
+				Dungeon.level.set(x, y, Terrain.DIRT);
 
 				this.count -= 1;
 			}
