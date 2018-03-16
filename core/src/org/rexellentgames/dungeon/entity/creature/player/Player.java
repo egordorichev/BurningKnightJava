@@ -214,7 +214,7 @@ public class Player extends Creature {
 	protected void onTouch(short t, int x, int y) {
 		super.onTouch(t, x, y);
 
-		if (Dungeon.level.isWater(x, y)) {
+		if (Dungeon.level.isWater(x, y, false)) {
 			this.watery = 5f;
 		}
 	}

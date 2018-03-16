@@ -5,13 +5,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -35,7 +33,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public abstract class Level extends Entity {
 	public static boolean GENERATED = false;
@@ -92,7 +89,7 @@ public abstract class Level extends Entity {
 
 		switch (Dungeon.depth) {
 			case -1: tile = Terrain.EMPTY; break;
-			case 0: tile = Terrain.GRASS; break;
+			case 0: tile = Terrain.DIRT; break;
 			case 15: case 16: case 17: case 18: tile = Terrain.EMPTY;
 		}
 

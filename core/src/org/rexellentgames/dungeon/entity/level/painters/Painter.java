@@ -72,7 +72,7 @@ public class Painter {
 		}
 
 		if (this.grass > 0) {
-			// this.paintGrass(level, rooms);
+			this.paintGrass(level, rooms);
 		}
 
 		if (this.water > 0) {
@@ -102,7 +102,7 @@ public class Painter {
 			for (Point p : r.grassPlaceablePoints()) {
 				int i = level.toIndex((int) p.x, (int) p.y);
 				if (grass[i] && level.data[i] == Terrain.FLOOR) {
-					level.data[i] = Terrain.GRASS;
+					level.data[i] = Terrain.DIRT;
 				}
 			}
 		}
