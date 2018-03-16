@@ -436,7 +436,7 @@ public abstract class Level extends Entity {
 
 	public String getSavePath(DataType type) {
 		if (type == DataType.LEVEL) {
-			return ".ldg/depth" + this.level + ".save";
+			return ".ldg/level" + this.level + ".save";
 		}
 
 		return ".ldg/player.save";
@@ -606,6 +606,27 @@ public abstract class Level extends Entity {
 		} else {
 			int count = stream.readInt32();
 
+			this.rooms = new ArrayList<Room>();
+
+			for (int i = 0; i < count; i++) {
+				String t = stream.readString();
+
+				Class<?> clazz = Class.forName(t);
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
+
+				Room room = (Room) object;
+
+				room.left = stream.readInt32();
+				room.top = stream.readInt32();
+				room.right = stream.readInt32();
+				room.bottom = stream.readInt32();
+
+				this.rooms.add(room);
+			}
+
+			count = stream.readInt32();
+
 			for (int i = 0; i < count; i++) {
 				String t = stream.readString();
 
@@ -640,6 +661,18 @@ public abstract class Level extends Entity {
 				entity.save(stream);
 			}
 		} else {
+			stream.writeInt32(this.rooms.size());
+
+			for (int i = 0; i < this.rooms.size(); i++) {
+				Room room = this.rooms.get(i);
+
+				stream.writeString(room.getClass().getName());
+				stream.writeInt32(room.left);
+				stream.writeInt32(room.top);
+				stream.writeInt32(room.right);
+				stream.writeInt32(room.bottom);
+			}
+
 			stream.writeInt32(this.saveable.size());
 
 			for (int i = 0; i < this.saveable.size(); i++) {
@@ -689,7 +722,11 @@ public abstract class Level extends Entity {
 		return this.get(x, y) == Terrain.WALL;
 	}
 
-	protected Room getRandomRoom(Class<? extends Room> type) {
+	public Room getRandomRoom() {
+		return this.rooms.get(Random.newInt(this.rooms.size()));
+	}
+
+	public Room getRandomRoom(Class<? extends Room> type) {
 		for (int i = 0; i < 30; i++) {
 			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
 
@@ -701,7 +738,7 @@ public abstract class Level extends Entity {
 		return null;
 	}
 
-	protected Point getRandomFreePoint(Class<? extends Room> type) {
+	public Point getRandomFreePoint(Class<? extends Room> type) {
 		for (int i = 0; i < 10; i++) {
 			Room room = this.getRandomRoom(type);
 
@@ -760,6 +797,10 @@ public abstract class Level extends Entity {
 			this.addSaveable(creature);
 			this.area.add(creature);
 		}
+	}
+
+	public ArrayList<Room> getRooms() {
+		return this.rooms;
 	}
 
 	protected ArrayList<Item> generateItems() {

@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -52,6 +53,14 @@ public class InGameState extends State {
 		}
 
 		this.console = new Console();
+
+		if (BurningKnight.instance != null) {
+			BurningKnight.instance.findStartPoint();
+		}
+
+		if (Player.instance != null) {
+			Camera.instance.follow(Player.instance);
+		}
 	}
 
 	@Override
@@ -136,11 +145,6 @@ public class InGameState extends State {
 		if (Dungeon.depth > 0 && LIGHT) {
 			Dungeon.level.renderLight();
 		}
-
-		// Debug
-		if (DRAW_DEBUG) {
-			this.debug.render(Dungeon.world, Camera.instance.getCamera().combined);
-		}
 	}
 
 	@Override
@@ -174,6 +178,13 @@ public class InGameState extends State {
 
 		this.console.render();
 		this.inventory.renderCurrentSlot();
+
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+
+		// Debug
+		if (DRAW_DEBUG) {
+			this.debug.render(Dungeon.world, Camera.instance.getCamera().combined);
+		}
 	}
 
 	private void setupUi() {

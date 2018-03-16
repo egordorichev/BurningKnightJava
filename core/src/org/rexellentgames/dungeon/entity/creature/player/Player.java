@@ -24,9 +24,12 @@ import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends Creature {
-	private static final int LIGHT_SIZE = 32;
+	public static ArrayList<Player> all = new ArrayList<Player>();
+
+	private static final float LIGHT_SIZE = 3f;
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;
@@ -65,11 +68,17 @@ public class Player extends Creature {
 	public Player(String name) {
 		this.name = name;
 
+		all.add(this);
+
 		if (instance == null || Network.NONE) {
 			instance = this;
 			main = true;
 			local = true;
 		}
+	}
+
+	public float getLightSize() {
+		return LIGHT_SIZE + this.lightModifier;
 	}
 
 	public static int expNeeded(int level) {
@@ -149,7 +158,7 @@ public class Player extends Creature {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.5f, 3f + this.lightModifier, false);
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.5f, this.getLightSize(), false);
 		}
 
 		this.watery = Math.max(0, this.watery - dt);

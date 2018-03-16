@@ -72,7 +72,7 @@ public abstract class BetterLevel extends Level {
 			Dungeon.area.add(knight);
 			this.addPlayerSaveable(knight);
 
-			knight.tpToPlayer();
+			knight.findStartPoint();
 		}
 	}
 
