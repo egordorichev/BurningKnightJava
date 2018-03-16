@@ -3,15 +3,11 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.weapon.Sword;
-import org.rexellentgames.dungeon.entity.item.weapon.TheSword;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -37,7 +33,6 @@ public class BurningKnight extends Mob {
 		164, 166, 168, 170, 172, 174, 176, 178, 180, 182);
 	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 32, 184, 186);
 	private static Animation killed = Animation.make(Graphics.sprites, 0.1f, 32, 188);
-	private Sword sword;
 
 	public void findStartPoint() {
 		Room room;
@@ -63,8 +58,6 @@ public class BurningKnight extends Mob {
 		super.init();
 
 		this.t = 0;
-		this.sword = new TheSword();
-		this.sword.setOwner(this);
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 	}
@@ -80,8 +73,6 @@ public class BurningKnight extends Mob {
 		if (Dungeon.level != null) {
 			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f, LIGHT_SIZE, true);
 		}
-
-		this.sword.update(dt);
 
 		if (this.target == null) {
 			this.assignTarget();
@@ -123,9 +114,6 @@ public class BurningKnight extends Mob {
 		}
 
 		animation.render(this.x, this.y, this.t, this.flipped);
-		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.sword.render(this.x, this.y, this.flipped);
-		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 
@@ -362,6 +350,10 @@ public class BurningKnight extends Mob {
 
 	private void attack(float dt) {
 		this.r = 0f; this.g = 1f; this.b = 0f;
+
+		if (this.t == 0) {
+
+		}
 
 		if (this.t > 0.5f) {
 			this.become("chase");
