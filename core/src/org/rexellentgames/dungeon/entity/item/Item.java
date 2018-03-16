@@ -75,8 +75,9 @@ public class Item extends Entity {
 		return this.stackable;
 	}
 
-	public void setCount(int count) {
+	public Item setCount(int count) {
 		this.count = count;
+		return this;
 	}
 
 	public int getCount() {

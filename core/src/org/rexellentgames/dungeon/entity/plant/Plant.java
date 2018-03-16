@@ -6,10 +6,12 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -70,8 +72,6 @@ public class Plant extends SaveableEntity {
 		if (entity instanceof Weapon && this.growProgress == 1f) {
 			this.done = true;
 			Dungeon.level.set((int) this.x / 16, (int) this.y / 16, Terrain.DIRT);
-
-			ArrayList<Item> drops = this.getDrops();
 		}
 	}
 
@@ -83,5 +83,20 @@ public class Plant extends SaveableEntity {
 	public void destroy() {
 		super.destroy();
 		this.body.getWorld().destroyBody(this.body);
+
+		if (this.growProgress == 1f) {
+			ArrayList<Item> drops = this.getDrops();
+
+			for (Item item : drops) {
+				ItemHolder holder = new ItemHolder();
+
+				holder.setItem(item);
+				holder.x = this.x + Random.newInt(-8, 8);;
+				holder.y = this.y + Random.newInt(-8, 8);
+
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
+			}
+		}
 	}
 }
