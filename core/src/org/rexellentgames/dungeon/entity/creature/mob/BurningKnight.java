@@ -138,6 +138,8 @@ public class BurningKnight extends Mob {
 			this.alerted(dt);
 		} else if (this.state.equals("chase")) {
 			this.chase(dt);
+		} else if (this.state.equals("dash")) {
+			this.dash(dt);
 		}
 	}
 
@@ -152,11 +154,33 @@ public class BurningKnight extends Mob {
 			this.become("roam");
 			this.idleTime = 0;
 		}
+
+		this.checkForTarget();
 	}
 
 	private Point roomToVisit;
 	private Room last;
 	private float roamTime;
+
+	private void checkForTarget() {
+		for (Player player : Player.all) {
+			if (player.invisible) {
+				continue;
+			}
+
+			float dx = player.x - this.x - 8;
+			float dy = player.y - this.y - 8;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			if (d < (player.getLightSize() + LIGHT_SIZE - 3) * 16) {
+				this.target = player;
+				this.roamTime = 0;
+				this.idleTime = 0;
+				this.become("alerted");
+				return;
+			}
+		}
+	}
 
 	private void roam(float dt) {
 		this.r = 0; this.g = 0.0f; this.b = 0.3f;
@@ -169,22 +193,7 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
-		for (Player player : Player.all) {
-			if (player.invisible) {
-				continue;
-			}
-
-			float dx = player.x - this.x - 8;
-			float dy = player.y - this.y - 8;
-			float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-			if (d < (player.getLightSize() + LIGHT_SIZE) * 16) {
-				this.target = player;
-				this.roamTime = 0;
-				this.become("alerted");
-				return;
-			}
-		}
+		this.checkForTarget();
 
 		if (this.roomToVisit == null) {
 			Room room;
@@ -232,7 +241,7 @@ public class BurningKnight extends Mob {
 	}
 
 	private void alerted(float dt) {
-		this.r = 0.8f; this.g = 0; this.b = 0;
+		this.r = 0.8f; this.g = 0; this.b = 0.4f;
 
 		if (this.t >= 1f) {
 			this.become("chase");
@@ -240,31 +249,89 @@ public class BurningKnight extends Mob {
 	}
 
 	private Point lastTargetPosition = new Point();
+	private float dashWait;
 
 	private void chase(float dt) {
-		this.r = (float) Math.abs(Math.sin(this.t / 2)); this.g = 0; this.b = 0;
+		float dx = 0;
+		float dy = 0;
+		float d = 1000;
 
-		if (this.target == null) {
-			this.become("idle");
-			return;
+		if (this.dashWait == 0) {
+			this.dashWait = Random.newFloat(5f, 7f);
 		}
 
-		float dx = this.target.x - this.x - 8;
-		float dy = this.target.y - this.y - 8;
-		float d = (float) Math.sqrt(dx * dx + dy * dy);
+		if (this.target != null) {
+			dx = this.target.x - this.x - 8;
+			dy = this.target.y - this.y - 8;
+			d = (float) Math.sqrt(dx * dx + dy * dy);
+		}
 
-		if (d > (this.target.getLightSize() + LIGHT_SIZE) * 16) {
+		if (this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) {
 			this.target = null;
+			this.r = 0.0f; this.g = 0.0f; this.b = 0.8f;
 
 			dx = this.lastTargetPosition.x - this.x - 8;
 			dy = this.lastTargetPosition.y - this.y - 8;
 			d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			if (d < 16f) {
+				this.become("idle");
+				this.dashWait = 0;
+				return;
+			}
 		} else {
+			this.r = 1; this.g = 0.2f; this.b = 0;
+
 			this.lastTargetPosition.x = this.target.x;
 			this.lastTargetPosition.y = this.target.y;
 		}
 
 		this.vel.x += dx / d * 4;
 		this.vel.y += dy / d * 4;
+
+		if (this.t > this.dashWait && d > DASH_DIST) {
+			this.dashWait = 0;
+			this.become("dash");
+		}
+	}
+
+	private static final int DASH_DIST = 64;
+
+	private void dash(float dt) {
+		float dx = 0;
+		float dy = 0;
+		float d = 1000;
+
+		if (this.target != null) {
+			dx = this.target.x - this.x - 8;
+			dy = this.target.y - this.y - 8;
+			d = (float) Math.sqrt(dx * dx + dy * dy);
+		}
+
+		if (this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) {
+			this.target = null;
+			this.r = 0.0f; this.g = 0.0f; this.b = 0.8f;
+
+			dx = this.lastTargetPosition.x - this.x - 8;
+			dy = this.lastTargetPosition.y - this.y - 8;
+			d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			if (d < 16f) {
+				this.become("idle");
+				return;
+			}
+		} else {
+			this.r = 1; this.g = 0.2f; this.b = 0;
+
+			this.lastTargetPosition.x = this.target.x;
+			this.lastTargetPosition.y = this.target.y;
+		}
+
+		this.vel.x += dx / d * 10;
+		this.vel.y += dy / d * 10;
+
+		if (this.t > 2f) {
+			this.become("chase");
+		}
 	}
 }
