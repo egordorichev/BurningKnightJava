@@ -44,7 +44,7 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private static int to = -2;
-	private Color background = Color.valueOf("#323c39");
+	private Color background = Color.valueOf("#000000"); // #323c39
 
 	public static void reportException(Exception e) {
 		e.printStackTrace();

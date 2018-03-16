@@ -40,10 +40,8 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		if (Dungeon.depth < 1) {
-			leftMost -= 10;
-			topMost -= 10;
-		}
+		leftMost -= 10;
+		topMost -= 10;
 
 		int rightMost = 0, bottomMost = 0;
 
@@ -57,10 +55,8 @@ public class Painter {
 		rightMost++;
 		bottomMost++;
 
-		if (Dungeon.depth < 1) {
-			rightMost += 10;
-			bottomMost += 10;
-		}
+		rightMost += 10;
+		bottomMost += 10;
 
 		//add 1 to account for 0 values
 		level.setSize(rightMost + 1, bottomMost + 1);

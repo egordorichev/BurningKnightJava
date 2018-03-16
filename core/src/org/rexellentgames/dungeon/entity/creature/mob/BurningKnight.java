@@ -78,7 +78,7 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.b, this.b, 0.5f, LIGHT_SIZE, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f, LIGHT_SIZE, true);
 		}
 
 		this.sword.update(dt);
@@ -140,6 +140,10 @@ public class BurningKnight extends Mob {
 			this.chase(dt);
 		} else if (this.state.equals("dash")) {
 			this.dash(dt);
+		} else if (this.state.equals("preattack")) {
+			this.preattack(dt);
+		} else if (this.state.equals("attack")) {
+			this.attack(dt);
 		}
 	}
 
@@ -268,7 +272,7 @@ public class BurningKnight extends Mob {
 
 		if (this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) {
 			this.target = null;
-			this.r = 0.0f; this.g = 0.0f; this.b = 0.8f;
+			this.r = 0.8f; this.g = 0.0f; this.b = 0.8f;
 
 			dx = this.lastTargetPosition.x - this.x - 8;
 			dy = this.lastTargetPosition.y - this.y - 8;
@@ -286,6 +290,12 @@ public class BurningKnight extends Mob {
 			this.lastTargetPosition.y = this.target.y;
 		}
 
+		if (d < ATTACK_DIST && this.target != null) {
+			this.dashWait = 0;
+			this.become("preattack");
+			return;
+		}
+
 		this.vel.x += dx / d * 4;
 		this.vel.y += dy / d * 4;
 
@@ -296,6 +306,7 @@ public class BurningKnight extends Mob {
 	}
 
 	private static final int DASH_DIST = 64;
+	private static final int ATTACK_DIST = 32;
 
 	private void dash(float dt) {
 		float dx = 0;
@@ -310,7 +321,7 @@ public class BurningKnight extends Mob {
 
 		if (this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) {
 			this.target = null;
-			this.r = 0.0f; this.g = 0.0f; this.b = 0.8f;
+			this.r = 0.8f; this.g = 0.0f; this.b = 0.8f;
 
 			dx = this.lastTargetPosition.x - this.x - 8;
 			dy = this.lastTargetPosition.y - this.y - 8;
@@ -327,10 +338,32 @@ public class BurningKnight extends Mob {
 			this.lastTargetPosition.y = this.target.y;
 		}
 
+		if (d < ATTACK_DIST && this.target != null) {
+			this.dashWait = 0;
+			this.become("preattack");
+			return;
+		}
+
 		this.vel.x += dx / d * 10;
 		this.vel.y += dy / d * 10;
 
 		if (this.t > 2f) {
+			this.become("chase");
+		}
+	}
+
+	private void preattack(float dt) {
+		this.r = 1f; this.g = 0f; this.b = 0f;
+
+		if (this.t > 0.5f) {
+			this.become("attack");
+		}
+	}
+
+	private void attack(float dt) {
+		this.r = 0f; this.g = 1f; this.b = 0f;
+
+		if (this.t > 0.5f) {
 			this.become("chase");
 		}
 	}
