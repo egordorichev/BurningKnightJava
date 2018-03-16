@@ -41,27 +41,26 @@ public class Door extends SaveableEntity {
 	public void render() {
 		int w = 1;
 		int h = 1;
+		int xm = 0;
 		int sprite;
 
 		if (this.vertical) {
 			if (this.open) {
-				w = 2;
-				h = 2;
-				sprite = 144;
+				sprite = 66;
+				xm = 8;
 			} else {
-				h = 2;
 				sprite = 97;
 			}
 		} else {
 			if (this.open) {
-				sprite = 96;
 				h = 2;
+				sprite = 96;
 			} else {
 				sprite = 66;
 			}
 		}
 
-		Graphics.render(Graphics.tiles, sprite, this.x, this.y, w, h);
+		Graphics.render(Graphics.tiles, sprite, this.x + xm, this.y, w, h);
 	}
 
 	@Override

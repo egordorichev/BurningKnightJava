@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.entity.item.consumable.food.Bread;
 import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken;
+import org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
 import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
@@ -32,6 +33,7 @@ public class ItemRegistry {
 		register("chicken", Chicken.class);
 		register("bomb", Bomb.class);
 		register("cabbage_seed", CabbageSeed.class);
+		register("cabbage", Cabbage.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

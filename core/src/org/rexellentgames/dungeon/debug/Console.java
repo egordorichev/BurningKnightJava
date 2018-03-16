@@ -26,6 +26,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new GodModeCommand());
 		this.commands.add(new GenerateCommand());
 		this.commands.add(new LevelCommand());
+		this.commands.add(new LightCommand());
 	}
 
 	public void destroy() {
@@ -38,7 +39,7 @@ public class Console implements InputProcessor {
 
 	public void render() {
 		if (this.open) {
-			Graphics.small.draw(Graphics.batch, this.input + "|", 2, 8);
+			Graphics.medium.draw(Graphics.batch, this.input + "|", 2, 12);
 		}
 	}
 
