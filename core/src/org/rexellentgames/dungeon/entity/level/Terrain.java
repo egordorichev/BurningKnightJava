@@ -5,6 +5,7 @@ public class Terrain {
 	public static short DOOR = 66;
 	public static short DIRT = 70;
 	public static short GOOD_DIRT = 71;
+	public static short PLANTED_DIRT = 72;
 	public static short FLOOR = 1;
 	public static short ENTRANCE = 64;
 	public static short EXIT = 65;

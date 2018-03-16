@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature;
 
 import box2dLight.PointLight;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
@@ -107,10 +108,6 @@ public class Creature extends SaveableEntity {
 		super.update(dt);
 		this.vel.mul(0.8f);
 
-		this.t += dt;
-		this.timer += dt;
-		this.invt = Math.max(0, this.invt - dt);
-
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
@@ -156,6 +153,12 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void common() {
+		float dt = Gdx.graphics.getDeltaTime();
+
+		this.t += dt;
+		this.timer += dt;
+		this.invt = Math.max(0, this.invt - dt);
+
 		if (!this.dead) {
 			if (this.vel.x < 0) {
 				this.flipped = true;

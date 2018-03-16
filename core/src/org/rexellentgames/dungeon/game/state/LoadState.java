@@ -48,6 +48,8 @@ public class LoadState extends State {
 		Dungeon.area.add(new Camera());
 		Dungeon.ui.add(new UiLog());
 
+		Player.all.clear();
+
 		if (Player.instance == null) {
 			this.readDepth();
 		}
