@@ -24,6 +24,7 @@ import org.rexellentgames.dungeon.util.Tween;
 public class InGameState extends State {
 	private static final boolean DRAW_DEBUG = false;
 	private static final float TIME_STEP = 1 / 45.f;
+	public static boolean LIGHT = true;
 
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
@@ -132,7 +133,9 @@ public class InGameState extends State {
 
 	@Override
 	public void render() {
-		Dungeon.level.renderLight();
+		if (Dungeon.depth > 0 && LIGHT) {
+			Dungeon.level.renderLight();
+		}
 
 		// Debug
 		if (DRAW_DEBUG) {

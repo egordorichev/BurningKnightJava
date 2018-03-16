@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.rooms.connection;
 
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.CircleRoom;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -8,11 +9,12 @@ import java.util.Arrays;
 
 public class ConnectionRoom extends Room {
 	private static ArrayList<Class<? extends ConnectionRoom>> rooms = new ArrayList<Class<? extends ConnectionRoom>>(Arrays.asList(
-		TunnelRoom.class, RingConnectionRoom.class, ChasmTunnelRoom.class, SpikedTunnelRoom.class
+		TunnelRoom.class, RingConnectionRoom.class, ChasmTunnelRoom.class, SpikedTunnelRoom.class,
+		CircleRoom.class
 	));
 
 	private static float[] chances = new float[]{
-		5, 3, 2, 2
+		5, 3, 2, 2, 1
 	};
 
 	public static ConnectionRoom create() {
