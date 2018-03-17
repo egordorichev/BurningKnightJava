@@ -33,8 +33,6 @@ public class Door extends SaveableEntity {
 		if (this.body == null) {
 		 	this.body = this.createBody((int) this.x, (int) this.y, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		}
-
-		this.depth = -2;
 	}
 
 	@Override

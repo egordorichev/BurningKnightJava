@@ -3,11 +3,14 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -348,14 +351,43 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	private boolean[][] fx;
+
 	private void attack(float dt) {
 		this.r = 0f; this.g = 1f; this.b = 0f;
 
-		if (this.t == 0) {
+		if (this.t % 0.5f <= 0.0175f) {
+			if (this.fx == null) {
+				this.fx = new boolean[12][12];
+			}
 
+			int x = Math.round(this.x / 16);
+			int y = Math.round(this.y / 16);
+			int r = (int) this.t + 2;
+
+			for (int xx = -r; xx <= r; xx++) {
+				for (int yy = -r; yy <= r; yy++) {
+					if (this.fx[xx + 6][yy + 6]) {
+						continue;
+					}
+
+					float d = (float) Math.sqrt(xx * xx + yy * yy);
+
+					if (d < r && Dungeon.level.get(x + xx, y + yy) != Terrain.WALL) {
+						FireRectFx fx = new FireRectFx();
+
+						fx.x = (x + xx) * 16;
+						fx.y = (y + yy) * 16;
+						this.fx[xx + 6][yy + 6] = true;
+
+						Dungeon.area.add(fx);
+					}
+				}
+			}
 		}
 
-		if (this.t > 0.5f) {
+		if (this.t > 3f) {
+			this.fx = null;
 			this.become("chase");
 		}
 	}
