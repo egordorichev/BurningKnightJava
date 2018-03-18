@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
@@ -86,6 +87,10 @@ public class Creature extends SaveableEntity {
 
 		if (this.body != null) {
 			this.body.setTransform(x, y, 0);
+		}
+
+		if (Network.SERVER) {
+			Network.server.getServerHandler().sendToAll(Packets.makeTpEntity(this.getId(), x, y));
 		}
 	}
 

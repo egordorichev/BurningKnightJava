@@ -73,6 +73,8 @@ public class ClientHandler extends Listener {
 			UiLog.instance.print(((Packets.ChatMessage) object).message);
 		} else if (object instanceof Packets.Level) {
 			this.loadLevel((Packets.Level) object);
+		} else if (object instanceof Packets.TpEntity) {
+			this.tpEntity((Packets.TpEntity) object);
 		}
 	}
 
@@ -101,7 +103,8 @@ public class ClientHandler extends Listener {
 					Camera.instance.follow(entity);
 				}
 			}
-			Log.info(packet.clazz + " added");
+
+			Log.info(packet.clazz + " added with id " + packet.id + " at pos " + packet.x + ":" + packet.y);
 
 			Dungeon.area.add(entity);
 			this.entities.put(packet.id, entity);
@@ -240,6 +243,24 @@ public class ClientHandler extends Listener {
 
 		Player.instance.tp(packet.w * 8, packet.h * 8);
 		Camera.instance.follow(Player.instance);
+	}
+
+	private void tpEntity(Packets.TpEntity packet) {
+		NetworkedEntity entity = this.entities.get(packet.id);
+
+		if (entity == null) {
+			Log.error("Updated entity is not found");
+			return;
+		}
+
+		if (entity instanceof Creature) {
+			((Creature) entity).tp(packet.x, packet.y);
+		} else {
+			entity.x = packet.x;
+			entity.y = packet.y;
+		}
+
+		Log.info("tp " + packet.id + " to " + packet.x + ":" + packet.y);
 	}
 
 	public GameClient getClient() {

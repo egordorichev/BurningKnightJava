@@ -14,11 +14,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class DesktopLauncher {
+	private static final int SCALE = 2;
+
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.width = Display.GAME_WIDTH * 4;
-		config.height = Display.GAME_HEIGHT * 4;
+		config.width = Display.GAME_WIDTH * SCALE;
+		config.height = Display.GAME_HEIGHT * SCALE;
 		config.title = "Burning Knight " + Version.asString();
 
 		new LwjglApplication(new Client(), config);

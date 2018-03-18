@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import org.rexellentgames.dungeon.util.Log;
 
 public class Graphics {
 	public static SpriteBatch batch;
@@ -25,6 +26,8 @@ public class Graphics {
 	public static BitmapFont medium;
 
 	public static void init() {
+		Log.info("Init assets...");
+
 		tilesets = new Texture[5];
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
@@ -54,6 +57,8 @@ public class Graphics {
 
 		small.getData().markupEnabled = true;
 		medium.getData().markupEnabled = true;
+
+		tiles = tilesets[0];
 	}
 
 	private static BitmapFont generateFont(String path, int size) {

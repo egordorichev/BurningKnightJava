@@ -97,5 +97,6 @@ public class HubState extends State {
 	@Override
 	public void destroy() {
 		Dungeon.area.destroy();
+		this.console.destroy();
 	}
 }
