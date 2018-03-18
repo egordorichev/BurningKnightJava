@@ -152,6 +152,22 @@ public class Packets {
 		return packet;
 	}
 
+	public static class TpEntity {
+		public float x;
+		public float y;
+		public int id;
+	}
+
+	public static TpEntity makeTpEntity(int id, float x, float y) {
+		TpEntity packet = new TpEntity();
+
+		packet.x = x;
+		packet.y = y;
+		packet.id = id;
+
+		return packet;
+	}
+
 	public static void bind(Kryo kryo) {
 		kryo.register(short[].class);
 		kryo.register(PlayerConnected.class);
@@ -163,5 +179,6 @@ public class Packets {
 		kryo.register(SetEntityState.class);
 		kryo.register(ChatMessage.class);
 		kryo.register(Level.class);
+		kryo.register(TpEntity.class);
 	}
 }

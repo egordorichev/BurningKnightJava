@@ -15,6 +15,12 @@ import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.SpeedPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
+import org.rexellentgames.dungeon.entity.item.tool.Hoe;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -107,8 +113,13 @@ public class Player extends Creature {
 	}
 
 	public void generate() {
-		Item sword = new Dagger();
-		this.inventory.add(new ItemHolder().setItem(sword));
+		this.inventory.add(new ItemHolder().setItem(new Dagger()));
+		this.inventory.add(new ItemHolder().setItem(new Hoe()));
+		this.inventory.add(new ItemHolder().setItem(new CabbageSeed().setCount(100)));
+		this.inventory.add(new ItemHolder().setItem(new SunPotion().setCount(100)));
+		this.inventory.add(new ItemHolder().setItem(new HealingPotion().setCount(100)));
+		this.inventory.add(new ItemHolder().setItem(new SpeedPotion().setCount(100)));
+		this.inventory.add(new ItemHolder().setItem(new SpellOfDamage().setCount(100)));
 	}
 
 	public float getHunger() {
@@ -176,7 +187,7 @@ public class Player extends Creature {
 			Input.set(this.getId());
 
 			if (this.y >= 60 - 16) {
-				Dungeon.goToLevel(0);
+				Dungeon.goToLevel(1);
 			}
 		}
 

@@ -55,8 +55,6 @@ public class Dungeon extends ApplicationAdapter {
 		if (!Network.SERVER) {
 			this.setupCursor();
 			Assets.init();
-
-			Log.info("Init assets...");
 		}
 
 		Box2D.init();
@@ -131,6 +129,7 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.batch.begin();
 
 			if (game.getState() instanceof HubState) {
+				Graphics.render(Graphics.tiles, 1, -8, -8);
 				Graphics.medium.draw(Graphics.batch, "[gray]Hub", 0, 12);
 				Graphics.medium.draw(Graphics.batch, "[green]Start", 0, 60);
 			}

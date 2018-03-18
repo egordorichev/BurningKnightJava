@@ -54,7 +54,7 @@ public class InGameState extends State {
 
 		this.console = new Console();
 
-		if (BurningKnight.instance != null) {
+		if (BurningKnight.instance != null && (Network.SERVER || Network.NONE)) {
 			BurningKnight.instance.findStartPoint();
 		}
 
@@ -73,8 +73,10 @@ public class InGameState extends State {
 			Gdx.files.external(".ldg/").deleteDirectory();
 			Dungeon.reset = false;
 		} else {
-			Dungeon.level.save(Level.DataType.PLAYER);
-			Dungeon.level.save(Level.DataType.LEVEL);
+			if (Network.SERVER || Network.NONE) {
+				Dungeon.level.save(Level.DataType.PLAYER);
+				Dungeon.level.save(Level.DataType.LEVEL);
+			}
 		}
 
 		if (Dungeon.area != null) {
