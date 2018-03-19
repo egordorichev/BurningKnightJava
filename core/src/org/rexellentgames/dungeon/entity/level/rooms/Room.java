@@ -254,8 +254,8 @@ public abstract class Room extends Rect implements GraphNode {
 	public final ArrayList<Point> waterPlaceablePoints() {
 		ArrayList<Point> points = new ArrayList<Point>();
 
-		for (int i = left + 2; i <= right - 2; i++) {
-			for (int j = top + 2; j <= bottom - 2; j++) {
+		for (int i = left + 1; i <= right - 1; i++) {
+			for (int j = top + 1; j <= bottom - 1; j++) {
 				Point p = new Point(i, j);
 				if (canPlaceWater(p)) points.add(p);
 			}
@@ -271,8 +271,8 @@ public abstract class Room extends Rect implements GraphNode {
 	public final ArrayList<Point> grassPlaceablePoints() {
 		ArrayList<Point> points = new ArrayList<Point>();
 
-		for (int i = left + 2; i <= right - 2; i++) {
-			for (int j = top + 2; j <= bottom - 2; j++) {
+		for (int i = left + 1; i <= right - 1; i++) {
+			for (int j = top + 1; j <= bottom - 1; j++) {
 				Point p = new Point(i, j);
 				if (canPlaceGrass(p)) points.add(p);
 			}

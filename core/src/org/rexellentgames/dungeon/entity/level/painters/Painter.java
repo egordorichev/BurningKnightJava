@@ -121,25 +121,47 @@ public class Painter {
 				} else if (level.isWater(x, y, false)) {
 					int count = 0;
 
-					if (level.isWaterOrFall(x, y + 1)) {
+					if (level.isWater(x, y + 1, true)) {
 						count += 1;
 					}
 
-					if (level.isWaterOrFall(x + 1, y)) {
+					if (level.isWater(x + 1, y, true)) {
 						count += 2;
 					}
 
-					if (level.isWaterOrFall(x, y - 1)) {
+					if (level.isWater(x, y - 1, true)) {
 						count += 4;
 					}
 
-					if (level.isWaterOrFall(x - 1, y)) {
+					if (level.isWater(x - 1, y, true)) {
 						count += 8;
 					}
 
 					level.set(x, y, count == 15 ? Terrain.WATER : (short) (17 + count));
 				} else if (tile == Terrain.FLOOR) {
 					level.set(x, y, floors[Random.newInt(floors.length)]);
+				}
+
+				if (level.isDirt(x, y, false)) {
+					int count = 0;
+
+					if (level.isDirt(x, y + 1, true)) {
+						count += 1;
+					}
+
+					if (level.isDirt(x + 1, y, true)) {
+						count += 2;
+					}
+
+					if (level.isDirt(x, y - 1, true)) {
+						count += 4;
+					}
+
+					if (level.isDirt(x - 1, y, true)) {
+						count += 8;
+					}
+
+					level.set(x, y, (short) (48 + count));
 				}
 
 				if (level.checkFor(x, y, Terrain.PASSABLE) && bottomEmpty) {

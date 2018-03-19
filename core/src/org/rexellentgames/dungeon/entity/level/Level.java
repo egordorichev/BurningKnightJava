@@ -354,7 +354,7 @@ public abstract class Level extends Entity {
 		Line line = new Line(x, y, px, py);
 
 		for (Point point : line.getPoints()) {
-			if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WALL) {
+			if (this.get((int) point.x, (int) point.y) == Terrain.WALL) {
 				return false;
 			}
 		}
@@ -411,6 +411,27 @@ public abstract class Level extends Entity {
 		int yy = (int) (Math.floor(tile / 32));
 
 		if (xx > 16 && yy == 0) {
+			return true;
+		}
+
+		return wall && this.isAWall(x, y);
+	}
+
+	public boolean isDirt(int x, int y, boolean wall) {
+		if (x < 0 || y < 0 || x >= getWIDTH() || y >= getHEIGHT()) {
+			return true;
+		}
+
+		int tile = this.get(x, y);
+
+		if (tile == Terrain.DIRT) {
+			return true;
+		}
+
+		int xx = tile % 32;
+		int yy = (int) (Math.floor(tile / 32));
+
+		if (xx > 15 && yy == 1) {
 			return true;
 		}
 

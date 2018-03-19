@@ -35,7 +35,6 @@ public class ItemRegistry {
 		register("bomb", Bomb.class);
 		register("cabbage_seed", CabbageSeed.class);
 		register("cabbage", Cabbage.class);
-		register("hoe", Hoe.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {
