@@ -22,6 +22,8 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
@@ -768,7 +770,7 @@ public abstract class Level extends Entity {
 		for (int i = 0; i < 10; i++) {
 			Room room = this.getRandomRoom(type);
 
-			if (room == null) {
+			if (room == null || room instanceof ExitRoom || room instanceof EntranceRoom) {
 				continue;
 			}
 

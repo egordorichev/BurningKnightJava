@@ -114,7 +114,7 @@ public class Player extends Creature {
 
 	public void generate() {
 		this.inventory.add(new ItemHolder().setItem(new Dagger()));
-		this.inventory.add(new ItemHolder().setItem(new Hoe()));
+		// this.inventory.add(new ItemHolder().setItem(new Hoe()));
 		this.inventory.add(new ItemHolder().setItem(new CabbageSeed().setCount(100)));
 		this.inventory.add(new ItemHolder().setItem(new SunPotion().setCount(100)));
 		this.inventory.add(new ItemHolder().setItem(new HealingPotion().setCount(100)));
@@ -230,6 +230,9 @@ public class Player extends Creature {
 
 		super.common();
 
+		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x - 8;
+
+		this.flipped = dx >= 0;
 	}
 
 	@Override

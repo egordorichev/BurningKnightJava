@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;

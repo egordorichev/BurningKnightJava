@@ -115,7 +115,6 @@ public class UiInventory extends UiEntity {
 				Item slot = this.inventory.getSlot(this.active);
 
 				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
-					slot.setOwner(Player.instance);
 					slot.use();
 				}
 			} else if (Input.instance.wasPressed("mouse1")) {

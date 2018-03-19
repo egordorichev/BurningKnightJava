@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Sword extends Weapon {
@@ -14,16 +16,24 @@ public class Sword extends Weapon {
 
 	@Override
 	public void render(float x, float y, boolean flipped) {
-		float angle = (flipped ? this.added : -this.added);
+		float angle = this.added;
 
 		float w = 16;
 
 		if (this.owner != null) {
 			w = this.owner.w;
+
+			if (this.owner instanceof Player) {
+				float dx = this.owner.x + this.owner.w / 2 - Input.instance.worldMouse.x - 8;
+				float dy = this.owner.y + this.owner.h / 2 - Input.instance.worldMouse.y - 8;
+				float a = (float) Math.toDegrees(Math.atan2(dy, dx));
+
+				angle += (flipped ? a : -a);
+			}
 		}
 
-		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, 1, 1, angle, 8, 1, false,
-			false);
+		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3,
+			1, 1, flipped ? angle : 180 - angle, 8, 2, false, false);
 	}
 
 	@Override
