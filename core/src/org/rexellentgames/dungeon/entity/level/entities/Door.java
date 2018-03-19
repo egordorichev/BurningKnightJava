@@ -51,8 +51,8 @@ public class Door extends SaveableEntity {
 			}
 		} else {
 			if (this.open) {
-				h = 2;
-				sprite = 96;
+				xm = -8;
+				sprite = 97;
 			} else {
 				sprite = 66;
 			}
