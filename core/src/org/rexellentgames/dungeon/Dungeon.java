@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon;
 
-import box2dLight.RayHandler;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
@@ -12,17 +11,13 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.HubState;
 import org.rexellentgames.dungeon.game.state.LoadState;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.LoginState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
-import org.rexellentgames.dungeon.net.client.GameClient;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
-
-import java.io.IOException;
 
 public class Dungeon extends ApplicationAdapter {
 	public static Game game;
@@ -38,16 +33,15 @@ public class Dungeon extends ApplicationAdapter {
 	public static long longTime;
 
 	public static Mode mode = Mode.NORMAL;
-
-	public enum Mode {
-		NORMAL
-	}
-
 	private static int to = -2;
 	private Color background = Color.valueOf("#000000"); // #323c39
 
 	public static void reportException(Exception e) {
 		e.printStackTrace();
+	}
+
+	public static void goToLevel(int level) {
+		to = level;
 	}
 
 	@Override
@@ -78,10 +72,6 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		area.add(new Camera());
-	}
-
-	public static void goToLevel(int level) {
-		to = level;
 	}
 
 	@Override
@@ -120,7 +110,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		if (!Network.SERVER) {
 			Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 			if (Camera.instance != null) {
 				Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
@@ -204,5 +194,9 @@ public class Dungeon extends ApplicationAdapter {
 		Colors.put("blue", Color.valueOf("#306082"));
 		Colors.put("yellow", Color.valueOf("#fbf236"));
 		Colors.put("brown", Color.valueOf("#8f563b"));
+	}
+
+	public enum Mode {
+		NORMAL
 	}
 }

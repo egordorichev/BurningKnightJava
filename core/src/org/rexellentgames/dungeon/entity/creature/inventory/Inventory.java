@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
@@ -33,6 +34,7 @@ public class Inventory {
 
 					Item item = (Item) object;
 					item.load(reader);
+					item.setOwner(Player.instance);
 
 					this.setSlot(i, item);
 				} catch (Exception e) {
@@ -59,6 +61,7 @@ public class Inventory {
 
 	public boolean add(ItemHolder holder) {
 		Item item = holder.getItem();
+		item.setOwner(Player.instance);
 
 		if (item.isStackable()) {
 			for (int i = 0; i < this.getSize(); i++) {
