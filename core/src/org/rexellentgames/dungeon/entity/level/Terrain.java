@@ -47,5 +47,9 @@ public class Terrain {
 		for (int x = 34; x < 41; x++) {
 			flags[x] = PASSABLE;
 		}
+
+		for (int x = 47; x < 63; x++) {
+			flags[x] = PASSABLE;
+		}
 	}
 }

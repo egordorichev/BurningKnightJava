@@ -24,6 +24,7 @@ public class PathFinder {
 			queue = new int[size];
 
 			dir = new int[]{-1, +1, -width, +width, -width - 1, -width + 1, +width - 1, +width + 1};
+			// dir = new int[]{-1, +1, -width, +width};
 		}
 	}
 

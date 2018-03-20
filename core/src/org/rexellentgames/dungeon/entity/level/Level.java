@@ -403,20 +403,22 @@ public abstract class Level extends Entity {
 			return true;
 		}
 
-		int tile = this.get(x, y);
+		if (tileIsWater(this.get(x, y))) {
+			return true;
+		}
 
-		if (tile == Terrain.WATER || (wall && tile == Terrain.WOOD)) {
+		return wall && this.isAWall(x, y);
+	}
+
+	public static boolean tileIsWater(short tile) {
+		if (tile == Terrain.WATER) {
 			return true;
 		}
 
 		int xx = tile % 32;
 		int yy = (int) (Math.floor(tile / 32));
 
-		if (xx > 16 && yy == 0) {
-			return true;
-		}
-
-		return wall && this.isAWall(x, y);
+		return (xx > 16 && yy == 0);
 	}
 
 	public boolean isDirt(int x, int y, boolean wall) {
@@ -656,6 +658,13 @@ public abstract class Level extends Entity {
 			count = stream.readInt32();
 
 			for (int i = 0; i < count; i++) {
+				int in = stream.readInt32();
+				this.rooms.get(in).neighbours.add(this.rooms.get(stream.readInt32()));
+			}
+
+			count = stream.readInt32();
+
+			for (int i = 0; i < count; i++) {
 				String t = stream.readString();
 
 				Class<?> clazz = Class.forName(t);
@@ -699,6 +708,29 @@ public abstract class Level extends Entity {
 				stream.writeInt32(room.top);
 				stream.writeInt32(room.right);
 				stream.writeInt32(room.bottom);
+			}
+
+			int count = 0;
+
+			for (Room room : this.rooms) {
+				count += room.neighbours.size();
+			}
+
+			stream.writeInt32(count);
+
+			Log.info("Room size = " + this.rooms.size());
+
+			for (int i = 0; i < this.rooms.size(); i++) {
+				Room room = this.rooms.get(i);
+
+				for (Room n : room.neighbours) {
+					int in = this.rooms.indexOf(n);
+
+					if (in > -1) {
+						stream.writeInt32(i);
+						stream.writeInt32(in);
+					}
+				}
 			}
 
 			stream.writeInt32(this.saveable.size());
@@ -889,6 +921,16 @@ public abstract class Level extends Entity {
 
 	public void setData(short[] data) {
 		this.data = data;
+	}
+
+	public Room findRoomFor(int x, int y) {
+		for (Room room : this.rooms) {
+			if (room.inside(new Point(x, y))) {
+				return room;
+			}
+		}
+
+		return null;
 	}
 
 	public enum DataType {

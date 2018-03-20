@@ -349,14 +349,6 @@ public class Player extends Creature {
 		return this.inventory;
 	}
 
-	public int getExperience() {
-		return this.experience;
-	}
-
-	public int getExperienceMax() {
-		return this.experienceMax;
-	}
-
 	public int getExperienceForLevel() {
 		return this.experience;
 	}
@@ -398,6 +390,7 @@ public class Player extends Creature {
 			this.experience -= this.experienceMax;
 			this.forThisLevel = expNeeded(this.level);
 			this.experienceMax = expNeeded(this.level + 1);
+			this.hpMax += 25;
 
 			UiLog.instance.print("[green]You reached level " + this.level + "!");
 		}
