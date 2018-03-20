@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -74,6 +75,10 @@ public class RegularRoom extends Room {
 	};
 
 	public static RegularRoom create() {
+		if (Dungeon.depth < 1) {
+			return new RegularRoom();
+		}
+
 		try {
 			return rooms.get(Random.chances(chances)).newInstance();
 		} catch (InstantiationException e) {
