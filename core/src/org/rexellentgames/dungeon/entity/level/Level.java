@@ -718,8 +718,6 @@ public abstract class Level extends Entity {
 
 			stream.writeInt32(count);
 
-			Log.info("Room size = " + this.rooms.size());
-
 			for (int i = 0; i < this.rooms.size(); i++) {
 				Room room = this.rooms.get(i);
 

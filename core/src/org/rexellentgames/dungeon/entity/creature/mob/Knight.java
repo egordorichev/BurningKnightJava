@@ -209,10 +209,9 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 
 		for (int i = 0; i < this.currentRoom.getWidth() * this.currentRoom.getHeight(); i++) {
 			Point point = this.currentRoom.getRandomCell();
-			short tile = Dungeon.level.get((int) point.x, (int) point.y);
 
-			if (Level.tileIsWater(tile)) {
-				this.water = point;
+			if (Dungeon.level.isWater((int) point.x, (int) point.y, false)) {
+				this.water = new Point(point.x * 16, point.y * 16);
 				this.become("toRelax");
 			}
 		}
@@ -232,11 +231,32 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 		if (this.t >= this.idleTime) {
 			this.idleTime = 0;
 			this.become("roam");
+			this.checkForSpa();
 		}
 	}
 
 	private void toRelax(float dt) {
+		if (this.nextPathPoint == null) {
+			this.nextPathPoint = this.getCloser(this.water);
 
+			if (this.nextPathPoint == null) {
+				this.target = null;
+			}
+		}
+
+		float d = 16f;
+
+		if (this.nextPathPoint != null) {
+			d = this.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, 10);
+		}
+
+		if (d < 4f) {
+			this.nextPathPoint = null;
+
+			if (this.getDistanceTo(this.water.x + 8, this.water.y + 8) < 16f) {
+				this.become("relax");
+			}
+		}
 	}
 
 	private void relax(float dt) {
