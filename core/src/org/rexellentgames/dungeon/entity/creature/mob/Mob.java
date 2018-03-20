@@ -38,7 +38,7 @@ public class Mob extends Creature {
 		}
 	}
 
-	public Point getCloser(Creature target) {
+	public Point getCloser(Point target) {
 		int from = (int) (Math.floor((this.x + 8) / 16) + Math.floor((this.y + 8) / 16) * Level.getWIDTH());
 		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.getWIDTH());
 
@@ -157,5 +157,22 @@ public class Mob extends Creature {
 		}
 
 		super.die();
+	}
+
+	protected float moveToPoint(float x, float y, float speed) {
+		float dx = x - this.x - this.w / 2;
+		float dy = y - this.y - this.h / 2;
+		float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+		this.vel.x += dx / d * speed;
+		this.vel.y += dy / d * speed;
+
+		return d;
+	}
+
+	protected float getDistanceTo(float x, float y) {
+		float dx = x - this.x - this.w / 2;
+		float dy = y - this.y - this.h / 2;
+		return (float) Math.sqrt(dx * dx + dy * dy);
 	}
 }

@@ -386,4 +386,8 @@ public class Creature extends SaveableEntity {
 	public Collection<Buff> getBuffs() {
 		return this.buffs.values();
 	}
+
+	public int toIndex() {
+		return (int) (Math.floor(this.x / 16) + Math.floor(this.y / 16) * Level.getWIDTH());
+	}
 }

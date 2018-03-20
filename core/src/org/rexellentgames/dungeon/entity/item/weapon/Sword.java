@@ -40,7 +40,7 @@ public class Sword extends Weapon {
 	public void use() {
 		super.use();
 
-		Tween.to(new Tween.Task(150, this.useTime / 3) {
+		Tween.to(new Tween.Task(180, this.useTime / 3) {
 			@Override
 			public float getValue() {
 				return added;
