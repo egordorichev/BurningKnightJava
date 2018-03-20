@@ -23,6 +23,7 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -306,6 +307,12 @@ public class Creature extends SaveableEntity {
 		super.save(writer);
 
 		writer.writeInt32(this.hp);
+		writer.writeInt32(this.buffs.size());
+
+		for (Buff buff : this.buffs.values()) {
+			writer.writeString(buff.getClass().getName());
+			writer.writeFloat(buff.getDuration());
+		}
 	}
 
 	@Override
@@ -313,6 +320,28 @@ public class Creature extends SaveableEntity {
 		super.load(reader);
 
 		this.hp = reader.readInt32();
+		int count = reader.readInt32();
+
+		for (int i = 0; i < count; i++) {
+			String t = reader.readString();
+
+			Class<?> clazz;
+
+			try {
+				clazz = Class.forName(t);
+
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
+				Buff buff = (Buff) object;
+
+				buff.setOwner(this);
+				buff.setDuration(reader.readFloat());
+
+				this.addBuff(buff);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
