@@ -21,7 +21,8 @@ public class MazeRoom extends RegularRoom {
 		for (int x = 0; x < this.getWidth(); x++) {
 			for (int y = 0; y < this.getHeight(); y++) {
 				if (maze[x][y] == Maze.FILLED) {
-					Painter.set(level, this.left + x, this.top + y, wall);
+					Painter.set(level, this.left + x, this.top + y, (x == 0 || y == 0
+						|| x == this.getWidth() - 1 || y == this.getHeight() - 1) ? Terrain.WALL : wall);
 				}
 			}
 		}
