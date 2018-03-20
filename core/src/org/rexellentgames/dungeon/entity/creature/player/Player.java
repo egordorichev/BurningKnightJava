@@ -6,6 +6,8 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
@@ -127,24 +129,23 @@ public class Player extends Creature {
 	}
 
 	public void setHunger(float hunger) {
-		float old = this.hunger;
 		this.hunger = MathUtils.clamp(0, 360, hunger);
 
-		// todo
-		/*
-		if (old < 360 && this.hunger == 360) {
-			this.addBuff(new StarvingBuff());
-		} else if ((old < 260 || old == 360) && this.hunger >= 260) {
-			this.addBuff(new HungryBuff());
-		}
-
-		if (this.hunger != 360) {
+		if (this.hunger == 360) {
+			if (!this.hasBuff(StarvingBuff.class)) {
+				this.addBuff(new StarvingBuff());
+			}
+		} else {
 			this.removeBuff(StarvingBuff.class);
 		}
 
-		if (this.hunger < 260 || this.hunger == 360) {
+		if (this.hunger >= 260 && this.hunger != 360) {
+			if (!this.hasBuff(HungryBuff.class)) {
+				this.addBuff(new HungryBuff());
+			}
+		} else {
 			this.removeBuff(HungryBuff.class);
-		}*/
+		}
 	}
 
 	public void setUi(UiInventory ui) {

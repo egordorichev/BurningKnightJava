@@ -348,6 +348,10 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	public boolean hasBuff(Class<? extends Buff> buff) {
+		return this.buffs.containsKey(buff);
+	}
+
 	public Body getBody() {
 		return this.body;
 	}
