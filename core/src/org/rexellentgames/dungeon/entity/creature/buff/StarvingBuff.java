@@ -22,7 +22,7 @@ public class StarvingBuff extends Buff {
 	protected void onUpdate(float dt) {
 		super.onUpdate(dt);
 
-		if (this.time % 5f <= 0.017f) {
+		if (this.time % 15f <= 0.017f) {
 			this.owner.modifyHp(-1, true);
 		}
 	}
