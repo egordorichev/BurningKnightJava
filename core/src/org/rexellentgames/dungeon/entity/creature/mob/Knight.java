@@ -174,6 +174,8 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 		return items;
 	}
 
+	public float flee;
+
 	private void ai(float dt) {
 		if (this.state.equals("idle")) {
 			this.idle(dt);
@@ -213,8 +215,28 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 	private Point lastSeen;
 	private float noticeTime;
 
-	private void checkForPlayer(float dt) {
+	@Override
+	protected void onHurt() {
+		super.onHurt();
+
 		if (this.player != null) {
+			this.flee += 0.5f;
+			this.become(this.flee >= 1f || this.hp < 3 ? "fleeing" : "chasing");
+		}
+	}
+
+	private void checkForPlayer(float dt) {
+		if (this.flee >= 1f) {
+			this.become("fleeing");
+			return;
+		}
+
+		if (this.player != null) {
+			if (this.hp < 3) {
+				this.become("fleeing");
+				return;
+			}
+
 			this.lastSeen = new Point(this.player.x, this.player.y);
 			this.noticeTime += dt;
 			this.player.heat += dt * 4;
@@ -382,11 +404,14 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 	}
 
 	private void fleeing(float dt) {
+		this.flee = 0;
 		this.roam(dt, 10);
 	}
 
 	private void roam(float dt, float speed) {
-		this.checkForPlayer(dt);
+		if (!this.state.equals("fleeing")) {
+			this.checkForPlayer(dt);
+		}
 
 		if (this.target == null) {
 			this.findCurrentRoom();
