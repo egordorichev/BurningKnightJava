@@ -48,6 +48,8 @@ public abstract class Level extends Entity {
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
 
+	public static float heat;
+	public static int noticed;
 	public short[] data;
 	protected float[] light;
 	protected float[] lightR;
@@ -634,6 +636,7 @@ public abstract class Level extends Entity {
 				entity.load(stream);
 			}
 		} else {
+			heat = 0;
 			int count = stream.readInt32();
 
 			this.rooms = new ArrayList<Room>();

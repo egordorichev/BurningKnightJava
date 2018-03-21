@@ -21,6 +21,12 @@ public class Mob extends Creature {
 	protected boolean noticed = false;
 	protected int experienceDropped = 1;
 
+	public Mob() {
+		if (Dungeon.level != null) {
+			Level.heat += 1;
+		}
+	}
+
 	public void notice(Player player) {
 		this.noticed = true;
 		this.target = player;
@@ -28,6 +34,13 @@ public class Mob extends Creature {
 
 	public int getExperienceDropped() {
 		return this.experienceDropped;
+	}
+
+	protected boolean canSee(Player player) {
+		return this.getDistanceTo(player.x + 8, player.y + 8) < 256f && Dungeon.level.canSee(
+			(int) Math.floor((this.x + this.w / 2) / 16), (int) Math.floor((this.y + this.h / 2) / 16),
+			(int) Math.floor((player.x + player.w / 2) / 16), (int) Math.floor((player.y + player.h / 2) / 16)
+		);
 	}
 
 	protected void assignTarget() {
