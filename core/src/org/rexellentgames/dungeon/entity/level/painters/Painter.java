@@ -165,7 +165,7 @@ public class Painter {
 				}
 
 				if (level.checkFor(x, y, Terrain.PASSABLE) && bottomEmpty) {
-					level.set(x, y - 1, level.isWater(x, y, false) ? Terrain.WATER_FALL : Terrain.FALL);
+					level.set(x, y - 1, Terrain.FALL);
 				}
 			}
 		}

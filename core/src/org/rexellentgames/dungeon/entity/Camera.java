@@ -6,8 +6,10 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.MathUtils;
 
 public class Camera extends Entity {
 	public static Camera instance;
@@ -41,10 +43,11 @@ public class Camera extends Entity {
 		if (this.target != null) {
 			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + this.target.x + 8);
 			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y + 8);
+			float z = this.camera.zoom;
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
-			this.camera.position.x = (float) (Math.floor(this.camera.position.x * 16) / 16);
-			this.camera.position.y = (float) (Math.floor(this.camera.position.y * 16) / 16);
+			this.camera.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16, Level.getWIDTH() * 16 - Display.GAME_WIDTH / 2 * z - 16, this.camera.position.x);
+			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16, Level.getHEIGHT() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
 			this.camera.update();
 		}
 	}

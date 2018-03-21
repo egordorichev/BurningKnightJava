@@ -484,7 +484,9 @@ public abstract class Level extends Entity {
 
 		for (int x = 0; x < getWIDTH(); x++) {
 			for (int y = 0; y < getHEIGHT(); y++) {
-				if (this.checkFor(x, y, Terrain.SOLID)) {
+				boolean b = x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1;
+
+				if (b || this.checkFor(x, y, Terrain.SOLID)) {
 					int total = 0;
 
 					for (Vector2 vec : NEIGHBOURS8V) {
@@ -497,13 +499,13 @@ public abstract class Level extends Entity {
 						}
 					}
 
-					if (total < 8) {
+					if (total < 8 || b) {
 						PolygonShape poly = new PolygonShape();
 						int xx = x * 16;
 						int yy = y * 16;
 
 
-						if (this.checkFor(x, y + 1, Terrain.SOLID)) {
+						if (b || this.checkFor(x, y + 1, Terrain.SOLID)) {
 							poly.set(new Vector2[]{
 								new Vector2(xx, yy), new Vector2(xx + 16, yy),
 								new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)

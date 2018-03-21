@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon.game.state;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
@@ -19,7 +18,6 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.UiBar;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
@@ -111,7 +109,7 @@ public class InGameState extends State {
 			this.exp.setMax(Player.instance.getExperienceMaxForLevel());
 		}
 
-		if (Input.instance.wasPressed("1")) {
+		if (Input.instance.wasPressed("z")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
 			Tween.to(new Tween.Task(cam.zoom * 1.3f, 0.2f) {
@@ -125,7 +123,7 @@ public class InGameState extends State {
 					cam.zoom = value;
 				}
 			});
-		} else if (Input.instance.wasPressed("2")) {
+		} else if (Input.instance.wasPressed("c")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
 			Tween.to(new Tween.Task(cam.zoom * 0.7f, 0.2f) {
