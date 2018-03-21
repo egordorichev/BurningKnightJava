@@ -144,6 +144,9 @@ public class Input implements InputProcessor, ControllerListener {
 		bind("4", "4");
 		bind("5", "5");
 		bind("6", "6");
+
+		bind("c", "C");
+		bind("z", "Z");
 	}
 
 	public void updateMousePosition() {

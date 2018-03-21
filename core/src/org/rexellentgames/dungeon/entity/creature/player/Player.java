@@ -191,7 +191,7 @@ public class Player extends Creature {
 			Input.set(this.getId());
 
 			if (this.y >= 60 - 16) {
-				Dungeon.goToLevel(1);
+				Dungeon.goToLevel(0);
 			}
 		}
 

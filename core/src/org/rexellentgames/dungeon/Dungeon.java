@@ -65,7 +65,7 @@ public class Dungeon extends ApplicationAdapter {
 			if (!Network.NONE) {
 				game.setState(new LoginState());
 			} else {
-				Dungeon.goToLevel(1);
+				Dungeon.goToLevel(0);
 			}
 		} else {
 			game.setState(new HubState());
