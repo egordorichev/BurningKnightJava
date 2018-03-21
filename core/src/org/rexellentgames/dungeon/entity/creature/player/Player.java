@@ -50,6 +50,7 @@ public class Player extends Creature {
 	public float lightModifier;
 	public int connectionId;
 	public boolean main;
+	public float heat;
 	protected int mana;
 	protected int manaMax;
 	protected int experience;
@@ -181,6 +182,8 @@ public class Player extends Creature {
 			super.common();
 			return;
 		}
+
+		this.heat -= dt / 3;
 
 		this.setHunger(this.hunger + dt);
 
