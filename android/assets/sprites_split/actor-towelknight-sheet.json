@@ -154,8 +154,8 @@
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.7.2-x64",
-  "image": "../sprites_test/actor-towelknight.png",
+  "version": "1.2.7.3-x64",
+  "image": "../sprites_split/actor-towelknight.png",
   "format": "I8",
   "size": { "w": 304, "h": 16 },
   "scale": "1"
