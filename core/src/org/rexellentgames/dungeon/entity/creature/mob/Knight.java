@@ -217,7 +217,7 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 		if (this.player != null) {
 			this.lastSeen = new Point(this.player.x, this.player.y);
 			this.noticeTime += dt;
-			this.player.heat += dt * 3;
+			this.player.heat += dt * 4;
 
 			if (!this.canSee(this.player)) {
 				this.player = null;
@@ -271,7 +271,7 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 		float d = 16f;
 
 		if (this.nextPathPoint != null) {
-			d = this.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, 10);
+			d = this.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, 6);
 		}
 
 		if (d < 4f) {
@@ -291,19 +291,42 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 		this.checkForPlayer(dt);
 	}
 
+	private float chaseT;
+	private float tm;
+
 	private void chasing(float dt) {
 		this.checkForPlayer(dt);
 
+		this.tm += dt;
+
 		if (this.lastSeen == null) {
+			this.chaseT = 0;
+			this.tm = 0;
+
 			return;
+		}
+
+		if (this.chaseT == 0) {
+			this.chaseT = Random.newFloat(8f, 10f);
 		}
 
 		if (this.nextPathPoint == null) {
 			this.nextPathPoint = this.getCloser(new Point(this.lastSeen.x, this.lastSeen.y));
 
 			if (this.nextPathPoint == null) {
+				this.chaseT = 0;
+				this.tm = 0;
 				this.lastSeen = null;
 			}
+		}
+
+		if (this.chaseT <= this.tm) {
+			this.chaseT = 0;
+			this.tm = 0;
+
+			this.become("tired");
+
+			return;
 		}
 
 		float d = 16f;
@@ -322,13 +345,27 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 				} else {
 					this.become("attacking");
 				}
+
+				this.chaseT = 0;
+				this.tm = 0;
 			}
 		}
 	}
 
-	private void tired(float dt) {
-		this.checkForPlayer(dt);
+	private float waitT;
 
+	private void tired(float dt) {
+		this.tm += dt;
+
+		if (this.waitT == 0) {
+			this.waitT = Random.newFloat(5f, 10f);
+		}
+
+		if (this.tm >= this.waitT) {
+			this.waitT = 0;
+			this.tm = 0;
+			this.become(this.lastSeen == null ? "idle" : "chase");
+		}
 	}
 
 	private void attacking(float dt) {
