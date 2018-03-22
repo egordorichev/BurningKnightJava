@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -24,16 +25,12 @@ public class Item extends Entity {
 	protected Creature owner;
 	protected TextureRegion region;
 
-	public Item() {
-		this.region = Graphics.getTexture(this.sprite);
-	}
-
 	public void setOwner(Creature owner) {
 		this.owner = owner;
 	}
 
 	public void render(float x, float y, boolean flipped) {
-		Graphics.render(this.region, x, y, 0, 0, 0, flipped, false);
+		Graphics.render(this.getSprite(), x, y, 0, 0, 0, flipped, false);
 	}
 
 	@Override
@@ -66,6 +63,10 @@ public class Item extends Entity {
 	}
 
 	public TextureRegion getSprite() {
+		if (this.region == null) {
+			this.region = Graphics.getTexture(this.sprite);
+		}
+
 		return this.region;
 	}
 

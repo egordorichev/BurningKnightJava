@@ -71,15 +71,13 @@ public class Graphics {
 	public static void render(TextureRegion texture, float x, float y, float a, float ox, float oy,
 		boolean fx, boolean fy) {
 
-		Graphics.batch.draw(texture, x, y, ox, oy, texture.getRegionWidth(),
-			texture.getRegionHeight(), fx ? -1 : 1, fy ? -1 : 1, a);
+		Graphics.batch.draw(texture, x, y,
+			ox, oy, texture.getRegionWidth(), texture.getRegionHeight(), fx ? -1 : 1, fy ? -1 : 1, a);
 	}
 
 	public static void destroy() {
-		manager.dispose();
 		atlas.dispose();
-		medium.dispose();
-		small.dispose();
+		manager.dispose();
 		batch.dispose();
 		shape.dispose();
 	}

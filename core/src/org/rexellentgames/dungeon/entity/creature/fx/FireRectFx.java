@@ -53,7 +53,7 @@ public class FireRectFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.render(Graphics.effects, (int) (9 + Math.floor(this.t)), this.x, this.y);
+		// Graphics.render(Graphics.effects, (int) (9 + Math.floor(this.t)), this.x, this.y);
 	}
 
 	@Override

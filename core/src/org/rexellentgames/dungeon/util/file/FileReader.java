@@ -17,7 +17,7 @@ public class FileReader {
 		return this.stream.readBoolean();
 	}
 
-	public byte readInt16() throws IOException {
+	public short readInt16() throws IOException {
 		return this.stream.readShort();
 	}
 

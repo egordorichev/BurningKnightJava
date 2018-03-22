@@ -129,7 +129,7 @@ public class Knight extends Mob {
 		for (int i = 0; i < this.currentRoom.getWidth() * this.currentRoom.getHeight(); i++) {
 			Point point = this.currentRoom.getRandomCell();
 
-			if (Dungeon.level.isWater((int) point.x, (int) point.y, false)) {
+			if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WATER) {
 				this.water = new Point(point.x * 16, point.y * 16);
 				this.become("toRelax");
 			}

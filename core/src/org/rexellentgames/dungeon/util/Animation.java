@@ -56,22 +56,10 @@ public class Animation {
 			name = name.replace('_', '-');
 			name = name.replace(' ', '-');
 
-			int num = 0;
-			int j = 0;
+			name = name.substring(0, name.length() - (Character.isDigit(name.charAt(name.length() - 2)) ? 3 : 2));
+			name += "-" + state + "-" + String.format("%02d", i - from);
 
-			Log.info("the name was: " + name);
-
-			while (Character.isDigit(name.charAt(name.length() - 1))) {
-				j += 1;
-
-				num += Integer.valueOf(name.charAt(name.length() - 1)) * (10 ^ j);
-				name = name.substring(0, name.length() - 1);
-			}
-
-			name += String.format("%02d", num);
-			Log.info("the num is: " + num);
-
-			this.frames.add(new Frame(Graphics.getTexture(name), 0.001f * delay));
+			this.frames.add(new Frame(Graphics.getTexture(name), delay * 0.001f));
 		}
 
 		this.current = this.frames.get(0);
@@ -101,7 +89,9 @@ public class Animation {
 	}
 
 	public void render(float x, float y, boolean flip) {
-		Graphics.render(this.current.frame, x, y, 0, 0, 0, flip, false);
+		Graphics.render(this.current.frame, x, y, 0, this.current.frame.getRegionWidth() / 2,
+			this.current.frame.getRegionHeight() / 2, flip, false);
+
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 

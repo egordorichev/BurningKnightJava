@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -94,7 +95,7 @@ public class UiSlot {
 			Graphics.batch.setColor(1, 1, 0.5f, 1);
 		}
 
-		Graphics.render(Graphics.ui, 64, this.x, this.y, 2, 2);
+		// Graphics.render(Graphics.ui, 64, this.x, this.y, 2, 2);
 
 		if (item != null && item.getDelay() != 0) {
 			float delay = item.getDelay();
@@ -102,23 +103,20 @@ public class UiSlot {
 
 			int w = (int) ((delay / maxDelay) * 24);
 			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1f);
-			Graphics.batch.draw(Graphics.ui, this.x, this.y, w, 32, 0, 32,
-				w, 32, false, false);
+			// Graphics.batch.draw(Graphics.ui, this.x, this.y, w, 32, 0, 32, w, 32, false, false);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 
 		if (item != null) {
-			int sprite = item.getSprite();
+			TextureRegion sprite = item.getSprite();
 			int count = item.getCount();
 
-			if (sprite > -1) {
-				Graphics.render(Graphics.items, sprite, this.x + 4, this.y + 12, 1, 1);
+			Graphics.render(sprite, this.x + 4, this.y + 12);
 
-				if (count > 1) {
-					Graphics.small.draw(Graphics.batch, String.valueOf(count), this.x + 3, this.y + 16);
-				}
+			if (count > 1) {
+				Graphics.small.draw(Graphics.batch, String.valueOf(count), this.x + 3, this.y + 16);
 			}
 		}
 	}

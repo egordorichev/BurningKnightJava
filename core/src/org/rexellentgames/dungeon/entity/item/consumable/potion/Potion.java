@@ -25,7 +25,7 @@ public class Potion extends Consumable {
 		if (this.added != 0) {
 			float angle = (flipped ? this.added : -this.added);
 
-			Graphics.render(this.region, x + (flipped ? -3 : 3), y - 4, angle, 8, 10, false,
+			Graphics.render(this.getSprite(), x + (flipped ? -3 : 3), y - 4, angle, 8, 10, false,
 				false);
 		}
 	}
