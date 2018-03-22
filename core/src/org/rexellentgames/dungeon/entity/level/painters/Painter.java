@@ -104,7 +104,7 @@ public class Painter {
 		}
 	}
 
-	private static short[] floors = new short[]{
+	private static byte[] floors = new byte[]{
 		1, 34, 35, 36, 37, 38, 39, 40
 	};
 
@@ -116,57 +116,7 @@ public class Painter {
 				short tile = level.get(x, y);
 				boolean bottomEmpty = (level.get(x, y - 1) == Terrain.EMPTY);
 
-				if (tile == Terrain.WOOD && bottomEmpty) {
-					level.set(x, y - 1, Terrain.WOOD_SUPPORT);
-				} else if (level.isWater(x, y, false)) {
-					int count = 0;
-
-					if (level.isWater(x, y + 1, true)) {
-						count += 1;
-					}
-
-					if (level.isWater(x + 1, y, true)) {
-						count += 2;
-					}
-
-					if (level.isWater(x, y - 1, true)) {
-						count += 4;
-					}
-
-					if (level.isWater(x - 1, y, true)) {
-						count += 8;
-					}
-
-					level.set(x, y, count == 15 ? Terrain.WATER : (short) (17 + count));
-				} else if (tile == Terrain.FLOOR) {
-					level.set(x, y, floors[Random.newInt(floors.length)]);
-				}
-
-				if (level.isDirt(x, y, false)) {
-					int count = 0;
-
-					if (level.isDirt(x, y + 1, true)) {
-						count += 1;
-					}
-
-					if (level.isDirt(x + 1, y, true)) {
-						count += 2;
-					}
-
-					if (level.isDirt(x, y - 1, true)) {
-						count += 4;
-					}
-
-					if (level.isDirt(x - 1, y, true)) {
-						count += 8;
-					}
-
-					level.set(x, y, (short) (48 + count));
-				}
-
-				if (level.checkFor(x, y, Terrain.PASSABLE) && bottomEmpty) {
-					level.set(x, y - 1, Terrain.FALL);
-				}
+				// todo
 			}
 		}
 
@@ -178,8 +128,6 @@ public class Painter {
 	}
 
 	private void paintDoors(Level level, ArrayList<Room> rooms) {
-		short floor = level.getFloor();
-
 		for (Room r : rooms) {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
@@ -192,7 +140,7 @@ public class Painter {
 					Dungeon.area.add(door);
 				}
 
-				level.set((int) d.x, (int) d.y, floor);
+				level.set((int) d.x, (int) d.y, Terrain.FLOOR);
 			}
 		}
 	}
@@ -217,15 +165,15 @@ public class Painter {
 		}
 	}
 
-	public static void set(Level level, int cell, int value) {
-		level.data[cell] = (short) value;
+	public static void set(Level level, int cell, byte value) {
+		level.data[cell] = value;
 	}
 
-	public static void set(Level level, int x, int y, int value) {
+	public static void set(Level level, int x, int y, byte value) {
 		set(level, x + y * level.getWIDTH(), value);
 	}
 
-	public static void setBold(Level level, int x, int y, int value) {
+	public static void setBold(Level level, int x, int y, byte value) {
 		for (int xx = x - 1; xx < x + 2; xx++) {
 			for (int yy = y - 1; yy < y + 2; yy++) {
 				if (level.get(xx, yy) != value) {
@@ -235,36 +183,36 @@ public class Painter {
 		}
 	}
 
-	public static void set(Level level, Point p, int value) {
+	public static void set(Level level, Point p, byte value) {
 		set(level, (int) p.x, (int) p.y, value);
 	}
 
-	public static void fill(Level level, int x, int y, int w, int h, int value) {
+	public static void fill(Level level, int x, int y, int w, int h, byte value) {
 		int width = level.getWIDTH();
 
 		int pos = y * width + x;
 		for (int i = y; i < y + h; i++, pos += width) {
-			Arrays.fill(level.data, pos, pos + w, (short) value);
+			Arrays.fill(level.data, pos, pos + w, value);
 		}
 	}
 
-	public static void fill(Level level, Rect rect, int value) {
+	public static void fill(Level level, Rect rect, byte value) {
 		fill(level, rect.left, rect.top, rect.getWidth(), rect.getHeight(), value);
 	}
 
-	public static void fill(Level level, Rect rect, int m, int value) {
+	public static void fill(Level level, Rect rect, int m, byte value) {
 		fill(level, rect.left + m, rect.top + m, rect.getWidth() - m * 2, rect.getHeight() - m * 2, value);
 	}
 
-	public static void fill(Level level, Rect rect, int l, int t, int r, int b, int value) {
+	public static void fill(Level level, Rect rect, int l, int t, int r, int b, byte value) {
 		fill(level, rect.left + l, rect.top + t, rect.getWidth() - (l + r), rect.getHeight() - (t + b), value);
 	}
 
-	public static void drawLine(Level level, Point from, Point to, int value) {
+	public static void drawLine(Level level, Point from, Point to, byte value) {
 		drawLine(level, from, to, value, false);
 	}
 
-	public static void drawLine(Level level, Point from, Point to, int value, boolean bold) {
+	public static void drawLine(Level level, Point from, Point to, byte value, boolean bold) {
 		float x = from.x;
 		float y = from.y;
 		float dx = to.x - from.x;
@@ -298,15 +246,15 @@ public class Painter {
 		}
 	}
 
-	public static void fillEllipse(Level level, Rect rect, int value) {
+	public static void fillEllipse(Level level, Rect rect, byte value) {
 		fillEllipse(level, rect.left, rect.top, rect.getWidth(), rect.getHeight(), value);
 	}
 
-	public static void fillEllipse(Level level, Rect rect, int m, int value) {
+	public static void fillEllipse(Level level, Rect rect, int m, byte value) {
 		fillEllipse(level, rect.left + m, rect.top + m, rect.getWidth() - m * 2, rect.getHeight() - m * 2, value);
 	}
 
-	public static void fillEllipse(Level level, int x, int y, int w, int h, int value) {
+	public static void fillEllipse(Level level, int x, int y, int w, int h, byte value) {
 		//radii
 		double radH = h / 2f;
 		double radW = w / 2f;
@@ -332,11 +280,11 @@ public class Painter {
 			}
 
 			int cell = x + (w - (int) rowW) / 2 + ((y + i) * level.getWIDTH());
-			Arrays.fill(level.data, cell, cell + (int) rowW, (short) value);
+			Arrays.fill(level.data, cell, cell + (int) rowW, value);
 		}
 	}
 
-	public static Point drawInside(Level level, Room room, Point from, int n, int value) {
+	public static Point drawInside(Level level, Room room, Point from, int n, byte value) {
 		Point step = new Point();
 
 		if (from.x == room.left) {

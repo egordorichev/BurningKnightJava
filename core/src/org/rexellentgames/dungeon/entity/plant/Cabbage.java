@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Cabbage extends Plant {
 	{
-		sprite = 19;
+		sprite = "item (food A)"; // todo: replace
 	}
 
 	@Override

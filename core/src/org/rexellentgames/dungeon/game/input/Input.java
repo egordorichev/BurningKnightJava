@@ -117,17 +117,10 @@ public class Input implements InputProcessor, ControllerListener {
 		inputs.put(id, this);
 		this.keys.put("MouseWheel", State.RELEASED);
 
-		bind("left", "Left");
-		bind("left", "A");
-
-		bind("right", "Right");
-		bind("right", "D");
-
-		bind("up", "Up");
-		bind("up", "W");
-
-		bind("down", "Down");
-		bind("down", "S");
+		bind("left", "Left", "A");
+		bind("right", "Right", "D");
+		bind("up", "Up", "W");
+		bind("down", "Down", "S");
 
 		bind("pickup", "Q");
 		bind("toggle_inventory", "E");
@@ -138,6 +131,7 @@ public class Input implements InputProcessor, ControllerListener {
 		bind("scroll", "MouseWheel");
 
 		bind("action", "X");
+
 		bind("1", "1");
 		bind("2", "2");
 		bind("3", "3");
@@ -161,19 +155,21 @@ public class Input implements InputProcessor, ControllerListener {
 		this.worldMouse.y = mouse.y;
 	}
 
-	public void bind(String name, String key) {
-		this.keys.put(key, State.RELEASED);
+	public void bind(String name, String ... keys) {
+		for (String key : keys) {
+			this.keys.put(key, State.RELEASED);
 
-		ArrayList<String> array;
+			ArrayList<String> array;
 
-		if (this.bindings.containsKey(name)) {
-			array = this.bindings.get(name);
-		} else {
-			array = new ArrayList<String>();
-			this.bindings.put(name, array);
+			if (this.bindings.containsKey(name)) {
+				array = this.bindings.get(name);
+			} else {
+				array = new ArrayList<String>();
+				this.bindings.put(name, array);
+			}
+
+			array.add(key);
 		}
-
-		array.add(key);
 	}
 
 	public void update() {
