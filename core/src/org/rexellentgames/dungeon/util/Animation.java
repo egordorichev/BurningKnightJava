@@ -19,7 +19,60 @@ public class Animation {
 		JsonReader reader = new JsonReader();
 		JsonValue root = reader.parse(Gdx.files.internal("sprites_split/" + file + ".json"));
 
-		// todo: load
+		JsonValue meta = root.get("meta");
+		JsonValue frameTags = meta.get("frameTags");
+		JsonValue frames = root.get("frames");
+
+		JsonValue needed = null;
+
+		// todo: check!
+
+		for (JsonValue tag : frameTags) {
+			String name = tag.get("name").asString();
+
+			if (name.equals(state)) {
+				needed = tag;
+				break;
+			}
+		}
+
+		if (needed == null) {
+			Log.error("Failed to find " + state + " in " + file);
+			return;
+		}
+
+		int from = needed.getInt("from");
+		int to = needed.getInt("to");
+
+		for (int i = from; i <= to; i++) {
+			JsonValue frame = frames.get(i);
+			String name = frame.name;
+			int delay = frame.getInt("duration");
+
+			// this: actor_towelknight 0.ase -- and state dead
+			// into this: actor-towelknight-dead-00
+
+			name = name.replace(".ase", "");
+			name = name.replace('_', '-');
+			name = name.replace(' ', '-');
+
+			int num = 0;
+			int j = 0;
+
+			Log.info("the name was: " + name);
+
+			while (Character.isDigit(name.charAt(name.length() - 1))) {
+				j += 1;
+
+				num += Integer.valueOf(name.charAt(name.length() - 1)) * (10 ^ j);
+				name = name.substring(0, name.length() - 1);
+			}
+
+			name += String.format("%02d", num);
+			Log.info("the num is: " + num);
+
+			this.frames.add(new Frame(Graphics.getTexture(name), 0.001f * delay));
+		}
 
 		this.current = this.frames.get(0);
 	}
@@ -55,5 +108,10 @@ public class Animation {
 	private class Frame {
 		public TextureRegion frame;
 		public float delay;
+
+		public Frame(TextureRegion frame, float delay) {
+			this.frame = frame;
+			this.delay = delay;
+		}
 	}
 }

@@ -1,16 +1,16 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
 public class Item extends Entity {
-	protected short sprite = 0;
+	protected String sprite;
 	protected String name = "Missing Item Name";
 	protected String description = "";
 	protected boolean stackable = false;
@@ -22,13 +22,18 @@ public class Item extends Entity {
 	protected boolean identified;
 	protected boolean cursed;
 	protected Creature owner;
+	protected TextureRegion region;
+
+	public Item() {
+		this.region = Graphics.getTexture(this.sprite);
+	}
 
 	public void setOwner(Creature owner) {
 		this.owner = owner;
 	}
 
 	public void render(float x, float y, boolean flipped) {
-		Graphics.render(Graphics.items, this.sprite, x, y);
+		Graphics.render(this.region, x, y, 0, 0, 0, flipped, false);
 	}
 
 	@Override
@@ -60,8 +65,8 @@ public class Item extends Entity {
 		this.count = reader.readInt32();
 	}
 
-	public short getSprite() {
-		return this.sprite;
+	public TextureRegion getSprite() {
+		return this.region;
 	}
 
 	public boolean isUseable() {
@@ -76,13 +81,13 @@ public class Item extends Entity {
 		return this.stackable;
 	}
 
+	public int getCount() {
+		return this.count;
+	}
+
 	public Item setCount(int count) {
 		this.count = count;
 		return this;
-	}
-
-	public int getCount() {
-		return this.count;
 	}
 
 	public Item randomize() {

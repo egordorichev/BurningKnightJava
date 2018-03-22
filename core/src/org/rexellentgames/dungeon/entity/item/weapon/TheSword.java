@@ -6,6 +6,6 @@ public class TheSword extends Sword {
 		description = "Brings death to your enemies.";
 		damage = 20;
 		useTime = 1f;
-		sprite = 5;
+		sprite = "item (claymore)";
 	}
 }

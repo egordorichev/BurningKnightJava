@@ -17,31 +17,31 @@ public class ChangableRegistry {
 	public static HashMap<Type, Boolean> identified = new HashMap<Type, Boolean>();
 
 	public enum Type {
-		RED(32),
-		BLUE(33),
-		ORANGE(34),
-		GREEN(35),
-		YELLOW(36),
-		CORAL(37),
-		PINK(38),
-		BROWN(39),
+		RED("item (potion A)"),
+		BLUE("item (potion B)"),
+		ORANGE("item (potion C)"),
+		GREEN("item (potion D)"),
+		YELLOW("item (potion E)"),
+		CORAL("item (potion F)"),
+		PINK("item (potion G)"),
+		BROWN("item (potion H)"),
 
-		JERA(64),
-		THURISAZ(65),
-		FEHU(66),
-		/*RAIDO(67),
+		JERA("item (scroll A)"),
+		THURISAZ("item (scroll B)"),
+		/*FEHU("item (scroll C)"),
+		RAIDO(67),
 		MANNAZ(68),
 		TEIWAZ(69),
 		SOWULO(70),
 		HAGALAZ(71)*/;
 
-		private int sprite;
+		private String sprite;
 
-		Type(int sprite) {
+		Type(String sprite) {
 			this.sprite = sprite;
 		}
 
-		public int getSprite() {
+		public String getSprite() {
 			return this.sprite;
 		}
 	}
@@ -93,9 +93,10 @@ public class ChangableRegistry {
 			SpellOfTeleportation.class, SpellOfDamage.class
 		));
 
+		// todo: finish this list
 		ArrayList<Type> spellTypes = new ArrayList<Type>(Arrays.asList(
-			Type.JERA, Type.THURISAZ//, Type.FEHU, Type.RAIDO,
-			//Type.MANNAZ, Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
+			Type.JERA, Type.THURISAZ //, Type.FEHU, Type.RAIDO,
+			// Type.MANNAZ, Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
 		));
 
 		for (Type type : spellTypes) {
