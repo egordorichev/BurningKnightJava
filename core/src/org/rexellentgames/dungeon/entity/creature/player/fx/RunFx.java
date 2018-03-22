@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 
 public class RunFx extends Entity {
-	private static Animation animation = new Animation(Graphics.effects, 0.05f, 16, 0, 1, 2, 3, 4, 5, 6);
+	// private static Animation animation = new Animation(Graphics.effects, 0.05f, 16, 0, 1, 2, 3, 4, 5, 6);
 	private float t;
 
 	public RunFx(float x, float y) {
@@ -25,6 +25,6 @@ public class RunFx extends Entity {
 
 	@Override
 	public void render() {
-		animation.render(this.x, this.y + 8, this.t, false);
+		// this.animation.render(this.x, this.y + 8, this.t, false);
 	}
 }

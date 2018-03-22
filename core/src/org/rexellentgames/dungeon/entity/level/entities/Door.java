@@ -58,7 +58,7 @@ public class Door extends SaveableEntity {
 			}
 		}
 
-		Graphics.render(Graphics.tiles, sprite, this.x + xm, this.y, w, h);
+		// Graphics.render(Graphics.tiles, sprite, this.x + xm, this.y, w, h);
 	}
 
 	@Override

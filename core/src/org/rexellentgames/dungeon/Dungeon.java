@@ -119,7 +119,6 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.batch.begin();
 
 			if (game.getState() instanceof HubState) {
-				Graphics.render(Graphics.tiles, 1, -8, -8);
 				Graphics.medium.draw(Graphics.batch, "[gray]Hub", 0, 12);
 				Graphics.medium.draw(Graphics.batch, "[green]Start", 0, 60);
 			}
@@ -135,8 +134,9 @@ public class Dungeon extends ApplicationAdapter {
 
 			float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
 
-			Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8, 1, 1,
-				Dungeon.time * 60, s / 2, s / 2, false, false, s, s);
+			// todo: split the textures!
+			// Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8, 1, 1,
+			//	Dungeon.time * 60, s / 2, s / 2, false, false, s, s);
 
 			Graphics.batch.end();
 

@@ -5,6 +5,6 @@ public class Chicken extends Food {
 		name = "Cooked chicken";
 		description = "Where did you find KFC?!";
 		hunger = 360;
-		sprite = 129;
+		sprite = "item (food B)";
 	}
 }

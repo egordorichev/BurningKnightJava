@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.net;
 
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Connection;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -136,15 +135,17 @@ public class Packets {
 
 	public static class Level extends Packet {
 		public int depth;
-		public short[] data;
+		public byte[] data;
+		public byte[] variants;
 		public int w;
 		public int h;
 	}
 
-	public static Level makeLevel(short[] data, int depth, int w, int h) {
+	public static Level makeLevel(byte[] data, byte[] variants, int depth, int w, int h) {
 		Level packet = new Level();
 
 		packet.data = data;
+		packet.variants = variants;
 		packet.depth = depth;
 		packet.w = w;
 		packet.h = h;
@@ -169,7 +170,7 @@ public class Packets {
 	}
 
 	public static void bind(Kryo kryo) {
-		kryo.register(short[].class);
+		kryo.register(byte[].class);
 		kryo.register(PlayerConnected.class);
 		kryo.register(SetGameState.class);
 		kryo.register(InputChange.class);

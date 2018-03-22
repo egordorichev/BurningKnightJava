@@ -1,24 +1,20 @@
 package org.rexellentgames.dungeon.entity.level;
 
-public class Terrain {
-	public static short EMPTY = 67;
-	public static short DOOR = 66;
-	public static short DIRT = 63;
-	public static short GOOD_DIRT = 71;
-	public static short PLANTED_DIRT = 72;
-	public static short FLOOR = 1;
-	public static short ENTRANCE = 64;
-	public static short EXIT = 65;
-	public static short WALL = 0;
-	public static short WATER = 255;
-	public static short FALL = 68;
-	public static short WATER_FALL = 69;
-	public static short DECO = 43;
-	public static short WOOD = 44;
-	public static short WOOD_SUPPORT = 45;
-	public static short SPIKES = 46;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.util.Log;
 
-	public static int[] flags = new int[512];
+public class Terrain {
+	public static byte EMPTY = 0;
+	public static byte DIRT = 1;
+	public static byte FLOOR = 2;
+	public static byte WATER = 3;
+	public static short WALL_SIDE = 4;
+	public static byte WALL = 5;
+	public static byte WOOD = 6;
+	public static byte SPIKES = 7;
+
+	public static int[] flags = new int[8];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
@@ -27,29 +23,43 @@ public class Terrain {
 
 	static {
 		flags[EMPTY] = HOLE;
-		flags[FALL] = HOLE;
-		flags[WATER_FALL] = HOLE;
 		flags[DIRT] = PASSABLE;
-		flags[WALL] = SOLID | HIGH;
-		flags[DOOR] = PASSABLE;
 		flags[FLOOR] = PASSABLE;
+		flags[WALL] = SOLID | HIGH;
 		flags[WATER] = PASSABLE;
-		flags[EXIT] = PASSABLE;
-		flags[ENTRANCE] = PASSABLE;
+		flags[WALL_SIDE] = HOLE;
 		flags[WOOD] = PASSABLE;
-		flags[WOOD_SUPPORT] = HOLE;
 		flags[SPIKES] = 0;
+	}
 
-		for (int x = 1; x < 32; x++) {
-			flags[x] = PASSABLE;
+	public static TextureRegion dirtPattern;
+	public static TextureRegion waterPattern;
+	public static TextureRegion woodPattern;
+	public static TextureRegion wallPattern;
+	public static TextureRegion[] patterns = new TextureRegion[8];
+	private static int last = -1;
+
+	public static void loadTextures(int set) {
+		if (last == set) {
+			return;
 		}
 
-		for (int x = 34; x < 41; x++) {
-			flags[x] = PASSABLE;
-		}
+		last = set;
 
-		for (int x = 47; x < 63; x++) {
-			flags[x] = PASSABLE;
-		}
+		Log.info("Loading biome " + set);
+
+		Log.info("biome-" + set + " (dirt pattern)");
+
+		dirtPattern = Graphics.getTexture("biome-" + set + " (dirt pattern)");
+		waterPattern = Graphics.getTexture("biome-" + set + " (pool pattern)");
+		woodPattern = Graphics.getTexture("biome-" + set + " (planks pattern)");
+		wallPattern = Graphics.getTexture("biome-" + set + " (wall pattern)");
+
+		Log.info("dirt " + dirtPattern);
+
+		patterns[DIRT] = dirtPattern;
+		patterns[WATER] = waterPattern;
+		patterns[WOOD] = woodPattern;
+		patterns[WALL] = wallPattern;
 	}
 }

@@ -8,27 +8,23 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
-import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.FootFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SpeedPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
-import org.rexellentgames.dungeon.entity.item.tool.Hoe;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -43,14 +39,15 @@ public class Player extends Creature {
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;
-	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 0, 1, 2, 3, 4, 5, 6, 7);
-	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
-	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 16, 17);
-	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 18);
+	private static Animation idle = Animation.make("actor-towelknight", "idle");
+	private static Animation run = Animation.make("actor-towelknight", "run");
+	private static Animation hurt = Animation.make("actor-towelknight", "hurt");
+	private static Animation killed = Animation.make("actor-towelknight", "dead");
 	public float lightModifier;
 	public int connectionId;
 	public boolean main;
 	public float heat;
+	private Animation animation;
 	protected int mana;
 	protected int manaMax;
 	protected int experience;
@@ -234,8 +231,11 @@ public class Player extends Creature {
 
 		super.common();
 
-		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x - 8;
+		if (this.animation != null) {
+			this.animation.update(dt);
+		}
 
+		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x - 8;
 		this.flipped = dx >= 0;
 	}
 
@@ -243,7 +243,7 @@ public class Player extends Creature {
 	protected void onTouch(short t, int x, int y) {
 		super.onTouch(t, x, y);
 
-		if (Dungeon.level.isWater(x, y, false)) {
+		if (t == Terrain.WATER) {
 			this.watery = 5f;
 		}
 	}
@@ -252,19 +252,17 @@ public class Player extends Creature {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		Animation animation;
-
 		if (this.dead) {
-			animation = killed;
+			this.animation = killed;
 		} else if (this.invt > 0) {
-			animation = hurt;
+			this.animation = hurt;
 		} else if (this.state.equals("run")) {
-			animation = run;
+			this.animation = run;
 		} else {
-			animation = idle;
+			this.animation = idle;
 		}
 
-		animation.render(this.x, this.y, this.t, this.flipped);
+		this.animation.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {

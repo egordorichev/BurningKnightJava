@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.levels;
 
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
@@ -12,7 +13,7 @@ import org.rexellentgames.dungeon.net.Network;
 public class StorageLevel extends BetterLevel {
 	public StorageLevel() {
 		if (!Network.SERVER) {
-			Graphics.tiles = Graphics.tilesets[1];
+			Terrain.loadTextures(1);
 		}
 	}
 

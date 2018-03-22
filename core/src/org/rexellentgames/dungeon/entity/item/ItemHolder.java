@@ -33,7 +33,7 @@ public class ItemHolder extends SaveableEntity {
 
 	@Override
 	public void render() {
-		Graphics.render(Graphics.items, this.item.getSprite(), this.x, this.y);
+		Graphics.render(this.item.getSprite(), this.x, this.y);
 	}
 
 	@Override

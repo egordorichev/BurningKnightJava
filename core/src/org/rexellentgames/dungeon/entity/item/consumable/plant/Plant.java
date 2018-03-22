@@ -15,7 +15,7 @@ public class Plant extends Item {
 		if (this.added != 0) {
 			float angle = (flipped ? this.added : -this.added);
 
-			Graphics.render(Graphics.items, this.sprite, x + (flipped ? -3 : 3), y - 4, 1, 1, angle, 8, 10, false,
+			Graphics.render(this.getSprite(), x + (flipped ? -3 : 3), y - 4, angle, 8, 10, false,
 				false);
 		}
 	}

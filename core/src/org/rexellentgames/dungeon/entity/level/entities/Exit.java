@@ -64,7 +64,7 @@ public class Exit extends SaveableEntity {
 
 	@Override
 	public void render() {
-		Graphics.render(Graphics.tiles, Terrain.EXIT, this.x, this.y);
+		// Graphics.render(Graphics.tiles, Terrain.EXIT, this.x, this.y);
 	}
 
 	@Override

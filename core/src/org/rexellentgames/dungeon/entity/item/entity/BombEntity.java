@@ -23,6 +23,6 @@ public class BombEntity extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.render(Graphics.items, 6, this.x, this.y);
+		// Graphics.render(Graphics.items, 6, this.x, this.y);
 	}
 }
