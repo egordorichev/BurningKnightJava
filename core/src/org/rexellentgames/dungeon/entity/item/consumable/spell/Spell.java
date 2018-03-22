@@ -14,14 +14,14 @@ public class Spell extends Consumable {
 
 	public Spell() {
 		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
-		this.sprite = (short) this.type.getSprite();
+		this.sprite = this.type.getSprite();
 		this.identified = ChangableRegistry.identified.get(this.type);
 	}
 
 	@Override
 	public void render(float x, float y, boolean flipped) {
 		if (this.delay > 0) {
-			Graphics.render(Graphics.items, this.sprite, x + (flipped ? -8 : 8), y, 1, 1, 0, 8,8, !flipped, false);
+			Graphics.render(this.region, x + (flipped ? -8 : 8), y, 0, 8,8, !flipped, false);
 		}
 	}
 

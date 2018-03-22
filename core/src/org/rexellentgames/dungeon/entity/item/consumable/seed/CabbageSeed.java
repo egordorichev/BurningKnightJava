@@ -7,7 +7,7 @@ public class CabbageSeed extends Seed {
 	{
 		name = "Cabbage Seed";
 		description = "A small seed of cabbage";
-		sprite = 130;
+		sprite = "item (seed A)";
 	}
 
 	@Override

@@ -5,8 +5,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Tool extends Weapon {
-
-
 	protected float added;
 
 	@Override
@@ -19,7 +17,7 @@ public class Tool extends Weapon {
 			w = this.owner.w;
 		}
 
-		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, 1, 1, angle, 8, 1, false,
+		Graphics.render(this.region, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, angle, 8, 1, false,
 			false);
 	}
 

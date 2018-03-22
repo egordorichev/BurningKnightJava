@@ -24,7 +24,7 @@ public class Seed extends Consumable {
 			w = this.owner.w;
 		}
 
-		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, 1, 1, angle, 8, 1, false,
+		Graphics.render(this.region, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, angle, 8, 1, false,
 			false);
 	}
 

@@ -6,21 +6,17 @@ import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Clown extends Mob {
+	private static Animation idle = Animation.make("actor-towelknight", "idle");
+	private static Animation run = Animation.make("actor-towelknight", "idle");
+	private static Animation hurt = Animation.make("actor-towelknight", "idle");
+	private static Animation killed = Animation.make("actor-towelknight", "idle");
+	private Point point;
+	private Animation animation;
+
 	{
 		hpMax = 3;
 		speed = 15;
 	}
-
-	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 256, 257, 258, 259,
-		260, 261, 262, 263);
-
-	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 264, 265, 266, 267,
-		268, 269, 270, 271);
-
-	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 272, 273);
-	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 274);
-
-	private Point point;
 
 	@Override
 	public void init() {
@@ -31,7 +27,7 @@ public class Clown extends Mob {
 	}
 
 	private void attack() {
-		
+
 	}
 
 	@Override
@@ -77,7 +73,7 @@ public class Clown extends Mob {
 			}
 		}
 
-			float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
+		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (v > 9.9) {
 			this.become("run");
@@ -88,24 +84,27 @@ public class Clown extends Mob {
 			this.vel.y = 0;
 		}
 
+		if (this.animation != null) {
+			this.animation.update(dt);
+		}
+
 		super.common();
 	}
 
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		Animation animation;
 
 		if (this.dead) {
-			animation = killed;
+			this.animation = killed;
 		} else if (this.invt > 0) {
-			animation = hurt;
+			this.animation = hurt;
 		} else if (this.state.equals("run")) {
-			animation = run;
+			this.animation = run;
 		} else {
-			animation = idle;
+			this.animation = idle;
 		}
 
-		animation.render(this.x, this.y, this.t, this.flipped);
+		this.animation.render(this.x, this.y, this.flipped);
 	}
 }
