@@ -28,10 +28,11 @@ public class UiBar extends UiEntity {
 		int hh = (int) Math.ceil(this.vertical ? this.h * (this.val / this.max) : this.h);
 
 		Graphics.batch.setColor(0.8f, 0.8f, 0.8f, 1);
-		Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - hh), w, hh);
+		// todo
+		// Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - hh), w, hh);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - h), ww, h);
+		// Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - h), ww, h);
 	}
 
 	public void renderInfo() {
