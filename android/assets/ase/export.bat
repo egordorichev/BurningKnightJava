@@ -6,5 +6,5 @@
 
 %ASEPRITE% -b item.ase --split-layers --trim --save-as %OUT%item.png
 
-%ASEPRITE% -b actor_towelknight.ase --sheet %OUT%actor-towelknight.png --data %OUT%actor-towelknight-sheet.json
-%ASEPRITE% -b actor_towelknight.ase --split-tags --save-as %OUT%actor-towelknight-{tag}-{tagframe00}.png --data %OUT%actor-towelknight.json
+%ASEPRITE% -b actor_towelknight.ase --sheet --list-tags %OUT%actor-towelknight.png --data %OUT%actor-towelknight-sheet.json
+%ASEPRITE% -b actor_towelknight.ase --split-tags --list-tags --save-as %OUT%actor-towelknight-{tag}-{tagframe00}.png --data %OUT%actor-towelknight.json

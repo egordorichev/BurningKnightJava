@@ -157,6 +157,12 @@
   "version": "1.2.7.3-x64",
   "format": "I8",
   "size": { "w": 304, "h": 16 },
-  "scale": "1"
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 7, "direction": "forward" },
+   { "name": "run", "from": 8, "to": 15, "direction": "forward" },
+   { "name": "hurt", "from": 16, "to": 17, "direction": "forward" },
+   { "name": "dead", "from": 18, "to": 18, "direction": "forward" }
+  ]
  }
 }
