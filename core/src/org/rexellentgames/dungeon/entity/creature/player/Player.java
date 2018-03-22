@@ -43,10 +43,10 @@ public class Player extends Creature {
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;
-	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 0, 1, 2, 3, 4, 5, 6, 7);
-	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 8, 9, 10, 11, 12, 13, 14, 15);
-	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 16, 17);
-	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 18);
+	private static Animation idle = Animation.make(0.08f, "actor-towelknight-idle-00");
+	private static Animation run = Animation.make(0.08f, "actor-towelknight-idle-00");
+	private static Animation hurt = Animation.make(0.1f, "actor-towelknight-idle-00");
+	private static Animation killed = Animation.make(1f, "actor-towelknight-idle-00");
 	public float lightModifier;
 	public int connectionId;
 	public boolean main;
