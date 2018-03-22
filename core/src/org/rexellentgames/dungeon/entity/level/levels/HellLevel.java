@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.levels;
 
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.HellPainter;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class HellLevel extends BetterLevel {
 	public HellLevel() {
 		if (!Network.SERVER) {
-			Graphics.tiles = Graphics.tilesets[4];
+			Terrain.loadTextures(4);
 		}
 	}
 

@@ -21,6 +21,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Animation;
@@ -38,14 +39,15 @@ public class Player extends Creature {
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;
-	private static Animation idle = Animation.make(0.08f, "actor-towelknight-idle-00");
-	private static Animation run = Animation.make(0.08f, "actor-towelknight-idle-00");
-	private static Animation hurt = Animation.make(0.1f, "actor-towelknight-idle-00");
-	private static Animation killed = Animation.make(1f, "actor-towelknight-idle-00");
+	private static Animation idle = Animation.make("actor-towelknight", "idle");
+	private static Animation run = Animation.make("actor-towelknight", "run");
+	private static Animation hurt = Animation.make("actor-towelknight", "hurt");
+	private static Animation killed = Animation.make("actor-towelknight", "dead");
 	public float lightModifier;
 	public int connectionId;
 	public boolean main;
 	public float heat;
+	private Animation animation;
 	protected int mana;
 	protected int manaMax;
 	protected int experience;
@@ -229,8 +231,11 @@ public class Player extends Creature {
 
 		super.common();
 
-		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x - 8;
+		if (this.animation != null) {
+			this.animation.update(dt);
+		}
 
+		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x - 8;
 		this.flipped = dx >= 0;
 	}
 
@@ -238,7 +243,7 @@ public class Player extends Creature {
 	protected void onTouch(short t, int x, int y) {
 		super.onTouch(t, x, y);
 
-		if (Dungeon.level.isWater(x, y, false)) {
+		if (t == Terrain.WATER) {
 			this.watery = 5f;
 		}
 	}
@@ -247,19 +252,17 @@ public class Player extends Creature {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		Animation animation;
-
 		if (this.dead) {
-			animation = killed;
+			this.animation = killed;
 		} else if (this.invt > 0) {
-			animation = hurt;
+			this.animation = hurt;
 		} else if (this.state.equals("run")) {
-			animation = run;
+			this.animation = run;
 		} else {
-			animation = idle;
+			this.animation = idle;
 		}
 
-		animation.render(this.x, this.y, this.t, this.flipped);
+		this.animation.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {

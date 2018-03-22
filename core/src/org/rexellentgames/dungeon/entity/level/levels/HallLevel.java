@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
 import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 public class HallLevel extends BetterLevel {
 	public HallLevel() {
 		if (!Network.SERVER) {
-			Graphics.tiles = Graphics.tilesets[0];
+			Terrain.loadTextures(0);
 		}
 	}
 

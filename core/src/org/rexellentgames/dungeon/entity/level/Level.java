@@ -290,14 +290,21 @@ public abstract class Level extends Entity {
 				if (!this.low[i]) {
 					short tile = this.get(i);
 
-					if (tile > -1) {
-						Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
+					if (tile > 0 && Terrain.patterns[tile] != null) {
+						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
+
+						region.setRegionX(region.getRegionX() + x % 4 * 16);
+						region.setRegionY(region.getRegionY() + (3 - (y % 4)) * 16);
+						region.setRegionWidth(16);
+						region.setRegionHeight(16);
+
+						Graphics.render(region, x * 16, y * 16);
 					}
 				} else {
 					byte count = this.counts[i];
 
 					if (count != 0 && (count & (1L)) == 0) {
-						Graphics.render(Graphics.tiles, 1 + count, x * 16, y * 16);
+						// Graphics.render(Graphics.tiles, 1 + count, x * 16, y * 16);
 					}
 				}
 			}
@@ -319,32 +326,38 @@ public abstract class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
+		/*for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
 				if (this.isWater(x, y, false)) {
 					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16, 144 + x % 2 * 16, Math.round(48 +
 						(y % 2 * 16 - Dungeon.time * 8) % 32), 16, 16);
 				}
 			}
-		}
+		}*/
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWIDTH()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHEIGHT()); y++) {
 				int i = x + y * getWIDTH();
-				float v = this.light[i];
 
 				if (this.low[i]) {
 					short tile = this.get(i);
 
-					if (tile > -1) {
-						Graphics.render(Graphics.tiles, tile, x * 16, y * 16);
+					if (tile > 0 && Terrain.patterns[tile] != null) {
+						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
+
+						region.setRegionX(region.getRegionX() + x % 4 * 16);
+						region.setRegionY(region.getRegionY() + (3 - y % 4) * 16);
+						region.setRegionWidth(16);
+						region.setRegionHeight(16);
+
+						Graphics.render(region, x * 16, y * 16);
 					}
 				}
 
 				byte count = this.counts[i];
 
 				if (count != 0 && (count & (1L)) != 0) {
-					Graphics.render(Graphics.tiles, 1 + count, x * 16, y * 16);
+					// Graphics.render(Graphics.tiles, 1 + count, x * 16, y * 16);
 				}
 			}
 		}
@@ -576,7 +589,7 @@ public abstract class Level extends Entity {
 				this.initLight();
 
 				for (int i = 0; i < getSIZE(); i++) {
-					this.data[i] = stream.readInt16();
+					this.data[i] = stream.readByte();
 				}
 			}
 
@@ -586,6 +599,10 @@ public abstract class Level extends Entity {
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}
+	}
+
+	public byte[] getVariants() {
+		return this.variants;
 	}
 
 	public void save(DataType type) {
@@ -602,7 +619,7 @@ public abstract class Level extends Entity {
 				stream.writeInt32(getHEIGHT());
 
 				for (int i = 0; i < getSIZE(); i++) {
-					stream.writeInt16(this.data[i]);
+					stream.writeByte(this.data[i]);
 				}
 			}
 

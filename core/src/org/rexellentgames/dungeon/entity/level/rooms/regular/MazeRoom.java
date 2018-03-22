@@ -8,11 +8,11 @@ import org.rexellentgames.dungeon.util.Maze;
 import org.rexellentgames.dungeon.util.Random;
 
 public class MazeRoom extends RegularRoom {
-	private static short[] types = new short[] { Terrain.WALL, Terrain.EMPTY, Terrain.SPIKES };
+	private static byte[] types = new byte[] { Terrain.WALL, Terrain.EMPTY, Terrain.SPIKES };
 
 	@Override
 	public void paint(Level level) {
-		short wall = types[Random.newInt(types.length)];
+		byte wall = types[Random.newInt(types.length)];
 		boolean[][] maze = Maze.generate(this);
 
 		Painter.fill(level, this, Terrain.WALL);

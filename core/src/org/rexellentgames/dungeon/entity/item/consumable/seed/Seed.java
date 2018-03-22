@@ -24,7 +24,7 @@ public class Seed extends Consumable {
 			w = this.owner.w;
 		}
 
-		Graphics.render(this.region, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, angle, 8, 1, false,
+		Graphics.render(this.getSprite(), x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, angle, 8, 1, false,
 			false);
 	}
 
@@ -70,7 +70,7 @@ public class Seed extends Consumable {
 		int x = Math.round(this.owner.x / 16) + (this.owner.isFlipped() ? -1 : 1);
 		int y = Math.round(this.owner.y / 16);
 
-		if (Dungeon.level.get(x, y) == Terrain.GOOD_DIRT) {
+		if (Dungeon.level.get(x, y) == Terrain.DIRT) {
 			Plant plant = this.createPlant();
 
 			if (plant != null) {
@@ -79,7 +79,7 @@ public class Seed extends Consumable {
 
 				Dungeon.area.add(plant);
 				Dungeon.level.addSaveable(plant);
-				Dungeon.level.set(x, y, Terrain.PLANTED_DIRT);
+				// Dungeon.level.set(x, y, Terrain.PLANTED_DIRT);
 
 				this.count -= 1;
 			}

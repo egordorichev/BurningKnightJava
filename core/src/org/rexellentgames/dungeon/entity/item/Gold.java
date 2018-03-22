@@ -6,7 +6,7 @@ public class Gold extends Item {
 	{
 		name = "Gold";
 		stackable = true;
-		sprite = 1;
+		sprite = "item (coin)";
 		autoPickup = true;
 		useable = false;
 		description = "$$$";

@@ -23,7 +23,7 @@ public class TunnelRoom extends ConnectionRoom {
 			door.setType(Door.Type.TUNNEL);
 		}
 
-		int floor = Terrain.FLOOR;
+		byte floor = Terrain.FLOOR;
 		boolean bold = (Dungeon.depth == 0);
 
 		if (!bold) {

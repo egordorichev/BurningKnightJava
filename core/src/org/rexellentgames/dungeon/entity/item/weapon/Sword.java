@@ -8,7 +8,7 @@ import org.rexellentgames.dungeon.util.Tween;
 public class Sword extends Weapon {
 	{
 		name = "Sword";
-		sprite = 0;
+		sprite = "item (sword)";
 		damage = 3;
 	}
 
@@ -32,8 +32,8 @@ public class Sword extends Weapon {
 			}
 		}
 
-		Graphics.render(Graphics.items, this.sprite, x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3,
-			1, 1, flipped ? angle : 180 - angle, 8, 2, false, false);
+		Graphics.render(this.getSprite(), x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3,
+			flipped ? angle : 180 - angle, 8, 2, false, false);
 	}
 
 	@Override
