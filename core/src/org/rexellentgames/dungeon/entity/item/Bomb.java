@@ -7,7 +7,7 @@ public class Bomb extends Item {
 	{
 		name = "Bomb";
 		description = "Don't press that button @_@";
-		sprite = 6;
+		sprite = "item (bomb)";
 		useTime = 1f;
 		stackable = true;
 	}

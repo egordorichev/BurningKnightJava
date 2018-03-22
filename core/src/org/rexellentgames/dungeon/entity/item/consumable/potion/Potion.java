@@ -16,7 +16,7 @@ public class Potion extends Consumable {
 
 	public Potion() {
 		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
-		this.sprite = (short) this.type.getSprite();
+		this.sprite = this.type.getSprite();
 		this.identified = ChangableRegistry.identified.get(this.type);
 	}
 
@@ -25,7 +25,7 @@ public class Potion extends Consumable {
 		if (this.added != 0) {
 			float angle = (flipped ? this.added : -this.added);
 
-			Graphics.render(Graphics.items, this.sprite, x + (flipped ? -3 : 3), y - 4, 1, 1, angle, 8, 10, false,
+			Graphics.render(this.getSprite(), x + (flipped ? -3 : 3), y - 4, angle, 8, 10, false,
 				false);
 		}
 	}

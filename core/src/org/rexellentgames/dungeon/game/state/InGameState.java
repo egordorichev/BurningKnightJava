@@ -21,7 +21,7 @@ import org.rexellentgames.dungeon.ui.UiBar;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
-	private static final boolean DRAW_DEBUG = false;
+	private static final boolean DRAW_DEBUG = true;
 	private static final float TIME_STEP = 1 / 45.f;
 	public static boolean LIGHT = false;
 
@@ -149,7 +149,8 @@ public class InGameState extends State {
 
 	@Override
 	public void renderUi() {
-		Graphics.render(Graphics.ui, 0, 0, Display.GAME_HEIGHT - 32, 5, 2);
+		// todo: fix
+		// Graphics.render(Graphics.ui, 0, 0, Display.GAME_HEIGHT - 32, 5, 2);
 		Dungeon.ui.render();
 
 		if (Player.instance.getLevel() != this.lastLevel) {
@@ -169,7 +170,8 @@ public class InGameState extends State {
 			int xx = sprite % 32 * 8;
 			int yy = (int) (Math.floor(sprite / 32) * 8);
 
-			Graphics.batch.draw(Graphics.buffs, 2 + i * 9, Display.GAME_HEIGHT - 36, xx, yy, 8, 8);
+			// todo: render
+			// Graphics.batch.draw(Graphics.buffs, 2 + i * 9, Display.GAME_HEIGHT - 36, xx, yy, 8, 8);
 		}
 
 		if (this.health.hovered) { this.health.renderInfo(); }

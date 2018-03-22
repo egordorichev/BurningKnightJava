@@ -48,7 +48,7 @@ public class FootFx extends Entity {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		Graphics.render(Graphics.effects, 8, this.x, this.y, 1, 1, (this.angle * 360 + 90), 3, 12, false, false);
+		// Graphics.render(Graphics.effects, 8, this.x, this.y, 1, 1, (this.angle * 360 + 90), 3, 12, false, false);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }

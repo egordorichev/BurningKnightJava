@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
 import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
-import org.rexellentgames.dungeon.entity.item.tool.Hoe;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
 
 import java.util.HashMap;

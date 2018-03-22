@@ -138,7 +138,7 @@ public class UiInventory extends UiEntity {
 
 	public void renderCurrentSlot() {
 		if (this.currentSlot != null) {
-			Graphics.render(Graphics.items, this.currentSlot.getSprite(), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 8);
+			// Graphics.render(Graphics.items, this.currentSlot.getSprite(), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 8);
 			int count = this.currentSlot.getCount();
 
 			if (count > 1) {

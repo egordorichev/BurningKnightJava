@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -12,19 +11,16 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 
 public class Knight extends Mob {
-	private static Animation idle = Animation.make(Graphics.sprites, 0.08f, 16, 224, 225, 226, 227,
-		228, 229, 230, 231);
-	private static Animation run = Animation.make(Graphics.sprites, 0.08f, 16, 232, 233, 234, 235,
-		236, 237, 238, 239);
-	private static Animation hurt = Animation.make(Graphics.sprites, 0.1f, 16, 240, 241);
-	private static Animation killed = Animation.make(Graphics.sprites, 1f, 16, 242);
+	private static Animation idle = Animation.make("actor-towelknight", "idle");
+	private static Animation run = Animation.make("actor-towelknight", "run");
+	private static Animation hurt = Animation.make("actor-towelknight", "hurt");
+	private static Animation killed = Animation.make("actor-towelknight", "dead");
 	private Point point;
 	private Sword sword;
 	private float runDelay;
@@ -34,58 +30,7 @@ public class Knight extends Mob {
 	private Room target;
 	private Point targetPoint;
 	private Point nextPathPoint;
-
-	/*
-Some ideas for generic enemy behaviour (e.g. towel knights at the moment)
-
-Trying to address the kiting problem i.e. the situation in which you trigger an enemy but can never shake off, resulting in you kiting the entire level after a while.
-
-**TERMS**
-- **enemyStrengthPool:** a value we use to broadly track the general combined strength of enemies currently spawned on the level (i.e. difficulty, when to spawn more etc.)
-- **gobboHeat:** when gobbo alerts enemies, his heat counter starts to slowly increase. Certain actions may also increase this number quicker e.g. attacking.
-This value determines how many enemies gives pursuit of the gobbo. The goal is, that when you just stumble on a group of enemies, only one or a few will give chase first. When gobbo is not alerting any enemies this number degrades.
-
-**IDLE**
-- enter: not seeing the gobbo for N seconds
-- action: stand around for N seconds deciding what to do
-
-**GO RELAX**
-- enter: in same room with spa available
-- action: move towards spa tiles
-
-**RELAX**
-- enter: being in a pool for N seconds in IDLE state
-- action: same as IDLE just a different sprite
-
-**SPAWN**
-- enter: various
-- action: appear in an unoccupied spa tile
-
-**ALERTED**
-- enter: gobbo OR pusuing enemy enters line of sight
-- action: display mark
-
-**CHASING**
-- enter: in ALERTED state + gobbo OR pursuing enemy is in line of sight for N seconds + number of pursuers is less than gobboHeat value
-
-**TIRED**
-- enter: in chasing state for N seconds
-- action: stops to catch breath for N seconds (to let gobbo slip away)
-
-**ATTACKING**
-- enter : in CHASING state AND gobbo enters attack radius
-- action: perform attack
-- note: enemy may have multiple attacks with different radii. attacks may have telegraph phase. attacks may have recovery phase. this may require further states to handle
-
-**FLEEING**
-- enter: affected by fear effect OR near death
-- action: moves to adjacent room
-
-**ROAM**
-- enter: was IDLE state in N seconds
-- action: moves to adjacent room
-- note: slower movement
-*/
+	private Animation animation;
 
 	{
 		hpMax = 10;
@@ -112,10 +57,12 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 			return;
 		}
 
+		if (this.animation != null) {
+			this.animation.update(dt);
+		}
+
 		this.sword.update(dt);
-
 		this.ai(dt);
-
 		super.common();
 	}
 
@@ -123,44 +70,22 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		Animation animation;
-
 		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (this.dead) {
-			animation = killed;
+			this.animation = killed;
 		} else if (this.invt > 0) {
-			animation = hurt;
+			this.animation = hurt;
 		} else if (v > 9.9) {
-			animation = run;
+			this.animation = run;
 		} else {
-			animation = idle;
+			this.animation = idle;
 		}
 
-		animation.render(this.x, this.y, this.t, this.flipped);
+		this.animation.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.sword.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
-
-
-		/*
-		if (this.nextPathPoint != null) {
-			Graphics.batch.end();
-			Graphics.shape.setColor(1, 0, 1, 1);
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.line(this.x + 8, this.y + 8, this.nextPathPoint.x + 8, this.nextPathPoint.y + 8);
-			Graphics.shape.end();
-			Graphics.shape.setColor(1, 1, 1, 1);
-			Graphics.batch.begin();
-		}
-
-		if (this.targetPoint != null) {
-			Graphics.batch.end();
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.line(this.x + 8, this.y + 8, this.targetPoint.x * 16 + 8, this.targetPoint.y * 16 + 8);
-			Graphics.shape.end();
-			Graphics.batch.begin();
-		}*/
 	}
 
 	@Override
@@ -204,7 +129,7 @@ This value determines how many enemies gives pursuit of the gobbo. The goal is, 
 		for (int i = 0; i < this.currentRoom.getWidth() * this.currentRoom.getHeight(); i++) {
 			Point point = this.currentRoom.getRandomCell();
 
-			if (Dungeon.level.isWater((int) point.x, (int) point.y, false)) {
+			if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WATER) {
 				this.water = new Point(point.x * 16, point.y * 16);
 				this.become("toRelax");
 			}

@@ -6,6 +6,6 @@ public class Dagger extends Sword {
 		damage = 4;
 		name = "Dagger";
 		useTime = 0.3f;
-		sprite = 0;
+		sprite = "item (dagger)";
 	}
 }

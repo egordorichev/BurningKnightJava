@@ -25,6 +25,7 @@ public class ExpFx extends UiEntity {
 
 	@Override
 	public void render() {
-		Graphics.batch.draw(Graphics.effects, this.x, this.y, 3, 3, 112, 0, 3, 3, false, false);
+		// todo
+		// Graphics.batch.draw(Graphics.effects, this.x, this.y, 3, 3, 112, 0, 3, 3, false, false);
 	}
 }

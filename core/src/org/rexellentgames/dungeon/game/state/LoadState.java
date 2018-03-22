@@ -10,7 +10,6 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
@@ -77,7 +76,8 @@ public class LoadState extends State {
 					Log.info("Loading done!");
 
 					if (Network.SERVER) {
-						Network.server.getServerHandler().sendToAll(Packets.makeLevel(Dungeon.level.getData(), Dungeon.depth, Level.getWIDTH(), Level.getHEIGHT()));
+						Network.server.getServerHandler().sendToAll(Packets.makeLevel(Dungeon.level.getData(),
+							Dungeon.level.getVariants(), Dungeon.depth, Level.getWIDTH(), Level.getHEIGHT()));
 					}
 
 					Camera.instance.follow(Player.instance);
