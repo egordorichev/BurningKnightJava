@@ -4,7 +4,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class Patch {
 	public static boolean[] generate(float seed, int octaves) {
-		return generate(Level.getWIDTH(), Level.getHEIGHT(), seed, octaves);
+		return generate(Level.getWidth(), Level.getHeight(), seed, octaves);
 	}
 
 	public static boolean[] generate(int w, int h, float seed, int octaves) {

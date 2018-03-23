@@ -10,14 +10,8 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.HubState;
 import org.rexellentgames.dungeon.game.state.InGameState;
-import org.rexellentgames.dungeon.game.state.LoginState;
-import org.rexellentgames.dungeon.game.state.NetLoadState;
 import org.rexellentgames.dungeon.net.PackageInfo;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
@@ -25,8 +19,6 @@ import org.rexellentgames.dungeon.util.PathFinder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ClientHandler extends Listener {
 	private GameClient client;
@@ -215,14 +207,13 @@ public class ClientHandler extends Listener {
 		Dungeon.level = Level.forDepth(packet.depth);
 		Dungeon.level.setData(packet.data);
 
-		Level.setWIDTH(packet.w);
-		Level.setHEIGHT(packet.h);
+		Level.setWidth(packet.w);
+		Level.setHeight(packet.h);
 
 		Log.info("Set level size to " + packet.w + ":" + packet.h);
 
 		Dungeon.level.loadPassable();
 		Dungeon.level.addPhysics();
-		Dungeon.level.tile();
 
 		Dungeon.level.initLight();
 
@@ -239,7 +230,7 @@ public class ClientHandler extends Listener {
 
 		Log.info("Entities: " + Dungeon.area.getEntities().size());
 
-		PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
+		PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 
 		Player.instance.tp(packet.w * 8, packet.h * 8);
 		Camera.instance.follow(Player.instance);

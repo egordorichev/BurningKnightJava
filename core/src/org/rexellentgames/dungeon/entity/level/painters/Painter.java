@@ -111,10 +111,10 @@ public class Painter {
 	public void draw(Level level, ArrayList<Room> rooms) {
 		Log.info("Making all pretty...");
 
-		for (int x = 1; x < Level.getWIDTH() - 1; x++) {
-			for (int y = 1; y < Level.getHEIGHT() - 1; y++) {
+		for (int x = 1; x < Level.getWidth() - 1; x++) {
+			for (int y = 1; y < Level.getHeight() - 1; y++) {
 				short tile = level.get(x, y);
-				boolean bottomEmpty = (level.get(x, y - 1) == Terrain.EMPTY);
+				boolean bottomEmpty = (level.get(x, y - 1) == Terrain.CHASM);
 
 				// todo
 			}
@@ -170,7 +170,7 @@ public class Painter {
 	}
 
 	public static void set(Level level, int x, int y, byte value) {
-		set(level, x + y * level.getWIDTH(), value);
+		set(level, x + y * level.getWidth(), value);
 	}
 
 	public static void setBold(Level level, int x, int y, byte value) {
@@ -188,7 +188,7 @@ public class Painter {
 	}
 
 	public static void fill(Level level, int x, int y, int w, int h, byte value) {
-		int width = level.getWIDTH();
+		int width = level.getWidth();
 
 		int pos = y * width + x;
 		for (int i = y; i < y + h; i++, pos += width) {
@@ -279,7 +279,7 @@ public class Painter {
 				rowW++;
 			}
 
-			int cell = x + (w - (int) rowW) / 2 + ((y + i) * level.getWIDTH());
+			int cell = x + (w - (int) rowW) / 2 + ((y + i) * level.getWidth());
 			Arrays.fill(level.data, cell, cell + (int) rowW, value);
 		}
 	}

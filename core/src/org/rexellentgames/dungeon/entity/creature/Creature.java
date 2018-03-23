@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature;
 
-import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -8,23 +7,19 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
-import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -130,7 +125,7 @@ public class Creature extends SaveableEntity {
 
 			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
 				for (int y = (int) Math.floor((this.hy + this.y) / 16); y < Math.ceil((this.hy + this.y + this.hh / 3) / 16); y++) {
-					if (x < 0 || y < 0 || x >= Level.getWIDTH() || y >= Level.getHEIGHT()) {
+					if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
 						continue;
 					}
 
@@ -388,6 +383,6 @@ public class Creature extends SaveableEntity {
 	}
 
 	public int toIndex() {
-		return (int) (Math.floor(this.x / 16) + Math.floor(this.y / 16) * Level.getWIDTH());
+		return (int) (Math.floor(this.x / 16) + Math.floor(this.y / 16) * Level.getWidth());
 	}
 }
