@@ -19,7 +19,7 @@ public class ChasmRoom extends RegularRoom {
 		for (int x = 2; x < this.getWidth() - 2; x++) {
 			for (int y = 2; y < this.getHeight() - 2; y++) {
 				if (patch[x + y * w]) {
-					Painter.set(level, this.left + x, this.top + y, Terrain.EMPTY);
+					Painter.set(level, this.left + x, this.top + y, Terrain.CHASM);
 				}
 			}
 		}

@@ -68,16 +68,15 @@ public class LoadState extends State {
 
 					Dungeon.level.loadPassable();
 					Dungeon.level.addPhysics();
-					Dungeon.level.tile();
 
-					PathFinder.setMapSize(Level.getWIDTH(), Level.getHEIGHT());
+					PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 
 					UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
 					Log.info("Loading done!");
 
 					if (Network.SERVER) {
 						Network.server.getServerHandler().sendToAll(Packets.makeLevel(Dungeon.level.getData(),
-							Dungeon.level.getVariants(), Dungeon.depth, Level.getWIDTH(), Level.getHEIGHT()));
+							Dungeon.level.getVariants(), Dungeon.depth, Level.getWidth(), Level.getHeight()));
 					}
 
 					Camera.instance.follow(Player.instance);

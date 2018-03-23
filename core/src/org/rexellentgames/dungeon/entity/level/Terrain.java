@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Log;
 
 public class Terrain {
-	public static byte EMPTY = 0;
+	public static byte CHASM = 0;
 	public static byte DIRT = 1;
 	public static byte FLOOR = 2;
 	public static byte WATER = 3;
@@ -22,7 +22,7 @@ public class Terrain {
 	public static int HIGH = 0x8;
 
 	static {
-		flags[EMPTY] = HOLE;
+		flags[CHASM] = HOLE;
 		flags[DIRT] = PASSABLE;
 		flags[FLOOR] = PASSABLE;
 		flags[WALL] = SOLID | HIGH;
@@ -37,6 +37,13 @@ public class Terrain {
 	public static TextureRegion woodPattern;
 	public static TextureRegion wallPattern;
 	public static TextureRegion[] patterns = new TextureRegion[8];
+
+	public static TextureRegion[] dirtVariants = new TextureRegion[16];
+	public static TextureRegion[] waterVariants = new TextureRegion[16];
+	public static TextureRegion[] chasmVariants = new TextureRegion[16];
+
+	public static TextureRegion[][] variants = new TextureRegion[8][16];
+
 	private static int last = -1;
 
 	public static void loadTextures(int set) {
@@ -54,6 +61,8 @@ public class Terrain {
 		waterPattern = Graphics.getTexture("biome-" + set + " (pool pattern)");
 		woodPattern = Graphics.getTexture("biome-" + set + " (planks pattern)");
 		wallPattern = Graphics.getTexture("biome-" + set + " (wall pattern)");
+
+
 
 		Log.info("dirt " + dirtPattern);
 

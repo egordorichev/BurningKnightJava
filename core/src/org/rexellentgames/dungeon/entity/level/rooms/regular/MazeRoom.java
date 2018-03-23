@@ -8,7 +8,7 @@ import org.rexellentgames.dungeon.util.Maze;
 import org.rexellentgames.dungeon.util.Random;
 
 public class MazeRoom extends RegularRoom {
-	private static byte[] types = new byte[] { Terrain.WALL, Terrain.EMPTY, Terrain.SPIKES };
+	private static byte[] types = new byte[] { Terrain.WALL, Terrain.CHASM, Terrain.SPIKES };
 
 	@Override
 	public void paint(Level level) {
