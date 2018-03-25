@@ -246,7 +246,7 @@ public abstract class Level extends Entity {
 			return;
 		}
 
-		byte var = (byte) Random.newInt(0, 10);
+		byte var = (byte) Random.newInt(0, 11);
 
 		if (var == 9 || var == 10) {
 			for (int xx = x; xx < x + 2; xx++) {
