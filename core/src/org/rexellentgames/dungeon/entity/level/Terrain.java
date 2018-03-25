@@ -37,11 +37,12 @@ public class Terrain {
 	public static TextureRegion wallPattern;
 	public static TextureRegion[] patterns = new TextureRegion[8];
 
-	public static TextureRegion[] dirtVariants = new TextureRegion[16];
-	public static TextureRegion[] waterVariants = new TextureRegion[16];
-	public static TextureRegion[] chasmVariants = new TextureRegion[16];
+	public static TextureRegion[] dirtVariants = new TextureRegion[15];
+	public static TextureRegion[] waterVariants = new TextureRegion[15];
+	public static TextureRegion[] chasmVariants = new TextureRegion[15];
+	public static TextureRegion[] wallVariants = new TextureRegion[15];
 
-	public static TextureRegion[][] variants = new TextureRegion[8][16];
+	public static TextureRegion[][] variants = new TextureRegion[8][15];
 
 	private static int last = -1;
 
@@ -63,20 +64,25 @@ public class Terrain {
 		patterns[WATER] = waterPattern;
 		patterns[WALL] = wallPattern;
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 15; i++) {
 			dirtVariants[i] = Graphics.getTexture(bm + " (dirt " + Level.COMPASS[i] + ")");
 		}
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 15; i++) {
 			waterVariants[i] = Graphics.getTexture(bm + " (pool " + Level.COMPASS[i] + ")");
 		}
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 15; i++) {
 			chasmVariants[i] = Graphics.getTexture(bm + " (chasm " + Level.COMPASS[i] + ")");
+		}
+
+		for (int i = 0; i < 15; i++) {
+			wallVariants[i] = Graphics.getTexture(bm + " (wall " + Level.COMPASS[i] + ")");
 		}
 
 		variants[DIRT] = dirtVariants;
 		variants[CHASM] = chasmVariants;
 		variants[WATER] = waterVariants;
+		variants[WALL] = wallVariants;
 	}
 }

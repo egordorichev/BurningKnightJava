@@ -47,8 +47,8 @@ public abstract class Level extends Entity {
 	public static int noticed;
 
 	public static String[] COMPASS = {
-		"N", "E", "NE", "S", "NS", "ES", "NES", "W", "NW", "EW", "NEW",
-		"SW", "ESW", "NSW", "ESW", "NESW"
+		"NESW", "ESW", "NSW", "SW", "NEW", "EW", "NW", "W",
+		"NES", "ES", "NS", "S", "NE", "E", "N"
 	};
 
 	private static int WIDTH = 36;
@@ -216,19 +216,19 @@ public abstract class Level extends Entity {
 	private void tileUp(int x, int y, int tile, boolean flag) {
 		byte count = 0;
 
-		if (!this.shouldTile(x, y + 1, tile, flag)) {
+		if (this.shouldTile(x, y + 1, tile, flag)) {
 			count += 1;
 		}
 
-		if (!this.shouldTile(x + 1, y, tile, flag)) {
+		if (this.shouldTile(x + 1, y, tile, flag)) {
 			count += 2;
 		}
 
-		if (!this.shouldTile(x, y - 1, tile, flag)) {
+		if (this.shouldTile(x, y - 1, tile, flag)) {
 			count += 4;
 		}
 
-		if (!this.shouldTile(x - 1, y, tile, flag)) {
+		if (this.shouldTile(x - 1, y, tile, flag)) {
 			count += 8;
 		}
 
@@ -390,13 +390,22 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						Graphics.render(region, x * 16, y * 16);
+						// Graphics.render(region, x * 16, y * 16);
 					}
 
 					if (Terrain.variants[tile] != null) {
-						byte variant = this.variants[toIndex(x, y)];
-						if (Terrain.variants[tile][variant] != null) {
-							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+						byte variant = this.variants[i];
+
+						if (variant != 15 && Terrain.variants[tile][variant] != null) {
+							// Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+						}
+					}
+
+					if (this.passable[i]) {
+						byte variant = this.variants[i];
+
+						if (variant != 15) {
+							Graphics.render(Terrain.wallVariants[variant], x * 16, y * 16);
 						}
 					}
 				}
