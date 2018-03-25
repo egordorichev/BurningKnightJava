@@ -52,16 +52,16 @@ public class Mob extends Creature {
 	}
 
 	public Point getCloser(Point target) {
-		int from = (int) (Math.floor((this.x + 8) / 16) + Math.floor((this.y + 8) / 16) * Level.getWIDTH());
-		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.getWIDTH());
+		int from = (int) (Math.floor((this.x + 8) / 16) + Math.floor((this.y + 8) / 16) * Level.getWidth());
+		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.getWidth());
 
 		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable());
 
 		if (step != -1) {
 			Point p = new Point();
 
-			p.x = step % Level.getWIDTH() * 16;
-			p.y = (float) (Math.floor(step / Level.getWIDTH()) * 16);
+			p.x = step % Level.getWidth() * 16;
+			p.y = (float) (Math.floor(step / Level.getWidth()) * 16);
 
 			return p;
 		}
@@ -102,7 +102,7 @@ public class Mob extends Creature {
 			boolean found = false;
 
 			for (Point point : line.getPoints()) {
-				int i = (int) (point.x + point.y * Level.getWIDTH());
+				int i = (int) (point.x + point.y * Level.getWidth());
 				if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
 					found = true;
 					break;

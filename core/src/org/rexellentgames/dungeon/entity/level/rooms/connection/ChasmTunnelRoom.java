@@ -9,7 +9,7 @@ public class ChasmTunnelRoom extends TunnelRoom {
 	@Override
 	protected void fill(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.EMPTY);
+		Painter.fill(level, this, 1, Terrain.CHASM);
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
