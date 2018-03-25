@@ -68,10 +68,6 @@ public abstract class Level extends Entity {
 	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<Room> rooms;
-	protected TextureRegion[] water = new TextureRegion[16];
-	protected TextureRegion[] floor = new TextureRegion[16];
-	protected TextureRegion[] wood = new TextureRegion[16];
-	protected TextureRegion[] dirt = new TextureRegion[16];
 
 	public static int getWidth() {
 		return WIDTH;
@@ -220,19 +216,19 @@ public abstract class Level extends Entity {
 	private void tileUp(int x, int y, int tile, boolean flag) {
 		byte count = 0;
 
-		if (this.shouldTile(x, y + 1, tile, flag)) {
+		if (!this.shouldTile(x, y + 1, tile, flag)) {
 			count += 1;
 		}
 
-		if (this.shouldTile(x + 1, y, tile, flag)) {
+		if (!this.shouldTile(x + 1, y, tile, flag)) {
 			count += 2;
 		}
 
-		if (this.shouldTile(x, y - 1, tile, flag)) {
+		if (!this.shouldTile(x, y - 1, tile, flag)) {
 			count += 4;
 		}
 
-		if (this.shouldTile(x - 1, y, tile, flag)) {
+		if (!this.shouldTile(x - 1, y, tile, flag)) {
 			count += 8;
 		}
 
