@@ -49,7 +49,13 @@ public class Graphics {
 	}
 
 	public static TextureRegion getTexture(String name) {
-		return atlas.findRegion(name);
+		TextureRegion region = atlas.findRegion(name);
+
+		if (region == null) {
+			Log.error("Texture '" + name + "' is not found!");
+		}
+
+		return region;
 	}
 
 	private static void generateFont(String path, int size) {
