@@ -212,6 +212,8 @@ public abstract class Level extends Entity {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.DIRT) {
 					this.tileUp(x, y, Terrain.DIRT, false);
+				} else if (tile == Terrain.FLOOR || tile == Terrain.WOOD) {
+					this.makeFloor(x, y, tile);
 				}
 
 				byte count = 0;
@@ -234,6 +236,41 @@ public abstract class Level extends Entity {
 
 				this.walls[toIndex(x, y)] = count;
 			}
+		}
+	}
+
+	private void makeFloor(int x, int y, int tile) {
+		int i = toIndex(x, y);
+
+		if (this.variants[i] != 0) {
+			return;
+		}
+
+		byte var = (byte) Random.newInt(0, 10);
+
+		if (var == 9 || var == 10) {
+			for (int xx = x; xx < x + 2; xx++) {
+				for (int yy = y; yy < y + 2; yy++) {
+					if (this.get(xx, yy) != tile || this.variants[toIndex(xx, yy)] != 0) {
+						var = (byte) Random.newInt(0, 8);
+						break;
+					}
+				}
+			}
+		}
+
+		if (var == 9) {
+			this.variants[toIndex(x, y)] = 10;
+			this.variants[toIndex(x + 1, y)] = 11;
+			this.variants[toIndex(x, y + 1)] = 8;
+			this.variants[toIndex(x + 1, y + 1)] = 9;
+		} else if (var == 10) {
+			this.variants[toIndex(x, y)] = 14;
+			this.variants[toIndex(x + 1, y)] = 15;
+			this.variants[toIndex(x, y + 1)] = 12;
+			this.variants[toIndex(x + 1, y + 1)] = 13;
+		} else {
+			this.variants[i] = var;
 		}
 	}
 
@@ -264,10 +301,12 @@ public abstract class Level extends Entity {
 			return false;
 		}
 
+		byte t = this.get(x, y);
+
 		if (flag) {
-			return this.checkFor(x, y, tile);
+			return this.checkFor(x, y, tile) || t == Terrain.WALL;
 		} else {
-			return this.get(x, y) == tile;
+			return t == tile || t == Terrain.WALL;
 		}
 	}
 
@@ -390,15 +429,6 @@ public abstract class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-		/*for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
-				if (this.isWater(x, y, false)) {
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16, 144 + x % 2 * 16, Math.round(48 +
-						(y % 2 * 16 - Dungeon.time * 8) % 32), 16, 16);
-				}
-			}
-		}*/
-
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
@@ -420,7 +450,7 @@ public abstract class Level extends Entity {
 					if (Terrain.variants[tile] != null) {
 						byte variant = this.variants[i];
 
-						if (variant != 15 && Terrain.variants[tile][variant] != null) {
+						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
 							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
 						}
 					}
