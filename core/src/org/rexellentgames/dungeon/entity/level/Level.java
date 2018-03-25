@@ -152,7 +152,6 @@ public abstract class Level extends Entity {
 
 	public void fill() {
 		this.data = new byte[getSIZE()];
-		this.variants = new byte[getSIZE()];
 
 		this.initLight();
 
@@ -198,6 +197,7 @@ public abstract class Level extends Entity {
 	public void loadPassable() {
 		this.passable = new boolean[getSIZE()];
 		this.low = new boolean[getSIZE()];
+		this.variants = new byte[getSIZE()];
 
 		for (int i = 0; i < getSIZE(); i++) {
 			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
@@ -338,7 +338,7 @@ public abstract class Level extends Entity {
 				int i = x + y * getWidth();
 
 				if (!this.low[i]) {
-					short tile = this.get(i);
+					byte tile = this.get(i);
 
 					if (tile > 0 && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
@@ -384,7 +384,7 @@ public abstract class Level extends Entity {
 				int i = x + y * getWidth();
 
 				if (this.low[i]) {
-					short tile = this.get(i);
+					byte tile = this.get(i);
 
 					if (tile > 0 && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
@@ -395,6 +395,13 @@ public abstract class Level extends Entity {
 						region.setRegionHeight(16);
 
 						Graphics.render(region, x * 16, y * 16);
+					}
+
+					if (Terrain.variants[tile] != null) {
+						byte variant = this.variants[toIndex(x, y)];
+						if (Terrain.variants[tile][variant] != null) {
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+						}
 					}
 				}
 			}
