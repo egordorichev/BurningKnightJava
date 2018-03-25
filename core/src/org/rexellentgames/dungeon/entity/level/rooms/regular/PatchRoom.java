@@ -48,7 +48,7 @@ public class PatchRoom extends RegularRoom {
 					}
 				}
 			} while (!valid);
-			PathFinder.setMapSize(level.getWIDTH(), level.getHEIGHT());
+			PathFinder.setMapSize(level.getWidth(), level.getHeight());
 		} else {
 			patch = Patch.generate(this.getWidth() - 2, this.getHeight() - 2, fill, clustering);
 		}
