@@ -56,6 +56,7 @@ public abstract class Level extends Entity {
 	private static int SIZE = getWidth() * getHeight();
 	public byte[] data;
 	protected byte[] variants;
+	protected byte[] walls;
 	protected float[] light;
 	protected float[] lightR;
 	protected float[] lightG;
@@ -194,6 +195,7 @@ public abstract class Level extends Entity {
 		this.passable = new boolean[getSIZE()];
 		this.low = new boolean[getSIZE()];
 		this.variants = new byte[getSIZE()];
+		this.walls = new byte[getSIZE()];
 
 		for (int i = 0; i < getSIZE(); i++) {
 			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
@@ -206,9 +208,31 @@ public abstract class Level extends Entity {
 
 				if (tile == Terrain.CHASM) {
 					this.tileUp(x, y, tile, false);
-				} else if (this.checkFor(x, y, Terrain.PASSABLE)) {
-					this.tileUp(x, y, Terrain.PASSABLE, true);
+				} else if (tile == Terrain.WATER) {
+					this.tileUp(x, y, tile, false);
+				} else if (tile == Terrain.DIRT) {
+					this.tileUp(x, y, Terrain.DIRT, false);
 				}
+
+				byte count = 0;
+
+				if (!this.shouldTile(x, y + 1, Terrain.WALL, false)) {
+					count += 1;
+				}
+
+				if (!this.shouldTile(x + 1, y, Terrain.WALL, false)) {
+					count += 2;
+				}
+
+				if (!this.shouldTile(x, y - 1, Terrain.WALL, false)) {
+					count += 4;
+				}
+
+				if (!this.shouldTile(x - 1, y, Terrain.WALL, false)) {
+					count += 8;
+				}
+
+				this.walls[toIndex(x, y)] = count;
 			}
 		}
 	}
@@ -390,23 +414,21 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						// Graphics.render(region, x * 16, y * 16);
+						Graphics.render(region, x * 16, y * 16);
 					}
 
 					if (Terrain.variants[tile] != null) {
 						byte variant = this.variants[i];
 
 						if (variant != 15 && Terrain.variants[tile][variant] != null) {
-							// Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
 						}
 					}
 
-					if (this.passable[i]) {
-						byte variant = this.variants[i];
+					byte v = this.walls[i];
 
-						if (variant != 15) {
-							Graphics.render(Terrain.wallVariants[variant], x * 16, y * 16);
-						}
+					if (v != 15) {
+						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
 			}
