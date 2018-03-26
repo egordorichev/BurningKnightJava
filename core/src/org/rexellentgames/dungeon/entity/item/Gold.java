@@ -13,7 +13,7 @@ public class Gold extends Item {
 	}
 
 	@Override
-	public void render(float x, float y, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped) {
 
 	}
 

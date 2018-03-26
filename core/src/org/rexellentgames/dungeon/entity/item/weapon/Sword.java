@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -12,17 +13,11 @@ public class Sword extends Weapon {
 		damage = 3;
 	}
 
-	protected float added;
-
 	@Override
-	public void render(float x, float y, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped) {
 		float angle = this.added;
 
-		float w = 16;
-
 		if (this.owner != null) {
-			w = this.owner.w;
-
 			if (this.owner instanceof Player) {
 				float dx = this.owner.x + this.owner.w / 2 - Input.instance.worldMouse.x - 8;
 				float dy = this.owner.y + this.owner.h / 2 - Input.instance.worldMouse.y - 8;
@@ -32,8 +27,20 @@ public class Sword extends Weapon {
 			}
 		}
 
-		Graphics.render(this.getSprite(), x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3,
-			flipped ? angle : 180 - angle, 8, 2, false, false);
+		angle = flipped ? angle : 180 - angle;
+
+		TextureRegion sprite = this.getSprite();
+
+		float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
+		float yy = y + h / 4;
+
+		Graphics.render(sprite, xx, yy,
+			angle, sprite.getRegionWidth() / 2, 0, false, false);
+
+		if (this.body != null) {
+			float a = (float) Math.toRadians(angle);
+			this.body.setTransform(xx, yy, a);
+		}
 	}
 
 	@Override

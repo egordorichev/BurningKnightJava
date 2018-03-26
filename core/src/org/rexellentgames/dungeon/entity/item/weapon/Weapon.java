@@ -17,6 +17,7 @@ public class Weapon extends Item {
 	protected float knockback = 10f;
 	protected boolean penetrates = false;
 	private boolean used = false;
+	protected float added;
 
 	@Override
 	public void use() {
@@ -32,15 +33,6 @@ public class Weapon extends Item {
 		this.createHitbox();
 	}
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
-
-		if (this.body != null) {
-			this.body.setTransform(this.owner.x + (this.owner.isFlipped() ? -8 : 8), this.owner.y - 8, 0);
-		}
-	}
-
 	protected void createHitbox() {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
@@ -48,12 +40,12 @@ public class Weapon extends Item {
 		body = Dungeon.world.createBody(def);
 		PolygonShape poly = new PolygonShape();
 
-		int w = (int) this.owner.w;
-		int h = (int) (this.owner.h * 2);
+		int w = this.region.getRegionWidth();
+		int h = this.region.getRegionHeight();
 
 		poly.set(new Vector2[]{
-			new Vector2(0, 0), new Vector2(w, 0),
-			new Vector2(0, h), new Vector2(w, h)
+			new Vector2((float) Math.floor((double) -w / 2), 0), new Vector2((float) Math.ceil((double) w / 2), 0),
+			new Vector2((float) Math.floor((double) -w / 2), h), new Vector2((float) Math.ceil((double) w / 2), h)
 		});
 
 		FixtureDef fixture = new FixtureDef();
@@ -65,8 +57,6 @@ public class Weapon extends Item {
 		body.createFixture(fixture);
 		body.setUserData(this);
 		poly.dispose();
-
-		this.body.setTransform(this.owner.x + (this.owner.isFlipped() ? -this.owner.w / 2 : this.owner.w / 2), this.owner.y - this.owner.h / 2, 0);
 	}
 
 	@Override

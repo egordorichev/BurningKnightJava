@@ -29,8 +29,8 @@ public class Item extends Entity {
 		this.owner = owner;
 	}
 
-	public void render(float x, float y, boolean flipped) {
-		Graphics.render(this.getSprite(), x, y, 0, 0, 0, flipped, false);
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		Graphics.render(this.getSprite(), x + w / 2, y + h / 2, 0, 0, 0, flipped, false);
 	}
 
 	@Override

@@ -89,8 +89,7 @@ public class Animation {
 	}
 
 	public void render(float x, float y, boolean flip) {
-		Graphics.render(this.current.frame, x, y, 0, this.current.frame.getRegionWidth() / 2,
-			this.current.frame.getRegionHeight() / 2, flip, false);
+		Graphics.render(this.current.frame, x, y, 0, 0, 0, flip, false);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
