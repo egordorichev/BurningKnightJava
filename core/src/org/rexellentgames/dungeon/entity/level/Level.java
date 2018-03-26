@@ -112,7 +112,8 @@ public abstract class Level extends Entity {
 			case 3:
 			default:
 				return new HallLevel();
-			// todo: case 4: boss level
+			case 4:
+				return new HallBossLevel();
 			case 5:
 			case 6:
 			case 7:
