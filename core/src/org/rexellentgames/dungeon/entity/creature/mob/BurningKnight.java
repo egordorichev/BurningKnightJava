@@ -55,7 +55,7 @@ public class BurningKnight extends Mob {
 	}
 
 	public void findStartPoint() {
-		if (this.sawPlayer || Dungeon.depth > 0) {
+		if (this.sawPlayer || Dungeon.depth != 0) {
 			Room room;
 
 			do {
@@ -79,6 +79,11 @@ public class BurningKnight extends Mob {
 		super.load(reader);
 		this.sawPlayer = reader.readBoolean();
 		throne = new Point(reader.readInt16(), reader.readInt16());
+
+		if (Dungeon.depth == -1 && !this.sawPlayer) {
+			this.done = true;
+			BurningKnight.instance = null;
+		}
 	}
 
 	@Override
@@ -199,6 +204,7 @@ public class BurningKnight extends Mob {
 				this.roamTime = 0;
 				this.idleTime = 0;
 				this.become("alerted");
+				this.sawPlayer = true;
 				return;
 			}
 		}
@@ -289,7 +295,7 @@ public class BurningKnight extends Mob {
 			d = (float) Math.sqrt(dx * dx + dy * dy);
 		}
 
-		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && Dungeon.depth > 0) {
+		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && (Dungeon.depth > 0 || !this.sawPlayer)) {
 			this.target = null;
 			this.r = 0.8f;
 			this.g = 0.0f;
@@ -339,7 +345,7 @@ public class BurningKnight extends Mob {
 			d = (float) Math.sqrt(dx * dx + dy * dy);
 		}
 
-		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && Dungeon.depth > 0) {
+		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && (Dungeon.depth > 0 || !this.sawPlayer)) {
 			this.target = null;
 			this.r = 0.8f;
 			this.g = 0.0f;
