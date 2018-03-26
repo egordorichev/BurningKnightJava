@@ -19,7 +19,7 @@ public class Spell extends Consumable {
 	}
 
 	@Override
-	public void render(float x, float y, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.delay > 0) {
 			Graphics.render(this.getSprite(), x + (flipped ? -8 : 8), y, 0, 8,8, !flipped, false);
 		}

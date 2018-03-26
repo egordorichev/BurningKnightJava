@@ -20,15 +20,15 @@ public class ItemHolder extends SaveableEntity {
 		super.init();
 
 		this.depth = -1;
-
-		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.body.getWorld().destroyBody(this.body);
+
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+		}
 	}
 
 	@Override
@@ -65,6 +65,15 @@ public class ItemHolder extends SaveableEntity {
 
 	public ItemHolder setItem(Item item) {
 		this.item = item;
+
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+		}
+
+		this.body = this.createBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
+			BodyDef.BodyType.DynamicBody, true);
+		this.body.setTransform(this.x, this.y, 0);
+
 		return this;
 	}
 

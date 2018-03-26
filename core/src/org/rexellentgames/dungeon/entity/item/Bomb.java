@@ -13,11 +13,6 @@ public class Bomb extends Item {
 	}
 
 	@Override
-	public void render(float x, float y, boolean flipped) {
-
-	}
-
-	@Override
 	public void use() {
 		super.use();
 		this.count -= 1;

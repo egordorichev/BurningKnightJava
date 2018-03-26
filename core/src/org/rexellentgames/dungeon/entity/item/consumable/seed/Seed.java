@@ -11,18 +11,12 @@ public class Seed extends Consumable {
 	protected float added;
 
 	@Override
-	public void render(float x, float y, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.added == 0) {
 			return;
 		}
 
 		float angle = (flipped ? this.added : -this.added);
-
-		float w = 16;
-
-		if (this.owner != null) {
-			w = this.owner.w;
-		}
 
 		Graphics.render(this.getSprite(), x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, angle, 8, 1, false,
 			false);

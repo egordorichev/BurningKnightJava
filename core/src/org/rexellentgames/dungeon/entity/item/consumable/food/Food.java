@@ -16,7 +16,7 @@ public class Food extends Consumable {
 	}
 
 	@Override
-	public void render(float x, float y, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.added != 0) {
 			float angle = (flipped ? this.added : -this.added);
 
