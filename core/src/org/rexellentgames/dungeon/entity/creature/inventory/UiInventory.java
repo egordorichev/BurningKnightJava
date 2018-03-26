@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -30,7 +31,8 @@ public class UiInventory extends UiEntity {
 		this.slots = new UiSlot[24];
 
 		for (int i = 0; i < this.slots.length; i++) {
-			this.slots[i] = new UiSlot(this, i, i % 6 * 25 + 1, (int) (Math.floor(i / 6) * 25 - 7));
+			this.slots[i] = new UiSlot(this, i, i % 6 * 25 + 1,
+				(int) (Math.floor(i / 6) * 25) + 1);
 		}
 	}
 
@@ -40,10 +42,6 @@ public class UiInventory extends UiEntity {
 
 	public int getActive() {
 		return this.active;
-	}
-
-	public void setActive(int active) {
-		this.active = active;
 	}
 
 	public boolean isOpen() {
@@ -72,13 +70,13 @@ public class UiInventory extends UiEntity {
 			if (slot != null && !slot.hasAutoPickup()) {
 				ItemHolder holder = new ItemHolder();
 
+				holder.x = (float) Math.floor(Player.instance.x);
+				holder.y = (float) Math.floor(Player.instance.y);
 				holder.setItem(slot);
-				holder.x = (float) Math.floor(Player.instance.x + Player.instance.w / 2);
-				holder.y = (float) Math.floor(Player.instance.y + Player.instance.h / 2);
-				Dungeon.level.addSaveable(holder);
 
 				this.inventory.setSlot(this.active, null);
-				this.area.add(holder);
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
 			}
 		}
 
@@ -138,7 +136,11 @@ public class UiInventory extends UiEntity {
 
 	public void renderCurrentSlot() {
 		if (this.currentSlot != null) {
-			// Graphics.render(Graphics.items, this.currentSlot.getSprite(), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 8);
+			TextureRegion sprite = this.currentSlot.getSprite();
+			Graphics.render(sprite,
+				Input.instance.uiMouse.x + 12 - sprite.getRegionWidth() / 2,
+				Input.instance.uiMouse.y - 8);
+
 			int count = this.currentSlot.getCount();
 
 			if (count > 1) {
@@ -150,9 +152,10 @@ public class UiInventory extends UiEntity {
 			if (item != null) {
 				String info = item.buildInfo().toString();
 				Graphics.layout.setText(Graphics.small, info);
-				Graphics.small.draw(Graphics.batch, info,
+				Graphics.print(info, Graphics.small,
 					MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 12),
 					MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y + 2));
+
 				this.hoveredSlot = -1;
 			}
 		}
@@ -162,7 +165,7 @@ public class UiInventory extends UiEntity {
 		Item slot = this.inventory.getSlot(this.active);
 
 		if (slot != null) {
-			slot.render(player.x, player.y, player.isFlipped());
+			slot.render(player.x, player.y, player.w, player.h, player.isFlipped());
 		}
 	}
 

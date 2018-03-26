@@ -8,14 +8,12 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Animation {
-	private ArrayList<Frame> frames = new ArrayList<Frame>();
-	private Frame current;
-	private int index;
-	private float t;
+	private HashMap<String, ArrayList<Frame>> frames = new HashMap<>();
 
-	public Animation(String file, String state) {
+	public Animation(String file) {
 		JsonReader reader = new JsonReader();
 		JsonValue root = reader.parse(Gdx.files.internal("sprites_split/" + file + ".json"));
 
@@ -23,79 +21,54 @@ public class Animation {
 		JsonValue frameTags = meta.get("frameTags");
 		JsonValue frames = root.get("frames");
 
-		JsonValue needed = null;
-
-		// todo: check!
-
 		for (JsonValue tag : frameTags) {
-			String name = tag.get("name").asString();
+			int from = tag.getInt("from");
+			int to = tag.getInt("to");
+			String state = tag.getString("name");
 
-			if (name.equals(state)) {
-				needed = tag;
-				break;
+			ArrayList<Frame> framesList = new ArrayList<>();
+
+			for (int i = from; i <= to; i++) {
+				JsonValue frame = frames.get(i);
+				String name = frame.name;
+				int delay = frame.getInt("duration");
+
+				// this: actor_towelknight 0.ase -- and state dead
+				// into this: actor-towelknight-dead-00
+
+				name = name.replace(".ase", "");
+				name = name.replace('_', '-');
+				name = name.replace(' ', '-');
+
+				name = name.substring(0, name.length() - (Character.isDigit(name.charAt(name.length() - 2)) ? 3 : 2));
+				name += "-" + state + "-" + String.format("%02d", i - from);
+
+				framesList.add(new Frame(Graphics.getTexture(name), delay * 0.001f));
 			}
+
+			this.frames.put(state, framesList);
 		}
-
-		if (needed == null) {
-			Log.error("Failed to find " + state + " in " + file);
-			return;
-		}
-
-		int from = needed.getInt("from");
-		int to = needed.getInt("to");
-
-		for (int i = from; i <= to; i++) {
-			JsonValue frame = frames.get(i);
-			String name = frame.name;
-			int delay = frame.getInt("duration");
-
-			// this: actor_towelknight 0.ase -- and state dead
-			// into this: actor-towelknight-dead-00
-
-			name = name.replace(".ase", "");
-			name = name.replace('_', '-');
-			name = name.replace(' ', '-');
-
-			name = name.substring(0, name.length() - (Character.isDigit(name.charAt(name.length() - 2)) ? 3 : 2));
-			name += "-" + state + "-" + String.format("%02d", i - from);
-
-			this.frames.add(new Frame(Graphics.getTexture(name), delay * 0.001f));
-		}
-
-		this.current = this.frames.get(0);
 	}
 
-	public static Animation make(String file, String state) {
+	public static Animation make(String file) {
 		if (Network.SERVER) {
 			return null;
 		} else {
-			return new Animation(file, state);
+			return new Animation(file);
 		}
 	}
 
-	public void update(float dt) {
-		this.t += dt;
+	public AnimationData get(String state) {
+		ArrayList<Frame> data = this.frames.get(state);
 
-		if (this.t >= this.current.delay) {
-			this.index += 1;
-			this.t = 0;
-
-			if (this.index >= this.frames.size()) {
-				this.index = 0;
-			}
-
-			this.current = this.frames.get(this.index);
+		if (data == null) {
+			return null;
 		}
+
+		return new AnimationData(data);
 	}
 
-	public void render(float x, float y, boolean flip) {
-		Graphics.render(this.current.frame, x, y, 0, this.current.frame.getRegionWidth() / 2,
-			this.current.frame.getRegionHeight() / 2, flip, false);
-
-		Graphics.batch.setColor(1, 1, 1, 1);
-	}
-
-	private class Frame {
+	public class Frame {
 		public TextureRegion frame;
 		public float delay;
 

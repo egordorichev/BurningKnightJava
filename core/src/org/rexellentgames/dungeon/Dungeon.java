@@ -8,9 +8,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
+import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.HubState;
 import org.rexellentgames.dungeon.game.state.LoadState;
@@ -40,6 +43,17 @@ public class Dungeon extends ApplicationAdapter {
 		e.printStackTrace();
 	}
 
+	public static void newGame() {
+		reset = true;
+
+		Player.instance = null;
+		BurningKnight.instance = null;
+
+		level = null;
+		area.destroy();
+		goToLevel(0);
+	}
+
 	public static void goToLevel(int level) {
 		to = level;
 	}
@@ -58,6 +72,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		ui = new Area();
 		area = new Area();
+		new Ui();
 
 		game = new Game();
 
@@ -125,18 +140,6 @@ public class Dungeon extends ApplicationAdapter {
 
 			area.render();
 			game.render();
-
-			// Cursor
-
-			if (Camera.ui != null) {
-				Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-			}
-
-			float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
-
-			// todo: split the textures!
-			// Graphics.render(Graphics.ui, 6, Input.instance.uiMouse.x - 8, Input.instance.uiMouse.y - 8, 1, 1,
-			//	Dungeon.time * 60, s / 2, s / 2, false, false, s, s);
 
 			Graphics.batch.end();
 

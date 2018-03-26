@@ -3,13 +3,13 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
-import org.rexellentgames.dungeon.util.Log;
 
 public class UiSlot {
+	private static TextureRegion slot;
+
 	private int x;
 	private int y;
 	private int id;
@@ -21,6 +21,10 @@ public class UiSlot {
 		this.y = y;
 		this.id = id;
 		this.inventory = inventory;
+
+		if (slot == null) {
+			slot = Graphics.getTexture("ui (inventory slot)");
+		}
 	}
 
 	public void update(float dt) {
@@ -95,7 +99,7 @@ public class UiSlot {
 			Graphics.batch.setColor(1, 1, 0.5f, 1);
 		}
 
-		// Graphics.render(Graphics.ui, 64, this.x, this.y, 2, 2);
+		Graphics.render(slot, this.x, this.y);
 
 		if (item != null && item.getDelay() != 0) {
 			float delay = item.getDelay();
@@ -103,7 +107,9 @@ public class UiSlot {
 
 			int w = (int) ((delay / maxDelay) * 24);
 			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1f);
-			// Graphics.batch.draw(Graphics.ui, this.x, this.y, w, 32, 0, 32, w, 32, false, false);
+			TextureRegion region = new TextureRegion(slot);
+			region.setRegionWidth(w);
+			Graphics.render(region, this.x, this.y);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 
@@ -113,10 +119,11 @@ public class UiSlot {
 			TextureRegion sprite = item.getSprite();
 			int count = item.getCount();
 
-			Graphics.render(sprite, this.x + 4, this.y + 12);
+			Graphics.render(sprite, this.x + 12 - sprite.getRegionWidth() / 2,
+				this.y + 12 - sprite.getRegionHeight() / 2);
 
 			if (count > 1) {
-				Graphics.small.draw(Graphics.batch, String.valueOf(count), this.x + 3, this.y + 16);
+				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
 			}
 		}
 	}

@@ -4,14 +4,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
 public class Item extends Entity {
-	protected String sprite;
+	protected String sprite = "missing texture";
 	protected String name = "Missing Item Name";
 	protected String description = "";
 	protected boolean stackable = false;
@@ -29,8 +28,8 @@ public class Item extends Entity {
 		this.owner = owner;
 	}
 
-	public void render(float x, float y, boolean flipped) {
-		Graphics.render(this.getSprite(), x, y, 0, 0, 0, flipped, false);
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		Graphics.render(this.getSprite(), x + w / 2, y + h / 2, 0, 0, 0, flipped, false);
 	}
 
 	@Override

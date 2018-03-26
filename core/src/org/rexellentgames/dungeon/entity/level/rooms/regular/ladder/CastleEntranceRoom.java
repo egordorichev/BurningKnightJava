@@ -6,21 +6,26 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class CastleEntranceRoom extends EntranceRoom {
+	public Point spawn;
+
 	@Override
 	public void paint(Level level) {
-		Painter.fill(level, this, 0, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR);
-
+		Rect bottomTower = new Rect(this.left - 3, this.top - 3, this.left + 4,  this.top + 4);
 		Rect topTower = new Rect(this.left - 3, this.bottom - 3, this.left + 4, this.bottom + 4);
+
+		this.spawn = new Point(2, Random.newInt(bottomTower.bottom + 1, topTower.top - 1));
+
+		Painter.fill(level, new Rect(0, bottomTower.bottom + 1, this.left, topTower.top - 1), Terrain.WOOD);
+		Painter.fill(level, this, 0, Terrain.WALL);
+		Painter.fill(level, this, 1, Terrain.WOOD);
 
 		Painter.fill(level, topTower, Terrain.WALL);
 		Painter.fill(level, topTower, 1, Terrain.FLOOR);
-
-		Rect bottomTower = new Rect(this.left - 3, this.top - 3, this.left + 4,  this.top + 4);
 
 		Painter.fill(level, bottomTower, Terrain.WALL);
 		Painter.fill(level, bottomTower, 1, Terrain.FLOOR);
