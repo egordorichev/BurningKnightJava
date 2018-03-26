@@ -2,15 +2,18 @@ package org.rexellentgames.dungeon.entity.creature.player.fx;
 
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 
 public class RunFx extends Entity {
-	private static Animation animation = Animation.make("run-fx", "idle");
+	private static Animation animations = Animation.make("run-fx");
+	private AnimationData animation;
 	private float t;
 
 	public RunFx(float x, float y) {
 		this.x = x;
 		this.y = y - 8;
 		this.depth = -1;
+		this.animation = animations.get("idle");
 	}
 
 	@Override
