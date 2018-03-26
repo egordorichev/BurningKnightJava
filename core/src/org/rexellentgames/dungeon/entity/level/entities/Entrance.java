@@ -78,9 +78,9 @@ public class Entrance extends SaveableEntity {
 
 	@Override
 	public void render() {
-		// Graphics.render(Graphics.tiles, Terrain.ENTRANCE, this.x, this.y);
+		Graphics.render(Terrain.entrance, this.x, this.y);
 	}
-
+	
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player && this.fx == null && !Network.SERVER) {

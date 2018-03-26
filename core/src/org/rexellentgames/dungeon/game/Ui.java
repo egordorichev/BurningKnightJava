@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class Ui {
@@ -22,6 +23,15 @@ public class Ui {
 	public void render() {
 		if (Camera.ui != null) {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		}
+
+		if (Player.instance != null && Player.instance.isDead()) {
+			Graphics.print("Game over!", Graphics.medium, 128);
+			Graphics.print("Press X to restart", Graphics.medium, (float) (108 + Math.sin(Dungeon.time * 3) * 4));
+
+			if (Input.instance.wasPressed("action")) {
+				Dungeon.newGame();
+			}
 		}
 
 		Graphics.render(this.topFrame, 0, Display.GAME_HEIGHT - topFrame.getRegionHeight());

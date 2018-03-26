@@ -46,6 +46,11 @@ public class Terrain {
 
 	public static TextureRegion[][] variants = new TextureRegion[8][16];
 
+	public static TextureRegion exit;
+	public static TextureRegion entrance;
+	public static TextureRegion closedDoor;
+	public static TextureRegion openDoor;
+
 	private static int last = -1;
 
 	public static void loadTextures(int set) {
@@ -61,6 +66,11 @@ public class Terrain {
 		dirtPattern = Graphics.getTexture(bm + " (dirt pattern)");
 		waterPattern = Graphics.getTexture(bm + " (pool pattern)");
 		wallPattern = Graphics.getTexture(bm + " (wall pattern)");
+
+		entrance = Graphics.getTexture(bm + " (stairs U)");
+		exit = Graphics.getTexture(bm + " (stairs D)");
+		closedDoor = Graphics.getTexture(bm + " (door WE)");
+		openDoor = Graphics.getTexture(bm + " (door NS)");
 
 		patterns[DIRT] = dirtPattern;
 		patterns[WATER] = waterPattern;

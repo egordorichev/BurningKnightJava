@@ -9,7 +9,7 @@ import org.rexellentgames.dungeon.util.Tween;
 public class Sword extends Weapon {
 	{
 		name = "Sword";
-		sprite = "item (sword)";
+		sprite = "item (iron sword)";
 		damage = 3;
 	}
 

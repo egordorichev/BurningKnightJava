@@ -8,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
@@ -39,6 +41,17 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static void reportException(Exception e) {
 		e.printStackTrace();
+	}
+
+	public static void newGame() {
+		reset = true;
+
+		Player.instance = null;
+		BurningKnight.instance = null;
+
+		level = null;
+		area.destroy();
+		goToLevel(0);
 	}
 
 	public static void goToLevel(int level) {
