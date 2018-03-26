@@ -23,7 +23,7 @@ import java.util.Collections;
 
 public abstract class BetterLevel extends Level {
 	protected Room entrance;
-	protected Room exit;
+	public Room exit;
 
 	@Override
 	public void generate() {
@@ -72,7 +72,9 @@ public abstract class BetterLevel extends Level {
 			}
 		}
 
-		if (Dungeon.depth > 0 && BurningKnight.instance == null) {
+		boolean wasAdded = BurningKnight.instance == null;
+
+		if (Dungeon.depth > -1 && wasAdded) {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);

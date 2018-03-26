@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.consumable.seed;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
@@ -12,14 +13,14 @@ public class Seed extends Consumable {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		if (this.added == 0) {
-			return;
+		if (this.added != 0) {
+			float angle = (flipped ? this.added : -this.added);
+			TextureRegion sprite = this.getSprite();
+
+			Graphics.render(sprite, x + (flipped ? w / 3 : w / 3 * 2), y + h / 4, angle, sprite.getRegionWidth() / 2,
+				0, false,
+				false);
 		}
-
-		float angle = (flipped ? this.added : -this.added);
-
-		Graphics.render(this.getSprite(), x + (flipped ? -w / 4 : w / 4) + (w - 16) / 2, y + 1 + (w - 16) / 3, angle, 8, 1, false,
-			false);
 	}
 
 	@Override

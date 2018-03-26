@@ -409,6 +409,12 @@ public abstract class Level extends Entity {
 
 						Graphics.render(region, x * 16, y * 16);
 					}
+				} else {
+					byte v = this.walls[i];
+
+					if (v != 15 && v % 2 == 1) {
+						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+					}
 				}
 			}
 		}
@@ -457,20 +463,20 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						Graphics.render(region, x * 16, y * 16);
+						Graphics.render(region, x * 16, y * 16 - 8);
 					}
 
 					if (Terrain.variants[tile] != null) {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
-							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 
 					byte v = this.walls[i];
 
-					if (v != 15) {
+					if (v != 15 && v % 2 == 0) {
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
@@ -529,8 +535,24 @@ public abstract class Level extends Entity {
 
 				float d = (float) Math.sqrt(xx * xx + yy * yy);
 
-				if (d < rd && (xray || this.canSee(fx, fy, fx + xx, fy + yy))) {
-					Dungeon.level.addLight(x + xx * 16, y + yy * 16, r, g, b, a, (rd - d) / rd);
+				if (d < rd) {
+					boolean see = xray;
+					float v = 1;
+
+					if (!see) {
+						byte vl = this.canSee(fx, fy, fx + xx, fy + yy);
+
+						if (vl == 1) {
+							v = 0.5f;
+							see = true;
+						} else if (vl == 0) {
+							see = true;
+						}
+					}
+
+					if (see) {
+						Dungeon.level.addLight(x + xx * 16, y + yy * 16, r, g, b, a, (rd - d) / rd * v);
+					}
 				}
 			}
 		}
@@ -544,16 +566,25 @@ public abstract class Level extends Entity {
 		this.data = data;
 	}
 
-	public boolean canSee(int x, int y, int px, int py) {
+	public byte canSee(int x, int y, int px, int py) {
 		Line line = new Line(x, y, px, py);
+		boolean first = false;
 
 		for (Point point : line.getPoints()) {
+			if (first) {
+				return 2;
+			}
+
 			if (this.get((int) point.x, (int) point.y) == Terrain.WALL) {
-				return false;
+				first = true;
 			}
 		}
 
-		return true;
+		if (first) {
+			return 1;
+		}
+
+		return 0;
 	}
 
 	public boolean isValid(int x, int y) {
@@ -940,8 +971,8 @@ public abstract class Level extends Entity {
 			ItemHolder holder = new ItemHolder();
 
 			holder.setItem(item);
-			holder.x = point.x * 16;
-			holder.y = point.y * 16;
+			holder.x = point.x * 16 + Random.newInt(-4, 4);
+			holder.y = point.y * 16 + Random.newInt(-4, 4);
 
 			this.addSaveable(holder);
 			this.area.add(holder);

@@ -53,7 +53,7 @@ public class InGameState extends State {
 
 		this.console = new Console();
 
-		if (BurningKnight.instance != null && (Network.SERVER || Network.NONE)) {
+		if (BurningKnight.instance != null && Dungeon.depth > 0 && (Network.SERVER || Network.NONE)) {
 			BurningKnight.instance.findStartPoint();
 		}
 

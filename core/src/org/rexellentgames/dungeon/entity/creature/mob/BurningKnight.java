@@ -5,13 +5,18 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
@@ -36,6 +41,8 @@ public class BurningKnight extends Mob {
 	private Point lastTargetPosition = new Point();
 	private float dashWait;
 	private boolean[][] fx;
+	private boolean sawPlayer;
+	public static Point throne;
 
 	{
 		hpMax = 10000;
@@ -48,21 +55,38 @@ public class BurningKnight extends Mob {
 	}
 
 	public void findStartPoint() {
-		Room room;
+		if (this.sawPlayer || Dungeon.depth > 0) {
+			Room room;
 
-		do {
-			room = Dungeon.level.getRandomRoom();
-		} while (room instanceof EntranceRoom || room instanceof ExitRoom);
+			do {
+				room = Dungeon.level.getRandomRoom();
+			} while (room instanceof EntranceRoom || room instanceof ExitRoom);
 
-		Point center = room.getCenter();
+			Point center = room.getCenter();
 
-		this.tp(center.x * 16 - 16, center.y * 16 - 16);
-		this.state = "idle";
+			this.tp(center.x * 16 - 16, center.y * 16 - 16);
+			this.state = "idle";
+		} else {
+			this.state = "onThrone";
+			this.tp(throne.x * 16 - 8, throne.y * 16 - 8);
+
+			Log.info("The BK is now on his throne at " + throne.x + ":" + throne.y);
+		}
 	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
+		this.sawPlayer = reader.readBoolean();
+		throne = new Point(reader.readInt16(), reader.readInt16());
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		writer.writeBoolean(this.sawPlayer);
+		writer.writeInt16((short) throne.x);
+		writer.writeInt16((short) throne.y);
 	}
 
 	@Override
@@ -140,6 +164,8 @@ public class BurningKnight extends Mob {
 			this.preattack(dt);
 		} else if (this.state.equals("attack")) {
 			this.attack(dt);
+		} else if (this.state.equals("onThrone")) {
+			this.onThrone(dt);
 		}
 	}
 
@@ -263,7 +289,7 @@ public class BurningKnight extends Mob {
 			d = (float) Math.sqrt(dx * dx + dy * dy);
 		}
 
-		if (this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) {
+		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && Dungeon.depth > 0) {
 			this.target = null;
 			this.r = 0.8f;
 			this.g = 0.0f;
@@ -313,7 +339,7 @@ public class BurningKnight extends Mob {
 			d = (float) Math.sqrt(dx * dx + dy * dy);
 		}
 
-		if (this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) {
+		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && Dungeon.depth > 0) {
 			this.target = null;
 			this.r = 0.8f;
 			this.g = 0.0f;
@@ -398,6 +424,19 @@ public class BurningKnight extends Mob {
 		if (this.t > 3f) {
 			this.fx = null;
 			this.become("chase");
+		}
+	}
+
+	private void onThrone(float dt) {
+		this.checkForTarget();
+	}
+
+	@Override
+	protected void onTouch(short t, int x, int y) {
+		super.onTouch(t, x, y);
+
+		if (t == Terrain.WATER) {
+			this.vel.mul(1.5f);
 		}
 	}
 }
