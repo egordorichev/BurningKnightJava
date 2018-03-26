@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -26,10 +27,7 @@ public class BurningKnight extends Mob {
 	private static final int ATTACK_DIST = 32;
 	public static BurningKnight instance;
 	private static float LIGHT_SIZE = 8f;
-	private static Animation idle = Animation.make("actor-burning-knight", "idle");
-	private static Animation hurt = Animation.make("actor-burning-knight", "hurt");
-	private static Animation killed = Animation.make("actor-burning-knight", "dead");
-	private Animation animation;
+	private static Animation animations = Animation.make("actor-burning-knight");
 	private float r;
 	private float g;
 	private float b;
@@ -43,6 +41,10 @@ public class BurningKnight extends Mob {
 	private boolean[][] fx;
 	private boolean sawPlayer;
 	public static Point throne;
+	private AnimationData idle;
+	private AnimationData hurt;
+	private AnimationData killed;
+	private AnimationData animation;
 
 	{
 		hpMax = 10000;
@@ -52,6 +54,10 @@ public class BurningKnight extends Mob {
 		depth = 6;
 		alwaysActive = true;
 		flying = true;
+
+		idle = animations.get("idle");
+		hurt = animations.get("hurt");
+		killed = animations.get("dead");
 	}
 
 	public void findStartPoint() {

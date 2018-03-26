@@ -3,19 +3,26 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Clown extends Mob {
-	private static Animation idle = Animation.make("actor-clown", "idle");
-	private static Animation run = Animation.make("actor-clown", "run");
-	private static Animation hurt = Animation.make("actor-clown", "hurt");
-	private static Animation killed = Animation.make("actor-clown", "dead");
+	private static Animation animations = Animation.make("actor-clown");
 	private Point point;
-	private Animation animation;
+	private AnimationData idle;
+	private AnimationData run;
+	private AnimationData hurt;
+	private AnimationData killed;
+	private AnimationData animation;
 
 	{
 		hpMax = 3;
 		speed = 15;
+
+		idle = animations.get("idle");
+		run = animations.get("run");
+		hurt = animations.get("hurt");
+		killed = animations.get("dead");
 	}
 
 	@Override
