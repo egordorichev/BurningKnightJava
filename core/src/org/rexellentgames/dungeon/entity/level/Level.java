@@ -112,7 +112,8 @@ public abstract class Level extends Entity {
 			case 3:
 			default:
 				return new HallLevel();
-			// todo: case 4: boss level
+			case 4:
+				return new HallBossLevel();
 			case 5:
 			case 6:
 			case 7:
@@ -212,6 +213,8 @@ public abstract class Level extends Entity {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.DIRT) {
 					this.tileUp(x, y, Terrain.DIRT, false);
+				} else if (tile == Terrain.FLOOR || tile == Terrain.WOOD) {
+					this.makeFloor(x, y, tile);
 				}
 
 				byte count = 0;
@@ -234,6 +237,41 @@ public abstract class Level extends Entity {
 
 				this.walls[toIndex(x, y)] = count;
 			}
+		}
+	}
+
+	private void makeFloor(int x, int y, int tile) {
+		int i = toIndex(x, y);
+
+		if (this.variants[i] != 0) {
+			return;
+		}
+
+		byte var = (byte) Random.newInt(0, 11);
+
+		if (var == 9 || var == 10) {
+			for (int xx = x; xx < x + 2; xx++) {
+				for (int yy = y; yy < y + 2; yy++) {
+					if (this.get(xx, yy) != tile || this.variants[toIndex(xx, yy)] != 0) {
+						var = (byte) Random.newInt(0, 8);
+						break;
+					}
+				}
+			}
+		}
+
+		if (var == 9) {
+			this.variants[toIndex(x, y)] = 10;
+			this.variants[toIndex(x + 1, y)] = 11;
+			this.variants[toIndex(x, y + 1)] = 8;
+			this.variants[toIndex(x + 1, y + 1)] = 9;
+		} else if (var == 10) {
+			this.variants[toIndex(x, y)] = 14;
+			this.variants[toIndex(x + 1, y)] = 15;
+			this.variants[toIndex(x, y + 1)] = 12;
+			this.variants[toIndex(x + 1, y + 1)] = 13;
+		} else {
+			this.variants[i] = var;
 		}
 	}
 
@@ -264,10 +302,12 @@ public abstract class Level extends Entity {
 			return false;
 		}
 
+		byte t = this.get(x, y);
+
 		if (flag) {
-			return this.checkFor(x, y, tile);
+			return this.checkFor(x, y, tile) || t == Terrain.WALL;
 		} else {
-			return this.get(x, y) == tile;
+			return t == tile || t == Terrain.WALL;
 		}
 	}
 
@@ -370,9 +410,28 @@ public abstract class Level extends Entity {
 
 						Graphics.render(region, x * 16, y * 16);
 					}
+				} else {
+					byte v = this.walls[i];
+
+					if (v != 15 && v % 2 == 1) {
+						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+					}
 				}
 			}
 		}
+
+		// Usefull room debug
+
+		/*
+		Graphics.batch.end();
+		Graphics.shape.setColor(1, 1, 1, 0.3f)'
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+		for (Room room : this.rooms) {
+			Graphics.shape.rect(room.left * 16, room.top * 16, room.getWidth() * 16, room.getHeight() * 16);
+		}
+		Graphics.shape.end();
+		Graphics.batch.begin();
+		*/
 	}
 
 	@Override
@@ -390,15 +449,6 @@ public abstract class Level extends Entity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-		/*for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
-				if (this.isWater(x, y, false)) {
-					Graphics.batch.draw(Graphics.tiles, x * 16, y * 16, 144 + x % 2 * 16, Math.round(48 +
-						(y % 2 * 16 - Dungeon.time * 8) % 32), 16, 16);
-				}
-			}
-		}*/
-
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
@@ -414,20 +464,20 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						Graphics.render(region, x * 16, y * 16);
+						Graphics.render(region, x * 16, y * 16 - 8);
 					}
 
 					if (Terrain.variants[tile] != null) {
 						byte variant = this.variants[i];
 
-						if (variant != 15 && Terrain.variants[tile][variant] != null) {
-							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 
 					byte v = this.walls[i];
 
-					if (v != 15) {
+					if (v != 15 && v % 2 == 0) {
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
@@ -486,8 +536,24 @@ public abstract class Level extends Entity {
 
 				float d = (float) Math.sqrt(xx * xx + yy * yy);
 
-				if (d < rd && (xray || this.canSee(fx, fy, fx + xx, fy + yy))) {
-					Dungeon.level.addLight(x + xx * 16, y + yy * 16, r, g, b, a, (rd - d) / rd);
+				if (d < rd) {
+					boolean see = xray;
+					float v = 1;
+
+					if (!see) {
+						byte vl = this.canSee(fx, fy, fx + xx, fy + yy);
+
+						if (vl == 1) {
+							v = 0.5f;
+							see = true;
+						} else if (vl == 0) {
+							see = true;
+						}
+					}
+
+					if (see) {
+						Dungeon.level.addLight(x + xx * 16, y + yy * 16, r, g, b, a, (rd - d) / rd * v);
+					}
 				}
 			}
 		}
@@ -501,16 +567,25 @@ public abstract class Level extends Entity {
 		this.data = data;
 	}
 
-	public boolean canSee(int x, int y, int px, int py) {
+	public byte canSee(int x, int y, int px, int py) {
 		Line line = new Line(x, y, px, py);
+		boolean first = false;
 
 		for (Point point : line.getPoints()) {
+			if (first) {
+				return 2;
+			}
+
 			if (this.get((int) point.x, (int) point.y) == Terrain.WALL) {
-				return false;
+				first = true;
 			}
 		}
 
-		return true;
+		if (first) {
+			return 1;
+		}
+
+		return 0;
 	}
 
 	public boolean isValid(int x, int y) {
@@ -803,7 +878,13 @@ public abstract class Level extends Entity {
 			int count = 0;
 
 			for (Room room : this.rooms) {
-				count += room.neighbours.size();
+				for (Room n : room.neighbours) {
+					int in = this.rooms.indexOf(n);
+
+					if (in > -1) {
+						count++;
+					}
+				}
 			}
 
 			stream.writeInt32(count);
@@ -891,8 +972,8 @@ public abstract class Level extends Entity {
 			ItemHolder holder = new ItemHolder();
 
 			holder.setItem(item);
-			holder.x = point.x * 16;
-			holder.y = point.y * 16;
+			holder.x = point.x * 16 + Random.newInt(-4, 4);
+			holder.y = point.y * 16 + Random.newInt(-4, 4);
 
 			this.addSaveable(holder);
 			this.area.add(holder);

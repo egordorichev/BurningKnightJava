@@ -25,6 +25,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -39,15 +40,11 @@ public class Player extends Creature {
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;
-	private static Animation idle = Animation.make("actor-towelknight", "idle");
-	private static Animation run = Animation.make("actor-towelknight", "run");
-	private static Animation hurt = Animation.make("actor-towelknight", "hurt");
-	private static Animation killed = Animation.make("actor-towelknight", "dead");
+	private static Animation animations = Animation.make("actor-gobbo");
 	public float lightModifier;
 	public int connectionId;
 	public boolean main;
 	public float heat;
-	private Animation animation;
 	protected int mana;
 	protected int manaMax;
 	protected int experience;
@@ -60,6 +57,11 @@ public class Player extends Creature {
 	private float hunger;
 	private String name;
 	private float watery;
+	private AnimationData idle;
+	private AnimationData run;
+	private AnimationData hurt;
+	private AnimationData killed;
+	private AnimationData animation;
 
 	{
 		hpMax = 100;
@@ -67,6 +69,11 @@ public class Player extends Creature {
 		level = 1;
 		hunger = 10;
 		alwaysActive = true;
+
+		idle = animations.get("idle");
+		run = animations.get("run");
+		hurt = animations.get("hurt");
+		killed = animations.get("dead");
 	}
 
 	public Player() {

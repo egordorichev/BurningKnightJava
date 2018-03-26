@@ -41,8 +41,15 @@ public class Terrain {
 	public static TextureRegion[] waterVariants = new TextureRegion[15];
 	public static TextureRegion[] chasmVariants = new TextureRegion[15];
 	public static TextureRegion[] wallVariants = new TextureRegion[15];
+	public static TextureRegion[] woodVariants = new TextureRegion[16];
+	public static TextureRegion[] floorVariants = new TextureRegion[16];
 
-	public static TextureRegion[][] variants = new TextureRegion[8][15];
+	public static TextureRegion[][] variants = new TextureRegion[8][16];
+
+	public static TextureRegion exit;
+	public static TextureRegion entrance;
+	public static TextureRegion closedDoor;
+	public static TextureRegion openDoor;
 
 	private static int last = -1;
 
@@ -59,6 +66,11 @@ public class Terrain {
 		dirtPattern = Graphics.getTexture(bm + " (dirt pattern)");
 		waterPattern = Graphics.getTexture(bm + " (pool pattern)");
 		wallPattern = Graphics.getTexture(bm + " (wall pattern)");
+
+		entrance = Graphics.getTexture(bm + " (stairs U)");
+		exit = Graphics.getTexture(bm + " (stairs D)");
+		closedDoor = Graphics.getTexture(bm + " (door WE)");
+		openDoor = Graphics.getTexture(bm + " (door NS)");
 
 		patterns[DIRT] = dirtPattern;
 		patterns[WATER] = waterPattern;
@@ -80,9 +92,19 @@ public class Terrain {
 			wallVariants[i] = Graphics.getTexture(bm + " (wall " + Level.COMPASS[i] + ")");
 		}
 
+		for (int i = 0; i < 16; i++) {
+			woodVariants[i] = Graphics.getTexture(bm + " (plank " + String.format("%02d", i + 1) + ")");
+		}
+
+		for (int i = 0; i < 16; i++) {
+			floorVariants[i] = Graphics.getTexture(bm + " (floor " + String.format("%02d", i + 1) + ")");
+		}
+
 		variants[DIRT] = dirtVariants;
 		variants[CHASM] = chasmVariants;
 		variants[WATER] = waterVariants;
 		variants[WALL] = wallVariants;
+		variants[WOOD] = woodVariants;
+		variants[FLOOR] = floorVariants;
 	}
 }

@@ -40,7 +40,7 @@ public class Mob extends Creature {
 		return this.getDistanceTo(player.x + 8, player.y + 8) < 256f && Dungeon.level.canSee(
 			(int) Math.floor((this.x + this.w / 2) / 16), (int) Math.floor((this.y + this.h / 2) / 16),
 			(int) Math.floor((player.x + player.w / 2) / 16), (int) Math.floor((player.y + player.h / 2) / 16)
-		);
+		) == 0;
 	}
 
 	protected void assignTarget() {

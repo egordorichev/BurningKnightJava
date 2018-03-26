@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.UiBar;
@@ -23,7 +24,7 @@ import org.rexellentgames.dungeon.util.Tween;
 public class InGameState extends State {
 	private static final boolean DRAW_DEBUG = false;
 	private static final float TIME_STEP = 1 / 45.f;
-	public static boolean LIGHT = false;
+	public static boolean LIGHT = true;
 
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
@@ -52,7 +53,7 @@ public class InGameState extends State {
 
 		this.console = new Console();
 
-		if (BurningKnight.instance != null && (Network.SERVER || Network.NONE)) {
+		if (BurningKnight.instance != null && Dungeon.depth > 0 && (Network.SERVER || Network.NONE)) {
 			BurningKnight.instance.findStartPoint();
 		}
 
@@ -185,8 +186,12 @@ public class InGameState extends State {
 
 		// Debug
 		if (DRAW_DEBUG) {
+			Graphics.batch.end();
 			this.debug.render(Dungeon.world, Camera.instance.getCamera().combined);
+			Graphics.batch.begin();
 		}
+
+		Ui.ui.render();
 	}
 
 	private void setupUi() {

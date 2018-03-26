@@ -11,37 +11,41 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 
 public class Knight extends Mob {
-	private static Animation idle = Animation.make("actor-towelknight", "idle");
-	private static Animation run = Animation.make("actor-towelknight", "run");
-	private static Animation hurt = Animation.make("actor-towelknight", "hurt");
-	private static Animation killed = Animation.make("actor-towelknight", "dead");
-	private Point point;
+	private static Animation animations = Animation.make("actor-towelknight");
 	private Sword sword;
-	private float runDelay;
 	private Point water;
 	private Room currentRoom;
 	private float idleTime;
 	private Room target;
 	private Point targetPoint;
 	private Point nextPathPoint;
-	private Animation animation;
+	private AnimationData idle;
+	private AnimationData run;
+	private AnimationData hurt;
+	private AnimationData killed;
+	private AnimationData animation;
 
 	{
 		hpMax = 10;
 		speed = 10;
+
+		idle = animations.get("idle");
+		run = animations.get("run");
+		hurt = animations.get("hurt");
+		killed = animations.get("dead");
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		this.runDelay = Random.newFloat(3f, 6f);
 		this.sword = new IronSword();
 		this.sword.setOwner(this);
 		this.body = this.createBody(1, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
@@ -84,7 +88,7 @@ public class Knight extends Mob {
 
 		this.animation.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.sword.render(this.x, this.y, this.flipped);
+		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
@@ -152,12 +156,14 @@ public class Knight extends Mob {
 
 	private void checkForPlayer(float dt) {
 		if (this.flee >= 1f) {
+			this.idleTime = 0;
 			this.become("fleeing");
 			return;
 		}
 
 		if (this.player != null) {
 			if (this.hp < 3) {
+				this.idleTime = 0;
 				this.become("fleeing");
 				return;
 			}
@@ -173,6 +179,7 @@ public class Knight extends Mob {
 
 			if (this.player.heat > Level.noticed && this.noticeTime > 3f) {
 				Level.noticed += 1;
+				this.idleTime = 0;
 				this.become("chasing");
 			}
 
@@ -182,6 +189,7 @@ public class Knight extends Mob {
 		for (Player player : Player.all) {
 			if (this.canSee(player)) {
 				this.player = player;
+				this.idleTime = 0;
 				this.become("alerted");
 				return;
 			}

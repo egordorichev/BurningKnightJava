@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.consumable.spell;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
@@ -19,9 +20,12 @@ public class Spell extends Consumable {
 	}
 
 	@Override
-	public void render(float x, float y, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.delay > 0) {
-			Graphics.render(this.getSprite(), x + (flipped ? -8 : 8), y, 0, 8,8, !flipped, false);
+			TextureRegion sprite = this.getSprite();
+
+			Graphics.render(sprite, x + (flipped ? -w / 3 : w / 3), y + h / 3, 0, sprite.getRegionWidth() / 2,sprite.getRegionHeight() / 2,
+				!flipped, false);
 		}
 	}
 

@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -40,25 +41,21 @@ public class Door extends SaveableEntity {
 		int w = 1;
 		int h = 1;
 		int xm = 0;
-		int sprite;
+		boolean open = true;
 
 		if (this.vertical) {
 			if (this.open) {
-				sprite = 66;
-				xm = 8;
+				xm = 4;
 			} else {
-				sprite = 97;
+				open = false;
 			}
 		} else {
 			if (this.open) {
-				xm = -8;
-				sprite = 97;
-			} else {
-				sprite = 66;
+				open = false;
 			}
 		}
 
-		// Graphics.render(Graphics.tiles, sprite, this.x + xm, this.y, w, h);
+		Graphics.render(open ? Terrain.openDoor : Terrain.closedDoor, this.x + xm, this.y);
 	}
 
 	@Override

@@ -40,8 +40,8 @@ public class Camera extends Entity {
 	@Override
 	public void update(float dt) {
 		if (this.target != null) {
-			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + this.target.x + 8);
-			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y + 8);
+			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (2 / this.camera.zoom) + this.target.x + 8);
+			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (2 / this.camera.zoom) + this.target.y + 8);
 			float z = this.camera.zoom;
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
@@ -61,9 +61,5 @@ public class Camera extends Entity {
 		int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y + 8);
 		this.camera.position.set(x, y, 0);
 		this.camera.update();
-	}
-
-	public Viewport getViewport() {
-		return this.viewport;
 	}
 }

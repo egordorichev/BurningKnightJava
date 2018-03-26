@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -20,19 +21,23 @@ public class ItemHolder extends SaveableEntity {
 		super.init();
 
 		this.depth = -1;
-
-		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.body.getWorld().destroyBody(this.body);
+
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+		}
 	}
 
 	@Override
 	public void render() {
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
+
 		Graphics.render(this.item.getSprite(), this.x, this.y);
 	}
 
@@ -47,7 +52,6 @@ public class ItemHolder extends SaveableEntity {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
-		this.body.setTransform(this.x, this.y, 0);
 
 		String type = reader.readString();
 
@@ -55,9 +59,10 @@ public class ItemHolder extends SaveableEntity {
 			Class<?> clazz = Class.forName(type);
 			Constructor<?> constructor = clazz.getConstructor();
 			Object object = constructor.newInstance(new Object[]{});
+			Item item = (Item) object;
 
-			this.item = (Item) object;
-			this.item.load(reader);
+			item.load(reader);
+			this.setItem(item);
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}
@@ -65,6 +70,14 @@ public class ItemHolder extends SaveableEntity {
 
 	public ItemHolder setItem(Item item) {
 		this.item = item;
+
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+		}
+
+		this.body = this.createBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
+			BodyDef.BodyType.DynamicBody, true);
+
 		return this;
 	}
 
