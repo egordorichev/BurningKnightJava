@@ -59,7 +59,13 @@ public abstract class BetterLevel extends Level {
 			player.generate();
 
 			if (this.entrance != null) {
-				Point point = this.entrance.getRandomCell();
+				Point point;
+
+				if (this.entrance instanceof CastleEntranceRoom) {
+					point = ((CastleEntranceRoom) this.entrance).spawn;
+				} else {
+					point = this.entrance.getRandomCell();
+				}
 
 				Log.info("Setting player spawn to " + (int) point.x + ":" + (int) point.y + "...");
 				player.tp(point.x * 16, point.y * 16);

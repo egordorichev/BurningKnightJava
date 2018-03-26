@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class Exit extends SaveableEntity {
 	private Body body;
 	private LadderFx fx;
+	private static TextureRegion region;
 
 	@Override
 	public void init() {
@@ -64,7 +66,7 @@ public class Exit extends SaveableEntity {
 
 	@Override
 	public void render() {
-		// Graphics.render(Graphics.tiles, Terrain.EXIT, this.x, this.y);
+		Graphics.render(Terrain.exit, this.x, this.y);
 	}
 
 	@Override

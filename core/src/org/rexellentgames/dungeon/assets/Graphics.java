@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.util.Log;
 
 public class Graphics {
@@ -71,6 +72,12 @@ public class Graphics {
 
 	public static void print(String s, BitmapFont font, float x, float y) {
 		font.draw(batch, s, x, y + font.getLineHeight());
+	}
+
+	public static void print(String s, BitmapFont font, float y) {
+		layout.setText(font, s);
+
+		print(s, font, (Display.GAME_WIDTH - layout.width) / 2, y);
 	}
 
 	public static void render(TextureRegion texture, float x, float y) {

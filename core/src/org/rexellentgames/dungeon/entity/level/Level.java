@@ -412,6 +412,19 @@ public abstract class Level extends Entity {
 				}
 			}
 		}
+
+		// Usefull room debug
+
+		/*
+		Graphics.batch.end();
+		Graphics.shape.setColor(1, 1, 1, 0.3f)'
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+		for (Room room : this.rooms) {
+			Graphics.shape.rect(room.left * 16, room.top * 16, room.getWidth() * 16, room.getHeight() * 16);
+		}
+		Graphics.shape.end();
+		Graphics.batch.begin();
+		*/
 	}
 
 	@Override
@@ -833,7 +846,13 @@ public abstract class Level extends Entity {
 			int count = 0;
 
 			for (Room room : this.rooms) {
-				count += room.neighbours.size();
+				for (Room n : room.neighbours) {
+					int in = this.rooms.indexOf(n);
+
+					if (in > -1) {
+						count++;
+					}
+				}
 			}
 
 			stream.writeInt32(count);
