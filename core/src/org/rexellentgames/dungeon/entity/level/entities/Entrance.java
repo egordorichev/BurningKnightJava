@@ -49,10 +49,6 @@ public class Entrance extends SaveableEntity {
 
 			Log.info("Set player position to " + (int) (this.x / 16) + ":" + (int) (this.y / 16) + ", self id = " + this.id);
 
-			if (BurningKnight.instance != null) {
-				BurningKnight.instance.findStartPoint();
-			}
-
 			if (Dungeon.ladderId == this.id) {
 				Player.REGISTERED = true;
 			}

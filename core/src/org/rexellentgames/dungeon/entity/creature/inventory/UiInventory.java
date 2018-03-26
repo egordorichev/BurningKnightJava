@@ -70,13 +70,13 @@ public class UiInventory extends UiEntity {
 			if (slot != null && !slot.hasAutoPickup()) {
 				ItemHolder holder = new ItemHolder();
 
+				holder.x = (float) Math.floor(Player.instance.x);
+				holder.y = (float) Math.floor(Player.instance.y);
 				holder.setItem(slot);
-				holder.x = (float) Math.floor(Player.instance.x + Player.instance.w / 2);
-				holder.y = (float) Math.floor(Player.instance.y + Player.instance.h / 2);
-				Dungeon.level.addSaveable(holder);
 
 				this.inventory.setSlot(this.active, null);
-				this.area.add(holder);
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
 			}
 		}
 

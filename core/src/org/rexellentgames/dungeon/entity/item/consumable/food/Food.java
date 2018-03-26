@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.consumable.food;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
@@ -19,9 +20,10 @@ public class Food extends Consumable {
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.added != 0) {
 			float angle = (flipped ? this.added : -this.added);
+			TextureRegion sprite = this.getSprite();
 
-			Graphics.render(this.getSprite(), x + (flipped ? -3 : 3), y - 4, angle, 8, 10, false,
-				false);
+			Graphics.render(sprite, x + (flipped ? w / 3 : w / 3 * 2), y, angle, 0,
+				0, false, false);
 		}
 	}
 
