@@ -6,10 +6,10 @@ import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Clown extends Mob {
-	private static Animation idle = Animation.make("actor-towelknight", "idle");
-	private static Animation run = Animation.make("actor-towelknight", "idle");
-	private static Animation hurt = Animation.make("actor-towelknight", "idle");
-	private static Animation killed = Animation.make("actor-towelknight", "idle");
+	private static Animation idle = Animation.make("actor-clown", "idle");
+	private static Animation run = Animation.make("actor-clown", "run");
+	private static Animation hurt = Animation.make("actor-clown", "hurt");
+	private static Animation killed = Animation.make("actor-clown", "dead");
 	private Point point;
 	private Animation animation;
 
