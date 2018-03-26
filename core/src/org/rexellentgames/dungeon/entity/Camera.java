@@ -62,8 +62,4 @@ public class Camera extends Entity {
 		this.camera.position.set(x, y, 0);
 		this.camera.update();
 	}
-
-	public Viewport getViewport() {
-		return this.viewport;
-	}
 }
