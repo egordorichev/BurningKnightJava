@@ -21,7 +21,7 @@ public class RunFx extends Entity {
 		this.t += dt;
 		this.animation.update(dt);
 
-		if (this.t >= 0.05f * 7) {
+		if (this.t >= 0.1f * 7) {
 			this.done = true;
 		}
 	}
