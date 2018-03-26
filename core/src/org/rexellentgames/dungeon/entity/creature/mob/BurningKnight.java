@@ -21,9 +21,9 @@ public class BurningKnight extends Mob {
 	private static final int ATTACK_DIST = 32;
 	public static BurningKnight instance;
 	private static float LIGHT_SIZE = 8f;
-	private static Animation idle = Animation.make("actor-towelknight", "idle");
-	private static Animation hurt = Animation.make("actor-towelknight", "hurt");
-	private static Animation killed = Animation.make("actor-towelknight", "dead");
+	private static Animation idle = Animation.make("actor-burning-knight", "idle");
+	private static Animation hurt = Animation.make("actor-burning-knight", "hurt");
+	private static Animation killed = Animation.make("actor-burning-knight", "dead");
 	private Animation animation;
 	private float r;
 	private float g;
