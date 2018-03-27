@@ -20,6 +20,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
@@ -479,6 +480,10 @@ public abstract class Level extends Entity {
 
 					if (v != 15 && v % 2 == 0) {
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+					}
+
+					if (tile == Terrain.CHASM && Random.chance(0.4f)) {
+						Dungeon.area.add(new ChasmFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 					}
 				}
 			}

@@ -80,7 +80,9 @@ public class Area {
 	public void render() {
 		Collections.sort(this.entities, this.comparator);
 
-		for (Entity entity : this.entities) {
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity entity = this.entities.get(i);
+
 			if (entity.onScreen) {
 				entity.render();
 			}
