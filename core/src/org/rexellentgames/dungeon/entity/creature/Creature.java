@@ -143,6 +143,10 @@ public class Creature extends SaveableEntity {
 			if (!this.falling && !onGround && !this.flying && !this.dead) {
 				this.falling = true;
 				this.t = 0;
+
+				if (Dungeon.level.checkFor((int) (this.x / 16), (int) (this.y / 16) - 1, Terrain.PASSABLE)) {
+					this.depth = -11;
+				}
 			}
 		}
 	}
@@ -163,7 +167,6 @@ public class Creature extends SaveableEntity {
 
 		TextureRegion sprite = animation.getCurrent().frame;
 
-		this.depth = -11;
 		float s = 1 - this.t / 2;
 
 		if (s <= 0) {
