@@ -21,6 +21,12 @@ public class Entrance extends SaveableEntity {
 	private Body body;
 	private LadderFx fx;
 
+	public enum LoadType {
+		GO_UP,
+		GO_DOWN,
+		FALL_DOWN
+	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -44,7 +50,7 @@ public class Entrance extends SaveableEntity {
 	}
 
 	private void add() {
-		if (!Dungeon.up && Player.instance != null && (Dungeon.ladderId == this.id || !Player.REGISTERED)) {
+		if (Dungeon.loadType == LoadType.GO_DOWN && Player.instance != null && (Dungeon.ladderId == this.id || !Player.REGISTERED)) {
 			Player.instance.tp(this.x, this.y - 2);
 
 			Log.info("Set player position to " + (int) (this.x / 16) + ":" + (int) (this.y / 16) + ", self id = " + this.id);

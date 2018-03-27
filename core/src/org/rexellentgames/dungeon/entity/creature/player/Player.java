@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
@@ -22,6 +23,9 @@ import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.entities.Entrance;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Animation;
@@ -29,6 +33,7 @@ import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -170,6 +175,24 @@ public class Player extends Creature {
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 24);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
+	}
+
+	public void tryToFall() {
+		if (Dungeon.loadType == Entrance.LoadType.FALL_DOWN) {
+			while (true) {
+				Room room = Dungeon.level.getRandomRoom(RegularRoom.class);
+				Point cell = room.getRandomCell();
+
+				if (Dungeon.level.checkFor((int) cell.x, (int) cell.y, Terrain.PASSABLE)) {
+					this.tp(cell.x * 16, cell.y * 16);
+					this.modifyHp(-40);
+					// todo: debuffs?
+					Camera.instance.follow(this);
+
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
