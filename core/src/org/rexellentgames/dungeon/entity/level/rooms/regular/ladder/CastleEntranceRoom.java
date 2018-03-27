@@ -43,15 +43,17 @@ public class CastleEntranceRoom extends EntranceRoom {
 		level.addSaveable(door);
 		Dungeon.area.add(door);
 
-		this.addEntrance(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2);
-		this.addEntrance(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2);
+		this.addEntrance(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_OPEN);
+		this.addEntrance(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_CLOSED);
 	}
 
-	private void addEntrance(int x, int y) {
+	private void addEntrance(int x, int y, byte type) {
 		Entrance entrance = new Entrance();
 
 		entrance.x = x * 16;
 		entrance.y = y * 16;
+
+		entrance.setType(type);
 
 		Dungeon.level.addSaveable(entrance);
 		Dungeon.area.add(entrance);

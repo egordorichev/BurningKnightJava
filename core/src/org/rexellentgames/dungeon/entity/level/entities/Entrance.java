@@ -14,12 +14,27 @@ import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
 public class Entrance extends SaveableEntity {
 	private Body body;
 	private LadderFx fx;
+
+	public static byte NORMAL = 0;
+	public static byte CASTLE_ENTRANCE_OPEN = 1;
+	public static byte CASTLE_ENTRANCE_CLOSED = 2;
+
+	private byte type;
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+	public byte getType() {
+		return this.type;
+	}
 
 	public enum LoadType {
 		GO_UP,
@@ -41,21 +56,11 @@ public class Entrance extends SaveableEntity {
 		}
 	}
 
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	private void add() {
-		if (Dungeon.loadType == LoadType.GO_DOWN && Player.instance != null && (Dungeon.ladderId == this.id || !Player.REGISTERED)) {
+		if (Dungeon.loadType == LoadType.GO_DOWN && Player.instance != null && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
 			Player.instance.tp(this.x, this.y - 2);
 
-			Log.info("Set player position to " + (int) (this.x / 16) + ":" + (int) (this.y / 16) + ", self id = " + this.id);
-
-			if (Dungeon.ladderId == this.id) {
+			if (Dungeon.ladderId == this.type) {
 				Player.REGISTERED = true;
 			}
 		}
@@ -64,18 +69,18 @@ public class Entrance extends SaveableEntity {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
-		this.body.setTransform(this.x, this.y, 0);
 
+		this.type = reader.readByte();
+
+		this.body.setTransform(this.x, this.y, 0);
 		this.add();
 	}
 
 	@Override
-	public void update(float dt) {
-		super.update(dt);
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
 
-		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0.0f, 0.5f, 3f, false);
-		}
+		writer.writeByte(this.type);
 	}
 
 	@Override
