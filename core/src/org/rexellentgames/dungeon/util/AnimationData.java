@@ -5,13 +5,13 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import java.util.ArrayList;
 
 public class AnimationData {
-	private ArrayList<Animation.Frame> frames = new ArrayList<>();
+	private final ArrayList<Animation.Frame> frames;
 	private float t;
 	private int index;
 	private Animation.Frame current;
 
 	public AnimationData(ArrayList<Animation.Frame> frames) {
-		this.frames.addAll(frames);
+		this.frames = frames;
 		this.current = this.frames.get(0);
 	}
 
@@ -32,6 +32,11 @@ public class AnimationData {
 
 	public void render(float x, float y, boolean flip) {
 		Graphics.render(this.current.frame, x, y, 0, 0, 0, flip, false);
+		Graphics.batch.setColor(1, 1, 1, 1);
+	}
+
+	public void render(float x, float y, boolean flip, int f) {
+		Graphics.render(this.frames.get(f).frame, x, y, 0, 0, 0, flip, false);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }
