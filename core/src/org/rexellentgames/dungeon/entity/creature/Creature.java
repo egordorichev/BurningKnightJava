@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -162,10 +163,16 @@ public class Creature extends SaveableEntity {
 
 		TextureRegion sprite = animation.getCurrent().frame;
 
+		this.depth = -11;
 		float s = 1 - this.t / 2;
 
 		if (s <= 0) {
-			this.die();
+			if (this instanceof Player) {
+				Dungeon.goToLevel(Dungeon.depth + 1);
+			} else {
+				this.die();
+			}
+
 			return;
 		}
 

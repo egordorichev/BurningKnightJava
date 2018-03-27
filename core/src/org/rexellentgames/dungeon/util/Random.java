@@ -21,7 +21,7 @@ public class Random {
 		return min + (int) (Math.random() * (max - min));
 	}
 
-	public static boolean chance(int a) {
+	public static boolean chance(float a) {
 		return newFloat(100) <= a;
 	}
 

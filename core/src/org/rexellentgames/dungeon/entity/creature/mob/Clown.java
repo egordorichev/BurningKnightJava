@@ -106,7 +106,7 @@ public class Clown extends Mob {
 			this.renderFalling(this.animation);
 			return;
 		}
-		
+
 		if (this.dead) {
 			this.animation = killed;
 		} else if (this.invt > 0) {
