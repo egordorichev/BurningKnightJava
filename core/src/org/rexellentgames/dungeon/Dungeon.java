@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
@@ -30,10 +31,10 @@ public class Dungeon extends ApplicationAdapter {
 	public static World world;
 	public static Area area;
 	public static Area ui;
-	public static boolean up;
 	public static boolean reset;
 	public static int ladderId;
 	public static long longTime;
+	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
 
 	public static Mode mode = Mode.NORMAL;
 	private static int to = -2;
@@ -45,6 +46,8 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static void newGame() {
 		reset = true;
+
+		loadType = Entrance.LoadType.GO_DOWN;
 
 		Player.instance = null;
 		BurningKnight.instance = null;

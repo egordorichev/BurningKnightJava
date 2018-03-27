@@ -13,6 +13,8 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.entities.Entrance;
+import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.*;
@@ -140,13 +142,9 @@ public class Creature extends SaveableEntity {
 				}
 			}
 
-			if (!this.falling && !onGround && !this.flying && !this.dead) {
+			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead) {
 				this.falling = true;
 				this.t = 0;
-
-				if (Dungeon.level.checkFor((int) (this.x / 16), (int) (this.y / 16) - 1, Terrain.PASSABLE)) {
-					this.depth = -11;
-				}
 			}
 		}
 	}
@@ -171,6 +169,7 @@ public class Creature extends SaveableEntity {
 
 		if (s <= 0) {
 			if (this instanceof Player) {
+				Dungeon.loadType = Entrance.LoadType.FALL_DOWN;
 				Dungeon.goToLevel(Dungeon.depth + 1);
 			} else {
 				this.die();
@@ -179,7 +178,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 16f,
+		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 4f,
 			this.t * 360, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2,
 			false, false, s, s);
 		Graphics.batch.setColor(1, 1, 1, 1);
@@ -241,6 +240,10 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void modifyHp(int amount, boolean ignoreArmor) {
+		if (this.falling) {
+			return;
+		}
+
 		if (this.dead) {
 			return;
 		}

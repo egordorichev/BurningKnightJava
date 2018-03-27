@@ -80,6 +80,7 @@ public class LoadState extends State {
 					}
 
 					Camera.instance.follow(Player.instance);
+					Player.instance.tryToFall();
 
 					ready = true;
 				}

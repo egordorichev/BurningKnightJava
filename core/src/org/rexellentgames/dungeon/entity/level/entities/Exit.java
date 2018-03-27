@@ -40,7 +40,7 @@ public class Exit extends SaveableEntity {
 	}
 
 	private void add() {
-		if (Dungeon.up && Player.instance != null && (Dungeon.ladderId == this.id || !Player.REGISTERED)) {
+		if (Dungeon.loadType == Entrance.LoadType.GO_UP && Player.instance != null && (Dungeon.ladderId == this.id || !Player.REGISTERED)) {
 			Player.instance.tp(this.x, this.y - 2);
 
 			Log.info("Set player position to " + (int) (this.x / 16) + ":" + (int) (this.y / 16) + ", self id = " + this.id);
