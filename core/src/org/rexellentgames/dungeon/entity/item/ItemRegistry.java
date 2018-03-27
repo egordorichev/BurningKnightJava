@@ -5,9 +5,11 @@ import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken;
 import org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
 import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
+import org.rexellentgames.dungeon.entity.item.consumable.seed.LightroomSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
+import org.rexellentgames.dungeon.entity.plant.Lightroom;
 
 import java.util.HashMap;
 
@@ -34,6 +36,7 @@ public class ItemRegistry {
 		register("bomb", Bomb.class);
 		register("cabbage_seed", CabbageSeed.class);
 		register("cabbage", Cabbage.class);
+		register("lightroom_seed", LightroomSeed.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {
