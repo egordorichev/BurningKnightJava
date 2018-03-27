@@ -14,6 +14,10 @@ public class Animation {
 	private HashMap<String, ArrayList<Frame>> frames = new HashMap<>();
 
 	public Animation(String file) {
+		this(file, "");
+	}
+
+	public Animation(String file, String add) {
 		JsonReader reader = new JsonReader();
 		JsonValue root = reader.parse(Gdx.files.internal("sprites_split/" + file + ".json"));
 
@@ -41,7 +45,7 @@ public class Animation {
 				name = name.replace(' ', '-');
 
 				name = name.substring(0, name.length() - (Character.isDigit(name.charAt(name.length() - 2)) ? 3 : 2));
-				name += "-" + state + "-" + String.format("%02d", i - from);
+				name += add + "-" + state + "-" + String.format("%02d", i - from);
 
 				framesList.add(new Frame(Graphics.getTexture(name), delay * 0.001f));
 			}
@@ -55,6 +59,14 @@ public class Animation {
 			return null;
 		} else {
 			return new Animation(file);
+		}
+	}
+
+	public static Animation make(String file, String add) {
+		if (Network.SERVER) {
+			return null;
+		} else {
+			return new Animation(file, add);
 		}
 	}
 

@@ -104,8 +104,8 @@ public class Area {
 	}
 
 	public void destroy() {
-		for (Entity entity : this.entities) {
-			entity.destroy();
+		for (int i = this.entities.size() - 1; i >= 0; i--) {
+			this.entities.get(i).destroy();
 		}
 
 		this.entities.clear();
