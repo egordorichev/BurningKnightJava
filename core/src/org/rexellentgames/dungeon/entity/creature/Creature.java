@@ -1,9 +1,11 @@
 package org.rexellentgames.dungeon.entity.creature;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
@@ -12,9 +14,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
-import org.rexellentgames.dungeon.util.MathUtils;
-import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.Tween;
+import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -124,7 +124,7 @@ public class Creature extends SaveableEntity {
 			boolean onGround = false;
 
 			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
-				for (int y = (int) Math.floor((this.hy + this.y) / 16); y < Math.ceil((this.hy + this.y + this.hh / 3) / 16); y++) {
+				for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
 					if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
 						continue;
 					}
@@ -139,10 +139,40 @@ public class Creature extends SaveableEntity {
 				}
 			}
 
-			if (!onGround && !this.flying && !this.dead) {
-				this.die(); // todo: anim....
+			if (!this.falling && !onGround && !this.flying && !this.dead) {
+				this.falling = true;
+				this.t = 0;
 			}
 		}
+	}
+
+	protected boolean falling;
+
+	@Override
+	public void become(String state) {
+		if (!this.falling) {
+			super.become(state);
+		}
+	}
+
+	protected void renderFalling(AnimationData animation) {
+		if (this.dead) {
+			return;
+		}
+
+		TextureRegion sprite = animation.getCurrent().frame;
+
+		float s = 1 - this.t / 2;
+
+		if (s <= 0) {
+			this.die();
+			return;
+		}
+
+		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 16f,
+			this.t * 360, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2,
+			false, false, s, s);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	protected void onTouch(short t, int x, int y) {
@@ -175,6 +205,10 @@ public class Creature extends SaveableEntity {
 
 		if (this.vel.len2() > 1) {
 			this.lastIndex = Dungeon.longTime;
+		}
+
+		if (this.falling) {
+			this.vel.mul(0);
 		}
 
 		if (this.body != null) {

@@ -95,6 +95,14 @@ public class Graphics {
 			ox, oy, texture.getRegionWidth(), texture.getRegionHeight(), fx ? -1 : 1, fy ? -1 : 1, a);
 	}
 
+	public static void render(TextureRegion texture, float x, float y, float a, float ox, float oy,
+	                          boolean fx, boolean fy, float sx, float sy) {
+
+		Graphics.batch.draw(texture, x - ox + (fx ? texture.getRegionWidth() : 0),
+			y - oy + (fy ? texture.getRegionHeight() : 0),
+			ox, oy, texture.getRegionWidth(), texture.getRegionHeight(), sx, sy, a);
+	}
+
 	public static void destroy() {
 		atlas.dispose();
 		manager.dispose();
