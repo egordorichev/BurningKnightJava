@@ -370,7 +370,7 @@ public abstract class Level extends Entity {
 				float b = this.lightB[i];
 
 				Graphics.shape.setColor(r, g, b, 1f - v);
-				Graphics.shape.rect(x * 16, y * 16, 16, 16);
+				Graphics.shape.rect(x * 16, y * 16 - 8, 16, 16);
 			}
 		}
 
@@ -543,7 +543,7 @@ public abstract class Level extends Entity {
 					if (!see) {
 						byte vl = this.canSee(fx, fy, fx + xx, fy + yy);
 
-						if (vl == 1) {
+						if (vl == 1 && yy >= 0) {
 							v = 0.5f;
 							see = true;
 						} else if (vl == 0) {
