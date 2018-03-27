@@ -9,7 +9,7 @@ public class Cabbage extends Plant {
 	{
 		name = "Cabbage";
 		description = "Tastes good, probably will sell good too.";
-		sprite = "item (food B)"; // todo: fix the sprite
+		sprite = "veggie-cabbage-growth-02";
 		useTime = 10f;
 	}
 

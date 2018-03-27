@@ -13,8 +13,11 @@ public class Terrain {
 	public static byte WALL = 5;
 	public static byte WOOD = 6;
 	public static byte SPIKES = 7;
+	public static byte PLANTED_DIRT = 8;
 
-	public static int[] flags = new int[8];
+	public static byte SIZE = 9;
+
+	public static int[] flags = new int[SIZE];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
@@ -24,6 +27,7 @@ public class Terrain {
 	static {
 		flags[CHASM] = HOLE;
 		flags[DIRT] = PASSABLE;
+		flags[PLANTED_DIRT] = PASSABLE;
 		flags[FLOOR] = PASSABLE;
 		flags[WALL] = SOLID | HIGH;
 		flags[WATER] = PASSABLE;
@@ -35,7 +39,7 @@ public class Terrain {
 	public static TextureRegion dirtPattern;
 	public static TextureRegion waterPattern;
 	public static TextureRegion wallPattern;
-	public static TextureRegion[] patterns = new TextureRegion[8];
+	public static TextureRegion[] patterns = new TextureRegion[SIZE];
 
 	public static TextureRegion[] dirtVariants = new TextureRegion[15];
 	public static TextureRegion[] waterVariants = new TextureRegion[15];
@@ -44,7 +48,7 @@ public class Terrain {
 	public static TextureRegion[] woodVariants = new TextureRegion[16];
 	public static TextureRegion[] floorVariants = new TextureRegion[16];
 
-	public static TextureRegion[][] variants = new TextureRegion[8][16];
+	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
 
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
@@ -73,6 +77,7 @@ public class Terrain {
 		openDoor = Graphics.getTexture(bm + " (door NS)");
 
 		patterns[DIRT] = dirtPattern;
+		patterns[PLANTED_DIRT] = dirtPattern;
 		patterns[WATER] = waterPattern;
 		patterns[WALL] = wallPattern;
 
@@ -101,6 +106,7 @@ public class Terrain {
 		}
 
 		variants[DIRT] = dirtVariants;
+		variants[PLANTED_DIRT] = dirtVariants;
 		variants[CHASM] = chasmVariants;
 		variants[WATER] = waterVariants;
 		variants[WALL] = wallVariants;

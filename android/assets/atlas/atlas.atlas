@@ -643,294 +643,294 @@ actor_burning_knight (Sprite Sheet) 9
   index: -1
 actor_clown (Sprite Sheet) 0
   rotate: false
-  xy: 813, 344
+  xy: 831, 373
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 7
   rotate: false
-  xy: 813, 344
+  xy: 831, 373
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 1
   rotate: false
-  xy: 813, 330
+  xy: 849, 391
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 10
   rotate: false
-  xy: 908, 409
+  xy: 831, 317
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 11
   rotate: false
-  xy: 925, 409
+  xy: 935, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 12
   rotate: false
-  xy: 942, 409
+  xy: 831, 303
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 13
   rotate: false
-  xy: 959, 409
+  xy: 952, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 14
   rotate: false
-  xy: 976, 409
+  xy: 831, 289
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 15
   rotate: false
-  xy: 397, 48
+  xy: 969, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 16
   rotate: false
-  xy: 414, 48
+  xy: 986, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 17
   rotate: false
-  xy: 393, 34
+  xy: 397, 48
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 18
   rotate: false
-  xy: 410, 34
+  xy: 414, 48
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 19
   rotate: false
-  xy: 407, 20
+  xy: 393, 34
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 2
   rotate: false
-  xy: 813, 316
+  xy: 867, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 20
   rotate: false
-  xy: 993, 409
+  xy: 410, 34
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 21
   rotate: false
-  xy: 838, 395
+  xy: 407, 20
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 22
   rotate: false
-  xy: 855, 395
+  xy: 749, 236
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 3
   rotate: false
-  xy: 813, 302
+  xy: 831, 359
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 4
   rotate: false
-  xy: 813, 288
+  xy: 884, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 5
   rotate: false
-  xy: 840, 409
+  xy: 831, 345
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 6
   rotate: false
-  xy: 857, 409
+  xy: 901, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 8
   rotate: false
-  xy: 874, 409
+  xy: 831, 331
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_clown (Sprite Sheet) 9
   rotate: false
-  xy: 891, 409
+  xy: 918, 409
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 0
   rotate: false
-  xy: 872, 395
+  xy: 779, 248
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 7
   rotate: false
-  xy: 872, 395
+  xy: 779, 248
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 1
   rotate: false
-  xy: 889, 395
+  xy: 779, 234
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 10
   rotate: false
-  xy: 749, 236
+  xy: 487, 196
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 11
   rotate: false
-  xy: 779, 248
+  xy: 469, 182
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 12
   rotate: false
-  xy: 779, 234
+  xy: 469, 168
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 13
   rotate: false
-  xy: 797, 253
+  xy: 486, 182
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 14
   rotate: false
-  xy: 796, 239
+  xy: 469, 154
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 15
   rotate: false
-  xy: 796, 225
+  xy: 486, 168
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 16
   rotate: false
-  xy: 779, 220
+  xy: 469, 140
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 17
   rotate: false
-  xy: 796, 211
+  xy: 486, 154
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 18
   rotate: false
-  xy: 845, 381
+  xy: 469, 126
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 2
   rotate: false
-  xy: 906, 395
+  xy: 797, 253
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 3
   rotate: false
-  xy: 923, 395
+  xy: 796, 239
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 4
   rotate: false
-  xy: 940, 395
+  xy: 796, 225
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 5
   rotate: false
-  xy: 957, 395
+  xy: 779, 220
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 6
   rotate: false
-  xy: 974, 395
+  xy: 796, 211
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 8
   rotate: false
-  xy: 991, 395
+  xy: 408, 6
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 actor_gobbo (Sprite Sheet) 9
   rotate: false
-  xy: 1008, 395
+  xy: 470, 196
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
@@ -1196,7 +1196,7 @@ biome-0 (dirt)
   index: -1
 biome-0 (door NS)
   rotate: false
-  xy: 813, 358
+  xy: 813, 286
   size: 16, 12
   orig: 16, 12
   offset: 0, 0
@@ -1756,7 +1756,7 @@ item (bomb)
   index: -1
 item (claymore)
   rotate: false
-  xy: 815, 270
+  xy: 833, 271
   size: 10, 16
   orig: 10, 16
   offset: 0, 0
@@ -1777,7 +1777,7 @@ item (compass)
   index: -1
 item (dagger)
   rotate: false
-  xy: 1003, 427
+  xy: 506, 217
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
@@ -1805,35 +1805,35 @@ item (food)
   index: -1
 item (iron sword)
   rotate: false
-  xy: 831, 410
+  xy: 1003, 425
   size: 7, 14
   orig: 7, 14
   offset: 0, 0
   index: -1
 item (key)
   rotate: false
-  xy: 956, 383
+  xy: 483, 76
   size: 9, 10
   orig: 9, 10
   offset: 0, 0
   index: -1
 item (potion A)
   rotate: false
-  xy: 976, 382
+  xy: 1017, 416
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
   index: -1
 item (potion B)
   rotate: false
-  xy: 932, 383
+  xy: 483, 88
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 item (potion C)
   rotate: false
-  xy: 918, 384
+  xy: 483, 113
   size: 12, 9
   orig: 12, 9
   offset: 0, 0
@@ -1854,7 +1854,7 @@ item (potion E)
   index: -1
 item (potion F)
   rotate: false
-  xy: 1017, 431
+  xy: 1017, 405
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
@@ -1868,7 +1868,7 @@ item (potion G)
   index: -1
 item (potion H)
   rotate: false
-  xy: 944, 382
+  xy: 483, 100
   size: 10, 11
   orig: 10, 11
   offset: 0, 0
@@ -1889,49 +1889,49 @@ item (scroll A)
   index: -1
 item (scroll B)
   rotate: false
-  xy: 831, 379
+  xy: 1003, 410
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 item (scroll C)
   rotate: false
-  xy: 831, 364
+  xy: 486, 139
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 item (scroll D)
   rotate: false
-  xy: 845, 366
+  xy: 469, 111
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 item (scroll E)
   rotate: false
-  xy: 862, 380
+  xy: 469, 96
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 item (scroll F)
   rotate: false
-  xy: 876, 380
+  xy: 469, 81
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 item (scroll G)
   rotate: false
-  xy: 890, 380
+  xy: 469, 66
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
   index: -1
 item (scroll H)
   rotate: false
-  xy: 904, 380
+  xy: 486, 124
   size: 12, 13
   orig: 12, 13
   offset: 0, 0
@@ -1945,7 +1945,7 @@ item (scroll)
   index: -1
 item (seed A)
   rotate: false
-  xy: 1017, 420
+  xy: 845, 278
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
@@ -1959,14 +1959,14 @@ item (seed B)
   index: -1
 item (seed C)
   rotate: false
-  xy: 984, 385
+  xy: 483, 66
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 item (seed D)
   rotate: false
-  xy: 1017, 410
+  xy: 845, 268
   size: 6, 8
   orig: 6, 8
   offset: 0, 0
@@ -2001,28 +2001,28 @@ item (wand A)
   index: -1
 item (wand B)
   rotate: false
-  xy: 1010, 428
+  xy: 427, 34
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
   index: -1
 item (wand C)
   rotate: false
-  xy: 1010, 415
+  xy: 424, 21
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 item (wand D)
   rotate: false
-  xy: 831, 394
+  xy: 401, 3
   size: 5, 14
   orig: 5, 14
   offset: 0, 0
   index: -1
 item (wand E)
   rotate: false
-  xy: 967, 382
+  xy: 1012, 429
   size: 7, 11
   orig: 7, 11
   offset: 0, 0
@@ -2036,14 +2036,14 @@ item (wand F)
   index: -1
 item (wand G)
   rotate: false
-  xy: 401, 4
+  xy: 506, 231
   size: 5, 13
   orig: 5, 13
   offset: 0, 0
   index: -1
 item (wand H)
   rotate: false
-  xy: 506, 233
+  xy: 425, 8
   size: 3, 11
   orig: 3, 11
   offset: 0, 0
@@ -2158,5 +2158,61 @@ ui (ui)
   xy: 1, 3
   size: 160, 56
   orig: 160, 56
+  offset: 0, 0
+  index: -1
+veggie-cabbage-growth-00
+  rotate: false
+  xy: 813, 354
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+veggie-cabbage-growth-01
+  rotate: false
+  xy: 813, 336
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+veggie-cabbage-growth-02
+  rotate: false
+  xy: 813, 318
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+veggie-cabbage-wilt-00
+  rotate: false
+  xy: 813, 300
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+veggie-shroom-growth-00
+  rotate: false
+  xy: 815, 268
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+veggie-shroom-growth-01
+  rotate: false
+  xy: 831, 405
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+veggie-shroom-growth-02
+  rotate: false
+  xy: 831, 387
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+veggie-shroom-wilt-00
+  rotate: false
+  xy: 849, 405
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
   index: -1
