@@ -259,6 +259,11 @@ public class Player extends Creature {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
+		if (this.falling) {
+			this.renderFalling(this.animation);
+			return;
+		}
+
 		if (this.dead) {
 			this.animation = killed;
 		} else if (this.invt > 0) {
