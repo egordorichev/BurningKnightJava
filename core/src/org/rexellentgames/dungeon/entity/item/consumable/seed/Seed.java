@@ -70,11 +70,11 @@ public class Seed extends Consumable {
 
 			if (plant != null) {
 				plant.x = x * 16;
-				plant.y = y * 16 + 4;
+				plant.y = y * 16 - 4;
 
 				Dungeon.area.add(plant);
 				Dungeon.level.addSaveable(plant);
-				// Dungeon.level.set(x, y, Terrain.PLANTED_DIRT);
+				Dungeon.level.set(x, y, Terrain.PLANTED_DIRT);
 
 				this.count -= 1;
 			}

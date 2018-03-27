@@ -1,16 +1,16 @@
 package org.rexellentgames.dungeon.entity.plant;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -19,11 +19,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Plant extends SaveableEntity {
-	protected String sprite;
 	protected float growSpeed = 1f;
 	protected float growProgress;
 	protected Body body;
-	protected TextureRegion region;
+	protected AnimationData animation;
 
 	@Override
 	public void init() {
@@ -31,7 +30,6 @@ public class Plant extends SaveableEntity {
 
 		this.body = this.createBody(3, 3, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y - 4, 0);
-		this.region = Graphics.getTexture(this.sprite);
 	}
 
 	@Override
@@ -50,9 +48,7 @@ public class Plant extends SaveableEntity {
 
 	@Override
 	public void render() {
-		// todo: grow states
-		// old code: sprite + (int) Math.floor(this.growProgress * 2)
-		Graphics.render(this.region, this.x, this.y - 4);
+		this.animation.render(this.x, this.y - 4, false, (int) Math.floor(this.growProgress * 2));
 	}
 
 	@Override
@@ -75,12 +71,12 @@ public class Plant extends SaveableEntity {
 
 		if (entity instanceof Weapon && this.growProgress == 1f) {
 			this.done = true;
-			Dungeon.level.set((int) this.x / 16, (int) this.y / 16, Terrain.DIRT);
+			Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
 		}
 	}
 
 	public ArrayList<Item> getDrops() {
-		return new ArrayList<Item>();
+		return new ArrayList<>();
 	}
 
 	@Override
