@@ -20,12 +20,6 @@ import java.util.ArrayList;
 public class Knight extends Mob {
 	private static Animation animations = Animation.make("actor-towelknight");
 	private Sword sword;
-	private Point water;
-	private Room currentRoom;
-	private float idleTime;
-	private Room target;
-	private Point targetPoint;
-	private Point nextPathPoint;
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
@@ -67,7 +61,6 @@ public class Knight extends Mob {
 		}
 
 		this.sword.update(dt);
-		this.ai(dt);
 		super.common();
 	}
 
@@ -96,6 +89,8 @@ public class Knight extends Mob {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
+
+		Graphics.print(this.state + " " + Level.heat + " " + Player.instance.heat, Graphics.small, this.x, this.y);
 	}
 
 	@Override
@@ -109,296 +104,255 @@ public class Knight extends Mob {
 		return items;
 	}
 
-	public float flee;
-
-	private void ai(float dt) {
-		if (this.state.equals("idle")) {
-			this.idle(dt);
-		} else if (this.state.equals("toRelax")) {
-			this.toRelax(dt);
-		} else if (this.state.equals("relax")) {
-			this.relax(dt);
-		} else if (this.state.equals("alerted")) {
-			this.alerted(dt);
-		} else if (this.state.equals("chasing")) {
-			this.chasing(dt);
-		} else if (this.state.equals("tired")) {
-			this.tired(dt);
-		} else if (this.state.equals("attacking")) {
-			this.attacking(dt);
-		} else if (this.state.equals("fleeing")) {
-			this.fleeing(dt);
-		} else if (this.state.equals("roam")) {
-			this.roam(dt, 4);
-		}
-	}
-
-	private void checkForSpa() {
-		this.findCurrentRoom();
-
-		for (int i = 0; i < this.currentRoom.getWidth() * this.currentRoom.getHeight(); i++) {
-			Point point = this.currentRoom.getRandomCell();
-
-			if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WATER) {
-				this.water = new Point(point.x * 16, point.y * 16);
-				this.become("toRelax");
-			}
-		}
-	}
-
-	private Player player;
-	private Point lastSeen;
-	private float noticeTime;
-
 	@Override
-	protected void onHurt() {
-		super.onHurt();
-
-		if (this.player != null) {
-			this.flee += 0.5f;
-			this.become(this.flee >= 1f || this.hp < 3 ? "fleeing" : "chasing");
+	protected State getAi(String state) {
+		if (state.equals("idle")) {
+			return new IdleState();
+		} else if (state.equals("toRelax")) {
+			return new ToRelaxState();
+		} else if (state.equals("relax")) {
+			return new RelaxState();
+		} else if (state.equals("alerted")) {
+			return new AlertedState();
+		} else if (state.equals("chase")) {
+			return new ChaseState();
+		} else if (state.equals("tired")) {
+			return new TiredState();
+		} else if (state.equals("attack")) {
+			return new AttackingState();
+		} else if (state.equals("fleeing")) {
+			return new FleeingState();
+		} else if (state.equals("roam")) {
+			return new RoamState();
 		}
+
+		return super.getAi(state);
 	}
 
-	private void checkForPlayer(float dt) {
-		if (this.flee >= 1f) {
-			this.idleTime = 0;
-			this.become("fleeing");
-			return;
+	public class KnightState extends State<Knight> {
+		public Room currentRoom;
+		public Point water;
+		public Point targetPoint;
+		public Room target;
+
+		public void checkForFlee() {
+			if (self.flee >= 1f) {
+				self.become("fleeing");
+			}
 		}
 
-		if (this.player != null) {
-			if (this.hp < 3) {
-				this.idleTime = 0;
-				this.become("fleeing");
+		@Override
+		public void update(float dt) {
+			this.checkForFlee();
+			super.update(dt);
+		}
+
+		public void findCurrentRoom() {
+			this.currentRoom = Dungeon.level.findRoomFor(Math.round(self.x / 16), Math.round(self.y / 16));
+		}
+
+		public void checkForSpa() {
+			if (self.flee > 0.5f) {
 				return;
 			}
 
-			this.lastSeen = new Point(this.player.x, this.player.y);
-			this.noticeTime += dt;
-			this.player.heat += dt * 4;
-
-			if (!this.canSee(this.player)) {
-				this.player = null;
-				return;
-			}
-
-			if (this.player.heat > Level.noticed && this.noticeTime > 3f) {
-				Level.noticed += 1;
-				this.idleTime = 0;
-				this.become("chasing");
-			}
-
-			return;
-		}
-
-		for (Player player : Player.all) {
-			if (this.canSee(player)) {
-				this.player = player;
-				this.idleTime = 0;
-				this.become("alerted");
-				return;
-			}
-		}
-	}
-
-	private void findCurrentRoom() {
-		this.currentRoom = Dungeon.level.findRoomFor(Math.round(this.x / 16), Math.round(this.y / 16));
-	}
-
-	private void idle(float dt) {
-		if (this.idleTime == 0) {
-			this.idleTime = Random.newFloat(3f, 10f);
-		}
-
-		this.checkForPlayer(dt);
-
-		if (this.t >= this.idleTime && this.player == null) {
-			this.idleTime = 0;
-			this.become("roam");
-			this.checkForSpa();
-		}
-	}
-
-	private void toRelax(float dt) {
-		if (this.nextPathPoint == null) {
-			this.nextPathPoint = this.getCloser(this.water);
-
-			if (this.nextPathPoint == null) {
-				this.target = null;
-			}
-		}
-
-		float d = 16f;
-
-		if (this.nextPathPoint != null) {
-			d = this.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, 6);
-		}
-
-		if (d < 4f) {
-			this.nextPathPoint = null;
-
-			if (this.getDistanceTo(this.water.x + 8, this.water.y + 8) < 16f) {
-				this.become("relax");
-			}
-		}
-	}
-
-	private void relax(float dt) {
-		this.checkForPlayer(dt);
-	}
-
-	private void alerted(float dt) {
-		this.checkForPlayer(dt);
-	}
-
-	private float chaseT;
-	private float tm;
-
-	private void chasing(float dt) {
-		this.checkForPlayer(dt);
-
-		this.tm += dt;
-
-		if (this.lastSeen == null) {
-			this.chaseT = 0;
-			this.tm = 0;
-
-			return;
-		}
-
-		if (this.chaseT == 0) {
-			this.chaseT = Random.newFloat(8f, 10f);
-		}
-
-		if (this.nextPathPoint == null) {
-			this.nextPathPoint = this.getCloser(new Point(this.lastSeen.x, this.lastSeen.y));
-
-			if (this.nextPathPoint == null) {
-				this.chaseT = 0;
-				this.tm = 0;
-				this.lastSeen = null;
-			}
-		}
-
-		if (this.chaseT <= this.tm) {
-			this.chaseT = 0;
-			this.tm = 0;
-
-			this.become("tired");
-
-			return;
-		}
-
-		float d = 16f;
-
-		if (this.nextPathPoint != null) {
-			d = this.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, 10);
-		}
-
-		if (d < 4f) {
-			this.nextPathPoint = null;
-
-			if (this.getDistanceTo(this.lastSeen.x + 8, this.lastSeen.y + 8) < 16f) {
-				if (this.player == null) {
-					this.become("idle");
-					// todo: question mark?
-				} else {
-					this.become("attacking");
-				}
-
-				this.chaseT = 0;
-				this.tm = 0;
-			}
-		}
-	}
-
-	private float waitT;
-
-	private void tired(float dt) {
-		this.tm += dt;
-
-		if (this.waitT == 0) {
-			this.waitT = Random.newFloat(5f, 10f);
-		}
-
-		if (this.tm >= this.waitT) {
-			this.waitT = 0;
-			this.tm = 0;
-			this.become(this.lastSeen == null ? "idle" : "chase");
-		}
-	}
-
-	private void attacking(float dt) {
-		this.checkForPlayer(dt);
-
-		if (this.sword.getDelay() == 0) {
-			if (this.getDistanceTo(this.lastSeen.x + 8, this.lastSeen.y + 8) < 32f) {
-				this.become("chasing");
-			} else {
-				this.sword.use();
-			}
-		}
-
-	}
-
-	private void fleeing(float dt) {
-		this.flee = 0;
-		this.roam(dt, 10);
-	}
-
-	private void roam(float dt, float speed) {
-		if (!this.state.equals("fleeing")) {
-			this.checkForPlayer(dt);
-		}
-
-		if (this.target == null) {
 			this.findCurrentRoom();
 
-			if (this.currentRoom != null) {
-				this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
-				boolean found = false;
+			if (this.currentRoom == null) {
+				return;
+			}
 
-				for (int i = 0; i < this.target.getWidth() * this.target.getHeight(); i++) {
-					this.targetPoint = this.target.getRandomCell();
+			for (int i = 0; i < this.currentRoom.getWidth() * this.currentRoom.getHeight(); i++) {
+				Point point = this.currentRoom.getRandomCell();
 
-					if (Dungeon.level.checkFor((int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE)) {
-						found = true;
-						break;
+				if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WATER) {
+					this.water = new Point(point.x * 16, point.y * 16);
+					self.become("toRelax");
+				}
+			}
+		}
+
+		public void findNearbyPoint() {
+			if (self.target == null) {
+				this.findCurrentRoom();
+
+				if (this.currentRoom != null) {
+					this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
+					boolean found = false;
+
+					for (int i = 0; i < this.target.getWidth() * this.target.getHeight(); i++) {
+						this.targetPoint = this.target.getRandomCell();
+
+						if (Dungeon.level.checkFor((int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE)) {
+							found = true;
+							break;
+						}
 					}
 
 					if (!found) {
+						this.target = null;
 						this.targetPoint = null;
 					}
 				}
 			}
 		}
+	}
 
-		if (this.target != null) {
-			if (this.nextPathPoint == null) {
-				this.nextPathPoint = this.getCloser(new Point(this.targetPoint.x * 16, this.targetPoint.y * 16));
+	public class IdleState extends KnightState {
+		public float delay = Random.newFloat(5f, 7f);
 
-				if (this.nextPathPoint == null) {
-					this.target = null;
+		@Override
+		public void update(float dt) {
+			if (this.t >= this.delay) {
+				self.become("roam");
+				this.checkForSpa();
+				return;
+			}
+
+			this.checkForPlayer();
+			super.update(dt);
+		}
+	}
+
+	public class ToRelaxState extends KnightState {
+		@Override
+		public void update(float dt) {
+			if (this.water == null) {
+				self.become("roam");
+				return;
+			}
+
+			if (this.moveTo(this.water, 6f)) {
+				self.become("relax");
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class RelaxState extends KnightState {
+		public float delay = Random.newFloat(20f, 40f);
+
+		@Override
+		public void update(float dt) {
+			if (this.t >= this.delay) {
+				self.become("roam");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class FleeingState extends KnightState {
+		@Override
+		public void update(float dt) {
+			this.findNearbyPoint();
+			self.flee = Math.max(0, self.flee - 0.005f);
+
+			if (this.targetPoint != null) {
+				if (this.moveTo(this.targetPoint, 10f)) {
+					self.become("idle");
+				}
+			}
+		}
+	}
+
+	public class RoamState extends KnightState {
+		@Override
+		public void update(float dt) {
+			this.findNearbyPoint();
+
+			if (this.targetPoint != null) {
+				if (this.moveTo(this.targetPoint, 8f)) {
+					self.become("idle");
+					return;
 				}
 			}
 
-			float d = 16f;
+			this.checkForPlayer();
+			super.update(dt);
+		}
+	}
 
-			if (this.nextPathPoint != null) {
-				d = this.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, speed);
+	public class AlertedState extends KnightState {
+		public static final float DELAY = 1f;
+
+		@Override
+		public void update(float dt) {
+			if (this.t >= DELAY) {
+				self.become("chase");
 			}
 
-			if (d < 4f) {
-				this.nextPathPoint = null;
+			super.update(dt);
+		}
+	}
 
-				if (this.getDistanceTo(this.targetPoint.x * 16 + 8, this.targetPoint.y * 16 + 8) < 16f) {
-					this.target = null;
-					this.targetPoint = null;
-					this.become("idle");
-					this.checkForSpa();
+	public class ChaseState extends KnightState {
+		public static final float ATTACK_DISTANCE = 16f;
+		public float delay = Random.newFloat(8f, 10f);
+
+		@Override
+		public void update(float dt) {
+			this.checkForPlayer();
+
+			if (self.lastSeen == null) {
+				return;
+			} else {
+				if (this.moveTo(self.lastSeen, 32f)) {
+					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
+						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
+
+						self.become("attack");
+					} else {
+						// todo: ? sign
+						self.become("idle");
+					}
+
+					return;
 				}
 			}
+
+			if (this.t >= this.delay) {
+				self.become("tired");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class TiredState extends KnightState {
+		public float delay = Random.newFloat(2f, 5f);
+
+		@Override
+		public void update(float dt) {
+			if (this.t >= this.delay) {
+				this.checkForPlayer();
+				self.become("chase");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class AttackingState extends KnightState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			self.sword.use();
+		}
+
+		@Override
+		public void update(float dt) {
+			if (self.sword.getDelay() == 0) {
+				self.become("chase");
+				this.checkForPlayer();
+				return;
+			}
+
+			super.update(dt);
 		}
 	}
 }

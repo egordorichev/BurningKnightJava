@@ -19,6 +19,10 @@ public class Door extends SaveableEntity {
 	private Body body;
 	private int numCollisions;
 
+	{
+		depth = -5;
+	}
+
 	public Door(int x, int y, boolean vertical) {
 		this.x = x * 16;
 		this.y = y * 16;
@@ -38,8 +42,6 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
-		int w = 1;
-		int h = 1;
 		int xm = 0;
 		boolean open = true;
 

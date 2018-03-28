@@ -47,6 +47,7 @@ public class BurningKnight extends Mob {
 	private AnimationData animation;
 
 	{
+		mind = Mind.ATTACKER;
 		hpMax = 10000;
 		damage = 10;
 		w = 32;
