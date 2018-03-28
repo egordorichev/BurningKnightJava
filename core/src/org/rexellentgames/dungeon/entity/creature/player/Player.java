@@ -298,6 +298,11 @@ public class Player extends Creature {
 			this.animation = idle;
 		}
 
+
+		if (this.ui != null) {
+			this.ui.renderBeforePlayer(this);
+		}
+
 		this.animation.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 

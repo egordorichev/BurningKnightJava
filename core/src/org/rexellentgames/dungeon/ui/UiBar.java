@@ -28,7 +28,7 @@ public class UiBar extends UiEntity {
 		int hh = (int) Math.ceil(this.vertical ? this.h * (this.val / this.max) : this.h);
 
 		Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
-		Graphics.batch.draw(this.region, this.x, this.y + 1);
+		Graphics.batch.draw(this.region, this.x, this.y + (this.vertical ? 0 : 1));
 
 		TextureRegion region = new TextureRegion(this.region);
 

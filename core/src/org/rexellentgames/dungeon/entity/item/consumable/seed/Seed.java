@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item.consumable.seed;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
@@ -10,6 +11,7 @@ import org.rexellentgames.dungeon.util.Tween;
 
 public class Seed extends Consumable {
 	protected float added;
+	private static TextureRegion frame;
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
@@ -20,6 +22,20 @@ public class Seed extends Consumable {
 			Graphics.render(sprite, x + (flipped ? w / 3 : w / 3 * 2), y + h / 4, angle, sprite.getRegionWidth() / 2,
 				0, false,
 				false);
+		}
+	}
+
+	@Override
+	public void beforeRender(float x, float y, float w, float h, boolean flipped) {
+		if (frame == null) {
+			frame = Graphics.getTexture("ui (plant cursor)");
+		}
+
+		int xx = Math.round(this.owner.x / 16) + (this.owner.isFlipped() ? -1 : 1);
+		int yy = Math.round(this.owner.y / 16);
+
+		if (Dungeon.level.get(xx, yy) == Terrain.DIRT) {
+			Graphics.render(frame, xx * 16, yy * 16 - 12);
 		}
 	}
 

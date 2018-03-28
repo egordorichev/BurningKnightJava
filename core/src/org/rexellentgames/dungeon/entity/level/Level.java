@@ -214,8 +214,8 @@ public abstract class Level extends Entity {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.WATER) {
 					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.DIRT) {
-					this.tileUp(x, y, Terrain.DIRT, false);
+				} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
+					this.tileUp(x, y, Terrain.IS_DIRT, true);
 				} else if (tile == Terrain.FLOOR || tile == Terrain.WOOD) {
 					this.makeFloor(x, y, tile);
 				}
