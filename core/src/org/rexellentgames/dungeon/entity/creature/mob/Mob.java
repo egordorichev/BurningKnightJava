@@ -339,23 +339,23 @@ public class Mob extends Creature {
 
 				if (!self.canSee(self.target)) {
 					self.target = null;
-					// Level.heat = Math.max(0, Level.heat - 1f);
+					Level.heat = Math.max(0, Level.heat - 1f);
 				}
 			}
 
-			if (self.target == null) {
-				for (Player player : Player.all) {
-					if ((force || player.heat > Level.heat) && self.canSee(player)) {
-						self.target = player;
+			if (self.target != null) {
+				//for (Player player : Player.all) {
+					if ((force || self.target.heat > Level.heat + 1) && self.canSee(self.target)) {
+						self.target = self.target;
 						Level.heat += 1f;
 
 						if (!self.state.equals("chase")) {
 							self.become("alerted");
 						}
 
-						break;
+						// break;
 					}
-				}
+				//}
 			}
 		}
 	}
