@@ -169,6 +169,14 @@ public class UiInventory extends UiEntity {
 		}
 	}
 
+	public void renderBeforePlayer(Player player) {
+		Item slot = this.inventory.getSlot(this.active);
+
+		if (slot != null) {
+			slot.beforeRender(player.x, player.y, player.w, player.h, player.isFlipped());
+		}
+	}
+
 	public void setCurrentSlot(Item currentSlot) {
 		this.currentSlot = currentSlot;
 	}

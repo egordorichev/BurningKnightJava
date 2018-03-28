@@ -32,6 +32,10 @@ public class Item extends Entity {
 		Graphics.render(this.getSprite(), x + w / 2, y + h / 2, 0, 0, 0, flipped, false);
 	}
 
+	public void beforeRender(float x, float y, float w, float h, boolean flipped) {
+
+	}
+
 	@Override
 	public void update(float dt) {
 		this.delay = Math.max(0, this.delay - dt);

@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
 import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.seed.LightroomSeed;
+import org.rexellentgames.dungeon.entity.item.consumable.seed.PotionGrassSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
@@ -36,6 +37,7 @@ public class ItemRegistry {
 		register("cabbage_seed", CabbageSeed.class);
 		register("cabbage", Cabbage.class);
 		register("lightroom_seed", LightroomSeed.class);
+		register("potiongrass_seed", PotionGrassSeed.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

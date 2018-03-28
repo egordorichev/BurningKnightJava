@@ -23,11 +23,12 @@ public class Terrain {
 	public static int SOLID = 0x2;
 	public static int HOLE = 0x4;
 	public static int HIGH = 0x8;
+	public static int IS_DIRT = 0x10;
 
 	static {
 		flags[CHASM] = HOLE;
-		flags[DIRT] = PASSABLE;
-		flags[PLANTED_DIRT] = PASSABLE;
+		flags[DIRT] = PASSABLE | IS_DIRT;
+		flags[PLANTED_DIRT] = PASSABLE | IS_DIRT;
 		flags[FLOOR] = PASSABLE;
 		flags[WALL] = SOLID | HIGH;
 		flags[WATER] = PASSABLE;
