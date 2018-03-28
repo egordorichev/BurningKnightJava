@@ -122,14 +122,15 @@ public class Input implements InputProcessor, ControllerListener {
 		bind("up", "Up", "W");
 		bind("down", "Down", "S");
 
-		bind("pickup", "Q");
-		bind("drop_item", "E");
+		bind("pickup", "Space");
+		bind("drop_item", "Mouse1");
 
 		bind("mouse0", "Mouse0");
 		bind("mouse1", "Mouse1");
+		bind("mouse2", "Mouse2");
 		bind("scroll", "MouseWheel");
 
-		bind("action", "X");
+		bind("action", "Space");
 
 		bind("1", "1");
 		bind("2", "2");

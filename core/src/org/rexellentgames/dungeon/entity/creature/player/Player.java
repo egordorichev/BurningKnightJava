@@ -222,20 +222,29 @@ public class Player extends Creature {
 		}
 
 		if (Network.SERVER || this.main) {
-			if (Input.instance.isDown("left")) {
-				this.vel.x -= this.speed;
-			}
+			if (Input.instance.isDown("mouse2")) {
+				float dx = Input.instance.worldMouse.x - this.x - 8;
+				float dy = Input.instance.worldMouse.y - this.y - 8;
+				float a = (float) Math.atan2(dy, dx);
 
-			if (Input.instance.isDown("right")) {
-				this.vel.x += this.speed;
-			}
+				this.vel.x += (float) (this.speed * Math.cos(a));
+				this.vel.y += (float) (this.speed * Math.sin(a));
+			} else {
+				if (Input.instance.isDown("left")) {
+					this.vel.x -= this.speed;
+				}
 
-			if (Input.instance.isDown("up")) {
-				this.vel.y += this.speed;
-			}
+				if (Input.instance.isDown("right")) {
+					this.vel.x += this.speed;
+				}
 
-			if (Input.instance.isDown("down")) {
-				this.vel.y -= this.speed;
+				if (Input.instance.isDown("up")) {
+					this.vel.y += this.speed;
+				}
+
+				if (Input.instance.isDown("down")) {
+					this.vel.y -= this.speed;
+				}
 			}
 		}
 

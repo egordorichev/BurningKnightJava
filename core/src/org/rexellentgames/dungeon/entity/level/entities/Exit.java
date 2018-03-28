@@ -98,7 +98,7 @@ public class Exit extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player && this.fx == null && !Network.SERVER) {
-			this.fx = new LadderFx(this, "Descend [X]");
+			this.fx = new LadderFx(this, "Descend");
 
 			this.area.add(this.fx);
 		}
