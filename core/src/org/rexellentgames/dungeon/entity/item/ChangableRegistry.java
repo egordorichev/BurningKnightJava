@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -15,6 +16,7 @@ import java.util.*;
 public class ChangableRegistry {
 	public static HashMap<String, Type> types = new HashMap<String, Type>();
 	public static HashMap<Type, Boolean> identified = new HashMap<Type, Boolean>();
+	public static boolean loaded;
 
 	public enum Type {
 		RED("item (potion A)"),
@@ -47,6 +49,9 @@ public class ChangableRegistry {
 	}
 
 	public static void load(FileReader reader) throws IOException {
+		loaded = true;
+		Log.info("Loading generatebles...");
+
 		int size = reader.readInt32();
 
 		for (int i = 0; i < size; i++) {
@@ -73,6 +78,8 @@ public class ChangableRegistry {
 	}
 
 	public static void generate() {
+		Log.info("Generating chagables...");
+
 		ArrayList<Class<? extends Potion>> potions = new ArrayList<Class<? extends Potion>>(Arrays.asList(
 			HealingPotion.class, SunPotion.class, FirePotion.class, InvisibilityPotion.class, SpeedPotion.class,
 			RegenerationPotion.class, PoisonPotion.class, DefensePotion.class

@@ -779,8 +779,6 @@ public abstract class Level extends Entity {
 
 	protected void loadData(FileReader stream, DataType type) throws Exception {
 		if (type == DataType.PLAYER) {
-			ChangableRegistry.load(stream);
-
 			int count = stream.readInt32();
 
 			for (int i = 0; i < count; i++) {
@@ -798,6 +796,10 @@ public abstract class Level extends Entity {
 				entity.load(stream);
 			}
 		} else {
+			if (!ChangableRegistry.loaded) {
+				ChangableRegistry.load(stream);
+			}
+
 			heat = 0;
 			int count = stream.readInt32();
 

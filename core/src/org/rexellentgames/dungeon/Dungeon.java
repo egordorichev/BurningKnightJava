@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
@@ -47,6 +48,7 @@ public class Dungeon extends ApplicationAdapter {
 		reset = true;
 
 		Player.instance = null;
+		ChangableRegistry.loaded = false;
 		BurningKnight.instance = null;
 
 		level = null;

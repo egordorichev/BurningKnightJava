@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 

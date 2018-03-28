@@ -9,7 +9,6 @@ import org.rexellentgames.dungeon.entity.item.consumable.seed.LightroomSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
-import org.rexellentgames.dungeon.entity.plant.Lightroom;
 
 import java.util.HashMap;
 
