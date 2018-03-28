@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.Log;
 
 public class LadderFx extends Entity {
 	private Entity ladder;
@@ -15,7 +14,7 @@ public class LadderFx extends Entity {
 
 	public LadderFx(Entity ladder, String text) {
 		this.ladder = ladder;
-		this.text = text + " " + ((ladder instanceof Exit) ? ((Exit) ladder).getType() : ((Entrance) ladder).getType());
+		this.text = text;
 
 		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
 

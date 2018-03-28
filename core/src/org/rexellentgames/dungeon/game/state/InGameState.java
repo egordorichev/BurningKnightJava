@@ -150,10 +150,6 @@ public class InGameState extends State {
 
 	@Override
 	public void renderUi() {
-		// todo: fix
-		// Graphics.render(Graphics.ui, 0, 0, Display.GAME_HEIGHT - 32, 5, 2);
-		Dungeon.ui.render();
-
 		if (Player.instance.getLevel() != this.lastLevel) {
 			this.lastLevel = Player.instance.getLevel();
 			Graphics.layout.setText(Graphics.medium, String.valueOf(this.lastLevel));
@@ -168,8 +164,6 @@ public class InGameState extends State {
 			Buff buff = buffs[i];
 
 			int sprite = buff.getSprite();
-			int xx = sprite % 32 * 8;
-			int yy = (int) (Math.floor(sprite / 32) * 8);
 
 			// todo: render
 			// Graphics.batch.draw(Graphics.buffs, 2 + i * 9, Display.GAME_HEIGHT - 36, xx, yy, 8, 8);
@@ -178,9 +172,6 @@ public class InGameState extends State {
 		if (this.health.hovered) { this.health.renderInfo(); }
 		if (this.mana.hovered) { this.mana.renderInfo(); }
 		if (this.exp.hovered) { this.exp.renderInfo(); }
-
-		this.console.render();
-		this.inventory.renderCurrentSlot();
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 
@@ -191,6 +182,18 @@ public class InGameState extends State {
 			Graphics.batch.begin();
 		}
 
+		if (Camera.ui != null) {
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		}
+
+		Dungeon.ui.render();
+		Ui.ui.renderUi();
+
+		Graphics.print(this.lastLevel + "", Graphics.medium, (20 - this.w) / 2 + 2, Display.GAME_HEIGHT - 16 - 8);
+
+
+		this.console.render();
+		this.inventory.renderCurrentSlot();ww
 		Ui.ui.render();
 	}
 
@@ -202,7 +205,7 @@ public class InGameState extends State {
 		this.health.h = 8;
 		this.health.x = 25;
 		this.health.y = Display.GAME_HEIGHT - 12;
-		this.health.setTexture(112, 0);
+		this.health.region = Graphics.getTexture("ui (hp bar)");
 
 		this.mana = new UiBar();
 
@@ -210,7 +213,7 @@ public class InGameState extends State {
 		this.mana.h = 6;
 		this.mana.x = 23;
 		this.mana.y = Display.GAME_HEIGHT - 23;
-		this.mana.setTexture(112, 16);
+		this.mana.region = Graphics.getTexture("ui (mana bar)");
 
 		this.exp = new UiBar();
 
@@ -219,7 +222,7 @@ public class InGameState extends State {
 		this.exp.x = 2;
 		this.exp.y = Display.GAME_HEIGHT - 22;
 		this.exp.vertical = true;
-		this.exp.setTexture(80, 0);
+		this.exp.region = Graphics.getTexture("ui (exp bar)");
 
 		Dungeon.ui.add(this.inventory);
 		Dungeon.ui.add(this.health);

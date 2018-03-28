@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.ui;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
@@ -9,10 +10,9 @@ public class UiBar extends UiEntity {
 	protected float max;
 	protected float val;
 	protected float last;
-	protected int tx;
-	protected int ty;
 	public boolean vertical;
 	public boolean hovered;
+	public TextureRegion region;
 
 	@Override
 	public void update(float dt) {
@@ -27,12 +27,28 @@ public class UiBar extends UiEntity {
 		int ww = (int) Math.ceil(this.vertical ? this.w : this.w * (this.val / this.max));
 		int hh = (int) Math.ceil(this.vertical ? this.h * (this.val / this.max) : this.h);
 
-		Graphics.batch.setColor(0.8f, 0.8f, 0.8f, 1);
-		// todo
-		// Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - hh), w, hh);
+		Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
+		Graphics.batch.draw(this.region, this.x, this.y + 1);
+
+		TextureRegion region = new TextureRegion(this.region);
+
+		region.setRegionX(region.getRegionX() + (int) (this.w - w));
+		region.setRegionY(region.getRegionY() + (int) (this.h - h));
+		region.setRegionWidth(w);
+		region.setRegionHeight(h);
+
+		Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
+		Graphics.batch.draw(region, this.x, this.y);
+
+		region.setRegion(this.region);
+
+		region.setRegionX(region.getRegionX() + (int) (this.w - ww));
+		region.setRegionY(region.getRegionY() + (int) (this.h - hh));
+		region.setRegionWidth(ww);
+		region.setRegionHeight(hh);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		// Graphics.batch.draw(Graphics.ui, this.x, this.y, this.tx, (int) (this.ty + this.h - h), ww, h);
+		Graphics.batch.draw(region, this.x, this.y);
 	}
 
 	public void renderInfo() {
@@ -67,10 +83,5 @@ public class UiBar extends UiEntity {
 
 	public void setMax(float max) {
 		this.max = max;
-	}
-
-	public void setTexture(int x, int y) {
-		this.tx = x;
-		this.ty = y;
 	}
 }
