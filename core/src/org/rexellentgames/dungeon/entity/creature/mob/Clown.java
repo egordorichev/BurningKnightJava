@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -34,10 +35,6 @@ public class Clown extends Mob {
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
-	private void attack() {
-
-	}
-
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -45,40 +42,6 @@ public class Clown extends Mob {
 		if (this.dead) {
 			super.common();
 			return;
-		}
-
-		if (!this.noticed) {
-			this.vel.mul(0f);
-		} else if (this.target != null && !this.target.isDead()) {
-			float dx = this.target.x - this.x;
-			float dy = this.target.y - this.y;
-			float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-			if (d < 20) {
-				this.attack();
-			} else {
-				if (this.t % 0.5 <= 0.017) {
-					this.point = this.getCloser(this.target);
-				}
-
-				if (this.point != null) {
-					dx = this.point.x - this.x;
-					dy = this.point.y - this.y;
-					d = (float) Math.sqrt(dx * dx + dy * dy);
-
-					if (d < 1) {
-						this.x = this.point.x;
-						this.y = this.point.y;
-
-						this.point = this.getCloser(this.target);
-					} else {
-						this.vel.x += dx / d * this.speed;
-						this.vel.y += dy / d * this.speed;
-					}
-				} else {
-					this.point = this.getCloser(this.target);
-				}
-			}
 		}
 
 		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
@@ -119,5 +82,63 @@ public class Clown extends Mob {
 		}
 
 		this.animation.render(this.x, this.y, this.flipped);
+	}
+
+	public Point lastSeen;
+
+	@Override
+	protected State getAi(String state) {
+		if (state.equals("alerted")) {
+			return new AlertedState();
+		}
+
+		return new IdleState();
+	}
+
+	public class ClownState extends State<Clown> {
+		public void checkForPlayer() {
+			if (self.target != null) {
+				self.lastSeen = new Point(self.target.x, self.target.y);
+
+				if (!self.canSee(self.target)) {
+					self.target = null;
+				}
+			}
+
+			if (self.target == null) {
+				for (Player player : Player.all) {
+					if (self.canSee(player)) {
+						self.target = player;
+						self.become("alerted");
+
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	public class IdleState extends ClownState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+		}
+	}
+
+	public class AlertedState extends ClownState {
+		private static final float DELAY = 1f;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (self.t >= DELAY) {
+				self.become("chase");
+			}
+		}
+	}
+
+	public class ChasingState extends ClownState {
+		// todo
 	}
 }

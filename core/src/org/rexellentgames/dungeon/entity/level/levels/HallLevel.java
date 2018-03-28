@@ -35,11 +35,11 @@ public class HallLevel extends BetterLevel {
 			creatures.add(new Knight());
 		}
 
-		if (Dungeon.depth > 0) {
+		// if (Dungeon.depth > 0) {
 			for (int i = 0; i < 5; i++) {
 				creatures.add(new Clown());
 			}
-		}
+		// }
 
 		return creatures;
 	}
