@@ -39,7 +39,7 @@ public class Console implements InputProcessor {
 
 	public void render() {
 		if (this.open) {
-			Graphics.medium.draw(Graphics.batch, this.input + "|", 2, 12);
+			Graphics.print(this.input + "|", Graphics.medium, 2, 2);
 		}
 	}
 

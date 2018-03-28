@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.Dungeon;
@@ -15,6 +16,7 @@ import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -24,6 +26,7 @@ import java.io.IOException;
 
 public class LoadState extends State {
 	private boolean ready = false;
+	private float a;
 
 	public static void writeDepth() {
 		FileHandle save = Gdx.files.external(".ldg/depth.save");
@@ -39,6 +42,38 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
+		Tween.to(new Tween.Task(1f, 1f) {
+			@Override
+			public float getValue() {
+				return a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(0f, 1f) {
+					@Override
+					public float getValue() {
+						return a;
+					}
+
+					@Override
+					public void setValue(float value) {
+						a = value;
+					}
+
+					@Override
+					public void onEnd() {
+						ready = true;
+					}
+				});
+			}
+		});
+
 		Player.REGISTERED = false;
 		Level.GENERATED = false;
 
@@ -121,14 +156,19 @@ public class LoadState extends State {
 
 	@Override
 	public void update(float dt) {
-		if (this.ready) {
+		if (this.ready && this.a == 0) {
 			Game.instance.setState(new InGameState());
 			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}
 
 	@Override
-	public void render() {
-		Graphics.medium.draw(Graphics.batch, "Loading...", 10, 10);
+	public void renderUi() {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+		Graphics.medium.setColor(1, 1, 1, this.a);
+		Graphics.print("Loading...", Graphics.medium, 120);
+		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }
