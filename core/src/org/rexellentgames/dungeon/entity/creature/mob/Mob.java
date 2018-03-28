@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
@@ -149,7 +150,7 @@ public class Mob extends Creature {
 			}
 		}
 
-		if (this.target != null) {
+		if (this.target != null && this.canSee(this.target)) {
 			this.target.heat += dt / 2;
 		}
 
@@ -285,10 +286,13 @@ public class Mob extends Creature {
 		}
 	}
 
+	public Room lastRoom;
+
 	public class State<T extends Mob> {
 		public T self;
 		public float t;
 		public Point nextPathPoint;
+		public Point targetPoint;
 
 		public void update(float dt) {
 			this.t += dt;
@@ -303,7 +307,7 @@ public class Mob extends Creature {
 		}
 
 		public boolean moveTo(Point point, float s) {
-			return this.moveTo(point, s, 16f);
+			return this.moveTo(point, s, 4f);
 		}
 
 		public boolean moveTo(Point point, float s, float d) {
@@ -311,16 +315,15 @@ public class Mob extends Creature {
 				this.nextPathPoint = self.getCloser(point);
 
 				if (this.nextPathPoint == null) {
-					Log.error("Cant build the path");
 					return false;
 				}
 			}
 
 			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, s);
 
-			if (ds < Math.min(d, 4f)) {
+			if (ds < Math.max(d, 4f)) {
 				this.nextPathPoint = null;
-				return self.getDistanceTo(point.x + 8, point.y + 8) < d;
+				return self.getDistanceTo(point.x + 8, point.y + 8) <= d;
 			}
 
 			return false;
@@ -336,7 +339,7 @@ public class Mob extends Creature {
 
 				if (!self.canSee(self.target)) {
 					self.target = null;
-					Level.heat = Math.max(0, Level.heat - 1f);
+					// Level.heat = Math.max(0, Level.heat - 1f);
 				}
 			}
 
