@@ -16,7 +16,6 @@ import java.util.*;
 public class ChangableRegistry {
 	public static HashMap<String, Type> types = new HashMap<String, Type>();
 	public static HashMap<Type, Boolean> identified = new HashMap<Type, Boolean>();
-	public static boolean loaded;
 
 	public enum Type {
 		RED("item (potion A)"),
@@ -49,7 +48,6 @@ public class ChangableRegistry {
 	}
 
 	public static void load(FileReader reader) throws IOException {
-		loaded = true;
 		Log.info("Loading generatebles...");
 
 		int size = reader.readInt32();

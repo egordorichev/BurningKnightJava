@@ -51,7 +51,6 @@ public class Dungeon extends ApplicationAdapter {
 		loadType = Entrance.LoadType.GO_DOWN;
 
 		Player.instance = null;
-		ChangableRegistry.loaded = false;
 		BurningKnight.instance = null;
 
 		level = null;
