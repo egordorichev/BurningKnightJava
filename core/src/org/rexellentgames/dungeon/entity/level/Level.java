@@ -426,14 +426,16 @@ public abstract class Level extends Entity {
 
 		/*
 		Graphics.batch.end();
-		Graphics.shape.setColor(1, 1, 1, 0.3f)'
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		Graphics.shape.setColor(1, 1, 1, 0.1f);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 		for (Room room : this.rooms) {
 			Graphics.shape.rect(room.left * 16, room.top * 16, room.getWidth() * 16, room.getHeight() * 16);
 		}
 		Graphics.shape.end();
-		Graphics.batch.begin();
-		*/
+		Gdx.gl.glDisable(GL20.GL_BLEND);
+		Graphics.batch.begin();*/
 	}
 
 	@Override

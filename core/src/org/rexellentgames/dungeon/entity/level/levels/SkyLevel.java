@@ -32,7 +32,7 @@ public class SkyLevel extends BetterLevel {
 		ArrayList<Creature> creatures = super.generateCreatures();
 
 		for (int i = 0; i < 10; i++) {
-			creatures.add(new Knight());
+			creatures.add(new Knight().generate());
 		}
 
 		return creatures;

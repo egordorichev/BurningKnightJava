@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -12,6 +13,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -90,7 +92,24 @@ public class Knight extends Mob {
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
 
-		Graphics.print(this.state + " " + Level.heat + " " + Player.instance.heat, Graphics.small, this.x, this.y);
+		Graphics.print(this.mind.toString() + " " + this.state + " " + Level.heat + " " + Player.instance.heat, Graphics.small, this.x, this.y);
+
+		if (this.ai.nextPathPoint != null) {
+			Graphics.batch.end();
+			Graphics.shape.setColor(1, 0, 1, 1);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 8);
+			Graphics.shape.end();
+			Graphics.shape.setColor(1, 1, 1, 1);
+			Graphics.batch.begin();
+		}
+		if (this.ai.targetPoint != null) {
+			Graphics.batch.end();
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.targetPoint.x + 8, this.ai.targetPoint.y + 8);
+			Graphics.shape.end();
+			Graphics.batch.begin();
+		}
 	}
 
 	@Override
@@ -132,11 +151,12 @@ public class Knight extends Mob {
 	public class KnightState extends State<Knight> {
 		public Room currentRoom;
 		public Point water;
-		public Point targetPoint;
 		public Room target;
 
 		public void checkForFlee() {
-			if (self.flee >= 1f) {
+			if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
+				|| self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
+
 				self.become("fleeing");
 			}
 		}
@@ -166,33 +186,51 @@ public class Knight extends Mob {
 				Point point = this.currentRoom.getRandomCell();
 
 				if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WATER) {
-					this.water = new Point(point.x * 16, point.y * 16);
 					self.become("toRelax");
+					((KnightState) self.ai).water = new Point(point.x * 16, point.y * 16);
+					this.targetPoint = ((KnightState) self.ai).water;
 				}
 			}
 		}
 
 		public void findNearbyPoint() {
-			if (self.target == null) {
-				this.findCurrentRoom();
+			if (this.targetPoint != null) {
+				return;
+			}
 
-				if (this.currentRoom != null) {
+			this.findCurrentRoom();
+
+			if (this.currentRoom != null) {
+				for (int i = 0; i < 10; i++) {
 					this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
-					boolean found = false;
 
-					for (int i = 0; i < this.target.getWidth() * this.target.getHeight(); i++) {
-						this.targetPoint = this.target.getRandomCell();
-
-						if (Dungeon.level.checkFor((int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE)) {
-							found = true;
-							break;
-						}
+					if (this.target != self.lastRoom && this.target != this.currentRoom) {
+						self.lastRoom = this.currentRoom;
+						break;
 					}
 
-					if (!found) {
-						this.target = null;
-						this.targetPoint = null;
+					if (i == 9) {
+						self.lastRoom = this.currentRoom;
 					}
+				}
+
+				boolean found = false;
+
+				for (int i = 0; i < this.target.getWidth() * this.target.getHeight(); i++) {
+					this.targetPoint = this.target.getRandomCell();
+
+					if (Dungeon.level.checkFor((int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE)) {
+						found = true;
+						this.targetPoint.mul(16);
+						break;
+					}
+				}
+
+				if (!found) {
+					Log.error("Not found target point");
+
+					this.target = null;
+					this.targetPoint = null;
 				}
 			}
 		}
@@ -222,7 +260,8 @@ public class Knight extends Mob {
 				return;
 			}
 
-			if (this.moveTo(this.water, 6f)) {
+			if (this.moveTo(this.water, 6f, 4f)) {
+				Log.info("relax");
 				self.become("relax");
 			}
 
@@ -250,24 +289,29 @@ public class Knight extends Mob {
 			this.findNearbyPoint();
 			self.flee = Math.max(0, self.flee - 0.005f);
 
-			if (this.targetPoint != null) {
-				if (this.moveTo(this.targetPoint, 10f)) {
-					self.become("idle");
-				}
+			if (this.targetPoint != null && this.moveTo(this.targetPoint, 6f, 8f)) {
+				self.become("idle");
+				return;
 			}
+
+			super.update(dt);
 		}
 	}
 
 	public class RoamState extends KnightState {
 		@Override
-		public void update(float dt) {
+		public void onEnter() {
+			super.onEnter();
 			this.findNearbyPoint();
+		}
 
-			if (this.targetPoint != null) {
-				if (this.moveTo(this.targetPoint, 8f)) {
-					self.become("idle");
-					return;
-				}
+		@Override
+		public void update(float dt) {
+			this.checkForSpa();
+
+			if (this.targetPoint != null && this.moveTo(this.targetPoint, 6f, 8f)) {
+				self.become("idle");
+				return;
 			}
 
 			this.checkForPlayer();
@@ -299,7 +343,7 @@ public class Knight extends Mob {
 			if (self.lastSeen == null) {
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 32f)) {
+				if (this.moveTo(self.lastSeen, 10f,32f)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
 

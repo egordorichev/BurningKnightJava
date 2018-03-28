@@ -23,7 +23,7 @@ public class Ui {
 	public void render() {
 		if (Player.instance != null && Player.instance.isDead()) {
 			Graphics.print("Game over!", Graphics.medium, 128);
-			Graphics.print("Press X to restart", Graphics.medium, (float) (108 + Math.sin(Dungeon.time * 3) * 4));
+			Graphics.print("Press space to restart", Graphics.medium, (float) (108 + Math.sin(Dungeon.time * 3) * 4));
 
 			if (Input.instance.wasPressed("action")) {
 				Dungeon.newGame();
