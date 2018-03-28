@@ -205,7 +205,7 @@ public class BurningKnight extends Mob {
 			float dy = player.y - this.y - 8;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d < (player.getLightSize() + LIGHT_SIZE - 3) * 16) {
+			if (d < (player.getLightSize() + LIGHT_SIZE - 3) * 16 && (this.sawPlayer || this.canSee(player))) {
 				this.target = player;
 				this.roamTime = 0;
 				this.idleTime = 0;

@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.consumable.seed;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;

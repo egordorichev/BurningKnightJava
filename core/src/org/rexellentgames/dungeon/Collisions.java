@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 
 public class Collisions implements ContactListener, ContactFilter {
 	@Override
@@ -34,6 +35,8 @@ public class Collisions implements ContactListener, ContactFilter {
 		Object b = contact.getFixtureB().getBody().getUserData();
 
 		if (a instanceof Creature && b instanceof Creature) {
+			contact.setEnabled(false);
+		} else if ((a instanceof Creature && b instanceof ItemHolder) || (b instanceof Creature && a instanceof ItemHolder)) {
 			contact.setEnabled(false);
 		}
 	}

@@ -127,12 +127,10 @@ public class Player extends Creature {
 
 	public void generate() {
 		this.inventory.add(new ItemHolder().setItem(new Dagger()));
-		// this.inventory.add(new ItemHolder().setItem(new Hoe()));
 		this.inventory.add(new ItemHolder().setItem(new CabbageSeed().setCount(100)));
 		this.inventory.add(new ItemHolder().setItem(new SunPotion().setCount(100)));
 		this.inventory.add(new ItemHolder().setItem(new HealingPotion().setCount(100)));
 		this.inventory.add(new ItemHolder().setItem(new SpeedPotion().setCount(100)));
-		this.inventory.add(new ItemHolder().setItem(new SpellOfDamage().setCount(100)));
 	}
 
 	public float getHunger() {
@@ -174,7 +172,7 @@ public class Player extends Creature {
 		this.experienceMax = expNeeded(this.level);
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
-		this.inventory = new Inventory(this, 24);
+		this.inventory = new Inventory(this, 6);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 	}
 
@@ -356,7 +354,7 @@ public class Player extends Creature {
 
 			if (item.getItem().hasAutoPickup()) {
 				this.tryToPickup(item);
-			} else if (this.pickupFx == null && !Network.SERVER) {
+			} else if (this.pickupFx == null && !Network.SERVER && !((ItemHolder) item).falling) {
 				this.pickupFx = new ItemPickupFx(item, this);
 				this.area.add(this.pickupFx);
 			}

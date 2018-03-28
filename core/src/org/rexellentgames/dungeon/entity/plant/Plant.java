@@ -93,8 +93,9 @@ public class Plant extends SaveableEntity {
 				ItemHolder holder = new ItemHolder();
 
 				holder.setItem(item);
-				holder.x = this.x + Random.newInt(-8, 8);;
+				holder.x = this.x + Random.newInt(-8, 8);
 				holder.y = this.y + Random.newInt(-8, 8);
+				holder.randomVel();
 
 				Dungeon.area.add(holder);
 				Dungeon.level.addSaveable(holder);
