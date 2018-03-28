@@ -28,7 +28,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void init() {
-		this.slots = new UiSlot[24];
+		this.slots = new UiSlot[6];
 
 		for (int i = 0; i < this.slots.length; i++) {
 			this.slots[i] = new UiSlot(this, i, i % 6 * 25 + 1,
@@ -52,9 +52,9 @@ public class UiInventory extends UiEntity {
 	public void update(float dt) {
 		this.handled = false;
 
-		if (Input.instance.wasPressed("toggle_inventory")) {
+		/*if (Input.instance.wasPressed("toggle_inventory")) {
 			this.open = !this.open;
-		}
+		}*/
 
 		if (Input.instance.wasPressed("scroll")) {
 			this.active = (this.active + Input.instance.getAmount()) % 5;
@@ -70,9 +70,10 @@ public class UiInventory extends UiEntity {
 			if (slot != null && !slot.hasAutoPickup()) {
 				ItemHolder holder = new ItemHolder();
 
-				holder.x = (float) Math.floor(Player.instance.x);
-				holder.y = (float) Math.floor(Player.instance.y);
+				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
+				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
 				holder.setItem(slot);
+				holder.velToMouse();
 
 				this.inventory.setSlot(this.active, null);
 				Dungeon.area.add(holder);
