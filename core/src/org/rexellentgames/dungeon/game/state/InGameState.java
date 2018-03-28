@@ -193,7 +193,7 @@ public class InGameState extends State {
 
 
 		this.console.render();
-		this.inventory.renderCurrentSlot();ww
+		this.inventory.renderCurrentSlot();
 		Ui.ui.render();
 	}
 

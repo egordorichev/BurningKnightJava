@@ -27,6 +27,7 @@ import java.io.IOException;
 public class LoadState extends State {
 	private boolean ready = false;
 	private float a;
+	private String s;
 
 	public static void writeDepth() {
 		FileHandle save = Gdx.files.external(".ldg/depth.save");
@@ -42,6 +43,14 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
+		this.s = "Doing secret stuff...";
+
+		switch (Dungeon.loadType) {
+			case GO_UP: this.s = "Ascending..."; break;
+			case GO_DOWN: this.s = "Descending..."; break;
+			case FALL_DOWN: this.s = "Falling..."; break;
+		}
+
 		Tween.to(new Tween.Task(1f, 0.5f) {
 			@Override
 			public float getValue() {
@@ -169,7 +178,7 @@ public class LoadState extends State {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		Graphics.medium.setColor(1, 1, 1, this.a);
-		Graphics.print("Loading...", Graphics.medium, 120);
+		Graphics.print(this.s, Graphics.medium, 120);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }
