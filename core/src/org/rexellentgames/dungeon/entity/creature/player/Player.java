@@ -209,7 +209,7 @@ public class Player extends Creature {
 			return;
 		}
 
-		this.heat -= dt / 3;
+		this.heat = Math.max(0, this.heat - dt / 3);
 
 		this.setHunger(this.hunger + dt);
 

@@ -32,12 +32,12 @@ public class HallLevel extends BetterLevel {
 		ArrayList<Creature> creatures = super.generateCreatures();
 
 		for (int i = 0; i < 5; i++) {
-			creatures.add(new Knight());
+			creatures.add(new Knight().generate());
 		}
 
 		// if (Dungeon.depth > 0) {
 			for (int i = 0; i < 5; i++) {
-				creatures.add(new Clown());
+				creatures.add(new Clown().generate());
 			}
 		// }
 

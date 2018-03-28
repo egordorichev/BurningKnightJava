@@ -84,44 +84,24 @@ public class Clown extends Mob {
 		this.animation.render(this.x, this.y, this.flipped);
 	}
 
-	public Point lastSeen;
-
 	@Override
 	protected State getAi(String state) {
-		if (state.equals("alerted")) {
+		//if (state.equals("alerted")) {
 			return new AlertedState();
-		}
+		//}
 
-		return new IdleState();
+		//return super.getAi(state);
 	}
 
 	public class ClownState extends State<Clown> {
-		public void checkForPlayer() {
-			if (self.target != null) {
-				self.lastSeen = new Point(self.target.x, self.target.y);
 
-				if (!self.canSee(self.target)) {
-					self.target = null;
-				}
-			}
-
-			if (self.target == null) {
-				for (Player player : Player.all) {
-					if (self.canSee(player)) {
-						self.target = player;
-						self.become("alerted");
-
-						break;
-					}
-				}
-			}
-		}
 	}
 
 	public class IdleState extends ClownState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+			this.checkForPlayer();
 		}
 	}
 
@@ -139,6 +119,6 @@ public class Clown extends Mob {
 	}
 
 	public class ChasingState extends ClownState {
-		// todo
+
 	}
 }

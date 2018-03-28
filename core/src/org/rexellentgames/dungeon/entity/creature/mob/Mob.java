@@ -3,28 +3,69 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.Line;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
+import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mob extends Creature {
+	public float flee;
+	public Point lastSeen;
 	protected Player target;
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
-	protected boolean noticed = false;
+	public boolean noticed = false;
 	protected int experienceDropped = 1;
+	protected State ai;
+	protected Mind mind;
 
-	public Mob() {
-		if (Dungeon.level != null) {
-			Level.heat += 1;
+	public Mind getMind() {
+		return this.mind;
+	}
+
+	public enum Mind {
+		ATTACKER(0),
+		DEFENDER(1),
+		COWARD(2),
+		RAT(3);
+
+		private byte id;
+
+		Mind(int id) {
+			this.id = (byte) id;
 		}
+
+		public byte getId() {
+			return this.id;
+		}
+	}
+
+	public Mob generate() {
+		this.mind = Mind.values()[Random.newInt(Mind.values().length)];
+		return this;
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		this.mind = Mind.values()[reader.readByte()];
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		writer.writeByte(this.mind.getId());
 	}
 
 	public void notice(Player player) {
@@ -44,7 +85,7 @@ public class Mob extends Creature {
 	}
 
 	protected void assignTarget() {
-		this.target = (Creature) this.area.getRandomEntity(Player.class);
+		this.target = (Player) this.area.getRandomEntity(Player.class);
 
 		if (this.target != null && this.target.invisible) {
 			this.target = null;
@@ -92,9 +133,24 @@ public class Mob extends Creature {
 			return;
 		}
 
+		if (this.ai == null) {
+			this.ai = this.getAi(this.state);
+
+			if (this.ai != null) {
+				this.ai.self = this;
+			}
+		}
+
 		if (this.ai != null) {
 			this.ai.update(dt);
-			this.ai.t += dt;
+
+			if (this.ai != null) { // !?!?!
+				this.ai.t += dt;
+			}
+		}
+
+		if (this.target != null) {
+			this.target.heat += dt / 2;
 		}
 
 		if (!this.noticed && this.t % 0.25f <= 0.017f && Player.instance != null && !Player.instance.invisible && Dungeon.level != null) {
@@ -194,8 +250,6 @@ public class Mob extends Creature {
 		return (float) Math.sqrt(dx * dx + dy * dy);
 	}
 
-	protected State ai;
-
 	@Override
 	public void become(String state) {
 		if (!this.state.equals(state)) {
@@ -208,6 +262,8 @@ public class Mob extends Creature {
 			if (this.ai != null) {
 				this.ai.self = this;
 				this.ai.onEnter();
+			} else {
+				Log.error(state + " ai is not found");
 			}
 		}
 
@@ -218,9 +274,21 @@ public class Mob extends Creature {
 		return null;
 	}
 
-	public class State<T> {
+	@Override
+	protected void onHurt() {
+		super.onHurt();
+
+		this.become("alerted");
+
+		if (this.ai != null) {
+			this.ai.checkForPlayer(true);
+		}
+	}
+
+	public class State<T extends Mob> {
 		public T self;
 		public float t;
+		public Point nextPathPoint;
 
 		public void update(float dt) {
 			this.t += dt;
@@ -232,6 +300,60 @@ public class Mob extends Creature {
 
 		public void onExit() {
 
+		}
+
+		public boolean moveTo(Point point, float s) {
+			return this.moveTo(point, s, 16f);
+		}
+
+		public boolean moveTo(Point point, float s, float d) {
+			if (this.nextPathPoint == null) {
+				this.nextPathPoint = self.getCloser(point);
+
+				if (this.nextPathPoint == null) {
+					Log.error("Cant build the path");
+					return false;
+				}
+			}
+
+			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, s);
+
+			if (ds < Math.min(d, 4f)) {
+				this.nextPathPoint = null;
+				return self.getDistanceTo(point.x + 8, point.y + 8) < d;
+			}
+
+			return false;
+		}
+
+		public void checkForPlayer() {
+			this.checkForPlayer(false);
+		}
+
+		public void checkForPlayer(boolean force) {
+			if (self.target != null) {
+				self.lastSeen = new Point(self.target.x, self.target.y);
+
+				if (!self.canSee(self.target)) {
+					self.target = null;
+					Level.heat = Math.max(0, Level.heat - 1f);
+				}
+			}
+
+			if (self.target == null) {
+				for (Player player : Player.all) {
+					if ((force || player.heat > Level.heat) && self.canSee(player)) {
+						self.target = player;
+						Level.heat += 1f;
+
+						if (!self.state.equals("chase")) {
+							self.become("alerted");
+						}
+
+						break;
+					}
+				}
+			}
 		}
 	}
 }

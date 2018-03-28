@@ -47,7 +47,6 @@ public abstract class Level extends Entity {
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
 	public static boolean GENERATED = false;
 	public static float heat;
-	public static int noticed;
 
 	public static String[] COMPASS = {
 		"NESW", "ESW", "NSW", "SW", "NEW", "EW", "NW", "W",
@@ -439,6 +438,8 @@ public abstract class Level extends Entity {
 
 	@Override
 	public void render() {
+		heat = Math.max(heat - 0.001f, 0);
+
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;
