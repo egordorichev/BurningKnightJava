@@ -263,7 +263,10 @@ public class Knight extends Mob {
 			if (this.moveTo(this.water, 6f, 4f)) {
 				Log.info("relax");
 				self.become("relax");
+				return;
 			}
+
+			this.checkForPlayer();
 
 			super.update(dt);
 		}
@@ -278,6 +281,8 @@ public class Knight extends Mob {
 				self.become("roam");
 				return;
 			}
+
+			this.checkForPlayer();
 
 			super.update(dt);
 		}
