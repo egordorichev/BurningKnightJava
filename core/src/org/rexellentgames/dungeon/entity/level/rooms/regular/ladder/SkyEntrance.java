@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
@@ -17,15 +18,17 @@ public class SkyEntrance extends EntranceRoom {
 		Rect topTower = new Rect(this.left, this.bottom - 7, this.left + 7, this.bottom);
 		Rect bottomTower = new Rect(this.left, this.top, this.left + 7, this.top + 7);
 
-		this.addExit(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2);
-		this.addExit(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2);
+		this.addExit(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_OPEN);
+		this.addExit(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_CLOSED);
 	}
 
-	private void addExit(int x, int y) {
+	private void addExit(int x, int y, byte type) {
 		Exit exit = new Exit();
 
 		exit.x = x * 16;
 		exit.y = y * 16;
+
+		exit.setType(type);
 
 		Dungeon.level.addSaveable(exit);
 		Dungeon.area.add(exit);

@@ -15,6 +15,10 @@ public class AnimationData {
 		this.current = this.frames.get(0);
 	}
 
+	public Animation.Frame getCurrent() {
+		return this.current;
+	}
+
 	public void update(float dt) {
 		this.t += dt;
 

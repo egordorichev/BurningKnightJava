@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
@@ -22,6 +23,16 @@ public class Exit extends SaveableEntity {
 	private Body body;
 	private LadderFx fx;
 	private static TextureRegion region;
+
+	private byte type;
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+	public byte getType() {
+		return this.type;
+	}
 
 	@Override
 	public void init() {
@@ -40,16 +51,14 @@ public class Exit extends SaveableEntity {
 	}
 
 	private void add() {
-		if (Dungeon.up && Player.instance != null && (Dungeon.ladderId == this.id || !Player.REGISTERED)) {
+		if (Dungeon.loadType == Entrance.LoadType.GO_UP && Player.instance != null && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
 			Player.instance.tp(this.x, this.y - 2);
-
-			Log.info("Set player position to " + (int) (this.x / 16) + ":" + (int) (this.y / 16) + ", self id = " + this.id);
 
 			if (BurningKnight.instance != null) {
 				BurningKnight.instance.findStartPoint();
 			}
 
-			if (Dungeon.ladderId == this.id) {
+			if (Dungeon.ladderId == this.type) {
 				Player.REGISTERED = true;
 			}
 		}
@@ -72,8 +81,18 @@ public class Exit extends SaveableEntity {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
+
+		this.type = reader.readByte();
+
 		this.body.setTransform(this.x, this.y, 0);
 		this.add();
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeByte(this.type);
 	}
 
 	@Override
