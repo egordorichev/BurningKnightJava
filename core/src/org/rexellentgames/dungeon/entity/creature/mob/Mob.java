@@ -15,7 +15,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.util.ArrayList;
 
 public class Mob extends Creature {
-	protected Creature target;
+	protected Player target;
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
 	protected boolean noticed = false;
@@ -90,6 +90,11 @@ public class Mob extends Creature {
 
 		if (this.dead) {
 			return;
+		}
+
+		if (this.ai != null) {
+			this.ai.update(dt);
+			this.ai.t += dt;
 		}
 
 		if (!this.noticed && this.t % 0.25f <= 0.017f && Player.instance != null && !Player.instance.invisible && Dungeon.level != null) {
@@ -187,5 +192,46 @@ public class Mob extends Creature {
 		float dx = x - this.x - this.w / 2;
 		float dy = y - this.y - this.h / 2;
 		return (float) Math.sqrt(dx * dx + dy * dy);
+	}
+
+	protected State ai;
+
+	@Override
+	public void become(String state) {
+		if (!this.state.equals(state)) {
+			if (this.ai != null) {
+				this.ai.onExit();
+			}
+
+			this.ai = this.getAi(state);
+
+			if (this.ai != null) {
+				this.ai.self = this;
+				this.ai.onEnter();
+			}
+		}
+
+		super.become(state);
+	}
+
+	protected State getAi(String state) {
+		return null;
+	}
+
+	public class State<T> {
+		public T self;
+		public float t;
+
+		public void update(float dt) {
+			this.t += dt;
+		}
+
+		public void onEnter() {
+
+		}
+
+		public void onExit() {
+
+		}
 	}
 }

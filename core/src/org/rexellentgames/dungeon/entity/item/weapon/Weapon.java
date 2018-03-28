@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 
 public class Weapon extends Item {
@@ -22,6 +23,10 @@ public class Weapon extends Item {
 	@Override
 	public void use() {
 		super.use();
+
+		if (this.owner instanceof Player) {
+			((Player) this.owner).heat += 0.2f;
+		}
 
 		this.createHitbox();
 	}
