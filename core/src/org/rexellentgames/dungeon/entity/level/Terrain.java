@@ -112,5 +112,6 @@ public class Terrain {
 		variants[WALL] = wallVariants;
 		variants[WOOD] = woodVariants;
 		variants[FLOOR] = floorVariants;
+		variants[SPIKES] = new TextureRegion[] { Graphics.getTexture(bm + " (spike)") };
 	}
 }
