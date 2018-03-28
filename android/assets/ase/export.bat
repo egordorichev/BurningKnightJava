@@ -7,5 +7,7 @@
 %ASEPRITE% -b item.ase --split-layers --trim --save-as %OUT%item.png
 %ASEPRITE% -b veggie.ase  --crop 16,16,16,16 --split-layers --split-tags --list-tags --save-as %OUT%veggie-{layer}-{tag}-{tagframe00}.png --data %OUT%veggie.json
 
-%ASEPRITE% -b actor_towelknight.ase --sheet --list-tags %OUT%actor-towelknight.png --data %OUT%actor-towelknight-sheet.json
+%ASEPRITE% -b actor_gobbo.ase --split-tags --list-tags --save-as %OUT%actor-gobbo-{tag}-{tagframe00}.png --data %OUT%actor-gobbo.json
+%ASEPRITE% -b actor_burning_knight.ase --split-tags --list-tags --save-as %OUT%actor_burning_knight-{tag}-{tagframe00}.png --data %OUT%actor_burning_knight.json
 %ASEPRITE% -b actor_towelknight.ase --split-tags --list-tags --save-as %OUT%actor-towelknight-{tag}-{tagframe00}.png --data %OUT%actor-towelknight.json
+%ASEPRITE% -b actor_clown.ase --split-tags --list-tags --save-as %OUT%actor-clown-{tag}-{tagframe00}.png --data %OUT%actor-clown.json

@@ -23,6 +23,7 @@ public class Plant extends SaveableEntity {
 	protected float growProgress;
 	protected Body body;
 	protected AnimationData animation;
+	protected boolean broke;
 
 	@Override
 	public void init() {
@@ -71,6 +72,7 @@ public class Plant extends SaveableEntity {
 
 		if (entity instanceof Weapon && this.growProgress == 1f) {
 			this.done = true;
+			this.broke = true;
 			Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
 		}
 	}
@@ -84,7 +86,7 @@ public class Plant extends SaveableEntity {
 		super.destroy();
 		this.body.getWorld().destroyBody(this.body);
 
-		if (this.growProgress == 1f) {
+		if (this.growProgress == 1f && !Dungeon.reset && this.broke) {
 			ArrayList<Item> drops = this.getDrops();
 
 			for (Item item : drops) {
