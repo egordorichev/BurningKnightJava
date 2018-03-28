@@ -40,6 +40,7 @@ public class Knight extends Mob {
 		run = animations.get("run");
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
+		animation = this.idle;
 	}
 
 	@Override
