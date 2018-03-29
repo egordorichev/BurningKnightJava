@@ -69,11 +69,6 @@ public class Mob extends Creature {
 		writer.writeByte(this.mind.getId());
 	}
 
-	public void notice(Player player) {
-		this.noticed = true;
-		this.target = player;
-	}
-
 	public int getExperienceDropped() {
 		return this.experienceDropped;
 	}
@@ -154,25 +149,30 @@ public class Mob extends Creature {
 			this.target.heat += dt / 2;
 		}
 
-		if (!this.noticed && this.t % 0.25f <= 0.017f && Player.instance != null && !Player.instance.invisible && Dungeon.level != null) {
-			Player player = Player.instance;
+		if (this.target == null && Dungeon.level != null) {
+			for (Player player : Player.all) {
+				if (player.invisible) {
+					continue;
+				}
 
-			Line line = new Line((int) Math.floor((this.x + 8) / 16), (int) Math.floor((this.y + 8) / 16),
-				(int) Math.floor((player.x + 8) / 16), (int) Math.floor((player.y + 8) / 16));
+				Line line = new Line((int) Math.floor((this.x + 8) / 16), (int) Math.floor((this.y + 8) / 16),
+					(int) Math.floor((player.x + 8) / 16), (int) Math.floor((player.y + 8) / 16));
 
-			boolean[] passable = Dungeon.level.getPassable();
-			boolean found = false;
+				boolean[] passable = Dungeon.level.getPassable();
+				boolean found = false;
 
-			for (Point point : line.getPoints()) {
-				int i = (int) (point.x + point.y * Level.getWidth());
-				if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
-					found = true;
+				for (Point point : line.getPoints()) {
+					int i = (int) (point.x + point.y * Level.getWidth());
+					if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
+						found = true;
+						break;
+					}
+				}
+
+				if (!found) {
+					this.target = player;
 					break;
 				}
-			}
-
-			if (!found) {
-				this.notice(Player.instance);
 			}
 		}
 
@@ -194,9 +194,7 @@ public class Mob extends Creature {
 				return;
 			}
 
-			if (!this.noticed) {
-				this.notice(player);
-			}
+			this.target = player;
 
 			this.colliding.add(player);
 		}
@@ -264,7 +262,7 @@ public class Mob extends Creature {
 				this.ai.self = this;
 				this.ai.onEnter();
 			} else {
-				Log.error(state + " ai is not found");
+				Log.error("'" + state + "' ai is not found for mob " + this.getClass().getSimpleName());
 			}
 		}
 
@@ -294,7 +292,16 @@ public class Mob extends Creature {
 		public Point nextPathPoint;
 		public Point targetPoint;
 
+		public void checkForFlee() {
+			if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
+				|| self.saw && self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
+
+				self.become("fleeing");
+			}
+		}
+
 		public void update(float dt) {
+			this.checkForFlee();
 			this.t += dt;
 		}
 
@@ -340,23 +347,25 @@ public class Mob extends Creature {
 				if (!self.canSee(self.target)) {
 					self.target = null;
 					Level.heat = Math.max(0, Level.heat - 1f);
+					self.saw = false;
+					self.become("idle");
 				}
 			}
 
 			if (self.target != null) {
-				//for (Player player : Player.all) {
-					if ((force || self.target.heat > Level.heat + 1) && self.canSee(self.target)) {
-						self.target = self.target;
-						Level.heat += 1f;
+				if (!self.saw && (force || self.target.heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
+					Level.heat += 1f;
+					self.saw = true;
 
-						if (!self.state.equals("chase")) {
-							self.become("alerted");
-						}
-
-						// break;
+					if (!self.state.equals("chase")) {
+						self.become("alerted");
 					}
-				//}
+				}
+			} else {
+				self.saw = false;
 			}
 		}
 	}
+
+	public boolean saw;
 }
