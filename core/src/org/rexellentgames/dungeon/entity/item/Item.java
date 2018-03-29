@@ -41,6 +41,10 @@ public class Item extends Entity {
 		this.delay = Math.max(0, this.delay - dt);
 	}
 
+	public Creature getOwner() {
+		return this.owner;
+	}
+
 	public void use() {
 		this.delay = this.useTime;
 	}

@@ -186,7 +186,7 @@ public class Mob extends Creature {
 		}
 
 		for (Player player : this.colliding) {
-			player.modifyHp(-this.damage);
+			// player.modifyHp(-this.damage);
 		}
 	}
 
