@@ -149,7 +149,6 @@ public class BurningKnight extends Mob {
 		}
 
 		this.animation.render(this.x, this.y, this.flipped);
-		Graphics.print(this.state, Graphics.medium, this.x, this.y);
 	}
 
 	public class BKState extends State<BurningKnight> {
@@ -296,12 +295,11 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, 6f, 32f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {
+			} else if ((self.lastSeen == null || (self.target != null && d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer))) {
 				self.r = 0.8f;
 				self.g = 0.0f;
 				self.b = 0.8f;
 
-				Log.info(d  + " dist " +  (self.target.getLightSize() + LIGHT_SIZE) * 16);
 				self.target = null;
 				self.become("idle");
 				return;
@@ -340,7 +338,6 @@ public class BurningKnight extends Mob {
 				self.g = 0.0f;
 				self.b = 0.8f;
 
-				Log.info(d  + " dist " +  (self.target.getLightSize() + LIGHT_SIZE) * 16);
 				self.target = null;
 				self.become("idle");
 				return;

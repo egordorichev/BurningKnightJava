@@ -223,7 +223,7 @@ public class Knight extends Mob {
 		@Override
 		public void update(float dt) {
 			this.findNearbyPoint();
-			self.flee = Math.max(0, self.flee - 0.05f);
+			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.1f : 0.05f));
 
 			if (this.targetPoint != null && this.moveTo(this.targetPoint, 10f, 8f)) {
 				self.become("idle");
