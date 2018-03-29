@@ -8,7 +8,7 @@ public class SolidLevel extends Entity {
 	public void setLevel(Level level) {
 		this.level = level;
 		this.depth = 5;
-		this.alwaysActive = true;
+		this.alwaysRender = true;
 	}
 
 	@Override

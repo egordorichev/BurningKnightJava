@@ -1,14 +1,11 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Animation;
@@ -381,7 +378,7 @@ public class Knight extends Mob {
 		@Override
 		public void update(float dt) {
 			if (self.sword.getDelay() == 0) {
-				self.become("chase");
+				self.become(self.mind == Mind.RAT ? "fleeing" : "chase");
 				this.checkForPlayer();
 				return;
 			}

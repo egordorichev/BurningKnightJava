@@ -13,6 +13,7 @@ public class AnimationData {
 	public AnimationData(ArrayList<Animation.Frame> frames) {
 		this.frames = frames;
 		this.current = this.frames.get(0);
+		this.t = Random.newFloat(0f, 100f);
 	}
 
 	public Animation.Frame getCurrent() {
