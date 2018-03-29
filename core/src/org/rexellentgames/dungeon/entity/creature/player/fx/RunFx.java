@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.util.AnimationData;
 public class RunFx extends Entity {
 	private static Animation animations = Animation.make("run-fx");
 	private AnimationData animation;
-	private float t;
 
 	public RunFx(float x, float y) {
 		this.x = x;
@@ -18,10 +17,7 @@ public class RunFx extends Entity {
 
 	@Override
 	public void update(float dt) {
-		this.t += dt;
-		this.animation.update(dt);
-
-		if (this.t >= 0.1f * 7) {
+		if (this.animation.update(dt)) {
 			this.done = true;
 		}
 	}

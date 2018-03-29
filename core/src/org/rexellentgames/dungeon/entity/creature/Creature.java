@@ -292,6 +292,12 @@ public class Creature extends SaveableEntity {
 
 	}
 
+	public float getDistanceTo(float x, float y) {
+		float dx = x - this.x - this.w / 2;
+		float dy = y - this.y - this.h / 2;
+		return (float) Math.sqrt(dx * dx + dy * dy);
+	}
+
 	protected void die() {
 		if (this.dead) {
 			return;
