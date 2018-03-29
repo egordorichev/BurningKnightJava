@@ -1,10 +1,12 @@
 package org.rexellentgames.dungeon.util;
 
+import org.rexellentgames.dungeon.Dungeon;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class PathFinder {
-	public static int[] distance;
+	public static float[] distance;
 
 	private static boolean[] goals;
 	private static int[] queue;
@@ -19,7 +21,7 @@ public class PathFinder {
 		if (PathFinder.size != size) {
 
 			PathFinder.size = size;
-			distance = new int[size];
+			distance = new float[size];
 			goals = new boolean[size];
 			queue = new int[size];
 
@@ -28,9 +30,8 @@ public class PathFinder {
 		}
 	}
 
-	public static Path find(int from, int to, boolean[] passable) {
-
-		if (!buildDistanceMap(from, to, passable)) {
+	public static Path find(int from, int to, boolean[] passable, boolean light) {
+		if (!buildDistanceMap(from, to, passable, light)) {
 			return null;
 		}
 
@@ -40,14 +41,14 @@ public class PathFinder {
 		// From the starting position we are moving downwards,
 		// until we reach the ending point
 		do {
-			int minD = distance[s];
+			float minD = distance[s];
 			int mins = s;
 
 			for (int i = 0; i < dir.length; i++) {
 
 				int n = s + dir[i];
 
-				int thisD = distance[n];
+				float thisD = distance[n];
 				if (thisD < minD) {
 					minD = thisD;
 					mins = n;
@@ -60,23 +61,23 @@ public class PathFinder {
 		return result;
 	}
 
-	public static int getStep(int from, int to, boolean[] passable) {
+	public static int getStep(int from, int to, boolean[] passable, boolean light) {
 
-		if (!buildDistanceMap(from, to, passable)) {
+		if (!buildDistanceMap(from, to, passable, light)) {
 			return -1;
 		}
 
 		// From the starting position we are making one step downwards
-		int minD = distance[from];
+		float minD = distance[from];
 		int best = from;
 
-		int step, stepD;
+		float step, stepD;
 
 		for (int i = 0; i < dir.length; i++) {
-			int index = step = from + dir[i];
+			int index = (int) (step = from + dir[i]);
 			if (index >= 0 && index < distance.length && (stepD = distance[index]) < minD) {
 				minD = stepD;
-				best = step;
+				best = (int) step;
 			}
 		}
 
@@ -85,7 +86,7 @@ public class PathFinder {
 
 	public static int getStepBack(int cur, int from, boolean[] passable) {
 
-		int d = buildEscapeDistanceMap(cur, from, 2f, passable);
+		float d = buildEscapeDistanceMap(cur, from, 2f, passable);
 		for (int i = 0; i < size; i++) {
 			goals[i] = distance[i] == d;
 		}
@@ -96,13 +97,13 @@ public class PathFinder {
 		int s = cur;
 
 		// From the starting position we are making one step downwards
-		int minD = distance[s];
+		float minD = distance [s];
 		int mins = s;
 
 		for (int i = 0; i < dir.length; i++) {
 
 			int n = s + dir[i];
-			int thisD = distance[n];
+			float thisD = distance[n];
 
 			if (thisD < minD) {
 				minD = thisD;
@@ -113,7 +114,7 @@ public class PathFinder {
 		return mins;
 	}
 
-	public static boolean buildDistanceMap(int from, int to, boolean[] passable) {
+	public static boolean buildDistanceMap(int from, int to, boolean[] passable, boolean light) {
 		if (from == to) {
 			return false;
 		}
@@ -137,7 +138,8 @@ public class PathFinder {
 				pathFound = true;
 				break;
 			}
-			int nextDistance = distance[step] + 1;
+
+			float nextDistance = distance[step] + (light ? Math.max(0.1f, 10f * Dungeon.level.getLight(step)) : 1f);
 
 			for (int i = 0; i < dir.length; i++) {
 				int n = step + dir[i];
@@ -169,7 +171,7 @@ public class PathFinder {
 			// Remove from queue
 			int step = queue[head++];
 
-			int nextDistance = distance[step] + 1;
+			float nextDistance = distance[step] + 1;
 			if (nextDistance > limit) {
 				return;
 			}
@@ -216,7 +218,7 @@ public class PathFinder {
 				pathFound = true;
 				break;
 			}
-			int nextDistance = distance[step] + 1;
+			float nextDistance = distance[step] + 1;
 
 			for (int i = 0; i < dir.length; i++) {
 
@@ -233,7 +235,7 @@ public class PathFinder {
 		return pathFound;
 	}
 
-	public static int buildEscapeDistanceMap(int cur, int from, float factor, boolean[] passable) {
+	public static float buildEscapeDistanceMap(int cur, int from, float factor, boolean[] passable) {
 
 		Arrays.fill(distance, Integer.MAX_VALUE);
 
@@ -246,7 +248,7 @@ public class PathFinder {
 		queue[tail++] = from;
 		distance[from] = 0;
 
-		int dist = 0;
+		float dist = 0;
 
 		while (head < tail) {
 
@@ -262,7 +264,7 @@ public class PathFinder {
 				destDist = (int) (dist * factor) + 1;
 			}
 
-			int nextDistance = dist + 1;
+			float nextDistance = dist + 1;
 
 			for (int i = 0; i < dir.length; i++) {
 
@@ -295,7 +297,7 @@ public class PathFinder {
 
 			// Remove from queue
 			int step = queue[head++];
-			int nextDistance = distance[step] + 1;
+			float nextDistance = distance[step] + 1;
 
 			for (int i = 0; i < dir.length; i++) {
 

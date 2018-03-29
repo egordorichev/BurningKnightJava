@@ -15,6 +15,7 @@ public class Entity extends Point {
 	public float h = 16;
 	public boolean onScreen = true;
 	public boolean alwaysActive = false;
+	public boolean alwaysRender = false;
 	public boolean done = false;
 	public int id;
 

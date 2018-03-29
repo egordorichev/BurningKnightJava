@@ -59,9 +59,9 @@ public class Area {
 		for (int i = this.entities.size() - 1; i >= 0; i--) {
 			Entity entity = this.entities.get(i);
 
-			entity.onScreen = (entity.alwaysActive || entity.isOnScreen());
+			entity.onScreen = entity.isOnScreen();
 
-			if (entity.onScreen) {
+			if (entity.onScreen || entity.alwaysActive) {
 				entity.update(dt);
 			}
 
@@ -83,7 +83,7 @@ public class Area {
 		for (int i = 0; i < this.entities.size(); i++) {
 			Entity entity = this.entities.get(i);
 
-			if (entity.onScreen) {
+			if (entity.onScreen || entity.alwaysRender) {
 				entity.render();
 			}
 		}

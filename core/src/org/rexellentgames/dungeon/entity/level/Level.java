@@ -319,7 +319,7 @@ public abstract class Level extends Entity {
 
 	@Override
 	public void init() {
-		this.alwaysActive = true;
+		this.alwaysRender = true;
 		this.depth = -10;
 		this.level = Dungeon.depth;
 
@@ -520,6 +520,14 @@ public abstract class Level extends Entity {
 		if (this.lightB[i] < max) {
 			this.lightB[i] = this.lightB[i] + b * dt;
 		}
+	}
+
+	public float getLight(int i) {
+		if (i < 0 || i >= getSIZE()) {
+			return 0;
+		}
+
+		return this.light[i];
 	}
 
 	public float getLight(int x, int y) {
