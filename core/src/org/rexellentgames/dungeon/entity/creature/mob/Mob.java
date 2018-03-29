@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.Line;
@@ -26,10 +27,10 @@ public class Mob extends Creature {
 	protected Player target;
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
-	public boolean noticed = false;
 	protected int experienceDropped = 1;
 	protected State ai;
 	protected Mind mind;
+	protected boolean hide;
 
 	{
 		alwaysActive = true;
@@ -96,7 +97,7 @@ public class Mob extends Creature {
 		int from = (int) (Math.floor((this.x + 8) / 16) + Math.floor((this.y + 8) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.getWidth());
 
-		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable(), this.mind == Mind.COWARD || this.mind == Mind.RAT);
+		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable(), this.mind == Mind.COWARD || this.mind == Mind.RAT || this.hide);
 
 		if (step != -1) {
 			Point p = new Point();
@@ -382,6 +383,56 @@ public class Mob extends Creature {
 				}
 			} else {
 				self.saw = false;
+			}
+		}
+
+		public Room currentRoom;
+		public Point water;
+		public Room target;
+
+		public void findCurrentRoom() {
+			this.currentRoom = Dungeon.level.findRoomFor(Math.round(self.x / 16), Math.round(self.y / 16));
+		}
+
+		public void findNearbyPoint() {
+			if (this.targetPoint != null) {
+				return;
+			}
+
+			this.findCurrentRoom();
+
+			if (this.currentRoom != null) {
+				for (int i = 0; i < 10; i++) {
+					this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
+
+					if (this.target != self.lastRoom && this.target != this.currentRoom) {
+						self.lastRoom = this.currentRoom;
+						break;
+					}
+
+					if (i == 9) {
+						self.lastRoom = this.currentRoom;
+					}
+				}
+
+				boolean found = false;
+
+				for (int i = 0; i < this.target.getWidth() * this.target.getHeight(); i++) {
+					this.targetPoint = this.target.getRandomCell();
+
+					if (Dungeon.level.isValid((int) this.targetPoint.x, (int) this.targetPoint.y) && Dungeon.level.checkFor((int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE)) {
+						found = true;
+						this.targetPoint.mul(16);
+						break;
+					}
+				}
+
+				if (!found) {
+					Log.error("Not found target point");
+
+					this.target = null;
+					this.targetPoint = null;
+				}
 			}
 		}
 	}
