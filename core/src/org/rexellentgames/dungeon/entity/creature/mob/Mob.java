@@ -317,6 +317,21 @@ public class Mob extends Creature {
 
 		}
 
+		public boolean flyTo(Point point, float s, float ds) {
+			float dx = point.x - self.x - self.w / 2;
+			float dy = point.y - self.y - self.h / 2;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			if (d < ds) {
+				return true;
+			}
+
+			self.vel.x += dx / d * s;
+			self.vel.y += dy / d * s;
+
+			return false;
+		}
+
 		public boolean moveTo(Point point, float s) {
 			return this.moveTo(point, s, 4f);
 		}
