@@ -130,8 +130,6 @@ public class ItemHolder extends SaveableEntity {
 
 			float s = 1 - this.t / 2;
 
-			Log.info(this.t + " time");
-
 			if (s <= 0) {
 				this.done = true;
 				Dungeon.level.removePlayerSaveable(this);

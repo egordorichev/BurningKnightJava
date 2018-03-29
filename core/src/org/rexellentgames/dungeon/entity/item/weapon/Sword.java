@@ -24,6 +24,8 @@ public class Sword extends Weapon {
 				float a = (float) Math.toDegrees(Math.atan2(dy, dx));
 
 				angle += (flipped ? a : -a);
+			} else {
+				angle += (flipped ? 180 : 0); // ?!?!?
 			}
 		}
 

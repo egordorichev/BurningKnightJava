@@ -5,13 +5,10 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.BetterLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
@@ -24,7 +21,6 @@ import java.io.IOException;
 
 public class BurningKnight extends Mob {
 	private static final int DASH_DIST = 64;
-	private static final int ATTACK_DIST = 32;
 	public static BurningKnight instance;
 	private static float LIGHT_SIZE = 8f;
 	private static Animation animations = Animation.make("actor-burning-knight");
@@ -32,12 +28,7 @@ public class BurningKnight extends Mob {
 	private float g;
 	private float b;
 	private Player target;
-	private float idleTime;
-	private Point roomToVisit;
 	private Room last;
-	private float roamTime;
-	private Point lastTargetPosition = new Point();
-	private float dashWait;
 	private boolean[][] fx;
 	private boolean sawPlayer;
 	public static Point throne;
@@ -137,7 +128,6 @@ public class BurningKnight extends Mob {
 			this.animation.update(dt);
 		}
 
-		this.ai(dt);
 		super.common();
 	}
 
@@ -159,41 +149,326 @@ public class BurningKnight extends Mob {
 		}
 
 		this.animation.render(this.x, this.y, this.flipped);
+		Graphics.print(this.state, Graphics.medium, this.x, this.y);
 	}
 
-	private void ai(float dt) {
-		if (this.state.equals("idle")) {
-			this.idle(dt);
-		} else if (this.state.equals("roam")) {
-			this.roam(dt);
-		} else if (this.state.equals("alerted")) {
-			this.alerted(dt);
-		} else if (this.state.equals("chase")) {
-			this.chase(dt);
-		} else if (this.state.equals("dash")) {
-			this.dash(dt);
-		} else if (this.state.equals("preattack")) {
-			this.preattack(dt);
-		} else if (this.state.equals("attack")) {
-			this.attack(dt);
-		} else if (this.state.equals("onThrone")) {
-			this.onThrone(dt);
+	public class BKState extends State<BurningKnight> {
+		@Override
+		public void update(float dt) {
+			if (self.target != null) {
+				self.lastSeen = new Point(self.target.x, self.target.y);
+			}
+
+			super.update(dt);
 		}
 	}
 
-	private void idle(float dt) {
-		this.r = 0;
-		this.g = 0;
-		this.b = 0;
+	public class IdleState extends BKState {
+		public float delay = Random.newFloat(5f, 10f);
 
-		if (this.idleTime == 0) {
-			this.idleTime = Random.newFloat(5f, 10f);
-		} else if (this.t >= this.idleTime) {
-			this.become("roam");
-			this.idleTime = 0;
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.r = 0;
+			self.g = 0;
+			self.b = 0;
 		}
 
-		this.checkForTarget();
+		@Override
+		public void update(float dt) {
+			if (this.t >= this.delay) {
+				self.become("roam");
+				return;
+			}
+
+			self.checkForTarget();
+			super.update(dt);
+		}
+	}
+
+	public class RoamState extends BKState {
+		public float delay = Random.newFloat(30f, 60f);
+		public Point roomToVisit;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.r = 0;
+			self.g = 0.0f;
+			self.b = 0.3f;
+		}
+
+		@Override
+		public void update(float dt) {
+			if (this.t >= this.delay) {
+				Log.info("TP");
+				self.become("idle");
+				self.findStartPoint(); // todo: might want to delay here
+				return;
+			}
+
+			self.checkForTarget();
+
+			if (this.roomToVisit == null) {
+				Room room;
+				float d;
+				int attempts = 0;
+
+				do {
+					room = Dungeon.level.getRandomRoom();
+					Point point = room.getCenter();
+
+					float dx = point.x * 16 - self.x;
+					float dy = point.y * 16 - self.y;
+					d = (float) Math.sqrt(dx * dx + dy * dy);
+
+					attempts++;
+
+					if (attempts > 40) {
+						room = Dungeon.level.getRandomRoom();
+						break;
+					}
+				} while (d > 400f && (self.last == null || self.last != room));
+
+				this.roomToVisit = room.getCenter();
+				this.roomToVisit.mul(16);
+				self.last = room;
+			}
+
+			if (this.roomToVisit != null) {
+				if (this.flyTo(this.roomToVisit, 4f, 32f)) {
+					if (Random.chance(25)) {
+						self.become("idle");
+						return;
+					} else {
+						this.roomToVisit = null;
+					}
+				}
+			} else {
+				Log.error("No room");
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class AlertedState extends BKState {
+		public static final float DELAY = 1f;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.r = 0.8f;
+			self.g = 0;
+			self.b = 0.4f;
+		}
+
+		@Override
+		public void update(float dt) {
+			if (this.t >= DELAY) {
+				self.become("chase");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class ChaseState extends BKState {
+		public float delay = Random.newFloat(5f, 7f);
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.r = 1;
+			self.g = 0.2f;
+			self.b = 0;
+		}
+
+		@Override
+		public void update(float dt) {
+			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
+
+			if (this.flyTo(self.lastSeen, 6f, 32f)) {
+				self.become("preattack");
+				return;
+			} else if ((self.lastSeen == null || d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {
+				self.r = 0.8f;
+				self.g = 0.0f;
+				self.b = 0.8f;
+
+				Log.info(d  + " dist " +  (self.target.getLightSize() + LIGHT_SIZE) * 16);
+				self.target = null;
+				self.become("idle");
+				return;
+			}
+
+			if (d > 40f && self.t >= this.delay) {
+				self.become("dash");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class DashState extends BKState {
+		public float delay = Random.newFloat(1f, 3f);
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.r = 1;
+			self.g = 0.2f;
+			self.b = 0;
+		}
+
+		@Override
+		public void update(float dt) {
+			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
+
+			if (this.flyTo(self.lastSeen, 12f, 32f)) {
+				self.become("preattack");
+				return;
+			} else if ((self.lastSeen == null || d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {
+				self.r = 0.8f;
+				self.g = 0.0f;
+				self.b = 0.8f;
+
+				Log.info(d  + " dist " +  (self.target.getLightSize() + LIGHT_SIZE) * 16);
+				self.target = null;
+				self.become("idle");
+				return;
+			}
+
+			if (self.t >= this.delay) {
+				self.become("chase");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class PreattackState extends BKState {
+		public final static float DELAY = 1f;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.r = 1f;
+			self.g = 0f;
+			self.b = 0f;
+		}
+
+		@Override
+		public void update(float dt) {
+			if (this.t >= DELAY) {
+				self.become("attack");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class AttackState extends BKState {
+		public boolean attacked;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.r = 0f;
+			self.g = 1f;
+			self.b = 0f;
+		}
+
+		@Override
+		public void update(float dt) {
+			if (!this.attacked) {
+				this.attacked = true;
+
+				if (self.fx == null) {
+					self.fx = new boolean[12][12];
+				}
+
+				int x = Math.round(self.x / 16);
+				int y = Math.round(self.y / 16);
+				int r = (int) this.t + 2;
+
+				for (int xx = -r; xx <= r; xx++) {
+					for (int yy = -r; yy <= r; yy++) {
+						if (self.fx[xx + 6][yy + 6]) {
+							continue;
+						}
+
+						float d = (float) Math.sqrt(xx * xx + yy * yy);
+
+						if (d < r && Dungeon.level.get(x + xx, y + yy) != Terrain.WALL) {
+							FireRectFx fx = new FireRectFx();
+
+							fx.x = (x + xx) * 16;
+							fx.y = (y + yy) * 16;
+							self.fx[xx + 6][yy + 6] = true;
+
+							Dungeon.area.add(fx);
+						}
+					}
+				}
+			} else if (this.t > 3f) {
+				self.fx = null;
+				self.become("chase");
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class OnThroneState extends BKState {
+		@Override
+		public void update(float dt) {
+			self.checkForTarget();
+			super.update(dt);
+		}
+	}
+
+	@Override
+	protected State getAi(String state) {
+		if (state.equals("idle")) {
+			return new IdleState();
+		} else if (state.equals("roam")) {
+			return new RoamState();
+		} else if (state.equals("alerted")) {
+			return new AlertedState();
+		} else if (state.equals("chase")) {
+			return new ChaseState();
+		} else if (state.equals("dash")) {
+			return new DashState();
+		} else if (state.equals("preattack")) {
+			return new PreattackState();
+		} else if (state.equals("attack")) {
+			return new AttackState();
+		} else if (state.equals("onThrone")) {
+			return new OnThroneState();
+		}
+
+		return super.getAi(state);
+	}
+
+	@Override
+	protected void onTouch(short t, int x, int y) {
+		super.onTouch(t, x, y);
+
+		if (t == Terrain.WATER) {
+			this.vel.mul(1.5f);
+		}
 	}
 
 	private void checkForTarget() {
@@ -208,248 +483,10 @@ public class BurningKnight extends Mob {
 
 			if (d < (player.getLightSize() + LIGHT_SIZE - 3) * 16 && (this.sawPlayer || this.canSee(player))) {
 				this.target = player;
-				this.roamTime = 0;
-				this.idleTime = 0;
 				this.become("alerted");
 				this.sawPlayer = true;
 				return;
 			}
-		}
-	}
-
-	private void roam(float dt) {
-		this.r = 0;
-		this.g = 0.0f;
-		this.b = 0.3f;
-
-		if (this.roamTime == 0) {
-			this.roamTime = Random.newFloat(30f, 60f);
-		} else if (this.t > this.roamTime) {
-			this.become("idle");
-			this.findStartPoint(); // todo: delay here
-			return;
-		}
-
-		this.checkForTarget();
-
-		if (this.roomToVisit == null) {
-			Room room;
-			float d;
-			int attempts = 0;
-
-			do {
-				room = Dungeon.level.getRandomRoom();
-				Point point = room.getCenter();
-
-				float dx = point.x * 16 - this.x;
-				float dy = point.y * 16 - this.y;
-				d = (float) Math.sqrt(dx * dx + dy * dy);
-
-				attempts++;
-
-				if (attempts > 40) {
-					room = Dungeon.level.getRandomRoom();
-					break;
-				}
-			} while (d > 400f && (this.last == null || last != room));
-
-			this.roomToVisit = room.getCenter();
-			this.roomToVisit.mul(16);
-			this.last = room;
-		}
-
-		float dx = this.roomToVisit.x - this.x;
-		float dy = this.roomToVisit.y - this.y;
-		float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-		if (d < 16) {
-			if (Random.chance(25)) {
-				this.become("idle");
-				this.roamTime = 0;
-			} else {
-				this.roomToVisit = null;
-			}
-
-			return;
-		}
-
-		this.vel.x += dx / d * 3;
-		this.vel.y += dy / d * 3;
-	}
-
-	private void alerted(float dt) {
-		this.r = 0.8f;
-		this.g = 0;
-		this.b = 0.4f;
-
-		if (this.t >= 1f) {
-			this.become("chase");
-		}
-	}
-
-	private void chase(float dt) {
-		float dx = 0;
-		float dy = 0;
-		float d = 1000;
-
-		if (this.dashWait == 0) {
-			this.dashWait = Random.newFloat(5f, 7f);
-		}
-
-		if (this.target != null) {
-			dx = this.target.x - this.x - 8;
-			dy = this.target.y - this.y - 8;
-			d = (float) Math.sqrt(dx * dx + dy * dy);
-		}
-
-		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && (Dungeon.depth > 0 || !this.sawPlayer)) {
-			this.target = null;
-			this.r = 0.8f;
-			this.g = 0.0f;
-			this.b = 0.8f;
-
-			dx = this.lastTargetPosition.x - this.x - 8;
-			dy = this.lastTargetPosition.y - this.y - 8;
-			d = (float) Math.sqrt(dx * dx + dy * dy);
-
-			if (d < 16f) {
-				this.become("idle");
-				this.dashWait = 0;
-				return;
-			}
-		} else {
-			this.r = 1;
-			this.g = 0.2f;
-			this.b = 0;
-
-			this.lastTargetPosition.x = this.target.x;
-			this.lastTargetPosition.y = this.target.y;
-		}
-
-		if (d < ATTACK_DIST && this.target != null) {
-			this.dashWait = 0;
-			this.become("preattack");
-			return;
-		}
-
-		this.vel.x += dx / d * 4;
-		this.vel.y += dy / d * 4;
-
-		if (this.t > this.dashWait && d > DASH_DIST) {
-			this.dashWait = 0;
-			this.become("dash");
-		}
-	}
-
-	private void dash(float dt) {
-		float dx = 0;
-		float dy = 0;
-		float d = 1000;
-
-		if (this.target != null) {
-			dx = this.target.x - this.x - 8;
-			dy = this.target.y - this.y - 8;
-			d = (float) Math.sqrt(dx * dx + dy * dy);
-		}
-
-		if ((this.target == null || d > (this.target.getLightSize() + LIGHT_SIZE - 3) * 16) && (Dungeon.depth > 0 || !this.sawPlayer)) {
-			this.target = null;
-			this.r = 0.8f;
-			this.g = 0.0f;
-			this.b = 0.8f;
-
-			dx = this.lastTargetPosition.x - this.x - 8;
-			dy = this.lastTargetPosition.y - this.y - 8;
-			d = (float) Math.sqrt(dx * dx + dy * dy);
-
-			if (d < 16f) {
-				this.become("idle");
-				return;
-			}
-		} else {
-			this.r = 1;
-			this.g = 0.2f;
-			this.b = 0;
-
-			this.lastTargetPosition.x = this.target.x;
-			this.lastTargetPosition.y = this.target.y;
-		}
-
-		if (d < ATTACK_DIST && this.target != null) {
-			this.dashWait = 0;
-			this.become("preattack");
-			return;
-		}
-
-		this.vel.x += dx / d * 10;
-		this.vel.y += dy / d * 10;
-
-		if (this.t > 2f) {
-			this.become("chase");
-		}
-	}
-
-	private void preattack(float dt) {
-		this.r = 1f;
-		this.g = 0f;
-		this.b = 0f;
-
-		if (this.t > 0.5f) {
-			this.become("attack");
-		}
-	}
-
-	private void attack(float dt) {
-		this.r = 0f;
-		this.g = 1f;
-		this.b = 0f;
-
-		if (this.t % 0.5f <= 0.0175f) {
-			if (this.fx == null) {
-				this.fx = new boolean[12][12];
-			}
-
-			int x = Math.round(this.x / 16);
-			int y = Math.round(this.y / 16);
-			int r = (int) this.t + 2;
-
-			for (int xx = -r; xx <= r; xx++) {
-				for (int yy = -r; yy <= r; yy++) {
-					if (this.fx[xx + 6][yy + 6]) {
-						continue;
-					}
-
-					float d = (float) Math.sqrt(xx * xx + yy * yy);
-
-					if (d < r && Dungeon.level.get(x + xx, y + yy) != Terrain.WALL) {
-						FireRectFx fx = new FireRectFx();
-
-						fx.x = (x + xx) * 16;
-						fx.y = (y + yy) * 16;
-						this.fx[xx + 6][yy + 6] = true;
-
-						Dungeon.area.add(fx);
-					}
-				}
-			}
-		}
-
-		if (this.t > 3f) {
-			this.fx = null;
-			this.become("chase");
-		}
-	}
-
-	private void onThrone(float dt) {
-		this.checkForTarget();
-	}
-
-	@Override
-	protected void onTouch(short t, int x, int y) {
-		super.onTouch(t, x, y);
-
-		if (t == Terrain.WATER) {
-			this.vel.mul(1.5f);
 		}
 	}
 }
