@@ -40,6 +40,7 @@ public class InGameState extends State {
 	public void init() {
 		if (!Network.SERVER) {
 			this.debug = new Box2DDebugRenderer();
+			this.debug.setDrawVelocities(true);
 		}
 
 		Collisions collisions = new Collisions();
