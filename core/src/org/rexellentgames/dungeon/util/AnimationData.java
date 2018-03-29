@@ -20,7 +20,9 @@ public class AnimationData {
 		return this.current;
 	}
 
-	public void update(float dt) {
+	public boolean update(float dt) {
+		boolean val = false;
+
 		this.t += dt;
 
 		if (this.t >= this.current.delay) {
@@ -29,10 +31,13 @@ public class AnimationData {
 
 			if (this.index >= this.frames.size()) {
 				this.index = 0;
+				val = true;
 			}
 
 			this.current = this.frames.get(this.index);
 		}
+
+		return val;
 	}
 
 	public void render(float x, float y, boolean flip) {

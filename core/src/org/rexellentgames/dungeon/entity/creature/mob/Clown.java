@@ -4,32 +4,30 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Clown extends Mob {
 	private static Animation animations = Animation.make("actor-clown");
-	private Point point;
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
 	private AnimationData killed;
+	private AnimationData laugh;
 	private AnimationData animation;
+	private boolean toLaugh;
 
 	{
 		hpMax = 3;
-		speed = 15;
 		hide = true;
 
 		idle = animations.get("idle");
 		run = animations.get("run");
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
+		laugh = animations.get("laugh");
 		animation = this.idle;
 	}
 
@@ -39,6 +37,9 @@ public class Clown extends Mob {
 
 		this.body = this.createBody(1, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
+
+		speed = 100;
+		maxSpeed = 100;
 	}
 
 	@Override
@@ -74,12 +75,13 @@ public class Clown extends Mob {
 			this.animation = hurt;
 		} else if (v > 9.9) {
 			this.animation = run;
+		} else if (this.state.equals("laugh")) {
+			this.animation = this.laugh;
 		} else {
 			this.animation = idle;
 		}
 
 		this.animation.render(this.x, this.y, this.flipped);
-		Graphics.print(this.state + " " + (this.saw ? "saw" : "null") + " " + Player.instance.heat + " " + Level.heat, Graphics.medium, this.x, this.y);
 	}
 
 	@Override
@@ -90,12 +92,14 @@ public class Clown extends Mob {
 			return new AlertedState();
 		} else if (state.equals("chase")) {
 			return new ChasingState();
-		} else if (state.equals("tired")) {
-			return new TiredState();
 		} else if (state.equals("attack")) {
 			return new AttackState();
 		} else if (state.equals("fleeing")) {
 			return new FleeingState();
+		} else if (state.equals("roam")) {
+			return new RoamState();
+		} else if (state.equals("laugh")) {
+			return new LaughState();
 		}
 
 		return super.getAi(state);
@@ -106,6 +110,20 @@ public class Clown extends Mob {
 	}
 
 	public class IdleState extends ClownState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			this.checkForPlayer();
+		}
+	}
+
+	public class LaughState extends ClownState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			Log.info("Enter laugh state");
+		}
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
@@ -127,8 +145,7 @@ public class Clown extends Mob {
 	}
 
 	public class ChasingState extends ClownState {
-		public static final float ATTACK_DISTANCE = 16f;
-		public float delay = Random.newFloat(15f, 20f);
+		public static final float ATTACK_DISTANCE = 24f;
 
 		@Override
 		public void update(float dt) {
@@ -137,9 +154,15 @@ public class Clown extends Mob {
 			if (self.lastSeen == null) {
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 12f,16f)) {
-					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
-						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
+				float d = 32f;
+
+				if (this.target != null) {
+					d = self.getDistanceTo((int) (self.target.x + self.target.w / 2),
+						(int) (self.target.y + self.target.h / 2));
+				}
+
+				if (this.moveTo(self.lastSeen, d < 48f ? 20f : 10f, ATTACK_DISTANCE)) {
+					if (self.target != null) {
 
 						self.become("attack");
 					} else if (self.target == null) {
@@ -152,26 +175,6 @@ public class Clown extends Mob {
 				}
 			}
 
-			if (this.t >= this.delay) {
-				self.become("tired");
-				return;
-			}
-
-			super.update(dt);
-		}
-	}
-
-	public class TiredState extends ClownState {
-		public float delay = Random.newFloat(2f, 5f);
-
-		@Override
-		public void update(float dt) {
-			if (this.t >= this.delay) {
-				this.checkForPlayer();
-				self.become("chase");
-				return;
-			}
-
 			super.update(dt);
 		}
 	}
@@ -180,7 +183,9 @@ public class Clown extends Mob {
 		@Override
 		public void update(float dt) {
 			self.become("fleeing");
-			// todo: bomb
+			self.toLaugh = true;
+
+			Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
 
 			for (Entity entity : Dungeon.area.getEntities()) {
 				if (entity instanceof Mob) {
@@ -202,13 +207,35 @@ public class Clown extends Mob {
 		@Override
 		public void update(float dt) {
 			this.findNearbyPoint();
-			self.flee = Math.max(0, self.flee - 0.05f);
+			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.1f : 0.05f));
 
-			if (this.targetPoint != null && this.moveTo(this.targetPoint, 10f, 8f)) {
+			if (this.targetPoint != null && this.moveTo(this.targetPoint, 16f, 8f)) {
+				self.flee = 0;
+				self.become(self.toLaugh ? "laugh" : "idle");
+				self.toLaugh = false;
+
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class RoamState extends ClownState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			this.findNearbyPoint();
+		}
+
+		@Override
+		public void update(float dt) {
+			if (this.targetPoint != null && this.moveTo(this.targetPoint, 6f, 8f)) {
 				self.become("idle");
 				return;
 			}
 
+			this.checkForPlayer();
 			super.update(dt);
 		}
 	}

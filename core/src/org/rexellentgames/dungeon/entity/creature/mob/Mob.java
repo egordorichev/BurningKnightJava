@@ -36,6 +36,15 @@ public class Mob extends Creature {
 		alwaysActive = true;
 	}
 
+	@Override
+	public void init() {
+		super.init();
+
+		if (Random.chance(50)) {
+			this.become("roam");
+		}
+	}
+
 	public Mind getMind() {
 		return this.mind;
 	}
@@ -151,7 +160,7 @@ public class Mob extends Creature {
 		}
 
 		if (this.target != null && this.canSee(this.target)) {
-			this.target.heat += dt / 2;
+			this.target.heat += dt;
 		}
 
 		if (this.target == null && Dungeon.level != null) {
@@ -246,12 +255,6 @@ public class Mob extends Creature {
 		this.vel.y += dy / d * speed;
 
 		return d;
-	}
-
-	protected float getDistanceTo(float x, float y) {
-		float dx = x - this.x - this.w / 2;
-		float dy = y - this.y - this.h / 2;
-		return (float) Math.sqrt(dx * dx + dy * dy);
 	}
 
 	@Override
@@ -368,7 +371,10 @@ public class Mob extends Creature {
 					self.target = null;
 					Level.heat = Math.max(0, Level.heat - 1f);
 					self.saw = false;
-					self.become("idle");
+
+					if (!self.state.equals("laugh")) {
+						self.become("idle");
+					}
 				}
 			}
 
