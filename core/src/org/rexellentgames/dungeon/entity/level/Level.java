@@ -440,8 +440,6 @@ public abstract class Level extends Entity {
 
 	@Override
 	public void render() {
-		heat = Math.max(heat - 0.001f, 0);
-
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;
