@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.entity;
 
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 
 public class BombEntity extends Entity {

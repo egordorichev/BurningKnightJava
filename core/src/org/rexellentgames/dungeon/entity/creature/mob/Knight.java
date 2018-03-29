@@ -144,14 +144,6 @@ public class Knight extends Mob {
 	}
 
 	public class KnightState extends State<Knight> {
-		public Room currentRoom;
-		public Point water;
-		public Room target;
-
-		public void findCurrentRoom() {
-			this.currentRoom = Dungeon.level.findRoomFor(Math.round(self.x / 16), Math.round(self.y / 16));
-		}
-
 		public void checkForSpa() {
 			if (self.flee > 0.5f) {
 				return;
@@ -170,48 +162,6 @@ public class Knight extends Mob {
 					self.become("toRelax");
 					((KnightState) self.ai).water = new Point(point.x * 16, point.y * 16);
 					this.targetPoint = ((KnightState) self.ai).water;
-				}
-			}
-		}
-
-		public void findNearbyPoint() {
-			if (this.targetPoint != null) {
-				return;
-			}
-
-			this.findCurrentRoom();
-
-			if (this.currentRoom != null) {
-				for (int i = 0; i < 10; i++) {
-					this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
-
-					if (this.target != self.lastRoom && this.target != this.currentRoom) {
-						self.lastRoom = this.currentRoom;
-						break;
-					}
-
-					if (i == 9) {
-						self.lastRoom = this.currentRoom;
-					}
-				}
-
-				boolean found = false;
-
-				for (int i = 0; i < this.target.getWidth() * this.target.getHeight(); i++) {
-					this.targetPoint = this.target.getRandomCell();
-
-					if (Dungeon.level.isValid((int) this.targetPoint.x, (int) this.targetPoint.y) && Dungeon.level.checkFor((int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE)) {
-						found = true;
-						this.targetPoint.mul(16);
-						break;
-					}
-				}
-
-				if (!found) {
-					Log.error("Not found target point");
-
-					this.target = null;
-					this.targetPoint = null;
 				}
 			}
 		}
