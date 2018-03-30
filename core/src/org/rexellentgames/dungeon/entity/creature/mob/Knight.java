@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -88,7 +89,7 @@ public class Knight extends Mob {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
-		/*
+
 		if (this.ai.nextPathPoint != null) {
 			Graphics.batch.end();
 			Graphics.shape.setColor(1, 0, 1, 1);
@@ -104,7 +105,7 @@ public class Knight extends Mob {
 			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.targetPoint.x + 8, this.ai.targetPoint.y + 8);
 			Graphics.shape.end();
 			Graphics.batch.begin();
-		}*/
+		}
 	}
 
 	@Override

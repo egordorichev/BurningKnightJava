@@ -148,6 +148,7 @@ public class Mob extends Creature {
 
 			if (this.ai != null) {
 				this.ai.self = this;
+				this.ai.onEnter();
 			}
 		}
 
@@ -349,9 +350,10 @@ public class Mob extends Creature {
 				}
 			}
 
-			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, s);
+			// tile offset
+			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y , s);
 
-			if (ds < Math.max(d, 4f)) {
+			if (ds < 4f) {
 				this.nextPathPoint = null;
 				return self.getDistanceTo(point.x + 8, point.y + 8) <= d;
 			}
