@@ -20,7 +20,7 @@ public class Clown extends Mob {
 	private boolean toLaugh;
 
 	{
-		hpMax = 3;
+		hpMax = 10;
 		hide = true;
 
 		idle = animations.get("idle");
@@ -118,12 +118,6 @@ public class Clown extends Mob {
 	}
 
 	public class LaughState extends ClownState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			Log.info("Enter laugh state");
-		}
-
 		@Override
 		public void update(float dt) {
 			super.update(dt);

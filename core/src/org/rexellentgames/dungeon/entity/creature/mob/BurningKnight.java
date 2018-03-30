@@ -63,9 +63,9 @@ public class BurningKnight extends Mob {
 			Point center = room.getCenter();
 
 			this.tp(center.x * 16 - 16, center.y * 16 - 16);
-			this.state = "idle";
+			this.become("idle");
 		} else {
-			this.state = "onThrone";
+			this.become("onThrone");
 			this.tp(throne.x * 16 - 8, throne.y * 16 - 8);
 
 			Log.info("The BK is now on his throne at " + throne.x + ":" + throne.y);
@@ -77,10 +77,14 @@ public class BurningKnight extends Mob {
 		super.load(reader);
 		this.sawPlayer = reader.readBoolean();
 		throne = new Point(reader.readInt16(), reader.readInt16());
-
+		
 		if (Dungeon.depth == -1 && !this.sawPlayer) {
 			this.done = true;
 			BurningKnight.instance = null;
+		}
+
+		if (!this.sawPlayer) {
+			this.become("onThrone");
 		}
 	}
 
@@ -202,7 +206,6 @@ public class BurningKnight extends Mob {
 		@Override
 		public void update(float dt) {
 			if (this.t >= this.delay) {
-				Log.info("TP");
 				self.become("idle");
 				self.findStartPoint(); // todo: might want to delay here
 				return;
@@ -481,7 +484,12 @@ public class BurningKnight extends Mob {
 			if (d < (player.getLightSize() + LIGHT_SIZE - 3) * 16 && (this.sawPlayer || this.canSee(player))) {
 				this.target = player;
 				this.become("alerted");
-				this.sawPlayer = true;
+
+				if (!this.sawPlayer) {
+					Log.info("BK NOTICED YOU! BE CAREFUL!");
+					this.sawPlayer = true;
+				}
+
 				return;
 			}
 		}
