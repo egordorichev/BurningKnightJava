@@ -640,10 +640,10 @@ public abstract class Level extends Entity {
 
 	public String getSavePath(DataType type) {
 		if (type == DataType.LEVEL) {
-			return ".ldg/level" + this.level + ".save";
+			return ".ldg/dungeon" + this.level + ".save";
 		}
 
-		return ".ldg/player.save";
+		return ".ldg/gobbo.save";
 	}
 
 	public void addPhysics() {
@@ -658,8 +658,6 @@ public abstract class Level extends Entity {
 
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {
-				// boolean b = (x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1);
-
 				if (this.checkFor(x, y, Terrain.SOLID)) {
 					int total = 0;
 

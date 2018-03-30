@@ -131,8 +131,6 @@ public class Sword extends Weapon {
 			return;
 		}
 
-		Camera.instance.shake(10f);
-
 		super.use();
 
 		Tween.to(new Tween.Task(180, this.useTime / 3) {

@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.creature.player.fx.FootFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
+import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SpeedPotion;
@@ -30,6 +31,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -67,6 +69,7 @@ public class Player extends Creature {
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
+	private int gold;
 
 	{
 		hpMax = 100;
@@ -337,6 +340,7 @@ public class Player extends Creature {
 		this.experienceMax = reader.readInt32();
 		this.level = reader.readInt32();
 		this.forThisLevel = expNeeded(this.level);
+		this.gold = reader.readInt32();
 
 		this.setHunger(reader.readInt16());
 	}
@@ -352,6 +356,7 @@ public class Player extends Creature {
 		writer.writeInt32(this.experience);
 		writer.writeInt32(this.experienceMax);
 		writer.writeInt32(this.level);
+		writer.writeInt32(this.gold);
 
 		writer.writeInt16((short) this.hunger);
 	}
@@ -363,7 +368,7 @@ public class Player extends Creature {
 
 			if (item.getItem().hasAutoPickup()) {
 				this.tryToPickup(item);
-			} else if (this.pickupFx == null && !Network.SERVER && !((ItemHolder) item).falling) {
+			} else if (this.pickupFx == null && !Network.SERVER && !item.falling) {
 				this.pickupFx = new ItemPickupFx(item, this);
 				this.area.add(this.pickupFx);
 			}
@@ -382,12 +387,18 @@ public class Player extends Creature {
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
-			if (this.inventory.add(item)) {
-				if (item.getItem().hasAutoPickup()) {
-					this.area.add(new ItemPickedFx(item));
-				}
-
+			if (item.getItem() instanceof Gold) {
+				item.done = true;
+				this.gold += item.getItem().getCount();
 				return true;
+			} else {
+				if (this.inventory.add(item)) {
+					if (item.getItem().hasAutoPickup()) {
+						this.area.add(new ItemPickedFx(item));
+					}
+
+					return true;
+				}
 			}
 		}
 
