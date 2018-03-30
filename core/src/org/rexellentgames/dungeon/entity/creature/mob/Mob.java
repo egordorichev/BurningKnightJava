@@ -1,6 +1,9 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -32,13 +35,51 @@ public class Mob extends Creature {
 	protected Mind mind;
 	protected boolean hide;
 
+	private static TextureRegion hideSign;
+	private static TextureRegion noticeSign;
+	public float noticeSignT;
+	public float hideSignT;
+
 	{
 		alwaysActive = true;
 	}
 
 	@Override
+	public void renderTop() {
+		this.renderSigns();
+	}
+
+	protected void renderSigns() {
+		float dt = Gdx.graphics.getDeltaTime();
+
+		this.hideSignT = Math.max(0, this.hideSignT - dt);
+		this.noticeSignT = Math.max(0, this.noticeSignT - dt);
+
+		if (this.hideSignT > 0) {
+			Graphics.render(hideSign, this.x + this.w / 2,
+				(float) (this.y + this.h + Math.cos(this.hideSignT * 8f) * 3f),
+				(float) Math.sin(this.hideSignT * 5f) * 15f,
+				hideSign.getRegionWidth() / 2, 3,
+				false, false);
+		}
+
+		if (this.noticeSignT > 0) {
+			Graphics.render(noticeSign, this.x + this.w / 2,
+				(float) (this.y + this.h + Math.cos(this.noticeSignT * 8f) * 3f),
+				(float) Math.sin(this.noticeSignT * 5f) * 15f,
+				noticeSign.getRegionWidth() / 2, 3,
+				false, false);
+		}
+	}
+
+	@Override
 	public void init() {
 		super.init();
+
+		if (hideSign == null) {
+			hideSign = Graphics.getTexture("ui (hide sign)");
+			noticeSign = Graphics.getTexture("ui (notice sign)");
+		}
 
 		if (Random.chance(50)) {
 			this.become("roam");
@@ -380,6 +421,8 @@ public class Mob extends Creature {
 				if (!self.saw && (force || self.target.heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
 					Level.heat += 1f;
 					self.saw = true;
+					self.hideSignT = 0f;
+					self.noticeSignT = 2f;
 					this.checkForFlee();
 
 					if (!self.state.equals("chase")) {

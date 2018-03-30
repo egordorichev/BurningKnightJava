@@ -305,8 +305,8 @@ public class Knight extends Mob {
 
 						self.become("attack");
 					} else if (self.target == null) {
-						Log.error("Can't see!");
-						// todo: ? sign
+						self.noticeSignT = 0f;
+						self.hideSignT = 2f;
 						self.become("idle");
 					}
 

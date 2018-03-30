@@ -310,6 +310,8 @@ public class BurningKnight extends Mob {
 
 				self.target = null;
 				self.become("idle");
+				self.noticeSignT = 0f;
+				self.hideSignT = 2f;
 				return;
 			}
 
