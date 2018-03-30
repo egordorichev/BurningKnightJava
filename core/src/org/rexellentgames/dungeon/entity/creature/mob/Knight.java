@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -88,12 +89,13 @@ public class Knight extends Mob {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
+
 		/*
 		if (this.ai.nextPathPoint != null) {
 			Graphics.batch.end();
 			Graphics.shape.setColor(1, 0, 1, 1);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 8);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 16);
 			Graphics.shape.end();
 			Graphics.shape.setColor(1, 1, 1, 1);
 			Graphics.batch.begin();
@@ -168,7 +170,13 @@ public class Knight extends Mob {
 	}
 
 	public class IdleState extends KnightState {
-		public float delay = Random.newFloat(5f, 7f);
+		public float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			this.delay = Random.newFloat(5f, 10f);
+		}
 
 		@Override
 		public void update(float dt) {
@@ -205,7 +213,13 @@ public class Knight extends Mob {
 	}
 
 	public class RelaxState extends KnightState {
-		public float delay = Random.newFloat(20f, 40f);
+		public float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			this.delay = Random.newFloat(20f, 40f);
+		}
 
 		@Override
 		public void update(float dt) {
@@ -270,7 +284,13 @@ public class Knight extends Mob {
 
 	public class ChaseState extends KnightState {
 		public static final float ATTACK_DISTANCE = 16f;
-		public float delay = Random.newFloat(8f, 10f);
+		public float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			this.delay = Random.newFloat(8f, 10f);
+		}
 
 		@Override
 		public void update(float dt) {
@@ -304,7 +324,13 @@ public class Knight extends Mob {
 	}
 
 	public class TiredState extends KnightState {
-		public float delay = Random.newFloat(2f, 5f);
+		public float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			this.delay = Random.newFloat(2f, 5f);
+		}
 
 		@Override
 		public void update(float dt) {

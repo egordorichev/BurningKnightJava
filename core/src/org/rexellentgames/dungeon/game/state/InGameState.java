@@ -22,7 +22,7 @@ import org.rexellentgames.dungeon.ui.UiBar;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
-	private static final boolean DRAW_DEBUG = false;
+	private static final boolean DRAW_DEBUG = true;
 	private static final float TIME_STEP = 1 / 45.f;
 	public static boolean LIGHT = true;
 
@@ -40,6 +40,7 @@ public class InGameState extends State {
 	public void init() {
 		if (!Network.SERVER) {
 			this.debug = new Box2DDebugRenderer();
+			this.debug.setDrawVelocities(true);
 		}
 
 		Collisions collisions = new Collisions();

@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 
 public class Collisions implements ContactListener, ContactFilter {
 	@Override
@@ -38,6 +39,18 @@ public class Collisions implements ContactListener, ContactFilter {
 			contact.setEnabled(false);
 		} else if ((a instanceof Creature && b instanceof ItemHolder) || (b instanceof Creature && a instanceof ItemHolder)) {
 			contact.setEnabled(false);
+		} else if (a instanceof Creature && b instanceof Weapon) {
+			Weapon weapon = (Weapon) b;
+
+			if (weapon.getOwner() == a) {
+				contact.setEnabled(false);
+			}
+		} else if (b instanceof Creature && a instanceof Weapon) {
+			Weapon weapon = (Weapon) a;
+
+			if (weapon.getOwner() == b) {
+				contact.setEnabled(false);
+			}
 		}
 	}
 

@@ -640,10 +640,10 @@ public abstract class Level extends Entity {
 
 	public String getSavePath(DataType type) {
 		if (type == DataType.LEVEL) {
-			return ".ldg/level" + this.level + ".save";
+			return ".ldg/dungeon" + this.level + ".save";
 		}
 
-		return ".ldg/player.save";
+		return ".ldg/gobbo.save";
 	}
 
 	public void addPhysics() {
@@ -656,41 +656,82 @@ public abstract class Level extends Entity {
 
 		body = Dungeon.world.createBody(def);
 
-		ArrayList<Vector2> marked = new ArrayList<Vector2>();
-
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {
-				boolean b = x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1;
-
-				if (b || this.checkFor(x, y, Terrain.SOLID)) {
+				if (this.checkFor(x, y, Terrain.SOLID)) {
 					int total = 0;
 
 					for (Vector2 vec : NEIGHBOURS8V) {
 						Vector2 v = new Vector2(x + vec.x, y + vec.y);
 
-						if (v.x >= 0 && v.y >= 0 && v.x < getWidth() && v.y < getWidth()) {
-							if (this.checkFor((int) v.x, (int) v.y, Terrain.SOLID)) {
-								total++;
-							}
+						if (this.isValid((int) v.x, (int) v.y) && this.checkFor((int) v.x, (int) v.y, Terrain.SOLID)) {
+							total++;
 						}
 					}
 
-					if (total < 8 || b) {
+					if (total < 8) {
 						PolygonShape poly = new PolygonShape();
 						int xx = x * 16;
 						int yy = y * 16;
 
 
-						if (b || this.checkFor(x, y + 1, Terrain.SOLID)) {
-							poly.set(new Vector2[]{
-								new Vector2(xx, yy), new Vector2(xx + 16, yy),
-								new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)
-							});
+						if (this.checkFor(x, y + 1, Terrain.SOLID)) {
+							ArrayList<Vector2> array = new ArrayList<>();
+
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID));
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx, yy));
+							} else {
+								array.add(new Vector2(xx, yy + 6));
+								array.add(new Vector2(xx + 6, yy));
+							}
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx + 16, yy));
+							} else {
+								array.add(new Vector2(xx + 16, yy + 6));
+								array.add(new Vector2(xx + 10, yy));
+							}
+
+							array.add(new Vector2(xx, yy + 16));
+							array.add(new Vector2(xx + 16, yy + 16));
+
+							poly.set(array.toArray(new Vector2[] {}));
 						} else {
-							poly.set(new Vector2[]{
-								new Vector2(xx, yy), new Vector2(xx + 16, yy),
-								new Vector2(xx, yy + 12), new Vector2(xx + 16, yy + 12)
-							});
+							ArrayList<Vector2> array = new ArrayList<>();
+
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID));
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx, yy));
+							} else {
+								array.add(new Vector2(xx, yy + 6));
+								array.add(new Vector2(xx + 6, yy));
+							}
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx + 16, yy));
+							} else {
+								array.add(new Vector2(xx + 16, yy + 6));
+								array.add(new Vector2(xx + 10, yy));
+							}
+
+							if (this.checkFor(x - 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx, yy + 12));
+							} else {
+								array.add(new Vector2(xx, yy + 6));
+								array.add(new Vector2(xx + 6, yy + 12));
+							}
+
+							if (this.checkFor(x + 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx + 16, yy + 12));
+							} else {
+								array.add(new Vector2(xx + 10, yy + 12));
+								array.add(new Vector2(xx + 16, yy + 6));
+							}
+
+							poly.set(array.toArray(new Vector2[] {}));
 						}
 
 						FixtureDef fixture = new FixtureDef();
@@ -701,10 +742,6 @@ public abstract class Level extends Entity {
 						body.createFixture(fixture);
 
 						poly.dispose();
-
-						if (this.get(x, y) == Terrain.WALL) {
-							marked.add(new Vector2(x, y));
-						}
 					}
 				}
 			}
