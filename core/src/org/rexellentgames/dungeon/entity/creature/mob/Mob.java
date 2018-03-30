@@ -375,7 +375,7 @@ public class Mob extends Creature {
 					self.saw = false;
 
 					if (!self.state.equals("laugh")) {
-						self.become("idle");
+						// self.become("idle");
 					}
 				}
 			}
