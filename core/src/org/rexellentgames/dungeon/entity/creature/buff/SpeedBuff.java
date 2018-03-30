@@ -7,7 +7,7 @@ public class SpeedBuff extends Buff {
 		name = "Supersonic Speed";
 		description = "You are super fast!";
 		duration = 60f;
-		sprite = 3;
+		sprite = "ui (speed buff)";
 	}
 
 	@Override

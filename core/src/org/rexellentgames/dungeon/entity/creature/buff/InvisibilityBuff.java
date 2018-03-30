@@ -4,7 +4,7 @@ public class InvisibilityBuff extends Buff {
 	{
 		name = "Invisible";
 		description = "No one will notice you";
-		sprite = 2;
+		sprite = "ui (invisible buff)";
 		duration = 60f;
 	}
 

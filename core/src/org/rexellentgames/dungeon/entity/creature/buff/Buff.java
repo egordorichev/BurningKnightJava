@@ -1,18 +1,28 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.util.Log;
 
 public class Buff {
 	protected String name;
 	protected String description;
-	protected int sprite;
+	protected String sprite;
 	protected float duration = 10f;
 	protected float time;
 	protected boolean bad = false;
 	protected boolean infinite = false;
 	protected Creature owner;
 	protected boolean ended;
+	private TextureRegion region;
+
+	public TextureRegion getSprite() {
+		if (this.region == null) {
+			this.region = Graphics.getTexture(this.sprite);
+		}
+
+		return this.region;
+	}
 
 	public Buff(float duration) {
 		this.duration = duration;
@@ -59,10 +69,6 @@ public class Buff {
 
 	public void setOwner(Creature owner) {
 		this.owner = owner;
-	}
-
-	public int getSprite() {
-		return this.sprite;
 	}
 
 	public String getName() {

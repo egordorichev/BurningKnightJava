@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -287,6 +288,7 @@ public class Mob extends Creature {
 		super.onHurt();
 
 		this.become("alerted");
+
 
 		if (this.ai != null) {
 			this.ai.checkForPlayer(true);

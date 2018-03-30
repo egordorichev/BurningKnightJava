@@ -5,7 +5,7 @@ public class PoisonBuff extends Buff {
 		name = "Poisoned";
 		description = "You are slowly losing your life";
 		duration = 60f;
-		sprite = 5;
+		sprite = "ui (poison buff)";
 		bad = true;
 	}
 
