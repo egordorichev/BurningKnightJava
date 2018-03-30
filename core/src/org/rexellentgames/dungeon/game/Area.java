@@ -87,6 +87,14 @@ public class Area {
 				entity.render();
 			}
 		}
+
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity entity = this.entities.get(i);
+
+			if (entity.onScreen || entity.alwaysRender) {
+				entity.renderTop();
+			}
+		}
 	}
 
 	public Entity getRandomEntity(Class<? extends Entity> type) {
