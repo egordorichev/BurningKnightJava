@@ -40,7 +40,7 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		leftMost -= 10;
+		leftMost -= 10 + (Dungeon.depth == 0 ? 16 : 0);
 		topMost -= 10;
 
 		int rightMost = 0, bottomMost = 0;
