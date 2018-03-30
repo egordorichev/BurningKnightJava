@@ -82,6 +82,10 @@ public class BurningKnight extends Mob {
 			this.done = true;
 			BurningKnight.instance = null;
 		}
+
+		if (!this.sawPlayer) {
+			this.become("onThrone");
+		}
 	}
 
 	@Override
