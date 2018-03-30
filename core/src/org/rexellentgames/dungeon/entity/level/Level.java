@@ -682,15 +682,62 @@ public abstract class Level extends Entity {
 
 
 						if (b || this.checkFor(x, y + 1, Terrain.SOLID)) {
-							poly.set(new Vector2[]{
-								new Vector2(xx, yy), new Vector2(xx + 16, yy),
-								new Vector2(xx, yy + 16), new Vector2(xx + 16, yy + 16)
-							});
+							ArrayList<Vector2> array = new ArrayList<>();
+
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID));
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx, yy));
+							} else {
+								array.add(new Vector2(xx, yy + 6));
+								array.add(new Vector2(xx + 6, yy));
+							}
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx + 16, yy));
+							} else {
+								array.add(new Vector2(xx + 16, yy + 6));
+								array.add(new Vector2(xx + 10, yy));
+							}
+
+							array.add(new Vector2(xx, yy + 16));
+							array.add(new Vector2(xx + 16, yy + 16));
+
+							poly.set(array.toArray(new Vector2[] {}));
 						} else {
-							poly.set(new Vector2[]{
-								new Vector2(xx, yy), new Vector2(xx + 16, yy),
-								new Vector2(xx, yy + 12), new Vector2(xx + 16, yy + 12)
-							});
+							ArrayList<Vector2> array = new ArrayList<>();
+
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID));
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx, yy));
+							} else {
+								array.add(new Vector2(xx, yy + 6));
+								array.add(new Vector2(xx + 6, yy));
+							}
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx + 16, yy));
+							} else {
+								array.add(new Vector2(xx + 16, yy + 6));
+								array.add(new Vector2(xx + 10, yy));
+							}
+							
+							if (this.checkFor(x - 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx, yy + 12));
+							} else {
+								array.add(new Vector2(xx, yy + 6));
+								array.add(new Vector2(xx + 6, yy + 12));
+							}
+
+							if (this.checkFor(x + 1, y, Terrain.SOLID)) {
+								array.add(new Vector2(xx + 16, yy + 12));
+							} else {
+								array.add(new Vector2(xx + 10, yy + 12));
+								array.add(new Vector2(xx + 16, yy + 6));
+							}
+
+							poly.set(array.toArray(new Vector2[] {}));
 						}
 
 						FixtureDef fixture = new FixtureDef();
