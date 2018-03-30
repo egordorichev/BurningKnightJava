@@ -656,32 +656,28 @@ public abstract class Level extends Entity {
 
 		body = Dungeon.world.createBody(def);
 
-		ArrayList<Vector2> marked = new ArrayList<Vector2>();
-
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {
-				boolean b = (x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1);
+				// boolean b = (x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1);
 
-				if (b || this.checkFor(x, y, Terrain.SOLID)) {
+				if (this.checkFor(x, y, Terrain.SOLID)) {
 					int total = 0;
 
 					for (Vector2 vec : NEIGHBOURS8V) {
 						Vector2 v = new Vector2(x + vec.x, y + vec.y);
 
-						if (v.x >= 0 && v.y >= 0 && v.x < getWidth() && v.y < getWidth()) {
-							if (this.checkFor((int) v.x, (int) v.y, Terrain.SOLID)) {
-								total++;
-							}
+						if (this.isValid((int) v.x, (int) v.y) && this.checkFor((int) v.x, (int) v.y, Terrain.SOLID)) {
+							total++;
 						}
 					}
 
-					if (total < 8 || b) {
+					if (total < 8) {
 						PolygonShape poly = new PolygonShape();
 						int xx = x * 16;
 						int yy = y * 16;
 
 
-						if (b || this.checkFor(x, y + 1, Terrain.SOLID)) {
+						if (this.checkFor(x, y + 1, Terrain.SOLID)) {
 							ArrayList<Vector2> array = new ArrayList<>();
 
 							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID));
@@ -748,10 +744,6 @@ public abstract class Level extends Entity {
 						body.createFixture(fixture);
 
 						poly.dispose();
-
-						if (this.get(x, y) == Terrain.WALL) {
-							marked.add(new Vector2(x, y));
-						}
 					}
 				}
 			}

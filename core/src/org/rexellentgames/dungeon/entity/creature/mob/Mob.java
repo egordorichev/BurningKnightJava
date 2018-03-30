@@ -380,6 +380,7 @@ public class Mob extends Creature {
 				if (!self.saw && (force || self.target.heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
 					Level.heat += 1f;
 					self.saw = true;
+					this.checkForFlee();
 
 					if (!self.state.equals("chase")) {
 						self.become("alerted");
