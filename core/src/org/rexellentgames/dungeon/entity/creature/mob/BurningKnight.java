@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -77,15 +78,6 @@ public class BurningKnight extends Mob {
 		super.load(reader);
 		this.sawPlayer = reader.readBoolean();
 		throne = new Point(reader.readInt16(), reader.readInt16());
-		
-		if (Dungeon.depth == -1 && !this.sawPlayer) {
-			this.done = true;
-			BurningKnight.instance = null;
-		}
-
-		if (!this.sawPlayer) {
-			this.become("onThrone");
-		}
 	}
 
 	@Override
@@ -102,6 +94,15 @@ public class BurningKnight extends Mob {
 		super.init();
 
 		this.t = 0;
+
+		if (Dungeon.depth == -1 && !this.sawPlayer) {
+			this.done = true;
+			BurningKnight.instance = null;
+		}
+
+		if (!this.sawPlayer) {
+			this.become("onThrone");
+		}
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 	}
@@ -441,8 +442,21 @@ public class BurningKnight extends Mob {
 	}
 
 	public class OnThroneState extends BKState {
+		private boolean did;
+
 		@Override
 		public void update(float dt) {
+			if (!this.did) {
+				this.findCurrentRoom();
+
+				if (this.currentRoom != null) {
+					Camera.instance.clamp = this.currentRoom.left * 16;
+					Log.info("set bound");
+				}
+
+				this.did = true;
+			}
+
 			self.checkForTarget();
 			super.update(dt);
 		}
