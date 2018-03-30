@@ -57,7 +57,7 @@ public class UiInventory extends UiEntity {
 		}*/
 
 		if (Input.instance.wasPressed("scroll")) {
-			this.active = (this.active + Input.instance.getAmount()) % 5;
+			this.active = (this.active + Input.instance.getAmount()) % 6;
 
 			if (this.active == -1) {
 				this.active = 5;

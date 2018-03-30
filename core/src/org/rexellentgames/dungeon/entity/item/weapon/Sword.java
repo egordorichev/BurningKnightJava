@@ -71,7 +71,7 @@ public class Sword extends Weapon {
 
 				angle += (flipped ? a : -a);
 			} else {
-				angle += (flipped ? 180 : 0);
+				angle += (flipped ? 0 : 180);
 			}
 		}
 

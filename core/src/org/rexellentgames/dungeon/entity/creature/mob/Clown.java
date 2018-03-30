@@ -20,7 +20,7 @@ public class Clown extends Mob {
 	private boolean toLaugh;
 
 	{
-		hpMax = 3;
+		hpMax = 5;
 		hide = true;
 
 		idle = animations.get("idle");
