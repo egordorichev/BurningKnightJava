@@ -94,7 +94,7 @@ public class Knight extends Mob {
 			Graphics.batch.end();
 			Graphics.shape.setColor(1, 0, 1, 1);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 8);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 16);
 			Graphics.shape.end();
 			Graphics.shape.setColor(1, 1, 1, 1);
 			Graphics.batch.begin();
