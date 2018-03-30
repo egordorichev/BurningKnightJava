@@ -373,10 +373,6 @@ public class Mob extends Creature {
 					self.target = null;
 					Level.heat = Math.max(0, Level.heat - 1f);
 					self.saw = false;
-
-					if (!self.state.equals("laugh")) {
-						// self.become("idle");
-					}
 				}
 			}
 

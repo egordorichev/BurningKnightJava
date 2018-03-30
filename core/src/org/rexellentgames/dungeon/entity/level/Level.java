@@ -660,7 +660,7 @@ public abstract class Level extends Entity {
 
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {
-				boolean b = x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1;
+				boolean b = (x == 0 || y == 0 || x == WIDTH - 1 || y == HEIGHT - 1);
 
 				if (b || this.checkFor(x, y, Terrain.SOLID)) {
 					int total = 0;
