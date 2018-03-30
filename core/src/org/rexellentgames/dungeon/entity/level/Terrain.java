@@ -51,6 +51,7 @@ public class Terrain {
 	public static TextureRegion[] wallVariants = new TextureRegion[15];
 	public static TextureRegion[] woodVariants = new TextureRegion[16];
 	public static TextureRegion[] floorVariants = new TextureRegion[16];
+	public static TextureRegion[] spikeVariants = new TextureRegion[16];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
 
@@ -88,19 +89,23 @@ public class Terrain {
 		patterns[WALL] = wallPattern;
 
 		for (int i = 0; i < 15; i++) {
-			dirtVariants[i] = Graphics.getTexture(bm + " (dirt " + Level.COMPASS[i] + ")");
+			dirtVariants[i] = Graphics.getTexture(bm + " (dirt" + Level.COMPASS[i] + ")");
 		}
 
 		for (int i = 0; i < 15; i++) {
-			waterVariants[i] = Graphics.getTexture(bm + " (pool " + Level.COMPASS[i] + ")");
+			waterVariants[i] = Graphics.getTexture(bm + " (pool" + Level.COMPASS[i] + ")");
 		}
 
 		for (int i = 0; i < 15; i++) {
-			chasmVariants[i] = Graphics.getTexture(bm + " (chasm " + Level.COMPASS[i] + ")");
+			chasmVariants[i] = Graphics.getTexture(bm + " (chasm" + Level.COMPASS[i] + ")");
 		}
 
 		for (int i = 0; i < 15; i++) {
-			wallVariants[i] = Graphics.getTexture(bm + " (wall " + Level.COMPASS[i] + ")");
+			wallVariants[i] = Graphics.getTexture(bm + " (wall" + Level.COMPASS[i] + ")");
+		}
+
+		for (int i = 0; i < 16; i++) {
+			spikeVariants[i] = Graphics.getTexture(bm + " (spikes" + Level.COMPASS[i] + ")");
 		}
 
 		for (int i = 0; i < 16; i++) {
@@ -119,6 +124,6 @@ public class Terrain {
 		variants[WALL] = wallVariants;
 		variants[WOOD] = woodVariants;
 		variants[FLOOR] = floorVariants;
-		variants[SPIKES] = new TextureRegion[] { Graphics.getTexture(bm + " (spike)") };
+		variants[SPIKES] = spikeVariants;
 	}
 }

@@ -49,8 +49,8 @@ public abstract class Level extends Entity {
 	public static float heat;
 
 	public static String[] COMPASS = {
-		"NESW", "ESW", "NSW", "SW", "NEW", "EW", "NW", "W",
-		"NES", "ES", "NS", "S", "NE", "E", "N"
+		" NESW", " ESW", " NSW", " SW", " NEW", " EW", " NW", " W",
+		" NES", " ES", " NS", " S", " NE", " E", " N", ""
 	};
 
 	private static int WIDTH = 36;
@@ -212,9 +212,13 @@ public abstract class Level extends Entity {
 
 				if (tile == Terrain.CHASM) {
 					this.tileUp(x, y, tile, false);
+				} else if (tile == Terrain.WALL) {
+					this.variants[toIndex(x, y)] = (byte) Random.newInt(16);
 				} else if (tile == Terrain.WATER) {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.GRASS) {
+					this.tileUp(x, y, tile, false);
+				} else if (tile == Terrain.SPIKES) {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
 					this.tileUp(x, y, Terrain.IS_DIRT, true);
