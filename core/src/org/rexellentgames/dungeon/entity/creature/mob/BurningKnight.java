@@ -450,8 +450,7 @@ public class BurningKnight extends Mob {
 				this.findCurrentRoom();
 
 				if (this.currentRoom != null) {
-					Camera.instance.clamp = this.currentRoom.left * 16;
-					Log.info("set bound");
+					Camera.instance.clamp.add(this.currentRoom.left * 16);
 				}
 
 				this.did = true;

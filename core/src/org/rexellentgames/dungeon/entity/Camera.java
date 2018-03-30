@@ -13,6 +13,8 @@ import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 
+import java.util.ArrayList;
+
 public class Camera extends Entity {
 	public static Camera instance;
 	public static OrthographicCamera ui;
@@ -23,7 +25,7 @@ public class Camera extends Entity {
 	private float shake;
 	private float vx;
 	private float vy;
-	public float clamp = Integer.MAX_VALUE;
+	public ArrayList<Integer> clamp = new ArrayList<>();
 
 	public void shake(float amount) {
 		this.shake = amount;
@@ -55,14 +57,16 @@ public class Camera extends Entity {
 			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (2 / this.camera.zoom) + this.target.y + 8);
 			float z = this.camera.zoom;
 
+			float m = this.clamp.size() == 0 ? Integer.MAX_VALUE : this.clamp.get(0);
+
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
 			this.camera.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
-				Math.min(this.clamp - Display.GAME_WIDTH / 2, Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16), this.camera.position.x);
+				Math.min(m - Display.GAME_WIDTH / 2, Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16), this.camera.position.x);
 			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16, Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
 			this.camera.update();
 
-			if (this.target.x + this.target.w / 2 > this.clamp) {
-				this.clamp = Integer.MAX_VALUE;
+			if (this.target.x + this.target.w / 2 > m) {
+				this.clamp.remove(0);
 				Log.info("break");
 			}
 		}
