@@ -14,6 +14,7 @@ public class PathFinder {
 	private static int size = 0;
 
 	private static int[] dir;
+	private static int[][] dirCheck;
 
 	public static void setMapSize(int width, int height) {
 		int size = width * height;
@@ -26,6 +27,8 @@ public class PathFinder {
 			queue = new int[size];
 
 			dir = new int[]{-1, +1, -width, +width, -width - 1, -width + 1, +width - 1, +width + 1};
+			dirCheck = new int[][]{{}, {}, {}, {}, {-1, -width}, {-width, 1}, {-1, +width}, {+width, 1}};
+
 			// dir = new int[]{-1, +1, -width, +width};
 		}
 	}
@@ -48,10 +51,23 @@ public class PathFinder {
 
 				int n = s + dir[i];
 
-				float thisD = distance[n];
-				if (thisD < minD) {
-					minD = thisD;
-					mins = n;
+				boolean good = true;
+
+				for (int check : dirCheck[i]) {
+					int k = n + check;
+
+					if (k >= 0 && k < size && !passable[k]) {
+						good = false;
+
+					}
+				}
+
+				if (good) {
+					float thisD = distance[n];
+					if (thisD < minD) {
+						minD = thisD;
+						mins = n;
+					}
 				}
 			}
 			s = mins;
@@ -76,8 +92,22 @@ public class PathFinder {
 		for (int i = 0; i < dir.length; i++) {
 			int index = (int) (step = from + dir[i]);
 			if (index >= 0 && index < distance.length && (stepD = distance[index]) < minD) {
-				minD = stepD;
-				best = (int) step;
+				boolean good = true;
+
+				for (int check : dirCheck[i]) {
+					int k = index + check;
+
+					if (k >= 0 && k < size && !passable[k]) {
+						good = false;
+						
+					}
+				}
+
+				if (good) {
+
+					minD = stepD;
+					best = (int) step;
+				}
 			}
 		}
 
@@ -97,7 +127,7 @@ public class PathFinder {
 		int s = cur;
 
 		// From the starting position we are making one step downwards
-		float minD = distance [s];
+		float minD = distance[s];
 		int mins = s;
 
 		for (int i = 0; i < dir.length; i++) {
@@ -144,11 +174,23 @@ public class PathFinder {
 			for (int i = 0; i < dir.length; i++) {
 				int n = step + dir[i];
 				if (n >= 0 && n < distance.length && (n == from || (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance)))) {
-					// Add to queue
-					queue[tail++] = n;
-					distance[n] = nextDistance;
-				}
+					boolean good = true;
 
+					for (int check : dirCheck[i]) {
+						int k = n + check;
+
+						if (k >= 0 && k < size && !passable[k]) {
+							good = false;
+							
+						}
+					}
+
+					if (good) {
+						// Add to queue
+						queue[tail++] = n;
+						distance[n] = nextDistance;
+					}
+				}
 			}
 		}
 
@@ -180,9 +222,22 @@ public class PathFinder {
 
 				int n = step + dir[i];
 				if (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance)) {
-					// Add to queue
-					queue[tail++] = n;
-					distance[n] = nextDistance;
+					boolean good = true;
+
+					for (int check : dirCheck[i]) {
+						int k = n + check;
+
+						if (k >= 0 && k < size && !passable[k]) {
+							good = false;
+							
+						}
+					}
+
+					if (good) {
+						// Add to queue
+						queue[tail++] = n;
+						distance[n] = nextDistance;
+					}
 				}
 
 			}
@@ -224,9 +279,22 @@ public class PathFinder {
 
 				int n = step + dir[i];
 				if (n == from || (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance))) {
-					// Add to queue
-					queue[tail++] = n;
-					distance[n] = nextDistance;
+					boolean good = true;
+
+					for (int check : dirCheck[i]) {
+						int k = n + check;
+
+						if (k >= 0 && k < size && !passable[k]) {
+							good = false;
+							
+						}
+					}
+
+					if (good) {
+						// Add to queue
+						queue[tail++] = n;
+						distance[n] = nextDistance;
+					}
 				}
 
 			}
@@ -270,9 +338,22 @@ public class PathFinder {
 
 				int n = step + dir[i];
 				if (n >= 0 && n < size && passable[n] && distance[n] > nextDistance) {
-					// Add to queue
-					queue[tail++] = n;
-					distance[n] = nextDistance;
+					boolean good = true;
+
+					for (int check : dirCheck[i]) {
+						int k = n + check;
+
+						if (k >= 0 && k < size && !passable[k]) {
+							good = false;
+							
+						}
+					}
+
+					if (good) {
+						// Add to queue
+						queue[tail++] = n;
+						distance[n] = nextDistance;
+					}
 				}
 
 			}
@@ -281,7 +362,6 @@ public class PathFinder {
 		return dist;
 	}
 
-	@SuppressWarnings("unused")
 	public static void buildDistanceMap(int to, boolean[] passable) {
 
 		Arrays.fill(distance, Integer.MAX_VALUE);
@@ -303,16 +383,28 @@ public class PathFinder {
 
 				int n = step + dir[i];
 				if (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance)) {
-					// Add to queue
-					queue[tail++] = n;
-					distance[n] = nextDistance;
+					boolean good = true;
+
+					for (int check : dirCheck[i]) {
+						int k = n + check;
+
+						if (k >= 0 && k < size && !passable[k]) {
+							good = false;
+							
+						}
+					}
+
+					if (good) {
+						// Add to queue
+						queue[tail++] = n;
+						distance[n] = nextDistance;
+					}
 				}
 
 			}
 		}
 	}
 
-	@SuppressWarnings("serial")
 	public static class Path extends LinkedList<Integer> {
 
 	}

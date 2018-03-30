@@ -722,7 +722,7 @@ public abstract class Level extends Entity {
 								array.add(new Vector2(xx + 16, yy + 6));
 								array.add(new Vector2(xx + 10, yy));
 							}
-							
+
 							if (this.checkFor(x - 1, y, Terrain.SOLID)) {
 								array.add(new Vector2(xx, yy + 12));
 							} else {
