@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Scaling;
@@ -9,6 +10,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.Random;
 
 public class Camera extends Entity {
 	public static Camera instance;
@@ -17,6 +19,13 @@ public class Camera extends Entity {
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	private Entity target;
+	private float shake;
+	private float vx;
+	private float vy;
+
+	public void shake(float amount) {
+		this.shake = amount;
+	}
 
 	@Override
 	public void init() {
@@ -49,6 +58,26 @@ public class Camera extends Entity {
 			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16, Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
 			this.camera.update();
 		}
+	}
+
+	public void applyShake() {
+		if (this.shake <= 0) {
+			return;
+		}
+
+		this.shake -= Gdx.graphics.getDeltaTime() * 10;
+
+		this.vx = Random.newFloat(-this.shake / 2, this.shake / 2);
+		this.vy = Random.newFloat(-this.shake / 2, this.shake / 2);
+		this.camera.position.add(this.vx, this.vy, 0);
+		this.camera.update();
+	}
+
+	public void removeShake() {
+		this.camera.position.add(-this.vx, -this.vy, 0);
+		this.camera.update();
+		this.vx = 0;
+		this.vy = 0;
 	}
 
 	public OrthographicCamera getCamera() {

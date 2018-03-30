@@ -20,6 +20,10 @@ public class Weapon extends Item {
 	private boolean used = false;
 	protected float added;
 
+	public boolean isBlocking() {
+		return false;
+	}
+
 	@Override
 	public void use() {
 		super.use();
@@ -81,15 +85,7 @@ public class Weapon extends Item {
 				return;
 			}
 
-			this.used = true;
-
 			Creature creature = (Creature) entity;
-
-			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob))) {
-				return;
-			}
-
-			creature.modifyHp(-this.damage);
 
 			float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
 			float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
@@ -97,6 +93,34 @@ public class Weapon extends Item {
 
 			creature.vel.x += Math.cos(a) * this.knockback * 50;
 			creature.vel.y += Math.sin(a) * this.knockback * 50;
+
+			if (this.isBlocking()) {
+				return;
+			}
+
+			this.used = true;
+
+			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob))) {
+				return;
+			}
+
+			creature.modifyHp(-this.damage);
+		} else if (entity instanceof Weapon) {
+			if (this.isBlocking()) {
+				Weapon weapon = ((Weapon) entity);
+
+				weapon.used = true;
+
+				Creature creature = this.owner;
+
+				float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
+				float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
+				double a = Math.atan2(dy, dx);
+
+				creature.vel.x += Math.cos(a) * this.knockback * 50;
+				creature.vel.y += Math.sin(a) * this.knockback * 50;
+				return;
+			}
 		}
 	}
 

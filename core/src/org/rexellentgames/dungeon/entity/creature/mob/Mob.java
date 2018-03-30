@@ -148,6 +148,7 @@ public class Mob extends Creature {
 
 			if (this.ai != null) {
 				this.ai.self = this;
+				this.ai.onEnter();
 			}
 		}
 
@@ -195,7 +196,7 @@ public class Mob extends Creature {
 		}
 
 		for (Player player : this.colliding) {
-			player.modifyHp(-this.damage);
+			// player.modifyHp(-this.damage);
 		}
 	}
 
@@ -349,9 +350,10 @@ public class Mob extends Creature {
 				}
 			}
 
-			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y + 8, s);
+			// tile offset
+			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y , s);
 
-			if (ds < Math.max(d, 4f)) {
+			if (ds < 4f) {
 				this.nextPathPoint = null;
 				return self.getDistanceTo(point.x + 8, point.y + 8) <= d;
 			}
@@ -371,10 +373,6 @@ public class Mob extends Creature {
 					self.target = null;
 					Level.heat = Math.max(0, Level.heat - 1f);
 					self.saw = false;
-
-					if (!self.state.equals("laugh")) {
-						self.become("idle");
-					}
 				}
 			}
 
@@ -382,6 +380,7 @@ public class Mob extends Creature {
 				if (!self.saw && (force || self.target.heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
 					Level.heat += 1f;
 					self.saw = true;
+					this.checkForFlee();
 
 					if (!self.state.equals("chase")) {
 						self.become("alerted");
