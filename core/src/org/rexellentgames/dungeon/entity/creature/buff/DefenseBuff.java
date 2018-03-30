@@ -2,7 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.buff;
 
 public class DefenseBuff extends Buff {
 	{
-		sprite = 6;
+		sprite = "ui (defense buff)";
 		name = "Protected";
 		description = "You feel protected";
 		duration = 60f;

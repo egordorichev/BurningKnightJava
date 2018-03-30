@@ -9,7 +9,7 @@ public class BurningBuff extends Buff {
 		duration = 5.0f;
 		name = "Burning";
 		description = "You are on fire!";
-		sprite = 0;
+		sprite = "ui (burning buff)";
 		bad = true;
 	}
 

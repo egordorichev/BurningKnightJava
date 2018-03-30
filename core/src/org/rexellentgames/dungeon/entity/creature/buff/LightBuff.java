@@ -7,7 +7,7 @@ public class LightBuff extends Buff {
 		duration = 160.0f;
 		name = "Lighted";
 		description = "Your body emits so much light, that you almost can't see anything";
-		sprite = 1;
+		sprite = "ui (sun buff)";
 	}
 
 	@Override

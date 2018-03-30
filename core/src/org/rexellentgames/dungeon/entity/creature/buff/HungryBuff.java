@@ -8,7 +8,7 @@ public class HungryBuff extends Buff {
 		description = "Your stomach is empty";
 		bad = true;
 		infinite = true;
-		sprite = 7;
+		sprite = "ui (hungry buff)";
 	}
 
 	@Override
