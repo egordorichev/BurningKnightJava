@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -22,6 +23,7 @@ public class Camera extends Entity {
 	private float shake;
 	private float vx;
 	private float vy;
+	public float clamp = Integer.MAX_VALUE;
 
 	public void shake(float amount) {
 		this.shake = amount;
@@ -54,9 +56,15 @@ public class Camera extends Entity {
 			float z = this.camera.zoom;
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
-			this.camera.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16, Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, this.camera.position.x);
+			this.camera.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
+				Math.min(this.clamp - Display.GAME_WIDTH / 2, Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16), this.camera.position.x);
 			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16, Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
 			this.camera.update();
+
+			if (this.target.x + this.target.w / 2 > this.clamp) {
+				this.clamp = Integer.MAX_VALUE;
+				Log.info("break");
+			}
 		}
 	}
 
