@@ -50,6 +50,7 @@ public class Mob extends Creature {
 	}
 
 	protected void renderSigns() {
+		Graphics.batch.setColor(1, 1, 1, this.a);
 		float dt = Gdx.graphics.getDeltaTime();
 
 		this.hideSignT = Math.max(0, this.hideSignT - dt);
@@ -70,6 +71,7 @@ public class Mob extends Creature {
 				noticeSign.getRegionWidth() / 2, 3,
 				false, false);
 		}
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	@Override

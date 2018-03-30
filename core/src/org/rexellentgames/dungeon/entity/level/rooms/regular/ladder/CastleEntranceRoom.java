@@ -17,8 +17,8 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 	@Override
 	public void paint(Level level) {
-		Rect bottomTower = new Rect(this.left - 3, this.top - 3, this.left + 4,  this.top + 4);
-		Rect topTower = new Rect(this.left - 3, this.bottom - 3, this.left + 4, this.bottom + 4);
+		Rect bottomTower = new Rect(this.left, this.top, this.left + 7,  this.top + 7);
+		Rect topTower = new Rect(this.left, this.bottom - 6, this.left + 7, this.bottom + 1);
 
 		this.spawn = new Point(2, Random.newInt(bottomTower.bottom + 1, topTower.top - 1));
 
@@ -87,21 +87,21 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 	@Override
 	public int getMinWidth() {
-		return 6;
+		return 11;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 7;
+		return 12;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 15;
+		return 20;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 16;
+		return 21;
 	}
 }
