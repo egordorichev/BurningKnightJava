@@ -1,11 +1,13 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
@@ -15,8 +17,8 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 	@Override
 	public void paint(Level level) {
-		Rect bottomTower = new Rect(this.left - 3, this.top - 3, this.left + 4,  this.top + 4);
-		Rect topTower = new Rect(this.left - 3, this.bottom - 3, this.left + 4, this.bottom + 4);
+		Rect bottomTower = new Rect(this.left, this.top, this.left + 7,  this.top + 7);
+		Rect topTower = new Rect(this.left, this.bottom - 6, this.left + 7, this.bottom + 1);
 
 		this.spawn = new Point(2, Random.newInt(bottomTower.bottom + 1, topTower.top - 1));
 
@@ -42,6 +44,8 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 		level.addSaveable(door);
 		Dungeon.area.add(door);
+
+		Camera.instance.clamp.add(bottomTower.left * 16 - 32);
 
 		this.addEntrance(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_OPEN);
 		this.addEntrance(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_CLOSED);
@@ -83,21 +87,21 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 	@Override
 	public int getMinWidth() {
-		return 6;
+		return 11;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 7;
+		return 12;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 15;
+		return 20;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 16;
+		return 21;
 	}
 }
