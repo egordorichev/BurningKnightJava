@@ -163,7 +163,7 @@ public class BurningKnight extends Mob {
 	}
 
 	public class IdleState extends BKState {
-		public float delay = Random.newFloat(5f, 10f);
+		public float delay;
 
 		@Override
 		public void onEnter() {
@@ -172,6 +172,8 @@ public class BurningKnight extends Mob {
 			self.r = 0;
 			self.g = 0;
 			self.b = 0;
+
+			this.delay = Random.newFloat(5f, 10f);
 		}
 
 		@Override
@@ -187,12 +189,13 @@ public class BurningKnight extends Mob {
 	}
 
 	public class RoamState extends BKState {
-		public float delay = Random.newFloat(30f, 60f);
+		public float delay;
 		public Point roomToVisit;
 
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			this.delay = Random.newFloat(30f, 60f);
 
 			self.r = 0;
 			self.g = 0.0f;
@@ -202,6 +205,7 @@ public class BurningKnight extends Mob {
 		@Override
 		public void update(float dt) {
 			if (this.t >= this.delay) {
+				this.t = 0;
 				Log.info("TP");
 				self.become("idle");
 				self.findStartPoint(); // todo: might want to delay here
@@ -277,7 +281,7 @@ public class BurningKnight extends Mob {
 	}
 
 	public class ChaseState extends BKState {
-		public float delay = Random.newFloat(5f, 7f);
+		public float delay;
 
 		@Override
 		public void onEnter() {
@@ -286,6 +290,8 @@ public class BurningKnight extends Mob {
 			self.r = 1;
 			self.g = 0.2f;
 			self.b = 0;
+
+			this.delay = Random.newFloat(5f, 7f);
 		}
 
 		@Override
@@ -315,7 +321,7 @@ public class BurningKnight extends Mob {
 	}
 
 	public class DashState extends BKState {
-		public float delay = Random.newFloat(1f, 3f);
+		public float delay;
 
 		@Override
 		public void onEnter() {
@@ -324,6 +330,8 @@ public class BurningKnight extends Mob {
 			self.r = 1;
 			self.g = 0.2f;
 			self.b = 0;
+
+			this.delay = Random.newFloat(1f, 3f);
 		}
 
 		@Override
