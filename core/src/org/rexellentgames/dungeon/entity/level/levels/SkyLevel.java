@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.item.Gold;
@@ -77,7 +76,7 @@ public class SkyLevel extends BetterLevel {
 		/*return new LoopBuilder().setShape(2,
 			Random.newFloat(0.4f, 0.7f),
 			Random.newFloat(0f, 0.5f))*/
-		return new LineBuilder().setAngle(90).setPathLength(0.3f, new float[]{0,1,0});
+		return new LineBuilder().setAngle(90).setPathLength(0.3f, new float[]{0, 1, 0});
 	}
 
 	@Override

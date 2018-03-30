@@ -40,7 +40,7 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		leftMost -= 10;
+		leftMost -= 10 + (Dungeon.depth == 0 ? 16 : 0);
 		topMost -= 10;
 
 		int rightMost = 0, bottomMost = 0;
@@ -157,10 +157,12 @@ public class Painter {
 						doorSpots.add(p);
 				}
 
-				door = new Door(doorSpots.get(Random.newInt(doorSpots.size())));
+				if (doorSpots != null) {
+					door = new Door(doorSpots.get(Random.newInt(doorSpots.size())));
 
-				r.getConnected().put(n, door);
-				n.getConnected().put(r, door);
+					r.getConnected().put(n, door);
+					n.getConnected().put(r, door);
+				}
 			}
 		}
 	}
