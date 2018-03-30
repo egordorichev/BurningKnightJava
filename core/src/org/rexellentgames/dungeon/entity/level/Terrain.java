@@ -14,8 +14,9 @@ public class Terrain {
 	public static byte WOOD = 6;
 	public static byte SPIKES = 7;
 	public static byte PLANTED_DIRT = 8;
+	public static byte GRASS = 9;
 
-	public static byte SIZE = 9;
+	public static byte SIZE = 10;
 
 	public static int[] flags = new int[SIZE];
 
@@ -28,6 +29,7 @@ public class Terrain {
 	static {
 		flags[CHASM] = HOLE;
 		flags[DIRT] = PASSABLE | IS_DIRT;
+		flags[GRASS] = PASSABLE;
 		flags[PLANTED_DIRT] = PASSABLE | IS_DIRT;
 		flags[FLOOR] = PASSABLE;
 		flags[WALL] = SOLID | HIGH;
@@ -38,6 +40,7 @@ public class Terrain {
 	}
 
 	public static TextureRegion dirtPattern;
+	public static TextureRegion grassPattern;
 	public static TextureRegion waterPattern;
 	public static TextureRegion wallPattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
@@ -69,6 +72,7 @@ public class Terrain {
 		Log.info("Loading biome " + set);
 
 		dirtPattern = Graphics.getTexture(bm + " (dirt pattern)");
+		grassPattern = Graphics.getTexture(bm + " (grass pattern)");
 		waterPattern = Graphics.getTexture(bm + " (pool pattern)");
 		wallPattern = Graphics.getTexture(bm + " (wall pattern)");
 
@@ -78,6 +82,7 @@ public class Terrain {
 		openDoor = Graphics.getTexture(bm + " (door NS)");
 
 		patterns[DIRT] = dirtPattern;
+		patterns[GRASS] = grassPattern;
 		patterns[PLANTED_DIRT] = dirtPattern;
 		patterns[WATER] = waterPattern;
 		patterns[WALL] = wallPattern;
@@ -107,6 +112,7 @@ public class Terrain {
 		}
 
 		variants[DIRT] = dirtVariants;
+		variants[GRASS] = dirtVariants;
 		variants[PLANTED_DIRT] = dirtVariants;
 		variants[CHASM] = chasmVariants;
 		variants[WATER] = waterVariants;

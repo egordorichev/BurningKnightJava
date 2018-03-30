@@ -162,13 +162,14 @@ public abstract class Level extends Entity {
 				tile = Terrain.CHASM;
 				break;
 			case 0:
-				tile = Terrain.DIRT;
+				tile = Terrain.GRASS;
 				break;
 			case 15:
 			case 16:
 			case 17:
 			case 18:
 				tile = Terrain.CHASM;
+				break;
 		}
 
 		Log.info("Filling the level with " + tile);
@@ -212,6 +213,8 @@ public abstract class Level extends Entity {
 				if (tile == Terrain.CHASM) {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.WATER) {
+					this.tileUp(x, y, tile, false);
+				} else if (tile == Terrain.GRASS) {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
 					this.tileUp(x, y, Terrain.IS_DIRT, true);
