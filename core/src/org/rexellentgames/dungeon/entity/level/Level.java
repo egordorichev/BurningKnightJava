@@ -40,8 +40,13 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Level extends Entity {
+	private static float LIGHT_R = 34f / 255f;
+	private static float LIGHT_G = 31f / 255f;
+	private static float LIGHT_B = 65f / 255f;
+
 	public static final byte VERSION = 0;
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
@@ -148,6 +153,10 @@ public abstract class Level extends Entity {
 		this.lightR = new float[getSIZE()];
 		this.lightG = new float[getSIZE()];
 		this.lightB = new float[getSIZE()];
+
+		Arrays.fill(this.lightR, LIGHT_R);
+		Arrays.fill(this.lightG, LIGHT_G);
+		Arrays.fill(this.lightB, LIGHT_B);
 	}
 
 	public void fill() {
@@ -365,9 +374,9 @@ public abstract class Level extends Entity {
 
 			if (v > 0) {
 				this.light[i] = Math.max(0, v - dt);
-				this.lightR[i] = Math.max(0, this.lightR[i] - dt);
-				this.lightG[i] = Math.max(0, this.lightG[i] - dt);
-				this.lightB[i] = Math.max(0, this.lightB[i] - dt);
+				this.lightR[i] = Math.max(LIGHT_R, this.lightR[i] - dt);
+				this.lightG[i] = Math.max(LIGHT_G, this.lightG[i] - dt);
+				this.lightB[i] = Math.max(LIGHT_B, this.lightB[i] - dt);
 			}
 
 		}
