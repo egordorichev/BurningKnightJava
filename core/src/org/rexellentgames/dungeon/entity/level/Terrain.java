@@ -15,8 +15,9 @@ public class Terrain {
 	public static byte SPIKES = 7;
 	public static byte PLANTED_DIRT = 8;
 	public static byte GRASS = 9;
+	public static byte TABLE;
 
-	public static byte SIZE = 10;
+	public static byte SIZE = 11;
 
 	public static int[] flags = new int[SIZE];
 
@@ -37,6 +38,7 @@ public class Terrain {
 		flags[WALL_SIDE] = HOLE;
 		flags[WOOD] = PASSABLE;
 		flags[SPIKES] = 0;
+		flags[TABLE] = SOLID;
 	}
 
 	public static TextureRegion dirtPattern;
@@ -52,6 +54,7 @@ public class Terrain {
 	public static TextureRegion[] woodVariants = new TextureRegion[16];
 	public static TextureRegion[] floorVariants = new TextureRegion[16];
 	public static TextureRegion[] spikeVariants = new TextureRegion[16];
+	public static TextureRegion[] tableVariants = new TextureRegion[16];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
 
@@ -109,6 +112,10 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 16; i++) {
+			tableVariants[i] = Graphics.getTexture(bm + " (table" + Level.COMPASS[i] + ")");
+		}
+
+		for (int i = 0; i < 16; i++) {
 			woodVariants[i] = Graphics.getTexture(bm + " (plank " + String.format("%02d", i + 1) + ")");
 		}
 
@@ -125,5 +132,6 @@ public class Terrain {
 		variants[WOOD] = woodVariants;
 		variants[FLOOR] = floorVariants;
 		variants[SPIKES] = spikeVariants;
+		variants[TABLE] = tableVariants;
 	}
 }

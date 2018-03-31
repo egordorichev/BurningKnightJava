@@ -5,7 +5,7 @@ public class RegenerationBuff extends Buff {
 		name = "Regeneration";
 		description = "You are full of powerful energy";
 		duration = 30f;
-		sprite = 4;
+		sprite = "ui (regen buff)";
 	}
 
 	@Override
