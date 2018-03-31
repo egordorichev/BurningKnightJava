@@ -15,7 +15,7 @@ public class Terrain {
 	public static byte SPIKES = 7;
 	public static byte PLANTED_DIRT = 8;
 	public static byte GRASS = 9;
-	public static byte TABLE;
+	public static byte TABLE = 10;
 
 	public static byte SIZE = 11;
 
@@ -26,6 +26,7 @@ public class Terrain {
 	public static int HOLE = 0x4;
 	public static int HIGH = 0x8;
 	public static int IS_DIRT = 0x10;
+	public static int BREAKS_LOS = 0x12;
 
 	static {
 		flags[CHASM] = HOLE;
@@ -33,12 +34,12 @@ public class Terrain {
 		flags[GRASS] = PASSABLE;
 		flags[PLANTED_DIRT] = PASSABLE | IS_DIRT;
 		flags[FLOOR] = PASSABLE;
-		flags[WALL] = SOLID | HIGH;
+		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
 		flags[WATER] = PASSABLE;
 		flags[WALL_SIDE] = HOLE;
 		flags[WOOD] = PASSABLE;
 		flags[SPIKES] = 0;
-		flags[TABLE] = SOLID;
+		flags[TABLE] = SOLID | HIGH;
 	}
 
 	public static TextureRegion dirtPattern;
@@ -112,7 +113,7 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 16; i++) {
-			tableVariants[i] = Graphics.getTexture(bm + " (table" + Level.COMPASS[i] + ")");
+			tableVariants[i] = Graphics.getTexture(bm + " (desk" + Level.COMPASS[i] + ")");
 		}
 
 		for (int i = 0; i < 16; i++) {
