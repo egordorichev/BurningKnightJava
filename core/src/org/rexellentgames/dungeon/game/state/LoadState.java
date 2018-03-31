@@ -180,5 +180,7 @@ public class LoadState extends State {
 		Graphics.medium.setColor(1, 1, 1, this.a);
 		Graphics.print(this.s, Graphics.medium, 120);
 		Graphics.medium.setColor(1, 1, 1, 1);
+
+		// Dungeon.level.render();
 	}
 }
