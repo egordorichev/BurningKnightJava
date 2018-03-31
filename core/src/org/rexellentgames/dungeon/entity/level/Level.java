@@ -216,6 +216,8 @@ public abstract class Level extends Entity {
 					this.variants[toIndex(x, y)] = (byte) Random.newInt(16);
 				} else if (tile == Terrain.WATER) {
 					this.tileUp(x, y, tile, false);
+				} else if (tile == Terrain.TABLE) {
+					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.GRASS) {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.SPIKES) {
@@ -419,6 +421,14 @@ public abstract class Level extends Entity {
 
 						Graphics.render(region, x * 16, y * 16);
 					}
+
+					if (tile != Terrain.WALL && Terrain.variants[tile] != null) {
+						byte variant = this.variants[i];
+
+						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+						}
+					}
 				} else {
 					byte v = this.walls[i];
 
@@ -603,7 +613,7 @@ public abstract class Level extends Entity {
 				return 2;
 			}
 
-			if (this.get((int) point.x, (int) point.y) == Terrain.WALL) {
+			if (this.checkFor((int) point.x, (int) point.y, Terrain.BREAKS_LOS)) {
 				first = true;
 			}
 		}
