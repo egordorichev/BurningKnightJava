@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
@@ -164,10 +165,8 @@ public class InGameState extends State {
 		for (int i = 0; i < buffs.length; i++) {
 			Buff buff = buffs[i];
 
-			int sprite = buff.getSprite();
-
-			// todo: render
-			// Graphics.batch.draw(Graphics.buffs, 2 + i * 9, Display.GAME_HEIGHT - 36, xx, yy, 8, 8);
+			TextureRegion sprite = buff.getSprite();
+			Graphics.batch.draw(sprite, 2 + i * 11, Display.GAME_HEIGHT - 38);
 		}
 
 		if (this.health.hovered) { this.health.renderInfo(); }

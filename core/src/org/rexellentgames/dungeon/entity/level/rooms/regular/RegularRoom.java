@@ -1,6 +1,10 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.features.Door;
+import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -25,6 +29,17 @@ public class RegularRoom extends Room {
 
 		public int getConnectionWeight() {
 			return this.roomValue * this.roomValue;
+		}
+	}
+
+	@Override
+	public void paint(Level level) {
+		Painter.fill(level, this, Terrain.WALL);
+		Painter.fill(level, this, 1, Terrain.FLOOR);
+		Painter.fill(level, this, 2, Terrain.TABLE);
+
+		for (Door door : this.connected.values()) {
+			door.setType(Door.Type.REGULAR);
 		}
 	}
 
