@@ -20,21 +20,21 @@ actor-bomb-idle-01
   index: -1
 actor-bomb-idle-02
   rotate: false
-  xy: 550, 189
+  xy: 586, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-bomb-idle-03
   rotate: false
-  xy: 568, 189
+  xy: 604, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-bomb-idle-04
   rotate: false
-  xy: 586, 189
+  xy: 622, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -251,294 +251,294 @@ actor_burning_knight-idle-11
   index: -1
 actor-clown-dead-00
   rotate: false
-  xy: 604, 189
+  xy: 640, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-hurt-00
   rotate: false
-  xy: 622, 189
+  xy: 658, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-hurt-01
   rotate: false
-  xy: 640, 189
+  xy: 676, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-00
   rotate: false
-  xy: 658, 189
+  xy: 694, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-07
   rotate: false
-  xy: 658, 189
+  xy: 694, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-01
   rotate: false
-  xy: 676, 189
+  xy: 712, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-02
   rotate: false
-  xy: 694, 189
+  xy: 730, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-03
   rotate: false
-  xy: 712, 189
+  xy: 748, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-04
   rotate: false
-  xy: 730, 189
+  xy: 766, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-05
   rotate: false
-  xy: 748, 189
+  xy: 784, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-idle-06
   rotate: false
-  xy: 766, 189
+  xy: 802, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-laugh-00
   rotate: false
-  xy: 784, 189
+  xy: 820, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-laugh-01
   rotate: false
-  xy: 802, 189
+  xy: 838, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-laugh-02
   rotate: false
-  xy: 820, 189
+  xy: 856, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-laugh-03
   rotate: false
-  xy: 838, 189
+  xy: 874, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-00
   rotate: false
-  xy: 856, 189
+  xy: 892, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-01
   rotate: false
-  xy: 874, 189
+  xy: 910, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-02
   rotate: false
-  xy: 892, 189
+  xy: 928, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-03
   rotate: false
-  xy: 910, 189
+  xy: 946, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-04
   rotate: false
-  xy: 928, 189
+  xy: 964, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-05
   rotate: false
-  xy: 946, 189
+  xy: 982, 189
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-06
   rotate: false
-  xy: 964, 189
+  xy: 514, 167
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-clown-run-07
   rotate: false
-  xy: 982, 189
+  xy: 532, 168
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-dead-00
   rotate: false
-  xy: 514, 168
+  xy: 550, 170
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-hurt-00
   rotate: false
-  xy: 532, 170
+  xy: 568, 170
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-hurt-01
   rotate: false
-  xy: 550, 171
+  xy: 586, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-00
   rotate: false
-  xy: 568, 171
+  xy: 604, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-07
   rotate: false
-  xy: 568, 171
+  xy: 604, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-01
   rotate: false
-  xy: 586, 171
+  xy: 622, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-02
   rotate: false
-  xy: 604, 171
+  xy: 640, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-03
   rotate: false
-  xy: 622, 171
+  xy: 658, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-04
   rotate: false
-  xy: 640, 171
+  xy: 676, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-05
   rotate: false
-  xy: 658, 171
+  xy: 694, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-idle-06
   rotate: false
-  xy: 676, 171
+  xy: 712, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-00
   rotate: false
-  xy: 694, 171
+  xy: 730, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-01
   rotate: false
-  xy: 712, 171
+  xy: 748, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-02
   rotate: false
-  xy: 730, 171
+  xy: 766, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-03
   rotate: false
-  xy: 748, 171
+  xy: 784, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-04
   rotate: false
-  xy: 766, 171
+  xy: 802, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-05
   rotate: false
-  xy: 784, 171
+  xy: 820, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-06
   rotate: false
-  xy: 802, 171
+  xy: 838, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-gobbo-run-07
   rotate: false
-  xy: 820, 171
+  xy: 856, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -552,133 +552,140 @@ actor-towelking-idle-00
   index: -1
 actor-towelknight-dead-00
   rotate: false
-  xy: 838, 171
+  xy: 874, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-hurt-00
   rotate: false
-  xy: 856, 171
+  xy: 892, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-hurt-01
   rotate: false
-  xy: 874, 171
+  xy: 910, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-00
   rotate: false
-  xy: 892, 171
+  xy: 928, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-01
   rotate: false
-  xy: 892, 171
+  xy: 928, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-02
   rotate: false
-  xy: 892, 171
+  xy: 928, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-03
   rotate: false
-  xy: 910, 171
+  xy: 946, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-04
   rotate: false
-  xy: 910, 171
+  xy: 946, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-05
   rotate: false
-  xy: 910, 171
+  xy: 946, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-06
   rotate: false
-  xy: 910, 171
+  xy: 946, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-idle-07
   rotate: false
-  xy: 910, 171
+  xy: 946, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-00
   rotate: false
-  xy: 928, 171
+  xy: 964, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-01
   rotate: false
-  xy: 946, 171
+  xy: 982, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-02
   rotate: false
-  xy: 964, 171
+  xy: 386, 194
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-03
   rotate: false
-  xy: 982, 171
+  xy: 380, 176
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-04
   rotate: false
-  xy: 386, 194
+  xy: 380, 158
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-05
   rotate: false
-  xy: 311, 3
+  xy: 380, 140
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-06
   rotate: false
-  xy: 380, 176
+  xy: 398, 152
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 actor-towelknight-run-07
   rotate: false
-  xy: 380, 158
+  xy: 416, 155
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (Layer 5)
+  rotate: false
+  xy: 434, 155
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -699,322 +706,322 @@ biome-0 (chair B)
   index: -1
 biome-0 (chasm E)
   rotate: false
-  xy: 380, 140
+  xy: 452, 155
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm ES)
   rotate: false
-  xy: 398, 152
+  xy: 470, 155
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm ESW)
   rotate: false
-  xy: 416, 155
+  xy: 488, 155
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm EW)
   rotate: false
-  xy: 434, 155
+  xy: 398, 134
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm N)
   rotate: false
-  xy: 452, 155
+  xy: 416, 137
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm NE)
   rotate: false
-  xy: 470, 155
+  xy: 434, 137
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm NES)
   rotate: false
-  xy: 488, 155
+  xy: 452, 137
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm NESW)
   rotate: false
-  xy: 398, 134
+  xy: 470, 137
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm NEW)
   rotate: false
-  xy: 416, 137
+  xy: 488, 137
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm NS)
   rotate: false
-  xy: 434, 137
+  xy: 506, 149
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm NSW)
   rotate: false
-  xy: 452, 137
+  xy: 506, 131
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm NW)
   rotate: false
-  xy: 470, 137
+  xy: 1000, 171
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm S)
   rotate: false
-  xy: 488, 137
+  xy: 524, 149
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm SW)
   rotate: false
-  xy: 506, 150
+  xy: 524, 131
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (chasm W)
   rotate: false
-  xy: 506, 132
+  xy: 542, 150
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk E)
   rotate: false
-  xy: 1000, 171
+  xy: 542, 132
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk ES)
   rotate: false
-  xy: 524, 150
+  xy: 560, 152
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk ESW)
   rotate: false
-  xy: 524, 132
+  xy: 560, 134
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk EW)
   rotate: false
-  xy: 542, 152
+  xy: 578, 152
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk N)
   rotate: false
-  xy: 542, 134
+  xy: 578, 134
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk NE)
   rotate: false
-  xy: 560, 153
+  xy: 596, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk NES)
   rotate: false
-  xy: 578, 153
+  xy: 596, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (desk NESW)
   rotate: false
-  xy: 134, 1
-  size: 11, 15
-  orig: 11, 15
-  offset: 0, 0
-  index: -1
-biome-0 (desk NEW)
-  rotate: false
-  xy: 560, 135
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-biome-0 (desk NS)
-  rotate: false
-  xy: 275, 1
-  size: 16, 12
-  orig: 16, 12
-  offset: 0, 0
-  index: -1
-biome-0 (desk NSW)
-  rotate: false
-  xy: 596, 153
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-biome-0 (desk NW)
-  rotate: false
-  xy: 578, 135
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-biome-0 (desk S)
-  rotate: false
-  xy: 387, 85
-  size: 16, 12
-  orig: 16, 12
-  offset: 0, 0
-  index: -1
-biome-0 (desk SW)
-  rotate: false
   xy: 614, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (desk W)
-  rotate: false
-  xy: 596, 135
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-biome-0 (desk)
-  rotate: false
-  xy: 632, 153
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-biome-0 (dirt E)
+biome-0 (desk NEW)
   rotate: false
   xy: 614, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt ES)
+biome-0 (desk NS)
   rotate: false
-  xy: 650, 153
+  xy: 632, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt ESW)
+biome-0 (desk NSW)
   rotate: false
   xy: 632, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt EW)
+biome-0 (desk NW)
   rotate: false
-  xy: 668, 153
+  xy: 650, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt N)
+biome-0 (desk S)
   rotate: false
   xy: 650, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt NE)
+biome-0 (desk SW)
   rotate: false
-  xy: 686, 153
+  xy: 668, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt NES)
+biome-0 (desk W)
+  rotate: false
+  xy: 514, 185
+  size: 16, 20
+  orig: 16, 20
+  offset: 0, 0
+  index: -1
+biome-0 (desk)
+  rotate: false
+  xy: 550, 188
+  size: 16, 17
+  orig: 16, 17
+  offset: 0, 0
+  index: -1
+biome-0 (dirt E)
   rotate: false
   xy: 668, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt NESW)
+biome-0 (dirt ES)
   rotate: false
-  xy: 704, 153
+  xy: 686, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt NEW)
+biome-0 (dirt ESW)
   rotate: false
   xy: 686, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt NS)
+biome-0 (dirt EW)
   rotate: false
-  xy: 722, 153
+  xy: 704, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt NSW)
+biome-0 (dirt N)
   rotate: false
   xy: 704, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt NW)
+biome-0 (dirt NE)
   rotate: false
-  xy: 740, 153
+  xy: 722, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt S)
+biome-0 (dirt NES)
   rotate: false
   xy: 722, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-biome-0 (dirt SW)
+biome-0 (dirt NESW)
+  rotate: false
+  xy: 740, 153
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (dirt NEW)
+  rotate: false
+  xy: 740, 135
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (dirt NS)
   rotate: false
   xy: 758, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+biome-0 (dirt NSW)
+  rotate: false
+  xy: 758, 135
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (dirt NW)
+  rotate: false
+  xy: 776, 153
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (dirt S)
+  rotate: false
+  xy: 776, 135
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (dirt SW)
+  rotate: false
+  xy: 794, 153
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 biome-0 (dirt W)
   rotate: false
-  xy: 740, 135
+  xy: 794, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1028,126 +1035,126 @@ biome-0 (dirt pattern)
   index: -1
 biome-0 (door NS)
   rotate: false
-  xy: 293, 1
+  xy: 275, 1
   size: 16, 12
   orig: 16, 12
   offset: 0, 0
   index: -1
 biome-0 (door WE)
   rotate: false
-  xy: 405, 81
+  xy: 1010, 153
   size: 8, 16
   orig: 8, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 01)
   rotate: false
-  xy: 776, 153
+  xy: 812, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 02)
   rotate: false
-  xy: 758, 135
+  xy: 812, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 03)
   rotate: false
-  xy: 794, 153
+  xy: 830, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 04)
   rotate: false
-  xy: 776, 135
+  xy: 830, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 05)
   rotate: false
-  xy: 812, 153
+  xy: 848, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 06)
   rotate: false
-  xy: 794, 135
+  xy: 848, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 07)
   rotate: false
-  xy: 830, 153
+  xy: 866, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 08)
   rotate: false
-  xy: 812, 135
+  xy: 866, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 09)
   rotate: false
-  xy: 848, 153
+  xy: 884, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 10)
   rotate: false
-  xy: 830, 135
+  xy: 884, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 11)
   rotate: false
-  xy: 866, 153
+  xy: 902, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 12)
   rotate: false
-  xy: 848, 135
+  xy: 902, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 13)
   rotate: false
-  xy: 884, 153
+  xy: 920, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 14)
   rotate: false
-  xy: 866, 135
+  xy: 920, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 15)
   rotate: false
-  xy: 902, 153
+  xy: 938, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (floor 16)
   rotate: false
-  xy: 884, 135
+  xy: 938, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1168,231 +1175,231 @@ biome-0 (grass pattern)
   index: -1
 biome-0 (plank 01)
   rotate: false
-  xy: 920, 153
+  xy: 956, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 02)
   rotate: false
-  xy: 902, 135
+  xy: 956, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 03)
   rotate: false
-  xy: 938, 153
+  xy: 974, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 04)
   rotate: false
-  xy: 920, 135
+  xy: 974, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 05)
   rotate: false
-  xy: 956, 153
+  xy: 992, 153
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 06)
   rotate: false
-  xy: 938, 135
+  xy: 992, 135
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 07)
   rotate: false
-  xy: 974, 153
+  xy: 293, 3
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 08)
   rotate: false
-  xy: 956, 135
+  xy: 311, 3
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 09)
   rotate: false
-  xy: 992, 153
+  xy: 412, 116
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 10)
   rotate: false
-  xy: 974, 135
+  xy: 412, 98
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 11)
   rotate: false
-  xy: 992, 135
+  xy: 430, 119
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 12)
   rotate: false
-  xy: 403, 63
+  xy: 430, 101
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 13)
   rotate: false
-  xy: 403, 45
+  xy: 448, 119
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 14)
   rotate: false
-  xy: 403, 27
+  xy: 448, 101
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 15)
   rotate: false
-  xy: 403, 9
+  xy: 466, 119
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (plank 16)
   rotate: false
-  xy: 412, 116
+  xy: 466, 101
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool E)
   rotate: false
-  xy: 430, 119
+  xy: 484, 119
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool ES)
   rotate: false
-  xy: 448, 119
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-biome-0 (pool SE)
-  rotate: false
-  xy: 448, 119
+  xy: 484, 101
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool ESW)
   rotate: false
-  xy: 466, 119
+  xy: 502, 113
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool EW)
   rotate: false
-  xy: 484, 119
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-biome-0 (pool SN)
-  rotate: false
-  xy: 484, 119
+  xy: 520, 113
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool N)
   rotate: false
-  xy: 502, 114
+  xy: 502, 95
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool NE)
   rotate: false
-  xy: 520, 114
+  xy: 520, 95
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool NES)
   rotate: false
-  xy: 415, 85
+  xy: 406, 80
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool NESW)
   rotate: false
-  xy: 433, 101
+  xy: 403, 62
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool NEW)
   rotate: false
-  xy: 451, 101
+  xy: 403, 44
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool NS)
   rotate: false
-  xy: 469, 101
+  xy: 403, 26
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool NSW)
   rotate: false
-  xy: 433, 83
+  xy: 403, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool NW)
   rotate: false
-  xy: 451, 83
+  xy: 424, 80
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool S)
   rotate: false
-  xy: 469, 83
+  xy: 421, 62
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (pool SE)
+  rotate: false
+  xy: 421, 44
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+biome-0 (pool SN)
+  rotate: false
+  xy: 421, 26
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool SW)
   rotate: false
-  xy: 487, 83
+  xy: 421, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (pool W)
   rotate: false
-  xy: 508, 96
+  xy: 442, 83
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1406,84 +1413,84 @@ biome-0 (pool pattern)
   index: -1
 biome-0 (spikes E)
   rotate: false
-  xy: 526, 96
+  xy: 460, 83
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes ES)
   rotate: false
-  xy: 505, 78
+  xy: 478, 83
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes ESW)
   rotate: false
-  xy: 523, 78
+  xy: 496, 77
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes EW)
   rotate: false
-  xy: 538, 114
+  xy: 514, 77
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes N)
   rotate: false
-  xy: 544, 96
+  xy: 532, 77
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes NE)
   rotate: false
-  xy: 541, 78
+  xy: 538, 113
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes NES)
   rotate: false
-  xy: 421, 65
+  xy: 538, 95
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes NESW)
   rotate: false
-  xy: 421, 47
+  xy: 550, 77
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes NEW)
   rotate: false
-  xy: 439, 65
+  xy: 439, 62
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes NS)
   rotate: false
-  xy: 421, 29
+  xy: 439, 44
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes NSW)
   rotate: false
-  xy: 439, 47
+  xy: 439, 26
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes NW)
   rotate: false
-  xy: 532, 188
+  xy: 568, 188
   size: 16, 17
   orig: 16, 17
   offset: 0, 0
@@ -1497,28 +1504,28 @@ biome-0 (spikes S)
   index: -1
 biome-0 (spikes SW)
   rotate: false
-  xy: 457, 65
+  xy: 439, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes W)
   rotate: false
-  xy: 421, 11
+  xy: 457, 65
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (spikes)
   rotate: false
-  xy: 439, 29
+  xy: 457, 47
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (stairs D)
   rotate: false
-  xy: 457, 47
+  xy: 475, 65
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1539,70 +1546,70 @@ biome-0 (table)
   index: -1
 biome-0 (wall E)
   rotate: false
-  xy: 475, 65
+  xy: 457, 29
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall ES)
   rotate: false
-  xy: 439, 11
+  xy: 475, 47
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall ESW)
   rotate: false
-  xy: 457, 29
+  xy: 457, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall EW)
   rotate: false
-  xy: 475, 47
+  xy: 475, 29
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall N)
   rotate: false
-  xy: 457, 11
+  xy: 475, 11
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall NE)
   rotate: false
-  xy: 475, 29
+  xy: 493, 59
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall NES)
   rotate: false
-  xy: 475, 11
+  xy: 493, 41
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall NESW)
   rotate: false
-  xy: 493, 53
+  xy: 511, 59
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall NEW)
   rotate: false
-  xy: 493, 35
+  xy: 493, 23
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall NS)
   rotate: false
-  xy: 493, 17
+  xy: 511, 41
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1616,28 +1623,28 @@ biome-0 (wall NSW)
   index: -1
 biome-0 (wall NW)
   rotate: false
-  xy: 511, 60
+  xy: 529, 59
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall S)
   rotate: false
-  xy: 511, 42
+  xy: 511, 23
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall SW)
   rotate: false
-  xy: 529, 60
+  xy: 529, 41
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 biome-0 (wall W)
   rotate: false
-  xy: 511, 24
+  xy: 547, 59
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -1763,42 +1770,42 @@ item (bomb)
   index: -1
 item (claymore)
   rotate: false
-  xy: 487, 101
+  xy: 1010, 135
   size: 10, 16
   orig: 10, 16
   offset: 0, 0
   index: -1
 item (coin)
   rotate: false
-  xy: 726, 124
+  xy: 694, 112
   size: 8, 9
   orig: 8, 9
   offset: 0, 0
   index: -1
 item (compass)
   rotate: false
-  xy: 493, 71
+  xy: 646, 123
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 item (dagger)
   rotate: false
-  xy: 1010, 146
+  xy: 704, 121
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
   index: -1
 item (food A)
   rotate: false
-  xy: 1012, 196
+  xy: 275, 15
   size: 11, 7
   orig: 11, 7
   offset: 0, 0
   index: -1
 item (food B)
   rotate: false
-  xy: 336, 3
+  xy: 646, 111
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -1833,7 +1840,7 @@ item (potion A)
   index: -1
 item (potion B)
   rotate: false
-  xy: 348, 3
+  xy: 658, 123
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -1847,14 +1854,14 @@ item (potion C)
   index: -1
 item (potion D)
   rotate: false
-  xy: 706, 123
+  xy: 694, 123
   size: 8, 10
   orig: 8, 10
   offset: 0, 0
   index: -1
 item (potion E)
   rotate: false
-  xy: 716, 123
+  xy: 682, 99
   size: 8, 10
   orig: 8, 10
   offset: 0, 0
@@ -1875,7 +1882,7 @@ item (potion G)
   index: -1
 item (potion H)
   rotate: false
-  xy: 412, 103
+  xy: 394, 86
   size: 10, 11
   orig: 10, 11
   offset: 0, 0
@@ -1952,21 +1959,21 @@ item (scroll)
   index: -1
 item (seed A)
   rotate: false
-  xy: 1010, 160
+  xy: 732, 124
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
   index: -1
 item (seed B)
   rotate: false
-  xy: 424, 103
+  xy: 1016, 209
   size: 7, 11
   orig: 7, 11
   offset: 0, 0
   index: -1
 item (seed C)
   rotate: false
-  xy: 421, 1
+  xy: 457, 1
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -2001,56 +2008,56 @@ item (treasure)
   index: -1
 item (wand A)
   rotate: false
-  xy: 396, 2
+  xy: 718, 122
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 item (wand B)
   rotate: false
-  xy: 329, 1
+  xy: 711, 121
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
   index: -1
 item (wand C)
   rotate: false
-  xy: 1010, 133
+  xy: 725, 122
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 item (wand D)
   rotate: false
-  xy: 1018, 180
+  xy: 387, 83
   size: 5, 14
   orig: 5, 14
   offset: 0, 0
   index: -1
 item (wand E)
   rotate: false
-  xy: 499, 101
+  xy: 1016, 196
   size: 7, 11
   orig: 7, 11
   offset: 0, 0
   index: -1
 item (wand F)
   rotate: false
-  xy: 1018, 165
+  xy: 1009, 207
   size: 5, 13
   orig: 5, 13
   offset: 0, 0
   index: -1
 item (wand G)
   rotate: false
-  xy: 1018, 150
+  xy: 1018, 181
   size: 5, 13
   orig: 5, 13
   offset: 0, 0
   index: -1
 item (wand H)
   rotate: false
-  xy: 329, 20
+  xy: 1020, 168
   size: 3, 11
   orig: 3, 11
   offset: 0, 0
@@ -2071,49 +2078,49 @@ prop-throne-idle-00
   index: -1
 run-fx-idle-00
   rotate: false
-  xy: 529, 42
+  xy: 529, 23
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 run-fx-idle-06
   rotate: false
-  xy: 529, 42
+  xy: 529, 23
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 run-fx-idle-01
   rotate: false
-  xy: 529, 24
+  xy: 547, 41
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 run-fx-idle-05
   rotate: false
-  xy: 529, 24
+  xy: 547, 41
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 run-fx-idle-02
   rotate: false
-  xy: 547, 60
+  xy: 547, 23
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 run-fx-idle-04
   rotate: false
-  xy: 547, 60
+  xy: 547, 23
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 run-fx-idle-03
   rotate: false
-  xy: 547, 42
+  xy: 493, 5
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -2127,35 +2134,35 @@ ui (buffs)
   index: -1
 ui (burning buff)
   rotate: false
-  xy: 360, 3
+  xy: 646, 99
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (cursor)
   rotate: false
-  xy: 547, 24
+  xy: 511, 5
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ui (defense buff)
   rotate: false
-  xy: 372, 3
+  xy: 658, 111
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (exp bar)
   rotate: false
-  xy: 514, 186
+  xy: 532, 186
   size: 16, 19
   orig: 16, 19
   offset: 0, 0
   index: -1
 ui (hide sign)
   rotate: false
-  xy: 1012, 205
+  xy: 134, 1
   size: 11, 15
   orig: 11, 15
   offset: 0, 0
@@ -2183,7 +2190,7 @@ ui (inventory slot)
   index: -1
 ui (invisible buff)
   rotate: false
-  xy: 384, 3
+  xy: 670, 123
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2204,42 +2211,42 @@ ui (notice sign)
   index: -1
 ui (plant cursor)
   rotate: false
-  xy: 559, 78
+  xy: 529, 5
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 ui (poison buff)
   rotate: false
-  xy: 646, 123
+  xy: 658, 99
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (regen buff)
   rotate: false
-  xy: 658, 123
+  xy: 670, 111
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (speed buff)
   rotate: false
-  xy: 670, 123
+  xy: 682, 123
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (starving buff)
   rotate: false
-  xy: 682, 123
+  xy: 670, 99
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (sun buff)
   rotate: false
-  xy: 694, 123
+  xy: 682, 111
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2267,84 +2274,84 @@ ui (utils)
   index: -1
 veggie-cabbage-growth-00
   rotate: false
-  xy: 565, 60
+  xy: 547, 5
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-cabbage-growth-01
   rotate: false
-  xy: 565, 42
+  xy: 556, 114
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-cabbage-growth-02
   rotate: false
-  xy: 565, 24
+  xy: 556, 96
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-cabbage-wilt-00
   rotate: false
-  xy: 511, 6
+  xy: 574, 116
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-heartomato-growth-00
   rotate: false
-  xy: 529, 6
+  xy: 574, 98
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-heartomato-growth-01
   rotate: false
-  xy: 547, 6
+  xy: 568, 78
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-heartomato-growth-02
   rotate: false
-  xy: 565, 6
+  xy: 592, 116
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-heartomato-wilt-00
   rotate: false
-  xy: 556, 116
+  xy: 592, 98
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-shroom-growth-00
   rotate: false
-  xy: 574, 117
+  xy: 610, 117
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-shroom-growth-01
   rotate: false
-  xy: 592, 117
+  xy: 610, 99
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-shroom-growth-02
   rotate: false
-  xy: 610, 117
+  xy: 628, 117
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 veggie-shroom-wilt-00
   rotate: false
-  xy: 628, 117
+  xy: 628, 99
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
