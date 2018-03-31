@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -18,6 +19,7 @@ public class Clown extends Mob {
 	private AnimationData laugh;
 	private AnimationData animation;
 	private boolean toLaugh;
+	private float laughT = 3f;
 
 	{
 		hpMax = 10;
@@ -75,7 +77,8 @@ public class Clown extends Mob {
 			this.animation = hurt;
 		} else if (v > 9.9) {
 			this.animation = run;
-		} else if (this.state.equals("laugh")) {
+		} else if (this.laughT > 0) {
+			this.laughT -= Gdx.graphics.getDeltaTime();
 			this.animation = this.laugh;
 		} else {
 			this.animation = idle;
@@ -98,8 +101,6 @@ public class Clown extends Mob {
 			return new FleeingState();
 		} else if (state.equals("roam")) {
 			return new RoamState();
-		} else if (state.equals("laugh")) {
-			return new LaughState();
 		}
 
 		return super.getAi(state);
@@ -110,14 +111,6 @@ public class Clown extends Mob {
 	}
 
 	public class IdleState extends ClownState {
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-			this.checkForPlayer();
-		}
-	}
-
-	public class LaughState extends ClownState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
@@ -177,7 +170,7 @@ public class Clown extends Mob {
 		@Override
 		public void update(float dt) {
 			self.become("fleeing");
-			self.toLaugh = true;
+			self.laughT = 3f;
 
 			Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
 

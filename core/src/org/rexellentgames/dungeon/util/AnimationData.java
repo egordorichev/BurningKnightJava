@@ -8,6 +8,8 @@ public class AnimationData {
 	private final ArrayList<Animation.Frame> frames;
 	private float t;
 	private int index;
+	private boolean pause;
+	private boolean back;
 	private Animation.Frame current;
 
 	public AnimationData(ArrayList<Animation.Frame> frames) {
@@ -23,21 +25,39 @@ public class AnimationData {
 	public boolean update(float dt) {
 		boolean val = false;
 
-		this.t += dt;
+		if (!this.pause) {
+			this.t += dt;
 
-		if (this.t >= this.current.delay) {
-			this.index += 1;
-			this.t = 0;
+			if (this.t >= this.current.delay) {
+				this.index += (this.back ? -1 : 1);
+				this.t = 0;
 
-			if (this.index >= this.frames.size()) {
-				this.index = 0;
-				val = true;
+				if ((!this.back && this.index >= this.frames.size()) || (this.back && this.index < 0)) {
+					this.index = (this.back ? this.frames.size() - 1 : 0);
+					val = true;
+				}
+
+				this.current = this.frames.get(this.index);
 			}
-
-			this.current = this.frames.get(this.index);
 		}
 
 		return val;
+	}
+
+	public void setPaused(boolean pause) {
+		this.pause = pause;
+	}
+
+	public void setBack(boolean back) {
+		this.back = back;
+	}
+
+	public void setFrame(int i) {
+		this.current = this.frames.get(i);
+	}
+
+	public int getFrame() {
+		return this.index;
 	}
 
 	public void render(float x, float y, boolean flip) {
