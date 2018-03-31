@@ -186,6 +186,10 @@ public class PathFinder {
 					}
 
 					if (good) {
+						if (tail > queue.length) {
+							return false;
+						}
+
 						// Add to queue
 						queue[tail++] = n;
 						distance[n] = nextDistance;

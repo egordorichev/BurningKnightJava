@@ -36,7 +36,7 @@ public class HallLevel extends BetterLevel {
 		}
 
 		if (Dungeon.depth > 0) {
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 15; i++) {
 				creatures.add(new Clown().generate());
 			}
 		}

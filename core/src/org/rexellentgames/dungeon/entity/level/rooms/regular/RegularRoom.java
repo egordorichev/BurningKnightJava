@@ -45,7 +45,7 @@ public class RegularRoom extends Room {
 			rect.setPos(Random.newInt(2, this.getWidth() - rect.getWidth() - 2) + this.left,
 				Random.newInt(2, this.getHeight() - rect.getHeight() - 2) + this.top);
 
-			Painter.fill(level, rect, Terrain.TABLE);
+			// Painter.fill(level, rect, Terrain.TABLE);
 		}
 
 		for (Door door : this.connected.values()) {
