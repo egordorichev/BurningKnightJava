@@ -102,4 +102,19 @@ public class Plant extends SaveableEntity {
 			}
 		}
 	}
+
+	public void grow() {
+		this.growProgress = 1;
+	}
+
+	public static Plant random() {
+		int random = Random.newInt(3);
+
+		switch (random) {
+			case 0: if (Dungeon.depth > 0) { return new Lightroom(); } break;
+			case 1: return new PotionGrass();
+		}
+
+		return new Cabbage();
+	}
 }
