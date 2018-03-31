@@ -506,6 +506,8 @@ public class BurningKnight extends Mob {
 			if (d < (player.getLightSize() + LIGHT_SIZE - 3) * 16 && (this.sawPlayer || this.canSee(player))) {
 				this.target = player;
 				this.become("alerted");
+				this.noticeSignT = 2f;
+				this.hideSignT = 0f;
 
 				if (!this.sawPlayer) {
 					Log.info("BK NOTICED YOU! BE CAREFUL!");

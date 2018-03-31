@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -99,6 +100,18 @@ public class Painter {
 				int i = level.toIndex((int) p.x, (int) p.y);
 				if (grass[i] && level.data[i] == Terrain.FLOOR) {
 					level.data[i] = Terrain.DIRT;
+
+					if (Random.chance(10)) {
+						Plant plant = Plant.random();
+
+						plant.x = p.x * 16;
+						plant.y = p.y * 16 - 8;
+
+						Dungeon.level.addSaveable(plant);
+						Dungeon.area.add(plant);
+
+						plant.grow();
+					}
 				}
 			}
 		}

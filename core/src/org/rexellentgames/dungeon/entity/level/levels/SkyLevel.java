@@ -41,15 +41,15 @@ public class SkyLevel extends BetterLevel {
 	protected ArrayList<Item> generateItems() {
 		ArrayList<Item> items = super.generateItems();
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 4; i++) {
 			items.add(Potion.random());
 		}
 
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 2; i++) {
 			items.add(Spell.random());
 		}
 
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 4; i++) {
 			items.add(new Gold().randomize());
 		}
 

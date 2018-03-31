@@ -2,6 +2,8 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.item.Gold;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
@@ -49,6 +51,19 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 		this.addEntrance(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_OPEN);
 		this.addEntrance(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_CLOSED);
+
+		for (int xx = topTower.left + 1; xx <= topTower.right - 2; xx++) {
+			for (int yy = topTower.top + 1; yy <= topTower.bottom - 2; yy++) {
+				ItemHolder holder = new ItemHolder();
+
+				holder.x = xx * 16 + 4 + Random.newInt(8);
+				holder.y = yy * 16 + 4 + Random.newInt(8) - 8;
+				holder.setItem(new Gold().randomize());
+
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
+			}
+		}
 	}
 
 	private void addEntrance(int x, int y, byte type) {
