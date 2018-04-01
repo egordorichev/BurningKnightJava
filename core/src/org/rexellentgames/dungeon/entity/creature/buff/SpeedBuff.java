@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
-import org.rexellentgames.dungeon.util.Log;
-
 public class SpeedBuff extends Buff {
 	{
 		name = "Supersonic Speed";

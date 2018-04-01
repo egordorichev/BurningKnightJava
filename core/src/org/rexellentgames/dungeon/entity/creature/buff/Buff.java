@@ -40,8 +40,9 @@ public class Buff {
 
 	}
 
-	public void setDuration(float duration) {
+	public Buff setDuration(float duration) {
 		this.duration = duration;
+		return this;
 	}
 
 	protected void onUpdate(float dt) {
