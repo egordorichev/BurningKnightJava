@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -105,6 +107,15 @@ public class BurningKnight extends Mob {
 		}
 
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
+	}
+
+	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
+
+		if (entity instanceof Player) {
+			((Player) entity).addBuff(new BurningBuff().setDuration(10));
+		}
 	}
 
 	@Override

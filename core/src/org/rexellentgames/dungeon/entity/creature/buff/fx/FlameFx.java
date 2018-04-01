@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -30,6 +31,8 @@ public class FlameFx extends Entity {
 		this.color = Random.newFloat() < 0.7 ? orange : red;
 		this.t = Random.newFloat(1024);
 		this.depth = 6;
+		this.x = owner.x;
+		this.y = owner.y;
 
 		Tween.to(new Tween.Task(4, 0.05f) {
 			@Override
@@ -68,7 +71,7 @@ public class FlameFx extends Entity {
 			this.range += dt * 15;
 		}
 
-		this.x = (float) (Math.cos(this.t) * this.range);
+		this.x = this.owner.x + (float) (Math.cos(this.t) * this.range);
 		this.angle = (float) Math.cos(this.t) * 20;
 
 		if (this.y - this.owner.y > 16) {
@@ -87,8 +90,9 @@ public class FlameFx extends Entity {
 		float s = this.size / 2;
 
 		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.8f);
-		Graphics.shape.rect(this.x + this.owner.x + this.owner.w / 2, this.y + this.owner.y + this.owner.h / 3, s, s, this.size,
+		Graphics.shape.rect(this.x + this.owner.w / 2, this.y + this.owner.h / 5, s, s, this.size,
 			this.size, 1, 1, this.angle);
+
 		Graphics.shape.end();
 
 		Gdx.gl.glDisable(GL20.GL_BLEND);
