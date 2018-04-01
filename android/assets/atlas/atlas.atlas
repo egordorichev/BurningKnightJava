@@ -2111,6 +2111,41 @@ item (wands)
   orig: 116, 14
   offset: 0, 0
   index: -1
+plant-fx-idle-00
+  rotate: false
+  xy: 585, 91
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+plant-fx-idle-01
+  rotate: false
+  xy: 593, 91
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+plant-fx-idle-02
+  rotate: false
+  xy: 601, 91
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+plant-fx-idle-03
+  rotate: false
+  xy: 609, 91
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
+plant-fx-idle-04
+  rotate: false
+  xy: 617, 91
+  size: 6, 6
+  orig: 6, 6
+  offset: 0, 0
+  index: -1
 prop-throne-idle-00
   rotate: false
   xy: 1, 85

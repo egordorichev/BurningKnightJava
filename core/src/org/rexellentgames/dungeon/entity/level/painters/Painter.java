@@ -105,7 +105,7 @@ public class Painter {
 						Plant plant = Plant.random();
 
 						plant.x = p.x * 16;
-						plant.y = p.y * 16 - 8;
+						plant.y = p.y * 16 - 4;
 
 						Dungeon.level.addSaveable(plant);
 						Dungeon.area.add(plant);
@@ -123,16 +123,6 @@ public class Painter {
 
 	public void draw(Level level, ArrayList<Room> rooms) {
 		Log.info("Making all pretty...");
-
-		for (int x = 1; x < Level.getWidth() - 1; x++) {
-			for (int y = 1; y < Level.getHeight() - 1; y++) {
-				short tile = level.get(x, y);
-				boolean bottomEmpty = (level.get(x, y - 1) == Terrain.CHASM);
-
-				// todo
-			}
-		}
-
 		this.decorate(level, rooms);
 	}
 
