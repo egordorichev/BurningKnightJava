@@ -13,4 +13,4 @@
 %ASEPRITE% -b actor_towelking.ase --split-tags --list-tags --save-as %OUT%actor-towelking-{tag}-{tagframe00}.png --data %OUT%actor-towelking.json
 %ASEPRITE% -b actor_clown.ase --split-tags --list-tags --save-as %OUT%actor-clown-{tag}-{tagframe00}.png --data %OUT%actor-clown.json
 
-%ASEPRITE% -b prop_throne.ase --split-tags --list-tags --save-as %OUT%prop-throne-{tag}-{tagframe00}.png --data %OUT%prop-throne.json
+%ASEPRITE% -b prop_throne.ase --trim --list-tags --save-as %OUT%prop-throne-{layer}-{tag}-{tagframe00}.png --data %OUT%prop-throne.json
