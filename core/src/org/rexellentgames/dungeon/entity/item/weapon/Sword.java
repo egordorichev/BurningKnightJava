@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,6 +22,7 @@ public class Sword extends Weapon {
 	private float blockT;
 	private static Animation animations = Animation.make("sword-fx");
 	private AnimationData animation;
+	private static Sound slash = Graphics.getSound("sfx/Woosh2.wav");
 
 	@Override
 	public boolean isBlocking() {
@@ -155,6 +157,8 @@ public class Sword extends Weapon {
 		if (this.blocking) {
 			return;
 		}
+
+		slash.play();
 
 		this.animation.setPaused(false);
 		super.use();

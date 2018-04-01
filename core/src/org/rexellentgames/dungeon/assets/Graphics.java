@@ -2,7 +2,9 @@ package org.rexellentgames.dungeon.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -11,6 +13,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.util.Log;
+
+import java.io.File;
+import java.io.FilenameFilter;
 
 public class Graphics {
 	public static SpriteBatch batch;
@@ -35,6 +40,14 @@ public class Graphics {
 
 		manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+		// manager.setLoader(Sound.class, ".wav", new SoundLoader(new InternalFileHandleResolver()));
+
+		File folder = new File("sfx");
+
+		for (File file : folder.listFiles()) {
+			Log.info("Add sound sfx/" + file.getName());
+			manager.load("sfx/" + file.getName(), Sound.class);
+		}
 
 		generateFont("fonts/pico.ttf", 4);
 		generateFont("fonts/large.ttf", 16);
@@ -47,6 +60,10 @@ public class Graphics {
 
 		small.getData().markupEnabled = true;
 		medium.getData().markupEnabled = true;
+	}
+
+	public static Sound getSound(String sfx) {
+		return manager.get(sfx, Sound.class);
 	}
 
 	public static TextureRegion getTexture(String name) {

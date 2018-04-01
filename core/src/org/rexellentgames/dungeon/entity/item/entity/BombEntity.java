@@ -1,8 +1,10 @@
 package org.rexellentgames.dungeon.entity.item.entity;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.Explosion;
@@ -13,6 +15,9 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BombEntity extends Entity {
+	private static Sound place = Graphics.getSound("sfx/Bomb_placing.wav");
+	private static Sound explode = Graphics.getSound("sfx/Bomb_exploding.wav");
+
 	public static Animation animations = Animation.make("actor-bomb");
 	private AnimationData animation = animations.get("idle");
 	private Body body;
@@ -30,6 +35,8 @@ public class BombEntity extends Entity {
 
 		this.body = this.createBody(2, 2, 12, 12, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
+
+		place.play();
 	}
 
 	@Override
@@ -71,6 +78,7 @@ public class BombEntity extends Entity {
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation.update(dt)) {
+			explode.play();
 			this.done = true;
 			Dungeon.area.add(new Explosion(this.x + 8, this.y + 8));
 
