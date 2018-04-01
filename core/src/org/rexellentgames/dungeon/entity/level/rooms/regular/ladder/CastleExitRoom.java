@@ -21,7 +21,7 @@ public class CastleExitRoom extends ExitRoom {
 
 		Throne throne = new Throne();
 
-		throne.x = BurningKnight.throne.x * 16 - (8 - throne.w) / 2;
+		throne.x = BurningKnight.throne.x * 16 - (throne.w - 16) / 2;
 		throne.y = BurningKnight.throne.y * 16;
 
 		Dungeon.area.add(throne);
@@ -29,7 +29,7 @@ public class CastleExitRoom extends ExitRoom {
 
 		Table table = new Table();
 
-		table.x = BurningKnight.throne.x * 16 - (8 - table.w) / 2;
+		table.x = BurningKnight.throne.x * 16 - (table.w - 16) / 2;
 		table.y = BurningKnight.throne.y * 16 - table.h;
 
 		Dungeon.area.add(table);

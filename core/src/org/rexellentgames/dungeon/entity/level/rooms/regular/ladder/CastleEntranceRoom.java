@@ -22,7 +22,7 @@ public class CastleEntranceRoom extends EntranceRoom {
 		Rect bottomTower = new Rect(this.left, this.top, this.left + 7,  this.top + 7);
 		Rect topTower = new Rect(this.left, this.bottom - 6, this.left + 7, this.bottom + 1);
 
-		this.spawn = new Point(2, Random.newInt(bottomTower.bottom + 1, topTower.top - 1));
+		this.spawn = new Point(10, Random.newInt(bottomTower.bottom + 1, topTower.top - 1));
 
 		Painter.fill(level, new Rect(0, bottomTower.bottom + 1, this.left, topTower.top - 1), Terrain.WOOD);
 		Painter.fill(level, this, 0, Terrain.WALL);
