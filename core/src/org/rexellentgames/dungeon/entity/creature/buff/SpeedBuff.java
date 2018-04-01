@@ -12,11 +12,11 @@ public class SpeedBuff extends Buff {
 
 	@Override
 	public void onStart() {
-		this.owner.modifySpeed(10);
+		this.owner.modifySpeed(20);
 	}
 
 	@Override
 	protected void onEnd() {
-		this.owner.modifySpeed(-10);
+		this.owner.modifySpeed(-20);
 	}
 }
