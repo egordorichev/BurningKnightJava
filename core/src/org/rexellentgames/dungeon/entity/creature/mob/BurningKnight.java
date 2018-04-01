@@ -104,7 +104,7 @@ public class BurningKnight extends Mob {
 			this.become("onThrone");
 		}
 
-		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createBody(8, 2, 16, 18, BodyDef.BodyType.DynamicBody, true);
 	}
 
 	@Override
@@ -450,7 +450,7 @@ public class BurningKnight extends Mob {
 				this.findCurrentRoom();
 
 				if (this.currentRoom != null) {
-					Camera.instance.clamp.add(this.currentRoom.left * 16 - 16);
+					Camera.instance.clamp.add(this.currentRoom.left * 16);
 				}
 
 				this.did = true;

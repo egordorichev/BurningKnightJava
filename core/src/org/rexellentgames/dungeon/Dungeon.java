@@ -22,6 +22,7 @@ import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.state.LoginState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Dungeon extends ApplicationAdapter {

@@ -49,7 +49,7 @@ public class Plant extends SaveableEntity {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y - 4, false, (int) Math.floor(this.growProgress * 2));
+		this.animation.render(this.x, this.y - 4, false, false, (int) Math.floor(this.growProgress * 2));
 	}
 
 	@Override
