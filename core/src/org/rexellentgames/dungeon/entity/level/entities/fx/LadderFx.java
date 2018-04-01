@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.entities.fx;
 
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
@@ -37,10 +38,14 @@ public class LadderFx extends Entity {
 
 				Dungeon.goToLevel(Dungeon.depth - 1);
 			} else if (this.ladder instanceof Exit) {
-				Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-				Dungeon.ladderId = ((Exit) this.ladder).getType();
+				if (Dungeon.depth != 4) {
+					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+					Dungeon.ladderId = ((Exit) this.ladder).getType();
 
-				Dungeon.goToLevel(Dungeon.depth + 1);
+					Dungeon.goToLevel(Dungeon.depth + 1);
+				} else {
+					UiLog.instance.print("[red]Not implemented just yet!");
+				}
 			}
 		}
 	}

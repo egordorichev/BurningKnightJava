@@ -20,7 +20,7 @@ public class AnimationData {
 	public AnimationData(ArrayList<Animation.Frame> frames) {
 		this.frames = frames;
 		this.current = this.frames.get(0);
-		// this.t = Random.newFloat(0f, 100f);
+		this.t = Random.newFloat(0f, 100f);
 	}
 
 	public Animation.Frame getCurrent() {
@@ -46,7 +46,6 @@ public class AnimationData {
 					val = true;
 
 					if (this.auto) {
-						Log.info("stop");
 						this.index = (this.back ? 0 : this.frames.size() - 1);
 						this.pause = true;
 					}

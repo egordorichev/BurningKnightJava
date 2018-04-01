@@ -12,7 +12,6 @@ public class SpeedBuff extends Buff {
 
 	@Override
 	public void onStart() {
-		Log.info("add");
 		this.owner.modifySpeed(10);
 	}
 

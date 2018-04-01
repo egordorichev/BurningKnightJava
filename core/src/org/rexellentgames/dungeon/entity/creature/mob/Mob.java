@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class Mob extends Creature {
 	public float flee;
 	public Point lastSeen;
-	protected Player target;
+	public Player target;
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
 	protected int experienceDropped = 1;
@@ -396,10 +396,11 @@ public class Mob extends Creature {
 
 			// tile offset
 			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y , s);
+			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
 
-			if (ds < 4f) {
+			if (ds < 4f || dd < d) {
 				this.nextPathPoint = null;
-				return self.getDistanceTo(point.x + 8, point.y + 8) <= d;
+				return dd <= d;
 			}
 
 			return false;

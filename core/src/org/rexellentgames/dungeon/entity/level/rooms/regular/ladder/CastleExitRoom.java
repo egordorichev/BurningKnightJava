@@ -5,6 +5,8 @@ import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
+import org.rexellentgames.dungeon.entity.level.entities.Table;
+import org.rexellentgames.dungeon.entity.level.entities.Throne;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -17,7 +19,23 @@ public class CastleExitRoom extends ExitRoom {
 
 		BurningKnight.throne = new Point(this.left + this.getWidth() / 2, this.top + this.getHeight() / 2);
 
-		Painter.set(level, BurningKnight.throne, Terrain.WOOD);
+		Throne throne = new Throne();
+
+		throne.x = BurningKnight.throne.x * 16 - (8 - throne.w) / 2;
+		throne.y = BurningKnight.throne.y * 16;
+
+		Dungeon.area.add(throne);
+		Dungeon.level.addSaveable(throne);
+
+		Table table = new Table();
+
+		table.x = BurningKnight.throne.x * 16 - (8 - table.w) / 2;
+		table.y = BurningKnight.throne.y * 16 - table.h;
+
+		Dungeon.area.add(table);
+		Dungeon.level.addSaveable(table);
+
+		// Painter.set(level, BurningKnight.throne, Terrain.WOOD);
 
 		Exit exit = new Exit();
 
