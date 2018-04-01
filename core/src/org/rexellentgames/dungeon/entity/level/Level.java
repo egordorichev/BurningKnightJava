@@ -435,7 +435,7 @@ public abstract class Level extends Entity {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
-							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16);
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 				} else {

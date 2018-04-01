@@ -3,24 +3,24 @@
     "frame": { "x": 0, "y": 0, "w": 16, "h": 11 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 5, "w": 16, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
+    "spriteSourceSize": { "x": 0, "y": 9, "w": 16, "h": 11 },
+    "sourceSize": { "w": 16, "h": 24 },
     "duration": 100
    },
    "actor_door_vertical 1.ase": {
     "frame": { "x": 16, "y": 0, "w": 9, "h": 14 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 2, "w": 9, "h": 14 },
-    "sourceSize": { "w": 16, "h": 16 },
+    "spriteSourceSize": { "x": 0, "y": 6, "w": 9, "h": 14 },
+    "sourceSize": { "w": 16, "h": 24 },
     "duration": 100
    },
    "actor_door_vertical 2.ase": {
     "frame": { "x": 25, "y": 0, "w": 4, "h": 16 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 4, "h": 16 },
-    "sourceSize": { "w": 16, "h": 16 },
+    "spriteSourceSize": { "x": 0, "y": 4, "w": 4, "h": 16 },
+    "sourceSize": { "w": 16, "h": 24 },
     "duration": 100
    }
  },

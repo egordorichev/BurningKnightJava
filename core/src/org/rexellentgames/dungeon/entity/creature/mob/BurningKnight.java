@@ -104,7 +104,7 @@ public class BurningKnight extends Mob {
 			this.become("onThrone");
 		}
 
-		this.body = this.createBody(8, 2, 16, 18, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 	}
 
 	@Override

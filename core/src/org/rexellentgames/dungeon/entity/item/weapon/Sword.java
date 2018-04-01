@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
@@ -41,10 +42,6 @@ public class Sword extends Weapon {
 		}
 
 		this.blockT = Math.max(0, this.blockT - dt);
-
-		if (this.blocking) {
-			this.owner.vel.mul(0.1f);
-		}
 
 		if (this.blocking && (Input.instance.wasReleased("mouse1") || Input.instance.wasReleased("scroll") || this.blockT == 0)) {
 			this.blocking = false;
@@ -83,6 +80,18 @@ public class Sword extends Weapon {
 				float a = (float) Math.toDegrees(Math.atan2(dy, dx));
 
 				angle += (flipped ? a : -a);
+			} else if (this.owner instanceof Mob) {
+				Mob mob = (Mob) this.owner;
+
+				if (mob.target != null && mob.saw && !mob.isDead()) {
+					float dx = this.owner.x + this.owner.w / 2 - mob.target .x - mob.target.w / 2;
+					float dy = this.owner.y + this.owner.h / 2 - mob.target .y - mob.target.h / 2;
+					float a = (float) Math.toDegrees(Math.atan2(dy, dx));
+
+					angle += (flipped ? a : -a);
+				} else {
+					angle += (flipped ? 0 : 180);
+				}
 			} else {
 				angle += (flipped ? 0 : 180);
 			}
@@ -189,7 +198,7 @@ public class Sword extends Weapon {
 			return;
 		}
 
-		this.blockT = 1f;
+		this.blockT = 2f;
 
 		super.secondUse();
 

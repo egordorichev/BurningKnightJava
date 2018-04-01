@@ -30,7 +30,7 @@ public class Door extends SaveableEntity {
 
 		if (!this.vertical) {
 			this.animation = vertAnimation.get("idle");
-			this.y += 4;
+			this.y -= 8;
 		} else {
 			this.animation = horizAnimation.get("idle");
 			this.x += 4;
@@ -56,7 +56,6 @@ public class Door extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature) {
-			Log.info("collide");
 			this.numCollisions += 1;
 
 			this.animation.setFrame(0);
@@ -71,7 +70,6 @@ public class Door extends SaveableEntity {
 			this.numCollisions -= 1;
 
 			if (this.numCollisions <= 0) {
-				Log.info("collide end");
 				this.numCollisions = 0; // to make sure
 
 				this.animation.setFrame(2);

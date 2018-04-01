@@ -223,7 +223,6 @@ public class Builder {
 		if (next.connectWithRoom(prev)) {
 			return angleBetweenRooms(prev, next);
 		} else {
-			Log.info("failed to connect");
 			return -1;
 		}
 	}

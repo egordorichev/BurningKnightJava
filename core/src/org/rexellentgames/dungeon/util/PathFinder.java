@@ -190,8 +190,12 @@ public class PathFinder {
 							return false;
 						}
 
+						if (tail++ >= queue.length) {
+							return false;
+						}
+
 						// Add to queue
-						queue[tail++] = n;
+						queue[tail] = n;
 						distance[n] = nextDistance;
 					}
 				}

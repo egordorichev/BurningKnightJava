@@ -43,7 +43,7 @@ public class Knight extends Mob {
 
 		this.sword = new IronSword();
 		this.sword.setOwner(this);
-		this.body = this.createBody(1, 0, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createBody(1, 2,12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
@@ -199,7 +199,7 @@ public class Knight extends Mob {
 				return;
 			}
 
-			if (this.moveTo(this.water, 6f, 4f)) {
+			if (this.moveTo(this.water, 6f, 16f)) {
 				self.become("relax");
 				this.findCurrentRoom();
 				self.lastRoom = this.currentRoom;
@@ -235,7 +235,19 @@ public class Knight extends Mob {
 
 	public class FleeingState extends KnightState {
 		@Override
+		public void onEnter() {
+			super.onEnter();
+			if ((self.mind == Mind.DEFENDER && Random.chance(75)) || Random.chance(25)) {
+				self.sword.secondUse();
+			}
+		}
+
+		@Override
 		public void update(float dt) {
+			if (self.sword.getDelay() == 0 && ( self.mind == Mind.DEFENDER || self.mind == Mind.RAT)) {
+				self.sword.secondUse();
+			}
+
 			this.findNearbyPoint();
 			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.1f : 0.05f));
 
@@ -297,9 +309,10 @@ public class Knight extends Mob {
 			this.checkForPlayer();
 
 			if (self.lastSeen == null) {
+				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 10f,16f)) {
+				if (this.moveTo(self.lastSeen, 10f,12f)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
 
@@ -308,9 +321,9 @@ public class Knight extends Mob {
 						self.noticeSignT = 0f;
 						self.hideSignT = 2f;
 						self.become("idle");
+					} else {
+						self.moveToPoint(self.lastSeen.x + 8, self.lastSeen.y + 8, 16f);
 					}
-
-					return;
 				}
 			}
 
