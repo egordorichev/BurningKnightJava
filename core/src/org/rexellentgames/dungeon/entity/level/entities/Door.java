@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -36,6 +37,7 @@ public class Door extends SaveableEntity {
 		}
 
 		this.animation.setPaused(true);
+		this.animation.setAutoPause(true);
 	}
 
 	public Door() {
@@ -47,8 +49,35 @@ public class Door extends SaveableEntity {
 		super.update(dt);
 
 		if (this.animation.update(dt)) {
-			this.animation.setPaused(true);
-			this.animation.setFrame(this.numCollisions > 0 ? 2 : 0);
+
+		}
+	}
+
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Creature) {
+			Log.info("collide");
+			this.numCollisions += 1;
+
+			this.animation.setFrame(0);
+			this.animation.setBack(false);
+			this.animation.setPaused(false);
+		}
+	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (entity instanceof Creature) {
+			this.numCollisions -= 1;
+
+			if (this.numCollisions <= 0) {
+				Log.info("collide end");
+				this.numCollisions = 0; // to make sure
+
+				this.animation.setFrame(2);
+				this.animation.setBack(true);
+				this.animation.setPaused(false);
+			}
 		}
 	}
 
@@ -80,6 +109,7 @@ public class Door extends SaveableEntity {
 		}
 
 		this.animation.setPaused(true);
+		this.animation.setAutoPause(true);
 	}
 
 	@Override
@@ -87,33 +117,5 @@ public class Door extends SaveableEntity {
 		super.save(writer);
 
 		writer.writeBoolean(this.vertical);
-	}
-
-	@Override
-	public void onCollision(Entity entity) {
-		if (entity instanceof Creature) {
-			this.numCollisions += 1;
-
-			this.animation.setFrame(0);
-
-			this.animation.setBack(false);
-			this.animation.setPaused(false);
-		}
-	}
-
-	@Override
-	public void onCollisionEnd(Entity entity) {
-		if (entity instanceof Creature) {
-			this.numCollisions -= 1;
-
-			if (this.numCollisions <= 0) {
-				this.numCollisions = 0; // to make sure
-
-				this.animation.setFrame(2);
-
-				this.animation.setBack(true);
-				this.animation.setPaused(false);
-			}
-		}
 	}
 }

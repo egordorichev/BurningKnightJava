@@ -7,9 +7,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Sword extends Weapon {
@@ -17,6 +18,8 @@ public class Sword extends Weapon {
 	private float oy;
 	private float ox;
 	private float blockT;
+	private static Animation animations = Animation.make("sword-fx");
+	private AnimationData animation;
 
 	@Override
 	public boolean isBlocking() {
@@ -32,6 +35,10 @@ public class Sword extends Weapon {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.animation != null && this.animation.update(dt)) {
+			this.animation.setPaused(true);
+		}
 
 		this.blockT = Math.max(0, this.blockT - dt);
 
@@ -62,6 +69,11 @@ public class Sword extends Weapon {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
+		if (this.animation == null) {
+			this.animation = animations.get("idle");
+			this.animation.setPaused(true);
+		}
+
 		float angle = this.added;
 
 		if (this.owner != null) {
@@ -82,6 +94,10 @@ public class Sword extends Weapon {
 
 		float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
 		float yy = y + (this.ox == 0 ? h / 4 : h / 2);
+
+		if (!this.animation.isPaused()) {
+			this.animation.render(x + (w - 32) / 2 + (flipped ? -8 : 24), y + (h - 32) / 2 + 4, flipped);
+		}
 
 		Graphics.render(sprite, xx, yy,
 			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, false, false);
@@ -131,9 +147,10 @@ public class Sword extends Weapon {
 			return;
 		}
 
+		this.animation.setPaused(false);
 		super.use();
 
-		Tween.to(new Tween.Task(180, this.useTime / 3) {
+		Tween.to(new Tween.Task(200, this.useTime / 4) {
 			@Override
 			public float getValue() {
 				return added;
@@ -146,7 +163,7 @@ public class Sword extends Weapon {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0, useTime / 2) {
+				Tween.to(new Tween.Task(0, useTime / 3) {
 					@Override
 					public float getValue() {
 						return added;

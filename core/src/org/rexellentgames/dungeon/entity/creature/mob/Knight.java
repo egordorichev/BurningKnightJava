@@ -43,7 +43,7 @@ public class Knight extends Mob {
 
 		this.sword = new IronSword();
 		this.sword.setOwner(this);
-		this.body = this.createBody(1, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createBody(1, 0, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 

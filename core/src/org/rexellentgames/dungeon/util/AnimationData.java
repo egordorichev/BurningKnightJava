@@ -11,15 +11,24 @@ public class AnimationData {
 	private boolean pause;
 	private boolean back;
 	private Animation.Frame current;
+	private boolean auto;
+
+	public void setAutoPause(boolean auto) {
+		this.auto = auto;
+	}
 
 	public AnimationData(ArrayList<Animation.Frame> frames) {
 		this.frames = frames;
 		this.current = this.frames.get(0);
-		this.t = Random.newFloat(0f, 100f);
+		// this.t = Random.newFloat(0f, 100f);
 	}
 
 	public Animation.Frame getCurrent() {
 		return this.current;
+	}
+
+	public boolean isPaused() {
+		return this.pause;
 	}
 
 	public boolean update(float dt) {
@@ -35,6 +44,12 @@ public class AnimationData {
 				if ((!this.back && this.index >= this.frames.size()) || (this.back && this.index < 0)) {
 					this.index = (this.back ? this.frames.size() - 1 : 0);
 					val = true;
+
+					if (this.auto) {
+						Log.info("stop");
+						this.index = (this.back ? 0 : this.frames.size() - 1);
+						this.pause = true;
+					}
 				}
 
 				this.current = this.frames.get(this.index);
@@ -65,8 +80,8 @@ public class AnimationData {
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
-	public void render(float x, float y, boolean flip, int f) {
-		Graphics.render(this.frames.get(f).frame, x, y, 0, 0, 0, flip, false);
+	public void render(float x, float y, boolean flip, boolean flipY, int f) {
+		Graphics.render(this.frames.get(f).frame, x, y, 0, 0, 0, flip, flipY);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }
