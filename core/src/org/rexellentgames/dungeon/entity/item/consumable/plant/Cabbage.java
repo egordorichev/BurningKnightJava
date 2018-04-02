@@ -11,6 +11,7 @@ public class Cabbage extends Plant {
 		description = "Tastes good, probably will sell good too.";
 		sprite = "veggie-cabbage-growth-02";
 		useTime = 10f;
+		identified = true;
 	}
 
 	@Override

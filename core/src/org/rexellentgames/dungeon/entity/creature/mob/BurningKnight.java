@@ -154,7 +154,7 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(1, 1, 1, this.a);
+		Graphics.batch.setColor(1, 1, 1, Math.max(0, this.a - 0.4f));
 
 		if (this.dead) {
 			this.animation = killed;
@@ -461,7 +461,7 @@ public class BurningKnight extends Mob {
 				this.findCurrentRoom();
 
 				if (this.currentRoom != null) {
-					Camera.instance.clamp.add(this.currentRoom.left * 16);
+					Camera.instance.clamp.add(this.currentRoom.left * 16 + 16);
 				}
 
 				this.did = true;

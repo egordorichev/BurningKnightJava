@@ -69,6 +69,7 @@ public class Inventory {
 
 				if (slot != null && slot.getClass() == item.getClass()) {
 					slot.setCount(slot.getCount() + item.getCount());
+					item.onPickup();
 					holder.done = true;
 
 					return true;
@@ -79,6 +80,7 @@ public class Inventory {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (this.isEmpty(i)) {
 				this.setSlot(i, item);
+				item.onPickup();
 				holder.done = true;
 
 				return true;

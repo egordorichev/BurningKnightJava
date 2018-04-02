@@ -24,6 +24,10 @@ public class Item extends Entity {
 	protected Creature owner;
 	protected TextureRegion region;
 
+	public void onPickup() {
+		
+	}
+
 	public void setOwner(Creature owner) {
 		this.owner = owner;
 	}

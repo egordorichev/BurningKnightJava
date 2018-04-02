@@ -89,7 +89,7 @@ public class Graphics {
 	}
 
 	public static void print(String s, BitmapFont font, float x, float y) {
-		font.draw(batch, s, x, y + font.getLineHeight());
+		font.draw(batch, s, x, y + (font == medium ? 16 : 8));
 	}
 
 	public static void print(String s, BitmapFont font, float y) {
