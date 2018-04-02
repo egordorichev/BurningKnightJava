@@ -40,7 +40,10 @@ public class Creature extends SaveableEntity {
 	protected Body body;
 	protected float timer;
 	protected boolean flipped = false;
-	private int hx, hy, hw, hh;
+	private int hx;
+	private int hy;
+	public int hw;
+	public int hh;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
 	public float a = 1f;
 	public long lastIndex;
