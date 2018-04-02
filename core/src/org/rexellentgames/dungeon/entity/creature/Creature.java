@@ -128,6 +128,7 @@ public class Creature extends SaveableEntity {
 
 		if (Dungeon.level != null) {
 			boolean onGround = false;
+			boolean chasm = false;
 
 			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
 				for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
@@ -139,10 +140,16 @@ public class Creature extends SaveableEntity {
 
 					if (!Dungeon.level.checkFor(x, y, Terrain.HOLE)) {
 						onGround = true;
+					} else {
+						chasm = true;
 					}
 
 					this.onTouch(t, x, y);
 				}
+			}
+
+			if (chasm) {
+				this.vel.mul(0.1f);
 			}
 
 			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead) {
