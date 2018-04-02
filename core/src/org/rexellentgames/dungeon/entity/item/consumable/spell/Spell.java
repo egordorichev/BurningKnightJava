@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.consumable.spell;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
@@ -8,6 +9,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class Spell extends Consumable {
 	protected ChangableRegistry.Type type;
+	private static Sound sound = Graphics.getSound("sfx/Scroll.wav");
 
 	{
 		useTime = 1f;
@@ -31,6 +33,7 @@ public class Spell extends Consumable {
 
 	@Override
 	public void use() {
+		sound.play();
 		this.identify();
 		this.count -= 1;
 		super.use();

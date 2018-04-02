@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.consumable.potion;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
@@ -11,6 +12,7 @@ import org.rexellentgames.dungeon.util.Tween;
 public class Potion extends Consumable {
 	protected float added;
 	protected ChangableRegistry.Type type;
+	private static Sound sound = Graphics.getSound("sfx/Potion.wav");
 
 	{
 		useTime = 10f;
@@ -38,6 +40,8 @@ public class Potion extends Consumable {
 	public void use() {
 		super.use();
 		this.identify();
+
+		sound.play();
 
 		Tween.to(new Tween.Task(-70, 0.3f) {
 			@Override
