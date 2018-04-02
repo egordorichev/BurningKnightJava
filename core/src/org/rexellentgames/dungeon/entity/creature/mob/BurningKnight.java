@@ -30,7 +30,7 @@ public class BurningKnight extends Mob {
 	private float r;
 	private float g;
 	private float b;
-	private Player target;
+	public Player target;
 	private Room last;
 	private boolean[][] fx;
 	private boolean sawPlayer;

@@ -190,7 +190,7 @@ public class PathFinder {
 							return false;
 						}
 
-						if (tail++ >= queue.length) {
+						if (tail++ >= queue.length - 1) {
 							return false;
 						}
 

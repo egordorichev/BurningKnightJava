@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -31,6 +32,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -46,6 +48,8 @@ public abstract class Level extends Entity {
 	private static float LIGHT_R = 34f / 255f;
 	private static float LIGHT_G = 31f / 255f;
 	private static float LIGHT_B = 65f / 255f;
+	public Room entrance;
+	public Room exit;
 
 	public static final byte VERSION = 0;
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
@@ -157,6 +161,7 @@ public abstract class Level extends Entity {
 		Arrays.fill(this.lightR, LIGHT_R);
 		Arrays.fill(this.lightG, LIGHT_G);
 		Arrays.fill(this.lightB, LIGHT_B);
+		Arrays.fill(this.light, Dungeon.depth == 0 && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : 0f);
 	}
 
 	public void fill() {
@@ -373,10 +378,11 @@ public abstract class Level extends Entity {
 			float v = this.light[i];
 
 			if (v > 0) {
-				this.light[i] = Math.max(0, v - dt);
-				this.lightR[i] = Math.max(LIGHT_R, this.lightR[i] - dt);
-				this.lightG[i] = Math.max(LIGHT_G, this.lightG[i] - dt);
-				this.lightB[i] = Math.max(LIGHT_B, this.lightB[i] - dt);
+				this.light[i] = MathUtils.clamp(Dungeon.depth == 0 && (BurningKnight.instance == null ||
+					BurningKnight.instance.target == null) ? 1f : 0, 1f, v - dt);
+				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
+				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
+				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);
 			}
 
 		}
