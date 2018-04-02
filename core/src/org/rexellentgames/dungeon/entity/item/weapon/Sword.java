@@ -22,7 +22,7 @@ public class Sword extends Weapon {
 	private float blockT;
 	private static Animation animations = Animation.make("sword-fx");
 	private AnimationData animation;
-	private static Sound slash = Graphics.getSound("sfx/Woosh2.wav");
+	private static Sound slash = Graphics.getSound("sfx/Woosh.wav");
 
 	@Override
 	public boolean isBlocking() {
@@ -91,6 +91,7 @@ public class Sword extends Weapon {
 					float dx = this.owner.x + this.owner.w / 2 - mob.target .x - mob.target.w / 2;
 					float dy = this.owner.y + this.owner.h / 2 - mob.target .y - mob.target.h / 2;
 					float a = (float) Math.toDegrees(Math.atan2(dy, dx));
+					pure = a - 180;
 
 					angle += (flipped ? a : -a);
 				} else {
