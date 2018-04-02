@@ -79,6 +79,11 @@ public class AnimationData {
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
+	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a) {
+		Graphics.render(this.current.frame, x + ox, y + oy, a, ox, oy, flip, flipY);
+		Graphics.batch.setColor(1, 1, 1, 1);
+	}
+
 	public void render(float x, float y, boolean flip, boolean flipY, int f) {
 		Graphics.render(this.frames.get(f).frame, x, y, 0, 0, 0, flip, flipY);
 		Graphics.batch.setColor(1, 1, 1, 1);

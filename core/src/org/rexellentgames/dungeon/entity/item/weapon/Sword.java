@@ -74,6 +74,7 @@ public class Sword extends Weapon {
 		}
 
 		float angle = this.added;
+		float pure = 0;
 
 		if (this.owner != null) {
 			if (this.owner instanceof Player) {
@@ -82,6 +83,7 @@ public class Sword extends Weapon {
 				float a = (float) Math.toDegrees(Math.atan2(dy, dx));
 
 				angle += (flipped ? a : -a);
+				pure = a - 180;
 			} else if (this.owner instanceof Mob) {
 				Mob mob = (Mob) this.owner;
 
@@ -107,7 +109,7 @@ public class Sword extends Weapon {
 		float yy = y + (this.ox == 0 ? h / 4 : h / 2);
 
 		if (!this.animation.isPaused()) {
-			this.animation.render(x + (w - 32) / 2 + (flipped ? -8 : 24), y + (h - 32) / 2 + 4, flipped);
+			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure);
 		}
 
 		Graphics.render(sprite, xx, yy,

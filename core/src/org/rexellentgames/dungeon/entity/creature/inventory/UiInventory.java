@@ -147,7 +147,7 @@ public class UiInventory extends UiEntity {
 			if (count > 1) {
 				Graphics.small.draw(Graphics.batch, String.valueOf(count), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 4);
 			}
-		} else if (this.open && this.hoveredSlot != -1) {
+		} else if (this.hoveredSlot != -1) {
 			Item item = this.inventory.getSlot(this.hoveredSlot);
 
 			if (item != null) {

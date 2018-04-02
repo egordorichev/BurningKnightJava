@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.assets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.SoundLoader;
@@ -40,21 +41,19 @@ public class Graphics {
 
 		manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-		// manager.setLoader(Sound.class, ".wav", new SoundLoader(new InternalFileHandleResolver()));
 
-		File folder = new File("sfx");
+		File folder = Gdx.files.internal("sfx/").file();
 
-		for (File file : folder.listFiles()) {
-			Log.info("Add sound sfx/" + file.getName());
-			manager.load("sfx/" + file.getName(), Sound.class);
-		}
+		manager.load("sfx/Bomb_exploding.wav", Sound.class);
+		manager.load("sfx/Bomb_placing.wav", Sound.class);
+		manager.load("sfx/Woosh2.wav", Sound.class);
 
-		generateFont("fonts/pico.ttf", 4);
+		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);
 
 		manager.finishLoading();
 
-		small = manager.get("fonts/pico.ttf");
+		small = manager.get("fonts/small.ttf");
 		medium = manager.get("fonts/large.ttf");
 		atlas = manager.get("atlas/atlas.atlas");
 
