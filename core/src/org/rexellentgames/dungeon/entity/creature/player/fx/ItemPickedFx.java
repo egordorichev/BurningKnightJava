@@ -9,10 +9,13 @@ import org.rexellentgames.dungeon.util.Tween;
 public class ItemPickedFx extends Entity {
 	private String text;
 	private float t = 0;
+	private float a;
 
 	public ItemPickedFx(ItemHolder item) {
 		Item i = item.getItem();
 		this.text = i.getName();
+
+		this.a = 1f;
 
 		if (i.getCount() > 1) {
 			this.text += " (" + i.getCount() + ")";
@@ -32,20 +35,21 @@ public class ItemPickedFx extends Entity {
 
 		this.x = fx.x;
 		this.y = fx.y;
+		this.a = 1f;
 
 		this.tween();
 	}
 
 	private void tween() {
-		Tween.to(new Tween.Task(5, 1f) {
+		Tween.to(new Tween.Task(0, 2f) {
 			@Override
 			public float getValue() {
-				return t;
+				return a;
 			}
 
 			@Override
 			public void setValue(float value) {
-				t = value;
+				a = value;
 			}
 
 			@Override
@@ -58,12 +62,13 @@ public class ItemPickedFx extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		this.t += dt;
 	}
 
 	@Override
 	public void render() {
-		if (this.t % 1f < 0.5f) {
-			Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y);
-		}
+		Graphics.medium.setColor(1, 1, 1, this.a);
+		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y + this.t * 10);
+		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }

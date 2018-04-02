@@ -29,7 +29,7 @@ public class ItemPickupFx extends Entity {
 		if (Input.instance.wasPressed("pickup")) {
 			if (this.player.tryToPickup(this.item)) {
 				this.done = true;
-				this.area.add(new ItemPickedFx(this.text, this));
+				this.area.add(new ItemPickedFx("+" + this.text, this));
 			}
 		}
 	}
