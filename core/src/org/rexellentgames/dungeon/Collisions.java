@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 

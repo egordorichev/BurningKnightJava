@@ -6,10 +6,8 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -27,6 +25,7 @@ public class Door extends SaveableEntity {
 		this.x = x * 16;
 		this.y = y * 16;
 		this.vertical = vertical;
+		// todo; fix hitbox
 
 		if (!this.vertical) {
 			this.animation = vertAnimation.get("idle");
@@ -58,7 +57,6 @@ public class Door extends SaveableEntity {
 		if (entity instanceof Creature) {
 			this.numCollisions += 1;
 
-			this.animation.setFrame(0);
 			this.animation.setBack(false);
 			this.animation.setPaused(false);
 		}
@@ -71,8 +69,6 @@ public class Door extends SaveableEntity {
 
 			if (this.numCollisions <= 0) {
 				this.numCollisions = 0; // to make sure
-
-				this.animation.setFrame(2);
 				this.animation.setBack(true);
 				this.animation.setPaused(false);
 			}
@@ -82,7 +78,7 @@ public class Door extends SaveableEntity {
 	@Override
 	public void init() {
 		if (this.body == null) {
-		 	this.body = this.createBody((int) this.x, (int) this.y, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		 	this.body = this.createBody((int) this.x + (this.vertical ? 2 : 0), (int) this.y, this.vertical ? 4 : 16, this.vertical ? 16 : 11, BodyDef.BodyType.DynamicBody, true);
 		}
 	}
 
@@ -97,7 +93,7 @@ public class Door extends SaveableEntity {
 
 		this.vertical = reader.readBoolean();
 
-		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createBody(this.vertical ? 2 : 0, 0, this.vertical ? 4 : 16, this.vertical ? 16 : 11, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 
 		if (!this.vertical) {
