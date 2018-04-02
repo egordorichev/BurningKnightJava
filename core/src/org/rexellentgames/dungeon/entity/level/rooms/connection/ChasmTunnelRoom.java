@@ -16,7 +16,7 @@ public class ChasmTunnelRoom extends TunnelRoom {
 		Painter.fill(level, this, 1, Terrain.CHASM);
 
 		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.REGULAR);
+			door.setType(Door.Type.TUNNEL);
 		}
 	}
 
