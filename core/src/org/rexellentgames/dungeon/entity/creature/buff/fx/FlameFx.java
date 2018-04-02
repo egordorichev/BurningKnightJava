@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
@@ -21,6 +20,7 @@ public class FlameFx extends Entity {
 
 	private Color color;
 	private float t;
+	private float tt;
 	private float size = 1f;
 	private float range = 1;
 	private float angle;
@@ -30,6 +30,7 @@ public class FlameFx extends Entity {
 		this.owner = owner;
 		this.color = Random.newFloat() < 0.7 ? orange : red;
 		this.t = Random.newFloat(1024);
+		this.tt = 0;
 		this.depth = 6;
 		this.x = owner.x;
 		this.y = owner.y;
@@ -65,7 +66,8 @@ public class FlameFx extends Entity {
 	@Override
 	public void update(float dt) {
 		this.t += dt;
-		this.y += dt * 15;
+		this.tt += dt;
+		this.y = this.owner.y + this.tt * 15;
 
 		if (this.range < 6) {
 			this.range += dt * 15;

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -19,9 +18,30 @@ public class Potion extends Consumable {
 	}
 
 	public Potion() {
+		this.onPickup();
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+
 		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
 		this.sprite = this.type.getSprite();
 		this.identified = ChangableRegistry.identified.get(this.type);
+	}
+
+	@Override
+	public boolean isIdentified() {
+		if (super.isIdentified()) {
+			return true;
+		}
+
+		if (ChangableRegistry.identified.get(this.type)) {
+			this.identified = true;
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
@@ -64,7 +84,7 @@ public class Potion extends Consumable {
 
 	@Override
 	public String getName() {
-		if (this.identified) {
+		if (this.isIdentified()) {
 			return super.getName();
 		} else {
 			String name = this.type.toString().toLowerCase();

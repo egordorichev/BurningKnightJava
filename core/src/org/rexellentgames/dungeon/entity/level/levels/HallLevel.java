@@ -79,6 +79,6 @@ public class HallLevel extends BetterLevel {
 
 	@Override
 	protected int getNumRegularRooms() {
-		return 10;
+		return Dungeon.depth == 0 ? 3 : 10;
 	}
 }

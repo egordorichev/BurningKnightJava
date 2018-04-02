@@ -16,9 +16,28 @@ public class Spell extends Consumable {
 	}
 
 	public Spell() {
+		this.onPickup();
+	}
+
+	@Override
+	public void onPickup() {
 		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
 		this.sprite = this.type.getSprite();
 		this.identified = ChangableRegistry.identified.get(this.type);
+	}
+
+	@Override
+	public boolean isIdentified() {
+		if (super.isIdentified()) {
+			return true;
+		}
+
+		if (ChangableRegistry.identified.get(this.type)) {
+			this.identified = true;
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
@@ -41,7 +60,7 @@ public class Spell extends Consumable {
 
 	@Override
 	public String getName() {
-		if (this.identified) {
+		if (this.isIdentified()) {
 			return super.getName();
 		} else {
 			String name = this.type.toString().toLowerCase();

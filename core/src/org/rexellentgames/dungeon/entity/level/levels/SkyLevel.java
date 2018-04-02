@@ -60,7 +60,7 @@ public class SkyLevel extends BetterLevel {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 3; i++) {
 			rooms.add(RegularRoom.create());
 		}
 
