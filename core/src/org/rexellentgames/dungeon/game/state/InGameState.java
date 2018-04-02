@@ -145,7 +145,7 @@ public class InGameState extends State {
 
 	@Override
 	public void render() {
-		if (Dungeon.depth > 0 && LIGHT) {
+		if (LIGHT) {
 			Dungeon.level.renderLight();
 		}
 	}
