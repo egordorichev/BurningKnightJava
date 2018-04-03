@@ -65,6 +65,7 @@ public class BurningKnight extends Mob {
 		this.lock++;
 		this.unhittable = false;
 		UiLog.instance.print("[green]Burning Knight is now hittable!");
+		this.checkForRage();
 	}
 
 	public void findStartPoint() {
@@ -107,6 +108,8 @@ public class BurningKnight extends Mob {
 	}
 
 	public void checkForRage() {
+		this.rageLevel = Math.max(25, this.hpMax - this.lock * 100 - 75);
+
 		if (this.inRage) {
 			return;
 		}
