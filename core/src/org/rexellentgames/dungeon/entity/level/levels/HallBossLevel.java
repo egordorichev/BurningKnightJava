@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.HallBossRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.HallExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.special.HealthBlockRoom;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class HallBossLevel extends HallLevel {
 		rooms.add(this.entrance = new EntranceRoom());
 		rooms.add(new HallBossRoom());
 		rooms.add(new HallExitRoom());
+		rooms.add(new HealthBlockRoom());
 
 		return rooms;
 	}

@@ -23,7 +23,7 @@ public class Ui {
 	}
 
 	public void render() {
-		if (BurningKnight.instance != null && BurningKnight.instance.target != null) {
+		if (BurningKnight.instance != null) {
 			bar.setRegionWidth((int) (((float) BurningKnight.instance.getHp()) / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
 			Graphics.render(bar, 0, 0, 0, 0, 0, false, false);
 		}

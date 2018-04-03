@@ -132,7 +132,7 @@ public class LoadState extends State {
 					Player.instance.tryToFall();
 
 					if (BurningKnight.instance != null) {
-						BurningKnight.instance.rageLevel = Math.max(50, BurningKnight.instance.getHpMax() - Dungeon.depth * 100);
+						BurningKnight.instance.rageLevel = Math.max(25, BurningKnight.instance.getHpMax() - BurningKnight.instance.lock * 100 - 75);
 
 						if (BurningKnight.instance.isInRage()) {
 							BurningKnight.instance.onRageStart();
