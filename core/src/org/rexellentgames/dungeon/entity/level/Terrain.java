@@ -42,6 +42,8 @@ public class Terrain {
 		flags[TABLE] = SOLID | HIGH;
 	}
 
+	public static TextureRegion[] dither = new TextureRegion[10];
+
 	public static TextureRegion dirtPattern;
 	public static TextureRegion grassPattern;
 	public static TextureRegion waterPattern;
@@ -91,6 +93,10 @@ public class Terrain {
 		patterns[PLANTED_DIRT] = dirtPattern;
 		patterns[WATER] = waterPattern;
 		patterns[WALL] = wallPattern;
+
+		for (int i = 0; i < 10; i++) {
+			dither[i] = Graphics.getTexture("fx-dither-idle-" + String.format("%02d", i));
+		}
 
 		for (int i = 0; i < 15; i++) {
 			dirtVariants[i] = Graphics.getTexture(bm + " (dirt" + Level.COMPASS[i] + ")");
