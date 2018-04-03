@@ -19,3 +19,5 @@
 %ASEPRITE% -b fx_run.ase --list-tags --save-as %OUT%fx-run-{tag}-{tagframe00}.png --data %OUT%fx-run.json
 %ASEPRITE% -b fx_sword.ase --list-tags --save-as %OUT%fx-sword-{tag}-{tagframe00}.png --data %OUT%fx-sword.json
 %ASEPRITE% -b fx_dither.ase --list-tags --save-as %OUT%fx-dither-{tag}-{tagframe00}.png --data %OUT%fx-dither.json
+
+%ASEPRITE% -b bk_bars.ase --trim --save-as %OUT%bk_{layer}.png
