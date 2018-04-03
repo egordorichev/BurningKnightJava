@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -14,16 +13,19 @@ public class Ui {
 
 	private TextureRegion cursor;
 	private TextureRegion topFrame;
+	private TextureRegion bar;
 
 	public Ui() {
 		ui = this;
 		cursor = Graphics.getTexture("ui (cursor)");
 		topFrame = Graphics.getTexture("ui (top frame)");
+		bar = Graphics.getTexture("bk_health");
 	}
 
 	public void render() {
 		if (BurningKnight.instance != null && BurningKnight.instance.target != null) {
-			
+			bar.getRegionWidth(BurningKnight.)
+			Graphics.render(bar, 0, 0, 0, 0, 0, false, false);
 		}
 
 		if (Player.instance != null && Player.instance.isDead()) {
