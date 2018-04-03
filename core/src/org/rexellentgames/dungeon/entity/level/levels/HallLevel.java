@@ -98,7 +98,7 @@ public class HallLevel extends BetterLevel {
 
 	@Override
 	protected int getNumRegularRooms() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt(Dungeon.depth + 3, Dungeon.depth * 2 + 2);
+		return Dungeon.depth == 0 ? 1 : Random.newInt(Dungeon.depth + 3, Dungeon.depth * 2 + 2);
 	}
 
 	@Override

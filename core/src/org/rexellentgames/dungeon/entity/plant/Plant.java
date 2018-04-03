@@ -121,7 +121,7 @@ public class Plant extends SaveableEntity {
 
 		switch (random) {
 			case 0: if (Dungeon.depth > 0) { return new Lightroom(); } break;
-			case 1: return new PotionGrass();
+			// case 1: return new PotionGrass();
 		}
 
 		return new Cabbage();
