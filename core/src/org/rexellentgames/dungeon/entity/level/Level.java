@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -161,7 +158,7 @@ public abstract class Level extends Entity {
 		Arrays.fill(this.lightR, LIGHT_R);
 		Arrays.fill(this.lightG, LIGHT_G);
 		Arrays.fill(this.lightB, LIGHT_B);
-		Arrays.fill(this.light, Dungeon.depth == 0 && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.4f : 0f);
+		Arrays.fill(this.light, Dungeon.depth == 0 && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.3f : 0f);
 	}
 
 	public void fill() {
@@ -378,12 +375,11 @@ public abstract class Level extends Entity {
 
 			if (v > 0) {
 				this.light[i] = MathUtils.clamp(Dungeon.depth == 0 && (BurningKnight.instance == null ||
-					BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.4f : 0, 1f, v - dt);
+					BurningKnight.instance.target == null) ? 1f : (Dungeon.depth == 4) ? 0.3f : 0, 1f, v - dt);
 				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
 				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
 				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);
 			}
-
 		}
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {

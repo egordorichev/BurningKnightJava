@@ -1824,6 +1824,83 @@ explosion-idle-14
   orig: 48, 48
   offset: 0, 0
   index: -1
+fireball-appear-00
+  rotate: false
+  xy: 521, 142
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-appear-01
+  rotate: false
+  xy: 889, 49
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-appear-02
+  rotate: false
+  xy: 907, 37
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-appear-03
+  rotate: false
+  xy: 531, 41
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-idle-01
+  rotate: false
+  xy: 531, 41
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-dead-00
+  rotate: false
+  xy: 569, 131
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-dead-01
+  rotate: false
+  xy: 541, 5
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-dead-02
+  rotate: false
+  xy: 553, 5
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-dead-03
+  rotate: false
+  xy: 565, 5
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-idle-00
+  rotate: false
+  xy: 567, 57
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+fireball-idle-02
+  rotate: false
+  xy: 579, 57
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
 fx-dither-idle-00
   rotate: false
   xy: 533, 125
@@ -1910,21 +1987,21 @@ fx-plant-idle-01
   index: -1
 fx-plant-idle-02
   rotate: false
-  xy: 602, 59
+  xy: 701, 89
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 fx-plant-idle-03
   rotate: false
-  xy: 612, 59
+  xy: 711, 89
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 fx-plant-idle-04
   rotate: false
-  xy: 622, 59
+  xy: 721, 89
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -2078,21 +2155,21 @@ item (claymore)
   index: -1
 item (coin)
   rotate: false
-  xy: 669, 112
+  xy: 691, 88
   size: 8, 9
   orig: 8, 9
   offset: 0, 0
   index: -1
 item (compass)
   rotate: false
-  xy: 521, 142
+  xy: 657, 111
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 item (dagger)
   rotate: false
-  xy: 660, 73
+  xy: 685, 73
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
@@ -2106,7 +2183,7 @@ item (food A)
   index: -1
 item (food B)
   rotate: false
-  xy: 889, 49
+  xy: 639, 75
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2127,7 +2204,7 @@ item (iron sword)
   index: -1
 item (key)
   rotate: false
-  xy: 591, 57
+  xy: 627, 57
   size: 9, 10
   orig: 9, 10
   offset: 0, 0
@@ -2141,7 +2218,7 @@ item (potion A)
   index: -1
 item (potion B)
   rotate: false
-  xy: 907, 37
+  xy: 591, 57
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2155,21 +2232,21 @@ item (potion C)
   index: -1
 item (potion D)
   rotate: false
-  xy: 657, 99
+  xy: 681, 87
   size: 8, 10
   orig: 8, 10
   offset: 0, 0
   index: -1
 item (potion E)
   rotate: false
-  xy: 657, 87
+  xy: 675, 75
   size: 8, 10
   orig: 8, 10
   offset: 0, 0
   index: -1
 item (potion F)
   rotate: false
-  xy: 632, 58
+  xy: 593, 46
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
@@ -2260,7 +2337,7 @@ item (scroll)
   index: -1
 item (seed A)
   rotate: false
-  xy: 596, 46
+  xy: 601, 46
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
@@ -2274,14 +2351,14 @@ item (seed B)
   index: -1
 item (seed C)
   rotate: false
-  xy: 586, 47
+  xy: 731, 89
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 item (seed D)
   rotate: false
-  xy: 618, 49
+  xy: 609, 47
   size: 6, 8
   orig: 6, 8
   offset: 0, 0
@@ -2309,21 +2386,21 @@ item (treasure)
   index: -1
 item (wand A)
   rotate: false
-  xy: 604, 46
+  xy: 579, 44
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 item (wand B)
   rotate: false
-  xy: 579, 43
+  xy: 692, 74
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
   index: -1
 item (wand C)
   rotate: false
-  xy: 611, 46
+  xy: 586, 44
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
@@ -2337,7 +2414,7 @@ item (wand D)
   index: -1
 item (wand E)
   rotate: false
-  xy: 651, 74
+  xy: 741, 86
   size: 7, 11
   orig: 7, 11
   offset: 0, 0
@@ -2477,7 +2554,7 @@ ui (buffs)
   index: -1
 ui (burning buff)
   rotate: false
-  xy: 531, 41
+  xy: 657, 99
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2491,7 +2568,7 @@ ui (cursor)
   index: -1
 ui (defense buff)
   rotate: false
-  xy: 569, 131
+  xy: 657, 87
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2519,7 +2596,7 @@ ui (hp bar)
   index: -1
 ui (hungry buff)
   rotate: false
-  xy: 541, 5
+  xy: 669, 111
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2533,7 +2610,7 @@ ui (inventory slot)
   index: -1
 ui (invisible buff)
   rotate: false
-  xy: 553, 5
+  xy: 651, 75
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
@@ -2561,35 +2638,35 @@ ui (plant cursor)
   index: -1
 ui (poison buff)
   rotate: false
-  xy: 565, 5
+  xy: 603, 57
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (regen buff)
   rotate: false
-  xy: 567, 57
+  xy: 669, 99
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (speed buff)
   rotate: false
-  xy: 579, 57
+  xy: 669, 87
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (starving buff)
   rotate: false
-  xy: 657, 111
+  xy: 663, 75
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 ui (sun buff)
   rotate: false
-  xy: 639, 75
+  xy: 615, 57
   size: 10, 10
   orig: 10, 10
   offset: 0, 0

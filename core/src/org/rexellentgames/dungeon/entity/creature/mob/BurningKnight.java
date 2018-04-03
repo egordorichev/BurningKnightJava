@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
+import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -95,11 +96,15 @@ public class BurningKnight extends Mob {
 		throne = new Point(reader.readInt16(), reader.readInt16());
 		this.lock = reader.readInt16();
 
+		if (!this.sawPlayer) {
+			this.become("onThrone");
+		}
+
 		this.checkForRage();
 	}
 
 	public int getLock() {
-		return this.hpMax - this.lock * 100 - 100;
+		return Math.max(0, this.hpMax - this.lock * 100 - 100);
 	}
 
 	@Override
@@ -118,7 +123,7 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
-		if (this.rageLevel >= this.hp) {
+		if (this.hp >= 100 && this.rageLevel >= this.hp) {
 			this.inRage = true;
 			this.onRageStart();
 		}
@@ -138,10 +143,6 @@ public class BurningKnight extends Mob {
 			BurningKnight.instance = null;
 		}
 
-		if (!this.sawPlayer) {
-			this.become("onThrone");
-		}
-
 		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
 	}
 
@@ -149,7 +150,7 @@ public class BurningKnight extends Mob {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if (entity instanceof Player) {
+		if (entity instanceof Player && !this.isDead()) {
 			((Player) entity).addBuff(new BurningBuff().setDuration(10));
 		}
 	}
@@ -184,6 +185,11 @@ public class BurningKnight extends Mob {
 		if (this.inRage && this.rageLevel < this.hp) {
 			this.inRage = false;
 			this.onRageEnd();
+		}
+
+		if (this.lock < 3 && Dungeon.depth == 4) {
+			this.lock = 3;
+			this.checkForRage();
 		}
 
 		int v = this.hpMax - this.lock * 100 - 100;
@@ -403,7 +409,7 @@ public class BurningKnight extends Mob {
 		public void update(float dt) {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 32f)) {
+			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || (self.target != null && d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || self.target.invisible) {
@@ -425,6 +431,13 @@ public class BurningKnight extends Mob {
 
 			super.update(dt);
 		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		sfx.stop(this.sid);
 	}
 
 	public class DashState extends BKState {
@@ -506,36 +519,51 @@ public class BurningKnight extends Mob {
 		public void update(float dt) {
 			if (!this.attacked) {
 				this.attacked = true;
+				float r = Random.newFloat();
 
-				/*if (self.fx == null) {
-					self.fx = new boolean[12][12];
+				if (r < 0.25f) {
+					for (int i = 0; i < 4; i++) {
+						Fireball ball = new Fireball();
+
+						ball.a = (float) (i * Math.PI / 2);
+						ball.x = self.x + 12;
+						ball.y = self.y + 12;
+
+						Dungeon.area.add(ball);
+					}
+				} else if (r < 0.5f) {
+					for (int i = 0; i < 4; i++) {
+						Fireball ball = new Fireball();
+
+						ball.a = (float) ((i * Math.PI / 2) + Math.PI / 4);
+						ball.x = self.x + 12;
+						ball.y = self.y + 12;
+
+						Dungeon.area.add(ball);
+					}
+				} else if (r < 0.6f) {
+					for (int i = 0; i < Random.newInt(10, 20); i++) {
+						Fireball ball = new Fireball();
+
+						float d = Random.newFloat(16f, 64f);
+						float a = Random.newFloat((float) (Math.PI * 2));
+
+						ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
+						ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
+						ball.noMove = true;
+
+						Dungeon.area.add(ball);
+					}
+				} else {
+					Fireball ball = new Fireball();
+
+					ball.target = self.target;
+					ball.x = self.x + 12;
+					ball.y = self.y + 12;
+					Dungeon.area.add(ball);
 				}
 
-				int x = Math.round(self.x / 16);
-				int y = Math.round(self.y / 16);
-				int r = (int) this.t + 2;
-
-				for (int xx = -r; xx <= r; xx++) {
-					for (int yy = -r; yy <= r; yy++) {
-						if (self.fx[xx + 6][yy + 6]) {
-							continue;
-						}
-
-						float d = (float) Math.sqrt(xx * xx + yy * yy);
-
-						if (d < r && Dungeon.level.get(x + xx, y + yy) != Terrain.WALL) {
-							FireRectFx fx = new FireRectFx();
-
-							fx.x = (x + xx) * 16;
-							fx.y = (y + yy) * 16;
-							self.fx[xx + 6][yy + 6] = true;
-
-							Dungeon.area.add(fx);
-						}
-					}
-				}*/
 			} else if (this.t > 3f) {
-				// self.fx = null;
 				self.become("chase");
 			}
 
