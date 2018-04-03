@@ -10,7 +10,7 @@ import org.rexellentgames.dungeon.util.file.FileReader;
 import java.io.IOException;
 
 public class Table extends SaveableEntity {
-	private static Animation animations = Animation.make("throne", "-desk");
+	private static Animation animations = Animation.make("prop-throne", "-desk");
 	private AnimationData animation;
 	private Body body;
 
@@ -38,6 +38,6 @@ public class Table extends SaveableEntity {
 	@Override
 	public void render() {
 		super.render();
-		this.animation.render(this.x, this.y, false);
+		// this.animation.render(this.x, this.y, false);
 	}
 }

@@ -63,6 +63,14 @@ public class Painter {
 		level.setSize(rightMost + 1, bottomMost + 1);
 		level.fill();
 
+		if (Dungeon.depth == 0) {
+			fill(level, level.entrance.left,
+				Math.min(level.entrance.top, level.exit.top),
+				level.exit.right - level.entrance.left + 1,
+				Math.max(level.entrance.bottom, level.exit.bottom) - Math.min(level.entrance.top, level.exit.top) + 1,
+				Terrain.WALL);
+		}
+
 		for (Room room : rooms) {
 			this.placeDoors(room);
 			room.paint(level);
