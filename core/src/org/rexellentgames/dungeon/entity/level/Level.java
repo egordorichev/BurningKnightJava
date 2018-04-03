@@ -355,11 +355,10 @@ public abstract class Level extends Entity {
 	public void renderLight() {
 		OrthographicCamera camera = Camera.instance.getCamera();
 
-		Graphics.batch.end();
-
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+		// Graphics.batch.end();
+		// Gdx.gl.glEnable(GL20.GL_BLEND);
+		// Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		// Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 		float zoom = camera.zoom;
 
@@ -374,7 +373,7 @@ public abstract class Level extends Entity {
 
 		float dt = Gdx.graphics.getDeltaTime() / 5;
 
-		for (int i = 0; i < this.getSIZE(); i++) {
+		for (int i = 0; i < getSIZE(); i++) {
 			float v = this.light[i];
 
 			if (v > 0) {
@@ -387,6 +386,8 @@ public abstract class Level extends Entity {
 
 		}
 
+		float md = 1f / 0.5f;
+
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
@@ -395,14 +396,25 @@ public abstract class Level extends Entity {
 				float g = this.lightG[i];
 				float b = this.lightB[i];
 
-				Graphics.shape.setColor(r, g, b, 1f - v);
-				Graphics.shape.rect(x * 16, y * 16 - 8, 16, 16);
+				if (v < 0.5f) {
+					int t = (int) Math.floor((v * (md)) * 10);
+
+					if (t < 10) {
+						Graphics.batch.setColor(r, g, b, 1);
+						Graphics.render(Terrain.dither[9 - t], x * 16, y * 16 - 8, 0, 0, 0, false, false, 2, 2);
+					}
+				}
+
+				// Graphics.shape.setColor(r, g, b, 1f - v);
+				// Graphics.shape.rect(x * 16, y * 16 - 8, 16, 16);
 			}
 		}
 
-		Graphics.shape.end();
-		Gdx.gl.glDisable(GL20.GL_BLEND);
-		Graphics.batch.begin();
+		Graphics.batch.setColor(1, 1, 1, 1);
+
+		// Graphics.shape.end();
+		// Gdx.gl.glDisable(GL20.GL_BLEND);
+		// Graphics.batch.begin();
 	}
 
 	public void renderSolid() {

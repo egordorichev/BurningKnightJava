@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 
 public class Throne extends SaveableEntity {
-	private static Animation animations = Animation.make("throne", "-throne");
+	private static Animation animations = Animation.make("prop-throne", "-throne");
 	private AnimationData animation;
 
 	{
