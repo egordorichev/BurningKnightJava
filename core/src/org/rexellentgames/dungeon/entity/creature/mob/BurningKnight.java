@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
@@ -34,17 +35,18 @@ public class BurningKnight extends Mob {
 	private float b;
 	public Player target;
 	private Room last;
-	private boolean[][] fx;
+	// private boolean[][] fx;
 	private boolean sawPlayer;
 	public static Point throne;
 	private AnimationData idle;
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
+	public int lock;
 
 	{
 		mind = Mind.ATTACKER;
-		hpMax = 400;
+		hpMax = 430;
 		damage = 10;
 		w = 32;
 		h = 32;
@@ -57,6 +59,12 @@ public class BurningKnight extends Mob {
 		idle = animations.get("idle");
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
+	}
+
+	public void unlockHealth() {
+		this.lock++;
+		this.unhittable = false;
+		UiLog.instance.print("[green]Burning Knight is now hittable!");
 	}
 
 	public void findStartPoint() {
@@ -84,8 +92,18 @@ public class BurningKnight extends Mob {
 		super.load(reader);
 		this.sawPlayer = reader.readBoolean();
 		throne = new Point(reader.readInt16(), reader.readInt16());
+		this.lock = reader.readInt16();
 
 		this.checkForRage();
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		writer.writeBoolean(this.sawPlayer);
+		writer.writeInt16((short) throne.x);
+		writer.writeInt16((short) throne.y);
+		writer.writeInt16((short) this.lock);
 	}
 
 	public void checkForRage() {
@@ -97,14 +115,6 @@ public class BurningKnight extends Mob {
 			this.inRage = true;
 			this.onRageStart();
 		}
-	}
-
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-		writer.writeBoolean(this.sawPlayer);
-		writer.writeInt16((short) throne.x);
-		writer.writeInt16((short) throne.y);
 	}
 
 	@Override
@@ -152,6 +162,22 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
+		// todo: rage doesnt want to work properly
+		if (this.inRage && this.rageLevel < this.hp) {
+			this.inRage = false;
+			this.onRageEnd();
+		}
+
+		int v = this.hpMax - this.lock * 100 - 100;
+
+		if (!this.unhittable && this.hp <= v) {
+			this.unhittable = true;
+			Log.info("Now BK is unhittable!");
+			Log.error(this.hp + " hp and " + v + " val");
+			UiLog.instance.print("[red]Burning Knight is now unhittable!");
+		}
+
+
 		if (this.invt > 0) {
 			this.common();
 			return;
@@ -161,27 +187,24 @@ public class BurningKnight extends Mob {
 			this.animation.update(dt);
 		}
 
-		if (this.inRage && this.rageLevel < this.hp) {
-			this.inRage = true;
-			this.onRageEnd();
-		}
-
 		super.common();
 	}
 
 	@Override
 	protected void onHurt() {
-		this.vel.mul(0f);
 		this.checkForRage();
 	}
 
 	public void onRageStart() {
+		Log.error(this.hp + " hp and " + this.rageLevel +" rl");
+
 		this.modifyDefense(3 + Dungeon.depth * 2);
 		this.modifySpeed(4);
 
 		this.damage += 5;
 
-		Log.info("BK entred rage state");
+		UiLog.instance.print("[orange]Burning Knight is now raging!");
+		Log.info("BK entered rage state");
 	}
 
 	public void onRageEnd() {
@@ -191,6 +214,7 @@ public class BurningKnight extends Mob {
 		this.damage -= 5;
 
 		Log.info("BK exited rage state");
+		UiLog.instance.print("[green]Burning Knight exited his rage");
 	}
 
 	public boolean isInRage() {
@@ -199,7 +223,7 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(1, 1, 1, Math.max(0, this.a - 0.4f));
+		Graphics.batch.setColor(1, 1, 1, Math.max(0, this.a - 0.3f));
 
 		if (this.dead) {
 			this.animation = killed;
@@ -242,6 +266,10 @@ public class BurningKnight extends Mob {
 			if (this.t >= this.delay) {
 				self.become("roam");
 				return;
+			}
+
+			if (self.inRage && Random.chance(1) && self.getHp() < self.getHpMax()) {
+				self.modifyHp(1);
 			}
 
 			self.checkForTarget();
@@ -461,7 +489,7 @@ public class BurningKnight extends Mob {
 			if (!this.attacked) {
 				this.attacked = true;
 
-				if (self.fx == null) {
+				/*if (self.fx == null) {
 					self.fx = new boolean[12][12];
 				}
 
@@ -487,9 +515,9 @@ public class BurningKnight extends Mob {
 							Dungeon.area.add(fx);
 						}
 					}
-				}
+				}*/
 			} else if (this.t > 3f) {
-				self.fx = null;
+				// self.fx = null;
 				self.become("chase");
 			}
 
@@ -545,7 +573,7 @@ public class BurningKnight extends Mob {
 		super.onTouch(t, x, y);
 
 		if (t == Terrain.WATER) {
-			this.vel.mul(1.5f);
+			this.vel.mul(1.2f);
 		}
 	}
 

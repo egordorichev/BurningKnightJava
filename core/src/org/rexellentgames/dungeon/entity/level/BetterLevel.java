@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntran
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.special.HealthBlockRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
@@ -132,6 +133,10 @@ public abstract class BetterLevel extends Level {
 
 		rooms.add(this.entrance);
 		rooms.add(this.exit);
+
+		if (Dungeon.depth > 0) {
+			rooms.add(new HealthBlockRoom());
+		}
 
 		int regular = this.getNumRegularRooms();
 		int special = this.getNumSpecialRooms();

@@ -20,6 +20,10 @@ public class Weapon extends Item {
 	private boolean used = false;
 	protected float added;
 
+	{
+		identified = true;
+	}
+
 	public boolean isBlocking() {
 		return false;
 	}
