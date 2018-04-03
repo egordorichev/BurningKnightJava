@@ -78,24 +78,16 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 8 },
     "sourceSize": { "w": 8, "h": 8 },
     "duration": 100
-   },
-   "fx_dither 10.ase": {
-    "frame": { "x": 80, "y": 0, "w": 8, "h": 8 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 8, "h": 8 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.7.3-x64",
   "format": "I8",
-  "size": { "w": 88, "h": 8 },
+  "size": { "w": 80, "h": 8 },
   "scale": "1",
   "frameTags": [
-   { "name": "idle", "from": 0, "to": 10, "direction": "forward" }
+   { "name": "idle", "from": 0, "to": 9, "direction": "forward" }
   ]
  }
 }
