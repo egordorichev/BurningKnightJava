@@ -30,7 +30,7 @@ public class BurningKnight extends Mob {
 	private float r;
 	private float g;
 	private float b;
-	private Player target;
+	public Player target;
 	private Room last;
 	private boolean[][] fx;
 	private boolean sawPlayer;
@@ -42,7 +42,7 @@ public class BurningKnight extends Mob {
 
 	{
 		mind = Mind.ATTACKER;
-		hpMax = 10000;
+		hpMax = 400;
 		damage = 10;
 		w = 32;
 		h = 32;

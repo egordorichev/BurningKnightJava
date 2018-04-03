@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleExitRoom;
@@ -22,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class BetterLevel extends Level {
-	protected Room entrance;
-	public Room exit;
 
 	@Override
 	public void generate() {
@@ -136,6 +135,7 @@ public abstract class BetterLevel extends Level {
 
 		int regular = this.getNumRegularRooms();
 		int special = this.getNumSpecialRooms();
+		int connection = this.getNumConnectionRooms();
 
 		for (int i = 0; i < regular; i++) {
 			RegularRoom room;
@@ -154,6 +154,10 @@ public abstract class BetterLevel extends Level {
 			rooms.add(SpecialRoom.create());
 		}
 
+		for (int i = 0; i < connection; i++) {
+			rooms.add(ConnectionRoom.create());
+		}
+
 		// todo: secret
 
 		return rooms;
@@ -170,6 +174,10 @@ public abstract class BetterLevel extends Level {
 	}
 
 	protected int getNumSpecialRooms() {
+		return 0;
+	}
+
+	protected int getNumConnectionRooms() {
 		return 0;
 	}
 }

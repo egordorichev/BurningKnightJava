@@ -87,7 +87,13 @@ public class TunnelRoom extends ConnectionRoom {
 			doorCenter.y += door.y;
 		}
 
-		Point c = new Point((int) doorCenter.x / this.connected.size(), (int) doorCenter.y / this.connected.size());
+		int n = this.connected.size();
+
+		if (n == 0) {
+			n = 1;
+		}
+
+		Point c = new Point((int) doorCenter.x / n, (int) doorCenter.y / n);
 		if (Random.newFloat() < doorCenter.x % 1) c.x++;
 		if (Random.newFloat() < doorCenter.y % 1) c.y++;
 		c.x = (int) MathUtils.clamp(left + 1, right - 1, c.x);

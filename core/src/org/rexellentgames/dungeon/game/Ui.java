@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
 
@@ -21,6 +22,10 @@ public class Ui {
 	}
 
 	public void render() {
+		if (BurningKnight.instance != null && BurningKnight.instance.target != null) {
+			
+		}
+
 		if (Player.instance != null && Player.instance.isDead()) {
 			Graphics.print("Game over!", Graphics.medium, 128);
 			Graphics.print("Press space to restart", Graphics.medium, (float) (108 + Math.sin(Dungeon.time * 3) * 4));

@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.builders;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.util.Log;
@@ -47,7 +48,7 @@ public class LineBuilder extends RegularBuilder {
 			}
 			pathTunnels[tunnels]--;
 
-			if (i != 0) {
+			if (i != 0 && Dungeon.depth != 0) {
 				for (int j = 0; j < tunnels; j++) {
 					ConnectionRoom t = ConnectionRoom.create();
 					placeRoom(init, curr, t, direction + Random.newFloat(-pathVariance, pathVariance));
