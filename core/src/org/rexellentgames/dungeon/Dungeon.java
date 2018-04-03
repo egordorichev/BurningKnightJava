@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.consumable.plant.Plant;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.Area;
@@ -168,6 +169,10 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		if (Player.instance != null && Player.instance.isDead()) {
+			newGame();
+		}
+
 		if (area != null) {
 			ui.destroy();
 			area.destroy();

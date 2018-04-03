@@ -165,7 +165,6 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
-		// todo: rage doesnt want to work properly
 		if (this.inRage && this.rageLevel < this.hp) {
 			this.inRage = false;
 			this.onRageEnd();
