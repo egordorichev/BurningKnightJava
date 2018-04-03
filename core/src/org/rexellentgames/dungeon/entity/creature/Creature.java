@@ -258,6 +258,8 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
+		boolean hurt = false;
+
 		if (amount < 0) {
 			if (this.unhittable) {
 				return;
@@ -276,7 +278,7 @@ public class Creature extends SaveableEntity {
 			}
 
 			this.invt = INV_TIME;
-			this.onHurt();
+			hurt = true;
 		}
 
 		if (!Network.SERVER) {
@@ -284,6 +286,10 @@ public class Creature extends SaveableEntity {
 		}
 
 		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);
+
+		if (hurt) {
+			this.onHurt();
+		}
 
 		if (this.hp == 0) {
 			this.die();

@@ -25,6 +25,8 @@ import java.io.IOException;
 public class BurningKnight extends Mob {
 	private static final int DASH_DIST = 64;
 	public static BurningKnight instance;
+	public float rageLevel;
+	private boolean inRage;
 	private static float LIGHT_SIZE = 8f;
 	private static Animation animations = Animation.make("actor-burning-knight");
 	private float r;
@@ -48,6 +50,8 @@ public class BurningKnight extends Mob {
 		h = 32;
 		depth = 6;
 		alwaysActive = true;
+		speed = 4;
+		maxSpeed = 100;
 		flying = true;
 
 		idle = animations.get("idle");
@@ -80,6 +84,19 @@ public class BurningKnight extends Mob {
 		super.load(reader);
 		this.sawPlayer = reader.readBoolean();
 		throne = new Point(reader.readInt16(), reader.readInt16());
+
+		this.checkForRage();
+	}
+
+	public void checkForRage() {
+		if (this.inRage) {
+			return;
+		}
+
+		if (this.rageLevel >= this.hp) {
+			this.inRage = true;
+			this.onRageStart();
+		}
 	}
 
 	@Override
@@ -144,12 +161,40 @@ public class BurningKnight extends Mob {
 			this.animation.update(dt);
 		}
 
+		if (this.inRage && this.rageLevel < this.hp) {
+			this.inRage = true;
+			this.onRageEnd();
+		}
+
 		super.common();
 	}
 
 	@Override
 	protected void onHurt() {
 		this.vel.mul(0f);
+		this.checkForRage();
+	}
+
+	public void onRageStart() {
+		this.modifyDefense(3 + Dungeon.depth * 2);
+		this.modifySpeed(4);
+
+		this.damage += 5;
+
+		Log.info("BK entred rage state");
+	}
+
+	public void onRageEnd() {
+		this.modifyDefense(-3 - Dungeon.depth * 2);
+		this.modifySpeed(-4);
+
+		this.damage -= 5;
+
+		Log.info("BK exited rage state");
+	}
+
+	public boolean isInRage() {
+		return this.inRage;
 	}
 
 	@Override
@@ -255,7 +300,7 @@ public class BurningKnight extends Mob {
 			}
 
 			if (this.roomToVisit != null) {
-				if (this.flyTo(this.roomToVisit, 4f, 32f)) {
+				if (this.flyTo(this.roomToVisit, self.speed, 32f)) {
 					if (Random.chance(25)) {
 						self.become("idle");
 						return;
@@ -312,7 +357,7 @@ public class BurningKnight extends Mob {
 		public void update(float dt) {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (this.flyTo(self.lastSeen, 6f, 32f)) {
+			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 32f)) {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || (self.target != null && d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || self.target.invisible) {
@@ -354,7 +399,7 @@ public class BurningKnight extends Mob {
 		public void update(float dt) {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (this.flyTo(self.lastSeen, 12f, 32f)) {
+			if (this.flyTo(self.lastSeen, self.speed * 3f, 32f)) {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {

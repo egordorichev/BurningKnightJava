@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 
@@ -37,7 +38,7 @@ public class FireRectFx extends Entity {
 			for (Creature creature : this.colliding) {
 				if (creature instanceof Player) {
 					creature.modifyHp(-10, true);
-				} else if (creature instanceof Mob) {
+				} else if (creature instanceof Mob && !(creature instanceof BurningKnight)) {
 					creature.modifyHp(5);
 				}
 			}
