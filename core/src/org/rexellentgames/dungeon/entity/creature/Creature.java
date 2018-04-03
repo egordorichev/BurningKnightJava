@@ -148,7 +148,7 @@ public class Creature extends SaveableEntity {
 				}
 			}
 
-			if (chasm) {
+			if (chasm && !this.flying) {
 				this.vel.mul(0.1f);
 			}
 
