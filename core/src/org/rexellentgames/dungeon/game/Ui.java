@@ -15,13 +15,19 @@ public class Ui {
 	private TextureRegion cursor;
 	private TextureRegion topFrame;
 	private TextureRegion bar;
+	private TextureRegion rage;
+	private TextureRegion lock;
 	private float last;
+	private float lastLock;
+	private float lastRage;
 
 	public Ui() {
 		ui = this;
 		cursor = Graphics.getTexture("ui (cursor)");
 		topFrame = Graphics.getTexture("ui (top frame)");
 		bar = Graphics.getTexture("bk_health");
+		rage = Graphics.getTexture("bk_rage");
+		lock = Graphics.getTexture("bk_lock");
 	}
 
 	public void render() {
@@ -40,8 +46,42 @@ public class Ui {
 				});
 			}
 
+			if (this.lastRage != BurningKnight.instance.rageLevel) {
+				Tween.to(new Tween.Task(BurningKnight.instance.rageLevel, 0.3f) {
+					@Override
+					public float getValue() {
+						return lastRage;
+					}
+
+					@Override
+					public void setValue(float value) {
+						lastRage = value;
+					}
+				});
+			}
+
+			if (this.lastLock != BurningKnight.instance.getLock()) {
+				Tween.to(new Tween.Task(BurningKnight.instance.getLock(), 0.3f) {
+					@Override
+					public float getValue() {
+						return lastLock;
+					}
+
+					@Override
+					public void setValue(float value) {
+						lastLock = value;
+					}
+				});
+			}
+
 			bar.setRegionWidth((int) (this.last / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
 			Graphics.render(bar, 0, 0, 0, 0, 0, false, false);
+
+			rage.setRegionWidth((int) (Math.min(this.last, this.lastRage) / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
+			Graphics.render(rage, 0, 0, 0, 0, 0, false, false);
+
+			lock.setRegionWidth((int) (this.lastLock / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
+			Graphics.render(lock, 0, 0, 0, 0, 0, false, false);
 		}
 
 		if (Player.instance != null && Player.instance.isDead()) {

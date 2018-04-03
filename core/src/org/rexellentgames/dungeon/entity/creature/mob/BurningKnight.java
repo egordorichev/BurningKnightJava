@@ -98,6 +98,10 @@ public class BurningKnight extends Mob {
 		this.checkForRage();
 	}
 
+	public int getLock() {
+		return this.hpMax - this.lock * 100 - 100;
+	}
+
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);

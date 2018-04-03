@@ -89,10 +89,6 @@ public class TunnelRoom extends ConnectionRoom {
 
 		int n = this.connected.size();
 
-		if (n == 0) {
-			n = 1;
-		}
-
 		Point c = new Point((int) doorCenter.x / n, (int) doorCenter.y / n);
 		if (Random.newFloat() < doorCenter.x % 1) c.x++;
 		if (Random.newFloat() < doorCenter.y % 1) c.y++;
