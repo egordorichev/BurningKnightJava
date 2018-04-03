@@ -14,3 +14,8 @@
 %ASEPRITE% -b actor_clown.ase --split-tags --list-tags --save-as %OUT%actor-clown-{tag}-{tagframe00}.png --data %OUT%actor-clown.json
 
 %ASEPRITE% -b prop_throne.ase --trim --list-tags --save-as %OUT%prop-throne-{layer}-{tag}-{tagframe00}.png --data %OUT%prop-throne.json
+
+%ASEPRITE% -b fx_plant.ase --list-tags --save-as %OUT%fx-plant-{tag}-{tagframe00}.png --data %OUT%fx-plant.json
+%ASEPRITE% -b fx_run.ase --list-tags --save-as %OUT%fx-run-{tag}-{tagframe00}.png --data %OUT%fx-run.json
+%ASEPRITE% -b fx_sword.ase --list-tags --save-as %OUT%fx-sword-{tag}-{tagframe00}.png --data %OUT%fx-sword.json
+%ASEPRITE% -b fx_dither.ase --list-tags --save-as %OUT%fx-dither-{tag}-{tagframe00}.png --data %OUT%fx-dither.json
