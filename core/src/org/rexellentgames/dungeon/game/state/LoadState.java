@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.Game;
@@ -83,6 +84,10 @@ public class LoadState extends State {
 			}
 		});
 
+		if (BurningKnight.instance != null) {
+			BurningKnight.instance.onRageEnd();
+		}
+
 		Player.REGISTERED = false;
 		Level.GENERATED = false;
 
@@ -125,6 +130,16 @@ public class LoadState extends State {
 
 					Camera.instance.follow(Player.instance);
 					Player.instance.tryToFall();
+
+					if (BurningKnight.instance != null) {
+						BurningKnight.instance.rageLevel = Math.max(50, BurningKnight.instance.getHpMax() - Dungeon.depth * 100);
+
+						if (BurningKnight.instance.isInRage()) {
+							BurningKnight.instance.onRageStart();
+						} else {
+							BurningKnight.instance.checkForRage();
+						}
+					}
 
 					ready = true;
 				}
