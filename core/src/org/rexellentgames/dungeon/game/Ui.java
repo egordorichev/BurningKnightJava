@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class Ui {
 	public static Ui ui;
@@ -14,6 +15,7 @@ public class Ui {
 	private TextureRegion cursor;
 	private TextureRegion topFrame;
 	private TextureRegion bar;
+	private float last;
 
 	public Ui() {
 		ui = this;
@@ -24,7 +26,21 @@ public class Ui {
 
 	public void render() {
 		if (BurningKnight.instance != null) {
-			bar.setRegionWidth((int) (((float) BurningKnight.instance.getHp()) / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
+			if (this.last != BurningKnight.instance.getHp()) {
+				Tween.to(new Tween.Task(BurningKnight.instance.getHp(), 0.3f) {
+					@Override
+					public float getValue() {
+						return last;
+					}
+
+					@Override
+					public void setValue(float value) {
+						last = value;
+					}
+				});
+			}
+
+			bar.setRegionWidth((int) (this.last / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
 			Graphics.render(bar, 0, 0, 0, 0, 0, false, false);
 		}
 
