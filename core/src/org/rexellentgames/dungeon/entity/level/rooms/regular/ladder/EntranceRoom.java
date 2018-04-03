@@ -19,7 +19,7 @@ public class EntranceRoom extends RegularRoom {
 		Entrance entrance = new Entrance();
 
 		entrance.x = point.x * 16;
-		entrance.y = point.y * 16;
+		entrance.y = point.y * 16 - 8;
 
 		level.addSaveable(entrance);
 		Dungeon.area.add(entrance);

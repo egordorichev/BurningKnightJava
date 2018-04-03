@@ -42,7 +42,7 @@ public class BurningKnight extends Mob {
 
 	{
 		mind = Mind.ATTACKER;
-		hpMax = 10000;
+		hpMax = 400;
 		damage = 10;
 		w = 32;
 		h = 32;

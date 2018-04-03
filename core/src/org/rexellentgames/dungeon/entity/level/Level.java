@@ -403,7 +403,7 @@ public abstract class Level extends Entity {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		Graphics.batch.begin();
 
-		float s = 0.8f;
+		float s = 0.5f;
 		float md = 1f / s;
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
@@ -418,13 +418,11 @@ public abstract class Level extends Entity {
 					int t = (int) Math.floor((v * (md)) * 10);
 
 					if (t < 10) {
-						Graphics.batch.setColor(r, g, b, 1);
+						Graphics.batch.setColor(LIGHT_R, LIGHT_G, LIGHT_B, 1);
+
 						Graphics.render(Terrain.dither[9 - t], x * 16, y * 16 - 8, 0, 0, 0, false, false);
 					}
 				}
-
-				// Graphics.shape.setColor(r, g, b, 1f - v);
-				// Graphics.shape.rect(x * 16, y * 16 - 8, 16, 16);
 			}
 		}
 
