@@ -49,6 +49,7 @@ public class Graphics {
 		manager.load("sfx/Potion.wav", Sound.class);
 		manager.load("sfx/Scroll.wav", Sound.class);
 		manager.load("sfx/Woosh.wav", Sound.class);
+		manager.load("sfx/BK_sfx.wav", Sound.class);
 
 		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);

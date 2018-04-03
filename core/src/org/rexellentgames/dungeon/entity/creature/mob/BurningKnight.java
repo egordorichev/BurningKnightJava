@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
@@ -13,10 +14,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -43,6 +41,8 @@ public class BurningKnight extends Mob {
 	private AnimationData killed;
 	private AnimationData animation;
 	public int lock;
+	private long sid;
+	private static Sound sfx = Graphics.getSound("sfx/BK_sfx.wav");
 
 	{
 		mind = Mind.ATTACKER;
@@ -126,6 +126,8 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void init() {
+		this.sid = sfx.loop();
+
 		instance = this;
 		super.init();
 
@@ -158,6 +160,16 @@ public class BurningKnight extends Mob {
 
 		if (Dungeon.level != null) {
 			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f, LIGHT_SIZE, true);
+		}
+
+		if (this.onScreen) {
+			float dx = this.x + 8 - Player.instance.x;
+			float dy = this.y + 8 - Player.instance.y;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			sfx.setVolume(sid, MathUtils.clamp(0, 1, (100 - d) / 100f));
+		} else {
+			sfx.setVolume(sid, 0);
 		}
 
 		if (this.target == null) {
