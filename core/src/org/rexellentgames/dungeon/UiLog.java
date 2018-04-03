@@ -61,7 +61,7 @@ public class UiLog extends UiEntity {
 		for (int i = 0; i < this.lines.size(); i++) {
 			Line line = this.lines.get(i);
 
-			line.label.setPosition(Display.GAME_WIDTH - line.w - 2, (this.lines.size() - i - 1) * 12 + 4);
+			line.label.setPosition(Display.GAME_WIDTH - line.w - 2, (this.lines.size() - i - 1) * 10 + 6);
 			line.label.draw(Graphics.batch, 1);
 			line.label.setColor(1, 1, 1, line.a);
 		}
@@ -77,9 +77,9 @@ public class UiLog extends UiEntity {
 
 		public Line(String string) {
 			if (Graphics.layout != null) {
-				Graphics.layout.setText(Graphics.medium, string);
+				Graphics.layout.setText(Graphics.small, string);
 				this.w = (int) Graphics.layout.width;
-				this.label = new Label(string, new Label.LabelStyle(Graphics.medium, Color.WHITE));
+				this.label = new Label(string, new Label.LabelStyle(Graphics.small, Color.WHITE));
 			}
 
 			this.string = string;
