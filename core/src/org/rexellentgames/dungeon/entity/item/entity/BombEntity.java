@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.Explosion;
+import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -95,6 +96,15 @@ public class BombEntity extends Entity {
 
 						creature.vel.x += Math.cos(a) * 5000f;
 						creature.vel.y += Math.sin(a) * 5000f;
+					}
+				} else if (entity instanceof Plant) {
+					Plant creature = (Plant) entity;
+
+					float dx = creature.x + creature.w / 2 - this.x - 8;
+					float dy = creature.y + creature.h / 2 - this.y - 8;
+
+					if (Math.sqrt(dx * dx + dy * dy) < 24f) {
+						creature.startBurning();
 					}
 				}
 			}

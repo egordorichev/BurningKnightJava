@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -158,6 +159,8 @@ public class BurningKnight extends Mob {
 
 		if (entity instanceof Player && !this.isDead()) {
 			((Player) entity).addBuff(new BurningBuff().setDuration(10));
+		} else if (entity instanceof Plant) {
+			((Plant) entity).startBurning();
 		}
 	}
 

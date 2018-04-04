@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -69,6 +70,8 @@ public class Fireball extends NetworkedEntity {
 			if (((Weapon) entity).getOwner() instanceof Player) {
 				this.animation = this.dead;
 			}
+		} else if (entity instanceof Plant) {
+			((Plant) entity).startBurning();
 		}
 	}
 
