@@ -13,10 +13,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -296,8 +293,7 @@ public class BurningKnight extends Mob {
 		@Override
 		public void update(float dt) {
 			if (this.t >= this.delay) {
-				self.become("idle");
-				self.findStartPoint(); // todo: might want to delay here
+				self.become("fadeOut");
 				return;
 			}
 
@@ -547,6 +543,58 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	public class FadeInState extends BKState {
+		@Override
+		public void onEnter() {
+			Tween.to(new Tween.Task(0, 0.3f) {
+				@Override
+				public float getValue() {
+					return self.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.a = value;
+				}
+
+				@Override
+				public void onEnd() {
+					self.become(self.attackTp ? "chase" : "idle");
+				}
+			});
+		}
+	}
+
+	public boolean attackTp;
+
+	public class FadeOutState extends BKState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			Tween.to(new Tween.Task(0, 0.3f) {
+				@Override
+				public float getValue() {
+					return self.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.a = value;
+				}
+
+				@Override
+				public void onEnd() {
+					if (!self.attackTp) {
+						self.findStartPoint();
+					}
+
+					self.become("fadeIn");
+				}
+			});
+		}
+	}
+
 	@Override
 	protected State getAi(String state) {
 		if (state.equals("idle")) {
@@ -565,6 +613,10 @@ public class BurningKnight extends Mob {
 			return new AttackState();
 		} else if (state.equals("onThrone")) {
 			return new OnThroneState();
+		} else if (state.equals("fadeIn")) {
+			return new FadeInState();
+		} else if (state.equals("fadeOut")) {
+			return new FadeOutState();
 		}
 
 		return super.getAi(state);
