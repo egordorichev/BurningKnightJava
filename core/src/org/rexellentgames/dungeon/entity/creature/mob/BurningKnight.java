@@ -72,12 +72,18 @@ public class BurningKnight extends Mob {
 	public void findStartPoint() {
 		if (this.sawPlayer || Dungeon.depth != 0) {
 			Room room;
+			Point center;
+
+			float d;
 
 			do {
 				room = Dungeon.level.getRandomRoom();
-			} while (room instanceof EntranceRoom || room instanceof ExitRoom);
+				center = room.getCenter();
 
-			Point center = room.getCenter();
+				float dx = center.x * 16 - this.x;
+				float dy = center.y * 16 - this.y;
+				d = (float) Math.sqrt(dx * dx + dy * dy);
+			} while (room instanceof EntranceRoom || room instanceof ExitRoom || (this.attackTp && d > 400));
 
 			this.tp(center.x * 16 - 16, center.y * 16 - 16);
 			this.become("idle");
@@ -160,7 +166,7 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f, LIGHT_SIZE, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
@@ -553,6 +559,9 @@ public class BurningKnight extends Mob {
 
 						Dungeon.area.add(ball);
 					}
+				} else if (r < 0.65f) {
+					self.attackTp = true;
+					self.become("fadeOut");
 				} else {
 					Fireball ball = new Fireball();
 
@@ -593,7 +602,7 @@ public class BurningKnight extends Mob {
 	public class FadeInState extends BKState {
 		@Override
 		public void onEnter() {
-			Tween.to(new Tween.Task(0, 0.3f) {
+			Tween.to(new Tween.Task(1, 0.3f) {
 				@Override
 				public float getValue() {
 					return self.a;
@@ -607,6 +616,7 @@ public class BurningKnight extends Mob {
 				@Override
 				public void onEnd() {
 					self.become(self.attackTp ? "chase" : "idle");
+					self.attackTp = false;
 				}
 			});
 		}
@@ -632,10 +642,7 @@ public class BurningKnight extends Mob {
 
 				@Override
 				public void onEnd() {
-					if (!self.attackTp) {
-						self.findStartPoint();
-					}
-
+					self.findStartPoint();
 					self.become("fadeIn");
 				}
 			});
