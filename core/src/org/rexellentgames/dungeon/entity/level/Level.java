@@ -476,7 +476,7 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		// Usefull room debug
+		// Useful room debug
 
 		/*
 		Graphics.batch.end();

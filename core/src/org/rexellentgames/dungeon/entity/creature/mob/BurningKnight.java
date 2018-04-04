@@ -76,6 +76,7 @@ public class BurningKnight extends Mob {
 			Point center;
 
 			float d;
+			int attempts = 0;
 
 			do {
 				room = Dungeon.level.getRandomRoom();
@@ -84,6 +85,11 @@ public class BurningKnight extends Mob {
 				float dx = center.x * 16 - this.x;
 				float dy = center.y * 16 - this.y;
 				d = (float) Math.sqrt(dx * dx + dy * dy);
+
+				if (attempts++ > 40) {
+					Log.info("Too many");
+					break;
+				}
 			} while (room instanceof EntranceRoom || room instanceof ExitRoom || (this.attackTp && d > 400));
 
 			this.tp(center.x * 16 - 16, center.y * 16 - 16);
@@ -118,8 +124,8 @@ public class BurningKnight extends Mob {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeBoolean(this.sawPlayer);
-		writer.writeInt16((short) throne.x);
-		writer.writeInt16((short) throne.y);
+		writer.writeInt16((short) (throne != null ? throne.x : 0));
+		writer.writeInt16((short) (throne != null ? throne.y : 0));
 		writer.writeInt16((short) this.lock);
 	}
 
@@ -350,7 +356,7 @@ public class BurningKnight extends Mob {
 					attempts++;
 
 					if (attempts > 40) {
-						room = Dungeon.level.getRandomRoom();
+						Log.info("Too many");
 						break;
 					}
 				} while (d > 400f && (self.last == null || self.last != room));
@@ -565,6 +571,7 @@ public class BurningKnight extends Mob {
 					}
 				} else if (r < 0.65f) {
 					self.attackTp = true;
+					Log.info("Attack TP!");
 					self.become("fadeOut");
 				} else {
 					Fireball ball = new Fireball();
@@ -626,7 +633,7 @@ public class BurningKnight extends Mob {
 		}
 	}
 
-	public boolean attackTp;
+	public boolean attackTp = false;
 
 	public class FadeOutState extends BKState {
 		@Override
