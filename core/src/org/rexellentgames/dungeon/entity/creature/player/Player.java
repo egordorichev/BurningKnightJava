@@ -361,6 +361,8 @@ public class Player extends Creature {
 		writer.writeInt16((short) this.hunger);
 	}
 
+	private ArrayList<ItemHolder> holders = new ArrayList<>();
+
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof ItemHolder) {
@@ -368,9 +370,13 @@ public class Player extends Creature {
 
 			if (item.getItem().hasAutoPickup()) {
 				this.tryToPickup(item);
-			} else if (this.pickupFx == null && !Network.SERVER && !item.falling) {
-				this.pickupFx = new ItemPickupFx(item, this);
-				this.area.add(this.pickupFx);
+			} else if (!Network.SERVER && !item.falling) {
+				this.holders.add(item);
+
+				if (this.pickupFx == null) {
+					this.pickupFx = new ItemPickupFx(item, this);
+					this.area.add(this.pickupFx);
+				}
 			}
 		}
 	}
@@ -381,6 +387,13 @@ public class Player extends Creature {
 			if (this.pickupFx != null) {
 				this.pickupFx.done = true;
 				this.pickupFx = null;
+			}
+
+			this.holders.remove(entity);
+
+			if (this.holders.size() > 0) {
+				this.pickupFx = new ItemPickupFx(this.holders.get(0), this);
+				this.area.add(this.pickupFx);
 			}
 		}
 	}

@@ -58,7 +58,7 @@ public class Fireball extends NetworkedEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (this.animation == this.dead) {
+		if (this.animation != this.idle) {
 			return;
 		}
 
