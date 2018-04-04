@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
@@ -29,10 +30,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -70,6 +68,9 @@ public class Player extends Creature {
 	private AnimationData killed;
 	private AnimationData animation;
 	private int gold;
+
+	private static Sound[] steps;
+	private static Sound[] waterSteps;
 
 	{
 		hpMax = 100;
@@ -168,6 +169,16 @@ public class Player extends Creature {
 	public void init() {
 		super.init();
 
+		if (steps == null) {
+			steps = new Sound[5];
+			waterSteps = new Sound[5];
+
+			for (int i = 1; i < 6; i++) {
+				steps[i - 1] = Graphics.getSound("sfx/step_gobbo_normal_" + i + ".wav");
+				waterSteps[i - 1] = Graphics.getSound("sfx/step_gobbo_water_" + i + ".wav");
+			}
+		}
+
 		if (instance == null) {
 			instance = this;
 		}
@@ -260,8 +271,16 @@ public class Player extends Creature {
 				this.area.add(new RunFx(this.x, this.y - 8));
 			}
 
-			if (this.t % 0.3 <= 0.017 && !Network.SERVER && this.watery > 0) {
-				this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
+			if (this.t % 0.3 <= 0.017 && !Network.SERVER) {
+				if (this.watery > 0) {
+					// this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
+
+					if (this.watery > 4f) {
+						waterSteps[Random.newInt(5)].play();
+					}
+				} else {
+					steps[Random.newInt(5)].play();
+				}
 			}
 		} else {
 			this.become("idle");

@@ -42,14 +42,17 @@ public class Graphics {
 		manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-		File folder = Gdx.files.internal("sfx/").file();
-
 		manager.load("sfx/Bomb_exploding.wav", Sound.class);
 		manager.load("sfx/Bomb_placing.wav", Sound.class);
 		manager.load("sfx/Potion.wav", Sound.class);
 		manager.load("sfx/Scroll.wav", Sound.class);
 		manager.load("sfx/Woosh.wav", Sound.class);
 		manager.load("sfx/BK_sfx.wav", Sound.class);
+
+		for (int i = 1; i < 6; i++) {
+			manager.load("sfx/step_gobbo_normal_" + i + ".wav", Sound.class);
+			manager.load("sfx/step_gobbo_water_" + i + ".wav", Sound.class);
+		}
 
 		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);
