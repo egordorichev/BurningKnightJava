@@ -213,7 +213,7 @@ public class Player extends Creature {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 1f, this.getLightSize(), false);
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
 		}
 
 		this.watery = Math.max(0, this.watery - dt);
