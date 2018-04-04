@@ -36,8 +36,10 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -808,6 +810,7 @@ public abstract class Level extends Entity {
 		FileHandle save = Gdx.files.external(this.getSavePath(type));
 
 		if (!save.exists()) {
+
 			if (type == DataType.LEVEL) {
 				this.generate();
 				return;
@@ -1021,6 +1024,8 @@ public abstract class Level extends Entity {
 				stream.writeString(entity.getClass().getName());
 				entity.save(stream);
 			}
+
+			this.saveDropped();
 		}
 	}
 
@@ -1108,6 +1113,86 @@ public abstract class Level extends Entity {
 			this.area.add(creature);
 		}
 	}
+
+	public void loadDropped() {
+		this.droppedToChasm.clear();
+
+		try {
+			FileReader reader = new FileReader(".ldg/dropped" + this.level + ".save");
+			int count = reader.readInt32();
+
+			Log.info("Loading " + count + " dropped...");
+
+			for (int i = 0; i < count; i++) {
+				Class<?> clazz = Class.forName(reader.readString());
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
+
+				Item entity = (Item) object;
+				ItemHolder holder = new ItemHolder();
+
+				entity.load(reader);
+
+				Point point = this.getRandomFreePoint(RegularRoom.class);
+
+				holder.x = point.x * 16;
+				holder.y = point.y * 16 - 8;
+
+				holder.setItem(entity);
+
+				this.area.add(holder);
+				this.saveable.add(holder);
+			}
+
+			reader.close();
+			File file = new File(".ldg/dropped" + this.level + ".save");
+			file.delete();
+			Log.info("Done!");
+		} catch (FileNotFoundException e) {
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveDropped() {
+		if (this.droppedToChasm.size() == 0) {
+			Log.info("Nothing dropped!");
+			return;
+		}
+
+		Log.info("Saving dropped " + this.droppedToChasm.size());
+
+		try {
+			FileWriter writer = new FileWriter(".ldg/dropped" + (this.level + 1) + ".save");
+
+			writer.writeInt32(this.droppedToChasm.size());
+
+			for (Item item : this.droppedToChasm) {
+				writer.writeString(item.getClass().getName());
+				item.save(writer);
+			}
+
+			writer.close();
+			Log.info("Done!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		this.droppedToChasm.clear();
+	}
+
+	public ArrayList<Item> droppedToChasm = new ArrayList<>();
 
 	public ArrayList<Room> getRooms() {
 		return this.rooms;

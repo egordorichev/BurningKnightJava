@@ -197,7 +197,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 4f,
+		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 8f,
 			this.t * 360, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2,
 			false, false, s, s);
 		Graphics.batch.setColor(1, 1, 1, 1);
