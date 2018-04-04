@@ -97,7 +97,6 @@ public class ItemHolder extends SaveableEntity {
 
 			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround) {
 				this.falling = true;
-				Log.info("falling");
 				this.t = 0;
 			}
 		}
@@ -133,11 +132,14 @@ public class ItemHolder extends SaveableEntity {
 			if (s <= 0) {
 				this.done = true;
 				Dungeon.level.removePlayerSaveable(this);
+				Dungeon.level.droppedToChasm.add(this.item);
+
+				Log.info("Dropped item to the next floor");
 
 				return;
 			}
 
-			Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 4f,
+			Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 8f,
 				this.t * 360, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2,
 				false, false, s, s);
 			Graphics.batch.setColor(1, 1, 1, 1);
