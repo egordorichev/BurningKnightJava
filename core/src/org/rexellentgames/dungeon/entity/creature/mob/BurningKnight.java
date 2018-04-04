@@ -54,7 +54,7 @@ public class BurningKnight extends Mob {
 		h = 32;
 		depth = 6;
 		alwaysActive = true;
-		speed = 4;
+		speed = 2;
 		maxSpeed = 100;
 		flying = true;
 
@@ -75,22 +75,17 @@ public class BurningKnight extends Mob {
 			Room room;
 			Point center;
 
-			float d;
 			int attempts = 0;
 
 			do {
 				room = Dungeon.level.getRandomRoom();
 				center = room.getCenter();
 
-				float dx = center.x * 16 - this.x;
-				float dy = center.y * 16 - this.y;
-				d = (float) Math.sqrt(dx * dx + dy * dy);
-
 				if (attempts++ > 40) {
 					Log.info("Too many");
 					break;
 				}
-			} while (room instanceof EntranceRoom || room instanceof ExitRoom || (this.attackTp && d > 400));
+			} while (room instanceof EntranceRoom || room instanceof ExitRoom);
 
 			this.tp(center.x * 16 - 16, center.y * 16 - 16);
 			this.become("idle");
