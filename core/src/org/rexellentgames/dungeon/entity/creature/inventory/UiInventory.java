@@ -32,7 +32,7 @@ public class UiInventory extends UiEntity {
 
 		for (int i = 0; i < this.slots.length; i++) {
 			this.slots[i] = new UiSlot(this, i, i % 6 * 25 + 1,
-				(int) (Math.floor(i / 6) * 25) + 1);
+				(int) (Math.floor(i / 6) * 25) + 5);
 		}
 	}
 
