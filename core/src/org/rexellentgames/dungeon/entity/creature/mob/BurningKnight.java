@@ -139,6 +139,7 @@ public class BurningKnight extends Mob {
 	@Override
 	public void init() {
 		this.sid = sfx.loop();
+		sfx.setVolume(this.sid, 0);
 
 		instance = this;
 		super.init();
