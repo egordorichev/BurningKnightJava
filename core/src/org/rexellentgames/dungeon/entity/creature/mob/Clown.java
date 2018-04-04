@@ -8,7 +8,6 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 
 public class Clown extends Mob {
 	private static Animation animations = Animation.make("actor-clown");
@@ -25,11 +24,11 @@ public class Clown extends Mob {
 		hpMax = 10;
 		hide = true;
 
-		idle = animations.get("idle");
-		run = animations.get("run");
-		hurt = animations.get("hurt");
-		killed = animations.get("dead");
-		laugh = animations.get("laugh");
+		idle = animations.get("idle").randomize();
+		run = animations.get("run").randomize();
+		hurt = animations.get("hurt").randomize();
+		killed = animations.get("dead").randomize();
+		laugh = animations.get("laugh").randomize();
 		animation = this.idle;
 	}
 

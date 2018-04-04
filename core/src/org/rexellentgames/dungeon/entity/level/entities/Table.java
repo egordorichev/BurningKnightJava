@@ -38,6 +38,6 @@ public class Table extends SaveableEntity {
 	@Override
 	public void render() {
 		super.render();
-		// this.animation.render(this.x, this.y, false);
+		this.animation.render(this.x, this.y, false);
 	}
 }
