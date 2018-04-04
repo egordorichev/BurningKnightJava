@@ -12,6 +12,16 @@ buildscript {
         classpath "com.badlogicgames.gdx:gdx-tools:1.9.8"
     }
 }
+apply plugin: 'war'
+
+sourceSets {
+    main {
+        resources {
+            exclude '**/sprites_split/*'
+            exclude '**/ase/*'
+        }
+    }
+}
 
 allprojects {
     apply plugin: "eclipse"

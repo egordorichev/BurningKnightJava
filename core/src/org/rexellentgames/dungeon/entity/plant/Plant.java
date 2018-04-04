@@ -123,15 +123,15 @@ public class Plant extends SaveableEntity {
 
 				Dungeon.area.add(holder);
 				Dungeon.level.addSaveable(holder);
+			}
 
-				for (int i = 0; i < 10; i++) {
-					PlantFx fx = new PlantFx();
+			for (int i = 0; i < 10; i++) {
+				PlantFx fx = new PlantFx();
 
-					fx.x = this.x + Random.newInt(-4, 4) + 8;
-					fx.y = this.y + Random.newInt(-4, 4) + 8;
+				fx.x = this.x + Random.newInt(-4, 4) + 8;
+				fx.y = this.y + Random.newInt(-4, 4) + 8;
 
-					Dungeon.area.add(fx);
-				}
+				Dungeon.area.add(fx);
 			}
 		}
 	}

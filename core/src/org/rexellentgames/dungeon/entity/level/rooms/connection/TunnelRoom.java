@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -17,6 +18,11 @@ public class TunnelRoom extends ConnectionRoom {
 
 	@Override
 	public void paint(Level level) {
+		if (this.connected.size() == 0) {
+			Log.error("Invalid connection room");
+			return;
+		}
+
 		if (Dungeon.depth == 0) {
 			Painter.fill(level, this, Terrain.WALL);
 		}

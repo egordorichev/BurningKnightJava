@@ -33,7 +33,7 @@ public class Creature extends SaveableEntity {
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
-	protected float maxSpeed = 50;
+	protected float maxSpeed = 90;
 	protected int damage = 2;
 	protected int defense = 1;
 	protected float invt = 0;
@@ -115,7 +115,7 @@ public class Creature extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.vel.mul(0.8f);
+		this.vel.mul(0.9f);
 
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
@@ -247,7 +247,7 @@ public class Creature extends SaveableEntity {
 
 	public void modifySpeed(int amount) {
 		this.speed += amount;
-		this.maxSpeed += amount * 5;
+		this.maxSpeed += amount * 7;
 	}
 
 	public void modifyHp(int amount) {
