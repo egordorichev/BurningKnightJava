@@ -14,6 +14,7 @@ public class HealthBlocker extends Plant {
 	{
 		animation = animations.get("growth");
 		alwaysActive = true;
+		canBurn = false;
 	}
 
 	@Override

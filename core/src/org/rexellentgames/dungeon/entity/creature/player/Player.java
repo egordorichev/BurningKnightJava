@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
@@ -29,10 +30,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -52,8 +50,8 @@ public class Player extends Creature {
 	public int connectionId;
 	public boolean main;
 	public float heat;
-	protected int mana;
-	protected int manaMax;
+	protected float mana;
+	protected float manaMax;
 	protected int experience;
 	protected int experienceMax;
 	protected int level;
@@ -70,6 +68,10 @@ public class Player extends Creature {
 	private AnimationData killed;
 	private AnimationData animation;
 	private int gold;
+	public Room currentRoom;
+
+	private static Sound[] steps;
+	private static Sound[] waterSteps;
 
 	{
 		hpMax = 100;
@@ -168,6 +170,16 @@ public class Player extends Creature {
 	public void init() {
 		super.init();
 
+		if (steps == null) {
+			steps = new Sound[5];
+			waterSteps = new Sound[5];
+
+			for (int i = 1; i < 6; i++) {
+				steps[i - 1] = Graphics.getSound("sfx/step_gobbo_normal_" + i + ".wav");
+				waterSteps[i - 1] = Graphics.getSound("sfx/step_gobbo_water_" + i + ".wav");
+			}
+		}
+
 		if (instance == null) {
 			instance = this;
 		}
@@ -177,6 +189,10 @@ public class Player extends Creature {
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 6);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
+	}
+
+	public void modifyMana(float a) {
+		this.mana = MathUtils.clamp(0, this.manaMax, this.mana + a);
 	}
 
 	public void tryToFall() {
@@ -202,9 +218,15 @@ public class Player extends Creature {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.8f, this.getLightSize(), false);
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
+			Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+			if (room != null) {
+				this.currentRoom = room;
+			}
 		}
 
+		this.modifyMana(dt * 10);
 		this.watery = Math.max(0, this.watery - dt);
 
 		if (this.dead) {
@@ -260,8 +282,18 @@ public class Player extends Creature {
 				this.area.add(new RunFx(this.x, this.y - 8));
 			}
 
-			if (this.t % 0.3 <= 0.017 && !Network.SERVER && this.watery > 0) {
-				this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
+			if (this.t % 0.3 <= 0.017 && !Network.SERVER) {
+				if (this.watery > 0) {
+					// this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
+
+					if (this.watery > 4.5f) {
+						waterSteps[Random.newInt(5)].play();
+					} else {
+						steps[Random.newInt(5)].play();
+					}
+				} else {
+					steps[Random.newInt(5)].play();
+				}
 			}
 		} else {
 			this.become("idle");
@@ -335,7 +367,7 @@ public class Player extends Creature {
 		this.inventory.load(reader);
 
 		this.mana = reader.readInt32();
-		this.manaMax = reader.readInt32();
+		this.manaMax = reader.readFloat();
 		this.experience = reader.readInt32();
 		this.experienceMax = reader.readInt32();
 		this.level = reader.readInt32();
@@ -351,8 +383,8 @@ public class Player extends Creature {
 
 		this.inventory.save(writer);
 
-		writer.writeInt32(this.mana);
-		writer.writeInt32(this.manaMax);
+		writer.writeFloat(this.mana);
+		writer.writeFloat(this.manaMax);
 		writer.writeInt32(this.experience);
 		writer.writeInt32(this.experienceMax);
 		writer.writeInt32(this.level);
@@ -361,6 +393,8 @@ public class Player extends Creature {
 		writer.writeInt16((short) this.hunger);
 	}
 
+	private ArrayList<ItemHolder> holders = new ArrayList<>();
+
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof ItemHolder) {
@@ -368,9 +402,13 @@ public class Player extends Creature {
 
 			if (item.getItem().hasAutoPickup()) {
 				this.tryToPickup(item);
-			} else if (this.pickupFx == null && !Network.SERVER && !item.falling) {
-				this.pickupFx = new ItemPickupFx(item, this);
-				this.area.add(this.pickupFx);
+			} else if (!Network.SERVER && !item.falling) {
+				this.holders.add(item);
+
+				if (this.pickupFx == null) {
+					this.pickupFx = new ItemPickupFx(item, this);
+					this.area.add(this.pickupFx);
+				}
 			}
 		}
 	}
@@ -381,6 +419,13 @@ public class Player extends Creature {
 			if (this.pickupFx != null) {
 				this.pickupFx.done = true;
 				this.pickupFx = null;
+			}
+
+			this.holders.remove(entity);
+
+			if (this.holders.size() > 0) {
+				this.pickupFx = new ItemPickupFx(this.holders.get(0), this);
+				this.area.add(this.pickupFx);
 			}
 		}
 	}
@@ -421,11 +466,11 @@ public class Player extends Creature {
 		return this.forThisLevel;
 	}
 
-	public int getMana() {
+	public float getMana() {
 		return this.mana;
 	}
 
-	public int getManaMax() {
+	public float getManaMax() {
 		return this.manaMax;
 	}
 

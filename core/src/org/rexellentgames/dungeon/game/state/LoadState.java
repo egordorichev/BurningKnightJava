@@ -114,6 +114,7 @@ public class LoadState extends State {
 				public void run() {
 					Dungeon.level.load(Level.DataType.PLAYER);
 					Dungeon.level.load(Level.DataType.LEVEL);
+					Dungeon.level.loadDropped();
 
 					Dungeon.level.loadPassable();
 					Dungeon.level.addPhysics();
@@ -180,7 +181,8 @@ public class LoadState extends State {
 	@Override
 	public void update(float dt) {
 		if (this.ready && this.a == 0) {
-			Game.instance.setState(new InGameState());
+			Level.GENERATED = false; // FIXME
+			Game.instance.setState(Level.GENERATED ? new ComicsState() : new InGameState());
 			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}

@@ -90,6 +90,36 @@ public class Inventory {
 		return false;
 	}
 
+	public boolean find(Class<? extends Item> clazz) {
+		for (int i = 0; i < this.getSize(); i++) {
+			if (!this.isEmpty(i)) {
+				if (clazz.isInstance(this.getSlot(i))) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public void remove(Class<? extends Item> clazz) {
+		for (int i = 0; i < this.getSize(); i++) {
+			if (!this.isEmpty(i)) {
+				Item item = this.getSlot(i);
+
+				if (clazz.isInstance(item)) {
+					item.setCount(item.getCount() - 1);
+
+					if (item.getCount() == 0) {
+						this.setSlot(i, null);
+					}
+
+					return;
+				}
+			}
+		}
+	}
+
 	public boolean isEmpty(int i) {
 		return this.getSlot(i) == null;
 	}

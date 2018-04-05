@@ -14,7 +14,7 @@ public class EntranceRoom extends RegularRoom {
 		super.paint(level);
 
 		Point point = this.getCenter();
-		// Painter.set(level, (int) point.x, (int) point.y, Terrain.ENTRANCE);
+		Painter.set(level, (int) point.x, (int) point.y, Terrain.WOOD);
 
 		Entrance entrance = new Entrance();
 
