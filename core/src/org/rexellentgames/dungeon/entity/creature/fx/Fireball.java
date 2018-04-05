@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
@@ -31,6 +32,7 @@ public class Fireball extends NetworkedEntity {
 	private Body body;
 	public boolean noMove;
 	public boolean bad = true;
+	public Vector2 vel;
 
 	@Override
 	public void init() {
@@ -53,6 +55,7 @@ public class Fireball extends NetworkedEntity {
 
 		this.body = this.createBody(4, 4, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x - 4, this.y - 4, 0);
+		this.body.setBullet(true);
 	}
 
 	@Override
@@ -94,7 +97,7 @@ public class Fireball extends NetworkedEntity {
 		this.t += dt;
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLight(this.x + 8, this.y + 8, 1f, 0.8f, 0f, 0.9f, 3f);
+			Dungeon.level.addLight(this.x + 8, this.y + 8, 3f, 0.8f, 0f, 2f, 3f);
 		}
 
 		if (this.animation.update(dt)) {
@@ -109,18 +112,22 @@ public class Fireball extends NetworkedEntity {
 
 		float s = 60;
 
-		if (this.target != null || this.toMouse) {
+		if (this.target != null) {
 			s = 30;
 
-			float dx = (this.toMouse ? Input.instance.worldMouse.x : this.target.x + this.target.w / 2) - this.x - 8;
-			float dy = (this.toMouse ? Input.instance.worldMouse.y : this.target.y + this.target.h / 2) - this.y - 8;
+			float dx =  this.target.x + this.target.w / 2 - this.x - 8;
+			float dy = this.target.y + this.target.h / 2 - this.y - 8;
 			float d = (float) Math.atan2(dy, dx);
 
 			this.a += (d - this.a) / 70f;
 		}
 
 		if (!this.noMove) {
-			this.body.setLinearVelocity((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
+			if (this.vel != null) {
+				this.body.setLinearVelocity(this.vel);
+			} else {
+				this.body.setLinearVelocity((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
+			}
 		}
 	}
 

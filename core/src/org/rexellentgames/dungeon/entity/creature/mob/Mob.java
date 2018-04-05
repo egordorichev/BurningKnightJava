@@ -120,6 +120,8 @@ public class Mob extends Creature {
 		this.mind = Mind.values()[reader.readByte()];
 	}
 
+	protected boolean ignoreRooms;
+
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
@@ -169,7 +171,7 @@ public class Mob extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (this.room != null) {
+		if (this.room != null && !this.ignoreRooms) {
 			this.room.numEnemies -= 1;
 		}
 
@@ -179,7 +181,7 @@ public class Mob extends Creature {
 			this.room = room;
 		}
 
-		if (this.room != null) {
+		if (this.room != null && !this.ignoreRooms) {
 			this.room.numEnemies += 1;
 		}
 
