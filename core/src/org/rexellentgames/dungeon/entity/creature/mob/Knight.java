@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.AnotherSword;
 import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -112,7 +113,9 @@ public class Knight extends Mob {
 		ArrayList<Item> items = super.getDrops();
 
 		if (Random.chance(5)) {
-			items.add(this.sword);
+			items.add(new IronSword());
+		} else if (Random.chance(25)) {
+			items.add(new AnotherSword());
 		}
 
 		return items;

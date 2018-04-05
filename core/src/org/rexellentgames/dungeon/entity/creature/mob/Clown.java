@@ -5,9 +5,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.item.Bomb;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Random;
+
+import java.util.ArrayList;
 
 public class Clown extends Mob {
 	private static Animation animations = Animation.make("actor-clown");
@@ -41,6 +46,17 @@ public class Clown extends Mob {
 
 		speed = 100;
 		maxSpeed = 100;
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = super.getDrops();
+
+		if (Random.chance(50)) {
+			items.add(new Bomb());
+		}
+
+		return items;
 	}
 
 	@Override

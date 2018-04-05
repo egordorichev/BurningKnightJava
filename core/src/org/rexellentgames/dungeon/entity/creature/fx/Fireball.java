@@ -5,11 +5,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.plant.Plant;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -22,10 +25,12 @@ public class Fireball extends NetworkedEntity {
 	private AnimationData animation;
 	private float t;
 	private boolean flip;
-	public Player target;
+	public Creature target;
 	public float a;
+	public boolean toMouse;
 	private Body body;
 	public boolean noMove;
+	public boolean bad = true;
 
 	@Override
 	public void init() {
@@ -62,11 +67,15 @@ public class Fireball extends NetworkedEntity {
 			return;
 		}
 
-		if (entity instanceof Player) {
+		if (entity instanceof Mob && !this.bad) {
+			((Mob) entity).modifyHp(this.noMove ? -3 : -5);
+			this.animation = this.dead;
+			((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
+		} else if (entity instanceof Player && this.bad) {
 			((Player) entity).modifyHp(this.noMove ? -3 : -5);
 			this.animation = this.dead;
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
-		} else if (entity instanceof Weapon) {
+		} else if (entity instanceof Weapon && this.bad) {
 			if (((Weapon) entity).getOwner() instanceof Player) {
 				this.animation = this.dead;
 			}
@@ -100,11 +109,11 @@ public class Fireball extends NetworkedEntity {
 
 		float s = 60;
 
-		if (this.target != null) {
+		if (this.target != null || this.toMouse) {
 			s = 30;
 
-			float dx = this.target.x + this.target.w / 2 - this.x - 8;
-			float dy = this.target.y + this.target.h / 2 - this.y - 8;
+			float dx = (this.toMouse ? Input.instance.worldMouse.x : this.target.x + this.target.w / 2) - this.x - 8;
+			float dy = (this.toMouse ? Input.instance.worldMouse.y : this.target.y + this.target.h / 2) - this.y - 8;
 			float d = (float) Math.atan2(dy, dx);
 
 			this.a += (d - this.a) / 70f;

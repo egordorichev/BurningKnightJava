@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.seed.PotionGrassSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 
 import java.util.HashMap;
 
@@ -19,6 +20,7 @@ public class ItemRegistry {
 	static {
 		register("dagger", Dagger.class);
 		register("iron_sword", IronSword.class);
+		register("another_sword", AnotherSword.class);
 		register("the_sword", TheSword.class);
 		register("gold", Gold.class);
 		register("healing_potion", HealingPotion.class);
@@ -38,6 +40,7 @@ public class ItemRegistry {
 		register("cabbage", Cabbage.class);
 		register("lightroom_seed", LightroomSeed.class);
 		register("potiongrass_seed", PotionGrassSeed.class);
+		register("fire_book", FireBook.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

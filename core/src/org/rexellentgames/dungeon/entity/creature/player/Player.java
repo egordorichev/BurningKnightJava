@@ -50,8 +50,8 @@ public class Player extends Creature {
 	public int connectionId;
 	public boolean main;
 	public float heat;
-	protected int mana;
-	protected int manaMax;
+	protected float mana;
+	protected float manaMax;
 	protected int experience;
 	protected int experienceMax;
 	protected int level;
@@ -191,6 +191,10 @@ public class Player extends Creature {
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 	}
 
+	public void modifyMana(float a) {
+		this.mana = MathUtils.clamp(0, this.manaMax, this.mana + a);
+	}
+
 	public void tryToFall() {
 		if (Dungeon.loadType == Entrance.LoadType.FALL_DOWN) {
 			while (true) {
@@ -222,6 +226,7 @@ public class Player extends Creature {
 			}
 		}
 
+		this.modifyMana(dt * 10);
 		this.watery = Math.max(0, this.watery - dt);
 
 		if (this.dead) {
@@ -360,7 +365,7 @@ public class Player extends Creature {
 		this.inventory.load(reader);
 
 		this.mana = reader.readInt32();
-		this.manaMax = reader.readInt32();
+		this.manaMax = reader.readFloat();
 		this.experience = reader.readInt32();
 		this.experienceMax = reader.readInt32();
 		this.level = reader.readInt32();
@@ -376,8 +381,8 @@ public class Player extends Creature {
 
 		this.inventory.save(writer);
 
-		writer.writeInt32(this.mana);
-		writer.writeInt32(this.manaMax);
+		writer.writeFloat(this.mana);
+		writer.writeFloat(this.manaMax);
 		writer.writeInt32(this.experience);
 		writer.writeInt32(this.experienceMax);
 		writer.writeInt32(this.level);
@@ -459,11 +464,11 @@ public class Player extends Creature {
 		return this.forThisLevel;
 	}
 
-	public int getMana() {
+	public float getMana() {
 		return this.mana;
 	}
 
-	public int getManaMax() {
+	public float getManaMax() {
 		return this.manaMax;
 	}
 
