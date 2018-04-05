@@ -22,15 +22,13 @@ public class MagicWeapon extends Item {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		if (this.delay > 0) {
-			float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
-			float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
-			double a = Math.atan2(dy, dx);
+		float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
+		float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
+		double a = Math.atan2(dy, dx);
 
-			TextureRegion s = this.getSprite();
+		TextureRegion s = this.getSprite();
 
-			Graphics.render(s, x, y, (float) Math.toDegrees(a), s.getRegionWidth() / 2, s.getRegionHeight() / 2, false, false);
-		}
+		Graphics.render(s, x + w / 2, y + h / 4, (float) Math.toDegrees(a) - 90, s.getRegionWidth() / 2, 0, false, false);
 	}
 
 	@Override
