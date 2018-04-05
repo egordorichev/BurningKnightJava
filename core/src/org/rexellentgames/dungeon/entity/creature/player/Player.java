@@ -68,6 +68,7 @@ public class Player extends Creature {
 	private AnimationData killed;
 	private AnimationData animation;
 	private int gold;
+	public Room currentRoom;
 
 	private static Sound[] steps;
 	private static Sound[] waterSteps;
@@ -214,6 +215,11 @@ public class Player extends Creature {
 
 		if (Dungeon.level != null) {
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
+			Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+			if (room != null) {
+				this.currentRoom = room;
+			}
 		}
 
 		this.watery = Math.max(0, this.watery - dt);

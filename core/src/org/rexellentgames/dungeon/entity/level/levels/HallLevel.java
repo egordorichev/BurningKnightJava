@@ -27,6 +27,8 @@ public class HallLevel extends BetterLevel {
 		if (!Network.SERVER) {
 			Terrain.loadTextures(0);
 		}
+
+		this.addLight = Dungeon.depth == 0;
 	}
 
 	@Override

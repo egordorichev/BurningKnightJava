@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
+import org.rexellentgames.dungeon.entity.level.levels.HallLevel;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Log;
@@ -63,7 +64,7 @@ public class Painter {
 		level.setSize(rightMost + 1, bottomMost + 1);
 		level.fill();
 
-		if (Dungeon.depth == 0) {
+		if (Dungeon.depth == 0 && Dungeon.level instanceof HallLevel) {
 			fill(level, level.entrance.left,
 				Math.min(level.entrance.top, level.exit.top),
 				level.exit.right - level.entrance.left + 1,
@@ -143,9 +144,13 @@ public class Painter {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
 
-				if (d.getType() == Door.Type.REGULAR) {
+				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() == Door.Type.REGULAR || d.getType() == Door.Type.ENEMY)) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
 						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
+
+					door.autoLock = (d.getType() == Door.Type.ENEMY);
+					door.rooms[0] = r;
+					door.rooms[1] = n;
 
 					level.addSaveable(door);
 					Dungeon.area.add(door);

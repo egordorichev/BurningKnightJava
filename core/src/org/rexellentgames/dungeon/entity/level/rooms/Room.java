@@ -20,6 +20,7 @@ public abstract class Room extends Rect implements GraphNode {
 	protected HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
 	private int price = 1;
 	private int distance = 0;
+	public int numEnemies;
 
 	public int getMinWidth() {
 		return 5;

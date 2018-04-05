@@ -163,9 +163,25 @@ public class Mob extends Creature {
 		return null;
 	}
 
+	private Room room;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.room != null) {
+			this.room.numEnemies -= 1;
+		}
+
+		Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+		if (room != null) {
+			this.room = room;
+		}
+
+		if (this.room != null) {
+			this.room.numEnemies += 1;
+		}
 
 		if (this.drop) {
 			this.drop = false;
@@ -331,9 +347,14 @@ public class Mob extends Creature {
 
 		this.become("alerted");
 
-
 		if (this.ai != null) {
 			this.ai.checkForPlayer(true);
+		}
+
+		if (this.hp <= 0) {
+			if (this.room != null) {
+				this.room.numEnemies -= 1;
+			}
 		}
 	}
 
@@ -349,7 +370,11 @@ public class Mob extends Creature {
 			if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
 				|| self.saw && self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
 
-				self.become("fleeing");
+				if (Dungeon.world.isLocked()) {
+					Log.error("World is locked!");
+				} else {
+					self.become("fleeing");
+				}
 			}
 		}
 
@@ -443,7 +468,7 @@ public class Mob extends Creature {
 		public Room target;
 
 		public void findCurrentRoom() {
-			this.currentRoom = Dungeon.level.findRoomFor(Math.round(self.x / 16), Math.round(self.y / 16));
+			this.currentRoom = Dungeon.level.findRoomFor(self.x, self.y);
 		}
 
 		public void findNearbyPoint() {

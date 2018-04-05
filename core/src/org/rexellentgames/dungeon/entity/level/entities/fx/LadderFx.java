@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
+import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class LadderFx extends Entity {
@@ -38,7 +39,7 @@ public class LadderFx extends Entity {
 
 				Dungeon.goToLevel(Dungeon.depth - 1);
 			} else if (this.ladder instanceof Exit) {
-				if (Dungeon.depth != 4) {
+				if (Dungeon.depth != 4 || Dungeon.level instanceof WaveLevel) {
 					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 					Dungeon.ladderId = ((Exit) this.ladder).getType();
 
