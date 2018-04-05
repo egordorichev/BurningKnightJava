@@ -24,12 +24,12 @@ public class MagicWeapon extends Item {
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.delay > 0) {
 			float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
-			float dy = Input.instance.worldMouse.y + this.owner.h / 2 - this.owner.y - this.owner.h / 2;
+			float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
 			double a = Math.atan2(dy, dx);
 
 			TextureRegion s = this.getSprite();
 
-			Graphics.render(s, x, y, (float) a, s.getRegionWidth() / 2, s.getRegionHeight() / 2, false, false);
+			Graphics.render(s, x, y, (float) Math.toDegrees(a), s.getRegionWidth() / 2, s.getRegionHeight() / 2, false, false);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class MagicWeapon extends Item {
 	public StringBuilder buildInfo() {
 		StringBuilder builder = super.buildInfo();
 
-		builder.append("Uses ");
+		builder.append("\nUses ");
 		builder.append((int) this.mana);
 		builder.append(" mana\n");
 		builder.append(this.damage);
