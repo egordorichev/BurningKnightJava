@@ -9,6 +9,8 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -120,6 +122,8 @@ public class Mob extends Creature {
 		this.mind = Mind.values()[reader.readByte()];
 	}
 
+	protected boolean ignoreRooms;
+
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
@@ -169,7 +173,7 @@ public class Mob extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (this.room != null) {
+		if (this.room != null && !this.ignoreRooms) {
 			this.room.numEnemies -= 1;
 		}
 
@@ -179,7 +183,7 @@ public class Mob extends Creature {
 			this.room = room;
 		}
 
-		if (this.room != null) {
+		if (this.room != null && !this.ignoreRooms) {
 			this.room.numEnemies += 1;
 		}
 
@@ -288,7 +292,17 @@ public class Mob extends Creature {
 	}
 
 	protected ArrayList<Item> getDrops() {
-		return new ArrayList<Item>();
+		ArrayList<Item> items = new ArrayList<Item>();
+
+		if (Random.chance(10)) {
+			items.add(new HealingPotion());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new SunPotion());
+		}
+
+		return items;
 	}
 
 	@Override

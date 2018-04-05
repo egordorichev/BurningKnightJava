@@ -4,7 +4,7 @@ public class AnotherSword extends Sword {
 	{
 		name = "Another Sword";
 		description = "Looks familiar, huh?";
-		sprite = "item (iron sword)";
+		sprite = "item (another sword)";
 		damage = 6;
 		useTime = 0.2f;
 	}

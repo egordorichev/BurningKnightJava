@@ -286,8 +286,10 @@ public class Player extends Creature {
 				if (this.watery > 0) {
 					// this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
 
-					if (this.watery > 4f) {
+					if (this.watery > 4.5f) {
 						waterSteps[Random.newInt(5)].play();
+					} else {
+						steps[Random.newInt(5)].play();
 					}
 				} else {
 					steps[Random.newInt(5)].play();
