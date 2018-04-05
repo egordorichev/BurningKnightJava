@@ -59,7 +59,7 @@ public class WaveLevel extends BetterLevel {
 
 	@Override
 	protected Painter getPainter() {
-		return new HallPainter();
+		return new HallPainter().setGrass(0.45f).setWater(0.45f);
 	}
 
 	@Override
