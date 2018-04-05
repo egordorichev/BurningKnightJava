@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.entities;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -149,6 +150,9 @@ public class Door extends SaveableEntity {
 		this.animation.setAutoPause(true);
 
 		this.autoLock = reader.readBoolean();
+
+		this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
+		this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
 	}
 
 	@Override
@@ -157,5 +161,7 @@ public class Door extends SaveableEntity {
 
 		writer.writeBoolean(this.vertical);
 		writer.writeBoolean(this.autoLock);
+		writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));
+		writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
 	}
 }
