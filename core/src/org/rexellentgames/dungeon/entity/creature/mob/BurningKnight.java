@@ -227,6 +227,7 @@ public class BurningKnight extends Mob {
 
 	@Override
 	protected void onHurt() {
+		super.onHurt();
 		this.checkForRage();
 	}
 

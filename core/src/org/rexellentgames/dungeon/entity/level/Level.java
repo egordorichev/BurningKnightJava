@@ -34,6 +34,7 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
+import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -113,6 +114,10 @@ public abstract class Level extends Entity {
 	}
 
 	public static BetterLevel forDepth(int depth) {
+		if (depth != -2) {
+			return new WaveLevel();
+		}
+
 		switch (depth) {
 			case -1:
 				return new SkyLevel();
@@ -151,6 +156,8 @@ public abstract class Level extends Entity {
 		}
 	}
 
+	public boolean addLight = false;
+
 	public void initLight() {
 		this.light = new float[getSIZE()];
 		this.lightR = new float[getSIZE()];
@@ -160,7 +167,7 @@ public abstract class Level extends Entity {
 		Arrays.fill(this.lightR, LIGHT_R);
 		Arrays.fill(this.lightG, LIGHT_G);
 		Arrays.fill(this.lightB, LIGHT_B);
-		Arrays.fill(this.light, Dungeon.depth == 0 && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.3f : 0f);
+		Arrays.fill(this.light, Dungeon.level.addLight && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.3f : 0f);
 	}
 
 	public void fill() {
@@ -175,7 +182,9 @@ public abstract class Level extends Entity {
 				tile = Terrain.CHASM;
 				break;
 			case 0:
-				tile = Terrain.GRASS;
+				if (Dungeon.level instanceof HallLevel) {
+					tile = Terrain.GRASS;
+				}
 				break;
 			case 15:
 			case 16:
@@ -376,7 +385,7 @@ public abstract class Level extends Entity {
 			float v = this.light[i];
 
 			if (v > 0) {
-				this.light[i] = MathUtils.clamp(Dungeon.depth == 0 && (BurningKnight.instance == null ||
+				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null ||
 					BurningKnight.instance.target == null) ? 1f : (Dungeon.depth == 4) ? 0.3f : 0, 1f, v - dt * 2);
 				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
 				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
@@ -485,7 +494,7 @@ public abstract class Level extends Entity {
 		Graphics.shape.setColor(1, 1, 1, 0.1f);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 		for (Room room : this.rooms) {
-			Graphics.shape.rect(room.left * 16, room.top * 16, room.getWidth() * 16, room.getHeight() * 16);
+			Graphics.shape.rect(room.left * 16 + 8, room.top * 16 + 8, room.getWidth() * 16 - 16, room.getHeight() * 16 - 16);
 		}
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -1206,9 +1215,10 @@ public abstract class Level extends Entity {
 		return new ArrayList<Creature>();
 	}
 
-	public Room findRoomFor(int x, int y) {
+	public Room findRoomFor(float x, float y) {
 		for (Room room : this.rooms) {
-			if (room.inside(new Point(x, y))) {
+
+			if (room.left * 16 + 8 <= x && room.right * 16 - 8 > x && room.top * 16 + 8 <= y && room.bottom * 16 - 8 > y) {
 				return room;
 			}
 		}

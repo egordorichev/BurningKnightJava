@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
+import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
@@ -74,7 +75,7 @@ public abstract class BetterLevel extends Level {
 
 		boolean wasAdded = BurningKnight.instance == null;
 
-		if (Dungeon.depth > -1 && wasAdded) {
+		if (Dungeon.depth > -1 && wasAdded && !(Dungeon.level instanceof WaveLevel)) {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);

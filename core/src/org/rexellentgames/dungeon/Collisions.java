@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.level.entities.Door;
 
 public class Collisions implements ContactListener, ContactFilter {
 	@Override
@@ -48,6 +49,14 @@ public class Collisions implements ContactListener, ContactFilter {
 			Weapon weapon = (Weapon) a;
 
 			if (weapon.getOwner() == b) {
+				contact.setEnabled(false);
+			}
+		} else if (a instanceof Door) {
+			if (!((Door) a).lock) {
+				contact.setEnabled(false);
+			}
+		} else if (b instanceof Door) {
+			if (!((Door) b).lock) {
 				contact.setEnabled(false);
 			}
 		}
