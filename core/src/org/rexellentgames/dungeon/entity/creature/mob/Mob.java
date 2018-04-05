@@ -9,6 +9,8 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -120,6 +122,8 @@ public class Mob extends Creature {
 		this.mind = Mind.values()[reader.readByte()];
 	}
 
+	protected boolean ignoreRooms;
+
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
@@ -163,9 +167,25 @@ public class Mob extends Creature {
 		return null;
 	}
 
+	private Room room;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.room != null && !this.ignoreRooms) {
+			this.room.numEnemies -= 1;
+		}
+
+		Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+		if (room != null) {
+			this.room = room;
+		}
+
+		if (this.room != null && !this.ignoreRooms) {
+			this.room.numEnemies += 1;
+		}
 
 		if (this.drop) {
 			this.drop = false;
@@ -272,7 +292,17 @@ public class Mob extends Creature {
 	}
 
 	protected ArrayList<Item> getDrops() {
-		return new ArrayList<Item>();
+		ArrayList<Item> items = new ArrayList<Item>();
+
+		if (Random.chance(10)) {
+			items.add(new HealingPotion());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new SunPotion());
+		}
+
+		return items;
 	}
 
 	@Override
@@ -331,9 +361,14 @@ public class Mob extends Creature {
 
 		this.become("alerted");
 
-
 		if (this.ai != null) {
 			this.ai.checkForPlayer(true);
+		}
+
+		if (this.hp <= 0) {
+			if (this.room != null) {
+				this.room.numEnemies -= 1;
+			}
 		}
 	}
 
@@ -349,7 +384,11 @@ public class Mob extends Creature {
 			if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
 				|| self.saw && self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
 
-				self.become("fleeing");
+				if (Dungeon.world.isLocked()) {
+					Log.error("World is locked!");
+				} else {
+					self.become("fleeing");
+				}
 			}
 		}
 
@@ -443,7 +482,7 @@ public class Mob extends Creature {
 		public Room target;
 
 		public void findCurrentRoom() {
-			this.currentRoom = Dungeon.level.findRoomFor(Math.round(self.x / 16), Math.round(self.y / 16));
+			this.currentRoom = Dungeon.level.findRoomFor(self.x, self.y);
 		}
 
 		public void findNearbyPoint() {

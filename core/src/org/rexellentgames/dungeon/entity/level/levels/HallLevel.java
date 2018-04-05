@@ -27,6 +27,8 @@ public class HallLevel extends BetterLevel {
 		if (!Network.SERVER) {
 			Terrain.loadTextures(0);
 		}
+
+		this.addLight = Dungeon.depth == 0;
 	}
 
 	@Override
@@ -90,7 +92,7 @@ public class HallLevel extends BetterLevel {
 	@Override
 	protected Builder getBuilder() {
 		if (Dungeon.depth == 0) {
-			return new LineBuilder().setAngle(90).setPathLength(Dungeon.depth == 0 ? 0 : 0.3f, new float[]{3,3,3});
+			return new LineBuilder().setAngle(90).setPathLength(Dungeon.depth == 0 ? 0 : 0.4f, new float[]{0,1,0});
 		} else {
 			return new CastleBuilder();
 		}
@@ -98,7 +100,7 @@ public class HallLevel extends BetterLevel {
 
 	@Override
 	protected int getNumRegularRooms() {
-		return Dungeon.depth == 0 ? 1 : Random.newInt(Dungeon.depth + 3, Dungeon.depth * 2 + 2);
+		return Dungeon.depth == 0 ? 0 : Random.newInt(Dungeon.depth + 3, Dungeon.depth * 2 + 2);
 	}
 
 	@Override

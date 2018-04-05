@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.item.weapon;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -47,9 +48,11 @@ public class Sword extends Weapon {
 
 		if (this.blocking && (Input.instance.wasReleased("mouse1") || Input.instance.wasReleased("scroll") || this.blockT == 0)) {
 			this.blocking = false;
-			this.body.getWorld().destroyBody(this.body);
+			this.blockbox.getWorld().destroyBody(this.blockbox);
 			this.body = null;
 			this.blockT = 3f;
+
+			this.blockbox = null;
 
 			Tween.to(new Tween.Task(0, 0.1f) {
 				@Override
@@ -131,7 +134,7 @@ public class Sword extends Weapon {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 
-		body = Dungeon.world.createBody(def);
+		Body body = Dungeon.world.createBody(def);
 		PolygonShape poly = new PolygonShape();
 
 		int w = this.region.getRegionWidth();
@@ -152,8 +155,20 @@ public class Sword extends Weapon {
 		body.createFixture(fixture);
 		body.setUserData(this);
 		poly.dispose();
+
+		this.blockbox = body;
 	}
 
+	private Body blockbox;
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		if (this.blockbox != null) {
+			this.blockbox.getWorld().destroyBody(this.blockbox);
+		}
+	}
 
 	@Override
 	public void use() {
@@ -166,7 +181,7 @@ public class Sword extends Weapon {
 		this.animation.setPaused(false);
 		super.use();
 
-		Tween.to(new Tween.Task(200, this.useTime / 4) {
+		Tween.to(new Tween.Task(200, 0.07f) {
 			@Override
 			public float getValue() {
 				return added;
@@ -179,7 +194,7 @@ public class Sword extends Weapon {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0, useTime / 3) {
+				Tween.to(new Tween.Task(0, 0.1f) {
 					@Override
 					public float getValue() {
 						return added;

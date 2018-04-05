@@ -124,7 +124,11 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Tween.update(dt);
-		area.update(dt);
+
+		if (!(game.getState() instanceof LoadState)) {
+			area.update(dt);
+		}
+
 		game.update(dt);
 
 		if (!Network.SERVER) {

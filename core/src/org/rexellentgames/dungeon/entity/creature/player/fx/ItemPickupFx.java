@@ -8,7 +8,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 
 public class ItemPickupFx extends Entity {
 	private String text;
-	private ItemHolder item;
+	public ItemHolder item;
 	private Player player;
 
 	public ItemPickupFx(ItemHolder item, Player player) {

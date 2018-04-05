@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -51,9 +52,10 @@ public class BurningKnight extends Mob {
 		damage = 10;
 		w = 32;
 		h = 32;
+		ignoreRooms = true;
 		depth = 6;
 		alwaysActive = true;
-		speed = 4;
+		speed = 2;
 		maxSpeed = 100;
 		flying = true;
 
@@ -72,12 +74,19 @@ public class BurningKnight extends Mob {
 	public void findStartPoint() {
 		if (this.sawPlayer || Dungeon.depth != 0) {
 			Room room;
+			Point center;
+
+			int attempts = 0;
 
 			do {
 				room = Dungeon.level.getRandomRoom();
-			} while (room instanceof EntranceRoom || room instanceof ExitRoom);
+				center = room.getCenter();
 
-			Point center = room.getCenter();
+				if (attempts++ > 40) {
+					Log.info("Too many");
+					break;
+				}
+			} while (room instanceof EntranceRoom || room instanceof ExitRoom);
 
 			this.tp(center.x * 16 - 16, center.y * 16 - 16);
 			this.become("idle");
@@ -111,8 +120,8 @@ public class BurningKnight extends Mob {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeBoolean(this.sawPlayer);
-		writer.writeInt16((short) throne.x);
-		writer.writeInt16((short) throne.y);
+		writer.writeInt16((short) (throne != null ? throne.x : 0));
+		writer.writeInt16((short) (throne != null ? throne.y : 0));
 		writer.writeInt16((short) this.lock);
 	}
 
@@ -132,6 +141,7 @@ public class BurningKnight extends Mob {
 	@Override
 	public void init() {
 		this.sid = sfx.loop();
+		sfx.setVolume(this.sid, 0);
 
 		instance = this;
 		super.init();
@@ -152,6 +162,8 @@ public class BurningKnight extends Mob {
 
 		if (entity instanceof Player && !this.isDead()) {
 			((Player) entity).addBuff(new BurningBuff().setDuration(10));
+		} else if (entity instanceof Plant) {
+			((Plant) entity).startBurning();
 		}
 	}
 
@@ -160,7 +172,7 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f, LIGHT_SIZE, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
@@ -216,6 +228,7 @@ public class BurningKnight extends Mob {
 
 	@Override
 	protected void onHurt() {
+		super.onHurt();
 		this.checkForRage();
 	}
 
@@ -318,8 +331,7 @@ public class BurningKnight extends Mob {
 		@Override
 		public void update(float dt) {
 			if (this.t >= this.delay) {
-				self.become("idle");
-				self.findStartPoint(); // todo: might want to delay here
+				self.become("fadeOut");
 				return;
 			}
 
@@ -341,7 +353,7 @@ public class BurningKnight extends Mob {
 					attempts++;
 
 					if (attempts > 40) {
-						room = Dungeon.level.getRandomRoom();
+						Log.info("Too many");
 						break;
 					}
 				} while (d > 400f && (self.last == null || self.last != room));
@@ -554,6 +566,10 @@ public class BurningKnight extends Mob {
 
 						Dungeon.area.add(ball);
 					}
+				} else if (r < 0.65f) {
+					self.attackTp = true;
+					Log.info("Attack TP!");
+					self.become("fadeOut");
 				} else {
 					Fireball ball = new Fireball();
 
@@ -591,6 +607,56 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	public class FadeInState extends BKState {
+		@Override
+		public void onEnter() {
+			Tween.to(new Tween.Task(1, 0.3f) {
+				@Override
+				public float getValue() {
+					return self.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.a = value;
+				}
+
+				@Override
+				public void onEnd() {
+					self.become(self.attackTp ? "chase" : "idle");
+					self.attackTp = false;
+				}
+			});
+		}
+	}
+
+	public boolean attackTp = false;
+
+	public class FadeOutState extends BKState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			Tween.to(new Tween.Task(0, 0.3f) {
+				@Override
+				public float getValue() {
+					return self.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.a = value;
+				}
+
+				@Override
+				public void onEnd() {
+					self.findStartPoint();
+					self.become("fadeIn");
+				}
+			});
+		}
+	}
+
 	@Override
 	protected State getAi(String state) {
 		if (state.equals("idle")) {
@@ -609,6 +675,10 @@ public class BurningKnight extends Mob {
 			return new AttackState();
 		} else if (state.equals("onThrone")) {
 			return new OnThroneState();
+		} else if (state.equals("fadeIn")) {
+			return new FadeInState();
+		} else if (state.equals("fadeOut")) {
+			return new FadeOutState();
 		}
 
 		return super.getAi(state);

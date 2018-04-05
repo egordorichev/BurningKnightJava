@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
@@ -24,10 +25,19 @@ public class Plant extends SaveableEntity {
 	protected Body body;
 	protected AnimationData animation;
 	protected boolean broke;
+	protected boolean canBurn = true;
+	protected boolean burning;
+	protected float health;
+
+	public void startBurning() {
+		this.burning = this.canBurn;
+	}
 
 	@Override
 	public void init() {
 		super.init();
+
+		this.health = 3f;
 
 		this.body = this.createBody(3, 3, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y - 4, 0);
@@ -36,6 +46,20 @@ public class Plant extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		this.t += dt;
+
+		if (this.burning) {
+			this.health -= dt;
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 1f, 0.9f, 0f, 0.9f, 3f, false);
+
+			if (this.t % 0.1 <= 0.017) {
+				Dungeon.area.add(new FlameFx(this));
+			}
+
+			if (this.health <= 0) {
+				this.done = true;
+			}
+		}
 
 		if (this.growProgress < 1) {
 			float a = Dungeon.depth > 0 ? Dungeon.level.getLight((int) this.x / 16, (int) this.y / 16) : 1;
@@ -99,15 +123,15 @@ public class Plant extends SaveableEntity {
 
 				Dungeon.area.add(holder);
 				Dungeon.level.addSaveable(holder);
+			}
 
-				for (int i = 0; i < 10; i++) {
-					PlantFx fx = new PlantFx();
+			for (int i = 0; i < 10; i++) {
+				PlantFx fx = new PlantFx();
 
-					fx.x = this.x + Random.newInt(-4, 4) + 8;
-					fx.y = this.y + Random.newInt(-4, 4) + 8;
+				fx.x = this.x + Random.newInt(-4, 4) + 8;
+				fx.y = this.y + Random.newInt(-4, 4) + 8;
 
-					Dungeon.area.add(fx);
-				}
+				Dungeon.area.add(fx);
 			}
 		}
 	}

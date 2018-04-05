@@ -20,9 +20,11 @@ import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -31,7 +33,7 @@ public class Creature extends SaveableEntity {
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
-	protected float maxSpeed = 50;
+	protected float maxSpeed = 90;
 	protected int damage = 2;
 	protected int defense = 1;
 	protected float invt = 0;
@@ -113,7 +115,7 @@ public class Creature extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.vel.mul(0.8f);
+		this.vel.mul(0.9f);
 
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
@@ -128,7 +130,7 @@ public class Creature extends SaveableEntity {
 
 		if (Dungeon.level != null) {
 			boolean onGround = false;
-			boolean chasm = false;
+			ArrayList<Point> chasm = new ArrayList<>();
 
 			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
 				for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
@@ -141,15 +143,22 @@ public class Creature extends SaveableEntity {
 					if (!Dungeon.level.checkFor(x, y, Terrain.HOLE)) {
 						onGround = true;
 					} else {
-						chasm = true;
+						chasm.add(new Point(x, y));
 					}
 
 					this.onTouch(t, x, y);
 				}
 			}
 
-			if (chasm && !this.flying) {
-				this.vel.mul(0.1f);
+			if (!this.flying) {
+				for (Point c : chasm) {
+					float dx = c.x * 16 + 8 - this.x - this.w / 2;
+					float dy = c.y * 16 + 8 - this.y - this.h / 2;
+					float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+					this.vel.x -= dx / d * 8;
+					this.vel.y -= dy / d * 8;
+				}
 			}
 
 			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead) {
@@ -188,7 +197,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 4f,
+		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 8f,
 			this.t * 360, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2,
 			false, false, s, s);
 		Graphics.batch.setColor(1, 1, 1, 1);
@@ -238,7 +247,7 @@ public class Creature extends SaveableEntity {
 
 	public void modifySpeed(int amount) {
 		this.speed += amount;
-		this.maxSpeed += amount * 5;
+		this.maxSpeed += amount * 7;
 	}
 
 	public void modifyHp(int amount) {

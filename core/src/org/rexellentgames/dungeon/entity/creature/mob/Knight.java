@@ -1,17 +1,17 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.AnotherSword;
 import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
+import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
+import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -25,6 +25,7 @@ public class Knight extends Mob {
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
+
 
 	{
 		hpMax = 10;
@@ -43,7 +44,7 @@ public class Knight extends Mob {
 
 		this.sword = new IronSword();
 		this.sword.setOwner(this);
-		this.body = this.createBody(1, 2,12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createBody(2, 1,12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
@@ -114,10 +115,29 @@ public class Knight extends Mob {
 		ArrayList<Item> items = super.getDrops();
 
 		if (Random.chance(5)) {
-			items.add(this.sword);
+			items.add(new IronSword());
+		}
+
+		if (Random.chance(25)) {
+			items.add(new AnotherSword());
+		}
+
+		if (Random.chance(25)) {
+			items.add(new WoodenBow());
+		}
+
+		if (Random.chance(20)) {
+			items.add(new Arrow().setCount(Random.newInt(3, 5)));
 		}
 
 		return items;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		this.sword.destroy();
 	}
 
 	@Override

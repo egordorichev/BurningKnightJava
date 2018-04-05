@@ -83,6 +83,15 @@ public class Weapon extends Item {
 	}
 
 	@Override
+	public void destroy() {
+		super.destroy();
+
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+		}
+	}
+
+	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature && entity != this.owner) {
 			if (this.used && !this.penetrates) {
@@ -90,6 +99,10 @@ public class Weapon extends Item {
 			}
 
 			Creature creature = (Creature) entity;
+
+			if (creature.isDead()) {
+				return;
+			}
 
 			float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
 			float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;

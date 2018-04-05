@@ -34,10 +34,13 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
+import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -111,6 +114,10 @@ public abstract class Level extends Entity {
 	}
 
 	public static BetterLevel forDepth(int depth) {
+		if (depth != -2) {
+			return new WaveLevel();
+		}
+
 		switch (depth) {
 			case -1:
 				return new SkyLevel();
@@ -149,6 +156,8 @@ public abstract class Level extends Entity {
 		}
 	}
 
+	public boolean addLight = false;
+
 	public void initLight() {
 		this.light = new float[getSIZE()];
 		this.lightR = new float[getSIZE()];
@@ -158,7 +167,7 @@ public abstract class Level extends Entity {
 		Arrays.fill(this.lightR, LIGHT_R);
 		Arrays.fill(this.lightG, LIGHT_G);
 		Arrays.fill(this.lightB, LIGHT_B);
-		Arrays.fill(this.light, Dungeon.depth == 0 && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.3f : 0f);
+		Arrays.fill(this.light, Dungeon.level.addLight && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.3f : 0f);
 	}
 
 	public void fill() {
@@ -173,7 +182,9 @@ public abstract class Level extends Entity {
 				tile = Terrain.CHASM;
 				break;
 			case 0:
-				tile = Terrain.GRASS;
+				if (Dungeon.level instanceof HallLevel) {
+					tile = Terrain.GRASS;
+				}
 				break;
 			case 15:
 			case 16:
@@ -374,8 +385,8 @@ public abstract class Level extends Entity {
 			float v = this.light[i];
 
 			if (v > 0) {
-				this.light[i] = MathUtils.clamp(Dungeon.depth == 0 && (BurningKnight.instance == null ||
-					BurningKnight.instance.target == null) ? 1f : (Dungeon.depth == 4) ? 0.3f : 0, 1f, v - dt);
+				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null ||
+					BurningKnight.instance.target == null) ? 1f : (Dungeon.depth == 4) ? 0.3f : 0, 1f, v - dt * 2);
 				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
 				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
 				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);
@@ -474,7 +485,7 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		// Usefull room debug
+		// Useful room debug
 
 		/*
 		Graphics.batch.end();
@@ -483,7 +494,7 @@ public abstract class Level extends Entity {
 		Graphics.shape.setColor(1, 1, 1, 0.1f);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 		for (Room room : this.rooms) {
-			Graphics.shape.rect(room.left * 16, room.top * 16, room.getWidth() * 16, room.getHeight() * 16);
+			Graphics.shape.rect(room.left * 16 + 8, room.top * 16 + 8, room.getWidth() * 16 - 16, room.getHeight() * 16 - 16);
 		}
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -808,6 +819,7 @@ public abstract class Level extends Entity {
 		FileHandle save = Gdx.files.external(this.getSavePath(type));
 
 		if (!save.exists()) {
+
 			if (type == DataType.LEVEL) {
 				this.generate();
 				return;
@@ -1021,6 +1033,8 @@ public abstract class Level extends Entity {
 				stream.writeString(entity.getClass().getName());
 				entity.save(stream);
 			}
+
+			this.saveDropped();
 		}
 	}
 
@@ -1109,6 +1123,86 @@ public abstract class Level extends Entity {
 		}
 	}
 
+	public void loadDropped() {
+		this.droppedToChasm.clear();
+
+		try {
+			FileReader reader = new FileReader(".ldg/dropped" + this.level + ".save");
+			int count = reader.readInt32();
+
+			Log.info("Loading " + count + " dropped...");
+
+			for (int i = 0; i < count; i++) {
+				Class<?> clazz = Class.forName(reader.readString());
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance(new Object[]{});
+
+				Item entity = (Item) object;
+				ItemHolder holder = new ItemHolder();
+
+				entity.load(reader);
+
+				Point point = this.getRandomFreePoint(RegularRoom.class);
+
+				holder.x = point.x * 16;
+				holder.y = point.y * 16 - 8;
+
+				holder.setItem(entity);
+
+				this.area.add(holder);
+				this.saveable.add(holder);
+			}
+
+			reader.close();
+			File file = new File(".ldg/dropped" + this.level + ".save");
+			file.delete();
+			Log.info("Done!");
+		} catch (FileNotFoundException e) {
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveDropped() {
+		if (this.droppedToChasm.size() == 0) {
+			Log.info("Nothing dropped!");
+			return;
+		}
+
+		Log.info("Saving dropped " + this.droppedToChasm.size());
+
+		try {
+			FileWriter writer = new FileWriter(".ldg/dropped" + (this.level + 1) + ".save");
+
+			writer.writeInt32(this.droppedToChasm.size());
+
+			for (Item item : this.droppedToChasm) {
+				writer.writeString(item.getClass().getName());
+				item.save(writer);
+			}
+
+			writer.close();
+			Log.info("Done!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		this.droppedToChasm.clear();
+	}
+
+	public ArrayList<Item> droppedToChasm = new ArrayList<>();
+
 	public ArrayList<Room> getRooms() {
 		return this.rooms;
 	}
@@ -1121,9 +1215,10 @@ public abstract class Level extends Entity {
 		return new ArrayList<Creature>();
 	}
 
-	public Room findRoomFor(int x, int y) {
+	public Room findRoomFor(float x, float y) {
 		for (Room room : this.rooms) {
-			if (room.inside(new Point(x, y))) {
+
+			if (room.left * 16 + 8 <= x && room.right * 16 - 8 > x && room.top * 16 + 8 <= y && room.bottom * 16 - 8 > y) {
 				return room;
 			}
 		}
