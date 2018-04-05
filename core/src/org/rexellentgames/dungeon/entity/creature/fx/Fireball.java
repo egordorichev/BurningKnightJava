@@ -71,11 +71,11 @@ public class Fireball extends NetworkedEntity {
 		}
 
 		if (entity instanceof Mob && !this.bad) {
-			((Mob) entity).modifyHp(this.noMove ? -3 : -5);
+			((Mob) entity).modifyHp(this.noMove ? -3 : -5, true);
 			this.animation = this.dead;
 			((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(this.noMove ? -3 : -5);
+			((Player) entity).modifyHp(this.noMove ? -3 : -5, true);
 			this.animation = this.dead;
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
