@@ -11,6 +11,8 @@ import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
+import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
+import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
 
 import java.util.HashMap;
 
@@ -41,6 +43,9 @@ public class ItemRegistry {
 		register("lightroom_seed", LightroomSeed.class);
 		register("potiongrass_seed", PotionGrassSeed.class);
 		register("fire_book", FireBook.class);
+		register("arrow", Arrow.class);
+		register("wooden_bow", WoodenBow.class);
+		register("guitar", Guitar.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

@@ -5,7 +5,7 @@ public class Guitar extends Sword {
 		description = "@BibikiGL lost this...";
 		name = "Guitar";
 		damage = 12;
-		sprite = "item (item sword)"; // todo: replace
-		useTime = 0.8f;
+		sprite = "item (iron sword)"; // todo: replace
+		useTime = 0.5f;
 	}
 }
