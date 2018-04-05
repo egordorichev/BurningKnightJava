@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -54,6 +55,10 @@ public class Clown extends Mob {
 
 		if (Random.chance(50)) {
 			items.add(new Bomb());
+		}
+
+		if (Random.chance(10)) {
+			items.add(new FireBook());
 		}
 
 		return items;
