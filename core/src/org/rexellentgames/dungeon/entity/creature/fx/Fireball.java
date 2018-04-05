@@ -112,7 +112,7 @@ public class Fireball extends NetworkedEntity {
 		if (this.target != null || this.toMouse) {
 			s = 30;
 
-			float dx = (this.toMouse ? Input.instance.worldMouse.x : this.target.x + this.target.w / 2) - this.x - 8;
+			float dx = (this.toMouse ? Input.instance.worldMouse.x : Netwethis.target.x + this.target.w / 2) - this.x - 8;
 			float dy = (this.toMouse ? Input.instance.worldMouse.y : this.target.y + this.target.h / 2) - this.y - 8;
 			float d = (float) Math.atan2(dy, dx);
 
