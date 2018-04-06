@@ -276,7 +276,19 @@ public class Clown extends Mob {
 
 	public class FleeingState extends ClownState {
 		@Override
+		public void onEnter() {
+			super.onEnter();
+			if ((self.mind == Mind.DEFENDER && Random.chance(75)) || Random.chance(25)) {
+				self.guitar.secondUse();
+			}
+		}
+
+		@Override
 		public void update(float dt) {
+			if (self.guitar.getDelay() == 0 && ( self.mind == Mind.DEFENDER || self.mind == Mind.RAT)) {
+				self.guitar.secondUse();
+			}
+
 			this.findNearbyPoint();
 			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
 

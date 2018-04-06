@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.features.Door;
+import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -18,7 +19,9 @@ public class FightRoom extends RegularRoom {
 			door.setType(Door.Type.ENEMY);
 		}
 
-		for (int i = 0; i < Dungeon.depth + 1; i++) {
+		int count = (Dungeon.level instanceof WaveLevel ? Dungeon.depth + 1 : Dungeon.depth % 5 + 2);
+
+		for (int i = 0; i < count; i++) {
 			Point center = this.getRandomCell();
 			Mob mob = Random.chance(60) ? new Knight() : new Clown();
 
