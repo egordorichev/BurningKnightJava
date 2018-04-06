@@ -234,7 +234,7 @@ public class Clown extends Mob {
 			}
 
 			if (self.guitar.getDelay() == 0) {
-				self.become("chase");
+				self.become(self.mind == Mind.COWARD || self.mind == Mind.RAT ? "fleeing" : "chase");
 			}
 		}
 	}
