@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -14,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
@@ -373,6 +375,7 @@ public class Mob extends Creature {
 	}
 
 	public Room lastRoom;
+	public boolean toWater;
 
 	public class State<T extends Mob> {
 		public T self;
@@ -381,7 +384,10 @@ public class Mob extends Creature {
 		public Point targetPoint;
 
 		public void checkForFlee() {
-			if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
+			if (self.hasBuff(BurningBuff.class)) {
+				self.become("fleeing");
+				self.toWater = true;
+			} if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
 				|| self.saw && self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
 
 				if (Dungeon.world.isLocked()) {
@@ -493,16 +499,20 @@ public class Mob extends Creature {
 			this.findCurrentRoom();
 
 			if (this.currentRoom != null) {
-				for (int i = 0; i < 10; i++) {
-					this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
+				if (this.currentRoom instanceof FightRoom) {
+					this.target = this.currentRoom;
+				} else {
+					for (int i = 0; i < 10; i++) {
+						this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
 
-					if (this.target != self.lastRoom && this.target != this.currentRoom) {
-						self.lastRoom = this.currentRoom;
-						break;
-					}
+						if (this.target != self.lastRoom && this.target != this.currentRoom) {
+							self.lastRoom = this.currentRoom;
+							break;
+						}
 
-					if (i == 9) {
-						self.lastRoom = this.currentRoom;
+						if (i == 9) {
+							self.lastRoom = this.currentRoom;
+						}
 					}
 				}
 
@@ -511,7 +521,11 @@ public class Mob extends Creature {
 				for (int i = 0; i < this.target.getWidth() * this.target.getHeight(); i++) {
 					this.targetPoint = this.target.getRandomCell();
 
-					if (Dungeon.level.isValid((int) this.targetPoint.x, (int) this.targetPoint.y) && Dungeon.level.checkFor((int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE)) {
+					if (Dungeon.level.isValid((int) this.targetPoint.x, (int) this.targetPoint.y) &&
+						(self.toWater ? Dungeon.level.get((int) this.targetPoint.x, (int) this.targetPoint.y) == Terrain.WATER
+							: Dungeon.level.checkFor(
+						(int) this.targetPoint.x, (int) this.targetPoint.y, Terrain.PASSABLE))) {
+
 						found = true;
 						this.targetPoint.mul(16);
 						break;
@@ -523,6 +537,8 @@ public class Mob extends Creature {
 
 					this.target = null;
 					this.targetPoint = null;
+				} else {
+					self.toWater = false;
 				}
 			}
 		}
