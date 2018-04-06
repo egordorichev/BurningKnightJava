@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
@@ -50,6 +51,8 @@ public class LoadState extends State {
 			case GO_UP: this.s = "Ascending..."; break;
 			case GO_DOWN: this.s = "Descending..."; break;
 			case FALL_DOWN: this.s = "Falling..."; break;
+			case RUNNING: this.s = "Running..."; break;
+			case READING: this.s = "Writing the story...";
 		}
 
 		Tween.to(new Tween.Task(1f, 0.5f) {
@@ -181,8 +184,9 @@ public class LoadState extends State {
 	@Override
 	public void update(float dt) {
 		if (this.ready && this.a == 0) {
-			Level.GENERATED = false; // FIXME
-			Game.instance.setState(Level.GENERATED ? new ComicsState() : new InGameState());
+			boolean c = true; // Level.GENERATED && Dungeon.depth == 0;
+
+			Game.instance.setState(c ? new ComicsState() : new InGameState());
 			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}

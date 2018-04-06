@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.player;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -29,6 +30,8 @@ import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.game.state.ComicsState;
+import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -217,6 +220,20 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (Dungeon.game.getState() instanceof ComicsState) {
+			float x = Math.max(Camera.instance.getCamera().position.x - 80, this.x);
+			float y = MathUtils.clamp(Camera.instance.getCamera().position.y - 133,
+				Camera.instance.getCamera().position.y, this.y);
+
+			this.body.setTransform(x, y, 0);
+
+			if (x > Camera.instance.getCamera().position.x + 170) {
+				Dungeon.goToLevel(0);
+				Dungeon.loadType = Entrance.LoadType.RUNNING;
+				return;
+			}
+		}
 
 		if (Dungeon.level != null) {
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);

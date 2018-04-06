@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.game.state.ComicsState;
 import org.rexellentgames.dungeon.game.state.HubState;
 import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.state.LoginState;
@@ -35,7 +36,8 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean reset;
 	public static byte ladderId;
 	public static long longTime;
-	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
+	public static boolean showed;
+	public static Entrance.LoadType loadType = Entrance.LoadType.READING;
 
 	public static Mode mode = Mode.NORMAL;
 	private static int to = -2;
@@ -147,7 +149,10 @@ public class Dungeon extends ApplicationAdapter {
 				Graphics.medium.draw(Graphics.batch, "[green]Start", 0, 60);
 			}
 
-			area.render();
+			if (!(game.getState() instanceof ComicsState)) {
+				area.render();
+			}
+
 			game.render();
 
 			if (Camera.instance != null) {
