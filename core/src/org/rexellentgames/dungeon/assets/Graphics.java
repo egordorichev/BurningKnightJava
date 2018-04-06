@@ -43,7 +43,8 @@ public class Graphics {
 		manager.load("sfx/Scroll.wav", Sound.class);
 		manager.load("sfx/Woosh.wav", Sound.class);
 		manager.load("sfx/BK_sfx.wav", Sound.class);
-		manager.load("sfx/fireball_sfx.wav", Sound.class);
+		manager.load("sfx/fireball_cast_sfx.wav", Sound.class);
+		manager.load("sfx/fireball_break_sfx.wav", Sound.class);
 
 		for (int i = 1; i < 6; i++) {
 			manager.load("sfx/step_gobbo_normal_" + i + ".wav", Sound.class);

@@ -35,13 +35,14 @@ public class Fireball extends NetworkedEntity {
 	public boolean noMove;
 	public boolean bad = true;
 	public Vector2 vel;
-	public static Sound sfx = Graphics.getSound("sfx/fireball_sfx.wav");
+	public static Sound cast = Graphics.getSound("sfx/fireball_cast_sfx.wav");
+	public static Sound brk = Graphics.getSound("sfx/fireball_break_sfx.wav");
 
 	@Override
 	public void init() {
 		super.init();
 
-		sfx.play();
+		cast.play();
 
 		this.depth = 11;
 		this.flip = Random.chance(50);
@@ -53,13 +54,13 @@ public class Fireball extends NetworkedEntity {
 		this.animation = this.born;
 
 		if (this.target != null) {
-			float dx = this.target.x + this.target.w / 2 - this.x - 8;
-			float dy = this.target.y + this.target.h / 2 - this.y - 8;
+			float dx = this.target.x + this.target.w / 2 - this.x - 5;
+			float dy = this.target.y + this.target.h / 2 - this.y - 5;
 			this.a = (float) Math.atan2(dy, dx);
 		}
 
-		this.body = this.createBody(4, 4, 10, 10, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x - 4, this.y - 4, 0);
+		this.body = this.createBody(0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
+		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 	}
 
@@ -75,17 +76,20 @@ public class Fireball extends NetworkedEntity {
 			return;
 		}
 
-		if (entity instanceof Mob && !this.bad) {
+		if (entity instanceof Mob && !this.bad && !((Mob) entity).isDead()) {
 			((Mob) entity).modifyHp(this.noMove ? -3 : -5, true);
 			this.animation = this.dead;
+			brk.play();
 			((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
 			((Player) entity).modifyHp(this.noMove ? -3 : -5, true);
 			this.animation = this.dead;
+			brk.play();
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
 			if (((Weapon) entity).getOwner() instanceof Player) {
 				this.animation = this.dead;
+				brk.play();
 			}
 		} else if (entity instanceof Plant) {
 			((Plant) entity).startBurning();
@@ -96,13 +100,13 @@ public class Fireball extends NetworkedEntity {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.x = this.body.getPosition().x + 4;
-		this.y = this.body.getPosition().y + 4;
+		this.x = this.body.getPosition().x;
+		this.y = this.body.getPosition().y;
 
 		this.t += dt;
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLight(this.x + 8, this.y + 8, 3f, 0.8f, 0f, 2f, 3f);
+			Dungeon.level.addLight(this.x + 5, this.y + 5, 3f, 0.8f, 0f, 2f, 3f);
 		}
 
 		if (this.animation.update(dt)) {
@@ -111,6 +115,7 @@ public class Fireball extends NetworkedEntity {
 			} else if (this.animation == this.dead) {
 				this.done = true;
 			} else if (this.t >= 4f) {
+				brk.play();
 				this.animation = this.dead;
 			}
 		}
@@ -120,8 +125,8 @@ public class Fireball extends NetworkedEntity {
 		if (this.target != null) {
 			s = 30;
 
-			float dx =  this.target.x + this.target.w / 2 - this.x - 8;
-			float dy = this.target.y + this.target.h / 2 - this.y - 8;
+			float dx =  this.target.x + this.target.w / 2 - this.x - 5;
+			float dy = this.target.y + this.target.h / 2 - this.y - 5;
 			float d = (float) Math.atan2(dy, dx);
 
 			this.a += (d - this.a) / 70f;

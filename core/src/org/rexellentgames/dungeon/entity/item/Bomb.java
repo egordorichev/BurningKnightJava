@@ -10,6 +10,7 @@ public class Bomb extends Item {
 		sprite = "item (bomb)";
 		useTime = 1f;
 		stackable = true;
+		identified = true;
 	}
 
 	@Override
