@@ -115,7 +115,7 @@ public abstract class Level extends Entity {
 
 	public static BetterLevel forDepth(int depth) {
 		if (depth != -2) {
-			return new WaveLevel();
+			// return new WaveLevel();
 		}
 
 		switch (depth) {

@@ -151,8 +151,10 @@ public class Door extends SaveableEntity {
 
 		this.autoLock = reader.readBoolean();
 
-		this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
-		this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
+		if (this.autoLock) {
+			this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
+			this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
+		}
 	}
 
 	@Override
@@ -161,7 +163,10 @@ public class Door extends SaveableEntity {
 
 		writer.writeBoolean(this.vertical);
 		writer.writeBoolean(this.autoLock);
-		writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));
-		writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
+
+		if (this.autoLock) {
+			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));
+			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
+		}
 	}
 }
