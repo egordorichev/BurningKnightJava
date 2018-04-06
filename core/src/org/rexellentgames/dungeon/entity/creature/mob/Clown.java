@@ -26,6 +26,7 @@ public class Clown extends Mob {
 	private AnimationData animation;
 	private boolean toLaugh;
 	private float laughT = 3f;
+	private Guitar guitar;
 
 	{
 		hpMax = 10;
@@ -48,6 +49,9 @@ public class Clown extends Mob {
 
 		speed = 100;
 		maxSpeed = 100;
+
+		this.guitar = new Guitar();
+		this.guitar.setOwner(this);
 	}
 
 	@Override
@@ -82,6 +86,8 @@ public class Clown extends Mob {
 			this.animation.update(dt);
 		}
 
+		this.guitar.update(dt);
+
 		super.common();
 	}
 
@@ -110,6 +116,8 @@ public class Clown extends Mob {
 		}
 
 		this.animation.render(this.x, this.y, this.flipped);
+
+		this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
 	}
 
 	@Override
@@ -192,25 +200,41 @@ public class Clown extends Mob {
 	}
 
 	public class AttackState extends ClownState {
+		private boolean attacked;
+
 		@Override
 		public void update(float dt) {
-			self.become("fleeing");
-			self.laughT = 3f;
+			if (!this.attacked) {
+				this.attacked = true;
 
-			Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
+				if (Random.chance(75)) {
+					self.guitar.use();
+				} else {
+					self.become("fleeing");
+					self.laughT = 3f;
 
-			for (Entity entity : Dungeon.area.getEntities()) {
-				if (entity instanceof Mob) {
-					Mob mob = (Mob) entity;
+					Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
 
-					if (mob instanceof BurningKnight) {
+					for (Entity entity : Dungeon.area.getEntities()) {
+						if (entity instanceof Mob) {
+							Mob mob = (Mob) entity;
 
-					} else {
-						if (self.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2) < 100f) {
-							mob.become("fleeing");
+							if (mob instanceof BurningKnight) {
+
+							} else {
+								if (self.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2) < 100f) {
+									mob.become("fleeing");
+								}
+							}
 						}
 					}
 				}
+
+				return;
+			}
+
+			if (self.guitar.getDelay() == 0) {
+				self.become("chase");
 			}
 		}
 	}
