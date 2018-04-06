@@ -1,9 +1,11 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -33,10 +35,13 @@ public class Fireball extends NetworkedEntity {
 	public boolean noMove;
 	public boolean bad = true;
 	public Vector2 vel;
+	public static Sound sfx = Graphics.getSound("sfx/fireball_sfx.wav");
 
 	@Override
 	public void init() {
 		super.init();
+
+		sfx.play();
 
 		this.depth = 11;
 		this.flip = Random.chance(50);

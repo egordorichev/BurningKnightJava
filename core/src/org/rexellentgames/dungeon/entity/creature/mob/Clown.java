@@ -297,7 +297,6 @@ public class Clown extends Mob {
 				return;
 			} else if (self.flee == 0f) {
 				self.become("idle");
-				Log.info("End flee");
 			}
 
 			super.update(dt);
