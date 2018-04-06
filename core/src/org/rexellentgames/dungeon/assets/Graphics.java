@@ -1,9 +1,7 @@
 package org.rexellentgames.dungeon.assets;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -14,9 +12,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.util.Log;
-
-import java.io.File;
-import java.io.FilenameFilter;
 
 public class Graphics {
 	public static SpriteBatch batch;
@@ -48,6 +43,7 @@ public class Graphics {
 		manager.load("sfx/Scroll.wav", Sound.class);
 		manager.load("sfx/Woosh.wav", Sound.class);
 		manager.load("sfx/BK_sfx.wav", Sound.class);
+		manager.load("sfx/fireball_sfx.wav", Sound.class);
 
 		for (int i = 1; i < 6; i++) {
 			manager.load("sfx/step_gobbo_normal_" + i + ".wav", Sound.class);
