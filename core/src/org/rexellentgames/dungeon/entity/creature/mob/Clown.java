@@ -164,6 +164,11 @@ public class Clown extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
+			if (self.target == null) {
+				self.become("fleeing");
+				return;
+			}
+
 			if (self.t >= DELAY) {
 				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
 
@@ -258,20 +263,6 @@ public class Clown extends Mob {
 					self.laughT = 3f;
 
 					Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
-
-					for (Entity entity : Dungeon.area.getEntities()) {
-						if (entity instanceof Mob) {
-							Mob mob = (Mob) entity;
-
-							if (mob instanceof BurningKnight) {
-
-							} else {
-								if (self.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2) < 100f) {
-									mob.become("fleeing");
-								}
-							}
-						}
-					}
 				}
 
 				return;

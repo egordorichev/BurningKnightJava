@@ -365,8 +365,6 @@ public class Mob extends Creature {
 
 		super.onHurt();
 
-		this.become("alerted");
-
 		if (this.ai != null) {
 			this.ai.checkForPlayer(true);
 		}

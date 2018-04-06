@@ -454,7 +454,7 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || (self.target != null && d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || self.target.invisible) {
+			} else if ((self.lastSeen == null || (self.target != null && d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || (self.target != null && self.target.invisible)) {
 				self.r = 0.8f;
 				self.g = 0.0f;
 				self.b = 0.8f;

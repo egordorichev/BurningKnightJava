@@ -7,6 +7,8 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Explosion;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -36,6 +38,20 @@ public class BombEntity extends Entity {
 
 		this.body = this.createBody(2, 2, 12, 12, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
+
+		for (Entity entity : Dungeon.area.getEntities()) {
+			if (entity instanceof Mob) {
+				Mob mob = (Mob) entity;
+
+				if (mob instanceof BurningKnight) {
+
+				} else {
+					if (this.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2) < 100f) {
+						mob.become("fleeing");
+					}
+				}
+			}
+		}
 
 		place.play();
 	}

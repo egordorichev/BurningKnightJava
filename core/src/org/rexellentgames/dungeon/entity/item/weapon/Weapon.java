@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.util.Log;
 
 public class Weapon extends Item {
 	protected Body body;
@@ -42,8 +43,6 @@ public class Weapon extends Item {
 	@Override
 	public void secondUse() {
 		super.secondUse();
-
-		this.createHitbox();
 	}
 
 	protected void createHitbox() {
@@ -91,6 +90,10 @@ public class Weapon extends Item {
 		}
 	}
 
+	protected void onHit(Creature creature) {
+
+	}
+
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature && entity != this.owner) {
@@ -114,6 +117,8 @@ public class Weapon extends Item {
 			if (this.isBlocking()) {
 				return;
 			}
+
+			this.onHit(creature);
 
 			this.used = true;
 

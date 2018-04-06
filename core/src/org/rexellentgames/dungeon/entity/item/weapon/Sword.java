@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Sword extends Weapon {
@@ -23,6 +24,9 @@ public class Sword extends Weapon {
 	private float blockT;
 	private static Animation animations = Animation.make("sword-fx");
 	private AnimationData animation;
+
+	private Body blockbox;
+
 	private static Sound slash = Graphics.getSound("sfx/Woosh.wav");
 
 	@Override
@@ -46,10 +50,9 @@ public class Sword extends Weapon {
 
 		this.blockT = Math.max(0, this.blockT - dt);
 
-		if (this.blocking && (Input.instance.wasReleased("mouse1") || Input.instance.wasReleased("scroll") || this.blockT == 0)) {
+		if (this.blocking && (Input.instance.wasReleased("mouse1") || Input.instance.wasReleased("scroll") || this.blockT <= 0)) {
 			this.blocking = false;
 			this.blockbox.getWorld().destroyBody(this.blockbox);
-			this.body = null;
 			this.blockT = 3f;
 
 			this.blockbox = null;
@@ -119,14 +122,12 @@ public class Sword extends Weapon {
 		Graphics.render(sprite, xx, yy,
 			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, false, false);
 
-		if (this.body != null) {
+		if (this.blockbox != null) {
 			float a = (float) Math.toRadians(angle);
-
-			if (this.blocking) {
-				this.body.setTransform(xx + (float) Math.cos(a) * (flipped ? 0 : ox * 2), yy + (float) Math.sin(a) * (flipped ? 0 : ox * 2), a);
-			} else {
-				this.body.setTransform(xx, yy, a);
-			}
+			this.blockbox.setTransform(xx + (float) Math.cos(a) * (flipped ? 0 : ox * 2), yy + (float) Math.sin(a) * (flipped ? 0 : ox * 2), a);
+		} else if (this.body != null) {
+			float a = (float) Math.toRadians(angle);
+			this.body.setTransform(xx, yy, a);
 		}
 	}
 
@@ -134,7 +135,7 @@ public class Sword extends Weapon {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 
-		Body body = Dungeon.world.createBody(def);
+		this.blockbox = Dungeon.world.createBody(def);
 		PolygonShape poly = new PolygonShape();
 
 		int w = this.region.getRegionWidth();
@@ -152,14 +153,10 @@ public class Sword extends Weapon {
 		fixture.shape = poly;
 		fixture.friction = 0;
 
-		body.createFixture(fixture);
-		body.setUserData(this);
+		this.blockbox.createFixture(fixture);
+		this.blockbox.setUserData(this);
 		poly.dispose();
-
-		this.blockbox = body;
 	}
-
-	private Body blockbox;
 
 	@Override
 	public void destroy() {
@@ -172,7 +169,7 @@ public class Sword extends Weapon {
 
 	@Override
 	public void use() {
-		if (this.blocking) {
+		if (this.blocking || this.delay > 0) {
 			return;
 		}
 
@@ -216,7 +213,7 @@ public class Sword extends Weapon {
 
 	@Override
 	public void secondUse() {
-		if (this.body != null || this.blockT > 0) {
+		if (this.body != null || this.blockT > 0 || this.delay > 0) {
 			return;
 		}
 
