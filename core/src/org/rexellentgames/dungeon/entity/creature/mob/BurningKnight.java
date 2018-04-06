@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
@@ -224,6 +225,11 @@ public class BurningKnight extends Mob {
 		}
 
 		super.common();
+	}
+
+	@Override
+	protected boolean canHaveBuff(Buff buff) {
+		return !(buff instanceof BurningBuff);
 	}
 
 	@Override
