@@ -79,6 +79,7 @@ public class Player extends Creature {
 		level = 1;
 		hunger = 10;
 		alwaysActive = true;
+		unhittable = true; // todo: remove
 
 		idle = animations.get("idle");
 		run = animations.get("run");

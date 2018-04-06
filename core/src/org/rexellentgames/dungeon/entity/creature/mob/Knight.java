@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -31,7 +32,7 @@ public class Knight extends Mob {
 
 	{
 		hpMax = 10;
-		speed = 10;
+		speed = 5; // 10;
 
 		idle = animations.get("idle").randomize();
 		run = animations.get("run").randomize();
@@ -90,6 +91,7 @@ public class Knight extends Mob {
 
 		this.animation.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, this.a);
+
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
 
@@ -162,6 +164,8 @@ public class Knight extends Mob {
 			return new FleeingState();
 		} else if (state.equals("roam")) {
 			return new RoamState();
+		} else if (state.equals("dash")) {
+			return new DashState();
 		}
 
 		return super.getAi(state);
@@ -221,7 +225,7 @@ public class Knight extends Mob {
 				return;
 			}
 
-			if (this.moveTo(this.water, 6f, 16f)) {
+			if (this.moveTo(this.water, 4f, 16f)) {
 				self.become("relax");
 				this.findCurrentRoom();
 				self.lastRoom = this.currentRoom;
@@ -273,7 +277,7 @@ public class Knight extends Mob {
 			this.findNearbyPoint();
 			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
 
-			if (this.targetPoint != null && this.moveTo(this.targetPoint, 10f, 8f)) {
+			if (this.targetPoint != null && this.moveTo(this.targetPoint, 6f, 8f)) {
 				self.flee = 0;
 				self.become("idle");
 				return;
@@ -296,7 +300,7 @@ public class Knight extends Mob {
 		public void update(float dt) {
 			this.checkForSpa();
 
-			if (this.targetPoint != null && this.moveTo(this.targetPoint, 6f, 8f)) {
+			if (this.targetPoint != null && this.moveTo(this.targetPoint, 5f, 8f)) {
 				self.become("idle");
 				return;
 			}
@@ -321,6 +325,7 @@ public class Knight extends Mob {
 
 	public class ChaseState extends KnightState {
 		public static final float ATTACK_DISTANCE = 16f;
+		public static final float DASH_DIST = 48f;
 		public float delay;
 
 		@Override
@@ -337,17 +342,25 @@ public class Knight extends Mob {
 				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 10f,12f)) {
+				if (this.moveTo(self.lastSeen, 6f,16f)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
 
 						self.become("attack");
-					} else if (self.target == null) {
+					} else {
 						self.noticeSignT = 0f;
 						self.hideSignT = 2f;
 						self.become("idle");
-					} else {
-						self.moveToPoint(self.lastSeen.x + 8, self.lastSeen.y + 8, 16f);
+					}
+				} else {
+					if (self.target != null && Random.chance(1)) {
+						float d = self.getDistanceTo((int) (self.target.x + self.target.w / 2),
+							(int) (self.target.y + self.target.h / 2));
+
+						if (d >= DASH_DIST) {
+							self.become("dash");
+							return;
+						}
 					}
 				}
 			}
@@ -397,7 +410,59 @@ public class Knight extends Mob {
 				return;
 			}
 
+			if (Random.chance(0.1f)) {
+				self.become("dash");
+			}
+
 			super.update(dt);
+		}
+	}
+
+	public class DashState extends KnightState {
+		private Vector2 vel;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			if (self.lastSeen == null) {
+				self.become("idle");
+			}
+
+			float dx = self.lastSeen.x + 8 - self.x - self.w / 2;
+			float dy = self.lastSeen.y + 8 - self.y - self.h / 2;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			this.vel = new Vector2();
+			self.modifySpeed(100);
+			this.vel.x = dx / d * 300;
+			this.vel.y = dy / d * 300;
+
+			self.sword.setAdded(a);
+			self.sword.use();
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+
+			self.sword.setAdded(0);
+			self.modifySpeed(-100);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			this.vel.x *= 0.97;
+			this.vel.y *= 0.97;
+
+			self.vel.x = this.vel.x;
+			self.vel.y = this.vel.y;
+
+			if (this.t >= 1f) {
+				self.become("chase");
+			}
 		}
 	}
 }
