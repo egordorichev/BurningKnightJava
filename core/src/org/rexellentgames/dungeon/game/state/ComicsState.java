@@ -23,7 +23,7 @@ public class ComicsState extends State {
 	private static final float TIME_STEP = 1 / 45.f;
 	private float accumulator;
 	private int current;
-	private float[] alpha = new float[5];
+	public static float[] alpha = new float[5];
 	private static TextureRegion frame = Graphics.getTexture("comics");
 	private static TextureRegion notice = Graphics.getTexture("notice_bg");
 
@@ -40,9 +40,9 @@ public class ComicsState extends State {
 		Dungeon.showed = true;
 		Camera.instance.getCamera().update();
 
-		// Arrays.fill(this.alpha, 1f);
+		Arrays.fill(this.alpha, 1f);
 
-		/*
+
 		Tween.to(new Tween.Task(0, 1f) {
 			@Override
 			public float getValue() {
@@ -79,11 +79,41 @@ public class ComicsState extends State {
 							public void setValue(float value) {
 								alpha[2] = value;
 							}
-						});
+
+							@Override
+							public void onEnd() {
+								Tween.to(new Tween.Task(0, 1f) {
+									@Override
+									public float getValue() {
+										return alpha[3];
+									}
+
+									@Override
+									public void setValue(float value) {
+										alpha[3] = value;
+									}
+
+									@Override
+									public void onEnd() {
+										Tween.to(new Tween.Task(0, 1f) {
+											@Override
+											public float getValue() {
+												return alpha[4];
+											}
+
+											@Override
+											public void setValue(float value) {
+												alpha[4] = value;
+											}
+										}.delay(1f));
+									}
+								}.delay(1f));
+							}
+						}.delay(1f));
 					}
-				});
+				}.delay(1f));
 			}
-		});*/
+		});
 	}
 
 	@Override

@@ -264,7 +264,7 @@ public class Player extends Creature {
 			}
 		}
 
-		if (Network.SERVER || this.main) {
+		if ((Network.SERVER || this.main) && (!(Dungeon.game.getState() instanceof ComicsState) || ComicsState.alpha[4] < 0.5f)){
 			if (Input.instance.isDown("mouse2")) {
 				float dx = Input.instance.worldMouse.x - this.x - 8;
 				float dy = Input.instance.worldMouse.y - this.y - 8;

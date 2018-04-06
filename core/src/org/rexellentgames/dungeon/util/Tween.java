@@ -12,6 +12,12 @@ public class Tween {
 	public static void update(float dt) {
 		for (int i = tasks.size() - 1; i >= 0; i--) {
 			Task task = tasks.get(i);
+
+			if (task.delay > 0) {
+				task.delay -= dt;
+				continue;
+			}
+
 			task.progress += dt * task.rate;
 
 			float x = (task.progress >= 1 ? task.function(1) : task.function(task.progress));
@@ -31,12 +37,18 @@ public class Tween {
 		public float rate;
 		public float progress;
 		public float difference;
+		public float delay;
 
 		public Task(float end, float t) {
 			this.end = end;
 			this.start = this.getValue();
 			this.rate = 1 / t;
 			this.difference = (this.end - this.start);
+		}
+
+		public Task delay(float d) {
+			this.delay = d;
+			return this;
 		}
 
 		public float getValue() {

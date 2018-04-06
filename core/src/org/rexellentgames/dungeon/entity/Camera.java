@@ -7,8 +7,10 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.game.state.ComicsState;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
@@ -65,9 +67,8 @@ public class Camera extends Entity {
 			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16, Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
 			this.camera.update();
 
-			if (this.target.x + this.target.w / 2 > m) {
+			if (!(Dungeon.game.getState() instanceof ComicsState) && this.target.x + this.target.w / 2 > m) {
 				this.clamp.remove(0);
-				Log.info("break");
 			}
 		}
 	}
