@@ -9,9 +9,11 @@ import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -90,6 +92,8 @@ public class Knight extends Mob {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
+
+		Graphics.print(this.state, Graphics.small, this.x, this.y);
 
 		/*
 		if (this.ai.nextPathPoint != null) {
@@ -269,11 +273,15 @@ public class Knight extends Mob {
 			}
 
 			this.findNearbyPoint();
-			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.1f : 0.05f));
+			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
 
 			if (this.targetPoint != null && this.moveTo(this.targetPoint, 10f, 8f)) {
+				self.flee = 0;
 				self.become("idle");
 				return;
+			} else if (self.flee == 0f) {
+				self.become("idle");
+				Log.info("End flee");
 			}
 
 			super.update(dt);

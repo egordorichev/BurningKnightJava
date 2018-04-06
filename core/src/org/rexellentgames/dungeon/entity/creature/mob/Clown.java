@@ -1,17 +1,21 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -116,13 +120,13 @@ public class Clown extends Mob {
 		}
 
 		this.animation.render(this.x, this.y, this.flipped);
-
+		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
 	}
 
 	@Override
 	protected State getAi(String state) {
-		if (state.equals("idle")) {
+		if (state.equals("idle") || state.equals("laugh")) {
 			return new IdleState();
 		} else if (state.equals("alerted")) {
 			return new AlertedState();
@@ -134,6 +138,8 @@ public class Clown extends Mob {
 			return new FleeingState();
 		} else if (state.equals("roam")) {
 			return new RoamState();
+		} else if (state.equals("rangedAttack")) {
+			return new RangedAttack();
 		}
 
 		return super.getAi(state);
@@ -159,7 +165,45 @@ public class Clown extends Mob {
 			super.update(dt);
 
 			if (self.t >= DELAY) {
+				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
+
+				self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
+			}
+		}
+	}
+
+	public class RangedAttack extends ClownState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			Fireball ball = new Fireball();
+
+			float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2;
+			float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2;
+			float a = (float) Math.atan2(dy, dx);
+
+			ball.vel = new Vector2((float) -Math.cos(a) * 80, (float) -Math.sin(a) * 80);
+			ball.x = self.x + 12;
+			ball.y = self.y + 12;
+			Dungeon.area.add(ball);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 1f) {
+				if (self.mind == Mind.RAT || self.mind == Mind.COWARD) {
+					self.become("fleeing");
+					return;
+				}
+
 				self.become("chase");
+				// I know
+				if (Random.chance(75)) {
+					self.become("rangedAttack");
+				}
 			}
 		}
 	}
@@ -243,7 +287,7 @@ public class Clown extends Mob {
 		@Override
 		public void update(float dt) {
 			this.findNearbyPoint();
-			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.1f : 0.05f));
+			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
 
 			if (this.targetPoint != null && this.moveTo(this.targetPoint, 16f, 8f)) {
 				self.flee = 0;
@@ -251,6 +295,9 @@ public class Clown extends Mob {
 				self.toLaugh = false;
 
 				return;
+			} else if (self.flee == 0f) {
+				self.become("idle");
+				Log.info("End flee");
 			}
 
 			super.update(dt);

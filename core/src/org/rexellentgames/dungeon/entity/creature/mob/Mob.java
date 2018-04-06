@@ -214,6 +214,8 @@ public class Mob extends Creature {
 			if (this.ai != null) {
 				this.ai.self = this;
 				this.ai.onEnter();
+			} else {
+				Log.error("No ai for " + this.state + " " + this.getClass().getSimpleName());
 			}
 		}
 
@@ -359,6 +361,8 @@ public class Mob extends Creature {
 
 	@Override
 	protected void onHurt() {
+		this.flee = 1f;
+
 		super.onHurt();
 
 		this.become("alerted");
@@ -387,12 +391,22 @@ public class Mob extends Creature {
 			if (self.hasBuff(BurningBuff.class)) {
 				self.become("fleeing");
 				self.toWater = true;
+				self.saw = false;
+				self.target = null;
+				Level.heat = Math.max(0, Level.heat - 1);
 			} if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
 				|| self.saw && self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
 
 				if (Dungeon.world.isLocked()) {
 					Log.error("World is locked!");
+
+					self.flee = 1.5f;
 				} else {
+					Level.heat = Math.max(0, Level.heat - 1);
+					self.saw = false;
+					self.flee = Math.max(self.flee, 1f);
+					self.target = null;
+
 					self.become("fleeing");
 				}
 			}
@@ -467,18 +481,23 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.saw && (force || self.target.heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
+				if (!self.state.equals("fleeing") && !self.saw && (force || self.target.heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
 					Level.heat += 1f;
 					self.saw = true;
 					self.hideSignT = 0f;
 					self.noticeSignT = 2f;
 					this.checkForFlee();
 
-					if (!self.state.equals("chase")) {
+					if (!self.state.equals("chase") && !self.state.equals("fleeing")) {
 						self.become("alerted");
 					}
+				} else {
+					if (self.state.equals("idle") || self.state.equals("laugh")) {
+						self.become("chase");
+					}
 				}
-			} else {
+			} else if (self.saw) {
+				Level.heat = Math.max(0, Level.heat - 1f);
 				self.saw = false;
 			}
 		}
