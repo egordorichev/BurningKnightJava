@@ -68,6 +68,19 @@ public class BurningKnight extends Mob {
 	public void unlockHealth() {
 		this.lock++;
 		this.unhittable = false;
+
+		Tween.to(new Tween.Task(1f, 0.3f) {
+			@Override
+			public float getValue() {
+				return a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+		});
+
 		UiLog.instance.print("[green]Burning Knight is now hittable!");
 		this.checkForRage();
 	}
@@ -209,6 +222,19 @@ public class BurningKnight extends Mob {
 
 		if (!this.unhittable && this.hp <= v) {
 			this.unhittable = true;
+
+			Tween.to(new Tween.Task(0.7f, 0.3f) {
+				@Override
+				public float getValue() {
+					return a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					a = value;
+				}
+			});
+
 			Log.info("Now BK is unhittable!");
 			Log.error(this.hp + " hp and " + v + " val");
 			UiLog.instance.print("[red]Burning Knight is now unhittable!");
@@ -241,7 +267,6 @@ public class BurningKnight extends Mob {
 	public void onRageStart() {
 		Log.error(this.hp + " hp and " + this.rageLevel +" rl");
 
-		this.modifyDefense(3 + Dungeon.depth * 2);
 		this.modifySpeed(4);
 
 		this.damage += 5;
@@ -251,7 +276,6 @@ public class BurningKnight extends Mob {
 	}
 
 	public void onRageEnd() {
-		this.modifyDefense(-3 - Dungeon.depth * 2);
 		this.modifySpeed(-4);
 
 		this.damage -= 5;
