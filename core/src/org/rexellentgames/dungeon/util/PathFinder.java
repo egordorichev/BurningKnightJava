@@ -5,7 +5,8 @@ import org.rexellentgames.dungeon.Dungeon;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class PathFinder {
+public class
+PathFinder {
 	public static float[] distance;
 
 	private static boolean[] goals;
