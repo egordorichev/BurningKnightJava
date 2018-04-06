@@ -9,13 +9,12 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class CastleEntranceRoom extends EntranceRoom {
-	public Point spawn;
+	public static Point spawn;
 
 	@Override
 	public void paint(Level level) {

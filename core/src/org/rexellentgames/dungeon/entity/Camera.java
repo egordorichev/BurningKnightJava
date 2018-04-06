@@ -98,6 +98,11 @@ public class Camera extends Entity {
 
 	public void follow(Entity entity) {
 		this.target = entity;
+
+		if (this.target == null) {
+			return;
+		}
+
 		int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + this.target.x + 8);
 		int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y + 8);
 		this.camera.position.set(x, y, 0);

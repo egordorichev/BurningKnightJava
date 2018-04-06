@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -96,7 +95,6 @@ public class FlameFx extends Entity {
 			this.size, 1, 1, this.angle);
 
 		Graphics.shape.end();
-
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		Graphics.batch.begin();
 	}

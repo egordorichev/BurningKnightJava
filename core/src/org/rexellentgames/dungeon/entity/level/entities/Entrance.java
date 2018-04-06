@@ -39,7 +39,9 @@ public class Entrance extends SaveableEntity {
 	public enum LoadType {
 		GO_UP,
 		GO_DOWN,
-		FALL_DOWN
+		FALL_DOWN,
+		RUNNING,
+		READING
 	}
 
 	@Override
