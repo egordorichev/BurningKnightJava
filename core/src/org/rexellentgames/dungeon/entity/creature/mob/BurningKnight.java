@@ -695,7 +695,7 @@ public class BurningKnight extends Mob {
 			return new RoamState();
 		} else if (state.equals("alerted")) {
 			return new AlertedState();
-		} else if (state.equals("chase")) {
+		} else if (state.equals("chase") || state.equals("fleeing")) {
 			return new ChaseState();
 		} else if (state.equals("dash")) {
 			return new DashState();

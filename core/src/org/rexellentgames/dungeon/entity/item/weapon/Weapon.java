@@ -90,6 +90,10 @@ public class Weapon extends Item {
 		}
 	}
 
+	public void setAdded(float added) {
+		this.added = added;
+	}
+
 	protected void onHit(Creature creature) {
 
 	}

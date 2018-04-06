@@ -90,7 +90,9 @@ public class Sword extends Weapon {
 
 				angle += (flipped ? a : -a);
 				pure = a - 180;
-			} else if (this.owner instanceof Mob) {
+
+				angle = flipped ? angle : 180 - angle;
+			} else if (this.owner instanceof Mob && this.added == 0) {
 				Mob mob = (Mob) this.owner;
 
 				if (mob.target != null && mob.saw && !mob.isDead()) {
@@ -103,12 +105,13 @@ public class Sword extends Weapon {
 				} else {
 					angle += (flipped ? 0 : 180);
 				}
+
+				angle = flipped ? angle : 180 - angle;
 			} else {
 				angle += (flipped ? 0 : 180);
+				angle = flipped ? angle : 180 - angle;
 			}
 		}
-
-		angle = flipped ? angle : 180 - angle;
 
 		TextureRegion sprite = this.getSprite();
 
