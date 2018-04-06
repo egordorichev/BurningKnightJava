@@ -184,7 +184,7 @@ public class LoadState extends State {
 	@Override
 	public void update(float dt) {
 		if (this.ready && this.a == 0) {
-			boolean c = true; // Level.GENERATED && Dungeon.depth == 0;
+			boolean c = Level.GENERATED && Dungeon.depth == 0;
 
 			Game.instance.setState(c ? new ComicsState() : new InGameState());
 			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
