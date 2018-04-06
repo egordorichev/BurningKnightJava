@@ -181,7 +181,7 @@ public class Sword extends Weapon {
 		this.animation.setPaused(false);
 		super.use();
 
-		Tween.to(new Tween.Task(200, 0.07f) {
+		Tween.to(new Tween.Task(200, 0.1f) {
 			@Override
 			public float getValue() {
 				return added;
