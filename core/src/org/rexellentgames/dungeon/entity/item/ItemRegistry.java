@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
 
@@ -43,6 +44,7 @@ public class ItemRegistry {
 		register("lightroom_seed", LightroomSeed.class);
 		register("potiongrass_seed", PotionGrassSeed.class);
 		register("fire_book", FireBook.class);
+		register("note_book", NoteBook.class);
 		register("arrow", Arrow.class);
 		register("wooden_bow", WoodenBow.class);
 		register("guitar", Guitar.class);

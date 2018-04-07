@@ -9,7 +9,6 @@ import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.ui.UiInput;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Console implements InputProcessor {
@@ -27,6 +26,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new GenerateCommand());
 		this.commands.add(new LevelCommand());
 		this.commands.add(new LightCommand());
+		this.commands.add(new DebugCommand());
 	}
 
 	public void destroy() {

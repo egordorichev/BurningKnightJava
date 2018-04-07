@@ -17,6 +17,10 @@ public class Animation {
 		this(file, "");
 	}
 
+	public ArrayList<Frame> getFrames(String state) {
+		return this.frames.get(state);
+	}
+
 	public Animation(String file, String add) {
 		JsonReader reader = new JsonReader();
 		JsonValue root = reader.parse(Gdx.files.internal("sprites_split/" + file + ".json"));
