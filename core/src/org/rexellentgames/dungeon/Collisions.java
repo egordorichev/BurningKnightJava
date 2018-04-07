@@ -15,8 +15,11 @@ public class Collisions implements ContactListener, ContactFilter {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
 		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
-		if (a != null && b != null) {
+		if (a != null) {
 			a.onCollision(b);
+		}
+
+		if (b != null) {
 			b.onCollision(a);
 		}
 	}
@@ -26,8 +29,11 @@ public class Collisions implements ContactListener, ContactFilter {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
 		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
-		if (a != null && b != null) {
+		if (a != null) {
 			a.onCollisionEnd(b);
+		}
+
+		if (b != null) {
 			b.onCollisionEnd(a);
 		}
 	}

@@ -206,7 +206,7 @@ public class ComicsState extends State {
 	public void destroy() {
 		super.destroy();
 
-		Player.instance.tp(CastleEntranceRoom.spawn.x + 16, CastleEntranceRoom.spawn.y * 16);
+		// Player.instance.tp(CastleEntranceRoom.spawn.x + 16, CastleEntranceRoom.spawn.y * 16);
 
 		if (Network.SERVER || Network.NONE) {
 			Dungeon.level.save(Level.DataType.PLAYER);

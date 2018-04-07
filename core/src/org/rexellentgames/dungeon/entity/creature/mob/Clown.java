@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
+import org.rexellentgames.dungeon.entity.creature.fx.Note;
 import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
@@ -171,8 +172,9 @@ public class Clown extends Mob {
 
 			if (self.t >= DELAY) {
 				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
-
-				self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
+				self.become("rangedAttack");
+				// FIX ME
+				// self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
 			}
 		}
 	}
@@ -182,16 +184,16 @@ public class Clown extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			Fireball ball = new Fireball();
+			Note note = new Note();
 
 			float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2;
 			float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2;
 			float a = (float) Math.atan2(dy, dx);
 
-			ball.vel = new Vector2((float) -Math.cos(a) * 80, (float) -Math.sin(a) * 80);
-			ball.x = self.x + 12;
-			ball.y = self.y + 12;
-			Dungeon.area.add(ball);
+			note.a = a;
+			note.x = self.x + 2;
+			note.y = self.y + 2;
+			Dungeon.area.add(note);
 		}
 
 		@Override
@@ -204,7 +206,7 @@ public class Clown extends Mob {
 					return;
 				}
 
-				self.become("chase");
+				// self.become("chase");
 				// I know
 				if (Random.chance(75)) {
 					self.become("rangedAttack");
