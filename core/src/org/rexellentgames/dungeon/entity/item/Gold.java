@@ -10,6 +10,7 @@ public class Gold extends Item {
 		autoPickup = true;
 		useable = false;
 		description = "$$$";
+		identified = true;
 	}
 
 	@Override

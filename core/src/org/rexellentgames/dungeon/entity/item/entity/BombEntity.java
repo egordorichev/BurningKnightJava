@@ -47,6 +47,7 @@ public class BombEntity extends Entity {
 
 				} else {
 					if (this.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2) < 100f) {
+						mob.flee = 1.5f;
 						mob.become("fleeing");
 					}
 				}

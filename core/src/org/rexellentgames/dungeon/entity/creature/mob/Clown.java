@@ -179,28 +179,24 @@ public class Clown extends Mob {
 
 	public class RangedAttack extends ClownState {
 		@Override
-		public void onEnter() {
-			super.onEnter();
-
-			Note note = new Note();
-
-			float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2;
-			float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2;
-			float a = (float) Math.atan2(-dy, -dx);
-
-			note.a = a;
-			note.x = self.x + 2;
-			note.y = self.y + 2;
-
-			Log.info("FIRE");
-			Dungeon.area.add(note);
-		}
-
-		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 1f) {
+			if (this.t % 0.5f < 0.0175f && Random.chance(75)) {
+				Note note = new Note();
+
+				float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2 + Random.newFloat(-10f, 10f);
+				float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2 + Random.newFloat(-10f, 10f);
+				float a = (float) Math.atan2(-dy, -dx);
+
+				note.a = a;
+				note.x = self.x + 2;
+				note.y = self.y + 2;
+
+				Dungeon.area.add(note);
+			}
+
+			if (this.t >= 3f) {
 				if (self.mind == Mind.RAT || self.mind == Mind.COWARD) {
 					self.become("fleeing");
 					return;
@@ -251,25 +247,23 @@ public class Clown extends Mob {
 	}
 
 	public class AttackState extends ClownState {
-		private boolean attacked;
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			if (Random.chance(25)) {
+				self.guitar.use();
+			} else {
+				self.flee = 1.5f;
+				self.become("fleeing");
+				self.laughT = 3f;
+				// fixme: it places TooO MANY
+				Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
+			}
+		}
 
 		@Override
 		public void update(float dt) {
-			if (!this.attacked) {
-				this.attacked = true;
-
-				if (Random.chance(25)) {
-					self.guitar.use();
-				} else {
-					self.become("fleeing");
-					self.laughT = 3f;
-					// fixme: it places TooO MANY
-					Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
-				}
-
-				return;
-			}
-
 			if (self.guitar.getDelay() == 0) {
 				self.become(self.mind == Mind.COWARD || self.mind == Mind.RAT ? "fleeing" : "chase");
 			}

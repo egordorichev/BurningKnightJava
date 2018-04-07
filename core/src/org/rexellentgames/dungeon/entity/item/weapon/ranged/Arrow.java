@@ -7,6 +7,7 @@ public class Arrow extends Item {
 		name = "Arrow";
 		stackable = true;
 		sprite = "item (arrow)";
+		useable = false;
 	}
 
 	@Override
