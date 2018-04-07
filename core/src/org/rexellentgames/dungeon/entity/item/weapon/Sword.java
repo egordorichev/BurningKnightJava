@@ -40,6 +40,10 @@ public class Sword extends Weapon {
 		damage = 3;
 	}
 
+	protected Sound getSfx() {
+		return slash;
+	}
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -176,7 +180,7 @@ public class Sword extends Weapon {
 			return;
 		}
 
-		slash.play();
+		this.getSfx().play();
 
 		this.animation.setPaused(false);
 		super.use();
