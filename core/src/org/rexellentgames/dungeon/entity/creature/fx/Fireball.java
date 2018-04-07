@@ -125,7 +125,7 @@ public class Fireball extends NetworkedEntity {
 		if (this.target != null) {
 			s = 30;
 
-			float dx =  this.target.x + this.target.w / 2 - this.x - 5;
+			float dx = this.target.x + this.target.w / 2 - this.x - 5;
 			float dy = this.target.y + this.target.h / 2 - this.y - 5;
 			float d = (float) Math.atan2(dy, dx);
 

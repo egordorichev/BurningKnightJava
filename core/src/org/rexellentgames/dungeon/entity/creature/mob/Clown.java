@@ -172,9 +172,7 @@ public class Clown extends Mob {
 
 			if (self.t >= DELAY) {
 				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
-				self.become("rangedAttack");
-				// FIX ME
-				// self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
+				self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
 			}
 		}
 	}
@@ -188,11 +186,13 @@ public class Clown extends Mob {
 
 			float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2;
 			float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2;
-			float a = (float) Math.atan2(dy, dx);
+			float a = (float) Math.atan2(-dy, -dx);
 
 			note.a = a;
 			note.x = self.x + 2;
 			note.y = self.y + 2;
+
+			Log.info("FIRE");
 			Dungeon.area.add(note);
 		}
 
@@ -206,7 +206,7 @@ public class Clown extends Mob {
 					return;
 				}
 
-				// self.become("chase");
+				self.become("chase");
 				// I know
 				if (Random.chance(75)) {
 					self.become("rangedAttack");
@@ -258,12 +258,12 @@ public class Clown extends Mob {
 			if (!this.attacked) {
 				this.attacked = true;
 
-				if (Random.chance(75)) {
+				if (Random.chance(25)) {
 					self.guitar.use();
 				} else {
 					self.become("fleeing");
 					self.laughT = 3f;
-
+					// fixme: it places TooO MANY
 					Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
 				}
 
