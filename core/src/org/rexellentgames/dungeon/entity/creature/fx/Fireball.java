@@ -76,7 +76,7 @@ public class Fireball extends NetworkedEntity {
 			return;
 		}
 
-		if (entity instanceof Mob && !this.bad && !((Mob) entity).isDead()) {
+		if (entity instanceof Mob && !((Mob) entity).isDead()) {
 			((Mob) entity).modifyHp(this.noMove ? -3 : -5, true);
 			this.animation = this.dead;
 			brk.play();

@@ -31,7 +31,6 @@ import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.ComicsState;
-import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -44,7 +43,7 @@ import java.util.ArrayList;
 public class Player extends Creature {
 	public static ArrayList<Player> all = new ArrayList<Player>();
 
-	private static final float LIGHT_SIZE = 3f;
+	private static final float LIGHT_SIZE = 2f;
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;

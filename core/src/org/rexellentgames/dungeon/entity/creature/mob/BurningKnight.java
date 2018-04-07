@@ -30,7 +30,7 @@ public class BurningKnight extends Mob {
 	public float rageLevel;
 	private boolean inRage;
 	private static float LIGHT_SIZE = 8f;
-	private static Animation animations = Animation.make("actor-burning-knight");
+	private static Animation animations = Animation.make("actor_burning_knight");
 	private float r;
 	private float g;
 	private float b;
@@ -167,7 +167,7 @@ public class BurningKnight extends Mob {
 			BurningKnight.instance = null;
 		}
 
-		this.body = this.createBody(8, 3, 16, 18, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createBody(7, 10, 21, 18, BodyDef.BodyType.DynamicBody, true);
 	}
 
 	@Override
@@ -596,10 +596,10 @@ public class BurningKnight extends Mob {
 
 						Dungeon.area.add(ball);
 					}
-				} else if (r < 0.65f) {
+				/* } else if (r < 0.65f) {
 					self.attackTp = true;
 					Log.info("Attack TP!");
-					self.become("fadeOut");
+					self.become("fadeOut"); */
 				} else {
 					Fireball ball = new Fireball();
 
