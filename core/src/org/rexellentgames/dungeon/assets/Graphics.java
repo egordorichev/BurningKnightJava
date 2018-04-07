@@ -42,6 +42,7 @@ public class Graphics {
 		manager.load("sfx/Potion.wav", Sound.class);
 		manager.load("sfx/Scroll.wav", Sound.class);
 		manager.load("sfx/Woosh.wav", Sound.class);
+		manager.load("sfx/woosh_towelknight.wav", Sound.class);
 		manager.load("sfx/BK_sfx.wav", Sound.class);
 		manager.load("sfx/fireball_cast_sfx.wav", Sound.class);
 		manager.load("sfx/fireball_break_sfx.wav", Sound.class);
