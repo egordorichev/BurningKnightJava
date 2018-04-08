@@ -82,7 +82,13 @@ public class Lamp extends Item {
 		super.secondUse();
 
 		if (BurningKnight.instance != null) {
+			float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
+				BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 
+			if (d < 64f) {
+				BurningKnight.instance.become("tp");
+				BurningKnight.instance.attackTp = true;
+			}
 		}
 	}
 }
