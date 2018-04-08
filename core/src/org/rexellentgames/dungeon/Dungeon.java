@@ -37,7 +37,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static byte ladderId;
 	public static long longTime;
 	public static boolean showed;
-	public static Entrance.LoadType loadType = Entrance.LoadType.READING;
+	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
 
 	public static Mode mode = Mode.NORMAL;
 	private static int to = -2;
