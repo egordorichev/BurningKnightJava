@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.seed.PotionGrassSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
@@ -49,6 +50,7 @@ public class ItemRegistry {
 		register("wooden_bow", WoodenBow.class);
 		register("guitar", Guitar.class);
 		register("lamp", Lamp.class);
+		register("defense_book", DefenseBook.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

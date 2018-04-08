@@ -232,7 +232,7 @@ public class BurningKnight extends Mob {
 		if (!this.unhittable && this.hp <= v) {
 			this.unhittable = true;
 
-			Tween.to(new Tween.Task(0.7f, 0.3f) {
+			Tween.to(new Tween.Task(0.5f, 0.3f) {
 				@Override
 				public float getValue() {
 					return a;

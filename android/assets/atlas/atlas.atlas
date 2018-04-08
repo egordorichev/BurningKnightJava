@@ -2041,6 +2041,13 @@ fx-sword-idle-04
   orig: 32, 32
   offset: 0, 0
   index: -1
+ichor-idle-00
+  rotate: false
+  xy: 367, 88
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 item (another sword)
   rotate: false
   xy: 461, 251
@@ -2288,7 +2295,7 @@ item (seed B)
   index: -1
 item (seed C)
   rotate: false
-  xy: 367, 88
+  xy: 377, 88
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
