@@ -48,6 +48,7 @@ public class ItemRegistry {
 		register("arrow", Arrow.class);
 		register("wooden_bow", WoodenBow.class);
 		register("guitar", Guitar.class);
+		register("lamp", Lamp.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {
