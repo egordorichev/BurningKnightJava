@@ -75,7 +75,7 @@ public abstract class BetterLevel extends Level {
 
 		boolean wasAdded = BurningKnight.instance == null;
 
-		if (Dungeon.depth > -1 && wasAdded && !(Dungeon.level instanceof WaveLevel && Dungeon.depth < 2)) {
+		if (Dungeon.depth > -1 && wasAdded) {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);

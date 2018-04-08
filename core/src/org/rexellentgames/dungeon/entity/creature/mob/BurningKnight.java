@@ -85,7 +85,10 @@ public class BurningKnight extends Mob {
 
 	public void findStartPoint() {
 		if (this.attackTp) {
-			// TODO
+			float a = Random.newFloat(0, (float) (Math.PI * 2));
+			this.tp((float) Math.cos(a) * 64 + Player.instance.x - Player.instance.w / 2 + this.w / 2,
+				(float) Math.sin(a) * 64 + Player.instance.y - Player.instance.h / 2 + this.h / 2);
+
 			return;
 		}
 
@@ -191,7 +194,7 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 0.5f * this.a, LIGHT_SIZE, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 3f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
@@ -295,7 +298,7 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(1, 1, 1, Math.max(0, this.a - 0.3f));
+		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.dead) {
 			this.animation = killed;
@@ -658,7 +661,7 @@ public class BurningKnight extends Mob {
 
 				@Override
 				public void onEnd() {
-					self.become(self.attackTp ? "chase" : "idle");
+					self.become("idle");
 					self.attackTp = false;
 				}
 			});
