@@ -60,6 +60,7 @@ public class Player extends Creature {
 	private String name;
 	private float watery;
 	private AnimationData idle;
+	protected boolean ghost;
 	private AnimationData run;
 	private AnimationData hurt;
 	private AnimationData killed;
@@ -94,10 +95,12 @@ public class Player extends Creature {
 
 		all.add(this);
 
-		if (instance == null || Network.NONE) {
-			instance = this;
-			main = true;
-			local = true;
+		if (!this.ghost) {
+			if (instance == null || Network.NONE) {
+				instance = this;
+				main = true;
+				local = true;
+			}
 		}
 	}
 
@@ -214,13 +217,9 @@ public class Player extends Creature {
 
 	@Override
 	public void modifyHp(int amount) {
-		int hp = this.hp;
+
 
 		super.modifyHp(amount);
-
-		if (this.hp > hp && this.hp == this.hpMax) {
-			Dungeon.area.add(new TextFx("Full Health", this).setColor(Dungeon.ORANGE));
-		}
 	}
 
 	@Override

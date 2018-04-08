@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.AnotherSword;
 import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
@@ -121,6 +122,10 @@ public class Knight extends Mob {
 
 		if (Random.chance(10)) {
 			items.add(new FireBook());
+		}
+
+		if (Random.chance(10)) {
+			items.add(new DefenseBook());
 		}
 
 		if (Random.chance(5)) {
