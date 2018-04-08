@@ -224,4 +224,14 @@ public class Dungeon extends ApplicationAdapter {
 	public enum Mode {
 		NORMAL
 	}
+
+	public static Color BLACK = Color.valueOf("#000000");
+	public static Color GRAY = Color.valueOf("#696a6a");
+	public static Color WHITE = Color.valueOf("#ffffff");
+	public static Color ORANGE = Color.valueOf("#df7126");
+	public static Color RED = Color.valueOf("#ac3232");
+	public static Color GREEN = Color.valueOf("#6abe30");
+	public static Color BLUE = Color.valueOf("#306082");
+	public static Color YELLOW = Color.valueOf("#fbf236");
+	public static Color BROWN = Color.valueOf("#8f563b");
 }
