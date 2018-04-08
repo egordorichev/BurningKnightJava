@@ -25,18 +25,16 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.io.IOException;
 
 public class BurningKnight extends Mob {
-	private static final int DASH_DIST = 64;
 	public static BurningKnight instance;
 	public float rageLevel;
 	private boolean inRage;
-	private static float LIGHT_SIZE = 8f;
+	public static float LIGHT_SIZE = 8f;
 	private static Animation animations = Animation.make("actor_burning_knight");
 	private float r;
 	private float g;
 	private float b;
 	public Player target;
 	private Room last;
-	// private boolean[][] fx;
 	private boolean sawPlayer;
 	public static Point throne;
 	private AnimationData idle;

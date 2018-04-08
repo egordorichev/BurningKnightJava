@@ -117,12 +117,12 @@ public class UiSlot {
 
 		if (item != null) {
 			TextureRegion sprite = item.getSprite();
-			int count = item.getCount();
+			int count = item.getValue();
 
 			Graphics.render(sprite, this.x + 12 - sprite.getRegionWidth() / 2,
 				this.y + 12 - sprite.getRegionHeight() / 2);
 
-			if (count > 1) {
+			if (count != 1) {
 				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
 			}
 		}
