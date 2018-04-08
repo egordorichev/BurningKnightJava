@@ -29,12 +29,6 @@ public class Lamp extends Item {
 	}
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
-		super.render(x, y, w, h, flipped);
-		Graphics.print(this.val + "", Graphics.small, x, y);
-	}
-
-	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeFloat(this.val);
