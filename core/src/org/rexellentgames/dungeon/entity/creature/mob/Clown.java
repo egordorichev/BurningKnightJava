@@ -246,6 +246,12 @@ public class Clown extends Mob {
 		}
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.guitar.destroy();
+	}
+
 	public class AttackState extends ClownState {
 		@Override
 		public void onEnter() {

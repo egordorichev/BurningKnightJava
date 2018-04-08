@@ -86,7 +86,7 @@ public class Lamp extends Item {
 				BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 
 			if (d < 64f) {
-				BurningKnight.instance.become("tp");
+				BurningKnight.instance.become("fadeOut");
 				BurningKnight.instance.attackTp = true;
 			}
 		}
