@@ -84,6 +84,11 @@ public class BurningKnight extends Mob {
 	}
 
 	public void findStartPoint() {
+		if (this.attackTp) {
+			// TODO
+			return;
+		}
+
 		if (this.sawPlayer || Dungeon.depth != 0) {
 			Room room;
 			Point center;
@@ -174,6 +179,8 @@ public class BurningKnight extends Mob {
 
 		if (entity instanceof Player && !this.isDead()) {
 			((Player) entity).addBuff(new BurningBuff().setDuration(10));
+		} else if (entity instanceof Mob && !this.isDead()) {
+			((Mob) entity).addBuff(new BurningBuff().setDuration(10));
 		} else if (entity instanceof Plant) {
 			((Plant) entity).startBurning();
 		}
