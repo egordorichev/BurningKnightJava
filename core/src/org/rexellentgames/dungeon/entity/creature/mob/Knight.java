@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.AnotherSword;
 import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
 import org.rexellentgames.dungeon.entity.item.weapon.Sword;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -118,20 +119,24 @@ public class Knight extends Mob {
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = super.getDrops();
 
+		if (Random.chance(10)) {
+			items.add(new FireBook());
+		}
+
 		if (Random.chance(5)) {
-			items.add(new IronSword());
+			// items.add(new IronSword());
 		}
 
 		if (Random.chance(25)) {
-			items.add(new AnotherSword());
+			// items.add(new AnotherSword());
 		}
 
 		if (Random.chance(25)) {
-			items.add(new WoodenBow());
+			// items.add(new WoodenBow());
 		}
 
 		if (Random.chance(20)) {
-			items.add(new Arrow().setCount(Random.newInt(3, 5)));
+			// items.add(new Arrow().setCount(Random.newInt(3, 5)));
 		}
 
 		return items;

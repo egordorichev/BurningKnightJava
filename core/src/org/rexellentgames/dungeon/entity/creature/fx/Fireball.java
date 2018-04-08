@@ -29,7 +29,6 @@ public class Fireball extends NetworkedEntity {
 	private float t;
 	private boolean flip;
 	public Creature target;
-	public float a;
 	public boolean toMouse;
 	private Body body;
 	public boolean noMove;
@@ -53,15 +52,22 @@ public class Fireball extends NetworkedEntity {
 
 		this.animation = this.born;
 
-		if (this.target != null) {
-			float dx = this.target.x + this.target.w / 2 - this.x - 5;
-			float dy = this.target.y + this.target.h / 2 - this.y - 5;
-			this.a = (float) Math.atan2(dy, dx);
-		}
-
 		this.body = this.createBody(0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
+
+		if (this.vel == null) {
+			this.vel = new Vector2();
+		}
+
+		if (this.target != null) {
+			float dx = this.target.x + this.target.w / 2 - this.x - 5;
+			float dy = this.target.y + this.target.h / 2 - this.y - 5;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			this.vel.x = dx / d * 10;
+			this.vel.y = dy / d * 10;
+		}
 	}
 
 	@Override
@@ -120,24 +126,24 @@ public class Fireball extends NetworkedEntity {
 			}
 		}
 
-		float s = 60;
-
 		if (this.target != null) {
-			s = 30;
-
 			float dx = this.target.x + this.target.w / 2 - this.x - 5;
 			float dy = this.target.y + this.target.h / 2 - this.y - 5;
-			float d = (float) Math.atan2(dy, dx);
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			this.a += (d - this.a) / 70f;
+			this.vel.x += dx / d * 3;
+			this.vel.y += dy / d * 3;
+		} else if (this.toMouse) {
+			float dx = Input.instance.worldMouse.x - this.x - 5;
+			float dy = Input.instance.worldMouse.y - this.y - 5;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			this.vel.x += dx / d * 3;
+			this.vel.y += dy / d * 3;
 		}
 
 		if (!this.noMove) {
-			if (this.vel != null) {
-				this.body.setLinearVelocity(this.vel);
-			} else {
-				this.body.setLinearVelocity((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
-			}
+			this.body.setLinearVelocity(this.vel);
 		}
 	}
 

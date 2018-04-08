@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
+	public static boolean ARCADE = false;
 	public static float LIGHT_R = 34f / 255f;
 	public static float LIGHT_G = 31f / 255f;
 	public static float LIGHT_B = 65f / 255f;
@@ -114,7 +115,7 @@ public abstract class Level extends Entity {
 	}
 
 	public static BetterLevel forDepth(int depth) {
-		if (depth != -2) {
+		if (ARCADE) {
 			return new WaveLevel();
 		}
 

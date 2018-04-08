@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -68,11 +69,11 @@ public class Clown extends Mob {
 		}
 
 		if (Random.chance(10)) {
-			items.add(new FireBook());
+			items.add(new NoteBook());
 		}
 
 		if (Random.chance(10)) {
-			items.add(new Guitar());
+			// items.add(new Guitar());
 		}
 
 		return items;

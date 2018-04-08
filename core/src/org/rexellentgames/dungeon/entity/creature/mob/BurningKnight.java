@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
@@ -569,13 +570,16 @@ public class BurningKnight extends Mob {
 		public void update(float dt) {
 			if (!this.attacked) {
 				this.attacked = true;
-				float r = Random.newFloat();
+				float r =Random.newFloat();
 
 				if (r < 0.25f) {
 					for (int i = 0; i < 4; i++) {
 						Fireball ball = new Fireball();
 
-						ball.a = (float) (i * Math.PI / 2);
+						float a = (float) (i * Math.PI / 2);
+
+						ball.vel = new Vector2((float) Math.cos(a) * 60, (float) Math.sin(a) * 60);
+
 						ball.x = self.x + 12;
 						ball.y = self.y + 12;
 
@@ -585,7 +589,9 @@ public class BurningKnight extends Mob {
 					for (int i = 0; i < 4; i++) {
 						Fireball ball = new Fireball();
 
-						ball.a = (float) ((i * Math.PI / 2) + Math.PI / 4);
+						float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
+						ball.vel = new Vector2((float) Math.cos(a) * 60, (float) Math.sin(a) * 60);
+
 						ball.x = self.x + 12;
 						ball.y = self.y + 12;
 

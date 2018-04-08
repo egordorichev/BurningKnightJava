@@ -231,32 +231,7 @@ public class Mob extends Creature {
 			this.target.heat += dt;
 		}
 
-		if (this.target == null && Dungeon.level != null) {
-			for (Player player : Player.all) {
-				if (player.invisible) {
-					continue;
-				}
-
-				Line line = new Line((int) Math.floor((this.x + 8) / 16), (int) Math.floor((this.y + 8) / 16),
-					(int) Math.floor((player.x + 8) / 16), (int) Math.floor((player.y + 8) / 16));
-
-				boolean[] passable = Dungeon.level.getPassable();
-				boolean found = false;
-
-				for (Point point : line.getPoints()) {
-					int i = (int) (point.x + point.y * Level.getWidth());
-					if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
-						found = true;
-						break;
-					}
-				}
-
-				if (!found) {
-					this.target = player;
-					break;
-				}
-			}
-		}
+		this.findTarget(false);
 
 		if (this.target != null && this.target.invisible) {
 			this.target = null;
@@ -357,6 +332,40 @@ public class Mob extends Creature {
 
 	protected State getAi(String state) {
 		return null;
+	}
+
+	public void findTarget(boolean force) {
+		if (this.target == null && Dungeon.level != null) {
+			for (Player player : Player.all) {
+				if (player.invisible) {
+					continue;
+				}
+
+				if (force) {
+					this.target = player;
+					return;
+				}
+
+				Line line = new Line((int) Math.floor((this.x + 8) / 16), (int) Math.floor((this.y + 8) / 16),
+					(int) Math.floor((player.x + 8) / 16), (int) Math.floor((player.y + 8) / 16));
+
+				boolean[] passable = Dungeon.level.getPassable();
+				boolean found = false;
+
+				for (Point point : line.getPoints()) {
+					int i = (int) (point.x + point.y * Level.getWidth());
+					if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
+						found = true;
+						break;
+					}
+				}
+
+				if (!found) {
+					this.target = player;
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -467,6 +476,8 @@ public class Mob extends Creature {
 			this.checkForPlayer(false);
 		}
 
+
+
 		public void checkForPlayer(boolean force) {
 			if (self.target != null) {
 				self.lastSeen = new Point(self.target.x, self.target.y);
@@ -476,6 +487,10 @@ public class Mob extends Creature {
 					Level.heat = Math.max(0, Level.heat - 1f);
 					self.saw = false;
 				}
+			}
+
+			if (this.target == null && force) {
+				self.findTarget(true);
 			}
 
 			if (self.target != null) {
