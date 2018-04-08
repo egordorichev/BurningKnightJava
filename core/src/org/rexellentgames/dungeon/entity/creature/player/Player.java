@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.entity.creature.player;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -11,20 +10,15 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
+import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
-import org.rexellentgames.dungeon.entity.creature.player.fx.FootFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.Lamp;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.SpeedPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
-import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
@@ -219,6 +213,17 @@ public class Player extends Creature {
 	}
 
 	@Override
+	public void modifyHp(int amount) {
+		int hp = this.hp;
+
+		super.modifyHp(amount);
+
+		if (this.hp > hp && this.hp == this.hpMax) {
+			Dungeon.area.add(new TextFx("Full Health", this).setColor(Dungeon.ORANGE));
+		}
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 
@@ -245,7 +250,14 @@ public class Player extends Creature {
 			}
 		}
 
+		float l = this.mana;
+
 		this.modifyMana(dt * 10);
+
+		if (l < this.mana && Float.compare(this.mana, this.manaMax) == 0) {
+			Dungeon.area.add(new TextFx("Full Mana", this).setColor(Dungeon.BLUE));
+		}
+
 		this.watery = Math.max(0, this.watery - dt);
 
 		if (this.dead) {
