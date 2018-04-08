@@ -16,6 +16,7 @@ import java.lang.reflect.Constructor;
 public class Inventory {
 	private Creature creature;
 	private Item[] slots;
+	public int active;
 
 	public Inventory(Creature creature, int size) {
 		this.creature = creature;
@@ -23,6 +24,8 @@ public class Inventory {
 	}
 
 	public void load(FileReader reader) throws IOException {
+		this.active = reader.readByte();
+
 		for (int i = 0; i < this.getSize(); i++) {
 			if (reader.readBoolean()) {
 				String type = reader.readString();
@@ -45,6 +48,8 @@ public class Inventory {
 	}
 
 	public void save(FileWriter writer) throws IOException {
+		writer.writeByte((byte) this.active);
+
 		for (int i = 0; i < this.getSize(); i++) {
 			Item slot = this.getSlot(i);
 

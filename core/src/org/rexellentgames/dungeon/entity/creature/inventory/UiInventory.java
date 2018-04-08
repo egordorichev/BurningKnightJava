@@ -51,6 +51,7 @@ public class UiInventory extends UiEntity {
 	@Override
 	public void update(float dt) {
 		this.handled = false;
+		this.active = this.inventory.active;
 
 		/*if (Input.instance.wasPressed("toggle_inventory")) {
 			this.open = !this.open;
@@ -125,6 +126,8 @@ public class UiInventory extends UiEntity {
 				}
 			}
 		}
+
+		this.inventory.active = this.active;
 	}
 
 	@Override

@@ -25,7 +25,11 @@ public class Item extends Entity {
 	protected TextureRegion region;
 
 	public void onPickup() {
-		
+
+	}
+
+	public int getValue() {
+		return this.getCount();
 	}
 
 	public void setOwner(Creature owner) {
@@ -35,7 +39,7 @@ public class Item extends Entity {
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		TextureRegion s = this.getSprite();
 
-		Graphics.render(s, x + (w - s.getRegionWidth()) / 2, y + (h - s.getRegionHeight()) / 2, 0, 0, 0, flipped, false);
+		Graphics.render(s, x + (w - s.getRegionWidth()) / 2, y, 0, 0, 0, flipped, false);
 	}
 
 	public void beforeRender(float x, float y, float w, float h, boolean flipped) {
