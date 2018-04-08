@@ -33,7 +33,9 @@ public class Item extends Entity {
 	}
 
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		Graphics.render(this.getSprite(), x + w / 2, y + h / 2, 0, 0, 0, flipped, false);
+		TextureRegion s = this.getSprite();
+
+		Graphics.render(s, x + (w - s.getRegionWidth()) / 2, y + (h - s.getRegionHeight()) / 2, 0, 0, 0, flipped, false);
 	}
 
 	public void beforeRender(float x, float y, float w, float h, boolean flipped) {
