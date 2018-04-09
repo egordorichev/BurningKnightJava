@@ -15,7 +15,7 @@ public class InvisibilityBuff extends Buff {
 	}
 
 	@Override
-	protected void onEnd() {
+	public void onEnd() {
 		this.owner.invisible = false;
 		this.owner.a = 1;
 	}

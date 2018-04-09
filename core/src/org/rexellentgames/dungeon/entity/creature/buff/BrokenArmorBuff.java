@@ -14,7 +14,7 @@ public class BrokenArmorBuff extends Buff {
 	}
 
 	@Override
-	protected void onEnd() {
+	public void onEnd() {
 		this.owner.modifyDefense(5);
 	}
 }

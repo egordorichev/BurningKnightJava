@@ -8,8 +8,12 @@ public class GhostPlayer extends Player {
 		hpMax = 50;
 	}
 
+	private Player owner;
+
 	public GhostPlayer() {
 		super("ghost");
+
+		this.owner = Player.instance;
 	}
 
 	@Override
@@ -35,7 +39,7 @@ public class GhostPlayer extends Player {
 		super.destroy();
 		if (Player.instance != null) {
 			Log.info("remove");
-			Player.instance.removeBuff(InvisibilityBuff.class);
+			this.owner.removeBuff(InvisibilityBuff.class);
 		}
 	}
 

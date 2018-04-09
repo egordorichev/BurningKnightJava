@@ -443,7 +443,12 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void removeBuff(Class<? extends Buff> buff) {
-		this.buffs.remove(buff);
+		Buff instance = this.buffs.get(buff);
+
+		if (instance != null) {
+			instance.onEnd();
+			this.buffs.remove(buff);
+		}
 	}
 
 	public boolean isFlipped() {
