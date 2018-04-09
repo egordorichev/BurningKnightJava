@@ -4,10 +4,17 @@ import org.rexellentgames.dungeon.entity.creature.buff.InvisibilityBuff;
 import org.rexellentgames.dungeon.util.Log;
 
 public class GhostPlayer extends Player {
-	/*@Override
+	{
+		hpMax = 50;
+	}
+
+	public GhostPlayer() {
+		super("ghost");
+	}
+
+	@Override
 	public void init() {
 		super.init();
-		this.ghost = true;
 		this.alwaysActive = true;
 	}
 
@@ -15,9 +22,18 @@ public class GhostPlayer extends Player {
 	public void onHurt() {
 		super.onHurt();
 
-		Log.info(this.hp + " " + Player.instance + " " + this);
+		// FIXME: doesnt remove it
 
 		if (this.hp <= 0 && Player.instance != null) {
+			Log.info("remove");
+			Player.instance.removeBuff(InvisibilityBuff.class);
+		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		if (Player.instance != null) {
 			Log.info("remove");
 			Player.instance.removeBuff(InvisibilityBuff.class);
 		}
@@ -27,6 +43,8 @@ public class GhostPlayer extends Player {
 
 	@Override
 	public void update(float dt) {
+		// Log.info(this.hp + " " + Player.instance + " " + this);
+
 		if (!this.tpd) {
 			tpd = true;
 			tp(Player.instance.x, Player.instance.y);
@@ -38,7 +56,5 @@ public class GhostPlayer extends Player {
 	@Override
 	public void render() {
 		super.render();
-	}*/
-
-	// todo
+	}
 }

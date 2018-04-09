@@ -60,7 +60,6 @@ public class Player extends Creature {
 	private String name;
 	private float watery;
 	private AnimationData idle;
-	protected boolean ghost;
 	private AnimationData run;
 	private AnimationData hurt;
 	private AnimationData killed;
@@ -95,7 +94,7 @@ public class Player extends Creature {
 
 		all.add(this);
 
-		if (!this.ghost) {
+		if (!name.equals("ghost")) {
 			if (instance == null || Network.NONE) {
 				instance = this;
 				main = true;

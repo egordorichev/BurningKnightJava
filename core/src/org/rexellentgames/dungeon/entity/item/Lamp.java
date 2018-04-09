@@ -1,15 +1,15 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
 public class Lamp extends Item {
+	public static Lamp instance;
+
 	{
 		name = "Magic lamp";
 		sprite = "item (lamp)";
@@ -18,8 +18,14 @@ public class Lamp extends Item {
 		useTime = 0.2f;
 	}
 
-	private float val = 20f;
+	public float val = 100f;
 	private boolean lightUp;
+
+	@Override
+	public void init() {
+		super.init();
+		instance = this;
+	}
 
 	@Override
 	public void use() {
@@ -49,7 +55,7 @@ public class Lamp extends Item {
 		if (this.lightUp) {
 			if (this.val > 0) {
 				this.val = Math.max(this.val - dt, 0);
-				Dungeon.level.addLightInRadius(this.owner.x + 8, this.owner.y + 8, 0, 0, 0, 2f * (this.val / 20 + 0.3f), 5f, false);
+				Dungeon.level.addLightInRadius(this.owner.x + 8, this.owner.y + 8, 0, 0, 0, 2f * (this.val / 100 + 0.3f), 8f, false);
 			} else {
 				this.lightUp = false;
 			}
@@ -60,7 +66,7 @@ public class Lamp extends Item {
 
 				if (d <= BurningKnight.LIGHT_SIZE - 1) {
 					float v = Dungeon.level.getLight(Math.round(this.owner.x / 16), Math.round(this.owner.y / 16));
-					this.val = Math.min(20f, this.val + dt * v / d);
+					this.val = Math.min(100f, this.val + dt * v / d * 3);
 				}
 			}
 		}

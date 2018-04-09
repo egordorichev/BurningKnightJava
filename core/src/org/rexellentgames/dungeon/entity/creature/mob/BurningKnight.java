@@ -29,11 +29,8 @@ public class BurningKnight extends Mob {
 	public static BurningKnight instance;
 	public float rageLevel;
 	private boolean inRage;
-	public static float LIGHT_SIZE = 8f;
+	public static float LIGHT_SIZE = 12f;
 	private static Animation animations = Animation.make("actor_burning_knight");
-	private float r;
-	private float g;
-	private float b;
 	public Player target;
 	private Room last;
 	private boolean sawPlayer;
@@ -195,7 +192,7 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, this.r, this.g, this.b, 3f * this.a, LIGHT_SIZE, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
@@ -329,11 +326,6 @@ public class BurningKnight extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-
-			self.r = 0;
-			self.g = 0;
-			self.b = 0;
-
 			this.delay = Random.newFloat(5f, 10f);
 		}
 
@@ -361,10 +353,6 @@ public class BurningKnight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 			this.delay = Random.newFloat(30f, 60f);
-
-			self.r = 0;
-			self.g = 0.0f;
-			self.b = 0.3f;
 		}
 
 		@Override
@@ -425,10 +413,6 @@ public class BurningKnight extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-
-			self.r = 0.8f;
-			self.g = 0;
-			self.b = 0.4f;
 		}
 
 		@Override
@@ -449,10 +433,6 @@ public class BurningKnight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			self.r = 1;
-			self.g = 0.2f;
-			self.b = 0;
-
 			this.delay = Random.newFloat(5f, 7f);
 		}
 
@@ -464,10 +444,6 @@ public class BurningKnight extends Mob {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || (self.target != null && d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || (self.target != null && self.target.invisible)) {
-				self.r = 0.8f;
-				self.g = 0.0f;
-				self.b = 0.8f;
-
 				self.target = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
@@ -498,10 +474,6 @@ public class BurningKnight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			self.r = 1;
-			self.g = 0.2f;
-			self.b = 0;
-
 			this.delay = Random.newFloat(1f, 3f);
 		}
 
@@ -513,9 +485,6 @@ public class BurningKnight extends Mob {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {
-				self.r = 0.8f;
-				self.g = 0.0f;
-				self.b = 0.8f;
 
 				self.target = null;
 				self.become("idle");
@@ -538,9 +507,6 @@ public class BurningKnight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			self.r = 1f;
-			self.g = 0f;
-			self.b = 0f;
 		}
 
 		@Override
@@ -561,9 +527,6 @@ public class BurningKnight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			self.r = 0f;
-			self.g = 1f;
-			self.b = 0f;
 		}
 
 		@Override
