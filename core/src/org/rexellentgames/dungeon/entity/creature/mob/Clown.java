@@ -193,6 +193,7 @@ public class Clown extends Mob {
 				note.a = a;
 				note.x = self.x + 2;
 				note.y = self.y + 2;
+				note.bad = !self.stupid;
 
 				Dungeon.area.add(note);
 			}
