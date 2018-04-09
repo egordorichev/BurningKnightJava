@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
@@ -31,7 +32,6 @@ public class BurningKnight extends Mob {
 	private boolean inRage;
 	public static float LIGHT_SIZE = 12f;
 	private static Animation animations = Animation.make("actor_burning_knight");
-	public Player target;
 	private Room last;
 	private boolean sawPlayer;
 	public static Point throne;
@@ -443,7 +443,7 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || (self.target != null && d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || (self.target != null && self.target.invisible)) {
+			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || (self.target != null && self.target.invisible)) {
 				self.target = null;
 				self.become("idle");
 				self.noticeSignT = 0f;

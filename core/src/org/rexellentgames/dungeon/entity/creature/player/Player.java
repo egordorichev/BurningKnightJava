@@ -168,6 +168,12 @@ public class Player extends Creature {
 	}
 
 	@Override
+	public void destroy() {
+		super.destroy();
+		Player.all.remove(this);
+	}
+
+	@Override
 	public void init() {
 		super.init();
 

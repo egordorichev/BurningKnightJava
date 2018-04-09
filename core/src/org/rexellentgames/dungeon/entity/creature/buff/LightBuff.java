@@ -17,7 +17,7 @@ public class LightBuff extends Buff {
 		}
 	}
 
-	protected void onEnd() {
+	public void onEnd() {
 		if (this.owner instanceof Player) {
 			((Player) this.owner).lightModifier = 0;
 		}

@@ -36,7 +36,7 @@ public class Buff {
 
 	}
 
-	protected void onEnd() {
+	public void onEnd() {
 
 	}
 
