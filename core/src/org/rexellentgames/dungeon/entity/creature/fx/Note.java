@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,9 +25,20 @@ public class Note extends Entity {
 	private Body body;
 	public boolean bad = true;
 	private float t;
+	private static Sound[] sounds;
 
 	@Override
 	public void init() {
+		if (sounds == null) {
+			sounds = new Sound[5];
+
+			for (int i = 1; i < 6; i++) {
+				sounds[i - 1] = Graphics.getSound("sfx/ukulele_" + i + "_sfx.wav");
+			}
+		}
+
+		sounds[Random.newInt(5)].play();
+
 		super.init();
 
 		this.vel = new Vector2();

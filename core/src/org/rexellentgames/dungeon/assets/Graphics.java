@@ -52,6 +52,10 @@ public class Graphics {
 			manager.load("sfx/step_gobbo_water_" + i + ".wav", Sound.class);
 		}
 
+		for (int i = 1; i < 6; i++) {
+			manager.load("sfx/ukulele_" + i + "_sfx.wav", Sound.class);
+		}
+
 		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);
 
