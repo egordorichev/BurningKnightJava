@@ -31,6 +31,8 @@ public class Note extends Entity {
 
 		this.vel = new Vector2();
 
+		this.y -= 4;
+
 		vel.x = (float) (Math.cos(this.a) * 60);
 		vel.y = (float) (Math.sin(this.a) * 60);
 

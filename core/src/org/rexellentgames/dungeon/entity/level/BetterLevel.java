@@ -35,6 +35,8 @@ public abstract class BetterLevel extends Level {
 
 		ChangableRegistry.generate();
 
+		this.loadPassable();
+
 		this.spawnLevelEntities();
 		this.spawnEntities();
 
