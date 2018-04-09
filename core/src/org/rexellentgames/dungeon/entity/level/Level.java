@@ -168,7 +168,7 @@ public abstract class Level extends Entity {
 		Arrays.fill(this.lightR, LIGHT_R);
 		Arrays.fill(this.lightG, LIGHT_G);
 		Arrays.fill(this.lightB, LIGHT_B);
-		Arrays.fill(this.light, Dungeon.level.addLight && (BurningKnight.instance == null || BurningKnight.instance.target == null) ? 1f : Dungeon.depth == 4 ? 0.3f : 0f);
+		Arrays.fill(this.light, Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f : 0f);
 	}
 
 	public void fill() {
@@ -181,11 +181,6 @@ public abstract class Level extends Entity {
 		switch (Dungeon.depth) {
 			case -1:
 				tile = Terrain.CHASM;
-				break;
-			case 0:
-				if (Dungeon.level instanceof HallLevel) {
-					tile = Terrain.GRASS;
-				}
 				break;
 			case 15:
 			case 16:
@@ -386,8 +381,7 @@ public abstract class Level extends Entity {
 			float v = this.light[i];
 
 			if (v > 0) {
-				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null ||
-					BurningKnight.instance.target == null) ? 1f : (Dungeon.depth == 4) ? 0.3f : 0, 1f, v - dt * 2);
+				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f : 0, 1f, v - dt * 2);
 				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
 				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
 				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);

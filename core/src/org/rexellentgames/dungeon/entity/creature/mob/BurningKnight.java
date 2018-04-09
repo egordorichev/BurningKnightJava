@@ -90,7 +90,6 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
-		if (this.sawPlayer || Dungeon.depth != 0) {
 			Room room;
 			Point center;
 
@@ -108,12 +107,7 @@ public class BurningKnight extends Mob {
 
 			this.tp(center.x * 16 - 16, center.y * 16 - 16);
 			this.become("idle");
-		} else {
-			this.become("onThrone");
-			this.tp(throne.x * 16 - 8, throne.y * 16 - 8);
 
-			Log.info("The BK is now on his throne at " + throne.x + ":" + throne.y);
-		}
 	}
 
 	@Override
@@ -122,12 +116,6 @@ public class BurningKnight extends Mob {
 		this.sawPlayer = reader.readBoolean();
 		throne = new Point(reader.readInt16(), reader.readInt16());
 		this.lock = reader.readInt16();
-
-		if (!this.sawPlayer) {
-			this.become("onThrone");
-		}
-
-		this.checkForRage();
 	}
 
 	public int getLock() {
@@ -599,26 +587,6 @@ public class BurningKnight extends Mob {
 		}
 	}
 
-	public class OnThroneState extends BKState {
-		private boolean did;
-
-		@Override
-		public void update(float dt) {
-			if (!this.did) {
-				this.findCurrentRoom();
-
-				if (this.currentRoom != null) {
-					Camera.instance.clamp.add(this.currentRoom.left * 16 + 16);
-				}
-
-				this.did = true;
-			}
-
-			self.checkForTarget();
-			super.update(dt);
-		}
-	}
-
 	public class FadeInState extends BKState {
 		@Override
 		public void onEnter() {
@@ -685,8 +653,6 @@ public class BurningKnight extends Mob {
 			return new PreattackState();
 		} else if (state.equals("attack")) {
 			return new AttackState();
-		} else if (state.equals("onThrone")) {
-			return new OnThroneState();
 		} else if (state.equals("fadeIn")) {
 			return new FadeInState();
 		} else if (state.equals("fadeOut")) {

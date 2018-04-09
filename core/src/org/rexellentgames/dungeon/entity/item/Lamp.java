@@ -11,9 +11,9 @@ public class Lamp extends Item {
 	public static Lamp instance;
 
 	{
-		name = "Magic lamp";
+		name = "Magical Lamp";
 		sprite = "item (lamp)";
-		description = "Capable of storing a tiny bit of light";
+		description = "Capable of storing a tiny bit of light\nRight click to summon BK";
 		identified = true;
 		useTime = 0.2f;
 	}
