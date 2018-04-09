@@ -22,6 +22,8 @@ public class IchorFx extends Entity {
 	public void init() {
 		super.init();
 
+		this.y -= 4;
+
 		this.body = this.createBody(0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 	}

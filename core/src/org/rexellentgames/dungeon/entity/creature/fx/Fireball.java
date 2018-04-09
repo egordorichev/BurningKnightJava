@@ -34,6 +34,7 @@ public class Fireball extends NetworkedEntity {
 	public boolean noMove;
 	public boolean bad = true;
 	public Vector2 vel;
+	private float speed;
 	public static Sound cast = Graphics.getSound("sfx/fireball_cast_sfx.wav");
 	public static Sound brk = Graphics.getSound("sfx/fireball_break_sfx.wav");
 
@@ -51,6 +52,8 @@ public class Fireball extends NetworkedEntity {
 		this.dead = animations.get("dead");
 
 		this.animation = this.born;
+
+		this.y -= 4;
 
 		this.body = this.createBody(0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
@@ -143,7 +146,13 @@ public class Fireball extends NetworkedEntity {
 		}
 
 		if (!this.noMove) {
-			this.body.setLinearVelocity(this.vel);
+			this.speed = Math.min(1, this.speed + dt);
+
+			if (this.animation == this.idle) {
+				this.body.setLinearVelocity(this.vel);
+			} else {
+				this.body.setLinearVelocity(this.vel.x * this.speed, this.vel.y * this.speed);
+			}
 		}
 	}
 

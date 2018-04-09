@@ -570,19 +570,19 @@ public abstract class Level extends Entity {
 		}
 
 		if (this.light[i] < max) {
-			this.light[i] = this.light[i] + a * dt;
+			this.light[i] = Math.min(1, this.light[i] + a * dt);
 		}
 
 		if (this.lightR[i] < max) {
-			this.lightR[i] = this.lightR[i] + r * dt;
+			this.lightR[i] = Math.min(1, this.lightR[i] + r * dt);
 		}
 
 		if (this.lightG[i] < max) {
-			this.lightG[i] = this.lightG[i] + g * dt;
+			this.lightG[i] = Math.min(1, this.lightG[i] + g * dt);
 		}
 
 		if (this.lightB[i] < max) {
-			this.lightB[i] = this.lightB[i] + b * dt;
+			this.lightB[i] = Math.min(1, this.lightB[i] + b * dt);
 		}
 	}
 
@@ -1075,8 +1075,11 @@ public abstract class Level extends Entity {
 				Point point = room.getRandomCell();
 				int in = (int) (point.x + point.y * getWidth());
 
-				if (!this.free[in]) {
-					this.free[in] = true;
+				if ((this.passable == null || this.passable[in]) && (this.free == null || !this.free[in])) {
+					if (this.free != null) {
+						this.free[in] = true;
+					}
+
 					return point;
 				}
 			}
@@ -1181,6 +1184,7 @@ public abstract class Level extends Entity {
 			return;
 		}
 
+		// Freezes?
 		Log.info("Saving dropped " + this.droppedToChasm.size());
 
 		try {
