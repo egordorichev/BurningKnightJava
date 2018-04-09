@@ -235,7 +235,7 @@ public class Knight extends Mob {
 				return;
 			}
 
-			if (this.moveTo(this.water, 4f, 16f)) {
+			if (this.moveTo(this.water, 2f, 16f)) {
 				self.become("relax");
 				this.findCurrentRoom();
 				self.lastRoom = this.currentRoom;
@@ -310,7 +310,7 @@ public class Knight extends Mob {
 		public void update(float dt) {
 			this.checkForSpa();
 
-			if (this.targetPoint != null && this.moveTo(this.targetPoint, 5f, 8f)) {
+			if (this.targetPoint != null && this.moveTo(this.targetPoint, 2.5f, 8f)) {
 				self.become("idle");
 				return;
 			}
@@ -352,7 +352,7 @@ public class Knight extends Mob {
 				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 6f,16f)) {
+				if (this.moveTo(self.lastSeen, 3f,16f)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
 

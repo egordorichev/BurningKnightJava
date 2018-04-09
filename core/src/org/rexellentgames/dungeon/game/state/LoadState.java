@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.game.Game;
@@ -141,6 +142,10 @@ public class LoadState extends State {
 						} else {
 							BurningKnight.instance.checkForRage();
 						}
+					}
+
+					if (Lamp.instance != null) {
+						Lamp.instance.val = 100f;
 					}
 
 					ready = true;

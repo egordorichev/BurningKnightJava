@@ -92,7 +92,7 @@ public class HallLevel extends BetterLevel {
 	@Override
 	protected Builder getBuilder() {
 		if (Dungeon.depth == 0) {
-			return new LineBuilder().setAngle(90).setPathLength(Dungeon.depth == 0 ? 0 : 0.4f, new float[]{0,1,0});
+			return new LineBuilder().setAngle(90).setPathLength(Dungeon.depth == 0 ? 0 : 0.2f, new float[]{0,1,0});
 		} else {
 			return new CastleBuilder();
 		}
