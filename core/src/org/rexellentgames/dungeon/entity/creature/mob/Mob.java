@@ -31,11 +31,13 @@ import java.util.ArrayList;
 public class Mob extends Creature {
 	public float flee;
 	public Point lastSeen;
-	public Player target;
+	public Creature target;
+	public static ArrayList<Mob> all = new ArrayList<>();
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
 	protected int experienceDropped = 1;
 	protected State ai;
+	public boolean stupid = false;
 	protected Mind mind;
 	protected boolean hide;
 
@@ -82,6 +84,8 @@ public class Mob extends Creature {
 	public void init() {
 		super.init();
 
+		all.add(this);
+
 		if (hideSign == null) {
 			hideSign = Graphics.getTexture("ui (hide sign)");
 			noticeSign = Graphics.getTexture("ui (notice sign)");
@@ -90,6 +94,12 @@ public class Mob extends Creature {
 		if (Random.chance(50)) {
 			this.become("roam");
 		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		all.remove(this);
 	}
 
 	public Mind getMind() {
@@ -136,7 +146,7 @@ public class Mob extends Creature {
 		return this.experienceDropped;
 	}
 
-	protected boolean canSee(Player player) {
+	protected boolean canSee(Creature player) {
 		return this.getDistanceTo(player.x + 8, player.y + 8) < 256f && Dungeon.level.canSee(
 			(int) Math.floor((this.x + this.w / 2) / 16), (int) Math.floor((this.y + this.h / 2) / 16),
 			(int) Math.floor((player.x + player.w / 2) / 16), (int) Math.floor((player.y + player.h / 2) / 16)
@@ -144,7 +154,7 @@ public class Mob extends Creature {
 	}
 
 	protected void assignTarget() {
-		this.target = (Player) this.area.getRandomEntity(Player.class);
+		this.target = (Creature) this.area.getRandomEntity(this.stupid ? Mob.class : Player.class);
 
 		if (this.target != null && this.target.invisible) {
 			this.target = null;
@@ -227,14 +237,15 @@ public class Mob extends Creature {
 			}
 		}
 
-		if (this.target != null && this.canSee(this.target)) {
-			this.target.heat += dt;
+		if (this.target instanceof Player && this.target != null && this.canSee(this.target)) {
+			((Player) this.target).heat += dt;
 		}
 
 		this.findTarget(false);
 
-		if (this.target != null && this.target.invisible) {
+		if (this.target != null && (this.target.invisible || this.target.isDead())) {
 			this.target = null;
+			this.become("idle");
 		}
 
 		for (Player player : this.colliding) {
@@ -336,12 +347,12 @@ public class Mob extends Creature {
 
 	public void findTarget(boolean force) {
 		if (this.target == null && Dungeon.level != null) {
-			for (Player player : Player.all) {
-				if (player.invisible) {
+			for (Creature player : (this.stupid ? Mob.all : Player.all)) {
+				if (player.invisible || player == this) {
 					continue;
 				}
 
-				if (force) {
+				if (force || this.stupid) {
 					this.target = player;
 					return;
 				}
@@ -494,7 +505,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.state.equals("fleeing") && !self.saw && (force || self.target.heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
+				if (!self.state.equals("fleeing") && !self.saw && (self.stupid || force || (((Player) self.target)).heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
 					Level.heat += 1f;
 					self.saw = true;
 					self.hideSignT = 0f;

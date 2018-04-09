@@ -122,7 +122,7 @@ public class Sword extends Weapon {
 		float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
 		float yy = y + (this.ox == 0 ? h / 4 : h / 2);
 
-		if (!this.animation.isPaused()) {
+		if (!this.animation.isPaused() && !this.owner.isDead()) {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure);
 		}
 

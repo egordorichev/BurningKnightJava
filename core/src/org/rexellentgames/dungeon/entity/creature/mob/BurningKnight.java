@@ -484,7 +484,7 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, self.speed * 3f, 32f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || d > (self.target.getLightSize() + LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {
+			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {
 
 				self.target = null;
 				self.become("idle");
@@ -545,6 +545,7 @@ public class BurningKnight extends Mob {
 
 						ball.x = self.x + 12;
 						ball.y = self.y + 12;
+						ball.bad = !self.stupid;
 
 						Dungeon.area.add(ball);
 					}
@@ -558,6 +559,7 @@ public class BurningKnight extends Mob {
 						ball.x = self.x + 12;
 						ball.y = self.y + 12;
 
+						ball.bad = !self.stupid;
 						Dungeon.area.add(ball);
 					}
 				} else if (r < 0.6f) {
@@ -570,6 +572,7 @@ public class BurningKnight extends Mob {
 						ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
 						ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
 						ball.noMove = true;
+						ball.bad = !self.stupid;
 
 						Dungeon.area.add(ball);
 					}
@@ -583,6 +586,8 @@ public class BurningKnight extends Mob {
 					ball.target = self.target;
 					ball.x = self.x + 12;
 					ball.y = self.y + 12;
+					ball.bad = !self.stupid;
+
 					Dungeon.area.add(ball);
 				}
 
@@ -701,8 +706,8 @@ public class BurningKnight extends Mob {
 	}
 
 	private void checkForTarget() {
-		for (Player player : Player.all) {
-			if (player.invisible) {
+		for (Creature player : (this.stupid ? Mob.all : Player.all)) {
+			if (player.invisible || player == this) {
 				continue;
 			}
 
@@ -710,7 +715,7 @@ public class BurningKnight extends Mob {
 			float dy = player.y - this.y - 8;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d < (player.getLightSize() + LIGHT_SIZE - 3) * 16 && (this.sawPlayer || this.canSee(player))) {
+			if (d < (LIGHT_SIZE - 3) * 16 && (this.sawPlayer || this.canSee(player))) {
 				this.target = player;
 				this.become("alerted");
 				this.noticeSignT = 2f;

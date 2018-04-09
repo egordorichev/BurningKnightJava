@@ -122,13 +122,13 @@ public class Weapon extends Item {
 				return;
 			}
 
-			this.onHit(creature);
 
-			this.used = true;
-
-			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob))) {
+			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
 				return;
 			}
+
+			this.used = true;
+			this.onHit(creature);
 
 			creature.modifyHp(-this.damage);
 		} else if (entity instanceof Weapon) {
