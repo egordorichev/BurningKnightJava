@@ -74,17 +74,6 @@ public abstract class BetterLevel extends Level {
 				player.tp(point.x * 16, point.y * 16);
 			}
 		}
-
-		boolean wasAdded = BurningKnight.instance == null;
-
-		if (Dungeon.depth > -1 && wasAdded) {
-			BurningKnight knight = new BurningKnight();
-
-			Dungeon.area.add(knight);
-			this.addPlayerSaveable(knight);
-
-			knight.findStartPoint();
-		}
 	}
 
 	protected void paint() {
@@ -125,20 +114,18 @@ public abstract class BetterLevel extends Level {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
-		if (Dungeon.depth == 0) {
-			Log.info("Spawning castle exits");
-			this.entrance = new CastleEntranceRoom();
-			this.exit = new CastleExitRoom();
-		} else {
-			this.entrance = new EntranceRoom();
-			this.exit = new ExitRoom();
-		}
+		this.entrance = new EntranceRoom();
+		this.exit = new ExitRoom();
 
 		rooms.add(this.entrance);
 		rooms.add(this.exit);
 
 		if (Dungeon.depth > 0) {
 			rooms.add(new HealthBlockRoom());
+		}
+
+		if (Dungeon.depth == 0) {
+			rooms.add(new LampRoom());
 		}
 
 		int regular = this.getNumRegularRooms();

@@ -206,11 +206,10 @@ public class Painter {
 	}
 
 	public static void fill(Level level, int x, int y, int w, int h, byte value) {
-		int width = level.getWidth();
-
-		int pos = y * width + x;
-		for (int i = y; i < y + h; i++, pos += width) {
-			Arrays.fill(level.data, pos, pos + w, value);
+		for (int xx = x; xx < x + w; xx++) {
+			for (int yy = y; yy < y + h; yy++) {
+				set(level, xx, yy, value);
+			}
 		}
 	}
 
