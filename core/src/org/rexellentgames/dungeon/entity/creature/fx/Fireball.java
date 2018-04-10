@@ -20,7 +20,7 @@ import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 
-public class Fireball extends NetworkedEntity {
+public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	private static Animation animations = Animation.make("fireball");
 	private AnimationData born;
 	private AnimationData idle;
@@ -39,10 +39,17 @@ public class Fireball extends NetworkedEntity {
 	public static Sound brk = Graphics.getSound("sfx/fireball_break_sfx.wav");
 
 	@Override
+	public Body getBody() {
+		return body;
+	}
+
+	@Override
 	public void init() {
 		super.init();
 
 		cast.play();
+
+		WormholeFx.suck.add(this);
 
 		this.depth = 11;
 		this.flip = Random.chance(50);
@@ -76,6 +83,7 @@ public class Fireball extends NetworkedEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
+		WormholeFx.suck.remove(this);
 		this.body.getWorld().destroyBody(this.body);
 	}
 

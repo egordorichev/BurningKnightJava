@@ -17,7 +17,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
-public class Note extends Entity {
+public class Note extends Entity implements WormholeFx.Suckable {
 	public static Animation animations = Animation.make("note");
 	private TextureRegion region;
 	public float a;
@@ -26,6 +26,11 @@ public class Note extends Entity {
 	public boolean bad = true;
 	private float t;
 	private static Sound[] sounds;
+
+	@Override
+	public Body getBody() {
+		return body;
+	}
 
 	@Override
 	public void init() {
@@ -43,6 +48,7 @@ public class Note extends Entity {
 
 		this.vel = new Vector2();
 
+		WormholeFx.suck.add(this);
 		this.y -= 4;
 
 		vel.x = (float) (Math.cos(this.a) * 60);
@@ -79,6 +85,7 @@ public class Note extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
+		WormholeFx.suck.remove(this);
 		this.body.getWorld().destroyBody(this.body);
 	}
 

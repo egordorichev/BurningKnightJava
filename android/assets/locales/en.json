@@ -32,7 +32,7 @@
 	"note_book" : "Music Wand",
 	"note_book_desc" : "A# G D E F#",
 	"arrow" : "Wooden Arrow",
-	"description" : "Should burn well",
+	"arrow_desc" : "Should burn well",
 	"bow" : "Wooden Bow",
 	"bow_desc" : "Robin is still good!",
 	"another_sword" : "Fire Greatsword",
@@ -44,5 +44,7 @@
 	"iron_sword" : "Iron Sword",
 	"iron_sword_desc" : "That's totally a better weapon",
 	"the_sword" : "The Sword",
-	"the_sword_desc" : "OP EZ GG"
+	"the_sword_desc" : "OP EZ GG",
+	"worm_hole" : "Worm Hole",
+	"worm_hole_desc" : "Sucks projectiles very well"
 }
