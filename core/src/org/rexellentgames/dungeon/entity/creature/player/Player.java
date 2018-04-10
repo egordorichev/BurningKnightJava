@@ -272,7 +272,7 @@ public class Player extends Creature {
 
 		this.heat = Math.max(0, this.heat - dt / 3);
 
-		this.setHunger(this.hunger + dt);
+		// this.setHunger(this.hunger + dt);
 
 		if (Network.SERVER) {
 			Input.set(this.getId());

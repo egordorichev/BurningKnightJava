@@ -18,6 +18,7 @@ public class Lamp extends Item {
 		description = Locale.get("lamp_desc");
 		identified = true;
 		useTime = 0.2f;
+		cursed = true;
 	}
 
 	public float val = 100f;

@@ -35,8 +35,8 @@ public class ChangableRegistry {
 		JERA("item (scroll A)"),
 		THURISAZ("item (scroll B)"),
 		FEHU("item (scroll C)"),
-		/*RAIDO(67),
-		MANNAZ(68),
+		RAIDO("item (scroll D)"),
+		/*MANNAZ(68),
 		TEIWAZ(69),
 		SOWULO(70),
 		HAGALAZ(71)*/
@@ -104,7 +104,8 @@ public class ChangableRegistry {
 		}
 
 		ArrayList<Class<? extends Spell>> spells = new ArrayList<Class<? extends Spell>>(Arrays.asList(
-			SpellOfTeleportation.class, SpellOfDamage.class, GhostLeaver.class
+			SpellOfTeleportation.class, SpellOfDamage.class, GhostLeaver.class,
+			WormHole.class
 		));
 
 		// todo: finish this list

@@ -143,6 +143,10 @@ public class Item extends Entity {
 		builder.append('\n');
 		builder.append(this.getDescription());
 
+		if (this.cursed) {
+			builder.append("\n[red]Cursed[white]");
+		}
+
 		return builder;
 	}
 }
