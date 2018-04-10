@@ -1,19 +1,15 @@
-package org.rexellentgames.dungeon.entity.item.weapon.magic;
+package org.rexellentgames.dungeon.entity.item.consumable.spell;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.buff.InvisibilityBuff;
 import org.rexellentgames.dungeon.entity.creature.player.GhostPlayer;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 
-public class GhostLeaver extends MagicWeapon {
+public class GhostLeaver extends Spell {
 	{
-		name = "Ghost Leaver";
-		description = "Ghosts are real";
-		sprite = "item (scroll C)";
-		damage = 6;
-		mana = 100;
-		useTime = 10f;
-		stackable = true;
+		name = Locale.get("ghost_leaver");
+		description = Locale.get("ghost_leaver_desc");
 	}
 
 	@Override

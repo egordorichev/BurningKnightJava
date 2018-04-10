@@ -22,5 +22,17 @@
 	"speed_potion" : "Potion of Windfeet",
 	"speed_potion_desc" : "Boosts your speed",
 	"sun_potion" : "Potion of Magic Flame",
-	"sun_potion_desc" : "Increases your vision radius"
+	"sun_potion_desc" : "Increases your vision radius",
+	"ghost_leaver" : "Spell of Magic Copy",
+	"ghost_leaver_desc" : "Leaves a copy of yourself, that looks like real!",
+	"defense_book" : "Ichor Wand",
+	"defense_book_desc" : "Breaks armor of anyone, who touches the projectiles",
+	"fire_book" : "Fire Sphere Wand",
+	"fire_book_extends" : "That looks familiar :)",
+	"note_book" : "Music Wand",
+	"note_book_desc" : "A# G D E F#",
+	"arrow" : "Wooden Arrow",
+	"description" : "Should burn well",
+	"bow" : "Wooden Bow",
+	"bow_desc" : "Robin is still good!"
 }

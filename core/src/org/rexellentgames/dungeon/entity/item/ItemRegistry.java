@@ -12,7 +12,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportat
 import org.rexellentgames.dungeon.entity.item.weapon.*;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
-import org.rexellentgames.dungeon.entity.item.weapon.magic.GhostLeaver;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.GhostLeaver;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;

@@ -2,14 +2,14 @@ package org.rexellentgames.dungeon.entity.item.weapon.magic;
 
 import com.badlogic.gdx.math.Vector2;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class FireBook extends MagicWeapon {
 	{
-		name = "Fire Book";
-		description = "OH MY GOSH!";
-		sprite = "item (wand C)";
+		name = Locale.get("fire_book");
+		description = Locale.get("fire_book_desc");
 		damage = 6;
 		mana = 10;
 		useTime = 0.2f;
