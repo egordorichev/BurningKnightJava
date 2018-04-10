@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -27,6 +28,10 @@ public class LampRoom extends RegularRoom {
 
 		Dungeon.level.addSaveable(holder);
 		Dungeon.area.add(holder);
+
+		for (Door door : this.connected.values()) {
+			door.setType(Door.Type.ENEMY);
+		}
 	}
 
 	@Override
