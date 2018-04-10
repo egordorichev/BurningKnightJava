@@ -513,7 +513,7 @@ public class BurningKnight extends Mob {
 		public void update(float dt) {
 			if (!this.attacked) {
 				this.attacked = true;
-				float r =Random.newFloat();
+				float r = Random.newFloat();
 
 				if (r < 0.25f) {
 					for (int i = 0; i < 4; i++) {
@@ -521,7 +521,7 @@ public class BurningKnight extends Mob {
 
 						float a = (float) (i * Math.PI / 2);
 
-						ball.vel = new Vector2((float) Math.cos(a) * 60, (float) Math.sin(a) * 60);
+						ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
 
 						ball.x = self.x + 12;
 						ball.y = self.y + 12;
@@ -534,7 +534,7 @@ public class BurningKnight extends Mob {
 						Fireball ball = new Fireball();
 
 						float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
-						ball.vel = new Vector2((float) Math.cos(a) * 60, (float) Math.sin(a) * 60);
+						ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
 
 						ball.x = self.x + 12;
 						ball.y = self.y + 12;

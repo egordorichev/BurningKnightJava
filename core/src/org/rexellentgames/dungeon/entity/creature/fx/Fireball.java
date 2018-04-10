@@ -34,7 +34,6 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public boolean noMove;
 	public boolean bad = true;
 	public Vector2 vel;
-	private float speed;
 	public static Sound cast = Graphics.getSound("sfx/fireball_cast_sfx.wav");
 	public static Sound brk = Graphics.getSound("sfx/fireball_break_sfx.wav");
 
@@ -68,16 +67,18 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		if (this.vel == null) {
 			this.vel = new Vector2();
-		}
 
-		if (this.target != null) {
-			float dx = this.target.x + this.target.w / 2 - this.x - 5;
-			float dy = this.target.y + this.target.h / 2 - this.y - 5;
-			float d = (float) Math.sqrt(dx * dx + dy * dy);
+			if (this.target != null) {
+				float dx = this.target.x + this.target.w / 2 - this.x - 5;
+				float dy = this.target.y + this.target.h / 2 - this.y - 5;
+				float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			this.vel.x = dx / d * 10;
-			this.vel.y = dy / d * 10;
+				this.vel.x = dx / d * 3;
+				this.vel.y = dy / d * 3;
 
+				this.body.setLinearVelocity(this.vel);
+			}
+		} else {
 			this.body.setLinearVelocity(this.vel);
 		}
 	}
@@ -127,7 +128,9 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
 
-		this.vel = this.body.getLinearVelocity();
+		if (!this.noMove) {
+			this.vel = this.body.getLinearVelocity();
+		}
 
 		this.t += dt;
 
@@ -163,12 +166,11 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		}
 
 		if (!this.noMove) {
-			this.speed = Math.min(1, this.speed + dt);
-
 			if (this.animation == this.idle) {
 				this.body.setLinearVelocity(this.vel);
 			} else {
-				this.body.setLinearVelocity(this.vel.x * this.speed, this.vel.y * this.speed);
+				float s = 1.03f;
+				this.body.setLinearVelocity(this.vel.x * s, this.vel.y * s);
 			}
 		}
 	}

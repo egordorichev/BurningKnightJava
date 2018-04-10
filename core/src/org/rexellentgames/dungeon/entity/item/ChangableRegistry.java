@@ -2,10 +2,7 @@ package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
-import org.rexellentgames.dungeon.entity.item.consumable.spell.GhostLeaver;
-import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
-import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
-import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.*;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.MagicWeapon;
@@ -36,8 +33,8 @@ public class ChangableRegistry {
 		THURISAZ("item (scroll B)"),
 		FEHU("item (scroll C)"),
 		RAIDO("item (scroll D)"),
-		/*MANNAZ(68),
-		TEIWAZ(69),
+		MANNAZ("item (scroll E)"),
+		/*TEIWAZ(69),
 		SOWULO(70),
 		HAGALAZ(71)*/
 
@@ -105,13 +102,13 @@ public class ChangableRegistry {
 
 		ArrayList<Class<? extends Spell>> spells = new ArrayList<Class<? extends Spell>>(Arrays.asList(
 			SpellOfTeleportation.class, SpellOfDamage.class, GhostLeaver.class,
-			WormHole.class
+			WormHole.class, ManaSpell.class
 		));
 
 		// todo: finish this list
 		ArrayList<Type> spellTypes = new ArrayList<Type>(Arrays.asList(
-			Type.JERA, Type.THURISAZ, Type.FEHU //, Type.RAIDO,
-			// Type.MANNAZ, Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
+			Type.JERA, Type.THURISAZ, Type.FEHU, Type.RAIDO,
+			Type.MANNAZ // , Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
 		));
 
 		for (Type type : spellTypes) {
