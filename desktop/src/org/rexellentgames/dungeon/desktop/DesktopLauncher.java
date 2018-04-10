@@ -1,8 +1,10 @@
 package org.rexellentgames.dungeon.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.rexellentgames.dungeon.Client;
+import org.rexellentgames.dungeon.Crash;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Version;
 import org.rexellentgames.dungeon.net.Network;
@@ -29,7 +31,8 @@ public class DesktopLauncher {
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable throwable) {
-				throwable.printStackTrace();
+				Crash.report(thread, throwable);
+				Gdx.app.exit();
 			}
 		});
 	}
