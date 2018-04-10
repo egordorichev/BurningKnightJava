@@ -24,4 +24,8 @@ public class State {
 	public void renderUi() {
 
 	}
+
+	public void resize(int width, int height) {
+
+	}
 }
