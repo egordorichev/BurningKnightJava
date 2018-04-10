@@ -2,9 +2,14 @@ package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.*;
+import org.rexellentgames.dungeon.entity.item.consumable.spell.GhostLeaver;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.MagicWeapon;
+import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -29,12 +34,16 @@ public class ChangableRegistry {
 
 		JERA("item (scroll A)"),
 		THURISAZ("item (scroll B)"),
-		/*FEHU("item (scroll C)"),
-		RAIDO(67),
+		FEHU("item (scroll C)"),
+		/*RAIDO(67),
 		MANNAZ(68),
 		TEIWAZ(69),
 		SOWULO(70),
-		HAGALAZ(71)*/;
+		HAGALAZ(71)*/
+
+		DEMON("item (wand A)"),
+		HOLY("item (wand B)"),
+		CIRLE("item (wand C)");
 
 		private String sprite;
 
@@ -95,12 +104,12 @@ public class ChangableRegistry {
 		}
 
 		ArrayList<Class<? extends Spell>> spells = new ArrayList<Class<? extends Spell>>(Arrays.asList(
-			SpellOfTeleportation.class, SpellOfDamage.class
+			SpellOfTeleportation.class, SpellOfDamage.class, GhostLeaver.class
 		));
 
 		// todo: finish this list
 		ArrayList<Type> spellTypes = new ArrayList<Type>(Arrays.asList(
-			Type.JERA, Type.THURISAZ //, Type.FEHU, Type.RAIDO,
+			Type.JERA, Type.THURISAZ, Type.FEHU //, Type.RAIDO,
 			// Type.MANNAZ, Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
 		));
 
@@ -109,6 +118,23 @@ public class ChangableRegistry {
 			types.put(spells.get(i).getSimpleName(), type);
 			identified.put(type, false);
 			spells.remove(i);
+		}
+
+
+		ArrayList<Class<? extends MagicWeapon>> wands = new ArrayList<>(Arrays.asList(
+			FireBook.class, DefenseBook.class, NoteBook.class
+		));
+
+		// todo: finish this list
+		ArrayList<Type> wandTypes = new ArrayList<Type>(Arrays.asList(
+			Type.CIRLE, Type.HOLY, Type.DEMON
+		));
+
+		for (Type type : wandTypes) {
+			int i = Random.newInt(wands.size());
+			types.put(wands.get(i).getSimpleName(), type);
+			identified.put(type, false);
+			wands.remove(i);
 		}
 	}
 }

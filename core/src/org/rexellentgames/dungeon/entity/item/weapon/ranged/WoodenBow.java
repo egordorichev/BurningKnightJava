@@ -2,13 +2,14 @@ package org.rexellentgames.dungeon.entity.item.weapon.ranged;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class WoodenBow extends Bow {
 	{
-		name = "Wooden Bow";
+		name = Locale.get("bow");
 		sprite = "item (bow)";
-		description = "Robin is good!";
+		description = Locale.get("bow_desc");
 		useTime = 0.4f;
 		damage = 6;
 	}

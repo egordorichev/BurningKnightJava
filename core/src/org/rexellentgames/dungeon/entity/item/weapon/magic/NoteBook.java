@@ -1,14 +1,14 @@
 package org.rexellentgames.dungeon.entity.item.weapon.magic;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.fx.Note;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class NoteBook extends MagicWeapon {
 	{
-		name = "Note Book";
-		description = "a e b g# e";
-		sprite = "item (wand B)";
+		name = Locale.get("note_book");
+		description = Locale.get("note_book_desc");
 		damage = 6;
 		mana = 10;
 		useTime = 0.2f;

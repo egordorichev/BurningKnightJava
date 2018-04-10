@@ -2,14 +2,14 @@ package org.rexellentgames.dungeon.entity.item.weapon.magic;
 
 import com.badlogic.gdx.math.Vector2;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.fx.IchorFx;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class DefenseBook extends MagicWeapon {
 	{
-		name = "Defense Book";
-		description = "Ichor!";
-		sprite = "item (wand D)";
+		name = Locale.get("defense_book");
+		description = Locale.get("defense_book_desc");
 		damage = 0;
 		mana = 5;
 		useTime = 0.1f;

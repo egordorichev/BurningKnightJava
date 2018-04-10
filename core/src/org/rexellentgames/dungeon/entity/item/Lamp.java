@@ -22,12 +22,15 @@ public class Lamp extends Item {
 
 	public float val = 100f;
 	private boolean lightUp;
+	private boolean added;
 
 	@Override
 	public void setOwner(Creature owner) {
 		super.setOwner(owner);
 
-		if (BurningKnight.instance == null) {
+		if (!this.added && BurningKnight.instance == null) {
+			this.added = true;
+
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
@@ -57,6 +60,7 @@ public class Lamp extends Item {
 		super.save(writer);
 		writer.writeFloat(this.val);
 		writer.writeBoolean(this.lightUp);
+		writer.writeBoolean(this.added);
 	}
 
 	@Override
@@ -64,6 +68,7 @@ public class Lamp extends Item {
 		super.load(reader);
 		this.val = reader.readFloat();
 		this.lightUp = reader.readBoolean();
+		this.added = reader.readBoolean();
 	}
 
 	@Override

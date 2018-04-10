@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
 
@@ -11,13 +12,25 @@ public class MagicWeapon extends Item {
 	protected int damage = 1;
 	protected float mana;
 	protected Player owner;
+	protected ChangableRegistry.Type type;
 
 	{
 		identified = true;
 	}
 
+	public MagicWeapon() {
+		this.onPickup();
+	}
+
 	public void setOwner(Creature owner) {
 		this.owner = (Player) owner;
+	}
+
+	@Override
+	public void onPickup() {
+		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
+		this.sprite = this.type.getSprite();
+		this.identified = ChangableRegistry.identified.get(this.type);
 	}
 
 	@Override

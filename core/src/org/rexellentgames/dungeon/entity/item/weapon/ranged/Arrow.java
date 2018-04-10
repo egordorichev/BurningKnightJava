@@ -1,10 +1,12 @@
 package org.rexellentgames.dungeon.entity.item.weapon.ranged;
 
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.item.Item;
 
 public class Arrow extends Item {
 	{
-		name = "Arrow";
+		name = Locale.get("arrow");
+		description = Locale.get("arrow_desc");
 		stackable = true;
 		sprite = "item (arrow)";
 		useable = false;
