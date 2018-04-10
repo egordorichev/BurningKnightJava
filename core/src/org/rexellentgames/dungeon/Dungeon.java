@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -23,6 +24,7 @@ import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.state.LoginState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Dungeon extends ApplicationAdapter {
@@ -66,6 +68,9 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		Log.info("Loading locale...");
+		Locale.load("en");
+
 		if (!Network.SERVER) {
 			this.setupCursor();
 			Assets.init();

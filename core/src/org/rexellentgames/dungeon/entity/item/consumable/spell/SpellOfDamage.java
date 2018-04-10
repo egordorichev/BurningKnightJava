@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item.consumable.spell;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 
 public class SpellOfDamage extends Spell {
 	{
-		name = "Spell of Damage";
-		description = "It hurts";
+		name = Locale.get("damage_spell");
+		description = Locale.get("damage_spell_desc");
 	}
 
 	@Override
