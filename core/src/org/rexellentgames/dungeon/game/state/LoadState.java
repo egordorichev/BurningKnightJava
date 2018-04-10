@@ -117,6 +117,12 @@ public class LoadState extends State {
 				@Override
 				public void run() {
 					Dungeon.level.load(Level.DataType.PLAYER);
+
+					if (Dungeon.level == null) {
+						// Old version
+						return;
+					}
+
 					Dungeon.level.load(Level.DataType.LEVEL);
 					Dungeon.level.loadDropped();
 

@@ -27,6 +27,8 @@ import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
+import java.io.File;
+
 public class Dungeon extends ApplicationAdapter {
 	public static Game game;
 	public static int depth;
@@ -52,6 +54,12 @@ public class Dungeon extends ApplicationAdapter {
 	public static void newGame() {
 		reset = true;
 
+		File file = Gdx.files.external(".ldg/").file();
+
+		for (File f : file.listFiles()) {
+			Log.info(f.delete() + " del");
+		}
+
 		loadType = Entrance.LoadType.GO_DOWN;
 
 		Player.instance = null;
@@ -59,7 +67,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		level = null;
 		area.destroy();
-		goToLevel(0);
+		Dungeon.depth = 0;
+		game.setState(new LoadState());
 	}
 
 	public static void goToLevel(int level) {
