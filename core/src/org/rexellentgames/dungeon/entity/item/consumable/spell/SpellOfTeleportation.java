@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item.consumable.spell;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -9,8 +10,8 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class SpellOfTeleportation extends Spell {
 	{
-		name = "Spell Of Teleportation";
-		description = "Teleports you to a random location";
+		name = Locale.get("teleport_spell");
+		description = Locale.get("teleport_spell_desc");
 	}
 
 	@Override

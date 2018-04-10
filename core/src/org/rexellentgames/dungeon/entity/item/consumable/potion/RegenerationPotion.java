@@ -1,11 +1,12 @@
 package org.rexellentgames.dungeon.entity.item.consumable.potion;
 
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.buff.RegenerationBuff;
 
 public class RegenerationPotion extends Potion {
 	{
-		name = "Regeneration Potion";
-		description = "Slowly heals you";
+		name = Locale.get("regen_potion");
+		description = Locale.get("regen_potion_desc");
 	}
 
 	@Override

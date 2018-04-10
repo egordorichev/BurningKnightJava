@@ -1,12 +1,13 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 
 public class Bomb extends Item {
 	{
-		name = "Bomb";
-		description = "Don't press that button @_@";
+		name = Locale.get("bomb");
+		description = Locale.get("bomb_desc");
 		sprite = "item (bomb)";
 		useTime = 1f;
 		stackable = true;

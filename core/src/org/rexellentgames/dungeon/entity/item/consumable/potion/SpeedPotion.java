@@ -1,11 +1,12 @@
 package org.rexellentgames.dungeon.entity.item.consumable.potion;
 
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.buff.SpeedBuff;
 
 public class SpeedPotion extends Potion {
 	{
-		name = "Speed Potion";
-		description = "Sonic uses this, try it!";
+		name = Locale.get("speed_potion");
+		description = Locale.get("speed_potion_desc");
 	}
 
 	@Override

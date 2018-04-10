@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -12,9 +13,9 @@ public class Lamp extends Item {
 	public static Lamp instance;
 
 	{
-		name = "Magical Lamp";
+		name = Locale.get("lamp");
 		sprite = "item (lamp)";
-		description = "Capable of storing a tiny bit of light\nRight click to summon BK";
+		description = Locale.get("lamp_desc");
 		identified = true;
 		useTime = 0.2f;
 	}

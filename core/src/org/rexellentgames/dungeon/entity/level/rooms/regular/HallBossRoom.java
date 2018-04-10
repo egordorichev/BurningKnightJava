@@ -1,9 +1,13 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
+import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.mob.Boss;
+import org.rexellentgames.dungeon.entity.creature.mob.CrazyKing;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class HallBossRoom extends RegularRoom {
@@ -20,7 +24,17 @@ public class HallBossRoom extends RegularRoom {
 				}
 			}
 		}
-		
+
+		Point center = this.getCenter();
+
+		Boss boss = new CrazyKing();
+
+		boss.x = center.x + (16 - boss.w) / 2;
+		boss.y = center.y + (16 - boss.h) / 2;
+
+		Dungeon.area.add(boss);
+		Dungeon.level.addSaveable(boss);
+
 		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 5), Terrain.WALL);
 		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 5), Terrain.WALL);
 
