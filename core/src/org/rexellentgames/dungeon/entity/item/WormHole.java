@@ -18,8 +18,8 @@ public class WormHole extends Item {
 
 		WormholeFx fx = new WormholeFx();
 
-		fx.x = (float) Math.floor(this.owner.x) + 8;
-		fx.y = (float) Math.floor(this.owner.y) + 8;
+		fx.x = this.owner.x;
+		fx.y = this.owner.y;
 
 		Dungeon.area.add(fx);
 	}
