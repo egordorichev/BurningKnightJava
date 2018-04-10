@@ -53,6 +53,7 @@ public class ItemRegistry {
 		register("lamp", Lamp.class);
 		register("defense_book", DefenseBook.class);
 		register("ghost", GhostLeaver.class);
+		register("worm_hole", WormHole.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

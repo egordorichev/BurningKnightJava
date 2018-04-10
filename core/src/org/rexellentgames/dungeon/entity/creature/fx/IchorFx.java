@@ -10,7 +10,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 
-public class IchorFx extends Entity {
+public class IchorFx extends Entity implements WormholeFx.Suckable {
 	private static Animation animations = Animation.make("ichor");
 	private AnimationData animation = animations.get("idle");
 	private float t;
@@ -19,8 +19,15 @@ public class IchorFx extends Entity {
 	private boolean bad;
 
 	@Override
+	public Body getBody() {
+		return body;
+	}
+
+	@Override
 	public void init() {
 		super.init();
+
+		WormholeFx.suck.add(this);
 
 		this.y -= 4;
 
@@ -61,6 +68,7 @@ public class IchorFx extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
+		WormholeFx.suck.remove(this);
 		this.body.getWorld().destroyBody(this.body);
 	}
 
