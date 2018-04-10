@@ -94,7 +94,7 @@ public class HallLevel extends BetterLevel {
 		if (Dungeon.depth == 0) {
 			return new LineBuilder();
 		} else {
-			return new CastleBuilder();
+			return new CastleBuilder().setPathLength(1f, new float[]{0, 1, 0});
 		}
 	}
 

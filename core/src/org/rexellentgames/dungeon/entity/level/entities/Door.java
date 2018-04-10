@@ -8,9 +8,11 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -73,7 +75,10 @@ public class Door extends SaveableEntity {
 
 			for (int i = 0; i < 2; i++) {
 				// todo: save rooms
-				if (this.rooms[i] != null && this.rooms[i] == Player.instance.currentRoom && Player.instance.currentRoom instanceof FightRoom && this.rooms[i].numEnemies > 0) {
+				if (this.rooms[i] != null && this.rooms[i] == Player.instance.currentRoom
+					&& (Player.instance.currentRoom instanceof FightRoom || Player.instance.currentRoom instanceof LampRoom)
+					&& (this.rooms[i].numEnemies > 0 || !Player.instance.getInventory().find(Lamp.class))) {
+
 					this.lock = true;
 					break;
 				}

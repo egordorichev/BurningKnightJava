@@ -101,7 +101,10 @@ public class Creature extends SaveableEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.body.getWorld().destroyBody(this.body);
+
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+		}
 	}
 
 	@Override
