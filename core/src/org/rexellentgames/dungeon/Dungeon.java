@@ -22,6 +22,7 @@ import org.rexellentgames.dungeon.game.state.ComicsState;
 import org.rexellentgames.dungeon.game.state.HubState;
 import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.state.LoginState;
+import org.rexellentgames.dungeon.game.state.MainMenuState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
@@ -91,7 +92,7 @@ public class Dungeon extends ApplicationAdapter {
 			if (!Network.NONE) {
 				game.setState(new LoginState());
 			} else {
-				Dungeon.goToLevel(0);
+				game.setState(new MainMenuState());
 			}
 		} else {
 			game.setState(new HubState());
@@ -179,6 +180,8 @@ public class Dungeon extends ApplicationAdapter {
 		if (Camera.instance != null) {
 			Camera.instance.resize(width, height);
 		}
+
+		game.getState().resize(width, height);
 	}
 
 	@Override
