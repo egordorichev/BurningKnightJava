@@ -1,12 +1,13 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 
 public class AnotherSword extends Sword {
 	{
-		name = "Another Sword";
-		description = "Looks familiar, huh?";
+		name = Locale.get("another_sword");
+		description = Locale.get("another_sword_desc");
 		sprite = "item (another sword)";
 		damage = 6;
 		useTime = 0.2f;

@@ -2,13 +2,14 @@ package org.rexellentgames.dungeon.entity.item.weapon;
 
 import com.badlogic.gdx.audio.Sound;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 
 public class IronSword extends Sword {
 	{
-		name = "Iron Sword";
-		description = "Really old iron sword, probably one of the knights lost it.";
+		name = Locale.get("iron_sword");
+		description = Locale.get("iron_sword_desc");
 		sprite = "item (iron sword)";
 		damage = 6;
 		useTime = 1f;
