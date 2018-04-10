@@ -33,7 +33,6 @@ public class BurningKnight extends Mob {
 	public static float LIGHT_SIZE = 12f;
 	private static Animation animations = Animation.make("actor_burning_knight");
 	private Room last;
-	private boolean sawPlayer;
 	public static Point throne;
 	private AnimationData idle;
 	private AnimationData hurt;
@@ -113,7 +112,6 @@ public class BurningKnight extends Mob {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
-		this.sawPlayer = reader.readBoolean();
 		throne = new Point(reader.readInt16(), reader.readInt16());
 		this.lock = reader.readInt16();
 	}
@@ -125,7 +123,6 @@ public class BurningKnight extends Mob {
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
-		writer.writeBoolean(this.sawPlayer);
 		writer.writeInt16((short) (throne != null ? throne.x : 0));
 		writer.writeInt16((short) (throne != null ? throne.y : 0));
 		writer.writeInt16((short) this.lock);
@@ -153,12 +150,6 @@ public class BurningKnight extends Mob {
 		super.init();
 
 		this.t = 0;
-
-		if (Dungeon.depth == -1 && !this.sawPlayer) {
-			this.done = true;
-			BurningKnight.instance = null;
-		}
-
 		this.body = this.createBody(7, 10, 21, 18, BodyDef.BodyType.DynamicBody, true);
 	}
 
@@ -431,7 +422,8 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) || (self.target != null && self.target.invisible)) {
+			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16) &&
+				(Dungeon.depth > 0)) || (self.target != null && self.target.invisible)) {
 				self.target = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
@@ -472,7 +464,7 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, self.speed * 3f, 32f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16) && (Dungeon.depth > 0 || !self.sawPlayer)) {
+			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16)) {
 
 				self.target = null;
 				self.become("idle");
@@ -590,6 +582,8 @@ public class BurningKnight extends Mob {
 	public class FadeInState extends BKState {
 		@Override
 		public void onEnter() {
+			self.a = 0;
+
 			Tween.to(new Tween.Task(1, 0.3f) {
 				@Override
 				public float getValue() {
@@ -681,16 +675,11 @@ public class BurningKnight extends Mob {
 			float dy = player.y - this.y - 8;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d < (LIGHT_SIZE - 3) * 16 && (this.sawPlayer || this.canSee(player))) {
+			if (d < (LIGHT_SIZE - 3) * 16) {
 				this.target = player;
 				this.become("alerted");
 				this.noticeSignT = 2f;
 				this.hideSignT = 0f;
-
-				if (!this.sawPlayer) {
-					Log.info("BK NOTICED YOU! BE CAREFUL!");
-					this.sawPlayer = true;
-				}
 
 				return;
 			}

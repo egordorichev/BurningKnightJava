@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -20,6 +21,22 @@ public class Lamp extends Item {
 
 	public float val = 100f;
 	private boolean lightUp;
+
+	@Override
+	public void setOwner(Creature owner) {
+		super.setOwner(owner);
+
+		if (BurningKnight.instance == null) {
+			BurningKnight knight = new BurningKnight();
+
+			Dungeon.area.add(knight);
+			knight.attackTp = true;
+			knight.findStartPoint();
+			knight.become("fadeIn");
+
+			Dungeon.level.addPlayerSaveable(knight);
+		}
+	}
 
 	@Override
 	public void init() {
