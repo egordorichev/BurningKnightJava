@@ -17,6 +17,7 @@ public class WormholeFx extends Entity {
 	public static ArrayList<Suckable> suck = new ArrayList<>();
 	private static Animation animations = Animation.make("wormhole");
 	private AnimationData animation = animations.get("idle");
+	private float t;
 
 	@Override
 	public void init() {
@@ -42,6 +43,12 @@ public class WormholeFx extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		this.t += dt;
+
+		if (this.t >= 20f) {
+			this.done = true;
+		}
 
 		this.vel.mul(0.9f);
 		this.x += this.vel.x;

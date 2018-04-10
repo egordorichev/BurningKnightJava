@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -68,17 +69,25 @@ public class UiInventory extends UiEntity {
 		if (Input.instance.wasPressed("drop_item") && !this.open) {
 			Item slot = this.inventory.getSlot(this.active);
 
-			if (slot != null && !slot.hasAutoPickup()) {
-				ItemHolder holder = new ItemHolder();
+			if (slot == null) {
+				return;
+			}
 
-				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
-				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-				holder.setItem(slot);
-				holder.velToMouse();
+			if (slot.isCursed()) {
+				UiLog.instance.print("[red]The item is cursed!");
+			} else {
+				if (!slot.hasAutoPickup()) {
+					ItemHolder holder = new ItemHolder();
 
-				this.inventory.setSlot(this.active, null);
-				Dungeon.area.add(holder);
-				Dungeon.level.addSaveable(holder);
+					holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
+					holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
+					holder.setItem(slot);
+					holder.velToMouse();
+
+					this.inventory.setSlot(this.active, null);
+					Dungeon.area.add(holder);
+					Dungeon.level.addSaveable(holder);
+				}
 			}
 		}
 
