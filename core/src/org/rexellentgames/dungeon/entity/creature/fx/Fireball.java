@@ -77,6 +77,8 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 			this.vel.x = dx / d * 10;
 			this.vel.y = dy / d * 10;
+
+			this.body.setLinearVelocity(this.vel);
 		}
 	}
 
@@ -124,6 +126,8 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
+
+		this.vel = this.body.getLinearVelocity();
 
 		this.t += dt;
 
