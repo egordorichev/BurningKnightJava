@@ -1,10 +1,12 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
+import org.rexellentgames.dungeon.assets.Locale;
+
 public class TheSword extends Sword {
 	{
-		name = "The Sword";
-		description = "Brings death to your enemies.";
-		damage = 50;
+		name = Locale.get("the_sword");
+		description = Locale.get("the_sword_desc");
+		damage = 101;
 		useTime = 0.3f;
 		sprite = "item (claymore)";
 	}

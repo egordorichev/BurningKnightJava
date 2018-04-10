@@ -1,13 +1,14 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.SlowBuff;
 
 public class Dagger extends Sword {
 	{
-		description = "Small but sharp iron dagger.";
+		description = Locale.get("dagger");
 		damage = 2;
-		name = "Dagger";
+		name = Locale.get("dagger_desc");
 		useTime = 0.3f;
 		sprite = "item (dagger)";
 	}
