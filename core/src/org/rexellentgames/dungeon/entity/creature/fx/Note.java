@@ -68,7 +68,8 @@ public class Note extends Entity {
 			// ((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
 			if (((Weapon) entity).getOwner() instanceof Player) {
-				this.done = true;
+				this.vel.x *= -1;
+				this.vel.y *= -1;
 			}
 		} else if (entity == null) {
 			this.done = true; // Wall

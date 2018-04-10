@@ -97,8 +97,13 @@ public class Fireball extends NetworkedEntity {
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
 			if (((Weapon) entity).getOwner() instanceof Player) {
-				this.animation = this.dead;
-				brk.play();
+				if (this.target != null || this.toMouse) {
+					this.animation = this.dead;
+					brk.play();
+				} else {
+					this.vel.x *= -1;
+					this.vel.y *= -1;
+				}
 			}
 		} else if (entity instanceof Plant) {
 			((Plant) entity).startBurning();
