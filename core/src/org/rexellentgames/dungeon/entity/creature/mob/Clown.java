@@ -194,7 +194,6 @@ public class Clown extends Mob {
 				note.x = self.x + 2;
 				note.y = self.y + 2;
 				note.bad = !self.stupid;
-				note.owner = self;
 
 				Dungeon.area.add(note);
 			}
@@ -266,8 +265,9 @@ public class Clown extends Mob {
 				self.flee = 1.5f;
 				self.become("fleeing");
 				self.laughT = 3f;
-				// fixme: it places TooO MANY
-				Dungeon.area.add(new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8));
+				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
+
+				Dungeon.area.add(e);
 			}
 		}
 

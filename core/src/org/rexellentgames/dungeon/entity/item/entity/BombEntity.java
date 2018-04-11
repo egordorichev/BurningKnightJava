@@ -54,7 +54,7 @@ public class BombEntity extends Entity {
 			}
 		}
 
-		place.play();
+		this.playSfx(place);
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class BombEntity extends Entity {
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation.update(dt)) {
-			explode.play();
+			this.playSfx(explode);
 			this.done = true;
 			Dungeon.area.add(new Explosion(this.x + 8, this.y + 8));
 
