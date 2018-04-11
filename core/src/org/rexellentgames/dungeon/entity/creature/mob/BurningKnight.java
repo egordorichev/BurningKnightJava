@@ -526,6 +526,7 @@ public class BurningKnight extends Mob {
 						ball.x = self.x + 12;
 						ball.y = self.y + 12;
 						ball.bad = !self.stupid;
+						ball.owner = self;
 
 						Dungeon.area.add(ball);
 					}
@@ -540,6 +541,7 @@ public class BurningKnight extends Mob {
 						ball.y = self.y + 12;
 
 						ball.bad = !self.stupid;
+						ball.owner = self;
 						Dungeon.area.add(ball);
 					}
 				} else if (r < 0.6f) {
@@ -553,6 +555,7 @@ public class BurningKnight extends Mob {
 						ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
 						ball.noMove = true;
 						ball.bad = !self.stupid;
+						ball.owner = self;
 
 						Dungeon.area.add(ball);
 					}
@@ -567,6 +570,7 @@ public class BurningKnight extends Mob {
 					ball.x = self.x + 12;
 					ball.y = self.y + 12;
 					ball.bad = !self.stupid;
+					ball.owner = self;
 
 					Dungeon.area.add(ball);
 				}

@@ -194,6 +194,7 @@ public class Clown extends Mob {
 				note.x = self.x + 2;
 				note.y = self.y + 2;
 				note.bad = !self.stupid;
+				note.owner = self;
 
 				Dungeon.area.add(note);
 			}
@@ -296,7 +297,9 @@ public class Clown extends Mob {
 			this.findNearbyPoint();
 			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
 
-			if (this.targetPoint != null && this.moveTo(this.targetPoint, 16f, 8f)) {
+			if (this.targetPoint == null) {
+				self.become("idle");
+			} else if (this.moveTo(this.targetPoint, 6f, 10f)) {
 				self.flee = 0;
 				self.become(self.toLaugh ? "laugh" : "idle");
 				self.toLaugh = false;

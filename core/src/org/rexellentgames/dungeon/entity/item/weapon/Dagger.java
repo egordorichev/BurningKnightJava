@@ -12,11 +12,4 @@ public class Dagger extends Sword {
 		useTime = 0.3f;
 		sprite = "item (dagger)";
 	}
-
-	@Override
-	protected void onHit(Creature creature) {
-		super.onHit(creature);
-
-		creature.addBuff(new SlowBuff().setDuration(5));
-	}
 }

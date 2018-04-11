@@ -14,12 +14,9 @@ public class MagicWeapon extends Item {
 	protected Player owner;
 	protected ChangableRegistry.Type type;
 
-	{
-		identified = true;
-	}
-
 	public MagicWeapon() {
 		this.onPickup();
+		this.identified = true;
 	}
 
 	public void setOwner(Creature owner) {
@@ -51,6 +48,7 @@ public class MagicWeapon extends Item {
 		}
 
 		super.use();
+		this.identify();
 
 		this.owner.modifyMana(-this.mana);
 	}
