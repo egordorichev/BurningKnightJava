@@ -1,10 +1,12 @@
 package org.rexellentgames.dungeon.entity;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -107,5 +109,23 @@ public class Entity extends Point {
 			this.y + this.h >= camera.position.y - Display.GAME_HEIGHT / 2 * zoom &&
 			this.x <= camera.position.x + Display.GAME_WIDTH / 2 * zoom &&
 			this.y <= camera.position.y + Display.GAME_HEIGHT / 2 * zoom;
+	}
+
+	public long playSfx(Sound sound) {
+		if (this instanceof Player) {
+			return sound.play();
+		}
+
+		if (!this.onScreen) {
+			return -1;
+		}
+
+		float d = this.getDistanceTo(Player.instance.x + 8, Player.instance.y + 8);
+
+		if (d < 200f) {
+			return -1;
+		}
+
+		return sound.play(1 / d);
 	}
 }

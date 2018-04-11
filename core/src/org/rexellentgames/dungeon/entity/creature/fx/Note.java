@@ -7,11 +7,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
-import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -26,6 +24,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	public boolean bad = true;
 	private float t;
 	private static Sound[] sounds;
+	public Entity owner;
 
 	@Override
 	public Body getBody() {
@@ -42,7 +41,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 			}
 		}
 
-		sounds[Random.newInt(5)].play();
+		this.owner.playSfx(sounds[Random.newInt(5)]);
 
 		super.init();
 
