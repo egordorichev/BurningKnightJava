@@ -1873,6 +1873,27 @@ fx-dither-idle-09
   orig: 16, 16
   offset: 0, 0
   index: -1
+fx-exp-idle-00
+  rotate: false
+  xy: 473, 139
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+fx-exp-idle-01
+  rotate: false
+  xy: 1019, 507
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+fx-exp-idle-02
+  rotate: false
+  xy: 521, 405
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
 fx-plant-idle-00
   rotate: false
   xy: 637, 274
@@ -2379,7 +2400,7 @@ item (wand G)
   index: -1
 item (wand H)
   rotate: false
-  xy: 1019, 500
+  xy: 1019, 494
   size: 3, 11
   orig: 3, 11
   offset: 0, 0
