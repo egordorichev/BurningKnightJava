@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
@@ -294,6 +295,8 @@ public class Mob extends Creature {
 		if (Random.chance(5)) {
 			items.add(new SunPotion());
 		}
+
+		items.add(new Gold().randomize());
 
 		return items;
 	}

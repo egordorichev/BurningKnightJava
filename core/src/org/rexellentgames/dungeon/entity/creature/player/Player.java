@@ -441,6 +441,7 @@ public class Player extends Creature {
 
 			if (item.getItem().hasAutoPickup()) {
 				this.tryToPickup(item);
+				this.area.add(new ItemPickedFx(item));
 			} else if (!Network.SERVER && !item.falling) {
 				this.holders.add(item);
 
