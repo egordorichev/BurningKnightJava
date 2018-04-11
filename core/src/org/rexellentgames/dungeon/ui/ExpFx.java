@@ -21,9 +21,14 @@ public class ExpFx extends UiEntity {
 
 	@Override
 	public void update(float dt) {
-		this.lerp(target, 0.03f);
+		float dx = this.x - target.x;
+		float dy = this.y - target.y;
+		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		if (Math.abs(this.x - target.x) + Math.abs(this.y - target.y) < 3) {
+		this.x -= dx / d * 3;
+		this.y -= dy / d * 3;
+
+		if (d < 3) {
 			this.done = true;
 			Player.instance.addExperience(1);
 		}

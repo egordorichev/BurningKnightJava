@@ -1,17 +1,13 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.util.Log;
@@ -77,6 +73,12 @@ public class ItemHolder extends SaveableEntity {
 
 		if (this.falling) {
 			this.vel.mul(0);
+		}
+
+		if (this.vel.len() <= 0.1f) {
+			this.vel.mul(0);
+			this.x = Math.round(this.x);
+			this.y = Math.round(this.y);
 		}
 
 		if (Dungeon.level != null && !this.falling) {
