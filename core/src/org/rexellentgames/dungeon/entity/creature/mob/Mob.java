@@ -40,6 +40,8 @@ public class Mob extends Creature {
 	public boolean stupid = false;
 	protected Mind mind;
 	protected boolean hide;
+	protected boolean guard;
+	protected Room start;
 
 	private static TextureRegion hideSign;
 	private static TextureRegion noticeSign;
@@ -142,10 +144,6 @@ public class Mob extends Creature {
 		writer.writeByte(this.mind.getId());
 	}
 
-	public int getExperienceDropped() {
-		return this.experienceDropped;
-	}
-
 	protected boolean canSee(Creature player) {
 		return this.getDistanceTo(player.x + 8, player.y + 8) < 256f && Dungeon.level.canSee(
 			(int) Math.floor((this.x + this.w / 2) / 16), (int) Math.floor((this.y + this.h / 2) / 16),
@@ -231,6 +229,11 @@ public class Mob extends Creature {
 
 		if (this.ai != null) {
 			this.ai.update(dt);
+
+			if (this.start == null) {
+				this.ai.findCurrentRoom();
+				this.start = this.ai.currentRoom;
+			}
 
 			if (this.ai != null) { // !?!?!
 				this.ai.t += dt;
@@ -487,8 +490,6 @@ public class Mob extends Creature {
 			this.checkForPlayer(false);
 		}
 
-
-
 		public void checkForPlayer(boolean force) {
 			if (self.target != null) {
 				self.lastSeen = new Point(self.target.x, self.target.y);
@@ -505,11 +506,11 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				//
 				if (!self.state.equals("fleeing") && !self.saw && self.canSee(self.target)
 					&& (self.stupid || force|| (((Player) self.target)).heat / 3 > Level.heat + 1)) {
 					Level.heat += 1f;
 					self.saw = true;
+
 					if (self.noticeSignT <= 0) {
 						self.hideSignT = 0f;
 						self.noticeSignT = 2f;

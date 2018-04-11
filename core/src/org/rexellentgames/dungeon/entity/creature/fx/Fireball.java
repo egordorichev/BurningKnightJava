@@ -36,7 +36,6 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public Vector2 vel;
 	public static Sound cast = Graphics.getSound("sfx/fireball_cast_sfx.wav");
 	public static Sound brk = Graphics.getSound("sfx/fireball_break_sfx.wav");
-	public Entity owner;
 
 	@Override
 	public Body getBody() {
@@ -47,7 +46,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public void init() {
 		super.init();
 
-		this.owner.playSfx(cast);
+		this.playSfx(cast);
 
 		WormholeFx.suck.add(this);
 
@@ -100,18 +99,18 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		if (entity instanceof Mob && !((Mob) entity).isDead()) {
 			((Mob) entity).modifyHp(this.noMove ? -3 : -5, true);
 			this.animation = this.dead;
-			brk.play();
+			this.playSfx(brk);
 			((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
 			((Player) entity).modifyHp(this.noMove ? -3 : -5, true);
 			this.animation = this.dead;
-			brk.play();
+			this.playSfx(brk);
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
 			if (((Weapon) entity).getOwner() instanceof Player) {
 				if (this.target != null || this.toMouse) {
 					this.animation = this.dead;
-					brk.play();
+					this.playSfx(brk);
 				} else {
 					this.vel.x *= -1;
 					this.vel.y *= -1;
@@ -145,7 +144,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 			} else if (this.animation == this.dead) {
 				this.done = true;
 			} else if (this.t >= 4f) {
-				brk.play();
+				this.playSfx(brk);
 				this.animation = this.dead;
 			}
 		}

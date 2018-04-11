@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Entity extends Point {
@@ -122,10 +123,10 @@ public class Entity extends Point {
 
 		float d = this.getDistanceTo(Player.instance.x + 8, Player.instance.y + 8);
 
-		if (d < 200f) {
+		if (d >= 128f) {
 			return -1;
 		}
 
-		return sound.play(1 / d);
+		return sound.play((128f - d) / 128f);
 	}
 }

@@ -24,6 +24,8 @@ public class Bomb extends Item {
 		super.use();
 		this.count -= 1;
 
-		Dungeon.area.add(new BombEntity(this.owner.x + (this.owner.w - 16) / 2, this.owner.y + (this.owner.h - 16) / 2).toMouseVel());
+		BombEntity e = new BombEntity(this.owner.x + (this.owner.w - 16) / 2, this.owner.y + (this.owner.h - 16) / 2).toMouseVel();
+
+		Dungeon.area.add(e);
 	}
 }

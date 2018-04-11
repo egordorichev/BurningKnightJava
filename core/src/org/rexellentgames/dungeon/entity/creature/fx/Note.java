@@ -24,7 +24,6 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	public boolean bad = true;
 	private float t;
 	private static Sound[] sounds;
-	public Entity owner;
 
 	@Override
 	public Body getBody() {
@@ -41,7 +40,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 			}
 		}
 
-		this.owner.playSfx(sounds[Random.newInt(5)]);
+		this.playSfx(sounds[Random.newInt(5)]);
 
 		super.init();
 
