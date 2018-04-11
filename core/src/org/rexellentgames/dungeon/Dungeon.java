@@ -18,10 +18,7 @@ import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.ComicsState;
-import org.rexellentgames.dungeon.game.state.HubState;
-import org.rexellentgames.dungeon.game.state.LoadState;
-import org.rexellentgames.dungeon.game.state.LoginState;
+import org.rexellentgames.dungeon.game.state.*;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
@@ -43,7 +40,6 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean showed;
 	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
 
-	public static Mode mode = Mode.NORMAL;
 	private static int to = -2;
 	private Color background = Color.valueOf("#000000"); // #323c39
 
@@ -100,6 +96,9 @@ public class Dungeon extends ApplicationAdapter {
 			if (!Network.NONE) {
 				game.setState(new LoginState());
 			} else {
+				// For debug, @Nuflee
+				// game.setState(new MainMenuState());
+
 				Dungeon.goToLevel(0);
 			}
 		} else {
@@ -188,6 +187,12 @@ public class Dungeon extends ApplicationAdapter {
 		if (Camera.instance != null) {
 			Camera.instance.resize(width, height);
 		}
+
+		State state = game.getState();
+
+		if (state != null) {
+			state.resize(width, height);
+		}
 	}
 
 	@Override
@@ -233,10 +238,6 @@ public class Dungeon extends ApplicationAdapter {
 		Colors.put("blue", Color.valueOf("#306082"));
 		Colors.put("yellow", Color.valueOf("#fbf236"));
 		Colors.put("brown", Color.valueOf("#8f563b"));
-	}
-
-	public enum Mode {
-		NORMAL
 	}
 
 	public static Color BLACK = Color.valueOf("#000000");

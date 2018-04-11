@@ -237,7 +237,7 @@ public class Mob extends Creature {
 			}
 		}
 
-		if (this.target instanceof Player && this.target != null && this.canSee(this.target)) {
+		if (this.target instanceof Player && this.canSee(this.target)) {
 			((Player) this.target).heat += dt;
 		}
 
@@ -505,11 +505,16 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.state.equals("fleeing") && !self.saw && (self.stupid || force || (((Player) self.target)).heat / 3 > Level.heat + 1) && self.canSee(self.target)) {
+				//
+				if (!self.state.equals("fleeing") && !self.saw && self.canSee(self.target)
+					&& (self.stupid || force|| (((Player) self.target)).heat / 3 > Level.heat + 1)) {
 					Level.heat += 1f;
 					self.saw = true;
-					self.hideSignT = 0f;
-					self.noticeSignT = 2f;
+					if (self.noticeSignT <= 0) {
+						self.hideSignT = 0f;
+						self.noticeSignT = 2f;
+					}
+
 					this.checkForFlee();
 
 					if (!self.state.equals("chase") && !self.state.equals("fleeing")) {

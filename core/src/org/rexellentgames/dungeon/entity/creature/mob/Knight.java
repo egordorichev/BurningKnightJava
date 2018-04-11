@@ -97,6 +97,8 @@ public class Knight extends Mob {
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
 
+		// Graphics.print(this.state, Graphics.small, this.x, this.y);
+
 		/*
 		if (this.ai.nextPathPoint != null) {
 			Graphics.batch.end();
@@ -287,11 +289,14 @@ public class Knight extends Mob {
 			this.findNearbyPoint();
 			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
 
-			if (this.targetPoint != null && this.moveTo(this.targetPoint, 6f, 8f)) {
+			if (this.targetPoint == null) {
+				self.become("idle");
+			} else if (this.moveTo(this.targetPoint, 6f, 8f)) {
 				self.flee = 0;
 				self.become("idle");
 				return;
-			} else if (self.flee == 0f) {
+			} else if (self.flee <= 0.3f) {
+				self.flee = 0;
 				self.become("idle");
 			}
 
@@ -352,7 +357,7 @@ public class Knight extends Mob {
 				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 3f,16f)) {
+				if (this.moveTo(self.lastSeen, 5f,16f)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
 

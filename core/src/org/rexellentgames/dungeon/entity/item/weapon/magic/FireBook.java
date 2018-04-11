@@ -31,6 +31,7 @@ public class FireBook extends MagicWeapon {
 			ball.x = (float) (this.owner.x + (this.owner.w - 10) / 2+ Math.cos(a) * 8);
 			ball.y = (float) (this.owner.y + (this.owner.h - 10) / 2+ Math.sin(a) * 8);
 			ball.vel = new Vector2((float) Math.cos(a), (float) Math.sin(a));
+			ball.owner = this.owner;
 
 			Dungeon.area.add(ball);
 		}

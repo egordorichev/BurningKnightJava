@@ -180,7 +180,7 @@ public class Sword extends Weapon {
 			return;
 		}
 
-		this.getSfx().play();
+		this.owner.playSfx(this.getSfx());
 
 		this.animation.setPaused(false);
 		super.use();

@@ -131,7 +131,7 @@ public class Player extends Creature {
 	}
 
 	public void generate() {
-		// this.inventory.add(new ItemHolder().setItem(new Dagger()));
+		this.inventory.add(new ItemHolder().setItem(new Dagger()));
 		// this.inventory.add(new ItemHolder().setItem(new Lamp()));
 
 		/*this.inventory.add(new ItemHolder().setItem(new CabbageSeed().setCount(100)));
