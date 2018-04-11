@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
+import org.rexellentgames.dungeon.entity.item.WormHole;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -77,13 +78,17 @@ public class Spell extends Consumable {
 	}
 
 	public static Spell random() {
-		int random = Random.newInt(2);
+		int random = Random.newInt(5);
 
 		switch (random) {
 			case 0: case 1:
 				return new SpellOfTeleportation();
 			case 2: default:
 				return new SpellOfDamage();
+			case 3:
+				return new GhostLeaver();
+			case 4:
+				return new WormHole();
 		}
 	}
 }

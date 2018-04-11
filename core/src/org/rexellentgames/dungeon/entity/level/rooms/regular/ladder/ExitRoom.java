@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
+import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -23,6 +24,10 @@ public class ExitRoom extends RegularRoom {
 
 		level.addSaveable(exit);
 		Dungeon.area.add(exit);
+
+		for (Door door : this.connected.values()) {
+			door.setType(Door.Type.ENEMY);
+		}
 	}
 
 	@Override
