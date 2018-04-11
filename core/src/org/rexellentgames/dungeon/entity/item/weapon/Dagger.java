@@ -7,7 +7,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.SlowBuff;
 public class Dagger extends Sword {
 	{
 		description = Locale.get("dagger");
-		damage = 2;
+		damage = 4;
 		name = Locale.get("dagger_desc");
 		useTime = 0.3f;
 		sprite = "item (dagger)";

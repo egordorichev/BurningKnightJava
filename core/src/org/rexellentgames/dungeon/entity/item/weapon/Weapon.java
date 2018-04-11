@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 
 public class Weapon extends Item {
 	protected Body body;
@@ -130,7 +131,7 @@ public class Weapon extends Item {
 			this.used = true;
 			this.onHit(creature);
 
-			creature.modifyHp(-this.damage);
+			creature.modifyHp(-Math.round(Random.newFloat(this.damage / 3 * 2, this.damage)));
 		} else if (entity instanceof Weapon) {
 			if (this.isBlocking()) {
 				Weapon weapon = ((Weapon) entity);

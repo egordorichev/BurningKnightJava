@@ -311,7 +311,7 @@ public class Player extends Creature {
 
 		float v = this.vel.len2();
 
-		if (v > 9.9) {
+		if (v > 20) {
 			this.become("run");
 
 			if (this.t % 0.2 <= 0.017 && !Network.SERVER) {
@@ -323,12 +323,15 @@ public class Player extends Creature {
 					// this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
 
 					if (this.watery > 4.5f) {
-						waterSteps[Random.newInt(5)].play();
+						Sound sound = waterSteps[Random.newInt(5)];
+						sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
 					} else {
-						steps[Random.newInt(5)].play();
+						Sound sound = steps[Random.newInt(5)];
+						sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
 					}
 				} else {
-					steps[Random.newInt(5)].play();
+					Sound sound = steps[Random.newInt(5)];
+					sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
 				}
 			}
 		} else {
