@@ -26,4 +26,9 @@ public class Point extends Vector2 {
 		y += d.y;
 		return this;
 	}
+
+	@Override
+	public String toString() {
+		return "Point(" + x + ", " + y + ")";
+	}
 }
