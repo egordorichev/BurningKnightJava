@@ -184,10 +184,6 @@ public class Mob extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (this.room != null && !this.ignoreRooms) {
-			this.room.numEnemies -= 1;
-		}
-
 		Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 		if (room != null) {

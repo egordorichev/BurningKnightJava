@@ -498,6 +498,10 @@ public abstract class Level extends Entity {
 
 	@Override
 	public void render() {
+		for (Room room : this.rooms) {
+			room.numEnemies = 0;
+		}
+
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;

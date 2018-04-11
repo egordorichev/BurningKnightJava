@@ -124,6 +124,7 @@ public class Clown extends Mob {
 		this.animation.render(this.x, this.y, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	@Override
