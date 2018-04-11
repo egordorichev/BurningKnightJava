@@ -64,11 +64,11 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Mob && !this.bad && !((Mob) entity).isDead()) {
-			((Mob) entity).modifyHp(-6, true);
+			((Mob) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
 			this.done = true;
 			// ((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(-6, true);
+			((Player) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
 			this.done = true;
 			// ((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
