@@ -17,13 +17,9 @@ public class ItemPickedFx extends Entity {
 
 		this.a = 1f;
 
-		if (i.getCount() > 1) {
-			this.text += " (" + i.getCount() + ")";
-		}
-
 		Graphics.layout.setText(Graphics.medium, this.text);
-		this.x = item.x + 8 - Graphics.layout.width / 2;
-		this.y = item.y + 32;
+		this.x = item.x + item.hw / 2 - Graphics.layout.width / 2;
+		this.y = item.y + item.hh + 16;
 
 		this.depth = 10;
 		this.tween();

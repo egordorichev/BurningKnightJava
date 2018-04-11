@@ -18,8 +18,8 @@ public class ItemPickupFx extends Entity {
 		this.player = player;
 
 		Graphics.layout.setText(Graphics.medium, this.text);
-		this.x = item.x + 8 - Graphics.layout.width / 2;
-		this.y = item.y + 16;
+		this.x = item.x + item.hw / 2 - Graphics.layout.width / 2;
+		this.y = item.y + item.hh + 16;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class ItemPickupFx extends Entity {
 		if (Input.instance.wasPressed("pickup")) {
 			if (this.player.tryToPickup(this.item)) {
 				this.done = true;
-				this.area.add(new ItemPickedFx("+" + this.text, this));
+				this.area.add(new ItemPickedFx(item));
 			}
 		}
 	}

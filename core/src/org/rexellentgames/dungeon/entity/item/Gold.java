@@ -20,7 +20,7 @@ public class Gold extends Item {
 
 	@Override
 	public Item randomize() {
-		this.count = Random.newInt(20, 40);
+		this.count = Random.newInt(10, 20);
 
 		return this;
 	}
