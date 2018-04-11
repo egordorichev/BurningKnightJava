@@ -130,20 +130,21 @@ public class Clown extends Mob {
 
 	@Override
 	protected State getAi(String state) {
-		if (state.equals("idle") || state.equals("laugh")) {
-			return new IdleState();
-		} else if (state.equals("alerted")) {
-			return new AlertedState();
-		} else if (state.equals("chase")) {
-			return new ChasingState();
-		} else if (state.equals("attack")) {
-			return new AttackState();
-		} else if (state.equals("fleeing")) {
-			return new FleeingState();
-		} else if (state.equals("roam")) {
-			return new RoamState();
-		} else if (state.equals("rangedAttack")) {
-			return new RangedAttack();
+		switch (state) {
+			case "idle": case "laugh":
+				return new IdleState();
+			case "alerted":
+				return new AlertedState();
+			case "chase":
+				return new ChasingState();
+			case "attack":
+				return new AttackState();
+			case "fleeing":
+				return new FleeingState();
+			case "roam":
+				return new RoamState();
+			case "rangedAttack":
+				return new RangedAttack();
 		}
 
 		return super.getAi(state);

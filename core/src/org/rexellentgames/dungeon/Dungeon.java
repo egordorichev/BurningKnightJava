@@ -96,7 +96,7 @@ public class Dungeon extends ApplicationAdapter {
 			if (!Network.NONE) {
 				game.setState(new LoginState());
 			} else {
-				// For debug, @Nuflee
+				// For debug, @Nufflee
 				// game.setState(new MainMenuState());
 
 				Dungeon.goToLevel(0);
