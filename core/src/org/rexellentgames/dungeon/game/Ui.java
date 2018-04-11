@@ -98,11 +98,9 @@ public class Ui {
 
 		// Cursor
 
-		float s = (float) (Math.cos(Dungeon.time * 2) * 2) + 16;
-
 		Graphics.render(this.cursor, Input.instance.uiMouse.x,
 			Input.instance.uiMouse.y,
-			Dungeon.time * 60, s / 2, s / 2, false, false);
+			Dungeon.time * 60, 8, 8, false, false);
 	}
 
 	public void renderUi() {

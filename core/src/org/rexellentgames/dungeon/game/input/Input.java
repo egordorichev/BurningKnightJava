@@ -142,12 +142,16 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 
 	public void updateMousePosition() {
-		Vector3 mouse = Camera.ui.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+		Vector3 mouse = Camera.ui.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0),
+			Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
+			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 
 		this.uiMouse.x = mouse.x;
 		this.uiMouse.y = mouse.y;
 
-		mouse = Camera.instance.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+		mouse = Camera.instance.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0),
+			Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
+			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 
 		this.worldMouse.x = mouse.x;
 		this.worldMouse.y = mouse.y;

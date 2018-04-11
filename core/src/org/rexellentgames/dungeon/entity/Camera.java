@@ -21,7 +21,7 @@ public class Camera extends Entity {
 	public static OrthographicCamera ui;
 
 	private OrthographicCamera camera;
-	private Viewport viewport;
+	public Viewport viewport;
 	private Entity target;
 	private float shake;
 	private float vx;
