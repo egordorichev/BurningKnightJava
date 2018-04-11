@@ -1,8 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.creature.mob.Boss;
-import org.rexellentgames.dungeon.entity.creature.mob.CrazyKing;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;

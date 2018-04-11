@@ -158,26 +158,17 @@ public class Knight extends Mob {
 
 	@Override
 	protected State getAi(String state) {
-		if (state.equals("idle")) {
-			return new IdleState();
-		} else if (state.equals("toRelax")) {
-			return new ToRelaxState();
-		} else if (state.equals("relax")) {
-			return new RelaxState();
-		} else if (state.equals("alerted")) {
-			return new AlertedState();
-		} else if (state.equals("chase")) {
-			return new ChaseState();
-		} else if (state.equals("tired")) {
-			return new TiredState();
-		} else if (state.equals("attack")) {
-			return new AttackingState();
-		} else if (state.equals("fleeing")) {
-			return new FleeingState();
-		} else if (state.equals("roam")) {
-			return new RoamState();
-		} else if (state.equals("dash")) {
-			return new DashState();
+		switch (state) {
+			case "idle": return new IdleState();
+			case "toRelax": return new ToRelaxState();
+			case "relax": return new RelaxState();
+			case "alerted": return new AlertedState();
+			case "chase": return new ChaseState();
+			case "tired": return new TiredState();
+			case "attack": return new AttackingState();
+			case "fleeing": return new FleeingState();
+			case "roam": return new RoamState();
+			case "dash": return new DashState();
 		}
 
 		return super.getAi(state);

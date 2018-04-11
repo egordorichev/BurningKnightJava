@@ -6,12 +6,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
-import org.rexellentgames.dungeon.entity.creature.fx.FireRectFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -633,24 +631,25 @@ public class BurningKnight extends Mob {
 
 	@Override
 	protected State getAi(String state) {
-		if (state.equals("idle")) {
-			return new IdleState();
-		} else if (state.equals("roam")) {
-			return new RoamState();
-		} else if (state.equals("alerted")) {
-			return new AlertedState();
-		} else if (state.equals("chase") || state.equals("fleeing")) {
-			return new ChaseState();
-		} else if (state.equals("dash")) {
-			return new DashState();
-		} else if (state.equals("preattack")) {
-			return new PreattackState();
-		} else if (state.equals("attack")) {
-			return new AttackState();
-		} else if (state.equals("fadeIn")) {
-			return new FadeInState();
-		} else if (state.equals("fadeOut")) {
-			return new FadeOutState();
+		switch (state) {
+			case "idle":
+				return new IdleState();
+			case "roam":
+				return new RoamState();
+			case "alerted":
+				return new AlertedState();
+			case "chase": case "fleeing":
+				return new ChaseState();
+			case "dash":
+				return new DashState();
+			case "preattack":
+				return new PreattackState();
+			case "attack":
+				return new AttackState();
+			case "fadeIn":
+				return new FadeInState();
+			case "fadeOut":
+				return new FadeOutState();
 		}
 
 		return super.getAi(state);

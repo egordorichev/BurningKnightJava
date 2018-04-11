@@ -1,20 +1,15 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.creature.mob.Boss;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
-import org.rexellentgames.dungeon.entity.creature.mob.CrazyKing;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
-import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.HealthBlockRoom;
