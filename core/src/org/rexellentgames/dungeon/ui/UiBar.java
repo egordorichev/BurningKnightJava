@@ -22,10 +22,18 @@ public class UiBar extends UiEntity {
 
 	@Override
 	public void render() {
+		if (this.vertical) {
+			this.render2();
+			this.render1();
+		} else {
+			this.render1();
+			this.render2();
+		}
+	}
+
+	protected void render1() {
 		int w = (int) Math.ceil(this.vertical ? this.w : this.w * (this.last / this.max));
 		int h = (int) Math.ceil(this.vertical ? this.h * (this.last / this.max) : this.h);
-		int ww = (int) Math.ceil(this.vertical ? this.w : this.w * (this.val / this.max));
-		int hh = (int) Math.ceil(this.vertical ? this.h * (this.val / this.max) : this.h);
 
 		Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
 		Graphics.batch.draw(this.region, this.x, this.y + (this.vertical ? 0 : 1));
@@ -36,7 +44,13 @@ public class UiBar extends UiEntity {
 		region.setRegionY(region.getRegionY() + (int) (this.h - h));
 		region.setRegionWidth(w);
 		region.setRegionHeight(h);
+	}
 
+	protected void render2() {
+		TextureRegion region = new TextureRegion(this.region);
+
+		int ww = (int) Math.ceil(this.vertical ? this.w : this.w * (this.val / this.max));
+		int hh = (int) Math.ceil(this.vertical ? this.h * (this.val / this.max) : this.h);
 		Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
 		Graphics.batch.draw(region, this.x, this.y);
 

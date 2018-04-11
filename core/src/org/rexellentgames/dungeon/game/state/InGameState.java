@@ -188,8 +188,7 @@ public class InGameState extends State {
 		Dungeon.ui.render();
 		Ui.ui.renderUi();
 
-		Graphics.print(this.lastLevel + "", Graphics.medium, (20 - this.w) / 2 + 2, Display.GAME_HEIGHT - 16 - 8);
-
+		Graphics.print(this.lastLevel + "", Graphics.medium, (16 - this.w) / 2 + 3, Display.GAME_HEIGHT - 16 - 8);
 
 		this.console.render();
 		this.inventory.renderCurrentSlot();
