@@ -37,6 +37,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	private float speed;
 	public static Sound cast = Graphics.getSound("sfx/fireball_cast_sfx.wav");
 	public static Sound brk = Graphics.getSound("sfx/fireball_break_sfx.wav");
+	public Entity owner;
 
 	@Override
 	public Body getBody() {
@@ -47,7 +48,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public void init() {
 		super.init();
 
-		cast.play();
+		this.owner.playSfx(cast);
 
 		WormholeFx.suck.add(this);
 

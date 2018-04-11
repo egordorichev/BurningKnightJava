@@ -29,6 +29,7 @@ public class NoteBook extends MagicWeapon {
 			note.x = (float) (this.owner.x + (this.owner.w - 10) / 2 + Math.cos(a) * 8);
 			note.y = (float) (this.owner.y + (this.owner.h - 10) / 2 + Math.sin(a) * 8);
 			note.a = a;
+			note.owner = this.owner;
 
 			Dungeon.area.add(note);
 		}

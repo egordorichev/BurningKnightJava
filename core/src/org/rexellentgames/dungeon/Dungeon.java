@@ -41,7 +41,6 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean showed;
 	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
 
-	public static Mode mode = Mode.NORMAL;
 	private static int to = -2;
 	private Color background = Color.valueOf("#000000"); // #323c39
 
@@ -224,10 +223,6 @@ public class Dungeon extends ApplicationAdapter {
 		Colors.put("blue", Color.valueOf("#306082"));
 		Colors.put("yellow", Color.valueOf("#fbf236"));
 		Colors.put("brown", Color.valueOf("#8f563b"));
-	}
-
-	public enum Mode {
-		NORMAL
 	}
 
 	public static Color BLACK = Color.valueOf("#000000");
