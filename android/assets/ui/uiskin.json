@@ -314,6 +314,14 @@
       overFontColor: highlight
     }
   }
+  org.rexellentgames.dungeon.game.ui.LabelButton$LabelButtonStyle: {
+    default: {
+      font: button
+      fontColor: white
+      downFontColor: white
+      overFontColor: gray
+    }
+  }
   com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
     default: {
       font: font
