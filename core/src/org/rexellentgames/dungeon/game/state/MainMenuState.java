@@ -75,14 +75,16 @@ public class MainMenuState extends State {
   }
 
   @Override
-  public void render() {
-    Graphics.render(Graphics.getTexture("ui (cursor)"), Input.instance.uiMouse.x, Input.instance.uiMouse.y, Dungeon.time * 60, 8, 8, false, false);
+  public void update(float dt) {
+    stage.act(dt);
   }
 
   @Override
   public void renderUi() {
-    stage.act(Gdx.graphics.getDeltaTime());
+  	Graphics.batch.end();
     stage.draw();
+  	Graphics.batch.begin();
+    Graphics.render(Graphics.getTexture("ui (cursor)"), Input.instance.uiMouse.x, Input.instance.uiMouse.y, Dungeon.time * 60, 8, 8, false, false);
   }
 
   @Override
