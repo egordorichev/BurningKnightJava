@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
@@ -284,6 +285,42 @@ public class BurningKnight extends Mob {
 		}
 
 		this.animation.render(this.x, this.y, this.flipped);
+
+		/*Graphics.batch.end();
+		Graphics.shape.setColor(1, 0, 1, 1);
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+		for (int i = 0; i < 4; i++) {
+			double a = i * Math.PI / 2;
+
+			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
+				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
+			a -= Math.toRadians(5);
+			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
+				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
+			a += Math.toRadians(10);
+			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
+				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
+		}
+
+		Graphics.shape.setColor(0, 1, 1, 1);
+
+		for (int i = 0; i < 4; i++) {
+			double a = i * Math.PI / 2 + Math.PI / 4;
+
+			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
+				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
+			a -= Math.toRadians(5);
+			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
+				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
+			a += Math.toRadians(10);
+			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
+				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
+		}
+
+		Graphics.shape.end();
+		Graphics.shape.setColor(1, 1, 1, 1);
+		Graphics.batch.begin();*/
 	}
 
 	public class BKState extends State<BurningKnight> {
@@ -498,78 +535,109 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	public enum AttackType {
+		AREA,
+		MISSILE,
+		DIAGONAL,
+		VERTICAL,
+		NULL
+	}
+
+	public AttackType nextAttack = AttackType.NULL;
+
 	public class AttackState extends BKState {
 		public boolean attacked;
 
 		@Override
-		public void onEnter() {
-			super.onEnter();
-
-		}
-
-		@Override
 		public void update(float dt) {
-			if (!this.attacked) {
-				this.attacked = true;
-				float r = Random.newFloat();
+			if (self.nextAttack == AttackType.NULL && !this.attacked) {
+				float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
 
-				if (r < 0.25f) {
-					for (int i = 0; i < 4; i++) {
-						Fireball ball = new Fireball();
-
-						float a = (float) (i * Math.PI / 2);
-
-						ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
-
-						ball.x = self.x + 12;
-						ball.y = self.y + 12;
-						ball.bad = !self.stupid;
-
-						Dungeon.area.add(ball);
-					}
-				} else if (r < 0.5f) {
-					for (int i = 0; i < 4; i++) {
-						Fireball ball = new Fireball();
-
-						float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
-						ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
-
-						ball.x = self.x + 12;
-						ball.y = self.y + 12;
-
-						ball.bad = !self.stupid;
-						Dungeon.area.add(ball);
-					}
-				} else if (r < 0.6f) {
-					for (int i = 0; i < Random.newInt(10, 20); i++) {
-						Fireball ball = new Fireball();
-
-						float d = Random.newFloat(16f, 64f);
-						float a = Random.newFloat((float) (Math.PI * 2));
-
-						ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
-						ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
-						ball.noMove = true;
-						ball.bad = !self.stupid;
-
-						Dungeon.area.add(ball);
-					}
-				/* } else if (r < 0.65f) {
-					self.attackTp = true;
-					Log.info("Attack TP!");
-					self.become("fadeOut"); */
+				if (d <= 24f) {
+					self.nextAttack = AttackType.AREA;
 				} else {
-					Fireball ball = new Fireball();
+					float a = (float) Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+					float a2 = (a % 90);
 
-					ball.target = self.target;
-					ball.x = self.x + 12;
-					ball.y = self.y + 12;
-					ball.bad = !self.stupid;
+					if (a2 <= 5 || a2 >= 85) {
+						self.nextAttack = AttackType.VERTICAL;
+					} else {
+						float a3 = ((a - 45) % 90);
 
-					Dungeon.area.add(ball);
+						if (a3 <= 5 || a3 >= 85) {
+							self.nextAttack = AttackType.DIAGONAL;
+						}
+					}
+				}
+			}
+
+			if (self.nextAttack != AttackType.NULL && !this.attacked) {
+				Fireball ball;
+
+				switch (self.nextAttack) {
+					case MISSILE:
+						ball = new Fireball();
+
+						ball.target = self.target;
+						ball.x = self.x + 12;
+						ball.y = self.y + 12;
+						ball.bad = !self.stupid;
+
+						Dungeon.area.add(ball);
+						break;
+
+					case AREA:
+						for (int i = 0; i < Random.newInt(10, 20); i++) {
+							ball = new Fireball();
+
+							float d = Random.newFloat(16f, 64f);
+							float a = Random.newFloat((float) (Math.PI * 2));
+
+							ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
+							ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
+							ball.noMove = true;
+							ball.bad = !self.stupid;
+
+							Dungeon.area.add(ball);
+						}
+
+						break;
+					case DIAGONAL:
+						for (int i = 0; i < 4; i++) {
+							ball = new Fireball();
+
+							float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
+							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+
+							ball.x = self.x + 12;
+							ball.y = self.y + 12;
+
+							ball.bad = !self.stupid;
+							Dungeon.area.add(ball);
+						}
+						break;
+					case VERTICAL:
+						for (int i = 0; i < 4; i++) {
+							ball = new Fireball();
+
+							float a = (float) (i * Math.PI / 2);
+
+							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+
+							ball.x = self.x + 12;
+							ball.y = self.y + 12;
+							ball.bad = !self.stupid;
+
+							Dungeon.area.add(ball);
+						}
+						break;
 				}
 
-			} else if (this.t > 3f) {
+				this.attacked = true;
+				self.nextAttack = AttackType.NULL;
+			} if (!this.attacked && this.t >= 1f) {
+				self.nextAttack = AttackType.MISSILE;
+			} else if (this.t >= 2f) {
 				self.become("chase");
 			}
 

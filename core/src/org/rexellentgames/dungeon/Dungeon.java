@@ -11,7 +11,6 @@ import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.consumable.plant.Plant;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.Area;
@@ -99,7 +98,7 @@ public class Dungeon extends ApplicationAdapter {
 				// For debug, @Nufflee
 				// game.setState(new MainMenuState());
 
-				Dungeon.goToLevel(0);
+			 	Dungeon.goToLevel(0);
 			}
 		} else {
 			game.setState(new HubState());
