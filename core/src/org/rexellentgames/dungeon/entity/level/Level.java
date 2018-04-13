@@ -555,10 +555,6 @@ public abstract class Level extends Entity {
 		}
 	}
 
-	public byte getVariant(int x, int y) {
-		return this.variants[toIndex(x, y)];
-	}
-
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
 		float dt = Gdx.graphics.getDeltaTime();
 		int i = (int) (Math.floor(x / 16) + Math.floor(y / 16) * getWidth());

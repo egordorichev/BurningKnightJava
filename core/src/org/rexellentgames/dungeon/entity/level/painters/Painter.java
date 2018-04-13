@@ -173,12 +173,10 @@ public class Painter {
 						doorSpots.add(p);
 				}
 
-				if (doorSpots != null) {
-					door = new Door(doorSpots.get(Random.newInt(doorSpots.size())));
+				door = new Door(doorSpots.get(Random.newInt(doorSpots.size())));
 
-					r.getConnected().put(n, door);
-					n.getConnected().put(r, door);
-				}
+				r.getConnected().put(n, door);
+				n.getConnected().put(r, door);
 			}
 		}
 	}

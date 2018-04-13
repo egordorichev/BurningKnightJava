@@ -87,7 +87,9 @@ public class Mob extends Creature {
 	public void init() {
 		super.init();
 
-		all.add(this);
+		if (!(this instanceof BurningKnight)) {
+			all.add(this);
+		}
 
 		if (hideSign == null) {
 			hideSign = Graphics.getTexture("ui (hide sign)");
@@ -97,12 +99,6 @@ public class Mob extends Creature {
 		if (Random.chance(50)) {
 			this.become("roam");
 		}
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		all.remove(this);
 	}
 
 	public Mind getMind() {
@@ -394,6 +390,7 @@ public class Mob extends Creature {
 		if (this.hp <= 0) {
 			if (this.room != null) {
 				this.room.numEnemies -= 1;
+				all.remove(this);
 			}
 		}
 	}
