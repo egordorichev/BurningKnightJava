@@ -557,13 +557,17 @@ public class BurningKnight extends Mob {
 					self.nextAttack = AttackType.AREA;
 				} else {
 					float a = (float) Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+
+					if (a < 0) {
+						a += 360;
+					}
+
 					float a2 = (a % 90);
 
 					if (a2 <= 5 || a2 >= 85) {
 						self.nextAttack = AttackType.VERTICAL;
 					} else {
 						float a3 = ((a - 45) % 90);
-
 						if (a3 <= 5 || a3 >= 85) {
 							self.nextAttack = AttackType.DIAGONAL;
 						}

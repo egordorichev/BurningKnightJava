@@ -490,6 +490,10 @@ public class Player extends Creature {
 		return false;
 	}
 
+	public int getGold() {
+		return this.gold;
+	}
+
 	public Inventory getInventory() {
 		return this.inventory;
 	}

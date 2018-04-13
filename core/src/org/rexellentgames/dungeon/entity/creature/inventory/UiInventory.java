@@ -139,11 +139,19 @@ public class UiInventory extends UiEntity {
 		this.inventory.active = this.active;
 	}
 
+	private static TextureRegion gold = Graphics.getTexture("item (coin)");
+
 	@Override
 	public void render() {
-		for (int i = 0; i < (this.open ? 24 : 6); i++) {
+		for (int i = 0; i < 6; i++) {
 			Item item = this.inventory.getSlot(i);
 			this.slots[i].render(item);
+		}
+
+		if (Player.instance.getGold() > 0) {
+			Graphics.render(gold, 163 - gold.getRegionWidth() / 2, 17 - gold.getRegionHeight() / 2);
+
+			Graphics.print(String.valueOf(Player.instance.getGold()), Graphics.small, 151 + 3, 5 + 3);
 		}
 	}
 
