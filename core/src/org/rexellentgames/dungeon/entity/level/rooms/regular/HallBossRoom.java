@@ -29,8 +29,10 @@ public class HallBossRoom extends RegularRoom {
 
 		Boss boss = new CrazyKing();
 
-		boss.x = center.x + (16 - boss.w) / 2;
-		boss.y = center.y + (16 - boss.h) / 2;
+		boss.x = center.x * 16 + (16 - boss.w) / 2;
+		boss.y = center.y * 16 + (16 - boss.h) / 2;
+
+		// chair?
 
 		Dungeon.area.add(boss);
 		Dungeon.level.addSaveable(boss);
