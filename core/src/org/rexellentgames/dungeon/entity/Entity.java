@@ -32,6 +32,12 @@ public class Entity extends Point {
 		return (float) Math.sqrt(dx * dx + dy * dy);
 	}
 
+	public float getAngleTo(float x, float y) {
+		float dx = x - this.x - this.w / 2;
+		float dy = y - this.y - this.h / 2;
+		return (float) Math.atan2(dy, dx);
+	}
+
 	public int getId() {
 		return this.id;
 	}
