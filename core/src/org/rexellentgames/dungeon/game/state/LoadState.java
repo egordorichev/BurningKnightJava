@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -101,6 +102,7 @@ public class LoadState extends State {
 		Dungeon.ui.add(new UiLog());
 
 		Player.all.clear();
+		Mob.all.clear();
 
 		if (Player.instance == null) {
 			this.readDepth();

@@ -20,6 +20,7 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.UiBar;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
@@ -57,10 +58,6 @@ public class InGameState extends State {
 		if (BurningKnight.instance != null && Dungeon.depth > 0 && (Network.SERVER || Network.NONE)) {
 			BurningKnight.instance.findStartPoint();
 		}
-
-		if (Player.instance != null) {
-			Camera.instance.follow(Player.instance);
-		}
 	}
 
 	@Override
@@ -94,12 +91,22 @@ public class InGameState extends State {
 		}
 	}
 
+	private boolean set;
+
 	@Override
 	public void update(float dt) {
 		this.console.update(dt);
 		this.doPhysicsStep(dt);
 		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
+
+		if (!set) {
+			if (Player.instance != null) {
+				Camera.instance.follow(Player.instance);
+			}
+
+			set = true;
+		}
 
 		if (!Network.SERVER) {
 			this.health.setValue(Player.instance.getHp());
