@@ -10,6 +10,10 @@ import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
+//
+// BROKEN
+//
+
 public class FightRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {

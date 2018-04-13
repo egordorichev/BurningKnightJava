@@ -76,12 +76,12 @@ public class Door extends SaveableEntity {
 			this.lock = false;
 
 			for (int i = 0; i < 2; i++) {
-				// todo: save rooms
-				if (this.rooms[i] != null && this.rooms[i] == Player.instance.currentRoom
-					&& (Player.instance.currentRoom instanceof FightRoom || Player.instance.currentRoom instanceof LampRoom
-					|| Player.instance.currentRoom instanceof ExitRoom)
-
-					&& ((Player.instance.currentRoom instanceof ExitRoom ? Mob.all.size() > 0 : this.rooms[i].numEnemies > 0) || !Player.instance.getInventory().find(Lamp.class))) {
+				if (this.rooms[i] instanceof ExitRoom && Mob.all.size() > 0) {
+					this.lock = true;
+					break;
+				} else if (this.rooms[i] != null && this.rooms[i] == Player.instance.currentRoom
+					&& Player.instance.currentRoom instanceof LampRoom
+					&& !Player.instance.getInventory().find(Lamp.class)) {
 
 					this.lock = true;
 					break;

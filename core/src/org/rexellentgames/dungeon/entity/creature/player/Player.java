@@ -197,6 +197,8 @@ public class Player extends Creature {
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 6);
 		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
+
+		Camera.instance.follow(this);
 	}
 
 	public void modifyMana(float a) {
@@ -414,6 +416,7 @@ public class Player extends Creature {
 		this.gold = reader.readInt32();
 
 		this.setHunger(reader.readInt16());
+		Camera.instance.follow(this);
 	}
 
 	@Override

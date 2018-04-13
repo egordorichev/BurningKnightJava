@@ -28,10 +28,6 @@ public class EntranceRoom extends RegularRoom {
 
 	@Override
 	public int getMaxConnections(Connection side) {
-		if (side == Connection.ALL) {
-			return 2;
-		}
-
 		return 1;
 	}
 
