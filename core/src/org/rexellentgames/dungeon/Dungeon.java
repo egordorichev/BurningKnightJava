@@ -53,7 +53,7 @@ public class Dungeon extends ApplicationAdapter {
 		File file = Gdx.files.external(".ldg/").file();
 
 		for (File f : file.listFiles()) {
-			Log.info(f.delete() + " del");
+			f.delete();
 		}
 
 		loadType = Entrance.LoadType.GO_DOWN;

@@ -3,10 +3,12 @@ package org.rexellentgames.dungeon.entity.creature.mob.boss;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Random;
 
 public class CrazyKing extends Boss {
 	private static Animation animations = Animation.make("actor_towel_king");
 	private static AnimationData idle = animations.get("idle");
+	private AnimationData animation = idle;
 
 	{
 		hpMax = 100;
@@ -16,7 +18,13 @@ public class CrazyKing extends Boss {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		idle.render(this.x, this.y, this.flipped);
+		this.animation.render(this.x, this.y, this.flipped);
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+		this.animation.update(dt);
 	}
 
 	@Override
@@ -34,10 +42,36 @@ public class CrazyKing extends Boss {
 	}
 
 	public class IdleState extends CKState {
+		private float delay;
 
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			this.delay = Random.newFloat(1f, 3f);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= this.delay) {
+				self.become("roam");
+			}
+		}
 	}
 
 	public class RoamState extends CKState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
 
+			this.findNearbyPoint();
+
+			if (this.targetPoint == null) {
+				self.become("idle");
+			} else if (this.moveTo(this.targetPoint, 10f, 8f)) {
+				self.become("idle");
+			}
+		}
 	}
 }
