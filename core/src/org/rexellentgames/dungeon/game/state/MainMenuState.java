@@ -31,7 +31,7 @@ public class MainMenuState extends State {
     verticalGroup.space(25.0f);
     verticalGroup.setFillParent(true);
 
-    Skin skin = new Skin(Gdx.files.internal("ui/flat-earth-ui.json"));
+    Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
     TextButton playButton = new TextButton("Play", skin);
 
