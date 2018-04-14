@@ -46,5 +46,12 @@
 	"the_sword" : "The Sword",
 	"the_sword_desc" : "OP EZ GG",
 	"worm_hole" : "Worm Hole",
-	"worm_hole_desc" : "Sucks projectiles very well"
+	"worm_hole_desc" : "Sucks projectiles very well",
+
+
+
+
+
+	"dialog_bk_its_you_again" : "So it's you again? {WAIT}You think, you can changing something this time?",
+	"dialog_bk_its_not_worthit" : "It is not worth it! {WAIT}{SHAKE}YOU WILL NEVER DEFEAT ME.{ENDSHAKE} Let's just face the {SHAKE}truth.{ENDSHAKE}"
 }

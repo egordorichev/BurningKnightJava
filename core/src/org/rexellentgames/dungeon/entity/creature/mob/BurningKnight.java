@@ -667,7 +667,7 @@ public class BurningKnight extends Mob {
 
 				@Override
 				public void onEnd() {
-					self.become("idle");
+					self.become(self.dialog == null ? "idle" : "dialog");
 					self.attackTp = false;
 				}
 			});
@@ -701,6 +701,29 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	public static Dialog dialogs = Dialog.make("burning-knight");
+	public static DialogData onLampTake = dialogs.get("on_lamp_take");
+	public DialogData dialog;
+
+	public class DialogState extends BKState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			Dialog.active = self.dialog;
+			Dialog.active.start();
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (Dialog.active == null) {
+				self.become("chase");
+			}
+		}
+	}
+
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
@@ -722,6 +745,8 @@ public class BurningKnight extends Mob {
 				return new FadeInState();
 			case "fadeOut":
 				return new FadeOutState();
+			case "dialog":
+				return new DialogState();
 		}
 
 		return super.getAi(state);
