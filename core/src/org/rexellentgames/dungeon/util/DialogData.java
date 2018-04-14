@@ -14,7 +14,7 @@ public class DialogData {
 	public ArrayList<Dialog.Phrase> phrases = new ArrayList<>();
 	private int current;
 	private TypingLabel label;
-	private static Skin skin = new Skin(Gdx.files.internal("ui/flat-earth-ui.json"));
+	private static Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 	private float delay = -1f;
 	private static TextureRegion frame = Graphics.getTexture("dialog");
 
