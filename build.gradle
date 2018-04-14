@@ -124,6 +124,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.esotericsoftware:kryonet:2.22.0-RC1"
         compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
+        compile "com.rafaskoberg.gdx:typing-label:1.0.4"
     }
 }
 

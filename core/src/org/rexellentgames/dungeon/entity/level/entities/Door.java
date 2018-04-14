@@ -100,7 +100,12 @@ public class Door extends SaveableEntity {
 		super.update(dt);
 
 		if (this.animation.update(dt)) {
-
+			if (this.animation.getFrame() == 2) {
+				if (!this.autoLock || this.lock) {
+					this.animation.setBack(true);
+					this.animation.setPaused(false);
+				}
+			}
 		}
 	}
 
@@ -129,11 +134,6 @@ public class Door extends SaveableEntity {
 
 			if (this.numCollisions <= 0) {
 				this.numCollisions = 0; // to make sure
-
-				if (!this.autoLock || this.lock) {
-					this.animation.setBack(true);
-					this.animation.setPaused(false);
-				}
 			}
 		}
 	}

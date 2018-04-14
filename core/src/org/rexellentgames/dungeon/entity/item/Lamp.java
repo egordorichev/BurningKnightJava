@@ -39,6 +39,8 @@ public class Lamp extends Item {
 			knight.findStartPoint();
 			knight.become("fadeIn");
 
+			knight.dialog = BurningKnight.onLampTake;
+
 			Dungeon.level.addPlayerSaveable(knight);
 		}
 	}

@@ -395,6 +395,12 @@ public class Mob extends Creature {
 		}
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+		all.remove(this);
+	}
+
 	public Room lastRoom;
 	public boolean toWater;
 

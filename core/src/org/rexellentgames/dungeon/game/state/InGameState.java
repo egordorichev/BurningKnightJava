@@ -20,6 +20,7 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.UiBar;
+import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -100,6 +101,10 @@ public class InGameState extends State {
 		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
 
+		if (Dialog.active != null) {
+			Dialog.active.update(dt);
+		}
+
 		if (!set) {
 			if (Player.instance != null) {
 				Camera.instance.follow(Player.instance);
@@ -121,7 +126,7 @@ public class InGameState extends State {
 		if (Input.instance.wasPressed("z")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
-			Tween.to(new Tween.Task(cam.zoom * 1.3f, 0.2f) {
+			Tween.to(new Tween.Task(cam.zoom * 1.3f, 0.1f) {
 				@Override
 				public float getValue() {
 					return cam.zoom;
@@ -135,7 +140,7 @@ public class InGameState extends State {
 		} else if (Input.instance.wasPressed("c")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
-			Tween.to(new Tween.Task(cam.zoom * 0.7f, 0.2f) {
+			Tween.to(new Tween.Task(cam.zoom * 0.7f, 0.1f) {
 				@Override
 				public float getValue() {
 					return cam.zoom;
@@ -158,6 +163,10 @@ public class InGameState extends State {
 
 	@Override
 	public void renderUi() {
+		if (Dialog.active != null) {
+			Dialog.active.render();
+		}
+
 		if (Player.instance.getLevel() != this.lastLevel) {
 			this.lastLevel = Player.instance.getLevel();
 			Graphics.layout.setText(Graphics.medium, String.valueOf(this.lastLevel));

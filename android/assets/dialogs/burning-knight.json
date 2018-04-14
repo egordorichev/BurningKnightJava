@@ -1,0 +1,11 @@
+{
+	"on_lamp_take" : {
+		"dialog_bk_its_you_again": {
+			"auto" : true
+		},
+
+		"dialog_bk_its_not_worthit" : {
+
+		}
+	}
+}

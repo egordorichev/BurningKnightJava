@@ -13,7 +13,7 @@ public class ItemPickedFx extends Entity {
 
 	public ItemPickedFx(ItemHolder item) {
 		Item i = item.getItem();
-		this.text = i.getName();
+		this.text = "+" + i.getName();
 
 		this.a = 1f;
 
