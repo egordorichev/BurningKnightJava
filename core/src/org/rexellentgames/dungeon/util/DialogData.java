@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.util;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 import com.rafaskoberg.gdx.typinglabel.TypingListener;
@@ -15,6 +16,7 @@ public class DialogData {
 	private TypingLabel label;
 	private static Skin skin = new Skin(Gdx.files.internal("ui/flat-earth-ui.json"));
 	private float delay = -1f;
+	private static TextureRegion frame = Graphics.getTexture("dialog");
 
 	public void start() {
 		this.current = 0;
@@ -25,7 +27,7 @@ public class DialogData {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 		this.label = new TypingLabel("{SPEED=0.4}{COLOR=#FFFFFF}" + phrase.string, skin);
 		this.label.setSize(Display.GAME_WIDTH - 64, 64);
-		this.label.setPosition(32, Display.GAME_HEIGHT - 64);
+		this.label.setPosition(32, Display.GAME_HEIGHT - 64 - 32);
 		this.label.setWrap(true);
 
 		this.label.setTypingListener(new TypingListener() {
@@ -71,6 +73,7 @@ public class DialogData {
 	}
 
 	public void render() {
+		Graphics.render(frame, 16, Display.GAME_HEIGHT - 64 - 32);
 		this.label.draw(Graphics.batch, 1f);
 	}
 }
