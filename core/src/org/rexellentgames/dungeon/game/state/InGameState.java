@@ -59,6 +59,9 @@ public class InGameState extends State {
 		if (BurningKnight.instance != null && Dungeon.depth > 0 && (Network.SERVER || Network.NONE)) {
 			BurningKnight.instance.findStartPoint();
 		}
+
+		Dialog.active = BurningKnight.onLampTake;
+		Dialog.active.start();
 	}
 
 	@Override
