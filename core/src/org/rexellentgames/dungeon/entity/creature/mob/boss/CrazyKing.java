@@ -28,12 +28,14 @@ import org.rexellentgames.dungeon.util.geometry.Point;
  *  (done)
  * - Shoots a ring of fast moving fireballs, that can be dodged via distance or sword block
  *  + He jumps
+ *  (done)
  * - Creates a shield from projectiles with only one small hole in it, that you can attack through
  *  + Waves his hand around him
  * - Summons helping enemies, goes unhittable till you defeat them all
  *  + Rings in a bell
  * - Creates a fireball circle around the player, that slowly moves to him. Blocked via sword
  *  + Moves hands casting this thing
+ *  (done, tho it's hard to not to get hit)
  *
  *
  * Ways to defend for the boss:
@@ -283,9 +285,9 @@ public class CrazyKing extends Boss {
 
 			float r = Random.newFloat();
 
-			if (false) {
+			if (r < 0.1f) {
 				self.become("fadeOut");
-			} else {
+			} else if (r < 0.7f) {
 				for (int i = 0; i < 16; i++) {
 					Fireball ball = new Fireball();
 
@@ -298,6 +300,19 @@ public class CrazyKing extends Boss {
 					ball.bad = true;
 					Dungeon.area.add(ball);
 				}
+			} else {
+				for (int i = 0; i < 16; i++) {
+					Fireball ball = new Fireball();
+
+					float a = (float) (i * Math.PI / 8);
+					ball.vel = new Vector2((float) -Math.cos(a) * 4f, (float) -Math.sin(a) * 4f);
+
+					ball.x = (float) (self.target.x + 8 + Math.cos(a) * 48f);
+					ball.y = (float) (self.target.y + 8 + Math.sin(a) * 48f);
+
+					ball.bad = true;
+					Dungeon.area.add(ball);
+				}
 			}
 		}
 
@@ -305,7 +320,7 @@ public class CrazyKing extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 1f) {
+			if (this.t >= 2f) {
 				self.become("chase");
 			}
 		}
