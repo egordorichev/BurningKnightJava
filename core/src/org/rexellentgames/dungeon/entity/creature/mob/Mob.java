@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -174,7 +175,7 @@ public class Mob extends Creature {
 		return null;
 	}
 
-	private Room room;
+	public Room room;
 
 	@Override
 	public void update(float dt) {
@@ -383,7 +384,7 @@ public class Mob extends Creature {
 
 		super.onHurt();
 
-		if (this.ai != null) {
+		if (this.ai != null && !(this instanceof Boss)) {
 			this.ai.checkForPlayer(true);
 		}
 

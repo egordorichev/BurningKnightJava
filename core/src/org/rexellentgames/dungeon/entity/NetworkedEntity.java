@@ -13,6 +13,10 @@ public class NetworkedEntity extends Entity {
 	protected String state = "idle";
 	public boolean local = false;
 
+	public String getState() {
+		return state;
+	}
+
 	public String getParam() {
 		return "";
 	}

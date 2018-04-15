@@ -7,7 +7,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 public class Boss extends Mob {
 	public class BossState<T> extends State {
 		public void checkForTarget() {
-			if (self.target != null) {
+			if (self.target != null && !self.getState().equals("roam") && !self.getState().equals("idle")) {
 				return;
 			}
 

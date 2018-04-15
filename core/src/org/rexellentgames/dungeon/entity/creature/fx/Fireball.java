@@ -90,6 +90,8 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		this.body.getWorld().destroyBody(this.body);
 	}
 
+	private boolean changed;
+
 	@Override
 	public void onCollision(Entity entity) {
 		if (this.animation != this.idle) {
@@ -111,9 +113,11 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 				if (this.target != null || this.toMouse) {
 					this.animation = this.dead;
 					this.playSfx(brk);
-				} else {
+				} else if (!this.changed) {
 					this.vel.x *= -1;
 					this.vel.y *= -1;
+					this.body.setLinearVelocity(this.vel);
+					this.changed = true;
 				}
 			}
 		} else if (entity instanceof Plant) {
