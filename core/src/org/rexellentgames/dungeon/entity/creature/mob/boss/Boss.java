@@ -6,7 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 
 public class Boss extends Mob {
 	public class BossState<T> extends State {
-		private void checkForTarget() {
+		public void checkForTarget() {
 			if (self.target != null) {
 				return;
 			}
@@ -25,6 +25,11 @@ public class Boss extends Mob {
 					return;
 				}
 			}
+		}
+
+		@Override
+		public void checkForFlee() {
+
 		}
 	}
 }
