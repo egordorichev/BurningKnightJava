@@ -5,6 +5,33 @@ import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 
+/*
+ * Tests player skills, such as:
+ *
+ * - Quick movement, dodging
+ * - Bullet dodging via sword block
+ * - BK usage (ranged attacks)
+ * - Navigating in full darkness
+ * - Managing multiple enemies
+ *
+ *
+ *
+ * Attacks that do that:
+ *
+ * - Turns off the light on the level, teleports to a random location in the room
+ * - Shoots a ring of fast moving fireballs, that can be dodged via distance or sword block
+ * - Creates a shield from projectiles with only one small hole in it, that you can attack through
+ * - Summons helping enemies, goes unhittable till you defeat them all
+ * - Creates a fireball circle around the player, that slowly moves to him. Blocked via sword
+ *
+ *
+ *
+ * Ways to defend for the boss:
+ *
+ * - Summon enemies and go unhittable
+ * - Break BK projectiles via sword
+ */
+
 public class CrazyKing extends Boss {
 	private static Animation animations = Animation.make("actor_towel_king");
 	private static AnimationData idle = animations.get("idle");
@@ -37,7 +64,7 @@ public class CrazyKing extends Boss {
 		return super.getAi(state);
 	}
 
-	public class CKState extends State<CrazyKing> {
+	public class CKState extends BossState<CrazyKing> {
 
 	}
 
