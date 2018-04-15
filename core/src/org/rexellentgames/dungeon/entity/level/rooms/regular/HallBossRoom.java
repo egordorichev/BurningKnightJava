@@ -44,7 +44,7 @@ public class HallBossRoom extends RegularRoom {
 		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 15), Terrain.WALL);
 		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 15), Terrain.WALL);
 
-		Point point = new Point(this.left + this.getWidth() / 2, this.top + this.getHeight() / 2);
+		/*Point point = new Point(this.left + this.getWidth() / 2, this.top + this.getHeight() / 2);
 
 		Throne throne = new Throne();
 
@@ -60,7 +60,7 @@ public class HallBossRoom extends RegularRoom {
 		table.y = point.y * 16 - table.h;
 
 		Dungeon.area.add(table);
-		Dungeon.level.addSaveable(table);
+		Dungeon.level.addSaveable(table);*/
 	}
 
 	@Override
