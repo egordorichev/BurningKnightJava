@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
@@ -10,7 +9,7 @@ import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
-import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
@@ -22,7 +21,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
-public class HallLevel extends BetterLevel {
+public class HallLevel extends RegularLevel {
 	public HallLevel() {
 		if (!Network.SERVER) {
 			Terrain.loadTextures(0);
@@ -105,6 +104,6 @@ public class HallLevel extends BetterLevel {
 
 	@Override
 	protected int getNumConnectionRooms() {
-		return 1;
+		return Dungeon.depth == 0 ? 1 : Random.newInt(3, 6);
 	}
 }

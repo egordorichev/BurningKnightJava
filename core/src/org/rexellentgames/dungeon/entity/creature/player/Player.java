@@ -247,7 +247,7 @@ public class Player extends Creature {
 		}
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 0.8f, this.getLightSize(), false);
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
 			Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 			if (room != null) {

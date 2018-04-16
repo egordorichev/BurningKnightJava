@@ -1,9 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
@@ -18,7 +17,7 @@ import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;
 
-public class WaveLevel extends BetterLevel {
+public class WaveLevel extends RegularLevel {
 	public WaveLevel() {
 		if (!Network.SERVER) {
 			Terrain.loadTextures(0);

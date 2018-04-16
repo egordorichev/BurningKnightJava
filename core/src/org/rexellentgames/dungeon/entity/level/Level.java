@@ -15,11 +15,9 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -34,7 +32,6 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
-import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
-	public static boolean ARCADE = false;
 	public static float LIGHT_R = 34f / 255f;
 	public static float LIGHT_G = 31f / 255f;
 	public static float LIGHT_B = 65f / 255f;
@@ -114,9 +110,11 @@ public abstract class Level extends Entity {
 		return x + y * getWidth();
 	}
 
-	public static BetterLevel forDepth(int depth) {
-		if (ARCADE) {
+	public static RegularLevel forDepth(int depth) {
+		if (Dungeon.type == Dungeon.Type.ARCADE) {
 			return new WaveLevel();
+		} else if (Dungeon.type == Dungeon.Type.INTRO) {
+			return new IntroLevel();
 		}
 
 		switch (depth) {

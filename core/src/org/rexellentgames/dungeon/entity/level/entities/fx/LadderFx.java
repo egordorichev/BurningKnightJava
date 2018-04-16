@@ -33,7 +33,7 @@ public class LadderFx extends Entity {
 		if (Input.instance.wasPressed("action")) {
 			this.done = true;
 
-			if (this.ladder instanceof Entrance)
+			if (this.ladder instanceof Entrance) {
 				if (Dungeon.depth != 0) {
 					Dungeon.loadType = Entrance.LoadType.GO_UP;
 					Dungeon.ladderId = ((Entrance) this.ladder).getType();

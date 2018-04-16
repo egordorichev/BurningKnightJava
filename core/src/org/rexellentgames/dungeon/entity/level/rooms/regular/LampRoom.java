@@ -7,6 +7,8 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class LampRoom extends RegularRoom {
@@ -21,7 +23,7 @@ public class LampRoom extends RegularRoom {
 		Painter.set(level, center, Terrain.WOOD); // todo: something better
 
 		holder.x = center.x * 16 + (16 - 8) / 2;
-		holder.y = center.y * 16 + (16 - 14) / 2;
+		holder.y = center.y * 16 + (16 - 14) / 2 - 4;
 
 		holder.setItem(new Lamp());
 

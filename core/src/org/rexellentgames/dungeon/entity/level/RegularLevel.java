@@ -21,7 +21,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public abstract class BetterLevel extends Level {
+public abstract class RegularLevel extends Level {
 
 	@Override
 	public void generate() {

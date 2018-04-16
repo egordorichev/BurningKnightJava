@@ -38,6 +38,13 @@ public class Dungeon extends ApplicationAdapter {
 	public static long longTime;
 	public static boolean showed;
 	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
+	public static Type type = Type.INTRO;
+
+	public enum Type {
+		REGULAR,
+		INTRO,
+		ARCADE
+	}
 
 	private static int to = -2;
 	private Color background = Color.valueOf("#000000"); // #323c39

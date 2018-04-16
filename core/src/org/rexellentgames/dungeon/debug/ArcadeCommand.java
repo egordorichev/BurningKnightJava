@@ -12,7 +12,7 @@ public class ArcadeCommand extends ConsoleCommand {
 
 	@Override
 	public void run(Console console, String[] args) {
-		Level.ARCADE = !Level.ARCADE;
+		Dungeon.type = Dungeon.Type.ARCADE;
 		Dungeon.newGame();
 	}
 }

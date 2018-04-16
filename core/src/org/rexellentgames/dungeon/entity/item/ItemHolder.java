@@ -105,6 +105,10 @@ public class ItemHolder extends SaveableEntity {
 				this.t = 0;
 			}
 		}
+
+		if (this.item instanceof Lamp) {
+			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 3f, false);
+		}
 	}
 
 	protected void onTouch(short t, int x, int y) {

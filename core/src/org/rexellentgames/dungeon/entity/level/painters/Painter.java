@@ -169,14 +169,24 @@ public class Painter {
 				ArrayList<Point> doorSpots = new ArrayList<Point>();
 
 				for (Point p : i.getPoints()) {
-					if (r.canConnect(p) && n.canConnect(p))
+					if (r.canConnect(p) && n.canConnect(p)) {
 						doorSpots.add(p);
+					}
 				}
 
-				door = new Door(doorSpots.get(Random.newInt(doorSpots.size())));
+				if (doorSpots.size() > 0) {
+					Point point = doorSpots.get(Random.newInt(doorSpots.size()));
 
-				r.getConnected().put(n, door);
-				n.getConnected().put(r, door);
+					door = new Door(point);
+
+					r.getConnected().put(n, door);
+					n.getConnected().put(r, door);
+				} else {
+					Log.error("Failed to place doors!");
+
+					r.getConnected().remove(n);
+					n.getConnected().remove(r);
+				}
 			}
 		}
 	}

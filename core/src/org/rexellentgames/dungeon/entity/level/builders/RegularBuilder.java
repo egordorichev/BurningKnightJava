@@ -1,7 +1,10 @@
 package org.rexellentgames.dungeon.entity.level.builders;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
@@ -14,6 +17,8 @@ import java.util.LinkedHashSet;
 public class RegularBuilder extends Builder {
 	protected EntranceRoom entrance;
 	protected ExitRoom exit;
+	protected LampRoom lamp;
+	protected BKRoom bk;
 	protected float pathVariance = 45f;
 	protected float pathLength = 0.5f;
 	protected float[] pathLenJitterChances = new float[]{0, 1, 0};
@@ -27,6 +32,8 @@ public class RegularBuilder extends Builder {
 	public void setupRooms(ArrayList<Room> rooms) {
 		this.entrance = null;
 		this.exit = null;
+		this.lamp = null;
+		this.bk = null;
 		this.multiConnection.clear();
 		this.singleConnection.clear();
 
@@ -44,11 +51,19 @@ public class RegularBuilder extends Builder {
 			} else if (room.getMaxConnections(Room.Connection.ALL) > 1) {
 				this.multiConnection.add(room);
 			}
+
+			if (room instanceof LampRoom) {
+				this.lamp = (LampRoom) room;
+			} else if (room instanceof BKRoom) {
+				this.bk = (BKRoom) room;
+			}
 		}
 
-		this.weightRooms(this.multiConnection);
-		Collections.shuffle(this.multiConnection);
-		this.multiConnection = new ArrayList<Room>(new LinkedHashSet<Room>(this.multiConnection));
+		if (Dungeon.type != Dungeon.Type.INTRO) {
+			this.weightRooms(this.multiConnection);
+			Collections.shuffle(this.multiConnection);
+			this.multiConnection = new ArrayList<Room>(new LinkedHashSet<Room>(this.multiConnection));
+		}
 	}
 
 	protected void weightRooms(ArrayList<Room> rooms) {
