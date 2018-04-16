@@ -102,18 +102,34 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
+   },
+   "fx_fireball 13.ase": {
+    "frame": { "x": 208, "y": 0, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "fx_fireball 14.ase": {
+    "frame": { "x": 224, "y": 0, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2.8-x64",
   "format": "I8",
-  "size": { "w": 208, "h": 16 },
+  "size": { "w": 240, "h": 16 },
   "scale": "1",
   "frameTags": [
    { "name": "appear", "from": 0, "to": 3, "direction": "forward" },
-   { "name": "idle", "from": 4, "to": 8, "direction": "forward" },
-   { "name": "dead", "from": 9, "to": 12, "direction": "forward" }
+   { "name": "idle", "from": 4, "to": 10, "direction": "forward" },
+   { "name": "dead", "from": 11, "to": 14, "direction": "forward" }
   ]
  }
 }

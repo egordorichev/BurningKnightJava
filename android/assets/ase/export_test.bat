@@ -2,4 +2,4 @@
 @set OUT=""
 @set BFORMAT="{path}/{title} {layer}.{extension}"
 
-%ASEPRITE% -b bk_bars.ase --trim --save-as %OUT%bk-{layer}.png
+%ASEPRITE% -b fx_fireball.ase --list-tags --save-as %OUT%fx-fireball-{tag}-{tagframe00}.png --data %OUT%fx-fireball.json
