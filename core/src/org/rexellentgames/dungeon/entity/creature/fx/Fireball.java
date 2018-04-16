@@ -12,7 +12,6 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.weapon.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -21,7 +20,7 @@ import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 
 public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
-	private static Animation animations = Animation.make("fireball");
+	private static Animation animations = Animation.make("fx-fireball");
 	private AnimationData born;
 	private AnimationData idle;
 	private AnimationData dead;
