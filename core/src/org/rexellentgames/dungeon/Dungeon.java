@@ -72,6 +72,8 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		Log.init();
+
 		Log.info("Loading locale...");
 		Locale.load("en");
 
@@ -214,6 +216,7 @@ public class Dungeon extends ApplicationAdapter {
 		Assets.destroy();
 
 		LoadState.writeDepth();
+		Log.close();
 	}
 
 	private void initInput() {
