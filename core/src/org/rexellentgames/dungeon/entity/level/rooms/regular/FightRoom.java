@@ -23,11 +23,9 @@ public class FightRoom extends RegularRoom {
 			door.setType(Door.Type.ENEMY);
 		}
 
-		int count = (Dungeon.level instanceof WaveLevel ? Dungeon.depth + 1 : Dungeon.depth % 5 + 2);
-
-		for (int i = 0; i < count; i++) {
+		if (Dungeon.type == Dungeon.Type.INTRO) {
 			Point center = this.getRandomCell();
-			Mob mob = Random.chance(60) ? new Knight() : new Clown();
+			Mob mob = new Knight();
 
 			mob.x = center.x * 16;
 			mob.y = center.y * 16;
@@ -36,6 +34,23 @@ public class FightRoom extends RegularRoom {
 
 			Dungeon.area.add(mob);
 			Dungeon.level.addSaveable(mob);
+
+			mob.modifyHp(-4);
+		} else {
+			int count = (Dungeon.level instanceof WaveLevel ? Dungeon.depth + 1 : Dungeon.depth % 5 + 2);
+
+			for (int i = 0; i < count; i++) {
+				Point center = this.getRandomCell();
+				Mob mob = Random.chance(60) ? new Knight() : new Clown();
+
+				mob.x = center.x * 16;
+				mob.y = center.y * 16;
+
+				mob.generate();
+
+				Dungeon.area.add(mob);
+				Dungeon.level.addSaveable(mob);
+			}
 		}
 	}
 

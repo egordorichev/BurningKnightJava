@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
@@ -25,7 +26,7 @@ public class IntroLevel extends RegularLevel {
 
 	@Override
 	protected Painter getPainter() {
-		return new HallPainter().setGrass(0.5f).setWater(0.5f);
+		return new HallPainter().setGrass(0.5f);
 	}
 
 	@Override
@@ -64,6 +65,7 @@ public class IntroLevel extends RegularLevel {
 		rooms.add(new LampRoom());
 		rooms.add(new BKRoom());
 		rooms.add(new RegularRoom());
+		rooms.add(new FightRoom());
 
 		int regular = this.getNumRegularRooms();
 		int connection = this.getNumConnectionRooms();

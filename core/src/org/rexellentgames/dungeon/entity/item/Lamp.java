@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.item;
 
-import com.badlogic.gdx.math.Vector2;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -88,23 +87,22 @@ public class Lamp extends Item {
 			} else {
 				this.lightUp = false;
 			}
-		}
-
-		if (BurningKnight.instance != null) {
-			float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
+		} else {
+			if (BurningKnight.instance != null) {
+				float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
 					BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 
-			if (d <= BurningKnight.LIGHT_SIZE - 1) {
-				float v = Dungeon.level.getLight(Math.round(this.owner.x / 16), Math.round(this.owner.y / 16));
+				if (d <= BurningKnight.LIGHT_SIZE - 1) {
+					float v = Dungeon.level.getLight(Math.round(this.owner.x / 16), Math.round(this.owner.y / 16));
 
-				if (Random.newFloat() < 1f / (d * 2)) {
-					ChargeFx fx = new ChargeFx(BurningKnight.instance.x + BurningKnight.instance.w / 2 - 2, BurningKnight.instance.y + BurningKnight.instance.h / 2 - 2, 0.3f);
-					fx.owner = this.owner;
+					if (Random.newFloat() < 1f / (d * 2)) {
+						ChargeFx fx = new ChargeFx(BurningKnight.instance.x + BurningKnight.instance.w / 2 - 2, BurningKnight.instance.y + BurningKnight.instance.h / 2 - 2, 0.3f);
+						fx.owner = this.owner;
 
-					Dungeon.area.add(fx);
+						Dungeon.area.add(fx);
+					}
 				}
 			}
-
 		}
 	}
 

@@ -559,7 +559,9 @@ public class BurningKnight extends Mob {
 
 		@Override
 		public void update(float dt) {
-			if (self.room instanceof BKRoom) {
+			this.findCurrentRoom();
+
+			if (this.currentRoom instanceof BKRoom) {
 				this.attacked = true;
 				self.nextAttack = AttackType.NULL;
 			} else {
@@ -596,8 +598,8 @@ public class BurningKnight extends Mob {
 							ball = new Fireball();
 
 							ball.target = self.target;
-							ball.x = self.x + self.w / 2;
-							ball.y = self.y + self.h / 2;
+							ball.x = self.x + (self.w - 10) / 2;
+							ball.y = self.y + (self.h - 10) / 2;
 							ball.bad = !self.stupid;
 
 							Dungeon.area.add(ball);
@@ -626,8 +628,8 @@ public class BurningKnight extends Mob {
 								float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
 								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
 
-								ball.x = self.x + self.w / 2;
-								ball.y = self.y + self.h / 2;
+								ball.x = self.x + (self.w - 10) / 2;
+								ball.y = self.y + (self.h - 10) / 2;
 
 								ball.bad = !self.stupid;
 								Dungeon.area.add(ball);
@@ -641,8 +643,8 @@ public class BurningKnight extends Mob {
 
 								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
 
-								ball.x = self.x + self.w / 2;
-								ball.y = self.y + self.h / 2;
+								ball.x = self.x + (self.w - 10) / 2;
+								ball.y = self.y + (self.h - 10) / 2;
 								ball.bad = !self.stupid;
 
 								Dungeon.area.add(ball);
