@@ -3,8 +3,6 @@ package org.rexellentgames.dungeon.entity.level.builders;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -47,7 +45,11 @@ public class LineBuilder extends RegularBuilder {
 				}
 			}
 
-			placeRoom(init, bk, exit, this.direction);
+			Room lampCharge = this.multiConnection.get(0);
+			lampCharge.setSize();
+
+			placeRoom(init, bk, lampCharge, this.direction);
+			placeRoom(init, lampCharge, exit, this.direction);
 
 			return init;
 		}

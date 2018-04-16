@@ -1978,6 +1978,27 @@ fireball-idle-02
   orig: 10, 10
   offset: 0, 0
   index: -1
+fx-charge-idle-00
+  rotate: false
+  xy: 301, 59
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+fx-charge-idle-01
+  rotate: false
+  xy: 447, 139
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+fx-charge-idle-02
+  rotate: false
+  xy: 447, 133
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
 fx-dither-idle-00
   rotate: false
   xy: 922, 164
@@ -2050,21 +2071,21 @@ fx-dither-idle-09
   index: -1
 fx-exp-idle-00
   rotate: false
-  xy: 301, 59
+  xy: 1014, 372
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 fx-exp-idle-01
   rotate: false
-  xy: 447, 139
+  xy: 343, 29
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 fx-exp-idle-02
   rotate: false
-  xy: 447, 133
+  xy: 461, 252
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
