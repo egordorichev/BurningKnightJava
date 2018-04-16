@@ -33,11 +33,15 @@ public class LadderFx extends Entity {
 		if (Input.instance.wasPressed("action")) {
 			this.done = true;
 
-			if (this.ladder instanceof Entrance) {
-				Dungeon.loadType = Entrance.LoadType.GO_UP;
-				Dungeon.ladderId = ((Entrance) this.ladder).getType();
+			if (this.ladder instanceof Entrance)
+				if (Dungeon.depth != 0) {
+					Dungeon.loadType = Entrance.LoadType.GO_UP;
+					Dungeon.ladderId = ((Entrance) this.ladder).getType();
 
-				Dungeon.goToLevel(Dungeon.depth - 1);
+					Dungeon.goToLevel(Dungeon.depth - 1);
+				} else {
+					UiLog.instance.print("[orange]You cant leave just yet!");
+				}
 			} else if (this.ladder instanceof Exit) {
 				if (Dungeon.depth != 4 || Dungeon.level instanceof WaveLevel) {
 					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
