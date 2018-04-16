@@ -9,6 +9,17 @@ import java.io.IOException;
 public class Log {
 	private static FileWriter file;
 
+	public static void report(Throwable t) {
+		try {
+			file.write("Exception:");
+			file.write(t.getMessage() + "\n" + t.getCause());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		t.printStackTrace();
+	}
+
 	public static void init() {
 		try {
 			file = new FileWriter(Gdx.files.external("bk.log").file());

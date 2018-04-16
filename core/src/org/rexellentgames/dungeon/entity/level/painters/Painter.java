@@ -162,6 +162,10 @@ public class Painter {
 	}
 
 	private void placeDoors(Room r) {
+		/*if (r.getConnected().keySet().size() == 0) {
+			throw new RuntimeException("Failed to connect room " + r.getClass().getSimpleName() + " to others: no connections!");
+		}*/
+
 		for (Room n : r.getConnected().keySet()) {
 			Door door = r.getConnected().get(n);
 			if (door == null) {
@@ -182,10 +186,7 @@ public class Painter {
 					r.getConnected().put(n, door);
 					n.getConnected().put(r, door);
 				} else {
-					Log.error("Failed to place doors!");
-
-					r.getConnected().remove(n);
-					n.getConnected().remove(r);
+					throw new RuntimeException("Failed to connect rooms " + r.getClass().getSimpleName() + " and " + n.getClass().getSimpleName());
 				}
 			}
 		}

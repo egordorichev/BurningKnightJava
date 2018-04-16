@@ -118,14 +118,21 @@ public class LoadState extends State {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					Dungeon.level.load(Level.DataType.PLAYER);
+					try {
+						Dungeon.level.load(Level.DataType.PLAYER);
+						Dungeon.level.load(Level.DataType.LEVEL);
 
-					// if (Dungeon.level == null) {
-						// Old version
-						// return;
-					// }
+						Dungeon.level.loadPassable();
+						Dungeon.level.addPhysics();
+					} catch (RuntimeException e) {
+						Log.report(e);
 
-					Dungeon.level.load(Level.DataType.LEVEL);
+						Dungeon.game.setState(new LoadState());
+						Thread.currentThread().interrupt();
+
+						return;
+					}
+
 					Dungeon.level.loadDropped();
 
 					if (Player.instance == null) {
@@ -133,9 +140,6 @@ public class LoadState extends State {
 						Dungeon.newGame();
 						return;
 					}
-
-					Dungeon.level.loadPassable();
-					Dungeon.level.addPhysics();
 
 					PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 
