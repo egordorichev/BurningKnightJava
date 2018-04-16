@@ -128,6 +128,12 @@ public class LoadState extends State {
 					Dungeon.level.load(Level.DataType.LEVEL);
 					Dungeon.level.loadDropped();
 
+					if (Player.instance == null) {
+						Log.error("No player!");
+						Dungeon.newGame();
+						return;
+					}
+
 					Dungeon.level.loadPassable();
 					Dungeon.level.addPhysics();
 
