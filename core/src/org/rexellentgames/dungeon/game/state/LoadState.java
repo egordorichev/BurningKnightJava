@@ -120,10 +120,10 @@ public class LoadState extends State {
 				public void run() {
 					Dungeon.level.load(Level.DataType.PLAYER);
 
-					if (Dungeon.level == null) {
+					// if (Dungeon.level == null) {
 						// Old version
-						return;
-					}
+						// return;
+					// }
 
 					Dungeon.level.load(Level.DataType.LEVEL);
 					Dungeon.level.loadDropped();

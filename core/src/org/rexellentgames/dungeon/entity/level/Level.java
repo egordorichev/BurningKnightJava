@@ -839,9 +839,9 @@ public abstract class Level extends Entity {
 
 			if (version < VERSION) {
 				Log.info("Old version, porting...");
-				stream.close();
-				Dungeon.newGame();
-				return;
+				// stream.close();
+				// Dungeon.newGame();
+				// return;
 			} else if (version > VERSION) {
 				Log.error("Future version! Can't load!");
 				return;
