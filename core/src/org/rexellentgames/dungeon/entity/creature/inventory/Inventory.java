@@ -107,6 +107,18 @@ public class Inventory {
 		return false;
 	}
 
+	public Item findItem(Class<? extends Item> clazz) {
+		for (int i = 0; i < this.getSize(); i++) {
+			if (!this.isEmpty(i)) {
+				if (clazz.isInstance(this.getSlot(i))) {
+					return this.getSlot(i);
+				}
+			}
+		}
+
+		return null;
+	}
+
 	public void remove(Class<? extends Item> clazz) {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (!this.isEmpty(i)) {

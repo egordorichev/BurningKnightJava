@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
@@ -64,6 +63,7 @@ public class IntroLevel extends RegularLevel {
 		rooms.add(this.exit);
 		rooms.add(new LampRoom());
 		rooms.add(new BKRoom());
+		rooms.add(new RegularRoom());
 
 		int regular = this.getNumRegularRooms();
 		int connection = this.getNumConnectionRooms();

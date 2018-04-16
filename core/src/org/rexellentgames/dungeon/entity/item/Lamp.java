@@ -1,10 +1,12 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import com.badlogic.gdx.math.Vector2;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.ChargeFx;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
-import org.rexellentgames.dungeon.util.Dialog;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -22,7 +24,7 @@ public class Lamp extends Item {
 		cursed = true;
 	}
 
-	public float val = 100f;
+	public float val = Dungeon.type == Dungeon.Type.INTRO ? 90f : 100f;
 	private boolean lightUp;
 	private boolean added;
 
@@ -86,16 +88,23 @@ public class Lamp extends Item {
 			} else {
 				this.lightUp = false;
 			}
-		} else {
-			if (BurningKnight.instance != null) {
-				float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
+		}
+
+		if (BurningKnight.instance != null) {
+			float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
 					BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 
-				if (d <= BurningKnight.LIGHT_SIZE - 1) {
-					float v = Dungeon.level.getLight(Math.round(this.owner.x / 16), Math.round(this.owner.y / 16));
-					this.val = Math.min(100f, this.val + dt * v / d * 3);
+			if (d <= BurningKnight.LIGHT_SIZE - 1) {
+				float v = Dungeon.level.getLight(Math.round(this.owner.x / 16), Math.round(this.owner.y / 16));
+
+				if (Random.newFloat() < 1f / (d * 2)) {
+					ChargeFx fx = new ChargeFx(BurningKnight.instance.x + BurningKnight.instance.w / 2 - 2, BurningKnight.instance.y + BurningKnight.instance.h / 2 - 2, 0.3f);
+					fx.owner = this.owner;
+
+					Dungeon.area.add(fx);
 				}
 			}
+
 		}
 	}
 

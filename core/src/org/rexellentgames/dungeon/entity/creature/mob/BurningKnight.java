@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.plant.Plant;
@@ -45,8 +46,8 @@ public class BurningKnight extends Mob {
 		mind = Mind.ATTACKER;
 		hpMax = 430;
 		damage = 10;
-		w = 32;
-		h = 32;
+		w = 36;
+		h = 35;
 		ignoreRooms = true;
 		depth = 6;
 		alwaysActive = true;
@@ -558,91 +559,97 @@ public class BurningKnight extends Mob {
 
 		@Override
 		public void update(float dt) {
-			if (self.nextAttack == AttackType.NULL && !this.attacked) {
-				float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
+			if (self.room instanceof BKRoom) {
+				this.attacked = true;
+				self.nextAttack = AttackType.NULL;
+			} else {
+				if (self.nextAttack == AttackType.NULL && !this.attacked) {
+					float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
 
-				if (d <= 24f) {
-					self.nextAttack = AttackType.AREA;
-				} else {
-					float a = (float) Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
-
-					if (a < 0) {
-						a += 360;
-					}
-
-					float a2 = (a % 90);
-
-					if (a2 <= 5 || a2 >= 85) {
-						self.nextAttack = AttackType.VERTICAL;
+					if (d <= 24f) {
+						self.nextAttack = AttackType.AREA;
 					} else {
-						float a3 = ((a - 45) % 90);
-						if (a3 <= 5 || a3 >= 85) {
-							self.nextAttack = AttackType.DIAGONAL;
+						float a = (float) Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+
+						if (a < 0) {
+							a += 360;
+						}
+
+						float a2 = (a % 90);
+
+						if (a2 <= 5 || a2 >= 85) {
+							self.nextAttack = AttackType.VERTICAL;
+						} else {
+							float a3 = ((a - 45) % 90);
+							if (a3 <= 5 || a3 >= 85) {
+								self.nextAttack = AttackType.DIAGONAL;
+							}
 						}
 					}
 				}
-			}
 
-			if (self.nextAttack != AttackType.NULL && !this.attacked) {
-				Fireball ball;
+				if (self.nextAttack != AttackType.NULL && !this.attacked) {
+					Fireball ball;
 
-				switch (self.nextAttack) {
-					case MISSILE:
-						ball = new Fireball();
-
-						ball.target = self.target;
-						ball.x = self.x + self.w / 2;
-						ball.y = self.y + self.h / 2;
-						ball.bad = !self.stupid;
-
-						Dungeon.area.add(ball);
-						break;
-
-					case AREA:
-						for (int i = 0; i < Random.newInt(10, 20); i++) {
+					switch (self.nextAttack) {
+						case MISSILE:
 							ball = new Fireball();
 
-							float d = Random.newFloat(16f, 64f);
-							float a = Random.newFloat((float) (Math.PI * 2));
-
-							ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
-							ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
-							ball.noMove = true;
-							ball.bad = !self.stupid;
-
-							Dungeon.area.add(ball);
-						}
-
-						break;
-					case DIAGONAL:
-						for (int i = 0; i < 4; i++) {
-							ball = new Fireball();
-
-							float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
-							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
-
-							ball.x = self.x + self.w / 2;
-							ball.y = self.y + self.h / 2;
-
-							ball.bad = !self.stupid;
-							Dungeon.area.add(ball);
-						}
-						break;
-					case VERTICAL:
-						for (int i = 0; i < 4; i++) {
-							ball = new Fireball();
-
-							float a = (float) (i * Math.PI / 2);
-
-							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
-
+							ball.target = self.target;
 							ball.x = self.x + self.w / 2;
 							ball.y = self.y + self.h / 2;
 							ball.bad = !self.stupid;
 
 							Dungeon.area.add(ball);
-						}
-						break;
+							break;
+
+						case AREA:
+							for (int i = 0; i < Random.newInt(10, 20); i++) {
+								ball = new Fireball();
+
+								float d = Random.newFloat(16f, 64f);
+								float a = Random.newFloat((float) (Math.PI * 2));
+
+								ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
+								ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
+								ball.noMove = true;
+								ball.bad = !self.stupid;
+
+								Dungeon.area.add(ball);
+							}
+
+							break;
+						case DIAGONAL:
+							for (int i = 0; i < 4; i++) {
+								ball = new Fireball();
+
+								float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
+								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+
+								ball.x = self.x + self.w / 2;
+								ball.y = self.y + self.h / 2;
+
+								ball.bad = !self.stupid;
+								Dungeon.area.add(ball);
+							}
+							break;
+						case VERTICAL:
+							for (int i = 0; i < 4; i++) {
+								ball = new Fireball();
+
+								float a = (float) (i * Math.PI / 2);
+
+								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+
+								ball.x = self.x + self.w / 2;
+								ball.y = self.y + self.h / 2;
+								ball.bad = !self.stupid;
+
+								Dungeon.area.add(ball);
+							}
+							break;
+					}
+
 				}
 
 				this.attacked = true;
