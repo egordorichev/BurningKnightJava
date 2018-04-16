@@ -3,6 +3,8 @@ package org.rexellentgames.dungeon.entity.level.builders;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -30,6 +32,25 @@ public class LineBuilder extends RegularBuilder {
 		entrance.setSize();
 		entrance.setPos(0, 0);
 		branchable.add(entrance);
+
+
+		if (Dungeon.depth == 0 && Dungeon.type == Dungeon.Type.INTRO) {
+			if (lamp == null) {
+				Log.error("No lamp room!");
+			} else {
+				placeRoom(init, this.entrance, lamp, this.direction);
+
+				if (bk == null) {
+					Log.error("No bk room!");
+				} else {
+					placeRoom(init, lamp, bk, this.direction);
+				}
+			}
+
+			placeRoom(init, bk, exit, this.direction);
+
+			return init;
+		}
 
 		int roomsOnPath = (int) (this.multiConnection.size() * pathLength) + Random.chances(pathLenJitterChances);
 		roomsOnPath = Math.min(roomsOnPath, this.multiConnection.size());

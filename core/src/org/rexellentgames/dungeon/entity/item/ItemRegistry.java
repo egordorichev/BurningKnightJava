@@ -56,6 +56,7 @@ public class ItemRegistry {
 		register("ghost", GhostLeaver.class);
 		register("worm_hole", WormHole.class);
 		register("mana_spell", ManaSpell.class);
+		register("key", Key.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

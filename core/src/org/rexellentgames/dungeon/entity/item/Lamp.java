@@ -30,7 +30,7 @@ public class Lamp extends Item {
 	public void setOwner(Creature owner) {
 		super.setOwner(owner);
 
-		if (!this.added && BurningKnight.instance == null) {
+		if (!this.added && BurningKnight.instance == null && Dungeon.type != Dungeon.Type.INTRO) {
 			this.added = true;
 
 			BurningKnight knight = new BurningKnight();
@@ -97,6 +97,17 @@ public class Lamp extends Item {
 				}
 			}
 		}
+	}
+
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+
+		builder.append("\n");
+		builder.append(Math.round(this.val));
+		builder.append("% charged");
+
+		return builder;
 	}
 
 	@Override

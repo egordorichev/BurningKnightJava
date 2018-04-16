@@ -6,7 +6,7 @@ import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
-import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
@@ -19,7 +19,7 @@ import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;
 
-public class SkyLevel extends BetterLevel {
+public class SkyLevel extends RegularLevel {
 	public SkyLevel() {
 		if (!Network.SERVER) {
 			Terrain.loadTextures(0);

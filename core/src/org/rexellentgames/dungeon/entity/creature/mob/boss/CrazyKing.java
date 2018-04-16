@@ -161,7 +161,6 @@ public class CrazyKing extends Boss {
 
 			if (this.targetPoint == null) {
 				self.become("idle");
-				Log.info("no point");
 			} else if (this.moveTo(this.targetPoint, 4f, 32f)) {
 				self.become("idle");
 				Log.info("done");

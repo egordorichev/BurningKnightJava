@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.level.BetterLevel;
+import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
@@ -10,7 +9,7 @@ import org.rexellentgames.dungeon.entity.level.painters.PrisonPainter;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Random;
 
-public class PrisonLevel extends BetterLevel {
+public class PrisonLevel extends RegularLevel {
 	public PrisonLevel() {
 		if (!Network.SERVER) {
 			Terrain.loadTextures(2);

@@ -334,6 +334,14 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	public class WaitState extends BKState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			self.checkForTarget();
+		}
+	}
+
 	public class IdleState extends BKState {
 		public float delay;
 
@@ -747,6 +755,8 @@ public class BurningKnight extends Mob {
 				return new FadeOutState();
 			case "dialog":
 				return new DialogState();
+			case "wait":
+				return new WaitState();
 		}
 
 		return super.getAi(state);
@@ -764,6 +774,10 @@ public class BurningKnight extends Mob {
 	private void checkForTarget() {
 		for (Creature player : (this.stupid ? Mob.all : Player.all)) {
 			if (player.invisible || player == this) {
+				continue;
+			}
+
+			if (player instanceof Player && this.state.equals("wait") && ((Player) player).currentRoom != this.room) {
 				continue;
 			}
 
