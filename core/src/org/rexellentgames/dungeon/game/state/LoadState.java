@@ -34,7 +34,7 @@ public class LoadState extends State {
 	private String s;
 
 	public static void writeDepth() {
-		FileHandle save = Gdx.files.external(".ldg/depth.save");
+		FileHandle save = Gdx.files.external(".burningknight/depth.save");
 
 		try {
 			FileWriter writer = new FileWriter(save.file().getPath());
@@ -173,7 +173,7 @@ public class LoadState extends State {
 	}
 
 	private void readDepth() {
-		FileHandle save = Gdx.files.external(".ldg/depth.save");
+		FileHandle save = Gdx.files.external(".burningknight/depth.save");
 
 		if (!save.exists()) {
 			File file = save.file();

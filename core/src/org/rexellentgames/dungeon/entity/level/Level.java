@@ -696,10 +696,10 @@ public abstract class Level extends Entity {
 
 	public String getSavePath(DataType type) {
 		if (type == DataType.LEVEL) {
-			return ".ldg/dungeon" + this.level + ".save";
+			return ".burningknight/dungeon" + this.level + ".save";
 		}
 
-		return ".ldg/gobbo.save";
+		return ".burningknight/gobbo.save";
 	}
 
 	public void addPhysics() {
@@ -1124,7 +1124,7 @@ public abstract class Level extends Entity {
 		this.droppedToChasm.clear();
 
 		try {
-			FileReader reader = new FileReader(".ldg/dropped" + this.level + ".save");
+			FileReader reader = new FileReader(".burningknight/dropped" + this.level + ".save");
 			int count = reader.readInt32();
 
 			Log.info("Loading " + count + " dropped...");
@@ -1151,7 +1151,7 @@ public abstract class Level extends Entity {
 			}
 
 			reader.close();
-			File file = new File(".ldg/dropped" + this.level + ".save");
+			File file = new File(".burningknight/dropped" + this.level + ".save");
 			file.delete();
 			Log.info("Done!");
 		} catch (FileNotFoundException e) {
@@ -1181,7 +1181,7 @@ public abstract class Level extends Entity {
 		Log.info("Saving dropped " + this.droppedToChasm.size());
 
 		try {
-			FileWriter writer = new FileWriter(".ldg/dropped" + (this.level + 1) + ".save");
+			FileWriter writer = new FileWriter(".burningknight/dropped" + (this.level + 1) + ".save");
 
 			writer.writeInt32(this.droppedToChasm.size());
 
