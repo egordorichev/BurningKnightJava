@@ -1,0 +1,27 @@
+{
+	"left" : [ "Left", "A" ],
+	"right" : [ "Right", "D" ],
+	"up" : [ "Up", "W" ],
+	"down" : [ "Down", "S" ],
+
+	"pickup" : [ "Space" ],
+	"drop_item" : [ "L-Shift" ],
+	"block" : [ "Mouse2" ],
+
+	"mouse0" : [ "Mouse0" ],
+	"mouse1" : [ "Mouse1" ],
+	"mouse2" : [ "Mouse2" ],
+	"scroll" : [ "MouseWheel" ],
+
+	"action" : [ "Space" ],
+
+	"1" : [ "1" ],
+	"2" : [ "2" ],
+	"3" : [ "3" ],
+	"4" : [ "4" ],
+	"5" : [ "5" ],
+	"6" : [ "6" ],
+
+	"c" : [ "C" ],
+	"z" : [ "Z" ]
+}
