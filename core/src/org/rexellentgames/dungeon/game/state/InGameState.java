@@ -68,7 +68,7 @@ public class InGameState extends State {
 		this.console.destroy();
 
 		if (Dungeon.reset) {
-			Gdx.files.external(".ldg/").deleteDirectory();
+			Gdx.files.external(".burningknight/").deleteDirectory();
 			Dungeon.reset = false;
 		} else {
 			if (Network.SERVER || Network.NONE) {
