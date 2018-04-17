@@ -650,6 +650,11 @@ public class BurningKnight extends Mob {
 								ball.y = self.y + (self.h - 10) / 2;
 								ball.bad = !self.stupid;
 
+								a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
+
+								self.vel.x += Math.cos(a) * 60f;
+								self.vel.y += Math.sin(a) * 60f;
+
 								Dungeon.area.add(ball);
 							}
 							break;
