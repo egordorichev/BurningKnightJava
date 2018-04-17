@@ -1,8 +1,10 @@
 package org.rexellentgames.dungeon.util;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 
 import java.util.HashMap;
@@ -22,7 +24,9 @@ public class Dialog {
 
 			for (JsonValue value : part) {
 				Phrase phrase = new Phrase();
+
 				phrase.string = Locale.get(value.name);
+				phrase.region = Graphics.getTexture(value.getString("texture"));
 
 				dt.phrases.add(phrase);
 			}
@@ -39,5 +43,6 @@ public class Dialog {
 
 	public static class Phrase {
 		public String string;
+		public TextureRegion region;
 	}
 }

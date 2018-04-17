@@ -1,11 +1,11 @@
 {
 	"on_lamp_take" : {
 		"dialog_bk_its_you_again": {
-			"auto" : true
+			"texture" : "bk-dialog-frame"
 		},
 
 		"dialog_bk_its_not_worthit" : {
-
+			"texture" : "bk-dialog-frame"
 		}
 	}
 }

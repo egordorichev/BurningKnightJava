@@ -56,7 +56,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static void newGame() {
 		reset = true;
 
-		File file = Gdx.files.external(".ldg/").file();
+		File file = Gdx.files.external(".burningknight/").file();
 
 		for (File f : file.listFiles()) {
 			f.delete();

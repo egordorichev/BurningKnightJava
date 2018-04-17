@@ -7,6 +7,8 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.net.Network;
@@ -114,31 +116,14 @@ public class Input implements InputProcessor, ControllerListener {
 		inputs.put(id, this);
 		this.keys.put("MouseWheel", State.RELEASED);
 
-		bind("left", "Left", "A");
-		bind("right", "Right", "D");
-		bind("up", "Up", "W");
-		bind("down", "Down", "S");
+		JsonReader reader = new JsonReader();
+		JsonValue root = reader.parse(Gdx.files.internal("keys.json"));
 
-		bind("pickup", "Space");
-		bind("drop_item", "L-Shift");
-		bind("block", "Mouse2");
-
-		bind("mouse0", "Mouse0");
-		bind("mouse1", "Mouse1");
-		bind("mouse2", "Mouse2");
-		bind("scroll", "MouseWheel");
-
-		bind("action", "Space");
-
-		bind("1", "1");
-		bind("2", "2");
-		bind("3", "3");
-		bind("4", "4");
-		bind("5", "5");
-		bind("6", "6");
-
-		bind("c", "C");
-		bind("z", "Z");
+		for (JsonValue value : root) {
+			for (String name : value.asStringArray()) {
+				bind(value.name, name);
+			}
+		}
 	}
 
 	public void updateMousePosition() {
