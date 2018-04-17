@@ -38,7 +38,7 @@ public abstract class RegularLevel extends Level {
 		this.spawnLevelEntities();
 		this.spawnEntities();
 
-		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null) {
+		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0) {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
@@ -129,6 +129,10 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > 0) {
 			rooms.add(new HealthBlockRoom());
+		}
+
+		if (Dungeon.depth == 0) {
+			rooms.add(new LampRoom());
 		}
 
 		int regular = this.getNumRegularRooms();
