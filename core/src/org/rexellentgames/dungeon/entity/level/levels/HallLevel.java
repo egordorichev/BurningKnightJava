@@ -37,7 +37,7 @@ public class HallLevel extends RegularLevel {
 
 		int count = Random.newInt(5, 7);
 
-		if (Dungeon.depth != -1) {
+		if (Dungeon.depth != 0) {
 			spawns.add(Knight.class);
 		}
 
@@ -90,12 +90,16 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	protected Builder getBuilder() {
-		return new CastleBuilder().setPathLength(0.7f, new float[]{0, 1, 0});
+		if (Dungeon.depth == 0) {
+			return new LineBuilder();
+		} else {
+			return new CastleBuilder().setPathLength(0.7f, new float[]{0, 1, 0});
+		}
 	}
 
 	@Override
 	protected int getNumRegularRooms() {
-		return Random.newInt(Dungeon.depth + 3, Dungeon.depth * 2 + 2);
+		return Dungeon.depth == 0 ? 0 : Random.newInt(Dungeon.depth + 3, Dungeon.depth * 2 + 2);
 	}
 
 	@Override
