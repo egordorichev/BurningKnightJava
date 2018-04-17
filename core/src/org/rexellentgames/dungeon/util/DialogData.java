@@ -81,31 +81,39 @@ public class DialogData {
 			this.delay -= dt;
 
 			if (this.delay <= 0f) {
-				this.delay = -1f;
-
-				if (current == phrases.size() - 1) {
-					Tween.to(new Tween.Task(0f, 0.3f) {
-						@Override
-						public float getValue() {
-							return a;
-						}
-
-						@Override
-						public void setValue(float value) {
-							a = value;
-						}
-
-						@Override
-						public void onEnd() {
-							Dialog.active = null;
-						}
-					});
-				} else {
-					current += 1;
-					next();
-				}
+				toNext();
 			}
 		}
+	}
+
+	public void toNext() {
+		this.delay = -1f;
+
+		if (current == phrases.size() - 1) {
+			this.end();
+		} else {
+			current += 1;
+			next();
+		}
+	}
+
+	public void end() {
+		Tween.to(new Tween.Task(0f, 0.3f) {
+			@Override
+			public float getValue() {
+				return a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Dialog.active = null;
+			}
+		});
 	}
 
 	public void render() {

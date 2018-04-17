@@ -313,7 +313,9 @@ public class Player extends Creature {
 				}
 			}
 		} else if (Dialog.active != null) {
-			// TODO
+			if (Input.instance.wasPressed("action")) {
+				Dialog.active.toNext();
+			}
 		}
 
 		float v = this.vel.len2();
