@@ -60,8 +60,8 @@ public class InGameState extends State {
 			BurningKnight.instance.findStartPoint();
 		}
 
-		// Dialog.active = BurningKnight.onLampTake;
-		// Dialog.active.start();
+		Dialog.active = BurningKnight.onLampTake;
+		Dialog.active.start();
 	}
 
 	@Override

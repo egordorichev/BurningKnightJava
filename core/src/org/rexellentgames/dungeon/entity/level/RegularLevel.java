@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
@@ -36,6 +37,15 @@ public abstract class RegularLevel extends Level {
 
 		this.spawnLevelEntities();
 		this.spawnEntities();
+
+		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null) {
+			BurningKnight knight = new BurningKnight();
+
+			Dungeon.area.add(knight);
+			Dungeon.level.addPlayerSaveable(knight);
+
+			knight.findStartPoint();
+		}
 
 		Log.info("Done!");
 	}
@@ -119,10 +129,6 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > 0) {
 			rooms.add(new HealthBlockRoom());
-		}
-
-		if (Dungeon.depth == 0) {
-			rooms.add(new LampRoom());
 		}
 
 		int regular = this.getNumRegularRooms();

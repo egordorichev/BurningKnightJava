@@ -583,8 +583,11 @@ public class BurningKnight extends Mob {
 							self.nextAttack = AttackType.VERTICAL;
 						} else {
 							float a3 = ((a - 45) % 90);
+
 							if (a3 <= 5 || a3 >= 85) {
 								self.nextAttack = AttackType.DIAGONAL;
+							} else {
+								self.nextAttack = AttackType.MISSILE;
 							}
 						}
 					}

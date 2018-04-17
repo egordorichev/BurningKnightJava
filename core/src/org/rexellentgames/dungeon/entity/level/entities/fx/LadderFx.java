@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 
 public class LadderFx extends Entity {
 	private Entity ladder;
@@ -44,10 +45,17 @@ public class LadderFx extends Entity {
 				}
 			} else if (this.ladder instanceof Exit) {
 				if (Dungeon.depth != 4 || Dungeon.level instanceof WaveLevel) {
-					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-					Dungeon.ladderId = ((Exit) this.ladder).getType();
+					if (Dungeon.type == Dungeon.Type.INTRO) {
+						Dungeon.type = Dungeon.Type.REGULAR;
+						Dungeon.newGame();
 
-					Dungeon.goToLevel(Dungeon.depth + 1);
+						Log.info("regular game");
+					} else {
+						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+						Dungeon.ladderId = ((Exit) this.ladder).getType();
+
+						Dungeon.goToLevel(Dungeon.depth + 1);
+					}
 				} else {
 					UiLog.instance.print("[red]Not implemented just yet!");
 				}
