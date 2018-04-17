@@ -325,7 +325,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		Tween.to(new Tween.Task(0, 3f) {
+		Tween.to(new Tween.Task(0, 1f) {
 			@Override
 			public float getValue() {
 				return a;

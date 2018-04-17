@@ -59,9 +59,6 @@ public class InGameState extends State {
 		if (BurningKnight.instance != null && Dungeon.depth > 0 && (Network.SERVER || Network.NONE)) {
 			BurningKnight.instance.findStartPoint();
 		}
-
-		// Dialog.active = BurningKnight.onLampTake;
-		// Dialog.active.start();
 	}
 
 	@Override
@@ -71,7 +68,7 @@ public class InGameState extends State {
 		this.console.destroy();
 
 		if (Dungeon.reset) {
-			Gdx.files.external(".ldg/").deleteDirectory();
+			Gdx.files.external(".burningknight/").deleteDirectory();
 			Dungeon.reset = false;
 		} else {
 			if (Network.SERVER || Network.NONE) {

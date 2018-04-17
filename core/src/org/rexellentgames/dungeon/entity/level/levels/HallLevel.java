@@ -104,6 +104,6 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	protected int getNumConnectionRooms() {
-		return Dungeon.depth == 0 ? 1 : Random.newInt(3, 6);
+		return 0;
 	}
 }

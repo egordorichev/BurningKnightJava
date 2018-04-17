@@ -583,8 +583,11 @@ public class BurningKnight extends Mob {
 							self.nextAttack = AttackType.VERTICAL;
 						} else {
 							float a3 = ((a - 45) % 90);
+
 							if (a3 <= 5 || a3 >= 85) {
 								self.nextAttack = AttackType.DIAGONAL;
+							} else {
+								self.nextAttack = AttackType.MISSILE;
 							}
 						}
 					}
@@ -646,6 +649,11 @@ public class BurningKnight extends Mob {
 								ball.x = self.x + (self.w - 10) / 2;
 								ball.y = self.y + (self.h - 10) / 2;
 								ball.bad = !self.stupid;
+
+								a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
+
+								self.vel.x += Math.cos(a) * 60f;
+								self.vel.y += Math.sin(a) * 60f;
 
 								Dungeon.area.add(ball);
 							}
