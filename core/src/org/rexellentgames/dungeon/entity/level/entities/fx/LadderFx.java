@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
@@ -53,6 +54,7 @@ public class LadderFx extends Entity {
 
 	public void end() {
 		Dungeon.darkR = Dungeon.MAX_R;
+		Player.instance.setUnhittable(true);
 
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
