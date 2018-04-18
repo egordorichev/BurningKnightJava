@@ -21,7 +21,6 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.ui.UiBar;
 import org.rexellentgames.dungeon.util.Dialog;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
@@ -59,6 +58,20 @@ public class InGameState extends State {
 		if (BurningKnight.instance != null && Dungeon.depth > 0 && (Network.SERVER || Network.NONE)) {
 			BurningKnight.instance.findStartPoint();
 		}
+
+		Dungeon.darkR = 0;
+
+		Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f) {
+			@Override
+			public float getValue() {
+				return Dungeon.darkR;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.darkR = value;
+			}
+		});
 	}
 
 	@Override
