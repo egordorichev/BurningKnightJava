@@ -71,6 +71,12 @@ public class InGameState extends State {
 			public void setValue(float value) {
 				Dungeon.darkR = value;
 			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				Player.instance.setUnhittable(false);
+			}
 		});
 	}
 

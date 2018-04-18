@@ -52,7 +52,7 @@ public class LoadState extends State {
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.ui.destroy();
 		Dungeon.area.destroy();
-		
+
 		switch (Dungeon.loadType) {
 			case GO_UP: this.s = "Ascending..."; break;
 			case GO_DOWN: this.s = "Descending..."; break;
