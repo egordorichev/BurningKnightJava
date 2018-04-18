@@ -18,7 +18,6 @@ public class Packer {
 		});
 
 		for (final File file : files) {
-			Log.info("Delete " + file.getName());
 			if (!file.delete()) {
 				System.err.println("Can't remove " + file.getAbsolutePath());
 			}
