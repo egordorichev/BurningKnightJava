@@ -45,6 +45,8 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public void init() {
 		super.init();
 
+		this.t = Random.newFloat(0.5f);
+
 		this.playSfx(cast);
 
 		WormholeFx.suck.add(this);

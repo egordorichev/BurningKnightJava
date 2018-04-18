@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -26,7 +27,7 @@ public class Camera extends Entity {
 	private float shake;
 	private float vx;
 	private float vy;
-	public ArrayList<Integer> clamp = new ArrayList<>();
+	public ArrayList<Rectangle> clamp = new ArrayList<>();
 
 	public void shake(float amount) {
 		this.shake = amount;
@@ -58,17 +59,37 @@ public class Camera extends Entity {
 			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (2 / this.camera.zoom) + this.target.y + 8);
 			float z = this.camera.zoom;
 
-			float m = this.clamp.size() == 0 ? Integer.MAX_VALUE : this.clamp.get(0);
-
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
-			this.camera.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
-				Math.min(m - Display.GAME_WIDTH / 2, Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16), this.camera.position.x);
-			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16, Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
-			this.camera.update();
 
-			if (!(Dungeon.game.getState() instanceof ComicsState) && this.target.x + this.target.w / 2 > m) {
-				this.clamp.remove(0);
+			this.camera.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
+				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, this.camera.position.x);
+			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
+				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
+
+			if (this.clamp.size() > 0) {
+				Rectangle rect = this.clamp.get(0);
+
+				// Todo: make sure it's off-screen
+
+				this.camera.position.x =
+					this.camera.position.x < rect.x + rect.width / 2
+					? rect.x : rect.x + rect.width;
+
+				this.camera.position.y =
+					this.camera.position.y < rect.y + rect.height / 2
+						? rect.y : rect.y + rect.height;
+
+				float tx = this.target.x + this.target.w / 2;
+				float ty = this.target.y + this.target.h / 2;
+
+				if (tx >= rect.x && tx <= rect.x + rect.width &&
+					ty >= rect.y && ty <= rect.y + rect.height) {
+
+					this.clamp.remove(0);
+				}
 			}
+
+			this.camera.update();
 		}
 	}
 

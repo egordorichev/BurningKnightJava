@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
+import com.badlogic.gdx.math.Rectangle;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -31,6 +33,8 @@ public class LampRoom extends RegularRoom {
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.ENEMY);
 		}
+
+		Camera.instance.clamp.add(new Rectangle(this.left * 16, this.top * 16, this.getWidth() * 16, this.getHeight() * 16));
 	}
 
 	@Override

@@ -46,8 +46,6 @@ public class CastleEntranceRoom extends EntranceRoom {
 		level.addSaveable(door);
 		Dungeon.area.add(door);
 
-		Camera.instance.clamp.add(bottomTower.left * 16 - 32);
-
 		this.addEntrance(topTower.left + topTower.getWidth() / 2, topTower.top + topTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_OPEN);
 		this.addEntrance(bottomTower.left + bottomTower.getWidth() / 2, bottomTower.top + bottomTower.getHeight() / 2, Entrance.CASTLE_ENTRANCE_CLOSED);
 
