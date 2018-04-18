@@ -76,6 +76,7 @@ public class InGameState extends State {
 			public void onEnd() {
 				super.onEnd();
 				Player.instance.setUnhittable(false);
+				Camera.instance.follow(Player.instance);
 			}
 		});
 	}

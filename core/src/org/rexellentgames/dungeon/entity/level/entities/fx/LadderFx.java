@@ -1,19 +1,23 @@
 package org.rexellentgames.dungeon.entity.level.entities.fx;
 
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector3;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
-public class LadderFx extends Entity {
+public class LadderFx extends UiEntity {
 	private Entity ladder;
 	private String text;
 
@@ -55,6 +59,16 @@ public class LadderFx extends Entity {
 	public void end() {
 		Dungeon.darkR = Dungeon.MAX_R;
 		Player.instance.setUnhittable(true);
+		Camera.instance.follow(null);
+
+		Vector3 pos = Camera.ui.unproject(new Vector3(this.ladder.x + this.ladder.w / 2, this.ladder.y + this.ladder.h / 2, 0),
+			Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(), Camera.instance.viewport.getScreenWidth(),
+			Camera.instance.viewport.getScreenHeight());
+
+		Dungeon.darkX = this.fromWorldX(this.ladder.x + this.ladder.w / 2);
+		Dungeon.darkY = this.fromWorldY(this.ladder.y + this.ladder.h / 2);
+
+		Log.info(pos + "");
 
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
