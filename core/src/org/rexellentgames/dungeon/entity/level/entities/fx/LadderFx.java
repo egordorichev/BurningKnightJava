@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class LadderFx extends Entity {
 	private Entity ladder;
@@ -35,31 +36,54 @@ public class LadderFx extends Entity {
 			this.done = true;
 
 			if (this.ladder instanceof Entrance) {
-				if (Dungeon.depth != 0) {
-					Dungeon.loadType = Entrance.LoadType.GO_UP;
-					Dungeon.ladderId = ((Entrance) this.ladder).getType();
-
-					Dungeon.goToLevel(Dungeon.depth - 1);
-				} else {
+				if (Dungeon.depth == 0) {
 					UiLog.instance.print("[orange]You cant leave just yet!");
+				} else {
+					this.end();
 				}
 			} else if (this.ladder instanceof Exit) {
-				if (Dungeon.depth != 4 || Dungeon.level instanceof WaveLevel) {
-					if (Dungeon.type == Dungeon.Type.INTRO) {
-						Dungeon.type = Dungeon.Type.REGULAR;
-						Dungeon.newGame();
-
-						Log.info("regular game");
-					} else {
-						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-						Dungeon.ladderId = ((Exit) this.ladder).getType();
-
-						Dungeon.goToLevel(Dungeon.depth + 1);
-					}
-				} else {
+				if (Dungeon.depth == 4 && !(Dungeon.level instanceof WaveLevel)) {
 					UiLog.instance.print("[red]Not implemented just yet!");
+				} else {
+					this.end();
 				}
 			}
 		}
+	}
+
+	public void end() {
+		Dungeon.darkR = Dungeon.MAX_R;
+
+		Tween.to(new Tween.Task(0, 0.3f) {
+			@Override
+			public float getValue() {
+				return Dungeon.darkR;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.darkR = value;
+			}
+
+			@Override
+			public void onEnd() {
+				if (ladder instanceof Entrance) {
+					Dungeon.loadType = Entrance.LoadType.GO_UP;
+					Dungeon.ladderId = ((Entrance) ladder).getType();
+
+					Dungeon.goToLevel(Dungeon.depth - 1);
+				} else {
+					if (Dungeon.type == Dungeon.Type.INTRO) {
+						Dungeon.type = Dungeon.Type.REGULAR;
+						Dungeon.newGame();
+					} else {
+						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+						Dungeon.ladderId = ((Exit) ladder).getType();
+
+						Dungeon.goToLevel(Dungeon.depth + 1);
+					}
+				}
+			}
+		});
 	}
 }

@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.assets.Assets;
@@ -39,6 +40,10 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean showed;
 	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
 	public static Type type = Type.INTRO;
+	public static float MAX_R = (float) (Math.sqrt(Display.GAME_WIDTH * Display.GAME_WIDTH + Display.GAME_HEIGHT * Display.GAME_HEIGHT) / 2);
+	public static float darkR = MAX_R;
+	public static float darkX = Display.GAME_WIDTH / 2;
+	public static float darkY = Display.GAME_HEIGHT / 2;
 
 	public enum Type {
 		REGULAR,
@@ -158,12 +163,33 @@ public class Dungeon extends ApplicationAdapter {
 			Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
+			boolean draw = (darkR < MAX_R);
+
+			if (draw) {
+				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+				Gdx.gl.glDepthFunc(GL20.GL_LESS);
+				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+				Gdx.gl.glDepthMask(true);
+
+				Gdx.gl.glColorMask(false, false, false, false);
+
+				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+				Graphics.shape.circle(darkX, darkY, darkR);
+				Graphics.shape.end();
+			}
+
 			if (Camera.instance != null) {
 				Camera.instance.applyShake();
 				Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 			}
 
 			Graphics.batch.begin();
+
+			if (draw) {
+				Gdx.gl.glColorMask(true, true, true, true);
+				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+				Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
+			}
 
 			if (game.getState() instanceof HubState) {
 				Graphics.medium.draw(Graphics.batch, "[gray]Hub", 0, 12);
@@ -181,6 +207,10 @@ public class Dungeon extends ApplicationAdapter {
 			}
 
 			Graphics.batch.end();
+
+			if (draw) {
+				Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+			}
 
 			if (Input.instance != null) {
 				for (Input input : Input.inputs.values()) {
