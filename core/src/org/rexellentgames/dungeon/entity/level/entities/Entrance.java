@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -93,7 +94,6 @@ public class Entrance extends SaveableEntity {
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player && this.fx == null && !Network.SERVER) {
 			this.fx = new LadderFx(this, "Ascend");
-
 			this.area.add(this.fx);
 		}
 	}

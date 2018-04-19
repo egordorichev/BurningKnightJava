@@ -8,6 +8,8 @@ import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.TutorialRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.HubRoom;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class HubLevel extends RegularLevel {
 
 		rooms.add(new HubRoom());
 		rooms.add(new TutorialRoom());
+		rooms.add(new ExitRoom());
 
 		return rooms;
 	}

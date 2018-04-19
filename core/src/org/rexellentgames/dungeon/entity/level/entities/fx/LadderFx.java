@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -61,14 +62,8 @@ public class LadderFx extends UiEntity {
 		Player.instance.setUnhittable(true);
 		Camera.instance.follow(null);
 
-		Vector3 pos = Camera.ui.unproject(new Vector3(this.ladder.x + this.ladder.w / 2, this.ladder.y + this.ladder.h / 2, 0),
-			Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(), Camera.instance.viewport.getScreenWidth(),
-			Camera.instance.viewport.getScreenHeight());
-
 		Dungeon.darkX = this.fromWorldX(this.ladder.x + this.ladder.w / 2);
 		Dungeon.darkY = this.fromWorldY(this.ladder.y + this.ladder.h / 2);
-
-		Log.info(pos + "");
 
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
@@ -90,11 +85,19 @@ public class LadderFx extends UiEntity {
 					Dungeon.goToLevel(Dungeon.depth - 1);
 				} else {
 					if (Dungeon.type == Dungeon.Type.INTRO) {
+						Log.info("Tutorial finished");
+
 						Dungeon.type = Dungeon.Type.REGULAR;
 						Dungeon.newGame();
 					} else {
 						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 						Dungeon.ladderId = ((Exit) ladder).getType();
+
+						if (((Exit) ladder).getType() == Entrance.ENTRANCE_TUTORIAL) {
+							Log.info("Entering tutorial");
+
+							Dungeon.type = Dungeon.Type.INTRO;
+						}
 
 						Dungeon.goToLevel(Dungeon.depth + 1);
 					}

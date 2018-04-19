@@ -105,7 +105,6 @@ public abstract class Room extends Rect implements GraphNode {
 		}
 
 		if (!foundPoint) {
-			Log.info("No point");
 			return false;
 		}
 

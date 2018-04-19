@@ -13,7 +13,8 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class TutorialRoom extends ExitRoom {
 	@Override
 	public void paint(Level level) {
-		super.paint(level);
+		Painter.fill(level, this, Terrain.WALL);
+		Painter.fill(level, this, 1, Terrain.FLOOR);
 
 		Point point = this.getCenter();
 		Painter.set(level, (int) point.x, (int) point.y, Terrain.WOOD);
@@ -22,13 +23,14 @@ public class TutorialRoom extends ExitRoom {
 
 		exit.x = point.x * 16;
 		exit.y = point.y * 16 - 8;
-		exit.setType(Entrance.ENTRANCE_TUTORIAL);
 
 		level.addSaveable(exit);
 		Dungeon.area.add(exit);
 
+		exit.setType(Entrance.ENTRANCE_TUTORIAL);
+
 		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.ENEMY);
+			door.setType(Door.Type.REGULAR);
 		}
 	}
 }

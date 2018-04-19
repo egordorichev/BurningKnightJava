@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.TutorialRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
@@ -42,7 +43,7 @@ public class RegularBuilder extends Builder {
 		}
 
 		for (Room room : rooms) {
-			if (room instanceof ExitRoom) {
+			if (room instanceof ExitRoom && !(room instanceof TutorialRoom)) {
 				this.exit = (ExitRoom) room;
 			} else if (room instanceof EntranceRoom) {
 				this.entrance = (EntranceRoom) room;
