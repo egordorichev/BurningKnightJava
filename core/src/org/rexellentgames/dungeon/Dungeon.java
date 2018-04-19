@@ -22,6 +22,7 @@ import org.rexellentgames.dungeon.game.state.*;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.io.File;
@@ -44,6 +45,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float darkR = MAX_R;
 	public static float darkX = Display.GAME_WIDTH / 2;
 	public static float darkY = Display.GAME_HEIGHT / 2;
+	public static String[] arg;
 
 	public enum Type {
 		REGULAR,
@@ -51,7 +53,7 @@ public class Dungeon extends ApplicationAdapter {
 		ARCADE
 	}
 
-	private static int to = -2;
+	private static int to = -3;
 	private Color background = Color.valueOf("#000000"); // #323c39
 
 	public static void reportException(Exception e) {
@@ -69,13 +71,22 @@ public class Dungeon extends ApplicationAdapter {
 
 		loadType = Entrance.LoadType.GO_DOWN;
 
-		Player.instance = null;
-		BurningKnight.instance = null;
+		if (to != -3) {
+			Player.instance = null;
+			BurningKnight.instance = null;
+		}
 
 		level = null;
-		area.destroy();
+
+		if (area != null) {
+			area.destroy();
+		}
+
 		Dungeon.depth = 0;
-		game.setState(new LoadState());
+
+		if (game != null) {
+			game.setState(new LoadState());
+		}
 	}
 
 	public static void goToLevel(int level) {
@@ -84,7 +95,16 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		if (arg.length > 0 && arg[0].startsWith("reset")) {
+			Dungeon.newGame();
+		}
+
 		Log.init();
+
+		long seed = System.currentTimeMillis();
+
+		Log.info("Setting random seed to " + seed + "...");
+		Random.random.setSeed(seed);
 
 		Log.info("Loading locale...");
 		Locale.load("en");
@@ -112,7 +132,7 @@ public class Dungeon extends ApplicationAdapter {
 				// For debug, @Nufflee
 				// game.setState(new MainMenuState());
 
-			 	Dungeon.goToLevel(-2);
+			 	Dungeon.goToLevel(-1);
 			}
 		} else {
 			game.setState(new HubState());
@@ -123,7 +143,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		if (to != -2) {
+		if (to > -2) {
 			if (Network.SERVER || Network.NONE) {
 				Dungeon.depth = to;
 				game.setState(new LoadState());

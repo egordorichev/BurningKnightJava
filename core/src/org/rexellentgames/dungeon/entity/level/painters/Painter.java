@@ -170,7 +170,7 @@ public class Painter {
 			Door door = r.getConnected().get(n);
 			if (door == null) {
 				Rect i = r.intersect(n);
-				ArrayList<Point> doorSpots = new ArrayList<Point>();
+				ArrayList<Point> doorSpots = new ArrayList<>();
 
 				for (Point p : i.getPoints()) {
 					if (r.canConnect(p) && n.canConnect(p)) {
@@ -180,12 +180,14 @@ public class Painter {
 
 				if (doorSpots.size() > 0) {
 					Point point = doorSpots.get(Random.newInt(doorSpots.size()));
-
 					door = new Door(point);
 
 					r.getConnected().put(n, door);
 					n.getConnected().put(r, door);
 				} else {
+					r.getConnected().remove(n);
+					n.getConnected().remove(r);
+
 					throw new RuntimeException("Failed to connect rooms " + r.getClass().getSimpleName() + " and " + n.getClass().getSimpleName());
 				}
 			}

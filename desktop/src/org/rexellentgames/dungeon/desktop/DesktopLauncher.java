@@ -4,10 +4,7 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import org.rexellentgames.dungeon.Client;
-import org.rexellentgames.dungeon.Crash;
-import org.rexellentgames.dungeon.Display;
-import org.rexellentgames.dungeon.Version;
+import org.rexellentgames.dungeon.*;
 
 public class DesktopLauncher {
 	private static final int SCALE = 2;
@@ -22,6 +19,8 @@ public class DesktopLauncher {
 		config.width = Display.GAME_WIDTH * SCALE;
 		config.height = Display.GAME_HEIGHT * SCALE;
 		config.title = "Burning Knight " + Version.asString();
+
+		Dungeon.arg = arg;
 
 		new LwjglApplication(new Client(), config);
 

@@ -76,18 +76,6 @@ public class Rect {
 		result.top = Math.max(top, other.top);
 		result.bottom = Math.min(bottom, other.bottom);
 
-		/*if (result.left > result.right) {
-			int tmp = result.left;
-			result.left = result.right;
-			result.right = tmp;
-		}
-
-		if (result.bottom > result.top) {
-			int tmp = result.bottom;
-			result.bottom = result.top;
-			result.top = tmp;
-		}*/
-
 		return result;
 	}
 
@@ -136,9 +124,13 @@ public class Rect {
 
 	public ArrayList<Point> getPoints() {
 		ArrayList<Point> points = new ArrayList<Point>();
-		for (int i = left; i <= right; i++)
-			for (int j = top; j <= bottom; j++)
+
+		for (int i = Math.min(right, left); i <= Math.max(right, left); i++) {
+			for (int j = Math.max(top, bottom); j <= Math.max(top, bottom); j++) {
 				points.add(new Point(i, j));
+			}
+		}
+
 		return points;
 	}
 

@@ -1,34 +1,35 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 
-public class HubRoom extends RegularRoom {
+public class HubRoom extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
 
+		// todo
 
+		level.entrance = this;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 20;
+		return 12;
 	}
 
 	@Override
 	public int getMinWidth() {
-		return 20;
+		return 12;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 21;
+		return 13;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 21;
+		return 13;
 	}
 
 	@Override
