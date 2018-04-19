@@ -118,6 +118,8 @@ public abstract class Level extends Entity {
 		}
 
 		switch (depth) {
+			case -2:
+				return new HubLevel();
 			case -1:
 				return new SkyLevel();
 			case 0:

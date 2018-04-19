@@ -39,7 +39,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static long longTime;
 	public static boolean showed;
 	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
-	public static Type type = Type.INTRO;
+	public static Type type = Type.REGULAR;
 	public static float MAX_R = (float) (Math.sqrt(Display.GAME_WIDTH * Display.GAME_WIDTH + Display.GAME_HEIGHT * Display.GAME_HEIGHT) / 2);
 	public static float darkR = MAX_R;
 	public static float darkX = Display.GAME_WIDTH / 2;
@@ -112,7 +112,7 @@ public class Dungeon extends ApplicationAdapter {
 				// For debug, @Nufflee
 				// game.setState(new MainMenuState());
 
-			 	Dungeon.goToLevel(0);
+			 	Dungeon.goToLevel(-2);
 			}
 		} else {
 			game.setState(new HubState());
