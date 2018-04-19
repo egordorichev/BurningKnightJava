@@ -114,6 +114,8 @@ public abstract class Level extends Entity {
 	}
 
 	public static RegularLevel forDepth(int depth) {
+		Log.info("Looking for level with depth = " + depth + " and dungeon type " + Dungeon.type);
+
 		if (Dungeon.type == Dungeon.Type.ARCADE) {
 			return new WaveLevel();
 		} else if (Dungeon.type == Dungeon.Type.INTRO) {

@@ -146,6 +146,7 @@ public class Dungeon extends ApplicationAdapter {
 		if (to > -2) {
 			if (Network.SERVER || Network.NONE) {
 				Dungeon.depth = to;
+
 				game.setState(new LoadState());
 
 				if (Network.SERVER) {

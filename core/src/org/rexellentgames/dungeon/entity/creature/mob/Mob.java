@@ -585,8 +585,6 @@ public class Mob extends Creature {
 				}
 
 				if (!found) {
-					Log.error("Not found target point");
-
 					this.target = null;
 					this.targetPoint = null;
 				} else {
