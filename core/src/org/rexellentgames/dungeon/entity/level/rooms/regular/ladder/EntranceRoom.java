@@ -25,7 +25,6 @@ public class EntranceRoom extends RegularRoom {
 		Dungeon.area.add(entrance);
 	}
 
-
 	@Override
 	public int getMaxConnections(Connection side) {
 		return 1;

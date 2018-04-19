@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class RegularLevel extends Level {
-
 	@Override
 	public void generate() {
 		Level.GENERATED = true;
@@ -79,6 +78,8 @@ public abstract class RegularLevel extends Level {
 
 				Log.info("Setting player spawn to " + (int) point.x + ":" + (int) point.y + "...");
 				player.tp(point.x * 16, point.y * 16);
+			} else {
+				Log.error("No entrance found!");
 			}
 		}
 	}

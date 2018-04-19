@@ -5,14 +5,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -25,6 +23,7 @@ public class Entrance extends SaveableEntity {
 	public static byte NORMAL = 0;
 	public static byte CASTLE_ENTRANCE_OPEN = 1;
 	public static byte CASTLE_ENTRANCE_CLOSED = 2;
+	public static byte ENTRANCE_TUTORIAL = 3;
 
 	private byte type;
 

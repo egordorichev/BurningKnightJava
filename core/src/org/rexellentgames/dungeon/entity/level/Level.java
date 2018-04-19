@@ -32,6 +32,7 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
+import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
+	public static final boolean RENDER_ROOM_DEBUG = false;
+
 	public static float LIGHT_R = 34f / 255f;
 	public static float LIGHT_G = 31f / 255f;
 	public static float LIGHT_B = 65f / 255f;
@@ -118,10 +121,8 @@ public abstract class Level extends Entity {
 		}
 
 		switch (depth) {
-			case -2:
-				return new HubLevel();
 			case -1:
-				return new SkyLevel();
+				return new HubLevel();
 			case 0:
 			case 1:
 			case 2:
@@ -179,7 +180,7 @@ public abstract class Level extends Entity {
 		byte tile = Terrain.WALL;
 
 		switch (Dungeon.depth) {
-			case -1:
+			case -2:
 				tile = Terrain.CHASM;
 				break;
 			case 15:
@@ -482,18 +483,28 @@ public abstract class Level extends Entity {
 
 		// Useful room debug
 
-		/*
-		Graphics.batch.end();
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		Graphics.shape.setColor(1, 1, 1, 0.1f);
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-		for (Room room : this.rooms) {
-			Graphics.shape.rect(room.left * 16 + 8, room.top * 16 + 8, room.getWidth() * 16 - 16, room.getHeight() * 16 - 16);
+		if (RENDER_ROOM_DEBUG) {
+			Graphics.batch.end();
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			for (Room room : this.rooms) {
+				Graphics.shape.setColor(1, 1, 1, 0.1f);
+				Graphics.shape.rect(room.left * 16 + 8, room.top * 16 + 8, room.getWidth() * 16 - 16, room.getHeight() * 16 - 16);
+
+				for (Room o : room.getConnected().keySet()) {
+					if (o != room) {
+						Rect i = o.intersect(room);
+
+						Graphics.shape.setColor(1, 0, 1, 0.1f);
+						Graphics.shape.rect(i.left * 16, i.top * 16, i.getWidth() * 16 + 16, i.getHeight() * 16 + 16);
+					}
+				}
+			}
+			Graphics.shape.end();
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+			Graphics.batch.begin();
 		}
-		Graphics.shape.end();
-		Gdx.gl.glDisable(GL20.GL_BLEND);
-		Graphics.batch.begin();*/
 	}
 
 	@Override
