@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
@@ -8,7 +9,6 @@ import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.TutorialRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.HubRoom;
 
@@ -39,5 +39,11 @@ public class HubLevel extends RegularLevel {
 	@Override
 	protected Painter getPainter() {
 		return new HallPainter();
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		Player.instance = null;
 	}
 }

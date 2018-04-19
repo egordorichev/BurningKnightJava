@@ -20,6 +20,10 @@ public class ConnectionRoom extends Room {
 	};
 
 	public static ConnectionRoom create() {
+		if (Dungeon.depth == -1) {
+			return new TunnelRoom();
+		}
+
 		if (Dungeon.level instanceof WaveLevel) {
 			return Random.chance(75) ? new TunnelRoom() : new RingConnectionRoom();
 		}
