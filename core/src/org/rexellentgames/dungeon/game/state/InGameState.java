@@ -16,6 +16,7 @@ import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
@@ -187,26 +188,35 @@ public class InGameState extends State {
 			Dialog.active.render();
 		}
 
-		if (Player.instance.getLevel() != this.lastLevel) {
-			this.lastLevel = Player.instance.getLevel();
-			Graphics.layout.setText(Graphics.medium, String.valueOf(this.lastLevel));
-			this.w = (int) Graphics.layout.width;
+		if (!(Dungeon.level instanceof HubLevel)) {
+
+			if (Player.instance.getLevel() != this.lastLevel) {
+				this.lastLevel = Player.instance.getLevel();
+				Graphics.layout.setText(Graphics.medium, String.valueOf(this.lastLevel));
+				this.w = (int) Graphics.layout.width;
+			}
+
+			Graphics.medium.draw(Graphics.batch, String.valueOf(Player.instance.getLevel()), 3 + (16 - this.w) / 2, Display.GAME_HEIGHT - 8);
+
+			Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[]{});
+
+			for (int i = 0; i < buffs.length; i++) {
+				Buff buff = buffs[i];
+
+				TextureRegion sprite = buff.getSprite();
+				Graphics.batch.draw(sprite, 2 + i * 11, Display.GAME_HEIGHT - 38);
+			}
+
+			if (this.health.hovered) {
+				this.health.renderInfo();
+			}
+			if (this.mana.hovered) {
+				this.mana.renderInfo();
+			}
+			if (this.exp.hovered) {
+				this.exp.renderInfo();
+			}
 		}
-
-		Graphics.medium.draw(Graphics.batch, String.valueOf(Player.instance.getLevel()), 3 + (16 - this.w) / 2, Display.GAME_HEIGHT - 8);
-
-		Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[] {});
-
-		for (int i = 0; i < buffs.length; i++) {
-			Buff buff = buffs[i];
-
-			TextureRegion sprite = buff.getSprite();
-			Graphics.batch.draw(sprite, 2 + i * 11, Display.GAME_HEIGHT - 38);
-		}
-
-		if (this.health.hovered) { this.health.renderInfo(); }
-		if (this.mana.hovered) { this.mana.renderInfo(); }
-		if (this.exp.hovered) { this.exp.renderInfo(); }
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 
@@ -221,10 +231,15 @@ public class InGameState extends State {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		}
 
-		Dungeon.ui.render();
+		if (!(Dungeon.level instanceof HubLevel)) {
+			Dungeon.ui.render();
+		}
+
 		Ui.ui.renderUi();
 
-		Graphics.print(this.lastLevel + "", Graphics.medium, (16 - this.w) / 2 + 3, Display.GAME_HEIGHT - 16 - 8);
+		if (!(Dungeon.level instanceof HubLevel)) {
+			Graphics.print(this.lastLevel + "", Graphics.medium, (16 - this.w) / 2 + 3, Display.GAME_HEIGHT - 16 - 8);
+		}
 
 		this.console.render();
 		this.inventory.renderCurrentSlot();

@@ -6,6 +6,9 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.RegularLevel;
+import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.util.Tween;
@@ -104,6 +107,10 @@ public class Ui {
 	}
 
 	public void renderUi() {
-		Graphics.render(this.topFrame, 0, Display.GAME_HEIGHT - topFrame.getRegionHeight());
+		if (!(Dungeon.level instanceof HubLevel)) {
+			Graphics.render(this.topFrame, 0, Display.GAME_HEIGHT - topFrame.getRegionHeight());
+		}
+
+		// todo: not render other parts!
 	}
 }
