@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 import com.rafaskoberg.gdx.typinglabel.TypingListener;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.game.input.Input;
 
@@ -16,10 +17,10 @@ public class DialogData {
 	private int current;
 	private TypingLabel label;
 	private static Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-	private float delay = -1f;
 	private static TextureRegion frame = Graphics.getTexture("dialog");
 	private float a;
 	private int selected;
+	private float oa;
 
 	public void start() {
 		this.current = 0;
@@ -60,7 +61,17 @@ public class DialogData {
 
 			@Override
 			public void end() {
-				delay = 1f;
+				Tween.to(new Tween.Task(1f, 0.2f) {
+					@Override
+					public float getValue() {
+						return oa;
+					}
+
+					@Override
+					public void setValue(float value) {
+						oa = value;
+					}
+				});
 			}
 
 			@Override
@@ -75,22 +86,20 @@ public class DialogData {
 		});
 	}
 
+	public void skip() {
+		Dialog.Phrase phrase = this.phrases.get(this.current);
+
+		if (phrase.options == null) {
+			this.toNext();
+		}
+	}
+
 	public void update(float dt) {
 		if (this.label == null) {
 			return;
 		}
 
 		this.label.act(dt);
-
-		if (this.delay != -1f) {
-			this.delay -= dt;
-
-			if (this.delay <= 0f) {
-				// toNext();
-				// todo: something to show player
-				// that he needs to press a key
-			}
-		}
 
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 
@@ -120,24 +129,42 @@ public class DialogData {
 	}
 
 	public void toNext() {
-		this.delay = -1f;
-		Dialog.Phrase phrase = this.phrases.get(this.current);
+		Dialog.Phrase phrase = phrases.get(current);
 
-		if (phrase.options == null || phrase.next == null) {
-			this.end();
-		} else {
-			String next = phrase.next[Math.min(phrase.next.length, this.selected)];
-			
-			for (int i = 0; i < this.phrases.size(); i++) {
-				Dialog.Phrase p = this.phrases.get(i);
+		if (this.oa != 1f && phrase.options != null) {
+			return;
+		}
 
-				if (p != phrase && p.name.equals(next)) {
-					this.current = i;
-					this.next();
-					return;
+		Tween.to(new Tween.Task(0f, 0.2f) {
+			@Override
+			public float getValue() {
+				return oa;
+			}
+
+			@Override
+			public void setValue(float value) {
+				oa = value;
+			}
+
+			@Override
+			public void onEnd() {
+				if (phrase.options == null || phrase.next == null) {
+					end();
+				} else {
+					String next = phrase.next[Math.min(phrase.next.length, selected)];
+
+					for (int i = 0; i < phrases.size(); i++) {
+						Dialog.Phrase p = phrases.get(i);
+
+						if (p != phrase && p.name.equals(next)) {
+							current = i;
+							next();
+							return;
+						}
+					}
 				}
 			}
-		}
+		});
 	}
 
 	public void end() {
@@ -172,6 +199,8 @@ public class DialogData {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 
 		if (phrase.options != null && phrase.options.length > 1) {
+			Graphics.medium.setColor(1, 1, 1, this.oa);
+
 			for (int i = 0; i < phrase.options.length; i++) {
 				String label = phrase.options[i];
 
@@ -182,6 +211,17 @@ public class DialogData {
 				Graphics.print(label, Graphics.medium, 80,
 					Display.GAME_HEIGHT - 128 - i * 16);
 			}
+
+			Graphics.medium.setColor(1, 1, 1, 1);
+		} else {
+			Graphics.small.setColor(1, 1, 1, this.a);
+
+			Graphics.print(">", Graphics.small,
+				80 + Display.GAME_WIDTH - 96 - 16,
+				(float) (Display.GAME_HEIGHT - 96 + 8 +
+					Math.cos(Dungeon.time * 3) * 3.5f));
+
+			Graphics.small.setColor(1, 1, 1, 1);
 		}
 	}
 }
