@@ -80,6 +80,9 @@ public class InGameState extends State {
 				Camera.instance.follow(Player.instance);
 			}
 		});
+
+		Dialog.active = BurningKnight.onLampTake;
+		Dialog.active.start();
 	}
 
 	@Override

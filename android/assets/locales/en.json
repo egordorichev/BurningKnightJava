@@ -55,5 +55,8 @@
 
 
 	"dialog_bk_its_you_again" : "So it's you again? {WAIT}You think, you can changing something this time?",
-	"dialog_bk_its_not_worthit" : "It is not worth it! {WAIT}{SHAKE}YOU WILL NEVER DEFEAT ME.{ENDSHAKE} Let's just face the {SHAKE}truth.{ENDSHAKE}"
+	"dialog_bk_its_not_worthit" : "It is not worth it! {WAIT}{SHAKE}YOU WILL NEVER DEFEAT ME.{ENDSHAKE} Let's just face the {SHAKE}truth.{ENDSHAKE}",
+	"dialog_bk_its_not_youwilllose" : "YOU WILL {SHAKE}LOSE!{ENDSHAKE}",
+	"bk_dialog_andwhat" : "And what?",
+	"bk_dialog_whatever" : "Whatever..."
 }

@@ -1,10 +1,23 @@
 {
 	"on_lamp_take" : {
 		"dialog_bk_its_you_again": {
-			"texture" : "bk-dialog-frame"
+			"texture" : "bk-dialog-frame",
+			"next" : [
+				"dialog_bk_its_not_worthit",
+				"dialog_bk_its_not_youwilllose"
+			],
+
+			"options" : [
+				"bk_dialog_andwhat",
+				"bk_dialog_whatever"
+			]
 		},
 
 		"dialog_bk_its_not_worthit" : {
+			"texture" : "bk-dialog-frame"
+		},
+
+		"dialog_bk_its_not_youwilllose" : {
 			"texture" : "bk-dialog-frame"
 		}
 	}
