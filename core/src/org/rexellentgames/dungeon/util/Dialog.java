@@ -26,7 +26,33 @@ public class Dialog {
 				Phrase phrase = new Phrase();
 
 				phrase.string = Locale.get(value.name);
+				phrase.name = value.name;
 				phrase.region = Graphics.getTexture(value.getString("texture"));
+
+				JsonValue options = value.get("options");
+
+				if (options != null) {
+					if (options.isArray()) {
+						String[] array = options.asStringArray();
+						phrase.options = new String[array.length];
+
+						for (int i = 0; i < array.length; i++) {
+							phrase.options[i] = Locale.get(array[i]);
+						}
+					} else {
+						phrase.options = new String[] { Locale.get(options.asString()) };
+					}
+				}
+
+				JsonValue next = value.get("next");
+
+				if (next != null) {
+					if (next.isArray()) {
+						phrase.next = next.asStringArray();
+					} else {
+						phrase.next = new String[] { next.asString() };
+					}
+				}
 
 				dt.phrases.add(phrase);
 			}
@@ -42,7 +68,10 @@ public class Dialog {
 	}
 
 	public static class Phrase {
+		public String name;
 		public String string;
 		public TextureRegion region;
+		public String[] options;
+		public String[] next;
 	}
 }

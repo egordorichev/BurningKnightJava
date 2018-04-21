@@ -143,7 +143,7 @@ public class ItemHolder extends SaveableEntity {
 				Dungeon.level.removePlayerSaveable(this);
 				Dungeon.level.droppedToChasm.add(this.item);
 
-				Log.info("Dropped item to the next floor");
+				Log.info("Dropped item to the options floor");
 
 				return;
 			}

@@ -61,7 +61,7 @@ public class LoadState extends State {
 			case READING: this.s = "Writing the story...";
 		}
 
-		Tween.to(new Tween.Task(1f, 0.5f) {
+		Tween.to(new Tween.Task(1f, 0.3f) {
 			@Override
 			public float getValue() {
 				return a;
@@ -74,7 +74,7 @@ public class LoadState extends State {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0f, 0.5f) {
+				Tween.to(new Tween.Task(0f, 0.3f) {
 					@Override
 					public float getValue() {
 						return a;

@@ -7,6 +7,7 @@ import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 import com.rafaskoberg.gdx.typinglabel.TypingListener;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.game.input.Input;
 
 import java.util.ArrayList;
 
@@ -18,9 +19,11 @@ public class DialogData {
 	private float delay = -1f;
 	private static TextureRegion frame = Graphics.getTexture("dialog");
 	private float a;
+	private int selected;
 
 	public void start() {
 		this.current = 0;
+		this.selected = 0;
 
 		Tween.to(new Tween.Task(1f, 0.3f) {
 			@Override
@@ -41,6 +44,8 @@ public class DialogData {
 	}
 
 	public void next() {
+		this.selected = 0;
+
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 		this.label = new TypingLabel("{SPEED=0.4}{COLOR=#FFFFFF}" + phrase.string, skin);
 		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 64);
@@ -81,19 +86,57 @@ public class DialogData {
 			this.delay -= dt;
 
 			if (this.delay <= 0f) {
-				toNext();
+				// toNext();
+				// todo: something to show player
+				// that he needs to press a key
+			}
+		}
+
+		Dialog.Phrase phrase = this.phrases.get(this.current);
+
+		if (phrase.options != null) {
+			int next = this.selected;
+
+			if (Input.instance.wasPressed("left") ||
+				Input.instance.wasPressed("up")) {
+
+				next -= 1;
+
+				if (next <= -1) {
+					next += phrase.next.length;
+				}
+			}
+
+			if (Input.instance.wasPressed("down") ||
+				Input.instance.wasPressed("right")) {
+
+				next = (next + 1) % phrase.next.length;
+			}
+
+			if (next != this.selected) {
+				this.selected = next;
 			}
 		}
 	}
 
 	public void toNext() {
 		this.delay = -1f;
+		Dialog.Phrase phrase = this.phrases.get(this.current);
 
-		if (current == phrases.size() - 1) {
+		if (phrase.options == null || phrase.next == null) {
 			this.end();
 		} else {
-			current += 1;
-			next();
+			String next = phrase.next[Math.min(phrase.next.length, this.selected)];
+			
+			for (int i = 0; i < this.phrases.size(); i++) {
+				Dialog.Phrase p = this.phrases.get(i);
+
+				if (p != phrase && p.name.equals(next)) {
+					this.current = i;
+					this.next();
+					return;
+				}
+			}
 		}
 	}
 
@@ -124,6 +167,21 @@ public class DialogData {
 
 		if (this.label != null) {
 			this.label.draw(Graphics.batch, this.a);
+		}
+
+		Dialog.Phrase phrase = this.phrases.get(this.current);
+
+		if (phrase.options != null && phrase.options.length > 1) {
+			for (int i = 0; i < phrase.options.length; i++) {
+				String label = phrase.options[i];
+
+				if (i == this.selected) {
+					label += " <"; // todo: replace with a sprite
+				}
+
+				Graphics.print(label, Graphics.medium, 80,
+					Display.GAME_HEIGHT - 128 - i * 16);
+			}
 		}
 	}
 }
