@@ -112,10 +112,10 @@
     "duration": 100
    },
    "actor_burning_knight 14.ase": {
-    "frame": { "x": 404, "y": 0, "w": 29, "h": 12 },
+    "frame": { "x": 404, "y": 0, "w": 34, "h": 14 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 23, "y": 43, "w": 29, "h": 12 },
+    "spriteSourceSize": { "x": 23, "y": 43, "w": 34, "h": 14 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    }
@@ -124,7 +124,7 @@
   "app": "http://www.aseprite.org/",
   "version": "1.2.8-x64",
   "format": "RGBA8888",
-  "size": { "w": 433, "h": 35 },
+  "size": { "w": 438, "h": 35 },
   "scale": "1",
   "frameTags": [
    { "name": "idle", "from": 0, "to": 11, "direction": "forward" },
