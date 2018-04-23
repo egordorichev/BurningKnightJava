@@ -25,7 +25,7 @@ public class HubLevel extends RegularLevel {
 		ArrayList<Room> rooms = new ArrayList<>();
 
 		rooms.add(new HubRoom());
-		rooms.add(new TutorialRoom());
+		// rooms.add(new TutorialRoom());
 		rooms.add(new ExitRoom());
 
 		return rooms;

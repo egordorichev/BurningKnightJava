@@ -1,8 +1,7 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
 import org.rexellentgames.dungeon.assets.Locale;
-import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.buff.SlowBuff;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 
 public class Dagger extends Sword {
 	{
@@ -12,4 +11,6 @@ public class Dagger extends Sword {
 		useTime = 0.3f;
 		sprite = "item (dagger)";
 	}
+
+	// todo: stab
 }
