@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.weapon;
+package org.rexellentgames.dungeon.entity.item.weapon.sword;
 
 import org.rexellentgames.dungeon.assets.Locale;
 

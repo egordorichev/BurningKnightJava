@@ -261,6 +261,10 @@ public class Creature extends SaveableEntity {
 		return unhittable;
 	}
 
+	public int getDefense() {
+		return this.defense;
+	}
+
 	public void modifyHp(int amount, boolean ignoreArmor) {
 		if (this.falling) {
 			return;

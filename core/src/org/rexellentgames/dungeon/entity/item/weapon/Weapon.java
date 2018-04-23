@@ -130,7 +130,7 @@ public class Weapon extends Item {
 			this.used = true;
 			this.onHit(creature);
 
-			creature.modifyHp(-Math.round(Random.newFloat(this.damage / 3 * 2, this.damage)));
+			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloat(this.damage / 3 * 2, this.damage))));
 		} else if (entity instanceof Weapon) {
 			if (this.isBlocking()) {
 				Weapon weapon = ((Weapon) entity);

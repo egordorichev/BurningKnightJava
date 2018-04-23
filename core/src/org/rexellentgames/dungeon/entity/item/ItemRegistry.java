@@ -17,6 +17,13 @@ import org.rexellentgames.dungeon.entity.item.consumable.spell.GhostLeaver;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordB;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordC;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.TheSword;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC;
 
 import java.util.HashMap;
 
@@ -25,8 +32,12 @@ public class ItemRegistry {
 
 	static {
 		register("dagger", Dagger.class);
-		register("iron_sword", IronSword.class);
-		register("another_sword", AnotherSword.class);
+		register("sword_a", SwordA.class);
+		register("sword_b", SwordB.class);
+		register("sword_c", SwordC.class);
+		register("butcher_a", ButcherA.class);
+		register("butcher_b", ButcherB.class);
+		register("butcher_c", ButcherC.class);
 		register("the_sword", TheSword.class);
 		register("gold", Gold.class);
 		register("healing_potion", HealingPotion.class);

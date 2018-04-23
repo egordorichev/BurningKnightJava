@@ -5,18 +5,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.weapon.AnotherSword;
-import org.rexellentgames.dungeon.entity.item.weapon.IronSword;
-import org.rexellentgames.dungeon.entity.item.weapon.Sword;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
-import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
-import org.rexellentgames.dungeon.entity.item.weapon.ranged.WoodenBow;
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -47,7 +42,7 @@ public class Knight extends Mob {
 	public void init() {
 		super.init();
 
-		this.sword = new IronSword();
+		this.sword = new SwordA();
 		this.sword.setOwner(this);
 		this.body = this.createBody(2, 1,12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
@@ -131,7 +126,7 @@ public class Knight extends Mob {
 		}
 
 		if (Random.chance(5)) {
-			// items.add(new IronSword());
+			// items.add(new SwordA());
 		}
 
 		if (Random.chance(25)) {

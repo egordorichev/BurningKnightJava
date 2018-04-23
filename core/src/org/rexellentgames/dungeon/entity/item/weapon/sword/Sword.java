@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.weapon;
+package org.rexellentgames.dungeon.entity.item.weapon.sword;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,10 +11,10 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Sword extends Weapon {
@@ -26,6 +26,9 @@ public class Sword extends Weapon {
 	private AnimationData animation;
 
 	private Body blockbox;
+	protected int maxAngle = 200;
+	protected float timeA = 0.1f;
+	protected float timeB = 0.1f;
 
 	private static Sound slash = Graphics.getSound("sfx/Woosh.wav");
 
@@ -185,7 +188,7 @@ public class Sword extends Weapon {
 		this.animation.setPaused(false);
 		super.use();
 
-		Tween.to(new Tween.Task(200, 0.1f) {
+		Tween.to(new Tween.Task(this.maxAngle, this.timeA) {
 			@Override
 			public float getValue() {
 				return added;
@@ -198,7 +201,7 @@ public class Sword extends Weapon {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0, 0.1f) {
+				Tween.to(new Tween.Task(0, timeB) {
 					@Override
 					public float getValue() {
 						return added;
