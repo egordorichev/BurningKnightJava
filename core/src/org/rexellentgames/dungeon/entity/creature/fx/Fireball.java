@@ -62,7 +62,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		this.y -= 4;
 
-		this.body = this.createBody(0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 
@@ -140,7 +140,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		this.t += dt;
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLight(this.x + 5, this.y + 5, 3f, 0.8f, 0f, 2f, 3f);
+			Dungeon.level.addLight(this.x, this.y, 3f, 0.8f, 0f, 2f, 3f);
 		}
 
 		if (this.animation.update(dt)) {

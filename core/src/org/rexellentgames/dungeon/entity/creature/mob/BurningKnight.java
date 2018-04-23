@@ -597,7 +597,7 @@ public class BurningKnight extends Mob {
 						ball = new Fireball();
 
 						ball.target = self.target;
-						ball.x = self.x + (self.w - 10) / 2;
+						ball.x = self.x + (self.w - 16) / 2;
 						ball.y = self.y + (self.h - 10) / 2;
 						ball.bad = !self.stupid;
 
@@ -627,7 +627,7 @@ public class BurningKnight extends Mob {
 							float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
 							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
 
-							ball.x = self.x + (self.w - 10) / 2;
+							ball.x = self.x + (self.w - 16) / 2;
 							ball.y = self.y + (self.h - 10) / 2;
 
 							ball.bad = !self.stupid;
@@ -642,7 +642,7 @@ public class BurningKnight extends Mob {
 
 							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
 
-							ball.x = self.x + (self.w - 10) / 2;
+							ball.x = self.x + (self.w - 16) / 2;
 							ball.y = self.y + (self.h - 10) / 2;
 							ball.bad = !self.stupid;
 
