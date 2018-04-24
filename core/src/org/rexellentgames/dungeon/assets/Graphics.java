@@ -61,7 +61,13 @@ public class Graphics {
 	}
 
 	public static Sound getSound(String sfx) {
-		return manager.get("sfx/" + sfx + ".wav", Sound.class);
+		Sound sound = manager.get("sfx/" + sfx + ".wav", Sound.class);
+
+		if (sound == null) {
+			Log.error("Sfx '" + sfx + "' is not found!");
+		}
+
+		return sound;
 	}
 
 	public static TextureRegion getTexture(String name) {
