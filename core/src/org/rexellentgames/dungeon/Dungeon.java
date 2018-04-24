@@ -139,6 +139,9 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		area.add(new Camera());
+
+		// Todo: better way to do this
+		Graphics.getMusic("gobbeon").play();
 	}
 
 	@Override

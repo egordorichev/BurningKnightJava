@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.Key;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -44,6 +45,7 @@ public class Mob extends Creature {
 	protected boolean hide;
 	protected boolean guard;
 	protected Room start;
+	protected boolean hasKey;
 
 	private static TextureRegion hideSign;
 	private static TextureRegion noticeSign;
@@ -132,6 +134,7 @@ public class Mob extends Creature {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.mind = Mind.values()[reader.readByte()];
+		this.hasKey = reader.readBoolean();
 	}
 
 	protected boolean ignoreRooms;
@@ -140,6 +143,11 @@ public class Mob extends Creature {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeByte(this.mind.getId());
+		writer.writeBoolean(this.hasKey);
+	}
+
+	public void giveKey() {
+		this.hasKey = true;
 	}
 
 	public boolean canSee(Creature player) {
@@ -287,6 +295,10 @@ public class Mob extends Creature {
 
 		if (Random.chance(5)) {
 			items.add(new SunPotion());
+		}
+
+		if (this.hasKey) {
+			items.add(new Key());
 		}
 
 		items.add(new Gold().randomize());

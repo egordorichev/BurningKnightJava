@@ -9,5 +9,7 @@ public class Key extends Item {
 		sprite = "item (key)";
 		stackable = true;
 		useable = false;
+		fly = true;
+		// autoPickup = true;
 	}
 }

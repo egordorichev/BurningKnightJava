@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -47,6 +48,12 @@ public class Graphics {
 			manager.load("sfx/" + name.toString() + ".wav", Sound.class);
 		}
 
+		root = reader.parse(Gdx.files.internal("music/music.json"));
+
+		for (JsonValue name : root) {
+			manager.load("music/" + name.toString() + ".wav", Music.class);
+		}
+
 		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);
 
@@ -68,6 +75,16 @@ public class Graphics {
 		}
 
 		return sound;
+	}
+
+	public static Music getMusic(String name) {
+		Music music = manager.get("music/" + name + ".wav", Music.class);
+
+		if (music == null) {
+			Log.error("Music '" + name + "' is not found!");
+		}
+
+		return music;
 	}
 
 	public static TextureRegion getTexture(String name) {

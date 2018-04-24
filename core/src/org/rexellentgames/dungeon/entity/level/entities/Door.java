@@ -144,7 +144,7 @@ public class Door extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature) {
-			if (entity instanceof Player) {
+			if (this.lock && this.lockable && entity instanceof Player) {
 				Player player = (Player) entity;
 
 				if (player.getInventory().find(Key.class)) {
