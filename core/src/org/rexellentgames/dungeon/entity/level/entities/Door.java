@@ -8,6 +8,8 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.Key;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -142,6 +144,20 @@ public class Door extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature) {
+			if (entity instanceof Player) {
+				Player player = (Player) entity;
+
+				if (player.getInventory().find(Key.class)) {
+					Item key = player.getInventory().findItem(Key.class);
+
+					key.setCount(key.getCount() - 1);
+					this.lock = false;
+					this.animation.setBack(false);
+					this.animation.setPaused(false);
+					this.lockAnim = this.unlock;
+				}
+			}
+
 			if (this.lock) {
 				return;
 			}

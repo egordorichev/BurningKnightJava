@@ -122,22 +122,26 @@ public class UiInventory extends UiEntity {
 		if (!this.handled && !Player.instance.isDead()) {
 			Item slot = this.inventory.getSlot(this.active);
 
-			if (Input.instance.wasPressed("mouse0")) {
-				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
-					slot.setOwner(Player.instance);
-					slot.use();
+			if (slot != null) {
+				if (Input.instance.wasPressed("mouse0")) {
+					if (slot.isUseable() && slot.getDelay() == 0) {
+						slot.setOwner(Player.instance);
+						slot.use();
+					}
+				} else if (Input.instance.wasPressed("mouse1")) {
+					if (slot.isUseable() && slot.getDelay() == 0) {
+						slot.setOwner(Player.instance);
+						slot.secondUse();
+					}
+				} else {
+					if (Input.instance.isDown("mouse0") && slot.isAuto() && slot.getDelay() == 0) {
+						slot.setOwner(Player.instance);
+						slot.use();
+					} else if (Input.instance.isDown("mouse1") && slot.isAuto() && slot.getDelay() == 0) {
+						slot.setOwner(Player.instance);
+						slot.secondUse();
+					}
 				}
-			} else if (Input.instance.wasPressed("mouse1")) {
-				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
-					slot.setOwner(Player.instance);
-					slot.secondUse();
-				}
-			} else if (Input.instance.isDown("mouse0") && slot.isAuto() && slot.getDelay() == 0) {
-				slot.setOwner(Player.instance);
-				slot.use();
-			} else if (Input.instance.isDown("mouse1") && slot.isAuto() && slot.getDelay() == 0) {
-				slot.setOwner(Player.instance);
-				slot.secondUse();
 			}
 		}
 
