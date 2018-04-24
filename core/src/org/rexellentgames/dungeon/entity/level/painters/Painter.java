@@ -144,11 +144,12 @@ public class Painter {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
 
-				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() == Door.Type.REGULAR || d.getType() == Door.Type.ENEMY)) {
+				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() == Door.Type.REGULAR || d.getType() == Door.Type.ENEMY || d.getType() == Door.Type.LEVEL_LOCKED)) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
 						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 
 					door.autoLock = (d.getType() == Door.Type.ENEMY);
+					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED);
 					door.rooms[0] = r;
 					door.rooms[1] = n;
 
