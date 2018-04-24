@@ -448,7 +448,7 @@ public class Player extends Creature {
 		if (entity instanceof ItemHolder) {
 			ItemHolder item = (ItemHolder) entity;
 
-			if (item.getItem().hasAutoPickup()) {
+			if (item.getItem().hasAutoPickup() || item.auto) {
 				this.tryToPickup(item);
 				this.area.add(new ItemPickedFx(item));
 			} else if (!Network.SERVER && !item.falling) {

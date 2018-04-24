@@ -163,6 +163,10 @@ public class Weapon extends Item {
 		builder.append(this.damage);
 		builder.append(" damage");
 
+		if (this.penetrates) {
+			builder.append("\nCan hit multiple targets");
+		}
+
 		return builder;
 	}
 }

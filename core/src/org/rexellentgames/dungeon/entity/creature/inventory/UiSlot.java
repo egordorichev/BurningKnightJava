@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
@@ -76,6 +77,8 @@ public class UiSlot {
 					try {
 						current = self.getClass().newInstance();
 						current.setCount(0);
+						current.setOwner(Player.instance);
+
 						this.inventory.setCurrentSlot(current);
 					} catch (Exception e) {
 						Dungeon.reportException(e);
@@ -87,6 +90,7 @@ public class UiSlot {
 				}
 
 				current.setCount(current.getCount() + 1);
+				current.setOwner(Player.instance);
 				self.setCount(self.getCount() - 1);
 			}
 		}
