@@ -18,14 +18,14 @@ import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Sword extends Weapon {
-	private boolean blocking;
-	private float oy;
-	private float ox;
-	private float blockT;
-	private static Animation animations = Animation.make("sword-fx");
-	private AnimationData animation;
+	protected boolean blocking;
+	protected float oy;
+	protected float ox;
+	protected float blockT;
+	protected static Animation animations = Animation.make("sword-fx");
+	protected AnimationData animation;
 
-	private Body blockbox;
+	protected Body blockbox;
 	protected int maxAngle = 200;
 	protected float timeA = 0.1f;
 	protected float timeB = 0.1f;
