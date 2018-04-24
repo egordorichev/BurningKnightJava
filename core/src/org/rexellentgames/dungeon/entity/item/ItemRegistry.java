@@ -15,6 +15,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeC;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.GhostLeaver;
@@ -52,6 +54,8 @@ public class ItemRegistry {
 		register("axe_b", AxeB.class);
 		register("axe_c", AxeC.class);
 		register("axe_d", AxeD.class);
+		register("gun_a", GunA.class);
+		register("bullet_a", BulletA.class);
 		register("the_sword", TheSword.class);
 		register("gold", Gold.class);
 		register("healing_potion", HealingPotion.class);

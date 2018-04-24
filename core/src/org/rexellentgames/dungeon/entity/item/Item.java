@@ -23,9 +23,14 @@ public class Item extends Entity {
 	protected boolean cursed;
 	protected Creature owner;
 	protected TextureRegion region;
+	protected boolean auto = false;
 
 	public void onPickup() {
 
+	}
+
+	public boolean isAuto() {
+		return this.auto;
 	}
 
 	public int getValue() {

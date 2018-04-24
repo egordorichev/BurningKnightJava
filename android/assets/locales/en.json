@@ -59,6 +59,8 @@
 	"morning_b_desc" : "...",
 	"morning_c" : "Golden Morning Star",
 	"morning_c_desc" : "Golden death star, huh?",
+	"gun_a" : "Revolver",
+	"gun_a_desc" : "Does it have any fire power?",
 	"axe_a" : "Bronze Axe",
 	"axe_a_desc" : "Good old bronze axe",
 	"axe_b" : "Iron Axe",
@@ -75,7 +77,8 @@
 	"worm_hole_desc" : "Sucks projectiles very well",
 	"key" : "Key",
 	"key_desc" : "A big and heavy iron key",
-
+	"bullet_a" : "Iron bullet",
+	"bullet_a_desc" : "Nothing interesting, tbh",
 
 
 
