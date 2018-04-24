@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.net.Network;
@@ -52,6 +53,7 @@ public class LoadState extends State {
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.ui.destroy();
 		Dungeon.area.destroy();
+		Exit.instance = null;
 
 		switch (Dungeon.loadType) {
 			case GO_UP: this.s = "Ascending..."; break;
