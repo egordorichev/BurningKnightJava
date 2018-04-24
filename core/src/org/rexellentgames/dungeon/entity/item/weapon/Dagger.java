@@ -10,11 +10,12 @@ import org.rexellentgames.dungeon.game.input.Input;
 
 public class Dagger extends Sword {
 	{
-		description = Locale.get("dagger");
+		description = Locale.get("dagger_desc");
 		damage = 2;
-		name = Locale.get("dagger_desc");
+		name = Locale.get("dagger");
 		useTime = 0.3f;
 		sprite = "item (dagger)";
+		knockback = 20f;
 	}
 
 
@@ -59,7 +60,7 @@ public class Dagger extends Sword {
 		float yy = (float) (y + (this.ox == 0 ? h / 4 : h / 2) + Math.sin(a + Math.PI / 2) * an);
 
 		if (!this.animation.isPaused() && !this.owner.isDead()) {
-			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, angle);
+			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, angle + 90);
 		}
 
 		Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy,
