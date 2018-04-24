@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
@@ -17,6 +16,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -28,8 +28,14 @@ public class Door extends SaveableEntity {
 	public int numCollisions;
 	private static Animation vertAnimation = Animation.make("actor-door-vertical");
 	private static Animation horizAnimation = Animation.make("actor-door-horizontal");
+	private static Animation lockAnimation = Animation.make("door-lock");
 	private AnimationData animation;
+	private AnimationData locked = lockAnimation.get("idle");
+	private AnimationData unlock = lockAnimation.get("unlock");
+	private AnimationData lockAnim;
+
 	public boolean autoLock;
+	public boolean lockable;
 	public boolean lock;
 	public Room[] rooms = new Room[2];
 
@@ -59,20 +65,21 @@ public class Door extends SaveableEntity {
 	public void update(float dt) {
 		if (this.body == null) {
 			this.body = this.createBody(this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
-				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !this.autoLock);
+				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));
 			this.body.setTransform(this.x, this.y, 0);
 
-			if (this.autoLock) {
-				MassData data = new MassData();
-				data.mass = 10000000f;
-				this.body.setMassData(data);
+			MassData data = new MassData();
+			data.mass = 10000000f;
+			this.body.setMassData(data);
 
+			if (this.autoLock) {
 				this.animation.setPaused(false);
 			}
 		}
 
+		boolean last = this.lock;
+
 		if (this.autoLock) {
-			boolean last = this.lock;
 			this.lock = false;
 
 			for (int i = 0; i < 2; i++) {
@@ -93,14 +100,6 @@ public class Door extends SaveableEntity {
 					}
 				}
 			}
-
-			if (this.lock && !last) {
-				this.animation.setBack(true);
-				this.animation.setPaused(false);
-			} else if (!this.lock && last) {
-				this.animation.setBack(false);
-				this.animation.setPaused(false);
-			}
 		}
 
 		super.update(dt);
@@ -112,6 +111,31 @@ public class Door extends SaveableEntity {
 					this.animation.setPaused(false);
 				}
 			}
+		}
+
+		if (this.lockAnim != null) {
+			if (this.lockAnim.update(dt)) {
+				if (this.lockAnim == this.unlock) {
+					this.lock = false;
+					this.lockAnim = null;
+
+					Log.info("Door unlocked");
+				}
+			}
+		}
+
+		if (this.lock && this.lockAnim == null) {
+			this.lockAnim = this.locked;
+		}
+
+		if (this.lock && !last) {
+			this.lockAnim = this.locked; // todo: anim here too
+			this.animation.setBack(true);
+			this.animation.setPaused(false);
+		} else if (!this.lock && last) {
+			this.animation.setBack(false);
+			this.animation.setPaused(false);
+			this.lockAnim = this.unlock;
 		}
 	}
 
@@ -147,6 +171,10 @@ public class Door extends SaveableEntity {
 	@Override
 	public void render() {
 		this.animation.render(this.x, this.y, false);
+
+		if (this.lockAnim != null) {
+			this.lockAnim.render(this.x + (this.vertical ? 0 : 3), this.y, false);
+		}
 	}
 
 	@Override
@@ -165,6 +193,8 @@ public class Door extends SaveableEntity {
 		this.animation.setAutoPause(true);
 
 		this.autoLock = reader.readBoolean();
+		this.lock = reader.readBoolean();
+		this.lockable = reader.readBoolean();
 
 		if (this.autoLock) {
 			this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
@@ -178,6 +208,8 @@ public class Door extends SaveableEntity {
 
 		writer.writeBoolean(this.vertical);
 		writer.writeBoolean(this.autoLock);
+		writer.writeBoolean(this.lock);
+		writer.writeBoolean(this.lockable);
 
 		if (this.autoLock) {
 			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));

@@ -26,7 +26,7 @@ public class ExitRoom extends RegularRoom {
 		Dungeon.area.add(exit);
 
 		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.LEVEL_LOCKED);
+			door.setType(Dungeon.depth == 0 ? Door.Type.ENEMY : Door.Type.LEVEL_LOCKED);
 		}
 	}
 

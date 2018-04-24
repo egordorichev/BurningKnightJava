@@ -152,6 +152,7 @@ public class Painter {
 					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED);
 					door.rooms[0] = r;
 					door.rooms[1] = n;
+					door.lockable = door.lock;
 
 					level.addSaveable(door);
 					Dungeon.area.add(door);
