@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import com.badlogic.gdx.audio.Sound;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.ChargeFx;
@@ -26,6 +28,7 @@ public class Lamp extends Item {
 	public float val = Dungeon.type == Dungeon.Type.INTRO ? 90f : 100f;
 	private boolean lightUp;
 	private boolean added;
+	private static Sound[] sfx;
 
 	@Override
 	public void setOwner(Creature owner) {
@@ -59,6 +62,7 @@ public class Lamp extends Item {
 		super.use();
 
 		this.lightUp = !this.lightUp;
+		this.play();
 	}
 
 	@Override
@@ -136,5 +140,19 @@ public class Lamp extends Item {
 				BurningKnight.instance.attackTp = true;
 			}
 		}
+
+		this.play();
+	}
+
+	private void play() {
+		if (sfx == null) {
+			sfx = new Sound[4];
+
+			for (int i = 1; i < 5; i++) {
+				sfx[i - 1] = Graphics.getSound("curse_lamp_1");
+			}
+		}
+
+		sfx[Random.newInt(4)].play();
 	}
 }
