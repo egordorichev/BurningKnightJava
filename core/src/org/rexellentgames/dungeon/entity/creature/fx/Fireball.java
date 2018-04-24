@@ -33,8 +33,8 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public boolean noMove;
 	public boolean bad = true;
 	public Vector2 vel;
-	public static Sound cast = Graphics.getSound("sfx/fireball_cast_sfx.wav");
-	public static Sound brk = Graphics.getSound("sfx/fireball_break_sfx.wav");
+	public static Sound cast = Graphics.getSound("fireball_death");
+	public static Sound brk = Graphics.getSound("fireball_break");
 
 	@Override
 	public Body getBody() {

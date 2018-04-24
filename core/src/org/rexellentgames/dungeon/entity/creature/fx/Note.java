@@ -36,7 +36,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 			sounds = new Sound[5];
 
 			for (int i = 1; i < 6; i++) {
-				sounds[i - 1] = Graphics.getSound("sfx/ukulele_" + i + "_sfx.wav");
+				sounds[i - 1] = Graphics.getSound("ukulele_" + i);
 			}
 		}
 

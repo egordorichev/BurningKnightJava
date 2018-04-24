@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.assets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.util.Log;
 
@@ -37,23 +40,11 @@ public class Graphics {
 		manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-		manager.load("sfx/Bomb_exploding.wav", Sound.class);
-		manager.load("sfx/Bomb_placing.wav", Sound.class);
-		manager.load("sfx/Potion.wav", Sound.class);
-		manager.load("sfx/Scroll.wav", Sound.class);
-		manager.load("sfx/Woosh.wav", Sound.class);
-		manager.load("sfx/woosh_towelknight.wav", Sound.class);
-		manager.load("sfx/BK_sfx.wav", Sound.class);
-		manager.load("sfx/fireball_cast_sfx.wav", Sound.class);
-		manager.load("sfx/fireball_break_sfx.wav", Sound.class);
+		JsonReader reader = new JsonReader();
+		JsonValue root = reader.parse(Gdx.files.internal("sfx/sfx.json"));
 
-		for (int i = 1; i < 6; i++) {
-			manager.load("sfx/step_gobbo_normal_" + i + ".wav", Sound.class);
-			manager.load("sfx/step_gobbo_water_" + i + ".wav", Sound.class);
-		}
-
-		for (int i = 1; i < 6; i++) {
-			manager.load("sfx/ukulele_" + i + "_sfx.wav", Sound.class);
+		for (JsonValue name : root) {
+			manager.load("sfx/" + name.toString() + ".wav", Sound.class);
 		}
 
 		generateFont("fonts/small.ttf", 16);
@@ -70,7 +61,7 @@ public class Graphics {
 	}
 
 	public static Sound getSound(String sfx) {
-		return manager.get(sfx, Sound.class);
+		return manager.get("sfx/" + sfx + ".wav", Sound.class);
 	}
 
 	public static TextureRegion getTexture(String name) {
