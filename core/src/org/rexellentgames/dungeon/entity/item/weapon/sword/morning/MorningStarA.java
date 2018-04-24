@@ -8,5 +8,6 @@ public class MorningStarA extends MorningStar {
 		name = Locale.get("morning_a");
 		description = Locale.get("morning_a_desc");
 		damage = 5;
+		minDamage = 5;
 	}
 }

@@ -25,6 +25,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC;
 
 import java.util.HashMap;
 
@@ -40,6 +42,8 @@ public class ItemRegistry {
 		register("butcher_b", ButcherB.class);
 		register("butcher_c", ButcherC.class);
 		register("morning_a", MorningStarA.class);
+		register("morning_b", MorningStarB.class);
+		register("morning_c", MorningStarC.class);
 		register("the_sword", TheSword.class);
 		register("gold", Gold.class);
 		register("healing_potion", HealingPotion.class);

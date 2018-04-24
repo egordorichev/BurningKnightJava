@@ -16,10 +16,15 @@ import org.rexellentgames.dungeon.util.Random;
 public class Weapon extends Item {
 	protected Body body;
 	protected int damage = 1;
+	protected int minDamage = 1;
 	protected float knockback = 10f;
 	protected boolean penetrates = false;
 	private boolean used = false;
 	protected float added;
+
+	public Weapon() {
+		minDamage = damage / 3 * 2;
+	}
 
 	{
 		identified = true;
@@ -130,7 +135,7 @@ public class Weapon extends Item {
 			this.used = true;
 			this.onHit(creature);
 
-			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloat(this.damage / 3 * 2, this.damage))));
+			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloat(this.minDamage, this.damage))));
 		} else if (entity instanceof Weapon) {
 			if (this.isBlocking()) {
 				Weapon weapon = ((Weapon) entity);
