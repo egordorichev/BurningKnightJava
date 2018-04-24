@@ -130,7 +130,7 @@ public class Sword extends Weapon {
 		}
 
 		Graphics.render(sprite, xx, yy,
-			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, false, false);
+			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 
 		if (this.blockbox != null) {
 			float a = (float) Math.toRadians(angle);

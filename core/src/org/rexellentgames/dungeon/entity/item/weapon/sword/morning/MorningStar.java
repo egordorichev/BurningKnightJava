@@ -4,6 +4,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 
 public class MorningStar extends Sword {
 	{
-
+		useTime = 1.5f;
 	}
 }
