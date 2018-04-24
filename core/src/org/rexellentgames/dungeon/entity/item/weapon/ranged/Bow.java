@@ -8,6 +8,11 @@ import org.rexellentgames.dungeon.game.input.Input;
 public class Bow extends Item {
 	protected int damage;
 
+	{
+		auto = true;
+		identified = true;
+	}
+
 	@Override
 	public void use() {
 		if (!(this.owner instanceof Player)) {

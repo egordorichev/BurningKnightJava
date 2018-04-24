@@ -120,19 +120,24 @@ public class UiInventory extends UiEntity {
 		}
 
 		if (!this.handled && !Player.instance.isDead()) {
-			if (Input.instance.wasPressed("mouse0")) {
-				Item slot = this.inventory.getSlot(this.active);
+			Item slot = this.inventory.getSlot(this.active);
 
+			if (Input.instance.wasPressed("mouse0")) {
 				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
+					slot.setOwner(Player.instance);
 					slot.use();
 				}
 			} else if (Input.instance.wasPressed("mouse1")) {
-				Item slot = this.inventory.getSlot(this.active);
-
 				if (slot != null && slot.isUseable() && slot.getDelay() == 0) {
 					slot.setOwner(Player.instance);
 					slot.secondUse();
 				}
+			} else if (Input.instance.isDown("mouse0") && slot.isAuto() && slot.getDelay() == 0) {
+				slot.setOwner(Player.instance);
+				slot.use();
+			} else if (Input.instance.isDown("mouse1") && slot.isAuto() && slot.getDelay() == 0) {
+				slot.setOwner(Player.instance);
+				slot.secondUse();
 			}
 		}
 
