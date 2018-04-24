@@ -27,6 +27,7 @@ public class ItemHolder extends SaveableEntity {
 	private int hy;
 	public int hw;
 	public int hh;
+	public boolean auto;
 
 	@Override
 	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
