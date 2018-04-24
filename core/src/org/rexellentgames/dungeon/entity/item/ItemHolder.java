@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -102,8 +103,19 @@ public class ItemHolder extends SaveableEntity {
 			}
 
 			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround) {
-				this.falling = true;
-				this.t = 0;
+				if (this.item.isFlying()) {
+					float dx = Player.instance.x + Player.instance.w / 2 - this.x - this.hw / 2;
+					float dy = Player.instance.y + Player.instance.h / 2 - this.y - this.hh / 2;
+					float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+					if (d > 3) {
+						this.vel.x += dx / d * 10f;
+						this.vel.y += dy / d * 10f;
+					}
+				} else {
+					this.falling = true;
+					this.t = 0;
+				}
 			}
 		}
 

@@ -24,6 +24,11 @@ public class Item extends Entity {
 	protected Creature owner;
 	protected TextureRegion region;
 	protected boolean auto = false;
+	protected boolean fly = false;
+
+	public boolean isFlying() {
+		return this.fly;
+	}
 
 	public void onPickup() {
 
