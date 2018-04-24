@@ -13,7 +13,7 @@ public class SwordA extends Sword {
 		useTime = 0.4f;
 	}
 
-	private static Sound sfx = Graphics.getSound("sfx/woosh_towelknight.wav");
+	private static Sound sfx = Graphics.getSound("sword_2");
 
 	@Override
 	public Sound getSfx() {

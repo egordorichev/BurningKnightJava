@@ -30,7 +30,7 @@ public class Sword extends Weapon {
 	protected float timeA = 0.1f;
 	protected float timeB = 0.1f;
 
-	private static Sound slash = Graphics.getSound("sfx/Woosh.wav");
+	private static Sound slash = Graphics.getSound("sword_1");
 
 	@Override
 	public boolean isBlocking() {

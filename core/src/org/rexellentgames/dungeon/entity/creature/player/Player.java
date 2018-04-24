@@ -186,8 +186,8 @@ public class Player extends Creature {
 			waterSteps = new Sound[5];
 
 			for (int i = 1; i < 6; i++) {
-				steps[i - 1] = Graphics.getSound("sfx/step_gobbo_normal_" + i + ".wav");
-				waterSteps[i - 1] = Graphics.getSound("sfx/step_gobbo_water_" + i + ".wav");
+				steps[i - 1] = Graphics.getSound("step_gobbo_" + i);
+				waterSteps[i - 1] = Graphics.getSound("step_gobbo_water_" + i);
 			}
 		}
 

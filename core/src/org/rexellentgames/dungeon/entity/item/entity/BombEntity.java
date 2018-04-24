@@ -18,8 +18,8 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BombEntity extends Entity {
-	private static Sound place = Graphics.getSound("sfx/Bomb_placing.wav");
-	private static Sound explode = Graphics.getSound("sfx/Bomb_exploding.wav");
+	private static Sound place = Graphics.getSound("bomb_placed");
+	private static Sound explode = Graphics.getSound("explosion");
 
 	public static Animation animations = Animation.make("actor-bomb");
 	private AnimationData animation = animations.get("idle");

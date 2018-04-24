@@ -11,7 +11,7 @@ import org.rexellentgames.dungeon.util.Tween;
 public class Potion extends Consumable {
 	protected float added;
 	protected ChangableRegistry.Type type;
-	private static Sound sound = Graphics.getSound("sfx/Potion.wav");
+	private static Sound sound = Graphics.getSound("potion");
 
 	{
 		useTime = 10f;

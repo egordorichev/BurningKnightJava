@@ -40,7 +40,7 @@ public class BurningKnight extends Mob {
 	private AnimationData animation;
 	public int lock;
 	private long sid;
-	private static Sound sfx = Graphics.getSound("sfx/BK_sfx.wav");
+	private static Sound sfx = Graphics.getSound("bk");
 
 	{
 		mind = Mind.ATTACKER;

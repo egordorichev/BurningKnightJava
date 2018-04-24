@@ -37,7 +37,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC;
 import java.util.HashMap;
 
 public class ItemRegistry {
-	public static HashMap<String, Class<? extends Item>> items = new HashMap<String, Class<? extends Item>>();
+	public static HashMap<String, Class<? extends Item>> items = new HashMap<>();
 
 	static {
 		register("dagger", Dagger.class);
