@@ -69,6 +69,7 @@ public class Player extends Creature {
 
 	private static Sound[] steps;
 	private static Sound[] waterSteps;
+	private static Sound[] hurtSfx;
 
 	{
 		hpMax = 100;
@@ -184,10 +185,15 @@ public class Player extends Creature {
 		if (steps == null) {
 			steps = new Sound[5];
 			waterSteps = new Sound[5];
+			hurtSfx = new Sound[5];
 
 			for (int i = 1; i < 6; i++) {
 				steps[i - 1] = Graphics.getSound("step_gobbo_" + i);
 				waterSteps[i - 1] = Graphics.getSound("step_gobbo_water_" + i);
+			}
+
+			for (int i = 1; i < 4; i++) {
+				hurtSfx[i - 1] = Graphics.getSound("voice_gobbo_" + i);
 			}
 		}
 
@@ -225,10 +231,10 @@ public class Player extends Creature {
 	}
 
 	@Override
-	public void modifyHp(int amount) {
+	protected void onHurt() {
+		super.onHurt();
 
-
-		super.modifyHp(amount);
+		hurtSfx[Random.newInt(3)].play();
 	}
 
 	@Override
