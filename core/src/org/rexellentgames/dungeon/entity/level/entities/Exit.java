@@ -24,10 +24,16 @@ public class Exit extends SaveableEntity {
 	private LadderFx fx;
 	private static TextureRegion region;
 
+
+	public static Exit instance;
 	private byte type;
 
 	public void setType(byte type) {
 		this.type = type;
+
+		if (type == Entrance.NORMAL) {
+			instance = this;
+		}
 	}
 
 	public byte getType() {
@@ -61,6 +67,10 @@ public class Exit extends SaveableEntity {
 			if (Dungeon.ladderId == this.type) {
 				Player.REGISTERED = true;
 			}
+		}
+
+		if (this.type == Entrance.NORMAL) {
+			instance = this;
 		}
 	}
 

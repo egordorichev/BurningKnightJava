@@ -80,6 +80,7 @@ public class ItemRegistry {
 		register("worm_hole", WormHole.class);
 		register("mana_spell", ManaSpell.class);
 		register("key", Key.class);
+		register("compass", Compass.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {
