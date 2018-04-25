@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import com.badlogic.gdx.audio.Sound;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Random;
 
 public class Gold extends Item {
@@ -11,6 +13,14 @@ public class Gold extends Item {
 		useable = false;
 		description = "$$$";
 		identified = true;
+	}
+
+	private static Sound sfx = Graphics.getSound("coin");
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		sfx.play();
 	}
 
 	@Override
