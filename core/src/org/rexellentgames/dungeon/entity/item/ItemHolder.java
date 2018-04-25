@@ -121,6 +121,8 @@ public class ItemHolder extends SaveableEntity {
 
 		if (this.item instanceof Lamp) {
 			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 3f, false);
+		} else if (this.item instanceof Key) {
+			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 1, 1, 0, 2f, 2f, false);
 		}
 	}
 
