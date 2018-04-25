@@ -79,12 +79,10 @@
 	"the_sword_desc" : "OP EZ GG",
 	"worm_hole" : "Worm Hole",
 	"worm_hole_desc" : "Sucks projectiles very well",
-	"key" : "Key",
-	"key_desc" : "A big and heavy iron key",
+	"key" : "Exit Door Key",
+	"key_desc" : "Opens the level exit",
 	"bullet_a" : "Iron bullet",
 	"bullet_a_desc" : "Nothing interesting, tbh",
-
-
 
 
 	"dialog_bk_its_you_again" : "So it's you again? {WAIT}You think, you can changing something this time?",

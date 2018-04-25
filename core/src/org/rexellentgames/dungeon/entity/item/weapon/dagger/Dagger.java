@@ -11,10 +11,9 @@ import org.rexellentgames.dungeon.game.input.Input;
 public class Dagger extends Sword {
 	{
 		knockback = 30f;
-		useTime = 0.2f;
+		useTime = 0.3f;
 		auto = true;
 	}
-
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {

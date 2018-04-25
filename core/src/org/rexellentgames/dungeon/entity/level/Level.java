@@ -19,6 +19,8 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
+import org.rexellentgames.dungeon.entity.level.entities.chest.WoodenChest;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -1116,6 +1118,30 @@ public abstract class Level extends Entity {
 			this.addSaveable(holder);
 			this.area.add(holder);
 		}
+
+		for (int i = 0; i < this.getNumChests(); i++) {
+			Chest chest = new WoodenChest();
+			Point point = null;
+
+			while (point == null) {
+				point = this.getRandomFreePoint(RegularRoom.class);
+			}
+
+			chest.x = point.x * 16 - 5;
+			chest.y = point.y * 16;
+
+			Item item = chest.generate();
+			item.generate();
+
+			chest.setItem(item);
+
+			Dungeon.area.add(chest);
+			Dungeon.level.addSaveable(chest);
+		}
+	}
+
+	protected int getNumChests() {
+		return Dungeon.depth == 0 ? 0 : Random.newInt(2, 5);
 	}
 
 	public void spawnCreatures() {

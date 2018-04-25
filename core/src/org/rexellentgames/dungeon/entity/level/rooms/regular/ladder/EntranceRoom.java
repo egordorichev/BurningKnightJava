@@ -27,22 +27,6 @@ public class EntranceRoom extends RegularRoom {
 
 		level.addSaveable(entrance);
 		Dungeon.area.add(entrance);
-
-		// Debug
-
-		Chest chest = new WoodenChest();
-		point = this.getRandomCell();
-
-		chest.x = point.x * 16;
-		chest.y = point.y * 16;
-
-		Item item = chest.generate();
-		item.generate();
-
-		chest.setItem(item);
-
-		Dungeon.area.add(chest);
-		Dungeon.level.addSaveable(chest);
 	}
 
 	@Override
