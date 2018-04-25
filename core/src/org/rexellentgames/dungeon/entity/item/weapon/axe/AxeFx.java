@@ -24,6 +24,7 @@ public class AxeFx extends Entity {
 	public Entity owner;
 	public boolean penetrates;
 	public Class<? extends Axe> type;
+	public int speed;
 
 	@Override
 	public void init() {
@@ -34,8 +35,8 @@ public class AxeFx extends Entity {
 		this.depth = 9;
 
 		this.vel = new Point(
-			(float) Math.cos(a) * 520,
-			(float) Math.sin(a) * 520
+			(float) Math.cos(a) * this.speed,
+			(float) Math.sin(a) * this.speed
 		);
 
 		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);

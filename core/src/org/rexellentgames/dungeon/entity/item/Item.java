@@ -26,6 +26,10 @@ public class Item extends Entity {
 	protected boolean auto = false;
 	protected boolean fly = false;
 
+	public void generate() {
+
+	}
+
 	public boolean isFlying() {
 		return this.fly;
 	}

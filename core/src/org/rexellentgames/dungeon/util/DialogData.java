@@ -91,7 +91,7 @@ public class DialogData {
 
 		if (phrase.options == null) {
 			this.toNext();
-		} else if (!this.label.hasEnded()) {
+		} else if (this.label != null && !this.label.hasEnded()) {
 			this.label.skipToTheEnd();
 			Log.info("Skipping");
 		} else {
