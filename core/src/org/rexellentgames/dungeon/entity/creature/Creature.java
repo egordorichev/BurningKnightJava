@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
-	public static final float INV_TIME = 0.4f;
+	protected float invmax = 0.4f;
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
@@ -293,7 +293,7 @@ public class Creature extends SaveableEntity {
 				return;
 			}
 
-			this.invt = INV_TIME;
+			this.invt = this.invmax;
 			hurt = true;
 		}
 

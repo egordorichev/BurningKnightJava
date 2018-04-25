@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.weapon;
+package org.rexellentgames.dungeon.entity.item.weapon.dagger;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -15,7 +15,7 @@ public class Dagger extends Sword {
 		name = Locale.get("dagger");
 		useTime = 0.3f;
 		sprite = "item (dagger)";
-		knockback = 20f;
+		knockback = 30f;
 	}
 
 
@@ -72,6 +72,4 @@ public class Dagger extends Sword {
 			this.body.setTransform(xx, yy, a);
 		}
 	}
-
-	// todo: stab
 }

@@ -67,17 +67,7 @@ public class HallLevel extends RegularLevel {
 		ArrayList<Item> items = super.generateItems();
 
 		if (Dungeon.depth != 0) {
-			for (int i = 0; i < 2; i++) {
-				items.add(Potion.random());
-			}
-
-			for (int i = 0; i < 1; i++) {
-				items.add(Spell.random());
-			}
-
-			for (int i = 0; i < 3; i++) {
-				items.add(new Gold().randomize());
-			}
+			// TODO: generate the loot here
 		}
 
 		return items;
