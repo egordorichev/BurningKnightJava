@@ -34,6 +34,7 @@ public class Door extends SaveableEntity {
 	private AnimationData animation;
 	private AnimationData locked = lockAnimation.get("idle");
 	private AnimationData unlock = lockAnimation.get("unlock");
+	private AnimationData lk = lockAnimation.get("lock");
 	private AnimationData lockAnim;
 
 	public boolean autoLock;
@@ -120,18 +121,18 @@ public class Door extends SaveableEntity {
 				if (this.lockAnim == this.unlock) {
 					this.lock = false;
 					this.lockAnim = null;
-
-					Log.info("Door unlocked");
+				} else if (this.lockAnim == this.lk) {
+					this.lockAnim = this.locked;
 				}
 			}
 		}
 
 		if (this.lock && this.lockAnim == null) {
-			this.lockAnim = this.locked;
+			this.lockAnim = this.lk;
 		}
 
 		if (this.lock && !last) {
-			this.lockAnim = this.locked; // todo: anim here too
+			this.lockAnim = this.lk;
 			this.animation.setBack(true);
 			this.animation.setPaused(false);
 		} else if (!this.lock && last) {
