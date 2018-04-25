@@ -34,7 +34,8 @@ public class LampRoom extends RegularRoom {
 			door.setType(Door.Type.ENEMY);
 		}
 
-		Camera.instance.clamp.add(new Rectangle(this.left * 16, this.top * 16, this.getWidth() * 16, this.getHeight() * 16));
+		// TODO
+		// Camera.instance.clamp.add(new Rectangle(this.left * 16, this.top * 16, this.getWidth() * 16, this.getHeight() * 16));
 	}
 
 	@Override

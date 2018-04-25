@@ -18,8 +18,7 @@ import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.Lamp;
-import org.rexellentgames.dungeon.entity.item.weapon.Dagger;
+import org.rexellentgames.dungeon.entity.item.weapon.dagger.Dagger;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -77,7 +76,8 @@ public class Player extends Creature {
 		level = 1;
 		hunger = 10;
 		alwaysActive = true;
-		// unhittable = true; // todo: remove
+		invmax = 1f;
+		unhittable = true; // todo: remove
 
 		idle = animations.get("idle");
 		run = animations.get("run");

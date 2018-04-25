@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeC;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
+import org.rexellentgames.dungeon.entity.item.weapon.dagger.Dagger;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;

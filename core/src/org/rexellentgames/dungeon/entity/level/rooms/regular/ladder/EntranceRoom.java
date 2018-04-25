@@ -4,6 +4,8 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
+import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
+import org.rexellentgames.dungeon.entity.level.entities.chest.WoodenChest;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -23,6 +25,17 @@ public class EntranceRoom extends RegularRoom {
 
 		level.addSaveable(entrance);
 		Dungeon.area.add(entrance);
+
+		// Debug
+
+		Chest chest = new WoodenChest();
+		point = this.getRandomCell();
+
+		chest.x = point.x * 16;
+		chest.y = point.y * 16;
+
+		Dungeon.area.add(chest);
+		Dungeon.level.addSaveable(chest);
 	}
 
 	@Override
