@@ -16,6 +16,9 @@ import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeC;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.Dagger;
+import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
+import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB;
+import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
@@ -41,7 +44,9 @@ public class ItemRegistry {
 	public static HashMap<String, Class<? extends Item>> items = new HashMap<>();
 
 	static {
-		register("dagger", Dagger.class);
+		register("dagger_a", DaggerA.class);
+		register("dagger_b", DaggerB.class);
+		register("dagger_c", DaggerC.class);
 		register("sword_a", SwordA.class);
 		register("sword_b", SwordB.class);
 		register("sword_c", SwordC.class);

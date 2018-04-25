@@ -10,12 +10,9 @@ import org.rexellentgames.dungeon.game.input.Input;
 
 public class Dagger extends Sword {
 	{
-		description = Locale.get("dagger_desc");
-		damage = 2;
-		name = Locale.get("dagger");
-		useTime = 0.3f;
-		sprite = "item (dagger)";
 		knockback = 30f;
+		useTime = 0.2f;
+		auto = true;
 	}
 
 

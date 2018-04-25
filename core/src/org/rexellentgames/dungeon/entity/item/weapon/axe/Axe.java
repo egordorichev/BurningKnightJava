@@ -80,6 +80,12 @@ public class Axe extends Weapon {
 
 		Axe self = this;
 
+		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
+		float s = 60f;
+
+		this.owner.vel.x += Math.cos(a) * s;
+		this.owner.vel.y += Math.sin(a) * s;
+
 		Tween.to(new Tween.Task(90, 0.2f) {
 			@Override
 			public float getValue() {
