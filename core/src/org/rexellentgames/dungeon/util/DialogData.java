@@ -91,6 +91,11 @@ public class DialogData {
 
 		if (phrase.options == null) {
 			this.toNext();
+		} else if (!this.label.hasEnded()) {
+			this.label.skipToTheEnd();
+			Log.info("Skipping");
+		} else {
+			this.toNext();
 		}
 	}
 
@@ -198,7 +203,7 @@ public class DialogData {
 
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 
-		if (phrase.options != null && phrase.options.length > 1) {
+		if (phrase.options != null && phrase.options.length > 1 && this.label != null && this.label.hasEnded()) {
 			Graphics.medium.setColor(1, 1, 1, this.oa);
 
 			for (int i = 0; i < phrase.options.length; i++) {

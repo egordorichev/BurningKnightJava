@@ -1866,14 +1866,21 @@ door-lock-idle-00
   orig: 10, 13
   offset: 0, 0
   index: -1
-door-lock-unlock-00
+door-lock-lock-00
   rotate: false
   xy: 971, 400
   size: 10, 13
   orig: 10, 13
   offset: 0, 0
   index: -1
-door-lock-unlock-01
+door-lock-unlock-03
+  rotate: false
+  xy: 971, 400
+  size: 10, 13
+  orig: 10, 13
+  offset: 0, 0
+  index: -1
+door-lock-lock-01
   rotate: false
   xy: 959, 385
   size: 10, 13
@@ -1882,12 +1889,33 @@ door-lock-unlock-01
   index: -1
 door-lock-unlock-02
   rotate: false
+  xy: 959, 385
+  size: 10, 13
+  orig: 10, 13
+  offset: 0, 0
+  index: -1
+door-lock-lock-02
+  rotate: false
   xy: 971, 385
   size: 10, 13
   orig: 10, 13
   offset: 0, 0
   index: -1
-door-lock-unlock-03
+door-lock-unlock-01
+  rotate: false
+  xy: 971, 385
+  size: 10, 13
+  orig: 10, 13
+  offset: 0, 0
+  index: -1
+door-lock-lock-03
+  rotate: false
+  xy: 932, 358
+  size: 10, 13
+  orig: 10, 13
+  offset: 0, 0
+  index: -1
+door-lock-unlock-00
   rotate: false
   xy: 932, 358
   size: 10, 13

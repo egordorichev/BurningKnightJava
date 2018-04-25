@@ -320,7 +320,7 @@ public class Player extends Creature {
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("action")) {
-				Dialog.active.toNext();
+				Dialog.active.skip();
 			}
 		}
 
@@ -455,8 +455,9 @@ public class Player extends Creature {
 			ItemHolder item = (ItemHolder) entity;
 
 			if (item.getItem().hasAutoPickup() || item.auto) {
-				this.tryToPickup(item);
-				this.area.add(new ItemPickedFx(item));
+				if (this.tryToPickup(item) && !item.auto) {
+					this.area.add(new ItemPickedFx(item));
+				}
 			} else if (!Network.SERVER && !item.falling) {
 				this.holders.add(item);
 
