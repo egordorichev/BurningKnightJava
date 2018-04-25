@@ -307,18 +307,18 @@ public class Mob extends Creature {
 	}
 
 	@Override
-	protected void die() {
+	protected void die(boolean force) {
 		if (!this.dead) {
 			this.drop = true;
 		}
 
-		if (!Player.instance.isDead()) {
+		if (!Player.instance.isDead() && !force) {
 			for (int i = 0; i < this.experienceDropped; i++) {
 				Dungeon.ui.add(new ExpFx(this.x + this.w / 2 + Random.newInt(-4, 4), this.y + this.w / 2 + Random.newInt(-4, 4)));
 			}
 		}
 
-		super.die();
+		super.die(force);
 	}
 
 	protected float moveToPoint(float x, float y, float speed) {

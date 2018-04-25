@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.entities.chest;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.item.Compass;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA;
@@ -27,13 +28,13 @@ public class WoodenChest extends Chest {
 	private static AnimationData openend = animation.get("open");
 
 	private static ArrayList<Class<? extends Item>>[] items = new ArrayList[] {
-		new ArrayList(Arrays.asList(SwordA.class, SwordB.class, AxeA.class, ButcherA.class, MorningStarA.class)),
-		new ArrayList(Arrays.asList(SwordB.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class)),
+		new ArrayList(Arrays.asList(SwordA.class, SwordB.class, AxeA.class, ButcherA.class, MorningStarA.class, Compass.class)),
+		new ArrayList(Arrays.asList(SwordB.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class)),
 	};
 
 	private static float[][] chances = new float[][] {
-		{ 1, 0.1f, 1, 1, 0.8f },
-		{ 1, 0.1f, 1.2f, 1, 1f },
+		{ 1, 0.1f, 1, 1, 0.8f, 0.3f },
+		{ 1, 0.1f, 1.2f, 1, 1f, 1f },
 	};
 
 	@Override

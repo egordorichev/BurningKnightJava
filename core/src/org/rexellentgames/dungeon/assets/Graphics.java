@@ -26,6 +26,18 @@ public class Graphics {
 	public static BitmapFont medium;
 	public static AssetManager manager;
 
+	public static void delay() {
+		delay(20);
+	}
+
+	public static void delay(int ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void init() {
 		Log.info("Init assets...");
 
