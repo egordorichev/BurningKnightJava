@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class Axe extends Weapon {
@@ -15,11 +16,19 @@ public class Axe extends Weapon {
 		penetrates = true;
 		ox = 0;
 		oy = 0;
+		auto = true;
 	}
 
 	private float added;
 	private float ox;
 	private float oy;
+	protected int speed = 520;
+
+	@Override
+	public void generate() {
+		super.generate();
+		this.count = Random.newInt(3, 7);
+	}
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
@@ -93,6 +102,7 @@ public class Axe extends Weapon {
 				fx.type = self.getClass();
 				fx.x = owner.x + (owner.w - 16) / 2;
 				fx.y = owner.y + (owner.h - 16) / 2;
+				fx.speed = speed;
 
 				fx.owner = owner;
 				fx.damage = damage;

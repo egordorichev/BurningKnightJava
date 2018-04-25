@@ -9,5 +9,6 @@ public class AxeD extends Axe {
 		damage = 20;
 		penetrates = true;
 		sprite = "item (axe D)";
+		speed = 1000;
 	}
 }

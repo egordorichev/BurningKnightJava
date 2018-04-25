@@ -8,6 +8,7 @@ public class AxeB extends Axe {
 		description = Locale.get("axe_b_desc");
 		damage = 5;
 		penetrates = true;
+		speed = 600;
 		sprite = "item (axe B)";
 	}
 }

@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
@@ -33,6 +35,11 @@ public class EntranceRoom extends RegularRoom {
 
 		chest.x = point.x * 16;
 		chest.y = point.y * 16;
+
+		Item item = chest.generate();
+		item.generate();
+
+		chest.setItem(item);
 
 		Dungeon.area.add(chest);
 		Dungeon.level.addSaveable(chest);
