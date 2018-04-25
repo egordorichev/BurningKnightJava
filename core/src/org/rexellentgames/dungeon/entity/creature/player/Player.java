@@ -486,6 +486,7 @@ public class Player extends Creature {
 		if (!item.done) {
 			if (item.getItem() instanceof Gold) {
 				item.done = true;
+				item.getItem().onPickup();
 				this.gold += item.getItem().getCount();
 				return true;
 			} else {
