@@ -19,6 +19,12 @@ public class Bow extends Item {
 			return;
 		}
 
+		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
+		float s = 60f;
+
+		this.owner.vel.x += Math.cos(a) * s;
+		this.owner.vel.y += Math.sin(a) * s;
+
 		Player player = (Player) this.owner;
 
 		if (!player.getInventory().find(Arrow.class)) {

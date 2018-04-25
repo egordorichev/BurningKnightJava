@@ -19,6 +19,7 @@ import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.Dagger;
+import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -133,15 +134,8 @@ public class Player extends Creature {
 
 	public void generate() {
 		if (Dungeon.type != Dungeon.Type.INTRO) {
-			this.inventory.add(new ItemHolder().setItem(new Dagger()));
+			this.inventory.add(new ItemHolder().setItem(new DaggerA()));
 		}
-
-		// this.inventory.add(new ItemHolder().setItem(new Lamp()));
-
-		/*this.inventory.add(new ItemHolder().setItem(new CabbageSeed().setCount(100)));
-		this.inventory.add(new ItemHolder().setItem(new SunPotion().setCount(100)));
-		this.inventory.add(new ItemHolder().setItem(new HealingPotion().setCount(100)));
-		this.inventory.add(new ItemHolder().setItem(new SpeedPotion().setCount(100)));*/
 	}
 
 	public float getHunger() {
