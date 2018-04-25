@@ -118,6 +118,20 @@ public class Creature extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.hp == 0 && !this.dead) {
+			this.die(true);
+		}
+
+		if (this.remove) {
+			this.destroy();
+			this.remove = false;
+		}
+
+		if (this.dead) {
+			return;
+		}
+
 		this.vel.mul(0.9f);
 
 		if (this.body != null) {
@@ -325,38 +339,19 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void die() {
+		this.die(false);
+	}
+
+	protected void die(boolean force) {
 		if (this.dead) {
 			return;
 		}
 
-		Tween.to(new Tween.Task(0, 1f) {
-			@Override
-			public float getValue() {
-				return a;
-			}
-
-			@Override
-			public void setValue(float value) {
-				a = value;
-			}
-
-			@Override
-			public float function(float p) {
-				return p;
-			}
-
-			@Override
-			public void onEnd() {
-				done = true;
-			}
-		});
-
+		this.remove = true;
 		this.dead = true;
-
-		if (Dungeon.level != null) {
-			Dungeon.level.removeSaveable(this);
-		}
 	}
+
+	private boolean remove;
 
 	protected void renderBuffs() {
 		for (Buff buff : this.buffs.values()) {
