@@ -1,10 +1,13 @@
 package org.rexellentgames.dungeon.entity.plant;
 
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -13,6 +16,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -69,11 +73,20 @@ public class Plant extends SaveableEntity {
 				this.growProgress = 1;
 			}
 		}
+
+		this.sz = Math.max(1, this.sz - this.sz * dt);
 	}
+
+	private float sz = 1f;
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y - 4, false, false, (int) Math.floor(this.growProgress * 2));
+		TextureRegion sprite = this.animation.getFrames().get((int) Math.floor(this.growProgress * 2)).frame;
+
+		float a = (float) (Math.sin(this.t * 2.5f) * Math.cos(this.t * 1.5f) * 5) * this.sz;
+
+		Graphics.render(sprite, this.x + sprite.getRegionWidth() / 2,
+			this.y - 4, a, sprite.getRegionWidth() / 2, 0, false, false);
 	}
 
 	@Override
@@ -88,6 +101,8 @@ public class Plant extends SaveableEntity {
 
 		this.body.setTransform(this.x, this.y - 4, 0);
 		this.growProgress = reader.readFloat();
+
+		this.t = Random.newFloat(128);
 	}
 
 	@Override
@@ -98,6 +113,18 @@ public class Plant extends SaveableEntity {
 			this.done = true;
 			this.broke = true;
 			Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
+		} else if (entity instanceof Creature) {
+			Tween.to(new Tween.Task(5f, 0.3f) {
+				@Override
+				public float getValue() {
+					return sz;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sz = value;
+				}
+			});
 		}
 	}
 
