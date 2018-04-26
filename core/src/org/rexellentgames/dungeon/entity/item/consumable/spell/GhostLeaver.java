@@ -17,7 +17,6 @@ public class GhostLeaver extends Spell {
 		super.use();
 
 		Player.instance.addBuff(new InvisibilityBuff().setDuration(1000000000));
-		this.setCount(this.getCount() - 1);
 
 		Player player = new GhostPlayer();
 		Dungeon.area.add(player);

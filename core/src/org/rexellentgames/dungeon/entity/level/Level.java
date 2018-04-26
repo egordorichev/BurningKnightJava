@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -518,6 +519,8 @@ public abstract class Level extends Entity {
 			room.numEnemies = 0;
 		}
 
+
+
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;
@@ -572,6 +575,34 @@ public abstract class Level extends Entity {
 				}
 			}
 		}
+
+
+
+		Graphics.batch.setColor(1, 1, 1, 0.5f);
+		// TODO: zoom support
+		Texture texture = Graphics.shadows.getColorBufferTexture();
+
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Graphics.batch.draw(texture,
+			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2,
+			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, Display.GAME_HEIGHT,
+			0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, true);
+
+		Graphics.batch.setColor(1, 1, 1, 1f);
+
+		Graphics.batch.end();
+		Graphics.shadows.begin();
+
+		Graphics.batch.begin();
+
+		Gdx.gl.glClearColor(0, 0, 0, 0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+		Graphics.batch.end();
+
+		Graphics.shadows.end();
+		Graphics.batch.begin();
 	}
 
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
