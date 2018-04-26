@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item.weapon.ranged;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -19,12 +21,6 @@ public class Bow extends Item {
 			return;
 		}
 
-		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
-		float s = 60f;
-
-		this.owner.vel.x += Math.cos(a) * s;
-		this.owner.vel.y += Math.sin(a) * s;
-
 		Player player = (Player) this.owner;
 
 		if (!player.getInventory().find(Arrow.class)) {
@@ -33,6 +29,12 @@ public class Bow extends Item {
 
 		player.getInventory().remove(Arrow.class);
 		super.use();
+
+		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
+		float s = 60f;
+
+		this.owner.vel.x += Math.cos(a) * s;
+		this.owner.vel.y += Math.sin(a) * s;
 
 		ArrowEntity arrow = new ArrowEntity();
 
@@ -47,5 +49,18 @@ public class Bow extends Item {
 		arrow.damage = this.damage;
 
 		Dungeon.area.add(arrow);
+	}
+
+	@Override
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		TextureRegion s = this.getSprite();
+		float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
+		float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
+		float a = (float) Math.toDegrees(Math.atan2(dy, dx));
+
+		Graphics.startShadows();
+		// Graphics.render(s, x + w / 2, y - h, -a, -4, s.getRegionHeight() / 2, false, false, 1, -0.5f);
+		Graphics.endShadows();
+		// Graphics.render(s, x + w / 2, y + h / 2, a, -4, s.getRegionHeight() / 2, false, false);
 	}
 }
