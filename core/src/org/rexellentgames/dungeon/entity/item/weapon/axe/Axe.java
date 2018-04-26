@@ -69,6 +69,10 @@ public class Axe extends Weapon {
 			float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
 			float yy = y + (this.ox == 0 ? h / 4 : h / 2);
 
+			Graphics.startShadows();
+			Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy - h / 2,
+				-angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false, 1f, -0.5f);
+			Graphics.endShadows();
 			Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy,
 				angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 		}
