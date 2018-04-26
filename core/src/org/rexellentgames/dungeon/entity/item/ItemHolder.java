@@ -68,7 +68,7 @@ public class ItemHolder extends SaveableEntity {
 
 		super.update(dt);
 		this.x = this.body.getPosition().x;
-		this.y = this.body.getPosition().y;
+		this.y = this.body.getPosition().y - this.z;
 
 		this.vel.mul(0.9f);
 
@@ -83,11 +83,11 @@ public class ItemHolder extends SaveableEntity {
 			this.x = Math.round(this.x);
 			this.y = Math.round(this.y);
 
-			this.z += Math.cos(this.t * 4f) / 5f * (this.sz / 2);
+			this.z += Math.cos(this.t * 4f) / 10f * (this.sz / 2);
 
 			this.z = MathUtils.clamp(0, 5f, this.z);
 
-			this.body.setTransform(this.x, this.y, 0);
+			this.body.setTransform(this.x, this.y + this.z, 0);
 		}
 
 		if (Dungeon.level != null && !this.falling) {
@@ -188,7 +188,7 @@ public class ItemHolder extends SaveableEntity {
 			float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
 			Graphics.batch.setColor(0, 0, 0, 0.5f);
-			Graphics.render(sprite, this.x, this.y - h / 2, a, 0, 0, false, false, 1, sy / 2);
+			Graphics.render(sprite, this.x + w / 2, this.y - h / 2, a, w / 2,  h /2, false, false, 1, sy / 2);
 			Graphics.batch.setColor(1, 1, 1, 1);
 			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
 				w / 2, h / 2, false, false, 1f, sy);

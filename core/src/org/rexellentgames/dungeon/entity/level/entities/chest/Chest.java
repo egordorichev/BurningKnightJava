@@ -1,8 +1,10 @@
 package org.rexellentgames.dungeon.entity.level.entities.chest;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -95,6 +97,8 @@ public class Chest extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.t += dt;
+
 		if (this.item != null && this.create) {
 			ItemHolder holder = new ItemHolder();
 
@@ -119,7 +123,20 @@ public class Chest extends SaveableEntity {
 
 	@Override
 	public void render() {
-		this.data.render(this.x, this.y, false);
+		TextureRegion sprite = this.data.getCurrent().frame;
+
+		int w = sprite.getRegionWidth();
+		int h = sprite.getRegionHeight();
+
+		float a = (float) Math.cos(this.t * 3f) * 2f;
+		float sx = (float) (1f + Math.cos(this.t * 4f) / 13f);
+		float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
+
+		Graphics.batch.setColor(0, 0, 0, 0.5f);
+		Graphics.render(sprite, this.x + w / 2, this.y - 3, a, w / 2, h / 2, false, false, sx, -sy / 2);
+		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.render(sprite, this.x + w / 2, this.y + h / 2, a,
+			w / 2, h / 2, false, false, sx, sy);
 	}
 
 	protected AnimationData getClosedAnim() {
