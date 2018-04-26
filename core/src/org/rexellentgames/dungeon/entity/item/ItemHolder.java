@@ -22,7 +22,7 @@ import java.lang.reflect.Constructor;
 public class ItemHolder extends SaveableEntity {
 	private Body body;
 	private Item item;
-	private boolean set;
+
 	public boolean falling;
 	private int hx;
 	private int hy;
@@ -60,11 +60,6 @@ public class ItemHolder extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		this.t += dt;
-
-		if (!this.set) {
-			this.set = true;
-			this.body.setTransform(this.x, this.y, 0);
-		}
 
 		super.update(dt);
 		this.x = this.body.getPosition().x;
@@ -135,6 +130,7 @@ public class ItemHolder extends SaveableEntity {
 		super.init();
 
 		this.depth = -1;
+		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	@Override
@@ -197,6 +193,8 @@ public class ItemHolder extends SaveableEntity {
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}
+		
+		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	public ItemHolder setItem(Item item) {

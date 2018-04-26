@@ -1141,7 +1141,7 @@ public abstract class Level extends Entity {
 	}
 
 	protected int getNumChests() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt(2, 5);
+		return Dungeon.depth <= 0 ? 0 : Random.newInt(2, 5);
 	}
 
 	public void spawnCreatures() {

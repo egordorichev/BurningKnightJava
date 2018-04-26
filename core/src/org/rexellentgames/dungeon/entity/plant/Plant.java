@@ -37,6 +37,12 @@ public class Plant extends SaveableEntity {
 		this.burning = this.canBurn;
 	}
 
+	public AnimationData getWiltAnimation() {
+		return null;
+	}
+
+	private boolean dead;
+
 	@Override
 	public void init() {
 		super.init();
@@ -52,6 +58,38 @@ public class Plant extends SaveableEntity {
 		super.update(dt);
 		this.t += dt;
 
+		if (this.dead) {
+			if (this.growProgress == 1f && !Dungeon.reset && this.broke) {
+				ArrayList<Item> drops = this.getDrops();
+
+				for (Item item : drops) {
+					ItemHolder holder = new ItemHolder();
+
+					holder.setItem(item);
+					holder.x = this.x + Random.newInt(-8, 8);
+					holder.y = this.y + Random.newInt(-8, 8);
+					holder.randomVel();
+
+					Dungeon.area.add(holder);
+					Dungeon.level.addSaveable(holder);
+				}
+
+				for (int i = 0; i < 10; i++) {
+					PlantFx fx = new PlantFx();
+
+					fx.x = this.x + Random.newInt(-4, 4) + 8;
+					fx.y = this.y + Random.newInt(-4, 4) + 8;
+
+					Dungeon.area.add(fx);
+				}
+
+				this.broke = false;
+			}
+
+			this.sz = Math.max(1, this.sz - this.sz * dt);
+			return;
+		}
+
 		if (this.burning) {
 			this.health -= dt;
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 1f, 0.9f, 0f, 0.9f, 3f, false);
@@ -61,7 +99,8 @@ public class Plant extends SaveableEntity {
 			}
 
 			if (this.health <= 0) {
-				this.done = true;
+				this.dead = true;
+				this.animation = this.getWiltAnimation();
 			}
 		}
 
@@ -74,14 +113,14 @@ public class Plant extends SaveableEntity {
 			}
 		}
 
-		this.sz = Math.max(1, this.sz - this.sz * dt);
 	}
 
 	private float sz = 1f;
 
 	@Override
 	public void render() {
-		TextureRegion sprite = this.animation.getFrames().get((int) Math.floor(this.growProgress * 2)).frame;
+		TextureRegion sprite = this.animation.getFrames().get(
+			this.animation == this.getWiltAnimation() ? 0 : (int) Math.floor(this.growProgress * 2)).frame;
 
 		float a = (float) (Math.sin(this.t * 2.5f) * Math.cos(this.t * 1.5f) * 5) * this.sz;
 
@@ -93,6 +132,7 @@ public class Plant extends SaveableEntity {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeFloat(this.growProgress);
+		writer.writeBoolean(this.dead);
 	}
 
 	@Override
@@ -102,6 +142,12 @@ public class Plant extends SaveableEntity {
 		this.body.setTransform(this.x, this.y - 4, 0);
 		this.growProgress = reader.readFloat();
 
+		this.dead = reader.readBoolean();
+
+		if (this.dead) {
+			this.animation = this.getWiltAnimation();
+		}
+
 		this.t = Random.newFloat(128);
 	}
 
@@ -110,7 +156,8 @@ public class Plant extends SaveableEntity {
 		super.onCollision(entity);
 
 		if (entity instanceof Weapon && this.growProgress == 1f) {
-			this.done = true;
+			this.dead = true;
+			this.animation = this.getWiltAnimation();
 			this.broke = true;
 			Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
 		} else if (entity instanceof Creature) {
@@ -136,31 +183,6 @@ public class Plant extends SaveableEntity {
 	public void destroy() {
 		super.destroy();
 		this.body.getWorld().destroyBody(this.body);
-
-		if (this.growProgress == 1f && !Dungeon.reset && this.broke) {
-			ArrayList<Item> drops = this.getDrops();
-
-			for (Item item : drops) {
-				ItemHolder holder = new ItemHolder();
-
-				holder.setItem(item);
-				holder.x = this.x + Random.newInt(-8, 8);
-				holder.y = this.y + Random.newInt(-8, 8);
-				holder.randomVel();
-
-				Dungeon.area.add(holder);
-				Dungeon.level.addSaveable(holder);
-			}
-
-			for (int i = 0; i < 10; i++) {
-				PlantFx fx = new PlantFx();
-
-				fx.x = this.x + Random.newInt(-4, 4) + 8;
-				fx.y = this.y + Random.newInt(-4, 4) + 8;
-
-				Dungeon.area.add(fx);
-			}
-		}
 	}
 
 	public void grow() {
