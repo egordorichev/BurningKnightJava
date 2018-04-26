@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.plant;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 
 public class Lightroom extends Plant {
 	private static Animation animations = Animation.make("veggie", "-shroom");
@@ -9,6 +10,13 @@ public class Lightroom extends Plant {
 	{
 		animation = animations.get("growth");
 		alwaysActive = true;
+	}
+
+	private static AnimationData wilt = animations.get("wilt");
+
+	@Override
+	public AnimationData getWiltAnimation() {
+		return wilt;
 	}
 
 	@Override
