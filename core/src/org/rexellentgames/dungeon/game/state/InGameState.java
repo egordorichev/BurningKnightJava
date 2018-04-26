@@ -149,7 +149,7 @@ public class InGameState extends State {
 			this.exp.setMax(Player.instance.getExperienceMaxForLevel());
 		}
 
-		/*
+
 		if (Input.instance.wasPressed("z")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
@@ -178,7 +178,7 @@ public class InGameState extends State {
 					cam.zoom = value;
 				}
 			});
-		}*/
+		}
 	}
 
 	@Override

@@ -103,6 +103,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		long seed = System.currentTimeMillis();
 
+		Camera camera = new Camera();
+
 		Log.info("Setting random seed to " + seed + "...");
 		Random.random.setSeed(seed);
 
@@ -138,7 +140,7 @@ public class Dungeon extends ApplicationAdapter {
 			game.setState(new HubState());
 		}
 
-		area.add(new Camera());
+		area.add(camera);
 
 		// Todo: better way to do this
 		Graphics.getMusic("gobbeon").play();

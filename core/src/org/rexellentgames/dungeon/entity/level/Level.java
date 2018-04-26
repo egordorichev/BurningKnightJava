@@ -550,21 +550,25 @@ public abstract class Level extends Entity {
 			}
 		}
 
+		Camera.instance.viewport.apply();
+
 		Graphics.batch.setColor(1, 1, 1, 0.6f);
 		// TODO: zoom support
 		Texture texture = Graphics.shadows.getColorBufferTexture();
 
+		/*
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Camera.instance.viewport.apply();
 
 		Graphics.batch.draw(texture,
 			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2,
 			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, Display.GAME_HEIGHT,
-			0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, true);
+			0, 0, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false, true);
 
 
+		Camera.instance.viewport.apply();*/
 		Graphics.batch.setColor(1, 1, 1, 1f);
-
-
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
@@ -608,15 +612,18 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		Graphics.batch.setColor(0, 0, 0, 0.5f);
+		Graphics.batch.setColor(1, 1, 1, 0.5f);
 		// TODO: zoom support
 
+
+		Camera.instance.viewport.apply();
 		Graphics.batch.draw(texture,
+
 			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2,
 			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, Display.GAME_HEIGHT,
-			0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, true);
+			0, 0, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false, true);
 
-		Graphics.batch.setColor(1, 1, 1, 1f);
+		Graphics.batch.setColor(0, 0, 0, 0.5f);
 
 		// Clear shadows
 
@@ -625,13 +632,17 @@ public abstract class Level extends Entity {
 
 		Graphics.batch.begin();
 
-		Gdx.gl.glClearColor(0, 0, 0, 0f);
+		// broken draw pos
+
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		Graphics.batch.end();
 
 		Graphics.shadows.end();
 		Graphics.batch.begin();
+
+		Camera.instance.viewport.apply();
 	}
 
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {

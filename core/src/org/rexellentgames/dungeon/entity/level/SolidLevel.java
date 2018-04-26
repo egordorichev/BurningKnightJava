@@ -13,6 +13,6 @@ public class SolidLevel extends Entity {
 
 	@Override
 	public void render() {
-		this.level.renderSolid();
+		// this.level.renderSolid();
 	}
 }
