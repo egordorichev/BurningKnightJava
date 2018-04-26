@@ -50,7 +50,7 @@ public class Graphics {
 
 		Graphics.batch.begin();
 
-		Graphics.batch.setColor(0, 0, 0, 1f);
+		Graphics.batch.setColor(1, 1, 1, color.a);
 	}
 
 	public static void endShadows() {

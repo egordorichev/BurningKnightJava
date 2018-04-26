@@ -519,8 +519,6 @@ public abstract class Level extends Entity {
 			room.numEnemies = 0;
 		}
 
-
-
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;
@@ -537,11 +535,45 @@ public abstract class Level extends Entity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
+				byte tile = this.get(i);
+
+				if (tile == Terrain.WATER) {
+					TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
+
+					region.setRegionX(region.getRegionX() + x % 4 * 16);
+					region.setRegionY(region.getRegionY() + (3 - y % 4) * 16);
+					region.setRegionWidth(16);
+					region.setRegionHeight(16);
+
+					Graphics.render(region, x * 16, y * 16 - 8);
+				}
+			}
+		}
+
+		Graphics.batch.setColor(1, 1, 1, 0.6f);
+		// TODO: zoom support
+		Texture texture = Graphics.shadows.getColorBufferTexture();
+
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Graphics.batch.draw(texture,
+			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2,
+			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, Display.GAME_HEIGHT,
+			0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, true);
+
+
+		Graphics.batch.setColor(1, 1, 1, 1f);
+
+
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+				int i = x + y * getWidth();
 
 				if (this.low[i]) {
 					byte tile = this.get(i);
 
-					if (tile > 0 && Terrain.patterns[tile] != null) {
+					if (tile != Terrain.WATER && tile > 0 && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						region.setRegionX(region.getRegionX() + x % 4 * 16);
@@ -563,9 +595,9 @@ public abstract class Level extends Entity {
 					byte v = this.walls[i];
 
 					if (v != 15 && v % 2 == 0) {
-						Graphics.batch.setColor(0, 0, 0, 0.5f);
+						Graphics.startShadows();
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16 + 10, 0, 0, 0, false, false, 1f, -0.5f);
-						Graphics.batch.setColor(1, 1, 1, 1);
+						Graphics.endShadows();
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 
@@ -576,13 +608,8 @@ public abstract class Level extends Entity {
 			}
 		}
 
-
-
-		Graphics.batch.setColor(1, 1, 1, 0.5f);
+		Graphics.batch.setColor(0, 0, 0, 0.5f);
 		// TODO: zoom support
-		Texture texture = Graphics.shadows.getColorBufferTexture();
-
-		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.draw(texture,
 			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2,
@@ -590,6 +617,8 @@ public abstract class Level extends Entity {
 			0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1f);
+
+		// Clear shadows
 
 		Graphics.batch.end();
 		Graphics.shadows.begin();
