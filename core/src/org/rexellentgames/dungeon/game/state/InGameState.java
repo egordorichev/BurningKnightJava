@@ -1,7 +1,9 @@
 package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import org.rexellentgames.dungeon.Collisions;
@@ -147,6 +149,7 @@ public class InGameState extends State {
 			this.exp.setMax(Player.instance.getExperienceMaxForLevel());
 		}
 
+		/*
 		if (Input.instance.wasPressed("z")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
 
@@ -175,7 +178,7 @@ public class InGameState extends State {
 					cam.zoom = value;
 				}
 			});
-		}
+		}*/
 	}
 
 	@Override

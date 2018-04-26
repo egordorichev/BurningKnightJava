@@ -7,10 +7,12 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -25,6 +27,7 @@ public class Graphics {
 	public static BitmapFont small;
 	public static BitmapFont medium;
 	public static AssetManager manager;
+	public static FrameBuffer shadows;
 
 	public static void delay() {
 		delay(20);
@@ -38,12 +41,34 @@ public class Graphics {
 		}
 	}
 
+	private static Color color;
+
+	public static void startShadows() {
+		color = Graphics.batch.getColor();
+		Graphics.batch.end();
+		Graphics.shadows.begin();
+
+		Graphics.batch.begin();
+
+		Graphics.batch.setColor(0, 0, 0, 1f);
+	}
+
+	public static void endShadows() {
+		Graphics.batch.setColor(color);
+
+		Graphics.batch.end();
+
+		Graphics.shadows.end();
+		Graphics.batch.begin();
+	}
+
 	public static void init() {
 		Log.info("Init assets...");
 
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
 		manager = new AssetManager();
 		manager.load("atlas/atlas.atlas", TextureAtlas.class);
@@ -77,6 +102,11 @@ public class Graphics {
 
 		small.getData().markupEnabled = true;
 		medium.getData().markupEnabled = true;
+	}
+
+	public static void resize(int w, int h) {
+		shadows.dispose();
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, w, h, false);
 	}
 
 	public static Sound getSound(String sfx) {
@@ -158,5 +188,6 @@ public class Graphics {
 		manager.dispose();
 		batch.dispose();
 		shape.dispose();
+		shadows.dispose();
 	}
 }

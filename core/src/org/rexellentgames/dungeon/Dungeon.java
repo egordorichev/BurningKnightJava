@@ -255,6 +255,8 @@ public class Dungeon extends ApplicationAdapter {
 		if (state != null) {
 			state.resize(width, height);
 		}
+
+		Graphics.resize(width, height);
 	}
 
 	@Override

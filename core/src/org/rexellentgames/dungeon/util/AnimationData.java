@@ -93,11 +93,20 @@ public class AnimationData {
 	public void render(float x, float y, boolean flip, boolean s) {
 		if (s) {
 			Color color = Graphics.batch.getColor();
+			Graphics.batch.end();
+			Graphics.shadows.begin();
 
-			Graphics.batch.setColor(0, 0, 0, color.a / 2f);
+			Graphics.batch.begin();
+
+			Graphics.batch.setColor(0, 0, 0, 1f);
 			Graphics.render(this.current.frame, x, y - this.current.frame.getRegionHeight(), 0, 0, 0, flip, true,
 				flip ? -1f : 1f, -0.5f);
 			Graphics.batch.setColor(color);
+
+			Graphics.batch.end();
+
+			Graphics.shadows.end();
+			Graphics.batch.begin();
 		}
 
 		Graphics.render(this.current.frame, x, y, 0, 0, 0, flip, false);
@@ -112,10 +121,19 @@ public class AnimationData {
 
 		if (s) {
 			Color color = Graphics.batch.getColor();
+			Graphics.batch.end();
+			Graphics.shadows.begin();
 
-			Graphics.batch.setColor(0, 0, 0, color.a / 2f);
+			Graphics.batch.begin();
+
+			Graphics.batch.setColor(0, 0, 0, 1f);
 			Graphics.render(this.current.frame, x + ox, y + oy - this.current.frame.getRegionHeight(), a, ox, oy, flip, flipY, flip ? -1f : 1f, flipY ? 0.5f : -0.5f);
 			Graphics.batch.setColor(color);
+
+			Graphics.batch.end();
+
+			Graphics.shadows.end();
+			Graphics.batch.begin();
 		}
 
 		Graphics.render(this.current.frame, x + ox, y + oy, a, ox, oy, flip, flipY);
@@ -129,10 +147,19 @@ public class AnimationData {
 	public void render(float x, float y, boolean flip, boolean flipY, int f, boolean s) {
 		if (s) {
 			Color color = Graphics.batch.getColor();
+			Graphics.batch.end();
+			Graphics.shadows.begin();
 
-			Graphics.batch.setColor(0, 0, 0, color.a / 2f);
+			Graphics.batch.begin();
+
+			Graphics.batch.setColor(0, 0, 0, 1f);
 			Graphics.render(this.frames.get(f).frame, x, y - this.current.frame.getRegionHeight(), 0, 0, 0, flip, flipY, flip ? -1f : 1f, flipY ? 0.5f : -0.5f);
 			Graphics.batch.setColor(color);
+
+			Graphics.batch.end();
+
+			Graphics.shadows.end();
+			Graphics.batch.begin();
 		}
 
 		Graphics.render(this.frames.get(f).frame, x, y, 0, 0, 0, flip, flipY);

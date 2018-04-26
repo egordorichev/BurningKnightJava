@@ -182,6 +182,6 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, this.flip);
+		this.animation.render(this.x, this.y, this.flip, false);
 	}
 }

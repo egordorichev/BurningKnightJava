@@ -124,12 +124,13 @@ public class Plant extends SaveableEntity {
 
 		float a = (float) (Math.sin(this.t * 2.5f) * Math.cos(this.t * 1.5f) * 5) * this.sz;
 
-		Graphics.batch.setColor(0, 0, 0, 0.5f);
+		Graphics.startShadows();
 
-		Graphics.render(sprite, this.x - sprite.getRegionWidth() / 2,
-			this.y, a, sprite.getRegionWidth() / 2, 0, true, false, 1f, -0.5f);
+		Graphics.render(sprite, this.x + sprite.getRegionWidth() / 2,
+			this.y - 4, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -0.5f);
 
-		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.endShadows();
+
 		Graphics.render(sprite, this.x + sprite.getRegionWidth() / 2,
 			this.y - 4, a, sprite.getRegionWidth() / 2, 0, false, false);
 	}
@@ -161,7 +162,7 @@ public class Plant extends SaveableEntity {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if (entity instanceof Weapon && this.growProgress == 1f) {
+		if (entity instanceof Weapon && this.growProgress == 1f && !this.dead) {
 			this.dead = true;
 			this.animation = this.getWiltAnimation();
 			this.broke = true;
