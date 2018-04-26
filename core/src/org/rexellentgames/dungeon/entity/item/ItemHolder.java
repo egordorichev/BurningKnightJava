@@ -29,6 +29,7 @@ public class ItemHolder extends SaveableEntity {
 	public int hw;
 	public int hh;
 	public boolean auto;
+	private float z = 0;
 
 	@Override
 	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
@@ -66,7 +67,6 @@ public class ItemHolder extends SaveableEntity {
 		this.y = this.body.getPosition().y;
 
 		this.vel.mul(0.9f);
-		this.body.setLinearVelocity(this.vel);
 
 		if (this.falling) {
 			this.vel.mul(0);
@@ -76,6 +76,9 @@ public class ItemHolder extends SaveableEntity {
 			this.vel.mul(0);
 			this.x = Math.round(this.x);
 			this.y = Math.round(this.y);
+
+			this.z += Math.cos(this.t * 4f) / 10f;
+			this.body.setTransform(this.x, this.y, 0);
 		}
 
 		if (Dungeon.level != null && !this.falling) {
@@ -119,6 +122,8 @@ public class ItemHolder extends SaveableEntity {
 		} else if (this.item instanceof Key) {
 			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 1, 1, 0, 2f, 2f, false);
 		}
+
+		this.body.setLinearVelocity(this.vel);
 	}
 
 	protected void onTouch(short t, int x, int y) {
@@ -129,8 +134,9 @@ public class ItemHolder extends SaveableEntity {
 	public void init() {
 		super.init();
 
-		this.depth = -1;
-		this.body.setTransform(this.x, this.y, 0);
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	@Override
@@ -164,7 +170,19 @@ public class ItemHolder extends SaveableEntity {
 				false, false, s, s);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		} else {
-			Graphics.render(this.item.getSprite(), this.x, this.y);
+			TextureRegion sprite = this.item.getSprite();
+
+			int w = sprite.getRegionWidth();
+			int h = sprite.getRegionHeight();
+
+			float a = (float) Math.cos(this.t * 3f) * 8f;
+			float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
+
+			Graphics.batch.setColor(0, 0, 0, 0.5f);
+			Graphics.render(sprite, this.x, this.y - h / 2, a, 0, 0, false, false, 1, sy / 2);
+			Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
+				w / 2, h / 2, false, false, 1f, sy);
 		}
 	}
 
@@ -193,7 +211,7 @@ public class ItemHolder extends SaveableEntity {
 		} catch (Exception e) {
 			Dungeon.reportException(e);
 		}
-		
+
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
