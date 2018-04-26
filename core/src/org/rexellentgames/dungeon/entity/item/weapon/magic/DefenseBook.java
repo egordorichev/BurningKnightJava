@@ -30,7 +30,6 @@ public class DefenseBook extends MagicWeapon {
 			fx.y = (float) (this.owner.y + (this.owner.h - 8) / 2 + Math.sin(a) * 8);
 			fx.vel = new Vector2((float) Math.cos(a) * 60f, (float) Math.sin(a) * 60f);
 
-
 			Dungeon.area.add(fx);
 		}
 	}

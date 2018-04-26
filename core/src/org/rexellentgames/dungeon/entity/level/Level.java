@@ -608,7 +608,7 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		Graphics.batch.setColor(0, 0, 0, 0.3f);
+		Graphics.batch.setColor(0, 0, 0, 0.5f);
 		// TODO: zoom support
 
 		Graphics.batch.draw(texture,
