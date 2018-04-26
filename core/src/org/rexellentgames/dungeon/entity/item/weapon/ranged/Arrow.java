@@ -8,7 +8,7 @@ public class Arrow extends Item {
 		name = Locale.get("arrow");
 		description = Locale.get("arrow_desc");
 		stackable = true;
-		sprite = "item (arrow)";
+		sprite = "item (arrow A)";
 		useable = false;
 	}
 
