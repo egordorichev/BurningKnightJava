@@ -136,7 +136,7 @@ public class UiSlot {
 				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
-				Graphics.shape.setColor(1, 0.8f, 0, 0.6f);
+				Graphics.shape.setColor(1, 0.5f, 0, 0.6f);
 				Graphics.shape.circle(this.x + 12, this.y + 12, (float) (10f + Math.cos(Dungeon.time * 3) * Math.sin(Dungeon.time * 4)) * ((Lamp) item).getRadius());
 
 				Graphics.shape.end();

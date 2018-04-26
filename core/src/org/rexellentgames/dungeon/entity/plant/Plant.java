@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -179,6 +180,10 @@ public class Plant extends SaveableEntity {
 					sz = value;
 				}
 			});
+
+			if (((Creature) entity).hasBuff(BurningBuff.class)) {
+				this.startBurning();
+			}
 		}
 	}
 
