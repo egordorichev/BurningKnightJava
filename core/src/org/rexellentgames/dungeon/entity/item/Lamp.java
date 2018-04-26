@@ -1,9 +1,14 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.ChargeFx;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
@@ -30,6 +35,32 @@ public class Lamp extends Item {
 	private boolean lightUp;
 	private boolean added;
 	private static Sound[] sfx;
+
+	@Override
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		TextureRegion sprite = this.getSprite();
+
+		float xx = x + (flipped ? -w / 2 : w / 2);
+
+		if (this.r > 0) {
+			Graphics.batch.end();
+
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+			Graphics.shape.setColor(1, 0.8f, 0, 0.2f);
+			Graphics.shape.circle(x + w / 2 + (flipped ? -w/4 : w/4), y + sprite.getRegionHeight() / 2,
+				(float) (10f + Math.cos(Dungeon.time * 3) * Math.sin(Dungeon.time * 4)) * r);
+
+			Graphics.shape.end();
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+			Graphics.batch.begin();
+		}
+
+		Graphics.render(sprite, xx + sprite.getRegionWidth() / 2, y, 0, sprite.getRegionWidth() / 2, 0, flipped, false);
+	}
 
 	@Override
 	public void setOwner(Creature owner) {
