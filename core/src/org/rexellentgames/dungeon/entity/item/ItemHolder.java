@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
@@ -12,7 +14,9 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -68,6 +72,8 @@ public class ItemHolder extends SaveableEntity {
 
 		this.vel.mul(0.9f);
 
+		this.sz = Math.max(1, this.sz - this.sz * dt);
+
 		if (this.falling) {
 			this.vel.mul(0);
 		}
@@ -77,7 +83,10 @@ public class ItemHolder extends SaveableEntity {
 			this.x = Math.round(this.x);
 			this.y = Math.round(this.y);
 
-			this.z += Math.cos(this.t * 4f) / 10f;
+			this.z += Math.cos(this.t * 4f) / 5f * (this.sz / 2);
+
+			this.z = MathUtils.clamp(0, 5f, this.z);
+
 			this.body.setTransform(this.x, this.y, 0);
 		}
 
@@ -175,7 +184,7 @@ public class ItemHolder extends SaveableEntity {
 			int w = sprite.getRegionWidth();
 			int h = sprite.getRegionHeight();
 
-			float a = (float) Math.cos(this.t * 3f) * 8f;
+			float a = (float) Math.cos(this.t * 3f) * 8f * sz;
 			float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
 			Graphics.batch.setColor(0, 0, 0, 0.5f);
@@ -183,6 +192,27 @@ public class ItemHolder extends SaveableEntity {
 			Graphics.batch.setColor(1, 1, 1, 1);
 			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
 				w / 2, h / 2, false, false, 1f, sy);
+		}
+	}
+
+	private float sz = 1f;
+
+	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
+
+		if (entity instanceof Creature) {
+			Tween.to(new Tween.Task(4f, 0.3f) {
+				@Override
+				public float getValue() {
+					return sz;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sz = value;
+				}
+			});
 		}
 	}
 
