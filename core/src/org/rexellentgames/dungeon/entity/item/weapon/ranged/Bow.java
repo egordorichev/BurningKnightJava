@@ -59,8 +59,8 @@ public class Bow extends Item {
 		float a = (float) Math.toDegrees(Math.atan2(dy, dx));
 
 		Graphics.startShadows();
-		// Graphics.render(s, x + w / 2, y - h, -a, -4, s.getRegionHeight() / 2, false, false, 1, -0.5f);
+		Graphics.render(s, x + w / 2, y, -a, -4, s.getRegionHeight() / 2, false, false, 1, -0.5f);
 		Graphics.endShadows();
-		// Graphics.render(s, x + w / 2, y + h / 2, a, -4, s.getRegionHeight() / 2, false, false);
+		Graphics.render(s, x + w / 2, y + h / 2, a, -4, s.getRegionHeight() / 2, false, false);
 	}
 }
