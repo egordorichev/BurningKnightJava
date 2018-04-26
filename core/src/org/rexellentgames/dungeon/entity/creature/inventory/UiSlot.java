@@ -1,10 +1,15 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
 
@@ -98,9 +103,9 @@ public class UiSlot {
 
 	public void render(Item item) {
 		if (this.inventory.getActive() == this.id) {
-			Graphics.batch.setColor(1, 1, 0.2f, 1);
+			Graphics.batch.setColor(0.6f, 0.6f, 0.6f, 1);
 		} else if (this.hovered) {
-			Graphics.batch.setColor(1, 1, 0.5f, 1);
+			Graphics.batch.setColor(0.8f, 0.8f, 0.8f, 1);
 		}
 
 		Graphics.render(slot, this.x, this.y);
@@ -122,6 +127,22 @@ public class UiSlot {
 		if (item != null) {
 			TextureRegion sprite = item.getSprite();
 			int count = item.getValue();
+
+			if (item instanceof Lamp && ((Lamp) item).getRadius() > 0) {
+				Graphics.batch.end();
+
+				Gdx.gl.glEnable(GL20.GL_BLEND);
+				Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+				Graphics.shape.setColor(1, 0.8f, 0, 0.6f);
+				Graphics.shape.circle(this.x + 12, this.y + 12, (float) (10f + Math.cos(Dungeon.time * 3) * Math.sin(Dungeon.time * 4)) * ((Lamp) item).getRadius());
+
+				Graphics.shape.end();
+				Gdx.gl.glDisable(GL20.GL_BLEND);
+				Graphics.batch.begin();
+			}
 
 			Graphics.render(sprite, this.x + 12 - sprite.getRegionWidth() / 2,
 				this.y + 12 - sprite.getRegionHeight() / 2);

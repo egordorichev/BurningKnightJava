@@ -560,6 +560,9 @@ public abstract class Level extends Entity {
 					byte v = this.walls[i];
 
 					if (v != 15 && v % 2 == 0) {
+						Graphics.batch.setColor(0, 0, 0, 0.5f);
+						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16 + 10, 0, 0, 0, false, false, 1f, -0.5f);
+						Graphics.batch.setColor(1, 1, 1, 1);
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 

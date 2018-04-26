@@ -24,6 +24,6 @@ public class RunFx extends Entity {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y + 8, false);
+		this.animation.render(this.x, this.y + 8, false, false);
 	}
 }

@@ -115,7 +115,7 @@ public class Entity extends Point {
 		return this.x + this.w >= camera.position.x - Display.GAME_WIDTH / 2 * zoom &&
 			this.y + this.h >= camera.position.y - Display.GAME_HEIGHT / 2 * zoom &&
 			this.x <= camera.position.x + Display.GAME_WIDTH / 2 * zoom &&
-			this.y <= camera.position.y + Display.GAME_HEIGHT / 2 * zoom;
+			this.y <= camera.position.y + this.h + Display.GAME_HEIGHT / 2 * zoom;
 	}
 
 	public long playSfx(Sound sound) {

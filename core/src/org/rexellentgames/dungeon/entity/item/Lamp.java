@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.ChargeFx;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -51,6 +52,12 @@ public class Lamp extends Item {
 		}
 	}
 
+	private float r;
+
+	public float getRadius() {
+		return this.r;
+	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -62,7 +69,24 @@ public class Lamp extends Item {
 		super.use();
 
 		this.lightUp = !this.lightUp;
+
+		Tween.to(new Tween.Task(this.lightUp ? 1 : 0, 0.4f) {
+			@Override
+			public float getValue() {
+				return r;
+			}
+
+			@Override
+			public void setValue(float value) {
+				r = value;
+			}
+		});
+
 		this.play();
+	}
+
+	public boolean isOn() {
+		return this.lightUp;
 	}
 
 	@Override
@@ -79,6 +103,10 @@ public class Lamp extends Item {
 		this.val = reader.readFloat();
 		this.lightUp = reader.readBoolean();
 		this.added = reader.readBoolean();
+
+		if (this.lightUp) {
+			this.r = 1;
+		}
 	}
 
 	@Override
