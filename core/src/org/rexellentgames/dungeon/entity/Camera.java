@@ -33,8 +33,7 @@ public class Camera extends Entity {
 		this.shake = amount;
 	}
 
-	@Override
-	public void init() {
+	public Camera() {
 		instance = this;
 
 		ui = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
@@ -46,6 +45,7 @@ public class Camera extends Entity {
 		this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
 		this.camera.update();
 		this.viewport = new ScalingViewport(Scaling.fit, Display.GAME_WIDTH, Display.GAME_HEIGHT, this.camera);
+		this.viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	public void resize(int width, int height) {

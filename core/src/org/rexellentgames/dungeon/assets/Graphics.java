@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.util.Log;
 
 public class Graphics {
@@ -46,19 +47,21 @@ public class Graphics {
 	public static void startShadows() {
 		color = Graphics.batch.getColor();
 		Graphics.batch.end();
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.shadows.begin();
+		Camera.instance.viewport.apply();
 
 		Graphics.batch.begin();
-
 		Graphics.batch.setColor(1, 1, 1, color.a);
 	}
 
 	public static void endShadows() {
 		Graphics.batch.setColor(color);
-
 		Graphics.batch.end();
 
-		Graphics.shadows.end();
+		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
+			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+		Camera.instance.viewport.apply();
 		Graphics.batch.begin();
 	}
 
@@ -68,7 +71,7 @@ public class Graphics {
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
 
 		manager = new AssetManager();
 		manager.load("atlas/atlas.atlas", TextureAtlas.class);
@@ -106,7 +109,7 @@ public class Graphics {
 
 	public static void resize(int w, int h) {
 		shadows.dispose();
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, w, h, false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
 	}
 
 	public static Sound getSound(String sfx) {
