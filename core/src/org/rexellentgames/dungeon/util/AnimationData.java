@@ -13,6 +13,10 @@ public class AnimationData {
 	private Animation.Frame current;
 	private boolean auto;
 
+	public ArrayList<Animation.Frame> getFrames() {
+		return this.frames;
+	}
+
 	public void setAutoPause(boolean auto) {
 		this.auto = auto;
 	}
