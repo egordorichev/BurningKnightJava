@@ -50,6 +50,7 @@ public class Plant extends SaveableEntity {
 
 		this.health = 3f;
 
+		this.t = Random.newFloat(128);
 		this.body = this.createBody(3, 3, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y - 4, 0);
 	}
@@ -87,7 +88,7 @@ public class Plant extends SaveableEntity {
 				this.broke = false;
 			}
 
-			this.sz = Math.max(1, this.sz - this.sz * dt);
+			this.sz = Math.max(1, this.sz - this.sz * dt * 2);
 			return;
 		}
 
@@ -128,7 +129,7 @@ public class Plant extends SaveableEntity {
 		Graphics.startShadows();
 
 		Graphics.render(sprite, this.x + sprite.getRegionWidth() / 2,
-			this.y - 4, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -0.5f);
+			this.y, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -0.5f);
 
 		Graphics.endShadows();
 
@@ -169,7 +170,7 @@ public class Plant extends SaveableEntity {
 			this.broke = true;
 			Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
 		} else if (entity instanceof Creature) {
-			Tween.to(new Tween.Task(5f, 0.3f) {
+			Tween.to(new Tween.Task(5f, 0.1f) {
 				@Override
 				public float getValue() {
 					return sz;
