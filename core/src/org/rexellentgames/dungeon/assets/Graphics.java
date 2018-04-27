@@ -47,8 +47,8 @@ public class Graphics {
 	public static void startShadows() {
 		color = Graphics.batch.getColor();
 		Graphics.batch.end();
-		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.shadows.begin();
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 
 		Graphics.batch.begin();
 		Graphics.batch.setColor(1, 1, 1, color.a);

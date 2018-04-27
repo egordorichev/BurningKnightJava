@@ -39,7 +39,7 @@ public class MagicWeapon extends Item {
 		TextureRegion s = this.getSprite();
 
 		Graphics.startShadows();
-		Graphics.render(s, x + w / 2, y + h / 4 - h / 2, (float) -Math.toDegrees(a) + 90, s.getRegionWidth() / 2, 0, false, false, 0.5f, -1f);
+		Graphics.render(s, x + w / 2, y + h / 4 - h / 2, (float) -Math.toDegrees(a) + 90, s.getRegionWidth() / 2, 0, false, false, 1f, -1f);
 		Graphics.endShadows();
 		Graphics.render(s, x + w / 2, y + h / 4, (float) Math.toDegrees(a) - 90, s.getRegionWidth() / 2, 0, false, false);
 	}

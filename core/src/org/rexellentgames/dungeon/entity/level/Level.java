@@ -599,7 +599,7 @@ public abstract class Level extends Entity {
 
 					if (v != 15 && v % 2 == 0) {
 						Graphics.startShadows();
-						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16 + 10, 0, 0, 0, false, false, 1f, -0.5f);
+						Graphics.render(Terrain.wallVariants[14], x * 16, y * 16 + 12, 0, 0, 0, false, false, 1f, -1f);
 						Graphics.endShadows();
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}

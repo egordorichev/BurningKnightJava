@@ -22,4 +22,9 @@ public class Key extends Item {
 		super.onPickup();
 		pickup.play();
 	}
+
+	@Override
+	public void render() {
+
+	}
 }

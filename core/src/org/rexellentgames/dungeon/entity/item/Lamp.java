@@ -60,7 +60,7 @@ public class Lamp extends Item {
 		}
 
 		Graphics.startShadows();
-		Graphics.render(sprite, xx + sprite.getRegionWidth() / 2, y - h, 0, sprite.getRegionWidth() / 2, 0, flipped, true, 1f, -0.5f);
+		Graphics.render(sprite, xx + sprite.getRegionWidth() / 2, y - h, 0, sprite.getRegionWidth() / 2, 0, flipped, true, 1f, -1f);
 		Graphics.endShadows();
 		Graphics.render(sprite, xx + sprite.getRegionWidth() / 2, y, 0, sprite.getRegionWidth() / 2, 0, flipped, false);
 	}

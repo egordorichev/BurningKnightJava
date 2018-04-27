@@ -94,7 +94,7 @@ public class AnimationData {
 		if (s) {
 			Graphics.startShadows();
 			Graphics.render(this.current.frame, x, y - this.current.frame.getRegionHeight(), 0, 0, 0, flip, true,
-				flip ? -1f : 1f, -0.5f);
+				flip ? -1f : 1f, -1f);
 			Graphics.endShadows();
 		}
 
@@ -111,7 +111,7 @@ public class AnimationData {
 		if (s) {
 
 			Graphics.startShadows();
-			Graphics.render(this.current.frame, x + ox, y + oy - this.current.frame.getRegionHeight(), a, ox, oy, flip, flipY, flip ? -1f : 1f, flipY ? 0.5f : -0.5f);
+			Graphics.render(this.current.frame, x + ox, y + oy - this.current.frame.getRegionHeight(), a, ox, oy, flip, flipY, flip ? -1f : 1f, flipY ? 1f : -1f);
 			Graphics.endShadows();
 		}
 
@@ -125,9 +125,8 @@ public class AnimationData {
 
 	public void render(float x, float y, boolean flip, boolean flipY, int f, boolean s) {
 		if (s) {
-
 			Graphics.startShadows();
-			Graphics.render(this.frames.get(f).frame, x, y - this.current.frame.getRegionHeight(), 0, 0, 0, flip, flipY, flip ? -1f : 1f, flipY ? 0.5f : -0.5f);
+			Graphics.render(this.frames.get(f).frame, x, y - this.current.frame.getRegionHeight(), 0, 0, 0, flip, flipY, flip ? -1f : 1f, flipY ? 1f : -1f);
 			Graphics.endShadows();
 		}
 

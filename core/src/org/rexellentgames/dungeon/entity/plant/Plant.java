@@ -129,7 +129,7 @@ public class Plant extends SaveableEntity {
 		Graphics.startShadows();
 
 		Graphics.render(sprite, this.x + sprite.getRegionWidth() / 2,
-			this.y, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -0.5f);
+			this.y, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -1f);
 
 		Graphics.endShadows();
 
