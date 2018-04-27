@@ -104,6 +104,9 @@ public class Note extends Entity implements WormholeFx.Suckable {
 
 	@Override
 	public void render() {
+		Graphics.startShadows();
+		Graphics.render(region, this.x, this.y - 8);
+		Graphics.endShadows();
 		Graphics.render(region, this.x, this.y);
 	}
 }
