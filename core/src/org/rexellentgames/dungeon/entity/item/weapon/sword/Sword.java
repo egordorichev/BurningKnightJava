@@ -131,7 +131,7 @@ public class Sword extends Weapon {
 
 		Graphics.startShadows();
 		Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy - h / 2,
-			-angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false, flipped ? -1 : 1, -0.5f);
+			-angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false, flipped ? -1 : 1, -1f);
 		Graphics.endShadows();
 
 		Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy,

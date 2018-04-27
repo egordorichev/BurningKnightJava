@@ -188,7 +188,7 @@ public class ItemHolder extends SaveableEntity {
 			float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
 			Graphics.startShadows();
-			Graphics.render(sprite, this.x + w / 2, this.y - h / 2, a, w / 2,  h /2, false, false, 1, sy / 2);
+			Graphics.render(sprite, this.x + w / 2, this.y, a, w / 2,  h /2, false, false, 1, sy);
 			Graphics.endShadows();
 			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
 				w / 2, h / 2, false, false, 1f, sy);

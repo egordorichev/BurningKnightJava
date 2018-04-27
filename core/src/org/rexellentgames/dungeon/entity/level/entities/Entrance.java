@@ -87,6 +87,9 @@ public class Entrance extends SaveableEntity {
 
 	@Override
 	public void render() {
+		Graphics.startShadows();
+		Graphics.render(Terrain.entrance, this.x, this.y, 0, 0, 0, false, false, 1f, -1f);
+		Graphics.endShadows();
 		Graphics.render(Terrain.entrance, this.x, this.y);
 	}
 	

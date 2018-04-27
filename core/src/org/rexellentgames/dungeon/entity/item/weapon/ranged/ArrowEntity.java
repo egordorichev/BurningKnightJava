@@ -103,6 +103,9 @@ public class ArrowEntity extends Entity {
 
 	@Override
 	public void render() {
+		Graphics.startShadows();
+		Graphics.render(sprite, this.x, this.y - 8, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
+		Graphics.endShadows();
 		Graphics.render(sprite, this.x, this.y, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
 	}
 }

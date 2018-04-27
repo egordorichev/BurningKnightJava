@@ -17,6 +17,9 @@ public class Compass extends Item {
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		TextureRegion sprite = this.getSprite();
+		Graphics.startShadows();
+		Graphics.render(sprite, x + (flipped ? -w / 4 : w / 4) + w / 2, y - h, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, true);
+		Graphics.endShadows();
 		Graphics.render(sprite, x + (flipped ? -w / 4 : w / 4) + w / 2, y, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
 
 		float dx = Exit.instance.x + 8 - x - w / 2;
