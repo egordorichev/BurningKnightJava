@@ -553,18 +553,13 @@ public abstract class Level extends Entity {
 		Camera.instance.viewport.apply();
 
 		Graphics.batch.setColor(1, 1, 1, 0.6f);
-		// TODO: zoom support
 		Texture texture = Graphics.shadows.getColorBufferTexture();
-
-		// texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
 		Camera.instance.viewport.apply();
 
 		Graphics.batch.draw(texture,
-			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2,
-			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, Display.GAME_HEIGHT,
-			0, 0, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false, true);
-
+			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
+			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
+			0, 0, texture.getWidth(), texture.getHeight(), false, true);
 
 		Camera.instance.viewport.apply();
 		Graphics.batch.setColor(1, 1, 1, 1f);
@@ -612,15 +607,13 @@ public abstract class Level extends Entity {
 		}
 
 		Graphics.batch.setColor(0, 0, 0, 0.5f);
-		// TODO: zoom support
-
 
 		Camera.instance.viewport.apply();
-		Graphics.batch.draw(texture,
 
-			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2,
-			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, Display.GAME_HEIGHT,
-			0, 0, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false, true);
+		Graphics.batch.draw(texture,
+			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
+			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
+			0, 0, texture.getWidth(), texture.getHeight(), false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1f);
 

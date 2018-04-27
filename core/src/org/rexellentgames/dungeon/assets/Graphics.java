@@ -108,7 +108,10 @@ public class Graphics {
 
 	public static void resize(int w, int h) {
 		shadows.dispose();
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
+		Log.info((int) Math.ceil(Camera.instance.viewport.getScreenWidth() * Camera.instance.getCamera().zoom) + " resize " +
+			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * Camera.instance.getCamera().zoom));
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * Camera.instance.getCamera().zoom),
+			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * Camera.instance.getCamera().zoom), false);
 	}
 
 	public static Sound getSound(String sfx) {

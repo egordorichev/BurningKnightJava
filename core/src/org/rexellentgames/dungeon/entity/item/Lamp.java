@@ -79,6 +79,8 @@ public class Lamp extends Item {
 			knight.findStartPoint();
 			knight.become("fadeIn");
 
+			Camera.instance.shake(20);
+
 			knight.dialog = BurningKnight.onLampTake;
 
 			BurningKnight.voice.play();

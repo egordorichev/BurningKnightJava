@@ -163,6 +163,11 @@ public class InGameState extends State {
 				public void setValue(float value) {
 					cam.zoom = value;
 				}
+
+				@Override
+				public void onEnd() {
+					Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				}
 			});
 		} else if (Input.instance.wasPressed("c")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
@@ -176,6 +181,11 @@ public class InGameState extends State {
 				@Override
 				public void setValue(float value) {
 					cam.zoom = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 				}
 			});
 		}
