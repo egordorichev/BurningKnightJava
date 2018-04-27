@@ -66,6 +66,8 @@ public class ItemHolder extends SaveableEntity {
 	public void update(float dt) {
 		this.t += dt;
 
+		Spark.random(this.x, this.y, this.hw, this.hh);
+
 		super.update(dt);
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y - this.z;
