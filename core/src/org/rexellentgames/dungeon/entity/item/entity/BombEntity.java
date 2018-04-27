@@ -36,7 +36,7 @@ public class BombEntity extends Entity {
 	public void init() {
 		super.init();
 
-		this.body = this.createBody(2, 2, 12, 12, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createBody(2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 
 		for (Entity entity : Dungeon.area.getEntities()) {
