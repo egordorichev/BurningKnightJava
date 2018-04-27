@@ -49,7 +49,6 @@ public class Graphics {
 		Graphics.batch.end();
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.shadows.begin();
-		Camera.instance.viewport.apply();
 
 		Graphics.batch.begin();
 		Graphics.batch.setColor(1, 1, 1, color.a);

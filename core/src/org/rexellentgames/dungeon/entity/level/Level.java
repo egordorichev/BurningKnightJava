@@ -556,8 +556,7 @@ public abstract class Level extends Entity {
 		// TODO: zoom support
 		Texture texture = Graphics.shadows.getColorBufferTexture();
 
-		/*
-		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		// texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Camera.instance.viewport.apply();
 
@@ -567,7 +566,7 @@ public abstract class Level extends Entity {
 			0, 0, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false, true);
 
 
-		Camera.instance.viewport.apply();*/
+		Camera.instance.viewport.apply();
 		Graphics.batch.setColor(1, 1, 1, 1f);
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
@@ -612,7 +611,7 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		Graphics.batch.setColor(1, 1, 1, 0.5f);
+		Graphics.batch.setColor(0, 0, 0, 0.5f);
 		// TODO: zoom support
 
 
@@ -623,7 +622,7 @@ public abstract class Level extends Entity {
 			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, Display.GAME_HEIGHT,
 			0, 0, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false, true);
 
-		Graphics.batch.setColor(0, 0, 0, 0.5f);
+		Graphics.batch.setColor(1, 1, 1, 1f);
 
 		// Clear shadows
 
