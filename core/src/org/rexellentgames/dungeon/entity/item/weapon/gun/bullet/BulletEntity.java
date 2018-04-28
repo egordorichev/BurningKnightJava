@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.item.weapon.gun.bullet;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
@@ -16,12 +17,13 @@ public class BulletEntity extends Entity {
 	private Body body;
 	private float ra;
 	public int damage;
+	private boolean remove;
 
 	@Override
 	public void init() {
 		this.ra = (float) Math.toRadians(this.a);
 
-		this.body = this.createCentredBody(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createCentredBody(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, ra);
 		this.body.setBullet(true);
 	}
@@ -29,7 +31,7 @@ public class BulletEntity extends Entity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen())) {
-			this.done = true; // todo: better anim
+			this.remove = true;
 		} else if (entity instanceof Creature) {
 			((Creature) entity).modifyHp(-this.damage);
 		}
@@ -49,6 +51,19 @@ public class BulletEntity extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		this.done = this.remove;
+
+		if (this.done) {
+			for (int i = 0; i < 20; i++) {
+				Part part = new Part();
+
+				part.x = this.x - this.vel.x;
+				part.y = this.y - this.vel.y;
+
+				Dungeon.area.add(part);
+			}
+		}
 
 		this.x += this.vel.x;
 		this.y += this.vel.y;

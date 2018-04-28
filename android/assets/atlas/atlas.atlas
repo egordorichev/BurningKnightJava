@@ -2265,6 +2265,41 @@ fx-fireball-idle-06
   orig: 16, 16
   offset: 0, 0
   index: -1
+fx-part-idle-00
+  rotate: false
+  xy: 326, 16
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-part-idle-01
+  rotate: false
+  xy: 534, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-part-idle-02
+  rotate: false
+  xy: 333, 16
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-part-idle-03
+  rotate: false
+  xy: 541, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-part-idle-04
+  rotate: false
+  xy: 340, 16
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
 fx-plant-idle-00
   rotate: false
   xy: 629, 83

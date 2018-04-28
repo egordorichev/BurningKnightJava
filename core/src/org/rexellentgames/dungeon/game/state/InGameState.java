@@ -27,9 +27,10 @@ import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
-	public static boolean DRAW_DEBUG = true;
+	public static boolean DRAW_DEBUG = false;
+	public static boolean LIGHT = false;
+
 	private static final float TIME_STEP = 1 / 60.0f;
-	public static boolean LIGHT = true;
 
 	private Box2DDebugRenderer debug;
 	private float accumulator = 0;
