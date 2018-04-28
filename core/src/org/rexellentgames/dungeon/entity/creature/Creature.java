@@ -108,6 +108,10 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	public float getInvt() {
+		return this.invt;
+	}
+
 	@Override
 	public void init() {
 		super.init();

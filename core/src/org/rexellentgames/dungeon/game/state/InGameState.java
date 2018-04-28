@@ -40,12 +40,16 @@ public class InGameState extends State {
 	private UiBar exp;
 	private int lastLevel;
 	private int w;
+	private TextureRegion blood;
+	private float a;
 
 	@Override
 	public void init() {
 		if (!Network.SERVER) {
 			this.debug = new Box2DDebugRenderer();
 		}
+
+		blood = Graphics.getTexture("blood_frame");
 
 		Collisions collisions = new Collisions();
 
@@ -149,6 +153,34 @@ public class InGameState extends State {
 			this.exp.setMax(Player.instance.getExperienceMaxForLevel());
 		}
 
+		if (this.a == 0 && Player.instance.getInvt() > 0) {
+			Tween.to(new Tween.Task(1f, 0.2f) {
+				@Override
+				public float getValue() {
+					return a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					a = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(0f, 0.8f) {
+						@Override
+						public float getValue() {
+							return a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							a = value;
+						}
+					});
+				}
+			});
+		}
 
 		if (Input.instance.wasPressed("z")) {
 			final OrthographicCamera cam = Camera.instance.getCamera();
@@ -200,6 +232,12 @@ public class InGameState extends State {
 
 	@Override
 	public void renderUi() {
+		if (this.a != 0) {
+			Graphics.batch.setColor(1, 1, 1, this.a);
+			Graphics.render(blood, 0, 0);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
+
 		if (Dialog.active != null) {
 			Dialog.active.render();
 		}

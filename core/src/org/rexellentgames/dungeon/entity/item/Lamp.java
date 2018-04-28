@@ -50,7 +50,7 @@ public class Lamp extends Item {
 			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
-			Graphics.shape.setColor(1, 0.5f, 0, 0.2f);
+			Graphics.shape.setColor(1, 0.5f, 0, 0.4f);
 			Graphics.shape.circle(x + w / 2 + (flipped ? -w/4 : w/4), y + sprite.getRegionHeight() / 2,
 				(float) (10f + Math.cos(Dungeon.time * 3) * Math.sin(Dungeon.time * 4)) * r);
 
