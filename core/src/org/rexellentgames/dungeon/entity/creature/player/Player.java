@@ -214,8 +214,7 @@ public class Player extends Creature {
 
 				if (Dungeon.level.checkFor((int) cell.x, (int) cell.y, Terrain.PASSABLE)) {
 					this.tp(cell.x * 16, cell.y * 16);
-					this.modifyHp(-40);
-					// todo: debuffs?
+					this.modifyHp(-60);
 					Camera.instance.follow(this);
 
 					break;

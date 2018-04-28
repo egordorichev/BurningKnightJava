@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
@@ -46,6 +47,8 @@ public class Dungeon extends ApplicationAdapter {
 	public static float darkX = Display.GAME_WIDTH / 2;
 	public static float darkY = Display.GAME_HEIGHT / 2;
 	public static String[] arg;
+
+	private ShaderProgram shader;
 
 	public enum Type {
 		REGULAR,
@@ -134,7 +137,7 @@ public class Dungeon extends ApplicationAdapter {
 				// For debug, @Nufflee
 				// game.setState(new MainMenuState());
 
-			 	Dungeon.goToLevel(-1);
+				Dungeon.goToLevel(-1);
 			}
 		} else {
 			game.setState(new HubState());
@@ -144,6 +147,43 @@ public class Dungeon extends ApplicationAdapter {
 
 		// Todo: better way to do this
 		Graphics.getMusic("gobbeon").play();
+
+		ShaderProgram.pedantic = false;
+
+		shader = new ShaderProgram(
+			"attribute vec4 "+ShaderProgram.POSITION_ATTRIBUTE+";\n" +
+				"attribute vec4 "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +
+				"attribute vec2 "+ShaderProgram.TEXCOORD_ATTRIBUTE+"0;\n" +
+				"uniform mat4 u_projTrans;\n" +
+				"varying vec4 vColor;\n" +
+				"varying vec2 vTexCoord;\n" +
+				"void main() {\n" +
+				"	vColor = "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +
+				"	vTexCoord = "+ShaderProgram.TEXCOORD_ATTRIBUTE+"0;\n" +
+				"	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" +
+				"}",
+			"#ifdef GL_ES\n"
+				+ "#define LOWP lowp\n"
+				+ "precision mediump float;\n"
+				+ "#else\n"
+				+ "#define LOWP \n"
+				+ "#endif\n" + //
+				"uniform sampler2D u_texture;\n" +
+				"uniform vec2 resolution;\n" +
+				"varying LOWP vec4 vColor;\n" +
+				"varying vec2 vTexCoord;\n" +
+				"const float RADIUS = 0.75;\n" +
+				"const float SOFTNESS = 0.65;\n" +
+				"void main() {\n" +
+				"	vec4 texColor = texture2D(u_texture, vTexCoord);\n" +
+				"	vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);\n" +
+				"	float len = length(position);\n" +
+				"	float vignette = smoothstep(RADIUS, RADIUS-SOFTNESS, len);\n" +
+				"	texColor.rgb = mix(texColor.rgb, texColor.rgb * vignette, 0.5);\n" +
+				"	gl_FragColor = texColor * vColor;\n" +
+				"}");
+
+		Graphics.batch.setShader(shader);
 	}
 
 	@Override
@@ -259,6 +299,10 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Graphics.resize(width, height);
+
+		shader.begin();
+		shader.setUniformf("resolution", width, height);
+		shader.end();
 	}
 
 	@Override
@@ -282,6 +326,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		LoadState.writeDepth();
 		Log.close();
+
+		shader.dispose();
 	}
 
 	private void initInput() {

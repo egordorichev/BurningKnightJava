@@ -35,7 +35,7 @@ public class Clown extends Mob {
 	private Guitar guitar;
 
 	{
-		hpMax = 10;
+		hpMax = 3;
 		hide = true;
 		experienceDropped = 2;
 
