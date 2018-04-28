@@ -108,8 +108,6 @@ public class Graphics {
 
 	public static void resize(int w, int h) {
 		shadows.dispose();
-		Log.info((int) Math.ceil(Camera.instance.viewport.getScreenWidth() * Camera.instance.getCamera().zoom) + " resize " +
-			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * Camera.instance.getCamera().zoom));
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * Camera.instance.getCamera().zoom),
 			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * Camera.instance.getCamera().zoom), false);
 	}

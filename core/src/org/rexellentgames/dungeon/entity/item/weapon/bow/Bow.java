@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.weapon.ranged;
+package org.rexellentgames.dungeon.entity.item.weapon.bow;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;

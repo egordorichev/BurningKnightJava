@@ -119,7 +119,7 @@ public class Inventory {
 		return null;
 	}
 
-	public void remove(Class<? extends Item> clazz) {
+	public Item remove(Class<? extends Item> clazz) {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (!this.isEmpty(i)) {
 				Item item = this.getSlot(i);
@@ -131,10 +131,12 @@ public class Inventory {
 						this.setSlot(i, null);
 					}
 
-					return;
+					return item;
 				}
 			}
 		}
+
+		return null;
 	}
 
 	public boolean isEmpty(int i) {

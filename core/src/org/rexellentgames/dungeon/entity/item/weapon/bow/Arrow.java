@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.weapon.ranged;
+package org.rexellentgames.dungeon.entity.item.weapon.bow;
 
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.item.Item;

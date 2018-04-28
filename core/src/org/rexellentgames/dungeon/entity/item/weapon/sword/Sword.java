@@ -17,6 +17,8 @@ import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Tween;
 
+import java.util.ArrayList;
+
 public class Sword extends Weapon {
 	protected boolean blocking;
 	protected float oy;
@@ -134,6 +136,7 @@ public class Sword extends Weapon {
 			-angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false, flipped ? -1 : 1, -1f);
 		Graphics.endShadows();
 
+		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy,
 			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 
