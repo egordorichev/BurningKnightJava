@@ -86,6 +86,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		super.destroy();
 		WormholeFx.suck.remove(this);
 		this.body.getWorld().destroyBody(this.body);
+		this.body = null;
 	}
 
 	@Override

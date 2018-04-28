@@ -29,6 +29,7 @@ public class ArrowEntity extends Entity {
 		super.destroy();
 
 		this.body.getWorld().destroyBody(this.body);
+		this.body = null;
 	}
 
 	@Override

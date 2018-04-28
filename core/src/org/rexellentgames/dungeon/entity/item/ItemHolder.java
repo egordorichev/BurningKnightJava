@@ -156,6 +156,7 @@ public class ItemHolder extends SaveableEntity {
 
 		if (this.body != null) {
 			this.body.getWorld().destroyBody(this.body);
+			this.body = null;
 		}
 	}
 

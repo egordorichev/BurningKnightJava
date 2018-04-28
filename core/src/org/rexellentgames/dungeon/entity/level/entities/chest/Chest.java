@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -66,14 +67,17 @@ public class Chest extends SaveableEntity {
 		this.body.setTransform(this.x, this.y, 0);
 
 		if (reader.readBoolean()) {
+			String name = reader.readString();
+
 			try {
-				Class<?> clazz = Class.forName(reader.readString());
+				Class<?> clazz = Class.forName(name);
 				Constructor<?> constructor = clazz.getConstructor();
 				Object object = constructor.newInstance(new Object[]{});
 
 				Item item = (Item) object;
 				item.load(reader);
 			} catch (Exception e) {
+				Log.error(name);
 				Dungeon.reportException(e);
 			}
 		} else {
@@ -89,6 +93,7 @@ public class Chest extends SaveableEntity {
 		writer.writeBoolean(this.item != null);
 
 		if (this.item != null) {
+			writer.writeString(this.item.getClass().getName());
 			this.item.save(writer);
 		}
 	}

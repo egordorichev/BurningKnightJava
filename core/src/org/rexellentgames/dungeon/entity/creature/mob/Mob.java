@@ -211,6 +211,7 @@ public class Mob extends Creature {
 				holder.y = this.y;
 
 				this.area.add(holder);
+				Dungeon.level.addSaveable(holder);
 			}
 		}
 
@@ -308,7 +309,7 @@ public class Mob extends Creature {
 
 	@Override
 	protected void die(boolean force) {
-		if (!this.dead) {
+		if (!this.dead && !force) {
 			this.drop = true;
 		}
 
