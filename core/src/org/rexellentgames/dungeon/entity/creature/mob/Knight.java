@@ -27,7 +27,7 @@ public class Knight extends Mob {
 	private AnimationData animation;
 
 	{
-		hpMax = 10;
+		hpMax = 5;
 		speed = 5;
 		guard = true;
 
