@@ -2433,6 +2433,13 @@ run-fx-idle-03
   orig: 16, 16
   offset: 0, 0
   index: -1
+fx-shell-idle-00
+  rotate: false
+  xy: 548, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
 fx-spark--00
   rotate: false
   xy: 173, 1

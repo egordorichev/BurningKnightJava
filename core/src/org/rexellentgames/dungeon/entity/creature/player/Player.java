@@ -251,7 +251,6 @@ public class Player extends Creature {
 	protected void onHurt() {
 		super.onHurt();
 
-		Graphics.delay();
 		Camera.instance.shake(4f);
 		hurtSfx[Random.newInt(3)].play();
 

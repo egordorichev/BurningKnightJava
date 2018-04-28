@@ -11,14 +11,18 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Gun extends Item {
+	protected float accuracy = 10f;
+
 	{
 		identified = true;
 		auto = true;
-		useTime = 0.3f;
+		useTime = 0.1f;
 	}
 
 	@Override
@@ -90,7 +94,7 @@ public class Gun extends Item {
 		Camera.instance.push(a, 8f);
 
 		BulletEntity bullet = new BulletEntity();
-		float an = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+		float an = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy)));
 		a = (float) Math.toDegrees(an);
 
 		Bullet b = ((Bullet) player.getInventory().remove(Bullet.class));
@@ -122,5 +126,17 @@ public class Gun extends Item {
 		bullet.a = a;
 
 		Dungeon.area.add(bullet);
+
+		Shell shell = new Shell();
+
+		shell.x = x;
+		shell.y = y;
+
+		shell.vel = new Point(
+			(float) -Math.cos(an) * 4f,
+			1.5f
+		);
+
+		Dungeon.area.add(shell);
 	}
 }
