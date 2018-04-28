@@ -15,6 +15,11 @@ public class AnimationData {
 	private boolean back;
 	private Animation.Frame current;
 	private boolean auto;
+	private Listener listener;
+
+	public void setListener(Listener listener) {
+		this.listener = listener;
+	}
 
 	public ArrayList<Animation.Frame> getFrames() {
 		return this.frames;
@@ -62,6 +67,10 @@ public class AnimationData {
 					}
 				}
 
+				if (this.listener != null) {
+					this.listener.onFrame(this.index);
+				}
+
 				this.current = this.frames.get(this.index);
 			}
 		}
@@ -107,7 +116,6 @@ public class AnimationData {
 	}
 
 	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, boolean s) {
-
 		if (s) {
 
 			Graphics.startShadows();
@@ -132,5 +140,11 @@ public class AnimationData {
 
 		Graphics.render(this.frames.get(f).frame, x, y, 0, 0, 0, flip, flipY);
 		Graphics.batch.setColor(1, 1, 1, 1);
+	}
+
+	public static class Listener {
+		public void onFrame(int frame) {
+
+		}
 	}
 }
