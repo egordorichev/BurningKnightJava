@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 
 public class Compass extends Item {
@@ -27,6 +28,7 @@ public class Compass extends Item {
 		float a = (float) Math.atan2(dy, dx);
 
 		Graphics.batch.end();
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 		Graphics.shape.setColor(1, 1, 1, 1);
 

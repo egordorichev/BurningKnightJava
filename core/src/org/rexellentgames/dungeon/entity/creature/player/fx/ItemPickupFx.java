@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.player.fx;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -30,6 +31,7 @@ public class ItemPickupFx extends Entity {
 			if (this.player.tryToPickup(this.item)) {
 				this.done = true;
 				this.area.add(new ItemPickedFx(item));
+				Dungeon.level.removeSaveable(item);
 			}
 		}
 	}

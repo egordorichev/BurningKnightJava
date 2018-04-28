@@ -453,6 +453,7 @@ public class Player extends Creature {
 			if (item.getItem().hasAutoPickup() || item.auto) {
 				if (this.tryToPickup(item) && !item.auto) {
 					this.area.add(new ItemPickedFx(item));
+					Dungeon.level.removeSaveable(item);
 				}
 			} else if (!Network.SERVER && !item.falling) {
 				this.holders.add(item);
@@ -488,6 +489,7 @@ public class Player extends Creature {
 				item.done = true;
 				item.getItem().onPickup();
 				this.gold += item.getItem().getCount();
+
 				return true;
 			} else {
 				if (this.inventory.add(item)) {
