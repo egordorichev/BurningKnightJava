@@ -773,10 +773,10 @@ public abstract class Level extends Entity {
 
 	public String getSavePath(DataType type) {
 		if (type == DataType.LEVEL) {
-			return ".burningknight/dungeon" + this.level + ".save";
+			return ".bk/dungeon" + this.level + ".save";
 		}
 
-		return ".burningknight/gobbo.save";
+		return ".bk/gobbo.save";
 	}
 
 	public void addPhysics() {
