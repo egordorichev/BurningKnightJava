@@ -147,7 +147,7 @@ public class Dungeon extends ApplicationAdapter {
 		area.add(camera);
 
 		// Todo: better way to do this
-		// Graphics.getMusic("gobbeon").play();
+		Graphics.getMusic("gobbeon").play();
 
 		ShaderProgram.pedantic = false;
 

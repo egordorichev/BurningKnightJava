@@ -348,6 +348,8 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void die(boolean force) {
+		this.depth = -1;
+
 		if (this.dead) {
 			return;
 		}

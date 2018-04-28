@@ -5,8 +5,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
-import org.rexellentgames.dungeon.entity.item.weapon.ranged.Arrow;
-import org.rexellentgames.dungeon.entity.item.weapon.ranged.ArrowEntity;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.ArrowEntity;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 
 public class Collisions implements ContactListener, ContactFilter {
