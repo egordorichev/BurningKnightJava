@@ -66,6 +66,8 @@ public class Terrain {
 	public static TextureRegion closedDoor;
 	public static TextureRegion openDoor;
 
+	public static TextureRegion chasm;
+
 	private static int last = -1;
 
 	public static void loadTextures(int set) {
@@ -140,5 +142,7 @@ public class Terrain {
 		variants[FLOOR] = floorVariants;
 		variants[SPIKES] = spikeVariants;
 		variants[TABLE] = tableVariants;
+
+		chasm = Graphics.getTexture(bm + " (chasmbg)");
 	}
 }

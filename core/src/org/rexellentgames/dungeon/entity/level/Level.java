@@ -580,6 +580,8 @@ public abstract class Level extends Entity {
 						region.setRegionHeight(16);
 
 						Graphics.render(region, x * 16, y * 16 - 8);
+					} else if (tile == Terrain.CHASM) {
+						Graphics.render(Terrain.chasm, x * 16, y * 16 - 8);
 					}
 
 					if (Terrain.variants[tile] != null) {
