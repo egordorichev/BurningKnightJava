@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.ArrowEntity;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 
 public class Collisions implements ContactListener, ContactFilter {
@@ -78,6 +79,10 @@ public class Collisions implements ContactListener, ContactFilter {
 			if (((ArrowEntity) b).owner == a) {
 				contact.setEnabled(false);
 			}
+		} else if (a instanceof BulletEntity && b != null) {
+			contact.setEnabled(false);
+		} else if (b instanceof BulletEntity && a != null) {
+			contact.setEnabled(false);
 		}
 	}
 
