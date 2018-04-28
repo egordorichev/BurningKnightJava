@@ -80,9 +80,18 @@ public class Gun extends Item {
 		super.use();
 		TextureRegion sprite = this.getSprite();
 
+		Camera.instance.shake(2);
+
+		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
+
+		this.owner.vel.x -= Math.cos(a) * 60f;
+		this.owner.vel.y -= Math.sin(a) * 60f;
+
+		Camera.instance.push(a, 8f);
+
 		BulletEntity bullet = new BulletEntity();
 		float an = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
-		float a = (float) Math.toDegrees(an);
+		a = (float) Math.toDegrees(an);
 
 		Bullet b = ((Bullet) player.getInventory().remove(Bullet.class));
 
@@ -104,7 +113,7 @@ public class Gun extends Item {
 		bullet.y = y + py * h;
 		bullet.damage = b.damage;
 
-		float s = 10f;
+		float s = 6f;
 
 		bullet.vel = new Point(
 			px * s, py * s

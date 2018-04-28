@@ -41,6 +41,7 @@ public class AxeFx extends Entity {
 
 		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x - 8, this.y - 8, 0);
+		this.body.setBullet(true);
 
 		this.a = Random.newFloat((float) (Math.PI * 2));
 	}

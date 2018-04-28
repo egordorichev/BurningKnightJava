@@ -277,6 +277,7 @@ public class Dungeon extends ApplicationAdapter {
 			if (Camera.instance != null) {
 				Camera.instance.applyShake();
 				Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+				Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			}
 
 			Graphics.batch.begin();

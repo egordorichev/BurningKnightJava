@@ -76,8 +76,13 @@ public class Tween {
 		}
 	}
 
-	public static void to(Task task) {
+	public static Task to(Task task) {
 		tasks.add(task);
+		return task;
+	}
+
+	public static void remove(Task task) {
+		tasks.remove(task);
 	}
 
 	public static void update(float dt) {
@@ -98,6 +103,7 @@ public class Tween {
 			if (task.progress >= 1) {
 				tasks.remove(i);
 				task.onEnd();
+				task.done = true;
 			}
 		}
 	}
@@ -110,6 +116,7 @@ public class Tween {
 		public float difference;
 		public float delay;
 		public Type type;
+		public boolean done;
 
 		public Task(float end, float t) {
 			this(end, t, Type.QUAD_IN);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BulletEntity extends Entity {
@@ -27,7 +28,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity == null) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen())) {
 			this.done = true; // todo: better anim
 		} else if (entity instanceof Creature) {
 			((Creature) entity).modifyHp(-this.damage);
