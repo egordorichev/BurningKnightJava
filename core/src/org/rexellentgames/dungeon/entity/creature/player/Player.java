@@ -230,6 +230,10 @@ public class Player extends Creature {
 		Graphics.delay();
 		Camera.instance.shake(4f);
 		hurtSfx[Random.newInt(3)].play();
+
+		if (this.hp == 0) {
+			Dungeon.slowDown(0.5f, 2f);
+		}
 	}
 
 	@Override

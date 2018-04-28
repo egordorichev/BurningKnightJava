@@ -47,6 +47,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float darkX = Display.GAME_WIDTH / 2;
 	public static float darkY = Display.GAME_HEIGHT / 2;
 	public static String[] arg;
+	public static float speed = 1f;
 
 	private ShaderProgram shader;
 
@@ -186,6 +187,35 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.setShader(shader);
 	}
 
+	public static void slowDown(float a, float t) {
+		Tween.to(new Tween.Task(a, 0.3f) {
+			@Override
+			public float getValue() {
+				return speed;
+			}
+
+			@Override
+			public void setValue(float value) {
+				speed = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, t, Tween.Type.BACK_IN) {
+					@Override
+					public float getValue() {
+						return speed;
+					}
+
+					@Override
+					public void setValue(float value) {
+						speed = value;
+					}
+				});
+			}
+		});
+	}
+
 	@Override
 	public void render() {
 		if (to > -2) {
@@ -203,7 +233,7 @@ public class Dungeon extends ApplicationAdapter {
 			return;
 		}
 
-		float dt = Gdx.graphics.getDeltaTime();
+		float dt = Gdx.graphics.getDeltaTime() * speed;
 		time += dt;
 		longTime += 1;
 
