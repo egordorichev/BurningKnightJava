@@ -142,6 +142,10 @@ public class Door extends SaveableEntity {
 		}
 	}
 
+	public boolean isOpen() {
+		return this.animation.getFrame() != 0;
+	}
+
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature) {

@@ -8,12 +8,11 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.ComicsState;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
 
@@ -25,12 +24,35 @@ public class Camera extends Entity {
 	public Viewport viewport;
 	private Entity target;
 	private float shake;
-	private float vx;
-	private float vy;
+	private float pushA;
+	private float pushAm;
 	public ArrayList<Rectangle> clamp = new ArrayList<>();
 
 	public void shake(float amount) {
 		this.shake = amount;
+	}
+
+	private Tween.Task last;
+
+	public void push(float a, float am) {
+		this.pushA = a;
+		this.pushAm = 0;
+
+		if (this.last != null) {
+			Tween.remove(this.last);
+		}
+
+		this.last = Tween.to(new Tween.Task(am, 0.05f) {
+			@Override
+			public float getValue() {
+				return pushAm;
+			}
+
+			@Override
+			public void setValue(float value) {
+				pushAm = value;
+			}
+		});
 	}
 
 	public Camera() {
@@ -54,6 +76,13 @@ public class Camera extends Entity {
 
 	@Override
 	public void update(float dt) {
+		if (this.last != null && this.last.done) {
+			this.last = null;
+		}
+
+		this.pushAm = Math.max(0, this.pushAm - dt * 50);
+		this.shake = Math.max(0, this.shake - dt * 10);
+
 		if (this.target != null) {
 			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (2 / this.camera.zoom) + this.target.x + 8);
 			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (2 / this.camera.zoom) + this.target.y + 8);
@@ -93,24 +122,31 @@ public class Camera extends Entity {
 		}
 	}
 
+	private float mx;
+	private float my;
+
 	public void applyShake() {
-		if (this.shake <= 0) {
-			return;
+		mx = 0;
+		my = 0;
+
+		if (this.pushAm > 0) {
+			mx += (float) Math.cos(this.pushA) * this.pushAm;
+			my += (float) Math.sin(this.pushA) * this.pushAm;
 		}
 
-		this.shake -= Gdx.graphics.getDeltaTime() * 10;
+		if (this.shake > 0) {
+			this.mx += Random.newFloat(-this.shake / 2, this.shake / 2);
+			this.my += Random.newFloat(-this.shake / 2, this.shake / 2);
+		}
 
-		this.vx = Random.newFloat(-this.shake / 2, this.shake / 2);
-		this.vy = Random.newFloat(-this.shake / 2, this.shake / 2);
-		this.camera.position.add(this.vx, this.vy, 0);
+		this.camera.position.add(this.mx, this.my, 0);
+
 		this.camera.update();
 	}
 
 	public void removeShake() {
-		this.camera.position.add(-this.vx, -this.vy, 0);
+		this.camera.position.add(-this.mx, -this.my, 0);
 		this.camera.update();
-		this.vx = 0;
-		this.vy = 0;
 	}
 
 	public OrthographicCamera getCamera() {

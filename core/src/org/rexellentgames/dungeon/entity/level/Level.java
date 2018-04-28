@@ -550,18 +550,14 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		Camera.instance.viewport.apply();
-
 		Graphics.batch.setColor(1, 1, 1, 0.6f);
 		Texture texture = Graphics.shadows.getColorBufferTexture();
-		Camera.instance.viewport.apply();
 
 		Graphics.batch.draw(texture,
 			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
 			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
 			0, 0, texture.getWidth(), texture.getHeight(), false, true);
 
-		Camera.instance.viewport.apply();
 		Graphics.batch.setColor(1, 1, 1, 1f);
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
@@ -610,8 +606,6 @@ public abstract class Level extends Entity {
 
 		Graphics.batch.setColor(0, 0, 0, 0.5f);
 
-		Camera.instance.viewport.apply();
-
 		Graphics.batch.draw(texture,
 			Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
 			Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
@@ -626,8 +620,6 @@ public abstract class Level extends Entity {
 
 		Graphics.batch.begin();
 
-		// broken draw pos
-
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
@@ -636,7 +628,6 @@ public abstract class Level extends Entity {
 		Graphics.shadows.end();
 		Graphics.batch.begin();
 
-		Camera.instance.viewport.apply();
 	}
 
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
