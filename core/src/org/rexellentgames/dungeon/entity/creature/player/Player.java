@@ -103,6 +103,30 @@ public class Player extends Creature {
 				local = true;
 			}
 		}
+
+		run.setListener(new AnimationData.Listener() {
+			@Override
+			public void onFrame(int frame) {
+				if (frame == 2 || frame == 6) {
+					playStepSfx();
+				}
+			}
+		});
+	}
+
+	protected void playStepSfx() {
+		if (this.watery > 0) {
+			if (this.watery > 4.5f) {
+				Sound sound = waterSteps[Random.newInt(5)];
+				sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
+			} else {
+				Sound sound = steps[Random.newInt(5)];
+				sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
+			}
+		} else {
+			Sound sound = steps[Random.newInt(5)];
+			sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
+		}
 	}
 
 	public float getLightSize() {
@@ -236,6 +260,8 @@ public class Player extends Creature {
 		}
 	}
 
+	private float lastRun;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -324,29 +350,14 @@ public class Player extends Creature {
 		}
 
 		float v = this.vel.len2();
+		this.lastRun += dt;
 
 		if (v > 20) {
 			this.become("run");
 
-			if (this.t % 0.2 <= 0.017 && !Network.SERVER) {
+			if (this.lastRun >= 0.2f && !Network.SERVER) {
+				this.lastRun = 0;
 				this.area.add(new RunFx(this.x, this.y - 8));
-			}
-
-			if (this.t % 0.3 <= 0.017 && !Network.SERVER) {
-				if (this.watery > 0) {
-					// this.area.add(new FootFx(this.x + 8, this.y - 8, (float) Math.atan2(this.vel.y, this.vel.x), this.watery / 5f));
-
-					if (this.watery > 4.5f) {
-						Sound sound = waterSteps[Random.newInt(5)];
-						sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
-					} else {
-						Sound sound = steps[Random.newInt(5)];
-						sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
-					}
-				} else {
-					Sound sound = steps[Random.newInt(5)];
-					sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
-				}
 			}
 		} else {
 			this.become("idle");

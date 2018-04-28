@@ -182,12 +182,17 @@ public class Clown extends Mob {
 	}
 
 	public class RangedAttack extends ClownState {
+		private float lastAttack;
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t % 0.5f < 0.0175f && Random.chance(75)) {
+			this.lastAttack += dt;
+
+			if (this.lastAttack >= 0.5f && Random.chance(75)) {
 				Note note = new Note();
+				this.lastAttack = 0;
 
 				float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2 + Random.newFloat(-10f, 10f);
 				float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2 + Random.newFloat(-10f, 10f);

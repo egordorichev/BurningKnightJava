@@ -55,6 +55,8 @@ public class Plant extends SaveableEntity {
 		this.body.setTransform(this.x, this.y - 4, 0);
 	}
 
+	private float lastFlame;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -96,7 +98,10 @@ public class Plant extends SaveableEntity {
 			this.health -= dt;
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 1f, 0.9f, 0f, 0.9f, 3f, false);
 
-			if (this.t % 0.1 <= 0.017) {
+			this.lastFlame += dt;
+
+			if (this.lastFlame >= 0.1f) {
+				this.lastFlame = 0;
 				Dungeon.area.add(new FlameFx(this));
 			}
 

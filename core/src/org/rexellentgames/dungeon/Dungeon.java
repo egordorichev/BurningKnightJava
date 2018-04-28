@@ -138,7 +138,7 @@ public class Dungeon extends ApplicationAdapter {
 				// For debug, @Nufflee
 				// game.setState(new MainMenuState());
 
-				Dungeon.goToLevel(-1);
+				Dungeon.goToLevel(0);
 			}
 		} else {
 			game.setState(new HubState());
@@ -147,7 +147,7 @@ public class Dungeon extends ApplicationAdapter {
 		area.add(camera);
 
 		// Todo: better way to do this
-		Graphics.getMusic("gobbeon").play();
+		// Graphics.getMusic("gobbeon").play();
 
 		ShaderProgram.pedantic = false;
 

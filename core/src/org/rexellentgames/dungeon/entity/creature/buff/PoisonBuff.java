@@ -9,11 +9,15 @@ public class PoisonBuff extends Buff {
 		bad = true;
 	}
 
+	private float last;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		this.last += dt;
 
-		if (this.time % 1f <= 0.0175f) {
+		if (this.last >= 1f) {
+			this.last = 0;
 			this.owner.modifyHp(-1, true);
 		}
 	}
