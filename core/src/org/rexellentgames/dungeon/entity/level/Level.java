@@ -1187,7 +1187,7 @@ public abstract class Level extends Entity {
 		}
 
 		for (int i = 0; i < this.getNumChests(); i++) {
-			Chest chest = new WoodenChest();
+			Chest chest = Chest.random();
 			Point point = null;
 
 			while (point == null) {

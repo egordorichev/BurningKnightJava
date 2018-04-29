@@ -1,0 +1,39 @@
+{ "frames": {
+   "actor_golden_chest 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 24, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 16 },
+    "sourceSize": { "w": 24, "h": 16 },
+    "duration": 100
+   },
+   "actor_golden_chest 1.ase": {
+    "frame": { "x": 24, "y": 0, "w": 24, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 16 },
+    "sourceSize": { "w": 24, "h": 16 },
+    "duration": 100
+   },
+   "actor_golden_chest 2.ase": {
+    "frame": { "x": 48, "y": 0, "w": 24, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 24, "h": 16 },
+    "sourceSize": { "w": 24, "h": 16 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2-dev",
+  "format": "I8",
+  "size": { "w": 72, "h": 16 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "closed", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "anim", "from": 1, "to": 1, "direction": "forward" },
+   { "name": "open", "from": 2, "to": 2, "direction": "forward" }
+  ]
+ }
+}
