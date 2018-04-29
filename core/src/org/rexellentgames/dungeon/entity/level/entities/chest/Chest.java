@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -137,6 +138,18 @@ public class Chest extends SaveableEntity {
 		}
 	}
 
+	public static Chest random() {
+		if (Random.newFloat() > 0.7f) {
+			return new WoodenChest();
+		}
+
+		if (Random.newFloat() > 0.7f) {
+			return new IronChest();
+		}
+
+		return new GoldenChest();
+	}
+
 	@Override
 	public void render() {
 		TextureRegion sprite = this.data.getCurrent().frame;
@@ -144,12 +157,12 @@ public class Chest extends SaveableEntity {
 		int w = sprite.getRegionWidth();
 		int h = sprite.getRegionHeight();
 
-		float a = (float) Math.cos(this.t * 3f) * 2f;
+		float a = 0;
 		float sx = (float) (1f + Math.cos(this.t * 4f) / 13f);
 		float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
 
 		Graphics.startShadows();
-		Graphics.render(sprite, this.x + w / 2, this.y - h / 2, a, w / 2, h / 2, false, false, sx, -sy);
+		Graphics.render(sprite, this.x + w / 2, this.y - h / 2 + 1.5f, a, w / 2, h / 2, false, false, sx, -sy);
 		Graphics.endShadows();
 		Graphics.render(sprite, this.x + w / 2, this.y + h / 2, a,
 			w / 2, h / 2, false, false, sx, sy);

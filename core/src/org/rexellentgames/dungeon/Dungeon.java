@@ -255,19 +255,6 @@ public class Dungeon extends ApplicationAdapter {
 
 			Graphics.surface.begin();
 
-			if (draw) {
-				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-				Gdx.gl.glDepthFunc(GL20.GL_LESS);
-				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-				Gdx.gl.glDepthMask(true);
-
-				Gdx.gl.glColorMask(false, false, false, false);
-
-				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-				Graphics.shape.circle(darkX, darkY, darkR);
-				Graphics.shape.end();
-			}
-
 			if (Camera.instance != null) {
 				Camera.instance.applyShake();
 				Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
@@ -275,12 +262,6 @@ public class Dungeon extends ApplicationAdapter {
 			}
 
 			Graphics.batch.begin();
-
-			if (draw) {
-				Gdx.gl.glColorMask(true, true, true, true);
-				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-				Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
-			}
 
 			if (game.getState() instanceof HubState) {
 				Graphics.medium.draw(Graphics.batch, "[gray]Hub", 0, 12);
@@ -299,17 +280,34 @@ public class Dungeon extends ApplicationAdapter {
 
 			Graphics.batch.end();
 
-			if (draw) {
-				Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-			}
-
 			Graphics.surface.end();
 			Texture texture = Graphics.surface.getColorBufferTexture();
 
 			float zoom = Camera.instance.getCamera().zoom;
 
 			postProcessor.capture();
+
+			if (draw) {
+				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+				Gdx.gl.glDepthFunc(GL20.GL_LESS);
+				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+				Gdx.gl.glDepthMask(true);
+
+				Gdx.gl.glColorMask(false, false, false, false);
+
+				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+				Graphics.shape.circle(darkX, darkY, darkR);
+				Graphics.shape.end();
+			}
+
 			Graphics.batch.begin();
+
+			if (draw) {
+				Gdx.gl.glColorMask(true, true, true, true);
+				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+				Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
+			}
+
 			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 			Graphics.batch.setColor(1, 1, 1, 1f);
 
@@ -318,10 +316,16 @@ public class Dungeon extends ApplicationAdapter {
 				Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
 				0, 0, texture.getWidth(), texture.getHeight(), false, true);
 			Graphics.batch.end();
+
+			if (draw) {
+				Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+			}
+
 			postProcessor.render();
 
 			Graphics.surface.begin();
 			Graphics.batch.begin();
+
 			Gdx.gl.glClearColor(0, 0, 0, 0);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 			Graphics.batch.end();

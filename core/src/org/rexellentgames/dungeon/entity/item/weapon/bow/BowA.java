@@ -2,12 +2,12 @@ package org.rexellentgames.dungeon.entity.item.weapon.bow;
 
 import org.rexellentgames.dungeon.assets.Locale;
 
-public class WoodenBow extends Bow {
+public class BowA extends Bow {
 	{
-		name = Locale.get("bow");
+		name = Locale.get("bow_a");
 		sprite = "item (bow A)";
-		description = Locale.get("bow_desc");
+		description = Locale.get("bow_a_desc");
 		useTime = 0.4f;
-		damage = 6;
+		damage = 1;
 	}
 }

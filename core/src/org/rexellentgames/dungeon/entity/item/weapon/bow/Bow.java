@@ -27,7 +27,7 @@ public class Bow extends Item {
 			return;
 		}
 
-		player.getInventory().remove(Arrow.class);
+		Arrow ar = (Arrow) player.getInventory().remove(Arrow.class);
 		super.use();
 
 		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
@@ -46,7 +46,7 @@ public class Bow extends Item {
 		arrow.a = (float) Math.atan2(dy, dx);
 		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
 		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
-		arrow.damage = this.damage;
+		arrow.damage = this.damage + ar.damage;
 
 		Dungeon.area.add(arrow);
 	}
