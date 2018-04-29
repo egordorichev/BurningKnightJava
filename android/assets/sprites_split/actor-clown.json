@@ -182,20 +182,36 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
+   },
+   "actor_clown 23.ase": {
+    "frame": { "x": 368, "y": 0, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown 24.ase": {
+    "frame": { "x": 384, "y": 0, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.8-x64",
+  "version": "1.2-dev",
   "format": "I8",
-  "size": { "w": 368, "h": 16 },
+  "size": { "w": 400, "h": 16 },
   "scale": "1",
   "frameTags": [
    { "name": "idle", "from": 0, "to": 7, "direction": "forward" },
    { "name": "run", "from": 8, "to": 15, "direction": "forward" },
    { "name": "hurt", "from": 16, "to": 17, "direction": "forward" },
-   { "name": "dead", "from": 18, "to": 18, "direction": "forward" },
-   { "name": "laugh", "from": 19, "to": 22, "direction": "forward" }
+   { "name": "laugh", "from": 18, "to": 21, "direction": "forward" },
+   { "name": "dead", "from": 22, "to": 24, "direction": "forward" }
   ]
  }
 }

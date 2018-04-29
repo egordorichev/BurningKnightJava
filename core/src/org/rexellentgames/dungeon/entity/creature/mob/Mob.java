@@ -247,7 +247,7 @@ public class Mob extends Creature {
 		}
 
 		if (this.target instanceof Player && this.canSee(this.target)) {
-			((Player) this.target).heat += dt;
+			((Player) this.target).heat += dt * 3;
 		}
 
 		this.findTarget(false);
