@@ -19,6 +19,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.GunB;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
@@ -60,6 +61,7 @@ public class ItemRegistry {
 		register("axe_c", AxeC.class);
 		register("axe_d", AxeD.class);
 		register("gun_a", GunA.class);
+		register("gun_b", GunB.class);
 		register("bullet_a", BulletA.class);
 		register("the_sword", TheSword.class);
 		register("gold", Gold.class);

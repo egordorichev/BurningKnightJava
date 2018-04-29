@@ -23,6 +23,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void init() {
+		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
 		this.body = this.createCentredBody(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
