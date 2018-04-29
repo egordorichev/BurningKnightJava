@@ -9,6 +9,11 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.ArrowA;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.Bow;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
@@ -117,6 +122,15 @@ public class Chest extends SaveableEntity {
 		this.t += dt;
 
 		if (this.item != null && this.create) {
+			for (int i = 0; i < 20; i++) {
+				Part part = new Part();
+
+				part.x = Random.newFloat(this.w) + this.x;
+				part.y = Random.newFloat(this.h) + this.y;
+
+				Dungeon.area.add(part);
+			}
+
 			ItemHolder holder = new ItemHolder();
 
 			holder.x = this.x + 5 + (this.w - this.item.getSprite().getRegionWidth()) / 2;
@@ -126,6 +140,19 @@ public class Chest extends SaveableEntity {
 
 			Dungeon.area.add(holder);
 			Dungeon.level.addSaveable(holder);
+
+			if (this.item instanceof Gun || this.item instanceof Bow) {
+				Item item = (this.item instanceof Gun ? new BulletA().setCount(Random.newInt(100, 200)) : new ArrowA().setCount(Random.newInt(100, 200)));
+				holder = new ItemHolder();
+
+				holder.x = this.x + 5 + (this.w - item.getSprite().getRegionWidth()) / 2;
+				holder.y = this.y - 3;
+
+				holder.setItem(item);
+
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
+			}
 
 			this.item = null;
 			this.create = false;
