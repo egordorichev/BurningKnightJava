@@ -13,7 +13,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -144,6 +143,7 @@ public class Gun extends Item {
 		bullet.x = x + px * w;
 		bullet.y = y + py * h;
 		bullet.damage = b.damage;
+		bullet.letter = b.bulletName;
 
 		float s = 6f;
 

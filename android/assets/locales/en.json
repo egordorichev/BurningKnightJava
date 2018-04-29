@@ -85,10 +85,12 @@
 	"worm_hole_desc" : "Sucks projectiles very well",
 	"key" : "Exit Door Key",
 	"key_desc" : "Opens the level exit",
-	"bullet_a" : "Iron bullet",
+	"bullet_a" : "Iron Bullet",
 	"bullet_a_desc" : "Nothing interesting, tbh",
-	"bullet_b" : "Silver bullet",
+	"bullet_b" : "Silver Bullet",
 	"bullet_b_desc" : "Shiny!",
+	"bullet_c" : "Golden Bullet",
+	"bullet_c_desc" : "Targets enemies",
 
 
 	"dialog_bk_its_you_again" : "So it's you again? {WAIT}You think, you can changing something this time?",

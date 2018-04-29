@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
@@ -7,6 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
+import com.bitfire.postprocessing.PostProcessor;
+import com.bitfire.postprocessing.effects.CrtMonitor;
+import com.bitfire.postprocessing.filters.Combine;
+import com.bitfire.postprocessing.filters.CrtScreen;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -149,6 +154,7 @@ public class Dungeon extends ApplicationAdapter {
 		// Todo: better way to do this
 		Graphics.getMusic("gobbeon").play();
 
+		/*
 		ShaderProgram.pedantic = false;
 
 		shader = new ShaderProgram(
@@ -184,8 +190,24 @@ public class Dungeon extends ApplicationAdapter {
 				"	gl_FragColor = texColor * vColor;\n" +
 				"}");
 
-		Graphics.batch.setShader(shader);
+		Graphics.batch.setShader(shader);*/
+
+		postProcessor = new PostProcessor(false, true, Gdx.app.getType() == Application.ApplicationType.Desktop);
+		int vpW = Gdx.graphics.getWidth();
+		int vpH = Gdx.graphics.getHeight();
+		int effects = CrtScreen.Effect.TweakContrast.v |  CrtScreen.Effect.PhosphorVibrance.v | CrtScreen.Effect.Scanlines.v | CrtScreen.Effect.Tint.v;
+
+		CrtMonitor crt = new CrtMonitor( vpW, vpH, false, false, CrtScreen.RgbMode.ChromaticAberrations, effects );
+		Combine combine = crt.getCombinePass();
+		combine.setSource1Intensity( 0f );
+		combine.setSource2Intensity( 1f );
+		combine.setSource1Saturation( 0f );
+		combine.setSource2Saturation( 1f );
+
+		postProcessor.addEffect(crt);
 	}
+
+	private PostProcessor postProcessor;
 
 	public static void slowDown(float a, float t) {
 		Tween.to(new Tween.Task(a, 0.3f) {
@@ -261,6 +283,8 @@ public class Dungeon extends ApplicationAdapter {
 
 			boolean draw = (darkR < MAX_R);
 
+			Graphics.surface.begin();
+
 			if (draw) {
 				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 				Gdx.gl.glDepthFunc(GL20.GL_LESS);
@@ -309,6 +333,30 @@ public class Dungeon extends ApplicationAdapter {
 				Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
 			}
 
+			Graphics.surface.end();
+			Texture texture = Graphics.surface.getColorBufferTexture();
+
+			float zoom = Camera.instance.getCamera().zoom;
+
+			postProcessor.capture();
+			Graphics.batch.begin();
+			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.batch.setColor(1, 1, 1, 1f);
+
+			Graphics.batch.draw(texture,
+				Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
+				Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
+				0, 0, texture.getWidth(), texture.getHeight(), false, true);
+			Graphics.batch.end();
+			postProcessor.render();
+
+			Graphics.surface.begin();
+			Graphics.batch.begin();
+			Gdx.gl.glClearColor(0, 0, 0, 0);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+			Graphics.batch.end();
+			Graphics.surface.end();
+
 			if (Input.instance != null) {
 				for (Input input : Input.inputs.values()) {
 					input.update();
@@ -331,9 +379,9 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.resize(width, height);
 
-		shader.begin();
+		/*shader.begin();
 		shader.setUniformf("resolution", width, height);
-		shader.end();
+		shader.end();*/
 	}
 
 	@Override
@@ -358,7 +406,8 @@ public class Dungeon extends ApplicationAdapter {
 		LoadState.writeDepth();
 		Log.close();
 
-		shader.dispose();
+		postProcessor.dispose();
+		// shader.dispose();
 	}
 
 	private void initInput() {
