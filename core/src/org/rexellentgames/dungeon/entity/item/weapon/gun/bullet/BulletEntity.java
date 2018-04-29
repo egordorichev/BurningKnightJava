@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BulletEntity extends Entity {
@@ -87,18 +88,16 @@ public class BulletEntity extends Entity {
 			float dy = this.target.y + this.target.h / 2 - this.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			this.vel.x = dx / d / 4;
-			this.vel.y = dy / d / 4;
-
-			this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
+			this.vel.x += dx / d;
+			this.vel.y += dy / d;
 
 			if (this.target.isDead()) {
 				this.target = null;
 			}
 		} else if (this.auto) {
-			float m = 128f;
+			float m = 512f;
 
-			for (Mob mob : Mob.all) {
+			for (Mob mob : Mob.every) {
 				float d = mob.getDistanceTo(this.x, this.y);
 
 				if (d < m) {
@@ -107,6 +106,9 @@ public class BulletEntity extends Entity {
 				}
 			}
 		}
+
+		this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
+		this.a = (float) Math.toDegrees(this.ra);
 
 		this.x += this.vel.x;
 		this.y += this.vel.y;
