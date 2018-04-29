@@ -2,46 +2,29 @@ package org.rexellentgames.dungeon.entity.creature.fx;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-import java.io.IOException;
 
-public class GoreFx extends SaveableEntity {
+public class GoreFx extends Entity {
 	public TextureRegion texture;
 	private float a;
 	private float va;
 	private Point vel;
 	private float z = 8;
-	public boolean added;
 
 	@Override
 	public void init() {
 		super.init();
 
-		if (this.added) {
-			this.a = Random.newFloat(360);
-			this.va = Random.newFloat(-30f, 30f);
+		this.a = Random.newFloat(360);
+		this.va = Random.newFloat(-30f, 30f);
 
-			this.vel = new Point(Random.newFloat(-2f, 2f), 1f);
-		}
-	}
-
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-
-		this.a = reader.readFloat();
-	}
-
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-
-		writer.writeFloat(this.a);
+		this.vel = new Point(Random.newFloat(-2f, 2f), 1f);
 	}
 
 	@Override

@@ -95,10 +95,8 @@ public class Clown extends Mob {
 			fx.texture = frame.frame;
 			fx.x = this.x + this.w / 2;
 			fx.y = this.y + this.h / 2;
-			fx.added = true;
 
 			Dungeon.area.add(fx);
-			Dungeon.level.addSaveable(fx);
 		}
 
 		BloodFx.add(this, 20);
