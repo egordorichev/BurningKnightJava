@@ -1,21 +1,33 @@
-package org.rexellentgames.dungeon.entity.item.weapon.gun.bullet;
+package org.rexellentgames.dungeon.entity.creature.fx;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class Part extends Entity {
-	private static Animation animations = Animation.make("fx-part");
+public class BloodFx extends Entity {
+	private static Animation animations = Animation.make("fx-blood");
 	private AnimationData animation;
 	private Point vel;
+
+	public static void add(Entity entity, int count) {
+		for (int i = 0; i < count; i++) {
+			BloodFx fx = new BloodFx();
+
+			fx.x = Random.newFloat(entity.w - 3.5f) + entity.x + 3.5f;
+			fx.y = Random.newFloat(entity.h - 3.5f) + entity.y + 3.5f;
+
+			Dungeon.area.add(fx);
+		}
+	}
 
 	@Override
 	public void init() {
 		this.vel = new Point(
 			Random.newFloat(-1f, 1f),
-			Random.newFloat(-1f, 1f)
+			Random.newFloat(-1f)
 		);
 
 		this.animation = animations.get("idle");
@@ -29,7 +41,8 @@ public class Part extends Entity {
 		this.x += this.vel.x;
 		this.y += this.vel.y;
 
-		this.vel.mul(0.95f);
+		this.vel.x *= 0.96f;
+		this.vel.y -= 0.03f;
 
 		if (this.animation.update(dt)) {
 			this.done = true;

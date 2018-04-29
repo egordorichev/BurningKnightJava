@@ -42,6 +42,10 @@ public class Door extends SaveableEntity {
 	public boolean lock;
 	public Room[] rooms = new Room[2];
 
+	{
+		alwaysActive = true;
+	}
+
 	public Door(int x, int y, boolean vertical) {
 		this.x = x * 16;
 		this.y = y * 16;

@@ -5,8 +5,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -52,6 +54,9 @@ public class BulletEntity extends Entity {
 
 			creature.vel.x += Math.cos(a) * this.knockback;
 			creature.vel.y += Math.sin(a) * this.knockback;
+
+			BloodFx.add(entity, 10);
+			Camera.instance.shake(2);
 		}
 	}
 

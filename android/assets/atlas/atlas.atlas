@@ -2055,6 +2055,41 @@ fireball-idle-02
   orig: 10, 10
   offset: 0, 0
   index: -1
+fx-blood-idle-00
+  rotate: false
+  xy: 557, 27
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-blood-idle-01
+  rotate: false
+  xy: 326, 16
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-blood-idle-02
+  rotate: false
+  xy: 534, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-blood-idle-03
+  rotate: false
+  xy: 333, 16
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fx-blood-idle-04
+  rotate: false
+  xy: 541, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
 fx-charge-idle-00
   rotate: false
   xy: 647, 159
@@ -2274,35 +2309,35 @@ fx-fireball-idle-06
   index: -1
 fx-part-idle-00
   rotate: false
-  xy: 557, 27
+  xy: 340, 16
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-01
   rotate: false
-  xy: 326, 16
+  xy: 548, 2
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-02
   rotate: false
-  xy: 534, 2
+  xy: 555, 2
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-03
   rotate: false
-  xy: 333, 16
+  xy: 261, 16
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-04
   rotate: false
-  xy: 541, 2
+  xy: 268, 16
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -2470,7 +2505,7 @@ fx-shell-idle-03
   index: -1
 fx-shell-idle-04
   rotate: false
-  xy: 340, 16
+  xy: 566, 99
   size: 5, 5
   orig: 5, 5
   offset: 0, 0

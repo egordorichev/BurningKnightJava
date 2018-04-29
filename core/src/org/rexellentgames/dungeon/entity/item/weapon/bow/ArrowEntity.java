@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -96,9 +97,16 @@ public class ArrowEntity extends Entity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Mob) {
-			((Mob) entity).modifyHp(-this.damage);
+			Creature creature = ((Creature) entity);
+
+			creature.vel.x += this.vel.x;
+			creature.vel.y += this.vel.y;
+
+			creature.modifyHp(-this.damage);
 			this.done = true;
 			this.noDrop = true;
+
+			BloodFx.add(entity, 10);
 		}
 	}
 
