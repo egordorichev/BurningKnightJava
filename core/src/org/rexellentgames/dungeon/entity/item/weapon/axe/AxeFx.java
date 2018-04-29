@@ -99,7 +99,7 @@ public class AxeFx extends Entity {
 			}
 		} else if (entity instanceof Creature) {
 			Creature creature = ((Creature) entity);
-			
+
 			creature.vel.x += this.vel.x;
 			creature.vel.y += this.vel.y;
 

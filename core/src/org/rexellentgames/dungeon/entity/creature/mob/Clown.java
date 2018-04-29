@@ -6,7 +6,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
+import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Note;
 import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -74,10 +76,32 @@ public class Clown extends Mob {
 		}
 
 		if (Random.chance(10)) {
-			// items.add(new Guitar());
+			items.add(new Guitar());
 		}
 
 		return items;
+	}
+
+	@Override
+	protected void die(boolean force) {
+		super.die(force);
+
+		this.done = true;
+		Dungeon.level.removeSaveable(this);
+
+		for (Animation.Frame frame : killed.getFrames()) {
+			GoreFx fx = new GoreFx();
+
+			fx.texture = frame.frame;
+			fx.x = this.x + this.w / 2;
+			fx.y = this.y + this.h / 2;
+			fx.added = true;
+
+			Dungeon.area.add(fx);
+			Dungeon.level.addSaveable(fx);
+		}
+
+		BloodFx.add(this, 20);
 	}
 
 	@Override
