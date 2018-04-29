@@ -43,6 +43,8 @@ public class Bow extends Item {
 		float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
 		float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
 
+		arrow.type = ar.getClass();
+		arrow.sprite = ar.getSprite();
 		arrow.a = (float) Math.atan2(dy, dx);
 		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
 		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);

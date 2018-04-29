@@ -145,6 +145,8 @@ public class ItemHolder extends SaveableEntity {
 	public void init() {
 		super.init();
 
+		this.t = Random.newFloat(32f);
+
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
 		}
