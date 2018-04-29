@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -20,6 +21,8 @@ public class BulletEntity extends Entity {
 	public int damage;
 	private boolean remove;
 	public float knockback = 50f;
+	private boolean auto;
+	public String letter;
 
 	@Override
 	public void init() {
@@ -29,7 +32,10 @@ public class BulletEntity extends Entity {
 		this.body = this.createCentredBody(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, ra);
 		this.body.setBullet(true);
+		this.auto = this.letter.equals("C");
 	}
+
+	private Mob target;
 
 	@Override
 	public void onCollision(Entity entity) {
@@ -73,6 +79,32 @@ public class BulletEntity extends Entity {
 				part.y = this.y - this.vel.y;
 
 				Dungeon.area.add(part);
+			}
+		}
+
+		if (this.target != null) {
+			float dx = this.target.x + this.target.w / 2 - this.x;
+			float dy = this.target.y + this.target.h / 2 - this.y;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			this.vel.x = dx / d / 4;
+			this.vel.y = dy / d / 4;
+
+			this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
+
+			if (this.target.isDead()) {
+				this.target = null;
+			}
+		} else if (this.auto) {
+			float m = 128f;
+
+			for (Mob mob : Mob.all) {
+				float d = mob.getDistanceTo(this.x, this.y);
+
+				if (d < m) {
+					this.target = mob;
+					m = d;
+				}
 			}
 		}
 

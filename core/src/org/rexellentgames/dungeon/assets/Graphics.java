@@ -29,6 +29,7 @@ public class Graphics {
 	public static BitmapFont medium;
 	public static AssetManager manager;
 	public static FrameBuffer shadows;
+	public static FrameBuffer surface;
 
 	public static void delay() {
 		delay(20);
@@ -45,23 +46,23 @@ public class Graphics {
 	private static Color color;
 
 	public static void startShadows() {
-		color = Graphics.batch.getColor();
+		/*color = Graphics.batch.getColor();
 		Graphics.batch.end();
 		Graphics.shadows.begin();
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 
 		Graphics.batch.begin();
-		Graphics.batch.setColor(1, 1, 1, color.a);
+		Graphics.batch.setColor(1, 1, 1, color.a);*/
 	}
 
 	public static void endShadows() {
-		Graphics.batch.setColor(color);
+		/*Graphics.batch.setColor(color);
 		Graphics.batch.end();
 
 		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 		Camera.instance.viewport.apply();
-		Graphics.batch.begin();
+		Graphics.batch.begin();*/
 	}
 
 	public static void init() {
@@ -71,6 +72,7 @@ public class Graphics {
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
 
 		manager = new AssetManager();
 		manager.load("atlas/atlas.atlas", TextureAtlas.class);
@@ -112,6 +114,9 @@ public class Graphics {
 		float z = Math.max(1, Camera.instance.getCamera().zoom);
 
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z),
+			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z), false);
+
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z),
 			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z), false);
 	}
 

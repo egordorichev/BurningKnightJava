@@ -621,7 +621,7 @@ public abstract class Level extends Entity {
 			// Clear shadows
 
 			Graphics.batch.end();
-			Graphics.shadows.begin();
+			/* Graphics.shadows.begin();
 
 			Graphics.batch.begin();
 
@@ -630,7 +630,7 @@ public abstract class Level extends Entity {
 
 			Graphics.batch.end();
 
-			Graphics.shadows.end();
+			Graphics.shadows.end(); */
 			Graphics.batch.begin();
 		}
 
