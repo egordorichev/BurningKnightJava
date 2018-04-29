@@ -15,7 +15,7 @@ public class DesktopLauncher {
 		config.addIcon("icon.png", Files.FileType.Internal);
 		config.addIcon("icon32x32.png", Files.FileType.Internal);
 		config.addIcon("icon128x128.png", Files.FileType.Internal);
-		// config.samples = 4;
+		config.samples = 4;
 		config.width = Display.GAME_WIDTH * SCALE;
 		config.height = Display.GAME_HEIGHT * SCALE;
 		config.title = "Burning Knight " + Version.asString();

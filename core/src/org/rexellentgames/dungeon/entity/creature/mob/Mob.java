@@ -36,6 +36,7 @@ public class Mob extends Creature {
 	public Point lastSeen;
 	public Creature target;
 	public static ArrayList<Mob> all = new ArrayList<>();
+	public static ArrayList<Mob> every = new ArrayList<>();
 	protected ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
 	protected int experienceDropped = 1;
@@ -93,6 +94,8 @@ public class Mob extends Creature {
 		if (!(this instanceof BurningKnight)) {
 			all.add(this);
 		}
+
+		every.add(this);
 
 		if (hideSign == null) {
 			hideSign = Graphics.getTexture("ui (hide sign)");
@@ -405,6 +408,7 @@ public class Mob extends Creature {
 			if (this.room != null) {
 				this.room.numEnemies -= 1;
 				all.remove(this);
+				every.remove(this);
 			}
 		}
 	}
@@ -413,6 +417,7 @@ public class Mob extends Creature {
 	public void destroy() {
 		super.destroy();
 		all.remove(this);
+		every.remove(this);
 	}
 
 	public Room lastRoom;
