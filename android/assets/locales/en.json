@@ -65,8 +65,10 @@
 	"morning_c_desc" : "Golden death star, huh?",
 	"gun_a" : "Revolver",
 	"gun_a_desc" : "Does it have any fire power?",
-	"gun_b" : "Triple Machine Gun",
-	"gun_b_desc" : "Boooooom",
+	"gun_b" : "Machine Gun",
+	"gun_b_desc" : "Boom",
+	"gun_c" : "Triple Machine Gun",
+	"gun_c_desc" : "Boooooom",
 	"axe_a" : "Bronze Axe",
 	"axe_a_desc" : "Good old bronze axe",
 	"axe_b" : "Iron Axe",
@@ -85,6 +87,8 @@
 	"key_desc" : "Opens the level exit",
 	"bullet_a" : "Iron bullet",
 	"bullet_a_desc" : "Nothing interesting, tbh",
+	"bullet_b" : "Silver bullet",
+	"bullet_b_desc" : "Shiny!",
 
 
 	"dialog_bk_its_you_again" : "So it's you again? {WAIT}You think, you can changing something this time?",

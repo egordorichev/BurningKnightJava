@@ -1,0 +1,20 @@
+{ "frames": {
+   "bullet.ase": {
+    "frame": { "x": 0, "y": 0, "w": 30, "h": 5 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 5, "w": 30, "h": 5 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2-dev",
+  "format": "I8",
+  "size": { "w": 30, "h": 5 },
+  "scale": "1",
+  "frameTags": [
+  ]
+ }
+}
