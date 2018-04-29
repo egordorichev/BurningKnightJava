@@ -3,15 +3,16 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bitfire.postprocessing.PostProcessor;
-import com.bitfire.postprocessing.effects.CrtMonitor;
+import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
 import com.bitfire.postprocessing.filters.CrtScreen;
+import com.bitfire.postprocessing.filters.RadialBlur;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -53,17 +54,18 @@ public class Dungeon extends ApplicationAdapter {
 	public static float darkY = Display.GAME_HEIGHT / 2;
 	public static String[] arg;
 	public static float speed = 1f;
-
-	private ShaderProgram shader;
-
-	public enum Type {
-		REGULAR,
-		INTRO,
-		ARCADE
-	}
-
+	public static Color BLACK = Color.valueOf("#000000");
+	public static Color GRAY = Color.valueOf("#696a6a");
+	public static Color WHITE = Color.valueOf("#ffffff");
+	public static Color ORANGE = Color.valueOf("#df7126");
+	public static Color RED = Color.valueOf("#ac3232");
+	public static Color GREEN = Color.valueOf("#6abe30");
+	public static Color BLUE = Color.valueOf("#306082");
+	public static Color YELLOW = Color.valueOf("#fbf236");
+	public static Color BROWN = Color.valueOf("#8f563b");
 	private static int to = -3;
 	private Color background = Color.valueOf("#000000"); // #323c39
+	private PostProcessor postProcessor;
 
 	public static void reportException(Exception e) {
 		Log.report(e);
@@ -100,6 +102,35 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static void goToLevel(int level) {
 		to = level;
+	}
+
+	public static void slowDown(float a, float t) {
+		Tween.to(new Tween.Task(a, 0.3f) {
+			@Override
+			public float getValue() {
+				return speed;
+			}
+
+			@Override
+			public void setValue(float value) {
+				speed = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, t, Tween.Type.BACK_IN) {
+					@Override
+					public float getValue() {
+						return speed;
+					}
+
+					@Override
+					public void setValue(float value) {
+						speed = value;
+					}
+				});
+			}
+		});
 	}
 
 	@Override
@@ -152,90 +183,29 @@ public class Dungeon extends ApplicationAdapter {
 		area.add(camera);
 
 		// Todo: better way to do this
-		Graphics.getMusic("gobbeon").play();
+		Music music = Graphics.getMusic("gobbeon");
 
-		/*
-		ShaderProgram.pedantic = false;
+		music.setLooping(true);
+		music.play();
 
-		shader = new ShaderProgram(
-			"attribute vec4 "+ShaderProgram.POSITION_ATTRIBUTE+";\n" +
-				"attribute vec4 "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +
-				"attribute vec2 "+ShaderProgram.TEXCOORD_ATTRIBUTE+"0;\n" +
-				"uniform mat4 u_projTrans;\n" +
-				"varying vec4 vColor;\n" +
-				"varying vec2 vTexCoord;\n" +
-				"void main() {\n" +
-				"	vColor = "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +
-				"	vTexCoord = "+ShaderProgram.TEXCOORD_ATTRIBUTE+"0;\n" +
-				"	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" +
-				"}",
-			"#ifdef GL_ES\n"
-				+ "#define LOWP lowp\n"
-				+ "precision mediump float;\n"
-				+ "#else\n"
-				+ "#define LOWP \n"
-				+ "#endif\n" + //
-				"uniform sampler2D u_texture;\n" +
-				"uniform vec2 resolution;\n" +
-				"varying LOWP vec4 vColor;\n" +
-				"varying vec2 vTexCoord;\n" +
-				"const float RADIUS = 0.75;\n" +
-				"const float SOFTNESS = 0.65;\n" +
-				"void main() {\n" +
-				"	vec4 texColor = texture2D(u_texture, vTexCoord);\n" +
-				"	vec2 position = (gl_FragCoord.xy / resolution.xy) - vec2(0.5);\n" +
-				"	float len = length(position);\n" +
-				"	float vignette = smoothstep(RADIUS, RADIUS-SOFTNESS, len);\n" +
-				"	texColor.rgb = mix(texColor.rgb, texColor.rgb * vignette, 0.5);\n" +
-				"	gl_FragColor = texColor * vColor;\n" +
-				"}");
+		boolean isDesktop = (Gdx.app.getType() == Application.ApplicationType.Desktop);
+		postProcessor = new PostProcessor(false, true, isDesktop);
 
-		Graphics.batch.setShader(shader);*/
-
-		postProcessor = new PostProcessor(false, true, Gdx.app.getType() == Application.ApplicationType.Desktop);
 		int vpW = Gdx.graphics.getWidth();
 		int vpH = Gdx.graphics.getHeight();
-		int effects = CrtScreen.Effect.TweakContrast.v |  CrtScreen.Effect.PhosphorVibrance.v | CrtScreen.Effect.Scanlines.v | CrtScreen.Effect.Tint.v;
 
-		CrtMonitor crt = new CrtMonitor( vpW, vpH, false, false, CrtScreen.RgbMode.ChromaticAberrations, effects );
+		CrtMonitor crt = new CrtMonitor(vpW, vpH, false, false,
+			CrtScreen.RgbMode.ChromaticAberrations, CrtScreen.Effect.Scanlines.v | CrtScreen.Effect.Tint.v);
+
 		Combine combine = crt.getCombinePass();
-		combine.setSource1Intensity( 0f );
-		combine.setSource2Intensity( 1f );
-		combine.setSource1Saturation( 0f );
-		combine.setSource2Saturation( 1f );
 
+		combine.setSource1Intensity(0f);
+		combine.setSource2Intensity(1f);
+		combine.setSource1Saturation(0f);
+		combine.setSource2Saturation(1f);
+
+		postProcessor.addEffect(new Fxaa(vpW, vpH));
 		postProcessor.addEffect(crt);
-	}
-
-	private PostProcessor postProcessor;
-
-	public static void slowDown(float a, float t) {
-		Tween.to(new Tween.Task(a, 0.3f) {
-			@Override
-			public float getValue() {
-				return speed;
-			}
-
-			@Override
-			public void setValue(float value) {
-				speed = value;
-			}
-
-			@Override
-			public void onEnd() {
-				Tween.to(new Tween.Task(1f, t, Tween.Type.BACK_IN) {
-					@Override
-					public float getValue() {
-						return speed;
-					}
-
-					@Override
-					public void setValue(float value) {
-						speed = value;
-					}
-				});
-			}
-		});
 	}
 
 	@Override
@@ -378,10 +348,6 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Graphics.resize(width, height);
-
-		/*shader.begin();
-		shader.setUniformf("resolution", width, height);
-		shader.end();*/
 	}
 
 	@Override
@@ -407,7 +373,6 @@ public class Dungeon extends ApplicationAdapter {
 		Log.close();
 
 		postProcessor.dispose();
-		// shader.dispose();
 	}
 
 	private void initInput() {
@@ -433,13 +398,9 @@ public class Dungeon extends ApplicationAdapter {
 		Colors.put("brown", Color.valueOf("#8f563b"));
 	}
 
-	public static Color BLACK = Color.valueOf("#000000");
-	public static Color GRAY = Color.valueOf("#696a6a");
-	public static Color WHITE = Color.valueOf("#ffffff");
-	public static Color ORANGE = Color.valueOf("#df7126");
-	public static Color RED = Color.valueOf("#ac3232");
-	public static Color GREEN = Color.valueOf("#6abe30");
-	public static Color BLUE = Color.valueOf("#306082");
-	public static Color YELLOW = Color.valueOf("#fbf236");
-	public static Color BROWN = Color.valueOf("#8f563b");
+	public enum Type {
+		REGULAR,
+		INTRO,
+		ARCADE
+	}
 }

@@ -46,23 +46,25 @@ public class Graphics {
 	private static Color color;
 
 	public static void startShadows() {
-		/*color = Graphics.batch.getColor();
+		color = Graphics.batch.getColor();
 		Graphics.batch.end();
+		Graphics.surface.end();
 		Graphics.shadows.begin();
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 
 		Graphics.batch.begin();
-		Graphics.batch.setColor(1, 1, 1, color.a);*/
+		Graphics.batch.setColor(1, 1, 1, color.a);
 	}
 
 	public static void endShadows() {
-		/*Graphics.batch.setColor(color);
+		Graphics.batch.setColor(color);
 		Graphics.batch.end();
 
 		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 		Camera.instance.viewport.apply();
-		Graphics.batch.begin();*/
+		Graphics.surface.begin();
+		Graphics.batch.begin();
 	}
 
 	public static void init() {
@@ -92,7 +94,7 @@ public class Graphics {
 		root = reader.parse(Gdx.files.internal("music/music.json"));
 
 		for (JsonValue name : root) {
-			manager.load("music/" + name.toString() + ".wav", Music.class);
+			manager.load("music/" + name.toString() + ".ogg", Music.class);
 		}
 
 		generateFont("fonts/small.ttf", 16);
@@ -131,7 +133,7 @@ public class Graphics {
 	}
 
 	public static Music getMusic(String name) {
-		Music music = manager.get("music/" + name + ".wav", Music.class);
+		Music music = manager.get("music/" + name + ".ogg", Music.class);
 
 		if (music == null) {
 			Log.error("Music '" + name + "' is not found!");

@@ -12,6 +12,7 @@ buildscript {
         classpath "com.badlogicgames.gdx:gdx-tools:1.9.8"
     }
 }
+
 apply plugin: 'war'
 
 sourceSets {
