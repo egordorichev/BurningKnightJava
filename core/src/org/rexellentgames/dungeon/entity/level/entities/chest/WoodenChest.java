@@ -16,7 +16,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordC;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStar;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC;
@@ -57,10 +56,9 @@ public class WoodenChest extends Chest {
 
 			int i = Random.chances(chances[Dungeon.depth]);
 
-			Log.info(i + " ");
-
 			if (i == -1) {
-				return new Gold();
+				Log.error("Failed to generate chest item!");
+				return new Compass();
 			}
 
 			return items[Dungeon.depth].get(i).newInstance();

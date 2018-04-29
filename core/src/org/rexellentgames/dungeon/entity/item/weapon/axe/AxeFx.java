@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -97,7 +98,13 @@ public class AxeFx extends Entity {
 				this.done = true;
 			}
 		} else if (entity instanceof Creature) {
-			((Creature) entity).modifyHp((int) -this.damage);
+			Creature creature = ((Creature) entity);
+			
+			creature.vel.x += this.vel.x;
+			creature.vel.y += this.vel.y;
+
+			creature.modifyHp((int) -this.damage);
+			BloodFx.add(entity, 10);
 
 			if (!this.penetrates) {
 				this.done = true;

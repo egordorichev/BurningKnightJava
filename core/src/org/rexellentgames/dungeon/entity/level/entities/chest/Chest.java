@@ -66,7 +66,7 @@ public class Chest extends SaveableEntity {
 		this.open = reader.readBoolean();
 		this.body.setTransform(this.x, this.y, 0);
 
-		if (reader.readBoolean()) {
+		if (!this.open) {
 			String name = reader.readString();
 
 			try {
@@ -76,11 +76,19 @@ public class Chest extends SaveableEntity {
 
 				Item item = (Item) object;
 				item.load(reader);
+
+				this.item = item;
 			} catch (Exception e) {
 				Log.error(name);
 				Dungeon.reportException(e);
 			}
-		} else {
+		}
+
+		if (this.item == null && !this.open) {
+			Log.error("Something wrong with chest");
+		}
+
+		if (this.open) {
 			this.data = this.getOpenedAnim();
 		}
 	}
@@ -90,9 +98,12 @@ public class Chest extends SaveableEntity {
 		super.save(writer);
 
 		writer.writeBoolean(this.open);
-		writer.writeBoolean(this.item != null);
 
-		if (this.item != null) {
+		if (!this.open && this.item == null) {
+			Log.error("Something wrong when saving");
+		}
+
+		if (!this.open) {
 			writer.writeString(this.item.getClass().getName());
 			this.item.save(writer);
 		}
@@ -107,8 +118,8 @@ public class Chest extends SaveableEntity {
 		if (this.item != null && this.create) {
 			ItemHolder holder = new ItemHolder();
 
-			holder.x = this.x;
-			holder.y = this.y + 8;
+			holder.x = this.x + 5 + (this.w - this.item.getSprite().getRegionWidth()) / 2;
+			holder.y = this.y - 3;
 
 			holder.setItem(this.item);
 
@@ -137,9 +148,9 @@ public class Chest extends SaveableEntity {
 		float sx = (float) (1f + Math.cos(this.t * 4f) / 13f);
 		float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
 
-		Graphics.batch.setColor(0, 0, 0, 0.5f);
-		Graphics.render(sprite, this.x + w / 2, this.y - 3, a, w / 2, h / 2, false, false, sx, -sy / 2);
-		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.startShadows();
+		Graphics.render(sprite, this.x + w / 2, this.y - h / 2, a, w / 2, h / 2, false, false, sx, -sy);
+		Graphics.endShadows();
 		Graphics.render(sprite, this.x + w / 2, this.y + h / 2, a,
 			w / 2, h / 2, false, false, sx, sy);
 	}
