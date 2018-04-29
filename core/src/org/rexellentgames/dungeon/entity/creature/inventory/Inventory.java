@@ -140,7 +140,7 @@ public class Inventory {
 	}
 
 	public boolean isEmpty(int i) {
-		return this.getSlot(i) == null;
+		return this.getSlot(i) == null || this.getSlot(i).getCount() == 0;
 	}
 
 	public Item getSlot(int i) {

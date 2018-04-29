@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -22,7 +23,7 @@ public class Gun extends Item {
 	{
 		identified = true;
 		auto = true;
-		useTime = 0.1f;
+		useTime = 0.2f;
 	}
 
 	@Override
@@ -108,6 +109,7 @@ public class Gun extends Item {
 		Camera.instance.push(a, 8f);
 
 		this.sendBullets();
+		player.getInventory().remove(Bullet.class);
 	}
 
 	protected void sendBullets() {
@@ -123,7 +125,7 @@ public class Gun extends Item {
 		BulletEntity bullet = new BulletEntity();
 		float a = (float) Math.toDegrees(an);
 
-		Bullet b = ((Bullet) player.getInventory().remove(Bullet.class));
+		Bullet b = ((Bullet) player.getInventory().findItem(Bullet.class));
 
 		bullet.sprite = Graphics.getTexture("bullet (bullet " + b.bulletName + ")");
 

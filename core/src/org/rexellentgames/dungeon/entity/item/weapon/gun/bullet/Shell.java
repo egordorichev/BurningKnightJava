@@ -72,6 +72,9 @@ public class Shell extends Entity {
 
 	@Override
 	public void render() {
+		Graphics.startShadows();
+		Graphics.render(this.sprite, this.x, this.y - this.sprite.getRegionHeight());
+		Graphics.endShadows();
 		Graphics.render(this.sprite, this.x, this.y + this.z);
 	}
 }

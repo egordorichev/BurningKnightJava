@@ -15,6 +15,11 @@ public class ItemPickupFx extends Entity {
 	public ItemPickupFx(ItemHolder item, Player player) {
 		this.depth = 10;
 		this.text = item.getItem().getName();
+
+		if (this.text == null) {
+			this.text = "Missing item name";
+		}
+
 		this.item = item;
 		this.player = player;
 
