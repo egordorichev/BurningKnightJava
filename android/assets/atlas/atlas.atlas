@@ -2440,6 +2440,13 @@ fx-shell-idle-00
   orig: 5, 5
   offset: 0, 0
   index: -1
+fx-shell-idle-01
+  rotate: false
+  xy: 555, 2
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
 fx-spark--00
   rotate: false
   xy: 173, 1

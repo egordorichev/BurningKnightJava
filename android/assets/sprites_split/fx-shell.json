@@ -23,7 +23,7 @@
   "size": { "w": 10, "h": 5 },
   "scale": "1",
   "frameTags": [
-   { "name": "idle", "from": 0, "to": 0, "direction": "forward" }
+   { "name": "idle", "from": 0, "to": 1, "direction": "forward" }
   ]
  }
 }

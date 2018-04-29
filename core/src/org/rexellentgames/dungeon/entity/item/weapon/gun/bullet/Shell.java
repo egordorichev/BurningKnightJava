@@ -13,12 +13,11 @@ public class Shell extends Entity {
 	private static Animation animations = Animation.make("fx-shell");
 	private TextureRegion sprite;
 	public Point vel;
-	private float z;
+	private float z = 10f;
 
 	@Override
 	public void init() {
 		super.init();
-		this.depth = 1;
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
 		this.sprite = frames.get(Random.newInt(frames.size())).frame;

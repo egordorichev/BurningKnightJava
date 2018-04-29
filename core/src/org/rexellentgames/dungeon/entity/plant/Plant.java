@@ -13,6 +13,9 @@ import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.ArrowEntity;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -169,7 +172,7 @@ public class Plant extends SaveableEntity {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if (entity instanceof Weapon && this.growProgress == 1f && !this.dead) {
+		if ((entity instanceof Weapon || entity instanceof ArrowEntity || entity instanceof BulletEntity) && this.growProgress == 1f && !this.dead) {
 			this.dead = true;
 			this.animation = this.getWiltAnimation();
 			this.broke = true;

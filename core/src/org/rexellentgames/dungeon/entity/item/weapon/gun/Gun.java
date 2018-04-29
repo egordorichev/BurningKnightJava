@@ -82,20 +82,44 @@ public class Gun extends Item {
 		}
 
 		super.use();
-		TextureRegion sprite = this.getSprite();
 
 		Camera.instance.shake(2);
 
 		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
+		float an = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy)));
 
-		this.owner.vel.x -= Math.cos(a) * 60f;
-		this.owner.vel.y -= Math.sin(a) * 60f;
+		this.owner.vel.x -= Math.cos(a) * 40f;
+		this.owner.vel.y -= Math.sin(a) * 40f;
 
 		Camera.instance.push(a, 8f);
 
+		this.sendBullets();
+
+		Shell shell = new Shell();
+
+		shell.x = x;
+		shell.y = y - 10;
+
+		shell.vel = new Point(
+			(float) -Math.cos(an) * 2f,
+			1.5f
+		);
+
+		Dungeon.area.add(shell);
+	}
+
+	protected void sendBullets() {
+		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
+
+		this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy))));
+	}
+
+	protected void sendBullet(float an) {
+		Player player = (Player) this.owner;
+		TextureRegion sprite = this.getSprite();
+
 		BulletEntity bullet = new BulletEntity();
-		float an = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy)));
-		a = (float) Math.toDegrees(an);
+		float a = (float) Math.toDegrees(an);
 
 		Bullet b = ((Bullet) player.getInventory().remove(Bullet.class));
 
@@ -126,17 +150,5 @@ public class Gun extends Item {
 		bullet.a = a;
 
 		Dungeon.area.add(bullet);
-
-		Shell shell = new Shell();
-
-		shell.x = x;
-		shell.y = y;
-
-		shell.vel = new Point(
-			(float) -Math.cos(an) * 4f,
-			1.5f
-		);
-
-		Dungeon.area.add(shell);
 	}
 }

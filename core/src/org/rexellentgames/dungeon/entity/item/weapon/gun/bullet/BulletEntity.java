@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BulletEntity extends Entity {
@@ -18,6 +19,7 @@ public class BulletEntity extends Entity {
 	private float ra;
 	public int damage;
 	private boolean remove;
+	public float knockback = 50f;
 
 	@Override
 	public void init() {
@@ -33,7 +35,15 @@ public class BulletEntity extends Entity {
 		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen())) {
 			this.remove = true;
 		} else if (entity instanceof Creature) {
-			((Creature) entity).modifyHp(-this.damage);
+			Creature creature = ((Creature) entity);
+
+			creature.modifyHp(-this.damage);
+			this.remove = true;
+
+			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
+
+			creature.vel.x += Math.cos(a) * this.knockback;
+			creature.vel.y += Math.sin(a) * this.knockback;
 		}
 	}
 
