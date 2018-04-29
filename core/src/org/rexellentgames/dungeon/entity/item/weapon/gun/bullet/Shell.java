@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item.weapon.gun.bullet;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
@@ -14,6 +16,7 @@ public class Shell extends Entity {
 	private TextureRegion sprite;
 	public Point vel;
 	private float z = 10f;
+	private Body body;
 
 	@Override
 	public void init() {
@@ -21,17 +24,50 @@ public class Shell extends Entity {
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
 		this.sprite = frames.get(Random.newInt(frames.size())).frame;
+		this.body = this.createBody(0, 0, this.sprite.getRegionWidth(), this.sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+		this.body.setTransform(this.x, this.y, 0);
+		this.body.setLinearVelocity(this.vel.x, this.vel.y);
+		this.body.setBullet(true);
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		if (this.body != null) {
+			this.body.getWorld().destroyBody(this.body);
+			this.body = null;
+		}
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
+		if (this.body != null) {
+			this.vel.x = this.body.getLinearVelocity().x;
+			this.vel.y = this.body.getLinearVelocity().y;
+		}
+
 		this.vel.x *= (this.z == 0 ? 0.5f : 0.98f);
+
+		if (this.vel.x <= 0.1f && this.z == 0) {
+			this.vel.x = 0;
+
+			if (this.body != null) {
+				this.body.getWorld().destroyBody(this.body);
+				this.body = null;
+			}
+		}
 
 		this.x += this.vel.x;
 		this.z = Math.max(0, this.z + this.vel.y);
 		this.vel.y -= 0.1f;
+
+		if (this.body != null) {
+			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.body.setTransform(this.x, this.y + this.z, 0);
+		}
 	}
 
 	@Override

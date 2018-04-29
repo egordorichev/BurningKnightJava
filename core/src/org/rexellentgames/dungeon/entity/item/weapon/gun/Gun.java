@@ -86,7 +86,21 @@ public class Gun extends Item {
 		Camera.instance.shake(2);
 
 		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
-		float an = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy)));
+
+		Shell shell = new Shell();
+
+		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
+		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+
+		shell.x = x;
+		shell.y = y - 10;
+
+		shell.vel = new Point(
+			(float) -Math.cos(a) * 2f,
+			1.5f
+		);
+
+		Dungeon.area.add(shell);
 
 		this.owner.vel.x -= Math.cos(a) * 40f;
 		this.owner.vel.y -= Math.sin(a) * 40f;
@@ -94,18 +108,6 @@ public class Gun extends Item {
 		Camera.instance.push(a, 8f);
 
 		this.sendBullets();
-
-		Shell shell = new Shell();
-
-		shell.x = x;
-		shell.y = y - 10;
-
-		shell.vel = new Point(
-			(float) -Math.cos(an) * 2f,
-			1.5f
-		);
-
-		Dungeon.area.add(shell);
 	}
 
 	protected void sendBullets() {
