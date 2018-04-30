@@ -16,6 +16,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
@@ -71,7 +72,7 @@ public class Door extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		if (this.body == null) {
-			this.body = this.createBody(this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
+			this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
 				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));
 			this.body.setTransform(this.x, this.y, 0);
 
@@ -148,6 +149,12 @@ public class Door extends SaveableEntity {
 
 	public boolean isOpen() {
 		return this.animation.getFrame() != 0;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public class Clown extends Mob {
 	public void init() {
 		super.init();
 
-		this.body = this.createBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 
 		speed = 100;

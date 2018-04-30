@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.buff.BrokenArmorBuff;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 
@@ -31,7 +32,7 @@ public class IchorFx extends Entity implements WormholeFx.Suckable {
 
 		this.y -= 4;
 
-		this.body = this.createBody(0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
@@ -69,7 +70,7 @@ public class IchorFx extends Entity implements WormholeFx.Suckable {
 	public void destroy() {
 		super.destroy();
 		WormholeFx.suck.remove(this);
-		this.body.getWorld().destroyBody(this.body);
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override

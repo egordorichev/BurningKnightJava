@@ -22,17 +22,15 @@ import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.UiBar;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class InGameState extends State {
-	public static boolean DRAW_DEBUG = false;
 	public static boolean LIGHT = false;
-	private static final float TIME_STEP = 1 / 60.0f;
 
 	private Box2DDebugRenderer debug;
-	private float accumulator = 0;
 	private UiInventory inventory;
 	private Console console;
 	private UiBar health;
@@ -53,8 +51,8 @@ public class InGameState extends State {
 
 		Collisions collisions = new Collisions();
 
-		Dungeon.world.setContactListener(collisions);
-		Dungeon.world.setContactFilter(collisions);
+		World.world.setContactListener(collisions);
+		World.world.setContactFilter(collisions);
 
 		if (!Network.SERVER) {
 			this.setupUi();
@@ -112,22 +110,12 @@ public class InGameState extends State {
 		}
 	}
 
-	private void doPhysicsStep(float deltaTime) {
-		float frameTime = Math.min(deltaTime, 0.25f);
-		this.accumulator += frameTime;
-
-		while (accumulator >= TIME_STEP) {
-			Dungeon.world.step(TIME_STEP, 6, 2);
-			this.accumulator -= TIME_STEP;
-		}
-	}
-
 	private boolean set;
 
 	@Override
 	public void update(float dt) {
 		this.console.update(dt);
-		this.doPhysicsStep(dt);
+		World.update(dt);
 		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
 
@@ -273,13 +261,7 @@ public class InGameState extends State {
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-
-		// Debug
-		if (DRAW_DEBUG) {
-			Graphics.batch.end();
-			this.debug.render(Dungeon.world, Camera.instance.getCamera().combined);
-			Graphics.batch.begin();
-		}
+		World.render();
 
 		if (Camera.ui != null) {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);

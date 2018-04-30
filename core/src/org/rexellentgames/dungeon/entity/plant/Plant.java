@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
@@ -54,7 +55,7 @@ public class Plant extends SaveableEntity {
 		this.health = 3f;
 
 		this.t = Random.newFloat(128);
-		this.body = this.createBody(3, 3, 10, 10, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 3, 3, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y - 4, 0);
 	}
 
@@ -203,7 +204,7 @@ public class Plant extends SaveableEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.body.getWorld().destroyBody(this.body);
+		this.body = World.removeBody(this.body);
 	}
 
 	public void grow() {

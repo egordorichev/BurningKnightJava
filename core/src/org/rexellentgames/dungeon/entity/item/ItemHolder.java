@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.LoadState;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
@@ -35,14 +36,13 @@ public class ItemHolder extends SaveableEntity {
 	public boolean auto;
 	private float z = 0;
 
-	@Override
-	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
+	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
 		this.hx = x;
 		this.hy = y;
 		this.hw = w;
 		this.hh = h;
 
-		return super.createBody(x, y, w, h, type, sensor);
+		return World.createSimpleBody(this, x, y, w, h, type, sensor);
 	}
 
 	public void randomVel() {
@@ -157,8 +157,7 @@ public class ItemHolder extends SaveableEntity {
 		super.destroy();
 
 		if (this.body != null) {
-			this.body.getWorld().destroyBody(this.body);
-			this.body = null;
+			this.body = World.removeBody(this.body);
 		}
 	}
 
@@ -254,10 +253,11 @@ public class ItemHolder extends SaveableEntity {
 		this.item = item;
 
 		if (this.body != null) {
-			this.body.getWorld().destroyBody(this.body);
+			this.body = World.removeBody(this.body);
 		}
 
-		this.body = this.createBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
+		// This might be bad!
+		this.body = this.createSimpleBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
 			BodyDef.BodyType.DynamicBody, false);
 
 		return this;

@@ -192,7 +192,7 @@ public class ComicsState extends State {
 		this.accumulator += frameTime;
 
 		while (accumulator >= TIME_STEP) {
-			Dungeon.world.step(TIME_STEP, 6, 2);
+			// Dungeon.world.step(TIME_STEP, 6, 2);
 			this.accumulator -= TIME_STEP;
 		}
 	}

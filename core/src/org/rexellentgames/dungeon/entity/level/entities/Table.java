@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.entities;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -24,8 +25,14 @@ public class Table extends SaveableEntity {
 		super.init();
 		this.animation = animations.get("idle");
 
-		this.body = this.createBody(0, 10, (int) w, (int) h - 14, BodyDef.BodyType.StaticBody, false);
+		this.body = World.createSimpleBody(this, 0, 10, (int) w, (int) h - 14, BodyDef.BodyType.StaticBody, false);
 		this.body.setTransform(this.x, this.y, 0);
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override

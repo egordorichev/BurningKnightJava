@@ -70,56 +70,6 @@ public class Entity extends Point {
 		return this.depth;
 	}
 
-	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
-		BodyDef def = new BodyDef();
-		def.type = type;
-
-		Body body = Dungeon.world.createBody(def);
-		PolygonShape poly = new PolygonShape();
-
-		poly.set(new Vector2[]{
-			new Vector2(x, y), new Vector2(x + w, y),
-			new Vector2(x, y + h), new Vector2(x + w, y + h)
-		});
-
-		FixtureDef fixture = new FixtureDef();
-
-		fixture.shape = poly;
-		fixture.friction = 0;
-		fixture.isSensor = sensor;
-
-		body.createFixture(fixture);
-		body.setUserData(this);
-		poly.dispose();
-
-		return body;
-	}
-
-	public Body createCentredBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
-		BodyDef def = new BodyDef();
-		def.type = type;
-
-		Body body = Dungeon.world.createBody(def);
-		PolygonShape poly = new PolygonShape();
-
-		poly.set(new Vector2[]{
-			new Vector2(x - w / 2, y - h / 2), new Vector2(x + w / 2, y - h / 2),
-			new Vector2(x - w / 2, y + h / 2), new Vector2(x + w / 2, y + h / 2)
-		});
-
-		FixtureDef fixture = new FixtureDef();
-
-		fixture.shape = poly;
-		fixture.friction = 0;
-		fixture.isSensor = sensor;
-
-		body.createFixture(fixture);
-		body.setUserData(this);
-		poly.dispose();
-
-		return body;
-	}
-
 	public Area getArea() {
 		return this.area;
 	}

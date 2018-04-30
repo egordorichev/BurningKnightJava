@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -52,7 +53,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		vel.x = (float) (Math.cos(this.a) * 60);
 		vel.y = (float) (Math.sin(this.a) * 60);
 
-		this.body = this.createBody(0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
 		this.body.setBullet(true);
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setLinearVelocity(this.vel);
@@ -85,8 +86,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	public void destroy() {
 		super.destroy();
 		WormholeFx.suck.remove(this);
-		this.body.getWorld().destroyBody(this.body);
-		this.body = null;
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override

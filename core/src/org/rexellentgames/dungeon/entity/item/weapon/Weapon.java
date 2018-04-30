@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
 
 public class Weapon extends Item {
@@ -51,48 +52,23 @@ public class Weapon extends Item {
 	}
 
 	protected void createHitbox() {
-		BodyDef def = new BodyDef();
-		def.type = BodyDef.BodyType.DynamicBody;
-
-		body = Dungeon.world.createBody(def);
-		PolygonShape poly = new PolygonShape();
-
 		int w = this.region.getRegionWidth();
 		int h = this.region.getRegionHeight();
 
-		poly.set(new Vector2[]{
-			new Vector2((float) Math.floor((double) -w / 2), 0), new Vector2((float) Math.ceil((double) w / 2), 0),
-			new Vector2((float) Math.floor((double) -w / 2), h), new Vector2((float) Math.ceil((double) w / 2), h)
-		});
-
-		FixtureDef fixture = new FixtureDef();
-
-		fixture.shape = poly;
-		fixture.friction = 0;
-		fixture.isSensor = true;
-
-		body.createFixture(fixture);
-		body.setUserData(this);
-		poly.dispose();
+		this.body = World.createSimpleBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, true);
+		this.body.setBullet(true);
 	}
 
 	@Override
 	public void endUse() {
-		if (this.body != null) {
-			this.body.getWorld().destroyBody(this.body);
-			this.body = null;
-		}
-
+		this.body = World.removeBody(this.body);
 		this.used = false;
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
-
-		if (this.body != null) {
-			this.body.getWorld().destroyBody(this.body);
-		}
+		this.body = World.removeBody(this.body);
 	}
 
 	public void setAdded(float added) {
@@ -150,7 +126,6 @@ public class Weapon extends Item {
 
 				creature.vel.x += Math.cos(a) * this.knockback * 50;
 				creature.vel.y += Math.sin(a) * this.knockback * 50;
-				return;
 			}
 		}
 	}

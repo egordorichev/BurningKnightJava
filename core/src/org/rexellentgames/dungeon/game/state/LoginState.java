@@ -42,7 +42,7 @@ public class LoginState extends State {
 			@Override
 			public void onClick() {
 				if (name.getInput().length() > 0) {
-					Dungeon.world = new World(new Vector2(0, 0), true);
+					// wdDungeon.world = new World(new Vector2(0, 0), true);
 
 					Network.SERVER = false;
 					Player.NAME = name.getInput();

@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
 
 public class ArrowEntity extends Entity {
@@ -30,39 +31,18 @@ public class ArrowEntity extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
-
-		this.body.getWorld().destroyBody(this.body);
-		this.body = null;
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		BodyDef def = new BodyDef();
-		def.type = BodyDef.BodyType.DynamicBody;
-
-		body = Dungeon.world.createBody(def);
-		PolygonShape poly = new PolygonShape();
-
 		int w = sprite.getRegionWidth();
 		int h = sprite.getRegionHeight();
 
-		poly.set(new Vector2[]{
-			new Vector2((float) Math.floor((double) -w / 2), -h / 2), new Vector2((float) Math.ceil((double) w / 2), -h / 2),
-			new Vector2((float) Math.floor((double) -w / 2), h / 2), new Vector2((float) Math.ceil((double) w / 2), h / 2)
-		});
-
-		FixtureDef fixture = new FixtureDef();
-
-		fixture.shape = poly;
-		fixture.friction = 0;
-
-		body.createFixture(fixture);
-		body.setUserData(this);
-		body.setBullet(true);
-		poly.dispose();
-
+		this.body = World.createSimpleCentredBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, true);
+		this.body.setBullet(true);
 		this.body.setTransform(this.x, this.y, this.a);
 
 		// todo: charge == high speed

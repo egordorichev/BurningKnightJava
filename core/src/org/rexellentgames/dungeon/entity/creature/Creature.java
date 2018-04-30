@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -72,14 +73,22 @@ public class Creature extends SaveableEntity {
 		this.states.put(Dungeon.longTime, state);
 	}
 
-	@Override
-	public Body createBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
+	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
 		this.hx = x;
 		this.hy = y;
 		this.hw = w;
 		this.hh = h;
 
-		return super.createBody(x, y, w, h, type, sensor);
+		return World.createSimpleBody(this, x, y, w, h, type, sensor);
+	}
+
+	public Body createSimpleCentredBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
+		this.hx = x;
+		this.hy = y;
+		this.hw = w;
+		this.hh = h;
+
+		return World.createSimpleCentredBody(this, x, y, w, h, type, sensor);
 	}
 
 	public void modifyDefense(int amount) {
@@ -104,8 +113,7 @@ public class Creature extends SaveableEntity {
 		super.destroy();
 
 		if (this.body != null) {
-			this.body.getWorld().destroyBody(this.body);
-			this.body = null;
+			this.body = World.removeBody(this.body);
 		}
 	}
 

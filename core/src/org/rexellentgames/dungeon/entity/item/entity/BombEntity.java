@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Explosion;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -36,7 +37,7 @@ public class BombEntity extends Entity {
 	public void init() {
 		super.init();
 
-		this.body = this.createBody(2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 
 		for (Entity entity : Dungeon.area.getEntities()) {
@@ -60,7 +61,7 @@ public class BombEntity extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.body.getWorld().destroyBody(this.body);
+		this.body = World.removeBody(this.body);
 	}
 
 	public BombEntity randomVel() {

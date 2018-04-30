@@ -223,7 +223,7 @@ public class Player extends Creature {
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, 6);
-		this.body = this.createBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 	}
 
 	public void modifyMana(float a) {
