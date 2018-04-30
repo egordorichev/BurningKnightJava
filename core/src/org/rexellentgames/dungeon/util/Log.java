@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Log {
+	public static final boolean ENABLE_PHYSICS_MESSAGES = true;
 	private static FileWriter file;
 
 	public static void report(Throwable t) {
@@ -53,5 +54,19 @@ public class Log {
 		}
 
 		System.out.println("\u001B[32m" + string + "\u001B[0m");
+	}
+
+	public static void physics(String string) {
+		if (!ENABLE_PHYSICS_MESSAGES) {
+			return;
+		}
+
+		try {
+			file.write("Physics: " + string + "\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("\u001B[34m" + string + "\u001B[0m");
 	}
 }
