@@ -35,13 +35,13 @@ public class HallLevel extends RegularLevel {
 		ArrayList<Creature> creatures = super.generateCreatures();
 		ArrayList<Class<? extends Mob>> spawns = new ArrayList<>();
 
-		int count = Random.newInt(3, 5);
+		int count = Random.newInt(2, 5);
 
-		if (Dungeon.depth != 0) {
+		if (Dungeon.depth > 1) {
 			spawns.add(Knight.class);
 		}
 
-		if (Dungeon.depth > 1) {
+		if (Dungeon.depth > 2) {
 			spawns.add(Clown.class);
 		}
 
@@ -85,7 +85,7 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	protected int getNumRegularRooms() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt(Dungeon.depth + 3, (int) (Dungeon.depth * 1.5f + 2));
+		return Dungeon.depth <= 0 ? 0 : Random.newInt(Dungeon.depth + 2, (int) (Dungeon.depth * 1.5f + 3));
 	}
 
 	@Override

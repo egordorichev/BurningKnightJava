@@ -95,8 +95,8 @@ public class RegularRoom extends Room {
 	));
 
 	private static float[] chances = new float[] {
-		5, 2, 1, 1,
-		1, 0.5f, 1, 1,
+		5, 2, 1, 0.3f,
+		0.4f, 0.5f, 1, 1,
 	};
 
 	public static RegularRoom create() {

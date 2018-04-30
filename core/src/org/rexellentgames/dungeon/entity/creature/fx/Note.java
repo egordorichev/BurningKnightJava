@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Random;
@@ -53,15 +55,28 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		region = frames.get(Random.newInt(frames.size())).frame;
 	}
 
+	private void parts() {
+		for (int i = 0; i < 20; i++) {
+			Part part = new Part();
+
+			part.x = this.x - this.vel.x;
+			part.y = this.y - this.vel.y;
+
+			Dungeon.area.add(part);
+		}
+	}
+
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Mob && !this.bad && !((Mob) entity).isDead()) {
 			((Mob) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
 			this.done = true;
+			this.parts();
 			// ((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
 			((Player) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
 			this.done = true;
+			this.parts();
 			// ((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
 			if (((Weapon) entity).getOwner() instanceof Player) {
@@ -70,6 +85,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 			}
 		} else if (entity == null) {
 			this.done = true; // Wall
+			this.parts();
 		}
 	}
 
