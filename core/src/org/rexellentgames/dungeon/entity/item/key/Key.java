@@ -16,7 +16,7 @@ public class Key extends Item {
 	@Override
 	public void onPickup() {
 		super.onPickup();
-		Graphics.playSfx("key", 1f, Random.newFloat(0.9f, 1.1f));
+		Graphics.playSfx("key");
 	}
 
 	@Override

@@ -1,11 +1,9 @@
-package org.rexellentgames.dungeon.entity.item.weapon.bow;
+package org.rexellentgames.dungeon.entity.item.weapon.bow.arrows;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
@@ -14,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
@@ -98,8 +97,8 @@ public class ArrowEntity extends Entity {
 		if (entity instanceof Mob) {
 			Creature creature = ((Creature) entity);
 
-			creature.vel.x += this.vel.x;
-			creature.vel.y += this.vel.y;
+			creature.vel.x += this.vel.x * 10f;
+			creature.vel.y += this.vel.y * 10f;
 
 			creature.modifyHp(-this.damage);
 			this.done = true;
