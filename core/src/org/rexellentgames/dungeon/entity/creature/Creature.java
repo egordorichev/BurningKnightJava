@@ -10,6 +10,8 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
+import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
@@ -126,6 +128,11 @@ public class Creature extends SaveableEntity {
 		super.init();
 
 		this.t = Random.newFloat(1024);
+
+		if (this instanceof Mob && !(this instanceof BurningKnight)) {
+			this.hp += (Dungeon.depth - 1) * 5;
+		}
+
 		this.hp = this.hpMax;
 	}
 
