@@ -166,6 +166,8 @@ public class LoadState extends State {
 						} else {
 							BurningKnight.instance.checkForRage();
 						}
+
+						BurningKnight.instance.become("unactive");
 					}
 
 					if (Lamp.instance != null) {

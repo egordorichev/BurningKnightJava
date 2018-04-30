@@ -257,6 +257,10 @@ public class ItemHolder extends SaveableEntity {
 			this.body = World.removeBody(this.body);
 		}
 
+		if (this.item == null) {
+			return this;
+		}
+
 		// This might be bad!
 		this.body = this.createSimpleBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
 			BodyDef.BodyType.DynamicBody, false);
