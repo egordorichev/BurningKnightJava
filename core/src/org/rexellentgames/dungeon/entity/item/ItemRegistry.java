@@ -10,6 +10,10 @@ import org.rexellentgames.dungeon.entity.item.consumable.seed.PotionGrassSeed;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.ManaSpell;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfDamage;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportation;
+import org.rexellentgames.dungeon.entity.item.key.Key;
+import org.rexellentgames.dungeon.entity.item.key.KeyA;
+import org.rexellentgames.dungeon.entity.item.key.KeyB;
+import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.item.weapon.*;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB;
@@ -99,7 +103,9 @@ public class ItemRegistry {
 		register("ghost", GhostLeaver.class);
 		register("worm_hole", WormHole.class);
 		register("mana_spell", ManaSpell.class);
-		register("key", Key.class);
+		register("key_a", KeyA.class);
+		register("key_b", KeyB.class);
+		register("key_c", KeyC.class);
 		register("compass", Compass.class);
 	}
 
