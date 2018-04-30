@@ -67,10 +67,6 @@ public class Player extends Creature {
 	private int gold;
 	public Room currentRoom;
 
-	private static Sound[] steps;
-	private static Sound[] waterSteps;
-	private static Sound[] hurtSfx;
-
 	{
 		hpMax = 100;
 		manaMax = 100;
@@ -115,17 +111,10 @@ public class Player extends Creature {
 	}
 
 	protected void playStepSfx() {
-		if (this.watery > 0) {
-			if (this.watery > 4.5f) {
-				Sound sound = waterSteps[Random.newInt(5)];
-				sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
-			} else {
-				Sound sound = steps[Random.newInt(5)];
-				sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
-			}
+		if (this.watery > 4.5f) {
+			Graphics.playSfx("step_gobbo_water_" + Random.newInt(1, 5), 1f, Random.newFloat(0.9f, 1.9f));
 		} else {
-			Sound sound = steps[Random.newInt(5)];
-			sound.setPitch(sound.play(), Random.newFloat(0.9f, 1.9f));
+			Graphics.playSfx("step_gobbo_" + Random.newInt(1, 5), 1f, Random.newFloat(0.9f, 1.9f));
 		}
 	}
 
@@ -200,21 +189,6 @@ public class Player extends Creature {
 	public void init() {
 		super.init();
 
-		if (steps == null) {
-			steps = new Sound[5];
-			waterSteps = new Sound[5];
-			hurtSfx = new Sound[5];
-
-			for (int i = 1; i < 6; i++) {
-				steps[i - 1] = Graphics.getSound("step_gobbo_" + i);
-				waterSteps[i - 1] = Graphics.getSound("step_gobbo_water_" + i);
-			}
-
-			for (int i = 1; i < 4; i++) {
-				hurtSfx[i - 1] = Graphics.getSound("voice_gobbo_" + i);
-			}
-		}
-
 		if (instance == null) {
 			instance = this;
 		}
@@ -252,7 +226,7 @@ public class Player extends Creature {
 		super.onHurt();
 
 		Camera.instance.shake(4f);
-		hurtSfx[Random.newInt(3)].play();
+		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 3), 1f, Random.newFloat(0.9f, 1.9f));
 
 		if (this.hp == 0) {
 			Dungeon.slowDown(0.5f, 2f);

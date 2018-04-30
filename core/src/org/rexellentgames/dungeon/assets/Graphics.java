@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -20,6 +21,8 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.util.Log;
 
+import java.util.HashMap;
+
 public class Graphics {
 	public static SpriteBatch batch;
 	public static ShapeRenderer shape;
@@ -30,6 +33,7 @@ public class Graphics {
 	public static AssetManager manager;
 	public static FrameBuffer shadows;
 	public static FrameBuffer surface;
+	public static HashMap<String, Float> volumes = new HashMap<>();
 
 	public static void delay() {
 		delay(20);
@@ -89,6 +93,7 @@ public class Graphics {
 
 		for (JsonValue name : root) {
 			manager.load("sfx/" + name.toString() + ".wav", Sound.class);
+			volumes.put(name.toString(), 1f);
 		}
 
 		root = reader.parse(Gdx.files.internal("music/music.json"));
@@ -108,6 +113,34 @@ public class Graphics {
 
 		small.getData().markupEnabled = true;
 		medium.getData().markupEnabled = true;
+
+		FileHandle file = Gdx.files.external("sfx.json");
+
+		if (file.exists()) {
+			root = reader.parse(file);
+
+			for (JsonValue name : root) {
+				Log.info("Set " + name.name + " to " + name.asFloat());
+				volumes.put(name.name, name.asFloat());
+			}
+		}
+	}
+
+	public static long playSfx(String name) {
+		return playSfx(name, 1f, 1f);
+	}
+
+	public static long playSfx(String name, float volume) {
+		return playSfx(name, volume, 1f);
+	}
+
+	public static long playSfx(String name, float volume, float pitch) {
+		Sound sound = getSound(name);
+
+		long id = sound.play(volume * volumes.get(name));
+		sound.setPitch(id, pitch);
+
+		return id;
 	}
 
 	public static void resize(int w, int h) {

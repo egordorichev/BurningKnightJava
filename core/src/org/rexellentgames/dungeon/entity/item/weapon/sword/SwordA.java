@@ -13,10 +13,8 @@ public class SwordA extends Sword {
 		useTime = 0.4f;
 	}
 
-	private static Sound sfx = Graphics.getSound("sword_2");
-
 	@Override
-	public Sound getSfx() {
-		return sfx;
+	public String getSfx() {
+		return "sword_2";
 	}
 }

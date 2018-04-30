@@ -15,12 +15,10 @@ public class Gold extends Item {
 		identified = true;
 	}
 
-	private static Sound sfx = Graphics.getSound("coin");
-
 	@Override
 	public void onPickup() {
 		super.onPickup();
-		sfx.play();
+		Graphics.playSfx("coin", 1f, Random.newFloat(0.9f, 1.9f));
 	}
 
 	@Override

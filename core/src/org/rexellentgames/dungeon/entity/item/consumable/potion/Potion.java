@@ -11,7 +11,6 @@ import org.rexellentgames.dungeon.util.Tween;
 public class Potion extends Consumable {
 	protected float added;
 	protected ChangableRegistry.Type type;
-	private static Sound sound = Graphics.getSound("potion");
 
 	{
 		useTime = 10f;
@@ -61,7 +60,7 @@ public class Potion extends Consumable {
 		super.use();
 		this.identify();
 
-		sound.play();
+		Graphics.playSfx("potion");
 
 		Tween.to(new Tween.Task(-70, 0.3f) {
 			@Override

@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.item;
 import com.badlogic.gdx.audio.Sound;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
+import org.rexellentgames.dungeon.util.Random;
 
 public class Key extends Item {
 	{
@@ -15,12 +16,10 @@ public class Key extends Item {
 		// autoPickup = true;
 	}
 
-	private static Sound pickup = Graphics.getSound("key");
-
 	@Override
 	public void onPickup() {
 		super.onPickup();
-		pickup.play();
+		Graphics.playSfx("key", 1f, Random.newFloat(0.9f, 1.9f));
 	}
 
 	@Override

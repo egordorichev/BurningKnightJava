@@ -10,7 +10,6 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class Spell extends Consumable {
 	protected ChangableRegistry.Type type;
-	private static Sound sound = Graphics.getSound("scroll");
 
 	{
 		useTime = 1f;
@@ -53,7 +52,7 @@ public class Spell extends Consumable {
 
 	@Override
 	public void use() {
-		sound.play();
+		Graphics.playSfx("scroll");
 		this.identify();
 		this.count -= 1;
 		super.use();
