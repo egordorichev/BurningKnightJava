@@ -140,6 +140,8 @@ public abstract class RegularLevel extends Level {
 		int special = this.getNumSpecialRooms();
 		int connection = this.getNumConnectionRooms();
 
+		Log.info("Creating " + regular + " " + special + " " + connection + " rooms");
+
 		for (int i = 0; i < regular; i++) {
 			RegularRoom room;
 
