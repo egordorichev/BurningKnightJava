@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -99,6 +100,10 @@ public class Item extends Entity {
 	public TextureRegion getSprite() {
 		if (this.region == null) {
 			this.region = Graphics.getTexture(this.sprite);
+
+			if (this.region == null) {
+				Log.error("Invalid item sprite " + this.getClass().getSimpleName());
+			}
 		}
 
 		return this.region;

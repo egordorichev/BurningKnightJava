@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.key.Key;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
+import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -303,7 +304,7 @@ public class Mob extends Creature {
 		}
 
 		if (this.hasKey) {
-			items.add(new Key());
+			items.add(new KeyC());
 		}
 
 		items.add(new Gold().randomize());

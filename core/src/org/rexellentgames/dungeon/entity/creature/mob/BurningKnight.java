@@ -538,8 +538,6 @@ public class BurningKnight extends Mob {
 	}
 
 	public class PreattackState extends BKState {
-		public final static float DELAY = 1f;
-
 		@Override
 		public void onEnter() {
 			super.onEnter();
@@ -548,7 +546,7 @@ public class BurningKnight extends Mob {
 
 		@Override
 		public void update(float dt) {
-			if (this.t >= DELAY) {
+			if (this.t >= 2f / Dungeon.depth) {
 				self.become("attack");
 				return;
 			}
