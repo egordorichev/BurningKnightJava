@@ -202,8 +202,8 @@ public class Dungeon extends ApplicationAdapter {
 		combine.setSource1Saturation(0f);
 		combine.setSource2Saturation(1f);
 
+		postProcessor.addEffect(crt);
 		// postProcessor.addEffect(new Fxaa(vpW, vpH));
-		// postProcessor.addEffect(crt);
 	}
 
 	@Override
@@ -284,7 +284,8 @@ public class Dungeon extends ApplicationAdapter {
 			float zoom = Camera.instance.getCamera().zoom;
 
 			postProcessor.capture();
-			Camera.instance.viewport.apply();
+			// If not CRT
+			// Camera.instance.viewport.apply();
 
 			if (draw) {
 				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
