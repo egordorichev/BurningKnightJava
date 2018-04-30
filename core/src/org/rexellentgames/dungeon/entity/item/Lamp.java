@@ -83,7 +83,7 @@ public class Lamp extends Item {
 
 			knight.dialog = BurningKnight.onLampTake;
 
-			BurningKnight.voice.play();
+			Graphics.playSfx("bk_voice");
 			Dungeon.level.addPlayerSaveable(knight);
 		}
 	}
@@ -209,14 +209,6 @@ public class Lamp extends Item {
 	}
 
 	private void play() {
-		if (sfx == null) {
-			sfx = new Sound[4];
-
-			for (int i = 1; i < 5; i++) {
-				sfx[i - 1] = Graphics.getSound("curse_lamp_1");
-			}
-		}
-
-		sfx[Random.newInt(4)].play();
+		Graphics.playSfx("curse_lamp_" + Random.newInt(1, 3), 1f, Random.newFloat(0.9f, 1.9f));
 	}
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.util.Log;
@@ -93,9 +94,9 @@ public class Entity extends Point {
 			this.y <= camera.position.y + this.h + Display.GAME_HEIGHT / 2 * zoom;
 	}
 
-	public long playSfx(Sound sound) {
+	public long playSfx(String sound) {
 		if (this instanceof Player) {
-			return sound.play();
+			return Graphics.playSfx(sound);
 		}
 
 		if (!this.onScreen) {
@@ -108,6 +109,6 @@ public class Entity extends Point {
 			return -1;
 		}
 
-		return sound.play((128f - d) / 128f);
+		return Graphics.playSfx(sound, (128f - d) / 128f);
 	}
 }

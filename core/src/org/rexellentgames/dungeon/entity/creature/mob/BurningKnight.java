@@ -40,8 +40,7 @@ public class BurningKnight extends Mob {
 	private AnimationData animation;
 	public int lock;
 	private long sid;
-	private static Sound sfx = Graphics.getSound("bk");
-	public static Sound voice = Graphics.getSound("bk_voice");
+	private static Sound sfx;
 
 	{
 		mind = Mind.ATTACKER;
@@ -144,8 +143,10 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void init() {
-		this.sid = sfx.loop();
-		sfx.setVolume(this.sid, 0);
+		this.sfx = Graphics.getSound("bk");
+		this.sid = this.sfx.loop(Graphics.playSfx("bk"));
+
+		this.sfx.setVolume(this.sid, 0);
 
 		instance = this;
 		super.init();

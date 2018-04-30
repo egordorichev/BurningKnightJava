@@ -37,8 +37,6 @@ public class Sword extends Weapon {
 	protected float timeA = 0.1f;
 	protected float timeB = 0.1f;
 
-	private static Sound slash = Graphics.getSound("sword_1");
-
 	@Override
 	public boolean isBlocking() {
 		return this.blocking;
@@ -50,8 +48,8 @@ public class Sword extends Weapon {
 		damage = 3;
 	}
 
-	protected Sound getSfx() {
-		return slash;
+	protected String getSfx() {
+		return "sword_1";
 	}
 
 	@Override

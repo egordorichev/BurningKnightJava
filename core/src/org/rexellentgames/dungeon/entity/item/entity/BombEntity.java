@@ -19,9 +19,6 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BombEntity extends Entity {
-	private static Sound place = Graphics.getSound("bomb_placed");
-	private static Sound explode = Graphics.getSound("explosion");
-
 	public static Animation animations = Animation.make("actor-bomb");
 	private AnimationData animation = animations.get("idle");
 	private Body body;
@@ -55,7 +52,7 @@ public class BombEntity extends Entity {
 			}
 		}
 
-		this.playSfx(place);
+		this.playSfx("bomb_placed");
 	}
 
 	@Override
@@ -97,7 +94,7 @@ public class BombEntity extends Entity {
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation.update(dt)) {
-			this.playSfx(explode);
+			this.playSfx("explosion");
 			this.done = true;
 			Dungeon.area.add(new Explosion(this.x + 8, this.y + 8));
 
