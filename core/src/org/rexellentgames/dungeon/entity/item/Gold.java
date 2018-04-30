@@ -18,7 +18,7 @@ public class Gold extends Item {
 	@Override
 	public void onPickup() {
 		super.onPickup();
-		Graphics.playSfx("coin", 1f, Random.newFloat(0.9f, 1.9f));
+		Graphics.playSfx("coin", 1f, Random.newFloat(0.9f, 1.1f));
 	}
 
 	@Override

@@ -21,6 +21,7 @@ public class GoreFx extends Entity {
 	public void init() {
 		super.init();
 
+		this.depth = -1;
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-30f, 30f);
 
