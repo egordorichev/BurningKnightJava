@@ -34,7 +34,6 @@ public class Lamp extends Item {
 	public float val = Dungeon.type == Dungeon.Type.INTRO ? 90f : 100f;
 	private boolean lightUp;
 	private boolean added;
-	private static Sound[] sfx;
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
@@ -157,7 +156,7 @@ public class Lamp extends Item {
 				this.lightUp = false;
 			}
 		} else {
-			if (BurningKnight.instance != null) {
+			if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) {
 				float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
 					BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 
@@ -208,7 +207,7 @@ public class Lamp extends Item {
 		this.play();
 	}
 
-	private void play() {
+	public static void play() {
 		Graphics.playSfx("curse_lamp_" + Random.newInt(1, 3), 1f, Random.newFloat(0.9f, 1.9f));
 	}
 }

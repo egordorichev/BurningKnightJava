@@ -166,11 +166,11 @@ public class Chest extends SaveableEntity {
 	}
 
 	public static Chest random() {
-		if (Random.newFloat() > 0.9f) {
+		if (Random.newFloat() < 0.6f) {
 			return new WoodenChest();
 		}
 
-		if (Random.newFloat() > 0.9f) {
+		if (Random.newFloat() < 0.6f) {
 			return new IronChest();
 		}
 

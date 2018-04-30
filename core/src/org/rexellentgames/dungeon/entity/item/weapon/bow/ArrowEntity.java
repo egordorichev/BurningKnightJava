@@ -41,7 +41,7 @@ public class ArrowEntity extends Entity {
 		int w = sprite.getRegionWidth();
 		int h = sprite.getRegionHeight();
 
-		this.body = World.createSimpleCentredBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleCentredBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, false);
 		this.body.setBullet(true);
 		this.body.setTransform(this.x, this.y, this.a);
 

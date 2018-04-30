@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
@@ -89,24 +90,26 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
-			Room room;
-			Point center;
+		Room room;
+		Point center;
 
-			int attempts = 0;
+		int attempts = 0;
 
-			do {
-				room = Dungeon.level.getRandomRoom();
-				center = room.getCenter();
+		do {
+			room = Dungeon.level.getRandomRoom();
+			center = room.getCenter();
 
-				if (attempts++ > 40) {
-					Log.info("Too many");
-					break;
-				}
-			} while (room instanceof EntranceRoom || room instanceof ExitRoom);
+			if (attempts++ > 40) {
+				Log.info("Too many");
+				break;
+			}
+		} while (room instanceof EntranceRoom || room instanceof ExitRoom);
 
-			this.tp(center.x * 16 - 16, center.y * 16 - 16);
+		this.tp(center.x * 16 - 16, center.y * 16 - 16);
+
+		if (!this.state.equals("unactive")) {
 			this.become("idle");
-
+		}
 	}
 
 	@Override
@@ -153,6 +156,14 @@ public class BurningKnight extends Mob {
 
 		this.t = 0;
 		this.body = this.createSimpleBody(7, 10, 21, 18, BodyDef.BodyType.DynamicBody, true);
+		this.become("unactive");
+	}
+
+	@Override
+	public void become(String state) {
+		super.become(state);
+
+		Log.info("become " + state);
 	}
 
 	@Override
@@ -745,6 +756,34 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	public class UnactiveState extends BKState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.a = 0;
+			self.unhittable = true;
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (Player.instance.currentRoom != null && !(Player.instance.currentRoom instanceof EntranceRoom)) {
+				Log.info("BK is out");
+
+				float a = Random.newFloat((float) (Math.PI * 2));
+
+				self.unhittable = false;
+				self.tp(Player.instance.x + Player.instance.w / 2 + (float) Math.cos(a) * 64f,
+					Player.instance.y + Player.instance.h / 2 + (float) Math.sin(a) * 64f);
+				self.become("fadeIn");
+
+				Lamp.play();
+			}
+		}
+	}
+
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
@@ -770,6 +809,8 @@ public class BurningKnight extends Mob {
 				return new DialogState();
 			case "wait":
 				return new WaitState();
+			case "unactive":
+				return new UnactiveState();
 		}
 
 		return super.getAi(state);

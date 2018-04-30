@@ -85,6 +85,8 @@ public class Gun extends Item {
 
 		Camera.instance.shake(2);
 
+		Graphics.playSfx("gun_machinegun", 1f, Random.newFloat(0.6f, 1.5f));
+
 		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
 
 		Shell shell = new Shell();
