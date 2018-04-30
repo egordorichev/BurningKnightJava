@@ -212,7 +212,8 @@ public class Player extends Creature {
 
 				if (Dungeon.level.checkFor((int) cell.x, (int) cell.y, Terrain.PASSABLE)) {
 					this.tp(cell.x * 16, cell.y * 16);
-					this.modifyHp(-60, true);
+					this.fallHurt = true;
+
 					Camera.instance.follow(this);
 
 					break;
@@ -220,6 +221,8 @@ public class Player extends Creature {
 			}
 		}
 	}
+
+	private boolean fallHurt;
 
 	@Override
 	protected void onHurt() {
@@ -259,6 +262,15 @@ public class Player extends Creature {
 
 			if (room != null) {
 				this.currentRoom = room;
+			}
+
+			if (this.fallHurt) {
+				this.fallHurt = false;
+				this.falling = false;
+				boolean h = this.unhittable;
+				this.unhittable = false;
+				this.modifyHp(-60, true);
+				this.unhittable = h;
 			}
 		}
 
@@ -360,7 +372,9 @@ public class Player extends Creature {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(1, 1, 1, this.a);
+		boolean h = (this.hp < this.hpMax / 4);
+
+		Graphics.batch.setColor(1, h ? 0.2f : 1, h ? 0.2f : 1, this.a);
 
 		if (this.falling) {
 			this.renderFalling(this.animation);

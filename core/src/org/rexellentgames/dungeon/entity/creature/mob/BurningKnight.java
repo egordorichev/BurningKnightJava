@@ -160,13 +160,6 @@ public class BurningKnight extends Mob {
 	}
 
 	@Override
-	public void become(String state) {
-		super.become(state);
-
-		Log.info("become " + state);
-	}
-
-	@Override
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
