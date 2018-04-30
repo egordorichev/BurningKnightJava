@@ -12,7 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.Key;
+import org.rexellentgames.dungeon.entity.item.key.Key;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.level.Level;
