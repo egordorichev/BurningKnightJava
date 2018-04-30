@@ -90,7 +90,7 @@ public class FlameFx extends Entity {
 
 		float s = this.size / 2;
 
-		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.5f);
+		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.7f);
 		Graphics.shape.rect(this.x + this.owner.w / 2, this.y + this.owner.h / 5, s, s, this.size,
 			this.size, 1, 1, this.angle);
 
