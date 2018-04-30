@@ -66,10 +66,6 @@ public class HallLevel extends RegularLevel {
 	protected ArrayList<Item> generateItems() {
 		ArrayList<Item> items = super.generateItems();
 
-		if (Dungeon.depth != 0) {
-			// TODO: generate the loot here
-		}
-
 		return items;
 	}
 

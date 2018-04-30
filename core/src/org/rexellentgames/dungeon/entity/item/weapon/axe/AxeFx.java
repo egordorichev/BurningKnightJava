@@ -30,6 +30,7 @@ public class AxeFx extends Entity {
 
 	@Override
 	public void init() {
+		this.alwaysActive = true;
 		float dx = Input.instance.worldMouse.x - this.x - 8;
 		float dy = Input.instance.worldMouse.y - this.y - 8;
 		float a = (float) Math.atan2(dy, dx);

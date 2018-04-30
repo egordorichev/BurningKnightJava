@@ -285,6 +285,7 @@ public class Dungeon extends ApplicationAdapter {
 			float zoom = Camera.instance.getCamera().zoom;
 
 			postProcessor.capture();
+			Camera.instance.viewport.apply();
 
 			if (draw) {
 				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
