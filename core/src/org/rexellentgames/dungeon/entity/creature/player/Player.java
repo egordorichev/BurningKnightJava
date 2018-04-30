@@ -391,7 +391,6 @@ public class Player extends Creature {
 			this.animation = idle;
 		}
 
-
 		if (this.ui != null) {
 			this.ui.renderBeforePlayer(this);
 		}
