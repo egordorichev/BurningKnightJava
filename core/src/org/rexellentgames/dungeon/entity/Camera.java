@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -65,6 +66,7 @@ public class Camera extends Entity {
 		this.alwaysActive = true;
 		this.camera = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
+		this.camera.zoom = 0.8f;
 		this.camera.update();
 		this.viewport = new ScalingViewport(Scaling.fit, Display.GAME_WIDTH, Display.GAME_HEIGHT, this.camera);
 		this.viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
