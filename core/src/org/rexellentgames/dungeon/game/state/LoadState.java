@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -19,6 +18,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntran
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.Tween;
@@ -102,7 +102,7 @@ public class LoadState extends State {
 		Player.REGISTERED = false;
 		Level.GENERATED = false;
 
-		Dungeon.world = new World(new Vector2(0, 0), true);
+		World.init();
 
 		Dungeon.area.add(new Camera());
 		Dungeon.ui.add(new UiLog());
@@ -133,7 +133,7 @@ public class LoadState extends State {
 					} catch (RuntimeException e) {
 						Log.report(e);
 
-						Dungeon.game.setState(new LoadState());
+						// Dungeon.game.setState(new LoadState());
 						Thread.currentThread().interrupt();
 
 						return;

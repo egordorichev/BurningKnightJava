@@ -16,8 +16,10 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
@@ -64,7 +66,7 @@ public class Sword extends Weapon {
 
 		if (this.blocking && (Input.instance.wasReleased("mouse1") || Input.instance.wasReleased("scroll") || this.blockT <= 0)) {
 			this.blocking = false;
-			this.blockbox.getWorld().destroyBody(this.blockbox);
+			this.blockbox = World.removeBody(this.blockbox);
 			this.blockT = 3f;
 
 			this.blockbox = null;
@@ -170,7 +172,9 @@ public class Sword extends Weapon {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 
-		this.blockbox = Dungeon.world.createBody(def);
+		Log.physics("Creating centred body for " + this.getClass().getSimpleName());
+
+		this.blockbox = World.world.createBody(def);
 		PolygonShape poly = new PolygonShape();
 
 		int w = this.region.getRegionWidth();
@@ -196,10 +200,7 @@ public class Sword extends Weapon {
 	@Override
 	public void destroy() {
 		super.destroy();
-
-		if (this.blockbox != null) {
-			this.blockbox.getWorld().destroyBody(this.blockbox);
-		}
+		this.blockbox = World.removeBody(this.blockbox);
 	}
 
 	@Override

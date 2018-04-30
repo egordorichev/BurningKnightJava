@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -63,7 +64,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		this.y -= 4;
 
-		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 
@@ -89,8 +90,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public void destroy() {
 		super.destroy();
 		WormholeFx.suck.remove(this);
-		this.body.getWorld().destroyBody(this.body);
-		this.body = null;
+		this.body = World.removeBody(this.body);
 	}
 
 	private boolean changed;

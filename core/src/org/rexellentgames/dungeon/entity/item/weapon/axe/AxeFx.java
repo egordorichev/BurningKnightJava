@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -40,8 +41,8 @@ public class AxeFx extends Entity {
 			(float) Math.sin(a) * this.speed
 		);
 
-		this.body = this.createBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x - 8, this.y - 8, 0);
+		this.body = World.createSimpleCentredBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 
 		this.a = Random.newFloat((float) (Math.PI * 2));
@@ -59,7 +60,7 @@ public class AxeFx extends Entity {
 
 		this.a += dt * 1000;
 
-		this.body.setTransform(this.x - 8, this.y - 8, 0);
+		this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 
 		float dx = this.owner.x + this.owner.w / 2 - this.x - 8;
 		float dy = this.owner.y + this.owner.h / 2 - this.y - 8;
@@ -116,8 +117,7 @@ public class AxeFx extends Entity {
 	public void destroy() {
 		super.destroy();
 
-		this.body.getWorld().destroyBody(this.body);
-
+		this.body = World.removeBody(this.body);
 		ItemHolder holder = new ItemHolder();
 
 		try {

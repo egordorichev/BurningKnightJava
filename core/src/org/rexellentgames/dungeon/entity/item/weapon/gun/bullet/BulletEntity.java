@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -32,7 +33,7 @@ public class BulletEntity extends Entity {
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
-		this.body = this.createCentredBody(0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, ra);
 		this.body.setBullet(true);
 		this.auto = this.letter.equals("C");
@@ -62,8 +63,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void destroy() {
-		body.getWorld().destroyBody(body);
-		this.body = null;
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override

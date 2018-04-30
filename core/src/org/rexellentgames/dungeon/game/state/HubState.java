@@ -25,16 +25,16 @@ public class HubState extends State {
 		this.accumulator += frameTime;
 
 		while (accumulator >= TIME_STEP) {
-			Dungeon.world.step(TIME_STEP, 6, 2);
+			// Dungeon.world.step(TIME_STEP, 6, 2);
 			this.accumulator -= TIME_STEP;
 		}
 	}
 
 	@Override
 	public void init() {
-		if (Dungeon.world == null) {
+		/*if (Dungeon.world == null) {
 			Dungeon.world = new World(new Vector2(0, 0), true);
-		}
+		}*/
 
 		Dungeon.area.add(new Camera());
 		Dungeon.ui.add(new UiLog());

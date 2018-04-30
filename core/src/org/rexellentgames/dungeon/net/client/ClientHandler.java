@@ -199,7 +199,7 @@ public class ClientHandler extends Listener {
 		Player.REGISTERED = false;
 		Level.GENERATED = false;
 
-		Dungeon.world = new World(new Vector2(0, 0), true);
+		// Dungeon.world = new World(new Vector2(0, 0), true);
 
 		Dungeon.area.add(new Camera());
 		Dungeon.ui.add(new UiLog());

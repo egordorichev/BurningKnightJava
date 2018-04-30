@@ -29,6 +29,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.net.Network;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -787,15 +788,21 @@ public abstract class Level extends Entity {
 		return ".bk/gobbo.save";
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
+	}
+
 	public void addPhysics() {
-		if (body != null) {
-			body.getWorld().destroyBody(body);
-		}
+		this.body = World.removeBody(this.body);
 
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.StaticBody;
 
-		body = Dungeon.world.createBody(def);
+		Log.physics("Creating level body");
+
+		this.body = World.world.createBody(def);
 
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {

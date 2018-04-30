@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -37,7 +38,7 @@ public class Chest extends SaveableEntity {
 
 		this.data = this.getClosedAnim();
 		this.data.setAutoPause(true);
-		this.body = this.createBody(5, 0, 16, 11, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 5, 0, 16, 11, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
@@ -61,8 +62,7 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
-
-		this.body.getWorld().destroyBody(this.body);
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override

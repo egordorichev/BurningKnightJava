@@ -151,7 +151,7 @@ public class BurningKnight extends Mob {
 		super.init();
 
 		this.t = 0;
-		this.body = this.createBody(7, 10, 21, 18, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createSimpleBody(7, 10, 21, 18, BodyDef.BodyType.DynamicBody, true);
 	}
 
 	@Override

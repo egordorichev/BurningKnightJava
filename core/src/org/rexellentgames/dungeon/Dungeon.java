@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.World;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
@@ -28,6 +27,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.*;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
@@ -39,7 +39,6 @@ public class Dungeon extends ApplicationAdapter {
 	public static int depth;
 	public static float time;
 	public static Level level;
-	public static World world;
 	public static Area area;
 	public static Area ui;
 	public static boolean reset;
@@ -367,10 +366,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		game.destroy();
 
-		if (world != null) {
-			world.dispose();
-		}
-
+		World.destroy();
 		Assets.destroy();
 
 		LoadState.writeDepth();

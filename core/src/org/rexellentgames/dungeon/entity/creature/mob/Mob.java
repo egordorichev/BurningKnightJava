@@ -19,6 +19,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
@@ -439,7 +440,7 @@ public class Mob extends Creature {
 			} if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
 				|| self.saw && self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
 
-				if (Dungeon.world.isLocked()) {
+				if (World.world.isLocked()) {
 					Log.error("World is locked!");
 
 					self.flee = 1.5f;

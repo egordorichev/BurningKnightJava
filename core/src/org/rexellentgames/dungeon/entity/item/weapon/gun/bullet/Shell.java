@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -24,7 +25,7 @@ public class Shell extends Entity {
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
 		this.sprite = frames.get(Random.newInt(frames.size())).frame;
-		this.body = this.createBody(0, 0, this.sprite.getRegionWidth(), this.sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createSimpleBody(this, 0, 0, this.sprite.getRegionWidth(), this.sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		this.body.setBullet(true);
@@ -33,11 +34,7 @@ public class Shell extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
-
-		if (this.body != null) {
-			this.body.getWorld().destroyBody(this.body);
-			this.body = null;
-		}
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override
@@ -55,8 +52,7 @@ public class Shell extends Entity {
 			this.vel.x = 0;
 
 			if (this.body != null) {
-				this.body.getWorld().destroyBody(this.body);
-				this.body = null;
+				this.body = World.removeBody(this.body);
 			}
 		}
 

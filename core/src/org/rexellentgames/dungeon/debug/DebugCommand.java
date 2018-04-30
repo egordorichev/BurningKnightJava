@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.debug;
 
 import org.rexellentgames.dungeon.game.state.InGameState;
+import org.rexellentgames.dungeon.physics.World;
 
 public class DebugCommand extends ConsoleCommand {
 	{
@@ -13,6 +14,6 @@ public class DebugCommand extends ConsoleCommand {
 	public void run(Console console, String[] args) {
 		super.run(console, args);
 
-		InGameState.DRAW_DEBUG = !InGameState.DRAW_DEBUG;
+		World.DRAW_DEBUG = !World.DRAW_DEBUG;
 	}
 }

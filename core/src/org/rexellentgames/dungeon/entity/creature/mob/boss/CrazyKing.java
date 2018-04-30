@@ -62,7 +62,7 @@ public class CrazyKing extends Boss {
 	@Override
 	public void init() {
 		super.init();
-		this.body = this.createBody(2, 4, (int) this.w, (int) this.h, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 4, (int) this.w, (int) this.h, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
