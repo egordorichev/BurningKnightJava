@@ -9,7 +9,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.weapon.bow.ArrowA;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.Bow;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;

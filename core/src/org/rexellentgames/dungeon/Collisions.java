@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
-import org.rexellentgames.dungeon.entity.item.weapon.bow.ArrowEntity;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.entity.level.entities.Door;

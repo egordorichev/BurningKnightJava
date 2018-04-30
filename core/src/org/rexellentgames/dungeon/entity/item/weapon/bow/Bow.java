@@ -5,6 +5,8 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.game.input.Input;
 
 public class Bow extends Item {
