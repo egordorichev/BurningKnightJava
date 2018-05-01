@@ -129,11 +129,7 @@ public class GraphicsSettingsState extends State {
 				Camera.instance.shake(3);
 				Settings.shaders = !Settings.shaders;
 
-				if (Settings.shaders) {
-					Dungeon.addCrt();
-				} else {
-					Dungeon.postProcessor.removeEffect(Dungeon.crt);
-				}
+				Dungeon.crt.setEnabled(Settings.shaders);
 			}
 		}.setOn(Settings.shaders).setSparks(true));
 

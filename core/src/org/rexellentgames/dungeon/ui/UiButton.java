@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.item.Spark;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
@@ -59,14 +60,14 @@ public class UiButton extends UiEntity implements InputProcessor {
 
 	@Override
 	public void render() {
-		if (this.sparks) {
-			Spark.random(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-		}
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.render(this.region, this.x, this.y, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / this.w * 20)), this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
 		Graphics.batch.setColor(1, 1, 1, 1);
+
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 	}
 
 	protected boolean playSfx = true;
@@ -80,12 +81,16 @@ public class UiButton extends UiEntity implements InputProcessor {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (this.sparks) {
+			Spark.random(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+		}
+
 		this.rr += (this.r - this.rr) * dt * 10;
 		this.rg += (this.g - this.rg) * dt * 10;
 		this.rb += (this.b - this.rb) * dt * 10;
 
 		boolean h = this.hover;
-		this.hover = CollisionHelper.check((int) Input.instance.worldMouse.x, (int) Input.instance.worldMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w + 8, this.h);
+		this.hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w + 8, this.h);
 
 		if (h && !this.hover) {
 			if (this.last != null) {

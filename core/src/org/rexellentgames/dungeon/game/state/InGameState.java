@@ -24,8 +24,12 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.UiBar;
+import org.rexellentgames.dungeon.ui.UiButton;
+import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
+
+import java.util.ArrayList;
 
 public class InGameState extends State {
 	public static boolean LIGHT = true;
@@ -40,12 +44,15 @@ public class InGameState extends State {
 	private int w;
 	private TextureRegion blood;
 	private float a;
+	private ArrayList<UiEntity> ui;
 
 	@Override
 	public void init() {
 		if (!Network.SERVER) {
 			this.debug = new Box2DDebugRenderer();
 		}
+
+		ui = new ArrayList<>();
 
 		blood = Graphics.getTexture("blood_frame");
 
@@ -315,5 +322,30 @@ public class InGameState extends State {
 		Dungeon.ui.add(this.health);
 		Dungeon.ui.add(this.mana);
 		Dungeon.ui.add(this.exp);
+
+		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("menu_label (resume)", Display.GAME_WIDTH / 2, 128) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				paused = false;
+				Camera.instance.shake(3);
+			}
+		}.setSparks(true)));
+
+		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("menu_label (settings)", Display.GAME_WIDTH / 2, 128 - 24) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				Camera.instance.shake(3);
+			}
+		}.setSparks(true)));
+
+		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("menu_label (save_and_exit)", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				Camera.instance.shake(3);
+			}
+		}));
 	}
 }

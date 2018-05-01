@@ -151,7 +151,7 @@ public class Dungeon extends ApplicationAdapter {
 		Locale.load("en");
 
 		if (!Network.SERVER) {
-			this.setupCursor();
+			// this.setupCursor();
 			Assets.init();
 		}
 
@@ -170,9 +170,8 @@ public class Dungeon extends ApplicationAdapter {
 			if (!Network.NONE) {
 				game.setState(new LoginState());
 			} else {
-				game.setState(new MainMenuState());
-
-				// Dungeon.goToLevel(0);
+				// game.setState(new GraphicsSettingsState());
+				Dungeon.goToLevel(0);
 			}
 		} else {
 			game.setState(new HubState());
@@ -192,10 +191,9 @@ public class Dungeon extends ApplicationAdapter {
 		int vpW = Gdx.graphics.getWidth();
 		int vpH = Gdx.graphics.getHeight();
 
-		if (Settings.shaders) {
-			addCrt();
-		}
+		addCrt();
 
+		crt.setEnabled(Settings.shaders);
 		// postProcessor.addEffect(new Fxaa(vpW, vpH));
 	}
 
@@ -304,8 +302,10 @@ public class Dungeon extends ApplicationAdapter {
 			float zoom = Camera.instance.getCamera().zoom;
 
 			postProcessor.capture();
-			// If not CRT
-			// Camera.instance.viewport.apply();
+
+			if (!crt.isEnabled()) {
+				Camera.instance.viewport.apply();
+			}
 
 			if (draw) {
 				Graphics.shape.setProjectionMatrix(Camera.ui.combined);

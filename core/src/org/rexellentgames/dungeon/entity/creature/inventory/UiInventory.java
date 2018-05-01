@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -152,6 +153,8 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
 		for (int i = 0; i < 6; i++) {
 			Item item = this.inventory.getSlot(i);
 			this.slots[i].render(item);

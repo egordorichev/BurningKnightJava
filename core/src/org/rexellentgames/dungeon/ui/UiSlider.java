@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.ui;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.item.Spark;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
@@ -38,9 +39,7 @@ public class UiSlider extends UiButton {
 
 	@Override
 	public void render() {
-		if (this.sparks) {
-			Spark.random(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
-		}
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		float a = (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (3f / this.w * 20));
 
@@ -57,6 +56,7 @@ public class UiSlider extends UiButton {
 			a, -8 - v, handle.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 	}
 
 	@Override
@@ -64,8 +64,8 @@ public class UiSlider extends UiButton {
 		super.update(dt);
 
 		if (this.hover && (Input.instance.isDown("mouse1") || Input.instance.isDown("mouse0"))) {
-			if (CollisionHelper.check((int) Input.instance.worldMouse.x, (int) Input.instance.worldMouse.y, (int) this.x , (int) this.y - this.h / 2, this.w / 2 + 4, this.h)) {
-				this.val = MathUtils.clamp(this.min, this.max, MathUtils.map(Input.instance.worldMouse.x - this.x - 11, 0, slider.getRegionWidth(), this.min, this.max));
+			if (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x , (int) this.y - this.h / 2, this.w / 2 + 4, this.h)) {
+				this.val = MathUtils.clamp(this.min, this.max, MathUtils.map(Input.instance.uiMouse.x - this.x - 11, 0, slider.getRegionWidth(), this.min, this.max));
 				this.onUpdate();
 			}
 		}
