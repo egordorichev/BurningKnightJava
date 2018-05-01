@@ -1,7 +1,15 @@
 package org.rexellentgames.dungeon.game.state;
 
 public class State {
-	protected boolean paused;
+	private boolean paused;
+
+	public void onPause() {
+
+	}
+
+	public void onUnpause() {
+
+	}
 
 	public boolean isPaused() {
 		return paused;
@@ -9,6 +17,12 @@ public class State {
 
 	public void setPaused(boolean paused) {
 		this.paused = paused;
+
+		if (this.paused) {
+			this.onPause();
+		} else {
+			this.onUnpause();
+		}
 	}
 
 	public State() {

@@ -8,6 +8,16 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
 
 public class SettingsState extends State {
+	public SettingsState() {
+
+	}
+
+	private boolean fromGame;
+
+	public SettingsState(boolean fromGame) {
+		this.fromGame = fromGame;
+	}
+
 	@Override
 	public void init() {
 		Dungeon.area.add(Camera.instance);
@@ -35,7 +45,13 @@ public class SettingsState extends State {
 			@Override
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
-				Dungeon.game.setState(new MainMenuState());
+
+				if (fromGame) {
+					Dungeon.goToLevel(-1);
+				} else {
+					Dungeon.game.setState(new MainMenuState());
+				}
+
 				Camera.instance.shake(3);
 			}
 		});

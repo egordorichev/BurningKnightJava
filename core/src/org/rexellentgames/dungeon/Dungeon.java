@@ -151,7 +151,7 @@ public class Dungeon extends ApplicationAdapter {
 		Locale.load("en");
 
 		if (!Network.SERVER) {
-			// this.setupCursor();
+			this.setupCursor();
 			Assets.init();
 		}
 
@@ -258,6 +258,8 @@ public class Dungeon extends ApplicationAdapter {
 		if (!(game.getState() instanceof LoadState) && !paused) {
 			area.update(dt);
 		}
+
+		Dungeon.ui.update(dt);
 
 		if (!paused) {
 			game.update(dt);

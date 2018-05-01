@@ -34,7 +34,6 @@ import java.util.ArrayList;
 public class InGameState extends State {
 	public static boolean LIGHT = true;
 
-	private Box2DDebugRenderer debug;
 	private UiInventory inventory;
 	private Console console;
 	private UiBar health;
@@ -48,10 +47,6 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
-		if (!Network.SERVER) {
-			this.debug = new Box2DDebugRenderer();
-		}
-
 		ui = new ArrayList<>();
 
 		blood = Graphics.getTexture("blood_frame");
@@ -125,7 +120,6 @@ public class InGameState extends State {
 
 		World.update(dt);
 
-		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
 
 		if (Dialog.active != null) {
@@ -327,7 +321,8 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				paused = false;
+				setPaused(false);
+
 				Camera.instance.shake(3);
 			}
 		}.setSparks(true)));
@@ -337,6 +332,7 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				Camera.instance.shake(3);
+				Dungeon.game.setState(new SettingsState(true));
 			}
 		}.setSparks(true)));
 
@@ -345,7 +341,30 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				Camera.instance.shake(3);
+				Dungeon.game.setState(new MainMenuState());
 			}
 		}));
+
+		for (UiEntity entity : this.ui) {
+			entity.setActive(false);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		for (UiEntity entity : this.ui) {
+			entity.setActive(true);
+		}
+	}
+
+	@Override
+	public void onUnpause() {
+		super.onUnpause();
+
+		for (UiEntity entity : this.ui) {
+			entity.setActive(false);
+		}
 	}
 }

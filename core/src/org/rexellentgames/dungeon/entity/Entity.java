@@ -22,6 +22,16 @@ public class Entity extends Point {
 	public boolean alwaysRender = false;
 	public boolean done = false;
 	public int id;
+	protected boolean active = true;
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
 
 	public void setId(int id) {
 		this.id = id;
