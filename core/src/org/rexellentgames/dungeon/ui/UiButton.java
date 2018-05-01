@@ -16,7 +16,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 	public int w;
 
 	protected boolean hover;
-	protected float scale = 0.8f;
+	protected float scale = 1f;
 	private Tween.Task last;
 	protected TextureRegion region;
 	protected float mx = 3f;
@@ -101,7 +101,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 			this.g = 1f;
 			this.b = 1f;
 
-			this.last = Tween.to(new Tween.Task(0.8f, 0.1f) {
+			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -154,7 +154,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 				}
 			});
 
-			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
+			this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;

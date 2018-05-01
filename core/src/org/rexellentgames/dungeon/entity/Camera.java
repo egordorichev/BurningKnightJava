@@ -83,6 +83,9 @@ public class Camera extends Entity {
 			this.last = null;
 		}
 
+		ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		ui.update();
+
 		this.pushAm = Math.max(0, this.pushAm - dt * 50);
 		this.shake = Math.max(0, this.shake - dt * 10);
 
