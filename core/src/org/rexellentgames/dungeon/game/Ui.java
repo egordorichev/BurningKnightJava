@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -106,6 +107,7 @@ public class Ui {
 
 	public void renderCursor() {
 		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f);
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Graphics.render(this.cursor, Input.instance.uiMouse.x,
 			Input.instance.uiMouse.y,
@@ -113,6 +115,8 @@ public class Ui {
 	}
 
 	public void renderUi() {
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
 		if (!(Dungeon.level instanceof HubLevel)) {
 			Graphics.render(this.topFrame, 0, Display.GAME_HEIGHT - topFrame.getRegionHeight());
 		}

@@ -46,7 +46,6 @@ public class Game {
 	public void render() {
 		if (this.state != null) {
 			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			this.state.render();
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 			this.state.renderUi();
