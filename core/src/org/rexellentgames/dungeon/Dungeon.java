@@ -171,7 +171,7 @@ public class Dungeon extends ApplicationAdapter {
 				game.setState(new LoginState());
 			} else {
 				// game.setState(new MainMenuState());
-				game.setState(new GraphicsSettingsState());
+				game.setState(new AudioSettingsState());
 
 				// Dungeon.goToLevel(0);
 			}
