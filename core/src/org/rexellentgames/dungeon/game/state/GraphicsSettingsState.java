@@ -49,6 +49,7 @@ public class GraphicsSettingsState extends State {
 		Dungeon.area.add(new UiSlider("menu_label (screenshake)", Display.GAME_WIDTH / 2, 138 + 20) {
 			@Override
 			public void onClick() {
+				org.rexellentgames.dungeon.assets.Graphics.playSfx("menu/select");
 				Camera.instance.shake(3);
 			}
 

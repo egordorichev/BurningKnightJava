@@ -64,8 +64,8 @@ public class UiSlider extends UiButton {
 		super.update(dt);
 
 		if (this.hover && (Input.instance.isDown("mouse1") || Input.instance.isDown("mouse0"))) {
-			if (CollisionHelper.check((int) Input.instance.worldMouse.x, (int) Input.instance.worldMouse.y, (int) this.x, (int) this.y - this.h / 2, this.w / 2 + 4, this.h)) {
-				this.val = MathUtils.clamp(this.min, this.max, MathUtils.map(Input.instance.worldMouse.x - this.x, 0, this.w / 2 + 4, this.min, this.max));
+			if (CollisionHelper.check((int) Input.instance.worldMouse.x, (int) Input.instance.worldMouse.y, (int) this.x , (int) this.y - this.h / 2, this.w / 2 + 4, this.h)) {
+				this.val = MathUtils.clamp(this.min, this.max, MathUtils.map(Input.instance.worldMouse.x - this.x - 11, 0, slider.getRegionWidth(), this.min, this.max));
 				this.onUpdate();
 			}
 		}

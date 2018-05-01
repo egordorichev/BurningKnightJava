@@ -19,6 +19,7 @@ public class AudioSettingsState extends State {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
+				Graphics.playSfx("menu/select");
 			}
 
 			@Override
@@ -31,6 +32,7 @@ public class AudioSettingsState extends State {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
+				Graphics.playSfx("menu/select");
 			}
 
 			@Override
