@@ -170,9 +170,9 @@ public class Dungeon extends ApplicationAdapter {
 				game.setState(new LoginState());
 			} else {
 				// For debug, @Nufflee
-				// game.setState(new MainMenuState());
+				game.setState(new MainMenuState());
 
-				Dungeon.goToLevel(0);
+				// Dungeon.goToLevel(0);
 			}
 		} else {
 			game.setState(new HubState());
@@ -181,10 +181,10 @@ public class Dungeon extends ApplicationAdapter {
 		area.add(camera);
 
 		// Todo: better way to do this
-		Music music = Graphics.getMusic("gobbeon");
+		// Music music = Graphics.getMusic("gobbeon");
 
-		music.setLooping(true);
-		music.play();
+		// music.setLooping(true);
+		// music.play();
 
 		boolean isDesktop = (Gdx.app.getType() == Application.ApplicationType.Desktop);
 		postProcessor = new PostProcessor(false, true, isDesktop);
@@ -192,7 +192,7 @@ public class Dungeon extends ApplicationAdapter {
 		int vpW = Gdx.graphics.getWidth();
 		int vpH = Gdx.graphics.getHeight();
 
-		CrtMonitor crt = new CrtMonitor(vpW, vpH, false, false,
+		/*CrtMonitor crt = new CrtMonitor(vpW, vpH, false, false,
 			CrtScreen.RgbMode.ChromaticAberrations, CrtScreen.Effect.Scanlines.v | CrtScreen.Effect.Tint.v);
 
 		Combine combine = crt.getCombinePass();
@@ -202,8 +202,8 @@ public class Dungeon extends ApplicationAdapter {
 		combine.setSource1Saturation(0f);
 		combine.setSource2Saturation(1f);
 
-		postProcessor.addEffect(crt);
-		// postProcessor.addEffect(new Fxaa(vpW, vpH));
+		postProcessor.addEffect(crt);*/
+		postProcessor.addEffect(new Fxaa(vpW, vpH));
 	}
 
 	@Override

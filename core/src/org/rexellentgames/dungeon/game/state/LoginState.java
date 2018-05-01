@@ -38,7 +38,7 @@ public class LoginState extends State {
 	private UiInput name;
 
 	private void setupUi() {
-		final UiButton start = new UiButton() {
+		final UiButton start = new UiButton("Join!", 32, -1) {
 			@Override
 			public void onClick() {
 				if (name.getInput().length() > 0) {
@@ -58,9 +58,6 @@ public class LoginState extends State {
 				}
 			}
 		};
-
-		start.setLabel("Join!");
-		start.y = (Display.GAME_HEIGHT - start.h) / 2 - 16;
 
 		Dungeon.ui.add(start);
 

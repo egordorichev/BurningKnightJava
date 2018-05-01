@@ -101,16 +101,20 @@ public class Ui {
 
 		// Cursor
 
+		this.renderCursor();
+	}
+
+	public void renderCursor() {
+		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f);
+
 		Graphics.render(this.cursor, Input.instance.uiMouse.x,
 			Input.instance.uiMouse.y,
-			Dungeon.time * 60, 8, 8, false, false);
+			Dungeon.time * 60, 8, 8, false, false, s, s);
 	}
 
 	public void renderUi() {
 		if (!(Dungeon.level instanceof HubLevel)) {
 			Graphics.render(this.topFrame, 0, Display.GAME_HEIGHT - topFrame.getRegionHeight());
 		}
-
-		// todo: not render other parts!
 	}
 }
