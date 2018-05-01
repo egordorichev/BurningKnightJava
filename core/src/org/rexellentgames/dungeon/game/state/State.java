@@ -1,6 +1,16 @@
 package org.rexellentgames.dungeon.game.state;
 
 public class State {
+	protected boolean paused;
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	public void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
 	public State() {
 
 	}

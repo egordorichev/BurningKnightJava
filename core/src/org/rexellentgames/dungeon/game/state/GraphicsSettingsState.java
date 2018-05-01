@@ -38,7 +38,7 @@ public class GraphicsSettingsState extends State {
 					case 1: Settings.quality = 4; break;
 					case 2: Settings.quality = 1; break;
 				}
-				
+
 				org.rexellentgames.dungeon.assets.Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			}
 		}.setChoices(new String[] {

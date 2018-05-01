@@ -115,7 +115,9 @@ public class InGameState extends State {
 	@Override
 	public void update(float dt) {
 		this.console.update(dt);
+
 		World.update(dt);
+
 		Dungeon.ui.update(dt);
 		UiLog.instance.update(dt);
 

@@ -251,11 +251,19 @@ public class Dungeon extends ApplicationAdapter {
 
 		Tween.update(dt);
 
-		if (!(game.getState() instanceof LoadState)) {
+		boolean paused = game.getState().isPaused();
+
+		if (Input.instance.wasPressed("pause")) {
+			game.getState().setPaused(!paused);
+		}
+
+		if (!(game.getState() instanceof LoadState) && !paused) {
 			area.update(dt);
 		}
 
-		game.update(dt);
+		if (!paused) {
+			game.update(dt);
+		}
 
 		if (!Network.SERVER) {
 			Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
