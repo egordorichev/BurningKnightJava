@@ -37,14 +37,19 @@ public class UiButton extends UiEntity implements InputProcessor {
 	}
 
 	public UiButton(String label, int x, int y) {
+		this.setLabel(label);
+
+		Input.multiplexer.addProcessor(this);
+
+		this.y = y;
+		this.x = x;
+	}
+
+	public void setLabel(String label) {
 		this.region = Graphics.getTexture(label);
 
 		this.w = this.region.getRegionWidth();
 		this.h = this.region.getRegionHeight();
-		this.y = y;
-		this.x = x;
-
-		Input.multiplexer.addProcessor(this);
 	}
 
 	@Override

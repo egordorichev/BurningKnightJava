@@ -63,7 +63,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static Color BROWN = Color.valueOf("#8f563b");
 	private static int to = -3;
 	private Color background = Color.valueOf("#000000"); // #323c39
-	private PostProcessor postProcessor;
+	public static PostProcessor postProcessor;
 
 	public static void reportException(Exception e) {
 		Log.report(e);
@@ -192,7 +192,20 @@ public class Dungeon extends ApplicationAdapter {
 		int vpW = Gdx.graphics.getWidth();
 		int vpH = Gdx.graphics.getHeight();
 
-		/*CrtMonitor crt = new CrtMonitor(vpW, vpH, false, false,
+		if (Settings.shaders) {
+			addCrt();
+		}
+
+		// postProcessor.addEffect(new Fxaa(vpW, vpH));
+	}
+
+	public static CrtMonitor crt;
+
+	public static void addCrt() {
+		int vpW = Gdx.graphics.getWidth();
+		int vpH = Gdx.graphics.getHeight();
+
+		crt = new CrtMonitor(vpW, vpH, false, false,
 			CrtScreen.RgbMode.ChromaticAberrations, CrtScreen.Effect.Scanlines.v | CrtScreen.Effect.Tint.v);
 
 		Combine combine = crt.getCombinePass();
@@ -201,9 +214,8 @@ public class Dungeon extends ApplicationAdapter {
 		combine.setSource2Intensity(1f);
 		combine.setSource1Saturation(0f);
 		combine.setSource2Saturation(1f);
+		postProcessor.addEffect(crt);
 
-		postProcessor.addEffect(crt);*/
-		// postProcessor.addEffect(new Fxaa(vpW, vpH));
 	}
 
 	@Override
