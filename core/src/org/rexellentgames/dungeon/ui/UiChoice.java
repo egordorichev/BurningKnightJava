@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.ui;
 
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.Log;
 
 public class UiChoice extends UiButton {
 	private String[] choices;
