@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class GoreFx extends Entity {
 	public TextureRegion texture;
+	public boolean menu;
 	private float a;
 	private float va;
 	private Point vel;
@@ -25,7 +26,7 @@ public class GoreFx extends Entity {
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-30f, 30f);
 
-		this.vel = new Point(Random.newFloat(-2f, 2f), 1f);
+		this.vel = new Point(Random.newFloat(-4f, 4f), 1f);
 	}
 
 	@Override
@@ -33,7 +34,15 @@ public class GoreFx extends Entity {
 		super.update(dt);
 
 		this.x += this.vel.x;
-		this.z = Math.max(0, this.z + this.vel.y);
+
+		if (!menu) {
+			this.z = Math.max(0, this.z + this.vel.y);
+		} else {
+			this.z += this.vel.y;
+			if (this.y + this.z < 0) {
+				this.done = true;
+			}
+		}
 
 		this.vel.y -= 0.05;
 
@@ -45,9 +54,12 @@ public class GoreFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShadows();
-		Graphics.render(this.texture, this.x, this.y - 4, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false, 1f, -1f);
-		Graphics.endShadows();
+		if (!menu) {
+			Graphics.startShadows();
+			Graphics.render(this.texture, this.x, this.y - 4, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false, 1f, -1f);
+			Graphics.endShadows();
+		}
+
 		Graphics.render(this.texture, this.x, this.y + this.z, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false);
 	}
 }

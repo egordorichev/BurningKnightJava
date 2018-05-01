@@ -20,7 +20,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.util.ArrayList;
 
 public class Knight extends Mob {
-	private static Animation animations = Animation.make("actor-towelknight");
+	public static Animation animations = Animation.make("actor-towelknight");
 	private Sword sword;
 	private AnimationData idle;
 	private AnimationData run;
