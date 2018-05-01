@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.game.state;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
@@ -50,6 +51,7 @@ public class AudioSettingsState extends State {
 		Dungeon.area.add(new UiButton("menu_label (back)", Display.GAME_WIDTH / 2, 128 - 24 * 2) {
 			@Override
 			public void onClick() {
+				Graphics.playSfx("menu/exit");
 				Dungeon.game.setState(new SettingsState());
 				Camera.instance.shake(3);
 			}
