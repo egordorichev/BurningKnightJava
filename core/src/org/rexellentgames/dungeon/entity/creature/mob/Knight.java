@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
@@ -333,14 +334,16 @@ public class Knight extends Mob {
 		this.done = true;
 		Dungeon.level.removeSaveable(this);
 
-		for (Animation.Frame frame : killed.getFrames()) {
-			GoreFx fx = new GoreFx();
+		if (Settings.gore) {
+			for (Animation.Frame frame : killed.getFrames()) {
+				GoreFx fx = new GoreFx();
 
-			fx.texture = frame.frame;
-			fx.x = this.x + this.w / 2;
-			fx.y = this.y + this.h / 2;
+				fx.texture = frame.frame;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
 
-			Dungeon.area.add(fx);
+				Dungeon.area.add(fx);
+			}
 		}
 
 		BloodFx.add(this, 20);

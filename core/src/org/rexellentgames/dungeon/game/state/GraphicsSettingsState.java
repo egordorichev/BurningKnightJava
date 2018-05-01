@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiCheckbox;
+import org.rexellentgames.dungeon.ui.UiChoice;
 import org.rexellentgames.dungeon.util.Animation;
 
 import java.util.ArrayList;
@@ -21,21 +22,37 @@ public class GraphicsSettingsState extends State {
 	public void init() {
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiButton("menu_label (quality)", Display.GAME_WIDTH / 2, 128 + 24 * 2) {
+		Dungeon.area.add(new UiChoice("menu_label (quality_normal)", Display.GAME_WIDTH / 2, 138 + 20 * 2) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				Camera.instance.shake(3);
+
+				switch (this.getCurrent()) {
+					case 0: Settings.quality = 2;
+					case 1: Settings.quality = 4;
+					case 2: Settings.quality = 1;
+				}
+
+				org.rexellentgames.dungeon.assets.Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			}
+		}.setChoices(new String[] {
+			"menu_label (quality_normal)",
+			"menu_label (quality_good)",
+			"menu_label (quality_bad)"
+		}).setCurrent(
+			(Settings.quality == 2 ? 0 : (Settings.quality == 4 ? 1 : 2))
+		));
+
+		Dungeon.area.add(new UiButton("menu_label (screenshake)", Display.GAME_WIDTH / 2, 138 + 20) {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
 			}
 		});
 
-		Dungeon.area.add(new UiButton("menu_label (screenshake)", Display.GAME_WIDTH / 2, 128 + 24) {
-			@Override
-			public void onClick() {
-				Camera.instance.shake(3);
-			}
-		});
-
-		Dungeon.area.add(new UiCheckbox("menu_label (fullscreen)", Display.GAME_WIDTH / 2, 128) {
+		Dungeon.area.add(new UiCheckbox("menu_label (fullscreen)", Display.GAME_WIDTH / 2, 138) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -51,7 +68,7 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.fullscreen).setSparks(true));
 
-		Dungeon.area.add(new UiCheckbox("menu_label (blood)", Display.GAME_WIDTH / 2, 128 - 24) {
+		Dungeon.area.add(new UiCheckbox("menu_label (blood)", Display.GAME_WIDTH / 2, 138 - 20) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -65,7 +82,7 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.blood));
 
-		Dungeon.area.add(new UiCheckbox("menu_label (gore)", Display.GAME_WIDTH / 2, 128 - 24 * 2) {
+		Dungeon.area.add(new UiCheckbox("menu_label (gore)", Display.GAME_WIDTH / 2, 138 - 20 * 2) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -90,14 +107,21 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.gore));
 
-		Dungeon.area.add(new UiButton("menu_label (shaders)", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
+		Dungeon.area.add(new UiCheckbox("menu_label (shaders)", Display.GAME_WIDTH / 2, 138 - 20 * 3) {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
-			}
-		});
+				Settings.shaders = !Settings.shaders;
 
-		Dungeon.area.add(new UiCheckbox("menu_label (vsync)", Display.GAME_WIDTH / 2, 128 + 24 * 3) {
+				if (Settings.shaders) {
+					Dungeon.addCrt();
+				} else {
+					Dungeon.postProcessor.removeEffect(Dungeon.crt);
+				}
+			}
+		}.setOn(Settings.shaders).setSparks(true));
+
+		Dungeon.area.add(new UiCheckbox("menu_label (vsync)", Display.GAME_WIDTH / 2, 138 + 20 * 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -107,6 +131,14 @@ public class GraphicsSettingsState extends State {
 				Gdx.graphics.setVSync(Settings.vsync);
 			}
 		}.setOn(Settings.vsync).setSparks(true));
+
+		Dungeon.area.add(new UiButton("menu_label (back)", Display.GAME_WIDTH / 2, (int) (138 - 20 * 4.5f)) {
+			@Override
+			public void onClick() {
+				Dungeon.game.setState(new SettingsState());
+				Camera.instance.shake(3);
+			}
+		});
 	}
 
 	@Override

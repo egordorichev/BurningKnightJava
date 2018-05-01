@@ -5,5 +5,6 @@ public class Settings {
 	public static boolean vsync = true;
 	public static boolean blood = true;
 	public static boolean gore = true;
+	public static boolean shaders = false;
 	public static int quality = 2;
 }

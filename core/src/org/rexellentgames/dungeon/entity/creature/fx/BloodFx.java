@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -17,6 +18,10 @@ public class BloodFx extends Entity {
 	}
 
 	public static void add(float x, float y, float w, float h, int count) {
+		if (!Settings.blood) {
+			return;
+		}
+
 		for (int i = 0; i < count; i++) {
 			BloodFx fx = new BloodFx();
 
