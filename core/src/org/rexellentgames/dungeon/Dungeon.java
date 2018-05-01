@@ -203,7 +203,7 @@ public class Dungeon extends ApplicationAdapter {
 		combine.setSource2Saturation(1f);
 
 		postProcessor.addEffect(crt);*/
-		postProcessor.addEffect(new Fxaa(vpW, vpH));
+		// postProcessor.addEffect(new Fxaa(vpW, vpH));
 	}
 
 	@Override

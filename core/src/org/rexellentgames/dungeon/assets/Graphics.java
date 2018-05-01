@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.util.Log;
 
@@ -79,7 +80,7 @@ public class Graphics {
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth() * Settings.quality, Camera.instance.viewport.getScreenHeight() * Settings.quality, false);
 
 		manager = new AssetManager();
 		manager.load("atlas/atlas.atlas", TextureAtlas.class);
@@ -152,8 +153,8 @@ public class Graphics {
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z),
 			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z), false);
 
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z),
-			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z), false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z) * Settings.quality,
+			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z) * Settings.quality, false);
 	}
 
 	public static Sound getSound(String sfx) {
