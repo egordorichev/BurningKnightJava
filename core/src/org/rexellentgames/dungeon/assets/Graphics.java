@@ -137,6 +137,10 @@ public class Graphics {
 	}
 
 	public static long playSfx(String name, float volume, float pitch) {
+		if (name.startsWith("menu") && !Settings.uisfx) {
+			return 0;
+		}
+
 		Sound sound = getSound(name);
 
 		long id = sound.play(volume * volumes.get(name));
