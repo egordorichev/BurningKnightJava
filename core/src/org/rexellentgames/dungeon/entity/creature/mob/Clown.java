@@ -26,7 +26,7 @@ import org.rexellentgames.dungeon.util.Random;
 import java.util.ArrayList;
 
 public class Clown extends Mob {
-	private static Animation animations = Animation.make("actor-clown");
+	public static Animation animations = Animation.make("actor-clown");
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;

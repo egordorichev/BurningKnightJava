@@ -208,6 +208,6 @@ public class Lamp extends Item {
 	}
 
 	public static void play() {
-		Graphics.playSfx("curse_lamp_" + Random.newInt(1, 3), 1f, Random.newFloat(0.9f, 1.9f));
+		Graphics.playSfx("curse_lamp_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 	}
 }
