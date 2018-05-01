@@ -1,65 +1,91 @@
 package org.rexellentgames.dungeon.ui;
 
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
-import org.rexellentgames.dungeon.Display;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.item.Spark;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class UiButton extends UiEntity implements InputProcessor {
-	private String label;
-
-	public int h = 12;
+	public int h;
 	public int w;
 
 	private boolean hover;
 	private float scale = 0.8f;
 	private Tween.Task last;
+	private TextureRegion region;
+	private float a;
+	private float mx = 3f;
+	public boolean sparks;
+	protected float r = 1f;
+	protected float g = 1f;
+	protected float b = 1f;
+	protected float rr = 1f;
+	protected float rg = 1f;
+	protected float rb = 1f;
+	protected float ar = 1f;
+	protected float ag = 1f;
+	protected float ab = 1f;
+
+	public UiButton setSparks(boolean sparks) {
+		this.sparks = sparks;
+		return this;
+	}
 
 	public UiButton(String label, int x, int y) {
-		this.label = label;
+		this.region = Graphics.getTexture(label);
 
-		Graphics.layout.setText(Graphics.medium, this.label);
-		this.w = (int) Graphics.layout.width;
-
-		if (x == -1) {
-			this.x = (Display.GAME_WIDTH - this.w) / 2;
-		}
-
+		this.w = this.region.getRegionWidth();
+		this.h = this.region.getRegionHeight();
 		this.y = y;
+		this.x = x;
 
 		Input.multiplexer.addProcessor(this);
 	}
 
 	@Override
+	public void destroy() {
+		super.destroy();
+		Input.multiplexer.removeProcessor(this);
+	}
+
+	@Override
 	public void render() {
-		Matrix4 m = new Matrix4();
-		m.setToRotation(0, 0, 1, 10);
-		m.translate(-1, -40, 0);
-		Matrix4 old = Graphics.batch.getTransformMatrix();
-		Graphics.batch.setTransformMatrix(m);
-		Graphics.medium.draw(Graphics.batch, this.label, this.x, this.y);
-		Graphics.batch.setTransformMatrix(old);
+		if (this.sparks) {
+			Spark.random(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+		}
+
+		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
+
+		Graphics.render(this.region, this.x, this.y, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / this.w * 20)), this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
+		this.rr += (this.r - this.rr) * dt * 10;
+		this.rg += (this.g - this.rg) * dt * 10;
+		this.rb += (this.b - this.rb) * dt * 10;
+
 		boolean h = this.hover;
-		this.hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x,
-			(int) this.y, this.w, this.h);
+		this.hover = CollisionHelper.check((int) Input.instance.worldMouse.x, (int) Input.instance.worldMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w, this.h);
 
 		if (h && !this.hover) {
 			if (this.last != null) {
 				Tween.remove(this.last);
 			}
 
-			this.last = Tween.to(new Tween.Task(0.8f, 0.3f) {
+			this.r = 1f;
+			this.g = 1f;
+			this.b = 1f;
+
+			this.last = Tween.to(new Tween.Task(0.8f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -76,12 +102,41 @@ public class UiButton extends UiEntity implements InputProcessor {
 					last = null;
 				}
 			});
+
+			Tween.to(new Tween.Task(3, 0.1f) {
+				@Override
+				public float getValue() {
+					return mx;
+				}
+
+				@Override
+				public void setValue(float value) {
+					mx = value;
+				}
+			});
+
 		} else if (!h && this.hover) {
 			if (this.last != null) {
 				Tween.remove(this.last);
 			}
 
-			this.last = Tween.to(new Tween.Task(1f, 0.3f) {
+			this.r = 0.7f;
+			this.g = 0.7f;
+			this.b = 0.7f;
+
+			Tween.to(new Tween.Task(10, 0.1f) {
+				@Override
+				public float getValue() {
+					return mx;
+				}
+
+				@Override
+				public void setValue(float value) {
+					mx = value;
+				}
+			});
+
+			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -123,7 +178,56 @@ public class UiButton extends UiEntity implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (this.hover) {
-			this.onClick();
+			if (this.last != null) {
+				Tween.remove(this.last);
+			}
+
+			this.r = 1f;
+			this.g = 1f;
+			this.b = 1f;
+
+			this.last = Tween.to(new Tween.Task(1.2f, 0.05f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+					last = null;
+					onClick();
+
+					r = 0.7f;
+					g = 0.7f;
+					b = 0.7f;
+
+					last = Tween.to(new Tween.Task(1f, 0.05f) {
+						@Override
+						public float getValue() {
+							return scale;
+						}
+
+						@Override
+						public void setValue(float value) {
+							scale = value;
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+							last = null;
+						}
+					});
+				}
+			});
+
+			return true;
 		}
 
 		return false;
