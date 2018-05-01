@@ -37,5 +37,6 @@
 	"menu/change_parameter",
 	"menu/exit",
 	"menu/select",
-	"menu/moving"
+	"menu/moving",
+	"menu/exit"
 ]
