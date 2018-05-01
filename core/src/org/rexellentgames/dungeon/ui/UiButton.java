@@ -124,7 +124,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 			this.g = 0.7f;
 			this.b = 0.7f;
 
-			Tween.to(new Tween.Task(10, 0.1f) {
+			Tween.to(new Tween.Task(20, 0.1f) {
 				@Override
 				public float getValue() {
 					return mx;

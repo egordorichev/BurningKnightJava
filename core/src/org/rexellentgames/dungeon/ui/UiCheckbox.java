@@ -1,8 +1,5 @@
 package org.rexellentgames.dungeon.ui;
 
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.ui.UiButton;
-
 public class UiCheckbox extends UiButton {
 	public UiCheckbox(String label, int x, int y) {
 		super(label, x, y);
@@ -11,9 +8,10 @@ public class UiCheckbox extends UiButton {
 
 	protected boolean on;
 
-	public void setOn(boolean on) {
+	public UiCheckbox setOn(boolean on) {
 		this.on = on;
 		this.setColor();
+		return this;
 	}
 
 	private void setColor() {
