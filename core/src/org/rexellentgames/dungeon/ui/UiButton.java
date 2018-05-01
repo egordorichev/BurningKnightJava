@@ -128,6 +128,8 @@ public class UiButton extends UiEntity implements InputProcessor {
 			this.g = 0.7f;
 			this.b = 0.7f;
 
+			Graphics.playSfx("menu/moving");
+
 			Tween.to(new Tween.Task(20, 0.1f) {
 				@Override
 				public float getValue() {
@@ -161,7 +163,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 	}
 
 	public void onClick() {
-
+		Graphics.playSfx("menu/select");
 	}
 
 	@Override

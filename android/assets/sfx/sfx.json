@@ -33,5 +33,9 @@
 	"ukulele_3",
 	"ukulele_4",
 	"ukulele_5",
-	"gun_machinegun"
+	"gun_machinegun",
+	"menu/change_parameter",
+	"menu/exit",
+	"menu/select",
+	"menu/moving"
 ]

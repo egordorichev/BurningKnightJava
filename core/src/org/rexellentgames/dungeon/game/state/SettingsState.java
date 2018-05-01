@@ -14,6 +14,7 @@ public class SettingsState extends State {
 		Dungeon.area.add(new UiButton("menu_label (graphics)", Display.GAME_WIDTH / 2, 128) {
 			@Override
 			public void onClick() {
+				super.onClick();
 				Dungeon.game.setState(new GraphicsSettingsState());
 				Camera.instance.shake(3);
 			}
@@ -22,6 +23,8 @@ public class SettingsState extends State {
 		Dungeon.area.add(new UiButton("menu_label (audio)", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
+				super.onClick();
+				Dungeon.game.setState(new AudioSettingsState());
 				Camera.instance.shake(3);
 
 			}
