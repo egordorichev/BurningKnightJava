@@ -138,6 +138,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Log.init();
+		Settings.load();
 
 		long seed = System.currentTimeMillis();
 
@@ -169,8 +170,8 @@ public class Dungeon extends ApplicationAdapter {
 			if (!Network.NONE) {
 				game.setState(new LoginState());
 			} else {
-				// For debug, @Nufflee
-				game.setState(new MainMenuState());
+				// game.setState(new MainMenuState());
+				game.setState(new GraphicsSettingsState());
 
 				// Dungeon.goToLevel(0);
 			}
@@ -383,6 +384,7 @@ public class Dungeon extends ApplicationAdapter {
 		Assets.destroy();
 
 		LoadState.writeDepth();
+		Settings.save();
 		Log.close();
 
 		postProcessor.dispose();

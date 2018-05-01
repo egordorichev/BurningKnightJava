@@ -14,12 +14,11 @@ public class UiButton extends UiEntity implements InputProcessor {
 	public int h;
 	public int w;
 
-	private boolean hover;
-	private float scale = 0.8f;
+	protected boolean hover;
+	protected float scale = 0.8f;
 	private Tween.Task last;
-	private TextureRegion region;
-	private float a;
-	private float mx = 3f;
+	protected TextureRegion region;
+	protected float mx = 3f;
 	public boolean sparks;
 	protected float r = 1f;
 	protected float g = 1f;
@@ -187,9 +186,9 @@ public class UiButton extends UiEntity implements InputProcessor {
 				Tween.remove(this.last);
 			}
 
-			this.r = 1f;
-			this.g = 1f;
-			this.b = 1f;
+			this.rr = 1f;
+			this.rg = 1f;
+			this.rb = 1f;
 
 			this.last = Tween.to(new Tween.Task(1.2f, 0.05f) {
 				@Override

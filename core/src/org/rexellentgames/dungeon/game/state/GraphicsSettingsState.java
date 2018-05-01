@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiCheckbox;
 import org.rexellentgames.dungeon.ui.UiChoice;
+import org.rexellentgames.dungeon.ui.UiSlider;
 import org.rexellentgames.dungeon.util.Animation;
 
 import java.util.ArrayList;
@@ -45,12 +46,17 @@ public class GraphicsSettingsState extends State {
 			(Settings.quality == 2 ? 0 : (Settings.quality == 4 ? 1 : 2))
 		));
 
-		Dungeon.area.add(new UiButton("menu_label (screenshake)", Display.GAME_WIDTH / 2, 138 + 20) {
+		Dungeon.area.add(new UiSlider("menu_label (screenshake)", Display.GAME_WIDTH / 2, 138 + 20) {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
 			}
-		});
+
+			@Override
+			public void onUpdate() {
+				Settings.screenshake = this.val;
+			}
+		}.setValue(Settings.screenshake));
 
 		Dungeon.area.add(new UiCheckbox("menu_label (fullscreen)", Display.GAME_WIDTH / 2, 138) {
 			@Override
@@ -110,6 +116,8 @@ public class GraphicsSettingsState extends State {
 		Dungeon.area.add(new UiCheckbox("menu_label (shaders)", Display.GAME_WIDTH / 2, 138 - 20 * 3) {
 			@Override
 			public void onClick() {
+				super.onClick();
+
 				Camera.instance.shake(3);
 				Settings.shaders = !Settings.shaders;
 
@@ -137,6 +145,8 @@ public class GraphicsSettingsState extends State {
 			public void onClick() {
 				Dungeon.game.setState(new SettingsState());
 				Camera.instance.shake(3);
+
+				Settings.save();
 			}
 		});
 	}

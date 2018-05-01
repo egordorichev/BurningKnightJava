@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -30,7 +31,7 @@ public class Camera extends Entity {
 	public ArrayList<Rectangle> clamp = new ArrayList<>();
 
 	public void shake(float amount) {
-		this.shake = amount;
+		this.shake = amount * Settings.screenshake;
 	}
 
 	private Tween.Task last;

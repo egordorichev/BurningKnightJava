@@ -24,6 +24,10 @@ public class UiChoice extends UiButton {
 	}
 
 	public UiChoice setCurrent(int current) {
+		if (current < 0) {
+			current += this.choices.length;
+		}
+
 		this.current = current;
 		this.setLabel(this.choices[this.current]);
 		return this;
