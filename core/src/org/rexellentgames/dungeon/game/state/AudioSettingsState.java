@@ -44,9 +44,9 @@ public class AudioSettingsState extends State {
 		Dungeon.area.add(new UiCheckbox("menu_label (uisfx)", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
-				super.onClick();
 				Camera.instance.shake(3);
 				Settings.uisfx = !Settings.uisfx;
+				super.onClick();
 			}
 		}.setOn(Settings.uisfx));
 

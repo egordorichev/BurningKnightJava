@@ -78,7 +78,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 		this.rb += (this.b - this.rb) * dt * 10;
 
 		boolean h = this.hover;
-		this.hover = CollisionHelper.check((int) Input.instance.worldMouse.x, (int) Input.instance.worldMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w, this.h);
+		this.hover = CollisionHelper.check((int) Input.instance.worldMouse.x, (int) Input.instance.worldMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w + 8, this.h);
 
 		if (h && !this.hover) {
 			if (this.last != null) {
