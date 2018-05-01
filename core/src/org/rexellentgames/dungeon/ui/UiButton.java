@@ -69,6 +69,13 @@ public class UiButton extends UiEntity implements InputProcessor {
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
+	protected boolean playSfx = true;
+
+	public UiButton setPlaySfx(boolean playSfx) {
+		this.playSfx = playSfx;
+		return this;
+	}
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -163,7 +170,9 @@ public class UiButton extends UiEntity implements InputProcessor {
 	}
 
 	public void onClick() {
-		Graphics.playSfx("menu/select");
+		if (this.playSfx) {
+			Graphics.playSfx("menu/select");
+		}
 	}
 
 	@Override

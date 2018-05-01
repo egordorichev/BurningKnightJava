@@ -37,7 +37,7 @@ public class MainMenuState extends State {
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
 
-				Tween.to(new Tween.Task(0, 1f) {
+				Tween.to(new Tween.Task(0, 0.4f) {
 					@Override
 					public float getValue() {
 						return 1;

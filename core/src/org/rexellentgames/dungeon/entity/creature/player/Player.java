@@ -112,9 +112,9 @@ public class Player extends Creature {
 
 	protected void playStepSfx() {
 		if (this.watery > 4.5f) {
-			Graphics.playSfx("step_gobbo_water_" + Random.newInt(1, 5), 1f, Random.newFloat(0.9f, 1.9f));
+			Graphics.playSfx("step_gobbo_water_" + Random.newInt(1, 6), 1f, Random.newFloat(0.9f, 1.9f));
 		} else {
-			Graphics.playSfx("step_gobbo_" + Random.newInt(1, 5), 1f, Random.newFloat(0.9f, 1.9f));
+			Graphics.playSfx("step_gobbo_" + Random.newInt(1, 6), 1f, Random.newFloat(0.9f, 1.9f));
 		}
 	}
 
@@ -229,7 +229,7 @@ public class Player extends Creature {
 		super.onHurt();
 
 		Camera.instance.shake(4f);
-		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 3), 1f, Random.newFloat(0.9f, 1.9f));
+		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 
 		if (this.hp == 0) {
 			Dungeon.slowDown(0.5f, 2f);

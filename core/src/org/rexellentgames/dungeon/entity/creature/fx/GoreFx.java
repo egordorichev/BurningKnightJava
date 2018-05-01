@@ -26,7 +26,7 @@ public class GoreFx extends Entity {
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-30f, 30f);
 
-		this.vel = new Point(Random.newFloat(-4f, 4f), 1f);
+		this.vel = new Point(Random.newFloat(-2f, 2f), 1f);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class GoreFx extends Entity {
 		this.a += this.va;
 		this.va *= 0.95f;
 
-		this.vel.x *= 0.95f;
+		this.vel.x *= 0.97f;
 	}
 
 	@Override

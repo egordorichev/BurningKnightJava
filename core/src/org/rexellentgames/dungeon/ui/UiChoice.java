@@ -30,6 +30,7 @@ public class UiChoice extends UiButton {
 
 		this.current = current;
 		this.setLabel(this.choices[this.current]);
+
 		return this;
 	}
 

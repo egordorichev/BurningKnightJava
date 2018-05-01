@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
+import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
@@ -15,6 +16,8 @@ import org.rexellentgames.dungeon.ui.UiCheckbox;
 import org.rexellentgames.dungeon.ui.UiChoice;
 import org.rexellentgames.dungeon.ui.UiSlider;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
@@ -31,11 +34,11 @@ public class GraphicsSettingsState extends State {
 				Camera.instance.shake(3);
 
 				switch (this.getCurrent()) {
-					case 0: Settings.quality = 2;
-					case 1: Settings.quality = 4;
-					case 2: Settings.quality = 1;
+					case 0: default: Settings.quality = 2; break;
+					case 1: Settings.quality = 4; break;
+					case 2: Settings.quality = 1; break;
 				}
-
+				
 				org.rexellentgames.dungeon.assets.Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			}
 		}.setChoices(new String[] {
@@ -78,12 +81,14 @@ public class GraphicsSettingsState extends State {
 		Dungeon.area.add(new UiCheckbox("menu_label (blood)", Display.GAME_WIDTH / 2, 138 - 20) {
 			@Override
 			public void onClick() {
+				this.setPlaySfx(Settings.blood);
 				super.onClick();
 
 				Settings.blood = !Settings.blood;
 				Camera.instance.shake(3);
 
 				if (Settings.blood) {
+					org.rexellentgames.dungeon.assets.Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4));
 					BloodFx.add(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 10);
 				}
 			}
@@ -92,13 +97,15 @@ public class GraphicsSettingsState extends State {
 		Dungeon.area.add(new UiCheckbox("menu_label (gore)", Display.GAME_WIDTH / 2, 138 - 20 * 2) {
 			@Override
 			public void onClick() {
+				this.setPlaySfx(Settings.gore);
 				super.onClick();
 
 				Settings.gore = !Settings.gore;
 				Camera.instance.shake(3);
 
 				if (Settings.gore) {
-					ArrayList<Animation.Frame> frames = Knight.animations.getFrames("dead");
+					org.rexellentgames.dungeon.assets.Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4));
+					ArrayList<Animation.Frame> frames = Random.newFloat() > 0.5 ? Knight.animations.getFrames("dead") : Clown.animations.getFrames("dead");
 
 					for (Animation.Frame frame : frames) {
 						GoreFx fx = new GoreFx();

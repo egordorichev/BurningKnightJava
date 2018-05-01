@@ -41,6 +41,12 @@ public class Settings {
 			screenshake = root.getFloat("screenshake");
 			sfx = root.getFloat("sfx");
 			music = root.getFloat("music");
+
+			if (fullscreen) {
+				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+			} else {
+				Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2);
+			}
 		}
 	}
 
