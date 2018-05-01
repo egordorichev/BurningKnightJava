@@ -16,8 +16,11 @@ public class Settings {
 	public static boolean blood = true;
 	public static boolean gore = true;
 	public static boolean shaders = false;
+	public static boolean uisfx = true;
 	public static int quality = 2;
 	public static float screenshake = 0.7f;
+	public static float music = 0.7f;
+	public static float sfx = 0.7f;
 
 	public static void load() {
 		Log.info("Loading settings...");
@@ -30,11 +33,14 @@ public class Settings {
 
 			fullscreen = root.getBoolean("fullscreen");
 			blood = root.getBoolean("blood");
+			uisfx = root.getBoolean("uisfx");
 			gore = root.getBoolean("gore");
 			shaders = root.getBoolean("shaders");
 			vsync = root.getBoolean("vsync");
 			quality = root.getInt("quality");
 			screenshake = root.getFloat("screenshake");
+			sfx = root.getFloat("sfx");
+			music = root.getFloat("music");
 		}
 	}
 
@@ -46,7 +52,8 @@ public class Settings {
 			JsonWriter writer = new JsonWriter(w);
 
 			writer.write("{ \"fullscreen\" : " + fullscreen + ", \"blood\" : " + blood + ", \"gore\" : " + gore +
-				", \"shaders\" : " + shaders + ", \"vsync\" : " + vsync + ", \"quality\" : " + quality + ", \"screenshake\" : " + ((double) screenshake) + " }");
+				", \"shaders\" : " + shaders + ", \"vsync\" : " + vsync + ", \"quality\" : " + quality + ", \"screenshake\" : " + ((double) screenshake) +
+				", \"sfx\" : " + sfx + ", \"music\" : " + music + ", \"uisfx\" : " + uisfx + " }");
 
 			writer.close();
 		} catch (IOException e) {

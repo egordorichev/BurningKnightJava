@@ -1,12 +1,10 @@
 package org.rexellentgames.dungeon.game.state;
 
-import com.badlogic.gdx.Gdx;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
-import org.rexellentgames.dungeon.util.Log;
 
 public class SettingsState extends State {
 	@Override

@@ -32,6 +32,7 @@ public class UiSlider extends UiButton {
 	public void setLabel(String label) {
 		super.setLabel(label);
 
+		this.x += this.w / 2;
 		this.w += slider.getRegionWidth() + 8;
 	}
 
@@ -44,8 +45,8 @@ public class UiSlider extends UiButton {
 		float a = (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (3f / this.w * 20));
 
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
-		Graphics.render(this.region, this.x - slider.getRegionWidth() / 2 + 8, this.y, a,
-			this.w / 2, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+		Graphics.render(this.region, this.x, this.y, a,
+			this.w - slider.getRegionWidth() - 8, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		Graphics.render(slider, this.x, this.y - 2,
 			a, -8, slider.getRegionHeight() / 2, false, false, this.scale, this.scale);
