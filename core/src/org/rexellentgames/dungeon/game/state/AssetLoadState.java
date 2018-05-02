@@ -13,9 +13,9 @@ public class AssetLoadState extends State {
 			if (!Network.NONE) {
 				Dungeon.game.setState(new LoginState());
 			} else {
-				// Dungeon.game.setState(new MainMenuState());
-				LoadState.readDepth();
-				Dungeon.goToLevel(Dungeon.depth);
+				Dungeon.game.setState(new MainMenuState());
+				// LoadState.readDepth();
+				// Dungeon.goToLevel(Dungeon.depth);
 			}
 		}
 	}
@@ -24,6 +24,6 @@ public class AssetLoadState extends State {
 	public void render() {
 		super.render();
 
-		Graphics.print("Loading... " + Math.floor(Graphics.getPercent() * 100) + "%", Graphics.medium, 100);
+		Graphics.print("Loading... " + (int) Math.floor(Graphics.getPercent() * 100) + "%", Graphics.medium, 100);
 	}
 }

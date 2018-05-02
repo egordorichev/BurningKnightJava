@@ -59,7 +59,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 		Input.multiplexer.removeProcessor(this);
 	}
 
-	protected static Color outline = Color.valueOf("#221f41");
+	public static Color outline = Color.valueOf("#221f41");
 
 	@Override
 	public void render() {
