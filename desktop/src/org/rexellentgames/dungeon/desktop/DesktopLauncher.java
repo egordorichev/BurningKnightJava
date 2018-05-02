@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.rexellentgames.dungeon.*;
+import org.rexellentgames.dungeon.util.DesktopSplashWorker;
 
 public class DesktopLauncher {
 	private static final int SCALE = 2;
@@ -21,6 +22,7 @@ public class DesktopLauncher {
 		config.title = "Burning Knight " + Version.asString();
 
 		Dungeon.arg = arg;
+		Dungeon.worker = new DesktopSplashWorker();
 
 		new LwjglApplication(new Client(), config);
 

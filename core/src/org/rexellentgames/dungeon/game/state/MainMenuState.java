@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -18,8 +20,14 @@ public class MainMenuState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Dungeon.goToLevel(0);
-				Camera.instance.shake(3);
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.goToLevel(Dungeon.depth);
+						Camera.instance.shake(3);
+					}
+				});
 			}
 		}.setSparks(true));
 
@@ -27,8 +35,14 @@ public class MainMenuState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Dungeon.game.setState(new SettingsState());
-				Camera.instance.shake(3);
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new SettingsState());
+						Camera.instance.shake(3);
+					}
+				});
 			}
 		});
 
@@ -37,19 +51,9 @@ public class MainMenuState extends State {
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
 
-				Tween.to(new Tween.Task(0, 0.4f) {
+				transition(new Runnable() {
 					@Override
-					public float getValue() {
-						return 1;
-					}
-
-					@Override
-					public void setValue(float value) {
-
-					}
-
-					@Override
-					public void onEnd() {
+					public void run() {
 						Gdx.app.exit();
 					}
 				});

@@ -26,8 +26,14 @@ public class SettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Dungeon.game.setState(new GraphicsSettingsState());
-				Camera.instance.shake(3);
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new GraphicsSettingsState());
+						Camera.instance.shake(3);
+					}
+				});
 			}
 		}.setSparks(true));
 
@@ -35,8 +41,14 @@ public class SettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Dungeon.game.setState(new AudioSettingsState());
-				Camera.instance.shake(3);
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new AudioSettingsState());
+						Camera.instance.shake(3);
+					}
+				});
 
 			}
 		}.setSparks(true));
@@ -46,13 +58,18 @@ public class SettingsState extends State {
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
 
-				if (fromGame) {
-					Dungeon.goToLevel(-1);
-				} else {
-					Dungeon.game.setState(new MainMenuState());
-				}
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						if (fromGame) {
+							Dungeon.goToLevel(-1);
+						} else {
+							Dungeon.game.setState(new MainMenuState());
+						}
 
-				Camera.instance.shake(3);
+						Camera.instance.shake(3);
+					}
+				});
 			}
 		});
 	}

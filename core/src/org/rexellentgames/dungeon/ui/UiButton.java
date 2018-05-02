@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.ui;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
@@ -58,13 +59,26 @@ public class UiButton extends UiEntity implements InputProcessor {
 		Input.multiplexer.removeProcessor(this);
 	}
 
+	protected static Color outline = Color.valueOf("#221f41");
+
 	@Override
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
+		Graphics.batch.setColor(outline.r, outline.g, outline.b, 1);
+
+		for (int xx = -1; xx < 2; xx++) {
+			for (int yy = -1; yy < 2; yy++) {
+				Graphics.render(this.region, this.x + xx, this.y + yy,
+					(float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / this.w * 20)),
+					this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+			}
+		}
+
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.render(this.region, this.x, this.y, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / this.w * 20)), this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+
 		Graphics.batch.setColor(1, 1, 1, 1);
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);

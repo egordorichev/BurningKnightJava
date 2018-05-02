@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -29,6 +28,7 @@ import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.SplashWorker;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.io.File;
@@ -62,8 +62,10 @@ public class Dungeon extends ApplicationAdapter {
 	public static Color YELLOW = Color.valueOf("#fbf236");
 	public static Color BROWN = Color.valueOf("#8f563b");
 	private static int to = -3;
-	private Color background = Color.valueOf("#000000"); // #323c39
+	private Color background = Color.valueOf("#000000");
+	private Color background2 = Color.valueOf("#323c39");
 	public static PostProcessor postProcessor;
+	public static SplashWorker worker;
 
 	public static void reportException(Exception e) {
 		Log.report(e);
@@ -133,6 +135,10 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		if (worker != null) {
+			worker.closeSplashScreen();
+		}
+
 		if (arg.length > 0 && arg[0].startsWith("reset")) {
 			Dungeon.newGame();
 		}
@@ -162,17 +168,11 @@ public class Dungeon extends ApplicationAdapter {
 
 		ui = new Area();
 		area = new Area();
-		new Ui();
 
 		game = new Game();
 
 		if (!Network.SERVER) {
-			if (!Network.NONE) {
-				game.setState(new LoginState());
-			} else {
-				// game.setState(new GraphicsSettingsState());
-				Dungeon.goToLevel(0);
-			}
+			game.setState(new AssetLoadState());
 		} else {
 			game.setState(new HubState());
 		}
@@ -279,12 +279,14 @@ public class Dungeon extends ApplicationAdapter {
 				Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			}
 
-			Graphics.batch.begin();
+			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(background2.r, background2.g, background2.b, 1);
+			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+			Graphics.shape.setColor(1, 1, 1, 1);
+			Graphics.shape.end();
 
-			if (game.getState() instanceof HubState) {
-				Graphics.medium.draw(Graphics.batch, "[gray]Hub", 0, 12);
-				Graphics.medium.draw(Graphics.batch, "[green]Start", 0, 60);
-			}
+			Graphics.batch.begin();
 
 			if (!(game.getState() instanceof ComicsState)) {
 				area.render();

@@ -53,9 +53,14 @@ public class AudioSettingsState extends State {
 		Dungeon.area.add(new UiButton("menu_label (back)", Display.GAME_WIDTH / 2, 128 - 24 * 2) {
 			@Override
 			public void onClick() {
-				Graphics.playSfx("menu/exit");
-				Dungeon.game.setState(new SettingsState());
-				Camera.instance.shake(3);
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Graphics.playSfx("menu/exit");
+						Dungeon.game.setState(new SettingsState());
+						Camera.instance.shake(3);
+					}
+				});
 			}
 		});
 	}

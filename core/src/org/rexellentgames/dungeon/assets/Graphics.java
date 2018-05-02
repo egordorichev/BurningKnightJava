@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.util.Log;
 
 import java.util.HashMap;
@@ -107,13 +108,9 @@ public class Graphics {
 		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);
 
-		manager.finishLoading();
+		manager.finishLoadingAsset("fonts/large.ttf");
 
-		small = manager.get("fonts/small.ttf");
 		medium = manager.get("fonts/large.ttf");
-		atlas = manager.get("atlas/atlas.atlas");
-
-		small.getData().markupEnabled = true;
 		medium.getData().markupEnabled = true;
 
 		FileHandle file = Gdx.files.external("sfx.json");
@@ -126,6 +123,25 @@ public class Graphics {
 				volumes.put(name.name, name.asFloat());
 			}
 		}
+	}
+
+	public static boolean updateLoading() {
+		boolean val = manager.update();
+
+		if (val && small == null) {
+			small = manager.get("fonts/small.ttf");
+			atlas = manager.get("atlas/atlas.atlas");
+
+			small.getData().markupEnabled = true;
+
+			new Ui();
+		}
+
+		return val;
+	}
+
+	public static float getPercent() {
+		return manager.getProgress();
 	}
 
 	public static long playSfx(String name) {
