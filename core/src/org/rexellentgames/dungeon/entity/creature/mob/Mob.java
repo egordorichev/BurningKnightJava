@@ -39,7 +39,7 @@ public class Mob extends Creature {
 	public Creature target;
 	public static ArrayList<Mob> all = new ArrayList<>();
 	public static ArrayList<Mob> every = new ArrayList<>();
-	protected ArrayList<Player> colliding = new ArrayList<Player>();
+	public ArrayList<Player> colliding = new ArrayList<Player>();
 	protected boolean drop;
 	protected int experienceDropped = 1;
 	protected State ai;
@@ -171,8 +171,8 @@ public class Mob extends Creature {
 	}
 
 	public Point getCloser(Point target) {
-		int from = (int) (Math.floor((this.x + 8) / 16) + Math.floor((this.y + 8) / 16) * Level.getWidth());
-		int to = (int) (Math.floor((target.x + 8) / 16) + Math.floor((target.y + 8) / 16) * Level.getWidth());
+		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + this.h / 2) / 16) * Level.getWidth());
+		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + this.h / 2) / 16) * Level.getWidth());
 
 		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable(), this.mind == Mind.COWARD || this.mind == Mind.RAT || this.hide);
 
@@ -484,7 +484,7 @@ public class Mob extends Creature {
 			return false;
 		}
 
-		public boolean moveTo(Point point, float s) {
+		public boolean oo(Point point, float s) {
 			return this.moveTo(point, s, 4f);
 		}
 
