@@ -10,8 +10,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
@@ -90,9 +92,14 @@ public class Camera extends Entity {
 		this.shake = Math.max(0, this.shake - dt * 10);
 
 		if (this.target != null) {
-			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (2 / this.camera.zoom) + this.target.x + 8);
-			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (2 / this.camera.zoom) + this.target.y + 8);
+			int x = (int) (this.target.x + 8);
+			int y = (int) (this.target.y + 8);
 			float z = this.camera.zoom;
+
+			if (this.target instanceof Player) {
+				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (2 / this.camera.zoom);
+				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (2 / this.camera.zoom);
+			}
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
 
@@ -160,15 +167,21 @@ public class Camera extends Entity {
 	}
 
 	public void follow(Entity entity) {
+		follow(entity, true);
+	}
+
+	public void follow(Entity entity, boolean jump) {
 		this.target = entity;
 
 		if (this.target == null) {
 			return;
 		}
 
-		int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + this.target.x + 8);
-		int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y + 8);
-		this.camera.position.set(x, y, 0);
-		this.camera.update();
+		if (jump) {
+			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + this.target.x + 8);
+			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + this.target.y + 8);
+			this.camera.position.set(x, y, 0);
+			this.camera.update();
+		}
 	}
 }

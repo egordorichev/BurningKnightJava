@@ -21,6 +21,11 @@ public class DialogData {
 	private float a;
 	private int selected;
 	private float oa;
+	private Runnable fin;
+
+	public void onEnd(Runnable onEnd) {
+		this.fin = onEnd;
+	}
 
 	public void start() {
 		this.current = 0;
@@ -187,6 +192,10 @@ public class DialogData {
 			@Override
 			public void onEnd() {
 				Dialog.active = null;
+
+				if (fin != null) {
+					fin.run();
+				}
 			}
 		});
 	}
