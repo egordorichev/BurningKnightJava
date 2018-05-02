@@ -60,7 +60,7 @@ public class CrazyKing extends Boss {
 		h = 23;
 		mind = Mind.ATTACKER;
 
-		alwaysActive = true;
+		alwaysRender = true;
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class CrazyKing extends Boss {
 	@Override
 	public void init() {
 		super.init();
-		this.body = this.createSimpleBody(2, 4, 16, 16, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(3, 5, 14, 14, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
@@ -86,14 +86,15 @@ public class CrazyKing extends Boss {
 	@Override
 	public void render() {
 		Graphics.startShadows();
-		this.animation.render(this.x, this.y - this.h, false, false, this.w / 2, this.h / 2, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
+		this.animation.render(this.x, this.y + this.h / 2 - this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
 			-this.sy * this.sa, false);
 		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, this.h / 2, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
-		Graphics.print(this.state, Graphics.small, this.x, this.y);
+		this.animation.render(this.x, this.y + this.z + this.h / 2, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
 
-		if (this.ai != null) {
+		// Graphics.print(this.state, Graphics.small, this.x, this.y);
+
+		/*if (this.ai != null) {
 			if (this.ai.nextPathPoint != null) {
 				Graphics.batch.end();
 				Graphics.shape.setColor(1, 0, 1, 1);
@@ -111,7 +112,7 @@ public class CrazyKing extends Boss {
 				Graphics.shape.end();
 				Graphics.batch.begin();
 			}
-		}
+		}*/
 	}
 
 	@Override
@@ -184,7 +185,6 @@ public class CrazyKing extends Boss {
 				self.become("idle");
 			} else if (this.moveTo(this.targetPoint, 4f, 32f)) {
 				self.become("idle");
-				Log.info("done");
 			}
 
 			this.checkForTarget();
@@ -249,9 +249,49 @@ public class CrazyKing extends Boss {
 
 				@Override
 				public void onEnd() {
-					Camera.instance.shake(10);
+					Camera.instance.shake(13);
 
-					Tween.to(new Tween.Task(0.8f, 0.2f, Tween.Type.QUAD_OUT) {
+					for (int i = 0; i < 16; i++) {
+						Fireball ball = new Fireball();
+
+						float a = (float) (i * Math.PI / 8);
+						ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+
+						ball.x = (float) (self.x + (self.w - 16) / 2 + Math.cos(a) * 8);
+						ball.y = (float) (self.y + (self.h - 16) / 2 + Math.sin(a) * 8 + 6);
+
+						ball.bad = true;
+						Dungeon.area.add(ball);
+					}
+
+					Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
+						@Override
+						public float getValue() {
+							return sx;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sx = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.QUAD_IN) {
+								@Override
+								public float getValue() {
+									return sx;
+								}
+
+								@Override
+								public void setValue(float value) {
+									sx = value;
+								}
+							});
+						}
+					});
+
+					Tween.to(new Tween.Task(0.6f, 0.2f, Tween.Type.QUAD_OUT) {
 						@Override
 						public float getValue() {
 							return sy;
@@ -264,7 +304,7 @@ public class CrazyKing extends Boss {
 
 						@Override
 						public void onEnd() {
-							Tween.to(new Tween.Task(1f, 0.3f, Tween.Type.QUAD_IN) {
+							Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.QUAD_IN) {
 								@Override
 								public float getValue() {
 									return sy;
@@ -304,40 +344,97 @@ public class CrazyKing extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			Tween.to(new Tween.Task(Camera.instance.getCamera().position.y + Display.GAME_HEIGHT * 3, 1f) {
+			Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
 				@Override
 				public float getValue() {
-					return z;
+					return sx;
 				}
 
 				@Override
 				public void setValue(float value) {
-					z = value;
-					depth = (int) value;
+					sx = value;
 				}
 
 				@Override
 				public void onEnd() {
-					Point center;
+					Tween.to(new Tween.Task(0.6f, 0.15f, Tween.Type.QUAD_IN) {
+						@Override
+						public float getValue() {
+							return sx;
+						}
 
-					do {
-						center = self.room.getRandomCell();
-					} while (!Dungeon.level.checkFor((int) center.x, (int) center.y, Terrain.PASSABLE));
-
-					// self.tp(center.x * 16 - 16, center.y * 16 - 16);
-					self.become("fadeIn");
+						@Override
+						public void setValue(float value) {
+							sx = value;
+						}
+					});
 				}
 			});
 
-			Tween.to(new Tween.Task(0f, 1f) {
+			Tween.to(new Tween.Task(0.5f, 0.2f, Tween.Type.QUAD_OUT) {
 				@Override
 				public float getValue() {
-					return sa;
+					return sy;
 				}
 
 				@Override
 				public void setValue(float value) {
-					sa = value;
+					sy = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1.2f, 0.15f, Tween.Type.QUAD_IN) {
+						@Override
+						public float getValue() {
+							return sy;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sy = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(Camera.instance.getCamera().position.y + Display.GAME_HEIGHT * 3, 1f) {
+								@Override
+								public float getValue() {
+									return z;
+								}
+
+								@Override
+								public void setValue(float value) {
+									z = value;
+									depth = (int) value;
+								}
+
+								@Override
+								public void onEnd() {
+									Point center;
+
+									//do {
+									//	center = self.room.getRandomCell();
+									//} while (!Dungeon.level.checkFor((int) center.x, (int) center.y, Terrain.PASSABLE));
+
+									// self.tp(center.x * 16 - 16, center.y * 16 - 16);
+									self.become("fadeIn");
+								}
+							});
+
+							Tween.to(new Tween.Task(0f, 1f) {
+								@Override
+								public float getValue() {
+									return sa;
+								}
+
+								@Override
+								public void setValue(float value) {
+									sa = value;
+								}
+							});
+						}
+					});
 				}
 			});
 		}
