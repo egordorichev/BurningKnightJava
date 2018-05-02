@@ -35,7 +35,7 @@ public class LoadState extends State {
 	private String s;
 
 	public static void writeDepth() {
-		FileHandle save = Gdx.files.external(".burningknight/depth.save");
+		FileHandle save = Gdx.files.external(".bk/depth.save");
 
 		try {
 			FileWriter writer = new FileWriter(save.file().getPath());
@@ -180,8 +180,8 @@ public class LoadState extends State {
 		}
 	}
 
-	private void readDepth() {
-		FileHandle save = Gdx.files.external(".burningknight/depth.save");
+	public static void readDepth() {
+		FileHandle save = Gdx.files.external(".bk/depth.save");
 
 		if (!save.exists()) {
 			File file = save.file();
@@ -194,7 +194,7 @@ public class LoadState extends State {
 				Dungeon.reportException(e);
 			}
 
-			Dungeon.depth = -1;
+			Dungeon.depth = 0;
 			return;
 		}
 
@@ -209,7 +209,7 @@ public class LoadState extends State {
 			e.printStackTrace();
 		}
 
-		Dungeon.depth = -1;
+		Dungeon.depth = 0;
 	}
 
 	@Override
