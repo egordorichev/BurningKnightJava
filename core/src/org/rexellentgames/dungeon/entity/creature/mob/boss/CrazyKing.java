@@ -56,8 +56,8 @@ public class CrazyKing extends Boss {
 
 	{
 		hpMax = 100;
-		w = 16;
-		h = 16;
+		w = 20;
+		h = 23;
 		mind = Mind.ATTACKER;
 
 		alwaysActive = true;
@@ -75,17 +75,22 @@ public class CrazyKing extends Boss {
 	@Override
 	public void init() {
 		super.init();
-		this.body = this.createSimpleBody(2, 4, (int) this.w, (int) this.h, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 4, 16, 16, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
+
+	private float sx = 1f;
+	private float sy = 1f;
+	private float sa = 1f;
 
 	@Override
 	public void render() {
 		Graphics.startShadows();
-		this.animation.render(this.x, this.y - this.h, this.flipped, true, this.w / 2, this.h / 2, 0, false);
+		this.animation.render(this.x, this.y - this.h, false, false, this.w / 2, this.h / 2, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
+			-this.sy * this.sa, false);
 		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.animation.render(this.x, this.y + this.z, this.flipped, false);
+		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, this.h / 2, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
 		Graphics.print(this.state, Graphics.small, this.x, this.y);
 
 		if (this.ai != null) {
@@ -230,22 +235,65 @@ public class CrazyKing extends Boss {
 	public class FadeInState extends CKState {
 		@Override
 		public void onEnter() {
-			self.a = 0;
-
-			Tween.to(new Tween.Task(1, 0.3f) {
+			Tween.to(new Tween.Task(0, 1f) {
 				@Override
 				public float getValue() {
-					return self.a;
+					return z;
 				}
 
 				@Override
 				public void setValue(float value) {
-					self.a = value;
+					z = value;
+					depth = (int) value;
 				}
 
 				@Override
 				public void onEnd() {
-					self.become("roam");
+					Camera.instance.shake(10);
+
+					Tween.to(new Tween.Task(0.8f, 0.2f, Tween.Type.QUAD_OUT) {
+						@Override
+						public float getValue() {
+							return sy;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sy = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(1f, 0.3f, Tween.Type.QUAD_IN) {
+								@Override
+								public float getValue() {
+									return sy;
+								}
+
+								@Override
+								public void setValue(float value) {
+									sy = value;
+								}
+
+								@Override
+								public void onEnd() {
+									self.become("roam");
+								}
+							});
+						}
+					});
+				}
+			});
+
+			Tween.to(new Tween.Task(1f, 1f) {
+				@Override
+				public float getValue() {
+					return sa;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sa = value;
 				}
 			});
 		}
@@ -256,7 +304,7 @@ public class CrazyKing extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			Tween.to(new Tween.Task(Camera.instance.getCamera().position.y - Display.GAME_HEIGHT * 3, 1f) {
+			Tween.to(new Tween.Task(Camera.instance.getCamera().position.y + Display.GAME_HEIGHT * 3, 1f) {
 				@Override
 				public float getValue() {
 					return z;
@@ -265,6 +313,7 @@ public class CrazyKing extends Boss {
 				@Override
 				public void setValue(float value) {
 					z = value;
+					depth = (int) value;
 				}
 
 				@Override
@@ -275,8 +324,20 @@ public class CrazyKing extends Boss {
 						center = self.room.getRandomCell();
 					} while (!Dungeon.level.checkFor((int) center.x, (int) center.y, Terrain.PASSABLE));
 
-					self.tp(center.x * 16 - 16, center.y * 16 - 16);
+					// self.tp(center.x * 16 - 16, center.y * 16 - 16);
 					self.become("fadeIn");
+				}
+			});
+
+			Tween.to(new Tween.Task(0f, 1f) {
+				@Override
+				public float getValue() {
+					return sa;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sa = value;
 				}
 			});
 		}
@@ -298,7 +359,7 @@ public class CrazyKing extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			float r = Random.newFloat();
+			float r = 0;//Random.newFloat();
 
 			if (r < 0.1f) {
 				self.become("fadeOut");
