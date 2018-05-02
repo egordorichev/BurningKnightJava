@@ -100,7 +100,7 @@ public class RegularRoom extends Room {
 	};
 
 	public static RegularRoom create() {
-		if (Dungeon.depth < 1) {
+		if (Dungeon.depth < 1 || Dungeon.depth == 4) {
 			return new RegularRoom();
 		}
 

@@ -20,7 +20,7 @@ public class ConnectionRoom extends Room {
 	};
 
 	public static ConnectionRoom create() {
-		if (Dungeon.depth == -1) {
+		if (Dungeon.depth == -1 || Dungeon.depth == 4) {
 			return new TunnelRoom();
 		}
 
