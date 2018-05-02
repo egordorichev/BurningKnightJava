@@ -53,7 +53,7 @@ public class DialogData {
 		this.selected = 0;
 
 		Dialog.Phrase phrase = this.phrases.get(this.current);
-		this.label = new TypingLabel("{SPEED=0.4}{COLOR=#FFFFFF}" + phrase.string, skin);
+		this.label = new TypingLabel("{SPEED=0.8}{COLOR=#FFFFFF}" + phrase.string, skin);
 		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 64);
 		this.label.setPosition(80, Display.GAME_HEIGHT - 64 - 32);
 		this.label.setWrap(true);

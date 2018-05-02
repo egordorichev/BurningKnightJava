@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -131,6 +132,8 @@ public class ItemHolder extends SaveableEntity {
 
 		if (this.item instanceof Lamp) {
 			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 3f, false);
+
+			Camera.instance.follow(this, false);
 		} else if (this.item instanceof Key) {
 			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 1, 1, 0, 2f, 2f, false);
 		}
