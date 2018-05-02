@@ -199,7 +199,7 @@ public class Creature extends SaveableEntity {
 				}
 			}
 
-			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead) {
+			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead && !(this instanceof Player && ((Player) this).dashT > 0)) {
 				this.falling = true;
 				this.t = 0;
 			}
@@ -278,7 +278,10 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.body != null) {
-			this.vel.clamp(0, this.maxSpeed);
+			if (!(this instanceof Player && ((Player) this).dashT > 0)) {
+				this.vel.clamp(0, this.maxSpeed);
+			}
+
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		}
 	}
@@ -324,7 +327,7 @@ public class Creature extends SaveableEntity {
 				}
 			}
 
-			if (this.invt > 0) {
+			if (this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
 				return;
 			}
 

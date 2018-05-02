@@ -127,6 +127,15 @@ public class AnimationData {
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
+	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, float sx, float sy) {
+		Graphics.startShadows();
+		Graphics.render(this.current.frame, x + ox, y + oy - this.current.frame.getRegionHeight(), a, ox, oy, flip, flipY, sx, -sy);
+		Graphics.endShadows();
+
+		Graphics.render(this.current.frame, x + ox, y + oy, a, ox, oy, flip, flipY, sx, sy);
+		Graphics.batch.setColor(1, 1, 1, 1);
+	}
+
 	public void render(float x, float y, boolean flip, boolean flipY, int f) {
 		render(x, y, flip, flipY, f, true);
 	}

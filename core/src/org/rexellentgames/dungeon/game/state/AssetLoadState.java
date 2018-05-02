@@ -13,8 +13,8 @@ public class AssetLoadState extends State {
 			if (!Network.NONE) {
 				Dungeon.game.setState(new LoginState());
 			} else {
-				Dungeon.game.setState(new MainMenuState());
-				// Dungeon.goToLevel(0);
+				// Dungeon.game.setState(new MainMenuState());
+				Dungeon.goToLevel(0);
 			}
 		}
 	}

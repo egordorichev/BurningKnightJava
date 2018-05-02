@@ -66,6 +66,7 @@ public class Player extends Creature {
 	private AnimationData animation;
 	private int gold;
 	public Room currentRoom;
+	public float dashT;
 
 	{
 		hpMax = 100;
@@ -237,10 +238,13 @@ public class Player extends Creature {
 	}
 
 	private float lastRun;
+	private float lastDashT;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		this.dashT = Math.max(0, this.dashT - dt);
 
 		if (Dungeon.game.getState() instanceof ComicsState) {
 			float x = Math.max(Camera.instance.getCamera().position.x - 80, this.x);
@@ -327,6 +331,46 @@ public class Player extends Creature {
 				if (Input.instance.isDown("down")) {
 					this.vel.y -= this.speed;
 				}
+
+				if (Input.instance.wasPressed("dash")) {
+					float dx = Input.instance.worldMouse.x - this.x - 8;
+					float dy = Input.instance.worldMouse.y - this.y - 8;
+					float a = (float) Math.atan2(dy, dx);
+
+					this.vel.x += (float) (this.speed * 200 * Math.cos(a));
+					this.vel.y += (float) (this.speed * 200 * Math.sin(a));
+
+					this.dashT = 0.3f;
+
+					Tween.to(new Tween.Task(1.5f, 0.05f) {
+						@Override
+						public float getValue() {
+							return sx;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sx = value;
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+
+							Tween.to(new Tween.Task(1f, 0.05f) {
+								@Override
+								public float getValue() {
+									return sx;
+								}
+
+								@Override
+								public void setValue(float value) {
+									sx = value;
+								}
+							});
+						}
+					});
+				}
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("action")) {
@@ -349,6 +393,7 @@ public class Player extends Creature {
 
 			this.vel.x = 0;
 			this.vel.y = 0;
+			this.dashT = 0;
 		}
 
 		super.common();
@@ -359,6 +404,41 @@ public class Player extends Creature {
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x - 8;
 		this.flipped = dx >= 0;
+
+		if (this.lastDashT != 0 && this.dashT == 0) {
+			this.vel.mul(0.5f);
+
+			Tween.to(new Tween.Task(0.8f, 0.05f) {
+				@Override
+				public float getValue() {
+					return sx;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sx = value;
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+
+					Tween.to(new Tween.Task(1f, 0.05f) {
+						@Override
+						public float getValue() {
+							return sx;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sx = value;
+						}
+					});
+				}
+			});
+		}
+
+		this.lastDashT = this.dashT;
 	}
 
 	@Override
@@ -369,6 +449,8 @@ public class Player extends Creature {
 			this.watery = 5f;
 		}
 	}
+
+	private ArrayList<Point> last = new ArrayList<>();
 
 	@Override
 	public void render() {
@@ -395,7 +477,25 @@ public class Player extends Creature {
 			this.ui.renderBeforePlayer(this);
 		}
 
-		this.animation.render(this.x, this.y, this.flipped);
+		for (int i = 0; i < this.last.size(); i++) {
+			Point last = this.last.get(i);
+
+			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
+			Graphics.startShadows();
+			this.animation.render(last.x, last.y, false, false, 8, 8, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+			Graphics.endShadows();
+			this.animation.render(last.x, last.y, false, false, 8, 8, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+		}
+
+		if (this.dashT > 0) {
+			this.last.add(new Point(this.x, this.y));
+		}
+
+		if (this.last.size() > 5 || (this.last.size() > 0 && this.dashT <= 0)) {
+			this.last.remove(0);
+		}
+
+		this.animation.render(this.x, this.y, false, false, 8, 8, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {
@@ -409,6 +509,9 @@ public class Player extends Creature {
 			Graphics.small.draw(Graphics.batch, this.name, this.x, this.y - 4);
 		}
 	}
+
+	private float sx = 1f;
+	private float sy = 1f;
 
 	@Override
 	public void load(FileReader reader) throws IOException {
