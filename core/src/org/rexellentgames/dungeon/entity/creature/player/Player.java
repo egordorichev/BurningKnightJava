@@ -239,12 +239,14 @@ public class Player extends Creature {
 
 	private float lastRun;
 	private float lastDashT;
+	private float dashTimeout;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
 		this.dashT = Math.max(0, this.dashT - dt);
+		this.dashTimeout = Math.max(0, this.dashTimeout - dt);
 
 		if (Dungeon.game.getState() instanceof ComicsState) {
 			float x = Math.max(Camera.instance.getCamera().position.x - 80, this.x);
@@ -332,7 +334,7 @@ public class Player extends Creature {
 					this.vel.y -= this.speed;
 				}
 
-				if (Input.instance.wasPressed("dash")) {
+				if (Input.instance.wasPressed("dash") && this.dashTimeout == 0 && this.dashT == 0f) {
 					float dx = Input.instance.worldMouse.x - this.x - 8;
 					float dy = Input.instance.worldMouse.y - this.y - 8;
 					float a = (float) Math.atan2(dy, dx);
@@ -407,6 +409,7 @@ public class Player extends Creature {
 
 		if (this.lastDashT != 0 && this.dashT == 0) {
 			this.vel.mul(0.5f);
+			this.dashTimeout = 3f;
 
 			Tween.to(new Tween.Task(0.8f, 0.05f) {
 				@Override
