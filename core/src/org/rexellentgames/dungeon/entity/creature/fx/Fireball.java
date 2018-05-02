@@ -34,6 +34,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public boolean noMove;
 	public boolean bad = true;
 	public Vector2 vel;
+	public boolean ignoreWalls = false;
 
 	@Override
 	public Body getBody() {
@@ -51,7 +52,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		WormholeFx.suck.add(this);
 
-		this.depth = 11;
+		this.depth = this.ignoreWalls ? 11 : 0;
 		this.flip = Random.chance(50);
 
 		this.born = animations.get("appear");
@@ -123,6 +124,9 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 			}
 		} else if (entity instanceof Plant) {
 			((Plant) entity).startBurning();
+		} else if (entity == null && !this.ignoreWalls) {
+			this.animation = this.dead;
+			this.playSfx("fireball_death");
 		}
 	}
 

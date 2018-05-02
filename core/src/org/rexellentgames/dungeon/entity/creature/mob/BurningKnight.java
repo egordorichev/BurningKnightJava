@@ -601,6 +601,7 @@ public class BurningKnight extends Mob {
 					case MISSILE:
 						ball = new Fireball();
 
+						ball.ignoreWalls = true;
 						ball.target = self.target;
 						ball.x = self.x + (self.w - 16) / 2;
 						ball.y = self.y + (self.h - 10) / 2;
@@ -612,6 +613,8 @@ public class BurningKnight extends Mob {
 					case AREA:
 						for (int i = 0; i < Random.newInt(10, 20); i++) {
 							ball = new Fireball();
+
+							ball.ignoreWalls = true;
 
 							float d = Random.newFloat(16f, 64f);
 							float a = Random.newFloat((float) (Math.PI * 2));
@@ -629,6 +632,8 @@ public class BurningKnight extends Mob {
 						for (int i = 0; i < 4; i++) {
 							ball = new Fireball();
 
+
+							ball.ignoreWalls = true;
 							float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
 							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
 
@@ -643,6 +648,8 @@ public class BurningKnight extends Mob {
 						for (int i = 0; i < 4; i++) {
 							ball = new Fireball();
 
+
+							ball.ignoreWalls = true;
 							float a = (float) (i * Math.PI / 2);
 
 							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
