@@ -227,6 +227,7 @@ public class BurningKnight extends Mob {
 				}
 			});
 
+
 			Log.info("Now BK is unhittable!");
 			Log.error(this.hp + " hp and " + v + " val");
 			UiLog.instance.print("[red]Burning Knight is now unhittable!");

@@ -105,9 +105,17 @@
 	"bullet_c_desc" : "Targets enemies",
 
 
-	"dialog_bk_its_you_again" : "So it's you again? {WAIT}You think, you can change something this time?",
-	"dialog_bk_its_not_worthit" : "It is not worth it! {WAIT}{SHAKE}YOU WILL NEVER DEFEAT ME.{ENDSHAKE} Let's just face the {SHAKE}truth.{ENDSHAKE}",
-	"dialog_bk_its_not_youwilllose" : "YOU WILL {SHAKE}LOSE!{ENDSHAKE}",
-	"bk_dialog_andwhat" : "And what?",
-	"bk_dialog_whatever" : "Whatever..."
+	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
+	"dialog_bk_i_will_not" : "I will not",
+	"dialog_bk_im_sorry" : "I'm sorry...",
+	"dialog_bk_you_will" : "You {SHAKE}WILL{ENDSHAKE}. And your death will be {SHAKE}painful{ENDSHAKE}!",
+	"dialog_bk_i_do_not_care" : "I do {SHAKE}not{ENDSHAKE} care!",
+
+	"dialog_why_are_you_killing_my_lieges" : "Hey, {SHAKE}you{ENDSHAKE}! {WAIT}Why are you killing my lieges?",
+	"dialog_because_i_want_to" : "Because I want to",
+	"dialog_because_i_want_treasure" : "Because I want treasure",
+	"dialog_because_i_want_to_own_this_castle" : "Because I want to own this castle",
+	"dialog_ck_well_i_want_to_kill_you" : "Well, {WAIT}I want to {SHAKE}kill you{ENDSHAKE} too.",
+	"dialog_ck_you_will_never_get_it" : "YOU WILL NEVER GET IT!",
+	"dialog_ck_everything_that_you_can_own_is_a_tomb_stone" : "Everything, that you can own, is a {WAIT}tomb stone!"
 }
