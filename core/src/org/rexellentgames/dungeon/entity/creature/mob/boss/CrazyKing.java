@@ -16,10 +16,14 @@ import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.geometry.Point;
+
+import java.util.ArrayList;
 
 /*
  * Tests player skills, such as:
@@ -585,5 +589,14 @@ public class CrazyKing extends Boss {
 				self.become("chase");
 			}
 		}
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> drops = super.getDrops();
+
+		drops.add(new KeyC());
+
+		return drops;
 	}
 }
