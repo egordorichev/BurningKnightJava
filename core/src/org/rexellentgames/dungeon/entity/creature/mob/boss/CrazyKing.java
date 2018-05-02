@@ -46,6 +46,8 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class CrazyKing extends Boss {
 	private static Animation animations = Animation.make("actor_towel_king");
 	private static AnimationData idle = animations.get("idle");
+	private static Dialog dialogs = Dialog.make("crazy-king");
+	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
 	public float z;
 
@@ -211,12 +213,36 @@ public class CrazyKing extends Boss {
 		}
 	}
 
+	private boolean noticed;
+
 	public class AlertedState extends CKState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			if (!noticed) {
+				Dialog.active = onNotice;
+				Dialog.active.start();
+				Camera.instance.follow(self, false);
+				self.target.setUnhittable(true);
+
+				Dialog.active.onEnd(new Runnable() {
+					@Override
+					public void run() {
+						noticed = true;
+						self.become("chase");
+						self.target.setUnhittable(false);
+						Camera.instance.follow(Player.instance, false);
+					}
+				});
+			}
+		}
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 1f) {
+			if (noticed && this.t >= 1f) {
 				self.become("chase");
 			}
 		}
@@ -270,7 +296,7 @@ public class CrazyKing extends Boss {
 				@Override
 				public void onEnd() {
 					Camera.instance.shake(13);
-					self.setUnhittable(true);
+					self.setUnhittable(false);
 
 					for (Player player : self.colliding) {
 						player.modifyHp(-10);
@@ -367,8 +393,9 @@ public class CrazyKing extends Boss {
 	public class FadeOutState extends CKState {
 		@Override
 		public void onEnter() {
-			self.setUnhittable(true);
 			super.onEnter();
+			self.setUnhittable(true);
+
 
 			Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
 				@Override
