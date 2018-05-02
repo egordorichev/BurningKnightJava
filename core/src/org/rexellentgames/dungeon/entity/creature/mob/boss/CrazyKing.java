@@ -5,11 +5,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
+import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -44,8 +47,9 @@ import org.rexellentgames.dungeon.util.geometry.Point;
  */
 
 public class CrazyKing extends Boss {
-	private static Animation animations = Animation.make("actor_towel_king");
+	public static Animation animations = Animation.make("actor_towelking");
 	private static AnimationData idle = animations.get("idle");
+	private static AnimationData killed = animations.get("dead");
 	private static Dialog dialogs = Dialog.make("crazy-king");
 	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
@@ -75,6 +79,29 @@ public class CrazyKing extends Boss {
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
+
+	@Override
+	protected void die(boolean force) {
+		super.die(force);
+
+		this.done = true;
+		Dungeon.level.removeSaveable(this);
+
+		if (Settings.gore) {
+			for (Animation.Frame frame : killed.getFrames()) {
+				GoreFx fx = new GoreFx();
+
+				fx.texture = frame.frame;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+		}
+
+		BloodFx.add(this, 20);
+	}
+
 
 	private float sx = 1f;
 	private float sy = 1f;

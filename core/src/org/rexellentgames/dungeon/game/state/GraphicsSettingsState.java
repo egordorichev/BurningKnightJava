@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiCheckbox;
@@ -105,7 +106,8 @@ public class GraphicsSettingsState extends State {
 
 				if (Settings.gore) {
 					org.rexellentgames.dungeon.assets.Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4));
-					ArrayList<Animation.Frame> frames = Random.newFloat() > 0.5 ? Knight.animations.getFrames("dead") : Clown.animations.getFrames("dead");
+					ArrayList<Animation.Frame> frames = Random.newFloat() > 0.3 ?
+						(Random.newFloat() > 0.5 ? CrazyKing.animations.getFrames("dead") : Knight.animations.getFrames("dead")) : Clown.animations.getFrames("dead");
 
 					for (Animation.Frame frame : frames) {
 						GoreFx fx = new GoreFx();
