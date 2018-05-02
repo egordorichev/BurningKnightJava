@@ -3,8 +3,12 @@ package org.rexellentgames.dungeon.entity.creature.mob.boss;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.*;
@@ -48,6 +52,7 @@ public class CrazyKing extends Boss {
 	private static Animation animations = Animation.make("actor_towel_king");
 	private static AnimationData idle = animations.get("idle");
 	private AnimationData animation = idle;
+	public float z;
 
 	{
 		hpMax = 100;
@@ -56,7 +61,15 @@ public class CrazyKing extends Boss {
 		mind = Mind.ATTACKER;
 
 		alwaysActive = true;
-		depth = 1; // debug
+	}
+
+	@Override
+	protected boolean canHaveBuff(Buff buff) {
+		if (buff instanceof BurningBuff) {
+			return false;
+		}
+
+		return super.canHaveBuff(buff);
 	}
 
 	@Override
@@ -68,8 +81,11 @@ public class CrazyKing extends Boss {
 
 	@Override
 	public void render() {
+		Graphics.startShadows();
+		this.animation.render(this.x, this.y - this.h, this.flipped, true, this.w / 2, this.h / 2, 0, false);
+		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.animation.render(this.x, this.y, this.flipped);
+		this.animation.render(this.x, this.y + this.z, this.flipped, false);
 		Graphics.print(this.state, Graphics.small, this.x, this.y);
 
 		if (this.ai != null) {
@@ -240,15 +256,15 @@ public class CrazyKing extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			Tween.to(new Tween.Task(0, 0.3f) {
+			Tween.to(new Tween.Task(Camera.instance.getCamera().position.y - Display.GAME_HEIGHT * 3, 1f) {
 				@Override
 				public float getValue() {
-					return self.a;
+					return z;
 				}
 
 				@Override
 				public void setValue(float value) {
-					self.a = value;
+					z = value;
 				}
 
 				@Override

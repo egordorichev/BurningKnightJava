@@ -32,7 +32,7 @@ import org.rexellentgames.dungeon.util.Tween;
 import java.util.ArrayList;
 
 public class InGameState extends State {
-	public static boolean LIGHT = true;
+	public static boolean LIGHT = false;
 
 	private UiInventory inventory;
 	private Console console;
