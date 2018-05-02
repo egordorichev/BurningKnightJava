@@ -20,6 +20,7 @@ import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.Dagger;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -338,6 +339,15 @@ public class Player extends Creature {
 					float dx = Input.instance.worldMouse.x - this.x - 8;
 					float dy = Input.instance.worldMouse.y - this.y - 8;
 					float a = (float) Math.atan2(dy, dx);
+
+					for (int i = 0; i < 20; i++) {
+						Part part = new Part();
+
+						part.x = this.x + Random.newFloat(this.w);
+						part.y = this.y - Random.newFloat(this.h);
+
+						Dungeon.area.add(part);
+					}
 
 					this.vel.x += (float) (this.speed * 200 * Math.cos(a));
 					this.vel.y += (float) (this.speed * 200 * Math.sin(a));
