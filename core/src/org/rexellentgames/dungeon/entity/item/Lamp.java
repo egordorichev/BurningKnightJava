@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.ChargeFx;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -67,6 +68,8 @@ public class Lamp extends Item {
 	@Override
 	public void setOwner(Creature owner) {
 		super.setOwner(owner);
+
+		Camera.instance.follow(Player.instance, false);
 
 		if (!this.added && BurningKnight.instance == null && Dungeon.type != Dungeon.Type.INTRO) {
 			this.added = true;

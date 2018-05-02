@@ -89,7 +89,7 @@ public class CrazyKing extends Boss {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
 
-		Graphics.print(this.state, Graphics.small, this.x, this.y);
+		/* Graphics.print(this.state, Graphics.small, this.x, this.y);
 
 		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 
@@ -121,7 +121,7 @@ public class CrazyKing extends Boss {
 			Graphics.shape.end();
 			Graphics.shape.setColor(1, 1, 1, 1);
 			Graphics.batch.begin();
-		}
+		}*/
 	}
 
 	@Override
@@ -133,6 +133,8 @@ public class CrazyKing extends Boss {
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
 		}
+
+		Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 4f, false);
 	}
 
 	@Override

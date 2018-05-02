@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -180,10 +181,10 @@ public class Dungeon extends ApplicationAdapter {
 		area.add(camera);
 
 		// Todo: better way to do this
-		// Music music = Graphics.getMusic("gobbeon");
+		Music music = Graphics.getMusic("gobbeon");
 
-		// music.setLooping(true);
-		// music.play();
+		music.setLooping(true);
+		music.play();
 
 		boolean isDesktop = (Gdx.app.getType() == Application.ApplicationType.Desktop);
 		postProcessor = new PostProcessor(false, true, isDesktop);
