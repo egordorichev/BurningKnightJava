@@ -9,6 +9,7 @@ import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.net.Network;
@@ -176,6 +177,11 @@ public class Input implements InputProcessor, ControllerListener {
 			return false;
 		}
 
+
+		if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
+			return false;
+		}
+
 		for (String id : this.bindings.get(key)) {
 			State state = this.keys.get(id);
 
@@ -189,6 +195,10 @@ public class Input implements InputProcessor, ControllerListener {
 
 	public boolean wasPressed(String key) {
 		if (blocked) {
+			return false;
+		}
+
+		if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
 			return false;
 		}
 

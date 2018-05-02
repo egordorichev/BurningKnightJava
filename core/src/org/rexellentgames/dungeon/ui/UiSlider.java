@@ -42,15 +42,39 @@ public class UiSlider extends UiButton {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		float a = (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (3f / this.w * 20));
+		float v = MathUtils.map(this.val, this.min, this.max, 0, slider.getRegionWidth());
+
+		Graphics.batch.setColor(outline.r, outline.g, outline.b, 1);
+
+		for (int xx = -1; xx < 2; xx++) {
+			for (int yy = -1; yy < 2; yy++) {
+				Graphics.render(this.region, this.x + xx, this.y + yy, a,
+					this.w - slider.getRegionWidth() - 8, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+
+				Graphics.render(slider, this.x + xx, this.y - 2 + yy,
+					a, -8, slider.getRegionHeight() / 2, false, false, this.scale, this.scale);
+			}
+		}
 
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
+
 		Graphics.render(this.region, this.x, this.y, a,
 			this.w - slider.getRegionWidth() - 8, this.region.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		Graphics.render(slider, this.x, this.y - 2,
 			a, -8, slider.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
-		float v = MathUtils.map(this.val, this.min, this.max, 0, slider.getRegionWidth());
+
+		Graphics.batch.setColor(outline.r, outline.g, outline.b, 1);
+
+		for (int xx = -1; xx < 2; xx++) {
+			for (int yy = -1; yy < 2; yy++) {
+				Graphics.render(handle, this.x + xx, this.y - 2 + yy,
+					a, -8 - v, handle.getRegionHeight() / 2, false, false, this.scale, this.scale);
+			}
+		}
+
+		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.render(handle, this.x, this.y - 2,
 			a, -8 - v, handle.getRegionHeight() / 2, false, false, this.scale, this.scale);

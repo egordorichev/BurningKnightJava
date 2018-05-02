@@ -1,5 +1,10 @@
 package org.rexellentgames.dungeon.game.state;
 
+import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Tween;
+
 public class State {
 	private boolean paused;
 
@@ -51,5 +56,39 @@ public class State {
 
 	public void resize(int width, int height) {
 
+	}
+
+	protected static void transition(Runnable runnable) {
+		Dungeon.darkX = Input.instance.uiMouse.x;
+		Dungeon.darkY = Input.instance.uiMouse.y;
+
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return Dungeon.darkR;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.darkR = value;
+			}
+
+			@Override
+			public void onEnd() {
+				runnable.run();
+
+				Tween.to(new Tween.Task(Dungeon.MAX_R, 0.2f) {
+					@Override
+					public float getValue() {
+						return Dungeon.darkR;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.darkR = value;
+					}
+				});
+			}
+		});
 	}
 }

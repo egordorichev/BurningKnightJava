@@ -148,10 +148,17 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				org.rexellentgames.dungeon.assets.Graphics.playSfx("menu/exit");
-				Dungeon.game.setState(new SettingsState());
-				Camera.instance.shake(3);
 
-				Settings.save();
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new SettingsState());
+						Camera.instance.shake(3);
+
+						Settings.save();
+					}
+				});
 			}
 		});
 	}

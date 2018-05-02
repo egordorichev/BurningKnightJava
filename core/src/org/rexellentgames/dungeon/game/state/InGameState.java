@@ -116,6 +116,10 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		if (this.isPaused()) {
+			return;
+		}
+
 		this.console.update(dt);
 
 		World.update(dt);

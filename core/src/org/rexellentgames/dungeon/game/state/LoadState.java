@@ -194,7 +194,7 @@ public class LoadState extends State {
 				Dungeon.reportException(e);
 			}
 
-			Dungeon.depth = 0;
+			Dungeon.depth = -1;
 			return;
 		}
 
@@ -209,7 +209,7 @@ public class LoadState extends State {
 			e.printStackTrace();
 		}
 
-		Dungeon.depth = 0;
+		Dungeon.depth = -1;
 	}
 
 	@Override
