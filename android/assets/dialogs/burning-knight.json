@@ -1,23 +1,23 @@
 {
 	"on_lamp_take" : {
-		"dialog_bk_its_you_again": {
+		"dialog_bk_who_took_my_lamp": {
 			"texture" : "bk-dialog-frame",
 			"next" : [
-				"dialog_bk_its_not_worthit",
-				"dialog_bk_its_not_youwilllose"
+				"dialog_bk_you_will",
+				"dialog_bk_i_do_not_care"
 			],
 
 			"options" : [
-				"bk_dialog_andwhat",
-				"bk_dialog_whatever"
+				"dialog_bk_i_will_not",
+				"dialog_bk_im_sorry"
 			]
 		},
 
-		"dialog_bk_its_not_worthit" : {
+		"dialog_bk_you_will" : {
 			"texture" : "bk-dialog-frame"
 		},
 
-		"dialog_bk_its_not_youwilllose" : {
+		"dialog_bk_i_do_not_care" : {
 			"texture" : "bk-dialog-frame"
 		}
 	}
