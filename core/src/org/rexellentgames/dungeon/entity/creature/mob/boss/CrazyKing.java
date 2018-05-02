@@ -10,6 +10,10 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
+import org.rexellentgames.dungeon.entity.creature.mob.Knight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -27,20 +31,11 @@ import org.rexellentgames.dungeon.util.geometry.Point;
  *
  * Attacks that do that:
  *
- * - Turns off the light on the level, teleports to a random location in the room
- *  + Just fades away
- *  (done)
- * - Shoots a ring of fast moving fireballs, that can be dodged via distance or sword block
- *  + He jumps
- *  (done)
  * - Creates a shield from projectiles with only one small hole in it, that you can attack through
  *  + Waves his hand around him
- * - Summons helping enemies, goes unhittable till you defeat them all
- *  + Rings in a bell
  * - Creates a fireball circle around the player, that slowly moves to him. Blocked via sword
- *  + Moves hands casting this thing
- *  (done, tho it's hard to not to get hit)
  *
+ * - Ranged attack needed
  *
  * Ways to defend for the boss:
  *
@@ -55,9 +50,9 @@ public class CrazyKing extends Boss {
 	public float z;
 
 	{
-		hpMax = 100;
+		hpMax = 50;
 		w = 20;
-		h = 23;
+		h = 24;
 		mind = Mind.ATTACKER;
 
 		alwaysRender = true;
@@ -75,7 +70,7 @@ public class CrazyKing extends Boss {
 	@Override
 	public void init() {
 		super.init();
-		this.body = this.createSimpleBody(3, 5, 14, 14, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
@@ -86,15 +81,17 @@ public class CrazyKing extends Boss {
 	@Override
 	public void render() {
 		Graphics.startShadows();
-		this.animation.render(this.x, this.y + this.h / 2 - this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
+		this.animation.render(this.x, this.y - this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
 			-this.sy * this.sa, false);
 		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.animation.render(this.x, this.y + this.z + this.h / 2, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
+		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
 
-		// Graphics.print(this.state, Graphics.small, this.x, this.y);
+		Graphics.print(this.state, Graphics.small, this.x, this.y);
 
-		/*if (this.ai != null) {
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+
+		if (this.ai != null) {
 			if (this.ai.nextPathPoint != null) {
 				Graphics.batch.end();
 				Graphics.shape.setColor(1, 0, 1, 1);
@@ -112,7 +109,17 @@ public class CrazyKing extends Boss {
 				Graphics.shape.end();
 				Graphics.batch.begin();
 			}
-		}*/
+		}
+
+		if (this.lastSeen != null) {
+			Graphics.batch.end();
+			Graphics.shape.setColor(0, 0, 1, 1);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2, this.lastSeen.x + 8, this.lastSeen.y + 8);
+			Graphics.shape.end();
+			Graphics.shape.setColor(1, 1, 1, 1);
+			Graphics.batch.begin();
+		}
 	}
 
 	@Override
@@ -120,6 +127,10 @@ public class CrazyKing extends Boss {
 		super.update(dt);
 		this.animation.update(dt);
 		super.common();
+
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	@Override
@@ -160,6 +171,15 @@ public class CrazyKing extends Boss {
 			}
 
 			this.checkForTarget();
+		}
+	}
+
+	@Override
+	protected void onHurt() {
+		super.onHurt();
+
+		if (this.hp == 0) {
+			this.done = true;
 		}
 	}
 
@@ -213,7 +233,7 @@ public class CrazyKing extends Boss {
 				}
 			}
 
-			if (this.moveTo(self.lastSeen, 6f, 64f)) {
+			if (this.moveTo(self.lastSeen, 6f, 128f)) {
 				if (self.target == null || !self.canSee(self.target)) {
 					self.target = null;
 					self.lastSeen = null;
@@ -250,6 +270,11 @@ public class CrazyKing extends Boss {
 				@Override
 				public void onEnd() {
 					Camera.instance.shake(13);
+					self.setUnhittable(true);
+
+					for (Player player : self.colliding) {
+						player.modifyHp(-10);
+					}
 
 					for (int i = 0; i < 16; i++) {
 						Fireball ball = new Fireball();
@@ -342,6 +367,7 @@ public class CrazyKing extends Boss {
 	public class FadeOutState extends CKState {
 		@Override
 		public void onEnter() {
+			self.setUnhittable(true);
 			super.onEnter();
 
 			Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
@@ -411,13 +437,7 @@ public class CrazyKing extends Boss {
 
 								@Override
 								public void onEnd() {
-									Point center;
-
-									//do {
-									//	center = self.room.getRandomCell();
-									//} while (!Dungeon.level.checkFor((int) center.x, (int) center.y, Terrain.PASSABLE));
-
-									// self.tp(center.x * 16 - 16, center.y * 16 - 16);
+									self.tp(self.target.x + (self.target.w - self.w) / 2, self.target.y + (self.target.h - self.h) / 2);
 									self.become("fadeIn");
 								}
 							});
@@ -456,36 +476,48 @@ public class CrazyKing extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			float r = 0;//Random.newFloat();
+			float r = Random.newFloat();
 
-			if (r < 0.1f) {
+			if (r < 0.5f) {
 				self.become("fadeOut");
-			} else if (r < 0.7f) {
+			} else if (Mob.all.size() < 4 && r < 0.6f) {
+				for (int i = 0; i < 4; i++) {
+					Mob mob = new Knight();
+
+					Dungeon.area.add(mob);
+					Dungeon.level.addSaveable(mob);
+
+					float a = (float) (i * Math.PI / 2);
+
+					mob.generate();
+					mob.tp(self.x + (self.w - mob.w) / 2 + (float) Math.cos(a) * 24f,
+						self.y + (self.h - mob.h) / 2 + (float) Math.sin(a) * 24f);
+
+
+					for (int j = 0; j < 20; j++) {
+						Part part = new Part();
+
+						part.x = mob.x + Random.newFloat(mob.w);
+						part.y = mob.y - Random.newFloat(mob.h);
+
+						Dungeon.area.add(part);
+					}
+				}
+			} else if (r < 0.8f) {
 				for (int i = 0; i < 16; i++) {
 					Fireball ball = new Fireball();
 
 					float a = (float) (i * Math.PI / 8);
-					ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+					ball.vel = new Vector2((float) -Math.cos(a) * 8f, (float) -Math.sin(a) * 8f);
 
-					ball.x = self.x + 5;
-					ball.y = self.y + 10;
+					ball.x = (float) (self.target.x + (self.target.w - 16) / 2 + Math.cos(a) * 68);
+					ball.y = (float) (self.target.y + (self.target.h - 16) / 2 + Math.sin(a) * 68);
 
 					ball.bad = true;
 					Dungeon.area.add(ball);
 				}
 			} else {
-				for (int i = 0; i < 16; i++) {
-					Fireball ball = new Fireball();
-
-					float a = (float) (i * Math.PI / 8);
-					ball.vel = new Vector2((float) -Math.cos(a) * 4f, (float) -Math.sin(a) * 4f);
-
-					ball.x = (float) (self.target.x + 8 + Math.cos(a) * 48f);
-					ball.y = (float) (self.target.y + 8 + Math.sin(a) * 48f);
-
-					ball.bad = true;
-					Dungeon.area.add(ball);
-				}
+				self.become("roam");
 			}
 		}
 
