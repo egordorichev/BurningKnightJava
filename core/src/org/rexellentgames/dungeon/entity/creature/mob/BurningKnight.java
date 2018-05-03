@@ -747,12 +747,19 @@ public class BurningKnight extends Mob {
 			Dialog.active.start();
 
 			Camera.instance.follow(self, false);
-			self.target.setUnhittable(true);
+
+			if (self.target != null) {
+				self.target.setUnhittable(true);
+			}
 
 			Dialog.active.onEnd(new Runnable() {
 				@Override
 				public void run() {
 					Camera.instance.follow(Player.instance, false);
+
+					if (self.target != null) {
+						self.target.setUnhittable(false);
+					}
 				}
 			});
 		}

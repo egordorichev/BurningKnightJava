@@ -25,6 +25,7 @@ public class Ui {
 	private float last;
 	private float lastLock;
 	private float lastRage;
+	private float scale = 1f;
 
 	public Ui() {
 		ui = this;
@@ -33,6 +34,45 @@ public class Ui {
 		bar = Graphics.getTexture("bk_health");
 		rage = Graphics.getTexture("bk_rage");
 		lock = Graphics.getTexture("bk_lock");
+	}
+
+	public void update(float dt) {
+		if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1") || Input.instance.wasPressed("mouse2")) {
+			Tween.to(new Tween.Task(1.2f, 0.1f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+
+					Tween.to(new Tween.Task(1f, 0.1f, Tween.Type.BACK_IN_OUT) {
+						@Override
+						public float getValue() {
+							return scale;
+						}
+
+						@Override
+						public void setValue(float value) {
+							scale = value;
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+
+						}
+					});
+				}
+			});
+		}
 	}
 
 	public void render() {
@@ -106,7 +146,7 @@ public class Ui {
 	}
 
 	public void renderCursor() {
-		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f);
+		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Graphics.render(this.cursor, Input.instance.uiMouse.x,

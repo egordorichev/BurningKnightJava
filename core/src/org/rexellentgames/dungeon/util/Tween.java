@@ -63,11 +63,10 @@ public class Tween {
 		BACK_IN_OUT {
 			@Override
 			public float get(float p) {
-				if ((p *= 2) < 1) {
-					return 0.5f * (p * p * (((t *= (1.525f)) +1 ) * p - t));
-				}
-
-				return 0.5f * ((p -= 2) * p * (((t *= (1.525f)) + 1) * p + t) + 2);
+				float s = t;
+				float t = p;
+				if ((t *= 2) < 1) return 0.5f * (t * t * (((s *= (1.525f)) + 1) * t - s));
+				return 0.5f * ((t -= 2) * t * (((s *= (1.525f)) + 1) * t + s) + 2);
 			}
 		};
 
