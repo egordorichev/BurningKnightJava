@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.Camera;
@@ -36,6 +37,7 @@ public class Graphics {
 	public static AssetManager manager;
 	public static FrameBuffer shadows;
 	public static FrameBuffer surface;
+	public static FrameBuffer text;
 	public static HashMap<String, Float> volumes = new HashMap<>();
 
 	public static void delay() {
@@ -82,6 +84,7 @@ public class Graphics {
 		layout = new GlyphLayout();
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
 		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth() * Settings.quality, Camera.instance.viewport.getScreenHeight() * Settings.quality, false);
+		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 
 		manager = new AssetManager();
 		manager.load("atlas/atlas.atlas", TextureAtlas.class);

@@ -104,7 +104,6 @@
 	"bullet_c" : "Golden Bullet",
 	"bullet_c_desc" : "Targets enemies",
 
-
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",
 	"dialog_bk_im_sorry" : "I'm sorry...",

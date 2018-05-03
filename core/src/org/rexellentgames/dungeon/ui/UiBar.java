@@ -12,7 +12,7 @@ public class UiBar extends UiEntity {
 	protected float last;
 	public boolean vertical;
 	public boolean hovered;
-	public TextureRegion region;
+	public TextureRegion r;
 
 	@Override
 	public void update(float dt) {
@@ -23,7 +23,7 @@ public class UiBar extends UiEntity {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
-		Graphics.batch.draw(this.region, this.x, this.y + (this.vertical ? 0 : 1));
+		Graphics.batch.draw(this.r, this.x, this.y + (this.vertical ? 0 : 1));
 
 		if (this.vertical) {
 			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
@@ -42,7 +42,7 @@ public class UiBar extends UiEntity {
 		int w = (int) Math.ceil(this.vertical ? this.w : this.w * (this.last / this.max));
 		int h = (int) Math.ceil(this.vertical ? this.h * (this.last / this.max) : this.h);
 
-		TextureRegion region = new TextureRegion(this.region);
+		TextureRegion region = new TextureRegion(this.r);
 
 		region.setRegionX(region.getRegionX() + (int) (this.w - w));
 		region.setRegionY(region.getRegionY() + (int) (this.h - h));
@@ -53,12 +53,12 @@ public class UiBar extends UiEntity {
 	}
 
 	protected void render2() {
-		TextureRegion region = new TextureRegion(this.region);
+		TextureRegion region = new TextureRegion(this.r);
 
 		int ww = (int) Math.ceil(this.vertical ? this.w : this.w * (this.val / this.max));
 		int hh = (int) Math.ceil(this.vertical ? this.h * (this.val / this.max) : this.h);
 
-		region.setRegion(this.region);
+		region.setRegion(this.r);
 
 		region.setRegionX(region.getRegionX() + (int) (this.w - ww));
 		region.setRegionY(region.getRegionY() + (int) (this.h - hh));

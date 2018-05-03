@@ -297,7 +297,7 @@ public class InGameState extends State {
 		this.health.h = 8;
 		this.health.x = 25;
 		this.health.y = Display.GAME_HEIGHT - 12;
-		this.health.region = Graphics.getTexture("ui (hp bar)");
+		this.health.r = Graphics.getTexture("ui (hp bar)");
 
 		this.mana = new UiBar();
 
@@ -305,7 +305,7 @@ public class InGameState extends State {
 		this.mana.h = 6;
 		this.mana.x = 23;
 		this.mana.y = Display.GAME_HEIGHT - 23;
-		this.mana.region = Graphics.getTexture("ui (mana bar)");
+		this.mana.r = Graphics.getTexture("ui (mana bar)");
 
 		this.exp = new UiBar();
 
@@ -314,7 +314,7 @@ public class InGameState extends State {
 		this.exp.x = 2;
 		this.exp.y = Display.GAME_HEIGHT - 22;
 		this.exp.vertical = true;
-		this.exp.region = Graphics.getTexture("ui (exp bar)");
+		this.exp.r = Graphics.getTexture("ui (exp bar)");
 
 		Dungeon.ui.add(this.inventory);
 		Dungeon.ui.add(this.health);
