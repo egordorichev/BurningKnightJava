@@ -12,7 +12,7 @@ public class InputSettingsState extends State {
 	public void init() {
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiButton("menu_label (bindings)", Display.GAME_WIDTH / 2, 128 + 24) {
+		Dungeon.area.add(new UiButton("bindings", Display.GAME_WIDTH / 2, 128 + 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -20,7 +20,7 @@ public class InputSettingsState extends State {
 			}
 		});
 
-		Dungeon.area.add(new UiButton("menu_label (joystick)", Display.GAME_WIDTH / 2, 128) {
+		Dungeon.area.add(new UiButton("joystick", Display.GAME_WIDTH / 2, 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -28,7 +28,7 @@ public class InputSettingsState extends State {
 			}
 		});
 
-		Dungeon.area.add(new UiButton("menu_label (back)", Display.GAME_WIDTH / 2, (int) (128 - 24 * 1.5f)) {
+		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 1.5f)) {
 			@Override
 			public void onClick() {
 				transition(new Runnable() {

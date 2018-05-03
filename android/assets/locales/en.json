@@ -116,5 +116,27 @@
 	"dialog_because_i_want_to_own_this_castle" : "Because I want to own this castle",
 	"dialog_ck_well_i_want_to_kill_you" : "Well, {WAIT}I want to {SHAKE}kill you{ENDSHAKE} too.",
 	"dialog_ck_you_will_never_get_it" : "YOU WILL NEVER GET IT!",
-	"dialog_ck_everything_that_you_can_own_is_a_tomb_stone" : "Everything, that you can own, is a {WAIT}tomb stone!"
+	"dialog_ck_everything_that_you_can_own_is_a_tomb_stone" : "Everything, that you can own, is a {WAIT}tomb stone!",
+
+	"play" : "Play!",
+	"settings" : "Settings",
+	"exit" : "Exit",
+	"graphics" : "Graphics",
+	"audio" : "Audio",
+	"input" : "Input",
+	"back" : "Back",
+	"vsync" : "Vsync",
+	"gore" : "Gore",
+	"blood" : "Blood",
+	"fullscreen" : "Full Screen",
+	"screenshake" : "Screen Shake",
+	"quality_normal" : "Quality: Normal",
+	"quality_bad" : "Quality: Poor",
+	"quality_good" : "Quality: Good",
+	"shaders" : "Shaders",
+	"music" : "Music",
+	"sfx" : "Sfx",
+	"uisfx" : "Ui Sfx",
+	"bindings" : "Key Bindings",
+	"joystick" : "Joystick"
 }
