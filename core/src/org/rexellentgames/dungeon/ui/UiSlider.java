@@ -39,7 +39,7 @@ public class UiSlider extends UiButton {
 
 	@Override
 	public void render() {
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		/*Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		float a = (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (3f / this.w * 20));
 		float v = MathUtils.map(this.val, this.min, this.max, 0, slider.getRegionWidth());
@@ -80,7 +80,7 @@ public class UiSlider extends UiButton {
 			a, -8 - v, handle.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);*/
 	}
 
 	@Override

@@ -50,7 +50,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setOn(Settings.uisfx));
 
-		Dungeon.area.add(new UiButton("menu_label (back)", Display.GAME_WIDTH / 2, 128 - 24 * 2) {
+		Dungeon.area.add(new UiButton("menu_label (back)", Display.GAME_WIDTH / 2, (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				transition(new Runnable() {
