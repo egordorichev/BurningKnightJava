@@ -12,7 +12,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
 import org.rexellentgames.dungeon.util.Tween;
 
-public class UiButton extends UiEntity implements InputProcessor {
+public class UiButton extends UiEntity {
 	public int h;
 	public int w;
 
@@ -40,8 +40,6 @@ public class UiButton extends UiEntity implements InputProcessor {
 	public UiButton(String label, int x, int y) {
 		this.setLabel(label);
 
-		Input.multiplexer.addProcessor(this);
-
 		this.y = y;
 		this.x = x;
 	}
@@ -51,12 +49,6 @@ public class UiButton extends UiEntity implements InputProcessor {
 
 		this.w = this.region.getRegionWidth();
 		this.h = this.region.getRegionHeight();
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		Input.multiplexer.removeProcessor(this);
 	}
 
 	public static Color outline = Color.valueOf("#221f41");
@@ -95,8 +87,62 @@ public class UiButton extends UiEntity implements InputProcessor {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (Input.instance.wasPressed("mouse0")) {
+			if (this.hover) {
+				if (this.last != null) {
+					Tween.remove(this.last);
+				}
+
+				this.rr = 1f;
+				this.rg = 1f;
+				this.rb = 1f;
+
+				this.last = Tween.to(new Tween.Task(1.2f, 0.05f) {
+					@Override
+					public float getValue() {
+						return scale;
+					}
+
+					@Override
+					public void setValue(float value) {
+						scale = value;
+					}
+
+					@Override
+					public void onEnd() {
+						super.onEnd();
+						last = null;
+						onClick();
+
+						r = 0.7f;
+						g = 0.7f;
+						b = 0.7f;
+
+						last = Tween.to(new Tween.Task(1f, 0.05f) {
+							@Override
+							public float getValue() {
+								return scale;
+							}
+
+							@Override
+							public void setValue(float value) {
+								scale = value;
+							}
+
+							@Override
+							public void onEnd() {
+								super.onEnd();
+								last = null;
+							}
+						});
+					}
+				});
+			}
+		}
+
 		if (this.sparks) {
-			Spark.random(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+			// doesnt work well
+			// Spark.random(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
 		}
 
 		this.rr += (this.r - this.rr) * dt * 10;
@@ -104,7 +150,7 @@ public class UiButton extends UiEntity implements InputProcessor {
 		this.rb += (this.b - this.rb) * dt * 10;
 
 		boolean h = this.hover;
-		this.hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w + 8, this.h);
+		this.hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w, this.h);
 
 		if (h && !this.hover) {
 			if (this.last != null) {
@@ -192,98 +238,5 @@ public class UiButton extends UiEntity implements InputProcessor {
 		if (this.playSfx) {
 			Graphics.playSfx("menu/select");
 		}
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (this.hover) {
-			if (this.last != null) {
-				Tween.remove(this.last);
-			}
-
-			this.rr = 1f;
-			this.rg = 1f;
-			this.rb = 1f;
-
-			this.last = Tween.to(new Tween.Task(1.2f, 0.05f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
-
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-
-				@Override
-				public void onEnd() {
-					super.onEnd();
-					last = null;
-					onClick();
-
-					r = 0.7f;
-					g = 0.7f;
-					b = 0.7f;
-
-					last = Tween.to(new Tween.Task(1f, 0.05f) {
-						@Override
-						public float getValue() {
-							return scale;
-						}
-
-						@Override
-						public void setValue(float value) {
-							scale = value;
-						}
-
-						@Override
-						public void onEnd() {
-							super.onEnd();
-							last = null;
-						}
-					});
-				}
-			});
-
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
 	}
 }

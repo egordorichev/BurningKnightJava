@@ -4,16 +4,19 @@
 	"up" : [ "Up", "W" ],
 	"down" : [ "Down", "S" ],
 
-	"pickup" : [ "Space" ],
+	"pickup" : [ "Space", "Controller2" ],
 	"drop_item" : [ "L-Shift" ],
 	"block" : [ "Mouse2" ],
 
-	"mouse0" : [ "Mouse0", "Controller3" ],
+	"mouse0" : [ "Mouse0", "Controller3", "Controller4" ],
 	"mouse1" : [ "Mouse1", "Controller1" ],
 	"mouse2" : [ "Mouse2" ],
 	"scroll" : [ "MouseWheel" ],
 
 	"action" : [ "Space", "Controller2" ],
+
+	"prev" : [ "Controller6" ],
+	"next" : [ "Controller7" ],
 
 	"1" : [ "1" ],
 	"2" : [ "2" ],
@@ -26,5 +29,11 @@
 	"z" : [ "Z" ],
 
 	"pause" : [ "F1" ],
-	"dash" : [ "Mouse2", "F", "Controller5" ]
+	"dash" : [ "Mouse2", "F", "Controller5" ],
+
+	"mouseX" : [ "Axis0" ],
+	"mouseY" : [ "Axis1" ],
+
+	"moveX" : [ "Axis2" ],
+	"moveY" : [ "Axis3" ]
 }

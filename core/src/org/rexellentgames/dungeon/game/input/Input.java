@@ -81,9 +81,22 @@ public class Input implements InputProcessor, ControllerListener {
 			return false;
 		}
 
-		Log.info("axis " + axisCode + " " + value);
+		int second = axisCode - 1;
 
-		axes.put("Axis" + axisCode, value);
+		if (axisCode % 2 == 0) {
+			second = axisCode + 1;
+		}
+
+		float dx = controller.getAxis(second);
+		float d = (float) Math.sqrt(dx * dx + value * value);
+
+		if (d >= 0.3f) {
+			axes.put("Axis" + second, dx);
+			axes.put("Axis" + axisCode, value);
+		} else {
+			axes.put("Axis" + second, 0f);
+			axes.put("Axis" + axisCode, 0f);
+		}
 
 		return false;
 	}
@@ -153,11 +166,17 @@ public class Input implements InputProcessor, ControllerListener {
 	public float getAxis(String name) {
 		ArrayList<String> keys = this.bindings.get(name);
 
-		if (keys.size() == 0) {
+		if (keys == null || keys.size() == 0) {
 			return 0;
 		}
 
-		return axes.get(keys.get(0));
+		String n = keys.get(0);
+
+		if (!axes.containsKey(n)) {
+			return 0;
+		}
+
+		return axes.get(n);
 	}
 
 	public void updateMousePosition() {

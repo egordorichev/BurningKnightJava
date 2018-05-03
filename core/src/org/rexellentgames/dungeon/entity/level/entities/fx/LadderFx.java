@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
+import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -38,7 +39,7 @@ public class LadderFx extends UiEntity {
 	public void render() {
 		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y);
 
-		if (Input.instance.wasPressed("action")) {
+		if (Input.instance.wasPressed("action") && Dialog.active == null) {
 			this.done = true;
 
 			if (this.ladder instanceof Entrance) {
