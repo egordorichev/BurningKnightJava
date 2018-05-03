@@ -8,12 +8,12 @@
 	"drop_item" : [ "L-Shift" ],
 	"block" : [ "Mouse2" ],
 
-	"mouse0" : [ "Mouse0" ],
-	"mouse1" : [ "Mouse1" ],
+	"mouse0" : [ "Mouse0", "Controller3" ],
+	"mouse1" : [ "Mouse1", "Controller1" ],
 	"mouse2" : [ "Mouse2" ],
 	"scroll" : [ "MouseWheel" ],
 
-	"action" : [ "Space" ],
+	"action" : [ "Space", "Controller2" ],
 
 	"1" : [ "1" ],
 	"2" : [ "2" ],
@@ -26,5 +26,5 @@
 	"z" : [ "Z" ],
 
 	"pause" : [ "F1" ],
-	"dash" : [ "Mouse2", "F" ]
+	"dash" : [ "Mouse2", "F", "Controller5" ]
 }

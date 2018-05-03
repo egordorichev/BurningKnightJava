@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -250,6 +251,10 @@ public class Dungeon extends ApplicationAdapter {
 
 		Tween.update(dt);
 
+		if (Ui.ui != null) {
+			Ui.ui.update(dt);
+		}
+
 		boolean paused = game.getState().isPaused();
 
 		if (Input.instance.wasPressed("pause")) {
@@ -404,7 +409,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void initInput() {
 		if (!Network.SERVER) {
-			new Input(0);
+			Controllers.addListener(new Input(0));
 		}
 	}
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
@@ -14,6 +15,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Input implements InputProcessor, ControllerListener {
 	public Point uiMouse = new Point();
 	public Point worldMouse = new Point();
 	public boolean blocked = false;
+	public Controller active;
 
 	public static void set(int id) {
 		instance = inputs.get(id);
@@ -39,33 +42,48 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public void connected(Controller controller) {
-
+		if (active == null) {
+			active = controller;
+		}
 	}
 
 	@Override
 	public void disconnected(Controller controller) {
-
+		if (active == controller) {
+			active = null;
+		}
 	}
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
+		if (controller != active) {
+			return false;
+		}
+
 		this.keys.put("Controller" + buttonCode, State.DOWN);
+		Log.info(buttonCode + "");
 		return false;
 	}
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
+		if (controller != active) {
+			return false;
+		}
+
 		this.keys.put("Controller" + buttonCode, State.UP);
 		return false;
 	}
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		if (value < 0) {
-			this.keys.put("ControllerAxisMinus" + axisCode, State.DOWN);
-		} else {
-			this.keys.put("ControllerAxisPlus" + axisCode, State.DOWN);
+		if (controller != active) {
+			return false;
 		}
+
+		Log.info("axis " + axisCode + " " + value);
+
+		axes.put("Axis" + axisCode, value);
 
 		return false;
 	}
@@ -105,6 +123,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	private HashMap<String, State> keys = new HashMap<String, State>();
 	private HashMap<String, ArrayList<String>> bindings = new HashMap<String, ArrayList<String>>();
+	private HashMap<String, Float> axes = new HashMap<>();
 	private int amount;
 
 	public HashMap<String, State> getKeys() {
@@ -125,6 +144,20 @@ public class Input implements InputProcessor, ControllerListener {
 				bind(value.name, name);
 			}
 		}
+
+		if (active == null && Controllers.getControllers().size > 0) {
+			this.connected(Controllers.getControllers().get(0));
+		}
+	}
+
+	public float getAxis(String name) {
+		ArrayList<String> keys = this.bindings.get(name);
+
+		if (keys.size() == 0) {
+			return 0;
+		}
+
+		return axes.get(keys.get(0));
 	}
 
 	public void updateMousePosition() {
