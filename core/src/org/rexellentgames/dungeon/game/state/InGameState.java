@@ -321,7 +321,7 @@ public class InGameState extends State {
 		Dungeon.ui.add(this.mana);
 		Dungeon.ui.add(this.exp);
 
-		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("menu_label (resume)", Display.GAME_WIDTH / 2, 128) {
+		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -331,7 +331,7 @@ public class InGameState extends State {
 			}
 		}.setSparks(true)));
 
-		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("menu_label (settings)", Display.GAME_WIDTH / 2, 128 - 24) {
+		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -340,7 +340,7 @@ public class InGameState extends State {
 			}
 		}.setSparks(true)));
 
-		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("menu_label (save_and_exit)", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
+		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
