@@ -67,6 +67,18 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
+		if (Input.instance.wasPressed("prev")) {
+			this.active -= 1;
+
+			if (this.active == -1) {
+				this.active = 5;
+			}
+		}
+
+		if (Input.instance.wasPressed("next")) {
+			this.active = (this.active + 1) % 6;
+		}
+
 		if (Input.instance.wasPressed("drop_item") && !this.open) {
 			Item slot = this.inventory.getSlot(this.active);
 

@@ -335,6 +335,12 @@ public class Player extends Creature {
 					this.vel.y -= this.speed;
 				}
 
+				float mx = Input.instance.getAxis("moveX");
+				float my = Input.instance.getAxis("moveY");
+
+				this.vel.x += mx * this.speed;
+				this.vel.y -= my * this.speed; // Inverted!
+
 				if (Input.instance.wasPressed("dash") && this.dashTimeout == 0 && this.dashT == 0f) {
 					float dx = Input.instance.worldMouse.x - this.x - 8;
 					float dy = Input.instance.worldMouse.y - this.y - 8;

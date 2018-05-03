@@ -12,6 +12,7 @@ import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
 import com.bitfire.postprocessing.filters.CrtScreen;
+import org.lwjgl.input.Mouse;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -28,10 +29,8 @@ import org.rexellentgames.dungeon.game.state.*;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.SplashWorker;
-import org.rexellentgames.dungeon.util.Tween;
+import org.rexellentgames.dungeon.util.*;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.File;
 
@@ -271,6 +270,8 @@ public class Dungeon extends ApplicationAdapter {
 			game.update(dt);
 		}
 
+		updateMouse(dt);
+
 		if (!Network.SERVER) {
 			Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
@@ -369,6 +370,25 @@ public class Dungeon extends ApplicationAdapter {
 		}
 	}
 
+	private Point inputVel = new Point();
+
+	private void updateMouse(float dt) {
+		inputVel.mul(dt * 53f);
+
+		float x = Gdx.input.getX();
+		float y = Gdx.input.getY();
+
+		float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
+
+		inputVel.x += Input.instance.getAxis("mouseX") * s;
+		inputVel.y += Input.instance.getAxis("mouseY") * s;
+
+		float lx = x + inputVel.x;
+		float ly = y + inputVel.y;
+
+		Gdx.input.setCursorPosition(Math.round(lx), Math.round(ly));
+	}
+
 	@Override
 	public void resize(int width, int height) {
 		if (Camera.instance != null) {
@@ -414,8 +434,8 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private void setupCursor() {
-		Cursor customCursor = Gdx.graphics.newCursor(new Pixmap(1, 1, Pixmap.Format.RGBA8888), 0, 0);
-		Gdx.graphics.setCursor(customCursor);
+		Mouse.setClipMouseCoordinatesToWindow(true);
+		Mouse.setGrabbed(true);
 	}
 
 	private void initColors() {

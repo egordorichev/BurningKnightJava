@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.Dialog;
 
 public class ItemPickupFx extends Entity {
 	private String text;
@@ -32,7 +33,7 @@ public class ItemPickupFx extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Input.instance.wasPressed("pickup")) {
+		if (Input.instance.wasPressed("pickup") && Dialog.active == null) {
 			if (this.player.tryToPickup(this.item)) {
 				this.done = true;
 				this.area.add(new ItemPickedFx(item));
