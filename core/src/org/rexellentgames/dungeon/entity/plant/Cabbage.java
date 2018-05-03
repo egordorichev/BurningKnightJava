@@ -26,7 +26,7 @@ public class Cabbage extends Plant {
 	public ArrayList<Item> getDrops() {
 		ArrayList<Item> drops = super.getDrops();
 
-		drops.add(new CabbageSeed().setCount(Random.newInt(2, 5)));
+		// drops.add(new CabbageSeed().setCount(Random.newInt(2, 5)));
 		drops.add(new org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage());
 
 		return drops;

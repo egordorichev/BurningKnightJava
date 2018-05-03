@@ -15,7 +15,7 @@ public class AudioSettingsState extends State {
 	public void init() {
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiSlider("menu_label (music)", Display.GAME_WIDTH / 2, 128 + 24) {
+		Dungeon.area.add(new UiSlider("music", Display.GAME_WIDTH / 2, 128 + 24) {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
@@ -28,7 +28,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setValue(Settings.music));
 
-		Dungeon.area.add(new UiSlider("menu_label (sfx)", Display.GAME_WIDTH / 2, 128) {
+		Dungeon.area.add(new UiSlider("sfx", Display.GAME_WIDTH / 2, 128) {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
@@ -41,7 +41,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setValue(Settings.sfx));
 
-		Dungeon.area.add(new UiCheckbox("menu_label (uisfx)", Display.GAME_WIDTH / 2, 128 - 24) {
+		Dungeon.area.add(new UiCheckbox("uisfx", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
 				Camera.instance.shake(3);
@@ -50,7 +50,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setOn(Settings.uisfx));
 
-		Dungeon.area.add(new UiButton("menu_label (back)", Display.GAME_WIDTH / 2, (int) (128 - 24 * 2.5f)) {
+		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				transition(new Runnable() {

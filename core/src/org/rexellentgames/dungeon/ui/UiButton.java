@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.item.Spark;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -49,9 +50,9 @@ public class UiButton extends UiEntity {
 	}
 
 	public void setLabel(String label) {
-		this.label = label;
+		this.label = Locale.get(label);
 
-		Graphics.layout.setText(Graphics.medium, label);
+		Graphics.layout.setText(Graphics.medium, this.label);
 
 		this.w = (int) Graphics.layout.width;
 		this.h = (int) Graphics.layout.height * 2;
@@ -112,7 +113,7 @@ public class UiButton extends UiEntity {
 				this.rg = 1f;
 				this.rb = 1f;
 
-				this.last = Tween.to(new Tween.Task(1.2f, 0.05f) {
+				this.last = Tween.to(new Tween.Task(0.8f, 0.05f) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -133,7 +134,7 @@ public class UiButton extends UiEntity {
 						g = 0.7f;
 						b = 0.7f;
 
-						last = Tween.to(new Tween.Task(1f, 0.05f) {
+						last = Tween.to(new Tween.Task(1.2f, 0.05f) {
 							@Override
 							public float getValue() {
 								return scale;
@@ -156,8 +157,7 @@ public class UiButton extends UiEntity {
 		}
 
 		if (this.sparks) {
-			// doesnt work well
-			// Spark.random(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+			Spark.random(this.x - this.w / 2, this.y - this.h / 4, this.w, this.h / 2);
 		}
 
 		this.rr += (this.r - this.rr) * dt * 10;
@@ -165,7 +165,8 @@ public class UiButton extends UiEntity {
 		this.rb += (this.b - this.rb) * dt * 10;
 
 		boolean h = this.hover;
-		this.hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x - this.w / 2, (int) this.y - this.h / 2, this.w, this.h);
+		this.hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) (this.x - this.w / 2 * 1.2f), (int) this.y - this.h / 2,
+			(int) (this.w * 1.2f), this.h);
 
 		if (h && !this.hover) {
 			if (this.last != null) {

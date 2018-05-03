@@ -19,7 +19,7 @@ public class MainMenuState extends State {
 	public void init() {
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiButton("menu_label (play)", Display.GAME_WIDTH / 2, 128) {
+		Dungeon.area.add(new UiButton("play", Display.GAME_WIDTH / 2, 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -34,7 +34,7 @@ public class MainMenuState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.area.add(new UiButton("menu_label (settings)", Display.GAME_WIDTH / 2, 128 - 24) {
+		Dungeon.area.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -49,7 +49,7 @@ public class MainMenuState extends State {
 			}
 		});
 
-		Dungeon.area.add(new UiButton("menu_label (exit)", Display.GAME_WIDTH / 2, 128 - 24 * 2) {
+		Dungeon.area.add(new UiButton("exit", Display.GAME_WIDTH / 2, (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				Graphics.playSfx("menu/exit");

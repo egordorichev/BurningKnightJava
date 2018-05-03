@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -11,15 +13,21 @@ public class Spark extends Entity {
 	private static Animation animations = Animation.make("fx-spark");
 	private AnimationData animation = animations.get("idle");
 	public float a;
+	public boolean inUi;
 
 	public static void random(Entity entity) {
 		random(entity.x, entity.y, entity.w, entity.h);
 	}
 
 	public static void random(float x, float y, float w, float h) {
+		random(x, y, w, h, false);
+	}
+
+	public static void random(float x, float y, float w, float h, boolean ui) {
 		if (Random.newFloat() > 0.97f) {
 			Spark spark = new Spark();
 
+			spark.inUi = ui;
 			spark.a = Random.newFloat(360);
 			spark.x = Random.newFloat(x, x + w) - 3.5f;
 			spark.y = Random.newFloat(y, y + h) - 3.5f;
@@ -59,6 +67,14 @@ public class Spark extends Entity {
 
 	@Override
 	public void render() {
+		if (inUi) {
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		}
+
 		this.animation.render(this.x, this.y, false, false, 3.5f, 3.5f, this.a);
+
+		if (inUi) {
+			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+		}
 	}
 }
