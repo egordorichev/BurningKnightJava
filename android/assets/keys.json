@@ -18,6 +18,11 @@
 	"prev" : [ "Controller6" ],
 	"next" : [ "Controller7" ],
 
+	"catch" : [ "F2" ],
+
+
+	"circle" : [ "Controller0" ],
+
 	"1" : [ "1" ],
 	"2" : [ "2" ],
 	"3" : [ "3" ],

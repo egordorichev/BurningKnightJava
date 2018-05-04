@@ -7,6 +7,7 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -31,6 +32,10 @@ public class Input implements InputProcessor, ControllerListener {
 	public Point worldMouse = new Point();
 	public boolean blocked = false;
 	public Controller active;
+	public Vector2 mouse = new Vector2();
+	public boolean circle = true;
+
+	private boolean controllerChanged;
 
 	public static void set(int id) {
 		instance = inputs.get(id);
@@ -42,6 +47,9 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public void connected(Controller controller) {
+		Log.info("Controller " + controller.getName() + " connected!");
+		controllerChanged = true;
+
 		if (active == null) {
 			active = controller;
 		}
@@ -49,6 +57,9 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public void disconnected(Controller controller) {
+		Log.info("Controller " + controller.getName() + " diconnected!");
+		controllerChanged = true;
+
 		if (active == controller) {
 			active = null;
 		}
@@ -180,19 +191,19 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 
 	public void updateMousePosition() {
-		Vector3 mouse = Camera.ui.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0),
+		Vector3 m = Camera.ui.unproject(new Vector3(mouse.x, mouse.y, 0),
 			Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 
-		this.uiMouse.x = mouse.x;
-		this.uiMouse.y = mouse.y;
+		this.uiMouse.x = m.x;
+		this.uiMouse.y = m.y;
 
-		mouse = Camera.instance.getCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0),
+		m = Camera.instance.getCamera().unproject(new Vector3(mouse.x, mouse.y, 0),
 			Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 
-		this.worldMouse.x = mouse.x;
-		this.worldMouse.y = mouse.y;
+		this.worldMouse.x = m.x;
+		this.worldMouse.y = m.y;
 	}
 
 	public void bind(String name, String ... keys) {
@@ -212,6 +223,10 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 	}
 
+	public boolean hasControllerChanged() {
+		return controllerChanged;
+	}
+
 	public void update() {
 		for (Map.Entry<String, State> pair : this.keys.entrySet()) {
 			State state = pair.getValue();
@@ -222,6 +237,8 @@ public class Input implements InputProcessor, ControllerListener {
 				pair.setValue(pair.getKey().equals("MouseWheel") ? State.RELEASED : State.HELD);
 			}
 		}
+
+		controllerChanged = false;
 	}
 
 	public boolean isDown(String key) {
@@ -343,6 +360,9 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		mouse.x = screenX;
+		mouse.y = screenY;
+
 		return false;
 	}
 

@@ -50,7 +50,11 @@ public class UiButton extends UiEntity {
 	}
 
 	public void setLabel(String label) {
-		this.label = Locale.get(label);
+		if (Locale.has(label)) {
+			label = Locale.get(label);
+		}
+
+		this.label = label;
 
 		Graphics.layout.setText(Graphics.medium, this.label);
 
@@ -157,7 +161,8 @@ public class UiButton extends UiEntity {
 		}
 
 		if (this.sparks) {
-			Spark.random(this.x - this.w / 2, this.y - this.h / 4, this.w, this.h / 2);
+			// still wrong
+			// Spark.random(this.x - this.w / 2, this.y - this.h / 4, this.w, this.h / 2, true);
 		}
 
 		this.rr += (this.r - this.rr) * dt * 10;

@@ -7,11 +7,15 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
 import com.bitfire.postprocessing.filters.CrtScreen;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -371,22 +375,51 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private Point inputVel = new Point();
+	private Vector2 angle = new Vector2();
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);
 
-		float x = Gdx.input.getX();
-		float y = Gdx.input.getY();
-
 		float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
+
+		if (Input.instance.wasPressed("circle")) {
+			Input.instance.circle = !Input.instance.circle;
+		}
+
+		if (Player.instance != null && Input.instance.circle && Input.instance.active != null) {
+			float ix = Input.instance.getAxis("mouseX") * s;
+			float iy = -Input.instance.getAxis("mouseY") * s;
+
+			if (ix != 0 || iy != 0) {
+				float a = (float) Math.atan2(iy, ix);
+				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
+			}
+
+			float d = 64f;
+
+			Vector3 input = Camera.instance.getCamera().project(new Vector3(
+				Player.instance.x + Player.instance.w / 2 + angle.x * d,
+				Player.instance.y + Player.instance.h / 2 + angle.y * d, 0
+			));
+
+			Input.instance.mouse.x = input.x;
+			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
+
+			return;
+		}
 
 		inputVel.x += Input.instance.getAxis("mouseX") * s;
 		inputVel.y += Input.instance.getAxis("mouseY") * s;
 
-		float lx = x + inputVel.x;
-		float ly = y + inputVel.y;
+		Input.instance.mouse.x += inputVel.x;
+		Input.instance.mouse.y += inputVel.y;
 
-		Gdx.input.setCursorPosition(Math.round(lx), Math.round(ly));
+		Input.instance.mouse.x = MathUtils.clamp(0, Gdx.graphics.getWidth(), Input.instance.mouse.x);
+		Input.instance.mouse.y = MathUtils.clamp(0, Gdx.graphics.getHeight(), Input.instance.mouse.y);
+
+		if (Input.instance.wasPressed("catch")) {
+			Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
+		}
 	}
 
 	@Override
@@ -434,8 +467,11 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private void setupCursor() {
-		Mouse.setClipMouseCoordinatesToWindow(true);
-		Mouse.setGrabbed(true);
+		Pixmap pm = new Pixmap(8, 8, Pixmap.Format.RGBA8888);
+		pm.setBlending(null);
+		pm.setColor(0, 0, 0, 0);
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+		pm.dispose();
 	}
 
 	private void initColors() {
