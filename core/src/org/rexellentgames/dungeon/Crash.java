@@ -37,6 +37,8 @@ public class Crash {
 		System.err.println(builder.toString());
 		System.err.flush();
 
+
+
 		JTextArea text = new JTextArea();
 
 		text.setText(builder.toString());

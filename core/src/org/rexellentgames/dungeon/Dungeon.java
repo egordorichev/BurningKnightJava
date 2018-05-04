@@ -14,9 +14,6 @@ import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
 import com.bitfire.postprocessing.filters.CrtScreen;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Cursor;
-import org.lwjgl.input.Mouse;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -160,6 +157,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Log.info("Loading locale...");
 		Locale.load("en");
+
 
 		if (!Network.SERVER) {
 			this.setupCursor();
@@ -375,7 +373,7 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private Point inputVel = new Point();
-	private Vector2 angle = new Vector2();
+	private Vector2 angle = new Vector2(1, 0);
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);

@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.rexellentgames.dungeon.util.Log;
 
 import java.util.HashMap;
 
