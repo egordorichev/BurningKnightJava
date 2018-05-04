@@ -141,5 +141,7 @@
 	"bindings" : "Key Bindings",
 	"joystick" : "Joystick",
 	"save_and_exit" : "Save And Exit",
-	"resume" : "Resume"
+	"resume" : "Resume",
+	"save" : "Save",
+	"reset_to_default" : "Reset To Default"
 }

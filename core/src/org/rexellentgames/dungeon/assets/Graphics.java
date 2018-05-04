@@ -24,6 +24,7 @@ import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 
 import java.util.HashMap;
 
@@ -78,7 +79,6 @@ public class Graphics {
 
 	public static void init() {
 		Log.info("Init assets...");
-
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
@@ -93,6 +93,7 @@ public class Graphics {
 
 		manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
 
 		JsonReader reader = new JsonReader();
 		JsonValue root = reader.parse(Gdx.files.internal("sfx/sfx.json"));

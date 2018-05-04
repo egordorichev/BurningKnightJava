@@ -9,7 +9,7 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
-        classpath "com.badlogicgames.gdx:gdx-tools:1.9.8"
+        // classpath "com.badlogicgames.gdx:gdx-tools:1.9.8"
     }
 }
 
@@ -55,7 +55,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
+       // compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
 
     }
 }
@@ -119,7 +119,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.esotericsoftware:kryonet:2.22.0-RC1"
-        compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
+        // compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
         compile "com.rafaskoberg.gdx:typing-label:1.0.4"
     }
 }

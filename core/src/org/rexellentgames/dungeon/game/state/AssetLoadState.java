@@ -13,8 +13,8 @@ public class AssetLoadState extends State {
 			if (!Network.NONE) {
 				Dungeon.game.setState(new LoginState());
 			} else {
-				Dungeon.game.setState(new MainMenuState());
-				//Dungeon.game.setState(new InputSettingsState());
+				//Dungeon.game.setState(new MainMenuState());
+				Dungeon.game.setState(new KeyConfigState());
 				//LoadState.readDepth();
 				//Dungeon.goToLevel(Dungeon.depth);
 			}

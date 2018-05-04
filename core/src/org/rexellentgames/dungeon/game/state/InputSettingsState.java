@@ -25,7 +25,13 @@ public class InputSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Camera.instance.shake(3);
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new KeyConfigState());
+						Camera.instance.shake(3);
+					}
+				});
 			}
 		});
 
