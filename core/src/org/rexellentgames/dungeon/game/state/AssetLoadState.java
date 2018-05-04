@@ -14,8 +14,9 @@ public class AssetLoadState extends State {
 				Dungeon.game.setState(new LoginState());
 			} else {
 				Dungeon.game.setState(new MainMenuState());
-				// LoadState.readDepth();
-				// Dungeon.goToLevel(Dungeon.depth);
+				//Dungeon.game.setState(new InputSettingsState());
+				//LoadState.readDepth();
+				//Dungeon.goToLevel(Dungeon.depth);
 			}
 		}
 	}

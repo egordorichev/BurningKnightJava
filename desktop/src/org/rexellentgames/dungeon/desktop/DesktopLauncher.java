@@ -1,9 +1,8 @@
 package org.rexellentgames.dungeon.desktop;
 
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.rexellentgames.dungeon.*;
 import org.rexellentgames.dungeon.util.DesktopSplashWorker;
 
@@ -11,20 +10,17 @@ public class DesktopLauncher {
 	private static final int SCALE = 2;
 
 	public static void main(String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-		config.addIcon("icon.png", Files.FileType.Internal);
-		config.addIcon("icon32x32.png", Files.FileType.Internal);
-		config.addIcon("icon128x128.png", Files.FileType.Internal);
-		config.samples = 4;
-		config.width = Display.GAME_WIDTH * SCALE;
-		config.height = Display.GAME_HEIGHT * SCALE;
-		config.title = "Burning Knight " + Version.asString();
+		config.setTitle("Burning Knight " + Version.asString());
+		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
+		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
+		// config.samples = 4;
 
 		Dungeon.arg = arg;
 		Dungeon.worker = new DesktopSplashWorker();
 
-		new LwjglApplication(new Client(), config);
+		new Lwjgl3Application(new Client(), config);
 
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override

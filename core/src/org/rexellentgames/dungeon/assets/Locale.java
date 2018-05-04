@@ -20,6 +20,10 @@ public class Locale {
 		}
 	}
 
+	public static boolean has(String name) {
+		return map.containsKey(name);
+	}
+
 	public static String get(String name) {
 		String string = map.get(name);
 

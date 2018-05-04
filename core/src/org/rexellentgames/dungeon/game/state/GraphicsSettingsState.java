@@ -27,7 +27,7 @@ public class GraphicsSettingsState extends State {
 	public void init() {
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiChoice("quality_normal", Display.GAME_WIDTH / 2, 138 + 20 * 2) {
+		Dungeon.area.add(new UiChoice("quality", Display.GAME_WIDTH / 2, 138 + 20 * 2) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -43,9 +43,9 @@ public class GraphicsSettingsState extends State {
 				org.rexellentgames.dungeon.assets.Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			}
 		}.setChoices(new String[] {
-			"quality_normal",
-			"quality_good",
-			"quality_bad"
+			"normal",
+			"good",
+			"bad"
 		}).setCurrent(
 			(Settings.quality == 2 ? 0 : (Settings.quality == 4 ? 1 : 2))
 		));
