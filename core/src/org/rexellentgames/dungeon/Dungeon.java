@@ -216,7 +216,6 @@ public class Dungeon extends ApplicationAdapter {
 		combine.setSource1Saturation(0f);
 		combine.setSource2Saturation(1f);
 		postProcessor.addEffect(crt);
-
 	}
 
 	@Override

@@ -267,11 +267,7 @@ public class Input implements InputProcessor, ControllerListener {
 		if (blocked) {
 			return false;
 		}
-
-		if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
-			return false;
-		}
-
+		
 		for (String id : this.bindings.get(key)) {
 			if (this.keys.get(id) == State.DOWN) {
 				return true;
