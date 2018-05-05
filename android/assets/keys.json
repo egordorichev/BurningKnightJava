@@ -19,7 +19,7 @@
 	"next" : [ "Controller7" ],
 
 	"catch" : [ "F2" ],
-
+	"inventory" : [ "E", "Controller 6" ],
 
 	"circle" : [ "Controller0" ],
 

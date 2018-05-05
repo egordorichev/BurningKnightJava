@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class UiInventory extends UiEntity {
 	private Inventory inventory;
@@ -50,14 +51,67 @@ public class UiInventory extends UiEntity {
 		return this.open;
 	}
 
+	protected boolean dn = true;
+
 	@Override
 	public void update(float dt) {
 		this.handled = false;
 		this.active = this.inventory.active;
 
-		/*if (Input.instance.wasPressed("toggle_inventory")) {
-			this.open = !this.open;
-		}*/
+		if (Input.instance.wasPressed("inventory") && this.dn) {
+			this.dn = false;
+
+			if (!this.open) {
+				this.open = true;
+
+				for (int i = 6; i < 12; i++) {
+					UiSlot slot = this.slots[i];
+					slot.y = 4;
+
+					Tween.to(new Tween.Task(29 + 4, 0.4f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return slot.y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							slot.y = value;
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+							dn = true;
+						}
+					});
+				}
+			} else {
+				for (int i = 6; i < 12; i++) {
+					UiSlot slot = this.slots[i];
+
+					Tween.to(new Tween.Task(4, 0.4f, Tween.Type.QUAD_OUT) {
+						@Override
+						public float getValue() {
+							return slot.y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							slot.y = value;
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+
+							open = false;
+							dn = true;
+						}
+					});
+				}
+			}
+		}
 
 		if (Input.instance.wasPressed("scroll")) {
 			this.active = (this.active + Input.instance.getAmount()) % 6;
@@ -165,7 +219,7 @@ public class UiInventory extends UiEntity {
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		for (int i = 0; i < (this.open ? this.inventory.getSize() : 6); i++) {
+		for (int i = (this.open ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
 			Item item = this.inventory.getSlot(i);
 			this.slots[i].render(item);
 		}

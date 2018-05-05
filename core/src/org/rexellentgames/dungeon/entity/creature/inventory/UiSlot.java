@@ -23,8 +23,8 @@ public class UiSlot {
 	private static TextureRegion coinBg = Graphics.getTexture("ui (gold_bg)");
 	private static TextureRegion equipBg = Graphics.getTexture("ui (equip_bg)");
 
-	private int x;
-	private int y;
+	public int x;
+	public float y;
 	private int id;
 	private boolean hovered = false;
 	private UiInventory inventory;
@@ -98,7 +98,7 @@ public class UiSlot {
 		}
 
 		boolean h = this.hovered;
-		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, this.y, 24, 24);
+		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, (int) this.y, 24, 24);
 
 		if (this.hovered && !h) {
 			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
