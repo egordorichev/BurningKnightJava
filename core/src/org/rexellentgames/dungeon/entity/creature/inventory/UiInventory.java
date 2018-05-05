@@ -18,7 +18,7 @@ public class UiInventory extends UiEntity {
 	private Item currentSlot;
 	private UiSlot[] slots;
 	private int active = 0;
-	private boolean open = false;
+	private boolean open = true;
 	public boolean handled;
 	public int hoveredSlot = -1;
 
@@ -30,11 +30,11 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void init() {
-		this.slots = new UiSlot[6];
+		this.slots = new UiSlot[Player.INVENTORY_SIZE];
 
 		for (int i = 0; i < this.slots.length; i++) {
 			this.slots[i] = new UiSlot(this, i, i % 6 * 25 + 1,
-				(int) (Math.floor(i / 6) * 25) + 5);
+				(int) (Math.floor(i / 6) * 25) + 1);
 		}
 	}
 
@@ -167,15 +167,9 @@ public class UiInventory extends UiEntity {
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < this.inventory.getSize(); i++) {
 			Item item = this.inventory.getSlot(i);
 			this.slots[i].render(item);
-		}
-
-		if (Player.instance.getGold() > 0) {
-			Graphics.render(gold, 163 - gold.getRegionWidth() / 2, 17 - gold.getRegionHeight() / 2);
-
-			Graphics.print(String.valueOf(Player.instance.getGold()), Graphics.small, 151 + 3, 5 + 3);
 		}
 	}
 
