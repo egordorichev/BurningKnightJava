@@ -1,12 +1,11 @@
-package org.rexellentgames.dungeon.assets;
+package org.rexellentgames.dungeon.packer;
 
-//import com.badlogic.gdx.tools.texturepacker.TexturePacker;
-import org.rexellentgames.dungeon.util.Log;
+import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 import java.io.File;
 import java.io.FilenameFilter;
 
-public class Packer {
+public class PackerLauncher {
 	public final static void main(String[] args) {
 		final File folder = new File("sprites_split");
 
@@ -23,6 +22,6 @@ public class Packer {
 			}
 		}
 
-		// TexturePacker.process("sprites_split", "atlas", "atlas");
+		TexturePacker.process("sprites_split", "atlas", "atlas");
 	}
 }
