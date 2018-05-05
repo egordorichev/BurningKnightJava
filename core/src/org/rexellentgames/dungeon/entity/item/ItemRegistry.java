@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import org.rexellentgames.dungeon.entity.item.accessory.hat.UshankaHat;
 import org.rexellentgames.dungeon.entity.item.consumable.food.Bread;
 import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken;
 import org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage;
@@ -111,6 +112,7 @@ public class ItemRegistry {
 		register("key_b", KeyB.class);
 		register("key_c", KeyC.class);
 		register("compass", Compass.class);
+		register("ushanka", UshankaHat.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

@@ -48,10 +48,11 @@ public class Input implements InputProcessor, ControllerListener {
 	@Override
 	public void connected(Controller controller) {
 		Log.info("Controller " + controller.getName() + " connected!");
+		Log.error("Ignored");
 		controllerChanged = true;
 
 		if (active == null) {
-			active = controller;
+		//	active = controller;
 		}
 	}
 
