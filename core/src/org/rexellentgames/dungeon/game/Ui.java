@@ -120,14 +120,16 @@ public class Ui {
 					});
 				}
 
-				bar.setRegionWidth((int) (this.last / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
+				// todo: more epic
+
+				/*bar.setRegionWidth((int) (this.last / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
 				Graphics.render(bar, 0, 0, 0, 0, 0, false, false);
 
 				rage.setRegionWidth((int) (Math.min(this.last, this.lastRage) / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
 				Graphics.render(rage, 0, 0, 0, 0, 0, false, false);
 
 				lock.setRegionWidth((int) (this.lastLock / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
-				Graphics.render(lock, 0, 0, 0, 0, 0, false, false);
+				Graphics.render(lock, 0, 0, 0, 0, 0, false, false);*/
 			}
 
 			if (Player.instance != null && Player.instance.isDead()) {
