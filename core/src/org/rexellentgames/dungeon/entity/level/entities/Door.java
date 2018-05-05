@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
@@ -202,7 +203,10 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, false);
+		Graphics.startShadows();
+		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
+		Graphics.endShadows();
+		this.animation.render(this.x, this.y, false, false);
 
 		if (this.lockAnim != null) {
 			this.lockAnim.render(this.x + (this.vertical ? 0 : 3), this.y, false);
