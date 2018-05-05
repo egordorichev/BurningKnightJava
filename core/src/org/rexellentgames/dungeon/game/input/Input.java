@@ -352,6 +352,9 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		mouse.x = screenX;
+		mouse.y = screenY;
+
 		return false;
 	}
 
@@ -359,8 +362,6 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean mouseMoved(int screenX, int screenY) {
 		mouse.x = screenX;
 		mouse.y = screenY;
-
-		Log.info("Move detected");
 
 		return false;
 	}
