@@ -27,6 +27,7 @@ import org.rexellentgames.dungeon.ui.UiBar;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
@@ -116,10 +117,6 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
-		if (this.isPaused()) {
-			return;
-		}
-
 		this.console.update(dt);
 
 		World.update(dt);
