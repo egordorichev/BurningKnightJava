@@ -28,4 +28,15 @@ public class Hat extends Accessory {
 			((Player) this.owner).setSkin("");
 		}
 	}
+
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+
+		builder.append("\n");
+		builder.append(this.defense);
+		builder.append(" defense");
+
+		return builder;
+	}
 }
