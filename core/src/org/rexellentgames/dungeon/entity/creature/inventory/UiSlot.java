@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Lamp;
+import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.Hat;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -172,6 +173,16 @@ public class UiSlot {
 				} else if (this.canAccept(current) || current == null) {
 					this.inventory.setCurrentSlot(self);
 					this.inventory.getInventory().setSlot(this.id, current);
+
+					if (this.id > 5) {
+						if (current != null && current instanceof Accessory) {
+							((Accessory) current).onEquip();
+						}
+
+						if (self != null && self instanceof Accessory) {
+							((Accessory) self).onUnequip();
+						}
+					}
 				}
 			} else if (Input.instance.wasPressed("mouse1")) {
 				Item self = this.inventory.getInventory().getSlot(this.id);
