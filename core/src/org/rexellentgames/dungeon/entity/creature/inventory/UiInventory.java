@@ -152,18 +152,16 @@ public class UiInventory extends UiEntity {
 			if (slot.isCursed()) {
 				UiLog.instance.print("[red]The item is cursed!");
 			} else {
-				if (!slot.hasAutoPickup()) {
-					ItemHolder holder = new ItemHolder();
+				ItemHolder holder = new ItemHolder();
 
-					holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
-					holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-					holder.setItem(slot);
-					holder.velToMouse();
+				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
+				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
+				holder.setItem(slot);
+				holder.velToMouse();
 
-					this.inventory.setSlot(this.active, null);
-					Dungeon.area.add(holder);
-					Dungeon.level.addSaveable(holder);
-				}
+				this.inventory.setSlot(this.active, null);
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
 			}
 		}
 
@@ -196,26 +194,48 @@ public class UiInventory extends UiEntity {
 		}
 
 		if (!this.handled && !Player.instance.isDead()) {
-			Item slot = this.inventory.getSlot(this.active);
+			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
+				Item slot = this.currentSlot;
 
-			if (slot != null) {
-				if (Input.instance.wasPressed("mouse0")) {
-					if (slot.isUseable() && slot.getDelay() == 0) {
-						slot.setOwner(Player.instance);
-						slot.use();
-					}
-				} else if (Input.instance.wasPressed("mouse1")) {
-					if (slot.isUseable() && slot.getDelay() == 0) {
-						slot.setOwner(Player.instance);
-						slot.secondUse();
-					}
+				if (slot.isCursed()) {
+					UiLog.instance.print("[red]The item is cursed!");
 				} else {
-					if (Input.instance.isDown("mouse0") && slot.isAuto() && slot.getDelay() == 0) {
-						slot.setOwner(Player.instance);
-						slot.use();
-					} else if (Input.instance.isDown("mouse1") && slot.isAuto() && slot.getDelay() == 0) {
-						slot.setOwner(Player.instance);
-						slot.secondUse();
+					ItemHolder holder = new ItemHolder();
+
+					holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
+					holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
+					holder.setItem(slot);
+					holder.velToMouse();
+
+					this.inventory.setSlot(this.active, null);
+					Dungeon.area.add(holder);
+					Dungeon.level.addSaveable(holder);
+
+					this.currentSlot = null;
+				}
+			} else {
+
+				Item slot = this.inventory.getSlot(this.active);
+
+				if (slot != null) {
+					if (Input.instance.wasPressed("mouse0")) {
+						if (slot.isUseable() && slot.getDelay() == 0) {
+							slot.setOwner(Player.instance);
+							slot.use();
+						}
+					} else if (Input.instance.wasPressed("mouse1")) {
+						if (slot.isUseable() && slot.getDelay() == 0) {
+							slot.setOwner(Player.instance);
+							slot.secondUse();
+						}
+					} else {
+						if (Input.instance.isDown("mouse0") && slot.isAuto() && slot.getDelay() == 0) {
+							slot.setOwner(Player.instance);
+							slot.use();
+						} else if (Input.instance.isDown("mouse1") && slot.isAuto() && slot.getDelay() == 0) {
+							slot.setOwner(Player.instance);
+							slot.secondUse();
+						}
 					}
 				}
 			}
