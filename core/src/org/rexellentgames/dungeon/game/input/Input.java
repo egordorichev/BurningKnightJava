@@ -267,7 +267,7 @@ public class Input implements InputProcessor, ControllerListener {
 		if (blocked) {
 			return false;
 		}
-		
+
 		for (String id : this.bindings.get(key)) {
 			if (this.keys.get(id) == State.DOWN) {
 				return true;
@@ -359,6 +359,8 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean mouseMoved(int screenX, int screenY) {
 		mouse.x = screenX;
 		mouse.y = screenY;
+
+		Log.info("Move detected");
 
 		return false;
 	}

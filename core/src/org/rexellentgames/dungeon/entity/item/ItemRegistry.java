@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item;
 
+import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.*;
 import org.rexellentgames.dungeon.entity.item.consumable.food.Bread;
 import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken;
@@ -112,19 +113,19 @@ public class ItemRegistry {
 		register("key_b", KeyB.class);
 		register("key_c", KeyC.class);
 		register("compass", Compass.class);
-		register("ushanka", UshankaHat.class);
-		register("moai", MoaiHat.class);
-		register("knight", MoaiHat.class);
-		register("fungi", FungiHat.class);
-		register("shroom", ShroomHat.class);
-		register("dunce", DunceHat.class);
-		register("rave", RaveHat.class);
-		register("skull", SkullHat.class);
-		register("coboi", CoboiHat.class);
-		register("valkyre", ValkyreHat.class);
-		register("gold", GoldHat.class);
-		register("ruby", RubyHat.class);
-		register("viking", VikingHat.class);
+		register("ushanka_hat", UshankaHat.class);
+		register("moai_hat", MoaiHat.class);
+		register("knight_hat", KnightHat.class);
+		register("fungi_hat", FungiHat.class);
+		register("shroom_hat", ShroomHat.class);
+		register("dunce_hat", DunceHat.class);
+		register("rave_hat", RaveHat.class);
+		register("skull_hat", SkullHat.class);
+		register("coboi_hat", CoboiHat.class);
+		register("valkyre_hat", ValkyreHat.class);
+		register("gold_hat", GoldHat.class);
+		register("ruby_hat", RubyHat.class);
+		register("viking_hat", VikingHat.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

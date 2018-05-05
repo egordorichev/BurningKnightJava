@@ -136,9 +136,16 @@ public class Creature extends SaveableEntity {
 		this.hp = this.hpMax;
 	}
 
+	private boolean shouldDie = false;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.shouldDie) {
+			this.die();
+			this.shouldDie = false;
+		}
 
 		if (this.hp == 0 && !this.dead) {
 			this.die(true);
@@ -346,7 +353,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.hp == 0) {
-			this.die();
+			this.shouldDie = true;
 		}
 	}
 
