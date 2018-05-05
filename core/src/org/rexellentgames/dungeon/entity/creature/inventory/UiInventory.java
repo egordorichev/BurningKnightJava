@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -36,6 +37,14 @@ public class UiInventory extends UiEntity {
 		for (int i = 0; i < this.slots.length; i++) {
 			this.slots[i] = new UiSlot(this, i, i % 6 * 29 + 4,
 				(int) (Math.floor(i / 6) * 29) + 4);
+
+			if (i > 5) {
+				Item current = this.inventory.getSlot(i);
+
+				if (current != null && current instanceof Accessory) {
+					((Accessory) current).onEquip();
+				}
+			}
 		}
 	}
 

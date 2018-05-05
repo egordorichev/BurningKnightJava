@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.entity.item;
 
-import org.rexellentgames.dungeon.entity.item.accessory.hat.UshankaHat;
+import org.rexellentgames.dungeon.entity.item.accessory.hat.*;
 import org.rexellentgames.dungeon.entity.item.consumable.food.Bread;
 import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken;
 import org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage;
@@ -113,6 +113,18 @@ public class ItemRegistry {
 		register("key_c", KeyC.class);
 		register("compass", Compass.class);
 		register("ushanka", UshankaHat.class);
+		register("moai", MoaiHat.class);
+		register("knight", MoaiHat.class);
+		register("fungi", FungiHat.class);
+		register("shroom", ShroomHat.class);
+		register("dunce", DunceHat.class);
+		register("rave", RaveHat.class);
+		register("skull", SkullHat.class);
+		register("coboi", CoboiHat.class);
+		register("valkyre", ValkyreHat.class);
+		register("gold", GoldHat.class);
+		register("ruby", RubyHat.class);
+		register("viking", VikingHat.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {
