@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
@@ -83,6 +84,10 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if ((a instanceof BulletEntity || a instanceof Shell) && b != null) {
 			contact.setEnabled(false);
 		} else if ((b instanceof BulletEntity || b instanceof Shell) && a != null) {
+			contact.setEnabled(false);
+		} else if ((a instanceof GoreFx) && b != null) {
+			contact.setEnabled(false);
+		} else if ((b instanceof GoreFx) && a != null) {
 			contact.setEnabled(false);
 		}
 	}

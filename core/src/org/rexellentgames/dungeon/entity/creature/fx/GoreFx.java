@@ -1,12 +1,12 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.file.FileReader;
-import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 
@@ -17,6 +17,7 @@ public class GoreFx extends Entity {
 	private float va;
 	private Point vel;
 	private float z = 8;
+	private Body body;
 
 	@Override
 	public void init() {
@@ -26,14 +27,28 @@ public class GoreFx extends Entity {
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-30f, 30f);
 
-		this.vel = new Point(Random.newFloat(-2f, 2f), 1f);
+		this.vel = new Point(Random.newFloat(-3f, 3f), 3f);
+		this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+		this.body.setTransform(this.x + this.texture.getRegionWidth() / 2, this.y + this.texture.getRegionHeight() / 2, 0);
+		this.body.setLinearVelocity(this.vel.x, this.vel.y);
+		this.body.setBullet(true);
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
+		if (this.body != null) {
+			this.vel.x = this.body.getLinearVelocity().x;
+			this.vel.y = this.body.getLinearVelocity().y;
+		}
+
+		this.vel.x *= (this.z == 0 ? 0.5f : 0.98f);
+		this.va *= (this.z == 0 ? 0.5f : 0.98f);
+		this.a += this.va;
+
 		this.x += this.vel.x;
+		this.vel.y -= 0.1f;
 
 		if (!menu) {
 			this.z = Math.max(0, this.z + this.vel.y);
@@ -50,6 +65,25 @@ public class GoreFx extends Entity {
 		this.va *= 0.95f;
 
 		this.vel.x *= 0.97f;
+
+		if (this.vel.x <= 0.1f && this.z == 0) {
+			this.vel.x = 0;
+
+			if (this.body != null) {
+				this.body = World.removeBody(this.body);
+			}
+		}
+
+		if (this.body != null) {
+			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.body.setTransform(this.x, this.y + this.z, 0);
+		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
 	}
 
 	@Override
