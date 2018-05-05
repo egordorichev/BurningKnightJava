@@ -175,12 +175,12 @@ public class UiSlot {
 					this.inventory.getInventory().setSlot(this.id, current);
 
 					if (this.id > 5) {
-						if (current != null && current instanceof Accessory) {
-							((Accessory) current).onEquip();
-						}
-
 						if (self != null && self instanceof Accessory) {
 							((Accessory) self).onUnequip();
+						}
+
+						if (current != null && current instanceof Accessory) {
+							((Accessory) current).onEquip();
 						}
 					}
 				}

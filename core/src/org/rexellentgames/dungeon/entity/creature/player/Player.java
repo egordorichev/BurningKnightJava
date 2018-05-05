@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
@@ -510,14 +511,17 @@ public class Player extends Creature {
 			this.ui.renderBeforePlayer(this);
 		}
 
+		TextureRegion region = this.animation.getCurrent().frame;
+
 		for (int i = 0; i < this.last.size(); i++) {
 			Point last = this.last.get(i);
 
 			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
+
 			Graphics.startShadows();
-			this.animation.render(last.x, last.y, false, false, 8, 8, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+			this.animation.render(last.x, last.y, false, false, region.getRegionWidth() / 2, (int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 			Graphics.endShadows();
-			this.animation.render(last.x, last.y, false, false, 8, 8, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+			this.animation.render(last.x, last.y, false, false, region.getRegionWidth() / 2, (int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 		}
 
 		if (this.dashT > 0) {
@@ -528,7 +532,7 @@ public class Player extends Creature {
 			this.last.remove(0);
 		}
 
-		this.animation.render(this.x, this.y, false, false, 8, 8, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+		this.animation.render(this.x, this.y, false, false, region.getRegionWidth() / 2, (int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {
