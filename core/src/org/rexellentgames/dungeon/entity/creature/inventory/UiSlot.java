@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.Hat;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class UiSlot {
 	private static TextureRegion slot;
@@ -27,6 +28,14 @@ public class UiSlot {
 	private int id;
 	private boolean hovered = false;
 	private UiInventory inventory;
+	private float scale = 1f;
+	private boolean active;
+	private float r = 1f;
+	private float g = 1f;
+	private float b = 1f;
+	private float rr = 1f;
+	private float rg = 1f;
+	private float rb = 1f;
 
 	public UiSlot(UiInventory inventory, int id, int x, int y) {
 		this.x = x;
@@ -42,6 +51,10 @@ public class UiSlot {
 	public void update(float dt) {
 		Item item = this.inventory.getInventory().getSlot(this.id);
 
+		this.r += (this.rr - this.r) * dt * 10;
+		this.g += (this.rg - this.g) * dt * 10;
+		this.b += (this.rb - this.b) * dt * 10;
+
 		if (item != null) {
 			item.update(dt);
 
@@ -54,11 +67,99 @@ public class UiSlot {
 			return;
 		}
 
+		if (this.inventory.getActive() == this.id && !this.active) {
+			this.active = true;
+
+			Tween.to(new Tween.Task(1.2f, 0.1f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+			});
+		} else if (this.inventory.getActive() != this.id && this.active) {
+			this.active = false;
+
+			Tween.to(new Tween.Task(1f, 0.1f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+			});
+		}
+
+		boolean h = this.hovered;
 		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, this.y, 24, 24);
+
+		if (this.hovered && !h) {
+			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+			});
+		} else if (!this.hovered && h) {
+			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+			});
+		}
 
 		if (this.hovered) {
 			this.inventory.hoveredSlot = this.id;
 			this.inventory.handled = true;
+
+			if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
+				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+					@Override
+					public float getValue() {
+						return scale;
+					}
+
+					@Override
+					public void setValue(float value) {
+						scale = value;
+					}
+
+					@Override
+					public void onEnd() {
+						super.onEnd();
+
+						Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return scale;
+							}
+
+							@Override
+							public void setValue(float value) {
+								scale = value;
+							}
+						});
+					}
+				});
+			}
 
 			if (Input.instance.wasPressed("mouse0")) {
 				Item current = this.inventory.getCurrentSlot();
@@ -119,14 +220,34 @@ public class UiSlot {
 		return true;
 	}
 
+	private boolean acted;
+
 	public void render(Item item) {
 		if (this.inventory.getActive() == this.id) {
-			Graphics.batch.setColor(0.6f, 0.6f, 0.6f, 1);
+			this.rr = 0.6f;
+			this.rg = 0.6f;
+			this.rb = 0.6f;
 		} else if (this.hovered) {
-			Graphics.batch.setColor(0.8f, 0.8f, 0.8f, 1);
+			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
+				this.rr = 0.4f;
+				this.rg = 0.4f;
+				this.rb = 0.4f;
+			} else {
+				this.rr = 0.8f;
+				this.rg = 0.8f;
+				this.rb = 0.8f;
+			}
+		} else {
+			this.rr = 1f;
+			this.rg = 1f;
+			this.rb = 1f;
 		}
 
-		Graphics.render(slot, this.x, this.y);
+		float a = 0;//(float) (Math.cos(Dungeon.time) * 10f);
+
+		Graphics.batch.setColor(this.r, this.g, this.b, 1);
+
+		Graphics.render(slot, this.x + slot.getRegionWidth() / 2, this.y + slot.getRegionHeight() / 2, a, slot.getRegionWidth() / 2, slot.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		if (item == null) {
 			if (this.id == 6) {
@@ -146,11 +267,46 @@ public class UiSlot {
 			float maxDelay = item.getUseTime();
 
 			int w = (int) ((delay / maxDelay) * 24);
-			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1f);
+			Graphics.batch.setColor(0.3f, 0.3f, 0.3f, 1f);
 			TextureRegion region = new TextureRegion(slot);
 			region.setRegionWidth(w);
-			Graphics.render(region, this.x, this.y);
+			Graphics.render(region, this.x + slot.getRegionWidth() / 2, this.y + region.getRegionHeight() / 2, a, slot.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale, this.scale);
 			Graphics.batch.setColor(1, 1, 1, 1);
+
+			if (!this.acted) {
+				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+					@Override
+					public float getValue() {
+						return scale;
+					}
+
+					@Override
+					public void setValue(float value) {
+						scale = value;
+					}
+
+					@Override
+					public void onEnd() {
+						super.onEnd();
+
+						Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return scale;
+							}
+
+							@Override
+							public void setValue(float value) {
+								scale = value;
+							}
+						});
+					}
+				});
+
+				this.acted = true;
+			}
+		} else {
+			this.acted = false;
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
@@ -175,8 +331,8 @@ public class UiSlot {
 				Graphics.batch.begin();
 			}
 
-			Graphics.render(sprite, this.x + 12 - sprite.getRegionWidth() / 2,
-				this.y + 12 - sprite.getRegionHeight() / 2);
+			Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
+				this.y + slot.getRegionHeight() / 2, a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 			if (count != 1) {
 				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
