@@ -25,13 +25,16 @@ public class GoreFx extends Entity {
 
 		this.depth = -1;
 		this.a = Random.newFloat(360);
-		this.va = Random.newFloat(-30f, 30f);
+		this.va = Random.newFloat(-20f, 20f);
 
 		this.vel = new Point(Random.newFloat(-3f, 3f), 3f);
-		this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x + this.texture.getRegionWidth() / 2, this.y + this.texture.getRegionHeight() / 2, 0);
-		this.body.setLinearVelocity(this.vel.x, this.vel.y);
-		this.body.setBullet(true);
+
+		if (!this.menu) {
+			this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+			this.body.setTransform(this.x + this.texture.getRegionWidth() / 2, this.y + this.texture.getRegionHeight() / 2, 0);
+			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.body.setBullet(true);
+		}
 	}
 
 	@Override
