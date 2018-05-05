@@ -18,10 +18,14 @@ public class Shell extends Entity {
 	public Point vel;
 	private float z = 10f;
 	private Body body;
+	private float va;
+	private float a;
 
 	@Override
 	public void init() {
 		super.init();
+
+		this.va = Random.newFloat(this.vel.x * 10);
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
 		this.sprite = frames.get(Random.newInt(frames.size())).frame;
@@ -47,6 +51,8 @@ public class Shell extends Entity {
 		}
 
 		this.vel.x *= (this.z == 0 ? 0.5f : 0.98f);
+		this.va *= (this.z == 0 ? 0.5f : 0.98f);
+		this.a += this.va;
 
 		if (this.vel.x <= 0.1f && this.z == 0) {
 			this.vel.x = 0;
@@ -69,8 +75,8 @@ public class Shell extends Entity {
 	@Override
 	public void render() {
 		Graphics.startShadows();
-		Graphics.render(this.sprite, this.x, this.y - this.sprite.getRegionHeight());
+		Graphics.render(this.sprite, this.x, this.y - this.sprite.getRegionHeight(), -this.a, this.sprite.getRegionWidth() / 2, this.sprite.getRegionHeight() / 2, false, false);
 		Graphics.endShadows();
-		Graphics.render(this.sprite, this.x, this.y + this.z);
+		Graphics.render(this.sprite, this.x, this.y + this.z, this.a, this.sprite.getRegionWidth() / 2, this.sprite.getRegionHeight() / 2, false, false);
 	}
 }
