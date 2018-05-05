@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
@@ -66,7 +67,22 @@ public class Inventory {
 
 	public boolean add(ItemHolder holder) {
 		Item item = holder.getItem();
-		item.setOwner(Player.instance);
+
+		if (item instanceof Gold) {
+			Item slot = this.getSlot(11);
+
+			if (slot == null) {
+				this.setSlot(11, item);
+			} else {
+				slot.setCount(slot.getCount() + item.getCount());
+			}
+
+			item.onPickup();
+			holder.done = true;
+
+			item.setOwner(Player.instance);
+			return true;
+		}
 
 		if (item.isStackable()) {
 			for (int i = 0; i < this.getSize(); i++) {
@@ -77,6 +93,7 @@ public class Inventory {
 					item.onPickup();
 					holder.done = true;
 
+					item.setOwner(Player.instance);
 					return true;
 				}
 			}
@@ -88,6 +105,7 @@ public class Inventory {
 				item.onPickup();
 				holder.done = true;
 
+				item.setOwner(Player.instance);
 				return true;
 			}
 		}

@@ -8,13 +8,19 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Lamp;
+import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
+import org.rexellentgames.dungeon.entity.item.accessory.hat.Hat;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
 
 public class UiSlot {
 	private static TextureRegion slot;
+	private static TextureRegion armorBg = Graphics.getTexture("ui (armor_bg)");
+	private static TextureRegion coinBg = Graphics.getTexture("ui (gold_bg)");
+	private static TextureRegion equipBg = Graphics.getTexture("ui (equip_bg)");
 
 	private int x;
 	private int y;
@@ -62,7 +68,7 @@ public class UiSlot {
 					current.setCount(current.getCount() + self.getCount());
 					this.inventory.getInventory().setSlot(this.id, current);
 					this.inventory.setCurrentSlot(null);
-				} else {
+				} else if (this.canAccept(current) || current == null) {
 					this.inventory.setCurrentSlot(self);
 					this.inventory.getInventory().setSlot(this.id, current);
 				}
@@ -101,6 +107,18 @@ public class UiSlot {
 		}
 	}
 
+	public boolean canAccept(Item item) {
+		if (this.id == 6) {
+			return item instanceof Hat;
+		} else if (this.id == 11) {
+			return item instanceof Gold;
+		} else if (this.id > 6) {
+			return item instanceof Equipable;
+		}
+
+		return true;
+	}
+
 	public void render(Item item) {
 		if (this.inventory.getActive() == this.id) {
 			Graphics.batch.setColor(0.6f, 0.6f, 0.6f, 1);
@@ -109,6 +127,19 @@ public class UiSlot {
 		}
 
 		Graphics.render(slot, this.x, this.y);
+
+		if (item == null) {
+			if (this.id == 6) {
+				Graphics.render(armorBg, this.x + 12 - armorBg.getRegionWidth() / 2,
+					this.y + 12 - armorBg.getRegionHeight() / 2);
+			} else if (this.id > 6 && this.id < 11) {
+				Graphics.render(equipBg, this.x + 12 - equipBg.getRegionWidth() / 2,
+					this.y + 12 - equipBg.getRegionHeight() / 2);
+			} else if (this.id == 11) {
+				Graphics.render(coinBg, this.x + 12 - coinBg.getRegionWidth() / 2,
+					this.y + 12 - coinBg.getRegionHeight() / 2);
+			}
+		}
 
 		if (item != null && item.getDelay() != 0) {
 			float delay = item.getDelay();

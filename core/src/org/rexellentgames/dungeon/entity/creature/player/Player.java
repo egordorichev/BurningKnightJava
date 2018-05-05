@@ -39,6 +39,7 @@ import java.util.HashMap;
 
 public class Player extends Creature {
 	public static ArrayList<Player> all = new ArrayList<Player>();
+	public static int INVENTORY_SIZE = 12;
 
 	private static final float LIGHT_SIZE = 2f;
 	public static String NAME;
@@ -66,7 +67,6 @@ public class Player extends Creature {
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
-	private int gold;
 	public Room currentRoom;
 	public float dashT;
 
@@ -212,7 +212,7 @@ public class Player extends Creature {
 		this.experienceMax = expNeeded(this.level);
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
-		this.inventory = new Inventory(this, 6);
+		this.inventory = new Inventory(this, INVENTORY_SIZE);
 		this.body = this.createSimpleBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 	}
 
@@ -558,7 +558,6 @@ public class Player extends Creature {
 		this.experienceMax = reader.readInt32();
 		this.level = reader.readInt32();
 		this.forThisLevel = expNeeded(this.level);
-		this.gold = reader.readInt32();
 
 		this.setHunger(reader.readInt16());
 	}
@@ -574,7 +573,6 @@ public class Player extends Creature {
 		writer.writeInt32(this.experience);
 		writer.writeInt32(this.experienceMax);
 		writer.writeInt32(this.level);
-		writer.writeInt32(this.gold);
 
 		writer.writeInt16((short) this.hunger);
 	}
@@ -621,28 +619,17 @@ public class Player extends Creature {
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
-			if (item.getItem() instanceof Gold) {
-				item.done = true;
-				item.getItem().onPickup();
-				this.gold += item.getItem().getCount();
+
+			if (this.inventory.add(item)) {
+				if (item.getItem().hasAutoPickup()) {
+					this.area.add(new ItemPickedFx(item));
+				}
 
 				return true;
-			} else {
-				if (this.inventory.add(item)) {
-					if (item.getItem().hasAutoPickup()) {
-						this.area.add(new ItemPickedFx(item));
-					}
-
-					return true;
-				}
 			}
 		}
 
 		return false;
-	}
-
-	public int getGold() {
-		return this.gold;
 	}
 
 	public Inventory getInventory() {
