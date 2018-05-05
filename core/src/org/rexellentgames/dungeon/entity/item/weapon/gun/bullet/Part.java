@@ -9,14 +9,16 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class Part extends Entity {
 	private static Animation animations = Animation.make("fx-part");
 	private AnimationData animation;
-	private Point vel;
+	public Point vel;
 
 	@Override
 	public void init() {
-		this.vel = new Point(
-			Random.newFloat(-1f, 1f),
-			Random.newFloat(-1f, 1f)
-		);
+		if (this.vel == null) {
+			this.vel = new Point(
+				Random.newFloat(-1f, 1f),
+				Random.newFloat(-1f, 1f)
+			);
+		}
 
 		this.animation = animations.get("idle");
 		this.animation.setFrame(Random.newInt(0, 2));

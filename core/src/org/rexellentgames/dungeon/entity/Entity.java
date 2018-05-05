@@ -14,7 +14,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Entity extends Point {
 	protected Area area;
-	protected int depth = 0;
+	public int depth = 0;
 	public float w = 16;
 	public float h = 16;
 	public boolean onScreen = true;
