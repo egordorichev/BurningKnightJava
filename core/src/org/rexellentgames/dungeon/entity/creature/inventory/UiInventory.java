@@ -214,7 +214,6 @@ public class UiInventory extends UiEntity {
 					this.currentSlot = null;
 				}
 			} else {
-
 				Item slot = this.inventory.getSlot(this.active);
 
 				if (slot != null) {

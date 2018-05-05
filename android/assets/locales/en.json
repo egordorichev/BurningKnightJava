@@ -143,5 +143,44 @@
 	"save_and_exit" : "Save And Exit",
 	"resume" : "Resume",
 	"save" : "Save",
-	"reset_to_default" : "Reset To Default"
+	"reset_to_default" : "Reset To Default",
+
+	"coboi_hat" : "Сowboy Hat",
+	"coboi_hat_desc" : "Or cowgirl hat, whatever",
+
+	"dunce_hat" : "Dunce Hat",
+	"dunce_hat_desc" : "We all are, sometimes",
+
+	"fungi_hat" : "Fungi Hat",
+	"fungi_hat_desc" : "Mushrooms will rule the world! Maybe...",
+
+	"gold_hat" : "Golden Hat",
+	"gold_hat_desc" : "Ahh, soo heavy!",
+
+	"knight_hat" : "Iron Hat",
+	"knight_hat_desc" : "Real metal!",
+
+	"moai_hat" : "Moai Hat",
+	"moai_hat_desc" : "I'm a stone...",
+
+	"rave_hat" : "Top Hat",
+	"rave_hat_desc" : "Topper then top is only top top!",
+
+	"ruby_hat" : "Ruby Hat",
+	"ruby_hat_desc" : "Ruby == reach",
+
+	"shroom_hat" : "Mushroom Hat",
+	"shroom_hat_desc" : "Yes, I can talk",
+
+	"skull_hat" : "Skull Hat",
+	"skull_hat_desc" : "Trick or treat?",
+
+	"ushanka_hat" : "Ushanka Hat",
+	"ushanka_hat_desc" : "Where is mine balalaika??!?",
+
+	"valkyre_hat" : "Valkyrie Hat",
+	"valkyre_hat_desc" : "I believe I can fly...",
+
+	"viking_hat" : "Viking Hat",
+	"viking_hat_desc" : "Looks like a weapon itself"
 }
