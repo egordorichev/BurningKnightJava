@@ -160,7 +160,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		this.vel.mul(dt * 53f);
+		this.vel.mul(0.9f);
 
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;

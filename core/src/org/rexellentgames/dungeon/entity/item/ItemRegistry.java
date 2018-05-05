@@ -37,6 +37,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.GhostLeaver;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherA;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordC;
@@ -126,6 +128,8 @@ public class ItemRegistry {
 		register("gold_hat", GoldHat.class);
 		register("ruby_hat", RubyHat.class);
 		register("viking_hat", VikingHat.class);
+		register("launcher_a", RocketLauncherA.class);
+		register("rocket_a", RocketA.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {
