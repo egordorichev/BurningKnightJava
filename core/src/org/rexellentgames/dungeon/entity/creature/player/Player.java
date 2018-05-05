@@ -35,6 +35,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player extends Creature {
 	public static ArrayList<Player> all = new ArrayList<Player>();
@@ -43,7 +44,7 @@ public class Player extends Creature {
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;
-	private static Animation animations = Animation.make("actor-gobbo");
+	private static HashMap<String, Animation> skins = new HashMap<>();
 	public float lightModifier;
 	public int connectionId;
 	public boolean main;
@@ -77,6 +78,19 @@ public class Player extends Creature {
 		alwaysActive = true;
 		invmax = 1f;
 		// unhittable = true; // todo: remove
+
+		setSkin("");
+	}
+
+	public void setSkin(String add) {
+		Animation animations;
+
+		if (skins.containsKey(add)) {
+			animations = skins.get(add);
+		} else {
+			animations = Animation.make("actor-gobbo", add);
+			skins.put(add, animations);
+		}
 
 		idle = animations.get("idle");
 		run = animations.get("run");
