@@ -232,9 +232,9 @@ public class UiSlot {
 	}
 
 	private boolean acted;
+	public float a = 0.5f;
 
 	public void render(Item item) {
-		float a = 0.5f;
 
 		if (this.inventory.getActive() == this.id) {
 			this.rr = 0.6f;
