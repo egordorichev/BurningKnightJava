@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.path.Graph;
@@ -63,93 +64,109 @@ public class UiInventory extends UiEntity {
 	}
 
 	protected boolean dn = true;
+	private Tween.Task lastA;
 
 	@Override
 	public void update(float dt) {
 		this.handled = false;
 		this.active = this.inventory.active;
 
-		if (Input.instance.wasPressed("inventory") && this.dn) {
-			this.dn = false;
+		if (this.dn) {
+			float dx = Math.abs(Input.instance.uiMouse.x - 88);
+			float dy = Math.abs(Input.instance.uiMouse.y - 18);
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (!this.open) {
+			if (!this.open && dx < 90f && dy < 15f) {
 				this.open = true;
-				for (int i = 0; i < 12; i++) {
-					UiSlot slot = this.slots[i];
-					Tween.to(new Tween.Task(1, 0.1f) {
-						@Override
-						public float getValue() {
-							return slot.a;
-						}
 
-						@Override
-						public void setValue(float value) {
+				if (this.lastA != null) {
+					Tween.remove(this.lastA);
+					this.lastA = null;
+				}
+
+				this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
+					@Override
+					public float getValue() {
+						return slots[0].a;
+					}
+
+					@Override
+					public void setValue(float value) {
+						for (int i = 0; i < 12; i++) {
+							UiSlot slot = slots[i];
 							slot.a = value;
 						}
-					});
-				}
+					}
+				});
 
-				for (int i = 6; i < 12; i++) {
-					UiSlot slot = this.slots[i];
-					slot.y = 4;
+				Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return slots[6].y;
+					}
 
-					Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
-						@Override
-						public float getValue() {
-							return slot.y;
-						}
-
-						@Override
-						public void setValue(float value) {
+					@Override
+					public void setValue(float value) {
+						for (int i = 6; i < 12; i++) {
+							UiSlot slot = slots[i];
 							slot.y = value;
 						}
+					}
 
-						@Override
-						public void onEnd() {
-							super.onEnd();
-							dn = true;
-						}
-					});
+					@Override
+					public void onEnd() {
+						super.onEnd();
+						dn = true;
+					}
+				});
+			} else if (this.open && (dx > 100f || dy > 60f)) {
+				if (this.lastA != null) {
+					Tween.remove(this.lastA);
+					this.lastA = null;
 				}
-			} else {
-				for (int i = 0; i < 12; i++) {
-					UiSlot slot = this.slots[i];
-					Tween.to(new Tween.Task(0.3f, 0.5f, Tween.Type.QUAD_IN) {
-						@Override
-						public float getValue() {
-							return slot.a;
-						}
 
-						@Override
-						public void setValue(float value) {
+				this.lastA = Tween.to(new Tween.Task(0.3f, 0.5f, Tween.Type.QUAD_IN) {
+					@Override
+					public float getValue() {
+						return slots[0].a;
+					}
+
+					@Override
+					public void setValue(float value) {
+						for (int i = 0; i < 12; i++) {
+							UiSlot slot = slots[i];
 							slot.a = value;
 						}
-					});
-				}
+					}
 
-				for (int i = 6; i < 12; i++) {
-					UiSlot slot = this.slots[i];
+					@Override
+					public void onEnd() {
+						super.onEnd();
+						dn = true;
+					}
+				});
 
-					Tween.to(new Tween.Task(4, 0.2f, Tween.Type.QUAD_OUT) {
-						@Override
-						public float getValue() {
-							return slot.y;
-						}
+				Tween.to(new Tween.Task(4, 0.2f, Tween.Type.QUAD_OUT) {
+					@Override
+					public float getValue() {
+						return slots[6].y;
+					}
 
-						@Override
-						public void setValue(float value) {
+					@Override
+					public void setValue(float value) {
+						for (int i = 6; i < 12; i++) {
+							UiSlot slot = slots[i];
 							slot.y = value;
 						}
+					}
 
-						@Override
-						public void onEnd() {
-							super.onEnd();
+					@Override
+					public void onEnd() {
+						super.onEnd();
 
-							open = false;
-							dn = true;
-						}
-					});
-				}
+						open = false;
+					}
+				});
 			}
 		}
 
