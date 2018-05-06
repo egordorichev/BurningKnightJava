@@ -294,7 +294,7 @@ public class UiInventory extends UiEntity {
 
 		for (int i = 0; i < 10; i++) {
 			float s = 1f;
-			float yy = (float) ((hp <= 3 && hp - 2 >= i * 2 - 1) ? Math.cos(2f / ((float) i + 1) + Dungeon.time * 20) * 2.5f : 0) + y;
+			float yy = (float) ((hp <= 8 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 20) * 2.5f : 0) + y;
 
 			if (hp - 2 == i * 2 || hp - 2 == i * 2 - 1) {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 3.5f));
@@ -332,9 +332,14 @@ public class UiInventory extends UiEntity {
 			if (item != null) {
 				String info = item.buildInfo().toString();
 				Graphics.layout.setText(Graphics.small, info);
+
+				float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
+
+				Graphics.small.setColor(c, c, c, 1);
 				Graphics.print(info, Graphics.small,
 					MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 12),
 					MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y + 2));
+				Graphics.small.setColor(1, 1, 1, 1);
 
 				this.hoveredSlot = -1;
 			}
