@@ -4,6 +4,6 @@ public class RocketA extends Rocket {
 	{
 		sprite = "item (rocket A)";
 		rocketName = "A";
-		damage = 10;
+		damage = 5;
 	}
 }

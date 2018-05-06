@@ -66,18 +66,20 @@ public class UiInventory extends UiEntity {
 	protected boolean dn = true;
 	private Tween.Task lastA;
 	private boolean hidden;
+	private float forceT;
 
 	@Override
 	public void update(float dt) {
 		this.handled = false;
 		this.active = this.inventory.active;
+		this.forceT = Math.max(this.forceT - dt, 0);
 
 		if (this.dn) {
 			float dx = Math.abs(Input.instance.uiMouse.x - 88);
 			float dy = Math.abs(Input.instance.uiMouse.y - 18);
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (this.hidden && dx < 90f && dy < 2f) {
+			if (this.hidden && dx < 90f && dy < 2f || this.forceT > 0) {
 				this.dn = false;
 
 				Tween.to(new Tween.Task(4, 0.3f, Tween.Type.BACK_OUT) {
@@ -147,7 +149,7 @@ public class UiInventory extends UiEntity {
 							dn = true;
 						}
 					});
-				} else if (!this.hidden && this.open && (dx > 100f || dy > 60f)) {
+				} else if (!this.hidden && this.open && (dx > 100f || dy > 60f) && this.forceT == 0) {
 					if (this.lastA != null) {
 						Tween.remove(this.lastA);
 						this.lastA = null;
@@ -234,6 +236,7 @@ public class UiInventory extends UiEntity {
 
 		if (Input.instance.wasPressed("prev")) {
 			this.active -= 1;
+			this.forceT = 1f;
 
 			if (this.active == -1) {
 				this.active = 5;
@@ -242,6 +245,7 @@ public class UiInventory extends UiEntity {
 
 		if (Input.instance.wasPressed("next")) {
 			this.active = (this.active + 1) % 6;
+			this.forceT = 1f;
 		}
 
 		if (Input.instance.wasPressed("drop_item") && !this.open) {
