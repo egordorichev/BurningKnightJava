@@ -91,12 +91,12 @@ public class RegularRoom extends Room {
 
 	private static ArrayList<Class<? extends RegularRoom>> rooms = new ArrayList<Class<? extends RegularRoom>>(Arrays.asList(
 		RegularRoom.class, GardenRoom.class, FloodedRoom.class, SpikedRoom.class,
-		ChasmRoom.class, MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class
+		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class
 	));
 
 	private static float[] chances = new float[] {
 		5, 2, 1, 0.1f,
-		0.1f, 0.05f, 1, 0.3f,
+		0.05f, 1, 0.3f,
 	};
 
 	public static RegularRoom create() {
