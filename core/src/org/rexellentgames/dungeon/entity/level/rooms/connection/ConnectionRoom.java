@@ -11,12 +11,12 @@ import java.util.Arrays;
 
 public class ConnectionRoom extends Room {
 	private static ArrayList<Class<? extends ConnectionRoom>> rooms = new ArrayList<Class<? extends ConnectionRoom>>(Arrays.asList(
-		TunnelRoom.class, RingConnectionRoom.class, ChasmTunnelRoom.class, SpikedTunnelRoom.class,
+		TunnelRoom.class, RingConnectionRoom.class, SpikedTunnelRoom.class,
 		CircleRoom.class
 	));
 
 	private static float[] chances = new float[]{
-		5, 3, 2, 2, 1
+		5, 3, 2, 1
 	};
 
 	public static ConnectionRoom create() {

@@ -66,7 +66,7 @@ public class UiInventory extends UiEntity {
 	protected boolean dn = true;
 	private Tween.Task lastA;
 	private boolean hidden;
-	private float forceT;
+	public float forceT;
 
 	@Override
 	public void update(float dt) {
@@ -232,6 +232,8 @@ public class UiInventory extends UiEntity {
 			if (this.active == -1) {
 				this.active = 5;
 			}
+
+			this.forceT = 1f;
 		}
 
 		if (Input.instance.wasPressed("prev")) {
