@@ -14,10 +14,13 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Gun extends Item {
 	protected float accuracy = 10f;
+	protected float sx = 1f;
+	protected float sy = 1f;
 
 	{
 		identified = true;
@@ -34,11 +37,11 @@ public class Gun extends Item {
 
 		Graphics.startShadows();
 		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y - h / 4, -a, 3, sprite.getRegionHeight() / 2,
-			false, false, 1f, flipped ? 1f : -1f);
+			false, false, this.sx, flipped ? this.sy : -this.sy);
 		Graphics.endShadows();
 
 		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4, a, 3, sprite.getRegionHeight() / 2,
-			false, false, 1f, flipped ? -1f : 1f);
+			false, false, this.sx, flipped ? -this.sy : this.sy);
 
 		if (this.delay + 0.02f >= this.useTime) {
 			Graphics.batch.end();
@@ -83,7 +86,6 @@ public class Gun extends Item {
 
 		super.use();
 
-		Camera.instance.shake(2);
 
 		Graphics.playSfx("gun_machinegun", 1f, Random.newFloat(0.6f, 1.5f));
 
@@ -108,6 +110,61 @@ public class Gun extends Item {
 		this.owner.vel.y -= Math.sin(a) * 40f;
 
 		Camera.instance.push(a, 8f);
+		Camera.instance.shake(2);
+
+		Tween.to(new Tween.Task(0.5f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+				});
+			}
+		});
+
+		Tween.to(new Tween.Task(1.4f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sy;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
+				});
+			}
+		});
 
 		this.sendBullets();
 		player.getInventory().remove(Bullet.class);

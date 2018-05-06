@@ -16,9 +16,13 @@ import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.Rocke
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketEntity;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class RocketLauncher extends Weapon {
+	private float sx = 1f;
+	private float sy = 1f;
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		float a = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
@@ -26,9 +30,9 @@ public class RocketLauncher extends Weapon {
 		TextureRegion sprite = this.getSprite();
 
 		Graphics.startShadows();
-		Graphics.render(sprite, x + w / 2, y - (h - sprite.getRegionHeight()) / 2 - h / 2, -an, 3, sprite.getRegionHeight() / 2, false, false, 1f, flipped ? 1f : -1f);
+		Graphics.render(sprite, x + w / 2, y - (h - sprite.getRegionHeight()) / 2 - h / 2, -an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? sy : -sy);
 		Graphics.endShadows();
-		Graphics.render(sprite, x + w / 2, y + (h - sprite.getRegionHeight()) / 2, an, 3, sprite.getRegionHeight() / 2, false, false, 1f, flipped ? -1f : 1f);
+		Graphics.render(sprite, x + w / 2, y + (h - sprite.getRegionHeight()) / 2, an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? -sy : sy);
 
 
 		if (this.delay + 0.02f >= this.useTime) {
@@ -98,6 +102,60 @@ public class RocketLauncher extends Weapon {
 
 		this.sendRockets();
 		player.getInventory().remove(Rocket.class);
+
+		Tween.to(new Tween.Task(0.5f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+				});
+			}
+		});
+
+		Tween.to(new Tween.Task(1.4f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sy;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
+				});
+			}
+		});
 	}
 
 	protected void sendRockets() {
