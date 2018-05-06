@@ -10,6 +10,7 @@ public class Part extends Entity {
 	private static Animation animations = Animation.make("fx-part");
 	private AnimationData animation;
 	public Point vel;
+	public float speed = 1f;
 
 	@Override
 	public void init() {
@@ -33,7 +34,7 @@ public class Part extends Entity {
 
 		this.vel.mul(0.95f);
 
-		if (this.animation.update(dt)) {
+		if (this.animation.update(dt / this.speed)) {
 			this.done = true;
 		}
 	}

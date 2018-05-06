@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,12 +14,15 @@ import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	private static Animation animations = Animation.make("fx-fireball");
@@ -27,7 +31,6 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	private AnimationData dead;
 	private AnimationData animation;
 	private float t;
-	private boolean flip;
 	public Creature target;
 	public boolean toMouse;
 	private Body body;
@@ -35,6 +38,8 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public boolean bad = true;
 	public Vector2 vel;
 	public boolean ignoreWalls = false;
+	private float sx;
+	private float sy;
 
 	@Override
 	public Body getBody() {
@@ -46,14 +51,13 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		super.init();
 
 		this.alwaysActive = true;
-		this.t = Random.newFloat(0.5f);
+		this.t = Random.newFloat(32f);
 
 		this.playSfx("fireball_cast");
 
 		WormholeFx.suck.add(this);
 
 		this.depth = this.ignoreWalls ? 11 : 0;
-		this.flip = Random.chance(50);
 
 		this.born = animations.get("appear");
 		this.idle = animations.get("idle");
@@ -130,9 +134,24 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		}
 	}
 
+	private float last;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		this.last += dt;
+
+		if (this.last >= 0.08f) {
+			Part part = new Part();
+			part.x = this.x + 5.5f;
+			part.y = this.y + 5.5f;
+			part.speed = 3f;
+			part.vel = new Point();
+			Dungeon.area.add(part);
+			part.depth = 11;
+			this.last = 0;
+		}
 
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
@@ -186,6 +205,12 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, this.flip, false);
+		TextureRegion texture = this.animation.getCurrent().frame;
+
+		this.sx = (float) (1f + Math.cos(this.t * 7) / 6f);
+		this.sy = (float) (1f + Math.sin(this.t * 6f) / 6f);
+
+		Graphics.render(texture, this.x + 8, this.y + 8,
+			0, texture.getRegionWidth() / 2, texture.getRegionHeight() / 2, false, false, this.sx, this.sy);
 	}
 }
