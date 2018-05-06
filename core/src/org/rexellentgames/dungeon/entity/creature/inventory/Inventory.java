@@ -71,11 +71,16 @@ public class Inventory {
 		if (item instanceof Gold) {
 			Item slot = this.getSlot(11);
 
+			Log.info("Gold " + item.getCount());
+
 			if (slot == null) {
 				this.setSlot(11, item);
 			} else {
 				slot.setCount(slot.getCount() + item.getCount());
 			}
+
+			slot = this.getSlot(11);
+			Log.info("Ended with " + slot.getCount());
 
 			item.onPickup();
 			holder.done = true;
