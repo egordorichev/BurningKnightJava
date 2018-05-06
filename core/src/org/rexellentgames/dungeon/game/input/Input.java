@@ -47,12 +47,18 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public void connected(Controller controller) {
+		String name = controller.getName().toLowerCase();
+
+		if (!name.contains("game") && !name.contains("pad") && !name.contains("joy") && !name.contains("stick") && !name.contains("controller")) {
+			Log.info("Controller " + controller.getName() + " was ignored");
+			return;
+		}
+
 		Log.info("Controller " + controller.getName() + " connected!");
-		Log.error("Ignored");
 		controllerChanged = true;
 
 		if (active == null) {
-		//	active = controller;
+			active = controller;
 		}
 	}
 
