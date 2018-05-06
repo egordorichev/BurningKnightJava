@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -73,6 +74,20 @@ public class UiInventory extends UiEntity {
 
 			if (!this.open) {
 				this.open = true;
+				for (int i = 0; i < 12; i++) {
+					UiSlot slot = this.slots[i];
+					Tween.to(new Tween.Task(1, 0.1f) {
+						@Override
+						public float getValue() {
+							return slot.a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							slot.a = value;
+						}
+					});
+				}
 
 				for (int i = 6; i < 12; i++) {
 					UiSlot slot = this.slots[i];
@@ -97,6 +112,21 @@ public class UiInventory extends UiEntity {
 					});
 				}
 			} else {
+				for (int i = 0; i < 12; i++) {
+					UiSlot slot = this.slots[i];
+					Tween.to(new Tween.Task(0.3f, 0.5f, Tween.Type.QUAD_IN) {
+						@Override
+						public float getValue() {
+							return slot.a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							slot.a = value;
+						}
+					});
+				}
+
 				for (int i = 6; i < 12; i++) {
 					UiSlot slot = this.slots[i];
 
@@ -308,9 +338,18 @@ public class UiInventory extends UiEntity {
 				Graphics.render(heart, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
 					+ heart.getRegionHeight() / 2, 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			} else if (hp - 2 >= i * 2 - 1) {
-				Graphics.render(half, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9+ heart.getRegionHeight() / 2, 0,
+				Graphics.render(half, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			}
+		}
+
+		Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[]{});
+
+		for (int i = 0; i < buffs.length; i++) {
+			Buff buff = buffs[i];
+
+			TextureRegion sprite = buff.getSprite();
+			Graphics.batch.draw(sprite, 4 + i * 12, y + 9 + 11);
 		}
 	}
 

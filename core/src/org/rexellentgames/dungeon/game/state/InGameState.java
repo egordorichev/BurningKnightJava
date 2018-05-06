@@ -220,20 +220,6 @@ public class InGameState extends State {
 			Dialog.active.render();
 		}
 
-		/*
-		if (!(Dungeon.level instanceof HubLevel)) {
-			Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[]{});
-
-			for (int i = 0; i < buffs.length; i++) {
-				Buff buff = buffs[i];
-
-				TextureRegion sprite = buff.getSprite();
-				Graphics.batch.draw(sprite, 2 + i * 11, Display.GAME_HEIGHT - 38);
-			}
-		}*/
-
-		// todo: place for buffs
-
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		World.render();
 
