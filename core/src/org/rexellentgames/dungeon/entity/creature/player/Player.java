@@ -517,12 +517,13 @@ public class Player extends Creature {
 			Point last = this.last.get(i);
 
 			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
-
 			Graphics.startShadows();
-			this.animation.render(last.x, last.y, false, false, region.getRegionWidth() / 2, (int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+			this.animation.render(last.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 - 8, false, false, region.getRegionWidth() / 2,
+				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), -this.sy, false);
 			Graphics.endShadows();
-			this.animation.render(last.x, last.y, false, false, region.getRegionWidth() / 2, (int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
-		}
+			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
+			this.animation.render(last.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
+				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);		}
 
 		if (this.dashT > 0) {
 			this.last.add(new Point(this.x, this.y));
@@ -532,7 +533,14 @@ public class Player extends Creature {
 			this.last.remove(0);
 		}
 
-		this.animation.render(this.x, this.y, false, false, region.getRegionWidth() / 2, (int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+
+		Graphics.startShadows();
+
+		this.animation.render(this.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 - 8, false, false, region.getRegionWidth() / 2,
+			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), -this.sy, false);
+		Graphics.endShadows();
+		this.animation.render(this.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
+			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {

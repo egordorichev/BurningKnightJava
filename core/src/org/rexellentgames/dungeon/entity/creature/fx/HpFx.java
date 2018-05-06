@@ -19,14 +19,14 @@ public class HpFx extends Entity {
 	public HpFx(Creature creature, int change) {
 		this.text = String.valueOf(Math.abs(change));
 
-		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
+		GlyphLayout layout = new GlyphLayout(Graphics.small, this.text);
 
 		this.x = creature.x + creature.w / 2 - layout.width / 2;
 		this.y = creature.y + creature.h - 4;
 		this.low = change < 0;
 		this.depth = 10;
 
-		Tween.to(new Tween.Task(this.y + 32, 0.5f) {
+		Tween.to(new Tween.Task(this.y + creature.h * 1.5f, 0.5f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
 				return y;
@@ -39,7 +39,7 @@ public class HpFx extends Entity {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0, 0.3f) {
+				Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_IN) {
 					@Override
 					public void setValue(float value) {
 						a = value;
@@ -63,8 +63,8 @@ public class HpFx extends Entity {
 	public void render() {
 		Color color = this.low ? bad : good;
 
-		Graphics.medium.setColor(color.r, color.g, color.b, this.a);
-		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y);
-		Graphics.medium.setColor(1, 1, 1, 1);
+		Graphics.small.setColor(color.r, color.g, color.b, this.a);
+		Graphics.small.draw(Graphics.batch, this.text, this.x, this.y);
+		Graphics.small.setColor(1, 1, 1, 1);
 	}
 }
