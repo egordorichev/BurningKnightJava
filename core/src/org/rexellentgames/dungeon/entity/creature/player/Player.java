@@ -490,9 +490,7 @@ public class Player extends Creature {
 
 	@Override
 	public void render() {
-		boolean h = (this.hp < this.hpMax / 4);
-
-		Graphics.batch.setColor(1, h ? 0.2f : 1, h ? 0.2f : 1, this.a);
+		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.falling) {
 			this.renderFalling(this.animation);

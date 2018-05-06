@@ -251,8 +251,12 @@ public class UiInventory extends UiEntity {
 	private static TextureRegion hurt = Graphics.getTexture("ui (hurt_heart)");
 	private static TextureRegion half = Graphics.getTexture("ui (half_heart)");
 
+	private float last = 0f;
+
 	@Override
 	public void render() {
+		this.last += (Player.instance.getExperienceForLevel() - this.last) / 10f;
+
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
@@ -278,7 +282,7 @@ public class UiInventory extends UiEntity {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 
-		region.setRegionWidth((int) (Player.instance.getExperienceForLevel() / Player.instance.getExperienceMaxForLevel() * region.getRegionWidth()));
+		region.setRegionWidth((int) (this.last / Player.instance.getExperienceMaxForLevel() * region.getRegionWidth()));
 
 		Graphics.render(region, x, y + 1);
 		Graphics.render(frame, x, y);

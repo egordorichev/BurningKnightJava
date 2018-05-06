@@ -324,7 +324,7 @@ public class Mob extends Creature {
 
 		if (!Player.instance.isDead() && !force) {
 			for (int i = 0; i < this.experienceDropped; i++) {
-				Dungeon.ui.add(new ExpFx(this.x + this.w / 2 + Random.newInt(-4, 4), this.y + this.w / 2 + Random.newInt(-4, 4)));
+				Dungeon.area.add(new ExpFx(this.x + this.w / 2 + Random.newInt(-4, 4), this.y + this.w / 2 + Random.newInt(-4, 4)));
 			}
 		}
 
