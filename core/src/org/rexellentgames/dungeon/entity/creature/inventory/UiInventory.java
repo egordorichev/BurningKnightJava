@@ -294,20 +294,21 @@ public class UiInventory extends UiEntity {
 
 		for (int i = 0; i < 10; i++) {
 			float s = 1f;
+			float yy = (float) ((hp <= 3 && hp - 2 >= i * 2 - 1) ? Math.cos(2f / ((float) i + 1) + Dungeon.time * 20) * 2.5f : 0) + y;
 
 			if (hp - 2 == i * 2 || hp - 2 == i * 2 - 1) {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 3.5f));
 			}
 
 			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, x + i * 11 + heart.getRegionWidth() / 2,
-				y + 8 + heart.getRegionHeight() / 2, 0,
+				yy + 8 + heart.getRegionHeight() / 2, 0,
 				heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 
 			if (hp - 2 >= i * 2) {
-				Graphics.render(heart, x + i * 11 + 1 + heart.getRegionWidth() / 2, y + 9
+				Graphics.render(heart, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
 					+ heart.getRegionHeight() / 2, 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			} else if (hp - 2 >= i * 2 - 1) {
-				Graphics.render(half, x + i * 11 + 1 + heart.getRegionWidth() / 2, y + 9+ heart.getRegionHeight() / 2, 0,
+				Graphics.render(half, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9+ heart.getRegionHeight() / 2, 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			}
 		}
