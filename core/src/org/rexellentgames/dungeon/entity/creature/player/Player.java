@@ -72,8 +72,8 @@ public class Player extends Creature {
 	public float dashT;
 
 	{
-		hpMax = 100;
-		manaMax = 100;
+		hpMax = 20;
+		manaMax = 20;
 		level = 1;
 		hunger = 10;
 		alwaysActive = true;
@@ -354,8 +354,8 @@ public class Player extends Creature {
 				float my = Input.instance.getAxis("moveY");
 
 				if (mx != 0 || my != 0) {
-					//this.vel.x += mx * this.speed;
-					//this.vel.y -= my * this.speed; // Inverted!
+					this.vel.x += mx * this.speed;
+					this.vel.y -= my * this.speed; // Inverted!
 				}
 
 				if (Input.instance.wasPressed("dash") && this.dashTimeout == 0 && this.dashT == 0f) {
@@ -642,11 +642,11 @@ public class Player extends Creature {
 		return this.inventory;
 	}
 
-	public int getExperienceForLevel() {
+	public float getExperienceForLevel() {
 		return this.experience;
 	}
 
-	public int getExperienceMaxForLevel() {
+	public float getExperienceMaxForLevel() {
 		return this.experienceMax;
 	}
 

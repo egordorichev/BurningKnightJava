@@ -37,10 +37,6 @@ public class InGameState extends State {
 
 	private UiInventory inventory;
 	private Console console;
-	private UiBar health;
-	private UiBar mana;
-	private UiBar exp;
-	private int lastLevel;
 	private int w;
 	private TextureRegion blood;
 	private float a;
@@ -135,16 +131,6 @@ public class InGameState extends State {
 			set = true;
 		}
 
-		if (!Network.SERVER) {
-			this.health.setValue(Player.instance.getHp());
-			this.mana.setValue(Player.instance.getMana());
-			this.exp.setValue(Player.instance.getExperienceForLevel());
-
-			this.health.setMax(Player.instance.getHpMax());
-			this.mana.setMax(Player.instance.getManaMax());
-			this.exp.setMax(Player.instance.getExperienceMaxForLevel());
-		}
-
 		if (this.a == 0 && Player.instance.getInvt() > 0) {
 			Tween.to(new Tween.Task(1f, 0.2f) {
 				@Override
@@ -234,16 +220,8 @@ public class InGameState extends State {
 			Dialog.active.render();
 		}
 
+		/*
 		if (!(Dungeon.level instanceof HubLevel)) {
-
-			if (Player.instance.getLevel() != this.lastLevel) {
-				this.lastLevel = Player.instance.getLevel();
-				Graphics.layout.setText(Graphics.medium, String.valueOf(this.lastLevel));
-				this.w = (int) Graphics.layout.width;
-			}
-
-			Graphics.medium.draw(Graphics.batch, String.valueOf(Player.instance.getLevel()), 3 + (16 - this.w) / 2, Display.GAME_HEIGHT - 8);
-
 			Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[]{});
 
 			for (int i = 0; i < buffs.length; i++) {
@@ -252,17 +230,9 @@ public class InGameState extends State {
 				TextureRegion sprite = buff.getSprite();
 				Graphics.batch.draw(sprite, 2 + i * 11, Display.GAME_HEIGHT - 38);
 			}
+		}*/
 
-			if (this.health.hovered) {
-				this.health.renderInfo();
-			}
-			if (this.mana.hovered) {
-				this.mana.renderInfo();
-			}
-			if (this.exp.hovered) {
-				this.exp.renderInfo();
-			}
-		}
+		// todo: place for buffs
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		World.render();
@@ -277,10 +247,6 @@ public class InGameState extends State {
 
 		Ui.ui.renderUi();
 
-		if (!(Dungeon.level instanceof HubLevel)) {
-			Graphics.print(this.lastLevel + "", Graphics.medium, (16 - this.w) / 2 + 3, Display.GAME_HEIGHT - 16 - 8);
-		}
-
 		this.console.render();
 		this.inventory.renderCurrentSlot();
 		Ui.ui.render();
@@ -288,35 +254,7 @@ public class InGameState extends State {
 
 	private void setupUi() {
 		this.inventory = new UiInventory(Player.instance.getInventory());
-		this.health = new UiBar();
-
-		this.health.w = 49;
-		this.health.h = 8;
-		this.health.x = 25;
-		this.health.y = Display.GAME_HEIGHT - 12;
-		this.health.r = Graphics.getTexture("ui (hp bar)");
-
-		this.mana = new UiBar();
-
-		this.mana.w = 37;
-		this.mana.h = 6;
-		this.mana.x = 23;
-		this.mana.y = Display.GAME_HEIGHT - 23;
-		this.mana.r = Graphics.getTexture("ui (mana bar)");
-
-		this.exp = new UiBar();
-
-		this.exp.w = 16;
-		this.exp.h = 19;
-		this.exp.x = 2;
-		this.exp.y = Display.GAME_HEIGHT - 22;
-		this.exp.vertical = true;
-		this.exp.r = Graphics.getTexture("ui (exp bar)");
-
 		Dungeon.ui.add(this.inventory);
-		Dungeon.ui.add(this.health);
-		Dungeon.ui.add(this.mana);
-		Dungeon.ui.add(this.exp);
 
 		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
 			@Override
@@ -332,8 +270,13 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new SettingsState(true));
+					}
+				});
 				Camera.instance.shake(3);
-				Dungeon.game.setState(new SettingsState(true));
 			}
 		}.setSparks(true)));
 
@@ -342,7 +285,12 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				Camera.instance.shake(3);
-				Dungeon.game.setState(new MainMenuState());
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new MainMenuState());
+					}
+				});
 			}
 		}));
 

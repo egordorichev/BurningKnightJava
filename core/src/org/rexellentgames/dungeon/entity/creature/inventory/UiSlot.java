@@ -234,6 +234,8 @@ public class UiSlot {
 	private boolean acted;
 
 	public void render(Item item) {
+		float a = 0.5f;
+
 		if (this.inventory.getActive() == this.id) {
 			this.rr = 0.6f;
 			this.rg = 0.6f;
@@ -254,11 +256,11 @@ public class UiSlot {
 			this.rb = 1f;
 		}
 
-		float a = 0;//(float) (Math.cos(Dungeon.time) * 10f);
+		float an = 0;//(float) (Math.cos(Dungeon.time) * 10f);
 
-		Graphics.batch.setColor(this.r, this.g, this.b, 1);
+		Graphics.batch.setColor(this.r, this.g, this.b, a);
 
-		Graphics.render(slot, this.x + slot.getRegionWidth() / 2, this.y + slot.getRegionHeight() / 2, a, slot.getRegionWidth() / 2, slot.getRegionHeight() / 2, false, false, this.scale, this.scale);
+		Graphics.render(slot, this.x + slot.getRegionWidth() / 2, this.y + slot.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, slot.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		if (item == null) {
 			if (this.id == 6) {
@@ -278,11 +280,11 @@ public class UiSlot {
 			float maxDelay = item.getUseTime();
 
 			int w = (int) ((delay / maxDelay) * 24);
-			Graphics.batch.setColor(0.3f, 0.3f, 0.3f, 1f);
+			Graphics.batch.setColor(0.3f, 0.3f, 0.3f, a);
 			TextureRegion region = new TextureRegion(slot);
 			region.setRegionWidth(w);
-			Graphics.render(region, this.x + slot.getRegionWidth() / 2, this.y + region.getRegionHeight() / 2, a, slot.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale, this.scale);
-			Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.render(region, this.x + slot.getRegionWidth() / 2, this.y + region.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+			Graphics.batch.setColor(1, 1, 1, a);
 
 			if (!this.acted) {
 				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
@@ -320,7 +322,7 @@ public class UiSlot {
 			this.acted = false;
 		}
 
-		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.batch.setColor(1, 1, 1, a);
 
 		if (item != null) {
 			TextureRegion sprite = item.getSprite();
@@ -342,12 +344,16 @@ public class UiSlot {
 				Graphics.batch.begin();
 			}
 
+			Graphics.batch.setColor(1, 1, 1, 1);
+
 			Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
-				this.y + slot.getRegionHeight() / 2, a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+				this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 			if (count != 1) {
 				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
 			}
 		}
+
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }
