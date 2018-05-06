@@ -2426,6 +2426,13 @@ fx-fireball-dead-02
   orig: 14, 16
   offset: 0, 0
   index: -1
+fx-heart-idle-00
+  rotate: false
+  xy: 531, 247
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
 fx-part-idle-00
   rotate: false
   xy: 720, 692
@@ -2984,13 +2991,6 @@ item (hat_shroom)
   xy: 530, 1
   size: 11, 7
   orig: 11, 7
-  offset: 0, 0
-  index: -1
-item (hat_skull)
-  rotate: false
-  xy: 531, 247
-  size: 9, 9
-  orig: 9, 9
   offset: 0, 0
   index: -1
 item (hat_ushanka)
@@ -5148,6 +5148,13 @@ fx-fireball-idle-06
   orig: 14, 16
   offset: 0, 0
   index: -1
+fx-heart-idle-01
+  rotate: false
+  xy: 548, 147
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
 fx-run-idle-00
   rotate: false
   xy: 663, 159
@@ -5213,56 +5220,56 @@ fx-spark-idle-02
   index: -1
 fx-spark--03
   rotate: false
-  xy: 579, 150
+  xy: 601, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-03
   rotate: false
-  xy: 579, 150
+  xy: 601, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--04
   rotate: false
-  xy: 588, 150
+  xy: 610, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-04
   rotate: false
-  xy: 588, 150
+  xy: 610, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--05
   rotate: false
-  xy: 597, 150
+  xy: 619, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-05
   rotate: false
-  xy: 597, 150
+  xy: 619, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--06
   rotate: false
-  xy: 606, 150
+  xy: 628, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-06
   rotate: false
-  xy: 606, 150
+  xy: 628, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -5332,14 +5339,14 @@ io (poison buff)
   index: -1
 io (slider_handle)
   rotate: false
-  xy: 615, 150
+  xy: 637, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 ui (slider_handle)
   rotate: false
-  xy: 615, 150
+  xy: 637, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -5538,6 +5545,13 @@ item (hat_rave)
   xy: 246, 56
   size: 13, 11
   orig: 13, 11
+  offset: 0, 0
+  index: -1
+item (hat_skull)
+  rotate: false
+  xy: 559, 148
+  size: 9, 9
+  orig: 9, 9
   offset: 0, 0
   index: -1
 item (hat_viking)
@@ -5787,21 +5801,21 @@ ui (defense buff)
   index: -1
 ui (equip_bg)
   rotate: false
-  xy: 548, 147
+  xy: 592, 148
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
   index: -1
 ui (heart)
   rotate: false
-  xy: 624, 150
+  xy: 646, 150
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 ui (heart_bg)
   rotate: false
-  xy: 557, 148
+  xy: 570, 148
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
@@ -5815,7 +5829,7 @@ ui (hungry buff)
   index: -1
 ui (hurt_heart)
   rotate: false
-  xy: 568, 148
+  xy: 581, 148
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
