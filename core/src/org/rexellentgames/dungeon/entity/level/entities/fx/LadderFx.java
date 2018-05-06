@@ -37,7 +37,11 @@ public class LadderFx extends UiEntity {
 
 	@Override
 	public void render() {
+		float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
+
+		Graphics.medium.setColor(c, c, c, 1);
 		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y);
+		Graphics.medium.setColor(1, 1, 1, 1);
 
 		if (Input.instance.wasPressed("action") && Dialog.active == null) {
 			this.done = true;
