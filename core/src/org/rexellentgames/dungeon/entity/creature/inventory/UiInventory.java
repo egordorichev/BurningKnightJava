@@ -65,6 +65,7 @@ public class UiInventory extends UiEntity {
 
 	protected boolean dn = true;
 	private Tween.Task lastA;
+	private boolean hidden;
 
 	@Override
 	public void update(float dt) {
@@ -76,38 +77,18 @@ public class UiInventory extends UiEntity {
 			float dy = Math.abs(Input.instance.uiMouse.y - 18);
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (!this.open && dx < 90f && dy < 15f) {
-				this.open = true;
+			if (this.hidden && d < 84f) {
+				this.dn = false;
 
-				if (this.lastA != null) {
-					Tween.remove(this.lastA);
-					this.lastA = null;
-				}
-
-				this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
+				Tween.to(new Tween.Task(4, 0.3f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
-						return slots[0].a;
+						return slots[0].y;
 					}
 
 					@Override
 					public void setValue(float value) {
 						for (int i = 0; i < 12; i++) {
-							UiSlot slot = slots[i];
-							slot.a = value;
-						}
-					}
-				});
-
-				Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
-					@Override
-					public float getValue() {
-						return slots[6].y;
-					}
-
-					@Override
-					public void setValue(float value) {
-						for (int i = 6; i < 12; i++) {
 							UiSlot slot = slots[i];
 							slot.y = value;
 						}
@@ -119,54 +100,127 @@ public class UiInventory extends UiEntity {
 						dn = true;
 					}
 				});
-			} else if (this.open && (dx > 100f || dy > 60f)) {
-				if (this.lastA != null) {
-					Tween.remove(this.lastA);
-					this.lastA = null;
+
+				this.hidden = false;
+			} else {
+				if (!this.hidden && !this.open && dx < 90f && dy < 15f) {
+					this.open = true;
+					this.dn = false;
+
+					if (this.lastA != null) {
+						Tween.remove(this.lastA);
+						this.lastA = null;
+					}
+
+					this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
+						@Override
+						public float getValue() {
+							return slots[0].a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							for (int i = 0; i < 12; i++) {
+								UiSlot slot = slots[i];
+								slot.a = value;
+							}
+						}
+					});
+
+					Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return slots[6].y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							for (int i = 6; i < 12; i++) {
+								UiSlot slot = slots[i];
+								slot.y = value;
+							}
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+							dn = true;
+						}
+					});
+				} else if (!this.hidden && this.open && (dx > 100f || dy > 60f)) {
+					if (this.lastA != null) {
+						Tween.remove(this.lastA);
+						this.lastA = null;
+					}
+					this.dn = false;
+
+					this.lastA = Tween.to(new Tween.Task(0.3f, 0.5f, Tween.Type.QUAD_IN) {
+						@Override
+						public float getValue() {
+							return slots[0].a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							for (int i = 0; i < 12; i++) {
+								UiSlot slot = slots[i];
+								slot.a = value;
+							}
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+							dn = true;
+						}
+					});
+
+					Tween.to(new Tween.Task(4, 0.2f, Tween.Type.QUAD_OUT) {
+						@Override
+						public float getValue() {
+							return slots[6].y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							for (int i = 6; i < 12; i++) {
+								UiSlot slot = slots[i];
+								slot.y = value;
+							}
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+
+							open = false;
+						}
+					});
+				} else if (!this.open && !this.hidden && d > 94f) {
+					this.dn = false;
+
+					Tween.to(new Tween.Task(-25, 0.3f) {
+						@Override
+						public float getValue() {
+							return slots[0].y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							for (int i = 0; i < 12; i++) {
+								UiSlot slot = slots[i];
+								slot.y = value;
+							}
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+							dn = true;
+							hidden = true;
+						}
+					});
 				}
-
-				this.lastA = Tween.to(new Tween.Task(0.3f, 0.5f, Tween.Type.QUAD_IN) {
-					@Override
-					public float getValue() {
-						return slots[0].a;
-					}
-
-					@Override
-					public void setValue(float value) {
-						for (int i = 0; i < 12; i++) {
-							UiSlot slot = slots[i];
-							slot.a = value;
-						}
-					}
-
-					@Override
-					public void onEnd() {
-						super.onEnd();
-						dn = true;
-					}
-				});
-
-				Tween.to(new Tween.Task(4, 0.2f, Tween.Type.QUAD_OUT) {
-					@Override
-					public float getValue() {
-						return slots[6].y;
-					}
-
-					@Override
-					public void setValue(float value) {
-						for (int i = 6; i < 12; i++) {
-							UiSlot slot = slots[i];
-							slot.y = value;
-						}
-					}
-
-					@Override
-					public void onEnd() {
-						super.onEnd();
-
-						open = false;
-					}
-				});
 			}
 		}
 
@@ -307,9 +361,11 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
-		for (int i = (this.open ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
-			Item item = this.inventory.getSlot(i);
-			this.slots[i].render(item);
+		if (!this.hidden) {
+			for (int i = (this.open ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
+				Item item = this.inventory.getSlot(i);
+				this.slots[i].render(item);
+			}
 		}
 
 		float y = this.slots[6].y + 29;
