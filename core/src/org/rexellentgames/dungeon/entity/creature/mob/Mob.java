@@ -307,7 +307,11 @@ public class Mob extends Creature {
 			items.add(new KeyC());
 		}
 
-		items.add(new Gold().randomize());
+		Gold gold = new Gold();
+
+		gold.generate();
+
+		items.add(gold);
 
 		return items;
 	}

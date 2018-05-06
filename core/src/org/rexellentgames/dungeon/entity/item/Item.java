@@ -131,10 +131,6 @@ public class Item extends Entity {
 		return this;
 	}
 
-	public Item randomize() {
-		return this;
-	}
-
 	public boolean hasAutoPickup() {
 		return this.autoPickup;
 	}
