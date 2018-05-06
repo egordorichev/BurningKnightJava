@@ -77,7 +77,7 @@ public class UiInventory extends UiEntity {
 			float dy = Math.abs(Input.instance.uiMouse.y - 18);
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (this.hidden && d < 84f) {
+			if (this.hidden && dx < 90f && dy < 2f) {
 				this.dn = false;
 
 				Tween.to(new Tween.Task(4, 0.3f, Tween.Type.BACK_OUT) {

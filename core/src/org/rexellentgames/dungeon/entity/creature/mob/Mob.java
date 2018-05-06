@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
@@ -324,7 +325,17 @@ public class Mob extends Creature {
 
 		if (!Player.instance.isDead() && !force) {
 			for (int i = 0; i < this.experienceDropped; i++) {
-				Dungeon.area.add(new ExpFx(this.x + this.w / 2 + Random.newInt(-4, 4), this.y + this.w / 2 + Random.newInt(-4, 4)));
+				Dungeon.area.add(new ExpFx(this.x + this.w / 2 + Random.newFloat(-4, 4), this.y + this.w / 2 + Random.newFloat(-4, 4)));
+			}
+
+			for (int i = 0; i < Random.newInt(1, 2); i++) {
+				HeartFx fx = new HeartFx();
+
+				fx.x = this.x + this.w / 2 + Random.newFloat(-4, 4);
+				fx.y = this.y + this.h / 2 + Random.newFloat(-4, 4);
+
+				Dungeon.area.add(fx);
+				Dungeon.level.addSaveable(fx);
 			}
 		}
 
