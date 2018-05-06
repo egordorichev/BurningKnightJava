@@ -22,7 +22,7 @@ public class Cabbage extends Plant {
 			Player player = (Player) this.owner;
 
 			player.setHunger(player.getHunger() - HUNGER);
-			player.modifyHp(10);
+			player.modifyHp(2);
 		}
 
 		Tween.to(new Tween.Task(-70, 0.3f) {
