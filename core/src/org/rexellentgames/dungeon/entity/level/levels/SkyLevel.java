@@ -49,10 +49,6 @@ public class SkyLevel extends RegularLevel {
 			items.add(Spell.random());
 		}
 
-		for (int i = 0; i < 4; i++) {
-			items.add(new Gold().randomize());
-		}
-
 		return items;
 	}
 
