@@ -55,7 +55,6 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 				holder.x = xx * 16 + 4 + Random.newInt(8);
 				holder.y = yy * 16 + 4 + Random.newInt(8) - 8;
-				holder.setItem(new Gold().randomize());
 
 				Dungeon.area.add(holder);
 				Dungeon.level.addSaveable(holder);
