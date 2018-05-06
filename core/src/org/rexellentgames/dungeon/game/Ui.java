@@ -18,7 +18,6 @@ public class Ui {
 	public static Ui ui;
 
 	private TextureRegion cursor;
-	private TextureRegion topFrame;
 	private TextureRegion bar;
 	private TextureRegion rage;
 	private TextureRegion lock;
@@ -30,7 +29,6 @@ public class Ui {
 	public Ui() {
 		ui = this;
 		cursor = Graphics.getTexture("ui (cursor)");
-		topFrame = Graphics.getTexture("ui (top frame)");
 		bar = Graphics.getTexture("bk_health");
 		rage = Graphics.getTexture("bk_rage");
 		lock = Graphics.getTexture("bk_lock");
@@ -158,9 +156,5 @@ public class Ui {
 
 	public void renderUi() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
-		if (!(Dungeon.level instanceof HubLevel)) {
-			Graphics.render(this.topFrame, 0, Display.GAME_HEIGHT - topFrame.getRegionHeight());
-		}
 	}
 }
