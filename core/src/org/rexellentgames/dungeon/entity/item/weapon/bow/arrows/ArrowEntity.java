@@ -26,6 +26,7 @@ public class ArrowEntity extends Entity {
 	private boolean noDrop;
 	public Class<? extends Arrow> type;
 	public TextureRegion sprite;
+	private Creature stuck;
 
 	@Override
 	public void destroy() {
@@ -85,8 +86,19 @@ public class ArrowEntity extends Entity {
 			}
 		}
 
-		this.x += this.vel.x;
-		this.y += this.vel.y;
+		if (this.stuck != null) {
+			this.x = (float) (this.stuck.x + this.stuck.w / 2 - Math.cos(this.a) * (this.stuck.w - this.w / 2) / 2);
+			this.y = (float) (this.stuck.y + this.stuck.h / 2 - Math.sin(this.a) * (this.stuck.h - this.h / 2) / 2);
+
+			// todo: offset from center
+
+			if (this.stuck.isDead()) {
+				this.done = true;
+			}
+		} else {
+			this.x += this.vel.x;
+			this.y += this.vel.y;
+		}
 
 		this.body.setLinearVelocity(this.vel);
 		this.body.setTransform(this.x, this.y, this.a);
@@ -94,6 +106,10 @@ public class ArrowEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
+		if (this.stuck != null) {
+			return;
+		}
+
 		if (entity instanceof Mob) {
 			Creature creature = ((Creature) entity);
 
@@ -101,8 +117,8 @@ public class ArrowEntity extends Entity {
 			creature.vel.y += this.vel.y * 10f;
 
 			creature.modifyHp(-this.damage);
-			this.done = true;
-			this.noDrop = true;
+
+			this.stuck = creature;
 
 			BloodFx.add(entity, 10);
 		}
