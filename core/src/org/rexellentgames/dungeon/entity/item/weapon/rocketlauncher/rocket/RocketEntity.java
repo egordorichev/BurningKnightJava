@@ -125,6 +125,7 @@ public class RocketEntity extends Entity {
 			part.x = this.x - 2.5f;
 			part.y = this.y - 2.5f;
 			part.depth = -1;
+			part.speed = 3f;
 			part.vel = new Point();
 
 			Dungeon.area.add(part);
