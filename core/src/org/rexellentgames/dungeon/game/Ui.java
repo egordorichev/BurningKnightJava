@@ -13,11 +13,14 @@ import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.util.Tween;
+import org.rexellentgames.dungeon.util.path.Graph;
 
 public class Ui {
 	public static Ui ui;
 
 	private TextureRegion cursor;
+	private TextureRegion frame = Graphics.getTexture("bk_bars (frame)");
+	private TextureRegion bar = Graphics.getTexture("bk_bars (health)");
 	private float scale = 1f;
 
 	public Ui() {
@@ -56,7 +59,6 @@ public class Ui {
 						@Override
 						public void onEnd() {
 							super.onEnd();
-
 						}
 					});
 				}
@@ -64,10 +66,29 @@ public class Ui {
 		}
 	}
 
+	private float y = Display.GAME_WIDTH;
+	private boolean tweened = false;
+
 	public void render() {
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (BurningKnight.instance != null) {
-				// todo
+				if (!this.tweened) {
+					tweened = true;
+
+					Tween.to(new Tween.Task(Display.GAME_WIDTH - 7, 0.3f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							y = value;
+						}
+					});
+
+					Graphics.render(frame, (Display.GAME_WIDTH - frame.getRegionWidth()) / 2, y + frame.getRegionHeight(), 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false);
+				}
 			}
 
 			if (Player.instance != null && Player.instance.isDead()) {

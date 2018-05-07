@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -32,7 +33,7 @@ public class Input implements InputProcessor, ControllerListener {
 	public Point worldMouse = new Point();
 	public boolean blocked = false;
 	public Controller active;
-	public Vector2 mouse = new Vector2();
+	public Vector2 mouse = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 	public boolean circle = true;
 
 	private boolean controllerChanged;
