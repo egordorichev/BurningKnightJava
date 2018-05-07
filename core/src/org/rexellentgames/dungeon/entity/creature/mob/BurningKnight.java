@@ -58,6 +58,7 @@ public class BurningKnight extends Mob {
 		idle = animations.get("idle");
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
+		unhittable = false;
 	}
 
 
@@ -138,8 +139,10 @@ public class BurningKnight extends Mob {
 	public void update(float dt) {
 		super.update(dt);
 
+		// Log.info(this.unhittable + "");
+
 		if (Dungeon.level != null) {
-			// Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
@@ -368,8 +371,7 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16) &&
-				(Dungeon.depth > 0)) || (self.target != null && self.target.invisible)) {
+			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16)) || (self.target != null && self.target.invisible)) {
 				self.target = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
@@ -435,7 +437,7 @@ public class BurningKnight extends Mob {
 
 		@Override
 		public void update(float dt) {
-			if (this.t >= 2f / Dungeon.depth) {
+			if (this.t >= 1f) {
 				self.become("attack");
 				return;
 			}
@@ -593,7 +595,7 @@ public class BurningKnight extends Mob {
 
 				@Override
 				public void onEnd() {
-					self.become(self.dialog == null ? "idle" : "dialog");
+					self.become(self.dialog == null ? "chase" : "dialog");
 					self.attackTp = false;
 				}
 			});
@@ -641,18 +643,11 @@ public class BurningKnight extends Mob {
 
 			Camera.instance.follow(self, false);
 
-			if (self.target != null) {
-				self.target.setUnhittable(true);
-			}
-
 			Dialog.active.onEnd(new Runnable() {
 				@Override
 				public void run() {
+					Log.info("done");
 					Camera.instance.follow(Player.instance, false);
-
-					if (self.target != null) {
-						self.target.setUnhittable(false);
-					}
 				}
 			});
 		}
@@ -673,7 +668,13 @@ public class BurningKnight extends Mob {
 			super.onEnter();
 
 			self.a = 0;
-			self.unhittable = true;
+			self.setUnhittable(true);
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			self.setUnhittable(false);
 		}
 
 		@Override
@@ -685,7 +686,7 @@ public class BurningKnight extends Mob {
 
 				float a = Random.newFloat((float) (Math.PI * 2));
 
-				self.unhittable = false;
+				self.setUnhittable(false);
 				self.tp(Player.instance.x + Player.instance.w / 2 + (float) Math.cos(a) * 64f,
 					Player.instance.y + Player.instance.h / 2 + (float) Math.sin(a) * 64f);
 				self.become("fadeIn");
