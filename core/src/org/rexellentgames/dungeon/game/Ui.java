@@ -70,6 +70,7 @@ public class Ui {
 	private float y = Display.GAME_HEIGHT;
 	private boolean tweened = false;
 	private float lastV;
+	private float lastBV;
 	private float max = 1000;
 
 	public void render() {
@@ -79,6 +80,7 @@ public class Ui {
 			if (BurningKnight.instance != null) {
 				max = BurningKnight.instance.getHpMax();
 				this.lastV += (BurningKnight.instance.getHp() - this.lastV) / 20f;
+				this.lastBV += (BurningKnight.instance.getHp() - this.lastBV) / 4f;
 
 				boolean d = BurningKnight.instance.isDead() || BurningKnight.instance.getState().equals("unactive");
 
@@ -128,9 +130,17 @@ public class Ui {
 			if (y != Display.GAME_HEIGHT) {
 				TextureRegion r = new TextureRegion(bar);
 
-				r.setRegionWidth((int) Math.ceil(this.lastV / max * r.getRegionWidth()));
-
+				Graphics.batch.setColor(0, 0, 0, 1);
 				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false);
+				Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
+
+				r.setRegionWidth((int) Math.ceil(this.lastV / max * bar.getRegionWidth()));
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false);
+
+				Graphics.batch.setColor(1, 1, 1, 1);
+				r.setRegionWidth((int) Math.ceil(this.lastBV / max * bar.getRegionWidth()));
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false);
+
 				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight(), 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false);
 			}
 
