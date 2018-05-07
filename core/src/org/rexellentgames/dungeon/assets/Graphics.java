@@ -174,11 +174,11 @@ public class Graphics {
 
 		float z = Math.max(1, Camera.instance.getCamera().zoom);
 
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z),
-			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z), false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)),
+			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)), false);
 
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z) * Settings.quality,
-			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z) * Settings.quality, false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)) * Settings.quality,
+			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)) * Settings.quality, false);
 	}
 
 	public static Sound getSound(String sfx) {
