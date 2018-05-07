@@ -13,8 +13,11 @@ public class ItemPickupFx extends Entity {
 	public ItemHolder item;
 	private Player player;
 
+	{
+		depth = 15;
+	}
+
 	public ItemPickupFx(ItemHolder item, Player player) {
-		this.depth = 10;
 		this.text = item.getItem().getName();
 
 		if (this.text == null) {
@@ -47,7 +50,7 @@ public class ItemPickupFx extends Entity {
 		float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 		Graphics.medium.setColor(c, c, c, 1);
-		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y);
+		Graphics.print(this.text, Graphics.medium, this.x, this.y);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }

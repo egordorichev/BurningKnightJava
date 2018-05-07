@@ -183,7 +183,7 @@ public class Dungeon extends ApplicationAdapter {
 		area.add(camera);
 
 		// Todo: better way to do this
-		Music music = Graphics.getMusic("gobbeon");
+		Music music = Graphics.getMusic("Born to do rogueries");
 
 		music.setLooping(true);
 		music.play();

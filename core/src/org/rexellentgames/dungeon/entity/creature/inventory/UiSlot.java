@@ -170,7 +170,7 @@ public class UiSlot {
 					current.setCount(current.getCount() + self.getCount());
 					this.inventory.getInventory().setSlot(this.id, current);
 					this.inventory.setCurrentSlot(null);
-				} else if (this.canAccept(current) || current == null) {
+				} else if (this.canAccept(this.id, current) || current == null) {
 					this.inventory.setCurrentSlot(self);
 					this.inventory.getInventory().setSlot(this.id, current);
 
@@ -219,12 +219,12 @@ public class UiSlot {
 		}
 	}
 
-	public boolean canAccept(Item item) {
-		if (this.id == 6) {
+	public static boolean canAccept(int id, Item item) {
+		if (id == 6) {
 			return item instanceof Hat;
-		} else if (this.id == 11) {
+		} else if (id == 11) {
 			return item instanceof Gold;
-		} else if (this.id > 6) {
+		} else if (id > 6) {
 			return item instanceof Equipable;
 		}
 

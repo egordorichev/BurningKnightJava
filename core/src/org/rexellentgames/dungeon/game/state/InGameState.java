@@ -33,8 +33,6 @@ import org.rexellentgames.dungeon.util.Tween;
 import java.util.ArrayList;
 
 public class InGameState extends State {
-	public static boolean LIGHT = true;
-
 	private UiInventory inventory;
 	private Console console;
 	private int w;
@@ -198,13 +196,6 @@ public class InGameState extends State {
 					Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 				}
 			});
-		}
-	}
-
-	@Override
-	public void render() {
-		if (LIGHT) {
-			Dungeon.level.renderLight();
 		}
 	}
 
