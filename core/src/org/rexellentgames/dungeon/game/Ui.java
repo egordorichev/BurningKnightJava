@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.InGameState;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.path.Graph;
 
@@ -66,16 +67,24 @@ public class Ui {
 		}
 	}
 
-	private float y = Display.GAME_WIDTH;
+	private float y = Display.GAME_HEIGHT;
 	private boolean tweened = false;
+	private float lastV;
+	private float max = 1000;
 
 	public void render() {
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (BurningKnight.instance != null) {
-				if (!this.tweened) {
-					tweened = true;
+				max = BurningKnight.instance.getHpMax();
+				this.lastV += (BurningKnight.instance.getHp() - this.lastV) / 20f;
 
-					Tween.to(new Tween.Task(Display.GAME_WIDTH - 7, 0.3f, Tween.Type.BACK_OUT) {
+				boolean d = BurningKnight.instance.isDead() || BurningKnight.instance.getState().equals("unactive");
+
+				if (d && this.tweened) {
+					tweened = false;
+					Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.3f) {
 						@Override
 						public float getValue() {
 							return y;
@@ -86,9 +95,43 @@ public class Ui {
 							y = value;
 						}
 					});
+				} else if (!d && !this.tweened) {
+					tweened = true;
 
-					Graphics.render(frame, (Display.GAME_WIDTH - frame.getRegionWidth()) / 2, y + frame.getRegionHeight(), 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false);
+					Tween.to(new Tween.Task(Display.GAME_HEIGHT - 7, 0.3f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							y = value;
+						}
+					}.delay(0.1f));
 				}
+			} else if (tweened) {
+				tweened = false;
+				Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.3f) {
+					@Override
+					public float getValue() {
+						return y;
+					}
+
+					@Override
+					public void setValue(float value) {
+						y = value;
+					}
+				});
+			}
+
+			if (y != Display.GAME_HEIGHT) {
+				TextureRegion r = new TextureRegion(bar);
+
+				r.setRegionWidth((int) Math.ceil(this.lastV / max * r.getRegionWidth()));
+
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false);
+				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight(), 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false);
 			}
 
 			if (Player.instance != null && Player.instance.isDead()) {
