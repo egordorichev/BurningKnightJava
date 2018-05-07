@@ -72,12 +72,70 @@ public class Ui {
 	private float lastV;
 	private float lastBV;
 	private float max = 1000;
+	private float sx = 1;
+	private float sy = 1;
 
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (BurningKnight.instance != null) {
+				if (((int) this.lastBV) != BurningKnight.instance.getHp()) {
+					Tween.to(new Tween.Task(0.9f, 0.1f) {
+						@Override
+						public float getValue() {
+							return sx;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sx = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(1f, 0.3f, Tween.Type.BACK_OUT) {
+								@Override
+								public float getValue() {
+									return sx;
+								}
+
+								@Override
+								public void setValue(float value) {
+									sx = value;
+								}
+							});
+						}
+					});
+
+					Tween.to(new Tween.Task(1.2f, 0.1f) {
+						@Override
+						public float getValue() {
+							return sy;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sy = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(1f, 0.3f, Tween.Type.BACK_OUT) {
+								@Override
+								public float getValue() {
+									return sy;
+								}
+
+								@Override
+								public void setValue(float value) {
+									sy = value;
+								}
+							});
+						}
+					});
+				}
+
 				max = BurningKnight.instance.getHpMax();
 				this.lastV += (BurningKnight.instance.getHp() - this.lastV) / 20f;
 				this.lastBV += (BurningKnight.instance.getHp() - this.lastBV) / 4f;
@@ -131,17 +189,17 @@ public class Ui {
 				TextureRegion r = new TextureRegion(bar);
 
 				Graphics.batch.setColor(0, 0, 0, 1);
-				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false);
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 				Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
 
 				r.setRegionWidth((int) Math.ceil(this.lastV / max * bar.getRegionWidth()));
-				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false);
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
 				Graphics.batch.setColor(1, 1, 1, 1);
 				r.setRegionWidth((int) Math.ceil(this.lastBV / max * bar.getRegionWidth()));
-				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false);
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
-				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight(), 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false);
+				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight(), 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
 			}
 
 			if (Player.instance != null && Player.instance.isDead()) {
