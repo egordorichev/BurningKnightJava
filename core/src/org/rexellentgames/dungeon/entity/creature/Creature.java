@@ -44,6 +44,7 @@ public class Creature extends SaveableEntity {
 	protected boolean dead;
 	protected boolean unhittable = false;
 	protected Body body;
+	protected float mul = 0.9f;
 	protected float timer;
 	protected boolean flipped = false;
 	private int hx;
@@ -160,7 +161,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		this.vel.mul(0.9f);
+		this.vel.mul(this.mul);
 
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;

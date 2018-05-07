@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.path.Graph;
 
@@ -221,9 +222,16 @@ public class Ui {
 		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
+		float dx = Math.abs(Input.instance.target.x - Input.instance.mouse.x);
+		float dy = Math.abs(Input.instance.target.y - Input.instance.mouse.y);
+
+		float a = Dungeon.time * 60;
+
+		float sx = MathUtils.clamp(1f, 2f, dx / 30);
+		float sy = MathUtils.clamp(1f, 2f, dy / 30);
+
 		Graphics.render(this.cursor, Input.instance.uiMouse.x,
-			Input.instance.uiMouse.y,
-			Dungeon.time * 60, 8, 8, false, false, s, s);
+			Input.instance.uiMouse.y, a, 8, 8, false, false, sx * s, sy * s);
 	}
 
 	public void renderUi() {
