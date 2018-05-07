@@ -93,7 +93,7 @@ public class Inventory {
 			for (int i = 0; i < this.getSize(); i++) {
 				Item slot = this.getSlot(i);
 
-				if (slot != null && slot.getClass() == item.getClass()) {
+				if (slot != null && slot.getClass() == item.getClass() && UiSlot.canAccept(i, slot)) {
 					slot.setCount(slot.getCount() + item.getCount());
 					item.onPickup();
 					holder.done = true;
@@ -105,7 +105,7 @@ public class Inventory {
 		}
 
 		for (int i = 0; i < this.getSize(); i++) {
-			if (this.isEmpty(i)) {
+			if (this.isEmpty(i) && UiSlot.canAccept(i, null)) {
 				this.setSlot(i, item);
 				item.onPickup();
 				holder.done = true;

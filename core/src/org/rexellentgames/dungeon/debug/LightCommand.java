@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.debug;
 
-import org.rexellentgames.dungeon.game.state.InGameState;
+import org.rexellentgames.dungeon.entity.level.LightLevel;
 
 public class LightCommand extends ConsoleCommand {
 	{
@@ -11,6 +11,6 @@ public class LightCommand extends ConsoleCommand {
 
 	@Override
 	public void run(Console console, String[] args) {
-		InGameState.LIGHT = !InGameState.LIGHT;
+		LightLevel.LIGHT = !LightLevel.LIGHT;
 	}
 }
