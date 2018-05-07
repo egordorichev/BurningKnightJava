@@ -395,11 +395,7 @@ public abstract class Level extends Entity {
 			float v = this.light[i];
 
 			if (v > 0) {
-				int x = i % getWidth();
-				int y = (int) Math.floor(i / getWidth());
-
-				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f :
-					((Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || (y > 0 && Dungeon.level.checkFor(x, y - 1, Terrain.PASSABLE))) ? 0 : 0), 1f, v - dt);
+				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f : 0, 1f, v - dt);
 				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
 				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
 				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);
@@ -719,6 +715,8 @@ public abstract class Level extends Entity {
 							see = true;
 						} else if (vl == 0) {
 							see = true;
+						} else {
+							see = (fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
 						}
 					}
 
