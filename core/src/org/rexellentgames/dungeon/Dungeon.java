@@ -4,6 +4,8 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,6 +16,7 @@ import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
 import com.bitfire.postprocessing.filters.CrtScreen;
+import org.lwjgl.glfw.GLFW;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -43,6 +46,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static Level level;
 	public static Area area;
 	public static Area ui;
+	public static Dungeon instance;
 	public static boolean reset;
 	public static byte ladderId;
 	public static long longTime;
@@ -72,6 +76,22 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static void reportException(Exception e) {
 		Log.report(e);
+	}
+
+	@Override
+	public void resume() {
+		super.resume();
+		game.getState().setPaused(wasPaused);
+	}
+
+	private boolean wasPaused;
+
+	@Override
+	public void pause() {
+		super.pause();
+
+		this.wasPaused = game.getState().isPaused();
+		game.getState().setPaused(true);
 	}
 
 	public static void newGame() {
@@ -138,6 +158,8 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+		instance = this;
+
 		if (worker != null) {
 			worker.closeSplashScreen();
 		}
