@@ -17,6 +17,7 @@ import com.bitfire.postprocessing.filters.CrtScreen;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
+import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -182,11 +183,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		area.add(camera);
 
-		// Todo: better way to do this
-		Music music = Graphics.getMusic("Born to do rogueries");
-
-		music.setLooping(true);
-		music.play();
+		MusicManager.play("Born to do rogueries");
 
 		boolean isDesktop = (Gdx.app.getType() == Application.ApplicationType.Desktop);
 		postProcessor = new PostProcessor(false, true, isDesktop);

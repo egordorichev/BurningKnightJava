@@ -163,7 +163,7 @@ public class Graphics {
 
 		Sound sound = getSound(name);
 
-		long id = sound.play(volume * volumes.get(name));
+		long id = sound.play(volume * volumes.get(name) * Settings.sfx);
 		sound.setPitch(id, pitch);
 
 		return id;
@@ -195,7 +195,7 @@ public class Graphics {
 		Music music = manager.get("music/" + name + ".ogg", Music.class);
 
 		if (music == null) {
-			Log.error("Music '" + name + "' is not found!");
+			Log.error("MusicManager '" + name + "' is not found!");
 		}
 
 		return music;
