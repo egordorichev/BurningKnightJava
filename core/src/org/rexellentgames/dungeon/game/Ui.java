@@ -18,20 +18,11 @@ public class Ui {
 	public static Ui ui;
 
 	private TextureRegion cursor;
-	private TextureRegion bar;
-	private TextureRegion rage;
-	private TextureRegion lock;
-	private float last;
-	private float lastLock;
-	private float lastRage;
 	private float scale = 1f;
 
 	public Ui() {
 		ui = this;
 		cursor = Graphics.getTexture("ui (cursor)");
-		bar = Graphics.getTexture("bk_health");
-		rage = Graphics.getTexture("bk_rage");
-		lock = Graphics.getTexture("bk_lock");
 	}
 
 	public void update(float dt) {
@@ -76,58 +67,7 @@ public class Ui {
 	public void render() {
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (BurningKnight.instance != null) {
-				if (this.last != BurningKnight.instance.getHp()) {
-					Tween.to(new Tween.Task(BurningKnight.instance.getHp(), 0.3f) {
-						@Override
-						public float getValue() {
-							return last;
-						}
-
-						@Override
-						public void setValue(float value) {
-							last = value;
-						}
-					});
-				}
-
-				if (this.lastRage != BurningKnight.instance.rageLevel) {
-					Tween.to(new Tween.Task(BurningKnight.instance.rageLevel, 0.3f) {
-						@Override
-						public float getValue() {
-							return lastRage;
-						}
-
-						@Override
-						public void setValue(float value) {
-							lastRage = value;
-						}
-					});
-				}
-
-				if (this.lastLock != BurningKnight.instance.getLock()) {
-					Tween.to(new Tween.Task(BurningKnight.instance.getLock(), 0.3f) {
-						@Override
-						public float getValue() {
-							return lastLock;
-						}
-
-						@Override
-						public void setValue(float value) {
-							lastLock = value;
-						}
-					});
-				}
-
-				// todo: more epic
-
-				/*bar.setRegionWidth((int) (this.last / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
-				Graphics.render(bar, 0, 0, 0, 0, 0, false, false);
-
-				rage.setRegionWidth((int) (Math.min(this.last, this.lastRage) / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
-				Graphics.render(rage, 0, 0, 0, 0, 0, false, false);
-
-				lock.setRegionWidth((int) (this.lastLock / BurningKnight.instance.getHpMax() * Display.GAME_WIDTH));
-				Graphics.render(lock, 0, 0, 0, 0, 0, false, false);*/
+				// todo
 			}
 
 			if (Player.instance != null && Player.instance.isDead()) {

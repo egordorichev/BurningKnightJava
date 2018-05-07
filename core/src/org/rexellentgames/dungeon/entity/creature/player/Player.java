@@ -279,11 +279,19 @@ public class Player extends Creature {
 		}
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
+			// Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
 			Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 			if (room != null) {
 				this.currentRoom = room;
+
+				for (int x = this.currentRoom.left; x <= this.currentRoom.right; x++) {
+					for (int y = this.currentRoom.top + 1; y <= this.currentRoom.bottom; y++) {
+						if (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y - 1, Terrain.PASSABLE)) {
+							Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
+						}
+					}
+				}
 			}
 
 			if (this.fallHurt) {

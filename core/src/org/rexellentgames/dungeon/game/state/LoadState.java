@@ -95,10 +95,6 @@ public class LoadState extends State {
 			}
 		});
 
-		if (BurningKnight.instance != null) {
-			BurningKnight.instance.onRageEnd();
-		}
-
 		Player.REGISTERED = false;
 		Level.GENERATED = false;
 
@@ -161,12 +157,6 @@ public class LoadState extends State {
 					Player.instance.tryToFall();
 
 					if (BurningKnight.instance != null) {
-						if (BurningKnight.instance.isInRage()) {
-							BurningKnight.instance.onRageStart();
-						} else {
-							BurningKnight.instance.checkForRage();
-						}
-
 						BurningKnight.instance.become("unactive");
 					}
 

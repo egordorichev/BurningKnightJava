@@ -35,14 +35,4 @@ public class HealthBlocker extends Plant {
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0.15f, 0, 0, 0.8f, 2.5f, false);
 		}
 	}
-
-	// I know, dirty hack, sorry
-	@Override
-	public ArrayList<Item> getDrops() {
-		if (BurningKnight.instance != null) {
-			BurningKnight.instance.unlockHealth();
-		}
-
-		return super.getDrops();
-	}
 }

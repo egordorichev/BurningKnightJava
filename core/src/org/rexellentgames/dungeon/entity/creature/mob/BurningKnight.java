@@ -31,8 +31,6 @@ import java.io.IOException;
 
 public class BurningKnight extends Mob {
 	public static BurningKnight instance;
-	public float rageLevel;
-	private boolean inRage;
 	public static float LIGHT_SIZE = 12f;
 	private static Animation animations = Animation.make("actor_burning_knight");
 	private Room last;
@@ -41,7 +39,6 @@ public class BurningKnight extends Mob {
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
-	public int lock;
 	private long sid;
 	private static Sound sfx;
 
@@ -63,25 +60,6 @@ public class BurningKnight extends Mob {
 		killed = animations.get("dead");
 	}
 
-	public void unlockHealth() {
-		this.lock++;
-		this.unhittable = false;
-
-		Tween.to(new Tween.Task(1f, 0.3f) {
-			@Override
-			public float getValue() {
-				return a;
-			}
-
-			@Override
-			public void setValue(float value) {
-				a = value;
-			}
-		});
-
-		UiLog.instance.print("[green]Burning Knight is now hittable!");
-		this.checkForRage();
-	}
 
 	public void findStartPoint() {
 		if (this.attackTp) {
@@ -118,11 +96,6 @@ public class BurningKnight extends Mob {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		throne = new Point(reader.readInt16(), reader.readInt16());
-		this.lock = reader.readInt16();
-	}
-
-	public int getLock() {
-		return Math.max(0, this.hpMax - this.lock * 100 - 100);
 	}
 
 	@Override
@@ -130,20 +103,6 @@ public class BurningKnight extends Mob {
 		super.save(writer);
 		writer.writeInt16((short) (throne != null ? throne.x : 0));
 		writer.writeInt16((short) (throne != null ? throne.y : 0));
-		writer.writeInt16((short) this.lock);
-	}
-
-	public void checkForRage() {
-		this.rageLevel = Math.max(25, this.hpMax - this.lock * 100 - 75);
-
-		if (this.inRage) {
-			return;
-		}
-
-		if (this.hp >= 100 && this.rageLevel >= this.hp) {
-			this.inRage = true;
-			this.onRageStart();
-		}
 	}
 
 	@Override
@@ -180,7 +139,7 @@ public class BurningKnight extends Mob {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
+			// Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
@@ -202,40 +161,6 @@ public class BurningKnight extends Mob {
 			return;
 		}
 
-		if (this.inRage && this.rageLevel < this.hp) {
-			this.inRage = false;
-			this.onRageEnd();
-		}
-
-		if (this.lock < 3 && Dungeon.depth == 4) {
-			this.lock = 3;
-			this.checkForRage();
-		}
-
-		int v = this.hpMax - this.lock * 100 - 100;
-
-		if (!this.unhittable && this.hp <= v) {
-			this.unhittable = true;
-
-			Tween.to(new Tween.Task(0.5f, 0.3f) {
-				@Override
-				public float getValue() {
-					return a;
-				}
-
-				@Override
-				public void setValue(float value) {
-					a = value;
-				}
-			});
-
-
-			Log.info("Now BK is unhittable!");
-			Log.error(this.hp + " hp and " + v + " val");
-			UiLog.instance.print("[red]Burning Knight is now unhittable!");
-		}
-
-
 		if (this.invt > 0) {
 			this.common();
 			return;
@@ -253,35 +178,6 @@ public class BurningKnight extends Mob {
 		return !(buff instanceof BurningBuff);
 	}
 
-	@Override
-	protected void onHurt() {
-		super.onHurt();
-		this.checkForRage();
-	}
-
-	public void onRageStart() {
-		Log.error(this.hp + " hp and " + this.rageLevel +" rl");
-
-		this.modifySpeed(4);
-
-		this.damage += 5;
-
-		UiLog.instance.print("[orange]Burning Knight is now raging!");
-		Log.info("BK entered rage state");
-	}
-
-	public void onRageEnd() {
-		this.modifySpeed(-4);
-
-		this.damage -= 5;
-
-		Log.info("BK exited rage state");
-		UiLog.instance.print("[green]Burning Knight exited his rage");
-	}
-
-	public boolean isInRage() {
-		return this.inRage;
-	}
 
 	@Override
 	public void render() {
@@ -367,10 +263,6 @@ public class BurningKnight extends Mob {
 			if (this.t >= this.delay) {
 				self.become("roam");
 				return;
-			}
-
-			if (self.inRage && Random.chance(1) && self.getHp() < self.getHpMax()) {
-				self.modifyHp(1);
 			}
 
 			self.checkForTarget();

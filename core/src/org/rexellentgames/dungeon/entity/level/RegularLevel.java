@@ -129,7 +129,7 @@ public abstract class RegularLevel extends Level {
 		rooms.add(this.exit);
 
 		if (Dungeon.depth > 0) {
-			rooms.add(new HealthBlockRoom());
+		//	rooms.add(new HealthBlockRoom());
 		}
 
 		if (Dungeon.depth == 0) {

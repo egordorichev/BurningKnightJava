@@ -5,11 +5,20 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.rexellentgames.dungeon.*;
 import org.rexellentgames.dungeon.util.DesktopSplashWorker;
+import org.rexellentgames.dungeon.util.Log;
 
 public class DesktopLauncher {
 	private static final int SCALE = 2;
 
 	public static void main(String[] arg) {
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread thread, Throwable throwable) {
+				Crash.report(thread, throwable);
+				Gdx.app.exit();
+			}
+		});
+
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		config.setTitle("Burning Knight " + Version.asString());
@@ -21,13 +30,5 @@ public class DesktopLauncher {
 		Dungeon.worker = new DesktopSplashWorker();
 
 		new Lwjgl3Application(new Client(), config);
-
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-			@Override
-			public void uncaughtException(Thread thread, Throwable throwable) {
-				Crash.report(thread, throwable);
-				Gdx.app.exit();
-			}
-		});
 	}
 }
