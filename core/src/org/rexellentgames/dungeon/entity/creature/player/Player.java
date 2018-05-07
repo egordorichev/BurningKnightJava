@@ -76,6 +76,8 @@ public class Player extends Creature {
 		manaMax = 20;
 		level = 1;
 		hunger = 10;
+		mul = 0.85f;
+		speed = 25;
 		alwaysActive = true;
 		invmax = 1f;
 		// unhittable = true; // todo: remove

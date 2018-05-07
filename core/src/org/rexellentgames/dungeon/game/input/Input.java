@@ -34,6 +34,7 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean blocked = false;
 	public Controller active;
 	public Vector2 mouse = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
+	public Vector2 target = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 	public boolean circle = true;
 
 	private boolean controllerChanged;
@@ -212,6 +213,9 @@ public class Input implements InputProcessor, ControllerListener {
 
 		this.worldMouse.x = m.x;
 		this.worldMouse.y = m.y;
+
+		this.mouse.x += (this.target.x - this.mouse.x) / 2f;
+		this.mouse.y += (this.target.y - this.mouse.y) / 2f;
 	}
 
 	public void bind(String name, String ... keys) {
@@ -359,16 +363,16 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		mouse.x = screenX;
-		mouse.y = screenY;
+		target.x = screenX;
+		target.y = screenY;
 
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		mouse.x = screenX;
-		mouse.y = screenY;
+		target.x = screenX;
+		target.y = screenY;
 
 		return false;
 	}
