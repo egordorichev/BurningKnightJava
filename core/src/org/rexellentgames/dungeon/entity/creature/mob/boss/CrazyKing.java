@@ -257,14 +257,21 @@ public class CrazyKing extends Boss {
 				Dialog.active = onNotice;
 				Dialog.active.start();
 				Camera.instance.follow(self, false);
-				self.target.setUnhittable(true);
 
+				if (self.target != null) {
+					self.target.setUnhittable(true);
+				}
+				
 				Dialog.active.onEnd(new Runnable() {
 					@Override
 					public void run() {
 						noticed = true;
 						self.become("chase");
-						self.target.setUnhittable(false);
+
+						if (self.target != null) {
+							self.target.setUnhittable(false);
+						}
+
 						Camera.instance.follow(Player.instance, false);
 					}
 				});
