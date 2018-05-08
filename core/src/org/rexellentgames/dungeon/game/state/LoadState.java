@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -16,6 +17,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.game.Game;
+import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.physics.World;
@@ -49,6 +51,8 @@ public class LoadState extends State {
 	@Override
 	public void init() {
 		this.s = "Doing secret stuff...";
+
+		Ui.ui.y = Display.GAME_HEIGHT;
 
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.ui.destroy();

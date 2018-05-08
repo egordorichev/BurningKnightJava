@@ -21,8 +21,8 @@ public class Ui {
 	public static Ui ui;
 
 	private TextureRegion cursor;
-	private TextureRegion frame = Graphics.getTexture("bk_bars (frame)");
-	private TextureRegion bar = Graphics.getTexture("bk_bars (health)");
+	private TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
+	private TextureRegion bar = Graphics.getTexture("ui-bkbar-fill");
 	private float scale = 1f;
 
 	public Ui() {
@@ -68,7 +68,7 @@ public class Ui {
 		}
 	}
 
-	private float y = Display.GAME_HEIGHT;
+	public float y = Display.GAME_HEIGHT;
 	private boolean tweened = false;
 	private float lastV;
 	private float lastBV;
@@ -82,7 +82,7 @@ public class Ui {
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (BurningKnight.instance != null) {
 				if (((int) this.lastBV) != BurningKnight.instance.getHp()) {
-					Tween.to(new Tween.Task(0.9f, 0.1f) {
+					Tween.to(new Tween.Task(0.95f, 0.1f) {
 						@Override
 						public float getValue() {
 							return sx;
@@ -109,7 +109,7 @@ public class Ui {
 						}
 					});
 
-					Tween.to(new Tween.Task(1.2f, 0.1f) {
+					Tween.to(new Tween.Task(1.1f, 0.1f) {
 						@Override
 						public float getValue() {
 							return sy;
@@ -145,7 +145,7 @@ public class Ui {
 
 				if (d && this.tweened) {
 					tweened = false;
-					Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.3f) {
+					Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.5f) {
 						@Override
 						public float getValue() {
 							return y;
@@ -159,7 +159,7 @@ public class Ui {
 				} else if (!d && !this.tweened) {
 					tweened = true;
 
-					Tween.to(new Tween.Task(Display.GAME_HEIGHT - 7, 0.3f, Tween.Type.BACK_OUT) {
+					Tween.to(new Tween.Task(Display.GAME_HEIGHT - 16, 0.5f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {
 							return y;
@@ -187,20 +187,20 @@ public class Ui {
 			}
 
 			if (y != Display.GAME_HEIGHT) {
+				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight() - 5, 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
+
 				TextureRegion r = new TextureRegion(bar);
 
 				Graphics.batch.setColor(0, 0, 0, 1);
-				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 				Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
 
 				r.setRegionWidth((int) Math.ceil(this.lastV / max * bar.getRegionWidth()));
-				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
 				Graphics.batch.setColor(1, 1, 1, 1);
 				r.setRegionWidth((int) Math.ceil(this.lastBV / max * bar.getRegionWidth()));
-				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() + 2, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
-
-				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight(), 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
+				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 			}
 
 			if (Player.instance != null && Player.instance.isDead()) {
