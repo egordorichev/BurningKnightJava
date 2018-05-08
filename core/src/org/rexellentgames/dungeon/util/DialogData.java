@@ -21,9 +21,9 @@ public class DialogData {
 	private float a;
 	private int selected;
 	private float oa;
-	private Runnable fin;
-	private Runnable stop;
-	private Runnable start;
+	private Runnable fin = () -> {};
+	private Runnable stop = () -> {};
+	private Runnable start = () -> {};
 
 	public void onEnd(Runnable onEnd) {
 		this.fin = onEnd;
