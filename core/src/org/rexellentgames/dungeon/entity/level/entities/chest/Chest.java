@@ -152,7 +152,7 @@ public class Chest extends SaveableEntity {
 			Dungeon.area.add(holder);
 			Dungeon.level.addSaveable(holder);
 
-			if (this.item instanceof Gun || this.item instanceof Bow || this.item instanceof RocketLauncher) {
+			/*if (this.item instanceof Gun || this.item instanceof Bow || this.item instanceof RocketLauncher) {
 				Item item = (this.item instanceof Gun ? new BulletA().setCount(Random.newInt(100, 200)) :
 					(this.item instanceof Bow ? new ArrowA().setCount(Random.newInt(100, 200)) : new RocketA().setCount(Random.newInt(30, 100))));
 				holder = new ItemHolder();
@@ -164,7 +164,7 @@ public class Chest extends SaveableEntity {
 
 				Dungeon.area.add(holder);
 				Dungeon.level.addSaveable(holder);
-			}
+			}*/
 
 			this.item = null;
 			this.create = false;
