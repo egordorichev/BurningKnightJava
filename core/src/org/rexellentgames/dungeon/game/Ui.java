@@ -239,10 +239,6 @@ public class Ui {
 				}
 			}
 		}
-
-		// Cursor
-
-		this.renderCursor();
 	}
 
 	public void renderCursor() {

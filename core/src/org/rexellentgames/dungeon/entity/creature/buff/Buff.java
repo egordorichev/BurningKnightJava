@@ -11,10 +11,14 @@ public class Buff {
 	protected float duration = 10f;
 	protected float time;
 	protected boolean bad = false;
-	protected boolean infinite = false;
+	public boolean infinite = false;
 	protected Creature owner;
 	protected boolean ended;
 	private TextureRegion region;
+
+	public String getDescription() {
+		return this.description;
+	}
 
 	public TextureRegion getSprite() {
 		if (this.region == null) {

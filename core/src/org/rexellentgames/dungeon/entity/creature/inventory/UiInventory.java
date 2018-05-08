@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
+import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Log;
@@ -426,17 +427,22 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[]{});
+		UiBuff[] buffs = Player.instance.uiBuffs.toArray(new UiBuff[]{});
 
 		for (int i = 0; i < buffs.length; i++) {
-			Buff buff = buffs[i];
-
-			TextureRegion sprite = buff.getSprite();
-			Graphics.batch.draw(sprite, 4 + i * 12, y + 9 + 11);
+			UiBuff buff = buffs[i];
+			buff.render(i, y);
 		}
+
+		this.renderCurrentSlot();
+		Ui.ui.renderCursor();
 	}
 
+	public UiBuff hoveredBuff;
+
 	public void renderCurrentSlot() {
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
 		if (this.currentSlot != null) {
 			TextureRegion sprite = this.currentSlot.getSprite();
 			Graphics.render(sprite,
@@ -465,6 +471,21 @@ public class UiInventory extends UiEntity {
 
 				this.hoveredSlot = -1;
 			}
+		}
+
+		if (hoveredBuff != null) {
+			String info = hoveredBuff.getInfo();
+			Graphics.layout.setText(Graphics.small, info);
+
+			float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
+
+			Graphics.small.setColor(c, c, c, 1);
+			Graphics.print(info, Graphics.small,
+				MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 12),
+				MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y + 2));
+			Graphics.small.setColor(1, 1, 1, 1);
+
+			hoveredBuff = null;
 		}
 	}
 

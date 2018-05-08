@@ -220,7 +220,6 @@ public class InGameState extends State {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
-		this.inventory.renderCurrentSlot();
 		Ui.ui.render();
 		Dungeon.ui.render();
 	}
