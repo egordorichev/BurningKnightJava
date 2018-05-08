@@ -3,12 +3,13 @@ package org.rexellentgames.dungeon.entity.item.weapon.gun.bullet;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Part extends Entity {
 	private static Animation animations = Animation.make("fx-part");
-	private AnimationData animation;
+	public AnimationData animation;
 	public Point vel;
 	public float speed = 1f;
 
@@ -21,8 +22,10 @@ public class Part extends Entity {
 			);
 		}
 
-		this.animation = animations.get("idle");
-		this.animation.setFrame(Random.newInt(0, 2));
+		if (this.animation == null) {
+			this.animation = animations.get("idle");
+			this.animation.setFrame(Random.newInt(0, 2));
+		}
 	}
 
 	@Override

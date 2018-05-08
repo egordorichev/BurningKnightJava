@@ -3455,70 +3455,70 @@ ui-bkbar-fill
   orig: 97, 5
   offset: 0, 0
   index: -1
-ui-bkbar-flame-00
+ui-bkbar-flame-idle-00
   rotate: false
   xy: 1017, 962
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-01
+ui-bkbar-flame-idle-01
   rotate: false
   xy: 1017, 944
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-02
+ui-bkbar-flame-idle-02
   rotate: false
   xy: 1017, 926
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-03
+ui-bkbar-flame-idle-03
   rotate: false
   xy: 1017, 908
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-04
+ui-bkbar-flame-idle-04
   rotate: false
   xy: 1017, 890
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-05
+ui-bkbar-flame-idle-05
   rotate: false
   xy: 1017, 872
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-06
+ui-bkbar-flame-idle-06
   rotate: false
   xy: 1017, 394
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-07
+ui-bkbar-flame-idle-07
   rotate: false
   xy: 1017, 376
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-08
+ui-bkbar-flame-idle-08
   rotate: false
   xy: 1017, 358
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
-ui-bkbar-flame-09
+ui-bkbar-flame-idle-09
   rotate: false
   xy: 1017, 340
   size: 5, 16

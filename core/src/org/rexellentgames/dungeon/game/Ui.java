@@ -7,15 +7,11 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.RegularLevel;
-import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.InGameState;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.MathUtils;
-import org.rexellentgames.dungeon.util.Tween;
-import org.rexellentgames.dungeon.util.path.Graph;
+import org.rexellentgames.dungeon.util.*;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Ui {
 	public static Ui ui;
@@ -23,6 +19,7 @@ public class Ui {
 	private TextureRegion cursor;
 	private TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
 	private TextureRegion bar = Graphics.getTexture("ui-bkbar-fill");
+	private Animation animations = Animation.make("ui-bkbar-flame");
 	private float scale = 1f;
 
 	public Ui() {
@@ -30,7 +27,11 @@ public class Ui {
 		cursor = Graphics.getTexture("ui (cursor)");
 	}
 
+	private float last;
+
 	public void update(float dt) {
+		this.last += dt;
+
 		if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1") || Input.instance.wasPressed("mouse2")) {
 			Tween.to(new Tween.Task(1.2f, 0.1f) {
 				@Override
@@ -201,6 +202,20 @@ public class Ui {
 				Graphics.batch.setColor(1, 1, 1, 1);
 				r.setRegionWidth((int) Math.ceil(this.lastBV / max * bar.getRegionWidth()));
 				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+
+				if (this.last > 0.2f) {
+					Part part = new Part();
+					this.last = 0;
+					part.x = Random.newFloat(r.getRegionWidth()) + Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2;
+					part.y = -Random.newFloat(bar.getRegionHeight() * 1.5f) + y + bar.getRegionHeight();
+					part.depth = 32;
+					part.alwaysRender = true;
+					part.alwaysActive = true;
+					part.animation = animations.get("idle");
+					part.vel = new Point(0, 0.6f);
+
+					Dungeon.ui.add(part);
+				}
 			}
 
 			if (Player.instance != null && Player.instance.isDead()) {

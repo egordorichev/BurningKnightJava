@@ -214,19 +214,15 @@ public class InGameState extends State {
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		World.render();
 
-		if (Camera.ui != null) {
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		}
-
-		if (!(Dungeon.level instanceof HubLevel)) {
-			Dungeon.ui.render();
-		}
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Ui.ui.renderUi();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
 		this.inventory.renderCurrentSlot();
 		Ui.ui.render();
+		Dungeon.ui.render();
 	}
 
 	private void setupUi() {
