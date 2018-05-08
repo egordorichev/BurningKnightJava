@@ -297,11 +297,13 @@ public class UiInventory extends UiEntity {
 			this.active = 5;
 		}
 
-		for (UiSlot slot : this.slots) {
-			slot.update(dt);
+		if (Player.instance != null) {
+			for (UiSlot slot : this.slots) {
+				slot.update(dt);
+			}
 		}
 
-		if (!this.handled && !Player.instance.isDead()) {
+		if (!this.handled && Player.instance != null) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
 				Item slot = this.currentSlot;
 
@@ -362,7 +364,9 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		this.last += (Player.instance.getExperienceForLevel() - this.last) / 10f;
+		if (Player.instance != null) {
+			this.last += (Player.instance.getExperienceForLevel() - this.last) / 10f;
+		}
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
@@ -465,6 +469,10 @@ public class UiInventory extends UiEntity {
 	}
 
 	public void renderOnPlayer(Player player) {
+		if (player == null || player.isDead()) {
+			return;
+		}
+
 		Item slot = this.inventory.getSlot(this.active);
 
 		if (slot != null) {

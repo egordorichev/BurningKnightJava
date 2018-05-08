@@ -728,7 +728,6 @@ public class BurningKnight extends Mob {
 		Dungeon.level.removeSaveable(this);
 
 		if (Settings.gore) {
-			Log.info(killed.getFrames().size() + " frames");
 			for (Animation.Frame frame : killed.getFrames()) {
 				GoreFx fx = new GoreFx();
 
