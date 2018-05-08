@@ -95,7 +95,7 @@ public class Door extends SaveableEntity {
 				if (this.rooms[i] instanceof ExitRoom && Mob.all.size() > 0) {
 					this.lock = true;
 					break;
-				} else if (this.rooms[i] != null && this.rooms[i] == Player.instance.currentRoom) {
+				} else if (Player.instance != null && this.rooms[i] != null && this.rooms[i] == Player.instance.currentRoom) {
 					if (Player.instance.currentRoom instanceof LampRoom
 						&& !Player.instance.getInventory().find(Lamp.class)) {
 

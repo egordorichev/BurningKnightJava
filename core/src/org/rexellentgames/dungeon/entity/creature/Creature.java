@@ -370,7 +370,7 @@ public class Creature extends SaveableEntity {
 		Graphics.delay(20);
 	}
 
-	protected void die() {
+	public void die() {
 		this.die(false);
 	}
 

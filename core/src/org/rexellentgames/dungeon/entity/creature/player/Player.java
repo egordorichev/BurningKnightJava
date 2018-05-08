@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.player;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
@@ -10,6 +11,8 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
+import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
@@ -493,6 +496,29 @@ public class Player extends Creature {
 		}
 	}
 
+
+	@Override
+	protected void die(boolean force) {
+		super.die(force);
+
+		this.done = true;
+		Dungeon.level.removeSaveable(this);
+
+		if (Settings.gore) {
+			for (Animation.Frame frame : killed.getFrames()) {
+				GoreFx fx = new GoreFx();
+
+				fx.texture = frame.frame;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+		}
+
+		BloodFx.add(this, 20);
+	}
+
 	private ArrayList<Point> last = new ArrayList<>();
 
 	@Override
@@ -504,9 +530,7 @@ public class Player extends Creature {
 			return;
 		}
 
-		if (this.dead) {
-			this.animation = killed;
-		} else if (this.invt > 0) {
+		if (this.invt > 0) {
 			this.animation = hurt;
 		} else if (this.state.equals("run")) {
 			this.animation = run;
@@ -682,7 +706,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void die() {
+	public void die() {
 		super.die();
 
 		if (UiLog.instance != null) {

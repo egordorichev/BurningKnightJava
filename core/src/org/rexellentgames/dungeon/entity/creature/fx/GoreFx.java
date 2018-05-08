@@ -31,7 +31,7 @@ public class GoreFx extends Entity {
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-20f, 20f);
 
-		this.vel = new Point(Random.newFloat(-3f, 3f), 3f);
+		this.vel = new Point(Random.newFloat(-3f, 3f), 2f);
 
 		if (!this.menu) {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
@@ -121,7 +121,7 @@ public class GoreFx extends Entity {
 
 		if (!menu) {
 			Graphics.startShadows();
-			Graphics.render(this.texture, this.x, this.y - 4, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false, 1f, -1f);
+			Graphics.render(this.texture, this.x, this.y - 4, -this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false, 1f, -1f);
 			Graphics.endShadows();
 		}
 

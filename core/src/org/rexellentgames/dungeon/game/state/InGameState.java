@@ -129,7 +129,7 @@ public class InGameState extends State {
 			set = true;
 		}
 
-		if (this.a == 0 && Player.instance.getInvt() > 0) {
+		if (this.a == 0 && Player.instance != null && Player.instance.getInvt() > 0) {
 			Tween.to(new Tween.Task(1f, 0.2f) {
 				@Override
 				public float getValue() {
