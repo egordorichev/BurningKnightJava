@@ -42,6 +42,7 @@ public class MainMenuState extends State {
 				transition(new Runnable() {
 					@Override
 					public void run() {
+						SettingsState.fromGame = false;
 						Dungeon.game.setState(new SettingsState());
 						Camera.instance.shake(3);
 					}
