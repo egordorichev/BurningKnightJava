@@ -374,6 +374,8 @@ public abstract class Level extends Entity {
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		Graphics.batch.end();
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);

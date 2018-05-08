@@ -84,7 +84,7 @@ public class Ui {
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (BurningKnight.instance != null) {
-			/*	if (((int) this.lastBV) != BurningKnight.instance.getHp()) {
+				if (((int) this.lastBV) != BurningKnight.instance.getHp()) {
 					Tween.to(new Tween.Task(0.95f, 0.1f) {
 						@Override
 						public float getValue() {
@@ -138,7 +138,7 @@ public class Ui {
 							});
 						}
 					});
-				}*/
+				}
 
 				max = BurningKnight.instance.getHpMax();
 				this.lastV += (BurningKnight.instance.getHp() - this.lastV) / 20f;
