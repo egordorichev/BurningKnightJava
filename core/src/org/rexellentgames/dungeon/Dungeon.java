@@ -260,6 +260,11 @@ public class Dungeon extends ApplicationAdapter {
 
 		if (Input.instance != null && !Network.SERVER) {
 			Input.instance.updateMousePosition();
+
+			if (Input.instance.wasPressed("debug")) {
+				Log.UI_LOG = !Log.UI_LOG;
+				UiLog.instance.print(Log.UI_LOG ? "[orange]Debug logging is now on!" : "[green]Debug logging is now off!");
+			}
 		}
 
 		if (Network.server != null) {
