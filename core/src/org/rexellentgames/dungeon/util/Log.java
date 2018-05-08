@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Log {
-	public static final boolean ENABLE_PHYSICS_MESSAGES = true;
+	public static final boolean ENABLE_PHYSICS_MESSAGES = false;
 	private static FileWriter file;
 	public static boolean UI_LOG = false;
 
