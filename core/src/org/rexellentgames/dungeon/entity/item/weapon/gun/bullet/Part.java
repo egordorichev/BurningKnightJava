@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.weapon.gun.bullet;
 
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -44,6 +45,9 @@ public class Part extends Entity {
 
 	@Override
 	public void render() {
+		Graphics.startShadows();
+		this.animation.render(this.x, this.y - 4, false, false);
+		Graphics.endShadows();
 		this.animation.render(this.x, this.y, false, false);
 	}
 }
