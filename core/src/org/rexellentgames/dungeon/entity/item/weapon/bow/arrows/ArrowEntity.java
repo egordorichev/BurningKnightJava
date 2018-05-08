@@ -100,8 +100,10 @@ public class ArrowEntity extends Entity {
 			this.y += this.vel.y;
 		}
 
-		this.body.setLinearVelocity(this.vel);
-		this.body.setTransform(this.x, this.y, this.a);
+		if (this.body != null) {
+			this.body.setLinearVelocity(this.vel);
+			this.body.setTransform(this.x, this.y, this.a);
+		}
 	}
 
 	@Override
@@ -119,6 +121,8 @@ public class ArrowEntity extends Entity {
 			creature.modifyHp(-this.damage);
 
 			this.stuck = creature;
+			this.body = World.removeBody(this.body);
+			this.depth = creature.depth;
 
 			BloodFx.add(entity, 10);
 		}

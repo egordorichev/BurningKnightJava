@@ -17,6 +17,11 @@ public class ChargeFx extends Entity {
 	private float val;
 	public Entity owner;
 
+	{
+		depth = 15;
+		alwaysActive = true;
+	}
+
 	public ChargeFx(float x, float y, float val) {
 		this.x = x;
 		this.y = y;
