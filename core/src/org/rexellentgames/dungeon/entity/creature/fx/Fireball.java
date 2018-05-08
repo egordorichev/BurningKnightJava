@@ -118,7 +118,6 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 			this.playSfx("fireball_death");
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
-			Log.info("weapon");
 			if (((Weapon) entity).getOwner() instanceof Player) {
 				if (this.target != null || this.toMouse) {
 					this.animation = this.dead;
