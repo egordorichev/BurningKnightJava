@@ -251,7 +251,7 @@ public class Creature extends SaveableEntity {
 
 	protected void onTouch(short t, int x, int y) {
 		if (t == Terrain.WATER && !this.flying) {
-			this.buffs.remove(BurningBuff.class);
+			this.removeBuff(BurningBuff.class);
 		} else if (t == Terrain.SPIKES && !this.flying) {
 			this.modifyHp(-1, true);
 		}
@@ -387,6 +387,10 @@ public class Creature extends SaveableEntity {
 
 	private boolean remove;
 
+	public void onBuffRemove(Buff buff) {
+
+	}
+
 	protected void renderBuffs() {
 		for (Buff buff : this.buffs.values()) {
 			buff.render(this);
@@ -484,6 +488,7 @@ public class Creature extends SaveableEntity {
 		if (instance != null) {
 			instance.onEnd();
 			this.buffs.remove(buff);
+			this.onBuffRemove(instance);
 		}
 	}
 

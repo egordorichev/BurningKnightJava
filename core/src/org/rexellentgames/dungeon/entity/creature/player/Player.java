@@ -9,12 +9,14 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
+import org.rexellentgames.dungeon.entity.creature.inventory.UiBuff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
@@ -59,7 +61,7 @@ public class Player extends Creature {
 	protected int forThisLevel;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
-	private UiInventory ui;
+	public UiInventory ui;
 	private float hunger;
 	private String name;
 	private float watery;
@@ -70,6 +72,42 @@ public class Player extends Creature {
 	private AnimationData animation;
 	public Room currentRoom;
 	public float dashT;
+	public ArrayList<UiBuff> uiBuffs = new ArrayList<>();
+
+	@Override
+	public void addBuff(Buff buff) {
+		if (this.canHaveBuff(buff)) {
+			Buff b = this.buffs.get(buff.getClass());
+
+			if (b != null) {
+				b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
+			} else {
+				this.buffs.put(buff.getClass(), buff);
+
+				buff.setOwner(this);
+				buff.onStart();
+
+				UiBuff bf = new UiBuff();
+
+				bf.buff = buff;
+				bf.owner = this;
+
+				this.uiBuffs.add(bf);
+			}
+		}
+	}
+
+	@Override
+	public void onBuffRemove(Buff buff) {
+		super.onBuffRemove(buff);
+
+		for (UiBuff b : this.uiBuffs) {
+			if (b.buff.getClass().equals(buff.getClass())) {
+				b.remove();
+				return;
+			}
+		}
+	}
 
 	{
 		hpMax = 20;
