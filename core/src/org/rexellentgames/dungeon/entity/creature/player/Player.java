@@ -669,7 +669,6 @@ public class Player extends Creature {
 				if (this.tryToPickup(item) && !item.auto) {
 					this.area.add(new ItemPickedFx(item));
 					Dungeon.level.removeSaveable(item);
-					this.ui.forceT = 1f;
 				}
 			} else if (!Network.SERVER && !item.falling) {
 				this.holders.add(item);
@@ -677,7 +676,6 @@ public class Player extends Creature {
 				if (this.pickupFx == null) {
 					this.pickupFx = new ItemPickupFx(item, this);
 					this.area.add(this.pickupFx);
-					this.ui.forceT = 1f;
 				}
 			}
 		}

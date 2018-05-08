@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -72,7 +73,6 @@ public class Inventory {
 		if (item instanceof Gold) {
 			Item slot = this.getSlot(11);
 
-			Log.info("Gold " + item.getCount());
 
 			if (slot == null) {
 				this.setSlot(11, item);
@@ -81,12 +81,25 @@ public class Inventory {
 			}
 
 			slot = this.getSlot(11);
-			Log.info("Ended with " + slot.getCount());
 
 			item.onPickup();
 			holder.done = true;
 
 			item.setOwner(Player.instance);
+			item.a = 0;
+
+			Tween.to(new Tween.Task(1, 0.3f) {
+				@Override
+				public float getValue() {
+					return item.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					item.a = value;
+				}
+			});
+
 			return true;
 		}
 
@@ -100,6 +113,19 @@ public class Inventory {
 					holder.done = true;
 
 					item.setOwner(Player.instance);
+					item.a = 0;
+
+					Tween.to(new Tween.Task(1, 0.3f) {
+						@Override
+						public float getValue() {
+							return item.a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							item.a = value;
+						}
+					});
 					return true;
 				}
 			}
@@ -112,6 +138,19 @@ public class Inventory {
 				holder.done = true;
 
 				item.setOwner(Player.instance);
+				item.a = 0;
+
+				Tween.to(new Tween.Task(1, 0.3f) {
+					@Override
+					public float getValue() {
+						return item.a;
+					}
+
+					@Override
+					public void setValue(float value) {
+						item.a = value;
+					}
+				});
 				return true;
 			}
 		}
