@@ -26,6 +26,7 @@ public class Item extends Entity {
 	protected TextureRegion region;
 	protected boolean auto = false;
 	protected boolean fly = false;
+	public float a = 1;
 
 	public void generate() {
 

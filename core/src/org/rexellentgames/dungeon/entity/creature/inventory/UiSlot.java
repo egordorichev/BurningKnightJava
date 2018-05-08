@@ -235,7 +235,6 @@ public class UiSlot {
 	public float a = 0.5f;
 
 	public void render(Item item) {
-
 		if (this.inventory.getActive() == this.id) {
 			this.rr = 0.6f;
 			this.rg = 0.6f;
@@ -344,7 +343,7 @@ public class UiSlot {
 				Graphics.batch.begin();
 			}
 
-			Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.batch.setColor(1, 1, 1, item.a);
 
 			Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
 				this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);

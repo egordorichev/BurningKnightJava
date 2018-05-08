@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.player.fx;
 
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.util.Tween;
@@ -26,17 +27,7 @@ public class ItemPickedFx extends Entity {
 		this.y = item.y + item.hh + 16;
 
 		this.tween();
-	}
-
-	public ItemPickedFx(String text, Entity fx) {
-		this.text = text;
-		this.depth = 10;
-
-		this.x = fx.x;
-		this.y = fx.y;
-		this.a = 1f;
-
-		this.tween();
+		Player.instance.ui.forceT = 1f;
 	}
 
 	private void tween() {
