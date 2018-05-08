@@ -246,7 +246,8 @@ public class InGameState extends State {
 				transition(new Runnable() {
 					@Override
 					public void run() {
-						Dungeon.game.setState(new SettingsState(true));
+						SettingsState.fromGame = true;
+						Dungeon.game.setState(new SettingsState());
 					}
 				});
 				Camera.instance.shake(3);

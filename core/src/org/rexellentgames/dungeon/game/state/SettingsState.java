@@ -8,14 +8,10 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
 
 public class SettingsState extends State {
+	public static boolean fromGame;
+
 	public SettingsState() {
 
-	}
-
-	private boolean fromGame;
-
-	public SettingsState(boolean fromGame) {
-		this.fromGame = fromGame;
 	}
 
 	@Override
@@ -78,7 +74,8 @@ public class SettingsState extends State {
 					@Override
 					public void run() {
 						if (fromGame) {
-							Dungeon.goToLevel(-1);
+							LoadState.readDepth();
+							Dungeon.goToLevel(Dungeon.depth);
 						} else {
 							Dungeon.game.setState(new MainMenuState());
 						}

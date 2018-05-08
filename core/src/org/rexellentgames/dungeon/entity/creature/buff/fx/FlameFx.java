@@ -36,7 +36,7 @@ public class FlameFx extends Entity {
 		this.alwaysActive = true;
 		this.alwaysRender = true;
 		this.x = owner.x;
-		this.y = owner.y - 4;
+		this.y = owner.y;
 
 		Tween.to(new Tween.Task(4, 0.05f) {
 			@Override
@@ -96,7 +96,7 @@ public class FlameFx extends Entity {
 		float s = this.size / 2;
 
 		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.8f);
-		Graphics.shape.rect(this.x + this.owner.w / 2, this.y + this.owner.h / 5, s, s, this.size,
+		Graphics.shape.rect(this.x + this.owner.w / 2, this.y, s, s, this.size,
 			this.size, 1, 1, this.angle);
 
 		Graphics.shape.end();
