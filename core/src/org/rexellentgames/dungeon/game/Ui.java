@@ -19,6 +19,8 @@ public class Ui {
 	private TextureRegion cursor;
 	private TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
 	private TextureRegion bar = Graphics.getTexture("ui-bkbar-fill");
+	private TextureRegion skull = Graphics.getTexture("ui-bkbar-skull");
+	private TextureRegion lock = Graphics.getTexture("ui-bkbar-lock");
 	private Animation animations = Animation.make("ui-bkbar-flame");
 	private float scale = 1f;
 
@@ -82,7 +84,7 @@ public class Ui {
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (BurningKnight.instance != null) {
-				if (((int) this.lastBV) != BurningKnight.instance.getHp()) {
+			/*	if (((int) this.lastBV) != BurningKnight.instance.getHp()) {
 					Tween.to(new Tween.Task(0.95f, 0.1f) {
 						@Override
 						public float getValue() {
@@ -136,7 +138,7 @@ public class Ui {
 							});
 						}
 					});
-				}
+				}*/
 
 				max = BurningKnight.instance.getHpMax();
 				this.lastV += (BurningKnight.instance.getHp() - this.lastV) / 20f;
@@ -188,8 +190,6 @@ public class Ui {
 			}
 
 			if (y != Display.GAME_HEIGHT) {
-				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight() - 5, 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
-
 				TextureRegion r = new TextureRegion(bar);
 
 				Graphics.batch.setColor(0, 0, 0, 1);
@@ -200,8 +200,20 @@ public class Ui {
 				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
 				Graphics.batch.setColor(1, 1, 1, 1);
-				r.setRegionWidth((int) Math.ceil(this.lastBV / max * bar.getRegionWidth()));
+
+				float s = this.lastBV / max * bar.getRegionWidth();
+
+				r.setRegionWidth((int) Math.ceil(s));
 				Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+
+				/*for (int i = 0; i < 6; i++) {
+					Graphics.render(lock, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + i * lock.getRegionWidth() + lock.getRegionWidth() / 2, y + lock.getRegionHeight() / 2, 0, lock.getRegionWidth() / 2, bar.getRegionHeight() / 2, false, false);
+				}*/
+
+				Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight() - 5, 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
+
+				// todo: scale?
+				Graphics.render(skull, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() - 5, skull.getRegionHeight() / 2, false, false, sx, sy);
 
 				if (this.last > 0.2f) {
 					Part part = new Part();
