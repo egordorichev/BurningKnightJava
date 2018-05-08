@@ -636,11 +636,20 @@ public class BurningKnight extends Mob {
 	public static Dialog dialogs = Dialog.make("burning-knight");
 	public static DialogData onLampTake = dialogs.get("on_lamp_take");
 	public DialogData dialog;
+	private float volume;
+
+	private Sound voice;
+	private long vid;
 
 	public class DialogState extends BKState {
 		@Override
 		public void onEnter() {
 			super.onEnter();
+
+			voice = Graphics.getSound("bk_voice");
+			vid = Graphics.playSfx("bk_voice", 1f, 1f);
+			voice.setVolume(vid, 0);
+			voice.pause(vid);
 
 			Dialog.active = self.dialog;
 			Dialog.active.start();
@@ -650,8 +659,55 @@ public class BurningKnight extends Mob {
 			Dialog.active.onEnd(new Runnable() {
 				@Override
 				public void run() {
-					Log.info("done");
 					Camera.instance.follow(Player.instance, false);
+				}
+			});
+
+			Dialog.active.onStop(new Runnable() {
+				@Override
+				public void run() {
+					Tween.to(new Tween.Task(0, 0.3f) {
+						@Override
+						public float getValue() {
+							return volume;
+						}
+
+						@Override
+						public void setValue(float value) {
+							volume = value;
+							voice.setVolume(vid, value);
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+							voice.pause(vid);
+						}
+					});
+				}
+			});
+
+			Dialog.active.onStart(new Runnable() {
+				@Override
+				public void run() {
+					voice.resume(vid);
+					Tween.to(new Tween.Task(1, 0.3f) {
+						@Override
+						public float getValue() {
+							return volume;
+						}
+
+						@Override
+						public void setValue(float value) {
+							volume = value;
+							voice.setVolume(vid, value);
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+						}
+					});
 				}
 			});
 		}

@@ -85,7 +85,6 @@ public class Lamp extends Item {
 
 			knight.dialog = BurningKnight.onLampTake;
 
-			Graphics.playSfx("bk_voice");
 			Dungeon.level.addPlayerSaveable(knight);
 		}
 	}
