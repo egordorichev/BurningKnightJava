@@ -261,7 +261,7 @@ public class CrazyKing extends Boss {
 				if (self.target != null) {
 					self.target.setUnhittable(true);
 				}
-				
+
 				Dialog.active.onEnd(new Runnable() {
 					@Override
 					public void run() {

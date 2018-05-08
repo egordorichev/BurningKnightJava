@@ -499,6 +499,7 @@ public class BurningKnight extends Mob {
 						ball = new Fireball();
 
 						ball.ignoreWalls = true;
+						ball.owner = self;
 						ball.target = self.target;
 						ball.x = self.x + (self.w - 16) / 2;
 						ball.y = self.y + (self.h - 10) / 2;
@@ -519,6 +520,7 @@ public class BurningKnight extends Mob {
 							ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
 							ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
 							ball.noMove = true;
+							ball.owner = self;
 							ball.bad = !self.stupid;
 
 							Dungeon.area.add(ball);
@@ -538,6 +540,7 @@ public class BurningKnight extends Mob {
 							ball.y = self.y + (self.h - 10) / 2;
 
 							ball.bad = !self.stupid;
+							ball.owner = self;
 							Dungeon.area.add(ball);
 						}
 						break;
@@ -554,6 +557,7 @@ public class BurningKnight extends Mob {
 							ball.x = self.x + (self.w - 16) / 2;
 							ball.y = self.y + (self.h - 10) / 2;
 							ball.bad = !self.stupid;
+							ball.owner = self;
 
 							a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
 
