@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -114,6 +115,8 @@ public class Inventory {
 				return true;
 			}
 		}
+
+		Dungeon.area.add(new TextFx("No Space", Player.instance).setColor(Dungeon.ORANGE));
 
 		return false;
 	}
