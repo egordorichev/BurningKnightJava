@@ -62,7 +62,7 @@ public class Mob extends Creature {
 
 	@Override
 	public void renderTop() {
-		this.renderSigns();
+		// this.renderSigns();
 	}
 
 	protected void renderSigns() {
