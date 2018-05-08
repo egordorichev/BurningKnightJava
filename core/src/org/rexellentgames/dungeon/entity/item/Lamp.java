@@ -158,7 +158,7 @@ public class Lamp extends Item {
 				this.lightUp = false;
 			}
 		} else {
-			if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) {
+			if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !Player.instance.isDead()) {
 				float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
 					BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 

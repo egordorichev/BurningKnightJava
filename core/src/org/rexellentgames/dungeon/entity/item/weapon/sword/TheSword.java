@@ -6,7 +6,7 @@ public class TheSword extends Sword {
 	{
 		name = Locale.get("the_sword");
 		description = Locale.get("the_sword_desc");
-		damage = 101;
+		damage = 601;
 		useTime = 0.3f;
 		sprite = "item (claymore)";
 	}

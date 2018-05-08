@@ -1,27 +1,26 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
+import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.plant.Plant;
-import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -32,7 +31,7 @@ import java.io.IOException;
 public class BurningKnight extends Mob {
 	public static BurningKnight instance;
 	public static float LIGHT_SIZE = 12f;
-	private static Animation animations = Animation.make("actor_burning_knight");
+	private static Animation animations = Animation.make("actor-burning-knight");
 	private Room last;
 	public static Point throne;
 	private AnimationData idle;
@@ -186,9 +185,7 @@ public class BurningKnight extends Mob {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		if (this.dead) {
-			this.animation = killed;
-		} else if (this.invt > 0) {
+		if (this.invt > 0) {
 			this.animation = hurt;
 		} else {
 			this.animation = idle;
@@ -720,6 +717,30 @@ public class BurningKnight extends Mob {
 				self.become("chase");
 			}
 		}
+	}
+
+	@Override
+	protected void die(boolean force) {
+		super.die(force);
+
+		instance = null;
+		this.done = true;
+		Dungeon.level.removeSaveable(this);
+
+		if (Settings.gore) {
+			Log.info(killed.getFrames().size() + " frames");
+			for (Animation.Frame frame : killed.getFrames()) {
+				GoreFx fx = new GoreFx();
+
+				fx.texture = frame.frame;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+		}
+
+		BloodFx.add(this, 20);
 	}
 
 	public class UnactiveState extends BKState {
