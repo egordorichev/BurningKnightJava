@@ -349,7 +349,9 @@ public class UiSlot {
 				this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 			if (count != 1) {
+				Graphics.small.setColor(1, 1, 1, item.a);
 				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
+				Graphics.small.setColor(1, 1, 1, 1);
 			}
 		}
 

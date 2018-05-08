@@ -261,16 +261,7 @@ public class UiInventory extends UiEntity {
 			if (slot.isCursed()) {
 				UiLog.instance.print("[red]The item is cursed!");
 			} else {
-				ItemHolder holder = new ItemHolder();
-
-				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
-				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-				holder.setItem(slot);
-				holder.velToMouse();
-
-				this.inventory.setSlot(this.active, null);
-				Dungeon.area.add(holder);
-				Dungeon.level.addSaveable(holder);
+				this.drop(slot);
 			}
 		}
 
@@ -311,17 +302,7 @@ public class UiInventory extends UiEntity {
 				if (slot.isCursed()) {
 					UiLog.instance.print("[red]The item is cursed!");
 				} else {
-					ItemHolder holder = new ItemHolder();
-
-					holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
-					holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-					holder.setItem(slot);
-					holder.velToMouse();
-
-					this.inventory.setSlot(this.active, null);
-					Dungeon.area.add(holder);
-					Dungeon.level.addSaveable(holder);
-
+					this.drop(slot);
 					this.currentSlot = null;
 				}
 			} else {
@@ -352,6 +333,42 @@ public class UiInventory extends UiEntity {
 		}
 
 		this.inventory.active = this.active;
+	}
+
+	private void drop(Item slot) {
+		Tween.to(new Tween.Task(0, 0.1f) {
+			@Override
+			public float getValue() {
+				return slot.a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				slot.a = value;
+			}
+
+			@Override
+			public void onEnd() {
+				ItemHolder holder = new ItemHolder();
+
+				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
+				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
+				holder.setItem(slot);
+				holder.velToMouse();
+
+				for (int i = 0; i < inventory.getSize(); i++)  {
+					Item it = inventory.getSlot(i);
+
+					if (it == slot) {
+						inventory.setSlot(i, null);
+						break;
+					}
+				}
+
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
+			}
+		});
 	}
 
 	private static TextureRegion frame = Graphics.getTexture("ui (exp_bar_frame)");
