@@ -150,6 +150,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 			part.x = this.x + 5.5f;
 			part.y = this.y + 5.5f;
 			part.speed = 3f;
+			part.depth = this.depth - 1;
 			part.vel = new Point();
 			Dungeon.area.add(part);
 			part.depth = 11;

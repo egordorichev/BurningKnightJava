@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.accessory.hat.KnightHat;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
@@ -126,6 +127,10 @@ public class Knight extends Mob {
 
 		if (Random.chance(10)) {
 			items.add(new DefenseBook());
+		}
+
+		if (Random.chance(10)) {
+			items.add(new KnightHat());
 		}
 
 		if (Random.chance(5)) {

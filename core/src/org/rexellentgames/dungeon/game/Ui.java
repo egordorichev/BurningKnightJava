@@ -254,8 +254,8 @@ public class Ui {
 
 		float a = Dungeon.time * 60;
 
-		float sx = MathUtils.clamp(1f, 2f, dx / 30);
-		float sy = MathUtils.clamp(1f, 2f, dy / 30);
+		float sx = 1; //MathUtils.clamp(1f, 2f, dx / 30);
+		float sy = 1; //MathUtils.clamp(1f, 2f, dy / 30);
 
 		Graphics.render(this.cursor, Input.instance.uiMouse.x,
 			Input.instance.uiMouse.y, a, 8, 8, false, false, sx * s, sy * s);

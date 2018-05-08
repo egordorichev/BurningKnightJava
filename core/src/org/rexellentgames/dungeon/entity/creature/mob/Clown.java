@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Note;
 import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.accessory.hat.UshankaHat;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
@@ -78,6 +79,10 @@ public class Clown extends Mob {
 
 		if (Random.chance(10)) {
 			items.add(new Guitar());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new UshankaHat());
 		}
 
 		return items;
