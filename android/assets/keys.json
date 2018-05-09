@@ -5,11 +5,11 @@
 	"down" : [ "Down", "S" ],
 
 	"pickup" : [ "Space", "Controller2" ],
-	"drop_item" : [ "L-Shift" ],
+	"drop_item" : [ "L-Shift", "Controller1", "Q" ],
 	"block" : [ "Mouse2" ],
 
 	"mouse0" : [ "Mouse0", "Controller3", "Controller5" ],
-	"mouse1" : [ "Mouse1", "Controller1" ],
+	"mouse1" : [ "Mouse1" ],
 	"mouse2" : [ "Mouse2" ],
 	"scroll" : [ "MouseWheel" ],
 
