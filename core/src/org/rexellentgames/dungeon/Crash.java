@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon;
 
+import org.rexellentgames.dungeon.util.Log;
+
 import javax.swing.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -34,7 +36,7 @@ public class Crash {
 		builder.append(writer.toString());
 		builder.append("\n--- END CRASH REPORT ---\n");
 
-		System.err.println(builder.toString());
+		Log.error(builder.toString());
 		System.err.flush();
 
 		JTextArea text = new JTextArea();

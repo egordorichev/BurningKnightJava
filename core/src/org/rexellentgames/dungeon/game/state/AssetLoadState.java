@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.net.Network;
 
 public class AssetLoadState extends State {
-	public static final boolean START_TO_MENU = true;
+	public static final boolean START_TO_MENU = false;
 
 	@Override
 	public void update(float dt) {

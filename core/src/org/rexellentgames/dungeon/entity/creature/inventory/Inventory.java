@@ -1,17 +1,24 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector3;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.accessory.hat.DunceHat;
+import org.rexellentgames.dungeon.entity.item.entity.PickupFx;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -73,7 +80,6 @@ public class Inventory {
 		if (item instanceof Gold) {
 			Item slot = this.getSlot(11);
 
-
 			if (slot == null) {
 				this.setSlot(11, item);
 			} else {
@@ -85,20 +91,7 @@ public class Inventory {
 			item.onPickup();
 			holder.done = true;
 
-			item.setOwner(Player.instance);
-			item.a = 0;
-
-			Tween.to(new Tween.Task(1, 0.3f) {
-				@Override
-				public float getValue() {
-					return item.a;
-				}
-
-				@Override
-				public void setValue(float value) {
-					item.a = value;
-				}
-			});
+			this.onAdd(holder, 11);
 
 			return true;
 		}
@@ -112,20 +105,7 @@ public class Inventory {
 					item.onPickup();
 					holder.done = true;
 
-					item.setOwner(Player.instance);
-					item.a = 0;
-
-					Tween.to(new Tween.Task(1, 0.3f) {
-						@Override
-						public float getValue() {
-							return item.a;
-						}
-
-						@Override
-						public void setValue(float value) {
-							item.a = value;
-						}
-					});
+					this.onAdd(holder, i);
 					return true;
 				}
 			}
@@ -137,20 +117,7 @@ public class Inventory {
 				item.onPickup();
 				holder.done = true;
 
-				item.setOwner(Player.instance);
-				item.a = 0;
-
-				Tween.to(new Tween.Task(1, 0.3f) {
-					@Override
-					public float getValue() {
-						return item.a;
-					}
-
-					@Override
-					public void setValue(float value) {
-						item.a = value;
-					}
-				});
+				this.onAdd(holder, i);
 				return true;
 			}
 		}
@@ -158,6 +125,34 @@ public class Inventory {
 		Dungeon.area.add(new TextFx("No Space", Player.instance).setColor(Dungeon.ORANGE));
 
 		return false;
+	}
+
+	private void onAdd(ItemHolder holder, int slot) {
+		Item item = holder.getItem();
+
+		item.setOwner(Player.instance);
+		item.a = 0;
+
+		Tween.to(new Tween.Task(1, 0.3f) {
+			@Override
+			public float getValue() {
+				return item.a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				item.a = value;
+			}
+		});
+
+		PickupFx fx = new PickupFx();
+
+		fx.x = holder.x + holder.w / 2;
+		fx.y = holder.y + holder.h / 2;
+		fx.region = item.getSprite();
+		fx.target = new Point(Camera.instance.x - Display.GAME_WIDTH / 2 * Camera.instance.getCamera().zoom, Camera.instance.y - Display.GAME_HEIGHT / 2 * Camera.instance.getCamera().zoom); // todo: fix
+
+		Dungeon.area.add(fx);
 	}
 
 	public boolean find(Class<? extends Item> clazz) {
