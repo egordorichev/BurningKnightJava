@@ -90,8 +90,10 @@ public class Dungeon extends ApplicationAdapter {
 	public void pause() {
 		super.pause();
 
-		this.wasPaused = game.getState().isPaused();
-		game.getState().setPaused(true);
+		if (game.getState() instanceof InGameState) {
+			this.wasPaused = game.getState().isPaused();
+			game.getState().setPaused(true);
+		}
 	}
 
 	public static void newGame() {

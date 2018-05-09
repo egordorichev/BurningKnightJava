@@ -89,6 +89,7 @@ public class Log {
 					@Override
 					public void run() {
 						frame.setVisible(false);
+						System.exit(0);
 					}
 				},
 				5000
