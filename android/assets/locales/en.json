@@ -111,6 +111,9 @@
 	"launcher_b_desc" : "Still might explode in your hands",
 	"launcher_c" : "Golden Rocket Launcher",
 	"launcher_c_desc" : "Even still it can explode",
+	"descend" : "Descend",
+	"ascend" : "Ascend",
+	"tutorial" : "Tutorial",
 
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",

@@ -578,7 +578,9 @@ public abstract class Level extends Entity {
 				if (this.low[i]) {
 					byte tile = this.get(i);
 
-					if (tile != Terrain.WATER && tile > 0 && Terrain.patterns[tile] != null) {
+					if (tile == Terrain.EXIT) {
+						Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
+					} else if (tile != Terrain.WATER && tile > 0 && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						region.setRegionX(region.getRegionX() + x % 4 * 16);

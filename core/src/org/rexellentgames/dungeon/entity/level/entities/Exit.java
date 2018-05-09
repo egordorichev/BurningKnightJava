@@ -53,8 +53,6 @@ public class Exit extends SaveableEntity {
 		if (Level.GENERATED) {
 			this.add();
 		}
-
-		this.depth = -1;
 	}
 
 	@Override
@@ -92,7 +90,7 @@ public class Exit extends SaveableEntity {
 
 	@Override
 	public void render() {
-		Graphics.render(Terrain.exit, this.x, this.y);
+
 	}
 
 	@Override
@@ -115,7 +113,7 @@ public class Exit extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player && this.fx == null && !Network.SERVER) {
-			this.fx = new LadderFx(this, this.type == Entrance.ENTRANCE_TUTORIAL ? "Tutorial" : "Descend");
+			this.fx = new LadderFx(this, this.type == Entrance.ENTRANCE_TUTORIAL ? "tutorial" : "descend");
 			this.area.add(this.fx);
 		}
 	}
