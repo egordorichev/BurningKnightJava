@@ -60,9 +60,9 @@ public class MagicWeapon extends Item {
 	public StringBuilder buildInfo() {
 		StringBuilder builder = super.buildInfo();
 
-		builder.append("\nUses ");
+		builder.append("\n[blue]Uses ");
 		builder.append((int) this.mana);
-		builder.append(" mana\n");
+		builder.append(" mana[gray]\n");
 		builder.append(this.damage);
 		builder.append(" damage\n");
 
