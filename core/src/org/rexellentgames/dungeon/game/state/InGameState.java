@@ -118,7 +118,7 @@ public class InGameState extends State {
 
 		last += dt;
 
-		if (last >= 1f) {
+		if (last >= 3f) {
 			last = 0;
 			boolean found = false;
 

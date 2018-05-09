@@ -452,7 +452,6 @@ public class Mob extends Creature {
 				self.toWater = true;
 				self.saw = false;
 				self.target = null;
-				self.lastSeen = null;
 
 				Level.heat = Math.max(0, Level.heat - 1);
 			} if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
@@ -467,7 +466,6 @@ public class Mob extends Creature {
 					self.saw = false;
 					self.flee = Math.max(self.flee, 1f);
 					self.target = null;
-					self.lastSeen = null;
 
 
 					self.become("fleeing");
@@ -538,7 +536,6 @@ public class Mob extends Creature {
 
 				if (!self.canSee(self.target)) {
 					self.target = null;
-					self.lastSeen = null;
 
 					Level.heat = Math.max(0, Level.heat - 1f);
 					self.saw = false;
@@ -627,7 +624,6 @@ public class Mob extends Creature {
 
 				if (!found) {
 					this.target = null;
-					self.lastSeen = null;
 					this.targetPoint = null;
 				} else {
 					self.toWater = false;

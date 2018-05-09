@@ -25,7 +25,7 @@ public class MusicManager {
 		music.setVolume(0);
 		music.play();
 
-		Tween.to(new Tween.Task(Settings.music, 1f) {
+		Tween.to(new Tween.Task(Settings.music, 3f) {
 			@Override
 			public float getValue() {
 				return music.getVolume();
@@ -40,7 +40,7 @@ public class MusicManager {
 		if (current != null) {
 			final Music last = current;
 
-			Tween.to(new Tween.Task(0, 1f) {
+			Tween.to(new Tween.Task(0, 3f) {
 				@Override
 				public float getValue() {
 					return last.getVolume();
