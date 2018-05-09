@@ -1,10 +1,10 @@
 package org.rexellentgames.dungeon.entity.item.weapon.gun.bullet;
 
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -52,6 +52,8 @@ public class Part extends Entity {
 			Graphics.startShadows();
 			this.animation.render(this.x, this.y - 4, false, false);
 			Graphics.endShadows();
+		} else {
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		}
 
 		this.animation.render(this.x, this.y, false, false);
