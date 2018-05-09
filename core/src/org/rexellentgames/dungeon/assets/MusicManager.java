@@ -2,15 +2,22 @@ package org.rexellentgames.dungeon.assets;
 
 import com.badlogic.gdx.audio.Music;
 import org.rexellentgames.dungeon.Settings;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class MusicManager {
 	private static Music current;
+	private static String last = "";
 
 	public static void play(String name) {
+		if (last.equals(name)) {
+			return;
+		}
+
 		Music music = Graphics.getMusic(name);
 
 		if (music == null) {
+			Log.error("Music '" + name + "' is not found");
 			return;
 		}
 
@@ -47,6 +54,7 @@ public class MusicManager {
 		}
 
 		current = music;
+		last = name;
 	}
 
 	public static void update() {

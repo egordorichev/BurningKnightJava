@@ -13,9 +13,12 @@ public class Part extends Entity {
 	public AnimationData animation;
 	public Point vel;
 	public float speed = 1f;
+	public boolean shadow = true;
 
 	@Override
 	public void init() {
+		this.alwaysActive = true;
+
 		if (this.vel == null) {
 			this.vel = new Point(
 				Random.newFloat(-1f, 1f),
@@ -45,9 +48,12 @@ public class Part extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShadows();
-		this.animation.render(this.x, this.y - 4, false, false);
-		Graphics.endShadows();
+		if (shadow) {
+			Graphics.startShadows();
+			this.animation.render(this.x, this.y - 4, false, false);
+			Graphics.endShadows();
+		}
+
 		this.animation.render(this.x, this.y, false, false);
 	}
 }

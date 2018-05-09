@@ -223,6 +223,7 @@ public class Ui {
 					part.depth = 32;
 					part.alwaysRender = true;
 					part.alwaysActive = true;
+					part.shadow = false;
 					part.animation = animations.get("idle");
 					part.vel = new Point(0, 0.6f);
 

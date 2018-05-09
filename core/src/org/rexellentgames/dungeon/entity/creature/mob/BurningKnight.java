@@ -16,6 +16,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
@@ -107,11 +108,10 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void init() {
-		this.sfx = Graphics.getSound("bk");
-		this.sid = this.sfx.loop(Graphics.playSfx("bk", 0f));
+		sfx = Graphics.getSound("bk");
+		this.sid = sfx.loop(Graphics.playSfx("bk", 0f));
 
-		this.sfx.setVolume(this.sid, 0);
-		this.sfx.stop(this.sid);
+		sfx.setVolume(this.sid, 0);
 
 		instance = this;
 		super.init();
@@ -255,7 +255,7 @@ public class BurningKnight extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			this.delay = Random.newFloat(5f, 10f);
+			this.delay = Random.newFloat(1f, 3f);
 		}
 
 		@Override
@@ -370,9 +370,11 @@ public class BurningKnight extends Mob {
 				return;
 			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16)) || (self.target != null && self.target.invisible)) {
 				self.target = null;
+				self.lastSeen = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
 				self.hideSignT = 2f;
+				Level.heat = Math.max(Level.heat - 1, 0);
 				return;
 			}
 
@@ -410,7 +412,7 @@ public class BurningKnight extends Mob {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16)) {
-
+				self.lastSeen = null;
 				self.target = null;
 				self.become("idle");
 				return;
@@ -831,11 +833,12 @@ public class BurningKnight extends Mob {
 			float dy = player.y - this.y - 8;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d < (LIGHT_SIZE - 3) * 16) {
+			if (d < (LIGHT_SIZE + 3) * 16) {
 				this.target = player;
 				this.become("alerted");
 				this.noticeSignT = 2f;
 				this.hideSignT = 0f;
+				Level.heat += 1f;
 
 				return;
 			}
