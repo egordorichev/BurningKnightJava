@@ -2685,6 +2685,13 @@ actor-towelking-jump-09
   orig: 21, 32
   offset: 0, 0
   index: -1
+actor-towelking-land-03
+  rotate: false
+  xy: 219, 328
+  size: 21, 32
+  orig: 21, 32
+  offset: 0, 0
+  index: -1
 actor-towelking-jump-03
   rotate: false
   xy: 242, 328
@@ -2713,6 +2720,13 @@ actor-towelking-jump-06
   orig: 21, 32
   offset: 0, 0
   index: -1
+actor-towelking-land-00
+  rotate: false
+  xy: 909, 715
+  size: 21, 32
+  orig: 21, 32
+  offset: 0, 0
+  index: -1
 actor-towelking-jump-07
   rotate: false
   xy: 974, 849
@@ -2720,7 +2734,21 @@ actor-towelking-jump-07
   orig: 21, 32
   offset: 0, 0
   index: -1
+actor-towelking-land-01
+  rotate: false
+  xy: 974, 849
+  size: 21, 32
+  orig: 21, 32
+  offset: 0, 0
+  index: -1
 actor-towelking-jump-08
+  rotate: false
+  xy: 974, 815
+  size: 21, 32
+  orig: 21, 32
+  offset: 0, 0
+  index: -1
+actor-towelking-land-02
   rotate: false
   xy: 974, 815
   size: 21, 32
