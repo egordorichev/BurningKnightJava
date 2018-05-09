@@ -103,7 +103,7 @@ public class Entrance extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player && this.fx == null && !Network.SERVER) {
-			this.fx = new LadderFx(this, "Ascend");
+			this.fx = new LadderFx(this, "ascend");
 			this.area.add(this.fx);
 		}
 	}

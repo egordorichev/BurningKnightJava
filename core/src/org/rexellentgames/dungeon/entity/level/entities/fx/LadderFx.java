@@ -1,8 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.entities.fx;
 
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.math.Vector3;
-import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -25,14 +23,14 @@ public class LadderFx extends UiEntity {
 
 	public LadderFx(Entity ladder, String text) {
 		this.ladder = ladder;
-		this.text = text;
+		this.text = Locale.get(text);
 
 		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
 
 		this.x = ladder.x + 8 - layout.width / 2;
 		this.y = ladder.y + 32;
 
-		this.depth = 10;
+		this.depth = 15;
 	}
 
 	@Override

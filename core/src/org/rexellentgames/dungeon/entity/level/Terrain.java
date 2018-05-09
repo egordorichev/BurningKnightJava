@@ -16,8 +16,9 @@ public class Terrain {
 	public static byte PLANTED_DIRT = 8;
 	public static byte GRASS = 9;
 	public static byte TABLE = 10;
+	public static byte EXIT = 11;
 
-	public static byte SIZE = 11;
+	public static byte SIZE = 12;
 
 	public static int[] flags = new int[SIZE];
 
@@ -40,6 +41,7 @@ public class Terrain {
 		flags[WOOD] = PASSABLE;
 		flags[SPIKES] = 0;
 		flags[TABLE] = SOLID | HIGH;
+		flags[EXIT] = 0;
 	}
 
 	public static TextureRegion[] dither = new TextureRegion[10];
