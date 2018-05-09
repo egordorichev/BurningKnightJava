@@ -29,8 +29,8 @@ public class ExpFx extends UiEntity {
 		float dy = this.y - target.y;
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		this.x -= dx / d;
-		this.y -= dy / d;
+		this.x -= dx / 40;
+		this.y -= dy / 40;
 
 		if (d < 3) {
 			this.done = true;

@@ -205,7 +205,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		area.add(camera);
 
-		MusicManager.play("Born to do rogueries");
+		MusicManager.play("gobbeon");
 
 		boolean isDesktop = (Gdx.app.getType() == Application.ApplicationType.Desktop);
 		postProcessor = new PostProcessor(false, true, isDesktop);

@@ -11,11 +11,13 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
@@ -108,10 +110,30 @@ public class InGameState extends State {
 	}
 
 	private boolean set;
+	private float last;
 
 	@Override
 	public void update(float dt) {
 		this.console.update(dt);
+
+		last += dt;
+
+		if (last >= 1f) {
+			last = 0;
+			boolean found = false;
+
+			for (Mob mob : Mob.every) {
+				if (mob.onScreen) {
+					MusicManager.play("Born to do rogueries");
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				MusicManager.play("gobbeon");
+			}
+		}
 
 		World.update(dt);
 
