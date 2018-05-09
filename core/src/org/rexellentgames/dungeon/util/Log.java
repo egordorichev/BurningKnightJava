@@ -3,8 +3,14 @@ package org.rexellentgames.dungeon.util;
 import com.badlogic.gdx.Gdx;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.debug.Console;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -15,7 +21,6 @@ public class Log {
 	public static boolean UI_LOG = false;
 
 	private static JTextArea area;
-	private static JScrollPane pane;
 	private static JFrame frame;
 
 	public static void report(Throwable t) {
@@ -39,11 +44,35 @@ public class Log {
 		if (UI_DEBUG_WINDOW) {
 			frame = new JFrame();
 			frame.setSize(Display.GAME_WIDTH, Display.GAME_HEIGHT * 2);
-			area = new JTextArea();
-			pane = new JScrollPane(area);
-
-			frame.getContentPane().add(pane);
 			frame.setVisible(true);
+
+			JPanel panel = new JPanel();
+			panel.setMinimumSize(new Dimension(Display.GAME_WIDTH, Display.GAME_HEIGHT * 2));
+			panel.setLayout(new BorderLayout(0, 0));
+
+			area = new JTextArea();
+			area.setWrapStyleWord(true);
+			area.setEditable(false);
+			area.setLineWrap(true);
+			panel.add(area, BorderLayout.PAGE_START);
+
+			JTextField field = new JTextField();
+			panel.add(field);
+
+			field.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent actionEvent) {
+					if (Console.instance != null) {
+						Console.instance.runCommand("/" + actionEvent.getActionCommand());
+					} else {
+						Log.info("Console is not here yet");
+					}
+
+					field.setText("");
+				}
+			});
+
+			frame.add(panel, BorderLayout.PAGE_END);
 		}
 	}
 
@@ -52,6 +81,18 @@ public class Log {
 			file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+
+		if (frame != null) {
+			new java.util.Timer().schedule(
+				new java.util.TimerTask() {
+					@Override
+					public void run() {
+						frame.setVisible(false);
+					}
+				},
+				5000
+			);
 		}
 	}
 
