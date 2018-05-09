@@ -370,7 +370,6 @@ public class BurningKnight extends Mob {
 				return;
 			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16)) || (self.target != null && self.target.invisible)) {
 				self.target = null;
-				self.lastSeen = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
 				self.hideSignT = 2f;
@@ -412,7 +411,6 @@ public class BurningKnight extends Mob {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16)) {
-				self.lastSeen = null;
 				self.target = null;
 				self.become("idle");
 				return;
