@@ -481,9 +481,7 @@ public class UiInventory extends UiEntity {
 				float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 				Graphics.small.setColor(c, c, c, 1);
-				Graphics.print(info, Graphics.small,
-					MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 12),
-					MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y + 2));
+				Graphics.print(info, Graphics.small, 4, this.slots[11].y + 29 + Graphics.layout.height + 14);
 				Graphics.small.setColor(1, 1, 1, 1);
 
 				this.hoveredSlot = -1;
@@ -497,9 +495,7 @@ public class UiInventory extends UiEntity {
 			float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 			Graphics.small.setColor(c, c, c, 1);
-			Graphics.print(info, Graphics.small,
-				MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 12),
-				MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y + 2));
+			Graphics.print(info, Graphics.small,4, this.slots[11].y + 29 + Graphics.layout.height + 14 + 15);
 			Graphics.small.setColor(1, 1, 1, 1);
 
 			hoveredBuff = null;
