@@ -409,9 +409,32 @@ public class Dungeon extends ApplicationAdapter {
 			Input.instance.circle = !Input.instance.circle;
 		}
 
-		if (Player.instance != null && Input.instance.circle && Input.instance.active != null) {
+		//Log.info(com.badlogic.gdx.Input.Keys.toString(com.badlogic.gdx.Input.Keys.NUMPAD_0) + "");
+
+		if (Input.instance.wasPressed("mouse_left")) {
+			Log.info("left");
+		}
+
+		if (Player.instance != null && Input.instance.circle) {
 			float ix = Input.instance.getAxis("mouseX") * s;
 			float iy = -Input.instance.getAxis("mouseY") * s;
+
+			// fixme; doesnt work
+			if (Input.instance.isDown("mouse_left")) {
+				ix = Math.max(-1, ix - 1);
+			}
+
+			if (Input.instance.isDown("mouse_right")) {
+				ix = Math.min(1, ix + 1);
+			}
+
+			if (Input.instance.isDown("mouse_down")) {
+				iy = Math.max(-1, iy - 1);
+			}
+
+			if (Input.instance.isDown("mouse_up")) {
+				iy = Math.min(1, iy + 1);
+			}
 
 			if (ix != 0 || iy != 0) {
 				float a = (float) Math.atan2(iy, ix);
