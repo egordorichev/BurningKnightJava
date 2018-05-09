@@ -129,7 +129,7 @@ public class DialogData {
 			int next = this.selected;
 
 			if (Input.instance.wasPressed("left") ||
-				Input.instance.wasPressed("up")) {
+				Input.instance.wasPressed("up") || Input.instance.wasPressed("prev")) {
 
 				next -= 1;
 
@@ -139,7 +139,7 @@ public class DialogData {
 			}
 
 			if (Input.instance.wasPressed("down") ||
-				Input.instance.wasPressed("right")) {
+				Input.instance.wasPressed("right") || Input.instance.wasPressed("next")) {
 
 				next = (next + 1) % phrase.next.length;
 			}

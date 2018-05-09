@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
+import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Tween;
@@ -227,7 +228,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (Input.instance.wasPressed("scroll")) {
+		if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
 			this.active = (this.active + Input.instance.getAmount()) % 6;
 
 			if (this.active == -1) {
@@ -237,7 +238,7 @@ public class UiInventory extends UiEntity {
 			this.forceT = 1f;
 		}
 
-		if (Input.instance.wasPressed("prev")) {
+		if (Input.instance.wasPressed("prev") && Dialog.active == null) {
 			this.active -= 1;
 			this.forceT = 1f;
 
@@ -246,12 +247,12 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (Input.instance.wasPressed("next")) {
+		if (Input.instance.wasPressed("next") && Dialog.active == null) {
 			this.active = (this.active + 1) % 6;
 			this.forceT = 1f;
 		}
 
-		if (Input.instance.wasPressed("drop_item") && !this.open) {
+		if (Input.instance.wasPressed("drop_item") && Dialog.active == null) {
 			Item slot = this.inventory.getSlot(this.active);
 
 			if (slot == null) {
