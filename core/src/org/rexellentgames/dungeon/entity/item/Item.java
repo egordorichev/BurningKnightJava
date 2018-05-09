@@ -160,11 +160,12 @@ public class Item extends Entity {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(this.getName());
+		builder.append("[gray]");
 		builder.append('\n');
 		builder.append(this.getDescription());
 
 		if (this.cursed) {
-			builder.append("\n[red]Cursed[white]");
+			builder.append("\n[red]Cursed[gray]");
 		}
 
 		return builder;

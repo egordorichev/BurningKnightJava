@@ -138,12 +138,12 @@ public class Weapon extends Item {
 	public StringBuilder buildInfo() {
 		StringBuilder builder = super.buildInfo();
 
-		builder.append('\n');
+		builder.append("\n[orange]");
 		builder.append(this.damage);
-		builder.append(" damage");
+		builder.append(" damage[gray]");
 
 		if (this.penetrates) {
-			builder.append("\nCan hit multiple targets");
+			builder.append("\n[green]Can hit multiple targets[gray]");
 		}
 
 		return builder;
