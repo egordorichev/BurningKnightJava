@@ -6,8 +6,6 @@ import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.debug.Console;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +29,14 @@ public class Log {
 			e.printStackTrace();
 		}
 
+		if (UI_DEBUG_WINDOW) {
+			area.append("Exception: " + t.getMessage() + "\n" + t.getCause() + "\n");
+			frame.getContentPane().validate();
+		}
+
 		t.printStackTrace();
+		close();
+		init();
 	}
 
 	public static void init() {

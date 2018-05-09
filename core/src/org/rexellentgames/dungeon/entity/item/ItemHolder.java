@@ -66,13 +66,22 @@ public class ItemHolder extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		if (this.done) {
+			return;
+		}
+
 		this.t += dt;
 
 		Spark.random(this.x, this.y, this.hw, this.hh);
 
 		super.update(dt);
-		this.x = this.body.getPosition().x;
-		this.y = this.body.getPosition().y - this.z;
+
+		if (this.body == null) {
+			Log.error("Null body with " + (this.item == null ? "null" : this.item.getClass().getSimpleName()));
+		} else {
+			this.x = this.body.getPosition().x;
+			this.y = this.body.getPosition().y - this.z;
+		}
 
 		this.vel.mul(0.9f);
 
@@ -261,6 +270,7 @@ public class ItemHolder extends SaveableEntity {
 		}
 
 		if (this.item == null) {
+			Log.error("Warn: null item");
 			return this;
 		}
 
