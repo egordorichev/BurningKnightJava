@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.mob.boss;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Display;
@@ -15,6 +14,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.key.KeyC;
@@ -51,9 +51,13 @@ import java.util.ArrayList;
  */
 
 public class CrazyKing extends Boss {
-	public static Animation animations = Animation.make("actor_towelking");
+	public static Animation animations = Animation.make("actor-towelking");
 	private static AnimationData idle = animations.get("idle");
 	private static AnimationData killed = animations.get("dead");
+	private static AnimationData jump = animations.get("jump");
+	private static AnimationData land = animations.get("land");
+	private static AnimationData run = animations.get("run");
+	private static AnimationData hurt = animations.get("hurt");
 	private static Dialog dialogs = Dialog.make("crazy-king");
 	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
@@ -113,6 +117,19 @@ public class CrazyKing extends Boss {
 
 	@Override
 	public void render() {
+		if (this.invt > 0) {
+			this.animation = hurt;
+		} else if (this.state.equals("fadeIn")) {
+			this.animation = land;
+		} else if (this.state.equals("fadeOut")) {
+			this.animation = jump;
+		} else if (this.vel.len2() > 5) {
+			this.animation = run;
+		} else {
+			this.animation = idle;
+		}
+
+
 		Graphics.startShadows();
 		this.animation.render(this.x, this.y - this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
 			-this.sy * this.sa, false);
@@ -120,9 +137,9 @@ public class CrazyKing extends Boss {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
 
-		/* Graphics.print(this.state, Graphics.small, this.x, this.y);
+		Graphics.print(this.state, Graphics.small, this.x, this.y);
 
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		/* Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 
 		if (this.ai != null) {
 			if (this.ai.nextPathPoint != null) {
@@ -254,7 +271,7 @@ public class CrazyKing extends Boss {
 			super.onEnter();
 
 			if (!noticed) {
-				Dialog.active = onNotice;
+				/*Dialog.active = onNotice;
 				Dialog.active.start();
 				Camera.instance.follow(self, false);
 
@@ -274,7 +291,8 @@ public class CrazyKing extends Boss {
 
 						Camera.instance.follow(Player.instance, false);
 					}
-				});
+				});*/
+				self.become("chase");
 			}
 		}
 
@@ -435,8 +453,7 @@ public class CrazyKing extends Boss {
 		public void onEnter() {
 			super.onEnter();
 			self.setUnhittable(true);
-
-
+			
 			Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
 				@Override
 				public float getValue() {
@@ -549,7 +566,7 @@ public class CrazyKing extends Boss {
 				self.become("fadeOut");
 			} else if (Mob.all.size() < 4 && r < 0.6f) {
 				for (int i = 0; i < 4; i++) {
-					Mob mob = new Knight();
+					Mob mob = new RangedKnight();
 
 					Dungeon.area.add(mob);
 					Dungeon.level.addSaveable(mob);

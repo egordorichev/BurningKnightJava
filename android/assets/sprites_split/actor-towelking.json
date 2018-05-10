@@ -198,20 +198,37 @@
     "spriteSourceSize": { "x": 38, "y": 20, "w": 5, "h": 6 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
+   },
+   "actor_towelking 25.ase": {
+    "frame": { "x": 451, "y": 0, "w": 20, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 30, "y": 21, "w": 20, "h": 23 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
+   },
+   "actor_towelking 26.ase": {
+    "frame": { "x": 471, "y": 0, "w": 20, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 30, "y": 21, "w": 20, "h": 23 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.2-dev",
   "format": "I8",
-  "size": { "w": 451, "h": 32 },
+  "size": { "w": 491, "h": 32 },
   "scale": "1",
   "frameTags": [
    { "name": "idle", "from": 0, "to": 6, "direction": "forward" },
    { "name": "jump", "from": 7, "to": 12, "direction": "forward" },
    { "name": "land", "from": 13, "to": 16, "direction": "forward" },
    { "name": "run", "from": 17, "to": 20, "direction": "forward" },
-   { "name": "dead", "from": 21, "to": 24, "direction": "forward" }
+   { "name": "dead", "from": 21, "to": 24, "direction": "forward" },
+   { "name": "hurt", "from": 25, "to": 26, "direction": "forward" }
   ]
  }
 }
