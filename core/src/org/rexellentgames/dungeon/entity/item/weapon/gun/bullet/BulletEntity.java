@@ -46,6 +46,10 @@ public class BulletEntity extends Entity {
 		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen())) {
 			this.remove = true;
 		} else if (entity instanceof Creature) {
+			if (this.letter.equals("bad") && entity instanceof Mob) {
+				return;
+			}
+
 			Creature creature = ((Creature) entity);
 
 			creature.modifyHp(-this.damage);

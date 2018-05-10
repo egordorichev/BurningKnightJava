@@ -26,7 +26,9 @@ public class RocketLauncher extends Weapon {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		float a = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+		Point aim = this.owner.getAim();
+
+		float a = this.owner.getAngleTo(aim.x, aim.y);
 		float an = (float) Math.toDegrees(a);
 		TextureRegion sprite = this.getSprite();
 
@@ -66,10 +68,11 @@ public class RocketLauncher extends Weapon {
 	public void use() {
 		super.use();
 		Camera.instance.shake(2);
+		Point aim = this.owner.getAim();
 
 		Graphics.playSfx("gun_machinegun", 1f, Random.newFloat(0.6f, 1.5f));
 
-		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
 		Shell shell = new Shell();
 
@@ -149,7 +152,9 @@ public class RocketLauncher extends Weapon {
 	}
 
 	protected void sendRockets() {
-		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
+		Point aim = this.owner.getAim();
+
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 		this.sendRocket(a);
 
 	}
@@ -160,7 +165,7 @@ public class RocketLauncher extends Weapon {
 		RocketEntity bullet = new RocketEntity();
 		float a = (float) Math.toDegrees(an);
 
-		Rocket b = new RocketA();
+		Rocket b = (Rocket) this.owner.getAmmo("rocket");
 
 		bullet.sprite = Graphics.getTexture("bullet (rocket " + b.rocketName + ")");
 
