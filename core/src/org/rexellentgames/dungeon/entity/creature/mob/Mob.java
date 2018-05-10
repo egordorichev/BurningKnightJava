@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.entity.item.key.Key;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.item.key.KeyC;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -431,6 +432,15 @@ public class Mob extends Creature {
 	}
 
 	@Override
+	public Point getAim() {
+		if (this.target != null) {
+			return new Point(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
+		}
+
+		return super.getAim();
+	}
+
+	@Override
 	public void destroy() {
 		super.destroy();
 		all.remove(this);
@@ -439,6 +449,15 @@ public class Mob extends Creature {
 
 	public Room lastRoom;
 	public boolean toWater;
+
+	@Override
+	public Item getAmmo(String type) {
+		if (type.equals("bullet")) {
+			return new BadBullet();
+		}
+
+		return super.getAmmo(type);
+	}
 
 	public class State<T extends Mob> {
 		public T self;

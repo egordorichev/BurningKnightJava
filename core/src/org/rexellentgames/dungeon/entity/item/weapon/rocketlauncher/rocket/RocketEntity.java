@@ -117,7 +117,7 @@ public class RocketEntity extends Entity {
 
 		this.last += dt;
 
-		if (this.last >= 0.08f) {
+		if (this.last >= 0.12f) {
 			this.last = 0;
 
 			Part part = new Part();

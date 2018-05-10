@@ -78,7 +78,7 @@ public class Door extends SaveableEntity {
 			this.body.setTransform(this.x, this.y, 0);
 
 			MassData data = new MassData();
-			data.mass = 10000000f;
+			data.mass = 10000000000f;
 			this.body.setMassData(data);
 
 			if (this.autoLock) {

@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
@@ -39,6 +40,7 @@ public class HallLevel extends RegularLevel {
 
 		if (Dungeon.depth > 1) {
 			spawns.add(Knight.class);
+			spawns.add(RangedKnight.class);
 		}
 
 		if (Dungeon.depth > 2) {

@@ -13,10 +13,15 @@ import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.net.Packets;
@@ -389,6 +394,20 @@ public class Creature extends SaveableEntity {
 
 	public void onBuffRemove(Buff buff) {
 
+	}
+
+	public Point getAim() {
+		return Input.instance.worldMouse;
+	}
+
+	public Item getAmmo(String type) {
+		if (type.equals("bullet")) {
+			return new BulletA();
+		} else if (type.equals("rocket")) {
+			return new RocketA();
+		} else {
+			return new ArrowA();
+		}
 	}
 
 	protected void renderBuffs() {

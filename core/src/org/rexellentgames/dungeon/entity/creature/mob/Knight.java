@@ -9,11 +9,19 @@ import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.KnightHat;
+import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.BadGun;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BadBullet;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherA;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.Rocket;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -23,7 +31,7 @@ import java.util.ArrayList;
 
 public class Knight extends Mob {
 	public static Animation animations = Animation.make("actor-towelknight");
-	private Sword sword;
+	protected Item sword;
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
@@ -31,7 +39,7 @@ public class Knight extends Mob {
 	private AnimationData animation;
 
 	{
-		hpMax = 5;
+		hpMax = 10;
 		speed = 5;
 		guard = true;
 
@@ -46,7 +54,7 @@ public class Knight extends Mob {
 	public void init() {
 		super.init();
 
-		this.sword = new SwordA();
+		this.sword = new Sword();
 		this.sword.setOwner(this);
 		this.body = this.createSimpleBody(2, 1,12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
@@ -72,6 +80,11 @@ public class Knight extends Mob {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
+
+		if (this.target != null) {
+			float dx = this.x + this.w / 2 - this.target.x - this.target.w / 2;
+			this.flipped = dx >= 0;
+		}
 
 		if (this.falling) {
 			this.renderFalling(this.animation);
@@ -358,11 +371,18 @@ public class Knight extends Mob {
 		public static final float ATTACK_DISTANCE = 16f;
 		public static final float DASH_DIST = 48f;
 		public float delay;
+		private float att;
 
 		@Override
 		public void onEnter() {
 			super.onEnter();
 			this.delay = Random.newFloat(8f, 10f);
+
+			if (self.sword instanceof Sword) {
+				this.att = ATTACK_DISTANCE;
+			} else {
+				this.att = 128f;
+			}
 		}
 
 		@Override
@@ -373,9 +393,9 @@ public class Knight extends Mob {
 				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 5f,16f)) {
+				if (this.moveTo(self.lastSeen, 5f,this.att)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
-						(int) (self.target.y + self.target.h / 2)) <= ATTACK_DISTANCE) {
+						(int) (self.target.y + self.target.h / 2)) <= this.att) {
 
 						self.become("attack");
 					} else {
@@ -469,7 +489,7 @@ public class Knight extends Mob {
 			this.vel.x = dx / d * 300;
 			this.vel.y = dy / d * 300;
 
-			self.sword.setAdded(a);
+			//self.sword.setAdded(a);
 			self.sword.use();
 		}
 
@@ -477,7 +497,7 @@ public class Knight extends Mob {
 		public void onExit() {
 			super.onExit();
 
-			self.sword.setAdded(0);
+			//self.sword.setAdded(0);
 			self.modifySpeed(-100);
 		}
 
