@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.Rocket;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketEntity;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Random;
@@ -63,16 +64,6 @@ public class RocketLauncher extends Weapon {
 
 	@Override
 	public void use() {
-		if (!(this.owner instanceof Player)) {
-			return;
-		}
-
-		Player player = (Player) this.owner;
-
-		if (!player.getInventory().find(Rocket.class)) {
-			return;
-		}
-
 		super.use();
 		Camera.instance.shake(2);
 
@@ -101,7 +92,6 @@ public class RocketLauncher extends Weapon {
 		Camera.instance.push(a, 8f);
 
 		this.sendRockets();
-		player.getInventory().remove(Rocket.class);
 
 		Tween.to(new Tween.Task(0.5f, 0.1f) {
 			@Override
@@ -165,13 +155,12 @@ public class RocketLauncher extends Weapon {
 	}
 
 	protected void sendRocket(float an) {
-		Player player = (Player) this.owner;
 		TextureRegion sprite = this.getSprite();
 
 		RocketEntity bullet = new RocketEntity();
 		float a = (float) Math.toDegrees(an);
 
-		Rocket b = ((Rocket) player.getInventory().findItem(Rocket.class));
+		Rocket b = new RocketA();
 
 		bullet.sprite = Graphics.getTexture("bullet (rocket " + b.rocketName + ")");
 
@@ -183,7 +172,7 @@ public class RocketLauncher extends Weapon {
 
 		bullet.x = x + px * sprite.getRegionWidth();
 		bullet.y = y + py * sprite.getRegionWidth();
-		bullet.damage = b.damage;
+		bullet.damage = b.damage + this.damage;
 		bullet.letter = b.rocketName;
 
 		float s = 1f;

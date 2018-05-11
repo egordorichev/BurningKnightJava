@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.player.fx;
 
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.util.Tween;
@@ -10,6 +11,10 @@ public class ItemPickedFx extends Entity {
 	private String text;
 	private float t = 0;
 	private float a;
+
+	{
+		depth = 15;
+	}
 
 	public ItemPickedFx(ItemHolder item) {
 		Item i = item.getItem();
@@ -21,22 +26,23 @@ public class ItemPickedFx extends Entity {
 		this.x = item.x + item.hw / 2 - Graphics.layout.width / 2;
 		this.y = item.y + item.hh + 16;
 
-		this.depth = 10;
 		this.tween();
-	}
-
-	public ItemPickedFx(String text, Entity fx) {
-		this.text = text;
-		this.depth = 10;
-
-		this.x = fx.x;
-		this.y = fx.y;
-		this.a = 1f;
-
-		this.tween();
+		Player.instance.ui.forceT = 1f;
 	}
 
 	private void tween() {
+		Tween.to(new Tween.Task(this.y + 10, 2f, Tween.Type.QUAD_OUT) {
+			@Override
+			public float getValue() {
+				return y;
+			}
+
+			@Override
+			public void setValue(float value) {
+				y = value;
+			}
+		});
+
 		Tween.to(new Tween.Task(0, 2f) {
 			@Override
 			public float getValue() {
@@ -64,7 +70,7 @@ public class ItemPickedFx extends Entity {
 	@Override
 	public void render() {
 		Graphics.medium.setColor(1, 1, 1, this.a);
-		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y + this.t * 10);
+		Graphics.print(this.text, Graphics.medium, this.x, this.y);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }

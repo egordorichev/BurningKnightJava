@@ -1,25 +1,27 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
+import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
+import org.rexellentgames.dungeon.entity.creature.inventory.UiBuff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
-import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.weapon.dagger.Dagger;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -42,7 +44,7 @@ public class Player extends Creature {
 	public static ArrayList<Player> all = new ArrayList<Player>();
 	public static int INVENTORY_SIZE = 12;
 
-	private static final float LIGHT_SIZE = 2f;
+	private static final float LIGHT_SIZE = 5f;
 	public static String NAME;
 	public static Player instance;
 	public static boolean REGISTERED = false;
@@ -59,7 +61,7 @@ public class Player extends Creature {
 	protected int forThisLevel;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
-	private UiInventory ui;
+	public UiInventory ui;
 	private float hunger;
 	private String name;
 	private float watery;
@@ -70,12 +72,50 @@ public class Player extends Creature {
 	private AnimationData animation;
 	public Room currentRoom;
 	public float dashT;
+	public ArrayList<UiBuff> uiBuffs = new ArrayList<>();
+
+	@Override
+	public void addBuff(Buff buff) {
+		if (this.canHaveBuff(buff)) {
+			Buff b = this.buffs.get(buff.getClass());
+
+			if (b != null) {
+				b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
+			} else {
+				this.buffs.put(buff.getClass(), buff);
+
+				buff.setOwner(this);
+				buff.onStart();
+
+				UiBuff bf = new UiBuff();
+
+				bf.buff = buff;
+				bf.owner = this;
+
+				this.uiBuffs.add(bf);
+			}
+		}
+	}
+
+	@Override
+	public void onBuffRemove(Buff buff) {
+		super.onBuffRemove(buff);
+
+		for (UiBuff b : this.uiBuffs) {
+			if (b.buff.getClass().equals(buff.getClass())) {
+				b.remove();
+				return;
+			}
+		}
+	}
 
 	{
 		hpMax = 20;
 		manaMax = 20;
 		level = 1;
 		hunger = 10;
+		mul = 0.85f;
+		speed = 25;
 		alwaysActive = true;
 		invmax = 1f;
 		// unhittable = true; // todo: remove
@@ -279,7 +319,7 @@ public class Player extends Creature {
 		}
 
 		if (Dungeon.level != null) {
-			// Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
 			Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 			if (room != null) {
@@ -494,6 +534,29 @@ public class Player extends Creature {
 		}
 	}
 
+
+	@Override
+	protected void die(boolean force) {
+		super.die(force);
+
+		this.done = true;
+		Dungeon.level.removeSaveable(this);
+
+		if (Settings.gore) {
+			for (Animation.Frame frame : killed.getFrames()) {
+				GoreFx fx = new GoreFx();
+
+				fx.texture = frame.frame;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+		}
+
+		BloodFx.add(this, 20);
+	}
+
 	private ArrayList<Point> last = new ArrayList<>();
 
 	@Override
@@ -505,9 +568,7 @@ public class Player extends Creature {
 			return;
 		}
 
-		if (this.dead) {
-			this.animation = killed;
-		} else if (this.invt > 0) {
+		if (this.invt > 0) {
 			this.animation = hurt;
 		} else if (this.state.equals("run")) {
 			this.animation = run;
@@ -526,11 +587,11 @@ public class Player extends Creature {
 
 			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
 			Graphics.startShadows();
-			this.animation.render(last.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 - 8, false, false, region.getRegionWidth() / 2,
+			this.animation.render(last.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, last.y - region.getRegionHeight() / 2 - region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
 				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), -this.sy, false);
 			Graphics.endShadows();
 			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
-			this.animation.render(last.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
+			this.animation.render(last.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, last.y - region.getRegionHeight() / 2 + region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
 				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);		}
 
 		if (this.dashT > 0) {
@@ -544,10 +605,10 @@ public class Player extends Creature {
 
 		Graphics.startShadows();
 
-		this.animation.render(this.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 - 8, false, false, region.getRegionWidth() / 2,
+		this.animation.render(this.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, this.y - region.getRegionHeight() / 2 - region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), -this.sy, false);
 		Graphics.endShadows();
-		this.animation.render(this.x - region.getRegionWidth() / 2 + 8, this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
+		this.animation.render(this.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, this.y - region.getRegionHeight() / 2 + region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
@@ -608,7 +669,6 @@ public class Player extends Creature {
 				if (this.tryToPickup(item) && !item.auto) {
 					this.area.add(new ItemPickedFx(item));
 					Dungeon.level.removeSaveable(item);
-					this.ui.forceT = 1f;
 				}
 			} else if (!Network.SERVER && !item.falling) {
 				this.holders.add(item);
@@ -616,7 +676,6 @@ public class Player extends Creature {
 				if (this.pickupFx == null) {
 					this.pickupFx = new ItemPickupFx(item, this);
 					this.area.add(this.pickupFx);
-					this.ui.forceT = 1f;
 				}
 			}
 		}
@@ -683,7 +742,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void die() {
+	public void die() {
 		super.die();
 
 		if (UiLog.instance != null) {

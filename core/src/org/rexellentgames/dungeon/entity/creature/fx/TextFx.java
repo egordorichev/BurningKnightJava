@@ -12,7 +12,7 @@ public class TextFx extends Entity {
 
 	public TextFx(String text, float x, float yv) {
 		this.text = text;
-		this.depth = 20;
+		this.depth = 15;
 
 		Graphics.layout.setText(Graphics.medium, this.text);
 

@@ -21,10 +21,20 @@ public class DialogData {
 	private float a;
 	private int selected;
 	private float oa;
-	private Runnable fin;
+	private Runnable fin = () -> {};
+	private Runnable stop = () -> {};
+	private Runnable start = () -> {};
 
 	public void onEnd(Runnable onEnd) {
 		this.fin = onEnd;
+	}
+
+	public void onStop(Runnable onStop) {
+		this.stop = onStop;
+	}
+
+	public void onStart(Runnable onStart) {
+		this.start = onStart;
 	}
 
 	public void start() {
@@ -57,6 +67,7 @@ public class DialogData {
 		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 64);
 		this.label.setPosition(80, Display.GAME_HEIGHT - 64 - 32);
 		this.label.setWrap(true);
+		this.start.run();
 
 		this.label.setTypingListener(new TypingListener() {
 			@Override
@@ -66,6 +77,8 @@ public class DialogData {
 
 			@Override
 			public void end() {
+				stop.run();
+
 				Tween.to(new Tween.Task(1f, 0.2f) {
 					@Override
 					public float getValue() {
@@ -98,7 +111,6 @@ public class DialogData {
 			this.toNext();
 		} else if (this.label != null && !this.label.hasEnded()) {
 			this.label.skipToTheEnd();
-			Log.info("Skipping");
 		} else {
 			this.toNext();
 		}
@@ -178,6 +190,8 @@ public class DialogData {
 	}
 
 	public void end() {
+		stop.run();
+
 		Tween.to(new Tween.Task(0f, 0.3f) {
 			@Override
 			public float getValue() {

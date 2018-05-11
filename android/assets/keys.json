@@ -18,6 +18,7 @@
 	"prev" : [ "Controller6" ],
 	"next" : [ "Controller7" ],
 
+	"debug" : [ "F3" ],
 	"catch" : [ "F2" ],
 	"inventory" : [ "E", "Controller 6" ],
 

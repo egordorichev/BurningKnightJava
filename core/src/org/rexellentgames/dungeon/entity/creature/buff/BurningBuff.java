@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.buff;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 public class BurningBuff extends Buff {
@@ -31,6 +32,6 @@ public class BurningBuff extends Buff {
 	}
 
 	public void addFlame() {
-		this.owner.getArea().add(new FlameFx(this.owner));
+		Dungeon.area.add(new FlameFx(this.owner));
 	}
 }

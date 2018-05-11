@@ -38,6 +38,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.consumable.spell.GhostLeaver;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherA;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherB;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherC;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordB;
@@ -129,6 +131,8 @@ public class ItemRegistry {
 		register("ruby_hat", RubyHat.class);
 		register("viking_hat", VikingHat.class);
 		register("launcher_a", RocketLauncherA.class);
+		register("launcher_b", RocketLauncherB.class);
+		register("launcher_c", RocketLauncherC.class);
 		register("rocket_a", RocketA.class);
 	}
 

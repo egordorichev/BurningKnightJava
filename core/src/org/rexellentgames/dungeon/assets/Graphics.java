@@ -163,7 +163,7 @@ public class Graphics {
 
 		Sound sound = getSound(name);
 
-		long id = sound.play(volume * volumes.get(name));
+		long id = sound.play(volume * volumes.get(name) * Settings.sfx);
 		sound.setPitch(id, pitch);
 
 		return id;
@@ -174,11 +174,11 @@ public class Graphics {
 
 		float z = Math.max(1, Camera.instance.getCamera().zoom);
 
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z),
-			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z), false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)),
+			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)), false);
 
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.ceil(Camera.instance.viewport.getScreenWidth() * z) * Settings.quality,
-			(int) Math.ceil(Camera.instance.viewport.getScreenHeight() * z) * Settings.quality, false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)) * Settings.quality,
+			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)) * Settings.quality, false);
 	}
 
 	public static Sound getSound(String sfx) {
@@ -195,7 +195,7 @@ public class Graphics {
 		Music music = manager.get("music/" + name + ".ogg", Music.class);
 
 		if (music == null) {
-			Log.error("Music '" + name + "' is not found!");
+			Log.error("MusicManager '" + name + "' is not found!");
 		}
 
 		return music;
@@ -218,6 +218,7 @@ public class Graphics {
 		font.fontParameters.size = size;
 		font.fontParameters.borderColor = Color.BLACK;
 		font.fontParameters.borderWidth = 1;
+		font.fontParameters.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#\"'&()[]|`/\\@°+=*%€$£¢<>©®ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØŒÙÚÛÜÝÞàáâãäåæçèéêëìíîïðñòóôõöøœùúûüýþßÿ¿¡АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
 		manager.load(path, BitmapFont.class, font);
 	}

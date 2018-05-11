@@ -8,5 +8,6 @@ public class GunB extends Gun {
 		description = Locale.get("gun_b_desc");
 		sprite = "item (gun B)";
 		useTime = 0.1f;
+		damage = 1;
 	}
 }

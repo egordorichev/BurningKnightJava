@@ -1,13 +1,15 @@
 package org.rexellentgames.dungeon.util;
 
 import com.badlogic.gdx.Gdx;
+import org.rexellentgames.dungeon.UiLog;
 
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class Log {
-	public static final boolean ENABLE_PHYSICS_MESSAGES = true;
+	public static final boolean ENABLE_PHYSICS_MESSAGES = false;
 	private static FileWriter file;
+	public static boolean UI_LOG = false;
 
 	public static void report(Throwable t) {
 		try {
@@ -43,6 +45,10 @@ public class Log {
 			e.printStackTrace();
 		}
 
+		if (UiLog.instance != null && UI_LOG) {
+			UiLog.instance.print(string);
+		}
+
 		System.out.println("\u001B[31m" + string + "\u001B[0m");
 	}
 
@@ -51,6 +57,10 @@ public class Log {
 			file.write(string + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+
+		if (UiLog.instance != null && UI_LOG) {
+			UiLog.instance.print(string);
 		}
 
 		System.out.println("\u001B[32m" + string + "\u001B[0m");

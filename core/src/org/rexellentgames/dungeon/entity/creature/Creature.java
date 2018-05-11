@@ -44,6 +44,7 @@ public class Creature extends SaveableEntity {
 	protected boolean dead;
 	protected boolean unhittable = false;
 	protected Body body;
+	protected float mul = 0.9f;
 	protected float timer;
 	protected boolean flipped = false;
 	private int hx;
@@ -160,7 +161,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		this.vel.mul(0.9f);
+		this.vel.mul(this.mul);
 
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
@@ -250,7 +251,7 @@ public class Creature extends SaveableEntity {
 
 	protected void onTouch(short t, int x, int y) {
 		if (t == Terrain.WATER && !this.flying) {
-			this.buffs.remove(BurningBuff.class);
+			this.removeBuff(BurningBuff.class);
 		} else if (t == Terrain.SPIKES && !this.flying) {
 			this.modifyHp(-1, true);
 		}
@@ -369,7 +370,7 @@ public class Creature extends SaveableEntity {
 		Graphics.delay(20);
 	}
 
-	protected void die() {
+	public void die() {
 		this.die(false);
 	}
 
@@ -385,6 +386,10 @@ public class Creature extends SaveableEntity {
 	}
 
 	private boolean remove;
+
+	public void onBuffRemove(Buff buff) {
+
+	}
 
 	protected void renderBuffs() {
 		for (Buff buff : this.buffs.values()) {
@@ -483,6 +488,7 @@ public class Creature extends SaveableEntity {
 		if (instance != null) {
 			instance.onEnd();
 			this.buffs.remove(buff);
+			this.onBuffRemove(instance);
 		}
 	}
 

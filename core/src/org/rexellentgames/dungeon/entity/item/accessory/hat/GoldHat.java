@@ -8,5 +8,6 @@ public class GoldHat extends Hat {
 		sprite = "item (hat_gold)";
 		name = Locale.get("gold_hat");
 		description = Locale.get("gold_hat_desc");
+		defense = 2;
 	}
 }

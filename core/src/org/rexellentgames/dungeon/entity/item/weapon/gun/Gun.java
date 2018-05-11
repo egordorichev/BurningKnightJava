@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -21,6 +22,7 @@ public class Gun extends Item {
 	protected float accuracy = 10f;
 	protected float sx = 1f;
 	protected float sy = 1f;
+	protected int damage;
 
 	{
 		identified = true;
@@ -74,16 +76,6 @@ public class Gun extends Item {
 
 	@Override
 	public void use() {
-		if (!(this.owner instanceof Player)) {
-			return;
-		}
-
-		Player player = (Player) this.owner;
-
-		if (!player.getInventory().find(Bullet.class)) {
-			return;
-		}
-
 		super.use();
 
 
@@ -167,7 +159,6 @@ public class Gun extends Item {
 		});
 
 		this.sendBullets();
-		player.getInventory().remove(Bullet.class);
 	}
 
 	protected void sendBullets() {
@@ -177,14 +168,12 @@ public class Gun extends Item {
 	}
 
 	protected void sendBullet(float an) {
-		Player player = (Player) this.owner;
 		TextureRegion sprite = this.getSprite();
 
 		BulletEntity bullet = new BulletEntity();
 		float a = (float) Math.toDegrees(an);
 
-		Bullet b = ((Bullet) player.getInventory().findItem(Bullet.class));
-
+		Bullet b = new BulletA();
 		bullet.sprite = Graphics.getTexture("bullet (bullet " + b.bulletName + ")");
 
 		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
@@ -201,7 +190,7 @@ public class Gun extends Item {
 
 		bullet.x = x + px * w;
 		bullet.y = y + py * h;
-		bullet.damage = b.damage;
+		bullet.damage = b.damage + this.damage;
 		bullet.letter = b.bulletName;
 
 		float s = 6f;

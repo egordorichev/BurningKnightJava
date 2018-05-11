@@ -112,24 +112,48 @@
     "duration": 100
    },
    "actor_burning_knight 14.ase": {
-    "frame": { "x": 404, "y": 0, "w": 34, "h": 14 },
+    "frame": { "x": 404, "y": 0, "w": 13, "h": 12 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 23, "y": 43, "w": 34, "h": 14 },
+    "spriteSourceSize": { "x": 34, "y": 34, "w": 13, "h": 12 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
+   },
+   "actor_burning_knight 15.ase": {
+    "frame": { "x": 417, "y": 0, "w": 9, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 37, "y": 39, "w": 9, "h": 14 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
+   },
+   "actor_burning_knight 16.ase": {
+    "frame": { "x": 426, "y": 0, "w": 7, "h": 10 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 34, "y": 37, "w": 7, "h": 10 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
+   },
+   "actor_burning_knight 17.ase": {
+    "frame": { "x": 433, "y": 0, "w": 6, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 36, "y": 36, "w": 6, "h": 7 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.8-x64",
+  "version": "1.2-dev",
   "format": "RGBA8888",
-  "size": { "w": 438, "h": 35 },
+  "size": { "w": 439, "h": 35 },
   "scale": "1",
   "frameTags": [
    { "name": "idle", "from": 0, "to": 11, "direction": "forward" },
    { "name": "hurt", "from": 12, "to": 13, "direction": "forward" },
-   { "name": "dead", "from": 14, "to": 14, "direction": "forward" }
+   { "name": "dead", "from": 14, "to": 17, "direction": "forward" }
   ]
  }
 }
