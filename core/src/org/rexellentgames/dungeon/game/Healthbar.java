@@ -12,11 +12,11 @@ import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Healthbar {
-	private TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
-	private TextureRegion bar = Graphics.getTexture("ui-bkbar-fill");
-	private TextureRegion skull = Graphics.getTexture("ui-bkbar-skull");
-	private TextureRegion lock = Graphics.getTexture("ui-bkbar-lock");
-	private Animation animations = Animation.make("ui-bkbar-flame");
+	private static TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
+	private static TextureRegion bar = Graphics.getTexture("ui-bkbar-fill");
+	private TextureRegion skull;
+	private static TextureRegion lock = Graphics.getTexture("ui-bkbar-lock");
+	private static Animation animations = Animation.make("ui-bkbar-flame");
 	public float y = Display.GAME_HEIGHT;
 	public boolean tweened = false;
 	private float lastV;
@@ -29,8 +29,12 @@ public class Healthbar {
 	public boolean done;
 
 	public void update(float dt) {
+		if (skull == null) {
+			skull = Graphics.getTexture(this.boss.texture);
+		}
+
 		this.last += dt;
-		this.done = this.boss.isDead();
+		this.done = this.boss.isDead() && this.y == Display.GAME_HEIGHT;
 
 		if (((int) this.lastBV) != boss.getHp()) {
 			Tween.to(new Tween.Task(0.95f, 0.1f) {
@@ -162,7 +166,7 @@ public class Healthbar {
 			Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight() - 5, 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
 
 			// todo: scale?
-			Graphics.render(skull, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() - 5, skull.getRegionHeight() / 2, false, false, sx, sy);
+			Graphics.render(skull, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() / 2, skull.getRegionHeight() / 2, false, false, sx, sy);
 
 			if (this.last > 0.2f) {
 				Part part = new Part();
