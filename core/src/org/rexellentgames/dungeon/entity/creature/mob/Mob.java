@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -566,8 +567,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.state.equals("fleeing") && !self.saw && self.canSee(self.target)
-					&& (self.stupid || force|| (((Player) self.target)).heat / 3 > Level.heat + 1)) {
+				if (!self.state.equals("fleeing") && !self.saw && self.canSee(self.target)) {
 					Level.heat += 1f;
 					self.saw = true;
 

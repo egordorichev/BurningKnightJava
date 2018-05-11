@@ -63,7 +63,7 @@ public class HallBossRoom extends RegularRoom {
 		Dungeon.level.addSaveable(table);*/
 	}
 
-/*	@Override
+	@Override
 	public int getMinWidth() {
 		return 25;
 	}
@@ -81,25 +81,5 @@ public class HallBossRoom extends RegularRoom {
 	@Override
 	public int getMaxHeight() {
 		return 26;
-	}*/
-
-	@Override
-	public int getMinWidth() {
-		return 15;
-	}
-
-	@Override
-	public int getMaxWidth() {
-		return 16;
-	}
-
-	@Override
-	public int getMinHeight() {
-		return 15;
-	}
-
-	@Override
-	public int getMaxHeight() {
-		return 16;
 	}
 }

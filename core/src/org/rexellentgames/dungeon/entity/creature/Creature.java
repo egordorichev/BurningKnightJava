@@ -44,7 +44,7 @@ public class Creature extends SaveableEntity {
 	protected float speed = 10;
 	protected float maxSpeed = 90;
 	protected int damage = 2;
-	protected int defense = 1;
+	protected int defense;
 	protected float invt = 0;
 	protected boolean dead;
 	protected boolean unhittable = false;
@@ -212,10 +212,10 @@ public class Creature extends SaveableEntity {
 				}
 			}
 
-			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead && !(this instanceof Player && ((Player) this).dashT > 0)) {
+			/*f (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead && !(this instanceof Player && ((Player) this).dashT > 0)) {
 				this.falling = true;
 				this.t = 0;
-			}
+			}*/
 		}
 	}
 
@@ -317,7 +317,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void modifyHp(int amount, boolean ignoreArmor) {
-		if (this.falling) {
+		if (this.falling || this.done || this.dead) {
 			return;
 		}
 

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class Log {
 	public static final boolean ENABLE_PHYSICS_MESSAGES = false;
-	public static final boolean UI_DEBUG_WINDOW = true;
+	public static final boolean UI_DEBUG_WINDOW = false;
 	private static FileWriter file;
 	public static boolean UI_LOG = false;
 
@@ -35,6 +35,7 @@ public class Log {
 		}
 
 		t.printStackTrace();
+		force = true;
 		close();
 		init();
 	}
@@ -81,6 +82,8 @@ public class Log {
 		}
 	}
 
+	private static boolean force;
+
 	public static void close() {
 		try {
 			file.close();
@@ -89,16 +92,20 @@ public class Log {
 		}
 
 		if (frame != null) {
-			new java.util.Timer().schedule(
-				new java.util.TimerTask() {
-					@Override
-					public void run() {
-						frame.setVisible(false);
-						System.exit(0);
-					}
-				},
-				5000
-			);
+			if (force) {
+				force = false;
+			} else {
+				new java.util.Timer().schedule(
+					new java.util.TimerTask() {
+						@Override
+						public void run() {
+							frame.setVisible(false);
+							System.exit(0);
+						}
+					},
+					5000
+				);
+			}
 		}
 	}
 

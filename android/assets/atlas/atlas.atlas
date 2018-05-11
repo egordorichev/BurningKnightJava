@@ -2678,6 +2678,13 @@ actor-towelking-jump-00
   orig: 21, 32
   offset: 0, 0
   index: -1
+actor-towelking-land-04
+  rotate: false
+  xy: 951, 825
+  size: 21, 32
+  orig: 21, 32
+  offset: 0, 0
+  index: -1
 actor-towelking-jump-01
   rotate: false
   xy: 219, 328
