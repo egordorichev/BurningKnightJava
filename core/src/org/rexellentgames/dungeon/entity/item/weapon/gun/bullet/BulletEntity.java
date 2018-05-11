@@ -10,10 +10,9 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BulletEntity extends Entity {
@@ -33,6 +32,10 @@ public class BulletEntity extends Entity {
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
+		if (this.sprite == null) {
+			this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
+		}
+
 		this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, ra);
 		this.body.setBullet(true);
@@ -43,9 +46,13 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen())) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon) {
 			this.remove = true;
 		} else if (entity instanceof Creature) {
+			if (this.letter.equals("bad") && entity instanceof Mob) {
+				return;
+			}
+
 			Creature creature = ((Creature) entity);
 
 			creature.modifyHp(-this.damage);

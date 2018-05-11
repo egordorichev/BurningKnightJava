@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -17,6 +18,7 @@ import org.rexellentgames.dungeon.entity.item.key.Key;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
 import org.rexellentgames.dungeon.entity.item.key.KeyC;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -431,6 +433,15 @@ public class Mob extends Creature {
 	}
 
 	@Override
+	public Point getAim() {
+		if (this.target != null) {
+			return new Point(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
+		}
+
+		return super.getAim();
+	}
+
+	@Override
 	public void destroy() {
 		super.destroy();
 		all.remove(this);
@@ -439,6 +450,15 @@ public class Mob extends Creature {
 
 	public Room lastRoom;
 	public boolean toWater;
+
+	@Override
+	public Item getAmmo(String type) {
+		if (type.equals("bullet")) {
+			return new BadBullet();
+		}
+
+		return super.getAmmo(type);
+	}
 
 	public class State<T extends Mob> {
 		public T self;
@@ -452,7 +472,6 @@ public class Mob extends Creature {
 				self.toWater = true;
 				self.saw = false;
 				self.target = null;
-				self.lastSeen = null;
 
 				Level.heat = Math.max(0, Level.heat - 1);
 			} if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
@@ -467,7 +486,6 @@ public class Mob extends Creature {
 					self.saw = false;
 					self.flee = Math.max(self.flee, 1f);
 					self.target = null;
-					self.lastSeen = null;
 
 
 					self.become("fleeing");
@@ -538,7 +556,6 @@ public class Mob extends Creature {
 
 				if (!self.canSee(self.target)) {
 					self.target = null;
-					self.lastSeen = null;
 
 					Level.heat = Math.max(0, Level.heat - 1f);
 					self.saw = false;
@@ -550,8 +567,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.state.equals("fleeing") && !self.saw && self.canSee(self.target)
-					&& (self.stupid || force|| (((Player) self.target)).heat / 3 > Level.heat + 1)) {
+				if (!self.state.equals("fleeing") && !self.saw && self.canSee(self.target)) {
 					Level.heat += 1f;
 					self.saw = true;
 
@@ -627,7 +643,6 @@ public class Mob extends Creature {
 
 				if (!found) {
 					this.target = null;
-					self.lastSeen = null;
 					this.targetPoint = null;
 				} else {
 					self.toWater = false;

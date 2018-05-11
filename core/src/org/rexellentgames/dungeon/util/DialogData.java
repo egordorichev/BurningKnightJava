@@ -63,7 +63,7 @@ public class DialogData {
 		this.selected = 0;
 
 		Dialog.Phrase phrase = this.phrases.get(this.current);
-		this.label = new TypingLabel("{SPEED=0.8}{COLOR=#FFFFFF}" + phrase.string, skin);
+		this.label = new TypingLabel("{SPEED=0.5}{COLOR=#FFFFFF}" + phrase.string, skin);
 		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 64);
 		this.label.setPosition(80, Display.GAME_HEIGHT - 64 - 32);
 		this.label.setWrap(true);
@@ -129,7 +129,7 @@ public class DialogData {
 			int next = this.selected;
 
 			if (Input.instance.wasPressed("left") ||
-				Input.instance.wasPressed("up")) {
+				Input.instance.wasPressed("up") || Input.instance.wasPressed("prev")) {
 
 				next -= 1;
 
@@ -139,7 +139,7 @@ public class DialogData {
 			}
 
 			if (Input.instance.wasPressed("down") ||
-				Input.instance.wasPressed("right")) {
+				Input.instance.wasPressed("right") || Input.instance.wasPressed("next")) {
 
 				next = (next + 1) % phrase.next.length;
 			}

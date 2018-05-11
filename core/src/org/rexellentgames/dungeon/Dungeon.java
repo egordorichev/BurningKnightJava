@@ -58,7 +58,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float darkX = Display.GAME_WIDTH / 2;
 	public static float darkY = Display.GAME_HEIGHT / 2;
 	public static String[] arg;
-	public static float speed = 1f;
+	public static float speed = 0.2f;
 	public static Color BLACK = Color.valueOf("#000000");
 	public static Color GRAY = Color.valueOf("#696a6a");
 	public static Color WHITE = Color.valueOf("#ffffff");
@@ -90,8 +90,10 @@ public class Dungeon extends ApplicationAdapter {
 	public void pause() {
 		super.pause();
 
-		this.wasPaused = game.getState().isPaused();
-		game.getState().setPaused(true);
+		if (game.getState() instanceof InGameState) {
+			this.wasPaused = game.getState().isPaused();
+			game.getState().setPaused(true);
+		}
 	}
 
 	public static void newGame() {
@@ -407,9 +409,32 @@ public class Dungeon extends ApplicationAdapter {
 			Input.instance.circle = !Input.instance.circle;
 		}
 
-		if (Player.instance != null && Input.instance.circle && Input.instance.active != null) {
+		//Log.info(com.badlogic.gdx.Input.Keys.toString(com.badlogic.gdx.Input.Keys.NUMPAD_0) + "");
+
+		if (Input.instance.wasPressed("mouse_left")) {
+			Log.info("left");
+		}
+/*
+		if (Player.instance != null && Input.instance.circle) {
 			float ix = Input.instance.getAxis("mouseX") * s;
 			float iy = -Input.instance.getAxis("mouseY") * s;
+
+			// fixme; doesnt work
+			if (Input.instance.isDown("mouse_left")) {
+				ix = Math.max(-1, ix - 1);
+			}
+
+			if (Input.instance.isDown("mouse_right")) {
+				ix = Math.min(1, ix + 1);
+			}
+
+			if (Input.instance.isDown("mouse_down")) {
+				iy = Math.max(-1, iy - 1);
+			}
+
+			if (Input.instance.isDown("mouse_up")) {
+				iy = Math.min(1, iy + 1);
+			}
 
 			if (ix != 0 || iy != 0) {
 				float a = (float) Math.atan2(iy, ix);
@@ -427,7 +452,7 @@ public class Dungeon extends ApplicationAdapter {
 			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
 
 			return;
-		}
+		}*/
 
 		inputVel.x += Input.instance.getAxis("mouseX") * s;
 		inputVel.y += Input.instance.getAxis("mouseY") * s;

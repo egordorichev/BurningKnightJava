@@ -14,9 +14,12 @@ import java.util.ArrayList;
 public class Console implements InputProcessor {
 	private String input = "";
 	private boolean open;
+	public static Console instance;
 	private ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>();
 
 	public Console() {
+		instance = this;
+
 		org.rexellentgames.dungeon.game.input.Input.multiplexer.addProcessor(this);
 
 		this.commands.add(new HelpCommand());
@@ -64,7 +67,7 @@ public class Console implements InputProcessor {
 		return false;
 	}
 
-	private void runCommand(String input) {
+	public void runCommand(String input) {
 		if (!input.startsWith("/")) {
 			String string = Player.instance.getName() + ": " + input;
 			UiLog.instance.print(string);

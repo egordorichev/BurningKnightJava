@@ -1,11 +1,34 @@
 package org.rexellentgames.dungeon.entity.item.accessory.hat;
 
+import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 
 public class Hat extends Accessory {
 	protected int defense = 1;
 	protected String skin;
+
+	{
+		useable = true;
+	}
+
+	@Override
+	public void use() {
+		super.use();
+
+		UiInventory ui = Player.instance.ui;
+
+		Item item = ui.getInventory().getSlot(6);
+		ui.getInventory().setSlot(6, ui.getInventory().getSlot(ui.getActive()));
+		ui.getInventory().setSlot(ui.getActive(), item);
+
+		if (item != null) {
+			((Accessory) item).onUnequip();
+		}
+
+		((Accessory) ui.getInventory().getSlot(6)).onEquip();
+	}
 
 	@Override
 	public void onEquip() {

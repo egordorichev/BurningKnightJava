@@ -250,6 +250,8 @@ public class Player extends Creature {
 			instance = this;
 		}
 
+		Log.info(this.defense + " ");
+
 		this.experienceMax = expNeeded(this.level);
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
@@ -485,7 +487,7 @@ public class Player extends Creature {
 			this.animation.update(dt);
 		}
 
-		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x - 8;
+		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
 
 		if (this.lastDashT != 0 && this.dashT == 0) {

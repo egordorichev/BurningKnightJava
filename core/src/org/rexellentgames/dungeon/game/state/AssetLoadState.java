@@ -5,6 +5,8 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.net.Network;
 
 public class AssetLoadState extends State {
+	public static final boolean START_TO_MENU = false;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -13,9 +15,12 @@ public class AssetLoadState extends State {
 			if (!Network.NONE) {
 				Dungeon.game.setState(new LoginState());
 			} else {
-				//Dungeon.game.setState(new MainMenuState());
-				LoadState.readDepth();
-			  Dungeon.goToLevel(Dungeon.depth);
+				if (START_TO_MENU) {
+					Dungeon.game.setState(new MainMenuState());
+				} else {
+					LoadState.readDepth();
+					Dungeon.goToLevel(Dungeon.depth);
+				}
 			}
 		}
 	}

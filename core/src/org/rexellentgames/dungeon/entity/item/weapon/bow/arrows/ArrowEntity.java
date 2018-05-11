@@ -27,6 +27,7 @@ public class ArrowEntity extends Entity {
 	public Class<? extends Arrow> type;
 	public TextureRegion sprite;
 	private Creature stuck;
+	public boolean bad;
 
 	@Override
 	public void destroy() {
@@ -64,7 +65,7 @@ public class ArrowEntity extends Entity {
 				Dungeon.area.add(part);
 			}
 
-			if (!noDrop && Random.chance(50)) {
+			/*if (!this.bad && !noDrop && Random.chance(50)) {
 				try {
 					Item arrow = this.type.newInstance();
 
@@ -83,7 +84,7 @@ public class ArrowEntity extends Entity {
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
 		}
 
 		if (this.stuck != null) {
@@ -112,7 +113,11 @@ public class ArrowEntity extends Entity {
 			return;
 		}
 
-		if (entity instanceof Mob) {
+		if (entity instanceof Creature) {
+			if (this.bad && entity instanceof Mob) {
+				return;
+			}
+
 			Creature creature = ((Creature) entity);
 
 			creature.vel.x += this.vel.x * 10f;

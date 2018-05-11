@@ -136,81 +136,107 @@
     "duration": 100
    },
    "actor_towelking 17.ase": {
-    "frame": { "x": 336, "y": 0, "w": 19, "h": 24 },
+    "frame": { "x": 336, "y": 0, "w": 20, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 30, "y": 21, "w": 20, "h": 23 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
+   },
+   "actor_towelking 18.ase": {
+    "frame": { "x": 356, "y": 0, "w": 19, "h": 24 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 30, "y": 19, "w": 19, "h": 24 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    },
-   "actor_towelking 18.ase": {
-    "frame": { "x": 355, "y": 0, "w": 18, "h": 23 },
+   "actor_towelking 19.ase": {
+    "frame": { "x": 375, "y": 0, "w": 18, "h": 23 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 32, "y": 19, "w": 18, "h": 23 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    },
-   "actor_towelking 19.ase": {
-    "frame": { "x": 373, "y": 0, "w": 17, "h": 22 },
+   "actor_towelking 20.ase": {
+    "frame": { "x": 393, "y": 0, "w": 17, "h": 22 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 31, "y": 20, "w": 17, "h": 22 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    },
-   "actor_towelking 20.ase": {
-    "frame": { "x": 390, "y": 0, "w": 20, "h": 25 },
+   "actor_towelking 21.ase": {
+    "frame": { "x": 410, "y": 0, "w": 20, "h": 25 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 29, "y": 19, "w": 20, "h": 25 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    },
-   "actor_towelking 21.ase": {
-    "frame": { "x": 410, "y": 0, "w": 17, "h": 12 },
+   "actor_towelking 22.ase": {
+    "frame": { "x": 430, "y": 0, "w": 17, "h": 12 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 31, "y": 24, "w": 17, "h": 12 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    },
-   "actor_towelking 22.ase": {
-    "frame": { "x": 427, "y": 0, "w": 11, "h": 11 },
+   "actor_towelking 23.ase": {
+    "frame": { "x": 447, "y": 0, "w": 11, "h": 11 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 34, "y": 31, "w": 11, "h": 11 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    },
-   "actor_towelking 23.ase": {
-    "frame": { "x": 438, "y": 0, "w": 8, "h": 9 },
+   "actor_towelking 24.ase": {
+    "frame": { "x": 458, "y": 0, "w": 8, "h": 9 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 36, "y": 30, "w": 8, "h": 9 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    },
-   "actor_towelking 24.ase": {
-    "frame": { "x": 446, "y": 0, "w": 5, "h": 6 },
+   "actor_towelking 25.ase": {
+    "frame": { "x": 466, "y": 0, "w": 5, "h": 6 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 38, "y": 20, "w": 5, "h": 6 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
+   },
+   "actor_towelking 26.ase": {
+    "frame": { "x": 471, "y": 0, "w": 20, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 30, "y": 21, "w": 20, "h": 23 },
+    "sourceSize": { "w": 80, "h": 80 },
+    "duration": 100
+   },
+   "actor_towelking 27.ase": {
+    "frame": { "x": 491, "y": 0, "w": 20, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 30, "y": 21, "w": 20, "h": 23 },
     "sourceSize": { "w": 80, "h": 80 },
     "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.8-x64",
+  "version": "1.2-dev",
   "format": "I8",
-  "size": { "w": 451, "h": 32 },
+  "size": { "w": 511, "h": 32 },
   "scale": "1",
   "frameTags": [
    { "name": "idle", "from": 0, "to": 6, "direction": "forward" },
-   { "name": "jump", "from": 7, "to": 16, "direction": "forward" },
-   { "name": "run", "from": 17, "to": 20, "direction": "forward" },
-   { "name": "dead", "from": 21, "to": 24, "direction": "forward" }
+   { "name": "jump", "from": 7, "to": 12, "direction": "forward" },
+   { "name": "land", "from": 13, "to": 17, "direction": "forward" },
+   { "name": "run", "from": 18, "to": 21, "direction": "forward" },
+   { "name": "dead", "from": 22, "to": 25, "direction": "forward" },
+   { "name": "hurt", "from": 26, "to": 27, "direction": "forward" }
   ]
  }
 }
