@@ -18,36 +18,10 @@ import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
-
-/*
- * Tests player skills, such as:
- *
- * - Quick movement, dodging
- * - Bullet dodging via sword block
- * - BK usage (ranged attacks)
- * - Navigating in full darkness
- * - Managing multiple enemies
- *
- *
- *
- * Attacks that do that:
- *
- * - Creates a shield from projectiles with only one small hole in it, that you can attack through
- *  + Waves his hand around him
- * - Creates a fireball circle around the player, that slowly moves to him. Blocked via sword
- *
- * - Ranged attack needed
- *
- * Ways to defend for the boss:
- *
- * - Summon enemies and go unhittable
- * - Break BK projectiles via sword
- */
 
 public class CrazyKing extends Boss {
 	public static Animation animations = Animation.make("actor-towelking");
@@ -134,45 +108,11 @@ public class CrazyKing extends Boss {
 		}
 
 		Graphics.startShadows();
-		this.animation.render(this.x, this.y - this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
+		this.animation.render(this.x, this.y - this.z / 4f, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
 			-this.sy * this.sa, false);
 		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
-
-		/* Graphics.print(this.state, Graphics.small, this.x, this.y);
-
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
-
-		if (this.ai != null) {
-			if (this.ai.nextPathPoint != null) {
-				Graphics.batch.end();
-				Graphics.shape.setColor(1, 0, 1, 1);
-				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-				Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 8);
-				Graphics.shape.end();
-				Graphics.shape.setColor(1, 1, 1, 1);
-				Graphics.batch.begin();
-			}
-
-			if (this.ai.targetPoint != null) {
-				Graphics.batch.end();
-				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-				Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2, this.ai.targetPoint.x + 8, this.ai.targetPoint.y + 8);
-				Graphics.shape.end();
-				Graphics.batch.begin();
-			}
-		}
-
-		if (this.lastSeen != null) {
-			Graphics.batch.end();
-			Graphics.shape.setColor(0, 0, 1, 1);
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2, this.lastSeen.x + 8, this.lastSeen.y + 8);
-			Graphics.shape.end();
-			Graphics.shape.setColor(1, 1, 1, 1);
-			Graphics.batch.begin();
-		}*/
 	}
 
 	@Override
@@ -352,6 +292,60 @@ public class CrazyKing extends Boss {
 			jump.setAutoPause(true);
 			jump.setPaused(false);
 
+			Tween.to(new Tween.Task(0.5f, 0.2f, Tween.Type.QUAD_OUT) {
+				@Override
+				public float getValue() {
+					return sy;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sy = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1.2f, 0.15f, Tween.Type.QUAD_IN) {
+						@Override
+						public float getValue() {
+							return sy;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sy = value;
+						}
+					});
+				}
+			});
+
+			Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
+				@Override
+				public float getValue() {
+					return sx;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sx = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.QUAD_IN) {
+						@Override
+						public float getValue() {
+							return sx;
+						}
+
+						@Override
+						public void setValue(float value) {
+							sx = value;
+						}
+					});
+				}
+			});
+
 			jump.setListener(new AnimationData.Listener() {
 				@Override
 				public void onFrame(int frame) {
@@ -373,7 +367,7 @@ public class CrazyKing extends Boss {
 							public void onEnd() {
 								up = false;
 								land.setPaused(true);
-								land.setFrame(1);
+								land.setFrame(0);
 
 								Tween.to(new Tween.Task(0f, 0.4f, Tween.Type.SINE_IN) {
 									@Override
@@ -395,13 +389,40 @@ public class CrazyKing extends Boss {
 										land.setFrame(2);
 										land.setAutoPause(true);
 
+										Tween.to(new Tween.Task(0.6f, 0.2f, Tween.Type.QUAD_OUT) {
+											@Override
+											public float getValue() {
+												return sy;
+											}
+
+											@Override
+											public void setValue(float value) {
+												sy = value;
+											}
+
+											@Override
+											public void onEnd() {
+												Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.QUAD_IN) {
+													@Override
+													public float getValue() {
+														return sy;
+													}
+
+													@Override
+													public void setValue(float value) {
+														sy = value;
+													}
+												});
+											}
+										});
+
 										land.setListener(new AnimationData.Listener() {
 											@Override
 											public void onFrame(int frame) {
 												if (frame == 4 && !nset) {
 													nset = true;
 													for (Player player : self.colliding) {
-														player.modifyHp(-10);
+														player.modifyHp(-4);
 													}
 
 													for (int i = 0; i < 8; i++) {
@@ -432,10 +453,32 @@ public class CrazyKing extends Boss {
 		}
 	}
 
+	@Override
+	public void modifyHp(int amount, boolean ignoreArmor) {
+		if (!this.state.equals("jump") && !this.state.equals("fadeIn") && !this.state.equals("fadeOut")) {
+			super.modifyHp(amount, ignoreArmor);
+		}
+	}
+
 	public class FadeInState extends CKState {
 		@Override
 		public void onEnter() {
-			Tween.to(new Tween.Task(0, 1f) {
+			land.setPaused(true);
+			land.setFrame(0);
+
+			Tween.to(new Tween.Task(1f, 1f) {
+				@Override
+				public float getValue() {
+					return sa;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sa = value;
+				}
+			});
+
+			Tween.to(new Tween.Task(0f, 1f, Tween.Type.SINE_IN) {
 				@Override
 				public float getValue() {
 					return z;
@@ -447,30 +490,11 @@ public class CrazyKing extends Boss {
 					depth = (int) value;
 				}
 
+				private boolean nset;
+
 				@Override
 				public void onEnd() {
-					Camera.instance.shake(13);
-					self.setUnhittable(false);
-
-					for (Player player : self.colliding) {
-						player.modifyHp(-4);
-					}
-
-					for (int i = 0; i < 16; i++) {
-						BulletEntity ball = new BulletEntity();
-
-						float a = (float) (i * Math.PI / 8);
-						ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f);
-
-						ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
-						ball.damage = 2;
-						ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
-
-						ball.letter = "bad";
-						Dungeon.area.add(ball);
-					}
-
-					/*Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
+					Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
 						@Override
 						public float getValue() {
 							return sx;
@@ -520,64 +544,56 @@ public class CrazyKing extends Boss {
 								public void setValue(float value) {
 									sy = value;
 								}
-
-								@Override
-								public void onEnd() {
-									self.become("roam");
-								}
 							});
 						}
-					});*/
-					self.become("chase");
-				}
-			});
+					});
 
-			Tween.to(new Tween.Task(1f, 1f) {
-				@Override
-				public float getValue() {
-					return sa;
-				}
+					land.setPaused(false);
+					land.setFrame(2);
+					land.setAutoPause(true);
 
-				@Override
-				public void setValue(float value) {
-					sa = value;
+					land.setListener(new AnimationData.Listener() {
+						@Override
+						public void onFrame(int frame) {
+							if (frame == 4 && !nset) {
+								nset = true;
+								for (Player player : self.colliding) {
+									player.modifyHp(-4);
+								}
+
+								for (int i = 0; i < 8; i++) {
+									BulletEntity ball = new BulletEntity();
+
+									float a = (float) (i * Math.PI / 4);
+									ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f);
+
+									ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
+									ball.damage = 2;
+									ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
+
+									ball.letter = "bad";
+									Dungeon.area.add(ball);
+								}
+
+								self.become("chase");
+							}
+						}
+					});
 				}
 			});
 		}
 	}
 
 	public class FadeOutState extends CKState {
+		private boolean set;
+
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			self.setUnhittable(true);
 
-			/*Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
-				@Override
-				public float getValue() {
-					return sx;
-				}
-
-				@Override
-				public void setValue(float value) {
-					sx = value;
-				}
-
-				@Override
-				public void onEnd() {
-					Tween.to(new Tween.Task(0.6f, 0.15f, Tween.Type.QUAD_IN) {
-						@Override
-						public float getValue() {
-							return sx;
-						}
-
-						@Override
-						public void setValue(float value) {
-							sx = value;
-						}
-					});
-				}
-			});
+			jump.setFrame(0);
+			jump.setAutoPause(true);
+			jump.setPaused(false);
 
 			Tween.to(new Tween.Task(0.5f, 0.2f, Tween.Type.QUAD_OUT) {
 				@Override
@@ -602,45 +618,50 @@ public class CrazyKing extends Boss {
 						public void setValue(float value) {
 							sy = value;
 						}
-
-						@Override
-						public void onEnd() {*/
-							Tween.to(new Tween.Task(Camera.instance.getCamera().position.y + Display.GAME_HEIGHT * 3, 1f) {
-								@Override
-								public float getValue() {
-									return z;
-								}
-
-								@Override
-								public void setValue(float value) {
-									z = value;
-									depth = (int) value;
-								}
-
-								@Override
-								public void onEnd() {
-									if (self.target != null) {
-										self.tp(self.target.x + (self.target.w - self.w) / 2, self.target.y / 2);
-									}
-
-									self.become("fadeIn");
-								}
-							});
-
-							Tween.to(new Tween.Task(0f, 1f) {
-								@Override
-								public float getValue() {
-									return sa;
-								}
-
-								@Override
-								public void setValue(float value) {
-									sa = value;
-								}
-							/*});
-						}
 					});
-				}*/
+				}
+			});
+
+			jump.setListener(new AnimationData.Listener() {
+				@Override
+				public void onFrame(int frame) {
+					if (frame == 5 && !set) {
+						Tween.to(new Tween.Task(0, 1f) {
+							@Override
+							public float getValue() {
+								return sa;
+							}
+
+							@Override
+							public void setValue(float value) {
+								sa = value;
+							}
+						});
+
+						set = true;
+						Tween.to(new Tween.Task(Camera.instance.getCamera().position.y + Display.GAME_HEIGHT * 1.5f, 1f, Tween.Type.QUAD_IN) {
+							@Override
+							public float getValue() {
+								return z;
+							}
+
+							@Override
+							public void setValue(float value) {
+								z = value;
+								depth = (int) value;
+							}
+
+							@Override
+							public void onEnd() {
+								if (self.target != null) {
+									self.tp(self.target.x + (self.target.w - self.w) / 2, self.target.y);
+								}
+
+								self.become("fadeIn");
+							}
+						});
+					}
+				}
 			});
 		}
 	}
@@ -650,7 +671,7 @@ public class CrazyKing extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 1f) {
+			if (this.t >= 4f) {
 				self.become("attack");
 			}
 		}
@@ -663,12 +684,12 @@ public class CrazyKing extends Boss {
 
 			float r = Random.newFloat();
 
-			if (true) {
+			if (r < 0.3f) {
 				self.become("jump");
-			} else if (r < 0.5f) {
+			} else if (r < 0.6f) {
 				self.become("fadeOut");
-			} else if (Mob.all.size() < 2 && r < 0.6f) {
-				for (int i = 0; i < 4; i++) {
+			} else if (Mob.all.size() < 2 && r < 0.7f) {
+				for (int i = 0; i < 2; i++) {
 					Mob mob = new RangedKnight();
 
 					Dungeon.area.add(mob);
@@ -692,24 +713,8 @@ public class CrazyKing extends Boss {
 				}
 
 				self.become("chase");
-			} else if (r < 0.8f) {
-				for (int i = 0; i < 16; i++) {
-					BulletEntity ball = new BulletEntity();
-
-					float a = (float) (i * Math.PI / 8);
-					ball.vel = new Point((float) -Math.cos(a) / 2f, (float) -Math.sin(a) / 2f);
-
-					ball.x = (float) (self.target.x + (self.target.w) / 2 + Math.cos(a) * 68);
-					ball.y = (float) (self.target.y + Math.sin(a) * 68);
-
-					ball.letter = "bad";
-					ball.damage = 2;
-					Dungeon.area.add(ball);
-				}
-
-				self.become("chase");
 			} else {
-				self.become("roam");
+				// todo
 			}
 		}
 	}

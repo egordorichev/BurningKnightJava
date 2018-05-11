@@ -268,26 +268,32 @@ public class UiInventory extends UiEntity {
 
 		if (Input.instance.wasPressed("1")) {
 			this.active = 0;
+			this.forceT = 1f;
 		}
 
 		if (Input.instance.wasPressed("2")) {
 			this.active = 1;
+			this.forceT = 1f;
 		}
 
 		if (Input.instance.wasPressed("3")) {
 			this.active = 2;
+			this.forceT = 1f;
 		}
 
 		if (Input.instance.wasPressed("4")) {
 			this.active = 3;
+			this.forceT = 1f;
 		}
 
 		if (Input.instance.wasPressed("5")) {
 			this.active = 4;
+			this.forceT = 1f;
 		}
 
 		if (Input.instance.wasPressed("6")) {
 			this.active = 5;
+			this.forceT = 1f;
 		}
 
 		if (Player.instance != null) {
