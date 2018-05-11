@@ -33,7 +33,7 @@ public class BigBulletEntity extends BulletEntity {
 				Part part = new Part();
 
 				part.x = this.x + Random.newFloat(this.w / 2) + this.w / 2;
-				part.y = this.y - Random.newFloat(this.h / 2) + this.h / 2;
+				part.y = this.y + Random.newFloat(this.h / 2) + this.h / 2;
 
 				Dungeon.area.add(part);
 			}

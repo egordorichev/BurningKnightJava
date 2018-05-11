@@ -91,10 +91,10 @@ public class BulletEntity extends Entity {
 		super.update(dt);
 		this.t += dt;
 
-		boolean d = this.done;
+		boolean dd = this.done;
 		this.done = this.remove;
 
-		if (this.done && !d) {
+		if (this.done && !dd) {
 			this.onDeath();
 
 			for (int i = 0; i < 20; i++) {

@@ -54,6 +54,7 @@ public class LoadState extends State {
 
 		Ui.ui.healthbars.clear();
 
+		Dungeon.speed = 1f;
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.ui.destroy();
 		Dungeon.area.destroy();

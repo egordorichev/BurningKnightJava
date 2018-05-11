@@ -144,7 +144,7 @@ public class CrazyKing extends Boss {
 		this.animation.update(dt);
 		super.common();
 
-		this.secondForm = true;//(this.hp < this.hpMax / 2);
+		// this.secondForm = true;//(this.hp < this.hpMax / 2);
 
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
@@ -396,6 +396,8 @@ public class CrazyKing extends Boss {
 				public void onFrame(int frame) {
 					if (frame == 5 && !set) {
 						set = true;
+						self.playSfx("CK_jump");
+
 						Tween.to(new Tween.Task(32f, 0.4f, Tween.Type.SINE_OUT) {
 							@Override
 							public float getValue() {
@@ -410,6 +412,7 @@ public class CrazyKing extends Boss {
 
 							@Override
 							public void onEnd() {
+								Camera.instance.shake(5);
 								up = false;
 								land.setPaused(true);
 								land.setFrame(0);
@@ -430,6 +433,7 @@ public class CrazyKing extends Boss {
 
 									@Override
 									public void onEnd() {
+										self.playSfx("CK_attack");
 										land.setPaused(false);
 										land.setFrame(2);
 										land.setAutoPause(true);
@@ -539,6 +543,9 @@ public class CrazyKing extends Boss {
 
 				@Override
 				public void onEnd() {
+					Camera.instance.shake(5);
+					self.playSfx("CK_attack");
+
 					Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
 						@Override
 						public float getValue() {
@@ -671,6 +678,8 @@ public class CrazyKing extends Boss {
 				@Override
 				public void onFrame(int frame) {
 					if (frame == 5 && !set) {
+						self.playSfx("CK_jump");
+
 						Tween.to(new Tween.Task(0, 1f) {
 							@Override
 							public float getValue() {
@@ -735,6 +744,8 @@ public class CrazyKing extends Boss {
 				if (r < 0.6f) {
 					self.become("jump");
 				} else if (Mob.all.size() < 2 && r < 0.7f) {
+					self.playSfx("CK_call");
+
 					for (int i = 0; i < 2; i++) {
 						Mob mob = new RangedKnight();
 
@@ -752,7 +763,7 @@ public class CrazyKing extends Boss {
 							Part part = new Part();
 
 							part.x = mob.x + Random.newFloat(mob.w);
-							part.y = mob.y - Random.newFloat(mob.h);
+							part.y = mob.y + Random.newFloat(mob.h);
 
 							Dungeon.area.add(part);
 						}
