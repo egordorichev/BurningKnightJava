@@ -24,7 +24,7 @@ public class Lightroom extends Plant {
 		super.update(dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0.15f, 0, 0, 0.8f * Math.max(0.1f, this.growProgress), 1.5f, false);
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0.15f, 0, 0, 0.8f * Math.max(0.1f, this.growProgress), 2.5f, false);
 		}
 	}
 }

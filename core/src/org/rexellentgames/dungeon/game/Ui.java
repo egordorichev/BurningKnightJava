@@ -1,18 +1,16 @@
 package org.rexellentgames.dungeon.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.InGameState;
 import org.rexellentgames.dungeon.util.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class Ui {
@@ -28,9 +26,10 @@ public class Ui {
 
 	public void update(float dt) {
 		for (Boss boss : Boss.all) {
-			if (!healthbars.containsKey(boss.getClass())) {
+			if (!boss.getState().equals("unactive") && !healthbars.containsKey(boss.getClass())) {
 				Healthbar healthbar = new Healthbar();
 				healthbar.boss = boss;
+				healthbar.targetValue = healthbars.size() * 19 + 16;
 
 				healthbars.put(boss.getClass(), healthbar);
 			}
@@ -42,7 +41,29 @@ public class Ui {
 			bars[i].update(dt);
 
 			if (bars[i].done) {
+				Log.info(bars[i].boss.getHp() + " dead");
 				healthbars.remove(bars[i].boss.getClass());
+
+				int j = 0;
+
+				for (Healthbar bar : healthbars.values()) {
+					bar.targetValue = j * 19 + 16;
+					bar.tweened = true;
+
+					Tween.to(new Tween.Task(Display.GAME_HEIGHT - bar.targetValue, 0.5f) {
+						@Override
+						public float getValue() {
+							return bar.y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							bar.y = value;
+						}
+					});
+
+					j++;
+				}
 			}
 		}
 

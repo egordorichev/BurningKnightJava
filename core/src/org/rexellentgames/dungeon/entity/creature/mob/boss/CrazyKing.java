@@ -42,6 +42,7 @@ public class CrazyKing extends Boss {
 		h = 24;
 		texture = "ui-bkbar-ck_head";
 		mind = Mind.ATTACKER;
+		ignoreHealthbar = true;
 
 		alwaysRender = true;
 	}
@@ -216,7 +217,7 @@ public class CrazyKing extends Boss {
 			super.onEnter();
 
 			if (!noticed) {
-				/*Dialog.active = onNotice;
+				Dialog.active = onNotice;
 				Dialog.active.start();
 				Camera.instance.follow(self, false);
 
@@ -234,9 +235,10 @@ public class CrazyKing extends Boss {
 							self.target.setUnhittable(false);
 						}
 
+						ignoreHealthbar = false;
 						Camera.instance.follow(Player.instance, false);
 					}
-				});*/
+				});
 				self.become("chase");
 			}
 		}

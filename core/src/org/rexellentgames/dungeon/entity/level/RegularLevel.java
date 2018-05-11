@@ -13,7 +13,6 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.special.HealthBlockRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
@@ -38,12 +37,12 @@ public abstract class RegularLevel extends Level {
 		this.spawnEntities();
 
 		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0) {
-			/*BurningKnight knight = new BurningKnight();
+			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
 			Dungeon.level.addPlayerSaveable(knight);
 
-			knight.findStartPoint();*/
+			knight.findStartPoint();
 		}
 
 		Log.info("Done!");
