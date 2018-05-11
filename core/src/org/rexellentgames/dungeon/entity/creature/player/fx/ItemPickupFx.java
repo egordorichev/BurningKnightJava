@@ -42,6 +42,10 @@ public class ItemPickupFx extends Entity {
 				this.area.add(new ItemPickedFx(item));
 				Dungeon.level.removeSaveable(item);
 			}
+		} else if (this.item.done) {
+			this.done = true;
+			this.area.add(new ItemPickedFx(item));
+			Dungeon.level.removeSaveable(item);
 		}
 	}
 

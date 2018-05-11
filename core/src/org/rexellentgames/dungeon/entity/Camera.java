@@ -44,7 +44,7 @@ public class Camera extends Entity {
 			Tween.remove(this.last);
 		}
 
-		this.last = Tween.to(new Tween.Task(am, 0.05f) {
+		this.last = Tween.to(new Tween.Task(am * Settings.screenshake, 0.05f) {
 			@Override
 			public float getValue() {
 				return pushAm;

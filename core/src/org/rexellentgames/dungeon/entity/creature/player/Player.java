@@ -250,6 +250,8 @@ public class Player extends Creature {
 			instance = this;
 		}
 
+		Log.info(this.defense + " ");
+
 		this.experienceMax = expNeeded(this.level);
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;

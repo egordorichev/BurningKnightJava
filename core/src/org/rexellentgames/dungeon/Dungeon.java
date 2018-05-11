@@ -58,7 +58,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float darkX = Display.GAME_WIDTH / 2;
 	public static float darkY = Display.GAME_HEIGHT / 2;
 	public static String[] arg;
-	public static float speed = 1f;
+	public static float speed = 0.2f;
 	public static Color BLACK = Color.valueOf("#000000");
 	public static Color GRAY = Color.valueOf("#696a6a");
 	public static Color WHITE = Color.valueOf("#ffffff");
@@ -414,7 +414,7 @@ public class Dungeon extends ApplicationAdapter {
 		if (Input.instance.wasPressed("mouse_left")) {
 			Log.info("left");
 		}
-
+/*
 		if (Player.instance != null && Input.instance.circle) {
 			float ix = Input.instance.getAxis("mouseX") * s;
 			float iy = -Input.instance.getAxis("mouseY") * s;
@@ -452,7 +452,7 @@ public class Dungeon extends ApplicationAdapter {
 			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
 
 			return;
-		}
+		}*/
 
 		inputVel.x += Input.instance.getAxis("mouseX") * s;
 		inputVel.y += Input.instance.getAxis("mouseY") * s;

@@ -68,6 +68,13 @@ public class Tween {
 				if ((t *= 2) < 1) return 0.5f * (t * t * (((s *= (1.525f)) + 1) * t - s));
 				return 0.5f * ((t -= 2) * t * (((s *= (1.525f)) + 1) * t + s) + 2);
 			}
+		},
+
+		SINE_OUT {
+			@Override
+			public float get(float p) {
+				return (float) Math.sin(p * (Math.PI / 2));
+			}
 		};
 
 		public float get(float p) {
