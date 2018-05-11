@@ -38,5 +38,7 @@
 	"menu/exit",
 	"menu/select",
 	"menu/moving",
-	"menu/exit"
+	"menu/exit",
+	"damage_towelknight",
+	"death_towelknight"
 ]
