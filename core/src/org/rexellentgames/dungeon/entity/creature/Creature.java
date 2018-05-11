@@ -220,6 +220,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected boolean falling;
+	public float z;
 
 	@Override
 	public void become(String state) {
