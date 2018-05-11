@@ -10,6 +10,7 @@ public class Boss extends Mob {
 	public static ArrayList<Boss> all = new ArrayList<>();
 	public String texture;
 	public boolean ignoreHealthbar;
+	public boolean shouldBeInTheSameRoom;
 
 	@Override
 	public void init() {
@@ -31,12 +32,12 @@ public class Boss extends Mob {
 				return;
 			}
 
-			for (Creature player : Player.all) {
+			for (Player player : Player.all) {
 				if (player.invisible) {
 					continue;
 				}
 
-				if (self.canSee(player)) {
+				if (self.canSee(player) && (!shouldBeInTheSameRoom || player.currentRoom == self.room)) {
 					self.target = player;
 					self.become("alerted");
 					self.noticeSignT = 2f;
