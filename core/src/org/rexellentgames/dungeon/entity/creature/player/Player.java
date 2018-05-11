@@ -92,6 +92,13 @@ public class Player extends Creature {
 				bf.buff = buff;
 				bf.owner = this;
 
+				for (UiBuff bu : this.uiBuffs) {
+					if (bu.buff.getClass() == buff.getClass()) {
+						bu.buff = buff;
+						return;
+					}
+				}
+
 				this.uiBuffs.add(bf);
 			}
 		}
