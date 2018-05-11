@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -25,16 +26,19 @@ public class Healthbar {
 	private float sx = 1;
 	private float sy = 1;
 	private float last;
+	public float targetValue = 16;
 	public Boss boss;
+	private boolean bk;
 	public boolean done;
 
 	public void update(float dt) {
 		if (skull == null) {
 			skull = Graphics.getTexture(this.boss.texture);
+			this.bk = this.boss.texture.equals("ui-bkbar-skull");
 		}
 
 		this.last += dt;
-		this.done = this.boss.isDead() && this.y == Display.GAME_HEIGHT;
+		this.done = this.boss.isDead() && this.y >= Display.GAME_HEIGHT;
 
 		if (((int) this.lastBV) != boss.getHp()) {
 			Tween.to(new Tween.Task(0.95f, 0.1f) {
@@ -90,44 +94,17 @@ public class Healthbar {
 					});
 				}
 			});
+		}
 
-			max = boss.getHpMax();
-			this.lastV += (boss.getHp() - this.lastV) / 20f;
-			this.lastBV += (boss.getHp() - this.lastBV) / 4f;
+		max = boss.getHpMax();
+		this.lastV += (boss.getHp() - this.lastV) / 60f;
+		this.lastBV += (boss.getHp() - this.lastBV) / 4f;
 
-			boolean d = boss.isDead() || boss.getState().equals("unactive");
+		boolean d = boss.isDead() || boss.getState().equals("unactive");
 
-			if (d && this.tweened) {
-				tweened = false;
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.5f) {
-					@Override
-					public float getValue() {
-						return y;
-					}
-
-					@Override
-					public void setValue(float value) {
-						y = value;
-					}
-				});
-			} else if (!d && !this.tweened) {
-				tweened = true;
-
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT - 16, 0.5f, Tween.Type.BACK_OUT) {
-					@Override
-					public float getValue() {
-						return y;
-					}
-
-					@Override
-					public void setValue(float value) {
-						y = value;
-					}
-				}.delay(0.1f));
-			}
-		} else if (tweened) {
+		if (d && this.tweened) {
 			tweened = false;
-			Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.3f) {
+			Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.5f) {
 				@Override
 				public float getValue() {
 					return y;
@@ -138,6 +115,20 @@ public class Healthbar {
 					y = value;
 				}
 			});
+		} else if (!d && !this.tweened) {
+			tweened = true;
+
+			Tween.to(new Tween.Task(Display.GAME_HEIGHT - this.targetValue, 0.5f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return y;
+				}
+
+				@Override
+				public void setValue(float value) {
+					y = value;
+				}
+			}.delay(0.1f));
 		}
 	}
 
@@ -168,7 +159,7 @@ public class Healthbar {
 			// todo: scale?
 			Graphics.render(skull, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() / 2, skull.getRegionHeight() / 2, false, false, sx, sy);
 
-			if (this.last > 0.2f) {
+			if (this.bk && this.last > 0.2f) {
 				Part part = new Part();
 				this.last = 0;
 				part.x = Random.newFloat(r.getRegionWidth()) + Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2;
