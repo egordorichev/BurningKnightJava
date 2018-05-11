@@ -1,5 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.weapon.gun;
 
-public class CKGun {
+public class CKGun extends GunA {
 
 }

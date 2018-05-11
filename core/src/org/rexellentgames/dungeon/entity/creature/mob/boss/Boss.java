@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.mob.boss;
 
-import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 
@@ -26,7 +25,7 @@ public class Boss extends Mob {
 		all.remove(this);
 	}
 
-	public class BossState<T> extends State {
+	public class BossState<T extends Mob> extends State<T> {
 		public void checkForTarget() {
 			if (self.target != null && !self.getState().equals("roam") && !self.getState().equals("idle")) {
 				return;

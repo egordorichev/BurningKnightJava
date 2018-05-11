@@ -15,6 +15,9 @@ import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.key.KeyC;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.BadGun;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -37,8 +40,9 @@ public class CrazyKing extends Boss {
 	private static Dialog dialogs = Dialog.make("crazy-king");
 	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
-	public float z;
 	private boolean talked;
+	public boolean secondForm;
+	private CKGun gun;
 
 	{
 		hpMax = 50;
@@ -66,6 +70,9 @@ public class CrazyKing extends Boss {
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 		this.shouldBeInTheSameRoom = !this.talked;
+
+		this.gun = new CKGun();
+		this.gun.setOwner(this);
 	}
 
 	@Override
@@ -90,6 +97,11 @@ public class CrazyKing extends Boss {
 		BloodFx.add(this, 20);
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.gun.destroy();
+	}
 
 	private float sx = 1f;
 	private float sy = 1f;
@@ -120,6 +132,10 @@ public class CrazyKing extends Boss {
 		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
+
+		if (this.secondForm) {
+			this.gun.render(this.x, this.y, this.w, this.h, this.flipped);
+		}
 	}
 
 	@Override
@@ -127,6 +143,8 @@ public class CrazyKing extends Boss {
 		super.update(dt);
 		this.animation.update(dt);
 		super.common();
+
+		this.secondForm = true;//(this.hp < this.hpMax / 2);
 
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
@@ -152,7 +170,7 @@ public class CrazyKing extends Boss {
 		return super.getAi(state);
 	}
 
-	public class CKState extends BossState<CrazyKing> {
+	public class CKState extends Boss.BossState<CrazyKing> {
 
 	}
 
@@ -711,37 +729,39 @@ public class CrazyKing extends Boss {
 
 			float r = Random.newFloat();
 
-			if (r < 0.3f) {
-				self.become("jump");
-			} else if (r < 0.6f) {
-				self.become("fadeOut");
-			} else if (Mob.all.size() < 2 && r < 0.7f) {
-				for (int i = 0; i < 2; i++) {
-					Mob mob = new RangedKnight();
-
-					Dungeon.area.add(mob);
-					Dungeon.level.addSaveable(mob);
-
-					float a = (float) (i * Math.PI);
-
-					mob.generate();
-					mob.tp(self.x + (self.w - mob.w) / 2 + (float) Math.cos(a) * 24f,
-						self.y + (self.h - mob.h) / 2 + (float) Math.sin(a) * 24f);
-
-
-					for (int j = 0; j < 20; j++) {
-						Part part = new Part();
-
-						part.x = mob.x + Random.newFloat(mob.w);
-						part.y = mob.y - Random.newFloat(mob.h);
-
-						Dungeon.area.add(part);
-					}
-				}
-
-				self.become("chase");
+			if (self.secondForm) {
+				
 			} else {
-				// todo
+				if (r < 0.6f) {
+					self.become("jump");
+				} else if (Mob.all.size() < 2 && r < 0.7f) {
+					for (int i = 0; i < 2; i++) {
+						Mob mob = new RangedKnight();
+
+						Dungeon.area.add(mob);
+						Dungeon.level.addSaveable(mob);
+
+						float a = (float) (i * Math.PI);
+
+						mob.generate();
+						mob.tp(self.x + (self.w - mob.w) / 2 + (float) Math.cos(a) * 24f,
+							self.y + (self.h - mob.h) / 2 + (float) Math.sin(a) * 24f);
+
+
+						for (int j = 0; j < 20; j++) {
+							Part part = new Part();
+
+							part.x = mob.x + Random.newFloat(mob.w);
+							part.y = mob.y - Random.newFloat(mob.h);
+
+							Dungeon.area.add(part);
+						}
+					}
+
+					self.become("chase");
+				} else {
+					self.become("fadeOut");
+				}
 			}
 		}
 	}
