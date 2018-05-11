@@ -29,6 +29,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new DebugCommand());
 		this.commands.add(new ArcadeCommand());
 		this.commands.add(new ShadowCommand());
+		this.commands.add(new DieCommand());
 	}
 
 	public void destroy() {

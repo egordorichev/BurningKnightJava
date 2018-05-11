@@ -98,8 +98,8 @@ public class Entity extends Point {
 
 		float zoom = camera.zoom;
 
-		return this.x + this.w >= camera.position.x - Display.GAME_WIDTH / 2 * zoom &&
-			this.y + this.h >= camera.position.y - Display.GAME_HEIGHT / 2 * zoom &&
+		return this.x + this.w * 2 >= camera.position.x - Display.GAME_WIDTH / 2 * zoom &&
+			this.y + this.h * 2 >= camera.position.y - Display.GAME_HEIGHT / 2 * zoom &&
 			this.x <= camera.position.x + Display.GAME_WIDTH / 2 * zoom &&
 			this.y <= camera.position.y + this.h + Display.GAME_HEIGHT / 2 * zoom;
 	}

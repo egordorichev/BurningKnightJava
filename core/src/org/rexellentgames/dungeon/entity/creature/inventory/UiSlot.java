@@ -170,7 +170,7 @@ public class UiSlot {
 					current.setCount(current.getCount() + self.getCount());
 					this.inventory.getInventory().setSlot(this.id, current);
 					this.inventory.setCurrentSlot(null);
-				} else if (this.canAccept(current) || current == null) {
+				} else if (this.canAccept(this.id, current) || current == null) {
 					this.inventory.setCurrentSlot(self);
 					this.inventory.getInventory().setSlot(this.id, current);
 
@@ -219,12 +219,12 @@ public class UiSlot {
 		}
 	}
 
-	public boolean canAccept(Item item) {
-		if (this.id == 6) {
+	public static boolean canAccept(int id, Item item) {
+		if (id == 6) {
 			return item instanceof Hat;
-		} else if (this.id == 11) {
+		} else if (id == 11) {
 			return item instanceof Gold;
-		} else if (this.id > 6) {
+		} else if (id > 6) {
 			return item instanceof Equipable;
 		}
 
@@ -235,7 +235,6 @@ public class UiSlot {
 	public float a = 0.5f;
 
 	public void render(Item item) {
-
 		if (this.inventory.getActive() == this.id) {
 			this.rr = 0.6f;
 			this.rg = 0.6f;
@@ -344,13 +343,15 @@ public class UiSlot {
 				Graphics.batch.begin();
 			}
 
-			Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.batch.setColor(1, 1, 1, item.a);
 
 			Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
 				this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 			if (count != 1) {
+				Graphics.small.setColor(1, 1, 1, item.a);
 				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
+				Graphics.small.setColor(1, 1, 1, 1);
 			}
 		}
 

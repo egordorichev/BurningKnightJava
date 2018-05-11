@@ -40,6 +40,8 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	public boolean ignoreWalls = false;
 	private float sx;
 	private float sy;
+	private float rt;
+	public Entity owner;
 
 	@Override
 	public Body getBody() {
@@ -52,6 +54,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		this.alwaysActive = true;
 		this.t = Random.newFloat(32f);
+		this.rt = 0;
 
 		this.playSfx("fireball_cast");
 
@@ -100,17 +103,17 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (this.animation != this.idle) {
+		if (this.animation != this.idle || owner == entity) {
 			return;
 		}
 
 		if (entity instanceof Mob && !((Mob) entity).isDead()) {
-			((Mob) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -3 : -5 / 3 * 2, this.noMove ? -3 : -5)), true);
+			((Mob) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), true);
 			this.animation = this.dead;
 			this.playSfx("fireball_death");
 			((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -3 : -5 / 3 * 2, this.noMove ? -3 : -5)), true);
+			((Player) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), true);
 			this.animation = this.dead;
 			this.playSfx("fireball_death");
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
@@ -147,6 +150,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 			part.x = this.x + 5.5f;
 			part.y = this.y + 5.5f;
 			part.speed = 3f;
+			part.depth = this.depth - 1;
 			part.vel = new Point();
 			Dungeon.area.add(part);
 			part.depth = 11;
@@ -161,6 +165,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		}
 
 		this.t += dt;
+		this.rt += dt;
 
 		if (Dungeon.level != null) {
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 3f, 0.8f, 0f, 2f, 2f, true);
@@ -171,7 +176,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 				this.animation = this.idle;
 			} else if (this.animation == this.dead) {
 				this.done = true;
-			} else if (this.t >= 4f) {
+			} else if (this.rt >= 4f) {
 				this.playSfx("fireball_death");
 				this.animation = this.dead;
 			}

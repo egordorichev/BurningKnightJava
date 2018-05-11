@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
+import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Log;
@@ -260,16 +261,7 @@ public class UiInventory extends UiEntity {
 			if (slot.isCursed()) {
 				UiLog.instance.print("[red]The item is cursed!");
 			} else {
-				ItemHolder holder = new ItemHolder();
-
-				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
-				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-				holder.setItem(slot);
-				holder.velToMouse();
-
-				this.inventory.setSlot(this.active, null);
-				Dungeon.area.add(holder);
-				Dungeon.level.addSaveable(holder);
+				this.drop(slot);
 			}
 		}
 
@@ -297,28 +289,20 @@ public class UiInventory extends UiEntity {
 			this.active = 5;
 		}
 
-		for (UiSlot slot : this.slots) {
-			slot.update(dt);
+		if (Player.instance != null) {
+			for (UiSlot slot : this.slots) {
+				slot.update(dt);
+			}
 		}
 
-		if (!this.handled && !Player.instance.isDead()) {
+		if (!this.handled && Player.instance != null) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
 				Item slot = this.currentSlot;
 
 				if (slot.isCursed()) {
 					UiLog.instance.print("[red]The item is cursed!");
 				} else {
-					ItemHolder holder = new ItemHolder();
-
-					holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
-					holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-					holder.setItem(slot);
-					holder.velToMouse();
-
-					this.inventory.setSlot(this.active, null);
-					Dungeon.area.add(holder);
-					Dungeon.level.addSaveable(holder);
-
+					this.drop(slot);
 					this.currentSlot = null;
 				}
 			} else {
@@ -351,6 +335,42 @@ public class UiInventory extends UiEntity {
 		this.inventory.active = this.active;
 	}
 
+	private void drop(Item slot) {
+		Tween.to(new Tween.Task(0, 0.1f) {
+			@Override
+			public float getValue() {
+				return slot.a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				slot.a = value;
+			}
+
+			@Override
+			public void onEnd() {
+				ItemHolder holder = new ItemHolder();
+
+				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
+				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
+				holder.setItem(slot);
+				holder.velToMouse();
+
+				for (int i = 0; i < inventory.getSize(); i++)  {
+					Item it = inventory.getSlot(i);
+
+					if (it == slot) {
+						inventory.setSlot(i, null);
+						break;
+					}
+				}
+
+				Dungeon.area.add(holder);
+				Dungeon.level.addSaveable(holder);
+			}
+		});
+	}
+
 	private static TextureRegion frame = Graphics.getTexture("ui (exp_bar_frame)");
 	private static TextureRegion bar = Graphics.getTexture("ui (exp_in_bar)");
 	private static TextureRegion heart = Graphics.getTexture("ui (heart)");
@@ -362,7 +382,9 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		this.last += (Player.instance.getExperienceForLevel() - this.last) / 10f;
+		if (Player.instance != null) {
+			this.last += (Player.instance.getExperienceForLevel() - this.last) / 10f;
+		}
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
@@ -422,17 +444,22 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		Buff[] buffs = Player.instance.getBuffs().toArray(new Buff[]{});
+		UiBuff[] buffs = Player.instance.uiBuffs.toArray(new UiBuff[]{});
 
 		for (int i = 0; i < buffs.length; i++) {
-			Buff buff = buffs[i];
-
-			TextureRegion sprite = buff.getSprite();
-			Graphics.batch.draw(sprite, 4 + i * 12, y + 9 + 11);
+			UiBuff buff = buffs[i];
+			buff.render(i, y);
 		}
+
+		this.renderCurrentSlot();
+		Ui.ui.renderCursor();
 	}
 
+	public UiBuff hoveredBuff;
+
 	public void renderCurrentSlot() {
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
 		if (this.currentSlot != null) {
 			TextureRegion sprite = this.currentSlot.getSprite();
 			Graphics.render(sprite,
@@ -454,17 +481,32 @@ public class UiInventory extends UiEntity {
 				float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 				Graphics.small.setColor(c, c, c, 1);
-				Graphics.print(info, Graphics.small,
-					MathUtils.clamp(1, Display.GAME_WIDTH - 1, (int) Input.instance.uiMouse.x + 12),
-					MathUtils.clamp((int) Graphics.layout.height + 1, Display.GAME_HEIGHT - 1, (int) Input.instance.uiMouse.y + 2));
+				Graphics.print(info, Graphics.small, 4, this.slots[11].y + 29 + Graphics.layout.height + 14);
 				Graphics.small.setColor(1, 1, 1, 1);
 
 				this.hoveredSlot = -1;
 			}
 		}
+
+		if (hoveredBuff != null) {
+			String info = hoveredBuff.getInfo();
+			Graphics.layout.setText(Graphics.small, info);
+
+			float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
+
+			Graphics.small.setColor(c, c, c, 1);
+			Graphics.print(info, Graphics.small,4, this.slots[11].y + 29 + Graphics.layout.height + 14 + 15);
+			Graphics.small.setColor(1, 1, 1, 1);
+
+			hoveredBuff = null;
+		}
 	}
 
 	public void renderOnPlayer(Player player) {
+		if (player == null || player.isDead()) {
+			return;
+		}
+
 		Item slot = this.inventory.getSlot(this.active);
 
 		if (slot != null) {

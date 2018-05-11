@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -31,6 +33,8 @@ public class FlameFx extends Entity {
 		this.t = Random.newFloat(1024);
 		this.tt = 0;
 		this.depth = 6;
+		this.alwaysActive = true;
+		this.alwaysRender = true;
 		this.x = owner.x;
 		this.y = owner.y;
 
@@ -86,12 +90,13 @@ public class FlameFx extends Entity {
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 		float s = this.size / 2;
 
-		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.7f);
-		Graphics.shape.rect(this.x + this.owner.w / 2, this.y + this.owner.h / 5, s, s, this.size,
+		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.8f);
+		Graphics.shape.rect(this.x + this.owner.w / 2, this.y, s, s, this.size,
 			this.size, 1, 1, this.angle);
 
 		Graphics.shape.end();

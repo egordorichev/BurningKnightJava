@@ -1,27 +1,27 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
+import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.plant.Plant;
-import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -32,7 +32,7 @@ import java.io.IOException;
 public class BurningKnight extends Mob {
 	public static BurningKnight instance;
 	public static float LIGHT_SIZE = 12f;
-	private static Animation animations = Animation.make("actor_burning_knight");
+	private static Animation animations = Animation.make("actor-burning-knight");
 	private Room last;
 	public static Point throne;
 	private AnimationData idle;
@@ -58,6 +58,7 @@ public class BurningKnight extends Mob {
 		idle = animations.get("idle");
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
+		unhittable = false;
 	}
 
 
@@ -107,11 +108,10 @@ public class BurningKnight extends Mob {
 
 	@Override
 	public void init() {
-		this.sfx = Graphics.getSound("bk");
-		this.sid = this.sfx.loop(Graphics.playSfx("bk", 0f));
+		sfx = Graphics.getSound("bk");
+		this.sid = sfx.loop(Graphics.playSfx("bk", 0f));
 
-		this.sfx.setVolume(this.sid, 0);
-		this.sfx.stop(this.sid);
+		sfx.setVolume(this.sid, 0);
 
 		instance = this;
 		super.init();
@@ -138,8 +138,10 @@ public class BurningKnight extends Mob {
 	public void update(float dt) {
 		super.update(dt);
 
+		// Log.info(this.unhittable + "");
+
 		if (Dungeon.level != null) {
-			// Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
+			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
@@ -183,9 +185,7 @@ public class BurningKnight extends Mob {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		if (this.dead) {
-			this.animation = killed;
-		} else if (this.invt > 0) {
+		if (this.invt > 0) {
 			this.animation = hurt;
 		} else {
 			this.animation = idle;
@@ -255,7 +255,7 @@ public class BurningKnight extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			this.delay = Random.newFloat(5f, 10f);
+			this.delay = Random.newFloat(1f, 3f);
 		}
 
 		@Override
@@ -368,12 +368,13 @@ public class BurningKnight extends Mob {
 			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16) &&
-				(Dungeon.depth > 0)) || (self.target != null && self.target.invisible)) {
+			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16)) || (self.target != null && self.target.invisible)) {
 				self.target = null;
+				self.lastSeen = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
 				self.hideSignT = 2f;
+				Level.heat = Math.max(Level.heat - 1, 0);
 				return;
 			}
 
@@ -411,7 +412,7 @@ public class BurningKnight extends Mob {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16)) {
-
+				self.lastSeen = null;
 				self.target = null;
 				self.become("idle");
 				return;
@@ -435,7 +436,7 @@ public class BurningKnight extends Mob {
 
 		@Override
 		public void update(float dt) {
-			if (this.t >= 2f / Dungeon.depth) {
+			if (this.t >= 1f) {
 				self.become("attack");
 				return;
 			}
@@ -497,6 +498,7 @@ public class BurningKnight extends Mob {
 						ball = new Fireball();
 
 						ball.ignoreWalls = true;
+						ball.owner = self;
 						ball.target = self.target;
 						ball.x = self.x + (self.w - 16) / 2;
 						ball.y = self.y + (self.h - 10) / 2;
@@ -517,6 +519,7 @@ public class BurningKnight extends Mob {
 							ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
 							ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
 							ball.noMove = true;
+							ball.owner = self;
 							ball.bad = !self.stupid;
 
 							Dungeon.area.add(ball);
@@ -536,6 +539,7 @@ public class BurningKnight extends Mob {
 							ball.y = self.y + (self.h - 10) / 2;
 
 							ball.bad = !self.stupid;
+							ball.owner = self;
 							Dungeon.area.add(ball);
 						}
 						break;
@@ -552,6 +556,7 @@ public class BurningKnight extends Mob {
 							ball.x = self.x + (self.w - 16) / 2;
 							ball.y = self.y + (self.h - 10) / 2;
 							ball.bad = !self.stupid;
+							ball.owner = self;
 
 							a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
 
@@ -593,7 +598,7 @@ public class BurningKnight extends Mob {
 
 				@Override
 				public void onEnd() {
-					self.become(self.dialog == null ? "idle" : "dialog");
+					self.become(self.dialog == null ? "chase" : "dialog");
 					self.attackTp = false;
 				}
 			});
@@ -630,29 +635,78 @@ public class BurningKnight extends Mob {
 	public static Dialog dialogs = Dialog.make("burning-knight");
 	public static DialogData onLampTake = dialogs.get("on_lamp_take");
 	public DialogData dialog;
+	private float volume;
+
+	private Sound voice;
+	private long vid;
 
 	public class DialogState extends BKState {
 		@Override
 		public void onEnter() {
 			super.onEnter();
 
+			voice = Graphics.getSound("bk_voice");
+			vid = Graphics.playSfx("bk_voice", 1f, 1f);
+			voice.setVolume(vid, 0);
+			voice.pause(vid);
+
 			Dialog.active = self.dialog;
 			Dialog.active.start();
 
 			Camera.instance.follow(self, false);
 
-			if (self.target != null) {
-				self.target.setUnhittable(true);
-			}
-
 			Dialog.active.onEnd(new Runnable() {
 				@Override
 				public void run() {
 					Camera.instance.follow(Player.instance, false);
+				}
+			});
 
-					if (self.target != null) {
-						self.target.setUnhittable(false);
-					}
+			Dialog.active.onStop(new Runnable() {
+				@Override
+				public void run() {
+					Tween.to(new Tween.Task(0, 0.3f) {
+						@Override
+						public float getValue() {
+							return volume;
+						}
+
+						@Override
+						public void setValue(float value) {
+							volume = value;
+							voice.setVolume(vid, value);
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+							voice.pause(vid);
+						}
+					});
+				}
+			});
+
+			Dialog.active.onStart(new Runnable() {
+				@Override
+				public void run() {
+					voice.resume(vid);
+					Tween.to(new Tween.Task(1, 0.3f) {
+						@Override
+						public float getValue() {
+							return volume;
+						}
+
+						@Override
+						public void setValue(float value) {
+							volume = value;
+							voice.setVolume(vid, value);
+						}
+
+						@Override
+						public void onEnd() {
+							super.onEnd();
+						}
+					});
 				}
 			});
 		}
@@ -667,13 +721,42 @@ public class BurningKnight extends Mob {
 		}
 	}
 
+	@Override
+	protected void die(boolean force) {
+		super.die(force);
+
+		instance = null;
+		this.done = true;
+		Dungeon.level.removeSaveable(this);
+
+		if (Settings.gore) {
+			for (Animation.Frame frame : killed.getFrames()) {
+				GoreFx fx = new GoreFx();
+
+				fx.texture = frame.frame;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+		}
+
+		BloodFx.add(this, 20);
+	}
+
 	public class UnactiveState extends BKState {
 		@Override
 		public void onEnter() {
 			super.onEnter();
 
 			self.a = 0;
-			self.unhittable = true;
+			self.setUnhittable(true);
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			self.setUnhittable(false);
 		}
 
 		@Override
@@ -685,7 +768,7 @@ public class BurningKnight extends Mob {
 
 				float a = Random.newFloat((float) (Math.PI * 2));
 
-				self.unhittable = false;
+				self.setUnhittable(false);
 				self.tp(Player.instance.x + Player.instance.w / 2 + (float) Math.cos(a) * 64f,
 					Player.instance.y + Player.instance.h / 2 + (float) Math.sin(a) * 64f);
 				self.become("fadeIn");
@@ -750,11 +833,12 @@ public class BurningKnight extends Mob {
 			float dy = player.y - this.y - 8;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d < (LIGHT_SIZE - 3) * 16) {
+			if (d < (LIGHT_SIZE + 3) * 16) {
 				this.target = player;
 				this.become("alerted");
 				this.noticeSignT = 2f;
 				this.hideSignT = 0f;
+				Level.heat += 1f;
 
 				return;
 			}

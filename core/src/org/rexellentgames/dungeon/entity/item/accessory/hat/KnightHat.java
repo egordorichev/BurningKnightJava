@@ -8,5 +8,6 @@ public class KnightHat extends Hat {
 		sprite = "item (hat_knight)";
 		name = Locale.get("knight_hat");
 		description = Locale.get("knight_hat_desc");
+		defense = 2;
 	}
 }

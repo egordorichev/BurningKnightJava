@@ -8,5 +8,6 @@ public class RubyHat extends Hat {
 		sprite = "item (hat_ruby)";
 		name = Locale.get("ruby_hat");
 		description = Locale.get("ruby_hat_desc");
+		defense = 3;
 	}
 }

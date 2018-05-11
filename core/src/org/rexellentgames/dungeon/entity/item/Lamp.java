@@ -85,7 +85,6 @@ public class Lamp extends Item {
 
 			knight.dialog = BurningKnight.onLampTake;
 
-			Graphics.playSfx("bk_voice");
 			Dungeon.level.addPlayerSaveable(knight);
 		}
 	}
@@ -158,8 +157,8 @@ public class Lamp extends Item {
 			} else {
 				this.lightUp = false;
 			}
-		} else {
-			if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) {
+		}/* else {
+			if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !Player.instance.isDead()) {
 				float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
 					BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 
@@ -174,7 +173,7 @@ public class Lamp extends Item {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	@Override

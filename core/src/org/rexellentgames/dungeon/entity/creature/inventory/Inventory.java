@@ -2,12 +2,14 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -71,7 +73,6 @@ public class Inventory {
 		if (item instanceof Gold) {
 			Item slot = this.getSlot(11);
 
-			Log.info("Gold " + item.getCount());
 
 			if (slot == null) {
 				this.setSlot(11, item);
@@ -80,12 +81,25 @@ public class Inventory {
 			}
 
 			slot = this.getSlot(11);
-			Log.info("Ended with " + slot.getCount());
 
 			item.onPickup();
 			holder.done = true;
 
 			item.setOwner(Player.instance);
+			item.a = 0;
+
+			Tween.to(new Tween.Task(1, 0.3f) {
+				@Override
+				public float getValue() {
+					return item.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					item.a = value;
+				}
+			});
+
 			return true;
 		}
 
@@ -93,27 +107,55 @@ public class Inventory {
 			for (int i = 0; i < this.getSize(); i++) {
 				Item slot = this.getSlot(i);
 
-				if (slot != null && slot.getClass() == item.getClass()) {
+				if (slot != null && slot.getClass() == item.getClass() && UiSlot.canAccept(i, slot)) {
 					slot.setCount(slot.getCount() + item.getCount());
 					item.onPickup();
 					holder.done = true;
 
 					item.setOwner(Player.instance);
+					item.a = 0;
+
+					Tween.to(new Tween.Task(1, 0.3f) {
+						@Override
+						public float getValue() {
+							return item.a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							item.a = value;
+						}
+					});
 					return true;
 				}
 			}
 		}
 
 		for (int i = 0; i < this.getSize(); i++) {
-			if (this.isEmpty(i)) {
+			if (this.isEmpty(i) && UiSlot.canAccept(i, null)) {
 				this.setSlot(i, item);
 				item.onPickup();
 				holder.done = true;
 
 				item.setOwner(Player.instance);
+				item.a = 0;
+
+				Tween.to(new Tween.Task(1, 0.3f) {
+					@Override
+					public float getValue() {
+						return item.a;
+					}
+
+					@Override
+					public void setValue(float value) {
+						item.a = value;
+					}
+				});
 				return true;
 			}
 		}
+
+		Dungeon.area.add(new TextFx("No Space", Player.instance).setColor(Dungeon.ORANGE));
 
 		return false;
 	}

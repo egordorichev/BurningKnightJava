@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.Compass;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.accessory.hat.RubyHat;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB;
@@ -14,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.bow.BowB;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunC;
+import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherC;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordC;
@@ -39,17 +41,17 @@ public class GoldenChest extends Chest {
 
 	private static ArrayList<Class<? extends Item>>[] items = new ArrayList[]{
 		new ArrayList(Arrays.asList(Gold.class)),
-		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, GunC.class, HealingPotion.class, BowA.class)),
-		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class)),
-		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class)),
+		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, GunC.class, HealingPotion.class, BowA.class, RubyHat.class, RocketLauncherC.class)),
+		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
+		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
 		new ArrayList(Arrays.asList(AxeD.class, Compass.class))
 	};
 
 	private static float[][] chances = new float[][]{
 		{1},
-		{1, 0.3f, 0.1f, 1, 1, 0.8f, 0.3f, 1f, 1f, 1f},
-		{1, 0.3f, 0.1f, 1.2f, 1, 1f, 1f, 1f, 1f, 1f},
-		{0.1f, 1, 1.2f, 1, 1f, 1f, 1f, 1f, 1f},
+		{1, 0.3f, 0.1f, 1, 1, 0.8f, 0.3f, 1f, 1f, 1f , 1f, 1f },
+		{1, 0.3f, 0.1f, 1.2f, 1, 1f, 1f, 1f, 1f, 1f, 1f, 1f },
+		{0.1f, 1, 1.2f, 1, 1f, 1f, 1f, 1f, 1f, 1f, 1f },
 		{1, 1f}
 	};
 

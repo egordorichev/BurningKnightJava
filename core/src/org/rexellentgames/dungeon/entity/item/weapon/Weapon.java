@@ -43,6 +43,10 @@ public class Weapon extends Item {
 			((Player) this.owner).heat += 0.2f;
 		}
 
+		if (this.body != null) {
+			this.body = World.removeBody(this.body);
+		}
+
 		this.createHitbox();
 	}
 

@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 
@@ -18,6 +19,9 @@ public class GoreFx extends Entity {
 	private Point vel;
 	private float z = 8;
 	private Body body;
+	private float t;
+	private boolean tweened;
+	private float al = 1f;
 
 	@Override
 	public void init() {
@@ -27,7 +31,7 @@ public class GoreFx extends Entity {
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-20f, 20f);
 
-		this.vel = new Point(Random.newFloat(-3f, 3f), 3f);
+		this.vel = new Point(Random.newFloat(-3f, 3f), 2f);
 
 		if (!this.menu) {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
@@ -40,6 +44,28 @@ public class GoreFx extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		this.t += dt;
+
+		if (this.t > 5f && !this.tweened) {
+			this.tweened = true;
+			Tween.to(new Tween.Task(0, 1f, Tween.Type.QUAD_IN) {
+				@Override
+				public float getValue() {
+					return al;
+				}
+
+				@Override
+				public void setValue(float value) {
+					al = value;
+				}
+
+				@Override
+				public void onEnd() {
+					done = true;
+				}
+			});
+		}
 
 		if (this.body != null) {
 			this.vel.x = this.body.getLinearVelocity().x;
@@ -91,12 +117,15 @@ public class GoreFx extends Entity {
 
 	@Override
 	public void render() {
+		Graphics.batch.setColor(1, 1, 1, this.al);
+
 		if (!menu) {
 			Graphics.startShadows();
-			Graphics.render(this.texture, this.x, this.y - 4, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false, 1f, -1f);
+			Graphics.render(this.texture, this.x, this.y - 4, -this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false, 1f, -1f);
 			Graphics.endShadows();
 		}
 
 		Graphics.render(this.texture, this.x, this.y + this.z, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }

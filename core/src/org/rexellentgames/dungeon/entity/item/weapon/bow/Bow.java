@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;
@@ -22,17 +23,7 @@ public class Bow extends Item {
 
 	@Override
 	public void use() {
-		if (!(this.owner instanceof Player)) {
-			return;
-		}
-
-		Player player = (Player) this.owner;
-
-		if (!player.getInventory().find(Arrow.class)) {
-			return;
-		}
-
-		Arrow ar = (Arrow) player.getInventory().remove(Arrow.class);
+		Arrow ar = new ArrowA();
 		super.use();
 
 		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);

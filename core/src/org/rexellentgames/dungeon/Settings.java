@@ -19,8 +19,8 @@ public class Settings {
 	public static boolean uisfx = true;
 	public static int quality = 1;
 	public static float screenshake = 0.7f;
-	public static float music = 0.7f;
-	public static float sfx = 0.7f;
+	public static float music = 0.5f;
+	public static float sfx = 0.5f;
 
 	public static void load() {
 		Log.info("Loading settings...");

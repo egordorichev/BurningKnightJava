@@ -22,6 +22,8 @@ public class ExitRoom extends RegularRoom {
 		exit.x = point.x * 16;
 		exit.y = point.y * 16 - 8;
 
+		level.set((int) point.x, (int) point.y, Terrain.EXIT);
+
 		level.addSaveable(exit);
 		Dungeon.area.add(exit);
 

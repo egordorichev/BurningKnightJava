@@ -363,12 +363,19 @@ public abstract class Level extends Entity {
 		l.setLevel(this);
 
 		this.area.add(l);
+
+		LightLevel ll = new LightLevel();
+		ll.setLevel(this);
+
+		this.area.add(ll);
 	}
 
 	public void renderLight() {
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		Graphics.batch.end();
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
@@ -390,11 +397,7 @@ public abstract class Level extends Entity {
 			float v = this.light[i];
 
 			if (v > 0) {
-				int x = i % getWidth();
-				int y = (int) Math.floor(i / getWidth());
-
-				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f :
-					((Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y - 1, Terrain.PASSABLE)) ? 0.4f : 0), 1f, v - dt * 2);
+				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f : 0, 1f, v - dt);
 				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
 				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
 				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);
@@ -575,7 +578,9 @@ public abstract class Level extends Entity {
 				if (this.low[i]) {
 					byte tile = this.get(i);
 
-					if (tile != Terrain.WATER && tile > 0 && Terrain.patterns[tile] != null) {
+					if (tile == Terrain.EXIT) {
+						Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
+					} else if (tile != Terrain.WATER && tile > 0 && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						region.setRegionX(region.getRegionX() + x % 4 * 16);
@@ -714,6 +719,8 @@ public abstract class Level extends Entity {
 							see = true;
 						} else if (vl == 0) {
 							see = true;
+						} else {
+							see = (fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
 						}
 					}
 

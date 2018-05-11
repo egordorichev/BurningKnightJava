@@ -11,11 +11,13 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
@@ -33,8 +35,6 @@ import org.rexellentgames.dungeon.util.Tween;
 import java.util.ArrayList;
 
 public class InGameState extends State {
-	public static boolean LIGHT = true;
-
 	private UiInventory inventory;
 	private Console console;
 	private int w;
@@ -110,10 +110,30 @@ public class InGameState extends State {
 	}
 
 	private boolean set;
+	private float last;
 
 	@Override
 	public void update(float dt) {
 		this.console.update(dt);
+
+		last += dt;
+
+		if (last >= 1f) {
+			last = 0;
+			boolean found = false;
+
+			for (Mob mob : Mob.every) {
+				if (mob.onScreen) {
+					MusicManager.play("Born to do rogueries");
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				MusicManager.play("gobbeon");
+			}
+		}
 
 		World.update(dt);
 
@@ -131,7 +151,7 @@ public class InGameState extends State {
 			set = true;
 		}
 
-		if (this.a == 0 && Player.instance.getInvt() > 0) {
+		if (this.a == 0 && Player.instance != null && Player.instance.getInvt() > 0) {
 			Tween.to(new Tween.Task(1f, 0.2f) {
 				@Override
 				public float getValue() {
@@ -202,13 +222,6 @@ public class InGameState extends State {
 	}
 
 	@Override
-	public void render() {
-		if (LIGHT) {
-			Dungeon.level.renderLight();
-		}
-	}
-
-	@Override
 	public void renderUi() {
 		if (this.a != 0) {
 			Graphics.batch.setColor(1, 1, 1, this.a);
@@ -223,19 +236,14 @@ public class InGameState extends State {
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		World.render();
 
-		if (Camera.ui != null) {
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		}
-
-		if (!(Dungeon.level instanceof HubLevel)) {
-			Dungeon.ui.render();
-		}
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Ui.ui.renderUi();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
-		this.inventory.renderCurrentSlot();
 		Ui.ui.render();
+		Dungeon.ui.render();
 	}
 
 	private void setupUi() {
@@ -259,7 +267,8 @@ public class InGameState extends State {
 				transition(new Runnable() {
 					@Override
 					public void run() {
-						Dungeon.game.setState(new SettingsState(true));
+						SettingsState.fromGame = true;
+						Dungeon.game.setState(new SettingsState());
 					}
 				});
 				Camera.instance.shake(3);
