@@ -38,12 +38,12 @@ public abstract class RegularLevel extends Level {
 		this.spawnEntities();
 
 		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0) {
-			BurningKnight knight = new BurningKnight();
+			/*BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
 			Dungeon.level.addPlayerSaveable(knight);
 
-			knight.findStartPoint();
+			knight.findStartPoint();*/
 		}
 
 		Log.info("Done!");
