@@ -22,6 +22,7 @@ public class Gun extends Item {
 	protected float accuracy = 10f;
 	protected float sx = 1f;
 	protected float sy = 1f;
+	protected float vel = 6f;
 	protected int damage;
 
 	{
@@ -33,8 +34,9 @@ public class Gun extends Item {
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		TextureRegion sprite = this.getSprite();
+		Point aim = this.owner.getAim();
 
-		float an = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+		float an = this.owner.getAngleTo(aim.x, aim.y);
 		float a = (float) Math.toDegrees(an);
 
 		Graphics.startShadows();
@@ -45,7 +47,7 @@ public class Gun extends Item {
 		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4, a, 3, sprite.getRegionHeight() / 2,
 			false, false, this.sx, flipped ? -this.sy : this.sy);
 
-		if (this.delay + 0.02f >= this.useTime) {
+		if (this.delay + 0.1f >= this.useTime) {
 			Graphics.batch.end();
 
 			Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -77,11 +79,10 @@ public class Gun extends Item {
 	@Override
 	public void use() {
 		super.use();
-
-
 		Graphics.playSfx("gun_machinegun", 1f, Random.newFloat(0.6f, 1.5f));
+		Point aim = this.owner.getAim();
 
-		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
 		Shell shell = new Shell();
 
@@ -162,7 +163,8 @@ public class Gun extends Item {
 	}
 
 	protected void sendBullets() {
-		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2);
+		Point aim = this.owner.getAim();
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
 		this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy))));
 	}
@@ -173,7 +175,7 @@ public class Gun extends Item {
 		BulletEntity bullet = new BulletEntity();
 		float a = (float) Math.toDegrees(an);
 
-		Bullet b = new BulletA();
+		Bullet b = (Bullet) this.owner.getAmmo("bullet");
 		bullet.sprite = Graphics.getTexture("bullet (bullet " + b.bulletName + ")");
 
 		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
@@ -182,7 +184,7 @@ public class Gun extends Item {
 		float px = sprite.getRegionWidth();
 		float py = sprite.getRegionHeight();
 
-		float w = px + bullet.sprite.getRegionWidth() / 2;
+		float w = px;
 		float h = py + bullet.sprite.getRegionHeight() / 2;
 
 		px = (float) Math.cos(an);
@@ -193,7 +195,7 @@ public class Gun extends Item {
 		bullet.damage = b.damage + this.damage;
 		bullet.letter = b.bulletName;
 
-		float s = 6f;
+		float s = this.vel;
 
 		bullet.vel = new Point(
 			px * s, py * s

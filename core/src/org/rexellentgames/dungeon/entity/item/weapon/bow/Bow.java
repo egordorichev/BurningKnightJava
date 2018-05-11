@@ -3,13 +3,12 @@ package org.rexellentgames.dungeon.entity.item.weapon.bow;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
-import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Bow extends Item {
 	protected int damage;
@@ -23,10 +22,12 @@ public class Bow extends Item {
 
 	@Override
 	public void use() {
-		Arrow ar = new ArrowA();
+		Arrow ar = (Arrow) this.owner.getAmmo("arrow");
+		Point aim = this.owner.getAim();
+
 		super.use();
 
-		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
 		float s = 60f;
 
 		this.owner.vel.x += Math.cos(a) * s;
@@ -36,8 +37,8 @@ public class Bow extends Item {
 
 		arrow.owner = this.owner;
 
-		float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
-		float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
+		float dx = aim.x - this.owner.x - this.owner.w / 2;
+		float dy = aim.y - this.owner.y - this.owner.h / 2;
 
 		arrow.type = ar.getClass();
 		arrow.sprite = ar.getSprite();
@@ -45,6 +46,7 @@ public class Bow extends Item {
 		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
 		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
 		arrow.damage = this.damage + ar.damage;
+		arrow.bad = this.owner instanceof Mob;
 
 		Dungeon.area.add(arrow);
 
@@ -105,9 +107,11 @@ public class Bow extends Item {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
+		Point aim = this.owner.getAim();
+
 		TextureRegion s = this.getSprite();
-		float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
-		float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
+		float dx = aim.x - this.owner.x - this.owner.w / 2;
+		float dy = aim.y - this.owner.y - this.owner.h / 2;
 		float a = (float) Math.toDegrees(Math.atan2(dy, dx));
 
 		Graphics.startShadows();

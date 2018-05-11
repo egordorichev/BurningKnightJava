@@ -149,7 +149,7 @@ public class BurningKnight extends Mob {
 			float dy = this.y + 8 - Player.instance.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			sfx.setVolume(sid, MathUtils.clamp(0, 1, (100 - d) / 100f));
+			sfx.setVolume(sid, this.state.equals("unactive") ? 0 : MathUtils.clamp(0, 1, (100 - d) / 100f));
 		} else {
 			sfx.setVolume(sid, 0);
 		}
@@ -370,7 +370,6 @@ public class BurningKnight extends Mob {
 				return;
 			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16)) || (self.target != null && self.target.invisible)) {
 				self.target = null;
-				self.lastSeen = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
 				self.hideSignT = 2f;
@@ -412,7 +411,6 @@ public class BurningKnight extends Mob {
 				self.become("preattack");
 				return;
 			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16)) {
-				self.lastSeen = null;
 				self.target = null;
 				self.become("idle");
 				return;
@@ -751,12 +749,14 @@ public class BurningKnight extends Mob {
 
 			self.a = 0;
 			self.setUnhittable(true);
+			Mob.every.remove(self);
 		}
 
 		@Override
 		public void onExit() {
 			super.onExit();
 			self.setUnhittable(false);
+			Mob.every.add(self);
 		}
 
 		@Override

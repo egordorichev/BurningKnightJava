@@ -107,7 +107,7 @@ public class UiBuff {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(this.buff.getName());
-		builder.append('\n');
+		builder.append("[gray]\n");
 		builder.append(this.buff.getDescription());
 		builder.append('\n');
 
