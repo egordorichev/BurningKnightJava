@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -29,7 +30,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 
-public class BurningKnight extends Mob {
+public class BurningKnight extends Boss {
 	public static BurningKnight instance;
 	public static float LIGHT_SIZE = 12f;
 	private static Animation animations = Animation.make("actor-burning-knight");
