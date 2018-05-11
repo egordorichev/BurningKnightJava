@@ -19,8 +19,11 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.*;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CrazyKing extends Boss {
@@ -35,6 +38,7 @@ public class CrazyKing extends Boss {
 	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
 	public float z;
+	private boolean talked;
 
 	{
 		hpMax = 50;
@@ -61,6 +65,7 @@ public class CrazyKing extends Boss {
 		super.init();
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
+		this.shouldBeInTheSameRoom = !this.talked;
 	}
 
 	@Override
@@ -217,29 +222,33 @@ public class CrazyKing extends Boss {
 			super.onEnter();
 
 			if (!noticed) {
-				Dialog.active = onNotice;
-				Dialog.active.start();
-				Camera.instance.follow(self, false);
+				if (talked) {
+					self.become("chase");
+				} else {
+					Dialog.active = onNotice;
+					Dialog.active.start();
+					Camera.instance.follow(self, false);
 
-				if (self.target != null) {
-					self.target.setUnhittable(true);
-				}
-
-				Dialog.active.onEnd(new Runnable() {
-					@Override
-					public void run() {
-						noticed = true;
-						self.become("chase");
-
-						if (self.target != null) {
-							self.target.setUnhittable(false);
-						}
-
-						ignoreHealthbar = false;
-						Camera.instance.follow(Player.instance, false);
+					if (self.target != null) {
+						self.target.setUnhittable(true);
 					}
-				});
-				self.become("chase");
+
+					Dialog.active.onEnd(new Runnable() {
+						@Override
+						public void run() {
+							noticed = true;
+							self.become("chase");
+
+							if (self.target != null) {
+								self.target.setUnhittable(false);
+							}
+
+							ignoreHealthbar = false;
+							Camera.instance.follow(Player.instance, false);
+							talked = true;
+						}
+					});
+				}
 			}
 		}
 
@@ -251,6 +260,21 @@ public class CrazyKing extends Boss {
 				self.become("chase");
 			}
 		}
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		talked = reader.readBoolean();
+		this.shouldBeInTheSameRoom = !this.talked;
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeBoolean(talked);
 	}
 
 	public class ChaseState extends CKState {

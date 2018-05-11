@@ -491,81 +491,83 @@ public class BurningKnight extends Boss {
 			}
 
 			if (self.nextAttack != AttackType.NULL && !this.attacked) {
-				Fireball ball;
+				if (Dialog.active == null) {
+					Fireball ball;
 
-				switch (self.nextAttack) {
-					case MISSILE:
-						ball = new Fireball();
-
-						ball.ignoreWalls = true;
-						ball.owner = self;
-						ball.target = self.target;
-						ball.x = self.x + (self.w - 16) / 2;
-						ball.y = self.y + (self.h - 10) / 2;
-						ball.bad = !self.stupid;
-
-						Dungeon.area.add(ball);
-						break;
-
-					case AREA:
-						for (int i = 0; i < Random.newInt(10, 20); i++) {
+					switch (self.nextAttack) {
+						case MISSILE:
 							ball = new Fireball();
 
 							ball.ignoreWalls = true;
-
-							float d = Random.newFloat(16f, 64f);
-							float a = Random.newFloat((float) (Math.PI * 2));
-
-							ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
-							ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
-							ball.noMove = true;
 							ball.owner = self;
-							ball.bad = !self.stupid;
-
-							Dungeon.area.add(ball);
-						}
-
-						break;
-					case DIAGONAL:
-						for (int i = 0; i < 4; i++) {
-							ball = new Fireball();
-
-
-							ball.ignoreWalls = true;
-							float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
-							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
-
-							ball.x = self.x + (self.w - 16) / 2;
-							ball.y = self.y + (self.h - 10) / 2;
-
-							ball.bad = !self.stupid;
-							ball.owner = self;
-							Dungeon.area.add(ball);
-						}
-						break;
-					case VERTICAL:
-						for (int i = 0; i < 4; i++) {
-							ball = new Fireball();
-
-
-							ball.ignoreWalls = true;
-							float a = (float) (i * Math.PI / 2);
-
-							ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
-
+							ball.target = self.target;
 							ball.x = self.x + (self.w - 16) / 2;
 							ball.y = self.y + (self.h - 10) / 2;
 							ball.bad = !self.stupid;
-							ball.owner = self;
-
-							a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
-
-							self.vel.x += Math.cos(a) * 60f;
-							self.vel.y += Math.sin(a) * 60f;
 
 							Dungeon.area.add(ball);
-						}
-						break;
+							break;
+
+						case AREA:
+							for (int i = 0; i < Random.newInt(10, 20); i++) {
+								ball = new Fireball();
+
+								ball.ignoreWalls = true;
+
+								float d = Random.newFloat(16f, 64f);
+								float a = Random.newFloat((float) (Math.PI * 2));
+
+								ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
+								ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
+								ball.noMove = true;
+								ball.owner = self;
+								ball.bad = !self.stupid;
+
+								Dungeon.area.add(ball);
+							}
+
+							break;
+						case DIAGONAL:
+							for (int i = 0; i < 4; i++) {
+								ball = new Fireball();
+
+
+								ball.ignoreWalls = true;
+								float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
+								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+
+								ball.x = self.x + (self.w - 16) / 2;
+								ball.y = self.y + (self.h - 10) / 2;
+
+								ball.bad = !self.stupid;
+								ball.owner = self;
+								Dungeon.area.add(ball);
+							}
+							break;
+						case VERTICAL:
+							for (int i = 0; i < 4; i++) {
+								ball = new Fireball();
+
+
+								ball.ignoreWalls = true;
+								float a = (float) (i * Math.PI / 2);
+
+								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+
+								ball.x = self.x + (self.w - 16) / 2;
+								ball.y = self.y + (self.h - 10) / 2;
+								ball.bad = !self.stupid;
+								ball.owner = self;
+
+								a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
+
+								self.vel.x += Math.cos(a) * 60f;
+								self.vel.y += Math.sin(a) * 60f;
+
+								Dungeon.area.add(ball);
+							}
+							break;
+					}
 				}
 
 				this.attacked = true;
