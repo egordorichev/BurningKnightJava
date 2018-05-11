@@ -58,7 +58,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float darkX = Display.GAME_WIDTH / 2;
 	public static float darkY = Display.GAME_HEIGHT / 2;
 	public static String[] arg;
-	public static float speed = 0.2f;
+	public static float speed = 1f;
 	public static Color BLACK = Color.valueOf("#000000");
 	public static Color GRAY = Color.valueOf("#696a6a");
 	public static Color WHITE = Color.valueOf("#ffffff");
