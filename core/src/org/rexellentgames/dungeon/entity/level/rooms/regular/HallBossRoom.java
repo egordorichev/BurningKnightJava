@@ -38,11 +38,11 @@ public class HallBossRoom extends RegularRoom {
 		Dungeon.area.add(boss);
 		Dungeon.level.addSaveable(boss);
 
-		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 5), Terrain.WALL);
+		/*Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 5), Terrain.WALL);
 		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 5), Terrain.WALL);
 
 		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 15), Terrain.WALL);
-		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 15), Terrain.WALL);
+		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 15), Terrain.WALL);*/
 
 		/*Point point = new Point(this.left + this.getWidth() / 2, this.top + this.getHeight() / 2);
 
