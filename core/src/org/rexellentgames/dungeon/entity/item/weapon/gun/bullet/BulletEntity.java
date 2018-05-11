@@ -82,14 +82,21 @@ public class BulletEntity extends Entity {
 		Graphics.render(sprite, this.x, this.y, this.a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
 	}
 
+	protected void onDeath() {
+
+	}
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 		this.t += dt;
 
+		boolean d = this.done;
 		this.done = this.remove;
 
-		if (this.done) {
+		if (this.done && !d) {
+			this.onDeath();
+
 			for (int i = 0; i < 20; i++) {
 				Part part = new Part();
 

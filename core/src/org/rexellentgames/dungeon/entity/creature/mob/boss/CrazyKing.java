@@ -730,7 +730,7 @@ public class CrazyKing extends Boss {
 			float r = Random.newFloat();
 
 			if (self.secondForm) {
-				
+
 			} else {
 				if (r < 0.6f) {
 					self.become("jump");
