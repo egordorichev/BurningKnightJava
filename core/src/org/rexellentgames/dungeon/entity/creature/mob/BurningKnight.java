@@ -44,6 +44,7 @@ public class BurningKnight extends Boss {
 	private static Sound sfx;
 
 	{
+		texture = "ui-bkbar-skull";
 		mind = Mind.ATTACKER;
 		hpMax = 430;
 		damage = 10;

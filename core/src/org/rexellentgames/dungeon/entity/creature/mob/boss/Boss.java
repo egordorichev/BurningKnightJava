@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class Boss extends Mob {
 	public static ArrayList<Boss> all = new ArrayList<>();
+	public String texture;
 
 	@Override
 	public void init() {

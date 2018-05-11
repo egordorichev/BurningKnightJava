@@ -40,6 +40,7 @@ public class CrazyKing extends Boss {
 		hpMax = 50;
 		w = 20;
 		h = 24;
+		texture = "ui-bkbar-ck_head";
 		mind = Mind.ATTACKER;
 
 		alwaysRender = true;
