@@ -170,9 +170,16 @@ public class Gun extends Item {
 	}
 
 	protected void sendBullet(float an) {
-		TextureRegion sprite = this.getSprite();
+		sendBullet(an, 0, 0);
+	}
 
-		BulletEntity bullet = new BulletEntity();
+
+	protected void sendBullet(float an, float xx, float yy) {
+		sendBullet(an, xx, yy, new BulletEntity());
+	}
+
+	protected void sendBullet(float an, float xx, float yy, BulletEntity bullet) {
+		TextureRegion sprite = this.getSprite();
 		float a = (float) Math.toDegrees(an);
 
 		Bullet b = (Bullet) this.owner.getAmmo("bullet");
@@ -190,8 +197,8 @@ public class Gun extends Item {
 		px = (float) Math.cos(an);
 		py = (float) Math.sin(an);
 
-		bullet.x = x + px * w;
-		bullet.y = y + py * h;
+		bullet.x = x + px * w + xx;
+		bullet.y = y + py * h + yy;
 		bullet.damage = b.damage + this.damage;
 		bullet.letter = b.bulletName;
 
