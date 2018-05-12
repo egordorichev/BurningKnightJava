@@ -721,6 +721,12 @@ public class BurningKnight extends Boss {
 				self.become("chase");
 			}
 		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			talked = true;
+		}
 	}
 
 	@Override
