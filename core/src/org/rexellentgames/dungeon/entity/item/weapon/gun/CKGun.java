@@ -5,7 +5,6 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class CKGun extends GunA {
 	{
 		useTime = 0.2f;
-		vel = 1f;
 	}
 
 	@Override
@@ -13,22 +12,25 @@ public class CKGun extends GunA {
 		bigShot();
 	}
 
-	protected void defaultShot() {
+	public void defaultShot() {
+		this.vel = 1f;
 		super.sendBullets();
 	}
 
-	protected void bigShot() {
+	public void bigShot() {
 		Point aim = this.owner.getAim();
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
+		this.vel = 1f;
 		sendBullet(a, 0, 0, new BigBulletEntity());
 	}
 
-	protected void trippleShot() {
+	public void trippleShot() {
 		Point aim = this.owner.getAim();
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
-		float d = 10f;
+		float d = 13f;
+		this.vel = 2f;
 
 		sendBullet(a);
 		sendBullet(a, (float) Math.cos(a + Math.PI / 2) * d, (float) Math.sin(a + Math.PI / 2) * d);

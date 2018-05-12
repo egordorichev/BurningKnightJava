@@ -41,12 +41,11 @@ public class CrazyKing extends Boss {
 	private static Dialog dialogs = Dialog.make("crazy-king");
 	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
-	private boolean talked;
 	public boolean secondForm;
 	private CKGun gun;
 
 	{
-		hpMax = 50;
+		hpMax = 100;
 		w = 20;
 		h = 24;
 		texture = "ui-bkbar-ck_head";
@@ -145,7 +144,7 @@ public class CrazyKing extends Boss {
 		this.animation.update(dt);
 		super.common();
 
-		// this.secondForm = true;//(this.hp < this.hpMax / 2);
+		this.secondForm = (this.hp < this.hpMax / 2);
 
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
@@ -285,16 +284,9 @@ public class CrazyKing extends Boss {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		talked = reader.readBoolean();
 		this.shouldBeInTheSameRoom = !this.talked;
 	}
 
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-
-		writer.writeBoolean(talked);
-	}
 
 	public class ChaseState extends CKState {
 		@Override
@@ -726,22 +718,54 @@ public class CrazyKing extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 4f) {
+			if (this.t >= (self.secondForm ? 2f : 4f)) {
 				self.become("attack");
 			}
 		}
 	}
 
 	public class AttackState extends CKState {
+		private boolean longShot;
+		private float last;
+		private int count;
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			float r = Random.newFloat();
-
 			if (self.secondForm) {
+				if (this.longShot) {
+					this.last += dt;
 
+					if (this.last >= 0.2f) {
+						self.gun.defaultShot();
+						this.last = 0;
+						this.count++;
+
+						if (this.count >= 10) {
+							self.become("chase");
+						}
+					}
+				} else {
+					float r = Random.newFloat();
+
+					if (r < 0.3f) {
+						self.gun.bigShot();
+						self.become("chase");
+					} else if (r < 0.5f) {
+						this.longShot = true;
+					} else if (r < 0.6f) {
+						self.become("jump");
+					} else if (r < 0.7f) {
+						self.become("fadeOut");
+					} else {
+						self.gun.trippleShot();
+						self.become("chase");
+					}
+				}
 			} else {
+				float r = Random.newFloat();
+
 				if (r < 0.6f) {
 					self.become("jump");
 				} else if (Mob.all.size() < 2 && r < 0.7f) {

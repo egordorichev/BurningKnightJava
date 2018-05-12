@@ -26,7 +26,7 @@ public class Ui {
 
 	public void update(float dt) {
 		for (Boss boss : Boss.all) {
-			if (!boss.getState().equals("unactive") && !healthbars.containsKey(boss.getClass())) {
+			if (boss.talked && !boss.getState().equals("unactive") && !healthbars.containsKey(boss.getClass())) {
 				Healthbar healthbar = new Healthbar();
 				healthbar.boss = boss;
 				healthbar.targetValue = healthbars.size() * 19 + 16;

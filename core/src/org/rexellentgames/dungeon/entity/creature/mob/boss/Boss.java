@@ -2,7 +2,10 @@ package org.rexellentgames.dungeon.entity.creature.mob.boss;
 
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Boss extends Mob {
@@ -10,6 +13,22 @@ public class Boss extends Mob {
 	public String texture;
 	public boolean ignoreHealthbar;
 	public boolean shouldBeInTheSameRoom;
+	public boolean talked;
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		talked = reader.readBoolean();
+		this.shouldBeInTheSameRoom = !this.talked;
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeBoolean(talked);
+	}
 
 	@Override
 	public void init() {
