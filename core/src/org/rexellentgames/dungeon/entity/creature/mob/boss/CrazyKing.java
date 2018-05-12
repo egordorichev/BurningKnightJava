@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.key.KeyC;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -34,7 +35,7 @@ public class CrazyKing extends Boss {
 	private static Dialog dialogs = Dialog.make("crazy-king");
 	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
-	public float z;
+	private CKGun gun;
 
 	{
 		hpMax = 50;
@@ -59,6 +60,8 @@ public class CrazyKing extends Boss {
 		super.init();
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
+		this.gun = new CKGun();
+		this.gun.setOwner(this);
 	}
 
 	@Override
@@ -113,6 +116,8 @@ public class CrazyKing extends Boss {
 		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
+
+		this.gun.render(this.x, this.y, this.w, this.h * this.sy, this.flipped);
 	}
 
 	@Override
@@ -684,11 +689,9 @@ public class CrazyKing extends Boss {
 
 			float r = Random.newFloat();
 
-			if (r < 0.3f) {
+			if (r < 0.5f) {
 				self.become("jump");
-			} else if (r < 0.6f) {
-				self.become("fadeOut");
-			} else if (Mob.all.size() < 2 && r < 0.7f) {
+			} else if (Mob.all.size() < 2 && r < 0.55f) {
 				for (int i = 0; i < 2; i++) {
 					Mob mob = new RangedKnight();
 
@@ -714,7 +717,7 @@ public class CrazyKing extends Boss {
 
 				self.become("chase");
 			} else {
-				// todo
+				self.become("fadeOut");
 			}
 		}
 	}

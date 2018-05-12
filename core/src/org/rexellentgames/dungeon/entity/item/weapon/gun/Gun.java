@@ -40,11 +40,11 @@ public class Gun extends Item {
 		float a = (float) Math.toDegrees(an);
 
 		Graphics.startShadows();
-		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y - h / 4, -a, 3, sprite.getRegionHeight() / 2,
+		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y - h / 4 - this.owner.z, -a, 3, sprite.getRegionHeight() / 2,
 			false, false, this.sx, flipped ? this.sy : -this.sy);
 		Graphics.endShadows();
 
-		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4, a, 3, sprite.getRegionHeight() / 2,
+		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a, 3, sprite.getRegionHeight() / 2,
 			false, false, this.sx, flipped ? -this.sy : this.sy);
 
 		if (this.delay + 0.1f >= this.useTime) {
