@@ -174,6 +174,7 @@ public class CrazyKing extends Boss {
 			if (this.t >= 3f) {
 				self.die(false);
 
+				self.dead = true;
 				self.done = true;
 				Dungeon.level.removeSaveable(self);
 				Camera.instance.shake(10);
@@ -464,6 +465,24 @@ public class CrazyKing extends Boss {
 										land.setFrame(2);
 										land.setAutoPause(true);
 
+										for (Player player : self.colliding) {
+											player.modifyHp(-4);
+										}
+
+										for (int i = 0; i < 8; i++) {
+											BulletEntity ball = new BulletEntity();
+
+											float a = (float) (i * Math.PI / 4);
+											ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f);
+
+											ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
+											ball.damage = 2;
+											ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
+
+											ball.letter = "bad";
+											Dungeon.area.add(ball);
+										}
+
 										Tween.to(new Tween.Task(0.6f, 0.2f, Tween.Type.QUAD_OUT) {
 											@Override
 											public float getValue() {
@@ -495,25 +514,6 @@ public class CrazyKing extends Boss {
 											@Override
 											public void onFrame(int frame) {
 												if (frame == 4 && !nset) {
-													nset = true;
-													for (Player player : self.colliding) {
-														player.modifyHp(-4);
-													}
-
-													for (int i = 0; i < 8; i++) {
-														BulletEntity ball = new BulletEntity();
-
-														float a = (float) (i * Math.PI / 4);
-														ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f);
-
-														ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
-														ball.damage = 2;
-														ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
-
-														ball.letter = "bad";
-														Dungeon.area.add(ball);
-													}
-
 													self.become("chase");
 												}
 											}
@@ -571,6 +571,24 @@ public class CrazyKing extends Boss {
 				public void onEnd() {
 					Camera.instance.shake(5);
 					self.playSfx("CK_attack");
+
+					for (Player player : self.colliding) {
+						player.modifyHp(-4);
+					}
+
+					for (int i = 0; i < 8; i++) {
+						BulletEntity ball = new BulletEntity();
+
+						float a = (float) (i * Math.PI / 4);
+						ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f);
+
+						ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
+						ball.damage = 2;
+						ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
+
+						ball.letter = "bad";
+						Dungeon.area.add(ball);
+					}
 
 					Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
 						@Override
@@ -635,24 +653,6 @@ public class CrazyKing extends Boss {
 						public void onFrame(int frame) {
 							if (frame == 4 && !nset) {
 								nset = true;
-								for (Player player : self.colliding) {
-									player.modifyHp(-4);
-								}
-
-								for (int i = 0; i < 8; i++) {
-									BulletEntity ball = new BulletEntity();
-
-									float a = (float) (i * Math.PI / 4);
-									ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f);
-
-									ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
-									ball.damage = 2;
-									ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
-
-									ball.letter = "bad";
-									Dungeon.area.add(ball);
-								}
-
 								self.become("chase");
 							}
 						}
