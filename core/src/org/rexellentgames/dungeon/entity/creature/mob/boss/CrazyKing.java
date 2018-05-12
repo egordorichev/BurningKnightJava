@@ -77,24 +77,8 @@ public class CrazyKing extends Boss {
 
 	@Override
 	protected void die(boolean force) {
-		super.die(force);
-
-		this.done = true;
-		Dungeon.level.removeSaveable(this);
-
-		if (Settings.gore) {
-			for (Animation.Frame frame : killed.getFrames()) {
-				GoreFx fx = new GoreFx();
-
-				fx.texture = frame.frame;
-				fx.x = this.x + this.w / 2;
-				fx.y = this.y + this.h / 2;
-
-				Dungeon.area.add(fx);
-			}
-		}
-
-		BloodFx.add(this, 20);
+		this.become("toDeath");
+		this.done = false;
 	}
 
 	@Override
@@ -166,6 +150,7 @@ public class CrazyKing extends Boss {
 			case "fadeIn": return new FadeInState();
 			case "fadeOut": return new FadeOutState();
 			case "jump": return new JumpState();
+			case "toDeath": return new ToDeathState();
 		}
 
 		return super.getAi(state);
@@ -175,13 +160,60 @@ public class CrazyKing extends Boss {
 
 	}
 
+	public class ToDeathState extends CKState {
+		@Override
+		public void onEnter() {
+			Camera.instance.shake(4);
+			Camera.instance.follow(self, false);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 3f) {
+				self.die(false);
+
+				self.done = true;
+				Dungeon.level.removeSaveable(self);
+				Camera.instance.shake(10);
+
+				if (Settings.gore) {
+					for (Animation.Frame frame : killed.getFrames()) {
+						GoreFx fx = new GoreFx();
+
+						fx.texture = frame.frame;
+						fx.x = self.x + self.w / 2;
+						fx.y = self.y + self.h / 2;
+
+						Dungeon.area.add(fx);
+					}
+				}
+
+				BloodFx.add(self, 20);
+
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return 0;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Camera.instance.follow(Player.instance, false);
+					}
+				}.delay(1f));
+			}
+		}
+	}
+
 	public class IdleState extends CKState {
 		private float delay;
 
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			this.delay = Random.newFloat(4f, 10f);
+			this.delay = Random.newFloat(1f, 3f);
 		}
 
 		@Override
