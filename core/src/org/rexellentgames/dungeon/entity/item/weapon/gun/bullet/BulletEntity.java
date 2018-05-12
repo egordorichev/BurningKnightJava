@@ -37,7 +37,12 @@ public class BulletEntity extends Entity {
 			this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
 		}
 
-		this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+		if (sprite.getRegionWidth() == sprite.getRegionHeight()) {
+			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil(((float)sprite.getRegionWidth()) / 2), BodyDef.BodyType.DynamicBody, false);
+		} else {
+			this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+		}
+
 		this.body.setTransform(this.x, this.y, ra);
 		this.body.setBullet(true);
 		this.auto = this.letter.equals("C");

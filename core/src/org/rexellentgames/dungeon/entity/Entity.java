@@ -115,10 +115,10 @@ public class Entity extends Point {
 
 		float d = this.getDistanceTo(Player.instance.x + 8, Player.instance.y + 8);
 
-		if (d >= 128f) {
+		if (d >= 256f) {
 			return -1;
 		}
 
-		return Graphics.playSfx(sound, (128f - d) / 128f);
+		return Graphics.playSfx(sound, (256f - d) / 256f);
 	}
 }

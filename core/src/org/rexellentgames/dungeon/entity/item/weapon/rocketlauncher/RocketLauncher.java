@@ -70,7 +70,7 @@ public class RocketLauncher extends Weapon {
 		Camera.instance.shake(2);
 		Point aim = this.owner.getAim();
 
-		Graphics.playSfx("gun_machinegun", 1f, Random.newFloat(0.6f, 1.5f));
+		this.owner.playSfx("gun_machinegun");
 
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
