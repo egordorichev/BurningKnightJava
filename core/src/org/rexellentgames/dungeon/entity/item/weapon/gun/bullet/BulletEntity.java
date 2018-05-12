@@ -26,6 +26,7 @@ public class BulletEntity extends Entity {
 	public float knockback = 50f;
 	private boolean auto;
 	public String letter;
+	private float t;
 
 	@Override
 	public void init() {
@@ -48,7 +49,7 @@ public class BulletEntity extends Entity {
 	public void onCollision(Entity entity) {
 		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon) {
 			this.remove = true;
-		} else if (entity instanceof Creature) {
+		} else if (entity instanceof Creature && this.t >= 0.05f) {
 			if (this.letter.equals("bad") && entity instanceof Mob) {
 				return;
 			}
@@ -81,13 +82,21 @@ public class BulletEntity extends Entity {
 		Graphics.render(sprite, this.x, this.y, this.a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
 	}
 
+	protected void onDeath() {
+
+	}
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		this.t += dt;
 
+		boolean dd = this.done;
 		this.done = this.remove;
 
-		if (this.done) {
+		if (this.done && !dd) {
+			this.onDeath();
+
 			for (int i = 0; i < 20; i++) {
 				Part part = new Part();
 

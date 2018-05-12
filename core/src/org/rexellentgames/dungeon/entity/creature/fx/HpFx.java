@@ -24,7 +24,7 @@ public class HpFx extends Entity {
 		this.x = creature.x + (creature.w - layout.width) / 2 + 1;
 		this.y = creature.y + creature.h - 4;
 		this.low = change < 0;
-		this.depth = 10;
+		this.depth = 15;
 
 		Tween.to(new Tween.Task(this.y + creature.h * 1.5f, 0.5f, Tween.Type.BACK_OUT) {
 			@Override

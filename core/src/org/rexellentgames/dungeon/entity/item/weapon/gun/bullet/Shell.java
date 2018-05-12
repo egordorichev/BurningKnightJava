@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class Shell extends Entity {
 	private Body body;
 	private float va;
 	private float a;
+	private float al = 1f;
+	private float t;
+	private boolean tweened;
 
 	@Override
 	public void init() {
@@ -48,6 +52,23 @@ public class Shell extends Entity {
 		if (this.body != null) {
 			this.vel.x = this.body.getLinearVelocity().x;
 			this.vel.y = this.body.getLinearVelocity().y;
+		} else {
+			this.t += dt;
+
+			if (this.t >= 10f && !this.tweened) {
+				this.tweened = true;
+				Tween.to(new Tween.Task(0, 3f, Tween.Type.QUAD_IN) {
+					@Override
+					public float getValue() {
+						return al;
+					}
+
+					@Override
+					public void setValue(float value) {
+						al = value;
+					}
+				});
+			}
 		}
 
 		this.vel.x *= (this.z == 0 ? 0.5f : 0.98f);
@@ -74,9 +95,11 @@ public class Shell extends Entity {
 
 	@Override
 	public void render() {
+		Graphics.batch.setColor(1, 1, 1, this.al);
 		Graphics.startShadows();
 		Graphics.render(this.sprite, this.x, this.y - this.sprite.getRegionHeight(), -this.a, this.sprite.getRegionWidth() / 2, this.sprite.getRegionHeight() / 2, false, false);
 		Graphics.endShadows();
 		Graphics.render(this.sprite, this.x, this.y + this.z, this.a, this.sprite.getRegionWidth() / 2, this.sprite.getRegionHeight() / 2, false, false);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }

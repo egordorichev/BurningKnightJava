@@ -1,14 +1,11 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
-import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.Note;
 import org.rexellentgames.dungeon.entity.item.Bomb;
@@ -16,12 +13,9 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.UshankaHat;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar;
-import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -89,8 +83,16 @@ public class Clown extends Mob {
 	}
 
 	@Override
+	protected void onHurt() {
+		super.onHurt();
+		this.playSfx("damage_clown");
+	}
+
+	@Override
 	protected void die(boolean force) {
 		super.die(force);
+
+		this.playSfx("death_clown");
 
 		this.done = true;
 		Dungeon.level.removeSaveable(this);

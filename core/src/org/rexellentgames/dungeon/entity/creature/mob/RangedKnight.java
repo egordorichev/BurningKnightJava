@@ -15,4 +15,11 @@ public class RangedKnight extends Knight {
 		this.sword = new BadGun();
 		this.sword.setOwner(this);
 	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		this.sword.destroy();
+	}
 }

@@ -63,7 +63,7 @@ public class Chest extends SaveableEntity {
 				Part part = new Part();
 
 				part.x = this.x + Random.newFloat(this.w);
-				part.y = this.y - Random.newFloat(this.h);
+				part.y = this.y + Random.newFloat(this.h);
 
 				Dungeon.area.add(part);
 			}

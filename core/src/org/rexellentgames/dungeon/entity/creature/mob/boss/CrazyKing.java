@@ -16,12 +16,18 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.BadGun;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.util.*;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CrazyKing extends Boss {
@@ -35,13 +41,17 @@ public class CrazyKing extends Boss {
 	private static Dialog dialogs = Dialog.make("crazy-king");
 	private static DialogData onNotice = dialogs.get("on_notice");
 	private AnimationData animation = idle;
+	private boolean talked;
+	public boolean secondForm;
 	private CKGun gun;
 
 	{
 		hpMax = 50;
 		w = 20;
 		h = 24;
+		texture = "ui-bkbar-ck_head";
 		mind = Mind.ATTACKER;
+		ignoreHealthbar = true;
 
 		alwaysRender = true;
 	}
@@ -60,6 +70,8 @@ public class CrazyKing extends Boss {
 		super.init();
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
+		this.shouldBeInTheSameRoom = !this.talked;
+
 		this.gun = new CKGun();
 		this.gun.setOwner(this);
 	}
@@ -86,6 +98,11 @@ public class CrazyKing extends Boss {
 		BloodFx.add(this, 20);
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.gun.destroy();
+	}
 
 	private float sx = 1f;
 	private float sy = 1f;
@@ -117,7 +134,9 @@ public class CrazyKing extends Boss {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
 
-		this.gun.render(this.x, this.y, this.w, this.h * this.sy, this.flipped);
+		if (this.secondForm) {
+			this.gun.render(this.x, this.y, this.w, this.h, this.flipped);
+		}
 	}
 
 	@Override
@@ -125,6 +144,8 @@ public class CrazyKing extends Boss {
 		super.update(dt);
 		this.animation.update(dt);
 		super.common();
+
+		// this.secondForm = true;//(this.hp < this.hpMax / 2);
 
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
@@ -150,7 +171,7 @@ public class CrazyKing extends Boss {
 		return super.getAi(state);
 	}
 
-	public class CKState extends BossState<CrazyKing> {
+	public class CKState extends Boss.BossState<CrazyKing> {
 
 	}
 
@@ -220,28 +241,33 @@ public class CrazyKing extends Boss {
 			super.onEnter();
 
 			if (!noticed) {
-				/*Dialog.active = onNotice;
-				Dialog.active.start();
-				Camera.instance.follow(self, false);
+				if (talked) {
+					self.become("chase");
+				} else {
+					Dialog.active = onNotice;
+					Dialog.active.start();
+					Camera.instance.follow(self, false);
 
-				if (self.target != null) {
-					self.target.setUnhittable(true);
-				}
-
-				Dialog.active.onEnd(new Runnable() {
-					@Override
-					public void run() {
-						noticed = true;
-						self.become("chase");
-
-						if (self.target != null) {
-							self.target.setUnhittable(false);
-						}
-
-						Camera.instance.follow(Player.instance, false);
+					if (self.target != null) {
+						self.target.setUnhittable(true);
 					}
-				});*/
-				self.become("chase");
+
+					Dialog.active.onEnd(new Runnable() {
+						@Override
+						public void run() {
+							noticed = true;
+							self.become("chase");
+
+							if (self.target != null) {
+								self.target.setUnhittable(false);
+							}
+
+							ignoreHealthbar = false;
+							Camera.instance.follow(Player.instance, false);
+							talked = true;
+						}
+					});
+				}
 			}
 		}
 
@@ -253,6 +279,21 @@ public class CrazyKing extends Boss {
 				self.become("chase");
 			}
 		}
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		talked = reader.readBoolean();
+		this.shouldBeInTheSameRoom = !this.talked;
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeBoolean(talked);
 	}
 
 	public class ChaseState extends CKState {
@@ -356,6 +397,8 @@ public class CrazyKing extends Boss {
 				public void onFrame(int frame) {
 					if (frame == 5 && !set) {
 						set = true;
+						self.playSfx("CK_jump");
+
 						Tween.to(new Tween.Task(32f, 0.4f, Tween.Type.SINE_OUT) {
 							@Override
 							public float getValue() {
@@ -370,6 +413,7 @@ public class CrazyKing extends Boss {
 
 							@Override
 							public void onEnd() {
+								Camera.instance.shake(5);
 								up = false;
 								land.setPaused(true);
 								land.setFrame(0);
@@ -390,6 +434,7 @@ public class CrazyKing extends Boss {
 
 									@Override
 									public void onEnd() {
+										self.playSfx("CK_attack");
 										land.setPaused(false);
 										land.setFrame(2);
 										land.setAutoPause(true);
@@ -499,6 +544,9 @@ public class CrazyKing extends Boss {
 
 				@Override
 				public void onEnd() {
+					Camera.instance.shake(5);
+					self.playSfx("CK_attack");
+
 					Tween.to(new Tween.Task(1.4f, 0.2f, Tween.Type.QUAD_OUT) {
 						@Override
 						public float getValue() {
@@ -631,6 +679,8 @@ public class CrazyKing extends Boss {
 				@Override
 				public void onFrame(int frame) {
 					if (frame == 5 && !set) {
+						self.playSfx("CK_jump");
+
 						Tween.to(new Tween.Task(0, 1f) {
 							@Override
 							public float getValue() {
@@ -689,35 +739,40 @@ public class CrazyKing extends Boss {
 
 			float r = Random.newFloat();
 
-			if (r < 0.5f) {
-				self.become("jump");
-			} else if (Mob.all.size() < 2 && r < 0.55f) {
-				for (int i = 0; i < 2; i++) {
-					Mob mob = new RangedKnight();
+			if (self.secondForm) {
 
-					Dungeon.area.add(mob);
-					Dungeon.level.addSaveable(mob);
-
-					float a = (float) (i * Math.PI);
-
-					mob.generate();
-					mob.tp(self.x + (self.w - mob.w) / 2 + (float) Math.cos(a) * 24f,
-						self.y + (self.h - mob.h) / 2 + (float) Math.sin(a) * 24f);
-
-
-					for (int j = 0; j < 20; j++) {
-						Part part = new Part();
-
-						part.x = mob.x + Random.newFloat(mob.w);
-						part.y = mob.y - Random.newFloat(mob.h);
-
-						Dungeon.area.add(part);
-					}
-				}
-
-				self.become("chase");
 			} else {
-				self.become("fadeOut");
+				if (r < 0.6f) {
+					self.become("jump");
+				} else if (Mob.all.size() < 2 && r < 0.7f) {
+					self.playSfx("CK_call");
+
+					for (int i = 0; i < 2; i++) {
+						Mob mob = new RangedKnight();
+
+						Dungeon.area.add(mob);
+						Dungeon.level.addSaveable(mob);
+
+						float a = (float) (i * Math.PI);
+
+						mob.generate();
+						mob.tp(self.x + (self.w - mob.w) / 2 + (float) Math.cos(a) * 24f,
+							self.y + (self.h - mob.h) / 2 + (float) Math.sin(a) * 24f);
+
+
+						for (int j = 0; j < 20; j++) {
+							Part part = new Part();
+
+							part.x = mob.x + Random.newFloat(mob.w);
+							part.y = mob.y + Random.newFloat(mob.h);
+
+							Dungeon.area.add(part);
+						}
+					}
+					self.become("chase");
+				} else {
+					self.become("fadeOut");
+				}
 			}
 		}
 	}
