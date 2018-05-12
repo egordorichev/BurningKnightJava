@@ -550,11 +550,47 @@ public abstract class Level extends Entity {
 					TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 					region.setRegionX(region.getRegionX() + x % 4 * 16);
+					region.setRegionY(region.getRegionY() + (3 - (y + 1) % 4) * 16);
+					region.setRegionWidth(16);
+					region.setRegionHeight(16);
+
+					Graphics.render(region, x * 16, y * 16 - 8 + 16 - Dungeon.time * 12f % 64f);
+					region = new TextureRegion(Terrain.patterns[tile]);
+
+					region.setRegionX(region.getRegionX() + x % 4 * 16);
+					region.setRegionY(region.getRegionY() + (3 - (y + 2) % 4) * 16);
+					region.setRegionWidth(16);
+					region.setRegionHeight(16);
+
+					Graphics.render(region, x * 16, y * 16 - 8 + 32 - Dungeon.time * 12f % 64f);
+					region = new TextureRegion(Terrain.patterns[tile]);
+
+					region.setRegionX(region.getRegionX() + x % 4 * 16);
+					region.setRegionY(region.getRegionY() + (3 - (y + 3) % 4) * 16);
+					region.setRegionWidth(16);
+					region.setRegionHeight(16);
+
+					Graphics.render(region, x * 16, y * 16 - 8 + 48 - Dungeon.time * 12f % 64f);
+
+
+					region = new TextureRegion(Terrain.patterns[tile]);
+
+					region.setRegionX(region.getRegionX() + x % 4 * 16);
+					region.setRegionY(region.getRegionY() + (3 - (y + 4) % 4) * 16);
+					region.setRegionWidth(16);
+					region.setRegionHeight(16);
+
+					Graphics.render(region, x * 16, y * 16 - 8 + 64 - Dungeon.time * 12f % 64f);
+
+
+					region = new TextureRegion(Terrain.patterns[tile]);
+
+					region.setRegionX(region.getRegionX() + x % 4 * 16);
 					region.setRegionY(region.getRegionY() + (3 - y % 4) * 16);
 					region.setRegionWidth(16);
 					region.setRegionHeight(16);
 
-					Graphics.render(region, x * 16, y * 16 - 8);
+					Graphics.render(region, x * 16, y * 16 - 8 - Dungeon.time * 12f % 64f);
 				}
 			}
 		}

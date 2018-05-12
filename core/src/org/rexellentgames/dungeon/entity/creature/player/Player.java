@@ -469,7 +469,7 @@ public class Player extends Creature {
 		if (v > 20) {
 			this.become("run");
 
-			if (this.lastRun >= 0.2f && !Network.SERVER) {
+			if (this.lastRun >= 0.08f && !Network.SERVER) {
 				this.lastRun = 0;
 				this.area.add(new RunFx(this.x, this.y - 8));
 			}
