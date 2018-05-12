@@ -4274,6 +4274,55 @@ fireball-idle-02
   orig: 10, 10
   offset: 0, 0
   index: -1
+fx-badbullet-idle-00
+  rotate: false
+  xy: 980, 620
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+fx-badbullet-idle-01
+  rotate: false
+  xy: 990, 620
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+fx-badbullet-idle-02
+  rotate: false
+  xy: 282, 219
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+fx-badbullet-idle-03
+  rotate: false
+  xy: 292, 219
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+fx-badbullet-idle-04
+  rotate: false
+  xy: 302, 219
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+fx-badbullet-idle-05
+  rotate: false
+  xy: 312, 219
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+fx-badbullet-idle-06
+  rotate: false
+  xy: 220, 182
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 fx-blood-idle-00
   rotate: false
   xy: 346, 436
@@ -4556,21 +4605,21 @@ fx-part-idle-01
   index: -1
 fx-part-idle-02
   rotate: false
-  xy: 576, 487
+  xy: 594, 487
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-03
   rotate: false
-  xy: 558, 469
+  xy: 585, 478
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-04
   rotate: false
-  xy: 567, 478
+  xy: 576, 469
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -4724,105 +4773,105 @@ fx-shell-idle-03
   index: -1
 fx-shell-idle-04
   rotate: false
-  xy: 550, 444
+  xy: 558, 458
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-spark--00
   rotate: false
-  xy: 301, 220
+  xy: 217, 163
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-00
   rotate: false
-  xy: 301, 220
+  xy: 217, 163
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--01
   rotate: false
-  xy: 310, 220
+  xy: 567, 485
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-01
   rotate: false
-  xy: 310, 220
+  xy: 567, 485
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--02
   rotate: false
-  xy: 319, 220
+  xy: 558, 474
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-02
   rotate: false
-  xy: 319, 220
+  xy: 558, 474
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--03
   rotate: false
-  xy: 220, 183
+  xy: 576, 485
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-03
   rotate: false
-  xy: 220, 183
+  xy: 576, 485
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--04
   rotate: false
-  xy: 218, 174
+  xy: 567, 476
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-04
   rotate: false
-  xy: 218, 174
+  xy: 567, 476
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--05
   rotate: false
-  xy: 217, 165
+  xy: 558, 465
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-05
   rotate: false
-  xy: 217, 165
+  xy: 558, 465
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark--06
   rotate: false
-  xy: 558, 485
+  xy: 585, 485
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-06
   rotate: false
-  xy: 558, 485
+  xy: 585, 485
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -4899,7 +4948,7 @@ sword-fx-idle-04
   index: -1
 ichor-idle-00
   rotate: false
-  xy: 980, 620
+  xy: 230, 183
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -4990,14 +5039,14 @@ io (poison buff)
   index: -1
 io (slider_handle)
   rotate: false
-  xy: 567, 485
+  xy: 576, 476
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 ui (slider_handle)
   rotate: false
-  xy: 567, 485
+  xy: 576, 476
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -5151,14 +5200,14 @@ item (bow)
   index: -1
 item (bullet A)
   rotate: false
-  xy: 990, 620
+  xy: 322, 219
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 item (bullet)
   rotate: false
-  xy: 990, 620
+  xy: 322, 219
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -5725,7 +5774,7 @@ item (seed B)
   index: -1
 item (seed C)
   rotate: false
-  xy: 282, 219
+  xy: 218, 172
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -5970,7 +6019,7 @@ ui (defense buff)
   index: -1
 ui (equip_bg)
   rotate: false
-  xy: 292, 218
+  xy: 558, 483
   size: 7, 9
   orig: 7, 9
   offset: 0, 0
@@ -6005,7 +6054,7 @@ ui (half_heart)
   index: -1
 ui (heart)
   rotate: false
-  xy: 558, 476
+  xy: 567, 467
   size: 7, 7
   orig: 7, 7
   offset: 0, 0

@@ -13,6 +13,10 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.physics.World;
+import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BulletEntity extends Entity {
@@ -27,9 +31,12 @@ public class BulletEntity extends Entity {
 	private boolean auto;
 	public String letter;
 	private float t;
+	private boolean bad;
+	private static Animation animation = Animation.make("fx-badbullet");
 
 	@Override
 	public void init() {
+		this.bad = this.letter.equals("bad");
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
@@ -55,7 +62,7 @@ public class BulletEntity extends Entity {
 		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon) {
 			this.remove = true;
 		} else if (entity instanceof Creature && this.t >= 0.05f) {
-			if (this.letter.equals("bad") && entity instanceof Mob) {
+			if (this.bad && entity instanceof Mob) {
 				return;
 			}
 
@@ -91,10 +98,29 @@ public class BulletEntity extends Entity {
 
 	}
 
+	private float last;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 		this.t += dt;
+
+		if (this.bad) {
+			this.last += dt;
+
+			if (this.last > 0.08f) {
+				this.last = 0;
+				Part part = new Part();
+				part.vel = new Point();
+
+				part.x = this.x + Random.newFloat(this.sprite.getRegionWidth()) - this.sprite.getRegionWidth()/ 2 - 4;
+				part.y = this.y + Random.newFloat(this.sprite.getRegionHeight()) - this.sprite.getRegionHeight() / 2 - 4;
+				part.depth = -1;
+				part.animation = animation.get("idle");
+
+				Dungeon.area.add(part);
+			}
+		}
 
 		boolean dd = this.done;
 		this.done = this.remove;
