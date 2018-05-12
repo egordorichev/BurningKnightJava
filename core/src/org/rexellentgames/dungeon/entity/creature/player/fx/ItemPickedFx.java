@@ -23,8 +23,8 @@ public class ItemPickedFx extends Entity {
 		this.a = 1f;
 
 		Graphics.layout.setText(Graphics.medium, this.text);
-		this.x = item.x + item.hw / 2 - Graphics.layout.width / 2;
-		this.y = item.y + item.hh + 16;
+		this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
+		this.y = item.y + item.h + 4;
 
 		this.tween();
 		Player.instance.ui.forceT = 1f;
