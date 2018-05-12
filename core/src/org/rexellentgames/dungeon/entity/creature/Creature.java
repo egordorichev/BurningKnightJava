@@ -56,6 +56,7 @@ public class Creature extends SaveableEntity {
 	private int hy;
 	public int hw;
 	public int hh;
+	public float z;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
 	public float a = 1f;
 	public long lastIndex;

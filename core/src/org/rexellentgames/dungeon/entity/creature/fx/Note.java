@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	private Body body;
 	public boolean bad = true;
 	private float t;
+	private float scale = 1f;
 
 	@Override
 	public Body getBody() {
@@ -64,27 +66,55 @@ public class Note extends Entity implements WormholeFx.Suckable {
 
 			Dungeon.area.add(part);
 		}
+
+		Tween.to(new Tween.Task(0, 0.4f) {
+			@Override
+			public float getValue() {
+				return scale;
+			}
+
+			@Override
+			public void setValue(float value) {
+				scale = value;
+			}
+		});
 	}
+
+	private boolean brk;
 
 	@Override
 	public void onCollision(Entity entity) {
+		if (this.brk) {
+			return;
+		}
+
 		if (entity instanceof Mob && !this.bad && !((Mob) entity).isDead()) {
 			((Mob) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
-			this.done = true;
+			this.brk = true;
+			this.vel.x = 0;
+			this.vel.y = 0;
+			this.body.setLinearVelocity(this.vel);
 			this.parts();
 			// ((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
 			((Player) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
-			this.done = true;
+			this.brk = true;
+			this.vel.x = 0;
+			this.vel.y = 0;
+			this.body.setLinearVelocity(this.vel);
 			this.parts();
 			// ((Player) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Weapon && this.bad) {
 			if (((Weapon) entity).getOwner() instanceof Player) {
 				this.vel.x *= -1;
 				this.vel.y *= -1;
+				this.body.setLinearVelocity(this.vel);
 			}
 		} else if (entity == null) {
-			this.done = true; // Wall
+			this.brk = true; // Wall
+			this.vel.x = 0;
+			this.vel.y = 0;
+			this.body.setLinearVelocity(this.vel);
 			this.parts();
 		}
 	}
@@ -113,8 +143,11 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	@Override
 	public void render() {
 		Graphics.startShadows();
-		Graphics.render(region, this.x, this.y - 8);
+		Graphics.render(region, this.x, this.y - 4, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
+			false, false, scale, scale);
+
 		Graphics.endShadows();
-		Graphics.render(region, this.x, this.y);
+		Graphics.render(region, this.x, this.y, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
+			false, false, scale, scale);
 	}
 }
