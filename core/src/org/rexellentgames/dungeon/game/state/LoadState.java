@@ -52,8 +52,9 @@ public class LoadState extends State {
 	public void init() {
 		this.s = "Doing secret stuff...";
 
-		Ui.ui.y = Display.GAME_HEIGHT;
+		Ui.ui.healthbars.clear();
 
+		Dungeon.speed = 1f;
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.ui.destroy();
 		Dungeon.area.destroy();

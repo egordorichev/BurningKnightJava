@@ -27,6 +27,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowC;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunB;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunC;
@@ -134,6 +135,7 @@ public class ItemRegistry {
 		register("launcher_b", RocketLauncherB.class);
 		register("launcher_c", RocketLauncherC.class);
 		register("rocket_a", RocketA.class);
+		register("ckgun", CKGun.class);
 	}
 
 	public static void register(String name, Class<? extends Item> item) {

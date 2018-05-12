@@ -51,6 +51,13 @@ public class Knight extends Mob {
 	}
 
 	@Override
+	protected void onHurt() {
+		super.onHurt();
+
+		this.playSfx("damage_towelknight");
+	}
+
+	@Override
 	public void init() {
 		super.init();
 
@@ -348,6 +355,7 @@ public class Knight extends Mob {
 	@Override
 	protected void die(boolean force) {
 		super.die(force);
+		this.playSfx("death_towelknight");
 
 		this.done = true;
 		Dungeon.level.removeSaveable(this);

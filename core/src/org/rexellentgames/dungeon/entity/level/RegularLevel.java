@@ -13,7 +13,6 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.special.HealthBlockRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;

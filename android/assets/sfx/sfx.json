@@ -38,5 +38,12 @@
 	"menu/exit",
 	"menu/select",
 	"menu/moving",
-	"menu/exit"
+	"menu/exit",
+	"damage_towelknight",
+	"death_towelknight",
+	"damage_clown",
+	"death_clown",
+	"CK_attack",
+	"CK_call",
+	"CK_jump"
 ]
