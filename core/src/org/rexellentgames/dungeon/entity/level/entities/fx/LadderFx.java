@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
@@ -20,6 +21,7 @@ import org.rexellentgames.dungeon.util.Tween;
 public class LadderFx extends UiEntity {
 	private Entity ladder;
 	private String text;
+	private float a;
 
 	public LadderFx(Entity ladder, String text) {
 		this.ladder = ladder;
@@ -28,21 +30,33 @@ public class LadderFx extends UiEntity {
 		GlyphLayout layout = new GlyphLayout(Graphics.medium, this.text);
 
 		this.x = ladder.x + 8 - layout.width / 2;
-		this.y = ladder.y + 32;
+		this.y = ladder.y + ladder.h + 4;
 
 		this.depth = 15;
+
+		Tween.to(new Tween.Task(1, 0.1f, Tween.Type.QUAD_OUT) {
+			@Override
+			public float getValue() {
+				return a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+		});
 	}
 
 	@Override
 	public void render() {
 		float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
-		Graphics.medium.setColor(c, c, c, 1);
-		Graphics.medium.draw(Graphics.batch, this.text, this.x, this.y);
+		Graphics.medium.setColor(c, c, c, this.a);
+		Graphics.print(this.text, Graphics.medium, this.x, this.y);
 		Graphics.medium.setColor(1, 1, 1, 1);
 
 		if (Input.instance.wasPressed("action") && Dialog.active == null) {
-			this.done = true;
+			this.remove();
 
 			if (this.ladder instanceof Entrance) {
 				if (Dungeon.depth <= 0) {
@@ -105,6 +119,28 @@ public class LadderFx extends UiEntity {
 						Dungeon.goToLevel(Dungeon.depth + 1);
 					}
 				}
+			}
+		});
+	}
+
+	public void remove() {
+		LadderFx self = this;
+		Tween.to(new Tween.Task(0, 0.2f, Tween.Type.QUAD_IN) {
+			@Override
+			public float getValue() {
+				return a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+
+				self.done = true;
 			}
 		});
 	}

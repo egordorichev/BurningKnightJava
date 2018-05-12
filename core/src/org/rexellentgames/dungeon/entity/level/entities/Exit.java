@@ -121,7 +121,7 @@ public class Exit extends SaveableEntity {
 	@Override
 	public void onCollisionEnd(Entity entity) {
 		if (entity instanceof Player && this.fx != null) {
-			this.fx.done = true;
+			this.fx.remove();
 			this.fx = null;
 		}
 	}
