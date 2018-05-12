@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.player.fx;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -24,6 +25,8 @@ public class RunFx extends Entity {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y + 8, false, false);
+		TextureRegion region = this.animation.getCurrent().frame;
+		this.animation.render(this.x, this.y + 8, false, false, region.getRegionWidth() / 2, region.getRegionHeight() / 2, 0,
+			0.5f, 0.5f, false);
 	}
 }
