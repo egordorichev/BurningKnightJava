@@ -296,10 +296,6 @@ public class Player extends Creature {
 
 		Camera.instance.shake(4f);
 		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
-
-		if (this.hp == 0) {
-			Dungeon.slowDown(0.5f, 2f);
-		}
 	}
 
 	private float lastRun;
@@ -309,6 +305,39 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.toDeath) {
+			this.t += dt;
+			this.animation.update(dt);
+
+			if (this.t >= 1f) {
+				super.die(false);
+
+				this.dead = true;
+				this.done = true;
+				if (UiLog.instance != null) {
+					UiLog.instance.print("[red]You died!");
+				}
+				Camera.instance.shake(10);
+				Dungeon.level.removeSaveable(this);
+
+				if (Settings.gore) {
+					for (Animation.Frame frame : killed.getFrames()) {
+						GoreFx fx = new GoreFx();
+
+						fx.texture = frame.frame;
+						fx.x = this.x + this.w / 2;
+						fx.y = this.y + this.h / 2;
+
+						Dungeon.area.add(fx);
+					}
+				}
+
+				BloodFx.add(this, 20);
+			}
+
+			return;
+		}
 
 		this.dashT = Math.max(0, this.dashT - dt);
 		this.dashTimeout = Math.max(0, this.dashTimeout - dt);
@@ -543,27 +572,13 @@ public class Player extends Creature {
 		}
 	}
 
+	public boolean toDeath;
 
 	@Override
 	protected void die(boolean force) {
-		super.die(force);
-
-		this.done = true;
-		Dungeon.level.removeSaveable(this);
-
-		if (Settings.gore) {
-			for (Animation.Frame frame : killed.getFrames()) {
-				GoreFx fx = new GoreFx();
-
-				fx.texture = frame.frame;
-				fx.x = this.x + this.w / 2;
-				fx.y = this.y + this.h / 2;
-
-				Dungeon.area.add(fx);
-			}
-		}
-
-		BloodFx.add(this, 20);
+		this.toDeath = true;
+		this.t = 0;
+		Dungeon.slowDown(0.5f, 1f);
 	}
 
 	private ArrayList<Point> last = new ArrayList<>();
@@ -748,15 +763,6 @@ public class Player extends Creature {
 
 	public int getLevel() {
 		return this.level;
-	}
-
-	@Override
-	public void die() {
-		super.die();
-
-		if (UiLog.instance != null) {
-			UiLog.instance.print("[red]You died!");
-		}
 	}
 
 	public void addExperience(int am) {
