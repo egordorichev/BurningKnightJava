@@ -694,7 +694,7 @@ public class Player extends Creature {
 	public void onCollisionEnd(Entity entity) {
 		if (entity instanceof ItemHolder) {
 			if (this.pickupFx != null) {
-				this.pickupFx.done = true;
+				this.pickupFx.remove();
 				this.pickupFx = null;
 			}
 
