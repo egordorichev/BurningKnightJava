@@ -9,15 +9,17 @@ public class CKGun extends GunA {
 
 	@Override
 	protected void sendBullets() {
-		bigShot();
+
 	}
 
 	public void defaultShot() {
+		super.use();
 		this.vel = 1f;
 		super.sendBullets();
 	}
 
 	public void bigShot() {
+		super.use();
 		Point aim = this.owner.getAim();
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
@@ -26,6 +28,7 @@ public class CKGun extends GunA {
 	}
 
 	public void trippleShot() {
+		super.use();
 		Point aim = this.owner.getAim();
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 

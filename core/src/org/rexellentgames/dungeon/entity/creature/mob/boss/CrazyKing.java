@@ -144,6 +144,7 @@ public class CrazyKing extends Boss {
 		this.animation.update(dt);
 		super.common();
 
+		this.gun.update(dt);
 		this.secondForm = (this.hp < this.hpMax / 2);
 
 		if (this.body != null) {

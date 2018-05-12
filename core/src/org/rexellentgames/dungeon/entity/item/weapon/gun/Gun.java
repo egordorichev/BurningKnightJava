@@ -79,7 +79,7 @@ public class Gun extends Item {
 	@Override
 	public void use() {
 		super.use();
-		Graphics.playSfx("gun_machinegun", 1f, Random.newFloat(0.6f, 1.5f));
+		this.owner.playSfx("gun_machinegun");
 		Point aim = this.owner.getAim();
 
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);

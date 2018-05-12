@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
@@ -120,18 +121,22 @@ public class InGameState extends State {
 
 		if (last >= 3f) {
 			last = 0;
-			boolean found = false;
+			if (Boss.all.size() > 1) {
+				MusicManager.play("Rogue");
+			} else {
+				boolean found = false;
 
-			for (Mob mob : Mob.every) {
-				if (mob.onScreen) {
-					MusicManager.play("Born to do rogueries");
-					found = true;
-					break;
+				for (Mob mob : Mob.every) {
+					if (mob.onScreen) {
+						MusicManager.play("Born to do rogueries");
+						found = true;
+						break;
+					}
 				}
-			}
 
-			if (!found) {
-				MusicManager.play("gobbeon");
+				if (!found) {
+					MusicManager.play("gobbeon");
+				}
 			}
 		}
 
