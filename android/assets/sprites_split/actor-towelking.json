@@ -226,7 +226,7 @@
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2-dev",
+  "version": "1.2.8-x64",
   "format": "I8",
   "size": { "w": 511, "h": 32 },
   "scale": "1",

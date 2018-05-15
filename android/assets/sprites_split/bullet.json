@@ -1,0 +1,18 @@
+{ "frames": {
+   "bullet.ase": {
+    "frame": { "x": 0, "y": 0, "w": 78, "h": 36 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 2, "w": 78, "h": 36 },
+    "sourceSize": { "w": 128, "h": 128 },
+    "duration": 1
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.8-x64",
+  "format": "I8",
+  "size": { "w": 78, "h": 36 },
+  "scale": "1"
+ }
+}
