@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.level.entities;
+package org.rexellentgames.dungeon.entity.level.entities.fx;
 
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Animation;

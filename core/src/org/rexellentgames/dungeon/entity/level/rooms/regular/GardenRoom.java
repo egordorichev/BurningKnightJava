@@ -43,7 +43,7 @@ public class GardenRoom extends RegularRoom {
 
 				if (y % 2 == 0) {
 					for (int x = this.left + 1; x < this.right - 1; x++) {
-						if (Random.chance(80)) {
+						if (Random.chance(50)) {
 							Cabbage cabbage = new Cabbage();
 
 							cabbage.x = x * 16;

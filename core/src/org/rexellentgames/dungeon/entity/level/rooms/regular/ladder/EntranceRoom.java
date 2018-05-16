@@ -55,11 +55,11 @@ public class EntranceRoom extends RegularRoom {
 
 	@Override
 	public int getMaxWidth() {
-		return 9;
+		return 13;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 9;
+		return 13;
 	}
 }

@@ -1,17 +1,12 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.entity.level.entities.Table;
-import org.rexellentgames.dungeon.entity.level.entities.Throne;
-import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.geometry.Point;
-import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class HallBossRoom extends RegularRoom {
 	@Override
