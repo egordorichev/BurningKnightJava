@@ -1,42 +1,42 @@
 { "frames": {
    "veggie 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 48, "h": 48 },
+    "frame": { "x": 0, "y": 0, "w": 9, "h": 9 },
     "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 48 },
+    "trimmed": true,
+    "spriteSourceSize": { "x": 19, "y": 23, "w": 9, "h": 9 },
     "sourceSize": { "w": 48, "h": 48 },
     "duration": 100
    },
    "veggie 1.ase": {
-    "frame": { "x": 48, "y": 0, "w": 48, "h": 48 },
+    "frame": { "x": 9, "y": 0, "w": 13, "h": 13 },
     "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 48 },
+    "trimmed": true,
+    "spriteSourceSize": { "x": 17, "y": 19, "w": 13, "h": 13 },
     "sourceSize": { "w": 48, "h": 48 },
     "duration": 100
    },
    "veggie 2.ase": {
-    "frame": { "x": 96, "y": 0, "w": 48, "h": 48 },
+    "frame": { "x": 22, "y": 0, "w": 15, "h": 16 },
     "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 48 },
+    "trimmed": true,
+    "spriteSourceSize": { "x": 16, "y": 16, "w": 15, "h": 16 },
     "sourceSize": { "w": 48, "h": 48 },
     "duration": 100
    },
    "veggie 3.ase": {
-    "frame": { "x": 144, "y": 0, "w": 48, "h": 48 },
+    "frame": { "x": 37, "y": 0, "w": 15, "h": 13 },
     "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 48, "h": 48 },
+    "trimmed": true,
+    "spriteSourceSize": { "x": 16, "y": 19, "w": 15, "h": 13 },
     "sourceSize": { "w": 48, "h": 48 },
     "duration": 100
    }
  },
  "meta": {
   "app": "http://www.aseprite.org/",
-  "version": "1.2.8-x64",
+  "version": "1.2-dev",
   "format": "I8",
-  "size": { "w": 192, "h": 48 },
+  "size": { "w": 52, "h": 16 },
   "scale": "1",
   "frameTags": [
    { "name": "growth", "from": 0, "to": 2, "direction": "forward" },

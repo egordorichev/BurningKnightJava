@@ -56,7 +56,7 @@ public class Plant extends SaveableEntity {
 
 		this.t = Random.newFloat(128);
 		this.body = World.createSimpleBody(this, 3, 3, 10, 10, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y - 4, 0);
+		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	private float lastFlame;
@@ -137,13 +137,13 @@ public class Plant extends SaveableEntity {
 
 		Graphics.startShadows();
 
-		Graphics.render(sprite, this.x + sprite.getRegionWidth() / 2,
-			this.y + 1f, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -1f);
+		Graphics.render(sprite, this.x + 8,
+			this.y + (16 - sprite.getRegionHeight()) / 2, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -1f);
 
 		Graphics.endShadows();
 
-		Graphics.render(sprite, this.x + sprite.getRegionWidth() / 2,
-			this.y - 4, a, sprite.getRegionWidth() / 2, 0, false, false);
+		Graphics.render(sprite, this.x + 8,
+			this.y + (16 - sprite.getRegionHeight()) / 2, a, sprite.getRegionWidth() / 2, 0, false, false);
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class Plant extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.body.setTransform(this.x, this.y - 4, 0);
+		this.body.setTransform(this.x, this.y, 0);
 		this.growProgress = reader.readFloat();
 
 		this.dead = reader.readBoolean();

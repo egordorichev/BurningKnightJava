@@ -1,7 +1,9 @@
 package org.rexellentgames.dungeon.entity.level.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.entities.fx.WellFx;
@@ -13,6 +15,11 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import java.io.IOException;
 
 public class MagicWell extends SolidProp {
+	private static TextureRegion[] water = new TextureRegion[] {
+		Graphics.getTexture("biome-0 (well_water_none)"),
+		Graphics.getTexture("biome-0 (well_water_heal)")
+	};
+
 	{
 		sprite = "biome-0 (tub)";
 		collider = new Rectangle(4, 5, 30 - 8, 12);
@@ -38,6 +45,8 @@ public class MagicWell extends SolidProp {
 
 	public void use() {
 		this.used = true;
+
+		// todo: particles
 
 		int r = Random.newInt(3);
 
@@ -81,5 +90,16 @@ public class MagicWell extends SolidProp {
 			this.fx.remove();
 			this.fx = null;
 		}
+	}
+
+	@Override
+	public void render() {
+		super.render();
+
+		Graphics.startShadows();
+		Graphics.render(water[this.used ? 0 : 1], this.x + 5, this.y - 8 - 0.3f, 0, 0, 0, false, false, 1, -1f);
+		Graphics.endShadows();
+
+		Graphics.render(water[this.used ? 0 : 1], this.x + 5, this.y + 8);
 	}
 }
