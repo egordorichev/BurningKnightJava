@@ -503,8 +503,8 @@ public abstract class Level extends Entity {
 				}
 
 				// useful passable debug
-				/*
-				if (this.passable[i]) {
+
+				/*if (this.passable[i]) {
 					Graphics.batch.end();
 					Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 					Graphics.shape.begin(ShapeRenderer.ShapeType.Line);

@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.RectFloorRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.WellRoom;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
@@ -83,13 +84,15 @@ public class RegularRoom extends Room {
 	private static ArrayList<Class<? extends RegularRoom>> rooms = new ArrayList<Class<? extends RegularRoom>>(Arrays.asList(
 		RegularRoom.class, GardenRoom.class, FloodedRoom.class, SpikedRoom.class,
 		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class, StatueRoom.class,
-		TableRoom.class, CenterTableRoom.class, CaveRoom.class, RectFloorRoom.class
+		TableRoom.class, CenterTableRoom.class, CaveRoom.class, RectFloorRoom.class,
+		WellRoom.class
 	));
 
 	private static float[] chances = new float[] {
 		5, 3, 1, 1,
 		0.05f, 1, 0.3f, 1,
-		1, 1, 2, 1000
+		1, 1, 2, 1,
+		3
 	};
 
 	public static RegularRoom create() {
