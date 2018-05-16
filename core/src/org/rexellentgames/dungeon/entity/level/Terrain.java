@@ -63,6 +63,7 @@ public class Terrain {
 	public static TextureRegion[] tableVariants = new TextureRegion[16];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
+	public static TextureRegion[] decor;
 
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
@@ -100,6 +101,14 @@ public class Terrain {
 		patterns[WATER] = waterPattern;
 		patterns[LAVA] = lavaPattern;
 		patterns[WALL] = wallPattern;
+
+		decor = new TextureRegion[] {
+			Graphics.getTexture(bm + " (torch A)"),
+			Graphics.getTexture(bm + " (torch B)"),
+			Graphics.getTexture(bm + " (walldeco A)"),
+			Graphics.getTexture(bm + " (walldeco B)"),
+			Graphics.getTexture(bm + " (walldeco C)")
+		};
 
 		for (int i = 0; i < 10; i++) {
 			dither[i] = Graphics.getTexture("fx-dither-idle-" + String.format("%02d", i));

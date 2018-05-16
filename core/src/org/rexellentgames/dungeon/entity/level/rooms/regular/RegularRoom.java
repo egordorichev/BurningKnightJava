@@ -14,9 +14,9 @@ import java.util.Arrays;
 
 public class RegularRoom extends Room {
 	public enum Size {
-		NORMAL(15, 19, 1),
-		LARGE(19, 23, 2),
-		GIANT(23, 29, 3);
+		NORMAL(10, 14, 1),
+		LARGE(14, 18, 2),
+		GIANT(18, 24, 3);
 
 		public final int minDim;
 		public final int maxDim;
@@ -92,13 +92,13 @@ public class RegularRoom extends Room {
 	private static ArrayList<Class<? extends RegularRoom>> rooms = new ArrayList<Class<? extends RegularRoom>>(Arrays.asList(
 		RegularRoom.class, GardenRoom.class, FloodedRoom.class, SpikedRoom.class,
 		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class, StatueRoom.class,
-		TableRoom.class, CenterTableRoom.class
+		TableRoom.class, CenterTableRoom.class, CaveRoom.class
 	));
 
 	private static float[] chances = new float[] {
 		5, 3, 1, 1,
 		0.05f, 1, 0.3f, 1,
-		1, 100
+		1, 1, 4
 	};
 
 	public static RegularRoom create() {
