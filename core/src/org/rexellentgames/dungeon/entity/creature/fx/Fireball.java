@@ -146,7 +146,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		this.last += dt;
 
-		if (this.last > 0.08f) {
+		if (!this.noMove && this.last > 0.08f) {
 			this.last = 0;
 			Part part = new Part();
 			part.vel = new Point();
