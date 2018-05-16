@@ -21,7 +21,6 @@ import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
-import org.rexellentgames.dungeon.entity.level.entities.chest.WoodenChest;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -81,11 +80,16 @@ public abstract class Level extends Entity {
 	protected boolean[] passable;
 	protected boolean[] low;
 	protected boolean[] free;
+	protected byte[] decor;
 	protected Body body;
 	protected int level;
 	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<Room> rooms;
+
+	public void setPassable(int x, int y, boolean v) {
+		this.passable[toIndex(x, y)] = v;
+	}
 
 	public static int getWidth() {
 		return WIDTH;
@@ -100,6 +104,10 @@ public abstract class Level extends Entity {
 		Level.WIDTH = width;
 		Level.HEIGHT = height;
 		Level.SIZE = width * (height + 1);
+	}
+
+	public void generateDecor() {
+		decor = new byte[getSIZE()];
 	}
 
 	public static int getHeight() {
@@ -493,6 +501,17 @@ public abstract class Level extends Entity {
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
+
+				// useful passable debug
+				/*
+				if (this.passable[i]) {
+					Graphics.batch.end();
+					Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+					Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
+					Graphics.shape.rect(x * 16 + 1, y * 16 + 1, 16 - 2, 16 - 2);
+					Graphics.shape.end();
+					Graphics.batch.begin();
+				}*/
 			}
 		}
 
@@ -646,6 +665,11 @@ public abstract class Level extends Entity {
 						Graphics.render(Terrain.wallVariants[14], x * 16, y * 16 + 12, 0, 0, 0, false, false, 1f, -1f);
 						Graphics.endShadows();
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+					}
+
+					if (this.decor[i] != 0) {
+						TextureRegion s = Terrain.decor[this.decor[i] - 1];
+						Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 + 6);
 					}
 
 					if (tile == Terrain.CHASM && Random.chance(0.4f)) {
@@ -945,6 +969,10 @@ public abstract class Level extends Entity {
 		}
 	}
 
+	public void setDecor(int x, int y, byte v) {
+		this.decor[toIndex(x, y)] = v;
+	}
+
 	public void load(DataType type) {
 		if (Network.client != null) {
 			return;
@@ -989,10 +1017,12 @@ public abstract class Level extends Entity {
 			if (type == DataType.LEVEL) {
 				setSize(stream.readInt32(), stream.readInt32());
 				this.data = new byte[getSIZE()];
+				this.decor = new byte[getSIZE()];
 				this.initLight();
 
 				for (int i = 0; i < getSIZE(); i++) {
 					this.data[i] = stream.readByte();
+					this.decor[i] = stream.readByte();
 				}
 			}
 
@@ -1023,6 +1053,7 @@ public abstract class Level extends Entity {
 
 				for (int i = 0; i < getSIZE(); i++) {
 					stream.writeByte(this.data[i]);
+					stream.writeByte(this.decor[i]);
 				}
 			}
 
