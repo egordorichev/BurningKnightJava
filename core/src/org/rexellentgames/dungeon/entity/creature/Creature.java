@@ -181,42 +181,18 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (Dungeon.level != null) {
-			boolean onGround = false;
-			ArrayList<Point> chasm = new ArrayList<>();
-
 			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
 				for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
 					if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
 						continue;
 					}
 
-					short t = Dungeon.level.get(x, y);
-
-					if (!Dungeon.level.checkFor(x, y, Terrain.HOLE)) {
-						onGround = true;
-					} else {
-						chasm.add(new Point(x, y));
+					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16 + 4, y * 16 - 4, 8, 8)) {
+						short t = Dungeon.level.get(x, y);
+						this.onTouch(t, x, y);
 					}
-
-					this.onTouch(t, x, y);
 				}
 			}
-
-			if (!this.flying) {
-				for (Point c : chasm) {
-					float dx = c.x * 16 + 8 - this.x - this.w / 2;
-					float dy = c.y * 16 + 8 - this.y - this.h / 2;
-					float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-					this.vel.x -= dx / d * 8;
-					this.vel.y -= dy / d * 8;
-				}
-			}
-
-			/*f (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround && !this.flying && !this.dead && !(this instanceof Player && ((Player) this).dashT > 0)) {
-				this.falling = true;
-				this.t = 0;
-			}*/
 		}
 	}
 
@@ -258,7 +234,7 @@ public class Creature extends SaveableEntity {
 	protected void onTouch(short t, int x, int y) {
 		if (t == Terrain.WATER && !this.flying) {
 			this.removeBuff(BurningBuff.class);
-		} else if (t == Terrain.SPIKES && !this.flying) {
+		} else if (t == Terrain.LAVA && !this.flying) {
 			this.modifyHp(-1, true);
 		}
 	}

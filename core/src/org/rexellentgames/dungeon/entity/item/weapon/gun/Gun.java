@@ -47,7 +47,7 @@ public class Gun extends Item {
 		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a, 3, sprite.getRegionHeight() / 2,
 			false, false, this.sx, flipped ? -this.sy : this.sy);
 
-		if (this.delay + 0.1f >= this.useTime) {
+		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
 
 			Gdx.gl.glEnable(GL20.GL_BLEND);

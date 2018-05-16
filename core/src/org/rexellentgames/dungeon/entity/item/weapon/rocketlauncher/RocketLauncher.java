@@ -38,7 +38,7 @@ public class RocketLauncher extends Weapon {
 		Graphics.render(sprite, x + w / 2, y + (h - sprite.getRegionHeight()) / 2, an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? -sy : sy);
 
 
-		if (this.delay + 0.02f >= this.useTime) {
+		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
 
 			Gdx.gl.glEnable(GL20.GL_BLEND);

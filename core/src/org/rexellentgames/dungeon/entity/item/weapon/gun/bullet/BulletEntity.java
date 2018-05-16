@@ -32,7 +32,7 @@ public class BulletEntity extends Entity {
 	public String letter;
 	private float t;
 	private boolean bad;
-	private static Animation animation = Animation.make("fx-badbullet");
+	public static Animation animation = Animation.make("fx-badbullet");
 
 	@Override
 	public void init() {

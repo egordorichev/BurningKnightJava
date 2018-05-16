@@ -9,7 +9,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
@@ -18,13 +17,11 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
 
 import java.util.HashMap;
 
@@ -195,7 +192,7 @@ public class Graphics {
 		Music music = manager.get("music/" + name + ".ogg", Music.class);
 
 		if (music == null) {
-			Log.error("MusicManager '" + name + "' is not found!");
+			Log.error("Music '" + name + "' is not found!");
 		}
 
 		return music;

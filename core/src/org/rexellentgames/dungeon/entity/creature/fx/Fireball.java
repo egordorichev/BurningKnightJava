@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -145,16 +146,17 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		this.last += dt;
 
-		if (this.last >= 0.08f) {
-			Part part = new Part();
-			part.x = this.x + 5.5f;
-			part.y = this.y + 5.5f;
-			part.speed = 3f;
-			part.depth = this.depth - 1;
-			part.vel = new Point();
-			Dungeon.area.add(part);
-			part.depth = 11;
+		if (this.last > 0.08f) {
 			this.last = 0;
+			Part part = new Part();
+			part.vel = new Point();
+
+			part.x = this.x + Random.newFloat(16) - 16 / 2 - 4 + 8;
+			part.y = this.y + Random.newFloat(16) - 16 / 2 - 4 + 8;
+			part.depth = this.depth;
+			part.animation = BulletEntity.animation.get("idle");
+
+			Dungeon.area.add(part);
 		}
 
 		this.x = this.body.getPosition().x - 8;

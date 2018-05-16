@@ -9,7 +9,7 @@ public class SpikedTunnelRoom extends TunnelRoom {
 	@Override
 	protected void fill(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.SPIKES);
+		Painter.fill(level, this, 1, Terrain.LAVA);
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
