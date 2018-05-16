@@ -114,6 +114,7 @@
 	"descend" : "Descend",
 	"ascend" : "Ascend",
 	"tutorial" : "Tutorial",
+	"take_a_sip" : "Take a sip",
 
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",
