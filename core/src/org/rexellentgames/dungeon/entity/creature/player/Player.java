@@ -576,6 +576,10 @@ public class Player extends Creature {
 
 	@Override
 	protected void die(boolean force) {
+		if (this.toDeath) {
+			return;
+		}
+
 		this.toDeath = true;
 		this.t = 0;
 		Dungeon.slowDown(0.5f, 1f);

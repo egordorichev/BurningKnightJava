@@ -135,7 +135,7 @@ public class InGameState extends State {
 				}
 
 				if (!found) {
-					MusicManager.play("gobbeon");
+					MusicManager.play("Gobbeon");
 				}
 			}
 		}

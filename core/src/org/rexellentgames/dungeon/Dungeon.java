@@ -3,20 +3,15 @@ package org.rexellentgames.dungeon;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.*;
 import com.bitfire.postprocessing.filters.Combine;
 import com.bitfire.postprocessing.filters.CrtScreen;
-import org.lwjgl.glfw.GLFW;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -163,7 +158,7 @@ public class Dungeon extends ApplicationAdapter {
 		instance = this;
 
 		if (worker != null) {
-			worker.closeSplashScreen();
+			// worker.closeSplashScreen();
 		}
 
 		if (arg.length > 0 && arg[0].startsWith("reset")) {
@@ -207,7 +202,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		area.add(camera);
 
-		MusicManager.play("gobbeon");
+		MusicManager.play("Gobbeon");
 
 		boolean isDesktop = (Gdx.app.getType() == Application.ApplicationType.Desktop);
 		postProcessor = new PostProcessor(false, true, isDesktop);
@@ -408,8 +403,6 @@ public class Dungeon extends ApplicationAdapter {
 		if (Input.instance.wasPressed("circle")) {
 			Input.instance.circle = !Input.instance.circle;
 		}
-
-		//Log.info(com.badlogic.gdx.Input.Keys.toString(com.badlogic.gdx.Input.Keys.NUMPAD_0) + "");
 
 		if (Input.instance.wasPressed("mouse_left")) {
 			Log.info("left");

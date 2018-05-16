@@ -247,7 +247,7 @@ public abstract class Level extends Entity {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.GRASS) {
 					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.SPIKES) {
+				} else if (tile == Terrain.LAVA) {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
 					this.tileUp(x, y, Terrain.IS_DIRT, true);
@@ -591,6 +591,8 @@ public abstract class Level extends Entity {
 					region.setRegionHeight(16);
 
 					Graphics.render(region, x * 16, y * 16 - 8 - Dungeon.time * 12f % 64f);
+				} else if (tile == Terrain.LAVA) {
+					addLightInRadius(x * 16, y * 16, 1f, 0.6f, 0, 1f, 2.5f, false);
 				}
 			}
 		}
