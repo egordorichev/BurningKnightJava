@@ -144,6 +144,9 @@ object ItemRegistry {
 	    "ice_ring" to IceRing::class,
 	    "blue_boomerang" to BlueBoomerang::class,
 	    "magic_mushroom" to MagicMushroom::class,
-	    "isaac_head" to IsaacHead::class
+	    "isaac_head" to IsaacHead::class,
+	    "fire_flower" to FireFlower::class,
+	    "gravelord_sword" to GravelordSword::class,
+	    "star_cannon" to StarCannon::class
     )
 }

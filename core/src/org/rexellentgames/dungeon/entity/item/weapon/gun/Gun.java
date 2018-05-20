@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -26,6 +27,7 @@ public class Gun extends Item {
 	protected float tw;
 	protected float th;
 	protected int ox = 3;
+	protected boolean s;
 
 	{
 		identified = true;
@@ -34,15 +36,14 @@ public class Gun extends Item {
 	}
 
 	@Override
-	public void init() {
-		super.init();
-
-		this.tw = this.getSprite().getRegionWidth();
-		this.th = this.getSprite().getRegionHeight();
-	}
-
-	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
+		if (!s) {
+			s = true;
+
+			this.tw = this.getSprite().getRegionWidth();
+			this.th = this.getSprite().getRegionHeight();
+		}
+
 		TextureRegion sprite = this.getSprite();
 		Point aim = this.owner.getAim();
 
@@ -72,12 +73,8 @@ public class Gun extends Item {
 			y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
 			float px = this.tw;
-			float py = this.th;
 
-			px = (float) Math.cos(an) * px;
-			py = (float) Math.sin(an) * py;
-
-			Graphics.shape.circle(px + x, py + y, r);
+			Graphics.shape.circle((float) (x + px * Math.cos(an) - this.ox), (float) (y + px * Math.sin(an)), r);
 
 			Graphics.shape.end();
 			Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -201,14 +198,8 @@ public class Gun extends Item {
 			float px = this.tw;
 			float py = this.th;
 
-			float w = px;
-			float h = py + bullet.sprite.getRegionHeight() / 2;
-
-			px = (float) Math.cos(an);
-			py = (float) Math.sin(an);
-
-			bullet.x = x + px * w + xx;
-			bullet.y = y + py * h + yy;
+			bullet.x = (float) (x + px * Math.cos(an) - this.ox);
+			bullet.y = (float) (y + px * Math.sin(an));
 			bullet.damage = b.damage + this.damage;
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
@@ -216,7 +207,7 @@ public class Gun extends Item {
 			float s = this.vel;
 
 			bullet.vel = new Point(
-				px * s, py * s
+				(float) Math.cos(an) * s, (float) Math.sin(an) * s
 			);
 
 			bullet.a = a;
