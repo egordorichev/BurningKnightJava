@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.item.key.KeyB
 import org.rexellentgames.dungeon.entity.item.key.KeyC
 import org.rexellentgames.dungeon.entity.item.reference.BlueBoomerang
 import org.rexellentgames.dungeon.entity.item.reference.Dendy
+import org.rexellentgames.dungeon.entity.item.reference.MagicMushroom
 import org.rexellentgames.dungeon.entity.item.reference.MeetBoy
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA
@@ -144,6 +145,7 @@ object ItemRegistry {
 	    "fire_ring" to FireRing::class,
 	    "thorn_ring" to ThornRing::class,
 	    "ice_ring" to IceRing::class,
-	    "blue_boomerang" to BlueBoomerang::class
+	    "blue_boomerang" to BlueBoomerang::class,
+	    "magic_mushroom" to MagicMushroom::class
     )
 }
