@@ -5,11 +5,8 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.entity.level.rooms.RectFloorRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.WellRoom;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,14 +82,14 @@ public class RegularRoom extends Room {
 		RegularRoom.class, GardenRoom.class, FloodedRoom.class, SpikedRoom.class,
 		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class, StatueRoom.class,
 		TableRoom.class, CenterTableRoom.class, CaveRoom.class, RectFloorRoom.class,
-		WellRoom.class, LineRoom.class
+		WellRoom.class, LineRoom.class, CollumnRoom.class, CollumnsRoom.class
 	));
 
 	private static float[] chances = new float[] {
 		5, 3, 1, 1,
 		0.05f, 1, 0.3f, 1,
 		1, 1, 2, 1,
-		3, 1000
+		3, 1, 1, 1
 	};
 
 	public static RegularRoom create() {

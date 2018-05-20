@@ -28,11 +28,11 @@ public class LineRoom extends RegularRoom {
 
 	@Override
 	public int getMinWidth() {
-		return 10;
+		return 8;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 10;
+		return 8;
 	}
 }

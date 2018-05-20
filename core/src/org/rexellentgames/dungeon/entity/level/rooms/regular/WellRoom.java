@@ -1,9 +1,8 @@
-package org.rexellentgames.dungeon.entity.level.rooms;
+package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class WellRoom extends RegularRoom {
