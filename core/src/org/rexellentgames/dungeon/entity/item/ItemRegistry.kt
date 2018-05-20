@@ -147,6 +147,7 @@ object ItemRegistry {
 	    "isaac_head" to IsaacHead::class,
 	    "fire_flower" to FireFlower::class,
 	    "gravelord_sword" to GravelordSword::class,
-	    "star_cannon" to StarCannon::class
+	    "star_cannon" to StarCannon::class,
+	    "switch" to Switch::class
     )
 }

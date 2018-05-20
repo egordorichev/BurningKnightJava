@@ -24,6 +24,7 @@ public class Gun extends Item {
 	protected int damage;
 	protected Class<? extends Bullet> ammo;
 	protected float textureA;
+	protected boolean penetrates;
 	protected float tw;
 	protected float th;
 	protected int ox = 3;
@@ -203,6 +204,7 @@ public class Gun extends Item {
 			bullet.damage = b.damage + this.damage;
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
+			bullet.penetrates = this.penetrates;
 
 			float s = this.vel;
 

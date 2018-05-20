@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
@@ -473,6 +474,18 @@ public class UiInventory extends UiEntity {
 	}
 
 	public UiBuff hoveredBuff;
+
+	public boolean hasEquiped(Class<? extends Equipable> type) {
+		for (int i = 6; i < this.inventory.getSize(); i++) {
+			Item it = this.inventory.getSlot(i);
+
+			if (it != null && type.isInstance(it)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	public void renderCurrentSlot() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
