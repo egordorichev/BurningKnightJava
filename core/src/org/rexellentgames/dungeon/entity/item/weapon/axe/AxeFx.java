@@ -27,6 +27,7 @@ public class AxeFx extends Entity {
 	public boolean penetrates;
 	public Class<? extends Axe> type;
 	public int speed;
+	public Axe axe;
 
 	@Override
 	public void init() {
@@ -107,6 +108,8 @@ public class AxeFx extends Entity {
 
 			creature.modifyHp((int) -this.damage, this.owner);
 			BloodFx.add(entity, 10);
+
+			this.axe.onHit(creature);
 
 			if (!this.penetrates) {
 				this.done = true;

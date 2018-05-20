@@ -464,6 +464,11 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			this.findCurrentRoom();
 
+			if (self.target == null) {
+				self.become("idle");
+				return;
+			}
+
 			if (self.nextAttack == AttackType.NULL && !this.attacked) {
 				float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
 
