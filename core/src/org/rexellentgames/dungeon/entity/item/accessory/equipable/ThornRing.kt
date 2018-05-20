@@ -1,8 +1,16 @@
 package org.rexellentgames.dungeon.entity.item.accessory.equipable
 
+import org.rexellentgames.dungeon.assets.Locale
 import org.rexellentgames.dungeon.entity.creature.player.Player
 
 class ThornRing : Equipable() {
+	init {
+		super.init()
+
+		name = Locale.get("thorn_ring")
+		description = Locale.get("thorn_ring_desc")
+	}
+
 	override fun onEquip() {
 		super.onEquip()
 
