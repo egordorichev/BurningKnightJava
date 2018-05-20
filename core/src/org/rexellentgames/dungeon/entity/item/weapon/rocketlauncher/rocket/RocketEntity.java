@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Explosion;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
+import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
@@ -45,7 +46,7 @@ public class RocketEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen())) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof SolidProp) {
 			this.remove = true;
 			this.explode();
 		} else if (entity instanceof Creature) {

@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
+import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -109,7 +110,7 @@ public class ArrowEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (this.stuck != null || entity == this.owner) {
+		if (this.stuck != null || entity == this.owner || this.done) {
 			return;
 		}
 
@@ -130,6 +131,16 @@ public class ArrowEntity extends Entity {
 			this.depth = creature.depth;
 
 			BloodFx.add(entity, 10);
+		} else if (entity == null  || entity instanceof SolidProp) {
+			this.done = true;
+			for (int i = 0; i < 20; i++) {
+				Part part = new Part();
+
+				part.x = this.x - this.vel.x;
+				part.y = this.y - this.vel.y;
+
+				Dungeon.area.add(part);
+			}
 		}
 	}
 
