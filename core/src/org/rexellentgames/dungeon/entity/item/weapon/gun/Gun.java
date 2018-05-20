@@ -7,13 +7,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -24,11 +21,24 @@ public class Gun extends Item {
 	protected float sy = 1f;
 	protected float vel = 6f;
 	protected int damage;
+	protected Class<? extends Bullet> ammo;
+	protected float textureA;
+	protected float tw;
+	protected float th;
+	protected int ox = 3;
 
 	{
 		identified = true;
 		auto = true;
 		useTime = 0.2f;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+
+		this.tw = this.getSprite().getRegionWidth();
+		this.th = this.getSprite().getRegionHeight();
 	}
 
 	@Override
@@ -40,12 +50,12 @@ public class Gun extends Item {
 		float a = (float) Math.toDegrees(an);
 
 		Graphics.startShadows();
-		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y - h / 4 - this.owner.z, -a, 3, sprite.getRegionHeight() / 2,
-			false, false, this.sx, flipped ? this.sy : -this.sy);
+		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y - h / 4 - this.owner.z, -a - textureA, this.ox, sprite.getRegionHeight() / 2,
+			false, false, textureA == 0 ? this.sx : flipped ? this.sx : -this.sx, textureA != 0 ? this.sy : flipped ? this.sy : -this.sy);
 		Graphics.endShadows();
 
-		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a, 3, sprite.getRegionHeight() / 2,
-			false, false, this.sx, flipped ? -this.sy : this.sy);
+		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.ox, sprite.getRegionHeight() / 2,
+			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
 
 		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
@@ -61,9 +71,8 @@ public class Gun extends Item {
 			x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
 			y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
-			float px = sprite.getRegionWidth();
-			float py = sprite.getRegionHeight();
-
+			float px = this.tw;
+			float py = this.th;
 
 			px = (float) Math.cos(an) * px;
 			py = (float) Math.sin(an) * py;
@@ -182,35 +191,41 @@ public class Gun extends Item {
 		TextureRegion sprite = this.getSprite();
 		float a = (float) Math.toDegrees(an);
 
-		Bullet b = (Bullet) this.owner.getAmmo("bullet");
-		bullet.sprite = Graphics.getTexture("bullet (bullet " + b.bulletName + ")");
+		try {
+			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
+			bullet.sprite = Graphics.getTexture("bullet (" + b.bulletName + ")");
 
-		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
-		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+			float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
+			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
-		float px = sprite.getRegionWidth();
-		float py = sprite.getRegionHeight();
+			float px = this.tw;
+			float py = this.th;
 
-		float w = px;
-		float h = py + bullet.sprite.getRegionHeight() / 2;
+			float w = px;
+			float h = py + bullet.sprite.getRegionHeight() / 2;
 
-		px = (float) Math.cos(an);
-		py = (float) Math.sin(an);
+			px = (float) Math.cos(an);
+			py = (float) Math.sin(an);
 
-		bullet.x = x + px * w + xx;
-		bullet.y = y + py * h + yy;
-		bullet.damage = b.damage + this.damage;
-		bullet.letter = b.bulletName;
-		bullet.owner = this.owner;
+			bullet.x = x + px * w + xx;
+			bullet.y = y + py * h + yy;
+			bullet.damage = b.damage + this.damage;
+			bullet.letter = b.bulletName;
+			bullet.owner = this.owner;
 
-		float s = this.vel;
+			float s = this.vel;
 
-		bullet.vel = new Point(
-			px * s, py * s
-		);
+			bullet.vel = new Point(
+				px * s, py * s
+			);
 
-		bullet.a = a;
+			bullet.a = a;
 
-		Dungeon.area.add(bullet);
+			Dungeon.area.add(bullet);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		}
 	}
 }
