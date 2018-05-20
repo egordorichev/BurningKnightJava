@@ -27,6 +27,7 @@ public class BulletEntity extends Entity {
 	public int damage;
 	private boolean remove;
 	public float knockback = 50f;
+	public boolean penetrates;
 	private boolean auto;
 	public String letter;
 	private float t;
@@ -71,7 +72,7 @@ public class BulletEntity extends Entity {
 			Creature creature = ((Creature) entity);
 
 			creature.modifyHp(-this.damage, this.owner);
-			this.remove = true;
+			this.remove = !this.penetrates;
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
 
