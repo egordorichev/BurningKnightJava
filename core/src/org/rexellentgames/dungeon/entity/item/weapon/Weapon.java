@@ -98,7 +98,7 @@ public class Weapon extends Item {
 		this.added = added;
 	}
 
-	protected void onHit(Creature creature) {
+	public void onHit(Creature creature) {
 
 	}
 
@@ -125,7 +125,6 @@ public class Weapon extends Item {
 			if (this.isBlocking()) {
 				return;
 			}
-
 
 			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
 				return;

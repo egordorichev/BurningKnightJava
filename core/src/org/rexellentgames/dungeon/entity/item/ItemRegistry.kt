@@ -16,6 +16,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportat
 import org.rexellentgames.dungeon.entity.item.key.KeyA
 import org.rexellentgames.dungeon.entity.item.key.KeyB
 import org.rexellentgames.dungeon.entity.item.key.KeyC
+import org.rexellentgames.dungeon.entity.item.reference.BlueBoomerang
 import org.rexellentgames.dungeon.entity.item.reference.Dendy
 import org.rexellentgames.dungeon.entity.item.reference.MeetBoy
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar
@@ -142,6 +143,7 @@ object ItemRegistry {
 	    "metal_ring" to MetalRing::class,
 	    "fire_ring" to FireRing::class,
 	    "thorn_ring" to ThornRing::class,
-	    "ice_ring" to IceRing::class
+	    "ice_ring" to IceRing::class,
+	    "blue_boomerang" to BlueBoomerang::class
     )
 }
