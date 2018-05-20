@@ -83,6 +83,8 @@ public class UiSlot {
 					scale = value;
 				}
 			});
+
+			Graphics.playSfx("menu/moving");
 		} else if (this.inventory.getActive() != this.id && this.active) {
 			this.active = false;
 
@@ -114,6 +116,8 @@ public class UiSlot {
 					scale = value;
 				}
 			});
+
+			Graphics.playSfx("menu/moving");
 		} else if (!this.hovered && h) {
 			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
 				@Override
@@ -133,6 +137,8 @@ public class UiSlot {
 			this.inventory.handled = true;
 
 			if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
+				Graphics.playSfx("menu/select");
+
 				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
 					@Override
 					public float getValue() {
