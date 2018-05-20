@@ -15,8 +15,6 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -27,7 +25,6 @@ import java.util.Map;
 public class Input implements InputProcessor, ControllerListener {
 	public static InputMultiplexer multiplexer = new InputMultiplexer();
 	public static Input instance;
-	public static HashMap<Integer, Input> inputs = new HashMap<Integer, Input>();
 
 	public Point uiMouse = new Point();
 	public Point worldMouse = new Point();
@@ -38,10 +35,6 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean circle = true;
 
 	private boolean controllerChanged;
-
-	public static void set(int id) {
-		instance = inputs.get(id);
-	}
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
@@ -163,10 +156,9 @@ public class Input implements InputProcessor, ControllerListener {
 		return this.keys;
 	}
 
-	public Input(int id) {
+	public Input() {
 		instance = this;
 		multiplexer.addProcessor(this);
-		inputs.put(id, this);
 		this.keys.put("MouseWheel", State.RELEASED);
 
 		JsonReader reader = new JsonReader();
@@ -311,11 +303,6 @@ public class Input implements InputProcessor, ControllerListener {
 		String id = com.badlogic.gdx.Input.Keys.toString(keycode);
 		this.keys.put(id, State.DOWN);
 
-		if (Network.client != null && Player.instance != null) {
-			Network.client.getClientHandler().send(Packets.makeInputChanged(State.DOWN, id, 0));
-			Player.instance.registerState();
-		}
-
 		return false;
 	}
 
@@ -323,11 +310,6 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean keyUp(int keycode) {
 		String id = com.badlogic.gdx.Input.Keys.toString(keycode);
 		this.keys.put(id, State.UP);
-
-		if (Network.client != null && Player.instance != null) {
-			Network.client.getClientHandler().send(Packets.makeInputChanged(State.UP, id, 0));
-			Player.instance.registerState();
-		}
 
 		return false;
 	}
@@ -341,22 +323,12 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		this.keys.put("Mouse" + button, State.DOWN);
 
-		if (Network.client != null && Player.instance != null) {
-			Network.client.getClientHandler().send(Packets.makeInputChanged(State.DOWN, "Mouse" + button, 0));
-			Player.instance.registerState();
-		}
-
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		this.keys.put("Mouse" + button, State.UP);
-
-		if (Network.client != null && Player.instance != null) {
-			Network.client.getClientHandler().send(Packets.makeInputChanged(State.UP, "Mouse" + button, 0));
-			Player.instance.registerState();
-		}
 
 		return false;
 	}
@@ -381,11 +353,6 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean scrolled(int amount) {
 		this.keys.put("MouseWheel", State.DOWN);
 		this.amount = amount;
-
-		if (Network.client != null && Player.instance != null) {
-			Network.client.getClientHandler().send(Packets.makeInputChanged(State.UP, "MouseWheel", amount));
-			Player.instance.registerState();
-		}
 
 		return false;
 	}

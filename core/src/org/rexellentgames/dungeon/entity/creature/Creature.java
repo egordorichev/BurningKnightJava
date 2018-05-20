@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
@@ -23,8 +24,6 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.LoadState;
-import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -62,24 +61,9 @@ public class Creature extends SaveableEntity {
 	public long lastIndex;
 	public boolean invisible;
 	protected boolean flying = false;
-	public HashMap<Long, State> states = new HashMap<Long, State>();
 
 	public boolean isFlying() {
 		return this.flying;
-	}
-
-	public static class State {
-		public float x;
-		public float y;
-	}
-
-	public void registerState() {
-		Creature.State state = new Creature.State();
-
-		state.x = this.x;
-		state.y = this.y;
-
-		this.states.put(Dungeon.longTime, state);
 	}
 
 	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
@@ -110,10 +94,6 @@ public class Creature extends SaveableEntity {
 
 		if (this.body != null) {
 			this.body.setTransform(x, y, 0);
-		}
-
-		if (Network.SERVER) {
-			Network.server.getServerHandler().sendToAll(Packets.makeTpEntity(this.getId(), x, y));
 		}
 	}
 
@@ -147,6 +127,14 @@ public class Creature extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+
+
+		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
+
+		for (int i = buffs.length - 1; i >= 0; i--) {
+			buffs[i].update(dt);
+		}
+
 		super.update(dt);
 
 		if (this.shouldDie) {
@@ -167,17 +155,19 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
+		if (this.freezed) {
+			this.invt = Math.max(0, this.invt - dt);
+			this.vel.x = 0;
+			this.vel.y = 0;
+			this.body.setLinearVelocity(this.vel);
+			return;
+		}
+
 		this.vel.mul(this.mul);
 
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
-		}
-
-		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
-
-		for (int i = buffs.length - 1; i >= 0; i--) {
-			buffs[i].update(dt);
 		}
 
 		if (Dungeon.level != null) {
@@ -235,7 +225,7 @@ public class Creature extends SaveableEntity {
 		if (t == Terrain.WATER && !this.flying) {
 			this.removeBuff(BurningBuff.class);
 		} else if (t == Terrain.LAVA && !this.flying) {
-			this.modifyHp(-1, true);
+			this.modifyHp(-1, null,true);
 		}
 	}
 
@@ -251,11 +241,6 @@ public class Creature extends SaveableEntity {
 				this.flipped = true;
 			} else if (this.vel.x > 0) {
 				this.flipped = false;
-			}
-
-			if (!Network.SERVER && !Network.NONE) {
-				this.registerState();
-				this.states.remove((long) (Dungeon.time * 60 - 60));
 			}
 		}
 
@@ -281,8 +266,12 @@ public class Creature extends SaveableEntity {
 		this.maxSpeed += amount * 7;
 	}
 
-	public void modifyHp(int amount) {
-		this.modifyHp(amount, false);
+	public void onHit(Creature who) {
+
+	}
+
+	public void modifyHp(int amount, Creature from) {
+		this.modifyHp(amount, from, false);
 	}
 
 	public boolean isUnhittable() {
@@ -293,7 +282,7 @@ public class Creature extends SaveableEntity {
 		return this.defense;
 	}
 
-	public void modifyHp(int amount, boolean ignoreArmor) {
+	public void modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead) {
 			return;
 		}
@@ -313,7 +302,11 @@ public class Creature extends SaveableEntity {
 				amount += this.defense;
 
 				if (amount > 0) {
-					amount = 0;
+					amount = -1;
+				}
+
+				if (from != null) {
+					from.onHit(this);
 				}
 			}
 
@@ -325,20 +318,24 @@ public class Creature extends SaveableEntity {
 			hurt = true;
 		}
 
-		if (!Network.SERVER) {
-			this.area.add(new HpFx(this, amount));
-		}
+		this.area.add(new HpFx(this, amount));
 
 		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);
 
 		if (hurt) {
-			this.onHurt();
+			this.onHurt(amount, from);
 		}
 
 		if (this.hp == 0) {
 			this.shouldDie = true;
 		}
 	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public boolean freezed;
 
 	public void setUnhittable(boolean unhittable) {
 		this.unhittable = unhittable;
@@ -348,7 +345,7 @@ public class Creature extends SaveableEntity {
 		return this.dead;
 	}
 
-	protected void onHurt() {
+	protected void onHurt(float a, Creature from) {
 		Graphics.delay(20);
 	}
 

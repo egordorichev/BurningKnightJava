@@ -27,7 +27,6 @@ import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
@@ -693,7 +692,6 @@ public abstract class Level extends Entity {
 			// Clear shadows
 
 			Graphics.batch.end();
-			Graphics.surface.end();
 			Graphics.shadows.begin();
 
 			Graphics.batch.begin();
@@ -704,7 +702,6 @@ public abstract class Level extends Entity {
 			Graphics.batch.end();
 
 			Graphics.shadows.end();
-			Graphics.surface.begin();
 			Graphics.batch.begin();
 		}
 
@@ -974,10 +971,6 @@ public abstract class Level extends Entity {
 	}
 
 	public void load(DataType type) {
-		if (Network.client != null) {
-			return;
-		}
-
 		FileHandle save = Gdx.files.external(this.getSavePath(type));
 
 		if (!save.exists()) {

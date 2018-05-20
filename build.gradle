@@ -5,22 +5,16 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
     }
+
+    ext.kotlin_version = '1.2.41'
+
     dependencies {
+
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // classpath "com.badlogicgames.gdx:gdx-tools:1.9.8"
-    }
-}
-
-apply plugin: 'war'
-
-sourceSets {
-    main {
-        resources {
-            exclude '**/sprites_split/*'
-            exclude '**/ase/*'
-        }
     }
 }
 
@@ -44,7 +38,7 @@ allprojects {
 }
 
 project(":desktop") {
-    apply plugin: "java"
+    apply plugin: "kotlin"
 
 
     dependencies {
@@ -55,13 +49,15 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-       // compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
+
+        // compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
 
     }
 }
 
 project(":android") {
     apply plugin: "android"
+    apply plugin: "kotlin-android"
 
     configurations { natives }
 
@@ -93,7 +89,7 @@ project(":android") {
 }
 
 project(":ios") {
-    apply plugin: "java"
+    apply plugin: "kotlin"
     apply plugin: "robovm"
 
 
@@ -110,7 +106,7 @@ project(":ios") {
 }
 
 project(":core") {
-    apply plugin: "java"
+    apply plugin: "kotlin"
 
 
     dependencies {
@@ -120,12 +116,14 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.esotericsoftware:kryonet:2.22.0-RC1"
         // compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         compile "com.rafaskoberg.gdx:typing-label:1.0.4"
+        compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     }
 }
 
 project(":packer") {
-    apply plugin: "java"
+    apply plugin: "kotlin"
 
 
     dependencies {
@@ -136,6 +134,8 @@ project(":packer") {
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     }
 }
 

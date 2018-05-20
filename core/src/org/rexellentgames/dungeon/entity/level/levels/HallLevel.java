@@ -6,10 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
-import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.Potion;
-import org.rexellentgames.dungeon.entity.item.consumable.spell.Spell;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
@@ -17,16 +14,13 @@ import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
 public class HallLevel extends RegularLevel {
 	public HallLevel() {
-		if (!Network.SERVER) {
-			Terrain.loadTextures(0);
-		}
+		Terrain.loadTextures(0);
 
 		this.addLight = Dungeon.depth == 0;
 	}

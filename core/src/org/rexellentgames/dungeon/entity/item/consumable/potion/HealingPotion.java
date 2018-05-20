@@ -15,6 +15,6 @@ public class HealingPotion extends Potion {
 		}
 
 		super.use();
-		this.owner.modifyHp(this.owner.getHpMax() - this.owner.getHp());
+		this.owner.modifyHp(this.owner.getHpMax() - this.owner.getHp(), null);
 	}
 }

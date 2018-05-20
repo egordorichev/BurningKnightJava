@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon.game;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.game.state.HubState;
 import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.state.State;
 
@@ -17,7 +16,7 @@ public class Game {
 	}
 
 	public void setState(org.rexellentgames.dungeon.game.state.State state) {
-		if (!(this.state instanceof LoadState) && !(this.state instanceof HubState)) {
+		if (!(this.state instanceof LoadState)) {
 			Dungeon.ui.destroy();
 			Dungeon.area.destroy();
 		}

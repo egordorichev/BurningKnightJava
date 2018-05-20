@@ -18,7 +18,7 @@ public class PoisonBuff extends Buff {
 
 		if (this.last >= 1f) {
 			this.last = 0;
-			this.owner.modifyHp(-1, true);
+			this.owner.modifyHp(-1, null, true);
 		}
 	}
 }

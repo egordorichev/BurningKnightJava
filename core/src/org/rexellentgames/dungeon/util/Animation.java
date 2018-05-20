@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,19 +58,11 @@ public class Animation {
 	}
 
 	public static Animation make(String file) {
-		if (Network.SERVER) {
-			return null;
-		} else {
-			return new Animation(file);
-		}
+		return new Animation(file);
 	}
 
 	public static Animation make(String file, String add) {
-		if (Network.SERVER) {
-			return null;
-		} else {
-			return new Animation(file, add);
-		}
+		return new Animation(file, add);
 	}
 
 	public AnimationData get(String state) {

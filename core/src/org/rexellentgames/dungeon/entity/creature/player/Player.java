@@ -4,14 +4,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.entity.creature.buff.*;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.buff.Buff;
-import org.rexellentgames.dungeon.entity.creature.buff.HungryBuff;
-import org.rexellentgames.dungeon.entity.creature.buff.StarvingBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
@@ -29,8 +28,6 @@ import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.ComicsState;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -51,7 +48,6 @@ public class Player extends Creature {
 	private static HashMap<String, Animation> skins = new HashMap<>();
 	public float lightModifier;
 	public int connectionId;
-	public boolean main;
 	public float heat;
 	protected float mana;
 	protected float manaMax;
@@ -73,6 +69,44 @@ public class Player extends Creature {
 	public Room currentRoom;
 	public float dashT;
 	public ArrayList<UiBuff> uiBuffs = new ArrayList<>();
+	public float poisonChance;
+	public float burnChance;
+	public float freezeChance;
+	public float reflectDamageChance;
+	public float thornDamageChance;
+
+	@Override
+	protected void onHurt(float a, Creature from) {
+		super.onHurt(a, from);
+
+		Camera.instance.shake(4f);
+		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
+
+		if (from != null && Random.chance(this.reflectDamageChance)) {
+			from.modifyHp((int) Math.ceil(a / 2), this, true);
+		}
+	}
+
+	@Override
+	public void onHit(Creature who) {
+		super.onHit(who);
+
+		if (who == null) {
+			return;
+		}
+
+		if (Random.chance(this.poisonChance)) {
+			who.addBuff(new PoisonBuff().setDuration(5));
+		}
+
+		if (Random.chance(this.burnChance)) {
+			who.addBuff(new BurningBuff().setDuration(5));
+		}
+
+		if (Random.chance(this.freezeChance)) {
+			who.addBuff(new FreezeBuff().setDuration(2));
+		}
+	}
 
 	@Override
 	public void addBuff(Buff buff) {
@@ -157,11 +191,7 @@ public class Player extends Creature {
 		all.add(this);
 
 		if (!name.equals("ghost")) {
-			if (instance == null || Network.NONE) {
-				instance = this;
-				main = true;
-				local = true;
-			}
+			instance = this;
 		}
 
 		run.setListener(new AnimationData.Listener() {
@@ -194,11 +224,6 @@ public class Player extends Creature {
 		level -= 1;
 
 		return level * 2;
-	}
-
-	@Override
-	public String getParam() {
-		return this.name;
 	}
 
 	public String getName() {
@@ -246,6 +271,11 @@ public class Player extends Creature {
 	@Override
 	public void destroy() {
 		super.destroy();
+
+		if (!this.ui.done) {
+			this.ui.destroy();
+			this.ui = null;
+		}
 		Player.all.remove(this);
 	}
 
@@ -281,7 +311,6 @@ public class Player extends Creature {
 					this.fallHurt = true;
 
 					Camera.instance.follow(this);
-
 					break;
 				}
 			}
@@ -289,14 +318,6 @@ public class Player extends Creature {
 	}
 
 	private boolean fallHurt;
-
-	@Override
-	protected void onHurt() {
-		super.onHurt();
-
-		Camera.instance.shake(4f);
-		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
-	}
 
 	private float lastRun;
 	private float lastDashT;
@@ -342,20 +363,6 @@ public class Player extends Creature {
 		this.dashT = Math.max(0, this.dashT - dt);
 		this.dashTimeout = Math.max(0, this.dashTimeout - dt);
 
-		if (Dungeon.game.getState() instanceof ComicsState) {
-			float x = Math.max(Camera.instance.getCamera().position.x - 80, this.x);
-			float y = MathUtils.clamp(Camera.instance.getCamera().position.y - 133,
-				Camera.instance.getCamera().position.y, this.y);
-
-			this.body.setTransform(x, y, 0);
-
-			if (x > Camera.instance.getCamera().position.x + 170) {
-				Dungeon.goToLevel(0);
-				Dungeon.loadType = Entrance.LoadType.RUNNING;
-				return;
-			}
-		}
-
 		if (Dungeon.level != null) {
 			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
 			Room room = Dungeon.level.findRoomFor(this.x, this.y);
@@ -377,7 +384,7 @@ public class Player extends Creature {
 				this.falling = false;
 				boolean h = this.unhittable;
 				this.unhittable = false;
-				this.modifyHp(-60, true);
+				this.modifyHp(-60, null,true);
 				this.unhittable = h;
 			}
 		}
@@ -401,16 +408,7 @@ public class Player extends Creature {
 
 		// this.setHunger(this.hunger + dt);
 
-		if (Network.SERVER) {
-			Input.set(this.getId());
-
-			if (this.y >= 60 - 16) {
-				Dungeon.goToLevel(0);
-			}
-		}
-
-		if ((Network.SERVER || this.main) && (!(Dungeon.game.getState() instanceof ComicsState) || ComicsState.alpha[4] < 0.5f)
-			&& Dialog.active == null){
+		if (Dialog.active == null) {
 
 			if (Input.instance.isDown("mouse2")) {
 				float dx = Input.instance.worldMouse.x - this.x - 8;
@@ -505,7 +503,7 @@ public class Player extends Creature {
 		if (v > 20) {
 			this.become("run");
 
-			if (this.lastRun >= 0.08f && !Network.SERVER) {
+			if (this.lastRun >= 0.08f) {
 				this.lastRun = 0;
 				this.area.add(new RunFx(this.x, this.y - 8));
 			}
@@ -633,11 +631,15 @@ public class Player extends Creature {
 
 		Graphics.startShadows();
 
-		this.animation.render(this.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, this.y - region.getRegionHeight() / 2 - region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
+		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
+			this.y - region.getRegionHeight() / 2 - region.getRegionHeight() / 2 + 16, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), -this.sy, false);
 		Graphics.endShadows();
-		this.animation.render(this.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, this.y - region.getRegionHeight() / 2 + region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
+
+		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
+			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);
+
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {
@@ -646,10 +648,6 @@ public class Player extends Creature {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
-
-		if (this.name != null && !Network.NONE) {
-			Graphics.small.draw(Graphics.batch, this.name, this.x, this.y - 4);
-		}
 	}
 
 	private float sx = 1f;
@@ -668,6 +666,11 @@ public class Player extends Creature {
 		this.level = reader.readInt32();
 		this.forThisLevel = expNeeded(this.level);
 
+		float last = this.speed;
+		this.speed = reader.readFloat();
+
+		this.maxSpeed += (this.speed - last) * 7f;
+
 		this.setHunger(reader.readInt16());
 	}
 
@@ -682,6 +685,7 @@ public class Player extends Creature {
 		writer.writeInt32(this.experience);
 		writer.writeInt32(this.experienceMax);
 		writer.writeInt32(this.level);
+		writer.writeFloat(this.speed);
 
 		writer.writeInt16((short) this.hunger);
 	}
@@ -698,13 +702,17 @@ public class Player extends Creature {
 					this.area.add(new ItemPickedFx(item));
 					Dungeon.level.removeSaveable(item);
 				}
-			} else if (!Network.SERVER && !item.falling) {
+			} else if (!item.falling) {
 				this.holders.add(item);
 
 				if (this.pickupFx == null) {
 					this.pickupFx = new ItemPickupFx(item, this);
 					this.area.add(this.pickupFx);
 				}
+			}
+		} else if (entity instanceof Mob) {
+			if (Random.chance(this.thornDamageChance)) {
+				((Mob) entity).modifyHp(-4, this);
 			}
 		}
 	}

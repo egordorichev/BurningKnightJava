@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.ui.UiLog;
 
 public class StarvingBuff extends Buff {
 	{
@@ -23,7 +23,7 @@ public class StarvingBuff extends Buff {
 		super.onUpdate(dt);
 
 		if (this.time % 15f <= 0.017f) {
-			this.owner.modifyHp(-1, true);
+			this.owner.modifyHp(-1,  null, true);
 		}
 	}
 }

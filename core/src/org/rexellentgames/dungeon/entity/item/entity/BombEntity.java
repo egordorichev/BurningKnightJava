@@ -23,6 +23,7 @@ public class BombEntity extends Entity {
 	private AnimationData animation = animations.get("idle");
 	private Body body;
 	private Point vel;
+	public Creature owner;
 	private boolean flip = Random.chance(50);
 
 	public BombEntity(float x, float y) {
@@ -105,7 +106,7 @@ public class BombEntity extends Entity {
 					Creature creature = (Creature) entity;
 
 					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
-						creature.modifyHp(-Math.round(Random.newFloat(10 / 3 * 2, 10)), true);
+						creature.modifyHp(-Math.round(Random.newFloat(10 / 3 * 2, 10)), this.owner, true);
 
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 

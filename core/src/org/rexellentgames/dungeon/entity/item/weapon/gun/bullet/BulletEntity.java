@@ -31,6 +31,7 @@ public class BulletEntity extends Entity {
 	private boolean auto;
 	public String letter;
 	private float t;
+	public Creature owner;
 	private boolean bad;
 	public static Animation animation = Animation.make("fx-badbullet");
 
@@ -68,7 +69,7 @@ public class BulletEntity extends Entity {
 
 			Creature creature = ((Creature) entity);
 
-			creature.modifyHp(-this.damage);
+			creature.modifyHp(-this.damage, this.owner);
 			this.remove = true;
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);

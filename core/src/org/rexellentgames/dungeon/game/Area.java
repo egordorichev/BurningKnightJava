@@ -6,8 +6,6 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -39,11 +37,6 @@ public class Area {
 
 	public Entity add(Entity entity) {
 		this.entities.add(entity);
-
-		if (Network.SERVER && !(entity instanceof Player) && entity instanceof NetworkedEntity) {
-			Network.server.getServerHandler().sendToAll(Packets.makeEntityAdded((Class<? extends NetworkedEntity>) entity.getClass(),
-				entity.getId(), entity.x, entity.y, ""));
-		}
 
 		entity.setArea(this);
 		entity.init();
