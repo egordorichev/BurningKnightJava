@@ -1,9 +1,8 @@
-package org.rexellentgames.dungeon.entity.level.rooms;
+package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 
 public class RectFloorRoom extends RegularRoom {
 	@Override

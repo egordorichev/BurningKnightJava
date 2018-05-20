@@ -4,14 +4,12 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 import org.rexellentgames.dungeon.util.path.GraphNode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
