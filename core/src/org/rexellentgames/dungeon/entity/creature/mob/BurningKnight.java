@@ -140,7 +140,9 @@ public class BurningKnight extends Boss {
 	public void update(float dt) {
 		super.update(dt);
 
-		// Log.info(this.unhittable + "");
+		if (this.freezed) {
+			return;
+		}
 
 		if (Dungeon.level != null) {
 			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);

@@ -13,15 +13,12 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.net.Network;
 
 import java.util.ArrayList;
 
 public class WaveLevel extends RegularLevel {
 	public WaveLevel() {
-		if (!Network.SERVER) {
-			Terrain.loadTextures(0);
-		}
+		Terrain.loadTextures(0);
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class MagicWell extends SolidProp {
 
 		switch (r) {
 			case 0: default:
-				Player.instance.modifyHp(Player.instance.getHpMax() - Player.instance.getHp());
+				Player.instance.modifyHp(Player.instance.getHpMax() - Player.instance.getHp(), null);
 				Log.info("[green]You take a sip and feel refreshed!");
 				break;
 			/*case 1:

@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,7 +20,6 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -42,7 +40,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	private float sx;
 	private float sy;
 	private float rt;
-	public Entity owner;
+	public Creature owner;
 
 	@Override
 	public Body getBody() {
@@ -109,12 +107,12 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		}
 
 		if (entity instanceof Mob && !((Mob) entity).isDead()) {
-			((Mob) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), true);
+			((Mob) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), this.owner, true);
 			this.animation = this.dead;
 			this.playSfx("fireball_death");
 			((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), true);
+			((Player) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), this.owner, true);
 			this.animation = this.dead;
 			this.playSfx("fireball_death");
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));

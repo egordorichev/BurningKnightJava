@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
@@ -28,6 +29,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	public boolean bad = true;
 	private float t;
 	private float scale = 1f;
+	public Creature owner;
 
 	@Override
 	public Body getBody() {
@@ -89,7 +91,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		}
 
 		if (entity instanceof Mob && !this.bad && !((Mob) entity).isDead()) {
-			((Mob) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
+			((Mob) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), this.owner, true);
 			this.brk = true;
 			this.vel.x = 0;
 			this.vel.y = 0;
@@ -97,7 +99,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 			this.parts();
 			// ((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), true);
+			((Player) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), this.owner, true);
 			this.brk = true;
 			this.vel.x = 0;
 			this.vel.y = 0;

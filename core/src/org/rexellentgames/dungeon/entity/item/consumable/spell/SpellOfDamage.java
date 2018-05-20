@@ -23,7 +23,7 @@ public class SpellOfDamage extends Spell {
 			Entity entity = entities.get(i);
 
 			if (entity instanceof Creature) {
-				((Creature) entity).modifyHp(-20, true);
+				((Creature) entity).modifyHp(-20, null, true);
 			}
 		}
 	}

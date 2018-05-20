@@ -115,6 +115,10 @@
 	"ascend" : "Ascend",
 	"tutorial" : "Tutorial",
 	"take_a_sip" : "Take a sip",
+	"meetboy" : "Meet Boy",
+	"meetboy_desc" : "Gives you an extra heart container",
+	"dendy" : "Dendy",
+	"dendy_desc" : "Speed up!",
 
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",

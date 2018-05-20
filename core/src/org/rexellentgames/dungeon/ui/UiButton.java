@@ -67,7 +67,6 @@ public class UiButton extends UiEntity {
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.batch.end();
-		Graphics.surface.end();
 		Graphics.text.begin();
 		Graphics.batch.begin();
 
@@ -78,7 +77,6 @@ public class UiButton extends UiEntity {
 
 		Graphics.batch.end();
 		Graphics.text.end();
-		Graphics.surface.begin();
 		Graphics.batch.begin();
 
 		Texture texture = Graphics.text.getColorBufferTexture();

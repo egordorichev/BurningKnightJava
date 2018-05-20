@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -51,8 +52,8 @@ public class Knight extends Mob {
 	}
 
 	@Override
-	protected void onHurt() {
-		super.onHurt();
+	protected void onHurt(float a, Creature creature) {
+		super.onHurt(a, creature);
 
 		this.playSfx("damage_towelknight");
 	}
@@ -70,6 +71,10 @@ public class Knight extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.freezed) {
+			return;
+		}
 
 		if (this.dead) {
 			super.common();

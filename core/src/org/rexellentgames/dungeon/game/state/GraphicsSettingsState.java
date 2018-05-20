@@ -123,18 +123,6 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.gore));
 
-		Dungeon.area.add(new UiCheckbox("shaders", Display.GAME_WIDTH / 2, 138 - 20 * 3) {
-			@Override
-			public void onClick() {
-				super.onClick();
-
-				Camera.instance.shake(3);
-				Settings.shaders = !Settings.shaders;
-
-				Dungeon.crt.setEnabled(Settings.shaders);
-			}
-		}.setOn(Settings.shaders).setSparks(true));
-
 		Dungeon.area.add(new UiCheckbox("vsync", Display.GAME_WIDTH / 2, 138 + 20 * 3) {
 			@Override
 			public void onClick() {

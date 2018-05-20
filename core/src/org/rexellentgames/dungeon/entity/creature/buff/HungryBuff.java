@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.ui.UiLog;
 
 public class HungryBuff extends Buff {
 	{

@@ -34,7 +34,6 @@ public class Graphics {
 	public static BitmapFont medium;
 	public static AssetManager manager;
 	public static FrameBuffer shadows;
-	public static FrameBuffer surface;
 	public static FrameBuffer text;
 	public static HashMap<String, Float> volumes = new HashMap<>();
 
@@ -55,7 +54,6 @@ public class Graphics {
 	public static void startShadows() {
 		color = Graphics.batch.getColor();
 		Graphics.batch.end();
-		Graphics.surface.end();
 		Graphics.shadows.begin();
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 
@@ -70,7 +68,6 @@ public class Graphics {
 		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 		Camera.instance.viewport.apply();
-		Graphics.surface.begin();
 		Graphics.batch.begin();
 	}
 
@@ -80,7 +77,6 @@ public class Graphics {
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth() * Settings.quality, Camera.instance.viewport.getScreenHeight() * Settings.quality, false);
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 
 		manager = new AssetManager();
@@ -134,6 +130,7 @@ public class Graphics {
 			atlas = manager.get("atlas/atlas.atlas");
 
 			small.getData().markupEnabled = true;
+			small.getData().setLineHeight(10);
 
 			new Ui();
 		}
@@ -173,9 +170,6 @@ public class Graphics {
 
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)),
 			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)), false);
-
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)) * Settings.quality,
-			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)) * Settings.quality, false);
 	}
 
 	public static Sound getSound(String sfx) {

@@ -7,16 +7,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.Rocket;
-import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketEntity;
-import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -56,7 +50,7 @@ public class RocketLauncher extends Weapon {
 			float py = (float) Math.sin(a);
 			w = sprite.getRegionWidth() - r;
 
-			Graphics.shape.circle(xx + px * w,  yy + py * w, r);
+			Graphics.shape.circle(xx + px * w, yy + py * w, r);
 
 			Graphics.shape.end();
 			Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -186,6 +180,7 @@ public class RocketLauncher extends Weapon {
 			px * s, py * s
 		);
 
+		bullet.owner = this.owner;
 		bullet.a = a;
 
 		Dungeon.area.add(bullet);

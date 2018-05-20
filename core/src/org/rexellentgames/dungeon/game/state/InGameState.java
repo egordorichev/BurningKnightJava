@@ -1,36 +1,28 @@
 package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.levels.HubLevel;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.ui.UiBar;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
@@ -54,13 +46,11 @@ public class InGameState extends State {
 		World.world.setContactListener(collisions);
 		World.world.setContactFilter(collisions);
 
-		if (!Network.SERVER) {
-			this.setupUi();
-		}
+		this.setupUi();
 
 		this.console = new Console();
 
-		if (BurningKnight.instance != null && Dungeon.depth > 0 && (Network.SERVER || Network.NONE)) {
+		if (BurningKnight.instance != null && Dungeon.depth > 0) {
 			BurningKnight.instance.findStartPoint();
 		}
 
@@ -99,10 +89,8 @@ public class InGameState extends State {
 			Gdx.files.external(".burningknight/").deleteDirectory();
 			Dungeon.reset = false;
 		} else {
-			if (Network.SERVER || Network.NONE) {
-				Dungeon.level.save(Level.DataType.PLAYER);
-				Dungeon.level.save(Level.DataType.LEVEL);
-			}
+			Dungeon.level.save(Level.DataType.PLAYER);
+			Dungeon.level.save(Level.DataType.LEVEL);
 		}
 
 		if (Dungeon.area != null) {

@@ -6,13 +6,10 @@ import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.LibraryPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.net.Network;
 
 public class LibraryLevel extends RegularLevel {
 	public LibraryLevel() {
-		if (!Network.SERVER) {
-			Terrain.loadTextures(3);
-		}
+		Terrain.loadTextures(3);
 	}
 
 	@Override

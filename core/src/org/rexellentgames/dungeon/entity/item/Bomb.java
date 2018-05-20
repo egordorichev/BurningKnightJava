@@ -25,6 +25,7 @@ public class Bomb extends Item {
 		this.count -= 1;
 
 		BombEntity e = new BombEntity(this.owner.x + (this.owner.w - 16) / 2, this.owner.y + (this.owner.h - 16) / 2).toMouseVel();
+		e.owner = this.owner;
 
 		Dungeon.area.add(e);
 	}

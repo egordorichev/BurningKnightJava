@@ -23,7 +23,7 @@ public class AxeFx extends Entity {
 
 	public float damage;
 	public TextureRegion region;
-	public Entity owner;
+	public Creature owner;
 	public boolean penetrates;
 	public Class<? extends Axe> type;
 	public int speed;
@@ -105,7 +105,7 @@ public class AxeFx extends Entity {
 			creature.vel.x += this.vel.x;
 			creature.vel.y += this.vel.y;
 
-			creature.modifyHp((int) -this.damage);
+			creature.modifyHp((int) -this.damage, this.owner);
 			BloodFx.add(entity, 10);
 
 			if (!this.penetrates) {

@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.InvisibilityBuff;
 import org.rexellentgames.dungeon.util.Log;
 
@@ -23,8 +24,8 @@ public class GhostPlayer extends Player {
 	}
 
 	@Override
-	public void onHurt() {
-		super.onHurt();
+	public void onHurt(float a, Creature creature) {
+		super.onHurt(a, creature);
 
 		// FIXME: doesnt remove it
 

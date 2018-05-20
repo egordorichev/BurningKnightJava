@@ -201,6 +201,7 @@ public class Gun extends Item {
 		bullet.y = y + py * h + yy;
 		bullet.damage = b.damage + this.damage;
 		bullet.letter = b.bulletName;
+		bullet.owner = this.owner;
 
 		float s = this.vel;
 
