@@ -26,7 +26,7 @@ public class BurningBuff extends Buff {
 			this.lastFlame = 0;
 
 			if (Random.chance(30)) {
-				this.owner.modifyHp(-1, true);
+				this.owner.modifyHp(-1, null, true);
 			}
 		}
 	}

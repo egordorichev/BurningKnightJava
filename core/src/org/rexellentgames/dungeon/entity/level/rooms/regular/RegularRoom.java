@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,16 +36,6 @@ public class RegularRoom extends Room {
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.FLOOR);
-
-		if (Random.chance(30) && this.getWidth() > 7 && this.getHeight() > 7) {
-			Rect rect = new Rect();
-
-			rect.resize(Random.newInt(2, this.getWidth() - 3), Random.newInt(2, this.getHeight() - 3));
-			rect.setPos(Random.newInt(2, this.getWidth() - rect.getWidth() - 2) + this.left,
-				Random.newInt(2, this.getHeight() - rect.getHeight() - 2) + this.top);
-
-			// Painter.fill(level, rect, Terrain.TABLE);
-		}
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
@@ -91,12 +80,16 @@ public class RegularRoom extends Room {
 
 	private static ArrayList<Class<? extends RegularRoom>> rooms = new ArrayList<Class<? extends RegularRoom>>(Arrays.asList(
 		RegularRoom.class, GardenRoom.class, FloodedRoom.class, SpikedRoom.class,
-		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class
+		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class, StatueRoom.class,
+		TableRoom.class, CenterTableRoom.class, CaveRoom.class, RectFloorRoom.class,
+		WellRoom.class, LineRoom.class, CollumnRoom.class, CollumnsRoom.class
 	));
 
 	private static float[] chances = new float[] {
-		5, 2, 1, 0.1f,
-		0.05f, 1, 0.3f,
+		5, 3, 1, 1,
+		0.05f, 1, 0.3f, 1,
+		1, 1, 2, 1,
+		3, 1, 1, 1
 	};
 
 	public static RegularRoom create() {

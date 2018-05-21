@@ -109,7 +109,7 @@ public class ArrowEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (this.stuck != null) {
+		if (this.stuck != null || entity == this.owner) {
 			return;
 		}
 
@@ -123,7 +123,7 @@ public class ArrowEntity extends Entity {
 			creature.vel.x += this.vel.x * 10f;
 			creature.vel.y += this.vel.y * 10f;
 
-			creature.modifyHp(-this.damage);
+			creature.modifyHp(-this.damage, this.owner);
 
 			this.stuck = creature;
 			this.body = World.removeBody(this.body);

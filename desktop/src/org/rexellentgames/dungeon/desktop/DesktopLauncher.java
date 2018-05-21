@@ -7,7 +7,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import org.rexellentgames.dungeon.*;
 import org.rexellentgames.dungeon.util.DesktopSplashWorker;
-import org.rexellentgames.dungeon.util.Log;
 
 public class DesktopLauncher {
 	private static final int SCALE = 2;
@@ -69,7 +68,7 @@ public class DesktopLauncher {
 		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
 		config.setIdleFPS(0);
-		// config.samples = 4;
+		config.setBackBufferConfig(1, 1, 1, 1, 0, 0, 4);
 
 		Dungeon.arg = arg;
 		Dungeon.worker = new DesktopSplashWorker();

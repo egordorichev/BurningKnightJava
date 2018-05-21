@@ -4,12 +4,14 @@ import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
+import org.rexellentgames.dungeon.entity.level.entities.Slab;
 
 public class Collisions implements ContactListener, ContactFilter {
 	@Override
@@ -89,6 +91,12 @@ public class Collisions implements ContactListener, ContactFilter {
 			contact.setEnabled(false);
 		} else if ((b instanceof GoreFx) && a != null) {
 			contact.setEnabled(false);
+		} else if (a instanceof Slab && b instanceof ItemHolder) {
+			contact.setEnabled(false);
+			((ItemHolder) b).depth = 1;
+		} else if (b instanceof Slab && a instanceof ItemHolder) {
+			contact.setEnabled(false);
+			((ItemHolder) a).depth = 1;
 		}
 	}
 

@@ -1,13 +1,11 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -17,9 +15,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Tween;
-import org.rexellentgames.dungeon.util.path.Graph;
 
 public class UiInventory extends UiEntity {
 	private Inventory inventory;
@@ -46,9 +42,24 @@ public class UiInventory extends UiEntity {
 			if (i > 5) {
 				Item current = this.inventory.getSlot(i);
 
-				if (current != null && current instanceof Accessory) {
+				if (current instanceof Accessory) {
+					current.setOwner(Player.instance);
 					((Accessory) current).onEquip();
 				}
+			}
+		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.done = true;
+
+		for (int i = 6; i < this.slots.length; i++) {
+			Item current = this.inventory.getSlot(i);
+
+			if (current instanceof Accessory) {
+				((Accessory) current).onUnequip();
 			}
 		}
 	}
@@ -302,7 +313,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (!this.handled && Player.instance != null) {
+		if (!this.handled && Player.instance != null && !Player.instance.isDead()) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
 				Item slot = this.currentSlot;
 
@@ -430,7 +441,7 @@ public class UiInventory extends UiEntity {
 		int hp = Player.instance.getHp();
 		float invt = Player.instance.getInvt();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < Player.instance.getHpMax() / 2; i++) {
 			float s = 1f;
 			float yy = (float) ((hp <= 8 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 20) * 2.5f : 0) + y;
 
@@ -463,6 +474,18 @@ public class UiInventory extends UiEntity {
 	}
 
 	public UiBuff hoveredBuff;
+
+	public boolean hasEquiped(Class<? extends Equipable> type) {
+		for (int i = 6; i < this.inventory.getSize(); i++) {
+			Item it = this.inventory.getSlot(i);
+
+			if (it != null && type.isInstance(it)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	public void renderCurrentSlot() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);

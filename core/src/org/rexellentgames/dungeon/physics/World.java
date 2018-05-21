@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 
 public class World {
 	public static boolean DRAW_DEBUG = false;
-	public static final float TIME_STEP = 1 / 60.0f;
+	public static final float TIME_STEP = 1 / 100.0f;
 
 	public static com.badlogic.gdx.physics.box2d.World world;
 	private static Box2DDebugRenderer debug = new Box2DDebugRenderer();

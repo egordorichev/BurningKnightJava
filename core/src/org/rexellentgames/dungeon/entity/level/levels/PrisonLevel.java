@@ -6,14 +6,11 @@ import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.painters.PrisonPainter;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Random;
 
 public class PrisonLevel extends RegularLevel {
 	public PrisonLevel() {
-		if (!Network.SERVER) {
-			Terrain.loadTextures(2);
-		}
+		Terrain.loadTextures(2);
 	}
 
 	@Override

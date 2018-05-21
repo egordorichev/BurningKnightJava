@@ -8,6 +8,6 @@ public class BulletB extends Bullet {
 		name = Locale.get("bullet_b");
 		description = Locale.get("bullet_b_desc");
 		sprite = "item (bullet B)";
-		bulletName = "B";
+		bulletName = "bullet B";
 	}
 }

@@ -10,9 +10,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -99,10 +97,10 @@ public class Entrance extends SaveableEntity {
 		Graphics.endShadows();
 		Graphics.render(Terrain.entrance, this.x, this.y);
 	}
-	
+
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity instanceof Player && this.fx == null && !Network.SERVER) {
+		if (entity instanceof Player && this.fx == null) {
 			this.fx = new LadderFx(this, "ascend");
 			this.area.add(this.fx);
 		}

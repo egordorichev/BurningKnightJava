@@ -21,14 +21,12 @@ import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
-import org.rexellentgames.dungeon.entity.level.entities.chest.WoodenChest;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
@@ -81,11 +79,16 @@ public abstract class Level extends Entity {
 	protected boolean[] passable;
 	protected boolean[] low;
 	protected boolean[] free;
+	protected byte[] decor;
 	protected Body body;
 	protected int level;
 	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<Room> rooms;
+
+	public void setPassable(int x, int y, boolean v) {
+		this.passable[toIndex(x, y)] = v;
+	}
 
 	public static int getWidth() {
 		return WIDTH;
@@ -100,6 +103,10 @@ public abstract class Level extends Entity {
 		Level.WIDTH = width;
 		Level.HEIGHT = height;
 		Level.SIZE = width * (height + 1);
+	}
+
+	public void generateDecor() {
+		decor = new byte[getSIZE()];
 	}
 
 	public static int getHeight() {
@@ -247,7 +254,7 @@ public abstract class Level extends Entity {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.GRASS) {
 					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.SPIKES) {
+				} else if (tile == Terrain.LAVA) {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
 					this.tileUp(x, y, Terrain.IS_DIRT, true);
@@ -493,6 +500,17 @@ public abstract class Level extends Entity {
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
+
+				// useful passable debug
+
+				/*if (this.passable[i]) {
+					Graphics.batch.end();
+					Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+					Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
+					Graphics.shape.rect(x * 16 + 1, y * 16 + 1, 16 - 2, 16 - 2);
+					Graphics.shape.end();
+					Graphics.batch.begin();
+				}*/
 			}
 		}
 
@@ -591,6 +609,8 @@ public abstract class Level extends Entity {
 					region.setRegionHeight(16);
 
 					Graphics.render(region, x * 16, y * 16 - 8 - Dungeon.time * 12f % 64f);
+				} else if (tile == Terrain.LAVA) {
+					addLightInRadius(x * 16, y * 16, 1f, 0.6f, 0, 1f, 2.5f, false);
 				}
 			}
 		}
@@ -646,6 +666,11 @@ public abstract class Level extends Entity {
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 
+					if (this.decor[i] != 0) {
+						TextureRegion s = Terrain.decor[this.decor[i] - 1];
+						Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 + 6);
+					}
+
 					if (tile == Terrain.CHASM && Random.chance(0.4f)) {
 						Dungeon.area.add(new ChasmFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 					}
@@ -667,7 +692,6 @@ public abstract class Level extends Entity {
 			// Clear shadows
 
 			Graphics.batch.end();
-			Graphics.surface.end();
 			Graphics.shadows.begin();
 
 			Graphics.batch.begin();
@@ -678,7 +702,6 @@ public abstract class Level extends Entity {
 			Graphics.batch.end();
 
 			Graphics.shadows.end();
-			Graphics.surface.begin();
 			Graphics.batch.begin();
 		}
 
@@ -943,11 +966,11 @@ public abstract class Level extends Entity {
 		}
 	}
 
-	public void load(DataType type) {
-		if (Network.client != null) {
-			return;
-		}
+	public void setDecor(int x, int y, byte v) {
+		this.decor[toIndex(x, y)] = v;
+	}
 
+	public void load(DataType type) {
 		FileHandle save = Gdx.files.external(this.getSavePath(type));
 
 		if (!save.exists()) {
@@ -987,10 +1010,12 @@ public abstract class Level extends Entity {
 			if (type == DataType.LEVEL) {
 				setSize(stream.readInt32(), stream.readInt32());
 				this.data = new byte[getSIZE()];
+				this.decor = new byte[getSIZE()];
 				this.initLight();
 
 				for (int i = 0; i < getSIZE(); i++) {
 					this.data[i] = stream.readByte();
+					this.decor[i] = stream.readByte();
 				}
 			}
 
@@ -1021,6 +1046,7 @@ public abstract class Level extends Entity {
 
 				for (int i = 0; i < getSIZE(); i++) {
 					stream.writeByte(this.data[i]);
+					stream.writeByte(this.decor[i]);
 				}
 			}
 

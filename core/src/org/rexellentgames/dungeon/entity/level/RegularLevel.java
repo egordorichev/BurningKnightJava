@@ -14,7 +14,6 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntran
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -60,7 +59,7 @@ public abstract class RegularLevel extends Level {
 	protected void spawnEntities() {
 		Log.info("Adding entities...");
 
-		if (Player.instance == null && !Network.SERVER) {
+		if (Player.instance == null) {
 			Player player = new Player();
 			Dungeon.area.add(player);
 			this.addPlayerSaveable(player);

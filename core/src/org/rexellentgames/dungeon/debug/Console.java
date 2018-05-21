@@ -2,11 +2,9 @@ package org.rexellentgames.dungeon.debug;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.ui.UiInput;
 
 import java.util.ArrayList;
@@ -15,10 +13,12 @@ public class Console implements InputProcessor {
 	private String input = "";
 	private boolean open;
 	public static Console instance;
-	private ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>();
+	private ArrayList<ConsoleCommand> commands = new ArrayList<>();
 
 	public Console() {
 		instance = this;
+
+		new Test();
 
 		org.rexellentgames.dungeon.game.input.Input.multiplexer.addProcessor(this);
 
@@ -72,9 +72,6 @@ public class Console implements InputProcessor {
 			String string = Player.instance.getName() + ": " + input;
 			UiLog.instance.print(string);
 
-			if (Network.client != null) {
-				Network.client.getClientHandler().send(Packets.makeChatMessage(string));
-			}
 			return;
 		}
 

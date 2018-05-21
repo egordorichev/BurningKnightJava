@@ -47,6 +47,10 @@ public class ItemHolder extends SaveableEntity {
 		return World.createSimpleBody(this, x, y, w, h, type, sensor);
 	}
 
+	public Body getBody() {
+		return body;
+	}
+
 	public void randomVel() {
 		double a = Random.newFloat((float) (Math.PI * 2));
 

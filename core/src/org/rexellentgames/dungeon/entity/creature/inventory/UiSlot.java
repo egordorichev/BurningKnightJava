@@ -16,6 +16,7 @@ import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.Hat;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class UiSlot {
@@ -170,16 +171,17 @@ public class UiSlot {
 					current.setCount(current.getCount() + self.getCount());
 					this.inventory.getInventory().setSlot(this.id, current);
 					this.inventory.setCurrentSlot(null);
-				} else if (this.canAccept(this.id, current) || current == null) {
+				} else if (canAccept(this.id, current) || current == null) {
 					this.inventory.setCurrentSlot(self);
 					this.inventory.getInventory().setSlot(this.id, current);
 
 					if (this.id > 5) {
-						if (self != null && self instanceof Accessory) {
+						if (self instanceof Accessory) {
 							((Accessory) self).onUnequip();
 						}
 
-						if (current != null && current instanceof Accessory) {
+						if (current instanceof Accessory) {
+							current.setOwner(Player.instance);
 							((Accessory) current).onEquip();
 						}
 					}

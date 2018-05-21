@@ -12,7 +12,7 @@ public class Terrain {
 	public static short WALL_SIDE = 4;
 	public static byte WALL = 5;
 	public static byte WOOD = 6;
-	public static byte SPIKES = 7;
+	public static byte LAVA = 7;
 	public static byte PLANTED_DIRT = 8;
 	public static byte GRASS = 9;
 	public static byte TABLE = 10;
@@ -39,7 +39,7 @@ public class Terrain {
 		flags[WATER] = PASSABLE;
 		flags[WALL_SIDE] = HOLE;
 		flags[WOOD] = PASSABLE;
-		flags[SPIKES] = 0;
+		flags[LAVA] = 0;
 		flags[TABLE] = SOLID | HIGH;
 		flags[EXIT] = 0;
 	}
@@ -49,19 +49,21 @@ public class Terrain {
 	public static TextureRegion dirtPattern;
 	public static TextureRegion grassPattern;
 	public static TextureRegion waterPattern;
+	public static TextureRegion lavaPattern;
 	public static TextureRegion wallPattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
 
 	public static TextureRegion[] dirtVariants = new TextureRegion[15];
 	public static TextureRegion[] waterVariants = new TextureRegion[15];
+	public static TextureRegion[] lavaVariants = new TextureRegion[15];
 	public static TextureRegion[] chasmVariants = new TextureRegion[15];
 	public static TextureRegion[] wallVariants = new TextureRegion[15];
 	public static TextureRegion[] woodVariants = new TextureRegion[16];
 	public static TextureRegion[] floorVariants = new TextureRegion[16];
-	public static TextureRegion[] spikeVariants = new TextureRegion[16];
 	public static TextureRegion[] tableVariants = new TextureRegion[16];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
+	public static TextureRegion[] decor;
 
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
@@ -85,6 +87,7 @@ public class Terrain {
 		dirtPattern = Graphics.getTexture(bm + " (dirt pattern)");
 		grassPattern = Graphics.getTexture(bm + " (grass pattern)");
 		waterPattern = Graphics.getTexture(bm + " (pool pattern)");
+		lavaPattern = Graphics.getTexture(bm + " (lava pattern)");
 		wallPattern = Graphics.getTexture(bm + " (wall pattern)");
 
 		entrance = Graphics.getTexture(bm + " (stairs U)");
@@ -96,7 +99,16 @@ public class Terrain {
 		patterns[GRASS] = grassPattern;
 		patterns[PLANTED_DIRT] = dirtPattern;
 		patterns[WATER] = waterPattern;
+		patterns[LAVA] = lavaPattern;
 		patterns[WALL] = wallPattern;
+
+		decor = new TextureRegion[] {
+			Graphics.getTexture(bm + " (torch A)"),
+			Graphics.getTexture(bm + " (torch B)"),
+			Graphics.getTexture(bm + " (walldeco A)"),
+			Graphics.getTexture(bm + " (walldeco B)"),
+			Graphics.getTexture(bm + " (walldeco C)")
+		};
 
 		for (int i = 0; i < 10; i++) {
 			dither[i] = Graphics.getTexture("fx-dither-idle-" + String.format("%02d", i));
@@ -111,15 +123,15 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 15; i++) {
+			lavaVariants[i] = Graphics.getTexture(bm + " (lava" + Level.COMPASS[i] + ")");
+		}
+
+		for (int i = 0; i < 15; i++) {
 			chasmVariants[i] = Graphics.getTexture(bm + " (chasm" + Level.COMPASS[i] + ")");
 		}
 
 		for (int i = 0; i < 15; i++) {
 			wallVariants[i] = Graphics.getTexture(bm + " (wall" + Level.COMPASS[i] + ")");
-		}
-
-		for (int i = 0; i < 16; i++) {
-			spikeVariants[i] = Graphics.getTexture(bm + " (spikes" + Level.COMPASS[i] + ")");
 		}
 
 		for (int i = 0; i < 16; i++) {
@@ -142,7 +154,7 @@ public class Terrain {
 		variants[WALL] = wallVariants;
 		variants[WOOD] = woodVariants;
 		variants[FLOOR] = floorVariants;
-		variants[SPIKES] = spikeVariants;
+		variants[LAVA] = lavaVariants;
 		variants[TABLE] = tableVariants;
 
 		chasm = Graphics.getTexture(bm + " (chasmbg)");

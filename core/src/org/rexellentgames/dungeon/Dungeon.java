@@ -1,22 +1,12 @@
 package org.rexellentgames.dungeon;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
-import com.bitfire.postprocessing.PostProcessor;
-import com.bitfire.postprocessing.effects.*;
-import com.bitfire.postprocessing.filters.Combine;
-import com.bitfire.postprocessing.filters.CrtScreen;
-import org.lwjgl.glfw.GLFW;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -31,9 +21,8 @@ import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.*;
-import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.physics.World;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -71,7 +60,6 @@ public class Dungeon extends ApplicationAdapter {
 	private static int to = -3;
 	private Color background = Color.valueOf("#000000");
 	private Color background2 = Color.valueOf("#323c39");
-	public static PostProcessor postProcessor;
 	public static SplashWorker worker;
 
 	public static void reportException(Exception e) {
@@ -163,7 +151,7 @@ public class Dungeon extends ApplicationAdapter {
 		instance = this;
 
 		if (worker != null) {
-			worker.closeSplashScreen();
+			// worker.closeSplashScreen();
 		}
 
 		if (arg.length > 0 && arg[0].startsWith("reset")) {
@@ -183,11 +171,8 @@ public class Dungeon extends ApplicationAdapter {
 		Log.info("Loading locale...");
 		Locale.load("en");
 
-
-		if (!Network.SERVER) {
-			this.setupCursor();
-			Assets.init();
-		}
+		this.setupCursor();
+		Assets.init();
 
 		Box2D.init();
 
@@ -198,59 +183,19 @@ public class Dungeon extends ApplicationAdapter {
 		area = new Area();
 
 		game = new Game();
-
-		if (!Network.SERVER) {
-			game.setState(new AssetLoadState());
-		} else {
-			game.setState(new HubState());
-		}
+		game.setState(new AssetLoadState());
 
 		area.add(camera);
 
-		MusicManager.play("gobbeon");
-
-		boolean isDesktop = (Gdx.app.getType() == Application.ApplicationType.Desktop);
-		postProcessor = new PostProcessor(false, true, isDesktop);
-
-		int vpW = Gdx.graphics.getWidth();
-		int vpH = Gdx.graphics.getHeight();
-
-		addCrt();
-
-		crt.setEnabled(Settings.shaders);
-		// postProcessor.addEffect(new Fxaa(vpW, vpH));
-	}
-
-	public static CrtMonitor crt;
-
-	public static void addCrt() {
-		int vpW = Gdx.graphics.getWidth();
-		int vpH = Gdx.graphics.getHeight();
-
-		crt = new CrtMonitor(vpW, vpH, false, false,
-			CrtScreen.RgbMode.ChromaticAberrations, CrtScreen.Effect.Scanlines.v | CrtScreen.Effect.Tint.v);
-
-		Combine combine = crt.getCombinePass();
-
-		combine.setSource1Intensity(0f);
-		combine.setSource2Intensity(1f);
-		combine.setSource1Saturation(0f);
-		combine.setSource2Saturation(1f);
-		postProcessor.addEffect(crt);
+		MusicManager.play("Gobbeon");
 	}
 
 	@Override
 	public void render() {
 		if (to > -2) {
-			if (Network.SERVER || Network.NONE) {
-				Dungeon.depth = to;
+			Dungeon.depth = to;
 
-				game.setState(new LoadState());
-
-				if (Network.SERVER) {
-					Network.server.getServerHandler().sendToAll(Packets.makeChatMessage("[green]We are starting the game..."));
-				}
-			}
+			game.setState(new LoadState());
 
 			to = -2;
 			return;
@@ -260,19 +205,13 @@ public class Dungeon extends ApplicationAdapter {
 		time += dt;
 		longTime += 1;
 
-		if (Input.instance != null && !Network.SERVER) {
+		if (Input.instance != null) {
 			Input.instance.updateMousePosition();
 
 			if (Input.instance.wasPressed("debug")) {
 				Log.UI_LOG = !Log.UI_LOG;
 				UiLog.instance.print(Log.UI_LOG ? "[orange]Debug logging is now on!" : "[green]Debug logging is now off!");
 			}
-		}
-
-		if (Network.server != null) {
-			Network.server.update(dt);
-		} else if (Network.client != null) {
-			Network.client.update(dt);
 		}
 
 		Tween.update(dt);
@@ -296,109 +235,75 @@ public class Dungeon extends ApplicationAdapter {
 		if (!paused) {
 			game.update(dt);
 		}
-
+		
 		updateMouse(dt);
 
-		if (!Network.SERVER) {
-			Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
-			boolean draw = (darkR < MAX_R);
+		boolean draw = (darkR < MAX_R);
 
-			Graphics.surface.begin();
-
-			if (Camera.instance != null) {
-				Camera.instance.applyShake();
-				Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-				Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
-			}
-
-			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.setColor(background2.r, background2.g, background2.b, 1);
-			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
-			Graphics.shape.setColor(1, 1, 1, 1);
-			Graphics.shape.end();
-
-			Graphics.batch.begin();
-
-			if (!(game.getState() instanceof ComicsState)) {
-				area.render();
-			}
-
-			game.render();
-
-			if (Camera.instance != null) {
-				Camera.instance.removeShake();
-			}
-
-			Graphics.batch.end();
-
-			Graphics.surface.end();
-			Texture texture = Graphics.surface.getColorBufferTexture();
-
-			float zoom = Camera.instance.getCamera().zoom;
-
-			postProcessor.capture();
-
-			if (!crt.isEnabled()) {
-				Camera.instance.viewport.apply();
-			}
-
-			if (draw) {
-				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-				Gdx.gl.glDepthFunc(GL20.GL_LESS);
-				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-				Gdx.gl.glDepthMask(true);
-
-				Gdx.gl.glColorMask(false, false, false, false);
-
-				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-				Graphics.shape.circle(darkX, darkY, darkR);
-				Graphics.shape.end();
-			}
-
-			Graphics.batch.begin();
-
-			if (draw) {
-				Gdx.gl.glColorMask(true, true, true, true);
-				Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-				Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
-			}
-
+		if (Camera.instance != null) {
+			Camera.instance.applyShake();
 			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-			Graphics.batch.setColor(1, 1, 1, 1f);
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		}
 
-			Graphics.batch.draw(texture,
-				Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
-				Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
-				0, 0, texture.getWidth(), texture.getHeight(), false, true);
-			Graphics.batch.end();
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+		Graphics.shape.setColor(background2.r, background2.g, background2.b, 1);
+		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		Graphics.shape.setColor(1, 1, 1, 1);
+		Graphics.shape.end();
 
-			if (draw) {
-				Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-			}
+		Graphics.batch.begin();
 
-			postProcessor.render();
+		area.render();
+		game.render();
 
-			Graphics.surface.begin();
-			Graphics.batch.begin();
+		if (Camera.instance != null) {
+			Camera.instance.removeShake();
+		}
 
-			Gdx.gl.glClearColor(0, 0, 0, 0);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-			Graphics.batch.end();
-			Graphics.surface.end();
+		Graphics.batch.end();
 
-			if (Input.instance != null) {
-				for (Input input : Input.inputs.values()) {
-					input.update();
-				}
-			}
+		Camera.instance.viewport.apply();
+
+		if (draw) {
+			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+			Gdx.gl.glDepthFunc(GL20.GL_LESS);
+			Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+			Gdx.gl.glDepthMask(true);
+
+			Gdx.gl.glColorMask(false, false, false, false);
+
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.circle(darkX, darkY, darkR);
+			Graphics.shape.end();
+		}
+
+		Graphics.batch.begin();
+
+		if (draw) {
+			Gdx.gl.glColorMask(true, true, true, true);
+			Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+			Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
+		}
+
+		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.batch.setColor(1, 1, 1, 1f);
+		Graphics.batch.end();
+
+		if (draw) {
+			Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+		}
+
+		if (Input.instance != null) {
+			Input.instance.update();
 		}
 	}
 
 	private Point inputVel = new Point();
-	private Vector2 angle = new Vector2(1, 0);
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);
@@ -408,8 +313,6 @@ public class Dungeon extends ApplicationAdapter {
 		if (Input.instance.wasPressed("circle")) {
 			Input.instance.circle = !Input.instance.circle;
 		}
-
-		//Log.info(com.badlogic.gdx.Input.Keys.toString(com.badlogic.gdx.Input.Keys.NUMPAD_0) + "");
 
 		if (Input.instance.wasPressed("mouse_left")) {
 			Log.info("left");
@@ -502,14 +405,10 @@ public class Dungeon extends ApplicationAdapter {
 		LoadState.writeDepth();
 		Settings.save();
 		Log.close();
-
-		postProcessor.dispose();
 	}
 
 	private void initInput() {
-		if (!Network.SERVER) {
-			Controllers.addListener(new Input(0));
-		}
+		Controllers.addListener(new Input());
 	}
 
 	private void setupCursor() {

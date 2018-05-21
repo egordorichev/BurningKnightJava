@@ -197,6 +197,10 @@ public class Mob extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (this.freezed) {
+			return;
+		}
+
 		Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 		if (room != null) {
@@ -414,10 +418,10 @@ public class Mob extends Creature {
 	}
 
 	@Override
-	protected void onHurt() {
+	protected void onHurt(float a, Creature from) {
 		this.flee = 1f;
 
-		super.onHurt();
+		super.onHurt(a, from);
 
 		if (this.ai != null && !(this instanceof Boss)) {
 			this.ai.checkForPlayer(true);

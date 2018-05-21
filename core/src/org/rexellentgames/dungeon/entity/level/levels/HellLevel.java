@@ -11,16 +11,13 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.CaveRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
-import org.rexellentgames.dungeon.net.Network;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
 public class HellLevel extends RegularLevel {
 	public HellLevel() {
-		if (!Network.SERVER) {
-			Terrain.loadTextures(4);
-		}
+		Terrain.loadTextures(4);
 	}
 
 	@Override
