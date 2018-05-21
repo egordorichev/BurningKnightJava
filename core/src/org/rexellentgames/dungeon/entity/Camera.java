@@ -106,7 +106,7 @@ public class Camera extends Entity {
 			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
 				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
 
-			if (this.clamp.size() > 0) {
+			/*if (this.clamp.size() > 0) {
 				Rectangle rect = this.clamp.get(0);
 
 				// Todo: make sure it's off-screen
@@ -127,7 +127,7 @@ public class Camera extends Entity {
 
 					this.clamp.remove(0);
 				}
-			}
+			}*/
 
 			this.camera.update();
 		}

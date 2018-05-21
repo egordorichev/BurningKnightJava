@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,13 +13,13 @@ import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -41,7 +40,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 	private float sx;
 	private float sy;
 	private float rt;
-	public Entity owner;
+	public Creature owner;
 
 	@Override
 	public Body getBody() {
@@ -108,12 +107,12 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		}
 
 		if (entity instanceof Mob && !((Mob) entity).isDead()) {
-			((Mob) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), true);
+			((Mob) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), this.owner, true);
 			this.animation = this.dead;
 			this.playSfx("fireball_death");
 			((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), true);
+			((Player) entity).modifyHp(Math.round(Random.newFloat(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), this.owner, true);
 			this.animation = this.dead;
 			this.playSfx("fireball_death");
 			((Player) entity).addBuff(new BurningBuff().setDuration(3f));
@@ -145,16 +144,17 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 
 		this.last += dt;
 
-		if (this.last >= 0.08f) {
-			Part part = new Part();
-			part.x = this.x + 5.5f;
-			part.y = this.y + 5.5f;
-			part.speed = 3f;
-			part.depth = this.depth - 1;
-			part.vel = new Point();
-			Dungeon.area.add(part);
-			part.depth = 11;
+		if (!this.noMove && this.last > 0.08f) {
 			this.last = 0;
+			Part part = new Part();
+			part.vel = new Point();
+
+			part.x = this.x + Random.newFloat(16) - 16 / 2 - 4 + 8;
+			part.y = this.y + Random.newFloat(16) - 16 / 2 - 4 + 8;
+			part.depth = this.depth;
+			part.animation = BulletEntity.animation.get("idle");
+
+			Dungeon.area.add(part);
 		}
 
 		this.x = this.body.getPosition().x - 8;

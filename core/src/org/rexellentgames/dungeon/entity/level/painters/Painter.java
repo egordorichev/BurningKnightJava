@@ -62,6 +62,7 @@ public class Painter {
 
 		//add 1 to account for 0 values
 		level.setSize(rightMost + 1, bottomMost + 1);
+		level.generateDecor();
 		level.fill();
 
 		if (Dungeon.depth == 0 && Dungeon.level instanceof HallLevel) {
@@ -136,7 +137,17 @@ public class Painter {
 	}
 
 	protected void decorate(Level level, ArrayList<Room> rooms) {
+		for (Room room : rooms) {
+			int y = room.bottom - 1;
 
+			for (int x = room.left; x < room.right; x++) {
+				if (level.checkFor(x, y, Terrain.PASSABLE)) {
+					if (Random.chance(20)) {
+						level.setDecor(x, y, (byte) (Random.newInt(Terrain.decor.length) + 1));
+					}
+				}
+			}
+		}
 	}
 
 	private void paintDoors(Level level, ArrayList<Room> rooms) {

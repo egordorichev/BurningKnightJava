@@ -35,7 +35,7 @@ public class FightRoom extends RegularRoom {
 			Dungeon.area.add(mob);
 			Dungeon.level.addSaveable(mob);
 
-			mob.modifyHp(-4);
+			mob.modifyHp(-4, null);
 		} else {
 			int count = (Dungeon.level instanceof WaveLevel ? Dungeon.depth + 1 : Dungeon.depth % 5 + 2);
 

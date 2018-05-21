@@ -6,13 +6,10 @@ import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.painters.StoragePainter;
-import org.rexellentgames.dungeon.net.Network;
 
 public class StorageLevel extends RegularLevel {
 	public StorageLevel() {
-		if (!Network.SERVER) {
-			Terrain.loadTextures(1);
-		}
+		Terrain.loadTextures(1);
 	}
 
 	@Override

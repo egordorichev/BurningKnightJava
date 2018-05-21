@@ -14,7 +14,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -28,15 +27,19 @@ public class BulletEntity extends Entity {
 	public int damage;
 	private boolean remove;
 	public float knockback = 50f;
+	public boolean penetrates;
 	private boolean auto;
 	public String letter;
 	private float t;
+	private boolean rotate;
+	public Creature owner;
 	private boolean bad;
-	private static Animation animation = Animation.make("fx-badbullet");
+	public static Animation animation = Animation.make("fx-badbullet");
 
 	@Override
 	public void init() {
-		this.bad = this.letter.equals("bad");
+		this.bad = this.letter.equals("bullet bad");
+		this.rotate = this.letter.equals("star");
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
@@ -68,8 +71,8 @@ public class BulletEntity extends Entity {
 
 			Creature creature = ((Creature) entity);
 
-			creature.modifyHp(-this.damage);
-			this.remove = true;
+			creature.modifyHp(-this.damage, this.owner);
+			this.remove = !this.penetrates;
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
 
@@ -163,7 +166,13 @@ public class BulletEntity extends Entity {
 		}
 
 		this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
-		this.a = (float) Math.toDegrees(this.ra);
+
+
+		if (this.rotate) {
+			this.a += dt * 360 * 2;
+		} else {
+			this.a = (float) Math.toDegrees(this.ra);
+		}
 
 		this.x += this.vel.x;
 		this.y += this.vel.y;

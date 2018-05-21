@@ -3,10 +3,8 @@ package org.rexellentgames.dungeon.game.state;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
-import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.UiLog;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
@@ -15,11 +13,8 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
-import org.rexellentgames.dungeon.net.Network;
-import org.rexellentgames.dungeon.net.Packets;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
@@ -121,58 +116,51 @@ public class LoadState extends State {
 
 		Dungeon.area.add(Dungeon.level);
 
-		if (Network.SERVER || Network.NONE) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						Dungeon.level.load(Level.DataType.PLAYER);
-						Dungeon.level.load(Level.DataType.LEVEL);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Dungeon.level.load(Level.DataType.PLAYER);
+					Dungeon.level.load(Level.DataType.LEVEL);
 
-						Dungeon.level.loadPassable();
-						Dungeon.level.addPhysics();
-					} catch (RuntimeException e) {
-						Log.report(e);
+					Dungeon.level.loadPassable();
+					Dungeon.level.addPhysics();
+				} catch (RuntimeException e) {
+					Log.report(e);
 
-						// Dungeon.game.setState(new LoadState());
-						Thread.currentThread().interrupt();
+					// Dungeon.game.setState(new LoadState());
+					Thread.currentThread().interrupt();
 
-						return;
-					}
-
-					Dungeon.level.loadDropped();
-
-					if (Player.instance == null) {
-						Log.error("No player!");
-						Dungeon.newGame();
-						return;
-					}
-
-					PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
-
-					UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
-					Log.info("Loading done!");
-
-					if (Network.SERVER) {
-						Network.server.getServerHandler().sendToAll(Packets.makeLevel(Dungeon.level.getData(),
-							Dungeon.level.getVariants(), Dungeon.depth, Level.getWidth(), Level.getHeight()));
-					}
-
-					Camera.instance.follow(Player.instance);
-					Player.instance.tryToFall();
-
-					if (BurningKnight.instance != null) {
-						BurningKnight.instance.become("unactive");
-					}
-
-					if (Lamp.instance != null) {
-						Lamp.instance.val = 100f;
-					}
-
-					ready = true;
+					return;
 				}
-			}).run();
-		}
+
+				Dungeon.level.loadDropped();
+
+				if (Player.instance == null) {
+					Log.error("No player!");
+					Dungeon.newGame();
+					return;
+				}
+
+				PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
+
+				UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
+				Log.info("Loading done!");
+
+				Camera.instance.follow(Player.instance);
+				Player.instance.tryToFall();
+
+				if (BurningKnight.instance != null) {
+					BurningKnight.instance.become("unactive");
+				}
+
+				if (Lamp.instance != null) {
+					Lamp.instance.val = 100f;
+				}
+
+				ready = true;
+			}
+		}).run();
 	}
 
 	public static void readDepth() {
@@ -210,9 +198,7 @@ public class LoadState extends State {
 	@Override
 	public void update(float dt) {
 		if (this.ready && this.a == 0) {
-			boolean c = false; // Level.GENERATED && Dungeon.depth == 0;
-
-			Game.instance.setState(c ? new ComicsState() : new InGameState());
+			Game.instance.setState(new InGameState());
 			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}

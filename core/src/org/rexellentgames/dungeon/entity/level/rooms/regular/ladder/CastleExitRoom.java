@@ -5,8 +5,8 @@ import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
-import org.rexellentgames.dungeon.entity.level.entities.Table;
-import org.rexellentgames.dungeon.entity.level.entities.Throne;
+import org.rexellentgames.dungeon.entity.level.entities.fx.Table;
+import org.rexellentgames.dungeon.entity.level.entities.fx.Throne;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 

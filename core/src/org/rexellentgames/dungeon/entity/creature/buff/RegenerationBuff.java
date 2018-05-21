@@ -17,7 +17,7 @@ public class RegenerationBuff extends Buff {
 
 		if (this.last >= 0.5f) {
 			this.last = 0;
-			this.owner.modifyHp(1);
+			this.owner.modifyHp(1, null);
 		}
 	}
 }

@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
@@ -125,6 +126,11 @@ public class CrazyKing extends Boss {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.freezed) {
+			return;
+		}
+
 		this.animation.update(dt);
 		super.common();
 
@@ -230,8 +236,8 @@ public class CrazyKing extends Boss {
 	}
 
 	@Override
-	protected void onHurt() {
-		super.onHurt();
+	protected void onHurt(float a, Creature creature) {
+		super.onHurt(a, creature);
 
 		if (this.hp == 0) {
 			this.done = true;
@@ -466,7 +472,7 @@ public class CrazyKing extends Boss {
 										land.setAutoPause(true);
 
 										for (Player player : self.colliding) {
-											player.modifyHp(-4);
+											player.modifyHp(-4, self);
 										}
 
 										for (int i = 0; i < 8; i++) {
@@ -529,9 +535,9 @@ public class CrazyKing extends Boss {
 	}
 
 	@Override
-	public void modifyHp(int amount, boolean ignoreArmor) {
+	public void modifyHp(int amount, Creature owner, boolean ignoreArmor) {
 		if (!this.state.equals("jump") && !this.state.equals("fadeIn") && !this.state.equals("fadeOut")) {
-			super.modifyHp(amount, ignoreArmor);
+			super.modifyHp(amount, owner, ignoreArmor);
 		}
 	}
 
@@ -573,7 +579,7 @@ public class CrazyKing extends Boss {
 					self.playSfx("CK_attack");
 
 					for (Player player : self.colliding) {
-						player.modifyHp(-4);
+						player.modifyHp(-4, self);
 					}
 
 					for (int i = 0; i < 8; i++) {

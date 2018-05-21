@@ -98,7 +98,7 @@ public class Weapon extends Item {
 		this.added = added;
 	}
 
-	protected void onHit(Creature creature) {
+	public void onHit(Creature creature) {
 
 	}
 
@@ -126,7 +126,6 @@ public class Weapon extends Item {
 				return;
 			}
 
-
 			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
 				return;
 			}
@@ -134,7 +133,7 @@ public class Weapon extends Item {
 			this.used = true;
 			this.onHit(creature);
 
-			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloat(this.minDamage, this.damage))));
+			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloat(this.minDamage, this.damage))), this.owner);
 		} else if (entity instanceof Weapon) {
 			if (this.isBlocking()) {
 				Weapon weapon = ((Weapon) entity);

@@ -15,6 +15,8 @@ public class ItemPickupFx extends Entity {
 	public ItemHolder item;
 	private Player player;
 	private float a;
+	private boolean go;
+
 
 	{
 		depth = 15;
@@ -50,7 +52,7 @@ public class ItemPickupFx extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (this.a != 1f) {
+		if (this.go) {
 			return;
 		}
 
@@ -69,6 +71,7 @@ public class ItemPickupFx extends Entity {
 
 	public void remove() {
 		ItemPickupFx self = this;
+		this.go = true;
 		Tween.to(new Tween.Task(0, 0.2f, Tween.Type.QUAD_IN) {
 			@Override
 			public float getValue() {

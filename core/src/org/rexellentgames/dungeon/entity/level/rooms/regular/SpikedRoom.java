@@ -12,7 +12,7 @@ public class SpikedRoom extends RegularRoom {
 		Painter.fill(level, this, 1, Terrain.FLOOR);
 
 		if (this.getWidth() > 5 && this.getHeight() > 5) {
-			Painter.fill(level, this, 2, Terrain.SPIKES);
+			Painter.fill(level, this, 2, Terrain.LAVA);
 			Painter.fill(level, this, 3, Terrain.FLOOR);
 
 			// todo: moving spike?
