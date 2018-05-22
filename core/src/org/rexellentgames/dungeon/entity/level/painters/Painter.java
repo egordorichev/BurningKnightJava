@@ -73,14 +73,10 @@ public class Painter {
 				Terrain.WALL);
 		}
 
-		Log.info("Placing doors");
-
 		for (Room room : rooms) {
 			this.placeDoors(room);
 			room.paint(level);
 		}
-
-		Log.info("Adding decor");
 
 		if (this.grass > 0) {
 			this.paintGrass(level, rooms);
@@ -89,8 +85,6 @@ public class Painter {
 		if (this.water > 0) {
 			this.paintWater(level, rooms);
 		}
-
-		Log.info("Drawing doors");
 
 		this.paintDoors(level, rooms);
 	}
