@@ -16,7 +16,7 @@ public class Modifier {
 	}
 
 	public Color getColor() {
-		return null;
+		return Color.WHITE;
 	}
 
 	public void apply(WeaponBase weapon) {
