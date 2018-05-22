@@ -1,41 +1,59 @@
 package org.rexellentgames.dungeon.util;
 
-import org.rexellentgames.dungeon.Dungeon;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class
-PathFinder {
-	public static float[] distance;
+public class PathFinder {
+
+	public static int[] distance;
+	private static int[] maxVal;
 
 	private static boolean[] goals;
 	private static int[] queue;
 
 	private static int size = 0;
+	private static int width = 0;
 
 	private static int[] dir;
-	private static int[][] dirCheck;
+	private static int[] dirLR;
 
-	public static void setMapSize(int width, int height) {
-		int size = width * height;
+	//performance-light shortcuts for some common pathfinder cases
+	//they are in array-access order for increased memory performance
+	public static int[] NEIGHBOURS4;
+	public static int[] NEIGHBOURS8;
+	public static int[] NEIGHBOURS9;
 
-		if (PathFinder.size != size) {
+	//similar to their equivalent neighbour arrays, but the order is clockwise.
+	//Useful for some logic functions, but is slower due to lack of array-access order.
+	public static int[] CIRCLE4;
+	public static int[] CIRCLE8;
 
-			PathFinder.size = size;
-			distance = new float[size];
-			goals = new boolean[size];
-			queue = new int[size];
+	public static void setMapSize( int width, int height ) {
 
-			dir = new int[]{-1, +1, -width, +width, -width - 1, -width + 1, +width - 1, +width + 1};
-			dirCheck = new int[][]{{}, {}, {}, {}, {-1, -width}, {-width, 1}, {-1, +width}, {+width, 1}};
+		PathFinder.width = width;
+		PathFinder.size = width * height;
 
-			// dir = new int[]{-1, +1, -width, +width};
-		}
+		distance = new int[size];
+		goals = new boolean[size];
+		queue = new int[size];
+
+		maxVal = new int[size];
+		Arrays.fill(maxVal, Integer.MAX_VALUE);
+
+		dir = new int[]{-1, +1, -width, +width, -width-1, -width+1, +width-1, +width+1};
+		dirLR = new int[]{-1-width, -1, -1+width, -width, +width, +1-width, +1, +1+width};
+
+		NEIGHBOURS4 = new int[]{-width, -1, +1, +width};
+		NEIGHBOURS8 = new int[]{-width-1, -width, -width+1, -1, +1, +width-1, +width, +width+1};
+		NEIGHBOURS9 = new int[]{-width-1, -width, -width+1, -1, 0, +1, +width-1, +width, +width+1};
+
+		CIRCLE4 = new int[]{-width, +1, +width, -1};
+		CIRCLE8 = new int[]{-width-1, -width, -width+1, +1, +width+1, +width, +width-1, -1};
 	}
 
-	public static Path find(int from, int to, boolean[] passable, boolean light) {
-		if (!buildDistanceMap(from, to, passable, light)) {
+	public static Path find( int from, int to, boolean[] passable ) {
+
+		if (!buildDistanceMap( from, to, passable )) {
 			return null;
 		}
 
@@ -45,96 +63,69 @@ PathFinder {
 		// From the starting position we are moving downwards,
 		// until we reach the ending point
 		do {
-			float minD = distance[s];
+			int minD = distance[s];
 			int mins = s;
 
-			for (int i = 0; i < dir.length; i++) {
+			for (int i=0; i < dir.length; i++) {
 
 				int n = s + dir[i];
 
-				boolean good = true;
-
-				for (int check : dirCheck[i]) {
-					int k = n + check;
-
-					if (k >= 0 && k < size && !passable[k]) {
-						good = false;
-
-					}
-				}
-
-				if (good) {
-					float thisD = distance[n];
-					if (thisD < minD) {
-						minD = thisD;
-						mins = n;
-					}
+				int thisD = distance[n];
+				if (thisD < minD) {
+					minD = thisD;
+					mins = n;
 				}
 			}
 			s = mins;
-			result.add(s);
+			result.add( s );
 		} while (s != to);
 
 		return result;
 	}
 
-	public static int getStep(int from, int to, boolean[] passable, boolean light) {
+	public static int getStep( int from, int to, boolean[] passable ) {
 
-		if (!buildDistanceMap(from, to, passable, light)) {
+		if (!buildDistanceMap( from, to, passable )) {
 			return -1;
 		}
 
 		// From the starting position we are making one step downwards
-		float minD = distance[from];
+		int minD = distance[from];
 		int best = from;
 
-		float step, stepD;
+		int step, stepD;
 
-		for (int i = 0; i < dir.length; i++) {
-			int index = (int) (step = from + dir[i]);
-			if (index >= 0 && index < distance.length && (stepD = distance[index]) < minD) {
-				boolean good = true;
+		for (int i=0; i < dir.length; i++) {
 
-				for (int check : dirCheck[i]) {
-					int k = index + check;
-
-					if (k >= 0 && k < size && !passable[k]) {
-						good = false;
-						
-					}
-				}
-
-				if (good) {
-
-					minD = stepD;
-					best = (int) step;
-				}
+			if ((stepD = distance[step = from + dir[i]]) < minD) {
+				minD = stepD;
+				best = step;
 			}
 		}
 
 		return best;
 	}
 
-	public static int getStepBack(int cur, int from, boolean[] passable) {
+	public static int getStepBack( int cur, int from, boolean[] passable ) {
 
-		float d = buildEscapeDistanceMap(cur, from, 2f, passable);
-		for (int i = 0; i < size; i++) {
+		int d = buildEscapeDistanceMap( cur, from, 2f, passable );
+		for (int i=0; i < size; i++) {
 			goals[i] = distance[i] == d;
 		}
-		if (!buildDistanceMap(cur, goals, passable)) {
+		if (!buildDistanceMap( cur, goals, passable )) {
 			return -1;
 		}
 
 		int s = cur;
 
 		// From the starting position we are making one step downwards
-		float minD = distance[s];
+		int minD = distance[s];
 		int mins = s;
 
-		for (int i = 0; i < dir.length; i++) {
+		for (int i=0; i < dir.length; i++) {
 
 			int n = s + dir[i];
-			float thisD = distance[n];
+			int thisD = distance[n];
 
 			if (thisD < minD) {
 				minD = thisD;
@@ -145,12 +136,13 @@ PathFinder {
 		return mins;
 	}
 
-	public static boolean buildDistanceMap(int from, int to, boolean[] passable, boolean light) {
+	private static boolean buildDistanceMap( int from, int to, boolean[] passable ) {
+
 		if (from == to) {
 			return false;
 		}
 
-		Arrays.fill(distance, Integer.MAX_VALUE);
+		System.arraycopy(maxVal, 0, distance, 0, maxVal.length);
 
 		boolean pathFound = false;
 
@@ -169,46 +161,28 @@ PathFinder {
 				pathFound = true;
 				break;
 			}
+			int nextDistance = distance[step] + 1;
 
-			float nextDistance = distance[step] + (light ? Math.max(0.1f, 10f * Dungeon.level.getLight(step)) : 1f);
+			int start = (step % width == 0 ? 3 : 0);
+			int end   = ((step+1) % width == 0 ? 3 : 0);
+			for (int i = start; i < dirLR.length - end; i++) {
 
-			for (int i = 0; i < dir.length; i++) {
-				int n = step + dir[i];
-				if (n >= 0 && n < distance.length && (n == from || (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance)))) {
-					boolean good = true;
-
-					for (int check : dirCheck[i]) {
-						int k = n + check;
-
-						if (k >= 0 && k < size && !passable[k]) {
-							good = false;
-							
-						}
-					}
-
-					if (good) {
-						if (tail > queue.length) {
-							return false;
-						}
-
-						if (tail++ >= queue.length - 1) {
-							return false;
-						}
-
-						// Add to queue
-						queue[tail] = n;
-						distance[n] = nextDistance;
-					}
+				int n = step + dirLR[i];
+				if (n == from || (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance))) {
+					// Add to queue
+					queue[tail++] = n;
+					distance[n] = nextDistance;
 				}
+
 			}
 		}
 
 		return pathFound;
 	}
 
-	public static void buildDistanceMap(int to, boolean[] passable, int limit) {
+	public static void buildDistanceMap( int to, boolean[] passable, int limit ) {
 
-		Arrays.fill(distance, Integer.MAX_VALUE);
+		System.arraycopy(maxVal, 0, distance, 0, maxVal.length);
 
 		int head = 0;
 		int tail = 0;
@@ -222,44 +196,33 @@ PathFinder {
 			// Remove from queue
 			int step = queue[head++];
 
-			float nextDistance = distance[step] + 1;
+			int nextDistance = distance[step] + 1;
 			if (nextDistance > limit) {
 				return;
 			}
 
-			for (int i = 0; i < dir.length; i++) {
+			int start = (step % width == 0 ? 3 : 0);
+			int end   = ((step+1) % width == 0 ? 3 : 0);
+			for (int i = start; i < dirLR.length - end; i++) {
 
-				int n = step + dir[i];
+				int n = step + dirLR[i];
 				if (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance)) {
-					boolean good = true;
-
-					for (int check : dirCheck[i]) {
-						int k = n + check;
-
-						if (k >= 0 && k < size && !passable[k]) {
-							good = false;
-							
-						}
-					}
-
-					if (good) {
-						// Add to queue
-						queue[tail++] = n;
-						distance[n] = nextDistance;
-					}
+					// Add to queue
+					queue[tail++] = n;
+					distance[n] = nextDistance;
 				}
 
 			}
 		}
 	}
 
-	public static boolean buildDistanceMap(int from, boolean[] to, boolean[] passable) {
+	private static boolean buildDistanceMap( int from, boolean[] to, boolean[] passable ) {
 
 		if (to[from]) {
 			return false;
 		}
 
-		Arrays.fill(distance, Integer.MAX_VALUE);
+		System.arraycopy(maxVal, 0, distance, 0, maxVal.length);
 
 		boolean pathFound = false;
 
@@ -267,7 +230,7 @@ PathFinder {
 		int tail = 0;
 
 		// Add to queue
-		for (int i = 0; i < size; i++) {
+		for (int i=0; i < size; i++) {
 			if (to[i]) {
 				queue[tail++] = i;
 				distance[i] = 0;
@@ -282,28 +245,17 @@ PathFinder {
 				pathFound = true;
 				break;
 			}
-			float nextDistance = distance[step] + 1;
+			int nextDistance = distance[step] + 1;
 
-			for (int i = 0; i < dir.length; i++) {
+			int start = (step % width == 0 ? 3 : 0);
+			int end   = ((step+1) % width == 0 ? 3 : 0);
+			for (int i = start; i < dirLR.length - end; i++) {
 
-				int n = step + dir[i];
+				int n = step + dirLR[i];
 				if (n == from || (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance))) {
-					boolean good = true;
-
-					for (int check : dirCheck[i]) {
-						int k = n + check;
-
-						if (k >= 0 && k < size && !passable[k]) {
-							good = false;
-							
-						}
-					}
-
-					if (good) {
-						// Add to queue
-						queue[tail++] = n;
-						distance[n] = nextDistance;
-					}
+					// Add to queue
+					queue[tail++] = n;
+					distance[n] = nextDistance;
 				}
 
 			}
@@ -312,9 +264,9 @@ PathFinder {
 		return pathFound;
 	}
 
-	public static float buildEscapeDistanceMap(int cur, int from, float factor, boolean[] passable) {
+	private static int buildEscapeDistanceMap( int cur, int from, float factor, boolean[] passable ) {
 
-		Arrays.fill(distance, Integer.MAX_VALUE);
+		System.arraycopy(maxVal, 0, distance, 0, maxVal.length);
 
 		int destDist = Integer.MAX_VALUE;
 
@@ -325,7 +277,7 @@ PathFinder {
 		queue[tail++] = from;
 		distance[from] = 0;
 
-		float dist = 0;
+		int dist = 0;
 
 		while (head < tail) {
 
@@ -338,31 +290,20 @@ PathFinder {
 			}
 
 			if (step == cur) {
-				destDist = (int) (dist * factor) + 1;
+				destDist = (int)(dist * factor) + 1;
 			}
 
-			float nextDistance = dist + 1;
+			int nextDistance = dist + 1;
 
-			for (int i = 0; i < dir.length; i++) {
+			int start = (step % width == 0 ? 3 : 0);
+			int end   = ((step+1) % width == 0 ? 3 : 0);
+			for (int i = start; i < dirLR.length - end; i++) {
 
-				int n = step + dir[i];
+				int n = step + dirLR[i];
 				if (n >= 0 && n < size && passable[n] && distance[n] > nextDistance) {
-					boolean good = true;
-
-					for (int check : dirCheck[i]) {
-						int k = n + check;
-
-						if (k >= 0 && k < size && !passable[k]) {
-							good = false;
-							
-						}
-					}
-
-					if (good) {
-						// Add to queue
-						queue[tail++] = n;
-						distance[n] = nextDistance;
-					}
+					// Add to queue
+					queue[tail++] = n;
+					distance[n] = nextDistance;
 				}
 
 			}
@@ -371,9 +312,9 @@ PathFinder {
 		return dist;
 	}
 
-	public static void buildDistanceMap(int to, boolean[] passable) {
+	public static void buildDistanceMap( int to, boolean[] passable ) {
 
-		Arrays.fill(distance, Integer.MAX_VALUE);
+		System.arraycopy(maxVal, 0, distance, 0, maxVal.length);
 
 		int head = 0;
 		int tail = 0;
@@ -386,28 +327,17 @@ PathFinder {
 
 			// Remove from queue
 			int step = queue[head++];
-			float nextDistance = distance[step] + 1;
+			int nextDistance = distance[step] + 1;
 
-			for (int i = 0; i < dir.length; i++) {
+			int start = (step % width == 0 ? 3 : 0);
+			int end   = ((step+1) % width == 0 ? 3 : 0);
+			for (int i = start; i < dirLR.length - end; i++) {
 
-				int n = step + dir[i];
+				int n = step + dirLR[i];
 				if (n >= 0 && n < size && passable[n] && (distance[n] > nextDistance)) {
-					boolean good = true;
-
-					for (int check : dirCheck[i]) {
-						int k = n + check;
-
-						if (k >= 0 && k < size && !passable[k]) {
-							good = false;
-							
-						}
-					}
-
-					if (good) {
-						// Add to queue
-						queue[tail++] = n;
-						distance[n] = nextDistance;
-					}
+					// Add to queue
+					queue[tail++] = n;
+					distance[n] = nextDistance;
 				}
 
 			}
@@ -415,6 +345,5 @@ PathFinder {
 	}
 
 	public static class Path extends LinkedList<Integer> {
-
 	}
 }
