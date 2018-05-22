@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
-	public static final boolean RENDER_ROOM_DEBUG = true;
+	public static final boolean RENDER_ROOM_DEBUG = false;
 	public static boolean SHADOWS = true;
 
 	public static float LIGHT_R = 34f / 255f;
