@@ -1,5 +1,7 @@
 package org.rexellentgames.dungeon.util;
 
+import java.util.HashMap;
+
 public class Random {
 	public static java.util.Random random = new java.util.Random();
 
@@ -25,6 +27,12 @@ public class Random {
 
 	public static boolean chance(float a) {
 		return newFloat(100) <= a;
+	}
+
+	public static Object random(HashMap map) {
+
+
+		return null;
 	}
 
 	public static int chances(float[] chances) {

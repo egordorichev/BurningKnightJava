@@ -6,7 +6,6 @@ import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
