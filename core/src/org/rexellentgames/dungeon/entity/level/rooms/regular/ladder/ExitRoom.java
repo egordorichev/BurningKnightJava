@@ -33,20 +33,6 @@ public class ExitRoom extends RegularRoom {
 	}
 
 	@Override
-	public int getMaxConnections(Connection side) {
-		return 1;
-	}
-
-	@Override
-	public int getMinConnections(Connection side) {
-		if (side == Connection.ALL) {
-			return 1;
-		}
-
-		return 0;
-	}
-
-	@Override
 	public int getMinWidth() {
 		return 5;
 	}

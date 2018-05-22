@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
@@ -142,8 +143,10 @@ public abstract class Room extends Rect implements GraphNode {
 	}
 
 	public boolean connectWithRoom(Room room) {
-		if (this.connectTo(room) && !this.connected.containsKey(room) && this.canConnect(room)) {
-			this.connected.put(room, null);
+		if ((neighbours.contains(room) || connectTo(room))
+			&& !connected.containsKey(room) && canConnect(room)) {
+
+			connected.put(room, null);
 			room.connected.put(this, null);
 
 			return true;
@@ -151,6 +154,7 @@ public abstract class Room extends Rect implements GraphNode {
 
 		return false;
 	}
+
 
 	public Point getRandomCell() {
 		int x = Random.newInt(this.left + 1, this.right);
