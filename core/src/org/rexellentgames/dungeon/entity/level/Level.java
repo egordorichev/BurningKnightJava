@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
-	public static final boolean RENDER_ROOM_DEBUG = true;
+	public static final boolean RENDER_ROOM_DEBUG = false;
 	public static boolean SHADOWS = true;
 
 	public static float LIGHT_R = 34f / 255f;
@@ -87,6 +87,7 @@ public abstract class Level extends Entity {
 	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
 	protected ArrayList<Room> rooms;
+	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
 
 	public void setPassable(int x, int y, boolean v) {
 		this.passable[toIndex(x, y)] = v;

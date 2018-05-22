@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.painters;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.item.key.KeyB;
+import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -155,12 +157,19 @@ public class Painter {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
 
-				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() == Door.Type.REGULAR || d.getType() == Door.Type.ENEMY || d.getType() == Door.Type.LEVEL_LOCKED)) {
+				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL)) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
 						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 
 					door.autoLock = (d.getType() == Door.Type.ENEMY);
-					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED);
+					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
+
+					if (d.getType() == Door.Type.LEVEL_LOCKED) {
+						door.key = KeyC.class;
+					} else if (d.getType() == Door.Type.LOCKED) {
+						door.key = KeyB.class;
+					}
+
 					door.rooms[0] = r;
 					door.rooms[1] = n;
 					door.lockable = door.lock;
