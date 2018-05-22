@@ -29,12 +29,6 @@ public class Random {
 		return newFloat(100) <= a;
 	}
 
-	public static Object random(HashMap map) {
-
-
-		return null;
-	}
-
 	public static int chances(float[] chances) {
 		int length = chances.length;
 		float sum = 0;
@@ -50,6 +44,28 @@ public class Random {
 			sum += chances[i];
 
 				if (value < sum) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	public static int chances(Float[] chances) {
+		int length = chances.length;
+		float sum = 0;
+
+		for (int i = 0; i < length; i++) {
+			sum += chances[i];
+		}
+
+		float value = newFloat(sum);
+		sum = 0;
+
+		for (int i = 0; i < length; i++) {
+			sum += chances[i];
+
+			if (value < sum) {
 				return i;
 			}
 		}
