@@ -76,13 +76,9 @@ public class Painter {
 		Log.info("Placing doors");
 
 		for (Room room : rooms) {
-			Log.info("Place");
 			this.placeDoors(room);
-			Log.info("Paint");
 			room.paint(level);
 		}
-
-		Log.info("Done");
 
 		Log.info("Adding decor");
 

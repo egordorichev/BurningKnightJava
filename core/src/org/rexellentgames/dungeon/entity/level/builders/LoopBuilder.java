@@ -149,6 +149,14 @@ public class LoopBuilder extends RegularBuilder {
 			}
 		}
 
+		if (!prev.getConnected().containsKey(this.entrance)) {
+			prev.neighbours.add(this.entrance);
+			this.entrance.neighbours.add(prev);
+
+			prev.getConnected().put(this.entrance, null);
+			this.entrance.getConnected().put(prev, null);
+		}
+
 		return init;
 	}
 }
