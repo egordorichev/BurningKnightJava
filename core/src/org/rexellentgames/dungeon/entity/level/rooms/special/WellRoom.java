@@ -1,11 +1,11 @@
-package org.rexellentgames.dungeon.entity.level.rooms.regular;
+package org.rexellentgames.dungeon.entity.level.rooms.special;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class WellRoom extends RegularRoom {
+public class WellRoom extends SpecialRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);

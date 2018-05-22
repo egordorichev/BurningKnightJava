@@ -82,14 +82,14 @@ public class RegularRoom extends Room {
 		RegularRoom.class, GardenRoom.class, FloodedRoom.class, SpikedRoom.class,
 		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class, StatueRoom.class,
 		TableRoom.class, CenterTableRoom.class, CaveRoom.class, RectFloorRoom.class,
-		WellRoom.class, LineRoom.class, CollumnRoom.class, CollumnsRoom.class
+		LineRoom.class, CollumnRoom.class, CollumnsRoom.class
 	));
 
 	private static float[] chances = new float[] {
 		1, 1, 1, 1,
 		0.05f, 1, 0.3f, 1,
 		1, 1, 2, 1,
-		1, 1, 1, 1
+		1, 1, 1
 	};
 
 	public static RegularRoom create() {

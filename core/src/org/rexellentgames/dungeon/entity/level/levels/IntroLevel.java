@@ -45,11 +45,6 @@ public class IntroLevel extends RegularLevel {
 	}
 
 	@Override
-	protected ArrayList<Item> generateItems() {
-		return new ArrayList<>();
-	}
-
-	@Override
 	protected Builder getBuilder() {
 		return new LineBuilder();
 	}

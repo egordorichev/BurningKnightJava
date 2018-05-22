@@ -49,10 +49,6 @@ public abstract class RegularLevel extends Level {
 
 	protected void spawnLevelEntities() {
 		this.free = new boolean[this.getSIZE()];
-
-		Log.info("Adding items...");
-
-		this.spawnItems();
 		this.spawnCreatures();
 	}
 
@@ -118,17 +114,13 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected ArrayList<Room> createRooms() {
-		ArrayList<Room> rooms = new ArrayList<Room>();
+		ArrayList<Room> rooms = new ArrayList<>();
 
 		this.entrance = new EntranceRoom();
 		this.exit = new ExitRoom();
 
 		rooms.add(this.entrance);
 		rooms.add(this.exit);
-
-		if (Dungeon.depth > 0) {
-		//	rooms.add(new HealthBlockRoom());
-		}
 
 		if (Dungeon.depth == 0) {
 			rooms.add(new LampRoom());
@@ -151,17 +143,19 @@ public abstract class RegularLevel extends Level {
 			rooms.add(room);
 		}
 
-		// todo: shop
+		SpecialRoom.init();
 
 		for (int i = 0; i < special; i++) {
-			rooms.add(SpecialRoom.create());
+			SpecialRoom room = SpecialRoom.create();
+
+			if (room != null) {
+				rooms.add(room);
+			}
 		}
 
 		for (int i = 0; i < connection; i++) {
 			rooms.add(ConnectionRoom.create());
 		}
-
-		// todo: secret
 
 		return rooms;
 	}
@@ -177,10 +171,10 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumSpecialRooms() {
-		return 0;
+		return Dungeon.depth == 0 ? 0 : 3;
 	}
 
 	protected int getNumConnectionRooms() {
-		return 0;
+		return 2;
 	}
 }

@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -20,7 +23,6 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -46,7 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
-	public static final boolean RENDER_ROOM_DEBUG = false;
+	public static final boolean RENDER_ROOM_DEBUG = true;
 	public static boolean SHADOWS = true;
 
 	public static float LIGHT_R = 34f / 255f;
@@ -916,7 +918,7 @@ public abstract class Level extends Entity {
 							array.add(new Vector2(xx, yy + 16));
 							array.add(new Vector2(xx + 16, yy + 16));
 
-							poly.set(array.toArray(new Vector2[] {}));
+							poly.set(array.toArray(new Vector2[]{}));
 						} else {
 							ArrayList<Vector2> array = new ArrayList<>();
 
@@ -950,7 +952,7 @@ public abstract class Level extends Entity {
 								array.add(new Vector2(xx + 16, yy + 6));
 							}
 
-							poly.set(array.toArray(new Vector2[] {}));
+							poly.set(array.toArray(new Vector2[]{}));
 						}
 
 						FixtureDef fixture = new FixtureDef();
@@ -1247,51 +1249,6 @@ public abstract class Level extends Entity {
 		return null;
 	}
 
-	public void spawnItems() {
-		ArrayList<Item> items = this.generateItems();
-
-		for (Item item : items) {
-			Point point = null;
-
-			while (point == null) {
-				point = this.getRandomFreePoint(RegularRoom.class);
-			}
-
-			ItemHolder holder = new ItemHolder();
-
-			holder.setItem(item);
-			holder.x = point.x * 16 + Random.newInt(-4, 4);
-			holder.y = point.y * 16 + Random.newInt(-4, 4);
-
-			this.addSaveable(holder);
-			this.area.add(holder);
-		}
-
-		for (int i = 0; i < this.getNumChests(); i++) {
-			Chest chest = Chest.random();
-			Point point = null;
-
-			while (point == null) {
-				point = this.getRandomFreePoint(RegularRoom.class);
-			}
-
-			chest.x = point.x * 16 - 5;
-			chest.y = point.y * 16;
-
-			Item item = chest.generate();
-			item.generate();
-
-			chest.setItem(item);
-
-			Dungeon.area.add(chest);
-			Dungeon.level.addSaveable(chest);
-		}
-	}
-
-	protected int getNumChests() {
-		return (Dungeon.depth <= 0 || Dungeon.depth == 4) ? 0 : (Dungeon.depth == 1 ? 1 : Random.newInt(2, 5));
-	}
-
 	public void spawnCreatures() {
 		ArrayList<Creature> creatures = this.generateCreatures();
 		boolean gave = Dungeon.depth == 0;
@@ -1405,10 +1362,6 @@ public abstract class Level extends Entity {
 
 	public ArrayList<Room> getRooms() {
 		return this.rooms;
-	}
-
-	protected ArrayList<Item> generateItems() {
-		return new ArrayList<Item>();
 	}
 
 	protected ArrayList<Creature> generateCreatures() {

@@ -13,11 +13,6 @@ import java.util.ArrayList;
 
 public class HallBossLevel extends HallLevel {
 	@Override
-	protected ArrayList<Item> generateItems() {
-		return new ArrayList<>();
-	}
-
-	@Override
 	protected ArrayList<Creature> generateCreatures() {
 		return new ArrayList<>();
 	}
