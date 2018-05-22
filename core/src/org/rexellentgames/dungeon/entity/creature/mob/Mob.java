@@ -177,7 +177,7 @@ public class Mob extends Creature {
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + this.h / 2) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + this.h / 2) / 16) * Level.getWidth());
 
-		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable(), this.mind == Mind.COWARD || this.mind == Mind.RAT || this.hide);
+		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable());
 
 		if (step != -1) {
 			Point p = new Point();
