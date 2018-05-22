@@ -4,6 +4,8 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
@@ -15,6 +17,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ public abstract class RegularLevel extends Level {
 	@Override
 	public void generate() {
 		Level.GENERATED = true;
+
+		this.itemsToSpawn.clear();
 
 		this.build();
 		this.paint();
@@ -50,6 +55,25 @@ public abstract class RegularLevel extends Level {
 	protected void spawnLevelEntities() {
 		this.free = new boolean[this.getSIZE()];
 		this.spawnCreatures();
+
+		for (Item item : this.itemsToSpawn) {
+			Point point = null;
+
+			while (point == null) {
+				point = this.getRandomFreePoint(RegularRoom.class);
+			}
+
+			ItemHolder holder = new ItemHolder();
+
+			holder.setItem(item);
+			holder.x = point.x * 16 + Random.newInt(-4, 4);
+			holder.y = point.y * 16 + Random.newInt(-4, 4);
+
+			this.addSaveable(holder);
+			this.area.add(holder);
+		}
+
+		this.itemsToSpawn.clear();
 	}
 
 	protected void spawnEntities() {
@@ -171,7 +195,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumSpecialRooms() {
-		return Dungeon.depth == 0 ? 0 : 3;
+		return Dungeon.depth == 0 ? 0 : 2;
 	}
 
 	protected int getNumConnectionRooms() {

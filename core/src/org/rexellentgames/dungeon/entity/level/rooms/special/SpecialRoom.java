@@ -43,24 +43,36 @@ public class SpecialRoom extends Room {
 		TreasureRoom.class, WellRoom.class
 	));
 
-	private static float[] chances = new float[]{
+	private static ArrayList<Float> chances = new ArrayList<>(Arrays.asList(
 		1f, 1f
-	};
+	));
 
 	private static ArrayList<Class<? extends SpecialRoom>> forFloor;
+	private static ArrayList<Float> chancesForFloor;
 
 	public static void init() {
 		forFloor = (ArrayList<Class<? extends SpecialRoom>>) rooms.clone();
+		chancesForFloor = (ArrayList<Float>) chances.clone();
 	}
 
 	public static SpecialRoom create() {
-		Class<? extends SpecialRoom> type = rooms.get(Random.chances(chances));
+		float[] floatArray = new float[chancesForFloor.size()];
+		int i = 0;
+
+		for (Float f : chancesForFloor) {
+			floatArray[i++] = (f != null ? f : Float.NaN);
+		}
+
+		Class<? extends SpecialRoom> type = forFloor.get(Random.chances(floatArray));
 
 		if (type == null) {
 			return null;
 		}
 
-		forFloor.remove(type);
+		i = forFloor.indexOf(type);
+
+		chancesForFloor.remove(i);
+		forFloor.remove(i);
 
 		try {
 			return type.newInstance();

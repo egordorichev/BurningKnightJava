@@ -43,6 +43,7 @@ public class Door extends SaveableEntity {
 	public boolean lockable;
 	public boolean lock;
 	public Room[] rooms = new Room[2];
+	public Class<? extends Key> key;
 
 	{
 		alwaysActive = true;
@@ -164,8 +165,8 @@ public class Door extends SaveableEntity {
 			if (this.lock && this.lockable && entity instanceof Player) {
 				Player player = (Player) entity;
 
-				if (player.getInventory().find(KeyC.class)) {
-					Item key = player.getInventory().findItem(KeyC.class);
+				if (player.getInventory().find(this.key)) {
+					Item key = player.getInventory().findItem(this.key);
 					key.setCount(key.getCount() - 1);
 
 					this.lock = false;
@@ -236,6 +237,14 @@ public class Door extends SaveableEntity {
 			this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
 			this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
 		}
+
+		if (this.lock) {
+			try {
+				this.key = (Class<? extends Key>) Class.forName(reader.readString());
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -250,6 +259,10 @@ public class Door extends SaveableEntity {
 		if (this.autoLock) {
 			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));
 			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
+		}
+
+		if (this.lock) {
+			writer.writeString(this.key.getName());
 		}
 	}
 }
