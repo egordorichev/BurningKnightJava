@@ -195,7 +195,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumSpecialRooms() {
-		return Dungeon.depth == 0 ? 0 : 2;
+		return Dungeon.depth == 0 ? 0 : 3;
 	}
 
 	protected int getNumConnectionRooms() {

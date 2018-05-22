@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.item.pool.RegularRoomPool;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
@@ -78,34 +79,12 @@ public class RegularRoom extends Room {
 		return this.size;
 	}
 
-	private static ArrayList<Class<? extends RegularRoom>> rooms = new ArrayList<Class<? extends RegularRoom>>(Arrays.asList(
-		RegularRoom.class, GardenRoom.class, FloodedRoom.class, SpikedRoom.class,
-		MazeRoom.class, MazeFloorRoom.class, ChestTrapRoom.class, StatueRoom.class,
-		TableRoom.class, CenterTableRoom.class, CaveRoom.class, RectFloorRoom.class,
-		LineRoom.class, CollumnRoom.class, CollumnsRoom.class
-	));
-
-	private static float[] chances = new float[] {
-		1, 1, 1, 1,
-		0.05f, 1, 0.3f, 1,
-		1, 1, 2, 1,
-		1, 1, 1
-	};
-
 	public static RegularRoom create() {
 		if (Dungeon.depth < 1 || Dungeon.depth == 4) {
 			return new RegularRoom();
 		}
 
-		try {
-			return rooms.get(Random.chances(chances)).newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-
-		return new RegularRoom();
+		return RegularRoomPool.instance.generate();
 	}
 
 	@Override
