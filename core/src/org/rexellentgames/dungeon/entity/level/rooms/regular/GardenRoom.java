@@ -37,12 +37,11 @@ public class GardenRoom extends RegularRoom {
 			}
 		} else {
 			for (int y = this.top + 1; y < this.bottom - 1; y++) {
-				Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right, y),
+				Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y),
 					y % 2 == 0 ? Terrain.DIRT : Terrain.WOOD);
 
-
 				if (y % 2 == 0) {
-					for (int x = this.left + 1; x < this.right - 1; x++) {
+					for (int x = this.left + 1; x < this.right - 2; x++) {
 						if (Random.chance(50)) {
 							Cabbage cabbage = new Cabbage();
 
