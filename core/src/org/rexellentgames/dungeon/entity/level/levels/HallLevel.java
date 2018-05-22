@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
 import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
+import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
 import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Random;
@@ -75,7 +76,12 @@ public class HallLevel extends RegularLevel {
 		if (Dungeon.depth == 0) {
 			return new LineBuilder();
 		} else {
-			return new CastleBuilder().setPathLength(0.7f, new float[]{0, 1, 0});
+			// return new CastleBuilder().setPathLength(0.7f, new float[]{0, 1, 0});
+			return new LoopBuilder();//.setPathLength(0.3f, new float[]{1,2,3});
+			/*return new LoopBuilder().setShape(2,
+				Random.newFloat(0.4f, 0.7f),
+				Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1,1,1});
+			return new LineBuilder();*/
 		}
 	}
 

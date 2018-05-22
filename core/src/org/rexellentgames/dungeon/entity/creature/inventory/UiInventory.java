@@ -211,7 +211,7 @@ public class UiInventory extends UiEntity {
 							open = false;
 						}
 					});
-				} else if (!this.open && !this.hidden && d > 94f) {
+				} else if (!this.open && !this.hidden && d > 194f) {
 					this.dn = false;
 
 					Tween.to(new Tween.Task(-25, 0.3f) {

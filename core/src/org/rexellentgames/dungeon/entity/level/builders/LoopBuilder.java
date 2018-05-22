@@ -42,7 +42,6 @@ public class LoopBuilder extends RegularBuilder {
 		this.setupRooms(init);
 
 		if (this.entrance == null) {
-			Log.info("0");
 			return null;
 		}
 
@@ -99,7 +98,6 @@ public class LoopBuilder extends RegularBuilder {
 				}
 			} else {
 				// fixme this is lazy, there are ways to do this without relying on chance
-				Log.info("1");
 				return null;
 			}
 		}
@@ -112,7 +110,6 @@ public class LoopBuilder extends RegularBuilder {
 			RegularRoom c = RegularRoom.create();
 
 			if (placeRoom(loop, prev, c, angleBetweenRooms(prev, this.entrance)) == -1) {
-				Log.info("2");
 				return null;
 			}
 
