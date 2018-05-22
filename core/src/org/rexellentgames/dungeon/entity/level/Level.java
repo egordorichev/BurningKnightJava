@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends Entity {
-	public static final boolean RENDER_ROOM_DEBUG = false;
+	public static final boolean RENDER_ROOM_DEBUG = true;
 	public static boolean SHADOWS = true;
 
 	public static float LIGHT_R = 34f / 255f;
@@ -520,6 +520,7 @@ public abstract class Level extends Entity {
 			Graphics.batch.end();
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 			for (Room room : this.rooms) {
 				Graphics.shape.setColor(1, 1, 1, 0.1f);

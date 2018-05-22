@@ -60,13 +60,6 @@ public class HallLevel extends RegularLevel {
 	}
 
 	@Override
-	protected ArrayList<Item> generateItems() {
-		ArrayList<Item> items = super.generateItems();
-
-		return items;
-	}
-
-	@Override
 	protected Painter getPainter() {
 		return new HallPainter().setGrass(0.45f).setWater(0.45f);
 	}
@@ -76,11 +69,20 @@ public class HallLevel extends RegularLevel {
 		if (Dungeon.depth == 0) {
 			return new LineBuilder();
 		} else {
-			// return new CastleBuilder().setPathLength(0.7f, new float[]{0, 1, 0});
-			return new LoopBuilder();//.setPathLength(0.3f, new float[]{1,2,3});
-			/*return new LoopBuilder().setShape(2,
+			/*switch (Random.newInt(3)) {
+				case 0: default: return new CastleBuilder();
+				case 1: return new LoopBuilder();
+				case 2: return new LoopBuilder().setShape(2,
+					Random.newFloat(0.4f, 0.7f),
+					Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1,1,1});
+			}*/
+			return new LoopBuilder().setShape(2,
 				Random.newFloat(0.4f, 0.7f),
-				Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1,1,1});
+				Random.newFloat(0f, 0.5f)).setPathLength(0.7f, new float[]{1,1,1});
+
+			// return new CastleBuilder().setPathLength(0.7f, new float[]{0, 1, 0});
+			//return new LoopBuilder();//.setPathLength(0.3f, new float[]{1,2,3});
+			/*
 			return new LineBuilder();*/
 		}
 	}

@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
-import org.rexellentgames.dungeon.entity.level.entities.chest.WoodenChest;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -29,6 +28,23 @@ public class EntranceRoom extends RegularRoom {
 		Dungeon.area.add(entrance);
 	}
 
+	@Override
+	public int getMaxConnections(Connection side) {
+		if (side == Connection.ALL) {
+			return 16;
+		}
+
+		return 4;
+	}
+
+	@Override
+	public int getMinConnections(Connection side) {
+		if (side == Connection.ALL) {
+			return 2;
+		}
+
+		return 0;
+	}
 	@Override
 	public int getMinWidth() {
 		return 5;
