@@ -236,7 +236,10 @@ public class Player extends Creature {
 
 	public void generate() {
 		if (Dungeon.type != Dungeon.Type.INTRO) {
-			this.inventory.add(new ItemHolder().setItem(new DaggerA()));
+			DaggerA a = new DaggerA();
+			a.generate();
+
+			this.inventory.add(new ItemHolder().setItem(a));
 		}
 	}
 

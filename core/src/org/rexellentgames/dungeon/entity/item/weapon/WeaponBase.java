@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.pool.ModifierPool;
 import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -44,6 +45,16 @@ public class WeaponBase extends Item {
 		}
 
 		Graphics.batch.setColor(r, g, b, this.a);
+	}
+
+
+	@Override
+	public void generate() {
+		super.generate();
+
+		if (Random.chance(10)) {
+			this.setModifier(ModifierPool.instance.generate());
+		}
 	}
 
 	@Override

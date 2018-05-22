@@ -65,6 +65,7 @@ public abstract class RegularLevel extends Level {
 
 			ItemHolder holder = new ItemHolder();
 
+			item.generate();
 			holder.setItem(item);
 			holder.x = point.x * 16 + Random.newInt(-4, 4);
 			holder.y = point.y * 16 + Random.newInt(-4, 4);

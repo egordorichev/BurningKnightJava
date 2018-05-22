@@ -50,6 +50,7 @@ public class Chest extends SaveableEntity {
 
 	public void setItem(Item item) {
 		this.item = item;
+		this.item.generate();
 	}
 
 	@Override
