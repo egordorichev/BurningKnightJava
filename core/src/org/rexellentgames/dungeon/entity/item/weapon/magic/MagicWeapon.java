@@ -6,9 +6,10 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.game.input.Input;
 
-public class MagicWeapon extends Item {
+public class MagicWeapon extends WeaponBase {
 	protected int damage = 1;
 	protected float mana;
 	protected Player owner;
@@ -41,6 +42,7 @@ public class MagicWeapon extends Item {
 		Graphics.startShadows();
 		Graphics.render(s, x + w / 2, y + h / 4 - h / 2, (float) -Math.toDegrees(a) + 90, s.getRegionWidth() / 2, 0, false, false, 1f, -1f);
 		Graphics.endShadows();
+		this.applyColor();
 		Graphics.render(s, x + w / 2, y + h / 4, (float) Math.toDegrees(a) - 90, s.getRegionWidth() / 2, 0, false, false);
 	}
 

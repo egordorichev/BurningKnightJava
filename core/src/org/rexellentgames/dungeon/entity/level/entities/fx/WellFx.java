@@ -6,12 +6,13 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
+import org.rexellentgames.dungeon.entity.level.entities.UsableProp;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class WellFx extends Entity {
-	private MagicWell well;
+	private UsableProp well;
 	private String text;
 	private float a;
 
@@ -19,7 +20,7 @@ public class WellFx extends Entity {
 		depth = 30;
 	}
 
-	public WellFx(MagicWell well, String text) {
+	public WellFx(UsableProp well, String text) {
 		this.well = well;
 		this.text = Locale.get(text);
 
@@ -52,8 +53,9 @@ public class WellFx extends Entity {
 		Graphics.medium.setColor(1, 1, 1, 1);
 
 		if (Input.instance.wasPressed("action") && Dialog.active == null) {
-			this.remove();
-			this.well.use();
+			if (this.well.use()) {
+				this.remove();
+			}
 		}
 	}
 

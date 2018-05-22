@@ -9,12 +9,8 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.entities.fx.WellFx;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.file.FileReader;
-import org.rexellentgames.dungeon.util.file.FileWriter;
 
-import java.io.IOException;
-
-public class MagicWell extends SolidProp {
+public class MagicWell extends UsableProp {
 	private static TextureRegion[] water = new TextureRegion[] {
 		Graphics.getTexture("biome-0 (well_water_none)"),
 		Graphics.getTexture("biome-0 (well_water_heal)")
@@ -26,24 +22,9 @@ public class MagicWell extends SolidProp {
 	}
 
 	private boolean s;
-	private boolean used;
-	private WellFx fx;
 
 	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-
-		used = reader.readBoolean();
-	}
-
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-
-		writer.writeBoolean(this.used);
-	}
-
-	public void use() {
+	public boolean use() {
 		this.used = true;
 
 		// todo: particles
@@ -61,6 +42,7 @@ public class MagicWell extends SolidProp {
 			case 2:
 				break;*/
 		}
+		return true;
 	}
 
 	@Override
@@ -75,6 +57,8 @@ public class MagicWell extends SolidProp {
 			}
 		}
 	}
+
+	private WellFx fx;
 
 	@Override
 	public void onCollision(Entity entity) {

@@ -238,7 +238,7 @@ public class Door extends SaveableEntity {
 			this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
 		}
 
-		if (this.lock) {
+		if (reader.readBoolean()) {
 			try {
 				this.key = (Class<? extends Key>) Class.forName(reader.readString());
 			} catch (ClassNotFoundException e) {
@@ -261,7 +261,9 @@ public class Door extends SaveableEntity {
 			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
 		}
 
-		if (this.lock) {
+		writer.writeBoolean(this.lock && this.key != null);
+		
+		if (this.lock && this.key != null) {
 			writer.writeString(this.key.getName());
 		}
 	}

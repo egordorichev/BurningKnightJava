@@ -139,6 +139,7 @@
 	"starcannon_desc" : "Shoots fast piercing stars",
 	"switch" : "Switch",
 	"switch_desc" : "Allows to sell stuff in shop for x2 prices",
+	"bless_a_weapon" : "Bless a weapon",
 
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",

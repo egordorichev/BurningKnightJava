@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class Bow extends Item {
+public class Bow extends WeaponBase {
 	protected int damage;
 	private float sx = 1f;
 	private float sy = 1f;
@@ -117,6 +117,7 @@ public class Bow extends Item {
 		Graphics.startShadows();
 		Graphics.render(s, x + w / 2, y - h / 2, -a, -4, s.getRegionHeight() / 2, false, false, sx, -sy);
 		Graphics.endShadows();
+		this.applyColor();
 		Graphics.render(s, x + w / 2, y + h / 2, a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
 	}
 }

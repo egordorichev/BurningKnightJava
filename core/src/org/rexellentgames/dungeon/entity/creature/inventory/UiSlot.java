@@ -14,6 +14,8 @@ import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.Hat;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
+import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
 import org.rexellentgames.dungeon.util.Log;
@@ -335,7 +337,7 @@ public class UiSlot {
 			TextureRegion sprite = item.getSprite();
 			int count = item.getValue();
 
-			if (item instanceof Lamp && ((Lamp) item).getRadius() > 0) {
+			/*if (item instanceof Lamp && ((Lamp) item).getRadius() > 0) {
 				Graphics.batch.end();
 
 				Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -349,9 +351,13 @@ public class UiSlot {
 				Graphics.shape.end();
 				Gdx.gl.glDisable(GL20.GL_BLEND);
 				Graphics.batch.begin();
-			}
+			}*/
 
-			Graphics.batch.setColor(1, 1, 1, item.a);
+			if (item instanceof WeaponBase) {
+				((WeaponBase) item).applyColor();
+			} else {
+				Graphics.batch.setColor(1, 1, 1, item.a);
+			}
 
 			Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
 				this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);

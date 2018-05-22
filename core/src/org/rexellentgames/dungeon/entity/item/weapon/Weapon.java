@@ -5,20 +5,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
 
-public class Weapon extends Item {
+public class Weapon extends WeaponBase {
 	protected Body body;
-	protected int damage = 1;
-	protected int minDamage = 1;
-	protected float knockback = 10f;
 	protected boolean penetrates = false;
 	private boolean used = false;
 	protected float added;

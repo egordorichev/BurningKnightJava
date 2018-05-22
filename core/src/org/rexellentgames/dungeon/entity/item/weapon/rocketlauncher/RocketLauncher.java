@@ -8,13 +8,14 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.Rocket;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketEntity;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class RocketLauncher extends Weapon {
+public class RocketLauncher extends WeaponBase {
 	private float sx = 1f;
 	private float sy = 1f;
 
@@ -29,6 +30,7 @@ public class RocketLauncher extends Weapon {
 		Graphics.startShadows();
 		Graphics.render(sprite, x + w / 2, y - (h - sprite.getRegionHeight()) / 2 - h / 2, -an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? sy : -sy);
 		Graphics.endShadows();
+		this.applyColor();
 		Graphics.render(sprite, x + w / 2, y + (h - sprite.getRegionHeight()) / 2, an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? -sy : sy);
 
 

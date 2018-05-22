@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
@@ -16,7 +17,7 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class Gun extends Item {
+public class Gun extends WeaponBase {
 	protected float accuracy = 10f;
 	protected float sx = 1f;
 	protected float sy = 1f;
@@ -56,6 +57,7 @@ public class Gun extends Item {
 			false, false, textureA == 0 ? this.sx : flipped ? this.sx : -this.sx, textureA != 0 ? this.sy : flipped ? this.sy : -this.sy);
 		Graphics.endShadows();
 
+		this.applyColor();
 		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.ox, sprite.getRegionHeight() / 2,
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
 
