@@ -78,7 +78,7 @@ public class RocketEntity extends Entity {
 				Creature c = (Creature) e;
 
 				if (c.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
-					c.modifyHp(-Math.round(Random.newFloat(this.damage / 3 * 2, this.damage)), this.owner, true);
+					c.modifyHp(-Math.round(Random.newFloatDice(this.damage / 3 * 2, this.damage)), this.owner, true);
 
 					float a = (float) Math.atan2(c.y + c.h / 2 - this.y - 8, c.x + c.w / 2 - this.x - 8);
 

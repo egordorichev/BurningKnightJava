@@ -12,7 +12,7 @@ public class TreasureRoom extends LockedRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 2, Terrain.FLOOR_B);
+		Painter.fill(level, this, 1, Terrain.FLOOR_D);
 
 		Point center = this.getCenter();
 		Chest chest = Chest.random();

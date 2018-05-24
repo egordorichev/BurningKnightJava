@@ -1,12 +1,13 @@
 package org.rexellentgames.dungeon.util;
-
-import java.util.HashMap;
-
 public class Random {
 	public static java.util.Random random = new java.util.Random();
 
 	public static float newFloat(float min, float max) {
 		return (min + random.nextFloat() * (max - min));
+	}
+
+	public static float newFloatDice(float min, float max) {
+		return (newFloat(min, max) + newFloat(min, max)) / 2;
 	}
 
 	public static float newFloat(float max) {

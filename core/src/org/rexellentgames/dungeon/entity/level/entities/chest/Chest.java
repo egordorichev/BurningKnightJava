@@ -198,7 +198,7 @@ public class Chest extends SaveableEntity {
 		int h = sprite.getRegionHeight();
 
 		float a = 0;
-		float sx = (float) (1f + Math.cos(this.t * 4f) / 13f);
+		float sx = 1f;
 		float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
 
 		Graphics.startShadows();

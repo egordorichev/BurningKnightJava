@@ -91,7 +91,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		}
 
 		if (entity instanceof Mob && !this.bad && !((Mob) entity).isDead()) {
-			((Mob) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), this.owner, true);
+			((Mob) entity).modifyHp(Math.round(Random.newFloatDice(-6 / 3 * 2, -6)), this.owner, true);
 			this.brk = true;
 			this.vel.x = 0;
 			this.vel.y = 0;
@@ -99,7 +99,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 			this.parts();
 			// ((Mob) entity).addBuff(new BurningBuff().setDuration(3f));
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(Math.round(Random.newFloat(-6 / 3 * 2, -6)), this.owner, true);
+			((Player) entity).modifyHp(Math.round(Random.newFloatDice(-6 / 3 * 2, -6)), this.owner, true);
 			this.brk = true;
 			this.vel.x = 0;
 			this.vel.y = 0;

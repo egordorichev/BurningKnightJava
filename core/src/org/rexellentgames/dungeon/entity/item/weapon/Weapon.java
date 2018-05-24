@@ -128,7 +128,7 @@ public class Weapon extends WeaponBase {
 			this.used = true;
 			this.onHit(creature);
 
-			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloat(this.minDamage, this.damage))), this.owner);
+			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloatDice(this.minDamage, this.damage))), this.owner);
 		} else if (entity instanceof Weapon) {
 			if (this.isBlocking()) {
 				Weapon weapon = ((Weapon) entity);
