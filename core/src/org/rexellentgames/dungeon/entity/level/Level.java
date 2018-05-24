@@ -567,62 +567,6 @@ public abstract class Level extends Entity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
-				byte tile = this.get(i);
-
-				if (tile == Terrain.WATER) {
-					TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
-
-					region.setRegionX(region.getRegionX() + x % 4 * 16);
-					region.setRegionY(region.getRegionY() + (3 - (y + 1) % 4) * 16);
-					region.setRegionWidth(16);
-					region.setRegionHeight(16);
-
-					Graphics.render(region, x * 16, y * 16 - 8 + 16 - Dungeon.time * 12f % 64f);
-					region = new TextureRegion(Terrain.patterns[tile]);
-
-					region.setRegionX(region.getRegionX() + x % 4 * 16);
-					region.setRegionY(region.getRegionY() + (3 - (y + 2) % 4) * 16);
-					region.setRegionWidth(16);
-					region.setRegionHeight(16);
-
-					Graphics.render(region, x * 16, y * 16 - 8 + 32 - Dungeon.time * 12f % 64f);
-					region = new TextureRegion(Terrain.patterns[tile]);
-
-					region.setRegionX(region.getRegionX() + x % 4 * 16);
-					region.setRegionY(region.getRegionY() + (3 - (y + 3) % 4) * 16);
-					region.setRegionWidth(16);
-					region.setRegionHeight(16);
-
-					Graphics.render(region, x * 16, y * 16 - 8 + 48 - Dungeon.time * 12f % 64f);
-
-
-					region = new TextureRegion(Terrain.patterns[tile]);
-
-					region.setRegionX(region.getRegionX() + x % 4 * 16);
-					region.setRegionY(region.getRegionY() + (3 - (y + 4) % 4) * 16);
-					region.setRegionWidth(16);
-					region.setRegionHeight(16);
-
-					Graphics.render(region, x * 16, y * 16 - 8 + 64 - Dungeon.time * 12f % 64f);
-
-
-					region = new TextureRegion(Terrain.patterns[tile]);
-
-					region.setRegionX(region.getRegionX() + x % 4 * 16);
-					region.setRegionY(region.getRegionY() + (3 - y % 4) * 16);
-					region.setRegionWidth(16);
-					region.setRegionHeight(16);
-
-					Graphics.render(region, x * 16, y * 16 - 8 - Dungeon.time * 12f % 64f);
-				} else if (tile == Terrain.LAVA) {
-					addLightInRadius(x * 16, y * 16, 1f, 0.6f, 0, 1f, 2.5f, false);
-				}
-			}
-		}
-
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
-				int i = x + y * getWidth();
 
 				if (this.low[i]) {
 					byte tile = this.get(i);
@@ -667,6 +611,23 @@ public abstract class Level extends Entity {
 					if (tile == Terrain.CHASM && Random.chance(0.4f)) {
 						Dungeon.area.add(new ChasmFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 					}
+				}
+			}
+		}
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+				int i = x + y * getWidth();
+				byte tile = this.get(i);
+
+				if (tile == Terrain.WATER) {
+					byte variant = this.variants[i];
+
+					if (variant != 15) {
+						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
+					}
+				} else if (tile == Terrain.LAVA) {
+					addLightInRadius(x * 16, y * 16, 1f, 0.6f, 0, 1f, 2.5f, false);
 				}
 			}
 		}

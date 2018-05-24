@@ -21,9 +21,11 @@ public class Prop extends SaveableEntity {
 
 	@Override
 	public void render() {
-		Graphics.startShadows();
-		Graphics.render(region, this.x, this.y + 0.3f, 0, 0, 0, false, false, 1, -1);
-		Graphics.endShadows();
 		Graphics.render(region, this.x, this.y);
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h);
 	}
 }
