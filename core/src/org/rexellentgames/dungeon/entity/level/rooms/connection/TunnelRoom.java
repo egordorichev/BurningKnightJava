@@ -24,7 +24,7 @@ public class TunnelRoom extends ConnectionRoom {
 		}
 
 		if (Dungeon.depth == 0) {
-			Painter.fill(level, this, Terrain.WALL);
+			// Painter.fill(level, this, Terrain.WALL);
 		}
 
 		for (Door door : this.connected.values()) {
@@ -32,7 +32,7 @@ public class TunnelRoom extends ConnectionRoom {
 		}
 
 		byte floor = Terrain.FLOOR_A;
-		boolean bold = (Dungeon.depth == 0);
+		boolean bold = false; // (Dungeon.depth == 0);
 
 		if (!bold) {
 			this.fill(level);
