@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -38,6 +39,7 @@ import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
+import org.rexellentgames.dungeon.util.path.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -594,15 +596,6 @@ public abstract class Level extends Entity {
 						}
 					}
 
-					byte v = this.walls[i];
-
-					if (v != 15 && v % 2 == 0) {
-						Graphics.startShadows();
-						Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
-						Graphics.endShadows();
-						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
-					}
-
 					if (this.decor[i] != 0) {
 						TextureRegion s = Terrain.decor[this.decor[i] - 1];
 						Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 + 6);
@@ -623,11 +616,45 @@ public abstract class Level extends Entity {
 				if (tile == Terrain.WATER) {
 					byte variant = this.variants[i];
 
+					//if (variant != 15) {
+						Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
+						Graphics.batch.flush();
+					//}
+
+					TextureRegion r = new TextureRegion(Terrain.waterPattern);
+
+					r.setRegionHeight(16);
+					r.setRegionWidth(16);
+
+					Gdx.gl.glColorMask(false, false, false, true);
+					Graphics.batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ZERO);
+					Graphics.render(Terrain.waterVariants[variant], x * 16, y * 16 - 8);
+					Graphics.batch.flush();
+
+					Gdx.gl.glColorMask(true, true, true, true);
+					Graphics.batch.setBlendFunction(GL20.GL_DST_ALPHA, GL20.GL_ONE_MINUS_DST_ALPHA);
+
+
+					Graphics.render(r, x * 16, y * 16 - 8);
+					Graphics.batch.flush();
+
+					Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
 					if (variant != 15) {
 						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
 					}
 				} else if (tile == Terrain.LAVA) {
 					addLightInRadius(x * 16, y * 16, 1f, 0.6f, 0, 1f, 2.5f, false);
+				}
+
+				byte v = this.walls[i];
+
+				if (v != 15 && v % 2 == 0) {
+					Graphics.startShadows();
+					Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
+					Graphics.endShadows();
+					Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
 				}
 			}
 		}
@@ -643,7 +670,6 @@ public abstract class Level extends Entity {
 
 			Graphics.batch.setColor(1, 1, 1, 1f);
 		}
-
 	}
 
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
