@@ -27,9 +27,6 @@ public class RocketLauncher extends WeaponBase {
 		float an = (float) Math.toDegrees(a);
 		TextureRegion sprite = this.getSprite();
 
-		Graphics.startShadows();
-		Graphics.render(sprite, x + w / 2, y - (h - sprite.getRegionHeight()) / 2 - h / 2, -an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? sy : -sy);
-		Graphics.endShadows();
 		this.applyColor();
 		Graphics.render(sprite, x + w / 2, y + (h - sprite.getRegionHeight()) / 2, an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? -sy : sy);
 

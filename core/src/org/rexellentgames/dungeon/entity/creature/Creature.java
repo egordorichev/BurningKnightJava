@@ -51,8 +51,8 @@ public class Creature extends SaveableEntity {
 	protected float mul = 0.9f;
 	protected float timer;
 	protected boolean flipped = false;
-	private int hx;
-	private int hy;
+	protected int hx;
+	protected int hy;
 	public int hw;
 	public int hh;
 	public float z;

@@ -620,18 +620,6 @@ public abstract class Level extends Entity {
 			}
 		}
 
-		if (SHADOWS) {
-			Graphics.batch.setColor(1, 1, 1, 0.6f);
-			Texture texture = Graphics.shadows.getColorBufferTexture();
-
-			Graphics.batch.draw(texture,
-				Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
-				Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
-				0, 0, texture.getWidth(), texture.getHeight(), false, true);
-
-			Graphics.batch.setColor(1, 1, 1, 1f);
-		}
-
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
@@ -666,7 +654,7 @@ public abstract class Level extends Entity {
 
 					if (v != 15 && v % 2 == 0) {
 						Graphics.startShadows();
-						Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14, 0, 0, 0, false, false, 1f, -1f);
+						Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
 						Graphics.endShadows();
 						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
 					}
@@ -693,21 +681,6 @@ public abstract class Level extends Entity {
 				0, 0, texture.getWidth(), texture.getHeight(), false, true);
 
 			Graphics.batch.setColor(1, 1, 1, 1f);
-
-			// Clear shadows
-
-			Graphics.batch.end();
-			Graphics.shadows.begin();
-
-			Graphics.batch.begin();
-
-			Gdx.gl.glClearColor(0, 0, 0, 0);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
-			Graphics.batch.end();
-
-			Graphics.shadows.end();
-			Graphics.batch.begin();
 		}
 
 	}

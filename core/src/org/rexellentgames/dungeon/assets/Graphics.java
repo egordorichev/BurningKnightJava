@@ -247,6 +247,19 @@ public class Graphics {
 			ox, oy, texture.getRegionWidth(), texture.getRegionHeight(), sx, sy, a);
 	}
 
+	public static void shadow(float x, float y, float w, float h) {
+		startShadows();
+		Graphics.batch.end();
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+		Graphics.shape.ellipse(x - 1, y - h / 4, w + 2, h / 2);
+
+		Graphics.shape.end();
+		Graphics.batch.begin();
+		endShadows();
+	}
+
 	public static void destroy() {
 		atlas.dispose();
 		manager.dispose();

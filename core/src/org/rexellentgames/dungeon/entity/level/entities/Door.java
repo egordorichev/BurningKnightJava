@@ -204,14 +204,18 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
-		Graphics.startShadows();
-		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
-		Graphics.endShadows();
 		this.animation.render(this.x, this.y, false, false);
 
 		if (this.lockAnim != null) {
-			this.lockAnim.render(this.x + (this.vertical ? 0 : 3), this.y, false);
+			this.lockAnim.render(this.x + (this.vertical ? 0 : 3), this.y, false, false);
 		}
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.startShadows();
+		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
+		Graphics.endShadows();
 	}
 
 	@Override

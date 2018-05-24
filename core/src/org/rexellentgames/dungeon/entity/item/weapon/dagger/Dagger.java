@@ -63,10 +63,6 @@ public class Dagger extends Sword {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, angle + 90, false);
 		}
 
-		Graphics.startShadows();
-		Graphics.render(sprite, xx2 - (flipped ? sprite.getRegionWidth() : 0), yy2 - h / 2,
-			-angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false, flipped ? -1 : 1, -1f);
-		Graphics.endShadows();
 		this.applyColor();
 
 		Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy,

@@ -86,9 +86,6 @@ public class AxeFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShadows();
-		Graphics.render(this.region, this.x, this.y - 8, this.a, 8, 8, false, false, 1f, 0.5f);
-		Graphics.endShadows();
 		Graphics.render(this.region, this.x, this.y, this.a, 8, 8, false, false);
 	}
 

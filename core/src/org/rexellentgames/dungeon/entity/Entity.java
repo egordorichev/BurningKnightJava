@@ -69,6 +69,10 @@ public class Entity extends Point {
 
 	}
 
+	public void renderShadow() {
+
+	}
+
 	public void renderTop() {
 
 	}

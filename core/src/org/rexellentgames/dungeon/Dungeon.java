@@ -246,7 +246,6 @@ public class Dungeon extends ApplicationAdapter {
 		if (Camera.instance != null) {
 			Camera.instance.applyShake();
 			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		}
 
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
@@ -255,6 +254,10 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		Graphics.shape.setColor(1, 1, 1, 1);
 		Graphics.shape.end();
+
+		if (Camera.instance != null) {
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		}
 
 		Graphics.batch.begin();
 

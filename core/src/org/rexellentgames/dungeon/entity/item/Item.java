@@ -55,9 +55,6 @@ public class Item extends Entity {
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		TextureRegion s = this.getSprite();
 
-		Graphics.startShadows();
-		Graphics.render(s, x + (w - s.getRegionWidth()) / 2 + (flipped ? -w / 2 : w / 2), y - (h - s.getRegionHeight()) / 2, 0, s.getRegionWidth() / 2, s.getRegionHeight() / 2, flipped, false, flipped ? 1f : -1f, -1f);
-		Graphics.endShadows();
 		Graphics.render(s, x + (w - s.getRegionWidth()) / 2 + (flipped ? -w / 2 : w / 2),
 			y + (h - s.getRegionHeight()) / 2, 0, s.getRegionWidth() / 2, s.getRegionHeight() / 2, flipped, false);
 	}

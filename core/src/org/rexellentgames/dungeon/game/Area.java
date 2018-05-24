@@ -1,10 +1,13 @@
 package org.rexellentgames.dungeon.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -76,6 +79,35 @@ public class Area {
 
 	public void render() {
 		Collections.sort(this.entities, this.comparator);
+
+		if (Level.SHADOWS) {
+			// Clear shadows
+
+			Graphics.batch.end();
+			Graphics.shadows.begin();
+
+			Graphics.batch.begin();
+
+			Gdx.gl.glClearColor(0, 0, 0, 0);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+			Graphics.batch.end();
+
+			Graphics.shadows.end();
+			Graphics.batch.begin();
+
+			for (int i = 0; i < this.entities.size(); i++) {
+				Entity entity = this.entities.get(i);
+
+				if (!entity.isActive()) {
+					continue;
+				}
+
+				if (entity.onScreen || entity.alwaysRender) {
+					entity.renderShadow();
+				}
+			}
+		}
 
 		for (int i = 0; i < this.entities.size(); i++) {
 			Entity entity = this.entities.get(i);

@@ -135,15 +135,16 @@ public class Plant extends SaveableEntity {
 
 		float a = (float) (Math.sin(this.t * 2.5f) * Math.cos(this.t * 1.5f) * 5) * this.sz;
 
-		Graphics.startShadows();
-
-		Graphics.render(sprite, this.x + 8,
-			this.y + (16 - sprite.getRegionHeight()) / 2, -a, sprite.getRegionWidth() / 2, 0, false, false, 1f, -1f);
-
-		Graphics.endShadows();
-
 		Graphics.render(sprite, this.x + 8,
 			this.y + (16 - sprite.getRegionHeight()) / 2, a, sprite.getRegionWidth() / 2, 0, false, false);
+	}
+
+	@Override
+	public void renderShadow() {
+		TextureRegion sprite = this.animation.getFrames().get(
+			this.animation == this.getWiltAnimation() ? 0 : (int) Math.floor(this.growProgress * 2)).frame;
+
+		Graphics.shadow(this.x, this.y + sprite.getRegionHeight() / 4, sprite.getRegionWidth(), sprite.getRegionHeight());
 	}
 
 	@Override

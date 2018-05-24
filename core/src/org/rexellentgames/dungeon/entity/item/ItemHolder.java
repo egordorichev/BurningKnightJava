@@ -208,12 +208,14 @@ public class ItemHolder extends SaveableEntity {
 			float a = (float) Math.cos(this.t * 3f) * 8f * sz;
 			float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
-			Graphics.startShadows();
-			Graphics.render(sprite, this.x + w / 2, this.y, a, w / 2,  h /2, false, false, 1, sy);
-			Graphics.endShadows();
 			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
 				w / 2, h / 2, false, false, 1f, sy);
 		}
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.hw, this.hh);
 	}
 
 	private float sz = 1f;

@@ -52,11 +52,6 @@ public class Gun extends WeaponBase {
 		float an = this.owner.getAngleTo(aim.x, aim.y);
 		float a = (float) Math.toDegrees(an);
 
-		Graphics.startShadows();
-		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y - h / 4 - this.owner.z, -a - textureA, this.ox, sprite.getRegionHeight() / 2,
-			false, false, textureA == 0 ? this.sx : flipped ? this.sx : -this.sx, textureA != 0 ? this.sy : flipped ? this.sy : -this.sy);
-		Graphics.endShadows();
-
 		this.applyColor();
 		Graphics.render(sprite, x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.ox, sprite.getRegionHeight() / 2,
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);

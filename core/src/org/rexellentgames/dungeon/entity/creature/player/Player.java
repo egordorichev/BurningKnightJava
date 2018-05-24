@@ -615,10 +615,6 @@ public class Player extends Creature {
 			Point last = this.last.get(i);
 
 			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
-			Graphics.startShadows();
-			this.animation.render(last.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, last.y - region.getRegionHeight() / 2 - region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
-				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), -this.sy, false);
-			Graphics.endShadows();
 			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
 			this.animation.render(last.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, last.y - region.getRegionHeight() / 2 + region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
 				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);		}
@@ -630,14 +626,6 @@ public class Player extends Creature {
 		if (this.last.size() > 5 || (this.last.size() > 0 && this.dashT <= 0)) {
 			this.last.remove(0);
 		}
-
-
-		Graphics.startShadows();
-
-		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
-			this.y - region.getRegionHeight() / 2 - region.getRegionHeight() / 2 + 16, false, false, region.getRegionWidth() / 2,
-			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), -this.sy, false);
-		Graphics.endShadows();
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
@@ -651,6 +639,11 @@ public class Player extends Creature {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x + this.hx, this.y + this.hy, this.hw, this.hh);
 	}
 
 	private float sx = 1f;
