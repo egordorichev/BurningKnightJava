@@ -4546,6 +4546,13 @@ biome-0-desk WS
   orig: 16, 16
   offset: 0, 0
   index: -1
+biome-0-platform A SW
+  rotate: false
+  xy: 772, 239
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 biome-0-platform A WS
   rotate: false
   xy: 772, 239
