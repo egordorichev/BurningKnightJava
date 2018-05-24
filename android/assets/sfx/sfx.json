@@ -45,5 +45,7 @@
 	"death_clown",
 	"CK_attack",
 	"CK_call",
-	"CK_jump"
+	"CK_jump",
+	"health_up",
+	"pickup_item"
 ]

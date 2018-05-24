@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.reference;
 
+import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
 
@@ -16,5 +17,7 @@ public class MeetBoy extends Consumable {
 
 		this.owner.setHpMax(this.owner.getHpMax() + 2);
 		this.owner.modifyHp(2, null);
+
+		Graphics.playSfx("health_up");
 	}
 }

@@ -1212,7 +1212,6 @@ public abstract class Level extends Entity {
 
 	public void spawnCreatures() {
 		ArrayList<Creature> creatures = this.generateCreatures();
-		boolean gave = Dungeon.depth == 0;
 
 		for (Creature creature : creatures) {
 			Point point = null;
@@ -1221,22 +1220,11 @@ public abstract class Level extends Entity {
 				point = this.getRandomFreePoint(RegularRoom.class);
 			}
 
-			if (!gave && creature instanceof Mob) {
-				gave = true;
-				((Mob) creature).giveKey();
-
-				Log.info("Gave a key to " + creature);
-			}
-
 			creature.x = point.x * 16;
 			creature.y = point.y * 16;
 
 			this.addSaveable(creature);
 			this.area.add(creature);
-		}
-
-		if (!gave) {
-			Log.error("Failed to give a key!");
 		}
 	}
 

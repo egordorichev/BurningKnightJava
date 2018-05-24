@@ -9,13 +9,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowA;
-import org.rexellentgames.dungeon.entity.item.weapon.bow.Bow;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
-import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncher;
-import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -179,15 +173,7 @@ public class Chest extends SaveableEntity {
 	}
 
 	public static Chest random() {
-		if (Random.newFloat() < 0.9f) {
-			return new WoodenChest();
-		}
-
-		if (Random.newFloat() < 0.9f) {
-			return new IronChest();
-		}
-
-		return new GoldenChest();
+		return new WoodenChest();
 	}
 
 	@Override

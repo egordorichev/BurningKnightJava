@@ -400,11 +400,6 @@ public class Creature extends SaveableEntity {
 
 	public void setHpMax(int hpMax) {
 		this.hpMax = hpMax;
-		Log.info("set");
-
-		for (StackTraceElement e : Thread.currentThread().getStackTrace()) {
-			System.out.println(e.toString());
-		}
 	}
 
 	@Override

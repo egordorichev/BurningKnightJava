@@ -92,14 +92,14 @@ public class Graphics {
 		JsonValue root = reader.parse(Gdx.files.internal("sfx/sfx.json"));
 
 		for (JsonValue name : root) {
-			manager.load("sfx/" + name.toString() + ".wav", Sound.class);
+			manager.load("sfx/" + name.toString() + ".mp3", Sound.class);
 			volumes.put(name.toString(), 1f);
 		}
 
 		root = reader.parse(Gdx.files.internal("music/music.json"));
 
 		for (JsonValue name : root) {
-			manager.load("music/" + name.toString() + ".ogg", Music.class);
+			manager.load("music/" + name.toString() + ".mp3", Music.class);
 		}
 
 		generateFont("fonts/small.ttf", 16);
@@ -173,7 +173,7 @@ public class Graphics {
 	}
 
 	public static Sound getSound(String sfx) {
-		Sound sound = manager.get("sfx/" + sfx + ".wav", Sound.class);
+		Sound sound = manager.get("sfx/" + sfx + ".mp3", Sound.class);
 
 		if (sound == null) {
 			Log.error("Sfx '" + sfx + "' is not found!");
@@ -183,7 +183,7 @@ public class Graphics {
 	}
 
 	public static Music getMusic(String name) {
-		Music music = manager.get("music/" + name + ".ogg", Music.class);
+		Music music = manager.get("music/" + name + ".mp3", Music.class);
 
 		if (music == null) {
 			Log.error("Music '" + name + "' is not found!");

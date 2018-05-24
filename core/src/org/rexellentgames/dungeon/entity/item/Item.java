@@ -37,7 +37,7 @@ public class Item extends Entity {
 	}
 
 	public void onPickup() {
-
+		Graphics.playSfx("pickup_item");
 	}
 
 	public boolean isAuto() {
