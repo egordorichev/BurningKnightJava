@@ -1,12 +1,9 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
-import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -17,7 +14,7 @@ public class EntranceRoom extends RegularRoom {
 		super.paint(level);
 
 		Point point = this.getCenter();
-		Painter.set(level, (int) point.x, (int) point.y, Terrain.WOOD);
+		Painter.set(level, (int) point.x, (int) point.y, Terrain.FLOOR_B);
 
 		Entrance entrance = new Entrance();
 

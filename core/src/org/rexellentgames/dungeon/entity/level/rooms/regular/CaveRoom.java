@@ -14,7 +14,7 @@ public class CaveRoom extends PatchRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_A);
 
 		float fill = 0.25f + (this.getWidth() * this.getHeight()) / 256f;
 

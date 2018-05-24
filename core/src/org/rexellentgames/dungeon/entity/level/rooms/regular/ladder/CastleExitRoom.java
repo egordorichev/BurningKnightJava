@@ -14,8 +14,8 @@ public class CastleExitRoom extends ExitRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, 0, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.WOOD);
-		Painter.fill(level, this, 2, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_B);
+		Painter.fill(level, this, 2, Terrain.FLOOR_A);
 
 		BurningKnight.throne = new Point(this.left + this.getWidth() / 2, this.top + this.getHeight() / 2);
 
@@ -35,7 +35,7 @@ public class CastleExitRoom extends ExitRoom {
 		Dungeon.area.add(table);
 		Dungeon.level.addSaveable(table);
 
-		// Painter.set(level, BurningKnight.throne, Terrain.WOOD);
+		// Painter.set(level, BurningKnight.throne, Terrain.FLOOR_B);
 
 		Exit exit = new Exit();
 

@@ -18,7 +18,7 @@ public class HallBossRoom extends RegularRoom {
 		for (int x = 1; x < this.getWidth() - 1; x++) {
 			for (int y = 1; y < this.getHeight() - 1; y++) {
 				if (patch[x + y * this.getWidth()]) {
-					level.set(this.left + x, this.top + y, Terrain.WOOD);
+					level.set(this.left + x, this.top + y, Terrain.FLOOR_B);
 				}
 			}
 		}

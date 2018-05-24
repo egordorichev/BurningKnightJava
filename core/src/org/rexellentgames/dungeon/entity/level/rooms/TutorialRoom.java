@@ -14,10 +14,10 @@ public class TutorialRoom extends ExitRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_A);
 
 		Point point = this.getCenter();
-		Painter.set(level, (int) point.x, (int) point.y, Terrain.WOOD);
+		Painter.set(level, (int) point.x, (int) point.y, Terrain.FLOOR_B);
 
 		Exit exit = new Exit();
 

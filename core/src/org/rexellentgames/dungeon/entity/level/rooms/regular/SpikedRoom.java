@@ -9,14 +9,14 @@ public class SpikedRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_A);
 
 		if (this.getWidth() > 5 && this.getHeight() > 5) {
 			Painter.fill(level, this, 2, Terrain.LAVA);
-			Painter.fill(level, this, 3, Terrain.FLOOR);
+			Painter.fill(level, this, 3, Terrain.FLOOR_A);
 
 			// todo: moving spike?
-			Painter.set(level, this.left + this.getWidth() / 2, Random.chance(50) ? this.top + 2 : this.bottom - 2, Terrain.FLOOR);
+			Painter.set(level, this.left + this.getWidth() / 2, Random.chance(50) ? this.top + 2 : this.bottom - 2, Terrain.FLOOR_A);
 		}
 	}
 

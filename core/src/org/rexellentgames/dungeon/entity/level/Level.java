@@ -261,7 +261,7 @@ public abstract class Level extends Entity {
 					this.tileUp(x, y, tile, false);
 				} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
 					this.tileUp(x, y, Terrain.IS_DIRT, true);
-				} else if (tile == Terrain.FLOOR || tile == Terrain.WOOD) {
+				} else if (tile == Terrain.FLOOR_A || tile == Terrain.FLOOR_B) {
 					this.makeFloor(x, y, tile);
 				}
 
@@ -499,7 +499,7 @@ public abstract class Level extends Entity {
 				} else {
 					byte v = this.walls[i];
 
-					if (v != 15 && v % 2 == 1) {
+					if (v != 15) {
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
@@ -538,6 +538,7 @@ public abstract class Level extends Entity {
 					}
 				}
 			}
+
 			Graphics.shape.end();
 			Gdx.gl.glDisable(GL20.GL_BLEND);
 			Graphics.batch.begin();
@@ -665,9 +666,9 @@ public abstract class Level extends Entity {
 
 					if (v != 15 && v % 2 == 0) {
 						Graphics.startShadows();
-						Graphics.render(Terrain.wallVariants[14], x * 16, y * 16 + 12, 0, 0, 0, false, false, 1f, -1f);
+						Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 12, 0, 0, 0, false, false, 1f, -1f);
 						Graphics.endShadows();
-						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
 					}
 
 					if (this.decor[i] != 0) {

@@ -6,14 +6,13 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class SkyEntrance extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_A);
 
 		Rect topTower = new Rect(this.left, this.bottom - 7, this.left + 7, this.bottom);
 		Rect bottomTower = new Rect(this.left, this.top, this.left + 7, this.top + 7);

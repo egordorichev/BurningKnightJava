@@ -12,7 +12,7 @@ public class MazeFloorRoom extends RegularRoom {
 		boolean[][] maze = Maze.generate(this);
 
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.WOOD);
+		Painter.fill(level, this, 1, Terrain.FLOOR_B);
 
 		for (int x = 1; x < this.getWidth() - 1; x++) {
 			for (int y = 1; y < this.getHeight() - 1; y++) {

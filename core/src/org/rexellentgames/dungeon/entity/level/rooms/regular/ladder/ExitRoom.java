@@ -15,7 +15,7 @@ public class ExitRoom extends RegularRoom {
 		super.paint(level);
 
 		Point point = this.getCenter();
-		Painter.set(level, (int) point.x, (int) point.y, Terrain.WOOD);
+		Painter.set(level, (int) point.x, (int) point.y, Terrain.FLOOR_B);
 
 		Exit exit = new Exit();
 

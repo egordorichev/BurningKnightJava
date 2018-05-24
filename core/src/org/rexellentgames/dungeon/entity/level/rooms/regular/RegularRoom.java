@@ -9,9 +9,6 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.util.Random;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class RegularRoom extends Room {
 	public enum Size {
 		NORMAL(10, 14, 1),
@@ -36,7 +33,7 @@ public class RegularRoom extends Room {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_A);
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);

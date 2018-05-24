@@ -19,7 +19,7 @@ public class ShopRoom extends LockedRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 1, Terrain.WOOD);
+		Painter.fill(level, this, 1, Terrain.FLOOR_B);
 
 		int c = (this.getWidth() - 2) / 2;
 

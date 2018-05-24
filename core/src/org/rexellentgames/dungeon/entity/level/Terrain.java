@@ -7,18 +7,20 @@ import org.rexellentgames.dungeon.util.Log;
 public class Terrain {
 	public static byte CHASM = 0;
 	public static byte DIRT = 1;
-	public static byte FLOOR = 2;
+	public static byte FLOOR_A = 2;
 	public static byte WATER = 3;
-	public static short WALL_SIDE = 4;
+	public static byte WALL_SIDE = 4;
 	public static byte WALL = 5;
-	public static byte WOOD = 6;
+	public static byte FLOOR_B = 6;
 	public static byte LAVA = 7;
 	public static byte PLANTED_DIRT = 8;
 	public static byte GRASS = 9;
 	public static byte TABLE = 10;
 	public static byte EXIT = 11;
+	public static byte FLOOR_C = 12;
+	public static byte FLOOR_D = 13;
 
-	public static byte SIZE = 12;
+	public static byte SIZE = 14;
 
 	public static int[] flags = new int[SIZE];
 
@@ -34,11 +36,13 @@ public class Terrain {
 		flags[DIRT] = PASSABLE | IS_DIRT;
 		flags[GRASS] = PASSABLE;
 		flags[PLANTED_DIRT] = PASSABLE | IS_DIRT;
-		flags[FLOOR] = PASSABLE;
+		flags[FLOOR_A] = PASSABLE;
 		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
 		flags[WATER] = PASSABLE;
 		flags[WALL_SIDE] = HOLE;
-		flags[WOOD] = PASSABLE;
+		flags[FLOOR_B] = PASSABLE;
+		flags[FLOOR_C] = PASSABLE;
+		flags[FLOOR_D] = PASSABLE;
 		flags[LAVA] = 0;
 		flags[TABLE] = SOLID | HIGH;
 		flags[EXIT] = 0;
@@ -59,8 +63,11 @@ public class Terrain {
 	public static TextureRegion[] chasmVariants = new TextureRegion[15];
 	public static TextureRegion[] wallVariants = new TextureRegion[15];
 	public static TextureRegion[] woodVariants = new TextureRegion[16];
+	public static TextureRegion[] badVariants = new TextureRegion[16];
+	public static TextureRegion[] goldVariants = new TextureRegion[16];
 	public static TextureRegion[] floorVariants = new TextureRegion[16];
 	public static TextureRegion[] tableVariants = new TextureRegion[16];
+	public static TextureRegion[] topVariants = new TextureRegion[12];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
 	public static TextureRegion[] decor;
@@ -131,7 +138,7 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 15; i++) {
-			wallVariants[i] = Graphics.getTexture(bm + " (wall" + Level.COMPASS[i] + ")");
+			wallVariants[i] = Graphics.getTexture("biome-gen-wall" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {
@@ -139,11 +146,23 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 16; i++) {
-			woodVariants[i] = Graphics.getTexture(bm + " (plank " + String.format("%02d", i + 1) + ")");
+			woodVariants[i] = Graphics.getTexture(bm + "-floor B " + String.format("%02d", i + 1));
 		}
 
 		for (int i = 0; i < 16; i++) {
-			floorVariants[i] = Graphics.getTexture(bm + " (floor " + String.format("%02d", i + 1) + ")");
+			floorVariants[i] = Graphics.getTexture(bm + "-floor A " + String.format("%02d", i + 1));
+		}
+
+		for (int i = 0; i < 16; i++) {
+			goldVariants[i] = Graphics.getTexture(bm + "-floor D " + String.format("%02d", i + 1));
+		}
+
+		for (int i = 0; i < 16; i++) {
+			badVariants[i] = Graphics.getTexture(bm + "-floor C " + String.format("%02d", i + 1));
+		}
+
+		for (int i = 0; i < 12; i++) {
+			topVariants[i] = Graphics.getTexture(bm + "-wall " + letters[i / 4] + " " + String.format("%02d", i % 4 + 1));
 		}
 
 		variants[DIRT] = dirtVariants;
@@ -152,11 +171,15 @@ public class Terrain {
 		variants[CHASM] = chasmVariants;
 		variants[WATER] = waterVariants;
 		variants[WALL] = wallVariants;
-		variants[WOOD] = woodVariants;
-		variants[FLOOR] = floorVariants;
+		variants[FLOOR_B] = woodVariants;
+		variants[FLOOR_A] = floorVariants;
 		variants[LAVA] = lavaVariants;
 		variants[TABLE] = tableVariants;
+		variants[FLOOR_C] = badVariants;
+		variants[FLOOR_D] = goldVariants;
 
 		chasm = Graphics.getTexture(bm + " (chasmbg)");
 	}
+
+	public static char[] letters = new char[] { 'A', 'B', 'C', 'D' };
 }

@@ -1,8 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -23,23 +21,23 @@ public class CastleEntranceRoom extends EntranceRoom {
 
 		this.spawn = new Point(10, Random.newInt(bottomTower.bottom + 1, topTower.top - 1));
 
-		Painter.fill(level, new Rect(0, bottomTower.bottom + 1, this.left, topTower.top - 1), Terrain.WOOD);
+		Painter.fill(level, new Rect(0, bottomTower.bottom + 1, this.left, topTower.top - 1), Terrain.FLOOR_B);
 		Painter.fill(level, this, 0, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.WOOD);
+		Painter.fill(level, this, 1, Terrain.FLOOR_B);
 
 		Painter.fill(level, topTower, Terrain.WALL);
-		Painter.fill(level, topTower, 1, Terrain.FLOOR);
+		Painter.fill(level, topTower, 1, Terrain.FLOOR_A);
 
 		Painter.fill(level, bottomTower, Terrain.WALL);
-		Painter.fill(level, bottomTower, 1, Terrain.FLOOR);
+		Painter.fill(level, bottomTower, 1, Terrain.FLOOR_A);
 
 		Painter.drawLine(level, new Point(this.left, topTower.top - 2), new Point(this.left, bottomTower.bottom + 1),
-			Terrain.FLOOR);
+			Terrain.FLOOR_A);
 
 		int x = bottomTower.left + 6;
 		int y = bottomTower.bottom - 2;
 
-		Painter.set(level, x, y, Terrain.FLOOR);
+		Painter.set(level, x, y, Terrain.FLOOR_A);
 
 		Door door = new Door(x, y, true);
 

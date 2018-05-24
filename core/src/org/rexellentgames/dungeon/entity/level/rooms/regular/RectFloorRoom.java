@@ -10,7 +10,7 @@ public class RectFloorRoom extends RegularRoom {
 		super.paint(level);
 
 		for (int i = 1; i < this.getWidth() / 2; i++) {
-			Painter.fill(level, this, i, i % 2 == 0 ? Terrain.WOOD : Terrain.FLOOR);
+			Painter.fill(level, this, i, i % 2 == 0 ? Terrain.FLOOR_B : Terrain.FLOOR_A);
 		}
 	}
 }

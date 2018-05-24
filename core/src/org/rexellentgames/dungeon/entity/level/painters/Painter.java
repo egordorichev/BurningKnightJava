@@ -97,7 +97,7 @@ public class Painter {
 		for (Room r : rooms) {
 			for (Point p : r.waterPlaceablePoints()) {
 				int i = level.toIndex((int) p.x, (int) p.y);
-				if (lake[i] && level.data[i] == Terrain.FLOOR) {
+				if (lake[i] && level.data[i] == Terrain.FLOOR_A) {
 					level.data[i] = Terrain.WATER;
 				}
 			}
@@ -110,7 +110,7 @@ public class Painter {
 		for (Room r : rooms) {
 			for (Point p : r.grassPlaceablePoints()) {
 				int i = level.toIndex((int) p.x, (int) p.y);
-				if (grass[i] && level.data[i] == Terrain.FLOOR) {
+				if (grass[i] && level.data[i] == Terrain.FLOOR_A) {
 					level.data[i] = Terrain.DIRT;
 
 					if (Random.chance(10)) {
@@ -178,7 +178,7 @@ public class Painter {
 					Dungeon.area.add(door);
 				}
 
-				level.set((int) d.x, (int) d.y, Terrain.FLOOR);
+				level.set((int) d.x, (int) d.y, Terrain.FLOOR_A);
 			}
 		}
 	}

@@ -13,12 +13,12 @@ public class GardenRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_A);
 
 		if (Random.chance(50)) {
 			for (int x = this.left + 1; x < this.right - 1; x++) {
 				Painter.drawLine(level, new Point(x, this.top + 1), new Point(x, this.bottom - 1),
-					x % 2 == 0 ? Terrain.DIRT : Terrain.WOOD);
+					x % 2 == 0 ? Terrain.DIRT : Terrain.FLOOR_B);
 
 				if (x % 2 == 0) {
 					for (int y = this.top + 1; y < this.bottom; y++) {
@@ -38,7 +38,7 @@ public class GardenRoom extends RegularRoom {
 		} else {
 			for (int y = this.top + 1; y < this.bottom - 1; y++) {
 				Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y),
-					y % 2 == 0 ? Terrain.DIRT : Terrain.WOOD);
+					y % 2 == 0 ? Terrain.DIRT : Terrain.FLOOR_B);
 
 				if (y % 2 == 0) {
 					for (int x = this.left + 1; x < this.right - 2; x++) {

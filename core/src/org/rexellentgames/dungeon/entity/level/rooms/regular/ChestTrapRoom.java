@@ -10,13 +10,13 @@ public class ChestTrapRoom extends RegularRoom {
 	public void paint(Level level) {
 		// todo: add a sign with warning
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.WOOD);
-		Painter.fill(level, this, 2, Terrain.FLOOR);
+		Painter.fill(level, this, 1, Terrain.FLOOR_B);
+		Painter.fill(level, this, 2, Terrain.FLOOR_A);
 
 		Point center = this.getCenter();
 		// todo: chest
 
-		Painter.set(level, center, Terrain.WOOD);
+		Painter.set(level, center, Terrain.FLOOR_B);
 	}
 
 	@Override

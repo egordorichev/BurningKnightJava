@@ -25,7 +25,7 @@ public class RingConnectionRoom extends TunnelRoom {
 
 		Rect ring = getConnectionSpace();
 
-		Painter.fill(level, ring.left, ring.top, 3, 3, Terrain.FLOOR);
+		Painter.fill(level, ring.left, ring.top, 3, 3, Terrain.FLOOR_A);
 		Painter.fill(level, ring.left + 1, ring.top + 1, 1, 1, Terrain.WALL);
 	}
 
