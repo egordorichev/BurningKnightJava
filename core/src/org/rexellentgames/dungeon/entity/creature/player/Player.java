@@ -6,6 +6,16 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.creature.buff.*;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.InvisibilityPotion;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.GunB;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStar;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
@@ -38,6 +48,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Creature {
+	protected Type type = Type.WARRIOR;
+
+	public Type getType() {
+		return this.type;
+	}
+
+	public enum Type {
+		WARRIOR, MAGE,
+		SUMMONER, ROGUE, ARCHER,
+		GUNNER
+	}
+
 	public static ArrayList<Player> all = new ArrayList<Player>();
 	public static int INVENTORY_SIZE = 12;
 
@@ -236,11 +258,51 @@ public class Player extends Creature {
 
 	public void generate() {
 		if (Dungeon.type != Dungeon.Type.INTRO) {
-			DaggerA a = new DaggerA();
-			a.generate();
-
-			this.inventory.add(new ItemHolder().setItem(a));
+			switch (this.type) {
+				case WARRIOR: generateWarrior(); break;
+				case MAGE: generateMage(); break;
+				case SUMMONER: generateSummoner(); break;
+				case ARCHER: generateArcher(); break;
+				case GUNNER: generateGunner(); break;
+				case ROGUE: generateRogue(); break;
+			}
 		}
+	}
+
+	private void generateSummoner() {
+		// todo
+	}
+
+	private void generateArcher() {
+		this.give(new BowA());
+	}
+
+	private void generateGunner() {
+		this.give(new GunA());
+	}
+
+	private void generateRogue() {
+		this.give(new InvisibilityPotion());
+		this.give(new DaggerA());
+	}
+
+	private void generateWarrior() {
+		switch (Random.newInt(3)) {
+			case 0: default: this.give(new SwordA()); break;
+			case 1: this.give(new ButcherA()); break;
+			case 2: this.give(new MorningStarA()); break;
+		}
+
+		this.give(new HealingPotion());
+	}
+
+	private void generateMage() {
+		// todo
+	}
+
+	private void give(Item item) {
+		item.generate();
+		this.inventory.add(new ItemHolder().setItem(item));
 	}
 
 	public float getHunger() {

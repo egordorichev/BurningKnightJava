@@ -135,8 +135,6 @@ public class Sword extends Weapon {
 		}
 
 		this.applyColor();
-
-		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy,
 			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 

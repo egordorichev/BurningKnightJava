@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.pool;
 
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.reference.BlueBoomerang;
 import org.rexellentgames.dungeon.entity.item.reference.GravelordSword;
@@ -35,25 +36,42 @@ public class ShopWeaponPool extends Pool<Item> {
 	public static ShopWeaponPool instance = new ShopWeaponPool();
 
 	public ShopWeaponPool() {
-		addRanged();
-		addMagic();
-		addMelee();
+		switch (Player.instance.getType()) {
+			case WARRIOR: addWarrior(); break;
+			case MAGE: addMagic(); break;
+			case SUMMONER: addSummon(); break;
+			case ARCHER: addArcher(); break;
+			case GUNNER: addGunner(); break;
+			case ROGUE: addRogue(); break;
+		}
 	}
 
-	private void addRanged() {
-		add(BowA.class, 1f);
-		add(BowB.class, 1f);
-		add(BowC.class, 1f);
+	private void addGunner() {
 		add(GunA.class, 1f);
 		add(GunB.class, 1f);
 		add(GunC.class, 1f);
+		add(IsaacHead.class, 1f);
+		add(StarCannon.class, 1f);
+	}
+
+	private void addArcher() {
+		add(BowA.class, 1f);
+		add(BowB.class, 1f);
+		add(BowC.class, 1f);
 		add(AxeA.class, 1f);
 		add(AxeB.class, 1f);
 		add(AxeC.class, 1f);
 		add(AxeD.class, 1f);
 		add(BlueBoomerang.class, 1f);
-		add(IsaacHead.class, 1f);
-		add(StarCannon.class, 1f);
+	}
+
+	private void addSummon() {
+
+	}
+
+	private void addRogue() {
+		add(DaggerB.class, 1f);
+		add(DaggerC.class, 1f);
 	}
 
 	private void addMagic() {
@@ -62,10 +80,7 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(DefenseBook.class, 1f);
 	}
 
-	private void addMelee() {
-		add(DaggerA.class, 1f);
-		add(DaggerB.class, 1f);
-		add(DaggerC.class, 1f);
+	private void addWarrior() {
 		add(SwordA.class, 1f);
 		add(SwordB.class, 1f);
 		add(SwordC.class, 1f);

@@ -616,16 +616,11 @@ public abstract class Level extends Entity {
 				if (tile == Terrain.WATER) {
 					byte variant = this.variants[i];
 
-					//if (variant != 15) {
+					if (variant != 15) {
 						Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
 						Graphics.batch.flush();
-					//}
-
-					TextureRegion r = new TextureRegion(Terrain.waterPattern);
-
-					r.setRegionHeight(16);
-					r.setRegionWidth(16);
+					}
 
 					Gdx.gl.glColorMask(false, false, false, true);
 					Graphics.batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ZERO);
@@ -635,6 +630,10 @@ public abstract class Level extends Entity {
 					Gdx.gl.glColorMask(true, true, true, true);
 					Graphics.batch.setBlendFunction(GL20.GL_DST_ALPHA, GL20.GL_ONE_MINUS_DST_ALPHA);
 
+					TextureRegion r = new TextureRegion(Terrain.waterPattern);
+
+					r.setRegionHeight(16);
+					r.setRegionWidth(16);
 
 					Graphics.render(r, x * 16, y * 16 - 8);
 					Graphics.batch.flush();
