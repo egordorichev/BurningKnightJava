@@ -44,4 +44,14 @@ public class RollingSpikeRoom extends RegularRoom {
 			}
 		}
 	}
+
+	@Override
+	public int getMinWidth() {
+		return 7;
+	}
+
+	@Override
+	public int getMinHeight() {
+		return 7;
+	}
 }

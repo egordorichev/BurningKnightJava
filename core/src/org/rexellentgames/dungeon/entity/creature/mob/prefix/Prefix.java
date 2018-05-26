@@ -18,4 +18,8 @@ public class Prefix {
 	public void onGenerate() {
 
 	}
+
+	public void onDeath() {
+
+	}
 }

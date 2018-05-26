@@ -7,13 +7,13 @@ public class MoreDefensePrefix extends Prefix {
 	private static Color color = Color.valueOf("#444b7e");
 
 	@Override
-	public void apply(Mob mob) {
-		super.apply(mob);
-		mob.modifyDefense(+2);
+	public Color getColor() {
+		return color;
 	}
 
 	@Override
-	public Color getColor() {
-		return color;
+	public void apply(Mob mob) {
+		super.apply(mob);
+		mob.modifyDefense(+2);
 	}
 }

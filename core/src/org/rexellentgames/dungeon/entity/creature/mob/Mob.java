@@ -137,7 +137,7 @@ public class Mob extends Creature {
 	public Mob generate() {
 		this.mind = Mind.values()[Random.newInt(Mind.values().length)];
 
-		if (true) { // Random.chance(33)
+		if (Random.chance(33)) {
 			this.prefix = PrefixPool.instance.generate();
 			this.prefix.apply(this);
 			this.prefix.onGenerate();
@@ -269,6 +269,10 @@ public class Mob extends Creature {
 		}
 
 		if (this.drop) {
+			if (this.prefix != null) {
+				this.prefix.onDeath();
+			}
+
 			this.drop = false;
 			ArrayList<Item> items = this.getDrops();
 

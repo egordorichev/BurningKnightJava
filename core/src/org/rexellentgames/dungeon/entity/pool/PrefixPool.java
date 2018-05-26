@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.pool;
 
+import org.rexellentgames.dungeon.entity.creature.mob.prefix.ExplosiveDeathPrefix;
 import org.rexellentgames.dungeon.entity.creature.mob.prefix.MoreDefensePrefix;
 import org.rexellentgames.dungeon.entity.creature.mob.prefix.MoreHealthPrefix;
 import org.rexellentgames.dungeon.entity.creature.mob.prefix.Prefix;
@@ -13,6 +14,7 @@ public class PrefixPool {
 	public PrefixPool() {
 		add(new MoreHealthPrefix(), 1f);
 		add(new MoreDefensePrefix(), 1f);
+		add(new ExplosiveDeathPrefix(), 1f);
 	}
 
 	public Prefix getModifier(int id) {
