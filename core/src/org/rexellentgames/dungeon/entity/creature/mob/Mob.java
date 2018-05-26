@@ -1,37 +1,38 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
-import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
+import org.rexellentgames.dungeon.entity.creature.mob.prefix.Prefix;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.key.Key;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.SunPotion;
-import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
+import org.rexellentgames.dungeon.entity.pool.ModifierPool;
+import org.rexellentgames.dungeon.entity.pool.PrefixPool;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.ExpFx;
-import org.rexellentgames.dungeon.util.Line;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.PathFinder;
-import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
+import org.rexellentgames.dungeon.util.path.Graph;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class Mob extends Creature {
 	protected boolean hide;
 	protected boolean guard;
 	protected Room start;
+	protected Prefix prefix;
 
 	private static TextureRegion hideSign;
 	private static TextureRegion noticeSign;
@@ -134,13 +136,66 @@ public class Mob extends Creature {
 
 	public Mob generate() {
 		this.mind = Mind.values()[Random.newInt(Mind.values().length)];
+
+		if (true) { // Random.chance(33)
+			this.prefix = PrefixPool.instance.generate();
+			this.prefix.apply(this);
+			this.prefix.onGenerate();
+		}
+
 		return this;
+	}
+
+	public static ShaderProgram shaderOutline;
+
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/outline.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/outline.frag").readString();
+		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+	}
+
+	public void renderWithOutline(AnimationData data) {
+		if (this.prefix != null) {
+			Color color = this.prefix.getColor();
+
+			Graphics.batch.end();
+			shaderOutline.begin();
+			shaderOutline.setUniformf("u_color", new Vector3(color.r, color.g, color.b));
+			shaderOutline.end();
+			Graphics.batch.setShader(shaderOutline);
+			Graphics.batch.begin();
+			// Graphics.batch.draw(data.getCurrent().frame, x, y, width, height, width, height, 1f, 1f, 0);
+
+			for (int xx = -1; xx < 2; xx++) {
+				for (int yy = -1; yy < 2; yy++) {
+					if (Math.abs(xx) + Math.abs(yy) == 1) {
+						data.render(this.x + xx, this.y + yy, this.flipped);
+					}
+				}
+			}
+
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
+
+		Graphics.batch.setColor(1, 1, 1, this.a);
+		data.render(this.x, this.y, this.flipped);
 	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.mind = Mind.values()[reader.readByte()];
+		int id = reader.readInt16();
+
+		if (id > 0) {
+			this.prefix = PrefixPool.instance.getModifier(id - 1);
+			this.prefix.apply(this);
+		}
 	}
 
 	protected boolean ignoreRooms;
@@ -149,6 +204,12 @@ public class Mob extends Creature {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeByte(this.mind.getId());
+
+		if (this.prefix == null) {
+			writer.writeInt16((short) 0);
+		} else {
+			writer.writeInt16((short) (this.prefix.id + 1));
+		}
 	}
 
 	public boolean canSee(Creature player) {

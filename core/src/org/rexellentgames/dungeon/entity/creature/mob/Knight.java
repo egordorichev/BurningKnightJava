@@ -91,8 +91,6 @@ public class Knight extends Mob {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(1, 1, 1, this.a);
-
 		if (this.target != null) {
 			float dx = this.x + this.w / 2 - this.target.x - this.target.w / 2;
 			this.flipped = dx >= 0;
@@ -115,7 +113,7 @@ public class Knight extends Mob {
 			this.animation = idle;
 		}
 
-		this.animation.render(this.x, this.y, this.flipped);
+		this.renderWithOutline(this.animation);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);

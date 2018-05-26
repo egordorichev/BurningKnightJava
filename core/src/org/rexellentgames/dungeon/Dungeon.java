@@ -13,7 +13,9 @@ import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.Area;
@@ -283,21 +285,17 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 			Graphics.shape.circle(darkX, darkY, darkR);
 			Graphics.shape.end();
-		}
 
-		Graphics.batch.begin();
+			Graphics.batch.begin();
 
-		if (draw) {
 			Gdx.gl.glColorMask(true, true, true, true);
 			Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 			Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
-		}
 
-		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-		Graphics.batch.setColor(1, 1, 1, 1f);
-		Graphics.batch.end();
+			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.batch.setColor(1, 1, 1, 1f);
+			Graphics.batch.end();
 
-		if (draw) {
 			Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
 		}
 
@@ -320,45 +318,45 @@ public class Dungeon extends ApplicationAdapter {
 		if (Input.instance.wasPressed("mouse_left")) {
 			Log.info("left");
 		}
-/*
-		if (Player.instance != null && Input.instance.circle) {
-			float ix = Input.instance.getAxis("mouseX") * s;
-			float iy = -Input.instance.getAxis("mouseY") * s;
-
-			// fixme; doesnt work
-			if (Input.instance.isDown("mouse_left")) {
-				ix = Math.max(-1, ix - 1);
-			}
-
-			if (Input.instance.isDown("mouse_right")) {
-				ix = Math.min(1, ix + 1);
-			}
-
-			if (Input.instance.isDown("mouse_down")) {
-				iy = Math.max(-1, iy - 1);
-			}
-
-			if (Input.instance.isDown("mouse_up")) {
-				iy = Math.min(1, iy + 1);
-			}
-
-			if (ix != 0 || iy != 0) {
-				float a = (float) Math.atan2(iy, ix);
-				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
-			}
-
-			float d = 64f;
-
-			Vector3 input = Camera.instance.getCamera().project(new Vector3(
-				Player.instance.x + Player.instance.w / 2 + angle.x * d,
-				Player.instance.y + Player.instance.h / 2 + angle.y * d, 0
-			));
-
-			Input.instance.mouse.x = input.x;
-			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
-
-			return;
-		}*/
+//
+//		if (Player.instance != null && Input.instance.circle) {
+//			float ix = Input.instance.getAxis("mouseX") * s;
+//			float iy = -Input.instance.getAxis("mouseY") * s;
+//
+//			// fixme; doesnt work
+//			if (Input.instance.isDown("mouse_left")) {
+//				ix = Math.max(-1, ix - 1);
+//			}
+//
+//			if (Input.instance.isDown("mouse_right")) {
+//				ix = Math.min(1, ix + 1);
+//			}
+//
+//			if (Input.instance.isDown("mouse_down")) {
+//				iy = Math.max(-1, iy - 1);
+//			}
+//
+//			if (Input.instance.isDown("mouse_up")) {
+//				iy = Math.min(1, iy + 1);
+//			}
+//
+//			if (ix != 0 || iy != 0) {
+//				float a = (float) Math.atan2(iy, ix);
+//				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
+//			}
+//
+//			float d = 64f;
+//
+//			Vector3 input = Camera.instance.getCamera().project(new Vector3(
+//				Player.instance.x + Player.instance.w / 2 + angle.x * d,
+//				Player.instance.y + Player.instance.h / 2 + angle.y * d, 0
+//			));
+//
+//			Input.instance.mouse.x = input.x;
+//			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
+//
+//			return;
+//		}
 
 		inputVel.x += Input.instance.getAxis("mouseX") * s;
 		inputVel.y += Input.instance.getAxis("mouseY") * s;

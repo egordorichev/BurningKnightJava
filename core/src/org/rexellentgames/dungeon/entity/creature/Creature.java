@@ -318,7 +318,7 @@ public class Creature extends SaveableEntity {
 			hurt = true;
 		}
 
-		this.area.add(new HpFx(this, amount));
+		Dungeon.area.add(new HpFx(this, amount));
 
 		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);
 

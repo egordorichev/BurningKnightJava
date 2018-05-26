@@ -22,14 +22,14 @@ public class ModifierPool {
 	protected ArrayList<Modifier> classes = new ArrayList<>();
 	protected ArrayList<Float> chances = new ArrayList<>();
 
-	public Modifier generate() {
-		return classes.get(Random.chances(chances.toArray(new Float[0])));
-	}
-
 	protected void add(Modifier type, float chance) {
 		type.id = this.classes.size();
 
 		classes.add(type);
 		chances.add(chance);
+	}
+
+	public Modifier generate() {
+		return classes.get(Random.chances(chances.toArray(new Float[0])));
 	}
 }
