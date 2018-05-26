@@ -1,6 +1,15 @@
 package org.rexellentgames.dungeon.entity.creature.mob.prefix;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class MoreHealthPrefix extends Prefix {
+	private static Color color = Color.valueOf("#ac3232");
+
+	@Override
+	public Color getColor() {
+		return color;
+	}
+
 	@Override
 	public void onGenerate() {
 		super.onGenerate();

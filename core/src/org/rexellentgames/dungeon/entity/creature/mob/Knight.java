@@ -118,26 +118,6 @@ public class Knight extends Mob {
 
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
-
-		// Graphics.print(this.state, Graphics.small, this.x, this.y);
-
-		/*
-		if (this.ai.nextPathPoint != null) {
-			Graphics.batch.end();
-			Graphics.shape.setColor(1, 0, 1, 1);
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 16);
-			Graphics.shape.end();
-			Graphics.shape.setColor(1, 1, 1, 1);
-			Graphics.batch.begin();
-		}
-		if (this.ai.targetPoint != null) {
-			Graphics.batch.end();
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.targetPoint.x + 8, this.ai.targetPoint.y + 8);
-			Graphics.shape.end();
-			Graphics.batch.begin();
-		}*/
 	}
 
 	@Override

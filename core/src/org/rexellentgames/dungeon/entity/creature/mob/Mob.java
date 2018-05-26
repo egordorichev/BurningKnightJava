@@ -167,7 +167,6 @@ public class Mob extends Creature {
 			shaderOutline.end();
 			Graphics.batch.setShader(shaderOutline);
 			Graphics.batch.begin();
-			// Graphics.batch.draw(data.getCurrent().frame, x, y, width, height, width, height, 1f, 1f, 0);
 
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {

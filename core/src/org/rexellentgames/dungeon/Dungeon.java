@@ -406,6 +406,8 @@ public class Dungeon extends ApplicationAdapter {
 		LoadState.writeDepth();
 		Settings.save();
 		Log.close();
+
+		Mob.shaderOutline.dispose();
 	}
 
 	private void initInput() {

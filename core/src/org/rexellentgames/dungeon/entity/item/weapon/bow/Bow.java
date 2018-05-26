@@ -113,7 +113,6 @@ public class Bow extends WeaponBase {
 		float dy = aim.y - this.owner.y - this.owner.h / 2;
 		float a = (float) Math.toDegrees(Math.atan2(dy, dx));
 
-		this.applyColor();
-		Graphics.render(s, x + w / 2, y + h / 2, a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
+		this.renderAt(x + w / 2, y + h / 2, a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
 	}
 }

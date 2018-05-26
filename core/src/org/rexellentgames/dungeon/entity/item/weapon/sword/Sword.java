@@ -129,8 +129,7 @@ public class Sword extends Weapon {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, false);
 		}
 
-		this.applyColor();
-		Graphics.render(sprite, xx - (flipped ? sprite.getRegionWidth() : 0), yy,
+		this.renderAt(xx - (flipped ? sprite.getRegionWidth() : 0), yy,
 			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 
 		if (this.blockbox != null) {

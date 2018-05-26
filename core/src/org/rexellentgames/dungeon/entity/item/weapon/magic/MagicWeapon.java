@@ -39,8 +39,7 @@ public class MagicWeapon extends WeaponBase {
 
 		TextureRegion s = this.getSprite();
 
-		this.applyColor();
-		Graphics.render(s, x + w / 2, y + h / 4, (float) Math.toDegrees(a) - 90, s.getRegionWidth() / 2, 0, false, false);
+		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(a) - 90, s.getRegionWidth() / 2, 0, false, false);
 	}
 
 	@Override

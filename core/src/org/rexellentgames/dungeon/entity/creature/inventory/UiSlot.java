@@ -354,13 +354,14 @@ public class UiSlot {
 			}*/
 
 			if (item instanceof WeaponBase) {
-				((WeaponBase) item).applyColor();
+				((WeaponBase) item).renderAt(this.x + slot.getRegionWidth() / 2,
+					this.y + slot.getRegionHeight() / 2, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, this.scale);
 			} else {
 				Graphics.batch.setColor(1, 1, 1, item.a);
-			}
 
-			Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
-				this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+				Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
+					this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+			}
 
 			if (count != 1) {
 				Graphics.small.setColor(1, 1, 1, item.a);
