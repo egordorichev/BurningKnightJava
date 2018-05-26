@@ -75,7 +75,7 @@ public class RollingSpike extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.a += dt * -this.vel.x * 10;
+		this.a += dt * -(this.vel.x == 0 ? this.vel.y : this.vel.x) * 10;
 
 		x = body.getPosition().x;
 		y = body.getPosition().y;

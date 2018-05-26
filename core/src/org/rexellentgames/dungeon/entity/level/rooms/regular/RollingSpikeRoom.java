@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.trap.RollingSpike;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class RollingSpikeRoom extends RegularRoom {
@@ -12,18 +13,34 @@ public class RollingSpikeRoom extends RegularRoom {
 
 		int i = 0;
 
-		for (int y = this.top + 2; y < this.bottom - 2; y += 2) {
-			RollingSpike spike = new RollingSpike();
+		if (Random.chance(50)) {
+			for (int y = this.top + 2; y < this.bottom - 1; y += 2) {
+				RollingSpike spike = new RollingSpike();
 
-			spike.x = ((i % 2 == 0) ? this.left + 2 : this.right - 2) * 16;
-			spike.y = y * 16;
-			float s = 30f;
-			spike.vel = new Point(i % 2 == 0 ? s : -s, 0);
+				spike.x = ((i % 2 == 0) ? this.left + 2 : this.right - 2) * 16;
+				spike.y = y * 16;
+				float s = 30f;
+				spike.vel = new Point(i % 2 == 0 ? s : -s, 0);
 
-			Dungeon.area.add(spike);
-			Dungeon.level.addSaveable(spike);
+				Dungeon.area.add(spike);
+				Dungeon.level.addSaveable(spike);
 
-			i ++;
+				i++;
+			}
+		} else {
+			for (int x = this.left + 2; x < this.right - 1; x += 2) {
+				RollingSpike spike = new RollingSpike();
+
+				spike.y = ((i % 2 == 0) ? this.top + 2 : this.bottom - 2) * 16;
+				spike.x = x * 16;
+				float s = 30f;
+				spike.vel = new Point(0, i % 2 == 0 ? s : -s);
+
+				Dungeon.area.add(spike);
+				Dungeon.level.addSaveable(spike);
+
+				i++;
+			}
 		}
 	}
 }
