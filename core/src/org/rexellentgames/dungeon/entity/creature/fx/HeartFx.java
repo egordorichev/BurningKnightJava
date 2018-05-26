@@ -73,10 +73,11 @@ public class HeartFx extends SaveableEntity {
 		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 		float sx = 1f;
 
-		Graphics.startShadows();
-		Graphics.render(this.region, this.x + this.w / 2, this.y + this.h / 2 - 8, a, this.w / 2, this.h / 2, false, false, sx, sy);
-		Graphics.endShadows();
-
 		Graphics.render(this.region, this.x + this.w / 2, this.y + this.h / 2, a, this.w / 2, this.h / 2, false, false, sx, sy);
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h);
 	}
 }

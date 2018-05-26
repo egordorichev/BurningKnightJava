@@ -26,14 +26,11 @@ public class WeaponBase extends Item {
 
 	public void modifyDamage(int am) {
 		this.damage += am;
+		this.minDamage += am;
 	}
 
 	public void setModifier(Modifier modifier) {
 		this.modifier = modifier;
-	}
-
-	public Modifier getModifier() {
-		return this.modifier;
 	}
 
 	public void startRender() {

@@ -38,21 +38,6 @@ public class BombEntity extends Entity {
 		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 
-		for (Entity entity : Dungeon.area.getEntities()) {
-			if (entity instanceof Mob) {
-				Mob mob = (Mob) entity;
-
-				if (mob instanceof BurningKnight) {
-
-				} else {
-					if (this.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2) < 100f) {
-						mob.flee = 1.5f;
-						mob.become("fleeing");
-					}
-				}
-			}
-		}
-
 		this.playSfx("bomb_placed");
 	}
 

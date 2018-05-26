@@ -248,9 +248,18 @@ public class Graphics {
 	}
 
 	public static void shadow(float x, float y, float w, float h) {
+		shadow(x, y, w, h, 0);
+	}
+
+	public static void shadow(float x, float y, float w, float h, float z) {
 		startShadows();
 		Graphics.batch.end();
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+		w -= z;
+		h -= z;
+		x += z / 2;
+		y -= z / 2;
 
 		Graphics.shape.ellipse(x - 1, y - h / 4, w + 2, h / 2);
 

@@ -181,8 +181,6 @@ public class Clown extends Mob {
 				return new ChasingState();
 			case "attack":
 				return new AttackState();
-			case "fleeing":
-				return new FleeingState();
 			case "roam":
 				return new RoamState();
 			case "rangedAttack":
@@ -210,11 +208,6 @@ public class Clown extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-
-			if (self.target == null) {
-				self.become("fleeing");
-				return;
-			}
 
 			if (self.t >= DELAY) {
 				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
@@ -249,11 +242,6 @@ public class Clown extends Mob {
 			}
 
 			if (this.t >= 3f) {
-				if (self.mind == Mind.RAT || self.mind == Mind.COWARD) {
-					self.become("fleeing");
-					return;
-				}
-
 				self.become("chase");
 				// I know
 				if (Random.chance(75)) {
@@ -312,8 +300,6 @@ public class Clown extends Mob {
 			if (Random.chance(25)) {
 				self.guitar.use();
 			} else {
-				self.flee = 1.5f;
-				self.become("fleeing");
 				self.laughT = 3f;
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
@@ -324,42 +310,8 @@ public class Clown extends Mob {
 		@Override
 		public void update(float dt) {
 			if (self.guitar.getDelay() == 0) {
-				self.become(self.mind == Mind.COWARD || self.mind == Mind.RAT ? "fleeing" : "chase");
+				self.become("chase");
 			}
-		}
-	}
-
-	public class FleeingState extends ClownState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			if ((self.mind == Mind.DEFENDER && Random.chance(75)) || Random.chance(25)) {
-				self.guitar.secondUse();
-			}
-		}
-
-		@Override
-		public void update(float dt) {
-			if (self.guitar.getDelay() == 0 && ( self.mind == Mind.DEFENDER || self.mind == Mind.RAT)) {
-				self.guitar.secondUse();
-			}
-
-			this.findNearbyPoint();
-			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
-
-			if (this.targetPoint == null) {
-				self.become("idle");
-			} else if (this.moveTo(this.targetPoint, 6f, 10f)) {
-				self.flee = 0;
-				self.become(self.toLaugh ? "laugh" : "idle");
-				self.toLaugh = false;
-
-				return;
-			} else if (self.flee == 0f) {
-				self.become("idle");
-			}
-
-			super.update(dt);
 		}
 	}
 

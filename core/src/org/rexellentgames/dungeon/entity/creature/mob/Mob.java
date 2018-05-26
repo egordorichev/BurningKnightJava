@@ -1,15 +1,13 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
@@ -24,7 +22,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.pool.ModifierPool;
 import org.rexellentgames.dungeon.entity.pool.PrefixPool;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.ExpFx;
@@ -32,13 +29,11 @@ import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
-import org.rexellentgames.dungeon.util.path.Graph;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mob extends Creature {
-	public float flee;
 	public Point lastSeen;
 	public Creature target;
 	public static ArrayList<Mob> all = new ArrayList<>();
@@ -468,8 +463,6 @@ public class Mob extends Creature {
 
 	@Override
 	protected void onHurt(float a, Creature from) {
-		this.flee = 1f;
-
 		super.onHurt(a, from);
 
 		if (this.ai != null && !(this instanceof Boss)) {
@@ -519,35 +512,7 @@ public class Mob extends Creature {
 		public Point nextPathPoint;
 		public Point targetPoint;
 
-		public void checkForFlee() {
-			if (self.hasBuff(BurningBuff.class)) {
-				self.become("fleeing");
-				self.toWater = true;
-				self.saw = false;
-				self.target = null;
-
-				Level.heat = Math.max(0, Level.heat - 1);
-			} if (self.flee >= (self.mind == Mind.COWARD ? 0.5f : (self.mind == Mind.ATTACKER ? 1.5f : 1f))
-				|| self.saw && self.hp < (self.mind == Mind.COWARD ? self.hpMax / 3 * 2 : (self.mind == Mind.ATTACKER ? self.hpMax / 4 : self.hpMax / 3))) {
-
-				if (World.world.isLocked()) {
-					Log.error("World is locked!");
-
-					self.flee = 1.5f;
-				} else {
-					Level.heat = Math.max(0, Level.heat - 1);
-					self.saw = false;
-					self.flee = Math.max(self.flee, 1f);
-					self.target = null;
-
-
-					self.become("fleeing");
-				}
-			}
-		}
-
 		public void update(float dt) {
-			this.checkForFlee();
 			this.t += dt;
 		}
 
@@ -620,16 +585,13 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.state.equals("fleeing") && !self.saw && self.canSee(self.target)) {
-					Level.heat += 1f;
+				if (self.canSee(self.target)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {
 						self.hideSignT = 0f;
 						self.noticeSignT = 2f;
 					}
-
-					this.checkForFlee();
 
 					if (!self.state.equals("chase") && !self.state.equals("fleeing")) {
 						self.become("alerted");
@@ -646,7 +608,6 @@ public class Mob extends Creature {
 		}
 
 		public Room currentRoom;
-		public Point water;
 		public Room target;
 
 		public void findCurrentRoom() {

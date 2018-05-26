@@ -65,10 +65,5 @@ public class Boss extends Mob {
 				}
 			}
 		}
-
-		@Override
-		public void checkForFlee() {
-
-		}
 	}
 }

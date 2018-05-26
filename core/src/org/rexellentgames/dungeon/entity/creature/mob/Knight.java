@@ -169,7 +169,6 @@ public class Knight extends Mob {
 			case "alerted": return new AlertedState();
 			case "chase": return new ChaseState();
 			case "attack": return new AttackingState();
-			case "fleeing": return new FleeingState();
 			case "roam": return new RoamState();
 			case "dash": return new DashState();
 		}
@@ -198,39 +197,6 @@ public class Knight extends Mob {
 			}
 
 			this.checkForPlayer();
-			super.update(dt);
-		}
-	}
-
-	public class FleeingState extends KnightState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			if ((self.mind == Mind.DEFENDER && Random.chance(75)) || Random.chance(25)) {
-				self.sword.secondUse();
-			}
-		}
-
-		@Override
-		public void update(float dt) {
-			if (self.sword.getDelay() == 0 && ( self.mind == Mind.DEFENDER || self.mind == Mind.RAT)) {
-				self.sword.secondUse();
-			}
-
-			this.findNearbyPoint();
-			self.flee = Math.max(0, self.flee - (self.mind == Mind.ATTACKER ? 0.03f : 0.01f));
-
-			if (this.targetPoint == null) {
-				self.become("idle");
-			} else if (this.moveTo(this.targetPoint, 6f, 8f)) {
-				self.flee = 0;
-				self.become("idle");
-				return;
-			} else if (self.flee <= 0.3f) {
-				self.flee = 0;
-				self.become("idle");
-			}
-
 			super.update(dt);
 		}
 	}
@@ -353,7 +319,7 @@ public class Knight extends Mob {
 		@Override
 		public void update(float dt) {
 			if (self.sword.getDelay() == 0) {
-				self.become(self.mind == Mind.RAT ? "fleeing" : "chase");
+				self.become("chase");
 				this.checkForPlayer();
 				return;
 			}

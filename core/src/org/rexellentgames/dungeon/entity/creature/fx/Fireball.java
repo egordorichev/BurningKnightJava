@@ -106,7 +106,7 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 			return;
 		}
 
-		if (entity instanceof Mob && !((Mob) entity).isDead()) {
+		if (entity instanceof Mob && !((Mob) entity).isDead() && !this.bad) {
 			((Mob) entity).modifyHp(Math.round(Random.newFloatDice(this.noMove ? -1 : -1, this.noMove ? -1 : -2)), this.owner, true);
 			this.animation = this.dead;
 			this.playSfx("fireball_death");

@@ -10,6 +10,8 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.key.Key;
+import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -100,47 +102,11 @@ public class ItemHolder extends SaveableEntity {
 			this.x = Math.round(this.x);
 			this.y = Math.round(this.y);
 
-			this.z += Math.cos(this.t * 4f) / 10f * (this.sz / 2);
+			this.z += Math.cos(this.t * 1.7f) / 5f * (this.sz / 2);
 
 			this.z = MathUtils.clamp(0, 5f, this.z);
 
 			this.body.setTransform(this.x, this.y + this.z, 0);
-		}
-
-		if (Dungeon.level != null && !this.falling) {
-			boolean onGround = false;
-
-			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
-				for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
-					if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
-						continue;
-					}
-
-					short t = Dungeon.level.get(x, y);
-
-					if (!Dungeon.level.checkFor(x, y, Terrain.HOLE)) {
-						onGround = true;
-					}
-
-					this.onTouch(t, x, y);
-				}
-			}
-
-			if (!(Dungeon.game.getState() instanceof LoadState) && !this.falling && !onGround) {
-				if (this.item.isFlying()) {
-					float dx = Player.instance.x + Player.instance.w / 2 - this.x - this.hw / 2;
-					float dy = Player.instance.y + Player.instance.h / 2 - this.y - this.hh / 2;
-					float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-					if (d > 3) {
-						this.vel.x += dx / d * 10f;
-						this.vel.y += dy / d * 10f;
-					}
-				} else {
-					this.falling = true;
-					this.t = 0;
-				}
-			}
 		}
 
 		if (this.item instanceof Lamp) {
@@ -180,34 +146,18 @@ public class ItemHolder extends SaveableEntity {
 
 	@Override
 	public void render() {
-		if (this.falling) {
-			TextureRegion sprite = this.item.getSprite();
+		TextureRegion sprite = this.item.getSprite();
 
-			float s = 1 - this.t / 2;
+		int w = sprite.getRegionWidth();
+		int h = sprite.getRegionHeight();
 
-			if (s <= 0) {
-				this.done = true;
-				Dungeon.level.removePlayerSaveable(this);
-				Dungeon.level.droppedToChasm.add(this.item);
+		float a = (float) Math.cos(this.t * 3f) * 8f * sz;
+		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
-				Log.info("Dropped item to the options floor");
-
-				return;
-			}
-
-			Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 8f,
-				this.t * 360, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2,
-				false, false, s, s);
-			Graphics.batch.setColor(1, 1, 1, 1);
+		if (this.item instanceof WeaponBase) {
+			((WeaponBase) this.item).renderAt(this.x + w / 2, this.y + this.z + h / 2, a,
+				w / 2, h / 2, false, false, 1f, sy);
 		} else {
-			TextureRegion sprite = this.item.getSprite();
-
-			int w = sprite.getRegionWidth();
-			int h = sprite.getRegionHeight();
-
-			float a = (float) Math.cos(this.t * 3f) * 8f * sz;
-			float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
-
 			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
 				w / 2, h / 2, false, false, 1f, sy);
 		}
@@ -215,7 +165,7 @@ public class ItemHolder extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.hw, this.hh);
+		Graphics.shadow(this.x, this.y, this.hw, this.hh, this.z);
 	}
 
 	private float sz = 1f;
