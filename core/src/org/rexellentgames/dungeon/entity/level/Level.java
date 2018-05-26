@@ -49,6 +49,7 @@ import java.util.Arrays;
 
 public abstract class Level extends Entity {
 	public static final boolean RENDER_ROOM_DEBUG = false;
+	public static final boolean RENDER_PASSABLE = false;
 	public static boolean SHADOWS = true;
 
 	public static float LIGHT_R = 34f / 255f;
@@ -510,14 +511,16 @@ public abstract class Level extends Entity {
 
 				// useful passable debug
 
-				/*if (this.passable[i]) {
-					Graphics.batch.end();
-					Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
-					Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
-					Graphics.shape.rect(x * 16 + 1, y * 16 + 1, 16 - 2, 16 - 2);
-					Graphics.shape.end();
-					Graphics.batch.begin();
-				}*/
+				if (RENDER_PASSABLE) {
+					if (this.passable[i]) {
+						Graphics.batch.end();
+						Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+						Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
+						Graphics.shape.rect(x * 16 + 1, y * 16 + 1 - 8, 16 - 2, 16 - 2);
+						Graphics.shape.end();
+						Graphics.batch.begin();
+					}
+				}
 			}
 		}
 

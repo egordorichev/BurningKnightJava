@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -70,14 +71,14 @@ public class Table extends SolidProp {
 					count += 8;
 				}
 
-				if (y == 0) {
-					Graphics.startShadows();
-					Graphics.render(Terrain.tableVariants[count], this.x + x * 16, this.y + y * 16 - 8 + 0.3f, 0, 0, 0, false, false, 1, -1);
-					Graphics.endShadows();
-				}
-
-				Graphics.render(Terrain.tableVariants[count], this.x + x * 16, this.y + y * 16 - 8);
+				TextureRegion sprite = Terrain.tableVariants[count];
+				Graphics.render(sprite, this.x + x * 16 + (16 - sprite.getRegionWidth()) / 2, this.y + y * 16 - 8 + (16 - sprite.getRegionHeight()) / 2);
 			}
 		}
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y - this.h / 4, this.w, this.h);
 	}
 }
