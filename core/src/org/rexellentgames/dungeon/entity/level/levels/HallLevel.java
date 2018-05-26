@@ -40,7 +40,7 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	protected int getNumRegularRooms() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt((int) (Dungeon.depth * 1.4f + 2f), (int) (Dungeon.depth * 3.5f + 3));
+		return Dungeon.depth == 0 ? 0 : Random.newInt((int) (Dungeon.depth * 1.4f + 2f), (int) (Dungeon.depth * 2.5f + 3));
 	}
 
 	@Override

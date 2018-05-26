@@ -166,6 +166,10 @@ public class Weapon extends WeaponBase {
 		builder.append(this.damage);
 		builder.append(" damage[gray]");
 
+		if (this.modifier != null) {
+			this.modifier.apply(builder);
+		}
+
 		if (this.penetrates) {
 			builder.append("\n[green]Can hit multiple targets[gray]");
 		}

@@ -36,4 +36,8 @@ public class Modifier {
 	public int modDamage(int damage) {
 		return damage;
 	}
+
+	public void apply(StringBuilder builder) {
+		builder.append("\n\n");
+	}
 }
