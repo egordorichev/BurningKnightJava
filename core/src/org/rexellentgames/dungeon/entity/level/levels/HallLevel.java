@@ -1,11 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.mob.Clown;
-import org.rexellentgames.dungeon.entity.creature.mob.Knight;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
@@ -16,46 +11,11 @@ import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Random;
 
-import java.util.ArrayList;
-
 public class HallLevel extends RegularLevel {
 	public HallLevel() {
 		Terrain.loadTextures(0);
 
 		this.addLight = Dungeon.depth == 0;
-	}
-
-	@Override
-	protected ArrayList<Creature> generateCreatures() {
-		ArrayList<Creature> creatures = super.generateCreatures();
-		ArrayList<Class<? extends Mob>> spawns = new ArrayList<>();
-
-		int count = Random.newInt(2, 5);
-
-		if (Dungeon.depth > 1) {
-			spawns.add(Knight.class);
-			spawns.add(RangedKnight.class);
-		}
-
-		if (Dungeon.depth > 2) {
-			spawns.add(Clown.class);
-		}
-
-		if (spawns.size() == 0) {
-			return creatures;
-		}
-
-		for (int i = 0; i < count; i++) {
-			try {
-				creatures.add(spawns.get(Random.newInt(spawns.size())).newInstance().generate());
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return creatures;
 	}
 
 	@Override
@@ -80,7 +40,7 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	protected int getNumRegularRooms() {
-		return Random.newInt((int) (Dungeon.depth * 1.4f + 2f), (int) (Dungeon.depth * 3.5f + 3));
+		return Dungeon.depth == 0 ? 0 : Random.newInt((int) (Dungeon.depth * 1.4f + 2f), (int) (Dungeon.depth * 3.5f + 3));
 	}
 
 	@Override

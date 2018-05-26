@@ -2,12 +2,10 @@ package org.rexellentgames.dungeon.entity.item.weapon.dagger;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.util.path.Graph;
 
 public class Dagger extends Sword {
 	{
@@ -55,9 +53,6 @@ public class Dagger extends Sword {
 
 		float xx = (float) (x + w / 2 + (flipped ? -w / 4 : w / 4) + Math.cos(a + Math.PI / 2) * an);
 		float yy = (float) (y + (this.ox == 0 ? h / 4 : h / 2) + Math.sin(a + Math.PI / 2) * an);
-
-		float xx2 = (float) (x + w / 2 + (flipped ? -w / 4 : w / 4) + Math.cos(-a - Math.PI / 2) * an);
-		float yy2 = (float) (y + (this.ox == 0 ? h / 4 : h / 2) + Math.sin(-a - Math.PI / 2) * an);
 
 		if (!this.animation.isPaused() && !this.owner.isDead()) {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, angle + 90, false);

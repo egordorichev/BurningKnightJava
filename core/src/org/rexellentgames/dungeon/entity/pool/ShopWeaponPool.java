@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.pool;
+package org.rexellentgames.dungeon.entity.pool;
 
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -13,7 +13,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowB;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowC;
-import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;

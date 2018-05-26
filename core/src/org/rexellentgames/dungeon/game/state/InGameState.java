@@ -112,19 +112,7 @@ public class InGameState extends State {
 			if (Boss.all.size() > 1) {
 				MusicManager.play("Rogue");
 			} else {
-				boolean found = false;
-
-				for (Mob mob : Mob.every) {
-					if (mob.onScreen) {
-						MusicManager.play("Born to do rogueries");
-						found = true;
-						break;
-					}
-				}
-
-				if (!found) {
-					MusicManager.play("Gobbeon");
-				}
+				MusicManager.play("Born to do rogueries");
 			}
 		}
 

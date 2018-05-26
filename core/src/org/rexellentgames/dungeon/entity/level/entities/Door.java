@@ -21,6 +21,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -87,39 +88,12 @@ public class Door extends SaveableEntity {
 			}
 		}
 
-		boolean last = this.lock;
-
-		if (this.autoLock) {
-			this.lock = false;
-
-			for (int i = 0; i < 2; i++) {
-				if (this.rooms[i] instanceof ExitRoom && Mob.all.size() > 0) {
-					this.lock = true;
-					break;
-				} else if (Player.instance != null && this.rooms[i] != null && this.rooms[i] == Player.instance.currentRoom) {
-					if (Player.instance.currentRoom instanceof LampRoom
-						&& !Player.instance.getInventory().find(Lamp.class)) {
-
-						this.lock = true;
-						break;
-					} else if (Player.instance.currentRoom instanceof FightRoom
-						&& Player.instance.currentRoom.numEnemies > 0) {
-
-						this.lock = true;
-						break;
-					}
-				}
-			}
-		}
-
 		super.update(dt);
 
 		if (this.animation.update(dt)) {
 			if (this.animation.getFrame() == 2) {
-				if (!this.autoLock || this.lock) {
-					this.animation.setBack(true);
-					this.animation.setPaused(false);
-				}
+				this.animation.setBack(true);
+				this.animation.setPaused(false);
 			}
 		}
 
@@ -132,20 +106,6 @@ public class Door extends SaveableEntity {
 					this.lockAnim = this.locked;
 				}
 			}
-		}
-
-		if (this.lock && this.lockAnim == null) {
-			this.lockAnim = this.lk;
-		}
-
-		if (this.lock && !last) {
-			this.lockAnim = this.lk;
-			this.animation.setBack(true);
-			this.animation.setPaused(false);
-		} else if (!this.lock && last) {
-			this.animation.setBack(false);
-			this.animation.setPaused(false);
-			this.lockAnim = this.unlock;
 		}
 	}
 
@@ -204,6 +164,47 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
+		if (this.lock && this.lockAnim == null) {
+			this.lockAnim = this.lk;
+		}
+
+
+		boolean last = this.lock;
+
+		if (this.autoLock) {
+			this.lock = false;
+
+			for (int i = 0; i < 2; i++) {
+				/*if (this.rooms[i] instanceof ExitRoom && Mob.all.size() > 0) {
+					this.lock = true;
+					break;
+				} else */
+
+				if (Player.instance != null && this.rooms[i] == Player.instance.currentRoom) {
+					if (Player.instance.currentRoom instanceof LampRoom
+						&& !Player.instance.getInventory().find(Lamp.class)) {
+
+						this.lock = true;
+						break;
+					} else if (Player.instance.currentRoom.numEnemies > 0) {
+						this.lock = true;
+						break;
+					}
+				}
+			}
+		}
+
+
+		if (this.lock && !last) {
+			this.lockAnim = this.lk;
+			this.animation.setBack(true);
+			this.animation.setPaused(false);
+		} else if (!this.lock && last) {
+			//this.animation.setBack(false);
+			//this.animation.setPaused(false);
+			this.lockAnim = this.unlock;
+		}
+
 		this.animation.render(this.x, this.y, false, false);
 
 		if (this.lockAnim != null) {

@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
@@ -97,6 +99,10 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if (b instanceof Slab && a instanceof ItemHolder) {
 			contact.setEnabled(false);
 			((ItemHolder) a).depth = 1;
+		} else if ((a instanceof Bomb) && (b instanceof Mob)) {
+			contact.setEnabled(false);
+		} else if ((b instanceof Bomb) && (a instanceof Mob)) {
+			contact.setEnabled(false);
 		}
 	}
 

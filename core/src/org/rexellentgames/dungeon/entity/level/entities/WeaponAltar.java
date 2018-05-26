@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.pool.ModifierPool;
+import org.rexellentgames.dungeon.entity.pool.ModifierPool;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.entities.fx.WellFx;
 import org.rexellentgames.dungeon.ui.UiLog;

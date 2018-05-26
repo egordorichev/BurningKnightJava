@@ -9,9 +9,11 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.InvisibilityPotion;
+import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunB;
+import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStar;
@@ -337,7 +339,7 @@ public class Player extends Creature {
 	public void destroy() {
 		super.destroy();
 
-		if (!this.ui.done) {
+		if (this.ui != null && !this.ui.done) {
 			this.ui.destroy();
 			this.ui = null;
 		}

@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -128,7 +129,17 @@ public class Weapon extends WeaponBase {
 			this.used = true;
 			this.onHit(creature);
 
-			creature.modifyHp(-Math.max(creature.getDefense() + 1, Math.round(Random.newFloatDice(this.minDamage, this.damage))), this.owner);
+			int damage = -Math.max(creature.getDefense() + 1, Math.round(Random.newFloatDice(this.minDamage, this.damage)));
+
+			if (this.modifier != null) {
+				damage = this.modifier.modDamage(damage);
+			}
+
+			creature.modifyHp(damage, this.owner);
+
+			if (this.modifier != null) {
+				this.modifier.onHit((Player) this.owner, creature, damage);
+			}
 		} else if (entity instanceof Weapon) {
 			if (this.isBlocking()) {
 				Weapon weapon = ((Weapon) entity);

@@ -1,7 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.entities.chest;
 
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.pool.WoodenChestPool;
+import org.rexellentgames.dungeon.entity.pool.WoodenChestPool;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 

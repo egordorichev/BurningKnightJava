@@ -20,7 +20,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -38,8 +38,6 @@ import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
-import org.rexellentgames.dungeon.util.geometry.Rect;
-import org.rexellentgames.dungeon.util.path.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -460,6 +458,10 @@ public abstract class Level extends Entity {
 	}
 
 	public void renderSolid() {
+		for (Room room : this.rooms) {
+			room.numEnemies = 0;
+		}
+
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;
@@ -528,17 +530,8 @@ public abstract class Level extends Entity {
 			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 			for (Room room : this.rooms) {
-				Graphics.shape.setColor(1, 1, 1, 0.1f);
+				Graphics.shape.setColor(1, room == Player.instance.currentRoom ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, 0.1f);
 				Graphics.shape.rect(room.left * 16 + 8, room.top * 16 + 8, room.getWidth() * 16 - 16, room.getHeight() * 16 - 16);
-
-				for (Room o : room.getConnected().keySet()) {
-					if (o != room) {
-						Rect i = o.intersect(room);
-
-						Graphics.shape.setColor(1, 0, 1, 0.1f);
-						Graphics.shape.rect(i.left * 16, i.top * 16, i.getWidth() * 16 + 16, i.getHeight() * 16 + 16);
-					}
-				}
 			}
 
 			Graphics.shape.end();
@@ -549,10 +542,6 @@ public abstract class Level extends Entity {
 
 	@Override
 	public void render() {
-		for (Room room : this.rooms) {
-			room.numEnemies = 0;
-		}
-
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;
@@ -609,12 +598,15 @@ public abstract class Level extends Entity {
 		}
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
 				if (tile == Terrain.WATER) {
 					byte variant = this.variants[i];
+
+					Graphics.batch.end();
+					Graphics.batch.begin();
 
 					if (variant != 15) {
 						Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -639,6 +631,9 @@ public abstract class Level extends Entity {
 					Graphics.batch.flush();
 
 					Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+					
+					Graphics.batch.end();
+					Graphics.batch.begin();
 
 					if (variant != 15) {
 						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
@@ -1208,24 +1203,6 @@ public abstract class Level extends Entity {
 		}
 
 		return null;
-	}
-
-	public void spawnCreatures() {
-		ArrayList<Creature> creatures = this.generateCreatures();
-
-		for (Creature creature : creatures) {
-			Point point = null;
-
-			while (point == null) {
-				point = this.getRandomFreePoint(RegularRoom.class);
-			}
-
-			creature.x = point.x * 16;
-			creature.y = point.y * 16;
-
-			this.addSaveable(creature);
-			this.area.add(creature);
-		}
 	}
 
 	public void loadDropped() {

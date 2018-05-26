@@ -33,6 +33,11 @@ public class Clown extends Mob {
 	private float laughT = 3f;
 	private Guitar guitar;
 
+	@Override
+	public float getWeight() {
+		return 0.7f;
+	}
+
 	{
 		hpMax = 3;
 		hide = true;

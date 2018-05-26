@@ -51,7 +51,6 @@ public class Mob extends Creature {
 	protected boolean hide;
 	protected boolean guard;
 	protected Room start;
-	protected boolean hasKey;
 
 	private static TextureRegion hideSign;
 	private static TextureRegion noticeSign;
@@ -142,7 +141,6 @@ public class Mob extends Creature {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.mind = Mind.values()[reader.readByte()];
-		this.hasKey = reader.readBoolean();
 	}
 
 	protected boolean ignoreRooms;
@@ -151,11 +149,6 @@ public class Mob extends Creature {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeByte(this.mind.getId());
-		writer.writeBoolean(this.hasKey);
-	}
-
-	public void giveKey() {
-		this.hasKey = true;
 	}
 
 	public boolean canSee(Creature player) {
@@ -192,6 +185,10 @@ public class Mob extends Creature {
 	}
 
 	public Room room;
+
+	public float getWeight() {
+		return 1;
+	}
 
 	@Override
 	public void update(float dt) {
@@ -301,18 +298,6 @@ public class Mob extends Creature {
 
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = new ArrayList<Item>();
-
-		if (Random.chance(10)) {
-			items.add(new HealingPotion());
-		}
-
-		if (Random.chance(5)) {
-			items.add(new SunPotion());
-		}
-
-		if (this.hasKey) {
-			items.add(new KeyC());
-		}
 
 		Gold gold = new Gold();
 
@@ -612,7 +597,7 @@ public class Mob extends Creature {
 			this.findCurrentRoom();
 
 			if (this.currentRoom != null) {
-				if (this.currentRoom instanceof FightRoom) {
+				if (true) {
 					this.target = this.currentRoom;
 				} else {
 					for (int i = 0; i < 10; i++) {

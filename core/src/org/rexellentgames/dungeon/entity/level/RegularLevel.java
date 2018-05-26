@@ -2,12 +2,14 @@ package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
+import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
@@ -16,6 +18,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntran
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
+import org.rexellentgames.dungeon.entity.pool.MobPool;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -54,7 +57,35 @@ public abstract class RegularLevel extends Level {
 
 	protected void spawnLevelEntities() {
 		this.free = new boolean[this.getSIZE()];
-		this.spawnCreatures();
+
+		if (Dungeon.depth > 0) {
+			MobPool.instance.initForFloor();
+
+			for (Room room : this.rooms) {
+				if (room instanceof RegularRoom && !(room instanceof ExitRoom || room instanceof EntranceRoom)) {
+					float weight = Random.newFloat(1f, 2f);
+
+					while (weight > 0) {
+						Mob mob = MobPool.instance.generate();
+						weight -= mob.getWeight();
+
+						Point point;
+
+						do {
+							point = room.getRandomCell();
+						} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
+
+						mob.generate();
+
+						Dungeon.area.add(mob);
+						Dungeon.level.addSaveable(mob);
+
+
+						mob.tp(point.x * 16, point.y * 16);
+					}
+				}
+			}
+		}
 
 		for (Item item : this.itemsToSpawn) {
 			Point point = null;

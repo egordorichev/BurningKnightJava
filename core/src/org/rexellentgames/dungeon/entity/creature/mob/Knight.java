@@ -40,7 +40,7 @@ public class Knight extends Mob {
 	private AnimationData animation;
 
 	{
-		hpMax = 10;
+		hpMax = 3;
 		speed = 5;
 		guard = true;
 
@@ -188,11 +188,8 @@ public class Knight extends Mob {
 	protected State getAi(String state) {
 		switch (state) {
 			case "idle": return new IdleState();
-			case "toRelax": return new ToRelaxState();
-			case "relax": return new RelaxState();
 			case "alerted": return new AlertedState();
 			case "chase": return new ChaseState();
-			case "tired": return new TiredState();
 			case "attack": return new AttackingState();
 			case "fleeing": return new FleeingState();
 			case "roam": return new RoamState();
@@ -203,27 +200,7 @@ public class Knight extends Mob {
 	}
 
 	public class KnightState extends State<Knight> {
-		public void checkForSpa() {
-			if (self.flee > 0.5f) {
-				return;
-			}
 
-			this.findCurrentRoom();
-
-			if (this.currentRoom == null || this.currentRoom == self.lastRoom) {
-				return;
-			}
-
-			for (int i = 0; i < this.currentRoom.getWidth() * this.currentRoom.getHeight(); i++) {
-				Point point = this.currentRoom.getRandomCell();
-
-				if (Dungeon.level.get((int) point.x, (int) point.y) == Terrain.WATER) {
-					self.become("toRelax");
-					((KnightState) self.ai).water = new Point(point.x * 16, point.y * 16);
-					this.targetPoint = ((KnightState) self.ai).water;
-				}
-			}
-		}
 	}
 
 	public class IdleState extends KnightState {
@@ -233,49 +210,6 @@ public class Knight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 			this.delay = Random.newFloat(5f, 10f);
-		}
-
-		@Override
-		public void update(float dt) {
-			if (this.t >= this.delay) {
-				self.become("roam");
-				this.checkForSpa();
-				return;
-			}
-
-			this.checkForPlayer();
-			super.update(dt);
-		}
-	}
-
-	public class ToRelaxState extends KnightState {
-		@Override
-		public void update(float dt) {
-			if (this.water == null) {
-				self.become("roam");
-				return;
-			}
-
-			if (this.moveTo(this.water, 2f, 16f)) {
-				self.become("relax");
-				this.findCurrentRoom();
-				self.lastRoom = this.currentRoom;
-
-				return;
-			}
-
-			this.checkForPlayer();
-			super.update(dt);
-		}
-	}
-
-	public class RelaxState extends KnightState {
-		public float delay;
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			this.delay = Random.newFloat(20f, 40f);
 		}
 
 		@Override
@@ -332,8 +266,6 @@ public class Knight extends Mob {
 
 		@Override
 		public void update(float dt) {
-			this.checkForSpa();
-
 			if (this.targetPoint != null && this.moveTo(this.targetPoint, 2.5f, 8f)) {
 				self.become("idle");
 				return;
@@ -427,32 +359,6 @@ public class Knight extends Mob {
 						}
 					}
 				}
-			}
-
-			if (this.t >= this.delay) {
-				self.become("tired");
-				return;
-			}
-
-			super.update(dt);
-		}
-	}
-
-	public class TiredState extends KnightState {
-		public float delay;
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			this.delay = Random.newFloat(2f, 5f);
-		}
-
-		@Override
-		public void update(float dt) {
-			if (this.t >= this.delay) {
-				this.checkForPlayer();
-				self.become("chase");
-				return;
 			}
 
 			super.update(dt);

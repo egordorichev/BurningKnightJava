@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item.weapon.modifier;
 
 import com.badlogic.gdx.graphics.Color;
+import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 
 public class Modifier {
@@ -25,5 +27,13 @@ public class Modifier {
 
 	public void remove(WeaponBase weapon) {
 		weapon.setModifier(null);
+	}
+
+	public void onHit(Player owner, Creature creature, int damage) {
+
+	}
+
+	public int modDamage(int damage) {
+		return damage;
 	}
 }

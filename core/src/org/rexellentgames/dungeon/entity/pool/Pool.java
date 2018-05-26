@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.pool;
+package org.rexellentgames.dungeon.entity.pool;
 
 import org.rexellentgames.dungeon.util.Random;
 
@@ -25,5 +25,10 @@ public class Pool<T> {
 	protected void add(Class<? extends T> type, float chance) {
 		classes.add(type);
 		chances.add(chance);
+	}
+
+	public void clear() {
+		classes.clear();
+		chances.clear();
 	}
 }

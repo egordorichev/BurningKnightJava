@@ -181,17 +181,16 @@ public class Chest extends SaveableEntity {
 		TextureRegion sprite = this.data.getCurrent().frame;
 
 		int w = sprite.getRegionWidth();
-		int h = sprite.getRegionHeight();
 
-		float a = 0;
 		float sx = 1f;
 		float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
+		Graphics.render(sprite, this.x + w / 2, this.y, 0,
+			w / 2, 0, false, false, sx, sy);
+	}
 
-		Graphics.startShadows();
-		Graphics.render(sprite, this.x + w / 2, this.y - h / 2 + 1.5f, a, w / 2, h / 2, false, false, sx, -sy);
-		Graphics.endShadows();
-		Graphics.render(sprite, this.x + w / 2, this.y + h / 2, a,
-			w / 2, h / 2, false, false, sx, sy);
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x + this.data.getCurrent().frame.getRegionWidth() / 2, this.y, this.w, this.h);
 	}
 
 	protected AnimationData getClosedAnim() {

@@ -1,7 +1,6 @@
-package org.rexellentgames.dungeon.entity.item.pool;
+package org.rexellentgames.dungeon.entity.pool;
 
-import com.badlogic.gdx.graphics.Color;
-import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
+import org.rexellentgames.dungeon.entity.item.weapon.modifier.*;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -10,12 +9,10 @@ public class ModifierPool {
 	public static ModifierPool instance = new ModifierPool();
 
 	public ModifierPool() {
-		add(new Modifier("Blazing") {
-			@Override
-			public Color getColor() {
-				return new Color(1, 0, 0, 0);
-			}
-		}, 1f);
+		add(new FastModifier(), 1f);
+		add(new SlowModifier(), 1f);
+		add(new StrongModifier(), 1f);
+		add(new BrokenModifier(), 1f);
 	}
 
 	public Modifier getModifier(int id) {

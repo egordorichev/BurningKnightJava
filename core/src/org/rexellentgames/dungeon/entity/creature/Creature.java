@@ -456,6 +456,13 @@ public class Creature extends SaveableEntity {
 		return this.body;
 	}
 
+	public void knockBack(Entity from, float force) {
+		float a = from.getAngleTo(this.x + this.w / 2, this.y + this.h / 2);
+
+		this.vel.x += Math.cos(a) * force;
+		this.vel.y += Math.sin(a) * force;
+	}
+
 	protected boolean canHaveBuff(Buff buff) {
 		return true;
 	}

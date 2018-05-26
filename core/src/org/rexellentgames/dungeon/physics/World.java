@@ -149,6 +149,36 @@ public class World {
 		return createCircleCentredBody(owner, x, y, r, type, false);
 	}
 
+	public static Body createCircleBody(Entity owner, float x, float y, float r, BodyDef.BodyType type, boolean sensor) {
+		Log.physics("Creating circle centred body for " + owner.getClass().getSimpleName() + " with params (" + x + ", " + y + ", " + r + ") and sensor = " + sensor);
+
+		if (world.isLocked()) {
+			Log.physics("World is locked! Failed to create body");
+			return null;
+		}
+
+		BodyDef def = new BodyDef();
+		def.type = type;
+
+		Body body = world.createBody(def);
+		CircleShape poly = new CircleShape();
+		poly.setPosition(new Vector2(r, r));
+
+		poly.setRadius(r);
+
+		FixtureDef fixture = new FixtureDef();
+
+		fixture.shape = poly;
+		fixture.friction = 0;
+		fixture.isSensor = sensor;
+
+		body.createFixture(fixture);
+		body.setUserData(owner);
+		poly.dispose();
+
+		return body;
+	}
+
 	public static Body createCircleCentredBody(Entity owner, float x, float y, float r, BodyDef.BodyType type, boolean sensor) {
 		Log.physics("Creating circle centred body for " + owner.getClass().getSimpleName() + " with params (" + x + ", " + y + ", " + r + ") and sensor = " + sensor);
 

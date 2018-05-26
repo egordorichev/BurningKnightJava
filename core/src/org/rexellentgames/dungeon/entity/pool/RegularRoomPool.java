@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.pool;
+package org.rexellentgames.dungeon.entity.pool;
 
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 
@@ -21,5 +21,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(LineRoom.class, 1);
 		add(CollumnRoom.class, 1);
 		add(CollumnsRoom.class, 1);
+		add(RollingSpikeRoom.class, 100);
 	}
 }

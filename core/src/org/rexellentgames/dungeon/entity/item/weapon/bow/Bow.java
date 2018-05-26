@@ -11,7 +11,6 @@ import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Bow extends WeaponBase {
-	protected int damage;
 	private float sx = 1f;
 	private float sy = 1f;
 

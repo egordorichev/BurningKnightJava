@@ -3,7 +3,7 @@ package org.rexellentgames.dungeon.entity.item.weapon;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.pool.ModifierPool;
+import org.rexellentgames.dungeon.entity.pool.ModifierPool;
 import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -19,6 +19,10 @@ public class WeaponBase extends Item {
 
 	public void modifyUseTime(float am) {
 		this.useTime += am;
+	}
+
+	public void modifyDamage(int am) {
+		this.damage += am;
 	}
 
 	public void setModifier(Modifier modifier) {
@@ -52,7 +56,7 @@ public class WeaponBase extends Item {
 	public void generate() {
 		super.generate();
 
-		if (Random.chance(10)) {
+		if (Random.chance(50)) {
 			this.setModifier(ModifierPool.instance.generate());
 		}
 	}

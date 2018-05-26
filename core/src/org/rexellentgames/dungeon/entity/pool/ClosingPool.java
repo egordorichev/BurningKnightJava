@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.item.pool;
+package org.rexellentgames.dungeon.entity.pool;
 
 import org.rexellentgames.dungeon.util.Random;
 

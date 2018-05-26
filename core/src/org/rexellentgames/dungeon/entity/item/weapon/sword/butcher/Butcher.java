@@ -5,9 +5,9 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 public class Butcher extends Sword {
 	{
 		maxAngle = 240;
-		timeA = 0.35f;
-		timeB = 0.55f;
-		useTime = 0.7f;
+		timeA = 0.15f;
+		timeB = 0.25f;
+		useTime = 0.4f;
 		penetrates = true;
 	}
 }
