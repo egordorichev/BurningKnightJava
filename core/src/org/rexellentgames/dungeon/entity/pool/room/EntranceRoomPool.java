@@ -11,6 +11,6 @@ public class EntranceRoomPool extends Pool<EntranceRoom> {
 	public EntranceRoomPool() {
 		add(EntranceRoom.class, 1f);
 		add(MazeEntranceRoom.class, 1f);
-		add(CircleEntranceRoom.class, 100f);
+		add(CircleEntranceRoom.class, 1f);
 	}
 }

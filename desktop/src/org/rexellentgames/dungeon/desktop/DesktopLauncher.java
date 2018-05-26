@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import org.rexellentgames.dungeon.*;
 import org.rexellentgames.dungeon.util.DesktopSplashWorker;
+import org.rexellentgames.dungeon.util.Random;
 
 public class DesktopLauncher {
 	private static final int SCALE = 2;
@@ -64,7 +65,7 @@ public class DesktopLauncher {
 			}
 		});
 
-		config.setTitle("Burning Knight " + Version.asString());
+		config.setTitle("Burning Knight " + Version.asString() + ": " + titles[Random.newInt(titles.length)]);
 		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
 		config.setIdleFPS(0);
@@ -75,4 +76,13 @@ public class DesktopLauncher {
 
 		new Lwjgl3Application(new Client(), config);
 	}
+
+	private static String[] titles = new String[] {
+		"Fireproof",
+		"Might burn",
+		"'Friendly' fire",
+		"Get ready to burn",
+		"Do you need some heat?",
+		"BBQ is ready!"
+	};
 }
