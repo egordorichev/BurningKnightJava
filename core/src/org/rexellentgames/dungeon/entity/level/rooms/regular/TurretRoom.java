@@ -3,21 +3,67 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.trap.Turret;
+import org.rexellentgames.dungeon.util.Random;
 
 public class TurretRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
 
-		for (int y = this.top + 2; y < this.bottom - 1; y += 2) {
-			Turret turret = new Turret();
+		boolean wave = Random.chance(50);
 
-			turret.x = (this.left + 2) * 16;
-			turret.y = y * 16;
-			turret.a = (float) (Math.PI * 1.5f);
+		if (Random.chance(50)) {
+			boolean left = Random.chance(50);
+			int x = (left ? (this.left + 2) : (this.right - 2)) * 16;
+			float i = 0;
 
-			Dungeon.area.add(turret);
-			Dungeon.level.addSaveable(turret);
+			for (int y = this.top + 2; y < this.bottom - 1; y += 2) {
+				Turret turret = new Turret();
+
+				turret.x = x;
+				turret.y = y * 16;
+
+				if (wave) {
+					turret.last = i;
+					i++;
+				}
+
+				turret.a = (float) (!left ? Math.PI : 0);
+
+				Dungeon.area.add(turret);
+				Dungeon.level.addSaveable(turret);
+			}
+		} else {
+			boolean top = Random.chance(50);
+			int y = (top ? (this.top + 2) : (this.bottom - 2)) * 16;
+			float i = 0;
+
+			for (int x = this.left + 2; x < this.right - 1; x += 2) {
+				Turret turret = new Turret();
+
+				turret.x = x * 16;
+				turret.y = y;
+
+				if (wave) {
+					turret.last = i;
+					i++;
+				}
+
+				turret.a = (float) (!top ? Math.PI * 1.5f : Math.PI / 2);
+
+				Dungeon.area.add(turret);
+				Dungeon.level.addSaveable(turret);
+			}
 		}
+	}
+
+	@Override
+	public int getMinHeight() {
+		return 7;
+	}
+
+	@Override
+	public int getMinWidth() {
+		return 7;
 	}
 }

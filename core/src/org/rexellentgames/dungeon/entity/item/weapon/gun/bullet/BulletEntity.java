@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
+import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Log;
@@ -63,7 +64,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon || entity instanceof SolidProp) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon || (entity instanceof SolidProp && !(entity instanceof Turret))) {
 			this.remove = true;
 		} else if (entity instanceof Creature && this.t >= 0.05f) {
 			if (this.bad && entity instanceof Mob) {

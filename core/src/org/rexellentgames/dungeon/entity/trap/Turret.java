@@ -5,7 +5,11 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
+
+import java.io.IOException;
 
 public class Turret extends SolidProp {
 	{
@@ -15,8 +19,24 @@ public class Turret extends SolidProp {
 	}
 
 	public float a;
-	private float last;
+	public float last;
 	private boolean s;
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		this.last = reader.readFloat();
+		this.a = reader.readFloat();
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeFloat(this.last);
+		writer.writeFloat(this.a);
+	}
 
 	@Override
 	public void update(float dt) {
@@ -39,17 +59,17 @@ public class Turret extends SolidProp {
 			this.last = 0;
 
 			BulletEntity bullet = new BulletEntity();
-			bullet.sprite = Graphics.getTexture("bullet (bullet A)");
+			bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
 
-			float x = this.x + this.w / 2 + 8;
-			float y = this.y + region.getRegionHeight() / 2 - 4;
+			float x = this.x + region.getRegionWidth() / 2;
+			float y = this.y + region.getRegionHeight() / 2;
 
 			bullet.x = x;
 			bullet.y = y;
 			bullet.damage = 2;
-			bullet.letter = "bullet A";
+			bullet.letter = "bullet bad";
 
-			float s =3f;
+			float s = 3f;
 
 			bullet.vel = new Point(
 				(float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s
