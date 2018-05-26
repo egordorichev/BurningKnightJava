@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -20,7 +21,10 @@ public class Turret extends SolidProp {
 
 	public float a;
 	public float last;
+	protected float sp = 1.5f;
 	private boolean s;
+	private float sx = 1;
+	private float sy = 1;
 
 	@Override
 	public void load(FileReader reader) throws IOException {
@@ -39,9 +43,13 @@ public class Turret extends SolidProp {
 	}
 
 	@Override
+	public void render() {
+		Graphics.render(region, this.x + region.getRegionWidth() / 2, this.y, 0, region.getRegionWidth() / 2, 0, false, false, sx, sy);
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
-
 
 		if (!s) {
 			s = true;
@@ -55,32 +63,89 @@ public class Turret extends SolidProp {
 
 		this.last += dt;
 
-		if (this.last >= 3f) {
+		if (this.last >= sp) {
 			this.last = 0;
+			Tween.to(new Tween.Task(0.6f, 0.05f) {
+				@Override
+				public float getValue() {
+					return sy;
+				}
 
-			BulletEntity bullet = new BulletEntity();
-			bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
+				@Override
+				public void setValue(float value) {
+					sy = value;
+				}
 
-			float x = this.x + region.getRegionWidth() / 2;
-			float y = this.y + region.getRegionHeight() / 2;
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1f, 0.1f) {
+						@Override
+						public float getValue() {
+							return sy;
+						}
 
-			bullet.x = x;
-			bullet.y = y;
-			bullet.damage = 2;
-			bullet.letter = "bullet bad";
+						@Override
+						public void setValue(float value) {
+							sy = value;
+						}
+					});
+				}
+			});
 
-			this.modify(bullet);
+			Tween.to(new Tween.Task(1.4f, 0.05f) {
+				@Override
+				public float getValue() {
+					return sx;
+				}
 
-			float s = 3f;
+				@Override
+				public void setValue(float value) {
+					sx = value;
+				}
 
-			bullet.vel = new Point(
-				(float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s
-			);
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1f, 0.1f) {
+						@Override
+						public float getValue() {
+							return sx;
+						}
 
-			bullet.a = a;
+						@Override
+						public void setValue(float value) {
+							sx = value;
+						}
+					});
+				}
+			});
 
-			Dungeon.area.add(bullet);
+			this.send();
 		}
+	}
+
+	protected void send() {
+		BulletEntity bullet = new BulletEntity();
+		bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
+
+		float x = this.x + region.getRegionWidth() / 2;
+		float y = this.y + region.getRegionHeight() / 2;
+
+		bullet.x = x;
+		bullet.y = y;
+		bullet.damage = 2;
+		bullet.letter = "bullet bad";
+
+		this.modify(bullet);
+
+		float s = 1.5f;
+
+		bullet.vel = new Point(
+			(float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s
+		);
+
+		bullet.a = a;
+
+		Dungeon.area.add(bullet);
 	}
 
 	protected void modify(BulletEntity entity) {

@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.pool;
 
+import org.rexellentgames.dungeon.entity.level.rooms.regular.FourSideTurretRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 
 public class RegularRoomPool extends Pool<RegularRoom> {
@@ -22,6 +23,8 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(CollumnRoom.class, 1);
 		add(CollumnsRoom.class, 1);
 		add(RollingSpikeRoom.class, 1);
-		add(TurretRoom.class, 100);
+		add(TurretRoom.class, 1);
+		add(FourSideTurretRoom.class, 100);
+		add(RotatingTurretRoom.class, 1);
 	}
 }
