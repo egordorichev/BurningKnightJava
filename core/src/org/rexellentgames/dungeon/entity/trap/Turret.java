@@ -69,6 +69,8 @@ public class Turret extends SolidProp {
 			bullet.damage = 2;
 			bullet.letter = "bullet bad";
 
+			this.modify(bullet);
+
 			float s = 3f;
 
 			bullet.vel = new Point(
@@ -79,5 +81,9 @@ public class Turret extends SolidProp {
 
 			Dungeon.area.add(bullet);
 		}
+	}
+
+	protected void modify(BulletEntity entity) {
+
 	}
 }

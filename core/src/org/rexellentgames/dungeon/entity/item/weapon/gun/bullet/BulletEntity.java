@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
@@ -16,7 +17,6 @@ import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -37,6 +37,8 @@ public class BulletEntity extends Entity {
 	public Creature owner;
 	private boolean bad;
 	public static Animation animation = Animation.make("fx-badbullet");
+	public Class<? extends Buff> toApply;
+	public float duration = 1f;
 
 	@Override
 	public void init() {
@@ -83,6 +85,16 @@ public class BulletEntity extends Entity {
 
 			BloodFx.add(entity, 10);
 			Camera.instance.shake(2);
+
+			if(toApply != null) {
+				try {
+					creature.addBuff(toApply.newInstance().setDuration(this.duration));
+				} catch (InstantiationException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

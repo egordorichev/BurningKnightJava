@@ -475,8 +475,7 @@ public class Player extends Creature {
 
 		// this.setHunger(this.hunger + dt);
 
-		if (Dialog.active == null) {
-
+		if (Dialog.active == null && !this.freezed) {
 			if (Input.instance.isDown("mouse2")) {
 				float dx = Input.instance.worldMouse.x - this.x - 8;
 				float dy = Input.instance.worldMouse.y - this.y - 8;

@@ -12,9 +12,10 @@ public class RollingSpikeRoom extends RegularRoom {
 		super.paint(level);
 
 		int i = 0;
+		int sp = Random.newInt(2, 4);
 
 		if (Random.chance(50)) {
-			for (int y = this.top + 2; y < this.bottom - 1; y += 2) {
+			for (int y = this.top + 2; y < this.bottom - 1; y += sp) {
 				RollingSpike spike = new RollingSpike();
 
 				spike.x = ((i % 2 == 0) ? this.left + 2 : this.right - 2) * 16;
@@ -28,7 +29,7 @@ public class RollingSpikeRoom extends RegularRoom {
 				i++;
 			}
 		} else {
-			for (int x = this.left + 2; x < this.right - 1; x += 2) {
+			for (int x = this.left + 2; x < this.right - 1; x += sp) {
 				RollingSpike spike = new RollingSpike();
 
 				spike.y = ((i % 2 == 0) ? this.top + 2 : this.bottom - 2) * 16;
