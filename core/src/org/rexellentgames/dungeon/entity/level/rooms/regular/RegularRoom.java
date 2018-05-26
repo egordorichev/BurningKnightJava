@@ -1,7 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.pool.RegularRoomPool;
+import org.rexellentgames.dungeon.entity.pool.room.RegularRoomPool;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;

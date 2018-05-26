@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -28,8 +27,7 @@ import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.*;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Line;
 import org.rexellentgames.dungeon.util.Log;
@@ -135,13 +133,8 @@ public abstract class Level extends Entity {
 
 		if (Dungeon.type == Dungeon.Type.ARCADE) {
 			return new WaveLevel();
-		} else if (Dungeon.type == Dungeon.Type.INTRO) {
-			return new IntroLevel();
 		}
-
 		switch (depth) {
-			case -1:
-				return new HubLevel();
 			case 0:
 			case 1:
 			case 2:
@@ -1187,7 +1180,7 @@ public abstract class Level extends Entity {
 		for (int i = 0; i < 10; i++) {
 			Room room = this.getRandomRoom(type);
 
-			if (room == null || room instanceof ExitRoom || room instanceof EntranceRoom) {
+			if (room == null || room instanceof EntranceRoom) {
 				continue;
 			}
 

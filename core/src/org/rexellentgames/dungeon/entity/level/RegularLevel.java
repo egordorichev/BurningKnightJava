@@ -9,16 +9,15 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
 import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
-import org.rexellentgames.dungeon.entity.level.entities.Exit;
+import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.CastleEntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.entity.pool.MobPool;
+import org.rexellentgames.dungeon.entity.pool.room.EntranceRoomPool;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -62,7 +61,7 @@ public abstract class RegularLevel extends Level {
 			MobPool.instance.initForFloor();
 
 			for (Room room : this.rooms) {
-				if (room instanceof RegularRoom && !(room instanceof ExitRoom || room instanceof EntranceRoom)) {
+				if (room instanceof RegularRoom) {
 					float weight = Random.newFloat(1f, 2f);
 
 					while (weight > 0) {
@@ -117,22 +116,15 @@ public abstract class RegularLevel extends Level {
 			this.addPlayerSaveable(player);
 			player.generate();
 
-			if (this.entrance != null) {
-				Point point;
-
-				if (this.entrance instanceof CastleEntranceRoom) {
-					point = ((CastleEntranceRoom) this.entrance).spawn;
-				} else {
-					point = this.entrance.getRandomCell();
-				}
-
-				Log.info("Setting player spawn to " + (int) point.x + ":" + (int) point.y + "...");
-				player.tp(point.x * 16, point.y * 16);
+			if (this.ladder != null) {
+				player.tp(ladder.x, ladder.y - 2);
 			} else {
 				Log.error("No entrance found!");
 			}
 		}
 	}
+
+	public static Entrance ladder;
 
 	protected void paint() {
 		Log.info("Painting...");
@@ -172,8 +164,9 @@ public abstract class RegularLevel extends Level {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<>();
 
-		this.entrance = new EntranceRoom();
-		this.exit = new ExitRoom();
+		this.entrance = EntranceRoomPool.instance.generate();
+		this.exit = EntranceRoomPool.instance.generate();
+		((EntranceRoom) this.exit).exit = true;
 
 		rooms.add(this.entrance);
 		rooms.add(this.exit);

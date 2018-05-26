@@ -8,8 +8,7 @@ import org.rexellentgames.dungeon.entity.level.painters.HellPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.CaveRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -29,7 +28,8 @@ public class HellLevel extends RegularLevel {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
-		rooms.add(this.exit = new ExitRoom());
+		rooms.add(this.exit = new EntranceRoom());
+		((EntranceRoom) this.exit).exit = true;
 		rooms.add(this.entrance = new EntranceRoom());
 
 		int regular = this.getNumRegularRooms();

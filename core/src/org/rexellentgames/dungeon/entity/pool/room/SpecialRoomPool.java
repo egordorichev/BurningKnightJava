@@ -1,6 +1,7 @@
-package org.rexellentgames.dungeon.entity.pool;
+package org.rexellentgames.dungeon.entity.pool.room;
 
 import org.rexellentgames.dungeon.entity.level.rooms.special.*;
+import org.rexellentgames.dungeon.entity.pool.ClosingPool;
 
 public class SpecialRoomPool extends ClosingPool<SpecialRoom> {
 	public static SpecialRoomPool instance = new SpecialRoomPool();

@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
@@ -55,6 +56,8 @@ public class Entrance extends SaveableEntity {
 		if (Level.GENERATED) {
 			this.add();
 		}
+
+		RegularLevel.ladder = this;
 	}
 
 	@Override

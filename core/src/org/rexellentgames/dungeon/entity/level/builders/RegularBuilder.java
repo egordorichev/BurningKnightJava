@@ -2,12 +2,10 @@ package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.TutorialRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.BKRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -17,7 +15,7 @@ import java.util.LinkedHashSet;
 
 public class RegularBuilder extends Builder {
 	protected EntranceRoom entrance;
-	protected ExitRoom exit;
+	protected EntranceRoom exit;
 	protected LampRoom lamp;
 	protected BKRoom bk;
 	protected float pathVariance = 45f;
@@ -43,8 +41,8 @@ public class RegularBuilder extends Builder {
 		}
 
 		for (Room room : rooms) {
-			if (room instanceof ExitRoom && !(room instanceof TutorialRoom)) {
-				this.exit = (ExitRoom) room;
+			if (room instanceof EntranceRoom && ((EntranceRoom) room).exit) {
+				this.exit = (EntranceRoom) room;
 			} else if (room instanceof EntranceRoom) {
 				this.entrance = (EntranceRoom) room;
 			} else if (room.getMaxConnections(Room.Connection.ALL) == 1) {

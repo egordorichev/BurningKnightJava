@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.rooms.special;
 
-import org.rexellentgames.dungeon.entity.pool.SpecialRoomPool;
+import org.rexellentgames.dungeon.entity.pool.room.SpecialRoomPool;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 
 public class SpecialRoom extends Room {

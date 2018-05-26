@@ -20,8 +20,7 @@ import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -86,7 +85,7 @@ public class BurningKnight extends Boss {
 				Log.info("Too many");
 				break;
 			}
-		} while (room instanceof EntranceRoom || room instanceof ExitRoom);
+		} while (room instanceof EntranceRoom);
 
 		this.tp(center.x * 16 - 16, center.y * 16 - 16);
 

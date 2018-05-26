@@ -25,7 +25,7 @@ import java.io.IOException;
 public class Door extends SaveableEntity {
 	private boolean vertical;
 	private Body body;
-	public int numCollisions;
+	private int numCollisions;
 	private static Animation vertAnimation = Animation.make("actor-door-vertical");
 	private static Animation horizAnimation = Animation.make("actor-door-horizontal");
 	private static Animation lockAnimation = Animation.make("door-lock");
@@ -59,8 +59,8 @@ public class Door extends SaveableEntity {
 			this.x += 4;
 		}
 
-		this.animation.setPaused(true);
 		this.animation.setAutoPause(true);
+		this.animation.setPaused(true);
 	}
 
 	public Door() {
@@ -162,7 +162,6 @@ public class Door extends SaveableEntity {
 		if (this.lock && this.lockAnim == null) {
 			this.lockAnim = this.lk;
 		}
-
 
 		boolean last = this.lock;
 

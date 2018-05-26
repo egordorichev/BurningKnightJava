@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.levels;
 
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.builders.Builder;
@@ -11,8 +10,7 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.FightRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.EntranceRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.ladder.ExitRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 
 import java.util.ArrayList;
 
@@ -26,10 +24,10 @@ public class WaveLevel extends RegularLevel {
 		ArrayList<Room> rooms = new ArrayList<Room>();
 
 		this.entrance = new EntranceRoom();
-		this.exit = new ExitRoom();
+		rooms.add(this.exit = new EntranceRoom());
+		((EntranceRoom) this.exit).exit = true;
 
 		rooms.add(this.entrance);
-		rooms.add(this.exit);
 
 		int regular = this.getNumRegularRooms();
 

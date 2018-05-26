@@ -1,4 +1,4 @@
-package org.rexellentgames.dungeon.entity.pool;
+package org.rexellentgames.dungeon.entity.pool.item;
 
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -30,6 +30,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC;
+import org.rexellentgames.dungeon.entity.pool.Pool;
 
 public class ShopWeaponPool extends Pool<Item> {
 	public static ShopWeaponPool instance = new ShopWeaponPool();

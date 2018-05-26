@@ -1,6 +1,7 @@
-package org.rexellentgames.dungeon.entity.pool;
+package org.rexellentgames.dungeon.entity.pool.item;
 
 import org.rexellentgames.dungeon.entity.item.accessory.hat.*;
+import org.rexellentgames.dungeon.entity.pool.Pool;
 
 public class ShopHatPool extends Pool<Hat> {
 	public static ShopHatPool instance = new ShopHatPool();
