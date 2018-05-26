@@ -111,16 +111,17 @@ public class CrazyKing extends Boss {
 			this.flipped = dx >= 0;
 		}
 
-		Graphics.startShadows();
-		this.animation.render(this.x, this.y - this.z / 4f, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx * this.sa : this.sx * this.sa,
-			-this.sy * this.sa, false);
-		Graphics.endShadows();
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.animation.render(this.x, this.y + this.z, false, false, this.w / 2, 0, 0, this.flipped ? -this.sx : this.sx, this.sy, false);
 
 		if (this.secondForm) {
 			this.gun.render(this.x, this.y, this.w, this.h, this.flipped);
 		}
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x + 1, this.y, 16, 16, this.z / 2);
 	}
 
 	@Override

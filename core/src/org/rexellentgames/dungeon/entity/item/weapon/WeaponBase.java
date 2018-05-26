@@ -30,7 +30,15 @@ public class WeaponBase extends Item {
 	}
 
 	public void setModifier(Modifier modifier) {
+		if (this.modifier != null) {
+			this.modifier.remove(this);
+		}
+
 		this.modifier = modifier;
+
+		if (this.modifier != null) {
+			this.modifier.apply(this);
+		}
 	}
 
 	public void startRender() {

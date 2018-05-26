@@ -22,11 +22,11 @@ public class Modifier {
 	}
 
 	public void apply(WeaponBase weapon) {
-	  weapon.setModifier(this);
+
 	}
 
 	public void remove(WeaponBase weapon) {
-		weapon.setModifier(null);
+
 	}
 
 	public void onHit(Player owner, Creature creature, int damage) {

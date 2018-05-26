@@ -93,10 +93,6 @@ public class ItemHolder extends SaveableEntity {
 
 		this.sz = Math.max(1, this.sz - this.sz * dt);
 
-		if (this.falling) {
-			this.vel.mul(0);
-		}
-
 		if (this.vel.len() <= 0.1f) {
 			this.vel.mul(0);
 			this.x = Math.round(this.x);

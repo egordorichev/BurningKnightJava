@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -42,7 +43,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void init() {
-		this.bad = this.letter.equals("bullet bad");
+		this.bad = this.letter.equals("bullet bad") || this.letter.equals("bad");
 		this.rotate = this.letter.equals("star");
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
