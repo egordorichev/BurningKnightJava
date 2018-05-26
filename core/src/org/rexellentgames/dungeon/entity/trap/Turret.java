@@ -3,8 +3,12 @@ package org.rexellentgames.dungeon.entity.trap;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
+import org.rexellentgames.dungeon.entity.creature.buff.FreezeBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.PoisonBuff;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -27,11 +31,25 @@ public class Turret extends SolidProp {
 	private float sy = 1;
 
 	@Override
+	public void init() {
+		super.init();
+
+		float r = Random.newFloat();
+
+		if (r < 0.1f) {
+			this.type = 1;
+		} else if (r < 0.2f) {
+			this.type = 2;
+		}
+	}
+
+	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
 		this.last = reader.readFloat();
 		this.a = reader.readFloat();
+		this.type = reader.readByte();
 	}
 
 	@Override
@@ -40,7 +58,10 @@ public class Turret extends SolidProp {
 
 		writer.writeFloat(this.last);
 		writer.writeFloat(this.a);
+		writer.writeByte(this.type);
 	}
+
+	private byte type;
 
 	@Override
 	public void render() {
@@ -149,6 +170,9 @@ public class Turret extends SolidProp {
 	}
 
 	protected void modify(BulletEntity entity) {
-
+		switch (this.type) {
+			case 1: entity.toApply = PoisonBuff.class; break;
+			case 2: entity.toApply = FreezeBuff.class; break;
+		}
 	}
 }

@@ -2,8 +2,10 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.trap.FourSideRotatingTurret;
 import org.rexellentgames.dungeon.entity.trap.RotatingTurret;
 import org.rexellentgames.dungeon.entity.trap.Turret;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class RotatingTurretRoom extends RegularRoom {
@@ -12,7 +14,7 @@ public class RotatingTurretRoom extends RegularRoom {
 		super.paint(level);
 
 		Point center = this.getCenter();
-		Turret turret = new RotatingTurret();
+		Turret turret = Random.chance(50) ? new FourSideRotatingTurret() : new RotatingTurret();
 
 		turret.x = center.x * 16;
 		turret.y = center.y * 16;
