@@ -70,7 +70,7 @@ public class WeaponBase extends Item {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(getSprite(), x + xx, y + yy, a, ox, oy, fx, fy, sx, sy);
+						Graphics.render(getSprite(), x, y, a, ox + xx, oy + yy, fx, fy, sx, sy);
 					}
 				}
 			}
