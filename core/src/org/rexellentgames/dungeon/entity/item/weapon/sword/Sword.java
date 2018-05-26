@@ -123,14 +123,14 @@ public class Sword extends Weapon {
 		TextureRegion sprite = this.getSprite();
 
 		float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
-		float yy = y + (this.ox == 0 ? h / 4 : h / 2);
+		float yy = y + h / 4;//(this.ox == 0 ? h / 4 : h / 2);
 
 		if (!this.animation.isPaused() && !this.owner.isDead()) {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, false);
 		}
 
-		this.renderAt(xx - (flipped ? sprite.getRegionWidth() : 0), yy,
-			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
+		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
+			angle, sprite.getRegionWidth() / 2 + this.ox, this.oy, flipped, false);
 
 		if (this.blockbox != null) {
 			float a = (float) Math.toRadians(angle);

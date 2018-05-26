@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.debug.GenerateCommand;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.MusicManager;
@@ -104,6 +105,10 @@ public class InGameState extends State {
 	@Override
 	public void update(float dt) {
 		this.console.update(dt);
+
+		if (Input.instance.wasPressed("pause")) {
+			Dungeon.newGame();
+		}
 
 		last += dt;
 

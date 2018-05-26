@@ -8,6 +8,7 @@ public class Butcher extends Sword {
 		timeA = 0.15f;
 		timeB = 0.25f;
 		useTime = 0.4f;
+		ox = -4;
 		penetrates = true;
 	}
 }

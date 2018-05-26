@@ -228,23 +228,21 @@ public class Graphics {
 		float ox = texture.getRegionWidth() / 2;
 		float oy = texture.getRegionHeight() / 2;
 
-		render(texture, x + ox, y + oy, 0, ox, oy, false, false);
+		render(texture, x + ox, y + oy, 0, ox, oy, false, false, 1, 1);
 	}
 
 	public static void render(TextureRegion texture, float x, float y, float a, float ox, float oy,
 		boolean fx, boolean fy) {
 
-		Graphics.batch.draw(texture, x - ox + (fx ? texture.getRegionWidth() : 0),
-			y - oy + (fy ? texture.getRegionHeight() : 0),
-			ox, oy, texture.getRegionWidth(), texture.getRegionHeight(), fx ? -1 : 1, fy ? -1 : 1, a);
+		render(texture, x, y, a, ox, oy, fx, fy, 1, 1);
 	}
 
 	public static void render(TextureRegion texture, float x, float y, float a, float ox, float oy,
 	                          boolean fx, boolean fy, float sx, float sy) {
 
-		Graphics.batch.draw(texture, x - ox + (fx ? texture.getRegionWidth() : 0),
-			y - oy + (fy ? texture.getRegionHeight() : 0),
-			ox, oy, texture.getRegionWidth(), texture.getRegionHeight(), sx, sy, a);
+		Graphics.batch.draw(texture, x - ox + (fx ? texture.getRegionWidth() / 2 : 0),
+			y - oy + (fy ? texture.getRegionHeight() / 2 : 0),
+			ox, oy, texture.getRegionWidth(), texture.getRegionHeight(), fx ? -sx : sx, fy ? -sy : sy, a);
 	}
 
 	public static void shadow(float x, float y, float w, float h) {
