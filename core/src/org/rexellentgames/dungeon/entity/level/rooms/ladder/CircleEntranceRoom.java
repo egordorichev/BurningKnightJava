@@ -47,7 +47,7 @@ public class CircleEntranceRoom extends EntranceRoom {
 			else if (start.y > c.bottom) downShift = (int) (c.bottom - start.y);
 			else downShift = 0;
 
-			//always goes inward first
+			// always goes inward first
 			if (door.x == left || door.x == right) {
 				mid = new Point(start.x + rightShift, start.y);
 				end = new Point(mid.x, mid.y + downShift);
@@ -55,7 +55,6 @@ public class CircleEntranceRoom extends EntranceRoom {
 			} else {
 				mid = new Point(start.x, start.y + downShift);
 				end = new Point(mid.x + rightShift, mid.y);
-
 			}
 
 			Painter.drawLine(level, start, mid, floor, true);

@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.weapon.sword;
 
-import com.badlogic.gdx.audio.Sound;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 
 public class SwordA extends Sword {

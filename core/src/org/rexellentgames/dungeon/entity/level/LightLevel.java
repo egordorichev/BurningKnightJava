@@ -4,8 +4,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 
 public class LightLevel extends Entity {
 	private Level level;
-	public static boolean LIGHT = false;
-
+	public static boolean LIGHT = true;
 
 	public void setLevel(Level level) {
 		this.level = level;
