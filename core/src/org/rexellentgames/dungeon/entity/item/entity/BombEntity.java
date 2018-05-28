@@ -62,7 +62,7 @@ public class BombEntity extends Entity {
 	}
 
 	public BombEntity toMouseVel() {
-		return this.velTo(Input.instance.worldMouse.y - this.y - 8, Input.instance.worldMouse.x - this.x - 8);
+		return this.velTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
 	}
 
 	public BombEntity velTo(float x, float y) {
