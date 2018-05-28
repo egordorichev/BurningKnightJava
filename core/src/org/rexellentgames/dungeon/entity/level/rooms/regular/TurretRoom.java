@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.util.Random;
 
-public class TurretRoom extends RegularRoom {
+public class TurretRoom extends TrapRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);

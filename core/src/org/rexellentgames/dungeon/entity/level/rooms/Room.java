@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public abstract class Room extends Rect implements GraphNode {
 	public ArrayList<Room> neighbours = new ArrayList<Room>();
-	protected HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
+	public HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
 	private int price = 1;
 	private int distance = 0;
 	public boolean hidden;

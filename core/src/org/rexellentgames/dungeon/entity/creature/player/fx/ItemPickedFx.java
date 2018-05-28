@@ -27,7 +27,9 @@ public class ItemPickedFx extends Entity {
 		this.y = item.y + item.h + 4;
 
 		this.tween();
-		Player.instance.ui.forceT = 1f;
+		if (Player.instance.ui != null) {
+			Player.instance.ui.forceT = 1f;
+		}
 	}
 
 	private void tween() {

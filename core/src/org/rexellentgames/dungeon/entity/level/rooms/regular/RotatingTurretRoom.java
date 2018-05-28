@@ -8,7 +8,7 @@ import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class RotatingTurretRoom extends RegularRoom {
+public class RotatingTurretRoom extends TrapRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);

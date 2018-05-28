@@ -4,16 +4,35 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Slab;
 import org.rexellentgames.dungeon.entity.level.features.Door;
+import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.pool.room.RegularRoomPool;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class LampRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
-		super.paint(level);
+		RegularRoom room = null;
+
+		do {
+			room = RegularRoomPool.instance.generate();
+		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom);
+
+		room.size = this.size;
+		room.left = this.left;
+		room.right = this.right;
+		room.top = this.top;
+		room.bottom = this.bottom;
+		room.neighbours = this.neighbours;
+		room.connected = this.connected;
+
+		room.paint(level);
 
 		Point center = this.getCenter();
+
+		Painter.set(level, center, Terrain.FLOOR_A);
 
 		ItemHolder holder = new ItemHolder();
 
