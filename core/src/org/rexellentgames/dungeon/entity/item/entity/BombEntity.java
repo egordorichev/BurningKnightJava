@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
+import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Explosion;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -91,7 +92,7 @@ public class BombEntity extends Entity {
 			for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 				Entity entity = Dungeon.area.getEntities().get(i);
 
-				if (entity instanceof Creature) {
+				if (entity instanceof Creature && !(entity instanceof Clown)) {
 					Creature creature = (Creature) entity;
 
 					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {

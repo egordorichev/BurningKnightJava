@@ -21,7 +21,7 @@ public class MobPool extends Pool<Mob> {
 		}
 
 		if (Dungeon.depth > 2) {
-			add(Clown.class, 1.2f);
+			add(Clown.class, 10.2f);
 		}
 	}
 }

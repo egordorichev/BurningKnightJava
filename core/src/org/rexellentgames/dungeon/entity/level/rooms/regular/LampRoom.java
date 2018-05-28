@@ -59,6 +59,16 @@ public class LampRoom extends RegularRoom {
 	}
 
 	@Override
+	public int getMinHeight() {
+		return 6;
+	}
+
+	@Override
+	public int getMinWidth() {
+		return 6;
+	}
+
+	@Override
 	public int getMinConnections(Connection side) {
 		if (side == Connection.ALL) {
 			return 2;

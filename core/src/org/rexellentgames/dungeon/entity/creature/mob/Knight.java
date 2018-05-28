@@ -10,23 +10,12 @@ import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.KnightHat;
-import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
-import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.BadGun;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BadBullet;
-import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherA;
-import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.Rocket;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
-import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 
@@ -257,7 +246,7 @@ public class Knight extends Mob {
 	}
 
 	public class ChaseState extends KnightState {
-		public static final float ATTACK_DISTANCE = 16f;
+		public static final float ATTACK_DISTANCE = 20f;
 		public static final float DASH_DIST = 48f;
 		public float delay;
 		private float att;
@@ -282,7 +271,7 @@ public class Knight extends Mob {
 				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 5f,this.att)) {
+				if (this.moveTo(self.lastSeen, 5f, this.att)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= this.att) {
 

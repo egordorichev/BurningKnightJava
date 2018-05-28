@@ -28,7 +28,7 @@ public class MazeEntranceRoom extends EntranceRoom {
 					} else if (x != 0 && y != 0 && !set && Random.chance(this.getMaxWidth() * this.getHeight() / 100)) {
 						set = true;
 						Painter.set(level, new Point(this.left + x, this.top + y), Terrain.FLOOR_D);
-						place(level, new Point(this.left + x, this.top + y));
+						place(level, new Point(this.left + x, this.top + y - 8));
 					}
 				}
 			}

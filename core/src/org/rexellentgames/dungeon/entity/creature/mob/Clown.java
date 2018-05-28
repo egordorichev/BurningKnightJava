@@ -293,23 +293,27 @@ public class Clown extends Mob {
 	}
 
 	public class AttackState extends ClownState {
+		private float time;
+
 		@Override
 		public void onEnter() {
 			super.onEnter();
 
-			if (Random.chance(25)) {
+			if (Random.chance(75)) {
 				self.guitar.use();
 			} else {
 				self.laughT = 3f;
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
 				Dungeon.area.add(e);
+				time = 0.5f;
 			}
 		}
 
 		@Override
 		public void update(float dt) {
-			if (self.guitar.getDelay() == 0) {
+			time -= dt;
+			if (self.guitar.getDelay() == 0 && time <= 0) {
 				self.become("chase");
 			}
 		}
