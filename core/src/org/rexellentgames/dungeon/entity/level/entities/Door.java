@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -69,7 +70,10 @@ public class Door extends SaveableEntity {
 	}
 
 	public Door() {
-
+		if (this.animation != null) {
+			this.animation.setAutoPause(true);
+			this.animation.setPaused(true);
+		}
 	}
 
 	@Override
@@ -82,10 +86,6 @@ public class Door extends SaveableEntity {
 			MassData data = new MassData();
 			data.mass = 10000000000f;
 			this.body.setMassData(data);
-
-			if (this.autoLock) {
-				this.animation.setPaused(false);
-			}
 		}
 
 		super.update(dt);
@@ -95,6 +95,8 @@ public class Door extends SaveableEntity {
 			if (this.animation.getFrame() == 2) {
 				this.animation.setBack(true);
 				this.animation.setPaused(false);
+
+				Log.info("close");
 			}
 		}
 
