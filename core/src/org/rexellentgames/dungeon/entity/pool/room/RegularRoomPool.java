@@ -20,6 +20,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(CaveRoom.class, 0.1f);
 		add(RectFloorRoom.class, 0.3f);
 		add(LineRoom.class, 1);
+		add(BrokeLineRoom.class, 1);
 		add(CollumnRoom.class, 0.5f);
 		add(CollumnsRoom.class, 1);
 		add(RollingSpikeRoom.class, 1);
