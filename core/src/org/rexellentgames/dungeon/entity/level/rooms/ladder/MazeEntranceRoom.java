@@ -27,13 +27,9 @@ public class MazeEntranceRoom extends EntranceRoom {
 							|| x == this.getWidth() - 1 || y == this.getHeight() - 1) ? Terrain.WALL : wall);
 					} else if (!set && Random.chance(this.getMaxWidth() * this.getHeight() / 100)) {
 						set = true;
+						Painter.set(level, new Point(this.left + x, this.top + y), Terrain.FLOOR_D);
 						place(level, new Point(this.left + x, this.top + y));
-						break;
 					}
-				}
-
-				if (set) {
-					break;
 				}
 			}
 		}

@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.entity.pool.MobPool;
 import org.rexellentgames.dungeon.entity.pool.room.EntranceRoomPool;
+import org.rexellentgames.dungeon.entity.pool.room.SecretRoomPool;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -178,8 +179,9 @@ public abstract class RegularLevel extends Level {
 		int regular = this.getNumRegularRooms();
 		int special = this.getNumSpecialRooms();
 		int connection = this.getNumConnectionRooms();
+		int secret = this.getNumSecretRooms();
 
-		Log.info("Creating " + regular + " " + special + " " + connection + " rooms");
+		Log.info("Creating " + regular + " " + special + " " + connection + " " + secret + " rooms");
 
 		for (int i = 0; i < regular; i++) {
 			RegularRoom room;
@@ -206,6 +208,10 @@ public abstract class RegularLevel extends Level {
 			rooms.add(ConnectionRoom.create());
 		}
 
+		for (int i = 0; i < secret; i++) {
+			rooms.add(SecretRoomPool.instance.generate());
+		}
+
 		return rooms;
 	}
 
@@ -221,6 +227,10 @@ public abstract class RegularLevel extends Level {
 
 	protected int getNumSpecialRooms() {
 		return Dungeon.depth == 0 ? 0 : 3;
+	}
+
+	protected int getNumSecretRooms() {
+		return Dungeon.depth == 0 ? 0 : Random.newInt(1, 3);
 	}
 
 	protected int getNumConnectionRooms() {
