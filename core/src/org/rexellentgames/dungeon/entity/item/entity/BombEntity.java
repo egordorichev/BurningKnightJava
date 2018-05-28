@@ -114,6 +114,25 @@ public class BombEntity extends Entity {
 				}
 			}
 
+			int s = 2;
+
+			for (int xx = -s; xx <= s; xx++) {
+				for (int yy = -s; yy <= s; yy++) {
+					int x = (int) ((this.x + this.w / 2) / 16 + xx);
+					int y = (int) ((this.y + this.h / 2) / 16 + yy);
+
+					if (Math.sqrt(xx * xx + yy * yy) <= s) {
+
+						int t = Dungeon.level.get(x, y);
+
+						if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
+							Dungeon.level.set(x, y, Terrain.DIRT);
+							Dungeon.level.tileRegion(x, y);
+						}
+					}
+				}
+			}
+
 			boolean set = false;
 
 			for (Room room : Dungeon.level.getRooms()) {

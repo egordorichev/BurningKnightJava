@@ -241,45 +241,57 @@ public abstract class Level extends Entity {
 
 		for (int x = 0; x < WIDTH; x++) {
 			for (int y = 0; y < HEIGHT; y++) {
-				byte tile = this.get(x, y);
+				this.tile(x, y);
+			}
+		}
+	}
 
-				if (tile == Terrain.CHASM) {
-					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
-					this.variants[toIndex(x, y)] = (byte) Random.newInt(16);
-				} else if (tile == Terrain.WATER) {
-					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.TABLE) {
-					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.GRASS) {
-					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.LAVA) {
-					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
-					this.tileUp(x, y, Terrain.IS_DIRT, true);
-				} else if (tile == Terrain.FLOOR_A || tile == Terrain.FLOOR_B || tile == Terrain.FLOOR_C || tile == Terrain.FLOOR_D) {
-					this.makeFloor(x, y, tile);
-				}
+	public void tile(int x, int y) {
+		byte tile = this.get(x, y);
 
-				byte count = 0;
+		if (tile == Terrain.CHASM) {
+			this.tileUp(x, y, tile, false);
+		} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+			this.variants[toIndex(x, y)] = (byte) Random.newInt(16);
+		} else if (tile == Terrain.WATER) {
+			this.tileUp(x, y, tile, false);
+		} else if (tile == Terrain.TABLE) {
+			this.tileUp(x, y, tile, false);
+		} else if (tile == Terrain.GRASS) {
+			this.tileUp(x, y, tile, false);
+		} else if (tile == Terrain.LAVA) {
+			this.tileUp(x, y, tile, false);
+		} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
+			this.tileUp(x, y, Terrain.IS_DIRT, true);
+		} else if (tile == Terrain.FLOOR_A || tile == Terrain.FLOOR_B || tile == Terrain.FLOOR_C || tile == Terrain.FLOOR_D) {
+			this.makeFloor(x, y, tile);
+		}
 
-				if (!this.shouldTile(x, y + 1, Terrain.WALL, false)) {
-					count += 1;
-				}
+		byte count = 0;
 
-				if (!this.shouldTile(x + 1, y, Terrain.WALL, false)) {
-					count += 2;
-				}
+		if (!this.shouldTile(x, y + 1, Terrain.WALL, false)) {
+			count += 1;
+		}
 
-				if (!this.shouldTile(x, y - 1, Terrain.WALL, false)) {
-					count += 4;
-				}
+		if (!this.shouldTile(x + 1, y, Terrain.WALL, false)) {
+			count += 2;
+		}
 
-				if (!this.shouldTile(x - 1, y, Terrain.WALL, false)) {
-					count += 8;
-				}
+		if (!this.shouldTile(x, y - 1, Terrain.WALL, false)) {
+			count += 4;
+		}
 
-				this.walls[toIndex(x, y)] = count;
+		if (!this.shouldTile(x - 1, y, Terrain.WALL, false)) {
+			count += 8;
+		}
+
+		this.walls[toIndex(x, y)] = count;
+	}
+
+	public void tileRegion(int x, int y) {
+		for (int xx = x - 1; xx <= x + 1; xx++) {
+			for (int yy = y - 1; yy <= y + 1; yy++) {
+				this.tile(xx, yy);
 			}
 		}
 	}
