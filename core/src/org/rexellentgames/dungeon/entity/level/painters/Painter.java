@@ -166,9 +166,9 @@ public class Painter {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
 
-				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL)) {
+				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET)) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
-						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID) && level.data[level.toIndex((int) d.x + 1, (int) d.y)] >= 0);
+						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 
 					if (d.getType() == Door.Type.REGULAR) {
 						d.setType(Door.Type.ENEMY);
@@ -189,10 +189,6 @@ public class Painter {
 
 					level.addSaveable(door);
 					Dungeon.area.add(door);
-
-					if (d.getType() == Door.Type.SECRET) {
-						door.hidden = true;
-					}
 				}
 
 				level.set((int) d.x, (int) d.y, Terrain.FLOOR_A);

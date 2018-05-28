@@ -41,7 +41,6 @@ public class Door extends SaveableEntity {
 	public boolean lock;
 	public Room[] rooms = new Room[2];
 	public Class<? extends Key> key;
-	public boolean hidden;
 	private int sx;
 	private int sy;
 
@@ -91,13 +90,6 @@ public class Door extends SaveableEntity {
 
 		super.update(dt);
 
-		if (this.hidden) {
-			if (Dungeon.level.get(this.sx, this.sy) != Terrain.CRACK) {
-				this.hidden = false;
-			} else {
-				return;
-			}
-		}
 
 		if (this.animation.update(dt)) {
 			if (this.animation.getFrame() == 2) {
@@ -173,10 +165,6 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
-		if (this.hidden) {
-			return;
-		}
-
 		if (this.lock && this.lockAnim == null) {
 			this.lockAnim = this.lk;
 		}
@@ -226,10 +214,6 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		if (this.hidden) {
-			return;
-		}
-
 		Graphics.startShadows();
 		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
 		Graphics.endShadows();
@@ -269,7 +253,6 @@ public class Door extends SaveableEntity {
 
 		this.sx = reader.readInt16();
 		this.sy = reader.readInt16();
-		this.hidden = reader.readBoolean();
 	}
 
 	@Override
@@ -294,6 +277,5 @@ public class Door extends SaveableEntity {
 
 		writer.writeInt16((short) this.sx);
 		writer.writeInt16((short) this.sy);
-		writer.writeBoolean(this.hidden);
 	}
 }

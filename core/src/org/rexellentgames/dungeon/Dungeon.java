@@ -243,64 +243,27 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
-		boolean draw = (darkR < MAX_R);
+		renderGame();
+		
+		if (Input.instance != null) {
+			Input.instance.update();
+		}
+	}
+
+	private void renderGame() {
+		Camera.instance.viewport.apply();
 
 		if (Camera.instance != null) {
 			Camera.instance.applyShake();
 			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-		}
-
-		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-		Graphics.shape.setColor(background2.r, background2.g, background2.b, 1);
-		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
-		Graphics.shape.setColor(1, 1, 1, 1);
-		Graphics.shape.end();
-
-		if (Camera.instance != null) {
 			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		}
-
-		Graphics.batch.begin();
-
+		
 		area.render();
 		game.render();
 
 		if (Camera.instance != null) {
 			Camera.instance.removeShake();
-		}
-
-		Graphics.batch.end();
-
-		Camera.instance.viewport.apply();
-
-		if (draw) {
-			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-			Gdx.gl.glDepthFunc(GL20.GL_LESS);
-			Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-			Gdx.gl.glDepthMask(true);
-
-			Gdx.gl.glColorMask(false, false, false, false);
-
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.circle(darkX, darkY, darkR);
-			Graphics.shape.end();
-
-			Graphics.batch.begin();
-
-			Gdx.gl.glColorMask(true, true, true, true);
-			Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-			Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
-
-			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-			Graphics.batch.setColor(1, 1, 1, 1f);
-			Graphics.batch.end();
-
-			Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-		}
-
-		if (Input.instance != null) {
-			Input.instance.update();
 		}
 	}
 
