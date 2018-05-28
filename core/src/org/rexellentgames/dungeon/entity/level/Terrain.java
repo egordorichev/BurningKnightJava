@@ -19,8 +19,9 @@ public class Terrain {
 	public static byte EXIT = 11;
 	public static byte FLOOR_C = 12;
 	public static byte FLOOR_D = 13;
+	public static byte CRACK = 14;
 
-	public static byte SIZE = 14;
+	public static byte SIZE = 15;
 
 	public static int[] flags = new int[SIZE];
 
@@ -38,6 +39,7 @@ public class Terrain {
 		flags[PLANTED_DIRT] = PASSABLE | IS_DIRT;
 		flags[FLOOR_A] = PASSABLE;
 		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
+		flags[CRACK] = SOLID | HIGH | BREAKS_LOS;
 		flags[WATER] = PASSABLE;
 		flags[WALL_SIDE] = HOLE;
 		flags[FLOOR_B] = PASSABLE;
@@ -55,6 +57,7 @@ public class Terrain {
 	public static TextureRegion waterPattern;
 	public static TextureRegion lavaPattern;
 	public static TextureRegion wallPattern;
+	public static TextureRegion crackPattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
 
 	public static TextureRegion[] dirtVariants = new TextureRegion[15];
@@ -96,7 +99,8 @@ public class Terrain {
 		grassPattern = Graphics.getTexture(bm + " (grass pattern)");
 		waterPattern = Graphics.getTexture(bm + " (pool pattern)");
 		lavaPattern = Graphics.getTexture(bm + " (lava pattern)");
-		wallPattern = Graphics.getTexture(bm + " (wall pattern)");
+		wallPattern = Graphics.getTexture(bm + "-wall pattern");
+		crackPattern = Graphics.getTexture("biome-gen-crack");
 
 		entrance = Graphics.getTexture(bm + " (stairs U)");
 		exit = Graphics.getTexture(bm + " (stairs D)");
@@ -109,6 +113,7 @@ public class Terrain {
 		patterns[WATER] = waterPattern;
 		patterns[LAVA] = lavaPattern;
 		patterns[WALL] = wallPattern;
+		patterns[CRACK] = crackPattern;
 
 		decor = new TextureRegion[] {
 			Graphics.getTexture(bm + " (torch A)"),
@@ -175,6 +180,7 @@ public class Terrain {
 		variants[PLANTED_DIRT] = dirtVariants;
 		variants[CHASM] = chasmVariants;
 		variants[WALL] = wallVariants;
+		variants[CRACK] = wallVariants;
 		variants[FLOOR_B] = woodVariants;
 		variants[FLOOR_A] = floorVariants;
 		variants[LAVA] = lavaVariants;

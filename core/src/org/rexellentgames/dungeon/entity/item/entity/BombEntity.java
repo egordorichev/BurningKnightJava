@@ -10,11 +10,15 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Explosion;
+import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -35,7 +39,7 @@ public class BombEntity extends Entity {
 	public void init() {
 		super.init();
 
-		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 
 		this.playSfx("bomb_placed");
@@ -108,6 +112,45 @@ public class BombEntity extends Entity {
 						creature.startBurning();
 					}
 				}
+			}
+
+			boolean set = false;
+
+			for (Room room : Dungeon.level.getRooms()) {
+				if (room.hidden) {
+					if (check(room)) {
+						set =  true;
+					}
+				}
+			}
+
+			if (set) {
+				Dungeon.level.loadPassable();
+				Dungeon.level.addPhysics();
+			}
+		}
+	}
+
+	private boolean check(Room room) {
+		for (int x = room.left; x <= room.right; x++) {
+			for (int y = room.top; y <= room.bottom; y++) {
+				if (Dungeon.level.get(x, y) == Terrain.CRACK && this.getDistanceTo(x * 16 + 8, y * 16 + 8) <= 32f) {
+					make(room);
+					room.hidden = false;
+					Dungeon.level.set(x, y, Terrain.FLOOR_A);
+
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private void make(Room room) {
+		for (int x = room.left; x <= room.right; x++) {
+			for (int y = room.top; y <= room.bottom; y++) {
+				Dungeon.level.set(x, y, (byte) -Dungeon.level.data[Level.toIndex(x, y)]);
 			}
 		}
 	}

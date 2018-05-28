@@ -11,6 +11,8 @@ import org.rexellentgames.dungeon.entity.pool.room.SecretRoomPool;
 public class SecretRoom extends Room {
 	@Override
 	public void paint(Level level) {
+		hidden = true;
+
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.FLOOR_D);
 

@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.creature.buff.*;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.InvisibilityPotion;
@@ -259,6 +260,8 @@ public class Player extends Creature {
 	}
 
 	public void generate() {
+		this.give(new Bomb().setCount(100));
+
 		if (Dungeon.type != Dungeon.Type.INTRO) {
 			switch (this.type) {
 				case WARRIOR: generateWarrior(); break;
@@ -439,9 +442,7 @@ public class Player extends Creature {
 
 				for (int x = this.currentRoom.left; x <= this.currentRoom.right; x++) {
 					for (int y = this.currentRoom.top + 1; y <= this.currentRoom.bottom; y++) {
-						if (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y - 1, Terrain.PASSABLE)) {
-							Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
-						}
+						Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
 					}
 				}
 			}

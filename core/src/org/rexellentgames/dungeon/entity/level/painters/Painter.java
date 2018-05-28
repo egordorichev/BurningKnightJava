@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.levels.HallLevel;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.rooms.secret.SecretRoom;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -78,6 +79,14 @@ public class Painter {
 		for (Room room : rooms) {
 			this.placeDoors(room);
 			room.paint(level);
+
+			if (room instanceof SecretRoom) {
+				for (int x = room.left; x <= room.right; x++) {
+					for (int y = room.top; y <= room.bottom; y++) {
+						level.hide(x, y);
+					}
+				}
+			}
 		}
 
 		if (this.grass > 0) {
@@ -159,7 +168,7 @@ public class Painter {
 
 				if (level.get((int) d.x, (int) d.y) == Terrain.WALL && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL)) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
-						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
+						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID) && level.data[level.toIndex((int) d.x + 1, (int) d.y)] >= 0);
 
 					if (d.getType() == Door.Type.REGULAR) {
 						d.setType(Door.Type.ENEMY);
@@ -180,9 +189,17 @@ public class Painter {
 
 					level.addSaveable(door);
 					Dungeon.area.add(door);
+
+					if (d.getType() == Door.Type.SECRET) {
+						door.hidden = true;
+					}
 				}
 
 				level.set((int) d.x, (int) d.y, Terrain.FLOOR_A);
+
+				if (d.getType() == Door.Type.SECRET) {
+					level.set((int) d.x, (int) d.y, Terrain.CRACK);
+				}
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -181,7 +182,8 @@ public abstract class Level extends Entity {
 		Arrays.fill(this.lightR, LIGHT_R);
 		Arrays.fill(this.lightG, LIGHT_G);
 		Arrays.fill(this.lightB, LIGHT_B);
-		Arrays.fill(this.light, Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f : 0f);
+		//  (BurningKnight.instance == null)
+		Arrays.fill(this.light, Dungeon.level.addLight && false ? 1f : 0f);
 	}
 
 	public void fill() {
@@ -243,7 +245,7 @@ public abstract class Level extends Entity {
 
 				if (tile == Terrain.CHASM) {
 					this.tileUp(x, y, tile, false);
-				} else if (tile == Terrain.WALL) {
+				} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 					this.variants[toIndex(x, y)] = (byte) Random.newInt(16);
 				} else if (tile == Terrain.WATER) {
 					this.tileUp(x, y, tile, false);
@@ -347,9 +349,9 @@ public abstract class Level extends Entity {
 		byte t = this.get(x, y);
 
 		if (flag) {
-			return this.checkFor(x, y, tile) || t == Terrain.WALL;
+			return this.checkFor(x, y, tile) || t == Terrain.WALL || t == Terrain.CRACK;
 		} else {
-			return t == tile || t == Terrain.WALL;
+			return t == tile || t == Terrain.WALL || t == Terrain.CRACK;
 		}
 	}
 
@@ -401,7 +403,8 @@ public abstract class Level extends Entity {
 			float v = this.light[i];
 
 			if (v > 0) {
-				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && (BurningKnight.instance == null) ? 1f : 0, 1f, v - dt);
+				// (BurningKnight.instance == null)
+				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && false ? 1f : 0, 1f, v - dt);
 				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
 				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
 				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);
@@ -432,9 +435,6 @@ public abstract class Level extends Entity {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
 				float v = this.light[i];
-				float r = this.lightR[i];
-				float g = this.lightG[i];
-				float b = this.lightB[i];
 
 				if (v < s) {
 					int t = (int) Math.floor((v * (md)) * 10);
@@ -479,15 +479,17 @@ public abstract class Level extends Entity {
 					if (tile > 0 && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
-						region.setRegionX(region.getRegionX() + x % 4 * 16);
-						region.setRegionY(region.getRegionY() + (3 - (y % 4)) * 16);
+						int n = region.getRegionHeight() / 16;
+
+						region.setRegionX(region.getRegionX() + x % (region.getRegionWidth() / 16) * 16);
+						region.setRegionY(region.getRegionY() + (n - 1 - (y % n)) * 16);
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
 						Graphics.render(region, x * 16, y * 16);
 					}
 
-					if (tile != Terrain.WALL && Terrain.variants[tile] != null) {
+					if (tile != Terrain.WALL && tile != Terrain.CRACK && Terrain.variants[tile] != null) {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
@@ -526,7 +528,7 @@ public abstract class Level extends Entity {
 			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 			for (Room room : this.rooms) {
-				Graphics.shape.setColor(1, room == Player.instance.currentRoom ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, 0.1f);
+				Graphics.shape.setColor(room.hidden ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, 0.1f);
 				Graphics.shape.rect(room.left * 16 + 8, room.top * 16 + 8, room.getWidth() * 16 - 16, room.getHeight() * 16 - 16);
 			}
 
@@ -734,7 +736,7 @@ public abstract class Level extends Entity {
 						} else if (vl == 0) {
 							see = true;
 						} else {
-							see = (fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
+							see = false;//(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
 						}
 					}
 
@@ -796,11 +798,20 @@ public abstract class Level extends Entity {
 	}
 
 	public byte get(int i) {
-		return this.data[i];
+		byte t = this.data[i];
+		return t < 0 ? Terrain.WALL : t;
+	}
+
+	public void hide(int x, int y) {
+		this.data[toIndex(x, y)] = (byte) -this.data[toIndex(x, y)];
 	}
 
 	public byte get(int x, int y) {
-		return this.data[toIndex(x, y)];
+		return get(toIndex(x, y));
+	}
+
+	public boolean hidden(int x, int y) {
+		return this.data[toIndex(x, y)] < 0;
 	}
 
 	public abstract void generate();
@@ -1052,6 +1063,7 @@ public abstract class Level extends Entity {
 				room.top = stream.readInt32();
 				room.right = stream.readInt32();
 				room.bottom = stream.readInt32();
+				room.hidden = stream.readBoolean();
 
 				this.rooms.add(room);
 			}
@@ -1110,6 +1122,7 @@ public abstract class Level extends Entity {
 				stream.writeInt32(room.top);
 				stream.writeInt32(room.right);
 				stream.writeInt32(room.bottom);
+				stream.writeBoolean(room.hidden);
 			}
 
 			int count = 0;
@@ -1150,14 +1163,6 @@ public abstract class Level extends Entity {
 
 			this.saveDropped();
 		}
-	}
-
-	private boolean check(int x, int y) {
-		if (x < 0 || y < 0 || x >= getWidth() || y >= getHeight()) {
-			return false;
-		}
-
-		return this.get(x, y) == Terrain.WALL;
 	}
 
 	public Room getRandomRoom() {
