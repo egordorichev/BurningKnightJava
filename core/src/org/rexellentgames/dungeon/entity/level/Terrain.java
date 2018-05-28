@@ -153,7 +153,7 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 16; i++) {
-			tableVariants[i] = Graphics.getTexture(bm + " (desk" + Level.COMPASS[i] + ")");
+			tableVariants[i] = Graphics.getTexture(bm + "-platform A" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {

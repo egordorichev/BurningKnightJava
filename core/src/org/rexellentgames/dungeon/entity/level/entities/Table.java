@@ -79,6 +79,6 @@ public class Table extends SolidProp {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y - this.h / 4, this.w, this.h);
+		Graphics.shadow(this.x, this.y, this.w, this.h);
 	}
 }
