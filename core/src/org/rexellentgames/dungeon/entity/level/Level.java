@@ -769,6 +769,10 @@ public abstract class Level extends Entity {
 	}
 
 	public byte canSee(int x, int y, int px, int py) {
+		return canSee(x, y, px, py, 0);
+	}
+
+	public byte canSee(int x, int y, int px, int py, int extra) {
 		Line line = new Line(x, y, px, py);
 		boolean first = false;
 
@@ -778,6 +782,8 @@ public abstract class Level extends Entity {
 			}
 
 			if (this.checkFor((int) point.x, (int) point.y, Terrain.BREAKS_LOS)) {
+				first = true;
+			} else if (extra != 0 && this.checkFor((int) point.x, (int) point.y, extra)) {
 				first = true;
 			}
 		}

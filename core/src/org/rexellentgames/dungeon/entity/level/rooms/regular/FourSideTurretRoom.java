@@ -6,7 +6,7 @@ import org.rexellentgames.dungeon.entity.trap.FourSideTurret;
 import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class FourSideTurretRoom extends RegularRoom {
+public class FourSideTurretRoom extends TrapRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);

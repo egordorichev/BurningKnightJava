@@ -30,7 +30,8 @@ public class Terrain {
 	public static int HOLE = 0x4;
 	public static int HIGH = 0x8;
 	public static int IS_DIRT = 0x10;
-	public static int BREAKS_LOS = 0x12;
+	public static int BREAKS_LOS = 0x20;
+	public static int BREAKS_ENEMY_LOS = 0x40;
 
 	static {
 		flags[CHASM] = HOLE;
@@ -43,7 +44,7 @@ public class Terrain {
 		flags[WATER] = PASSABLE;
 		flags[WALL_SIDE] = HOLE;
 		flags[FLOOR_B] = PASSABLE;
-		flags[FLOOR_C] = PASSABLE;
+		flags[FLOOR_C] = PASSABLE | BREAKS_ENEMY_LOS;
 		flags[FLOOR_D] = PASSABLE;
 		flags[LAVA] = 0;
 		flags[TABLE] = SOLID | HIGH;

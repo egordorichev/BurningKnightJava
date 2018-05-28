@@ -260,8 +260,6 @@ public class Player extends Creature {
 	}
 
 	public void generate() {
-		this.give(new Bomb().setCount(100));
-
 		if (Dungeon.type != Dungeon.Type.INTRO) {
 			switch (this.type) {
 				case WARRIOR: generateWarrior(); break;
@@ -509,7 +507,7 @@ public class Player extends Creature {
 					this.vel.y -= my * this.speed; // Inverted!
 				}
 
-				if (Input.instance.wasPressed("dash") && this.dashTimeout == 0 && this.dashT == 0f) {
+				/*if (Input.instance.wasPressed("dash") && this.dashTimeout == 0 && this.dashT == 0f) {
 					float dx = Input.instance.worldMouse.x - this.x - 8;
 					float dy = Input.instance.worldMouse.y - this.y - 8;
 					float a = (float) Math.atan2(dy, dx);
@@ -556,7 +554,7 @@ public class Player extends Creature {
 							});
 						}
 					});
-				}
+				}*/
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("action")) {

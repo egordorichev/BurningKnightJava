@@ -191,7 +191,7 @@ public class Painter {
 					Dungeon.area.add(door);
 				}
 
-				level.set((int) d.x, (int) d.y, Terrain.FLOOR_A);
+				level.set((int) d.x, (int) d.y, Terrain.FLOOR_C);
 
 				if (d.getType() == Door.Type.SECRET) {
 					level.set((int) d.x, (int) d.y, Terrain.CRACK);
