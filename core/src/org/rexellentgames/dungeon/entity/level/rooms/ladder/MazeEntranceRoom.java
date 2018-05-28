@@ -15,7 +15,7 @@ public class MazeEntranceRoom extends EntranceRoom {
 		boolean[][] maze = Maze.generate(this);
 
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR_A);
+		Painter.fill(level, this, 1, Random.chance(60) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
 
 		boolean set = false;
 

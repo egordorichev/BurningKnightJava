@@ -43,7 +43,7 @@ public abstract class Room extends Rect implements GraphNode {
 
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR_A);
+		Painter.fill(level, this, 1, Random.chance(60) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);

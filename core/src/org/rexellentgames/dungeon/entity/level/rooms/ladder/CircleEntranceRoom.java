@@ -14,7 +14,7 @@ public class CircleEntranceRoom extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fillEllipse(level, this, 1, Terrain.FLOOR_A);
+		Painter.fillEllipse(level, this, 1, Random.chance(60) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
 
 		if (this.connected.size() == 0) {
 			Log.error("Invalid connection room");
