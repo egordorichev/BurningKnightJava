@@ -176,8 +176,8 @@ public class Player extends Creature {
 	}
 
 	{
-		hpMax = 20;
-		manaMax = 20;
+		hpMax = 16;
+		manaMax = 16;
 		level = 1;
 		hunger = 10;
 		mul = 0.85f;

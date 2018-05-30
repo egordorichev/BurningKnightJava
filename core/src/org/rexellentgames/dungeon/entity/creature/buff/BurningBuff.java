@@ -2,8 +2,6 @@ package org.rexellentgames.dungeon.entity.creature.buff;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx;
-import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.Random;
 
 public class BurningBuff extends Buff {
 	{
@@ -24,12 +22,17 @@ public class BurningBuff extends Buff {
 		if (this.lastFlame >= 0.1f) {
 			this.addFlame();
 			this.lastFlame = 0;
+		}
 
-			if (Random.chance(30)) {
-				this.owner.modifyHp(-1, null, true);
-			}
+		this.lastHit += dt;
+
+		if (this.lastHit >= 2f) {
+			this.lastHit = 0;
+			this.owner.modifyHp(-1, null, true);
 		}
 	}
+
+	private float lastHit = 0;
 
 	public void addFlame() {
 		Dungeon.area.add(new FlameFx(this.owner));
