@@ -18,10 +18,14 @@ public class WeaponBase extends Item {
 	protected Modifier modifier;
 	protected int damage = 1;
 	protected int minDamage = 1;
+	protected float timeA = 0.1f;
+	protected float timeB = 0.1f;
 	protected float knockback = 10f;
 
 	public void modifyUseTime(float am) {
 		this.useTime += am;
+		this.timeA += am / 2;
+		this.timeB += am / 2;
 	}
 
 	public void modifyDamage(int am) {

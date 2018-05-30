@@ -180,6 +180,16 @@ public class UiSlot {
 					this.inventory.getInventory().setSlot(this.id, current);
 					this.inventory.setCurrentSlot(null);
 				} else if (canAccept(this.id, current) || current == null) {
+					if (this.id > 5 && current != null) {
+						for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
+							Item sl = this.inventory.getInventory().getSlot(i);
+
+							if (sl != null && sl.getClass().isInstance(current)) {
+								return;
+							}
+						}
+					}
+
 					this.inventory.setCurrentSlot(self);
 					this.inventory.getInventory().setSlot(this.id, current);
 

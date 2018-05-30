@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon.entity.level.entities;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
-import org.rexellentgames.dungeon.util.path.Graph;
 
 import java.io.IOException;
 

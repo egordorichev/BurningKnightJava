@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Entity extends Point {
@@ -123,6 +124,6 @@ public class Entity extends Point {
 			return -1;
 		}
 
-		return Graphics.playSfx(sound, (256f - d) / 256f);
+		return Graphics.playSfx(sound, (256f - d) / 256f, 0.9f + Random.newFloat(0.3f));
 	}
 }

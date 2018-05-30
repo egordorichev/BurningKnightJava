@@ -29,9 +29,6 @@ public class Sword extends Weapon {
 
 	protected Body blockbox;
 	protected int maxAngle = 200;
-	protected float timeA = 0.1f;
-	protected float timeB = 0.1f;
-
 	@Override
 	public boolean isBlocking() {
 		return this.blocking;
