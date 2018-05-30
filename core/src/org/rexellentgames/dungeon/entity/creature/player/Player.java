@@ -98,6 +98,7 @@ public class Player extends Creature {
 	public float freezeChance;
 	public float reflectDamageChance;
 	public float thornDamageChance;
+	public float regen;
 
 	@Override
 	protected void onHurt(float a, Creature from) {
@@ -389,6 +390,7 @@ public class Player extends Creature {
 	private float lastRun;
 	private float lastDashT;
 	private float dashTimeout;
+	private float lastRegen;
 
 	@Override
 	public void update(float dt) {
@@ -425,6 +427,16 @@ public class Player extends Creature {
 			}
 
 			return;
+		}
+
+
+		if (this.regen > 0 && this.hp != this.hpMax) {
+			this.lastRegen += dt;
+
+			if (this.lastRegen > (20f - this.regen)) {
+				this.modifyHp(1, null);
+				this.lastRegen = 0;
+			}
 		}
 
 		this.dashT = Math.max(0, this.dashT - dt);

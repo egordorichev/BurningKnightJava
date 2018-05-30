@@ -129,6 +129,8 @@
 	"ice_ring_desc" : "Gives a 5% chance to stun enemies\nwhen attacking",
 	"thorn_ring" : "Thorn Ring",
 	"thorn_ring_desc" : "Enemies take damage on touch",
+	"blood_ring" : "Blood Ring",
+	"blood_ring_desc" : "Increases your hp regeneration",
 	"metal_ring" : "Metal Ring",
 	"metal_ring_desc" : "Gives a 10% chance to reflect\nhalf of damage on the attacker",
 	"fire_flower" : "Fire Flower",

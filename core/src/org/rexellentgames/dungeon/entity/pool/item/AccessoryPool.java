@@ -18,6 +18,7 @@ public class AccessoryPool extends Pool<Item> {
 		add(ThornRing.class, 1f);
 		add(MetalRing.class, 1f);
 		add(PoisonRing.class, 1f);
+		add(BloodRing.class, 1f);
 		add(MeetBoy.class, 1f);
 		add(Dendy.class, 1f);
 		add(MagicMushroom.class, 1f);

@@ -150,6 +150,7 @@ object ItemRegistry {
 	    "gravelord_sword" to GravelordSword::class,
 	    "star_cannon" to StarCannon::class,
 	    "switch" to Switch::class,
-	    "backpack" to Backpack::class
+	    "backpack" to Backpack::class,
+	    "blood_ring" to BloodRing::class
     )
 }
