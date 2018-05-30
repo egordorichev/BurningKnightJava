@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.entities;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
@@ -8,7 +9,6 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.RegularLevel;
-import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.physics.World;
@@ -17,14 +17,17 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 
 import java.io.IOException;
 
-public class Entrance extends SaveableEntity {
+public class Entrance extends SolidProp {
 	private Body body;
 	private LadderFx fx;
 
+	{
+		region = Terrain.entrance;
+		collider = new Rectangle(6, 10, 6, 3);
+	}
+
 	public static byte NORMAL = 0;
-	public static byte CASTLE_ENTRANCE_OPEN = 1;
-	public static byte CASTLE_ENTRANCE_CLOSED = 2;
-	public static byte ENTRANCE_TUTORIAL = 3;
+	public static byte ENTRANCE_TUTORIAL = 1;
 
 	private byte type;
 

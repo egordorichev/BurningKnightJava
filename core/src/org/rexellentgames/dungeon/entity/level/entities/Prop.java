@@ -14,6 +14,9 @@ public class Prop extends SaveableEntity {
 
 		if (this.sprite != null) {
 			region = Graphics.getTexture(sprite);
+		}
+
+		if (this.region != null) {
 			this.w = region.getRegionWidth();
 			this.h = region.getRegionHeight();
 		}
