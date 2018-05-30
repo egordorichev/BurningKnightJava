@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
+import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.mob.RangedKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -536,10 +537,12 @@ public class CrazyKing extends Boss {
 	}
 
 	@Override
-	public void modifyHp(int amount, Creature owner, boolean ignoreArmor) {
+	public HpFx modifyHp(int amount, Creature owner, boolean ignoreArmor) {
 		if (!this.state.equals("jump") && !this.state.equals("fadeIn") && !this.state.equals("fadeOut")) {
-			super.modifyHp(amount, owner, ignoreArmor);
+			return super.modifyHp(amount, owner, ignoreArmor);
 		}
+
+		return null;
 	}
 
 	public class FadeInState extends CKState {

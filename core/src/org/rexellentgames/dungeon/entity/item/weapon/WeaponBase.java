@@ -29,8 +29,11 @@ public class WeaponBase extends Item {
 		this.timeB += am / 2;
 	}
 
+	protected boolean lastCrit;
+
 	public int rollDamage() {
-		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (Random.chance(this.critChance + this.owner.critChance) ? 2 : 1));
+		lastCrit = Random.chance(this.critChance + this.owner.critChance);
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
 	}
 
 	public void modifyDamage(int am) {

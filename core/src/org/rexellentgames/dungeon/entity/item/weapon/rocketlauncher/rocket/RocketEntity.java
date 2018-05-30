@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
+import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Explosion;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
@@ -31,6 +32,7 @@ public class RocketEntity extends Entity {
 	public float knockback = 50f;
 	private boolean auto = true;
 	public String letter;
+	public boolean crit;
 
 	@Override
 	public void init() {
@@ -78,7 +80,11 @@ public class RocketEntity extends Entity {
 				Creature c = (Creature) e;
 
 				if (c.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
-					c.modifyHp(-Math.round(Random.newFloatDice(this.damage / 3 * 2, this.damage)), this.owner, true);
+					HpFx fx = c.modifyHp(-this.damage, this.owner, true);
+
+					if (fx != null && crit) {
+						fx.crit = true;
+					}
 
 					float a = (float) Math.atan2(c.y + c.h / 2 - this.y - 8, c.x + c.w / 2 - this.x - 8);
 

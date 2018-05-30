@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
+
+import static org.rexellentgames.dungeon.entity.creature.buff.fx.FlameFx.orange;
 
 public class HpFx extends Entity {
 	public static Color bad = Color.valueOf("#ac3232");
@@ -15,6 +16,7 @@ public class HpFx extends Entity {
 	private String text;
 	private boolean low;
 	private float a = 1f;
+	public boolean crit;
 
 	public HpFx(Creature creature, int change) {
 		this.text = String.valueOf(Math.abs(change));
@@ -61,7 +63,7 @@ public class HpFx extends Entity {
 
 	@Override
 	public void render() {
-		Color color = this.low ? bad : good;
+		Color color = this.low ? (this.crit ? orange : bad) : good;
 
 		Graphics.small.setColor(color.r, color.g, color.b, this.a);
 		Graphics.small.draw(Graphics.batch, this.text, this.x, this.y);

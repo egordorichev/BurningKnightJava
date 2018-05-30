@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
+import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
@@ -21,6 +22,7 @@ public class AxeFx extends Entity {
 	private float t;
 	private float a;
 
+	public boolean crit;
 	public float damage;
 	public TextureRegion region;
 	public Creature owner;
@@ -103,7 +105,12 @@ public class AxeFx extends Entity {
 			creature.vel.x += this.vel.x;
 			creature.vel.y += this.vel.y;
 
-			creature.modifyHp((int) -this.damage, this.owner);
+			HpFx fx = creature.modifyHp((int) -this.damage, this.owner);
+
+			if (fx != null && crit) {
+				fx.crit = true;
+			}
+
 			BloodFx.add(entity, 10);
 
 			this.axe.onHit(creature);

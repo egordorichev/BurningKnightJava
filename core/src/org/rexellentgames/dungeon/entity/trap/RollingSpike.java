@@ -77,9 +77,11 @@ public class RollingSpike extends SaveableEntity {
 
 		this.a += dt * -(this.vel.x == 0 ? this.vel.y : this.vel.x) * 10;
 
-		x = body.getPosition().x;
-		y = body.getPosition().y;
+		body.setTransform(this.x, this.y, 0);
 		body.setLinearVelocity(this.vel);
+
+		this.x += this.vel.x * dt;
+		this.y += this.vel.y * dt;
 
 		for (Player player : colliding) {
 			if (player.getInvt() == 0) {

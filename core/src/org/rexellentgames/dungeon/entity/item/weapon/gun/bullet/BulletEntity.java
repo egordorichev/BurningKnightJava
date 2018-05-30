@@ -10,6 +10,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
+import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
@@ -17,7 +18,6 @@ import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -35,6 +35,7 @@ public class BulletEntity extends Entity {
 	public String letter;
 	private float t;
 	private boolean rotate;
+	public boolean crit;
 	public Creature owner;
 	private boolean bad;
 	public static Animation animation = Animation.make("fx-badbullet");
@@ -76,7 +77,12 @@ public class BulletEntity extends Entity {
 
 			Creature creature = ((Creature) entity);
 
-			creature.modifyHp(-this.damage, this.owner);
+			HpFx fx = creature.modifyHp(-this.damage, this.owner);
+
+			if (fx != null && crit) {
+				fx.crit = true;
+			}
+
 			this.remove = !this.penetrates;
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
@@ -149,8 +155,8 @@ public class BulletEntity extends Entity {
 			for (int i = 0; i < 20; i++) {
 				Part part = new Part();
 
-				part.x = this.x - this.vel.x;
-				part.y = this.y - this.vel.y;
+				part.x = this.x - this.vel.x * dt;
+				part.y = this.y - this.vel.y * dt;
 
 				Dungeon.area.add(part);
 			}
@@ -189,8 +195,8 @@ public class BulletEntity extends Entity {
 			this.a = (float) Math.toDegrees(this.ra);
 		}
 
-		this.x += this.vel.x;
-		this.y += this.vel.y;
+		this.x += this.vel.x * dt;
+		this.y += this.vel.y * dt;
 
 		this.body.setTransform(this.x, this.y, this.ra);
 		this.body.setLinearVelocity(this.vel);

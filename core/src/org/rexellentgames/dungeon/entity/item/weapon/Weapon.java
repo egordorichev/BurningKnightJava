@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.physics.World;
@@ -129,7 +130,11 @@ public class Weapon extends WeaponBase {
 				damage = this.modifier.modDamage(damage);
 			}
 
-			creature.modifyHp(damage, this.owner);
+			HpFx fx = creature.modifyHp(damage, this.owner);
+
+			if (fx != null && lastCrit) {
+				fx.crit = true;
+			}
 
 			if (this.modifier != null) {
 				this.modifier.onHit((Player) this.owner, creature, damage);

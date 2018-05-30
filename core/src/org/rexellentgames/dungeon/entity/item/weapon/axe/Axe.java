@@ -111,6 +111,7 @@ public class Axe extends Weapon {
 
 				fx.owner = owner;
 				fx.damage = rollDamage();
+				fx.crit = lastCrit;
 				fx.penetrates = penetrates;
 				fx.axe = self;
 

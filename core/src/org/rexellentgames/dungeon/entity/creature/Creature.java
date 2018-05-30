@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
@@ -23,16 +22,17 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.*;
+import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.CollisionHelper;
+import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -271,8 +271,8 @@ public class Creature extends SaveableEntity {
 
 	}
 
-	public void modifyHp(int amount, Creature from) {
-		this.modifyHp(amount, from, false);
+	public HpFx modifyHp(int amount, Creature from) {
+		return this.modifyHp(amount, from, false);
 	}
 
 	public boolean isUnhittable() {
@@ -283,20 +283,16 @@ public class Creature extends SaveableEntity {
 		return this.defense;
 	}
 
-	public void modifyHp(int amount, Creature from, boolean ignoreArmor) {
+	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead) {
-			return;
-		}
-
-		if (this.dead) {
-			return;
+			return null;
 		}
 
 		boolean hurt = false;
 
 		if (amount < 0) {
 			if (this.unhittable) {
-				return;
+				return null;
 			}
 
 			if (!ignoreArmor) {
@@ -312,14 +308,15 @@ public class Creature extends SaveableEntity {
 			}
 
 			if (this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
-				return;
+				return null;
 			}
 
 			this.invt = this.invmax;
 			hurt = true;
 		}
 
-		Dungeon.area.add(new HpFx(this, amount));
+		HpFx fx = new HpFx(this, amount);
+		Dungeon.area.add(fx);
 
 		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);
 
@@ -330,6 +327,8 @@ public class Creature extends SaveableEntity {
 		if (this.hp == 0) {
 			this.shouldDie = true;
 		}
+
+		return fx;
 	}
 
 	public float getSpeed() {

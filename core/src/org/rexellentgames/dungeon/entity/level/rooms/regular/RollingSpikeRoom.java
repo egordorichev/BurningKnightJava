@@ -20,7 +20,7 @@ public class RollingSpikeRoom extends TrapRoom {
 
 				spike.x = ((i % 2 == 0) ? this.left + 2 : this.right - 2) * 16;
 				spike.y = y * 16;
-				float s = 30f;
+				float s = 20f;
 				spike.vel = new Point(i % 2 == 0 ? s : -s, 0);
 
 				Dungeon.area.add(spike);
@@ -34,7 +34,7 @@ public class RollingSpikeRoom extends TrapRoom {
 
 				spike.y = ((i % 2 == 0) ? this.top + 2 : this.bottom - 2) * 16;
 				spike.x = x * 16;
-				float s = 30f;
+				float s = 20f;
 				spike.vel = new Point(0, i % 2 == 0 ? s : -s);
 
 				Dungeon.area.add(spike);

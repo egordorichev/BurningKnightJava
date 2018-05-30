@@ -190,16 +190,16 @@ public class Gun extends WeaponBase {
 			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
 			float px = this.tw;
-			float py = this.th;
 
 			bullet.x = (float) (x + px * Math.cos(an) - this.ox);
 			bullet.y = (float) (y + px * Math.sin(an));
 			bullet.damage = b.damage + rollDamage();
+			bullet.crit = true;
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
 
-			float s = this.vel;
+			float s = this.vel * 60f;
 
 			bullet.vel = new Point(
 				(float) Math.cos(an) * s, (float) Math.sin(an) * s

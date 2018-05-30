@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
+import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
@@ -28,6 +29,7 @@ public class ArrowEntity extends Entity {
 	public Class<? extends Arrow> type;
 	public TextureRegion sprite;
 	private Creature stuck;
+	public boolean crit;
 	public boolean bad;
 
 	private ArrayList<Point> positions = new ArrayList<>();
@@ -52,7 +54,7 @@ public class ArrowEntity extends Entity {
 		this.body.setTransform(this.x, this.y, this.a);
 
 		// todo: charge == high speed
-		float s = 14f;
+		float s = 14f * 60f;
 		this.vel = new Vector2((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
 	}
 
@@ -90,8 +92,8 @@ public class ArrowEntity extends Entity {
 				this.positions.remove(0);
 			}
 
-			this.x += this.vel.x;
-			this.y += this.vel.y;
+			this.x += this.vel.x * dt;
+			this.y += this.vel.y * dt;
 		}
 
 		if (this.body != null) {
@@ -118,8 +120,11 @@ public class ArrowEntity extends Entity {
 			creature.vel.x += this.vel.x * 10f;
 			creature.vel.y += this.vel.y * 10f;
 
-			creature.modifyHp(-this.damage, this.owner);
+			HpFx fx = creature.modifyHp(-this.damage, this.owner);
 
+			if (fx != null && crit) {
+				fx.crit = true;
+			}
 			this.stuck = creature;
 			this.body = World.removeBody(this.body);
 			this.depth = creature.depth;
@@ -133,8 +138,10 @@ public class ArrowEntity extends Entity {
 			for (int i = 0; i < 20; i++) {
 				Part part = new Part();
 
-				part.x = this.x - this.vel.x;
-				part.y = this.y - this.vel.y;
+				float dt = Gdx.graphics.getDeltaTime();
+
+				part.x = this.x - this.vel.x * dt;
+				part.y = this.y - this.vel.y * dt;
 
 				Dungeon.area.add(part);
 			}
