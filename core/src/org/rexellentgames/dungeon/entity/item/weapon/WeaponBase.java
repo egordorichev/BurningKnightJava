@@ -21,11 +21,16 @@ public class WeaponBase extends Item {
 	protected float timeA = 0.1f;
 	protected float timeB = 0.1f;
 	protected float knockback = 10f;
+	protected float critChance = 4f;
 
 	public void modifyUseTime(float am) {
 		this.useTime += am;
 		this.timeA += am / 2;
 		this.timeB += am / 2;
+	}
+
+	public int rollDamage() {
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (Random.chance(this.critChance) ? 2 : 1));
 	}
 
 	public void modifyDamage(int am) {

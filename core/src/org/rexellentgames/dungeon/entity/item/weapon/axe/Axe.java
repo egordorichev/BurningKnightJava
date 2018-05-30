@@ -2,9 +2,6 @@ package org.rexellentgames.dungeon.entity.item.weapon.axe;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
@@ -113,7 +110,7 @@ public class Axe extends Weapon {
 				fx.speed = speed;
 
 				fx.owner = owner;
-				fx.damage = damage;
+				fx.damage = rollDamage();
 				fx.penetrates = penetrates;
 				fx.axe = self;
 

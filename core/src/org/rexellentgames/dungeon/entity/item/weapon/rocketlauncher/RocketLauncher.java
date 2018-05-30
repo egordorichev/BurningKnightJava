@@ -168,7 +168,7 @@ public class RocketLauncher extends WeaponBase {
 
 		bullet.x = x + px * sprite.getRegionWidth();
 		bullet.y = y + py * sprite.getRegionWidth();
-		bullet.damage = b.damage + this.damage;
+		bullet.damage = b.damage + rollDamage();
 		bullet.letter = b.rocketName;
 
 		float s = 1f;

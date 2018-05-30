@@ -9,9 +9,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Random;
 
 public class Weapon extends WeaponBase {
 	protected Body body;
@@ -20,7 +18,7 @@ public class Weapon extends WeaponBase {
 	protected float added;
 
 	public Weapon() {
-		minDamage = damage / 3 * 2;
+		minDamage = Math.round(((float) damage) / 3 * 2);
 	}
 
 	{
@@ -125,7 +123,7 @@ public class Weapon extends WeaponBase {
 			this.used = true;
 			this.onHit(creature);
 
-			int damage = -Math.max(creature.getDefense() + 1, Math.round(Random.newFloatDice(this.minDamage, this.damage)));
+			int damage = -Math.max(creature.getDefense() + 1, this.rollDamage());
 
 			if (this.modifier != null) {
 				damage = this.modifier.modDamage(damage);

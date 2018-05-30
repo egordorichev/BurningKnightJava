@@ -44,7 +44,7 @@ public class Bow extends WeaponBase {
 		arrow.a = (float) Math.atan2(dy, dx);
 		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
 		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
-		arrow.damage = this.damage + ar.damage;
+		arrow.damage = rollDamage() + ar.damage;
 		arrow.bad = this.owner instanceof Mob;
 
 		Dungeon.area.add(arrow);

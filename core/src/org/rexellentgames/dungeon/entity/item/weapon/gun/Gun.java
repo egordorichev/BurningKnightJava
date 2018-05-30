@@ -194,7 +194,7 @@ public class Gun extends WeaponBase {
 
 			bullet.x = (float) (x + px * Math.cos(an) - this.ox);
 			bullet.y = (float) (y + px * Math.sin(an));
-			bullet.damage = b.damage + this.damage;
+			bullet.damage = b.damage + rollDamage();
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
