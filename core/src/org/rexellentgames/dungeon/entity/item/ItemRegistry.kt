@@ -54,6 +54,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC
 import org.rexellentgames.dungeon.entity.item.weapon.sword.claymore.ClaymoreA
+import org.rexellentgames.dungeon.entity.item.weapon.sword.claymore.ClaymoreB
+import org.rexellentgames.dungeon.entity.item.weapon.sword.claymore.ClaymoreC
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC
@@ -153,6 +155,8 @@ object ItemRegistry {
 	    "switch" to Switch::class,
 	    "backpack" to Backpack::class,
 	    "blood_ring" to BloodRing::class,
-	    "claymore_a" to ClaymoreA::class
+	    "claymore_a" to ClaymoreA::class,
+	    "claymore_b" to ClaymoreB::class,
+	    "claymore_c" to ClaymoreC::class
     )
 }

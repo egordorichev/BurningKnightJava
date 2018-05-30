@@ -23,7 +23,7 @@ public class Entrance extends SolidProp {
 
 	{
 		region = Terrain.entrance;
-		collider = new Rectangle(10, 10, 2, 3);
+		collider = new Rectangle(12, 10, 2, 3);
 	}
 
 	public static byte NORMAL = 0;

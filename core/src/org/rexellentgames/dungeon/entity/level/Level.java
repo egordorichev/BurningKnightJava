@@ -635,8 +635,6 @@ public abstract class Level extends Entity {
 					if (variant != 15) {
 						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
 					}
-				} else if (tile == Terrain.LAVA) {
-					addLightInRadius(x * 16, y * 16, 1f, 0.6f, 0, 1f, 2.5f, false);
 				}
 
 				byte v = this.walls[i];

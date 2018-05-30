@@ -144,6 +144,12 @@
 	"bless_a_weapon" : "Bless a weapon",
 	"backpack" : "Backpack",
 	"backpack_desc" : "Gives extra inventory space!",
+	"claymore_a" : "Bronze Claymore",
+	"claymore_a_desc" : "Looks heavy",
+	"claymore_b" : "Iron Claymore",
+	"claymore_b_desc" : "Can you lift it?",
+	"claymore_c" : "Golden Claymore",
+	"claymore_c_desc" : "King weapon!",
 
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",

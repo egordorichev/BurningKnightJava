@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.weapon.sword.claymore;
 
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
@@ -8,6 +9,9 @@ import org.rexellentgames.dungeon.util.Tween;
 public class ClaymoreA extends Sword {
 	{
 		sprite = "item (claymore)";
+		damage = 2;
+		description = Locale.get("claymore_a_desc");
+		name = Locale.get("claymore_a");
 	}
 
 	@Override
