@@ -26,6 +26,8 @@ public class Part extends Entity {
 			);
 		}
 
+		this.vel.mul(60);
+
 		if (this.animation == null) {
 			this.animation = animations.get("idle");
 			this.animation.setFrame(Random.newInt(0, 2));
@@ -36,8 +38,8 @@ public class Part extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.x += this.vel.x;
-		this.y += this.vel.y;
+		this.x += this.vel.x * dt;
+		this.y += this.vel.y * dt;
 
 		this.vel.mul(0.95f);
 
