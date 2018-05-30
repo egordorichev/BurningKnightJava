@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item.weapon.bow.arrows;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,6 +15,9 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.physics.World;
+import org.rexellentgames.dungeon.util.geometry.Point;
+
+import java.util.ArrayList;
 
 public class ArrowEntity extends Entity {
 	public float a;
@@ -20,11 +25,12 @@ public class ArrowEntity extends Entity {
 	private Vector2 vel;
 	public Creature owner;
 	public int damage;
-	private boolean noDrop;
 	public Class<? extends Arrow> type;
 	public TextureRegion sprite;
 	private Creature stuck;
 	public boolean bad;
+
+	private ArrayList<Point> positions = new ArrayList<>();
 
 	@Override
 	public void destroy() {
@@ -36,53 +42,33 @@ public class ArrowEntity extends Entity {
 	public void init() {
 		super.init();
 
+		this.alwaysActive = true;
+
 		int w = sprite.getRegionWidth();
 		int h = sprite.getRegionHeight();
 
-		this.body = World.createSimpleCentredBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createSimpleCentredBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, true);
 		this.body.setBullet(true);
 		this.body.setTransform(this.x, this.y, this.a);
 
 		// todo: charge == high speed
-		float s = 5f;
+		float s = 14f;
 		this.vel = new Vector2((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
 	}
 
 	@Override
 	public void update(float dt) {
-		super.update(dt);
-
-		if (this.done) {
-			for (int i = 0; i < 20; i++) {
-				Part part = new Part();
-
-				part.x = this.x - this.vel.x;
-				part.y = this.y - this.vel.y;
-
-				Dungeon.area.add(part);
+		if (this.did) {
+			if (this.positions.size() > 0) {
+				this.positions.remove(0);
+			} else {
+				this.done = true;
 			}
 
-			/*if (!this.bad && !noDrop && Random.chance(50)) {
-				try {
-					Item arrow = this.type.newInstance();
-
-					ItemHolder holder = new ItemHolder();
-
-					holder.auto = true;
-					holder.setItem(arrow);
-
-					holder.x = this.x - 8 - this.vel.x;
-					holder.y = this.y - 4 - this.vel.y;
-
-					Dungeon.area.add(holder);
-					Dungeon.level.addSaveable(holder);
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-			}*/
+			return;
 		}
+
+		super.update(dt);
 
 		if (this.stuck != null) {
 			this.x = (float) (this.stuck.x + this.stuck.w / 2 - Math.cos(this.a) * (this.stuck.w - this.w / 2) / 2);
@@ -93,7 +79,17 @@ public class ArrowEntity extends Entity {
 			if (this.stuck.isDead()) {
 				this.done = true;
 			}
+
+			if (this.positions.size() > 0) {
+				this.positions.remove(0);
+			}
 		} else {
+			this.positions.add(new Point(this.x, this.y));
+
+			if (this.positions.size() > 10) {
+				this.positions.remove(0);
+			}
+
 			this.x += this.vel.x;
 			this.y += this.vel.y;
 		}
@@ -104,9 +100,11 @@ public class ArrowEntity extends Entity {
 		}
 	}
 
+	private boolean did;
+
 	@Override
 	public void onCollision(Entity entity) {
-		if (this.stuck != null || entity == this.owner || this.done) {
+		if (this.did || this.stuck != null || entity == this.owner || this.done) {
 			return;
 		}
 
@@ -128,7 +126,10 @@ public class ArrowEntity extends Entity {
 
 			BloodFx.add(entity, 10);
 		} else if (entity == null  || entity instanceof SolidProp) {
-			this.done = true;
+			this.did = true;
+			this.vel.x *= 0;
+			this.vel.y *= 0;
+			this.body = World.removeBody(this.body);
 			for (int i = 0; i < 20; i++) {
 				Part part = new Part();
 
@@ -142,9 +143,25 @@ public class ArrowEntity extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShadows();
-		Graphics.render(sprite, this.x, this.y - 8, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
-		Graphics.endShadows();
-		Graphics.render(sprite, this.x, this.y, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
+		if (this.positions.size() > 0) {
+			Graphics.batch.end();
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(1, 1, 1, 1);
+
+			for (int i = 0; i < this.positions.size(); i++) {
+				Point next = (i == positions.size() - 1 ? new Point(this.x + (float) Math.cos(this.a) * this.w / 2, this.y + (float) Math.sin(this.a) * this.h / 2)
+					: this.positions.get(i + 1));
+				Point pos = this.positions.get(i);
+
+				Graphics.shape.line(next.x, next.y, pos.x, pos.y);
+			}
+
+			Graphics.shape.end();
+			Graphics.batch.begin();
+		}
+
+		if (!did) {
+			Graphics.render(sprite, this.x, this.y, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
+		}
 	}
 }
