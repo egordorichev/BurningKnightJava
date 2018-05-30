@@ -7,6 +7,7 @@ public class Dendy extends Consumable {
 	{
 		name = Locale.get("dendy");
 		description = Locale.get("dendy_desc");
+		useOnPickup = true;
 	}
 
 	@Override

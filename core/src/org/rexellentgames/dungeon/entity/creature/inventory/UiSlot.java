@@ -244,7 +244,7 @@ public class UiSlot {
 			return item instanceof Hat;
 		} else if (id == 11) {
 			return item instanceof Gold;
-		} else if (id > 6) {
+		} else if (id > 6 && id < 12) {
 			return item instanceof Equipable;
 		}
 

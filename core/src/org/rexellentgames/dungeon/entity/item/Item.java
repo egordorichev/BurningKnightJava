@@ -13,6 +13,7 @@ import java.io.IOException;
 public class Item extends Entity {
 	public static TextureRegion missing;
 
+	public boolean useOnPickup;
 	protected String sprite = "item (missing)";
 	protected String name = "Missing Item Name";
 	protected String description = "";
@@ -40,6 +41,10 @@ public class Item extends Entity {
 
 	public void onPickup() {
 		Graphics.playSfx("pickup_item");
+
+		if (useOnPickup) {
+			this.use();
+		}
 	}
 
 	public boolean isAuto() {

@@ -35,7 +35,6 @@ import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
@@ -64,7 +63,7 @@ public class Player extends Creature {
 	}
 
 	public static ArrayList<Player> all = new ArrayList<Player>();
-	public static int INVENTORY_SIZE = 12;
+	public int inventorySize = 12;
 
 	private static final float LIGHT_SIZE = 5f;
 	public static String NAME;
@@ -360,7 +359,7 @@ public class Player extends Creature {
 		this.experienceMax = expNeeded(this.level);
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
-		this.inventory = new Inventory(this, INVENTORY_SIZE);
+		this.inventory = new Inventory(this, inventorySize);
 		this.body = this.createSimpleBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 	}
 
@@ -648,8 +647,6 @@ public class Player extends Creature {
 		Dungeon.slowDown(0.5f, 1f);
 	}
 
-	private ArrayList<Point> last = new ArrayList<>();
-
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
@@ -672,22 +669,6 @@ public class Player extends Creature {
 		}
 
 		TextureRegion region = this.animation.getCurrent().frame;
-
-		for (int i = 0; i < this.last.size(); i++) {
-			Point last = this.last.get(i);
-
-			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
-			Graphics.batch.setColor(1, 1, 1, this.a / (this.last.size() - i + 1));
-			this.animation.render(last.x - region.getRegionWidth() / 2 + region.getRegionWidth() / 2, last.y - region.getRegionHeight() / 2 + region.getRegionHeight() / 2, false, false, region.getRegionWidth() / 2,
-				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);		}
-
-		if (this.dashT > 0) {
-			this.last.add(new Point(this.x, this.y));
-		}
-
-		if (this.last.size() > 5 || (this.last.size() > 0 && this.dashT <= 0)) {
-			this.last.remove(0);
-		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
@@ -715,6 +696,8 @@ public class Player extends Creature {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
+		this.inventorySize = reader.readInt16();
+		this.inventory.resize(inventorySize);
 		this.inventory.load(reader);
 
 		this.mana = reader.readInt32();
@@ -736,6 +719,7 @@ public class Player extends Creature {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 
+		writer.writeInt16((short) this.inventorySize);
 		this.inventory.save(writer);
 
 		writer.writeFloat(this.mana);

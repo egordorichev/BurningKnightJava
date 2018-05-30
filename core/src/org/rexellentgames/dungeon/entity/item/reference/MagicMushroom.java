@@ -2,9 +2,9 @@ package org.rexellentgames.dungeon.entity.item.reference;
 
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
-import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
+import org.rexellentgames.dungeon.entity.item.autouse.Autouse;
 
-public class MagicMushroom extends Consumable {
+public class MagicMushroom extends Autouse {
 	{
 		name = Locale.get("magic_mushroom");
 		description = Locale.get("magic_mushroom_desc");

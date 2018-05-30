@@ -14,7 +14,6 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class UiInventory extends UiEntity {
@@ -34,12 +33,16 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void init() {
-		this.slots = new UiSlot[Player.INVENTORY_SIZE];
+		createSlots();
+	}
+
+	private void createSlots() {
+		this.slots = new UiSlot[this.inventory.getSize()];
 
 		for (int i = 0; i < this.slots.length; i++) {
-			this.slots[i] = new UiSlot(this, i, i % 6 * 29 + /*108*/4, 4);
+			this.slots[i] = new UiSlot(this, i, i % 6 * 29 + 4, 4);
 
-			if (i > 5) {
+			if (i > 5 && i < 12) {
 				Item current = this.inventory.getSlot(i);
 
 				if (current instanceof Accessory) {
@@ -48,6 +51,12 @@ public class UiInventory extends UiEntity {
 				}
 			}
 		}
+	}
+
+	public void resize(int newSize) {
+		this.inventory.resize(newSize);
+		Player.instance.inventorySize = newSize;
+		createSlots();
 	}
 
 	@Override
@@ -92,7 +101,9 @@ public class UiInventory extends UiEntity {
 			float dy = Math.abs(Input.instance.uiMouse.y - 18);
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (this.hidden && dx < 120f && dy < 40f || this.forceT > 0) {
+			float h = this.inventory.getSize() / 3 * 29;
+
+			if (this.hidden && dx < 120f && dy < h || this.forceT > 0) {
 				this.dn = false;
 
 				Tween.to(new Tween.Task(4, 0.3f, Tween.Type.BACK_OUT) {
@@ -103,7 +114,7 @@ public class UiInventory extends UiEntity {
 
 					@Override
 					public void setValue(float value) {
-						for (int i = 0; i < 12; i++) {
+						for (int i = 0; i < inventory.getSize(); i++) {
 							UiSlot slot = slots[i];
 							slot.y = value;
 						}
@@ -135,7 +146,7 @@ public class UiInventory extends UiEntity {
 
 						@Override
 						public void setValue(float value) {
-							for (int i = 0; i < 12; i++) {
+							for (int i = 0; i < inventory.getSize(); i++) {
 								UiSlot slot = slots[i];
 								slot.a = value;
 							}
@@ -162,7 +173,30 @@ public class UiInventory extends UiEntity {
 							dn = true;
 						}
 					});
-				} else if (!this.hidden && this.open && (dx > 100f || dy > 60f) && this.forceT == 0) {
+
+					if (this.inventory.getSize() > 12) {
+						Tween.to(new Tween.Task(29 + 29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return slots[12].y;
+							}
+
+							@Override
+							public void setValue(float value) {
+								for (int i = 12; i < 18; i++) {
+									UiSlot slot = slots[i];
+									slot.y = value;
+								}
+							}
+
+							@Override
+							public void onEnd() {
+								super.onEnd();
+								dn = true;
+							}
+						});
+					}
+				} else if (!this.hidden && this.open && (dx > 100f || dy > h + 20) && this.forceT == 0) {
 					if (this.lastA != null) {
 						Tween.remove(this.lastA);
 						this.lastA = null;
@@ -177,7 +211,7 @@ public class UiInventory extends UiEntity {
 
 						@Override
 						public void setValue(float value) {
-							for (int i = 0; i < 12; i++) {
+							for (int i = 0; i < inventory.getSize(); i++) {
 								UiSlot slot = slots[i];
 								slot.a = value;
 							}
@@ -211,7 +245,31 @@ public class UiInventory extends UiEntity {
 							open = false;
 						}
 					});
-				} else if (!this.open && !this.hidden && d > 194f) {
+
+					if (this.inventory.getSize() > 12) {
+						Tween.to(new Tween.Task(4, 0.2f, Tween.Type.QUAD_OUT) {
+							@Override
+							public float getValue() {
+								return slots[12].y;
+							}
+
+							@Override
+							public void setValue(float value) {
+								for (int i = 12; i < 18; i++) {
+									UiSlot slot = slots[i];
+									slot.y = value;
+								}
+							}
+
+							@Override
+							public void onEnd() {
+								super.onEnd();
+
+								open = false;
+							}
+						});
+					}
+				} else if (!this.open && !this.hidden && d > 14f + h) {
 					this.dn = false;
 
 					Tween.to(new Tween.Task(-25, 0.3f) {
@@ -222,7 +280,7 @@ public class UiInventory extends UiEntity {
 
 						@Override
 						public void setValue(float value) {
-							for (int i = 0; i < 12; i++) {
+							for (int i = 0; i < inventory.getSize(); i++) {
 								UiSlot slot = slots[i];
 								slot.y = value;
 							}
@@ -414,7 +472,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		float y = this.slots[6].y + 29;
+		float y = this.slots[this.inventory.getSize() - 1].y + 29;
 		float w = 168f;
 
 		int l = Player.instance.getLevel();
@@ -511,7 +569,7 @@ public class UiInventory extends UiEntity {
 				float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 				Graphics.small.setColor(c, c, c, 1);
-				Graphics.print(info, Graphics.small, 4, this.slots[11].y + 29 + Graphics.layout.height + 14);
+				Graphics.print(info, Graphics.small, 4, this.slots[this.inventory.getSize() - 1].y + 29 + Graphics.layout.height + 14);
 				Graphics.small.setColor(1, 1, 1, 1);
 
 				this.hoveredSlot = -1;
@@ -525,7 +583,7 @@ public class UiInventory extends UiEntity {
 			float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 			Graphics.small.setColor(c, c, c, 1);
-			Graphics.print(info, Graphics.small,4, this.slots[11].y + 29 + Graphics.layout.height + 14 + 15);
+			Graphics.print(info, Graphics.small,4, this.slots[this.inventory.getSize() - 1].y + 29 + Graphics.layout.height + 14 + 15);
 			Graphics.small.setColor(1, 1, 1, 1);
 
 			hoveredBuff = null;

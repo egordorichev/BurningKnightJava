@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector3;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
@@ -11,10 +9,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.item.accessory.hat.DunceHat;
 import org.rexellentgames.dungeon.entity.item.entity.PickupFx;
-import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -31,6 +26,15 @@ public class Inventory {
 	public Inventory(Creature creature, int size) {
 		this.creature = creature;
 		this.slots = new Item[size];
+	}
+
+	public void resize(int size) {
+		Item[] old = this.slots;
+		this.slots = new Item[size];
+
+		for (int i = 0; i < old.length; i++) {
+			this.slots[i] = old[i];
+		}
 	}
 
 	public void load(FileReader reader) throws IOException {
@@ -114,6 +118,7 @@ public class Inventory {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (this.isEmpty(i) && UiSlot.canAccept(i, null)) {
 				this.setSlot(i, item);
+				item.setOwner(Player.instance);
 				item.onPickup();
 				holder.done = true;
 
