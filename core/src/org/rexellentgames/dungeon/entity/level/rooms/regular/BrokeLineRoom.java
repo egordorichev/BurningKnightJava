@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BrokeLineRoom extends RegularRoom {
@@ -10,7 +11,7 @@ public class BrokeLineRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 2, Terrain.WALL);
+		Painter.fill(level, this, 2, Random.chance(50) ? Terrain.WALL : Terrain.LAVA);
 		Painter.fill(level, this, 3, Terrain.FLOOR_A);
 
 		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), Terrain.FLOOR_A);

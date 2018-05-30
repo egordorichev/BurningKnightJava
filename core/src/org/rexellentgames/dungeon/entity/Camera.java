@@ -98,8 +98,8 @@ public class Camera extends Entity {
 				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (1.5f / this.camera.zoom);
 				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (1.5f / this.camera.zoom);
 
-				x += ((Player) this.target).vel.x;
-				y += ((Player) this.target).vel.y;
+				//x += ((Player) this.target).vel.x;
+				//y += ((Player) this.target).vel.y;
 			}
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
