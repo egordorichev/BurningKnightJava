@@ -14,7 +14,6 @@ public class AssetLoadState extends State {
 			if (START_TO_MENU) {
 				Dungeon.game.setState(new MainMenuState());
 			} else {
-				LoadState.readDepth();
 				Dungeon.goToLevel(Dungeon.depth);
 			}
 		}

@@ -129,46 +129,33 @@ public abstract class Level extends Entity {
 		return x + y * getWidth();
 	}
 
-	public static RegularLevel forDepth(int depth) {
-		Log.info("Looking for level with depth = " + depth + " and dungeon type " + Dungeon.type);
+	public static byte[] depths = new byte[21];
 
+	public static RegularLevel forDepth(int depth) {
 		if (Dungeon.type == Dungeon.Type.ARCADE) {
 			return new WaveLevel();
 		}
-		switch (depth) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-			default:
-				return new HallLevel();
-			case 4:
-				return new HallBossLevel();
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-				return new StorageLevel();
-			// todo: case 9: boss level
-			case 10:
-			case 11:
-			case 12:
-			case 13:
-				return new PrisonLevel();
-			// todo: case 14: boss level
-			case 15:
-			case 16:
-			case 17:
-			case 18:
-				return new LibraryLevel();
-			// todo: case 19: boss level
-			case 20:
-			case 21:
-			case 22:
-			case 23:
-				return new HellLevel();
-			// todo: case 24: THE FINAL BOSS LEVEL
+
+		int weight = 0;
+
+		for (int i = 0; i < 5; i++) {
+			weight += depths[i] + 1;
+
+			if (depth == weight) {
+				switch (i) {
+					case 0: default: return new HallBossLevel();
+				}
+			} else if (depth < weight) {
+				switch (i) {
+					case 0: default: return new HallLevel();
+					// case 1: return new LibraryLevel();
+
+					// todo: more
+				}
+			}
 		}
+
+		return new HallLevel();
 	}
 
 	public boolean addLight = false;

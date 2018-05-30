@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -30,18 +31,6 @@ public class LoadState extends State {
 	private boolean ready = false;
 	private float a;
 	private String s;
-
-	public static void writeDepth() {
-		FileHandle save = Gdx.files.external(".bk/depth.save");
-
-		try {
-			FileWriter writer = new FileWriter(save.file().getPath());
-			writer.writeInt32(Dungeon.depth);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public void init() {
@@ -163,6 +152,23 @@ public class LoadState extends State {
 		}).run();
 	}
 
+	public static void writeDepth() {
+		FileHandle save = Gdx.files.external(".bk/depth.save");
+
+		try {
+			FileWriter writer = new FileWriter(save.file().getPath());
+			writer.writeInt32(Dungeon.depth);
+
+			for (int i = 0; i < Level.depths.length; i++) {
+				writer.writeByte(Level.depths[i]);
+			}
+
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void readDepth() {
 		FileHandle save = Gdx.files.external(".bk/depth.save");
 
@@ -172,18 +178,24 @@ public class LoadState extends State {
 
 			try {
 				file.createNewFile();
-				return;
 			} catch (IOException e) {
 				Dungeon.reportException(e);
 			}
 
 			Dungeon.depth = 0;
+			generateDepths();
+			writeDepth();
 			return;
 		}
 
 		try {
 			FileReader reader = new FileReader(save.file().getPath());
 			Dungeon.depth = reader.readInt32();
+
+			for (int i = 0; i < Level.depths.length; i++) {
+				Level.depths[i] = reader.readByte();
+			}
+
 			reader.close();
 			return;
 		} catch (FileNotFoundException e) {
@@ -193,6 +205,43 @@ public class LoadState extends State {
 		}
 
 		Dungeon.depth = 0;
+	}
+
+	private static final int areas = 5;
+
+	private static void generateDepths() {
+		int[] weights = new int[areas];
+
+		for (int i = 0; i < areas; i++) {
+			weights[i] = 3;
+		}
+
+		for (int i = 0; i < areas * 2; i++) {
+			int f = Random.newInt(areas);
+
+			if (weights[f] > 2) {
+				for (int j = areas - 1; j >= 0; j--) {
+					if (weights[j] < 4) {
+						weights[f] --;
+						weights[j] ++;
+
+						break;
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < areas; i++) {
+			for (int j = 0; j < weights[i]; j++) {
+				System.out.print("#");
+			}
+
+			System.out.println();
+		}
+
+		for (int i = 0; i < areas; i++) {
+			Level.depths[i] = (byte) weights[i];
+		}
 	}
 
 	@Override
