@@ -183,7 +183,7 @@ public class UiInventory extends UiEntity {
 
 							@Override
 							public void setValue(float value) {
-								for (int i = 12; i < 18; i++) {
+								for (int i = 12; i < inventory.getSize(); i++) {
 									UiSlot slot = slots[i];
 									slot.y = value;
 								}
@@ -255,7 +255,7 @@ public class UiInventory extends UiEntity {
 
 							@Override
 							public void setValue(float value) {
-								for (int i = 12; i < 18; i++) {
+								for (int i = 12; i < inventory.getSize(); i++) {
 									UiSlot slot = slots[i];
 									slot.y = value;
 								}
