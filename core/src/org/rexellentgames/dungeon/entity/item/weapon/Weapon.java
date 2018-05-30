@@ -35,10 +35,6 @@ public class Weapon extends WeaponBase {
 	public void use() {
 		super.use();
 
-		if (this.owner instanceof Player) {
-			((Player) this.owner).heat += 0.2f;
-		}
-
 		if (this.body != null) {
 			this.body = World.removeBody(this.body);
 		}

@@ -53,6 +53,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.TheSword
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC
+import org.rexellentgames.dungeon.entity.item.weapon.sword.claymore.ClaymoreA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC
@@ -151,6 +152,7 @@ object ItemRegistry {
 	    "star_cannon" to StarCannon::class,
 	    "switch" to Switch::class,
 	    "backpack" to Backpack::class,
-	    "blood_ring" to BloodRing::class
+	    "blood_ring" to BloodRing::class,
+	    "claymore_a" to ClaymoreA::class
     )
 }
