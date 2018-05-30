@@ -221,7 +221,7 @@ public class LoadState extends State {
 
 			if (weights[f] > 2) {
 				for (int j = areas - 1; j >= 0; j--) {
-					if (weights[j] < 4) {
+					if (weights[j] < 4 && Random.chance(((float) areas - j) / areas * 100)) {
 						weights[f] --;
 						weights[j] ++;
 
