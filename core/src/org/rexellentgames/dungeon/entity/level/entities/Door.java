@@ -95,8 +95,6 @@ public class Door extends SaveableEntity {
 			if (this.animation.getFrame() == 2) {
 				this.animation.setBack(true);
 				this.animation.setPaused(false);
-
-				Log.info("close");
 			}
 		}
 

@@ -95,8 +95,11 @@ public class Camera extends Entity {
 			float z = this.camera.zoom;
 
 			if (this.target instanceof Player && !((Player) this.target).toDeath) {
-				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (2 / this.camera.zoom);
-				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (2 / this.camera.zoom);
+				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (1.5f / this.camera.zoom);
+				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (1.5f / this.camera.zoom);
+
+				x += ((Player) this.target).vel.x / 2;
+				y += ((Player) this.target).vel.y / 2;
 			}
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
