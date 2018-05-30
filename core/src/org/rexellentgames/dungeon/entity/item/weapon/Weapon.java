@@ -160,6 +160,12 @@ public class Weapon extends WeaponBase {
 		builder.append(this.damage);
 		builder.append(" damage[gray]");
 
+		if (this.critChance + this.owner.critChance != 4f) {
+			builder.append("\n[orange]");
+			builder.append((int) Math.floor(this.critChance + this.owner.critChance));
+			builder.append("% crit chance[gray]");
+		}
+
 		if (this.modifier != null) {
 			this.modifier.apply(builder);
 		}

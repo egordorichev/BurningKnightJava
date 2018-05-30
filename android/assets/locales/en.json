@@ -133,6 +133,8 @@
 	"blood_ring_desc" : "Increases your hp regeneration",
 	"metal_ring" : "Metal Ring",
 	"metal_ring_desc" : "Gives a 10% chance to reflect\nhalf of damage on the attacker",
+	"fortune_ring" : "Fortune Ring",
+	"fortune_ring_desc" : "Increases crit chance by 10%",
 	"fire_flower" : "Fire Flower",
 	"fire_flower_desc" : "Sets all your enemies on fire!",
 	"gravelord_sword" : "Gravelord Sword",

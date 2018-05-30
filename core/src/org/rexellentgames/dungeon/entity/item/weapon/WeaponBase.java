@@ -30,7 +30,7 @@ public class WeaponBase extends Item {
 	}
 
 	public int rollDamage() {
-		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (Random.chance(this.critChance) ? 2 : 1));
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (Random.chance(this.critChance + this.owner.critChance) ? 2 : 1));
 	}
 
 	public void modifyDamage(int am) {

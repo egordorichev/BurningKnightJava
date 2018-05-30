@@ -145,6 +145,7 @@ object ItemRegistry {
 	    "metal_ring" to MetalRing::class,
 	    "fire_ring" to FireRing::class,
 	    "thorn_ring" to ThornRing::class,
+	    "fortune_ring" to FortuneRing::class,
 	    "ice_ring" to IceRing::class,
 	    "blue_boomerang" to BlueBoomerang::class,
 	    "magic_mushroom" to MagicMushroom::class,

@@ -22,6 +22,7 @@ public class AccessoryPool extends Pool<Item> {
 		add(MeetBoy.class, 1f);
 		add(Dendy.class, 1f);
 		add(MagicMushroom.class, 1f);
-		add(Switch.class, 1f);
+		add(Switch.class, 0.1f);
+		add(FortuneRing.class, 1f);
 	}
 }

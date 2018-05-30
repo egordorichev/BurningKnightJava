@@ -14,6 +14,6 @@ public class FourSideRotatingTurret extends FourSideTurret {
 	@Override
 	protected void send() {
 		super.send();
-		this.a += (left ? -Math.PI / 8 : Math.PI / 8);
+		this.a += (left ? -Math.PI / 4 : Math.PI / 4);
 	}
 }
