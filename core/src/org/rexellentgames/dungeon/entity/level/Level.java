@@ -487,21 +487,21 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						//Graphics.render(region, x * 16, y * 16);
+						Graphics.render(region, x * 16, y * 16);
 					}
 
 					if (tile != Terrain.WALL && tile != Terrain.CRACK && Terrain.variants[tile] != null) {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
-							//Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 				} else {
 					byte v = this.walls[i];
 
 					if (v != 15) {
-						//Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
 
@@ -582,7 +582,7 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						//Graphics.render(region, x * 16, y * 16 - 8);
+						Graphics.render(region, x * 16, y * 16 - 8);
 					} else if (tile == Terrain.CHASM) {
 						Graphics.render(Terrain.chasm, x * 16, y * 16 - 8);
 					}
@@ -591,13 +591,13 @@ public abstract class Level extends Entity {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
-							//Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 
 					if (this.decor[i] != 0) {
 						TextureRegion s = Terrain.decor[this.decor[i] - 1];
-						//Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 + 6);
+						Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 + 6);
 					}
 
 					if (tile == Terrain.CHASM && Random.chance(0.4f)) {
@@ -619,10 +619,8 @@ public abstract class Level extends Entity {
 					Graphics.batch.begin();
 
 					if (variant != 15) {
-						//Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-						//Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
+						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
 					}
-
 
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
 
@@ -669,9 +667,9 @@ public abstract class Level extends Entity {
 
 				if (v != 15 && v % 2 == 0) {
 					Graphics.startShadows();
-					//Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
+					Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
 					Graphics.endShadows();
-					// Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
+					Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
 				}
 			}
 		}

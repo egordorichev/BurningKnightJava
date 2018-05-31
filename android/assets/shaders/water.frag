@@ -16,7 +16,7 @@ void main() {
     vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
     float x = (pos.x - v_texCoord.x) * cof.x;
     float y = (pos.y - v_texCoord.y) * cof.y;
-    float v = sin(time * 4.0 + y * 8.0);
+    float v = sin(time * 4.0 + y * 4.0);
     // float u = sin(time * 4.0 + x * 8.0);
 
     vec4 color = texture2D(u_texture,
