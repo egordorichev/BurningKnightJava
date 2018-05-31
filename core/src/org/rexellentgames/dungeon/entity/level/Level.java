@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -485,21 +487,21 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						Graphics.render(region, x * 16, y * 16);
+						//Graphics.render(region, x * 16, y * 16);
 					}
 
 					if (tile != Terrain.WALL && tile != Terrain.CRACK && Terrain.variants[tile] != null) {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
-							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
+							//Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 				} else {
 					byte v = this.walls[i];
 
 					if (v != 15) {
-						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+						//Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
 					}
 				}
 
@@ -537,6 +539,17 @@ public abstract class Level extends Entity {
 		}
 	}
 
+	public static ShaderProgram shaderOutline;
+
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/water.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/water.frag").readString();
+		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+	}
+
 	@Override
 	public void render() {
 		OrthographicCamera camera = Camera.instance.getCamera();
@@ -569,7 +582,7 @@ public abstract class Level extends Entity {
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
-						Graphics.render(region, x * 16, y * 16 - 8);
+						//Graphics.render(region, x * 16, y * 16 - 8);
 					} else if (tile == Terrain.CHASM) {
 						Graphics.render(Terrain.chasm, x * 16, y * 16 - 8);
 					}
@@ -578,13 +591,13 @@ public abstract class Level extends Entity {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
-							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
+							//Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 
 					if (this.decor[i] != 0) {
 						TextureRegion s = Terrain.decor[this.decor[i] - 1];
-						Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 + 6);
+						//Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 + 6);
 					}
 
 					if (tile == Terrain.CHASM && Random.chance(0.4f)) {
@@ -606,30 +619,45 @@ public abstract class Level extends Entity {
 					Graphics.batch.begin();
 
 					if (variant != 15) {
-						Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
-						Graphics.batch.flush();
+						//Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+						//Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
 					}
 
-					Gdx.gl.glColorMask(false, false, false, true);
-					Graphics.batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ZERO);
-					Graphics.render(Terrain.waterVariants[variant], x * 16, y * 16 - 8);
-					Graphics.batch.flush();
-
-					Gdx.gl.glColorMask(true, true, true, true);
-					Graphics.batch.setBlendFunction(GL20.GL_DST_ALPHA, GL20.GL_ONE_MINUS_DST_ALPHA);
 
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
 
+					r.setRegionX(r.getRegionX() + x % 4 * 16);
+					r.setRegionY(r.getRegionY() + y % 4 * 16);
 					r.setRegionHeight(16);
 					r.setRegionWidth(16);
 
-					Graphics.render(r, x * 16, y * 16 - 8);
-					Graphics.batch.flush();
+					Texture texture = r.getTexture();
 
-					Graphics.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-					
 					Graphics.batch.end();
+					shaderOutline.begin();
+
+					TextureRegion rr = Terrain.waterVariants[variant];
+					Texture t = rr.getTexture();
+
+					t.bind(1);
+					shaderOutline.setUniformi("u_texture2", 1);
+
+					shaderOutline.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					// shaderOutline.setUniformf("tsize", new Vector2((float) rr.getRegionWidth() / t.getWidth(), (float) rr.getRegionHeight() / t.getHeight()));
+
+					texture.bind(0);
+					shaderOutline.setUniformi("u_texture", 1);
+					shaderOutline.setUniformf("time", Dungeon.time);
+					shaderOutline.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+					shaderOutline.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					shaderOutline.end();
+					Graphics.batch.setShader(shaderOutline);
+					Graphics.batch.begin();
+
+					Graphics.render(r, x * 16, y * 16 - 8);
+
+					Graphics.batch.end();
+					Graphics.batch.setShader(null);
 					Graphics.batch.begin();
 
 					if (variant != 15) {
@@ -641,9 +669,9 @@ public abstract class Level extends Entity {
 
 				if (v != 15 && v % 2 == 0) {
 					Graphics.startShadows();
-					Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
+					//Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
 					Graphics.endShadows();
-					Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
+					// Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
 				}
 			}
 		}

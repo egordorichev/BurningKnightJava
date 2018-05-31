@@ -374,6 +374,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Mob.shaderOutline.dispose();
 		BurningKnight.shaderOutline.dispose();
+		Level.shaderOutline.dispose();
 	}
 
 	private void initInput() {

@@ -19,13 +19,9 @@ void main() {
     vec4 color = texture2D(u_texture,
         vec2(
             clamp(v_texCoord.x + v / (cof.x * 24.0), pos.x, pos.x + size.x),
-            clamp(v_texCoord.y + round(sin(time * 4.0 + x)) / (cof.y * 24.0), pos.y, pos.y + size.y)
+            clamp(v_texCoord.y + round(sin(time * 2.0 + x)) / (cof.y * 24.0), pos.y, pos.y + size.y)
         )
     );
 
-    if (sin(time + y * (32.0 + cos(time / 2.0) * 10.0)) + cos(time * 3.0 + y * 64.0) > abs(sin(time * 1.5 + y * 48.0) * 0.2 + 0.8)) {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-    } else {
-        gl_FragColor = color;
-    }
+    gl_FragColor = color;
 }

@@ -776,7 +776,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			//if (Player.instance.currentRoom != null && !(Player.instance.currentRoom instanceof EntranceRoom)) {
+			if (Player.instance.currentRoom != null && !(Player.instance.currentRoom instanceof EntranceRoom)) {
 				Log.info("BK is out");
 
 				float a = Random.newFloat((float) (Math.PI * 2));
@@ -787,7 +787,7 @@ public class BurningKnight extends Boss {
 				self.become("fadeIn");
 
 				Lamp.play();
-			//}
+			}
 		}
 	}
 
