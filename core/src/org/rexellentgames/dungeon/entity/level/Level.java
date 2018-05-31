@@ -651,6 +651,7 @@ public abstract class Level extends Entity {
 		if (SHADOWS) {
 			Graphics.batch.setColor(0, 0, 0, 0.5f);
 			Texture texture = Graphics.shadows.getColorBufferTexture();
+			texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 			Graphics.batch.draw(texture,
 				Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,

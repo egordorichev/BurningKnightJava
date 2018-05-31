@@ -1,8 +1,14 @@
 package org.rexellentgames.dungeon.entity.creature.mob;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -183,6 +189,16 @@ public class BurningKnight extends Boss {
 		return !(buff instanceof BurningBuff);
 	}
 
+	public static ShaderProgram shaderOutline;
+
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/bk.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/bk.frag").readString();
+		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+	}
 
 	@Override
 	public void render() {
@@ -194,43 +210,24 @@ public class BurningKnight extends Boss {
 			this.animation = idle;
 		}
 
+		Graphics.batch.end();
+		shaderOutline.begin();
+
+		TextureRegion region = this.animation.getCurrent().frame;
+		Texture texture = region.getTexture();
+
+		shaderOutline.setUniformf("time", Dungeon.time);
+		shaderOutline.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
+		shaderOutline.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
+		shaderOutline.end();
+		Graphics.batch.setShader(shaderOutline);
+		Graphics.batch.begin();
+
 		this.animation.render(this.x, this.y, this.flipped);
 
-		/*Graphics.batch.end();
-		Graphics.shape.setColor(1, 0, 1, 1);
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-
-		for (int i = 0; i < 4; i++) {
-			double a = i * Math.PI / 2;
-
-			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
-				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
-			a -= Math.toRadians(5);
-			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
-				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
-			a += Math.toRadians(10);
-			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
-				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
-		}
-
-		Graphics.shape.setColor(0, 1, 1, 1);
-
-		for (int i = 0; i < 4; i++) {
-			double a = i * Math.PI / 2 + Math.PI / 4;
-
-			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
-				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
-			a -= Math.toRadians(5);
-			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
-				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
-			a += Math.toRadians(10);
-			Graphics.shape.line(this.x + this.w / 2, this.y + this.h / 2,
-				(float) (this.x + this.w / 2 + Math.cos(a) * 64), (float) (this.y + this.h / 2 + Math.sin(a) * 64));
-		}
-
-		Graphics.shape.end();
-		Graphics.shape.setColor(1, 1, 1, 1);
-		Graphics.batch.begin();*/
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 	}
 
 	public class BKState extends State<BurningKnight> {
@@ -779,7 +776,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (Player.instance.currentRoom != null && !(Player.instance.currentRoom instanceof EntranceRoom)) {
+			//if (Player.instance.currentRoom != null && !(Player.instance.currentRoom instanceof EntranceRoom)) {
 				Log.info("BK is out");
 
 				float a = Random.newFloat((float) (Math.PI * 2));
@@ -790,7 +787,7 @@ public class BurningKnight extends Boss {
 				self.become("fadeIn");
 
 				Lamp.play();
-			}
+			//}
 		}
 	}
 

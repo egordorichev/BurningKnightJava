@@ -373,6 +373,7 @@ public class Dungeon extends ApplicationAdapter {
 		Log.close();
 
 		Mob.shaderOutline.dispose();
+		BurningKnight.shaderOutline.dispose();
 	}
 
 	private void initInput() {
