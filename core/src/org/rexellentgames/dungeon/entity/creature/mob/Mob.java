@@ -158,6 +158,7 @@ public class Mob extends Creature {
 
 			Graphics.batch.end();
 			shaderOutline.begin();
+			Mob.shaderOutline.setUniformf("u_a", 1f);
 			shaderOutline.setUniformf("u_color", new Vector3(color.r, color.g, color.b));
 			shaderOutline.end();
 			Graphics.batch.setShader(shaderOutline);

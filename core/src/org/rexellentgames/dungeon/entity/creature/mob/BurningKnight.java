@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -34,6 +35,7 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class BurningKnight extends Boss {
 	public static BurningKnight instance;
@@ -145,6 +147,24 @@ public class BurningKnight extends Boss {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.lastFrame += dt;
+
+		if (this.lastFrame > 0.2f) {
+			this.lastFrame = 0;
+			if (frames.size() > 5) {
+				frames.remove(0);
+			}
+
+			Frame p = new Frame();
+
+			p.x = this.x;
+			p.y = this.y;
+			p.frame = this.animation == null ? 0 : this.animation.getFrame();
+			p.flipped = this.flipped;
+
+			frames.add(p);
+		}
+
 		if (this.freezed) {
 			return;
 		}
@@ -202,8 +222,6 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(1, 1, 1, this.a);
-
 		if (this.invt > 0) {
 			this.animation = hurt;
 		} else {
@@ -211,9 +229,37 @@ public class BurningKnight extends Boss {
 		}
 
 		Graphics.batch.end();
+		Mob.shaderOutline.begin();
+		Mob.shaderOutline.setUniformf("u_color", new Vector3(1, 0.3f, 0.3f));
+		Mob.shaderOutline.setUniformf("u_a", 0.5f);
+		Mob.shaderOutline.end();
+		Graphics.batch.setShader(Mob.shaderOutline);
+		Graphics.batch.begin();
+		TextureRegion region = this.animation.getCurrent().frame;
+
+		int w = region.getRegionWidth() / 2;
+		int h = region.getRegionHeight() / 2;
+		float dt = Gdx.graphics.getDeltaTime();
+
+		for (int i = 0; i < this.frames.size(); i++) {
+			Graphics.batch.setColor(1, 0.3f, 0.3f, this.a / 1.3f);
+
+			Frame point = this.frames.get(i);
+			float s = point.s;
+			point.s -= dt * 0.8f;
+
+			Graphics.render(this.animation.getFrames().get(point.frame).frame, point.x + w, point.y + h, 0, w, h, false, false, point.flipped ? -s : s, s);
+		}
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+
+		Graphics.batch.setColor(1, 1, 1, this.a);
+
+		Graphics.batch.end();
 		shaderOutline.begin();
 
-		TextureRegion region = this.animation.getCurrent().frame;
 		Texture texture = region.getTexture();
 
 		shaderOutline.setUniformf("time", Dungeon.time);
@@ -228,6 +274,16 @@ public class BurningKnight extends Boss {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+	}
+
+	private float lastFrame;
+
+	private ArrayList<Frame> frames = new ArrayList<>();
+
+	private static class Frame extends Point {
+		public boolean flipped;
+		public float s = 1f;
+		public int frame;
 	}
 
 	@Override

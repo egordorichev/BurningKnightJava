@@ -98,7 +98,9 @@ public class RollingSpike extends SaveableEntity {
 		if (entity == null || entity instanceof Door || entity instanceof SolidProp) {
 			this.vel.x *= -1f;
 			this.vel.y *= -1f;
-			body.setLinearVelocity(this.vel);
+			if (this.body != null) {
+				body.setLinearVelocity(this.vel);
+			}
 		} else if (entity instanceof Player) {
 			this.colliding.add((Player) entity);
 		}

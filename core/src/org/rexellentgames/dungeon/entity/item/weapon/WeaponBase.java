@@ -65,6 +65,7 @@ public class WeaponBase extends Item {
 		Graphics.batch.end();
 		Mob.shaderOutline.begin();
 		Mob.shaderOutline.setUniformf("u_color", new Vector3(r, g, b));
+		Mob.shaderOutline.setUniformf("u_a", 1f);
 		Mob.shaderOutline.end();
 		Graphics.batch.setShader(Mob.shaderOutline);
 		Graphics.batch.begin();
