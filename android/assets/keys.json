@@ -42,6 +42,7 @@
 
 	"moveX" : [ "Axis0" ],
 	"moveY" : [ "Axis1" ],
+	"map" : [ "M" ],
 
 	"mouse_left" : [ "Numpad 4" ],
 	"mouse_right" : [ "Numpad 6" ],

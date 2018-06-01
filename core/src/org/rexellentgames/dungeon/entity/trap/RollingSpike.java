@@ -113,5 +113,12 @@ public class RollingSpike extends SaveableEntity {
 		}
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		this.body = World.removeBody(this.body);
+	}
+
 	private ArrayList<Player> colliding = new ArrayList<>();
 }

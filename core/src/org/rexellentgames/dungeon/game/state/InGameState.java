@@ -14,7 +14,6 @@ import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
@@ -36,6 +35,7 @@ public class InGameState extends State {
 	private TextureRegion blood;
 	private float a;
 	private ArrayList<UiEntity> ui;
+	public static boolean map = false;
 
 	@Override
 	public void init() {
@@ -105,6 +105,10 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		if (map) {
+			return;
+		}
+
 		this.console.update(dt);
 
 		if (Input.instance.wasPressed("pause")) {

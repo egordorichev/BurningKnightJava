@@ -222,10 +222,10 @@ public class Dungeon extends ApplicationAdapter {
 			Ui.ui.update(dt);
 		}
 
-		boolean paused = game.getState().isPaused();
+		boolean paused = game.getState().isPaused() || (game.getState() instanceof InGameState && InGameState.map);
 
 		if (Input.instance.wasPressed("pause")) {
-			game.getState().setPaused(!paused);
+			game.getState().setPaused(!game.getState().isPaused());
 		}
 
 		if (!(game.getState() instanceof LoadState) && !paused) {

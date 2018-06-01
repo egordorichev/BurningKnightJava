@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +20,6 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
@@ -84,6 +82,7 @@ public abstract class Level extends Entity {
 	protected boolean[] low;
 	protected boolean[] free;
 	protected byte[] decor;
+	protected boolean[] explored;
 	protected Body body;
 	protected int level;
 	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
@@ -177,6 +176,7 @@ public abstract class Level extends Entity {
 
 	public void fill() {
 		this.data = new byte[getSIZE()];
+		this.explored = new boolean[getSIZE()];
 
 		this.initLight();
 
@@ -710,6 +710,10 @@ public abstract class Level extends Entity {
 		if (this.lightB[i] < max) {
 			this.lightB[i] = Math.min(1, this.lightB[i] + b * dt);
 		}
+
+		if (this.light[i] > 0.7f) {
+			this.explored[i] = true;
+		}
 	}
 
 	public float getLight(int i) {
@@ -1006,11 +1010,13 @@ public abstract class Level extends Entity {
 				setSize(stream.readInt32(), stream.readInt32());
 				this.data = new byte[getSIZE()];
 				this.decor = new byte[getSIZE()];
+				this.explored = new boolean[getSIZE()];
 				this.initLight();
 
 				for (int i = 0; i < getSIZE(); i++) {
 					this.data[i] = stream.readByte();
 					this.decor[i] = stream.readByte();
+					this.explored[i] = stream.readBoolean();
 				}
 			}
 
@@ -1024,6 +1030,10 @@ public abstract class Level extends Entity {
 
 	public byte[] getVariants() {
 		return this.variants;
+	}
+
+	public boolean explored(int x, int y) {
+		return explored[toIndex(x, y)];
 	}
 
 	public void save(DataType type) {
@@ -1042,6 +1052,7 @@ public abstract class Level extends Entity {
 				for (int i = 0; i < getSIZE(); i++) {
 					stream.writeByte(this.data[i]);
 					stream.writeByte(this.decor[i]);
+					stream.writeBoolean(this.explored[i]);
 				}
 			}
 

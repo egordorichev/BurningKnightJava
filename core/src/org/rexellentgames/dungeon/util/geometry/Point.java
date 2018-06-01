@@ -16,9 +16,11 @@ public class Point extends Vector2 {
 		this.y = y;
 	}
 
-	public void mul(float v) {
+	public Point mul(float v) {
 		this.x *= v;
 		this.y *= v;
+
+		return this;
 	}
 
 	public Point offset(Point d) {
