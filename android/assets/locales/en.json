@@ -127,6 +127,8 @@
 	"fire_ring_desc" : "Gives a 10% chance to inflict burning\ndebuff on enemies when attacking",
 	"ice_ring" : "Ice Ring",
 	"ice_ring_desc" : "Gives a 5% chance to stun enemies\nwhen attacking",
+	"gold_ring" : "Gold Ring",
+	"gold_ring_desc" : "You gain 30% more gold!",
 	"thorn_ring" : "Thorn Ring",
 	"thorn_ring_desc" : "Enemies take damage on touch",
 	"blood_ring" : "Blood Ring",

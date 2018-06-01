@@ -99,6 +99,7 @@ public class Player extends Creature {
 	public float reflectDamageChance;
 	public float thornDamageChance;
 	public float regen;
+	public float goldModifier = 1f;
 
 	@Override
 	protected void onHurt(float a, Creature from) {

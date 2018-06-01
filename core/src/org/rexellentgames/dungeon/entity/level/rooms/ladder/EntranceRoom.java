@@ -41,19 +41,5 @@ public class EntranceRoom extends LadderRoom {
 			level.addSaveable(entrance);
 			Dungeon.area.add(entrance);
 		}
-
-		for (int i = 0; i < 10; i++) {
-			ItemHolder gold = new ItemHolder();
-
-			gold.setItem(new Gold());
-			gold.getItem().generate();
-			Point cell = this.getRandomCell();
-
-			gold.x = cell.x * 16;
-			gold.y = cell.y * 16;
-
-			Dungeon.area.add(gold);
-			Dungeon.level.addSaveable(gold);
-		}
 	}
 }

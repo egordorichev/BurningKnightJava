@@ -164,6 +164,7 @@ object ItemRegistry {
 	    "claymore_c" to ClaymoreC::class,
 	    "celeste" to StrawberryPet::class,
 	    "goo" to GooOrbital::class,
-	    "bumbo" to Bumbo::class
+	    "bumbo" to Bumbo::class,
+	    "gold_ring" to GoldRing::class
     )
 }

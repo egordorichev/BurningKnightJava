@@ -2,6 +2,8 @@ package org.rexellentgames.dungeon.entity.pool.item;
 
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.*;
+import org.rexellentgames.dungeon.entity.item.pet.Bumbo;
+import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital;
 import org.rexellentgames.dungeon.entity.item.reference.Dendy;
 import org.rexellentgames.dungeon.entity.item.reference.MagicMushroom;
 import org.rexellentgames.dungeon.entity.item.reference.MeetBoy;
@@ -24,5 +26,8 @@ public class AccessoryPool extends Pool<Item> {
 		add(MagicMushroom.class, 1f);
 		add(Switch.class, 0.1f);
 		add(FortuneRing.class, 1f);
+		add(GoldRing.class, 1f);
+		add(Bumbo.class, 0.5f);
+		add(GooOrbital.class, 1f);
 	}
 }
