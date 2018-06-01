@@ -11,7 +11,7 @@ import org.rexellentgames.dungeon.util.file.FileWriter;
 import java.io.IOException;
 
 public class Item extends Entity {
-	public static TextureRegion missing;
+	public static TextureRegion missing = Graphics.getTexture("item (missing)");
 
 	public boolean useOnPickup;
 	protected String sprite = "item (missing)";

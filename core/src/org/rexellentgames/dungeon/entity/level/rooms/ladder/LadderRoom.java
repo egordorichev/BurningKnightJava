@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.rooms.ladder;
 
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 
 public class LadderRoom extends Room {
 	@Override
