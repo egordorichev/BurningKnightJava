@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.item.key.KeyA
 import org.rexellentgames.dungeon.entity.item.key.KeyB
 import org.rexellentgames.dungeon.entity.item.key.KeyC
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet
+import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital
 import org.rexellentgames.dungeon.entity.item.reference.*
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA
@@ -160,6 +161,7 @@ object ItemRegistry {
 	    "claymore_a" to ClaymoreA::class,
 	    "claymore_b" to ClaymoreB::class,
 	    "claymore_c" to ClaymoreC::class,
-	    "celeste" to StrawberryPet::class
+	    "celeste" to StrawberryPet::class,
+	    "goo" to GooOrbital::class
     )
 }
