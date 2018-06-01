@@ -98,7 +98,7 @@ public class Terrain {
 
 		dirtPattern = Graphics.getTexture(bm + " (dirt pattern)");
 		grassPattern = Graphics.getTexture(bm + " (grass pattern)");
-		waterPattern = Graphics.getTexture(bm + " (pool pattern)");
+		waterPattern = Graphics.getTexture("biome-gen-pool pattern");
 		lavaPattern = Graphics.getTexture(bm + " (lava pattern)");
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
 		crackPattern = Graphics.getTexture("biome-gen-crack");

@@ -641,7 +641,6 @@ public abstract class Level extends Entity {
 					shaderOutline.setUniformi("u_texture2", 1);
 
 					shaderOutline.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
-					// shaderOutline.setUniformf("tsize", new Vector2((float) rr.getRegionWidth() / t.getWidth(), (float) rr.getRegionHeight() / t.getHeight()));
 
 					texture.bind(0);
 					shaderOutline.setUniformi("u_texture", 1);
