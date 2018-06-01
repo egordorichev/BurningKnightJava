@@ -22,7 +22,7 @@ public class FourSideTurret extends Turret {
 
 			this.modify(bullet);
 
-			float s = 1.5f;
+			float s = 1.5f * 60f;
 
 			float a = (float) (this.a + i * Math.PI / 2);
 

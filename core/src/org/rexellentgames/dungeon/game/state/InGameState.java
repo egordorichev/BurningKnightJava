@@ -23,6 +23,7 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiEntity;
+import org.rexellentgames.dungeon.ui.UiMap;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -165,46 +166,6 @@ public class InGameState extends State {
 				}
 			});
 		}
-
-		if (Input.instance.wasPressed("z")) {
-			final OrthographicCamera cam = Camera.instance.getCamera();
-
-			Tween.to(new Tween.Task(cam.zoom * 1.3f, 0.1f) {
-				@Override
-				public float getValue() {
-					return cam.zoom;
-				}
-
-				@Override
-				public void setValue(float value) {
-					cam.zoom = value;
-				}
-
-				@Override
-				public void onEnd() {
-					Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-				}
-			});
-		} else if (Input.instance.wasPressed("c")) {
-			final OrthographicCamera cam = Camera.instance.getCamera();
-
-			Tween.to(new Tween.Task(cam.zoom * 0.7f, 0.1f) {
-				@Override
-				public float getValue() {
-					return cam.zoom;
-				}
-
-				@Override
-				public void setValue(float value) {
-					cam.zoom = value;
-				}
-
-				@Override
-				public void onEnd() {
-					Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-				}
-			});
-		}
 	}
 
 	@Override
@@ -235,6 +196,8 @@ public class InGameState extends State {
 	private void setupUi() {
 		this.inventory = new UiInventory(Player.instance.getInventory());
 		Dungeon.ui.add(this.inventory);
+
+		Dungeon.ui.add(new UiMap());
 
 		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
 			@Override

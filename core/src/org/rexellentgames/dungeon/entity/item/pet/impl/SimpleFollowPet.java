@@ -1,10 +1,12 @@
 package org.rexellentgames.dungeon.entity.item.pet.impl;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.Item;
 
 public class SimpleFollowPet extends PetEntity {
 	private float maxDistance = 32f;
+	public TextureRegion region = Item.missing; // todo: replace with anim
 
 	@Override
 	public void update(float dt) {
@@ -29,7 +31,12 @@ public class SimpleFollowPet extends PetEntity {
 	}
 
 	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h, this.z);
+	}
+
+	@Override
 	public void render() {
-		Graphics.render(Item.missing, this.x, this.y);
+		Graphics.render(region, this.x, this.y);
 	}
 }

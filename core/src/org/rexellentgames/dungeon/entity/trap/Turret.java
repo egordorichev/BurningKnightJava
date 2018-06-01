@@ -158,7 +158,7 @@ public class Turret extends SolidProp {
 
 		this.modify(bullet);
 
-		float s = 1.5f;
+		float s = 1.5f * 60f;
 
 		bullet.vel = new Point(
 			(float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s

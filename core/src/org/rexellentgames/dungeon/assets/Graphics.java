@@ -268,6 +268,16 @@ public class Graphics {
 		endShadows();
 	}
 
+	public static void startShape() {
+		Graphics.batch.end();
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+	}
+
+	public static void endShape() {
+		Graphics.shape.end();
+		Graphics.batch.begin();
+	}
+
 	public static void destroy() {
 		atlas.dispose();
 		manager.dispose();

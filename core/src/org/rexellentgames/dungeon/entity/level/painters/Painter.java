@@ -45,7 +45,7 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		leftMost -= 10 + (Dungeon.depth == 0 ? 16 : 0);
+		leftMost -= 10;
 		topMost -= 10;
 
 		int rightMost = 0, bottomMost = 0;
@@ -67,14 +67,6 @@ public class Painter {
 		level.setSize(rightMost + 1, bottomMost + 1);
 		level.generateDecor();
 		level.fill();
-
-		if (Dungeon.depth == 0 && Dungeon.level instanceof HallLevel) {
-			fill(level, level.entrance.left,
-				Math.min(level.entrance.top, level.exit.top),
-				level.exit.right - level.entrance.left + 1,
-				Math.max(level.entrance.bottom, level.exit.bottom) - Math.min(level.entrance.top, level.exit.top) + 1,
-				Terrain.WALL);
-		}
 
 		for (Room room : rooms) {
 			this.placeDoors(room);

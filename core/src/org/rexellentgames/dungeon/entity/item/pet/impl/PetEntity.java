@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 
 public class PetEntity extends SaveableEntity {
 	public Player owner;
+	public float z;
 
 	@Override
 	public void init() {
