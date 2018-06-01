@@ -241,5 +241,11 @@
 	"valkyre_hat_desc" : "I believe I can fly...",
 
 	"viking_hat" : "Viking Hat",
-	"viking_hat_desc" : "Looks like a weapon itself"
+	"viking_hat_desc" : "Looks like a weapon itself",
+
+	"super_slow" : "Super slow speed",
+	"slow" : "Slow speed",
+	"normal_spd" : "Normal speed",
+	"insane_fast" : "Insane fast speed",
+	"fast" : "Fast speed"
 }

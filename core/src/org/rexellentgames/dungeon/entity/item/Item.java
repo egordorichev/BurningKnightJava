@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.util.Log;
@@ -30,6 +31,23 @@ public class Item extends Entity {
 	protected boolean auto = false;
 	protected boolean fly = false;
 	public float a = 1;
+	protected String useSpeedStr;
+
+	public String getUseSpeedAsString() {
+		String str = "super_slow";
+
+		if (this.useTime <= 0.1f) {
+			str = "insane_fast";
+		} else if (this.useTime <= 0.2f) {
+			str = "fast";
+		} else if (this.useTime <= 0.4f) {
+			str = "normal_spd";
+		} else if (this.useTime <= 0.5f) {
+			str = "slow";
+		}
+
+		return Locale.get(str);
+	}
 
 	public void generate() {
 
@@ -167,6 +185,14 @@ public class Item extends Entity {
 		builder.append("[gray]");
 		builder.append('\n');
 		builder.append(this.getDescription());
+
+		if (this.useSpeedStr == null) {
+			this.useSpeedStr = this.getUseSpeedAsString();
+		}
+
+		builder.append("\n[white]");
+		builder.append(this.useSpeedStr);
+		builder.append("[gray]");
 
 		if (this.cursed) {
 			builder.append("\n[red]Cursed[gray]");
