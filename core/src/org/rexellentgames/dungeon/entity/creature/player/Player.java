@@ -100,6 +100,7 @@ public class Player extends Creature {
 	public float thornDamageChance;
 	public float regen;
 	public float goldModifier = 1f;
+	public float vampire;
 
 	@Override
 	protected void onHurt(float a, Creature from) {
@@ -131,6 +132,10 @@ public class Player extends Creature {
 
 		if (Random.chance(this.freezeChance)) {
 			who.addBuff(new FreezeBuff().setDuration(2));
+		}
+
+		if (Random.chance(vampire)) {
+			this.modifyHp(1, null);
 		}
 	}
 

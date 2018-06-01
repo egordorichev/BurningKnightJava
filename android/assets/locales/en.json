@@ -158,6 +158,8 @@
 	"goo_desc" : "Rotates and protects",
 	"bumbo" : "Bumbo",
 	"bumbo_desc" : "He wants more coins!",
+	"vampire_ring" : "Vampire Ring",
+	"vampire_ring_desc" : "Gives a 5% chance to heal from enemies on hit!",
 
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",

@@ -230,6 +230,11 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 	}
 
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f);
+	}
+
 	public class BKState extends State<BurningKnight> {
 		@Override
 		public void update(float dt) {

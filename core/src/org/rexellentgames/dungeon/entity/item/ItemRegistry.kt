@@ -165,6 +165,7 @@ object ItemRegistry {
 	    "celeste" to StrawberryPet::class,
 	    "goo" to GooOrbital::class,
 	    "bumbo" to Bumbo::class,
-	    "gold_ring" to GoldRing::class
+	    "gold_ring" to GoldRing::class,
+	    "vampire_ring" to VampireRing::class
     )
 }

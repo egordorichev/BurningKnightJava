@@ -29,5 +29,6 @@ public class AccessoryPool extends Pool<Item> {
 		add(GoldRing.class, 1f);
 		add(Bumbo.class, 0.5f);
 		add(GooOrbital.class, 1f);
+		add(VampireRing.class, 1f);
 	}
 }
