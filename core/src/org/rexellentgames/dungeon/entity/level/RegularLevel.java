@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -32,6 +33,10 @@ public abstract class RegularLevel extends Level {
 		Level.GENERATED = true;
 
 		this.itemsToSpawn.clear();
+
+		for (int i = 0; i < Random.newInt(4); i++) {
+			this.itemsToSpawn.add(new Bomb());
+		}
 
 		this.build();
 		this.paint();
