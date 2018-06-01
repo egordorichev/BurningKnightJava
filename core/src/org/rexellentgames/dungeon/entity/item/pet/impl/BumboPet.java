@@ -17,6 +17,7 @@ public class BumboPet extends SimpleFollowPet {
 	private Body body;
 
 	{
+		noAdd = true;
 		dependOnDistance = true;
 		maxDistance = 32f;
 		buildPath = true;
@@ -26,8 +27,11 @@ public class BumboPet extends SimpleFollowPet {
 	public void init() {
 		super.init();
 
-		this.body = World.createSimpleBody(this, 0, 0, this.region.getRegionWidth(),
-			this.region.getRegionHeight(), BodyDef.BodyType.DynamicBody, true);
+		this.w = this.region.getRegionWidth() - 2;
+		this.h = this.region.getRegionHeight() - 2;
+
+		this.body = World.createCircleBody(this, 0, 0, this.w / 2f,
+			BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 	}
 
@@ -47,7 +51,8 @@ public class BumboPet extends SimpleFollowPet {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.body.setTransform(this.x, this.y, 0);
+		this.x = this.body.getPosition().x;
+		this.y = this.body.getPosition().y;
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.target == this.owner) {

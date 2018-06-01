@@ -6,14 +6,17 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Bomb;
+import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.pet.impl.PetEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.Slab;
+import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 
 public class Collisions implements ContactListener, ContactFilter {
 	@Override
@@ -102,6 +105,10 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if ((a instanceof Bomb) && (b instanceof Mob)) {
 			contact.setEnabled(false);
 		} else if ((b instanceof Bomb) && (a instanceof Mob)) {
+			contact.setEnabled(false);
+		} else if (a instanceof PetEntity && (b instanceof Creature || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
+			contact.setEnabled(false);
+		} else if (b instanceof PetEntity && (a instanceof Creature || a instanceof SolidProp || (a instanceof ItemHolder && !(((ItemHolder) a).getItem() instanceof Gold)))) {
 			contact.setEnabled(false);
 		}
 	}
