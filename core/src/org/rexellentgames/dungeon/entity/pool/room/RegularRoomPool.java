@@ -29,5 +29,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(RotatingTurretRoom.class, 1);
 		add(CircleLineRoom.class, 1);
 		add(LavaLakeRoom.class, 1);
+		add(SmileRoom.class, 1000);
 	}
 }

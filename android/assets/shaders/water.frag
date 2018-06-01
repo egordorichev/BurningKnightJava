@@ -19,7 +19,6 @@ void main() {
     float v = sin(time * 4.0 + y * 8.0) / (cof.x * 16.0);
     float m = (time / (cof.x * 2.0));
 
-
     m -= floor(m / (size.x * 4.0)) * size.x * 4.0;
 
     vec4 color = texture2D(u_texture,
