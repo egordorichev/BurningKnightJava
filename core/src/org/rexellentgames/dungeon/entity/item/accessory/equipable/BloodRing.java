@@ -7,6 +7,7 @@ public class BloodRing extends Equipable {
 	{
 		description = Locale.get("blood_ring_desc");
 		name = Locale.get("blood_ring");
+		sprite = "item (ring C)";
 	}
 
 	@Override

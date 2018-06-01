@@ -9,6 +9,7 @@ class IceRing : Equipable() {
 
 		name = Locale.get("ice_ring")
 		description = Locale.get("ice_ring_desc")
+		sprite = "item (ring E)"
 	}
 
 	override fun onEquip() {

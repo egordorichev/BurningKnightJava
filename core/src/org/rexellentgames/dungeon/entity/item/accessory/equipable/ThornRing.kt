@@ -9,6 +9,7 @@ class ThornRing : Equipable() {
 
 		name = Locale.get("thorn_ring")
 		description = Locale.get("thorn_ring_desc")
+		sprite = "item (ring G)"
 	}
 
 	override fun onEquip() {

@@ -9,6 +9,7 @@ class PoisonRing : Equipable() {
 
 		name = Locale.get("poison_ring")
 		description = Locale.get("poison_ring_desc")
+		sprite = "item (ring H)"
 	}
 
 	override fun onEquip() {

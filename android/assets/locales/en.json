@@ -158,6 +158,8 @@
 	"goo_desc" : "Rotates and protects",
 	"bumbo" : "Bumbo",
 	"bumbo_desc" : "He wants more coins!",
+	"poison_ring" : "Poison Ring",
+	"poison_ring_desc" : "Gives 10% to poison enemies on hit!",
 	"vampire_ring" : "Vampire Ring",
 	"vampire_ring_desc" : "Gives a 5% chance to heal from enemies on hit!",
 

@@ -7,6 +7,7 @@ public class VampireRing extends Equipable {
 	{
 		description = Locale.get("vampire_ring_desc");
 		name = Locale.get("vampire_ring");
+		sprite = "item (ring J)";
 	}
 
 	@Override

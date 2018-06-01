@@ -6,6 +6,7 @@ public class FortuneRing extends Equipable {
 	{
 		description = Locale.get("fortune_ring_desc");
 		name = Locale.get("fortune_ring");
+		sprite = "item (ring I)";
 	}
 
 	@Override
