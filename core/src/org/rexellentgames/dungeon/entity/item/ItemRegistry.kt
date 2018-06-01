@@ -42,6 +42,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.GunC
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletB
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletC
+import org.rexellentgames.dungeon.entity.item.weapon.laser.LaserGun
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook
@@ -166,6 +167,7 @@ object ItemRegistry {
 	    "goo" to GooOrbital::class,
 	    "bumbo" to Bumbo::class,
 	    "gold_ring" to GoldRing::class,
-	    "vampire_ring" to VampireRing::class
+	    "vampire_ring" to VampireRing::class,
+	    "laser_gun" to LaserGun::class
     )
 }

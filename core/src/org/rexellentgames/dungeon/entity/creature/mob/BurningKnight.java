@@ -252,7 +252,7 @@ public class BurningKnight extends Boss {
 				point.s -= dt * 0.8f;
 			}
 
-			Graphics.render(this.animation.getFrames().get(point.frame).frame, point.x + w, point.y + h, 0, w, h, false, false, point.flipped ? -s : s, s);
+			Graphics.render(this.idle.getFrames().get(Math.min(1, point.frame)).frame, point.x + w, point.y + h, 0, w, h, false, false, point.flipped ? -s : s, s);
 		}
 
 		Graphics.batch.end();

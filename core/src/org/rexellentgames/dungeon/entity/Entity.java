@@ -45,6 +45,10 @@ public class Entity extends Point {
 		return (float) Math.atan2(dy, dx);
 	}
 
+	public void setDone(boolean done) {
+		this.done = done;
+	}
+
 	public int getId() {
 		return this.id;
 	}
