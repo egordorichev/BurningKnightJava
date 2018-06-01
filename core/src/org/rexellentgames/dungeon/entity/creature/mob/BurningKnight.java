@@ -29,6 +29,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.plant.Plant;
+import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -246,7 +247,10 @@ public class BurningKnight extends Boss {
 
 			Frame point = this.frames.get(i);
 			float s = point.s;
-			point.s -= dt * 0.8f;
+
+			if (!Game.instance.getState().isPaused()) {
+				point.s -= dt * 0.8f;
+			}
 
 			Graphics.render(this.animation.getFrames().get(point.frame).frame, point.x + w, point.y + h, 0, w, h, false, false, point.flipped ? -s : s, s);
 		}
@@ -882,15 +886,6 @@ public class BurningKnight extends Boss {
 		}
 
 		return super.getAi(state);
-	}
-
-	@Override
-	protected void onTouch(short t, int x, int y) {
-		super.onTouch(t, x, y);
-
-		if (t == Terrain.WATER) {
-			this.vel.mul(1.2f);
-		}
 	}
 
 	private void checkForTarget() {

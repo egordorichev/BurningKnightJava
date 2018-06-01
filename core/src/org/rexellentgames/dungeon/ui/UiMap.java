@@ -114,6 +114,7 @@ public class UiMap extends UiEntity {
 		int xx = 0;
 		int yy;
 
+
 		for (int x = 0; x < Level.getWidth(); x++) {
 			yy = 0;
 
@@ -154,6 +155,14 @@ public class UiMap extends UiEntity {
 
 			xx ++;
 		}
+
+		float plx = Player.instance.x / 16f;
+		float ply = Player.instance.y / 16f;
+
+		Graphics.shape.setColor(0, 0, 0, 1);
+		Graphics.shape.rect(plx * s + s / 4f - o + mx, ply * s + s / 4f - o + my, s / 2f + o * 2, s / 2f + o * 2);
+		Graphics.shape.setColor(0, 1, 0, 1);
+		Graphics.shape.rect(plx * s + s / 4f + mx, ply * s + s / 4f + my, s / 2f, s / 2f);
 
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
