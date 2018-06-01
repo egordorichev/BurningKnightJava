@@ -154,6 +154,8 @@
 	"claymore_c_desc" : "King weapon!",
 	"goo" : "Goo",
 	"goo_desc" : "Rotates and protects",
+	"bumbo" : "Bumbo",
+	"bumbo_desc" : "He wants more coins!",
 
 	"dialog_bk_who_took_my_lamp" : "Who took {SHAKE}my{ENDSHAKE} lamp?! {WAIT}YOU?!?! {WAIT}You must {SHAKE}DIE{ENDSHAKE}!",
 	"dialog_bk_i_will_not" : "I will not",

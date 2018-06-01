@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.entity.item.consumable.spell.SpellOfTeleportat
 import org.rexellentgames.dungeon.entity.item.key.KeyA
 import org.rexellentgames.dungeon.entity.item.key.KeyB
 import org.rexellentgames.dungeon.entity.item.key.KeyC
+import org.rexellentgames.dungeon.entity.item.pet.Bumbo
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet
 import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital
 import org.rexellentgames.dungeon.entity.item.reference.*
@@ -162,6 +163,7 @@ object ItemRegistry {
 	    "claymore_b" to ClaymoreB::class,
 	    "claymore_c" to ClaymoreC::class,
 	    "celeste" to StrawberryPet::class,
-	    "goo" to GooOrbital::class
+	    "goo" to GooOrbital::class,
+	    "bumbo" to Bumbo::class
     )
 }

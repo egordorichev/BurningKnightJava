@@ -1,7 +1,10 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
+
+import java.util.ArrayList;
 
 public class Gold extends Item {
 	{
@@ -13,6 +16,8 @@ public class Gold extends Item {
 		description = "$$$";
 		identified = true;
 	}
+
+	public static ArrayList<ItemHolder> all = new ArrayList<>();
 
 	@Override
 	public void onPickup() {

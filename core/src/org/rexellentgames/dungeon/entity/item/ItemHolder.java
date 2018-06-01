@@ -5,18 +5,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.key.Key;
-import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
@@ -131,6 +124,10 @@ public class ItemHolder extends SaveableEntity {
 
 	@Override
 	public void destroy() {
+		if (this.item instanceof Gold) {
+			Gold.all.remove(this);
+		}
+
 		super.destroy();
 
 		if (this.body != null) {
@@ -222,6 +219,10 @@ public class ItemHolder extends SaveableEntity {
 		if (this.item == null) {
 			Log.error("Warn: null item");
 			return this;
+		}
+
+		if (this.item instanceof Gold) {
+			Gold.all.add(this);
 		}
 
 		// This might be bad!

@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.rooms.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.item.Gold;
+import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
@@ -38,6 +40,20 @@ public class EntranceRoom extends LadderRoom {
 
 			level.addSaveable(entrance);
 			Dungeon.area.add(entrance);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			ItemHolder gold = new ItemHolder();
+
+			gold.setItem(new Gold());
+			gold.getItem().generate();
+			Point cell = this.getRandomCell();
+
+			gold.x = cell.x * 16;
+			gold.y = cell.y * 16;
+
+			Dungeon.area.add(gold);
+			Dungeon.level.addSaveable(gold);
 		}
 	}
 }
