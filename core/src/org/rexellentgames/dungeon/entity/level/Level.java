@@ -247,7 +247,7 @@ public abstract class Level extends Entity {
 		if (tile == Terrain.CHASM) {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
-			this.variants[toIndex(x, y)] = (byte) Random.newInt(16);
+			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.WATER) {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.TABLE) {
@@ -670,15 +670,15 @@ public abstract class Level extends Entity {
 					if (variant != 15) {
 						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
 					}
-				}
+				} else if (tile == Terrain.WALL || tile == Terrain.WALL) {
+					byte t = this.get(i - getWidth());
 
-				byte v = this.walls[i];
-
-				if (v != 15 && v % 2 == 0) {
-					Graphics.startShadows();
-					Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 16, 0, 0, 0, false, false, 1f, -1f);
-					Graphics.endShadows();
-					Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
+					if (t != Terrain.CRACK && t != Terrain.WALL) {
+						Graphics.startShadows();
+						Graphics.render(Terrain.topVariants[0], x * 16, y * 16 - 1, 0, 0, 0, false, false, 1f, -1f);
+						Graphics.endShadows();
+						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 16);
+					}
 				}
 			}
 		}

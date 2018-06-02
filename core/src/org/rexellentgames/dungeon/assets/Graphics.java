@@ -34,6 +34,7 @@ public class Graphics {
 	public static BitmapFont medium;
 	public static AssetManager manager;
 	public static FrameBuffer shadows;
+	public static FrameBuffer surface;
 	public static FrameBuffer text;
 	public static HashMap<String, Float> volumes = new HashMap<>();
 
@@ -54,9 +55,10 @@ public class Graphics {
 	public static void startShadows() {
 		color = Graphics.batch.getColor();
 		Graphics.batch.end();
+		Graphics.surface.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
+			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 		Graphics.shadows.begin();
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-
 		Graphics.batch.begin();
 		Graphics.batch.setColor(1, 1, 1, color.a);
 	}
@@ -67,6 +69,7 @@ public class Graphics {
 
 		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+		Graphics.surface.begin();
 		Camera.instance.viewport.apply();
 		Graphics.batch.begin();
 	}
@@ -77,6 +80,7 @@ public class Graphics {
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth() * Settings.quality, Camera.instance.viewport.getScreenHeight() * Settings.quality, false);
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 
 		manager = new AssetManager();
@@ -165,11 +169,15 @@ public class Graphics {
 
 	public static void resize(int w, int h) {
 		shadows.dispose();
+		surface.dispose();
 
 		float z = Math.max(1, Camera.instance.getCamera().zoom);
 
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)),
 			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)), false);
+
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z * Settings.quality)),
+			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z * Settings.quality)), false);
 	}
 
 	public static Sound getSound(String sfx) {
@@ -284,5 +292,6 @@ public class Graphics {
 		batch.dispose();
 		shape.dispose();
 		shadows.dispose();
+		surface.dispose();
 	}
 }

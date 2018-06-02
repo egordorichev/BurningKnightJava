@@ -34,7 +34,7 @@ public abstract class RegularLevel extends Level {
 
 		this.itemsToSpawn.clear();
 
-		if (Dungeon.depth >= 0) {
+		if (Dungeon.depth > 0) {
 			for (int i = 0; i < Random.newInt(4); i++) {
 				this.itemsToSpawn.add(new Bomb());
 			}

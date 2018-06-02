@@ -4,8 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -15,7 +13,6 @@ import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
@@ -38,6 +35,14 @@ public class Dungeon extends ApplicationAdapter {
 	// Magic well particles
 	// Paint still might freeze
 	// Fix wall shadows
+	// Random area orders
+	// Shockwave shader
+	// Desert area heat shader?
+	// Ui render broke
+	// Wall side is being rendered in 15 neighbor spot
+	// Add border right/left to walls (when not both sided)
+	// Better weapon trail
+	// Get back wall patterns?
 
 	public static Game game;
 	public static int depth;
@@ -261,7 +266,9 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private void renderGame() {
-		Camera.instance.viewport.apply();
+		Graphics.surface.begin();
+		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		if (Camera.instance != null) {
 			Camera.instance.applyShake();
@@ -275,6 +282,11 @@ public class Dungeon extends ApplicationAdapter {
 		if (Camera.instance != null) {
 			Camera.instance.removeShake();
 		}
+
+		Graphics.surface.end();
+		Texture texture = Graphics.surface.getColorBufferTexture();
+
+		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, true);
 	}
 
 	private Point inputVel = new Point();
