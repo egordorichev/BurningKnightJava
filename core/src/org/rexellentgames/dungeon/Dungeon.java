@@ -4,7 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
@@ -34,14 +38,16 @@ public class Dungeon extends ApplicationAdapter {
 	// Use floor C more
 	// Magic well particles
 	// Paint still might freeze
-	// Fix wall shadows
 	// Random area orders
 	// Shockwave shader
 	// Desert area heat shader?
-	// Ui render broke
 	// Add border right/left to walls (when not both sided)
 	// Better weapon trail
 	// Get back wall patterns?
+	// Center BK sprite
+	// Default shader?
+
+	public static ShaderProgram shaderOutline;
 
 	public static Game game;
 	public static int depth;
@@ -163,7 +169,7 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void create() {
 		instance = this;
-
+		
 		if (worker != null) {
 			// worker.closeSplashScreen();
 		}
@@ -187,6 +193,13 @@ public class Dungeon extends ApplicationAdapter {
 
 		this.setupCursor();
 		Assets.init();
+
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/heat.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/heat.frag").readString();
+		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
 
 		Box2D.init();
 
@@ -276,7 +289,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 		
 		area.render();
-		game.render();
+		game.render(false);
 
 		if (Camera.instance != null) {
 			Camera.instance.removeShake();
@@ -285,7 +298,24 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.surface.end();
 		Texture texture = Graphics.surface.getColorBufferTexture();
 
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+		Graphics.batch.end();
+		shaderOutline.begin();
+
+		shaderOutline.setUniformf("time", Dungeon.time);
+		shaderOutline.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
+		shaderOutline.end();
+		Graphics.batch.setShader(shaderOutline);
+		Graphics.batch.begin();
+
 		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, true);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+
+		game.renderUi();
 	}
 
 	private Point inputVel = new Point();
@@ -395,6 +425,7 @@ public class Dungeon extends ApplicationAdapter {
 		BurningKnight.shaderOutline.dispose();
 		Level.shaderOutline.dispose();
 		MagicWell.shaderOutline.dispose();
+		shaderOutline.dispose();
 	}
 
 	private void initInput() {

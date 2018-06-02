@@ -101,7 +101,6 @@ public class MagicWell extends UsableProp {
 		TextureRegion r = water[this.used ? 0 : 1];
 		Texture t = r.getTexture();
 
-		shaderOutline.setUniformi("u_texture", 1);
 		shaderOutline.setUniformf("time", Dungeon.time);
 		shaderOutline.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
 		shaderOutline.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
