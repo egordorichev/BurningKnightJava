@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Laser extends Entity {
@@ -48,9 +49,7 @@ public class Laser extends Entity {
 	public void init() {
 		super.init();
 
-		this.al = 1f;
-
-		/*Tween.to(new Tween.Task(1, 0.05f) {
+		Tween.to(new Tween.Task(1, 0.05f) {
 			@Override
 			public float getValue() {
 				return al;
@@ -80,7 +79,7 @@ public class Laser extends Entity {
 					}
 				});
 			}
-		});*/
+		});
 
 		Log.physics("Creating centred body for laser");
 

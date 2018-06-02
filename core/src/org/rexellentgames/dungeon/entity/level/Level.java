@@ -701,7 +701,7 @@ public abstract class Level extends Entity {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
-				if (tile == Terrain.WALL || tile == Terrain.WALL) {
+				if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 					byte t = this.get(i - getWidth());
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {

@@ -40,12 +40,12 @@ public class Dungeon extends ApplicationAdapter {
 	// Paint still might freeze
 	// Random area orders
 	// Shockwave shader
-	// Desert area heat shader?
 	// Add border right/left to walls (when not both sided)
 	// Better weapon trail
 	// Get back wall patterns?
 	// Center BK sprite
 	// Default shader?
+	// Check my shockwave shader
 
 	public static ShaderProgram shaderOutline;
 
@@ -169,7 +169,7 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void create() {
 		instance = this;
-		
+
 		if (worker != null) {
 			// worker.closeSplashScreen();
 		}
@@ -196,8 +196,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		String vertexShader;
 		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/heat.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/heat.frag").readString();
+		vertexShader = Gdx.files.internal("shaders/shock.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/shock.frag").readString();
 		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
 		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
 
@@ -304,7 +304,7 @@ public class Dungeon extends ApplicationAdapter {
 		shaderOutline.begin();
 
 		shaderOutline.setUniformf("time", Dungeon.time);
-		shaderOutline.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
+		//shaderOutline.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
 		shaderOutline.end();
 		Graphics.batch.setShader(shaderOutline);
 		Graphics.batch.begin();
