@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -20,6 +19,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
+import org.rexellentgames.dungeon.entity.level.levels.desert.DesertLevel;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
@@ -34,18 +34,20 @@ import java.io.File;
 
 public class Dungeon extends ApplicationAdapter {
 	// todo:
-	// Some doors are not painter (with strange floor under them)
 	// Use floor C more
 	// Magic well particles
-	// Paint still might freeze
+	// More quad patches? For floors
 	// Random area orders
-	// Shockwave shader
-	// Add border right/left to walls (when not both sided)
 	// Better weapon trail
+	// Shop
+	// Rotating coins
+
+	// Add border right/left to walls (when not both sided)
 	// Get back wall patterns?
 	// Center BK sprite
 	// Default shader?
 	// Check my shockwave shader
+	// How to cross two shaders?
 
 	public static ShaderProgram shaderOutline;
 
@@ -196,8 +198,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		String vertexShader;
 		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/shock.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/shock.frag").readString();
+		vertexShader = Gdx.files.internal("shaders/heat.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/heat.frag").readString();
 		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
 		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
 
@@ -300,20 +302,26 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		Graphics.batch.end();
-		shaderOutline.begin();
+		boolean heat = level instanceof DesertLevel;
 
-		shaderOutline.setUniformf("time", Dungeon.time);
-		//shaderOutline.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
-		shaderOutline.end();
-		Graphics.batch.setShader(shaderOutline);
-		Graphics.batch.begin();
+		if (heat) {
+			Graphics.batch.end();
+			shaderOutline.begin();
+
+			shaderOutline.setUniformf("time", Dungeon.time);
+			shaderOutline.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
+			shaderOutline.end();
+			Graphics.batch.setShader(shaderOutline);
+			Graphics.batch.begin();
+		}
 
 		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, true);
 
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
+		if (heat) {
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
 
 		game.renderUi();
 	}

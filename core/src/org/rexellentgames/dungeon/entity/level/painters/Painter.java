@@ -156,8 +156,9 @@ public class Painter {
 		for (Room r : rooms) {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
+				byte t = level.get((int) d.x, (int) d.y);
 
-				if ((d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET)) {
+				if (t != Terrain.FLOOR_C && t != Terrain.CRACK && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET)) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
 						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 

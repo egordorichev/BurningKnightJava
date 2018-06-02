@@ -34,7 +34,7 @@ public class RollingSpike extends SaveableEntity {
 		body = World.createCircleBody(this, 0, 0, 8, BodyDef.BodyType.DynamicBody, false);
 
 		MassData data = new MassData();
-		data.mass = 10000000000f;
+		data.mass = 1000000000f;
 		this.body.setMassData(data);
 
 		body.setTransform(this.x, this.y, 0);
@@ -77,11 +77,10 @@ public class RollingSpike extends SaveableEntity {
 
 		this.a += dt * -(this.vel.x == 0 ? this.vel.y : this.vel.x) * 10;
 
-		body.setTransform(this.x, this.y, 0);
+		this.x = this.body.getPosition().x;
+		this.y = this.body.getPosition().y;
 		body.setLinearVelocity(this.vel);
 
-		this.x += this.vel.x * dt;
-		this.y += this.vel.y * dt;
 
 		for (Player player : colliding) {
 			if (player.getInvt() == 0) {
@@ -98,6 +97,7 @@ public class RollingSpike extends SaveableEntity {
 		if (entity == null || entity instanceof Door || entity instanceof SolidProp) {
 			this.vel.x *= -1f;
 			this.vel.y *= -1f;
+
 			if (this.body != null) {
 				body.setLinearVelocity(this.vel);
 			}
