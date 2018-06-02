@@ -12,12 +12,12 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class MagicWell extends UsableProp {
 	private static TextureRegion[] water = new TextureRegion[] {
-		Graphics.getTexture("biome-0 (well_water_none)"),
-		Graphics.getTexture("biome-0 (well_water_heal)")
+		Graphics.getTexture("prop (well_water_none)"),
+		Graphics.getTexture("prop (well_water_heal)")
 	};
 
 	{
-		sprite = "biome-0 (tub)";
+		sprite = "prop (tub)";
 		collider = new Rectangle(4, 5, 30 - 8, 12);
 	}
 
@@ -80,10 +80,9 @@ public class MagicWell extends UsableProp {
 	public void render() {
 		super.render();
 
-		Graphics.startShadows();
-		Graphics.render(water[this.used ? 0 : 1], this.x + 5, this.y - 8 - 0.3f, 0, 0, 0, false, false, 1, -1f);
-		Graphics.endShadows();
+		// FIXME!
+		// Graphics.render(water[this.used ? 0 : 1], this.x + 5, this.y - 8 - 0.3f, 0, 0, 0, false, false, 1, -1f);
 
-		Graphics.render(water[this.used ? 0 : 1], this.x + 5, this.y + 8);
+		// Graphics.render(water[this.used ? 0 : 1], this.x + 5, this.y + 8);
 	}
 }

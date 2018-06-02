@@ -223,6 +223,10 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void render() {
+		if (this.state.equals("unactive")) {
+			return;
+		}
+
 		if (this.invt > 0) {
 			this.animation = hurt;
 		} else {
@@ -232,7 +236,7 @@ public class BurningKnight extends Boss {
 		Graphics.batch.end();
 		Mob.shaderOutline.begin();
 		Mob.shaderOutline.setUniformf("u_color", new Vector3(1, 0.3f, 0.3f));
-		Mob.shaderOutline.setUniformf("u_a", 0.5f);
+		Mob.shaderOutline.setUniformf("u_a", this.a / 2);
 		Mob.shaderOutline.end();
 		Graphics.batch.setShader(Mob.shaderOutline);
 		Graphics.batch.begin();
@@ -243,8 +247,6 @@ public class BurningKnight extends Boss {
 		float dt = Gdx.graphics.getDeltaTime();
 
 		for (int i = 0; i < this.frames.size(); i++) {
-			Graphics.batch.setColor(1, 0.3f, 0.3f, this.a / 1.3f);
-
 			Frame point = this.frames.get(i);
 			float s = point.s;
 
@@ -259,14 +261,13 @@ public class BurningKnight extends Boss {
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
 
-		Graphics.batch.setColor(1, 1, 1, this.a);
-
 		Graphics.batch.end();
 		shaderOutline.begin();
 
 		Texture texture = region.getTexture();
 
 		shaderOutline.setUniformf("time", Dungeon.time);
+		shaderOutline.setUniformf("a", this.a);
 		shaderOutline.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
 		shaderOutline.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
 		shaderOutline.end();
@@ -850,6 +851,7 @@ public class BurningKnight extends Boss {
 				self.tp(Player.instance.x + Player.instance.w / 2 + (float) Math.cos(a) * 64f,
 					Player.instance.y + Player.instance.h / 2 + (float) Math.sin(a) * 64f);
 				self.become("fadeIn");
+				self.a = 0;
 
 				Lamp.play();
 			}

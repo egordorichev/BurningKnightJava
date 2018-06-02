@@ -79,8 +79,6 @@ public class Terrain {
 
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
-	public static TextureRegion closedDoor;
-	public static TextureRegion openDoor;
 
 	public static TextureRegion chasm;
 
@@ -96,17 +94,15 @@ public class Terrain {
 
 		Log.info("Loading biome " + set);
 
-		dirtPattern = Graphics.getTexture(bm + " (dirt pattern)");
-		grassPattern = Graphics.getTexture(bm + " (grass pattern)");
+		dirtPattern = Graphics.getTexture("biome-gen-dirt pattern");
+		grassPattern = Graphics.getTexture("biome-gen-grass pattern");
 		waterPattern = Graphics.getTexture("biome-gen-pool pattern");
-		lavaPattern = Graphics.getTexture(bm + " (lava pattern)");
+		lavaPattern = Graphics.getTexture("biome-gen-lava pattern");
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
-		crackPattern = Graphics.getTexture("biome-gen-crack");
+		crackPattern = Graphics.getTexture(bm + "-crack");
 
-		entrance = Graphics.getTexture(bm + " (stairs U)");
-		exit = Graphics.getTexture(bm + " (stairs D)");
-		closedDoor = Graphics.getTexture(bm + " (door WE)");
-		openDoor = Graphics.getTexture(bm + " (door NS)");
+		entrance = Graphics.getTexture("prop (stairs U)");
+		exit = Graphics.getTexture("prop (stairs D)");
 
 		patterns[DIRT] = dirtPattern;
 		patterns[GRASS] = grassPattern;
@@ -117,11 +113,11 @@ public class Terrain {
 		patterns[CRACK] = crackPattern;
 
 		decor = new TextureRegion[] {
-			Graphics.getTexture(bm + " (torch A)"),
-			Graphics.getTexture(bm + " (torch B)"),
-			Graphics.getTexture(bm + " (walldeco A)"),
-			Graphics.getTexture(bm + " (walldeco B)"),
-			Graphics.getTexture(bm + " (walldeco C)")
+			Graphics.getTexture("prop (torch A)"),
+			Graphics.getTexture("prop (torch B)"),
+			Graphics.getTexture("prop (walldeco A)"),
+			Graphics.getTexture("prop (walldeco B)"),
+			Graphics.getTexture("prop (walldeco C)")
 		};
 
 		for (int i = 0; i < 10; i++) {
@@ -129,7 +125,7 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 15; i++) {
-			dirtVariants[i] = Graphics.getTexture(bm + " (dirt" + Level.COMPASS[i] + ")");
+			dirtVariants[i] = Graphics.getTexture("biome-gen-dirt" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 15; i++) {
@@ -141,12 +137,13 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 15; i++) {
-			lavaVariants[i] = Graphics.getTexture(bm + " (lava" + Level.COMPASS[i] + ")");
+			lavaVariants[i] = Graphics.getTexture("biome-gen-lava" + Level.COMPASS[i]);
 		}
 
+		/*
 		for (int i = 0; i < 15; i++) {
 			chasmVariants[i] = Graphics.getTexture(bm + " (chasm" + Level.COMPASS[i] + ")");
-		}
+		}*/
 
 		for (int i = 0; i < 15; i++) {
 			wallVariants[i] = Graphics.getTexture("biome-gen-wall" + Level.COMPASS[i]);
@@ -189,7 +186,7 @@ public class Terrain {
 		variants[FLOOR_C] = badVariants;
 		variants[FLOOR_D] = goldVariants;
 
-		chasm = Graphics.getTexture(bm + " (chasmbg)");
+		// chasm = Graphics.getTexture(bm + " (chasmbg)");
 	}
 
 	public static char[] letters = new char[] { 'A', 'B', 'C', 'D' };

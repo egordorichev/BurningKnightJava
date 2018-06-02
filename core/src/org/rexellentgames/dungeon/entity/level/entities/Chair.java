@@ -11,7 +11,7 @@ public class Chair extends Prop {
 
 	@Override
 	public void init() {
-		this.sprite = flipped ? "biome-0 (chair A)" : "biome-0 (chair B)";
+		this.sprite = flipped ? "prop (chair A)" : "prop (chair B)";
 		super.init();
 	}
 
@@ -19,7 +19,7 @@ public class Chair extends Prop {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.sprite = flipped ? "biome-0 (chair A)" : "biome-0 (chair B)";
+		this.sprite = flipped ? "prop (chair A)" : "prop (chair B)";
 		region = Graphics.getTexture(this.sprite);
 		flipped = reader.readBoolean();
 	}

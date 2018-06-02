@@ -8,9 +8,9 @@ import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.builders.Builder;
-import org.rexellentgames.dungeon.entity.level.builders.RegularBuilder;
+import org.rexellentgames.dungeon.entity.level.builders.*;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
+import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
@@ -222,14 +222,24 @@ public abstract class RegularLevel extends Level {
 		return rooms;
 	}
 
-	protected Builder getBuilder() {
-		return new RegularBuilder();
-	}
-
 	protected abstract Painter getPainter();
 
+	protected Builder getBuilder() {
+		if (Dungeon.depth == 0) {
+			return new LineBuilder();
+		} else {
+			switch (Random.newInt(5)) {
+				case 0: case 3: default: return new CastleBuilder();
+				case 1: return new LineBuilder();
+				case 2: case 4: return new LoopBuilder().setShape(2,
+					Random.newFloat(0.4f, 0.7f),
+					Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1,1,1});
+			}
+		}
+	}
+
 	protected int getNumRegularRooms() {
-		return 8;
+		return Dungeon.depth == 0 ? 0 : Random.newInt((int) (Dungeon.depth % 5 * 1.4f + 2f), (int) (Dungeon.depth % 5 * 2.5f + 3));
 	}
 
 	protected int getNumSpecialRooms() {
@@ -241,6 +251,6 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumConnectionRooms() {
-		return 2;
+		return 0;
 	}
 }

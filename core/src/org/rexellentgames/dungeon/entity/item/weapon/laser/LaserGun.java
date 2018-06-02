@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.entity.item.weapon.laser;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.fx.Laser;
-import org.rexellentgames.dungeon.entity.fx.Lighting;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
 
 public class LaserGun extends GunA {
@@ -13,7 +12,7 @@ public class LaserGun extends GunA {
 
 	@Override
 	protected void sendBullets() {
-		Laser laser = new Lighting();
+		Laser laser = new Laser();
 		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
 		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 

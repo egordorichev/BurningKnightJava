@@ -10,7 +10,6 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
-import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;
@@ -64,7 +63,7 @@ public class LadderFx extends UiEntity {
 					this.end();
 				}
 			} else if (this.ladder instanceof Exit) {
-				if (Dungeon.depth == 4 && !(Dungeon.level instanceof WaveLevel)) {
+				if (Dungeon.depth == 4) {
 					UiLog.instance.print("[red]Not implemented just yet!");
 				} else {
 					this.end();

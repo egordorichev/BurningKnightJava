@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,7 +26,9 @@ import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
-import org.rexellentgames.dungeon.entity.level.levels.*;
+import org.rexellentgames.dungeon.entity.level.levels.desert.DesertLevel;
+import org.rexellentgames.dungeon.entity.level.levels.hall.HallBossLevel;
+import org.rexellentgames.dungeon.entity.level.levels.hall.HallLevel;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
@@ -51,9 +54,11 @@ public abstract class Level extends Entity {
 	public static final boolean RENDER_PASSABLE = false;
 	public static boolean SHADOWS = true;
 
-	public static float LIGHT_R = 34f / 255f;
-	public static float LIGHT_G = 31f / 255f;
-	public static float LIGHT_B = 65f / 255f;
+	public static Color[] colors = {
+		Color.valueOf("#221f41"),
+		Color.valueOf("#663531")
+	};
+
 	public Room entrance;
 	public Room exit;
 
@@ -133,10 +138,6 @@ public abstract class Level extends Entity {
 	public static byte[] depths = new byte[21];
 
 	public static RegularLevel forDepth(int depth) {
-		if (Dungeon.type == Dungeon.Type.ARCADE) {
-			return new WaveLevel();
-		}
-
 		int weight = 0;
 
 		for (int i = 0; i < 5; i++) {
@@ -149,6 +150,7 @@ public abstract class Level extends Entity {
 			} else if (depth < weight) {
 				switch (i) {
 					case 0: default: return new HallLevel();
+					case 1: return new DesertLevel();
 					// case 1: return new LibraryLevel();
 
 					// todo: more
@@ -167,12 +169,16 @@ public abstract class Level extends Entity {
 		this.lightG = new float[getSIZE()];
 		this.lightB = new float[getSIZE()];
 
-		Arrays.fill(this.lightR, LIGHT_R);
-		Arrays.fill(this.lightG, LIGHT_G);
-		Arrays.fill(this.lightB, LIGHT_B);
+		Color color = colors[Dungeon.level.uid];
+
+		Arrays.fill(this.lightR, color.r);
+		Arrays.fill(this.lightG, color.g);
+		Arrays.fill(this.lightB, color.b);
 		//  (BurningKnight.instance == null)
 		Arrays.fill(this.light, Dungeon.level.addLight && false ? 1f : 0f);
 	}
+
+	public int uid = 0;
 
 	public void fill() {
 		this.data = new byte[getSIZE()];
@@ -399,16 +405,18 @@ public abstract class Level extends Entity {
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
 		float dt = Gdx.graphics.getDeltaTime() / 5;
+		Color color = colors[Dungeon.level.uid];
 
 		for (int i = 0; i < getSIZE(); i++) {
 			float v = this.light[i];
 
 			if (v > 0) {
 				// (BurningKnight.instance == null)
+
 				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && false ? 1f : 0, 1f, v - dt);
-				this.lightR[i] = MathUtils.clamp(LIGHT_R, 1f, this.lightR[i] - dt);
-				this.lightG[i] = MathUtils.clamp(LIGHT_G, 1f, this.lightG[i] - dt);
-				this.lightB[i] = MathUtils.clamp(LIGHT_B, 1f, this.lightB[i] - dt);
+				this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - dt);
+				this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - dt);
+				this.lightB[i] = MathUtils.clamp(color.b, 1f, this.lightB[i] - dt);
 			}
 		}
 
@@ -441,7 +449,7 @@ public abstract class Level extends Entity {
 					int t = (int) Math.floor((v * (md)) * 10);
 
 					if (t < 10) {
-						Graphics.batch.setColor(LIGHT_R, LIGHT_G, LIGHT_B, 1);
+						Graphics.batch.setColor(color);
 
 						Graphics.render(Terrain.dither[9 - t], x * 16, y * 16 - 8, 0, 0, 0, false, false);
 					}
@@ -501,7 +509,9 @@ public abstract class Level extends Entity {
 					byte v = this.walls[i];
 
 					if (v != 15) {
+						Graphics.batch.setColor(colors[this.uid]);
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
+						Graphics.batch.setColor(Color.WHITE);
 					}
 				}
 
@@ -666,7 +676,7 @@ public abstract class Level extends Entity {
 
 				if (v != 15 && v % 2 == 0) {
 					Graphics.startShadows();
-					Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 14.3f, 0, 0, 0, false, false, 1f, -1f);
+					Graphics.render(Terrain.topVariants[0], x * 16, y * 16 + 16, 0, 0, 0, false, false, 1f, -1f);
 					Graphics.endShadows();
 					Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16);
 				}

@@ -102,9 +102,9 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if (b instanceof Slab && a instanceof ItemHolder) {
 			contact.setEnabled(false);
 			((ItemHolder) a).depth = 1;
-		} else if ((a instanceof Bomb) && (b instanceof Mob)) {
+		} else if ((a instanceof Bomb) && b != null) {
 			contact.setEnabled(false);
-		} else if ((b instanceof Bomb) && (a instanceof Mob)) {
+		} else if ((b instanceof Bomb) && a != null) {
 			contact.setEnabled(false);
 		} else if (a instanceof PetEntity && (b instanceof Creature || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
 			contact.setEnabled(false);

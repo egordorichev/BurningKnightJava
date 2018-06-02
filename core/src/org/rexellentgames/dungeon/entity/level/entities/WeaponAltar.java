@@ -13,7 +13,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 public class WeaponAltar extends UsableProp {
 	{
-		sprite = "biome-0 (slab C)";
+		sprite = "prop (slab C)";
 		collider = new Rectangle(1, 10, 26, 6);
 	}
 

@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.rooms.connection;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.level.levels.WaveLevel;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.CircleRoom;
 import org.rexellentgames.dungeon.util.Random;
@@ -22,10 +21,6 @@ public class ConnectionRoom extends Room {
 	public static ConnectionRoom create() {
 		if (Dungeon.depth == -1 || Dungeon.depth == 4) {
 			return new TunnelRoom();
-		}
-
-		if (Dungeon.level instanceof WaveLevel) {
-			return Random.chance(75) ? new TunnelRoom() : new RingConnectionRoom();
 		}
 
 		try {

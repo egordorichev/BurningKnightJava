@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
-import org.rexellentgames.dungeon.entity.level.levels.HallLevel;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.secret.SecretRoom;
 import org.rexellentgames.dungeon.entity.plant.Plant;

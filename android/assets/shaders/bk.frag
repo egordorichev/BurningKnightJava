@@ -4,6 +4,7 @@ precision mediump int;
 #endif
 
 uniform float time;
+uniform float a;
 uniform vec2 pos;
 uniform vec2 size;
 uniform sampler2D u_texture;
@@ -22,6 +23,8 @@ void main() {
             clamp(v_texCoord.y + round(sin(time * 2.0 + x)) / (cof.y * 24.0), pos.y, pos.y + size.y)
         )
     );
+
+    color.a = min(color.a, a);
 
     gl_FragColor = color;
 }
