@@ -18,6 +18,7 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
+import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
@@ -31,6 +32,13 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.io.File;
 
 public class Dungeon extends ApplicationAdapter {
+	// todo:
+	// Some doors are not painter (with strange floor under them)
+	// Use floor C more
+	// Magic well particles
+	// Paint still might freeze
+	// Fix wall shadows
+
 	public static Game game;
 	public static int depth;
 	public static float time;
@@ -375,6 +383,7 @@ public class Dungeon extends ApplicationAdapter {
 		Mob.shaderOutline.dispose();
 		BurningKnight.shaderOutline.dispose();
 		Level.shaderOutline.dispose();
+		MagicWell.shaderOutline.dispose();
 	}
 
 	private void initInput() {

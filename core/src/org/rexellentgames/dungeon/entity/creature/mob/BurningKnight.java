@@ -804,7 +804,7 @@ public class BurningKnight extends Boss {
 
 		instance = null;
 		this.done = true;
-		Dungeon.level.removeSaveable(this);
+		Dungeon.level.removePlayerSaveable(this);
 
 		if (Settings.gore) {
 			for (Animation.Frame frame : killed.getFrames()) {
