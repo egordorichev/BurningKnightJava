@@ -12,9 +12,9 @@ public class PatchRoom extends RegularRoom {
 	protected void setupPatch(Level level, float fill, int clustering, boolean ensurePath) {
 		if (ensurePath) {
 			PathFinder.setMapSize(this.getWidth() - 2, this.getHeight() - 2);
-			boolean valid;
+			boolean valid = false;
 
-			do {
+			for (int j = 0; j < 100; j++) {
 				patch = Patch.generate(this.getWidth() - 2, this.getHeight() - 2, fill, clustering);
 
 				int startPoint = 0;
@@ -41,13 +41,23 @@ public class PatchRoom extends RegularRoom {
 				PathFinder.buildDistanceMap(startPoint, BArray.not(patch, null));
 
 				valid = true;
+
 				for (int i = 0; i < patch.length; i++) {
 					if (!patch[i] && PathFinder.distance[i] == Integer.MAX_VALUE) {
 						valid = false;
 						break;
 					}
 				}
-			} while (!valid);
+
+				if (valid) {
+					break;
+				}
+			}
+
+			if (!valid) {
+				setupPatch(level, fill / 2, clustering, ensurePath);
+			}
+
 			PathFinder.setMapSize(level.getWidth(), level.getHeight());
 		} else {
 			patch = Patch.generate(this.getWidth() - 2, this.getHeight() - 2, fill, clustering);
