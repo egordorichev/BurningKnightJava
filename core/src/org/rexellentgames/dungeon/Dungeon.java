@@ -39,7 +39,6 @@ public class Dungeon extends ApplicationAdapter {
 	// Shockwave shader
 	// Desert area heat shader?
 	// Ui render broke
-	// Wall side is being rendered in 15 neighbor spot
 	// Add border right/left to walls (when not both sided)
 	// Better weapon trail
 	// Get back wall patterns?

@@ -677,7 +677,6 @@ public abstract class Level extends Entity {
 						Graphics.startShadows();
 						Graphics.render(Terrain.topVariants[0], x * 16, y * 16 - 1, 0, 0, 0, false, false, 1f, -1f);
 						Graphics.endShadows();
-						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 16);
 					}
 				}
 			}
@@ -694,6 +693,22 @@ public abstract class Level extends Entity {
 				0, 0, texture.getWidth(), texture.getHeight(), false, true);
 
 			Graphics.batch.setColor(1, 1, 1, 1f);
+		}
+
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+				int i = x + y * getWidth();
+				byte tile = this.get(i);
+
+				if (tile == Terrain.WALL || tile == Terrain.WALL) {
+					byte t = this.get(i - getWidth());
+
+					if (t != Terrain.CRACK && t != Terrain.WALL) {
+						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 16);
+					}
+				}
+			}
 		}
 	}
 
