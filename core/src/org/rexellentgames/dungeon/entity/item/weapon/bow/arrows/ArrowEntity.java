@@ -175,6 +175,8 @@ public class ArrowEntity extends Entity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2 - 5, this.w, this.h, 2f);
+		if (this.stuck == null) {
+			Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2 - 5, this.w, this.h, 2f);
+		}
 	}
 }

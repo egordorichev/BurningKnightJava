@@ -272,7 +272,7 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Graphics.batch.begin();
-		
+
 		if (Camera.instance != null) {
 			Camera.instance.applyShake();
 			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);

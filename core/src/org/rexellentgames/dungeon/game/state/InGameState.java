@@ -111,7 +111,7 @@ public class InGameState extends State {
 
 		this.console.update(dt);
 
-		if (Input.instance.wasPressed("pause")) {
+		if (Input.instance.wasPressed("reset")) {
 			Dungeon.newGame();
 		}
 

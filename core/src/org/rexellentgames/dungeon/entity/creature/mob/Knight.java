@@ -114,14 +114,6 @@ public class Knight extends Mob {
 		ArrayList<Item> items = super.getDrops();
 
 		if (Random.chance(10)) {
-			items.add(new FireBook());
-		}
-
-		if (Random.chance(10)) {
-			items.add(new DefenseBook());
-		}
-
-		if (Random.chance(10)) {
 			items.add(new KnightHat());
 		}
 

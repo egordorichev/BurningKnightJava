@@ -663,6 +663,14 @@ public class Player extends Creature {
 			return;
 		}
 
+		Vector3 vec = Camera.instance.getCamera().project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y;
+
+		Dungeon.shockTime = 0;
+		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+
 		this.toDeath = true;
 		this.t = 0;
 		Dungeon.slowDown(0.5f, 1f);
