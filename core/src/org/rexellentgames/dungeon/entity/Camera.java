@@ -78,6 +78,13 @@ public class Camera extends Entity {
 	}
 
 	@Override
+	public void init() {
+		super.init();
+
+		depth = 80;
+	}
+
+	@Override
 	public void update(float dt) {
 		if (this.last != null && this.last.done) {
 			this.last = null;

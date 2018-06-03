@@ -1,7 +1,10 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.entity.creature.buff.*;
@@ -105,6 +108,14 @@ public class Player extends Creature {
 	@Override
 	protected void onHurt(float a, Creature from) {
 		super.onHurt(a, from);
+
+		Vector3 vec = Camera.instance.getCamera().project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y;
+
+		Dungeon.shockTime = 0;
+		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
 
 		Camera.instance.shake(4f);
 		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
@@ -688,11 +699,12 @@ public class Player extends Creature {
 
 		TextureRegion region = this.animation.getCurrent().frame;
 
+
+		Graphics.batch.setColor(1, 1, 1, this.a);
+
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);
-
-		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		if (this.ui != null) {
 			this.ui.renderOnPlayer(this);

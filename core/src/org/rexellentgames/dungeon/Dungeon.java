@@ -68,6 +68,8 @@ public class Dungeon extends ApplicationAdapter {
 	private Color background = Color.valueOf("#000000");
 	private Color background2 = Color.valueOf("#323c39");
 	public static SplashWorker worker;
+	public static float shockTime = 10;
+	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
 
 	public static void reportException(Exception e) {
 		Log.report(e);
@@ -229,6 +231,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Tween.update(dt);
+		shockTime += dt;
 
 		if (Ui.ui != null) {
 			Ui.ui.update(dt);
@@ -311,8 +314,8 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.end();
 		shader.begin();
 
-		shader.setUniformf("shockTime", Dungeon.time % 5);
-		shader.setUniformf("shockPos", new Vector2(0.5f, 0.5f));
+		shader.setUniformf("shockTime", shockTime);
+		shader.setUniformf("shockPos", shockPos);
 		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));

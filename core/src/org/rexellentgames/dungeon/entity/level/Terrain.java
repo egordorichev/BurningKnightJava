@@ -72,7 +72,6 @@ public class Terrain {
 	public static TextureRegion crackPattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
 
-	public static TextureRegion[] dirtVariants = new TextureRegion[15];
 	public static TextureRegion[] pooledge = new TextureRegion[15];
 	public static TextureRegion[] lavaedge = new TextureRegion[15];
 	public static TextureRegion[] waterVariants = new TextureRegion[16];
@@ -137,10 +136,6 @@ public class Terrain {
 		}
 
 		for (int i = 0; i < 15; i++) {
-			dirtVariants[i] = Graphics.getTexture("biome-gen-dirt" + Level.COMPASS[i]);
-		}
-
-		for (int i = 0; i < 15; i++) {
 			pooledge[i] = Graphics.getTexture("biome-gen-pooledge" + Level.COMPASS[i]);
 		}
 
@@ -189,9 +184,6 @@ public class Terrain {
 			topVariants[i] = Graphics.getTexture(bm + "-wall " + letters[i / 4] + " " + String.format("%02d", i % 4 + 1));
 		}
 
-		variants[DIRT] = dirtVariants;
-		variants[GRASS] = dirtVariants;
-		variants[PLANTED_DIRT] = dirtVariants;
 		variants[CHASM] = chasmVariants;
 		variants[WALL] = wallVariants;
 		variants[CRACK] = wallVariants;

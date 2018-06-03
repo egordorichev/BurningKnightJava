@@ -86,7 +86,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (this.brk) {
+		if (this.brk || this.body == null) {
 			return;
 		}
 
