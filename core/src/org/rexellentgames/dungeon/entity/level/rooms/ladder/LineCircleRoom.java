@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.ladder;
 
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -23,6 +24,10 @@ public class LineCircleRoom extends EntranceRoom {
 		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), Terrain.FLOOR_A);
 
 		place(level, this.getCenter());
+
+		for (Door door : this.connected.values()) {
+			door.setType(Door.Type.REGULAR);
+		}
 	}
 
 	@Override

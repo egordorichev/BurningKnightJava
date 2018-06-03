@@ -158,7 +158,7 @@ public class Painter {
 				Door d = r.getConnected().get(n);
 				byte t = level.get((int) d.x, (int) d.y);
 
-				if (t != Terrain.FLOOR_C && t != Terrain.CRACK && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET)) {
+				if (t != Terrain.FLOOR_FAKE && t != Terrain.CRACK && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET)) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
 						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 
@@ -186,7 +186,7 @@ public class Painter {
 				if (d.getType() == Door.Type.SECRET) {
 					level.set((int) d.x, (int) d.y, Terrain.CRACK);
 				} else {
-					level.set((int) d.x, (int) d.y, Terrain.FLOOR_C);
+					level.set((int) d.x, (int) d.y, Terrain.FLOOR_FAKE);
 				}
 			}
 		}

@@ -20,8 +20,9 @@ public class Terrain {
 	public static byte FLOOR_C = 12;
 	public static byte FLOOR_D = 13;
 	public static byte CRACK = 14;
+	public static byte FLOOR_FAKE = 15;
 
-	public static byte SIZE = 15;
+	public static byte SIZE = 16;
 
 	public static int[] flags = new int[SIZE];
 
@@ -39,12 +40,13 @@ public class Terrain {
 		flags[GRASS] = PASSABLE;
 		flags[PLANTED_DIRT] = PASSABLE | IS_DIRT;
 		flags[FLOOR_A] = PASSABLE;
+		flags[FLOOR_FAKE] = PASSABLE | BREAKS_ENEMY_LOS;
 		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
 		flags[CRACK] = SOLID | HIGH | BREAKS_LOS;
 		flags[WATER] = PASSABLE;
 		flags[WALL_SIDE] = HOLE;
 		flags[FLOOR_B] = PASSABLE;
-		flags[FLOOR_C] = PASSABLE | BREAKS_ENEMY_LOS;
+		flags[FLOOR_C] = PASSABLE;
 		flags[FLOOR_D] = PASSABLE;
 		flags[LAVA] = 0;
 		flags[TABLE] = SOLID | HIGH;
@@ -181,6 +183,7 @@ public class Terrain {
 		variants[CRACK] = wallVariants;
 		variants[FLOOR_B] = woodVariants;
 		variants[FLOOR_A] = floorVariants;
+		variants[FLOOR_FAKE] = floorVariants;
 		variants[LAVA] = lavaVariants;
 		variants[TABLE] = tableVariants;
 		variants[FLOOR_C] = badVariants;

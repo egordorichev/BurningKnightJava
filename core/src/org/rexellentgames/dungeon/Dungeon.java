@@ -42,6 +42,7 @@ public class Dungeon extends ApplicationAdapter {
 	// Better weapon trail
 	// Shop
 	// Rotating coins
+	// Get back transitions!
 
 	// Add border right/left to walls (when not both sided)
 	// Get back wall patterns?
