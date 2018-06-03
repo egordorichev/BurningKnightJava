@@ -58,11 +58,6 @@ public class Mob extends Creature {
 		alwaysActive = true;
 	}
 
-	@Override
-	public void renderTop() {
-		// this.renderSigns();
-	}
-
 	protected void renderSigns() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		float dt = Gdx.graphics.getDeltaTime();

@@ -73,10 +73,6 @@ public class Entity extends Point {
 
 	}
 
-	public void renderTop() {
-
-	}
-
 	public void setArea(Area area) {
 		this.area = area;
 	}

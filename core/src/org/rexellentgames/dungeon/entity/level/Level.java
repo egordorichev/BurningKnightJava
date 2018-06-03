@@ -375,12 +375,12 @@ public abstract class Level extends Entity {
 		SolidLevel l = new SolidLevel();
 		l.setLevel(this);
 
-		this.area.add(l);
+		Dungeon.area.add(l);
 
 		LightLevel ll = new LightLevel();
 		ll.setLevel(this);
 
-		this.area.add(ll);
+		Dungeon.area.add(ll);
 	}
 
 	public void renderLight() {

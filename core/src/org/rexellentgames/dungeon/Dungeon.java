@@ -272,9 +272,7 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
-		Graphics.batch.begin();
 		renderGame();
-		Graphics.batch.end();
 		
 		if (Input.instance != null) {
 			Input.instance.update();
@@ -286,6 +284,7 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		Graphics.surface.begin();
+		Graphics.batch.begin();
 
 		if (Level.SHADOWS) {
 			// Clear shadows
@@ -321,13 +320,15 @@ public class Dungeon extends ApplicationAdapter {
 			Camera.instance.removeShake();
 		}
 
+		Graphics.batch.end();
 		Graphics.surface.end();
-		Texture texture = Graphics.shadows.getColorBufferTexture();
+		Texture texture = Graphics.surface.getColorBufferTexture();
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		boolean heat = level instanceof DesertLevel;
 
+		Graphics.batch.begin();
 		if (heat) {
 			Graphics.batch.end();
 			shaderOutline.begin();
@@ -348,6 +349,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		game.renderUi();
+		Graphics.batch.end();
 	}
 
 	private Point inputVel = new Point();
