@@ -115,10 +115,12 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShadows();
-		Graphics.render(sprite, this.x, this.y - 8, this.a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
-		Graphics.endShadows();
 		Graphics.render(sprite, this.x, this.y, this.a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h, 5);
 	}
 
 	protected void onDeath() {

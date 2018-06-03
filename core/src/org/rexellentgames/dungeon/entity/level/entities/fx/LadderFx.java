@@ -30,7 +30,7 @@ public class LadderFx extends UiEntity {
 		this.x = ladder.x + 8 - layout.width / 2;
 		this.y = ladder.y + ladder.h + 4;
 
-		this.depth = 15;
+		this.depth = 16;
 
 		Tween.to(new Tween.Task(1, 0.1f, Tween.Type.QUAD_OUT) {
 			@Override

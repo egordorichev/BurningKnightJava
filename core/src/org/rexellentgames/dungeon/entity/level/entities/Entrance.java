@@ -22,7 +22,6 @@ public class Entrance extends SaveableEntity {
 	private Body body;
 	private LadderFx fx;
 
-
 	public static byte NORMAL = 0;
 	public static byte ENTRANCE_TUTORIAL = 1;
 

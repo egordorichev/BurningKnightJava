@@ -118,13 +118,6 @@ public class GoreFx extends Entity {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.al);
-
-		if (!menu) {
-			Graphics.startShadows();
-			Graphics.render(this.texture, this.x, this.y - 4, -this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false, 1f, -1f);
-			Graphics.endShadows();
-		}
-
 		Graphics.render(this.texture, this.x, this.y + this.z, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}

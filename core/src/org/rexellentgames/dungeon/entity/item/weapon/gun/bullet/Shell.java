@@ -96,9 +96,6 @@ public class Shell extends Entity {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.al);
-		Graphics.startShadows();
-		Graphics.render(this.sprite, this.x, this.y - this.sprite.getRegionHeight(), -this.a, this.sprite.getRegionWidth() / 2, this.sprite.getRegionHeight() / 2, false, false);
-		Graphics.endShadows();
 		Graphics.render(this.sprite, this.x, this.y + this.z, this.a, this.sprite.getRegionWidth() / 2, this.sprite.getRegionHeight() / 2, false, false);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}

@@ -50,14 +50,6 @@ public class Part extends Entity {
 
 	@Override
 	public void render() {
-		if (shadow) {
-			Graphics.startShadows();
-			this.animation.render(this.x, this.y - 4, false, false);
-			Graphics.endShadows();
-		} else {
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		}
-
 		this.animation.render(this.x, this.y, false, false);
 	}
 }

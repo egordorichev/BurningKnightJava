@@ -12,8 +12,8 @@ varying vec4 v_color;
 void main() {
     float x = v_texCoord.x + cam.x;
     float y = v_texCoord.y + cam.y;
-    float v = sin(time * 8.0 + y * 128.0 + x * 64.0) * 0.0006;
-    float u = cos(-time * 8.0 + x * 128.0 + y * 32.0) * 0.0006;
+    float v = sin(-time * 8.0 + y * 128.0 + x * 64.0) * 0.0006;
+    float u = cos(time * 8.0 + x * 128.0 + y * 32.0) * 0.0006;
 
     gl_FragColor = texture2D(u_texture,
        vec2(

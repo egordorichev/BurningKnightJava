@@ -511,7 +511,7 @@ public abstract class Level extends Entity {
 					if (v != 15) {
 						Graphics.batch.setColor(colors[this.uid]);
 						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
-						Graphics.batch.setColor(Color.WHITE);
+						Graphics.batch.setColor(1, 1, 1, 1);
 					}
 				}
 
@@ -619,9 +619,6 @@ public abstract class Level extends Entity {
 
 				if (tile == Terrain.WATER) {
 					byte variant = this.variants[i];
-
-					Graphics.batch.end();
-					Graphics.batch.begin();
 
 					if (variant != 15) {
 						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);

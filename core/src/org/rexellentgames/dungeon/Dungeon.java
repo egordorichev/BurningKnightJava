@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
@@ -281,9 +282,31 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private void renderGame() {
-		Graphics.surface.begin();
-		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+		Graphics.surface.begin();
+
+		if (Level.SHADOWS) {
+			// Clear shadows
+
+			Graphics.startShadows();
+			Gdx.gl.glClearColor(0, 0, 0, 0);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+			Graphics.endShadows();
+
+			for (int i = 0; i < area.getEntities().size(); i++) {
+				Entity entity = area.getEntities().get(i);
+
+				if (!entity.isActive()) {
+					continue;
+				}
+
+				if (entity.onScreen || entity.alwaysRender) {
+					entity.renderShadow();
+				}
+			}
+		}
 
 		if (Camera.instance != null) {
 			Camera.instance.applyShake();
@@ -299,7 +322,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Graphics.surface.end();
-		Texture texture = Graphics.surface.getColorBufferTexture();
+		Texture texture = Graphics.shadows.getColorBufferTexture();
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
