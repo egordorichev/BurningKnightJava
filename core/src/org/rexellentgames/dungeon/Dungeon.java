@@ -41,7 +41,6 @@ public class Dungeon extends ApplicationAdapter {
 	// Random area orders
 	// Better weapon trail
 	// Shop
-	// Ascend label is broken
 	// Rotating coins
 
 	// Add border right/left to walls (when not both sided)
@@ -280,9 +279,6 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private void renderGame() {
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
 		Graphics.surface.begin();
 		Graphics.batch.begin();
 

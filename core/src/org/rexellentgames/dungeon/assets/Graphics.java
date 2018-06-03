@@ -262,6 +262,7 @@ public class Graphics {
 	public static void shadow(float x, float y, float w, float h, float z) {
 		startShadows();
 		Graphics.batch.end();
+		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 		w -= z;
