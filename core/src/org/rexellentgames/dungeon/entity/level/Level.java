@@ -549,15 +549,21 @@ public abstract class Level extends Entity {
 		}
 	}
 
-	public static ShaderProgram shaderOutline;
+	public static ShaderProgram waterShader;
+	public static ShaderProgram maskShader;
 
 	static {
-		String vertexShader;
-		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/water.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/water.frag").readString();
-		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
-		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+		waterShader = new ShaderProgram( Gdx.files.internal("shaders/water.vert").readString(),  Gdx.files.internal("shaders/water.frag").readString());
+
+		if (!waterShader.isCompiled()) {
+			throw new GdxRuntimeException("Couldn't compile shader: " + waterShader.getLog());
+		}
+
+		maskShader = new ShaderProgram( Gdx.files.internal("shaders/mask.vert").readString(),  Gdx.files.internal("shaders/mask.frag").readString());
+
+		if (!maskShader.isCompiled()) {
+			throw new GdxRuntimeException("Couldn't compile shader: " + waterShader.getLog());
+		}
 	}
 
 	@Override
@@ -584,7 +590,7 @@ public abstract class Level extends Entity {
 
 					if (tile == Terrain.EXIT) {
 						Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
-					} else if (tile != Terrain.WATER && tile > 0 && Terrain.patterns[tile] != null) {
+					} else if (tile != Terrain.WATER && tile != Terrain.LAVA && tile != Terrain.DIRT && tile > 0 && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						region.setRegionX(region.getRegionX() + x % 4 * 16);
@@ -634,23 +640,23 @@ public abstract class Level extends Entity {
 					Texture texture = r.getTexture();
 
 					Graphics.batch.end();
-					shaderOutline.begin();
+					waterShader.begin();
 
 					TextureRegion rr = Terrain.waterVariants[variant];
 					Texture t = rr.getTexture();
 
 					t.bind(1);
-					shaderOutline.setUniformi("u_texture2", 1);
+					waterShader.setUniformi("u_texture2", 1);
 
-					shaderOutline.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
 
 					texture.bind(0);
-					shaderOutline.setUniformi("u_texture", 1);
-					shaderOutline.setUniformf("time", Dungeon.time);
-					shaderOutline.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-					shaderOutline.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
-					shaderOutline.end();
-					Graphics.batch.setShader(shaderOutline);
+					waterShader.setUniformi("u_texture", 1);
+					waterShader.setUniformf("time", Dungeon.time);
+					waterShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					waterShader.end();
+					Graphics.batch.setShader(waterShader);
 					Graphics.batch.begin();
 
 					Graphics.render(r, x * 16, y * 16 - 8);
@@ -679,23 +685,23 @@ public abstract class Level extends Entity {
 					Texture texture = r.getTexture();
 
 					Graphics.batch.end();
-					shaderOutline.begin();
+					waterShader.begin();
 
 					TextureRegion rr = Terrain.lavaVariants[variant];
 					Texture t = rr.getTexture();
 
 					t.bind(1);
-					shaderOutline.setUniformi("u_texture2", 1);
+					waterShader.setUniformi("u_texture2", 1);
 
-					shaderOutline.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
 
 					texture.bind(0);
-					shaderOutline.setUniformi("u_texture", 1);
-					shaderOutline.setUniformf("time", Dungeon.time);
-					shaderOutline.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-					shaderOutline.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
-					shaderOutline.end();
-					Graphics.batch.setShader(shaderOutline);
+					waterShader.setUniformi("u_texture", 1);
+					waterShader.setUniformf("time", Dungeon.time);
+					waterShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					waterShader.end();
+					Graphics.batch.setShader(waterShader);
 					Graphics.batch.begin();
 
 					Graphics.render(r, x * 16, y * 16 - 8);
@@ -707,6 +713,45 @@ public abstract class Level extends Entity {
 					if (variant != 15) {
 						Graphics.render(Terrain.lavaedge[variant], x * 16, y * 16 - 8);
 					}
+				} else if (tile == Terrain.DIRT) {
+					byte variant = this.variants[i];
+
+					if (variant != 15) {
+						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
+					}
+
+					TextureRegion r = new TextureRegion(Terrain.dirtPattern);
+
+					r.setRegionX(r.getRegionX() + x % 4 * 16);
+					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					r.setRegionHeight(16);
+					r.setRegionWidth(16);
+
+					Texture texture = r.getTexture();
+
+					Graphics.batch.end();
+					maskShader.begin();
+
+					TextureRegion rr = Terrain.lavaVariants[variant];
+					Texture t = rr.getTexture();
+
+					t.bind(1);
+					maskShader.setUniformi("u_texture2", 1);
+
+					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+
+					texture.bind(0);
+					maskShader.setUniformi("u_texture", 1);
+					maskShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+					maskShader.end();
+					Graphics.batch.setShader(maskShader);
+					Graphics.batch.begin();
+
+					Graphics.render(r, x * 16, y * 16 - 8);
+
+					Graphics.batch.end();
+					Graphics.batch.setShader(null);
+					Graphics.batch.begin();
 				} else if (tile == Terrain.WALL || tile == Terrain.WALL) {
 					byte t = this.get(i - getWidth());
 
