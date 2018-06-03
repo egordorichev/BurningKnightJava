@@ -46,6 +46,33 @@ public class Tween {
 			}
 		},
 
+		ELASTIC_IN {
+			@Override
+			public float get(float t) {
+				float a = 1;
+				float p = .3f;
+				if (t==0) return 0;
+				if (t==1) return 1;
+				float s = p / 4;
+				return -(a*(float)Math.pow(2,10*(t-=1)) * (float)Math.sin( (t-s)*(2*Math.PI)/p ));
+			}
+		},
+
+		ELASTIC_OUT {
+			@Override
+			public float get(float p) {
+				float a = 1;
+				float q = .3f;
+
+				if (p==0) return 0;
+				if (p==1) return 1;
+
+				float s = q / 4;
+
+				return a*(float)Math.pow(2,-10*p) * (float)Math.sin( (p-s)*(2*Math.PI)/q ) + 1;
+			}
+		},
+
 		BACK_IN {
 			@Override
 			public float get(float p) {

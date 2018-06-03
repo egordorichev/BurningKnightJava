@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.physics.World;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 public class Orbital extends PetEntity {
 	private static ArrayList<Orbital> all = new ArrayList<>();
 
+	protected float sx = 1;
+	protected float sy = 1;
 	private Body body;
 	private float a;
 
@@ -33,6 +37,19 @@ public class Orbital extends PetEntity {
 
 		readIndex();
 		setPos();
+	}
+
+	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
+
+		if (entity instanceof BulletEntity) {
+			this.onHit(entity);
+		}
+	}
+
+	protected void onHit(Entity entity) {
+		entity.done = true;
 	}
 
 	protected void readIndex() {
@@ -62,6 +79,6 @@ public class Orbital extends PetEntity {
 
 	@Override
 	public void render() {
-		Graphics.render(region, this.x, this.y, (float) Math.toDegrees(this.a), this.w / 2, this.h / 2, false, false);
+		Graphics.render(region, this.x, this.y, (float) Math.toDegrees(this.a), this.w / 2, this.h / 2, false, false, this.sx, this.sy);
 	}
 }

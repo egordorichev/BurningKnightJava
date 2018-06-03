@@ -20,6 +20,7 @@ import org.rexellentgames.dungeon.entity.item.key.KeyC
 import org.rexellentgames.dungeon.entity.item.pet.Bumbo
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet
 import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital
+import org.rexellentgames.dungeon.entity.item.pet.orbital.JellyOrbital
 import org.rexellentgames.dungeon.entity.item.reference.*
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA
@@ -169,6 +170,7 @@ object ItemRegistry {
 	    "gold_ring" to GoldRing::class,
 	    "vampire_ring" to VampireRing::class,
 	    "laser_gun" to LaserGun::class,
-	    "vvvvv" to VVVVV::class
+	    "vvvvv" to VVVVV::class,
+	    "jelly" to JellyOrbital::class
     )
 }

@@ -250,5 +250,7 @@
 	"fast" : "Fast speed",
 
 	"vvvvv" : "VVVVV",
-	"vvvvv_desc" : "Flips your screen, but increases gold drop chance!"
+	"vvvvv_desc" : "Flips your screen, but increases gold drop chance!",
+	"jelly" : "Jelly",
+	"jelly_desc" : "So pretty :3"
 }
