@@ -701,13 +701,13 @@ public abstract class Level extends Entity {
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {
 						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 16);
-					}
 
-					byte v = this.decor[i];
+						byte v = this.decor[i];
 
-					if (v != 0) {
-						TextureRegion s = Terrain.decor[v - 1];
-						Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 10);
+						if (v != 0) {
+							TextureRegion s = Terrain.decor[v - 1];
+							Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 10);
+						}
 					}
 				}
 			}

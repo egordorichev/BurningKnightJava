@@ -140,10 +140,10 @@ public class Painter {
 
 	protected void decorate(Level level, ArrayList<Room> rooms) {
 		for (Room room : rooms) {
-			int y = room.bottom - 1;
+			int y = room.bottom;
 
 			for (int x = room.left; x < room.right; x++) {
-				if (level.checkFor(x, y, Terrain.PASSABLE)) {
+				if (level.get(x, y) == Terrain.WALL) {
 					if (Random.chance(20)) {
 						level.setDecor(x, y, (byte) (Random.newInt(Terrain.decor.length) + 1));
 					}

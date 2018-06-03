@@ -40,6 +40,7 @@ public class Dungeon extends ApplicationAdapter {
 	// Random area orders
 	// Better weapon trail
 	// Shop
+	// Ascend label is broken
 	// Rotating coins
 
 	// Add border right/left to walls (when not both sided)
