@@ -662,6 +662,51 @@ public abstract class Level extends Entity {
 					if (variant != 15) {
 						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
 					}
+				} else if (tile == Terrain.LAVA) {
+					byte variant = this.variants[i];
+
+					if (variant != 15) {
+						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
+					}
+
+					TextureRegion r = new TextureRegion(Terrain.lavaPattern);
+
+					r.setRegionX(r.getRegionX() + x % 4 * 16);
+					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					r.setRegionHeight(16);
+					r.setRegionWidth(16);
+
+					Texture texture = r.getTexture();
+
+					Graphics.batch.end();
+					shaderOutline.begin();
+
+					TextureRegion rr = Terrain.lavaVariants[variant];
+					Texture t = rr.getTexture();
+
+					t.bind(1);
+					shaderOutline.setUniformi("u_texture2", 1);
+
+					shaderOutline.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+
+					texture.bind(0);
+					shaderOutline.setUniformi("u_texture", 1);
+					shaderOutline.setUniformf("time", Dungeon.time);
+					shaderOutline.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+					shaderOutline.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					shaderOutline.end();
+					Graphics.batch.setShader(shaderOutline);
+					Graphics.batch.begin();
+
+					Graphics.render(r, x * 16, y * 16 - 8);
+
+					Graphics.batch.end();
+					Graphics.batch.setShader(null);
+					Graphics.batch.begin();
+
+					if (variant != 15) {
+						Graphics.render(Terrain.lavaedge[variant], x * 16, y * 16 - 8);
+					}
 				} else if (tile == Terrain.WALL || tile == Terrain.WALL) {
 					byte t = this.get(i - getWidth());
 
