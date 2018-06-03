@@ -7,6 +7,8 @@ uniform float heat;
 uniform float time;
 uniform vec2 shockPos;
 uniform float shockTime;
+uniform vec2 transPos;
+uniform float transR;
 uniform sampler2D u_texture;
 uniform vec2 cam;
 varying vec2 v_texCoord;
@@ -38,5 +40,17 @@ void main() {
         y = clamp(y + u, 0.0, 1.0);
     }
 
-    gl_FragColor = texture2D(u_texture, vec2(x, y));
+    if (transR < 1.0) {
+        float dx = (transPos.x - x) * 1.5;
+        float dy = transPos.y - y;
+        float d = sqrt(dx * dx + dy * dy);
+
+        if (d < transR) {
+            gl_FragColor = texture2D(u_texture, vec2(x, y));
+        } else {
+           gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }
+    } else {
+        gl_FragColor = texture2D(u_texture, vec2(x, y));
+    }
 }

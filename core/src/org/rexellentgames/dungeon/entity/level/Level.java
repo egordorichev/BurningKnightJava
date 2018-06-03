@@ -56,7 +56,8 @@ public abstract class Level extends Entity {
 
 	public static Color[] colors = {
 		Color.valueOf("#221f41"),
-		Color.valueOf("#663531")
+		Color.valueOf("#663531"),
+		Color.valueOf("#221f41")
 	};
 
 	public Room entrance;

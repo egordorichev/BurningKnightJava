@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.level.entities.fx;
 
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector3;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -77,8 +79,12 @@ public class LadderFx extends UiEntity {
 		Player.instance.setUnhittable(true);
 		Camera.instance.follow(null);
 
-		Dungeon.darkX = this.fromWorldX(this.ladder.x + this.ladder.w / 2);
-		Dungeon.darkY = this.fromWorldY(this.ladder.y + this.ladder.h / 2);
+		Vector3 vec = Camera.instance.getCamera().project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y;
+
+		Dungeon.darkX = vec.x;
+		Dungeon.darkY = vec.y;
 
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override

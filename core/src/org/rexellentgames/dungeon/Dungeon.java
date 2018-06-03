@@ -267,6 +267,9 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void renderGame() {
 		Graphics.surface.begin();
+		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		Graphics.batch.begin();
 
 		if (Level.SHADOWS) {
@@ -318,6 +321,8 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("shockPos", shockPos);
 		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
 		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("transR", darkR / MAX_R);
+		shader.setUniformf("transPos", new Vector2(darkX / Display.GAME_WIDTH, darkY / Display.GAME_HEIGHT));
 		shader.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
 		shader.end();
 		Graphics.batch.setShader(shader);
