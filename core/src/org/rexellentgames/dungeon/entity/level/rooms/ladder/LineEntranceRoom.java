@@ -9,7 +9,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class LineEntranceRoom extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
-		byte f = Random.chance(60) ? Terrain.FLOOR_A : Terrain.FLOOR_B;
+		byte f = Terrain.randomFloor();
 
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, f);
@@ -17,10 +17,10 @@ public class LineEntranceRoom extends EntranceRoom {
 		Painter.fill(level, this, 2, Terrain.WALL);
 		Painter.fill(level, this, 3, f);
 
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), Terrain.FLOOR_A);
+		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), f);
+		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), f);
+		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
+		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
 
 		place(level, this.getCenter());
 	}

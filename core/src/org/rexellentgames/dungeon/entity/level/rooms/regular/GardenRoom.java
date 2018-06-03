@@ -12,13 +12,15 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class GardenRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
+		byte f = Terrain.randomFloor();
+		
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR_A);
+		Painter.fill(level, this, 1, f);
 
 		if (Random.chance(50)) {
 			for (int x = this.left + 1; x < this.right - 1; x++) {
 				Painter.drawLine(level, new Point(x, this.top + 1), new Point(x, this.bottom - 1),
-					x % 2 == 0 ? Terrain.DIRT : Terrain.FLOOR_B);
+					x % 2 == 0 ? Terrain.DIRT : f);
 
 				if (x % 2 == 0) {
 					for (int y = this.top + 1; y < this.bottom; y++) {
@@ -38,7 +40,7 @@ public class GardenRoom extends RegularRoom {
 		} else {
 			for (int y = this.top + 1; y < this.bottom - 1; y++) {
 				Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y),
-					y % 2 == 0 ? Terrain.DIRT : Terrain.FLOOR_B);
+					y % 2 == 0 ? Terrain.DIRT : f);
 
 				if (y % 2 == 0) {
 					for (int x = this.left + 1; x < this.right - 2; x++) {

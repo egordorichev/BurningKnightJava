@@ -11,8 +11,9 @@ public class LineRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
+		byte f = Terrain.randomFloor();
 		Painter.fill(level, this, 2, Terrain.WALL);
-		Painter.fill(level, this, 3, Terrain.FLOOR_A);
+		Painter.fill(level, this, 3, f);
 
 		Point point;
 
@@ -23,7 +24,7 @@ public class LineRoom extends RegularRoom {
 			case 3: point = new Point(this.right - 2, this.getHeight() / 2 + this.top); break;
 		}
 
-		Painter.set(level, point, Terrain.FLOOR_A);
+		Painter.set(level, point, f);
 	}
 
 	@Override

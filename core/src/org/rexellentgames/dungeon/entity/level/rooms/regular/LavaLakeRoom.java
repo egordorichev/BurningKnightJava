@@ -25,12 +25,14 @@ public class LavaLakeRoom extends PatchRoom {
 		setupPatch(level, fill, 20, true);
 		cleanDiagonalEdges();
 
+		byte floor = Terrain.randomFloor();
+
 		for (int i = top + 1; i < bottom; i++) {
 			for (int j = left + 1; j < right; j++) {
 				int in = xyToPatchCoords(j, i);
 
 				if (!this.patch[in]) {
-					level.set(j, i, Terrain.FLOOR_A);
+					level.set(j, i, floor);
 				}
 			}
 		}
@@ -39,7 +41,6 @@ public class LavaLakeRoom extends PatchRoom {
 			door.setType(Door.Type.REGULAR);
 		}
 
-		byte floor = Terrain.FLOOR_A;
 		boolean bold = false;
 
 		Rect c = getConnectionSpace();

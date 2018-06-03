@@ -13,15 +13,16 @@ import org.rexellentgames.dungeon.util.geometry.Rect;
 public class CircleEntranceRoom extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
+		byte f = Terrain.randomFloor();
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fillEllipse(level, this, 1, Terrain.FLOOR_A);
+		Painter.fillEllipse(level, this, 1, f);
 
 		if (this.connected.size() == 0) {
 			Log.error("Invalid connection room");
 			return;
 		}
 
-		byte floor = Terrain.FLOOR_A;
+		byte floor = f;
 
 		Rect c = getConnectionSpace();
 

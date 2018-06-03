@@ -9,8 +9,10 @@ import org.rexellentgames.dungeon.entity.level.rooms.connection.TunnelRoom;
 public class CircleRoom extends TunnelRoom {
 	@Override
 	public void paint(Level level) {
+		byte f = Terrain.randomFloor();
+
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fillEllipse(level, this, 1, Terrain.FLOOR_A);
+		Painter.fillEllipse(level, this, 1, f);
 
 		super.paint(level);
 

@@ -13,16 +13,18 @@ public class CircleLineRoom extends RegularRoom {
 			door.setType(Door.Type.REGULAR);
 		}
 
+		byte floor = Terrain.randomFloor();
+
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR_A);
+		Painter.fill(level, this, 1, floor);
 
 		Painter.fillEllipse(level, this, 2, Terrain.WALL);
-		Painter.fillEllipse(level, this, 3, Terrain.FLOOR_A);
+		Painter.fillEllipse(level, this, 3, floor);
 
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), Terrain.FLOOR_A);
+		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), floor);
+		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), floor);
+		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), floor);
+		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), floor);
 	}
 
 	@Override

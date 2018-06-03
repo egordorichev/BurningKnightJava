@@ -15,7 +15,7 @@ public class MazeEntranceRoom extends EntranceRoom {
 		boolean[][] maze = Maze.generate(this);
 
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Random.chance(60) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
+		Painter.fill(level, this, 1,  Terrain.randomFloor());
 
 		boolean set = false;
 
@@ -23,8 +23,7 @@ public class MazeEntranceRoom extends EntranceRoom {
 			for (int x = 0; x < this.getWidth(); x++) {
 				for (int y = 0; y < this.getHeight(); y++) {
 					if (maze[x][y] == Maze.FILLED) {
-						Painter.set(level, this.left + x, this.top + y, (x == 0 || y == 0
-							|| x == this.getWidth() - 1 || y == this.getHeight() - 1) ? Terrain.WALL : wall);
+						Painter.set(level, this.left + x, this.top + y, wall);
 					} else if (x != 0 && y != 0 && !set && Random.chance(this.getMaxWidth() * this.getHeight() / 100)) {
 						set = true;
 						place(level, new Point(this.left + x, this.top + y));

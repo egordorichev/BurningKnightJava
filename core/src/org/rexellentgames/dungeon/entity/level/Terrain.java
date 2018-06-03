@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 
 public class Terrain {
 	public static byte CHASM = 0;
@@ -51,6 +52,14 @@ public class Terrain {
 		flags[LAVA] = 0;
 		flags[TABLE] = SOLID | HIGH;
 		flags[EXIT] = 0;
+	}
+
+	public static byte randomFloor() {
+		switch (Random.newInt(3)) {
+			case 0: default: return FLOOR_A;
+			case 1: return FLOOR_B;
+			case 3: return FLOOR_C;
+		}
 	}
 
 	public static TextureRegion[] dither = new TextureRegion[10];

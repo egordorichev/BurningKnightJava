@@ -8,15 +8,16 @@ import org.rexellentgames.dungeon.util.Random;
 public class SpikedRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
+		byte f = Terrain.randomFloor();
+		
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR_A);
+		Painter.fill(level, this, 1, f);
 
 		if (this.getWidth() > 5 && this.getHeight() > 5) {
 			Painter.fill(level, this, 2, Terrain.LAVA);
-			Painter.fill(level, this, 3, Terrain.FLOOR_A);
+			Painter.fill(level, this, 3, f);
 
-			// todo: moving spike?
-			Painter.set(level, this.left + this.getWidth() / 2, Random.chance(50) ? this.top + 2 : this.bottom - 2, Terrain.FLOOR_A);
+			Painter.set(level, this.left + this.getWidth() / 2, Random.chance(50) ? this.top + 2 : this.bottom - 2, f);
 		}
 	}
 

@@ -10,8 +10,9 @@ public class SmileRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
+		byte f = Terrain.randomFloor();
 		Painter.fillEllipse(level, this, 2, Terrain.LAVA);
-		Painter.fillEllipse(level, this, 3, Terrain.FLOOR_A);
+		Painter.fillEllipse(level, this, 3, f);
 
 		float w = this.getWidth();
 		float h = this.getHeight();
@@ -21,14 +22,14 @@ public class SmileRoom extends RegularRoom {
 			(int) (this.left + w - 1), (int) (Math.floor(h / 2) + Math.ceil(this.top + h / 2) - 1)
 		);
 
-		Painter.fill(level, r, Terrain.FLOOR_A);
+		Painter.fill(level, r, f);
 
 		Painter.fill(level, r, 1, Terrain.LAVA);
 
 		Painter.fill(level, new Rect(
 			this.left + (int) Math.floor(w / 2) - 1, this.top + (int) Math.floor(h / 2) + 1,
 			this.left + (int) Math.ceil(w / 2) + 1, this.bottom - 1
-		), Terrain.FLOOR_A);
+		), f);
 	}
 
 	@Override

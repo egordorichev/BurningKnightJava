@@ -10,18 +10,18 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class LineCircleRoom extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
-		byte f = Random.chance(60) ? Terrain.FLOOR_A : Terrain.FLOOR_B;
+		byte floor = Terrain.randomFloor();
 
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, f);
+		Painter.fill(level, this, 1, floor);
 
 		Painter.fillEllipse(level, this, 2, Terrain.WALL);
-		Painter.fillEllipse(level, this, 3, f);
+		Painter.fillEllipse(level, this, 3, floor);
 
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), Terrain.FLOOR_A);
-		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), Terrain.FLOOR_A);
+		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), floor);
+		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), floor);
+		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), floor);
+		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), floor);
 
 		place(level, this.getCenter());
 

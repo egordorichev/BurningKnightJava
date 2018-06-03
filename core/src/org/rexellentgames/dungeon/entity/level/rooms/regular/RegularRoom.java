@@ -32,8 +32,9 @@ public class RegularRoom extends Room {
 
 	@Override
 	public void paint(Level level) {
+		byte f = Terrain.randomFloor();
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR_A);
+		Painter.fill(level, this, 1, f);
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);

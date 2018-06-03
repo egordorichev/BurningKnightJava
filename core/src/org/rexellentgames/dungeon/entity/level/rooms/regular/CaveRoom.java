@@ -18,6 +18,7 @@ public class CaveRoom extends PatchRoom {
 
 	@Override
 	public void paint(Level level) {
+		byte f = Terrain.randomFloor();
 		Painter.fill(level, this, Terrain.WALL);
 
 		float fill = 0.1f + (this.getWidth() * this.getHeight()) / 512f;
@@ -30,7 +31,7 @@ public class CaveRoom extends PatchRoom {
 				int in = xyToPatchCoords(j, i);
 
 				if (!this.patch[in]) {
-					level.set(j, i, Terrain.FLOOR_A);
+					level.set(j, i, f);
 				}
 			}
 		}
@@ -39,7 +40,7 @@ public class CaveRoom extends PatchRoom {
 			door.setType(Door.Type.REGULAR);
 		}
 
-		byte floor = Terrain.FLOOR_A;
+		byte floor = f;
 		boolean bold = false;
 
 		Rect c = getConnectionSpace();
