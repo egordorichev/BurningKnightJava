@@ -39,6 +39,9 @@ public class RocketEntity extends Entity {
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
+		this.w = sprite.getRegionWidth();
+		this.h = sprite.getRegionHeight();
+
 		this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, ra);
 		this.body.setBullet(true);
@@ -116,7 +119,7 @@ public class RocketEntity extends Entity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h, 5);
+		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2 - 5, this.w, this.h);
 	}
 
 	private float last;

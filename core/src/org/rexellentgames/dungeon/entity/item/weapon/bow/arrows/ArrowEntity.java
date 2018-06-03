@@ -44,6 +44,7 @@ public class ArrowEntity extends Entity {
 	public void init() {
 		super.init();
 
+		this.alwaysRender = true;
 		this.alwaysActive = true;
 
 		int w = sprite.getRegionWidth();
@@ -170,5 +171,10 @@ public class ArrowEntity extends Entity {
 		if (!did) {
 			Graphics.render(sprite, this.x, this.y, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
 		}
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2 - 5, this.w, this.h, 2f);
 	}
 }

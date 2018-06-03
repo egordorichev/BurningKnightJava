@@ -54,6 +54,9 @@ public class BulletEntity extends Entity {
 			this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
 		}
 
+		this.w = sprite.getRegionWidth();
+		this.h = sprite.getRegionHeight();
+
 		if (sprite.getRegionWidth() == sprite.getRegionHeight()) {
 			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil(((float)sprite.getRegionWidth()) / 2), BodyDef.BodyType.DynamicBody, false);
 		} else {
@@ -120,7 +123,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h, 5);
+		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
 	}
 
 	protected void onDeath() {

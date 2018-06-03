@@ -272,6 +272,12 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Graphics.batch.begin();
+		
+		if (Camera.instance != null) {
+			Camera.instance.applyShake();
+			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		}
 
 		if (Level.SHADOWS) {
 			// Clear shadows
@@ -292,12 +298,6 @@ public class Dungeon extends ApplicationAdapter {
 					entity.renderShadow();
 				}
 			}
-		}
-
-		if (Camera.instance != null) {
-			Camera.instance.applyShake();
-			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		}
 
 		area.render();
