@@ -109,14 +109,6 @@ public class Player extends Creature {
 	protected void onHurt(float a, Creature from) {
 		super.onHurt(a, from);
 
-		Vector3 vec = Camera.instance.getCamera().project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
-		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
-
-		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
-
 		Camera.instance.shake(4f);
 		Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 

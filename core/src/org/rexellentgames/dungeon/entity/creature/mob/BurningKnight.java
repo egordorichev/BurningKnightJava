@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -71,6 +72,18 @@ public class BurningKnight extends Boss {
 		unhittable = false;
 	}
 
+	@Override
+	protected void onHurt(float a, Creature from) {
+		super.onHurt(a, from);
+
+		Vector3 vec = Camera.instance.getCamera().project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y;
+
+		Dungeon.shockTime = 0;
+		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+	}
 
 	public void findStartPoint() {
 		if (this.attackTp) {

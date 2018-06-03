@@ -21,7 +21,7 @@ void main() {
         float dy = shockPos.y - y;
         float d = sqrt(dx * dx + dy * dy) * 2.0 - shockTime * 4.0;
 
-        float v = max(0.0, (cos(d) / 2.0 - 0.45)) / 2.0;
+        float v = max(0.0, (cos(d) / 2.0 - 0.45)) / 3.0;
         float a = atan(dy, dx);
 
         x = clamp(v_texCoord.x + v * cos(a), 0.0, 1.0);
