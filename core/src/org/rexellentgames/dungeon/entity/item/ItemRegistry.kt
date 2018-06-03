@@ -168,6 +168,7 @@ object ItemRegistry {
 	    "bumbo" to Bumbo::class,
 	    "gold_ring" to GoldRing::class,
 	    "vampire_ring" to VampireRing::class,
-	    "laser_gun" to LaserGun::class
+	    "laser_gun" to LaserGun::class,
+	    "vvvvv" to VVVVV::class
     )
 }

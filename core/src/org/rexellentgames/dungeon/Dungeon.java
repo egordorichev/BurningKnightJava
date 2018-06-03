@@ -70,6 +70,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static SplashWorker worker;
 	public static float shockTime = 10;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
+	public static boolean flip;
 
 	public static void reportException(Exception e) {
 		Log.report(e);
@@ -328,7 +329,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();
 
-		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, true);
+		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, !flip);
 
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);

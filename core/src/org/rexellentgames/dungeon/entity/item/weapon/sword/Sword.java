@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
@@ -18,6 +17,8 @@ import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
+
+import java.util.ArrayList;
 
 public class Sword extends Weapon {
 	protected boolean blocking;
@@ -42,6 +43,13 @@ public class Sword extends Weapon {
 
 	protected String getSfx() {
 		return "sword_1";
+	}
+
+	private float lastFrame;
+	private ArrayList<Frame> frames = new ArrayList<Frame>();
+
+	private static class Frame {
+		float added;
 	}
 
 	@Override
@@ -74,16 +82,34 @@ public class Sword extends Weapon {
 				}
 			});
 		}
+
+		this.lastFrame += dt;
+
+		if (this.lastFrame >= 0.1f) {
+			this.lastFrame = 0;
+
+			if (this.added > 0) {
+				Frame frame = new Frame();
+				frame.added = this.added;
+
+				this.frames.add(frame);
+
+				if (this.frames.size() > 5) {
+					this.frames.remove(0);
+				}
+			} else if (this.frames.size() > 0) {
+				this.frames.remove(0);
+			}
+		}
 	}
 
-	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.animation == null) {
 			this.animation = animations.get("idle");
 			this.animation.setPaused(true);
 		}
 
-		float angle = this.added;
+		float angle = added;
 		float pure = 0;
 
 		if (this.owner != null) {
@@ -96,7 +122,7 @@ public class Sword extends Weapon {
 				pure = a - 180;
 
 				angle = flipped ? angle : 180 - angle;
-			} else if (this.owner instanceof Mob && this.added == 0) {
+			} else if (this.owner instanceof Mob && angle == 0) {
 				Mob mob = (Mob) this.owner;
 
 				if (mob.target != null && mob.saw && !mob.isDead()) {
