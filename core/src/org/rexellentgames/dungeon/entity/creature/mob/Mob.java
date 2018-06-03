@@ -136,15 +136,15 @@ public class Mob extends Creature {
 		return this;
 	}
 
-	public static ShaderProgram shaderOutline;
+	public static ShaderProgram shader;
 
 	static {
 		String vertexShader;
 		String fragmentShader;
 		vertexShader = Gdx.files.internal("shaders/outline.vert").readString();
 		fragmentShader = Gdx.files.internal("shaders/outline.frag").readString();
-		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
-		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
 	public void renderWithOutline(AnimationData data) {
@@ -152,11 +152,11 @@ public class Mob extends Creature {
 			Color color = this.prefix.getColor();
 
 			Graphics.batch.end();
-			shaderOutline.begin();
-			Mob.shaderOutline.setUniformf("u_a", 1f);
-			shaderOutline.setUniformf("u_color", new Vector3(color.r, color.g, color.b));
-			shaderOutline.end();
-			Graphics.batch.setShader(shaderOutline);
+			shader.begin();
+			Mob.shader.setUniformf("u_a", 1f);
+			shader.setUniformf("u_color", new Vector3(color.r, color.g, color.b));
+			shader.end();
+			Graphics.batch.setShader(shader);
 			Graphics.batch.begin();
 
 			for (int xx = -1; xx < 2; xx++) {

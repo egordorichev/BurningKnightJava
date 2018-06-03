@@ -103,7 +103,7 @@ public class UiInventory extends UiEntity {
 
 			float h = this.inventory.getSize() / 3 * 29;
 
-			if (this.hidden && dx < h && dy < h || this.forceT > 0) {
+			if (this.hidden && d < h || this.forceT > 0) {
 				this.dn = false;
 
 				Tween.to(new Tween.Task(4, 0.3f, Tween.Type.BACK_OUT) {

@@ -34,24 +34,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.io.File;
 
 public class Dungeon extends ApplicationAdapter {
-	// todo:
-	// Use floor C more
-	// Magic well particles
-	// More quad patches? For floors
-	// Random area orders
-	// Better weapon trail
-	// Shop
-	// Rotating coins
-	// Get back transitions!
-
-	// Add border right/left to walls (when not both sided)
-	// Get back wall patterns?
-	// Center BK sprite
-	// Default shader?
-	// Check my shockwave shader
-	// How to cross two shaders?
-
-	public static ShaderProgram shaderOutline;
+	public static ShaderProgram shader;
 
 	public static Game game;
 	public static int depth;
@@ -200,10 +183,10 @@ public class Dungeon extends ApplicationAdapter {
 
 		String vertexShader;
 		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/heat.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/heat.frag").readString();
-		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
-		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+		vertexShader = Gdx.files.internal("shaders/main.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/main.frag").readString();
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 
 		Box2D.init();
 
@@ -309,7 +292,7 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
 		}
-		
+
 		area.render();
 		game.render(false);
 
@@ -323,27 +306,25 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		boolean heat = level instanceof DesertLevel;
-
 		Graphics.batch.begin();
-		if (heat) {
-			Graphics.batch.end();
-			shaderOutline.begin();
 
-			shaderOutline.setUniformf("time", Dungeon.time);
-			shaderOutline.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
-			shaderOutline.end();
-			Graphics.batch.setShader(shaderOutline);
-			Graphics.batch.begin();
-		}
+		Graphics.batch.end();
+		shader.begin();
+
+		shader.setUniformf("shockTime", Dungeon.time % 5);
+		shader.setUniformf("shockPos", new Vector2(0.5f, 0.5f));
+		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
+		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
+		shader.end();
+		Graphics.batch.setShader(shader);
+		Graphics.batch.begin();
 
 		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, true);
 
-		if (heat) {
-			Graphics.batch.end();
-			Graphics.batch.setShader(null);
-			Graphics.batch.begin();
-		}
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 
 		game.renderUi();
 		Graphics.batch.end();
@@ -452,11 +433,11 @@ public class Dungeon extends ApplicationAdapter {
 		Settings.save();
 		Log.close();
 
-		Mob.shaderOutline.dispose();
-		BurningKnight.shaderOutline.dispose();
+		Mob.shader.dispose();
+		BurningKnight.shader.dispose();
 		Level.waterShader.dispose();
-		MagicWell.shaderOutline.dispose();
-		shaderOutline.dispose();
+		MagicWell.shader.dispose();
+		shader.dispose();
 	}
 
 	private void initInput() {

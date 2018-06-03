@@ -16,15 +16,15 @@ import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 public class MagicWell extends UsableProp {
-	public static ShaderProgram shaderOutline;
+	public static ShaderProgram shader;
 
 	static {
 		String vertexShader;
 		String fragmentShader;
 		vertexShader = Gdx.files.internal("shaders/dist.vert").readString();
 		fragmentShader = Gdx.files.internal("shaders/dist.frag").readString();
-		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
-		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
 	private static TextureRegion[] water = new TextureRegion[] {
@@ -96,16 +96,16 @@ public class MagicWell extends UsableProp {
 		super.render();
 
 		Graphics.batch.end();
-		shaderOutline.begin();
+		shader.begin();
 
 		TextureRegion r = water[this.used ? 0 : 1];
 		Texture t = r.getTexture();
 
-		shaderOutline.setUniformf("time", Dungeon.time);
-		shaderOutline.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-		shaderOutline.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
-		shaderOutline.end();
-		Graphics.batch.setShader(shaderOutline);
+		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+		shader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+		shader.end();
+		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();
 
 		Graphics.render(r, this.x + 5, this.y + 8);

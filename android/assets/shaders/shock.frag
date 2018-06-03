@@ -9,8 +9,6 @@ varying vec2 v_texCoord;
 varying vec4 v_color;
 
 void main() {
-    // todo: check, if we need to use angle here?
-
     float x = v_texCoord.x;
     float y = v_texCoord.y;
     float dx = (0.5 - x) * 1.5;
@@ -18,11 +16,12 @@ void main() {
     float d = sqrt(dx * dx + dy * dy) * 2.0 - time * 4.0;
 
     float v = max(0.0, (cos(d) / 2.0 - 0.45)) / 4.0;
+    float a = atan(dy, dx);
 
     gl_FragColor = texture2D(u_texture,
-           vec2(
-               clamp(v_texCoord.x + v, 0.0, 1.0),
-               clamp(v_texCoord.y + v, 0.0, 1.0)
-           )
-       );
+       vec2(
+           clamp(v_texCoord.x + v * cos(a), 0.0, 1.0),
+           clamp(v_texCoord.y + v * sin(a), 0.0, 1.0)
+       )
+    );
 }

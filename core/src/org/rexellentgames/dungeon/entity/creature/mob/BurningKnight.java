@@ -210,15 +210,15 @@ public class BurningKnight extends Boss {
 		return !(buff instanceof BurningBuff);
 	}
 
-	public static ShaderProgram shaderOutline;
+	public static ShaderProgram shader;
 
 	static {
 		String vertexShader;
 		String fragmentShader;
 		vertexShader = Gdx.files.internal("shaders/bk.vert").readString();
 		fragmentShader = Gdx.files.internal("shaders/bk.frag").readString();
-		shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
-		if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
 	@Override
@@ -234,11 +234,11 @@ public class BurningKnight extends Boss {
 		}
 
 		Graphics.batch.end();
-		Mob.shaderOutline.begin();
-		Mob.shaderOutline.setUniformf("u_color", new Vector3(1, 0.3f, 0.3f));
-		Mob.shaderOutline.setUniformf("u_a", this.a / 2);
-		Mob.shaderOutline.end();
-		Graphics.batch.setShader(Mob.shaderOutline);
+		Mob.shader.begin();
+		Mob.shader.setUniformf("u_color", new Vector3(1, 0.3f, 0.3f));
+		Mob.shader.setUniformf("u_a", this.a / 2);
+		Mob.shader.end();
+		Graphics.batch.setShader(Mob.shader);
 		Graphics.batch.begin();
 		TextureRegion region = this.animation.getCurrent().frame;
 
@@ -262,16 +262,16 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 
 		Graphics.batch.end();
-		shaderOutline.begin();
+		shader.begin();
 
 		Texture texture = region.getTexture();
 
-		shaderOutline.setUniformf("time", Dungeon.time);
-		shaderOutline.setUniformf("a", this.a);
-		shaderOutline.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
-		shaderOutline.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
-		shaderOutline.end();
-		Graphics.batch.setShader(shaderOutline);
+		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("a", this.a);
+		shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
+		shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
+		shader.end();
+		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();
 
 		this.animation.render(this.x, this.y, this.flipped);
