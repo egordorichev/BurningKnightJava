@@ -247,5 +247,8 @@
 	"slow" : "Slow speed",
 	"normal_spd" : "Normal speed",
 	"insane_fast" : "Insane fast speed",
-	"fast" : "Fast speed"
+	"fast" : "Fast speed",
+
+	"vvvvv" : "VVVVV",
+	"vvvvv_desc" : "Flips your screen, but increases your luck!"
 }
