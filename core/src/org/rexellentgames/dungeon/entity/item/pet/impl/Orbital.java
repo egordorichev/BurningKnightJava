@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
+import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.physics.World;
 
@@ -42,14 +43,17 @@ public class Orbital extends PetEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
-
-		if (entity instanceof BulletEntity) {
-			this.onHit(entity);
-		}
+		this.onHit(entity);
 	}
 
 	protected void onHit(Entity entity) {
-		entity.done = true;
+		if (entity instanceof BulletEntity) {
+			((BulletEntity) entity).remove = true;
+		} else if (entity instanceof Fireball) {
+			((Fireball) entity).delete();
+		} else {
+			entity.done = true;
+		}
 	}
 
 	protected void readIndex() {

@@ -98,6 +98,11 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		this.body = World.removeBody(this.body);
 	}
 
+	public void delete() {
+		this.animation = this.dead;
+
+	}
+
 	private boolean changed;
 
 	@Override

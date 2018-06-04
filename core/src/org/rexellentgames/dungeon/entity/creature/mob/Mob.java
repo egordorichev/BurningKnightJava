@@ -581,7 +581,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (self.canSee(self.target, Terrain.BREAKS_ENEMY_LOS)) {
+				if (Player.instance.currentRoom != null && self.canSee(self.target, Terrain.BREAKS_ENEMY_LOS)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {

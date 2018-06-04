@@ -25,6 +25,6 @@ public class Pet extends Autouse {
 		entity.y = this.owner.y + this.owner.h / 2 + (float) (Math.sin(a) * d);
 
 		Dungeon.area.add(entity);
-		Dungeon.level.addSaveable(entity);
+		Dungeon.level.addPlayerSaveable(entity);
 	}
 }

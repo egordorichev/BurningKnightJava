@@ -29,7 +29,7 @@ public class BulletEntity extends Entity {
 	private Body body;
 	private float ra;
 	public int damage;
-	private boolean remove;
+	public boolean remove;
 	public float knockback = 50f;
 	public boolean penetrates;
 	private boolean auto;

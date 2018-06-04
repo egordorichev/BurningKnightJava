@@ -1182,9 +1182,7 @@ public abstract class Level extends Entity {
 		ChangableRegistry.load(stream);
 
 		if (type == DataType.PLAYER) {
-
 			int count = stream.readInt32();
-
 			for (int i = 0; i < count; i++) {
 				String t = stream.readString();
 
@@ -1257,7 +1255,6 @@ public abstract class Level extends Entity {
 		ChangableRegistry.save(stream);
 
 		if (type == DataType.PLAYER) {
-
 			stream.writeInt32(this.playerSaveable.size());
 
 			for (int i = 0; i < this.playerSaveable.size(); i++) {

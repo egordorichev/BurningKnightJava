@@ -5,6 +5,8 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Random;
 
 public class PetEntity extends SaveableEntity {
 	public Player owner;
@@ -16,6 +18,13 @@ public class PetEntity extends SaveableEntity {
 		super.init();
 
 		this.owner = Player.instance;
+		double a = Random.newFloat() * Math.PI * 2;
+		float d = 24f;
+
+		this.x = this.owner.x + this.owner.w / 2 + (float) (Math.cos(a) * d);
+		this.y = this.owner.y + this.owner.h / 2 + (float) (Math.sin(a) * d);
+
+		Log.error("Created!");
 	}
 
 	@Override
