@@ -31,4 +31,9 @@ public class Pool<T> {
 		classes.clear();
 		chances.clear();
 	}
+
+	public void addFrom(Pool<T> pool) {
+		this.classes.addAll(pool.classes);
+		this.chances.addAll(pool.chances);
+	}
 }

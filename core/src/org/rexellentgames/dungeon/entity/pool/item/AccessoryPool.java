@@ -30,5 +30,9 @@ public class AccessoryPool extends Pool<Item> {
 		add(Bumbo.class, 0.5f);
 		add(GooOrbital.class, 1f);
 		add(VampireRing.class, 1f);
+		add(FireExtinguisher.class, 1f);
+		add(ObsidianBoots.class, 1f);
+		add(CampfireInABottle.class, 1f);
+		add(Antidote.class, 1f);
 	}
 }
