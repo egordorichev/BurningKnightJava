@@ -15,6 +15,11 @@ public class HallLevel extends RegularLevel {
 	}
 
 	@Override
+	public String getMusic() {
+		return "Born to do rogueries";
+	}
+
+	@Override
 	protected Painter getPainter() {
 		return new HallPainter().setGrass(0.45f).setWater(0.45f);
 	}

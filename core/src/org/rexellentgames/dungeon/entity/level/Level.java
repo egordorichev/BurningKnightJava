@@ -1458,6 +1458,10 @@ public abstract class Level extends Entity {
 		return null;
 	}
 
+	public String getMusic() {
+		return "";
+	}
+
 	public enum DataType {
 		LEVEL,
 		PLAYER

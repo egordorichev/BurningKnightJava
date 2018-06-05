@@ -12,6 +12,11 @@ public class DesertLevel extends RegularLevel {
 	}
 
 	@Override
+	public String getMusic() {
+		return "Believer";
+	}
+
+	@Override
 	protected Painter getPainter() {
 		return new HallPainter().setGrass(0.45f).setWater(0.3f);
 	}

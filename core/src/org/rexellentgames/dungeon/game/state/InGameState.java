@@ -117,12 +117,12 @@ public class InGameState extends State {
 
 		last += dt;
 
-		if (last >= 3f) {
+		if (last >= 1f) {
 			last = 0;
 			if (Boss.all.size() > 1) {
 				MusicManager.play("Rogue");
 			} else {
-				MusicManager.play("Born to do rogueries");
+				MusicManager.play(Dungeon.level.getMusic());
 			}
 		}
 
