@@ -68,18 +68,8 @@ public class Note extends Entity implements WormholeFx.Suckable {
 
 			Dungeon.area.add(part);
 		}
-
-		Tween.to(new Tween.Task(0, 0.4f) {
-			@Override
-			public float getValue() {
-				return scale;
-			}
-
-			@Override
-			public void setValue(float value) {
-				scale = value;
-			}
-		});
+		
+		this.done = true;
 	}
 
 	private boolean brk;
@@ -137,7 +127,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
 
-		if (this.t >= 5f) {
+		if (this.t >= 5f || scale <= 0) {
 			this.done = true;
 		}
 	}
@@ -150,6 +140,6 @@ public class Note extends Entity implements WormholeFx.Suckable {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h, 5);
+		Graphics.shadow(this.x - w / 2 + 4, this.y - this.h / 2 + 5, w - 4, this.h, 5);
 	}
 }
