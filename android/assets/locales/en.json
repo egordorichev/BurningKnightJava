@@ -252,5 +252,14 @@
 	"vvvvv" : "VVVVV",
 	"vvvvv_desc" : "Flips your screen, but increases gold drop chance!",
 	"jelly" : "Jelly",
-	"jelly_desc" : "So pretty :3"
+	"jelly_desc" : "So pretty :3",
+
+	"obsidian_boots" : "Obsidian boots",
+	"obsidian_boots_desc" : "Gives immunity to lava",
+	"campfire_in_a_bottle" : "Campfire in a bottle",
+	"campfire_in_a_bottle_desc" : "Provides immunity to cold",
+	"antidote" : "Antidote",
+	"antidote_desc" : "Gives immunity to poison",
+	"fire_extinguisher" : "Fire Extinguisher",
+	"fire_extinguisher_desc" : "Gives immunity to fire"
 }

@@ -99,6 +99,21 @@ public class WeaponBase extends Item {
 		Graphics.render(getSprite(), x, y, a, ox, oy, fx, fy, sx, sy);
 	}
 
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+
+		if (this.useSpeedStr == null) {
+			this.useSpeedStr = this.getUseSpeedAsString();
+		}
+
+		builder.append("\n[white]");
+		builder.append(this.useSpeedStr);
+		builder.append("[gray]");
+
+		return builder;
+	}
+
 	public void endRender() {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);

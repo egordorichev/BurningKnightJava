@@ -171,6 +171,10 @@ object ItemRegistry {
 	    "vampire_ring" to VampireRing::class,
 	    "laser_gun" to LaserGun::class,
 	    "vvvvv" to VVVVV::class,
-	    "jelly" to JellyOrbital::class
+	    "jelly" to JellyOrbital::class,
+	    "obsidian_boots" to ObsidianBoots::class,
+	    "campfire_in_a_bottle" to CampfireInABottle::class,
+	    "antidote" to Antidote::class,
+	    "fire_extinguisher" to FireExtinguisher::class
     )
 }

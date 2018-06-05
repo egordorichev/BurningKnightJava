@@ -186,14 +186,6 @@ public class Item extends Entity {
 		builder.append('\n');
 		builder.append(this.getDescription());
 
-		if (this.useSpeedStr == null) {
-			this.useSpeedStr = this.getUseSpeedAsString();
-		}
-
-		builder.append("\n[white]");
-		builder.append(this.useSpeedStr);
-		builder.append("[gray]");
-
 		if (this.cursed) {
 			builder.append("\n[red]Cursed[gray]");
 		}

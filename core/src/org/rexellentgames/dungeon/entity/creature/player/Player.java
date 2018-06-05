@@ -1,48 +1,42 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
-import org.rexellentgames.dungeon.entity.creature.buff.*;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.item.Bomb;
-import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
-import org.rexellentgames.dungeon.entity.item.consumable.potion.InvisibilityPotion;
-import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
-import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.GunB;
-import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStar;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.*;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.creature.fx.TextFx;
 import org.rexellentgames.dungeon.entity.creature.inventory.Inventory;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiBuff;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickedFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.ItemPickupFx;
 import org.rexellentgames.dungeon.entity.creature.player.fx.RunFx;
+import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
+import org.rexellentgames.dungeon.entity.item.consumable.potion.InvisibilityPotion;
+import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -104,6 +98,23 @@ public class Player extends Creature {
 	public float regen;
 	public float goldModifier = 1f;
 	public float vampire;
+	public boolean lavaResist;
+	public boolean fireResist;
+	public boolean poisonResist;
+	public boolean stunResist;
+
+	@Override
+	protected boolean canHaveBuff(Buff buff) {
+		if (fireResist && buff instanceof BurningBuff) {
+			return false;
+		} else if (poisonResist && buff instanceof PoisonBuff) {
+			return false;
+		} else if (stunResist && buff instanceof FreezeBuff) {
+			return false;
+		}
+
+		return super.canHaveBuff(buff);
+	}
 
 	@Override
 	protected void onHurt(float a, Creature from) {
@@ -271,12 +282,24 @@ public class Player extends Creature {
 	public void generate() {
 		if (Dungeon.type != Dungeon.Type.INTRO) {
 			switch (this.type) {
-				case WARRIOR: generateWarrior(); break;
-				case MAGE: generateMage(); break;
-				case SUMMONER: generateSummoner(); break;
-				case ARCHER: generateArcher(); break;
-				case GUNNER: generateGunner(); break;
-				case ROGUE: generateRogue(); break;
+				case WARRIOR:
+					generateWarrior();
+					break;
+				case MAGE:
+					generateMage();
+					break;
+				case SUMMONER:
+					generateSummoner();
+					break;
+				case ARCHER:
+					generateArcher();
+					break;
+				case GUNNER:
+					generateGunner();
+					break;
+				case ROGUE:
+					generateRogue();
+					break;
 			}
 		}
 	}
@@ -300,9 +323,16 @@ public class Player extends Creature {
 
 	private void generateWarrior() {
 		switch (Random.newInt(3)) {
-			case 0: default: this.give(new SwordA()); break;
-			case 1: this.give(new ButcherA()); break;
-			case 2: this.give(new MorningStarA()); break;
+			case 0:
+			default:
+				this.give(new SwordA());
+				break;
+			case 1:
+				this.give(new ButcherA());
+				break;
+			case 2:
+				this.give(new MorningStarA());
+				break;
 		}
 
 		this.give(new HealingPotion());
@@ -470,7 +500,7 @@ public class Player extends Creature {
 				this.falling = false;
 				boolean h = this.unhittable;
 				this.unhittable = false;
-				this.modifyHp(-60, null,true);
+				this.modifyHp(-60, null, true);
 				this.unhittable = h;
 			}
 		}
@@ -648,10 +678,11 @@ public class Player extends Creature {
 
 	@Override
 	protected void onTouch(short t, int x, int y) {
-		super.onTouch(t, x, y);
-
-		if (t == Terrain.WATER) {
+		if (t == Terrain.WATER && !this.flying) {
+			this.removeBuff(BurningBuff.class);
 			this.watery = 5f;
+		} else if (t == Terrain.LAVA && !this.flying && !this.lavaResist) {
+			this.modifyHp(-1, null,true);
 		}
 	}
 
