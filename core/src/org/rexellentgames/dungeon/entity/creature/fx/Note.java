@@ -68,7 +68,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 
 			Dungeon.area.add(part);
 		}
-		
+
 		this.done = true;
 	}
 
