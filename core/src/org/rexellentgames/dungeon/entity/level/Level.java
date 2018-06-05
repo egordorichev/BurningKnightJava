@@ -137,6 +137,7 @@ public abstract class Level extends Entity {
 	}
 
 	public static byte[] depths = new byte[21];
+	public static boolean[] boss = new boolean[21];
 
 	public static RegularLevel forDepth(int depth) {
 		int weight = 0;
@@ -144,7 +145,7 @@ public abstract class Level extends Entity {
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
 
-			if (depth == weight) {
+			if (boss[depth]) {
 				switch (i) {
 					case 0: default: return new HallBossLevel();
 				}

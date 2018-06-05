@@ -161,6 +161,7 @@ public class LoadState extends State {
 
 			for (int i = 0; i < Level.depths.length; i++) {
 				writer.writeByte(Level.depths[i]);
+				writer.writeBoolean(Level.boss[i]);
 			}
 
 			writer.close();
@@ -194,6 +195,7 @@ public class LoadState extends State {
 
 			for (int i = 0; i < Level.depths.length; i++) {
 				Level.depths[i] = reader.readByte();
+				Level.boss[i] = reader.readBoolean();
 			}
 
 			reader.close();
@@ -231,9 +233,22 @@ public class LoadState extends State {
 			}
 		}
 
+		int depth = 0;
+
 		for (int i = 0; i < areas; i++) {
+			boolean boss = false;
+
 			for (int j = 0; j < weights[i]; j++) {
-				System.out.print("#");
+				depth++;
+
+				if (!boss && j != 0 && (Random.chance(45f) || j == weights[i] - 1)) {
+					boss = true;
+					Dungeon.level.boss[depth] = true;
+
+					System.out.print("B");
+				} else {
+					System.out.print("#");
+				}
 			}
 
 			System.out.println();
