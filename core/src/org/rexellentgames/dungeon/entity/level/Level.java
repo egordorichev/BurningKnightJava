@@ -142,6 +142,10 @@ public abstract class Level extends Entity {
 	public static RegularLevel forDepth(int depth) {
 		int weight = 0;
 
+		for (int i = 0; i < boss.length; i++) {
+			System.out.println(i + " " + boss[depth]);
+		}
+
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
 
@@ -280,6 +284,22 @@ public abstract class Level extends Entity {
 
 		if (!this.shouldTile(x - 1, y, Terrain.WALL, false)) {
 			count += 8;
+		}
+
+		if (!this.shouldTile(x + 1, y + 1, Terrain.WALL, false)) {
+			count += 16;
+		}
+
+		if (!this.shouldTile(x + 1, y - 1, Terrain.WALL, false)) {
+			count += 32;
+		}
+
+		if (!this.shouldTile(x - 1, y - 1, Terrain.WALL, false)) {
+			count += 64;
+		}
+
+		if (!this.shouldTile(x - 1, y + 1, Terrain.WALL, false)) {
+			count += 128;
 		}
 
 		this.walls[toIndex(x, y)] = count;
@@ -462,6 +482,10 @@ public abstract class Level extends Entity {
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
+	private boolean isBitSet(short data, int bit) {
+		return (data & (1 << bit)) != 0;
+	}
+
 	public void renderSolid() {
 		for (Room room : this.rooms) {
 			room.numEnemies = 0;
@@ -507,13 +531,63 @@ public abstract class Level extends Entity {
 							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
-				} else {
-					byte v = this.walls[i];
 
-					if (v != 15) {
-						Graphics.batch.setColor(colors[this.uid]);
-						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
-						Graphics.batch.setColor(1, 1, 1, 1);
+					if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+						short v = this.walls[i];
+
+						for (int xx = 0; xx < 2; xx++) {
+							for (int yy = 0; yy < 2; yy++) {
+								int lv = 0;
+
+								if (yy == 0 || !isBitSet(v, 0)) {
+									lv += 1;
+								}
+
+								if (xx == 0 || !isBitSet(v, 1)) {
+									lv += 2;
+								}
+
+								if (yy > 0 || !isBitSet(v, 2)) {
+									lv += 4;
+								}
+
+								if (xx > 0 || !isBitSet(v, 3)) {
+									lv += 8;
+								}
+
+								if (lv == 15) {
+									lv = 0;
+
+									if (xx == 1 && yy == 1 && isBitSet(v, 4)) {
+										lv += 1;
+									}
+
+									if (xx == 1 && yy == 0 && isBitSet(v, 5)) {
+										lv += 2;
+									}
+
+									if (xx == 0 && yy == 0 && isBitSet(v, 6)) {
+										lv += 4;
+									}
+
+									if (xx == 0 && yy == 1 && isBitSet(v, 7)) {
+										lv += 8;
+									}
+
+									int vl = Terrain.wallMapExtra[lv];
+
+									if (vl != -1) {
+										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+									}
+								} else {
+									int vl = Terrain.wallMap[lv];
+
+									if (vl != -1) {
+										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+									}
+								}
+							}
+						}
 					}
 				}
 

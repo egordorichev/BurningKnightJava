@@ -243,7 +243,7 @@ public class LoadState extends State {
 
 				if (!boss && j != 0 && (Random.chance(45f) || j == weights[i] - 1)) {
 					boss = true;
-					Dungeon.level.boss[depth] = true;
+					Level.boss[depth] = true;
 
 					System.out.print("B");
 				} else {
