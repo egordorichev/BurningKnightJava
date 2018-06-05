@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class HallBossRoom extends RegularRoom {
@@ -31,7 +32,7 @@ public class HallBossRoom extends RegularRoom {
 		boss.y = center.y * 16 + (16 - boss.h) / 2 - 4;
 
 		Dungeon.area.add(boss);
-		Dungeon.level.addSaveable(boss);
+		LevelSave.add(boss);
 
 		/*Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 5), Terrain.WALL);
 		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 5), Terrain.WALL);
@@ -47,7 +48,7 @@ public class HallBossRoom extends RegularRoom {
 		throne.y = point.y * 16;
 
 		Dungeon.area.add(throne);
-		Dungeon.level.addSaveable(throne);
+		LevelSave.add(throne);
 
 		Table table = new Table();
 
@@ -55,7 +56,7 @@ public class HallBossRoom extends RegularRoom {
 		table.y = point.y * 16 - table.h;
 
 		Dungeon.area.add(table);
-		Dungeon.level.addSaveable(table);*/
+		LevelSave.add(table);*/
 	}
 
 	@Override

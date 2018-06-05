@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class TreasureRoom extends LockedRoom {
@@ -22,6 +23,6 @@ public class TreasureRoom extends LockedRoom {
 		chest.setItem(chest.generate());
 
 		Dungeon.area.add(chest);
-		Dungeon.level.addSaveable(chest);
+		LevelSave.add(chest);
 	}
 }

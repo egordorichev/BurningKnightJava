@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.special;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.pool.item.AccessoryPool;
 import org.rexellentgames.dungeon.entity.pool.item.ShopHatPool;
 import org.rexellentgames.dungeon.entity.pool.item.ShopWeaponPool;
@@ -104,7 +105,7 @@ public class ShopRoom extends LockedRoom {
 			slab.x = (this.left + x) * 16 + 1;
 			slab.y = (this.top + 3) * 16 - 4;
 
-			Dungeon.level.addSaveable(slab);
+			LevelSave.add(slab);
 			Dungeon.area.add(slab);
 
 			ItemHolder holder = new ItemHolder();
@@ -113,7 +114,7 @@ public class ShopRoom extends LockedRoom {
 			holder.y = (this.top + 3) * 16;
 			holder.setItem(items.get(i));
 
-			Dungeon.level.addSaveable(holder);
+			LevelSave.add(holder);
 			Dungeon.area.add(holder);
 
 			i++;

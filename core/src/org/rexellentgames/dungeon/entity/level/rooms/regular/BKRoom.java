@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class BKRoom extends RegularRoom {
@@ -14,7 +15,7 @@ public class BKRoom extends RegularRoom {
 		BurningKnight knight = new BurningKnight();
 
 		Dungeon.area.add(knight);
-		Dungeon.level.addPlayerSaveable(knight);
+		PlayerSave.add(knight);
 
 		knight.tp(center.x * 16, center.y * 16);
 

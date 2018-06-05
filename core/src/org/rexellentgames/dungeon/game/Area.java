@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.NetworkedEntity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -68,7 +69,7 @@ public class Area {
 			if (entity.done) {
 				if (entity instanceof SaveableEntity) {
 					SaveableEntity saveableEntity = (SaveableEntity) entity;
-					Dungeon.level.removeSaveable(saveableEntity);
+					LevelSave.remove(saveableEntity);
 				}
 
 				entity.destroy();

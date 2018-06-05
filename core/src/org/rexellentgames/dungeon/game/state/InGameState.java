@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.debug.GenerateCommand;
+import org.rexellentgames.dungeon.entity.level.save.SaveManager;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.MusicManager;
@@ -76,23 +77,20 @@ public class InGameState extends State {
 				Camera.instance.follow(Player.instance);
 			}
 		});
-
-		// Dialog.active = BurningKnight.onLampTake;
-		// Dialog.active.start();
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
-
 		this.console.destroy();
 
 		if (Dungeon.reset) {
-			Gdx.files.external(".burningknight/").deleteDirectory();
+			Gdx.files.external(".bk/" + SaveManager.slot).deleteDirectory();
 			Dungeon.reset = false;
 		} else {
-			Dungeon.level.save(Level.DataType.PLAYER);
-			Dungeon.level.save(Level.DataType.LEVEL);
+			SaveManager.save(SaveManager.Type.GAME);
+			SaveManager.save(SaveManager.Type.LEVEL);
+			SaveManager.save(SaveManager.Type.PLAYER);
 		}
 
 		if (Dungeon.area != null) {

@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -88,7 +89,7 @@ public class Seed extends Consumable {
 				plant.y = y * 16 - 4;
 
 				Dungeon.area.add(plant);
-				Dungeon.level.addSaveable(plant);
+				LevelSave.add(plant);
 				Dungeon.level.set(x, y, Terrain.PLANTED_DIRT);
 
 				this.count -= 1;

@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.ChargeFx;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -82,7 +83,7 @@ public class Lamp extends Item {
 
 			knight.dialog = BurningKnight.onLampTake;
 
-			Dungeon.level.addPlayerSaveable(knight);
+			PlayerSave.add(knight);
 		}
 	}
 

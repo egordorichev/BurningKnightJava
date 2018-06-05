@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.secret.SecretRoom;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -119,7 +120,7 @@ public class Painter {
 						plant.x = p.x * 16;
 						plant.y = p.y * 16 - 4;
 
-						Dungeon.level.addSaveable(plant);
+						LevelSave.add(plant);
 						Dungeon.area.add(plant);
 
 						plant.grow();
@@ -179,7 +180,7 @@ public class Painter {
 					door.rooms[1] = n;
 					door.lockable = door.lock;
 
-					level.addSaveable(door);
+					door.add();
 					Dungeon.area.add(door);
 				}
 

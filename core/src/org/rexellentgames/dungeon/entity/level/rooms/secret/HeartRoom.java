@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.secret;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -18,7 +19,7 @@ public class HeartRoom extends SecretRoom {
 			holder.y = point.y * 16;
 
 			Dungeon.area.add(holder);
-			Dungeon.level.addSaveable(holder);
+			LevelSave.add(holder);
 		}
 	}
 }

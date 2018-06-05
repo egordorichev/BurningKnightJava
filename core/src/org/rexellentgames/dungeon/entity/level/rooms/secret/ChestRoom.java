@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.secret;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.chest.Chest;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 
 public class ChestRoom extends SecretRoom {
 	@Override
@@ -16,6 +17,6 @@ public class ChestRoom extends SecretRoom {
 		chest.setItem(chest.generate());
 
 		Dungeon.area.add(chest);
-		Dungeon.level.addSaveable(chest);
+		LevelSave.add(chest);
 	}
 }

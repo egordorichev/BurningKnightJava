@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.level.entities;
 
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
@@ -13,6 +12,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.physics.World;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -53,7 +53,7 @@ public class Entrance extends SaveableEntity {
 		this.body.setTransform(this.x, this.y, 0);
 
 		if (Level.GENERATED) {
-			this.add();
+			this.addSelf();
 		}
 
 		RegularLevel.ladder = this;
@@ -65,13 +65,13 @@ public class Entrance extends SaveableEntity {
 		this.body = World.removeBody(this.body);
 	}
 
-	private void add() {
-		if (Dungeon.loadType == LoadType.GO_DOWN && Player.instance != null && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
-			Player.instance.tp(this.x, this.y - 2);
-
+	private void addSelf() {
+		if (Dungeon.loadType == LoadType.GO_DOWN && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
 			if (Dungeon.ladderId == this.type) {
 				Player.REGISTERED = true;
 			}
+
+			Player.ladder = this;
 		}
 	}
 
@@ -82,7 +82,7 @@ public class Entrance extends SaveableEntity {
 		this.type = reader.readByte();
 
 		this.body.setTransform(this.x, this.y, 0);
-		this.add();
+		this.addSelf();
 	}
 
 	@Override

@@ -78,8 +78,7 @@ public class Plant extends SaveableEntity {
 					holder.y = this.y + Random.newInt(-8, 8);
 					holder.randomVel();
 
-					Dungeon.area.add(holder);
-					Dungeon.level.addSaveable(holder);
+					Dungeon.area.add(holder.add());
 				}
 
 				for (int i = 0; i < 10; i++) {

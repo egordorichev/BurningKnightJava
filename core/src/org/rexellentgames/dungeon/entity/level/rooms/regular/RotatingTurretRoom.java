@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.trap.FourSideRotatingTurret;
 import org.rexellentgames.dungeon.entity.trap.RotatingTurret;
 import org.rexellentgames.dungeon.entity.trap.Turret;
@@ -20,7 +21,7 @@ public class RotatingTurretRoom extends TrapRoom {
 		turret.y = center.y * 16;
 
 		Dungeon.area.add(turret);
-		Dungeon.level.addSaveable(turret);
+		LevelSave.add(turret);
 	}
 
 	@Override

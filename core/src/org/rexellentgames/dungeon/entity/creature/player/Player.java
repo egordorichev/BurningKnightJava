@@ -32,15 +32,12 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
-import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,8 +51,11 @@ public class Player extends Creature {
 	}
 
 	public enum Type {
-		WARRIOR, MAGE,
-		SUMMONER, ROGUE, ARCHER,
+		WARRIOR,
+		MAGE,
+		SUMMONER,
+		ROGUE,
+		ARCHER,
 		GUNNER
 	}
 
@@ -386,6 +386,8 @@ public class Player extends Creature {
 		Player.all.remove(this);
 	}
 
+	public static Entity ladder;
+
 	@Override
 	public void init() {
 		super.init();
@@ -394,37 +396,22 @@ public class Player extends Creature {
 			instance = this;
 		}
 
-		Log.info(this.defense + " ");
-
 		this.experienceMax = expNeeded(this.level);
 		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, inventorySize);
 		this.body = this.createSimpleBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
+
+		Camera.instance.follow(this, true);
+
+		if (ladder != null) {
+			this.tp(ladder.x, ladder.y - 2);
+		}
 	}
 
 	public void modifyMana(float a) {
 		this.mana = MathUtils.clamp(0, this.manaMax, this.mana + a);
 	}
-
-	public void tryToFall() {
-		if (Dungeon.loadType == Entrance.LoadType.FALL_DOWN) {
-			while (true) {
-				Room room = Dungeon.level.getRandomRoom(RegularRoom.class);
-				Point cell = room.getRandomCell();
-
-				if (Dungeon.level.checkFor((int) cell.x, (int) cell.y, Terrain.PASSABLE)) {
-					this.tp(cell.x * 16, cell.y * 16);
-					this.fallHurt = true;
-
-					Camera.instance.follow(this);
-					break;
-				}
-			}
-		}
-	}
-
-	private boolean fallHurt;
 
 	private float lastRun;
 	private float lastDashT;
@@ -447,8 +434,9 @@ public class Player extends Creature {
 				if (UiLog.instance != null) {
 					UiLog.instance.print("[red]You died!");
 				}
+
 				Camera.instance.shake(10);
-				Dungeon.level.removeSaveable(this);
+				this.remove();
 
 				if (Settings.gore) {
 					for (Animation.Frame frame : killed.getFrames()) {
@@ -493,15 +481,6 @@ public class Player extends Creature {
 						Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
 					}
 				}
-			}
-
-			if (this.fallHurt) {
-				this.fallHurt = false;
-				this.falling = false;
-				boolean h = this.unhittable;
-				this.unhittable = false;
-				this.modifyHp(-60, null, true);
-				this.unhittable = h;
 			}
 		}
 
@@ -803,7 +782,7 @@ public class Player extends Creature {
 			if (item.getItem().hasAutoPickup() || item.auto) {
 				if (this.tryToPickup(item) && !item.auto) {
 					this.area.add(new ItemPickedFx(item));
-					Dungeon.level.removeSaveable(item);
+					item.remove();
 				}
 			} else if (!item.falling) {
 				this.holders.add(item);
@@ -862,10 +841,6 @@ public class Player extends Creature {
 
 	public float getExperienceMaxForLevel() {
 		return this.experienceMax;
-	}
-
-	public int getForThisLevel() {
-		return this.forThisLevel;
 	}
 
 	public float getMana() {

@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.item.pet;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.autouse.Autouse;
 import org.rexellentgames.dungeon.entity.item.pet.impl.PetEntity;
+import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.util.Random;
 
 public class Pet extends Autouse {
@@ -25,6 +26,6 @@ public class Pet extends Autouse {
 		entity.y = this.owner.y + this.owner.h / 2 + (float) (Math.sin(a) * d);
 
 		Dungeon.area.add(entity);
-		Dungeon.level.addPlayerSaveable(entity);
+		PlayerSave.add(entity);
 	}
 }

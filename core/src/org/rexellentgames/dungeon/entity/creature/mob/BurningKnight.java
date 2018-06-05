@@ -26,9 +26,9 @@ import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
+import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.util.*;
@@ -814,7 +814,7 @@ public class BurningKnight extends Boss {
 
 		instance = null;
 		this.done = true;
-		Dungeon.level.removePlayerSaveable(this);
+		PlayerSave.remove(this);
 
 		if (Settings.gore) {
 			for (Animation.Frame frame : killed.getFrames()) {

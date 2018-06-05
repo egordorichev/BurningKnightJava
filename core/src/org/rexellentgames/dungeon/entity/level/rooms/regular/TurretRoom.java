@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.trap.Turret;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -34,7 +35,7 @@ public class TurretRoom extends TrapRoom {
 				turret.a = (float) (!left ? Math.PI : 0);
 
 				Dungeon.area.add(turret);
-				Dungeon.level.addSaveable(turret);
+				LevelSave.add(turret);
 			}
 		} else {
 			boolean top = Random.chance(50);
@@ -55,7 +56,7 @@ public class TurretRoom extends TrapRoom {
 				turret.a = (float) (!top ? Math.PI * 1.5f : Math.PI / 2);
 
 				Dungeon.area.add(turret);
-				Dungeon.level.addSaveable(turret);
+				LevelSave.add(turret);
 			}
 		}
 	}

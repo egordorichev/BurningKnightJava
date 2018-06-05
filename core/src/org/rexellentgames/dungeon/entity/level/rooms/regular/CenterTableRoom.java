@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Chair;
 import org.rexellentgames.dungeon.entity.level.entities.Table;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class CenterTableRoom extends RegularRoom {
@@ -23,7 +24,7 @@ public class CenterTableRoom extends RegularRoom {
 		this.row((int) (center.x + 2), (int) center.y - 3, false);
 
 		Dungeon.area.add(table);
-		Dungeon.level.addSaveable(table);
+		LevelSave.add(table);
 	}
 
 	private void row(int x, int yy, boolean f) {
@@ -35,7 +36,7 @@ public class CenterTableRoom extends RegularRoom {
 			chair.flipped = f;
 
 			Dungeon.area.add(chair);
-			Dungeon.level.addSaveable(chair);
+			LevelSave.add(chair);
 		}
 	}
 

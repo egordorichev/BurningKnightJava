@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.item.accessory.hat.KnightHat;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -220,7 +221,7 @@ public class Knight extends Mob {
 		this.playSfx("death_towelknight");
 
 		this.done = true;
-		Dungeon.level.removeSaveable(this);
+		LevelSave.remove(this);
 
 		if (Settings.gore) {
 			for (Animation.Frame frame : killed.getFrames()) {

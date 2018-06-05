@@ -15,6 +15,7 @@ import org.rexellentgames.dungeon.entity.item.accessory.hat.UshankaHat;
 import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -101,7 +102,7 @@ public class Clown extends Mob {
 		this.playSfx("death_clown");
 
 		this.done = true;
-		Dungeon.level.removeSaveable(this);
+		LevelSave.remove(this);
 
 		if (Settings.gore) {
 			for (Animation.Frame frame : killed.getFrames()) {

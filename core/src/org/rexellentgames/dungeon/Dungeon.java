@@ -438,7 +438,6 @@ public class Dungeon extends ApplicationAdapter {
 		World.destroy();
 		Assets.destroy();
 
-		LoadState.writeDepth();
 		Settings.save();
 		Log.close();
 

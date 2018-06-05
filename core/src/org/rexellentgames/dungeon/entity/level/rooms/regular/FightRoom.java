@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.features.Door;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -32,7 +33,7 @@ public class FightRoom extends RegularRoom {
 			mob.generate();
 
 			Dungeon.area.add(mob);
-			Dungeon.level.addSaveable(mob);
+			LevelSave.add(mob);
 
 			mob.modifyHp(-4, null);
 		}

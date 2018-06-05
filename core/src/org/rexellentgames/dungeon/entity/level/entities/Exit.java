@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.physics.World;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -47,7 +48,7 @@ public class Exit extends SaveableEntity {
 		this.body.setTransform(this.x, this.y, 0);
 
 		if (Level.GENERATED) {
-			this.add();
+			this.addSelf();
 		}
 	}
 
@@ -57,10 +58,8 @@ public class Exit extends SaveableEntity {
 		this.body = World.removeBody(this.body);
 	}
 
-	private void add() {
-		if (Dungeon.loadType == Entrance.LoadType.GO_UP && Player.instance != null && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
-			Player.instance.tp(this.x, this.y - 2);
-
+	private void addSelf() {
+		if (Dungeon.loadType == Entrance.LoadType.GO_UP && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
 			if (BurningKnight.instance != null) {
 				BurningKnight.instance.findStartPoint();
 			}
@@ -68,6 +67,8 @@ public class Exit extends SaveableEntity {
 			if (Dungeon.ladderId == this.type) {
 				Player.REGISTERED = true;
 			}
+
+			Player.ladder = this;
 		}
 
 		if (this.type == Entrance.NORMAL) {
@@ -96,7 +97,7 @@ public class Exit extends SaveableEntity {
 		this.type = reader.readByte();
 
 		this.body.setTransform(this.x, this.y, 0);
-		this.add();
+		this.addSelf();
 	}
 
 	@Override

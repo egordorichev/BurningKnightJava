@@ -17,6 +17,8 @@ import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
+import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.entity.pool.MobPool;
 import org.rexellentgames.dungeon.entity.pool.room.EntranceRoomPool;
 import org.rexellentgames.dungeon.entity.pool.room.SecretRoomPool;
@@ -54,7 +56,7 @@ public abstract class RegularLevel extends Level {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
-			Dungeon.level.addPlayerSaveable(knight);
+			PlayerSave.add(knight);
 
 			knight.findStartPoint();
 		}
@@ -85,7 +87,7 @@ public abstract class RegularLevel extends Level {
 						mob.generate();
 
 						Dungeon.area.add(mob);
-						Dungeon.level.addSaveable(mob);
+						LevelSave.add(mob);
 
 
 						mob.tp(point.x * 16, point.y * 16);
@@ -108,7 +110,7 @@ public abstract class RegularLevel extends Level {
 			holder.x = point.x * 16 + Random.newInt(-4, 4);
 			holder.y = point.y * 16 + Random.newInt(-4, 4);
 
-			this.addSaveable(holder);
+			holder.add();
 			this.area.add(holder);
 		}
 
@@ -116,20 +118,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected void spawnEntities() {
-		Log.info("Adding entities...");
 
-		if (Player.instance == null) {
-			Player player = new Player();
-			Dungeon.area.add(player);
-			this.addPlayerSaveable(player);
-			player.generate();
-
-			if (this.ladder != null) {
-				player.tp(ladder.x, ladder.y - 2);
-			} else {
-				Log.error("No entrance found!");
-			}
-		}
 	}
 
 	public static Entrance ladder;
