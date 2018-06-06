@@ -274,5 +274,7 @@
 	"lightsaber_c" : "Purple lightsaber",
 	"lightsaber_c_desc" : "Half Sith",
 	"lightsaber_d" : "Green lightsaber",
-	"lightsaber_d_desc" : "NOOOOOOOOOOOOOOOOOOOO"
+	"lightsaber_d_desc" : "NOOOOOOOOOOOOOOOOOOOO",
+	"chicken_sword" : "Chicken Sword",
+	"chicken_sword_desc" : "KFC?"
 }

@@ -99,7 +99,7 @@ public class Sword extends Weapon {
 
 				this.frames.add(frame);
 
-				if (this.frames.size() > 20) {
+				if (this.frames.size() > 10) {
 					this.frames.remove(0);
 				}
 			} else if (this.frames.size() > 0) {

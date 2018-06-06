@@ -53,10 +53,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLaunch
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherB
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherC
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordB
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordC
-import org.rexellentgames.dungeon.entity.item.weapon.sword.TheSword
+import org.rexellentgames.dungeon.entity.item.weapon.sword.*
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC
@@ -185,6 +182,7 @@ object ItemRegistry {
 	    "lightsaber_a" to LightsaberA::class,
 	    "lightsaber_b" to LightsaberB::class,
 	    "lightsaber_c" to LightsaberA::class,
-	    "lightsaber_d" to LightsaberB::class
+	    "lightsaber_d" to LightsaberB::class,
+	    "chicken_sword" to ChickenSword::class
     )
 }
