@@ -130,9 +130,9 @@ public abstract class Level extends SaveableEntity {
 	public static RegularLevel forDepth(int depth) {
 		int weight = 0;
 
-		for (int i = 0; i < boss.length; i++) {
+		/*for (int i = 0; i < boss.length; i++) {
 			System.out.println(i + " " + boss[i]);
-		}
+		}*/
 
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
@@ -1246,7 +1246,7 @@ public abstract class Level extends SaveableEntity {
 		try {
 			int count = reader.readInt32();
 			this.rooms = new ArrayList<>();
-			
+
 			for (int i = 0; i < count; i++) {
 				String t = reader.readString();
 
