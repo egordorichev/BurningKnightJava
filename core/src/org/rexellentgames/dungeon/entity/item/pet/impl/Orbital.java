@@ -20,6 +20,10 @@ public class Orbital extends PetEntity {
 	private Body body;
 	private float a;
 
+	{
+		noTp = false;
+	}
+
 	private void setPos() {
 		this.a = (float) (((float) id) / ((float) all.size()) * Math.PI * 2 + Dungeon.time / 2f);
 		float d = 32f;

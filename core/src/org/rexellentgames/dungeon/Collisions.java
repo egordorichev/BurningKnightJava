@@ -106,9 +106,9 @@ public class Collisions implements ContactListener, ContactFilter {
 			contact.setEnabled(false);
 		} else if ((b instanceof Bomb) && a != null) {
 			contact.setEnabled(false);
-		} else if (a instanceof PetEntity && (b instanceof Creature || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
+		} else if (a instanceof PetEntity && (b instanceof Creature || b instanceof Door || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
 			contact.setEnabled(false);
-		} else if (b instanceof PetEntity && (a instanceof Creature || a instanceof SolidProp || (a instanceof ItemHolder && !(((ItemHolder) a).getItem() instanceof Gold)))) {
+		} else if (b instanceof PetEntity && (a instanceof Creature || a instanceof Door || a instanceof SolidProp || (a instanceof ItemHolder && !(((ItemHolder) a).getItem() instanceof Gold)))) {
 			contact.setEnabled(false);
 		}
 	}

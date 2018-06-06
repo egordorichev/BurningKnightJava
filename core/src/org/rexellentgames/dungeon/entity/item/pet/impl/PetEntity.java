@@ -16,6 +16,26 @@ public class PetEntity extends SaveableEntity {
 		alwaysActive = true;
 	}
 
+	protected boolean noTp;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (!this.onScreen && !this.noTp) {
+			double a = Random.newFloat() * Math.PI * 2;
+			float d = 24f;
+
+			this.x = this.owner.x + this.owner.w / 2;
+			this.y = this.owner.y + this.owner.h / 2;
+			this.tp();
+		}
+	}
+
+	protected void tp() {
+
+	}
+
 	@Override
 	public void init() {
 		super.init();

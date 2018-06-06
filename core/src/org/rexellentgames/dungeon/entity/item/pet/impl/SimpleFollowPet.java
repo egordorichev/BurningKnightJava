@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -60,7 +61,7 @@ public class SimpleFollowPet extends PetEntity {
 					if (d <= 4f) {
 						this.next = null;
 					} else {
-						d *= 0.25f;
+						d *= 0.1f;
 
 						this.vel.x += dx / d;
 						this.vel.y += dy / d;
