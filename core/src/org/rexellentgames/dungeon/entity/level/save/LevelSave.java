@@ -38,6 +38,7 @@ public class LevelSave {
 
 	public static void load(FileReader reader) {
 		try {
+			all.clear();
 			Dungeon.level = Level.forDepth(Dungeon.depth);
 			Dungeon.area.add(Dungeon.level);
 			Dungeon.level.load(reader);

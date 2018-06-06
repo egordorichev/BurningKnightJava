@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.save;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -36,6 +37,7 @@ public class PlayerSave {
 
 	public static void load(FileReader reader) {
 		try {
+			all.clear();
 			int count = reader.readInt32();
 
 			for (int i = 0; i < count; i++) {
@@ -44,6 +46,7 @@ public class PlayerSave {
 				SaveableEntity entity = (SaveableEntity) clazz.newInstance();
 
 				Dungeon.area.add(entity);
+
 				all.add(entity);
 
 				entity.load(reader);
@@ -57,7 +60,7 @@ public class PlayerSave {
 		Player player = new Player();
 		Dungeon.area.add(player);
 
-		player.add(); // Important order, cause can cause NPE!
+		all.add(player);
 		player.generate();
 	}
 }

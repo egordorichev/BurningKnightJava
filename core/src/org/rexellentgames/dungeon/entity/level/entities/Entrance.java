@@ -66,11 +66,8 @@ public class Entrance extends SaveableEntity {
 	}
 
 	private void addSelf() {
-		if (Dungeon.loadType == LoadType.GO_DOWN && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
-			if (Dungeon.ladderId == this.type) {
-				Player.REGISTERED = true;
-			}
-
+		if (Dungeon.loadType == LoadType.GO_DOWN && (Dungeon.ladderId == this.type || Player.ladder == null)) {
+			Log.error("Set player ladder");
 			Player.ladder = this;
 		}
 	}

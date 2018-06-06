@@ -5,12 +5,15 @@ import org.rexellentgames.dungeon.assets.Graphics;
 
 public class AssetLoadState extends State {
 	public static final boolean START_TO_MENU = false;
+	public static boolean done = false;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
 		if (Graphics.updateLoading()) {
+			done = true;
+
 			if (START_TO_MENU) {
 				Dungeon.game.setState(new MainMenuState());
 			} else {

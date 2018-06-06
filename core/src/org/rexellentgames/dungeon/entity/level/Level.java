@@ -130,10 +130,14 @@ public abstract class Level extends SaveableEntity {
 	public static RegularLevel forDepth(int depth) {
 		int weight = 0;
 
+		for (int i = 0; i < boss.length; i++) {
+			System.out.println(i + " " + boss[i]);
+		}
+
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
 
-			if (boss[depth]) {
+			if (depth > 0 && boss[depth - 1]) {
 				switch (i) {
 					case 0: default: return new HallBossLevel();
 				}
@@ -1227,8 +1231,6 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void load(FileReader reader) throws IOException {
-		Log.info("Loading...");
-
 		setSize(reader.readInt32(), reader.readInt32());
 		this.data = new byte[getSIZE()];
 		this.decor = new byte[getSIZE()];
@@ -1244,7 +1246,7 @@ public abstract class Level extends SaveableEntity {
 		try {
 			int count = reader.readInt32();
 			this.rooms = new ArrayList<>();
-
+			
 			for (int i = 0; i < count; i++) {
 				String t = reader.readString();
 

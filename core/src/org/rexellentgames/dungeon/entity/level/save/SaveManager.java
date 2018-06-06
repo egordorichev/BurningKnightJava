@@ -24,16 +24,20 @@ public class SaveManager {
 	}
 
 	public static String getSavePath(Type type) {
+		return getSavePath(type, false);
+	}
+
+	public static String getSavePath(Type type, boolean old) {
 		switch (type) {
-			case LEVEL: return getDir() + "level" + Dungeon.depth + ".save";
+			case LEVEL: return getDir() + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".save";
 			case PLAYER: return getDir() + "player.save";
 			case GAME: default: return getDir() + "game.save";
 		}
 	}
 
 	public static void save(Type type) {
-		FileHandle save = Gdx.files.external(getSavePath(type));
-		Log.info("Saving " + type);
+		FileHandle save = Gdx.files.external(getSavePath(type, true));
+		Log.info("Saving " + type + " " + Dungeon.lastDepth);
 
 		try {
 			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
@@ -66,7 +70,7 @@ public class SaveManager {
 			generate(type);
 			save(type);
 		} else {
-			Log.info("Loading " + type);
+			Log.info("Loading " + type + " " + Dungeon.depth);
 
 			try {
 				FileReader stream = new FileReader(save.file().getAbsolutePath());
@@ -85,7 +89,8 @@ public class SaveManager {
 	}
 
 	public static void generate(Type type) {
-		Log.info("Generating " + type);
+		Log.info("Generating " + type + " " + Dungeon.depth);
+		Dungeon.lastDepth = Dungeon.depth;
 
 		switch (type) {
 			case LEVEL: LevelSave.generate(); break;

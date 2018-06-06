@@ -51,7 +51,7 @@ public class Orbital extends PetEntity {
 			((BulletEntity) entity).remove = true;
 		} else if (entity instanceof Fireball) {
 			((Fireball) entity).delete();
-		} else {
+		} else if (entity != null) {
 			entity.done = true;
 		}
 	}

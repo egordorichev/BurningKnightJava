@@ -11,6 +11,8 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
+import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.entity.level.save.SaveManager;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
@@ -29,7 +31,9 @@ public class LoadState extends State {
 	public void init() {
 		this.s = "Doing secret stuff...";
 
-		Ui.ui.healthbars.clear();
+		if (Ui.ui != null) {
+			Ui.ui.healthbars.clear();
+		}
 
 		Dungeon.speed = 1f;
 		Dungeon.darkR = Dungeon.MAX_R;
@@ -77,7 +81,6 @@ public class LoadState extends State {
 			}
 		});
 
-		Player.REGISTERED = false;
 		Player.ladder = null;
 		Level.GENERATED = false;
 
@@ -93,6 +96,9 @@ public class LoadState extends State {
 			@Override
 			public void run() {
 				try {
+					PlayerSave.all.clear();
+					LevelSave.all.clear();
+
 					SaveManager.load(SaveManager.Type.GAME);
 					SaveManager.load(SaveManager.Type.LEVEL);
 					SaveManager.load(SaveManager.Type.PLAYER);

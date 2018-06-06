@@ -59,15 +59,8 @@ public class Exit extends SaveableEntity {
 	}
 
 	private void addSelf() {
-		if (Dungeon.loadType == Entrance.LoadType.GO_UP && (Dungeon.ladderId == this.type || !Player.REGISTERED)) {
-			if (BurningKnight.instance != null) {
-				BurningKnight.instance.findStartPoint();
-			}
-
-			if (Dungeon.ladderId == this.type) {
-				Player.REGISTERED = true;
-			}
-
+		if (Dungeon.loadType == Entrance.LoadType.GO_UP && (Dungeon.ladderId == this.type || Player.ladder == null)) {
+			Log.error("Set player ladder");
 			Player.ladder = this;
 		}
 

@@ -21,6 +21,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
 import org.rexellentgames.dungeon.entity.level.levels.desert.DesertLevel;
+import org.rexellentgames.dungeon.entity.level.save.SaveManager;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
@@ -46,7 +47,6 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean reset;
 	public static byte ladderId;
 	public static long longTime;
-	public static boolean showed;
 	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
 	public static Type type = Type.REGULAR;
 	public static float MAX_R = (float) (Math.sqrt(Display.GAME_WIDTH * Display.GAME_WIDTH + Display.GAME_HEIGHT * Display.GAME_HEIGHT) / 2);
@@ -64,7 +64,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static Color BLUE = Color.valueOf("#306082");
 	public static Color YELLOW = Color.valueOf("#fbf236");
 	public static Color BROWN = Color.valueOf("#8f563b");
-	private static int to = -3;
+	private static int to = 0;
 	private Color background = Color.valueOf("#000000");
 	private Color background2 = Color.valueOf("#323c39");
 	public static SplashWorker worker;
@@ -97,7 +97,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static void newGame() {
 		reset = true;
 
-		File file = Gdx.files.external(".bk/").file();
+		File file = Gdx.files.external(SaveManager.getDir()).file();
 
 		for (File f : file.listFiles()) {
 			f.delete();
@@ -207,9 +207,12 @@ public class Dungeon extends ApplicationAdapter {
 		MusicManager.play("Gobbeon");
 	}
 
+	public static int lastDepth;
+
 	@Override
 	public void render() {
-		if (to > -2) {
+		if (AssetLoadState.done && to > -2) {
+			Dungeon.lastDepth = depth;
 			Dungeon.depth = to;
 
 			game.setState(new LoadState());

@@ -753,6 +753,10 @@ public class Player extends Creature {
 		this.maxSpeed += (this.speed - last) * 7f;
 
 		this.setHunger(reader.readInt16());
+
+		if (ladder != null) {
+			this.tp(ladder.x, ladder.y - 2);
+		}
 	}
 
 	@Override
