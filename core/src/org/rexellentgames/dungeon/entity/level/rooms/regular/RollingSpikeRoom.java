@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.trap.RollingSpike;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -24,7 +25,7 @@ public class RollingSpikeRoom extends TrapRoom {
 				spike.vel = new Point(i % 2 == 0 ? s : -s, 0);
 
 				Dungeon.area.add(spike);
-				Dungeon.level.addSaveable(spike);
+				LevelSave.add(spike);
 
 				i++;
 			}
@@ -38,7 +39,7 @@ public class RollingSpikeRoom extends TrapRoom {
 				spike.vel = new Point(0, i % 2 == 0 ? s : -s);
 
 				Dungeon.area.add(spike);
-				Dungeon.level.addSaveable(spike);
+				LevelSave.add(spike);
 
 				i++;
 			}

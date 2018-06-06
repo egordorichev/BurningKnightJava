@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.plant.Cabbage;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -32,7 +33,7 @@ public class GardenRoom extends RegularRoom {
 							cabbage.grow();
 
 							Dungeon.area.add(cabbage);
-							Dungeon.level.addSaveable(cabbage);
+							LevelSave.add(cabbage);
 						}
 					}
 				}
@@ -52,7 +53,7 @@ public class GardenRoom extends RegularRoom {
 							cabbage.grow();
 
 							Dungeon.area.add(cabbage);
-							Dungeon.level.addSaveable(cabbage);
+							LevelSave.add(cabbage);
 						}
 					}
 				}

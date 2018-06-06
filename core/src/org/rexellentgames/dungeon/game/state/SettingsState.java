@@ -74,7 +74,6 @@ public class SettingsState extends State {
 					@Override
 					public void run() {
 						if (fromGame) {
-							LoadState.readDepth();
 							Dungeon.goToLevel(Dungeon.depth);
 						} else {
 							Dungeon.game.setState(new MainMenuState());

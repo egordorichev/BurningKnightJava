@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.special;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class WellRoom extends SpecialRoom {
@@ -17,6 +18,6 @@ public class WellRoom extends SpecialRoom {
 		well.y = center.y * 16 - 11;
 
 		Dungeon.area.add(well);
-		Dungeon.level.addSaveable(well);
+		LevelSave.add(well);
 	}
 }

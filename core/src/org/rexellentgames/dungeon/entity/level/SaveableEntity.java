@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import org.rexellentgames.dungeon.entity.NetworkedEntity;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -15,5 +16,15 @@ public class SaveableEntity extends NetworkedEntity {
 	public void load(FileReader reader) throws IOException {
 		this.x = reader.readInt32();
 		this.y = reader.readInt32();
+	}
+
+	public SaveableEntity add() {
+		LevelSave.all.add(this);
+		return this;
+	}
+
+	public SaveableEntity remove() {
+		LevelSave.all.remove(this);
+		return this;
 	}
 }

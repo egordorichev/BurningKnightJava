@@ -23,8 +23,6 @@ public class PetEntity extends SaveableEntity {
 
 		this.x = this.owner.x + this.owner.w / 2 + (float) (Math.cos(a) * d);
 		this.y = this.owner.y + this.owner.h / 2 + (float) (Math.sin(a) * d);
-
-		Log.error("Created!");
 	}
 
 	@Override

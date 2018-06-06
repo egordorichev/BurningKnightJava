@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
@@ -442,7 +443,7 @@ public class UiInventory extends UiEntity {
 				}
 
 				Dungeon.area.add(holder);
-				Dungeon.level.addSaveable(holder);
+				LevelSave.add(holder);
 			}
 		});
 	}

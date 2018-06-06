@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,18 +18,14 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
 import org.rexellentgames.dungeon.entity.level.levels.desert.DesertLevel;
 import org.rexellentgames.dungeon.entity.level.levels.hall.HallBossLevel;
 import org.rexellentgames.dungeon.entity.level.levels.hall.HallLevel;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Line;
@@ -41,15 +36,11 @@ import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class Level extends Entity {
+public abstract class Level extends SaveableEntity {
 	public static final boolean RENDER_ROOM_DEBUG = false;
 	public static final boolean RENDER_PASSABLE = false;
 	public static boolean SHADOWS = true;
@@ -63,7 +54,6 @@ public abstract class Level extends Entity {
 	public Room entrance;
 	public Room exit;
 
-	public static final byte VERSION = 2;
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
 	public static boolean GENERATED = false;
@@ -90,9 +80,7 @@ public abstract class Level extends Entity {
 	protected byte[] decor;
 	protected boolean[] explored;
 	protected Body body;
-	protected int level;
-	protected ArrayList<SaveableEntity> saveable = new ArrayList<SaveableEntity>();
-	protected ArrayList<SaveableEntity> playerSaveable = new ArrayList<SaveableEntity>();
+	public static int level;
 	protected ArrayList<Room> rooms;
 	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
 
@@ -142,10 +130,14 @@ public abstract class Level extends Entity {
 	public static RegularLevel forDepth(int depth) {
 		int weight = 0;
 
+		/*for (int i = 0; i < boss.length; i++) {
+			System.out.println(i + " " + boss[i]);
+		}*/
+
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
 
-			if (boss[depth]) {
+			if (depth > 0 && boss[depth - 1]) {
 				switch (i) {
 					case 0: default: return new HallBossLevel();
 				}
@@ -153,9 +145,6 @@ public abstract class Level extends Entity {
 				switch (i) {
 					case 0: default: return new HallLevel();
 					case 1: return new DesertLevel();
-					// case 1: return new LibraryLevel();
-
-					// todo: more
 				}
 			}
 		}
@@ -190,39 +179,9 @@ public abstract class Level extends Entity {
 
 		byte tile = Terrain.WALL;
 
-		switch (Dungeon.depth) {
-			case -2:
-				tile = Terrain.CHASM;
-				break;
-			case 15:
-			case 16:
-			case 17:
-			case 18:
-				tile = Terrain.CHASM;
-				break;
-		}
-
-		Log.info("Filling the level with " + tile);
-
 		for (int i = 0; i < getSIZE(); i++) {
 			this.data[i] = tile;
 		}
-	}
-
-	public void addSaveable(SaveableEntity entity) {
-		this.saveable.add(entity);
-	}
-
-	public void removeSaveable(SaveableEntity entity) {
-		this.saveable.remove(entity);
-	}
-
-	public void addPlayerSaveable(SaveableEntity entity) {
-		this.playerSaveable.add(entity);
-	}
-
-	public void removePlayerSaveable(SaveableEntity entity) {
-		this.playerSaveable.remove(entity);
 	}
 
 	public void loadPassable() {
@@ -280,6 +239,22 @@ public abstract class Level extends Entity {
 
 		if (!this.shouldTile(x - 1, y, Terrain.WALL, false)) {
 			count += 8;
+		}
+
+		if (!this.shouldTile(x + 1, y + 1, Terrain.WALL, false)) {
+			count += 16;
+		}
+
+		if (!this.shouldTile(x + 1, y - 1, Terrain.WALL, false)) {
+			count += 32;
+		}
+
+		if (!this.shouldTile(x - 1, y - 1, Terrain.WALL, false)) {
+			count += 64;
+		}
+
+		if (!this.shouldTile(x - 1, y + 1, Terrain.WALL, false)) {
+			count += 128;
 		}
 
 		this.walls[toIndex(x, y)] = count;
@@ -370,6 +345,8 @@ public abstract class Level extends Entity {
 
 	@Override
 	public void init() {
+		Dungeon.level = this;
+
 		this.alwaysRender = true;
 		this.depth = -10;
 		this.level = Dungeon.depth;
@@ -462,6 +439,10 @@ public abstract class Level extends Entity {
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
+	private boolean isBitSet(short data, int bit) {
+		return (data & (1 << bit)) != 0;
+	}
+
 	public void renderSolid() {
 		for (Room room : this.rooms) {
 			room.numEnemies = 0;
@@ -507,13 +488,63 @@ public abstract class Level extends Entity {
 							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
-				} else {
-					byte v = this.walls[i];
 
-					if (v != 15) {
-						Graphics.batch.setColor(colors[this.uid]);
-						Graphics.render(Terrain.wallVariants[v], x * 16, y * 16);
-						Graphics.batch.setColor(1, 1, 1, 1);
+					if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+						short v = this.walls[i];
+
+						for (int xx = 0; xx < 2; xx++) {
+							for (int yy = 0; yy < 2; yy++) {
+								int lv = 0;
+
+								if (yy == 0 || !isBitSet(v, 0)) {
+									lv += 1;
+								}
+
+								if (xx == 0 || !isBitSet(v, 1)) {
+									lv += 2;
+								}
+
+								if (yy > 0 || !isBitSet(v, 2)) {
+									lv += 4;
+								}
+
+								if (xx > 0 || !isBitSet(v, 3)) {
+									lv += 8;
+								}
+
+								if (lv == 15) {
+									lv = 0;
+
+									if (xx == 1 && yy == 1 && isBitSet(v, 4)) {
+										lv += 1;
+									}
+
+									if (xx == 1 && yy == 0 && isBitSet(v, 5)) {
+										lv += 2;
+									}
+
+									if (xx == 0 && yy == 0 && isBitSet(v, 6)) {
+										lv += 4;
+									}
+
+									if (xx == 0 && yy == 1 && isBitSet(v, 7)) {
+										lv += 8;
+									}
+
+									int vl = Terrain.wallMapExtra[lv];
+
+									if (vl != -1) {
+										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+									}
+								} else {
+									int vl = Terrain.wallMap[lv];
+
+									if (vl != -1) {
+										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+									}
+								}
+							}
+						}
 					}
 				}
 
@@ -754,7 +785,7 @@ public abstract class Level extends Entity {
 					Graphics.batch.end();
 					Graphics.batch.setShader(null);
 					Graphics.batch.begin();
-				} else if (tile == Terrain.WALL || tile == Terrain.WALL) {
+				} else if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.WALL)) {
 					byte t = this.get(i - getWidth());
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {
@@ -785,7 +816,7 @@ public abstract class Level extends Entity {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
-				if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+				if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
 					byte t = this.get(i - getWidth());
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {
@@ -959,19 +990,7 @@ public abstract class Level extends Entity {
 		return get(toIndex(x, y));
 	}
 
-	public boolean hidden(int x, int y) {
-		return this.data[toIndex(x, y)] < 0;
-	}
-
 	public abstract void generate();
-
-	public String getSavePath(DataType type) {
-		if (type == DataType.LEVEL) {
-			return ".bk/dungeon" + this.level + ".save";
-		}
-
-		return ".bk/gobbo.save";
-	}
 
 	@Override
 	public void destroy() {
@@ -1085,65 +1104,6 @@ public abstract class Level extends Entity {
 		this.decor[toIndex(x, y)] = v;
 	}
 
-	public void load(DataType type) {
-		FileHandle save = Gdx.files.external(this.getSavePath(type));
-
-		if (!save.exists()) {
-			if (type == DataType.LEVEL) {
-				this.generate();
-				return;
-			} else {
-				File file = save.file();
-				file.getParentFile().mkdirs();
-
-				try {
-					file.createNewFile();
-					return;
-				} catch (IOException e) {
-					Dungeon.reportException(e);
-				}
-			}
-		}
-
-		Log.info("Loading " + type.toString().toLowerCase() + "...");
-
-		try {
-			FileReader stream = new FileReader(save.file().getAbsolutePath());
-
-			byte version = stream.readByte();
-
-			if (version < VERSION) {
-				Log.info("Old version, porting...");
-				// stream.close();
-				// Dungeon.newGame();
-				// return;
-			} else if (version > VERSION) {
-				Log.error("Future version! Can't load!");
-				return;
-			}
-
-			if (type == DataType.LEVEL) {
-				setSize(stream.readInt32(), stream.readInt32());
-				this.data = new byte[getSIZE()];
-				this.decor = new byte[getSIZE()];
-				this.explored = new boolean[getSIZE()];
-				this.initLight();
-
-				for (int i = 0; i < getSIZE(); i++) {
-					this.data[i] = stream.readByte();
-					this.decor[i] = stream.readByte();
-					this.explored[i] = stream.readBoolean();
-				}
-			}
-
-			this.loadData(stream, type);
-
-			stream.close();
-		} catch (Exception e) {
-			Dungeon.reportException(e);
-		}
-	}
-
 	public byte[] getVariants() {
 		return this.variants;
 	}
@@ -1152,171 +1112,6 @@ public abstract class Level extends Entity {
 		return explored[toIndex(x, y)];
 	}
 
-	public void save(DataType type) {
-		FileHandle save = Gdx.files.external(this.getSavePath(type));
-		Log.info("Saving " + type.toString().toLowerCase() + "...");
-
-		try {
-			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
-
-			stream.writeByte(VERSION);
-
-			if (type == Level.DataType.LEVEL) {
-				stream.writeInt32(getWidth());
-				stream.writeInt32(getHeight());
-
-				for (int i = 0; i < getSIZE(); i++) {
-					stream.writeByte(this.data[i]);
-					stream.writeByte(this.decor[i]);
-					stream.writeBoolean(this.explored[i]);
-				}
-			}
-
-			this.writeData(stream, type);
-			stream.close();
-		} catch (Exception e) {
-			Dungeon.reportException(e);
-		}
-	}
-
-	protected void loadData(FileReader stream, DataType type) throws Exception {
-		ChangableRegistry.load(stream);
-
-		if (type == DataType.PLAYER) {
-			int count = stream.readInt32();
-			for (int i = 0; i < count; i++) {
-				String t = stream.readString();
-
-				Class<?> clazz = Class.forName(t);
-				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance(new Object[]{});
-
-				SaveableEntity entity = (SaveableEntity) object;
-
-				this.area.add(entity);
-				this.playerSaveable.add(entity);
-
-				entity.load(stream);
-			}
-		} else {
-			heat = 0;
-			int count = stream.readInt32();
-
-			this.rooms = new ArrayList<Room>();
-
-			for (int i = 0; i < count; i++) {
-				String t = stream.readString();
-
-				Class<?> clazz = Class.forName(t);
-				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance(new Object[]{});
-
-				Room room = (Room) object;
-
-				room.left = stream.readInt32();
-				room.top = stream.readInt32();
-				room.right = stream.readInt32();
-				room.bottom = stream.readInt32();
-				room.hidden = stream.readBoolean();
-
-				this.rooms.add(room);
-			}
-
-			count = stream.readInt32();
-
-			for (int i = 0; i < count; i++) {
-				int in = stream.readInt32();
-				this.rooms.get(in).neighbours.add(this.rooms.get(stream.readInt32()));
-			}
-
-			count = stream.readInt32();
-
-			for (int i = 0; i < count; i++) {
-				String t = stream.readString();
-
-				Class<?> clazz = Class.forName(t);
-				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance(new Object[]{});
-
-				SaveableEntity entity = (SaveableEntity) object;
-
-				this.area.add(entity);
-				this.saveable.add(entity);
-
-				entity.load(stream);
-			}
-		}
-	}
-
-	public ArrayList<SaveableEntity> getPlayerSaveable() {
-		return this.playerSaveable;
-	}
-
-	protected void writeData(FileWriter stream, DataType type) throws Exception {
-		ChangableRegistry.save(stream);
-
-		if (type == DataType.PLAYER) {
-			stream.writeInt32(this.playerSaveable.size());
-
-			for (int i = 0; i < this.playerSaveable.size(); i++) {
-				SaveableEntity entity = this.playerSaveable.get(i);
-
-				stream.writeString(entity.getClass().getName());
-				entity.save(stream);
-			}
-		} else {
-			stream.writeInt32(this.rooms.size());
-
-			for (int i = 0; i < this.rooms.size(); i++) {
-				Room room = this.rooms.get(i);
-
-				stream.writeString(room.getClass().getName());
-				stream.writeInt32(room.left);
-				stream.writeInt32(room.top);
-				stream.writeInt32(room.right);
-				stream.writeInt32(room.bottom);
-				stream.writeBoolean(room.hidden);
-			}
-
-			int count = 0;
-
-			for (Room room : this.rooms) {
-				for (Room n : room.neighbours) {
-					int in = this.rooms.indexOf(n);
-
-					if (in > -1) {
-						count++;
-					}
-				}
-			}
-
-			stream.writeInt32(count);
-
-			for (int i = 0; i < this.rooms.size(); i++) {
-				Room room = this.rooms.get(i);
-
-				for (Room n : room.neighbours) {
-					int in = this.rooms.indexOf(n);
-
-					if (in > -1) {
-						stream.writeInt32(i);
-						stream.writeInt32(in);
-					}
-				}
-			}
-
-			stream.writeInt32(this.saveable.size());
-
-			for (int i = 0; i < this.saveable.size(); i++) {
-				SaveableEntity entity = this.saveable.get(i);
-
-				stream.writeString(entity.getClass().getName());
-				entity.save(stream);
-			}
-
-			this.saveDropped();
-		}
-	}
 
 	public Room getRandomRoom() {
 		return this.rooms.get(Random.newInt(this.rooms.size()));
@@ -1359,93 +1154,12 @@ public abstract class Level extends Entity {
 		return null;
 	}
 
-	public void loadDropped() {
-		this.droppedToChasm.clear();
-
-		try {
-			FileReader reader = new FileReader(".burningknight/dropped" + this.level + ".save");
-			int count = reader.readInt32();
-
-			Log.info("Loading " + count + " dropped...");
-
-			for (int i = 0; i < count; i++) {
-				Class<?> clazz = Class.forName(reader.readString());
-				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance(new Object[]{});
-
-				Item entity = (Item) object;
-				ItemHolder holder = new ItemHolder();
-
-				entity.load(reader);
-
-				Point point = this.getRandomFreePoint(RegularRoom.class);
-
-				holder.x = point.x * 16;
-				holder.y = point.y * 16 - 8;
-
-				holder.setItem(entity);
-
-				this.area.add(holder);
-				this.saveable.add(holder);
-			}
-
-			reader.close();
-			File file = new File(".burningknight/dropped" + this.level + ".save");
-			file.delete();
-			Log.info("Done!");
-		} catch (FileNotFoundException e) {
-			return;
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void saveDropped() {
-		if (this.droppedToChasm.size() == 0) {
-			Log.info("Nothing dropped!");
-			return;
-		}
-
-		// Freezes?
-		Log.info("Saving dropped " + this.droppedToChasm.size());
-
-		try {
-			FileWriter writer = new FileWriter(".burningknight/dropped" + (this.level + 1) + ".save");
-
-			writer.writeInt32(this.droppedToChasm.size());
-
-			for (Item item : this.droppedToChasm) {
-				writer.writeString(item.getClass().getName());
-				item.save(writer);
-			}
-
-			writer.close();
-			Log.info("Done!");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		this.droppedToChasm.clear();
-	}
-
-	public ArrayList<Item> droppedToChasm = new ArrayList<>();
-
 	public ArrayList<Room> getRooms() {
 		return this.rooms;
 	}
 
 	protected ArrayList<Creature> generateCreatures() {
-		return new ArrayList<Creature>();
+		return new ArrayList<>();
 	}
 
 	public Room findRoomFor(float x, float y) {
@@ -1463,8 +1177,101 @@ public abstract class Level extends Entity {
 		return "";
 	}
 
-	public enum DataType {
-		LEVEL,
-		PLAYER
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		writer.writeInt32(getWidth());
+		writer.writeInt32(getHeight());
+
+		for (int i = 0; i < getSIZE(); i++) {
+			writer.writeByte(this.data[i]);
+			writer.writeByte(this.decor[i]);
+			writer.writeBoolean(this.explored[i]);
+		}
+
+		writer.writeInt32(this.rooms.size());
+
+		for (int i = 0; i < this.rooms.size(); i++) {
+			Room room = this.rooms.get(i);
+
+			writer.writeString(room.getClass().getName());
+			writer.writeInt32(room.left);
+			writer.writeInt32(room.top);
+			writer.writeInt32(room.right);
+			writer.writeInt32(room.bottom);
+			writer.writeBoolean(room.hidden);
+		}
+
+		int count = 0;
+
+		for (Room room : this.rooms) {
+			for (Room n : room.neighbours) {
+				int in = this.rooms.indexOf(n);
+
+				if (in > -1) {
+					count++;
+				}
+			}
+		}
+
+		writer.writeInt32(count);
+
+		for (int i = 0; i < this.rooms.size(); i++) {
+			Room room = this.rooms.get(i);
+
+			for (Room n : room.neighbours) {
+				int in = this.rooms.indexOf(n);
+
+				if (in > -1) {
+					writer.writeInt32(i);
+					writer.writeInt32(in);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		setSize(reader.readInt32(), reader.readInt32());
+		this.data = new byte[getSIZE()];
+		this.decor = new byte[getSIZE()];
+		this.explored = new boolean[getSIZE()];
+		this.initLight();
+
+		for (int i = 0; i < getSIZE(); i++) {
+			this.data[i] = reader.readByte();
+			this.decor[i] = reader.readByte();
+			this.explored[i] = reader.readBoolean();
+		}
+
+		try {
+			int count = reader.readInt32();
+			this.rooms = new ArrayList<>();
+
+			for (int i = 0; i < count; i++) {
+				String t = reader.readString();
+
+				Class<?> clazz = Class.forName(t);
+				Object object = clazz.newInstance();
+
+				Room room = (Room) object;
+
+				room.left = reader.readInt32();
+				room.top = reader.readInt32();
+				room.right = reader.readInt32();
+				room.bottom = reader.readInt32();
+				room.hidden = reader.readBoolean();
+
+				this.rooms.add(room);
+			}
+
+			count = reader.readInt32();
+
+			for (int i = 0; i < count; i++) {
+				int in = reader.readInt32();
+				this.rooms.get(in).neighbours.add(this.rooms.get(reader.readInt32()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

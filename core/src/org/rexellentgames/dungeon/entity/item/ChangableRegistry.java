@@ -54,8 +54,6 @@ public class ChangableRegistry {
 	}
 
 	public static void load(FileReader reader) throws IOException {
-		Log.info("Loading generatebles...");
-
 		int size = reader.readInt32();
 
 		for (int i = 0; i < size; i++) {
@@ -82,8 +80,6 @@ public class ChangableRegistry {
 	}
 
 	public static void generate() {
-		Log.info("Generating chagables...");
-
 		ArrayList<Class<? extends Potion>> potions = new ArrayList<Class<? extends Potion>>(Arrays.asList(
 			HealingPotion.class, SunPotion.class, FirePotion.class, InvisibilityPotion.class, SpeedPotion.class,
 			RegenerationPotion.class, PoisonPotion.class, DefensePotion.class

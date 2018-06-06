@@ -84,6 +84,7 @@ public class Terrain {
 	public static TextureRegion[] floorVariants = new TextureRegion[16];
 	public static TextureRegion[] tableVariants = new TextureRegion[16];
 	public static TextureRegion[] topVariants = new TextureRegion[12];
+	public static TextureRegion[] wallTop = new TextureRegion[12];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
 	public static TextureRegion[] decor;
@@ -130,6 +131,10 @@ public class Terrain {
 			Graphics.getTexture("prop (walldeco B)"),
 			Graphics.getTexture("prop (walldeco C)")
 		};
+
+		for (int i = 0; i < 12; i++) {
+			wallTop[i] = Graphics.getTexture(bm + "-top " + i);
+		}
 
 		for (int i = 0; i < 10; i++) {
 			dither[i] = Graphics.getTexture("fx-dither-idle-" + String.format("%02d", i));
@@ -185,8 +190,8 @@ public class Terrain {
 		}
 
 		variants[CHASM] = chasmVariants;
-		variants[WALL] = wallVariants;
-		variants[CRACK] = wallVariants;
+		// variants[WALL] = wallVariants;
+		// variants[CRACK] = wallVariants;
 		variants[FLOOR_B] = woodVariants;
 		variants[FLOOR_A] = floorVariants;
 		variants[FLOOR_FAKE] = floorVariants;
@@ -199,4 +204,6 @@ public class Terrain {
 	}
 
 	public static char[] letters = new char[] { 'A', 'B', 'C', 'D' };
+	public static int[] wallMap = new int[] { -1, -1, -1, 9, -1, -1, 0, 5, -1, 11, -1, 10, 2, 6, 1, -1 };
+	public static int[] wallMapExtra = new int[] { -1, 7, 3, -1, 4, -1, -1, -1, 8, -1, -1, -1, -1, -1, -1, -1 };
 }

@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Statue;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 
 public class StatueRoom extends RegularRoom {
 	@Override
@@ -21,7 +22,7 @@ public class StatueRoom extends RegularRoom {
 			statue.y = y * 16;
 
 			Dungeon.area.add(statue);
-			Dungeon.level.addSaveable(statue);
+			LevelSave.add(statue);
 		}
 	}
 

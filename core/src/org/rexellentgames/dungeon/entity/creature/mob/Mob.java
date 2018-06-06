@@ -22,6 +22,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.pool.PrefixPool;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.ExpFx;
@@ -279,7 +280,7 @@ public class Mob extends Creature {
 				holder.y = this.y;
 
 				this.area.add(holder);
-				Dungeon.level.addSaveable(holder);
+				LevelSave.add(holder);
 			}
 		}
 
@@ -385,7 +386,7 @@ public class Mob extends Creature {
 				fx.y = this.y + this.h / 2 + Random.newFloat(-4, 4);
 
 				Dungeon.area.add(fx);
-				Dungeon.level.addSaveable(fx);
+				LevelSave.add(fx);
 			}
 		}
 

@@ -24,6 +24,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -184,7 +185,7 @@ public class CrazyKing extends Boss {
 
 				self.dead = true;
 				self.done = true;
-				Dungeon.level.removeSaveable(self);
+				LevelSave.remove(self);
 				Camera.instance.shake(10);
 
 				if (Settings.gore) {
@@ -818,7 +819,7 @@ public class CrazyKing extends Boss {
 						Mob mob = new RangedKnight();
 
 						Dungeon.area.add(mob);
-						Dungeon.level.addSaveable(mob);
+						LevelSave.add(mob);
 
 						float a = (float) (i * Math.PI);
 

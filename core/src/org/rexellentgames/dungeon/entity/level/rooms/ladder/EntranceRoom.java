@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class EntranceRoom extends LadderRoom {
@@ -29,8 +30,7 @@ public class EntranceRoom extends LadderRoom {
 			exit.y = point.y * 16 - 8;
 
 			level.set((int) point.x, (int) point.y, Terrain.EXIT);
-
-			level.addSaveable(exit);
+			LevelSave.add(exit);
 			Dungeon.area.add(exit);
 		} else {
 			Entrance entrance = new Entrance();
@@ -38,7 +38,7 @@ public class EntranceRoom extends LadderRoom {
 			entrance.x = point.x * 16;
 			entrance.y = point.y * 16;
 
-			level.addSaveable(entrance);
+		  LevelSave.add(entrance);
 			Dungeon.area.add(entrance);
 		}
 	}

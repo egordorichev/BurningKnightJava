@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
@@ -145,7 +146,7 @@ public class Chest extends SaveableEntity {
 			holder.setItem(this.item);
 
 			Dungeon.area.add(holder);
-			Dungeon.level.addSaveable(holder);
+			LevelSave.add(holder);
 
 			/*if (this.item instanceof Gun || this.item instanceof Bow || this.item instanceof RocketLauncher) {
 				Item item = (this.item instanceof Gun ? new BulletA().setCount(Random.newInt(100, 200)) :
@@ -158,7 +159,7 @@ public class Chest extends SaveableEntity {
 				holder.setItem(item);
 
 				Dungeon.area.add(holder);
-				Dungeon.level.addSaveable(holder);
+				LevelSave.add(holder);
 			}*/
 
 			this.item = null;

@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
@@ -60,12 +61,12 @@ public class ItemPickupFx extends Entity {
 			if (this.player.tryToPickup(this.item)) {
 				this.remove();
 				this.area.add(new ItemPickedFx(item));
-				Dungeon.level.removeSaveable(item);
+				LevelSave.remove(item);
 			}
 		} else if (this.item.done) {
 			this.remove();
 			this.area.add(new ItemPickedFx(item));
-			Dungeon.level.removeSaveable(item);
+			LevelSave.remove(item);
 		}
 	}
 

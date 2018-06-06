@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Table;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Random;
 
 public class TableRoom extends RegularRoom {
@@ -21,6 +22,6 @@ public class TableRoom extends RegularRoom {
 		table.y = (this.top + Random.newInt(this.getHeight() - w - 4) + 2) * 16;
 
 		Dungeon.area.add(table);
-		Dungeon.level.addSaveable(table);
+		LevelSave.add(table);
 	}
 }

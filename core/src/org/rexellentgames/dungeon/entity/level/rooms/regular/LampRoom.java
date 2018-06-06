@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Slab;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.pool.room.RegularRoomPool;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -32,6 +33,9 @@ public class LampRoom extends RegularRoom {
 
 		Point center = this.getCenter();
 
+		center.y -= 1;
+		Painter.set(level, center, Terrain.FLOOR_A);
+		center.y += 1;
 		Painter.set(level, center, Terrain.FLOOR_A);
 
 		ItemHolder holder = new ItemHolder();
@@ -41,7 +45,7 @@ public class LampRoom extends RegularRoom {
 		slab.x = center.x * 16 + 1;
 		slab.y = center.y * 16 - 4;
 
-		Dungeon.level.addSaveable(slab);
+		LevelSave.add(slab);
 		Dungeon.area.add(slab);
 
 		holder.x = center.x * 16 + 4;
@@ -50,7 +54,7 @@ public class LampRoom extends RegularRoom {
 
 		holder.setItem(new Lamp());
 
-		Dungeon.level.addSaveable(holder);
+		LevelSave.add(holder);
 		Dungeon.area.add(holder);
 
 		for (Door door : this.connected.values()) {
