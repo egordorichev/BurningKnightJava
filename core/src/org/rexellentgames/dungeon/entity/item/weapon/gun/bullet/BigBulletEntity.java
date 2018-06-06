@@ -27,7 +27,7 @@ public class BigBulletEntity extends BulletEntity {
 			bullet.x = this.x + (this.w - bullet.sprite.getRegionWidth()) / 2;
 			bullet.y = this.y + (this.h - bullet.sprite.getRegionHeight()) / 2;
 
-			float s = 0.8f;
+			float s = 0.8f * 60f;
 
 			for (int j = 0; j < 20; j++) {
 				Part part = new Part();

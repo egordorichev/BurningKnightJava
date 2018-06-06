@@ -8,6 +8,7 @@ public class VVVVV extends Equipable {
 	{
 		name = Locale.get("vvvvv");
 		description = Locale.get("vvvvv_desc");
+		sprite = "item-vvvvv";
 	}
 
 	@Override

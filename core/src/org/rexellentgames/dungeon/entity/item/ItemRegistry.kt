@@ -19,8 +19,10 @@ import org.rexellentgames.dungeon.entity.item.key.KeyB
 import org.rexellentgames.dungeon.entity.item.key.KeyC
 import org.rexellentgames.dungeon.entity.item.pet.Bumbo
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet
+import org.rexellentgames.dungeon.entity.item.pet.orbital.BrokenOrbital
 import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital
 import org.rexellentgames.dungeon.entity.item.pet.orbital.JellyOrbital
+import org.rexellentgames.dungeon.entity.item.pet.orbital.VampireOrbital
 import org.rexellentgames.dungeon.entity.item.reference.*
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA
@@ -64,6 +66,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.claymore.ClaymoreC
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberA
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberB
 
 object ItemRegistry {
     val items = mapOf(
@@ -175,6 +179,12 @@ object ItemRegistry {
 	    "obsidian_boots" to ObsidianBoots::class,
 	    "campfire_in_a_bottle" to CampfireInABottle::class,
 	    "antidote" to Antidote::class,
-	    "fire_extinguisher" to FireExtinguisher::class
+	    "fire_extinguisher" to FireExtinguisher::class,
+	    "broken_orbital" to BrokenOrbital::class,
+	    "vampire_orbital" to VampireOrbital::class,
+	    "lightsaber_a" to LightsaberA::class,
+	    "lightsaber_b" to LightsaberB::class,
+	    "lightsaber_c" to LightsaberA::class,
+	    "lightsaber_d" to LightsaberB::class
     )
 }

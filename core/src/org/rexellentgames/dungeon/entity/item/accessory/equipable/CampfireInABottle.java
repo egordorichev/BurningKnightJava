@@ -7,6 +7,7 @@ public class CampfireInABottle extends Equipable {
 	{
 		name = Locale.get("campfire_in_a_bottle");
 		description = Locale.get("campfire_in_a_bottle_desc");
+		sprite = "item-campfire_in_a_bottle";
 	}
 
 	@Override

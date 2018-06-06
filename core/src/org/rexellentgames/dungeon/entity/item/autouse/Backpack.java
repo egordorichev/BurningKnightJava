@@ -7,6 +7,7 @@ public class Backpack extends Autouse {
 	{
 		description = Locale.get("backpack_desc");
 		name = Locale.get("backpack");
+		sprite = "item-backpack";
 	}
 
 	@Override

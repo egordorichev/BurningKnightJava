@@ -65,11 +65,7 @@ public class LadderFx extends UiEntity {
 					this.end();
 				}
 			} else if (this.ladder instanceof Exit) {
-				if (Dungeon.depth == 4) {
-					UiLog.instance.print("[red]Not implemented just yet!");
-				} else {
-					this.end();
-				}
+				this.end();
 			}
 		}
 	}

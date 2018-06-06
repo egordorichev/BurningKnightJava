@@ -1,11 +1,16 @@
 package org.rexellentgames.dungeon.entity.item.weapon.sword;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
@@ -85,23 +90,33 @@ public class Sword extends Weapon {
 
 		this.lastFrame += dt;
 
-		if (this.lastFrame >= 0.1f) {
+		if (this.lastFrame >= 0.005f) {
 			this.lastFrame = 0;
 
 			if (this.added > 0) {
 				Frame frame = new Frame();
-				frame.added = this.added;
+				frame.added = (float) Math.toRadians(this.added);
 
 				this.frames.add(frame);
 
-				if (this.frames.size() > 5) {
+				if (this.frames.size() > 20) {
 					this.frames.remove(0);
 				}
 			} else if (this.frames.size() > 0) {
 				this.frames.remove(0);
+
+				if (this.frames.size() > 0) {
+					this.frames.remove(0);
+				}
 			}
 		}
 	}
+
+	protected float tr = 1f;
+	protected float tg = 1f;
+	protected float tb = 1f;
+
+	private float pure;
 
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.animation == null) {
@@ -110,7 +125,7 @@ public class Sword extends Weapon {
 		}
 
 		float angle = added;
-		float pure = 0;
+		this.pure = 0;
 
 		if (this.owner != null) {
 			if (this.owner instanceof Player) {
@@ -150,6 +165,42 @@ public class Sword extends Weapon {
 
 		if (!this.animation.isPaused() && !this.owner.isDead()) {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, false);
+		}
+
+		double radAngle = Math.toRadians(pure);
+
+		if (this.frames.size() > 0) {
+			float rx = xx - this.ox - sprite.getRegionWidth() / 2;
+			float ry = yy - this.oy;
+			float d = this.region.getRegionHeight();
+
+			Frame self = new Frame();
+			self.added = (float) Math.toRadians(added);
+
+			Graphics.batch.end();
+
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+			for (int i = 0; i < this.frames.size(); i++) {
+				Frame frame = this.frames.get(i);
+
+				double ad = radAngle + frame.added - Math.PI / 2;
+				double sad = radAngle + self.added - Math.PI / 2;
+
+				Graphics.shape.setColor(this.tr, this.tg, this.tb, 0.7f / (this.frames.size() - i));
+
+				Graphics.shape.triangle(rx, ry, rx + (float) Math.cos(ad) * d, ry + (float) Math.sin(ad) * d,
+					rx + (float) Math.cos(sad) * d, ry + (float) Math.sin(sad) * d);
+
+				self = frame;
+			}
+
+			Graphics.shape.end();
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+			Graphics.batch.begin();
 		}
 
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
@@ -240,22 +291,26 @@ public class Sword extends Weapon {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0, timeB) {
-					@Override
-					public float getValue() {
-						return added;
-					}
+				if (timeB == 0) {
+					added = 0;
+				} else {
+					Tween.to(new Tween.Task(0, timeB) {
+						@Override
+						public float getValue() {
+							return added;
+						}
 
-					@Override
-					public void setValue(float value) {
-						added = value;
-					}
+						@Override
+						public void setValue(float value) {
+							added = value;
+						}
 
-					@Override
-					public void onEnd() {
-						endUse();
-					}
-				});
+						@Override
+						public void onEnd() {
+							endUse();
+						}
+					});
+				}
 			}
 		});
 	}

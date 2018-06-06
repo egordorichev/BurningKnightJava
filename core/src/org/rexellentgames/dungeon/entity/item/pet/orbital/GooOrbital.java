@@ -13,6 +13,12 @@ public class GooOrbital extends Pet {
 
 	@Override
 	public PetEntity create() {
-		return new Orbital();
+		return new Impl();
+	}
+
+	public static class Impl extends Orbital {
+		{
+			sprite = "item-goo";
+		}
 	}
 }

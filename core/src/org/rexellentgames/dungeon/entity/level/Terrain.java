@@ -85,6 +85,7 @@ public class Terrain {
 	public static TextureRegion[] tableVariants = new TextureRegion[16];
 	public static TextureRegion[] topVariants = new TextureRegion[12];
 	public static TextureRegion[] wallTop = new TextureRegion[12];
+	public static TextureRegion[] sides = new TextureRegion[3];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
 	public static TextureRegion[] decor;
@@ -134,6 +135,10 @@ public class Terrain {
 
 		for (int i = 0; i < 12; i++) {
 			wallTop[i] = Graphics.getTexture(bm + "-top " + i);
+		}
+
+		for (int i = 0; i < 3; i++) {
+			sides[i] = Graphics.getTexture(bm + "-side " + i);
 		}
 
 		for (int i = 0; i < 10; i++) {

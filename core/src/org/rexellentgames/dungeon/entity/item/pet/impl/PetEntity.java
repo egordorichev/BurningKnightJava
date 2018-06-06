@@ -6,10 +6,15 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.file.FileReader;
+import org.rexellentgames.dungeon.util.file.FileWriter;
+
+import java.io.IOException;
 
 public class PetEntity extends SaveableEntity {
 	public Player owner;
 	public float z;
+	protected String sprite = "";
 	public TextureRegion region = Item.missing; // todo: replace with anim
 
 	{
@@ -23,9 +28,6 @@ public class PetEntity extends SaveableEntity {
 		super.update(dt);
 
 		if (!this.onScreen && !this.noTp) {
-			double a = Random.newFloat() * Math.PI * 2;
-			float d = 24f;
-
 			this.x = this.owner.x + this.owner.w / 2;
 			this.y = this.owner.y + this.owner.h / 2;
 			this.tp();
@@ -36,9 +38,14 @@ public class PetEntity extends SaveableEntity {
 
 	}
 
+
 	@Override
 	public void init() {
 		super.init();
+
+		if (!this.sprite.isEmpty()) {
+			this.region = Graphics.getTexture(this.sprite);
+		}
 
 		this.owner = Player.instance;
 		double a = Random.newFloat() * Math.PI * 2;

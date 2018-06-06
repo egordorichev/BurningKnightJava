@@ -21,14 +21,15 @@ public class BumboPet extends SimpleFollowPet {
 		dependOnDistance = true;
 		maxDistance = 32f;
 		buildPath = true;
+		sprite = "item-bumbo";
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		this.w = this.region.getRegionWidth() - 2;
-		this.h = this.region.getRegionHeight() - 2;
+		this.w = this.region.getRegionWidth();
+		this.h = this.region.getRegionHeight();
 
 		this.body = World.createCircleBody(this, 0, 0, this.w / 2f,
 			BodyDef.BodyType.DynamicBody, false);

@@ -7,6 +7,7 @@ public class FireExtinguisher extends Equipable {
 	{
 		name = Locale.get("fire_extinguisher");
 		description = Locale.get("fire_extinguisher_desc");
+		sprite = "item-fire_extinguisher";
 	}
 
 	@Override

@@ -5,9 +5,8 @@ import org.rexellentgames.dungeon.entity.item.pet.impl.PetEntity;
 import org.rexellentgames.dungeon.entity.item.pet.impl.BumboPet;
 
 public class Bumbo extends Pet {
-	// auto tp!
-
 	{
+		sprite = "item-bumbo";
 		name = Locale.get("bumbo");
 		description = Locale.get("bumbo_desc");
 	}

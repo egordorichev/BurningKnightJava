@@ -4,13 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
+import org.rexellentgames.dungeon.entity.plant.Plant;
+import org.rexellentgames.dungeon.physics.World;
+import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -34,6 +42,27 @@ public class Gun extends WeaponBase {
 		useTime = 0.2f;
 	}
 
+	private float closestFraction = 1.0f;
+	private Vector2 last = new Point();
+	private RayCastCallback callback = new RayCastCallback() {
+		@Override
+		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+			Log.info(fixture.isSensor() + " " + fixture.getBody().getUserData());
+
+			// DOESNT WORK!?!?!
+			if(fixture.isSensor()) {
+				return 1;
+			}
+
+			if (fraction < closestFraction) {
+				closestFraction = fraction;
+				last = point;
+			}
+
+			return fraction;
+		}
+	};
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (!s) {
@@ -51,6 +80,15 @@ public class Gun extends WeaponBase {
 
 		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.ox, sprite.getRegionHeight() / 2,
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
+		float r = 6;
+
+		x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
+		y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+
+		float px = this.tw;
+
+		float xx = (float) (x + px * Math.cos(an) - this.ox);
+		float yy = (float) (y + px * Math.sin(an));
 
 		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
@@ -61,17 +99,28 @@ public class Gun extends WeaponBase {
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 			Graphics.shape.setColor(1, 0.5f, 0, 0.7f);
-			float r = 6;
 
-			x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
-			y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
-
-			float px = this.tw;
-
-			Graphics.shape.circle((float) (x + px * Math.cos(an) - this.ox), (float) (y + px * Math.sin(an)), r);
+			Graphics.shape.circle(xx, yy, r);
 
 			Graphics.shape.end();
 			Gdx.gl.glDisable(GL20.GL_BLEND);
+			Graphics.batch.begin();
+		}
+
+		if (this.owner instanceof Player) {
+			float d = Display.GAME_WIDTH;
+			closestFraction = 1f;
+			World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);
+
+			Graphics.batch.end();
+			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(1, 0, 0, 0.7f);
+
+			Graphics.shape.line(xx, yy, last.x, last.y);
+			Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
+
+			Graphics.shape.end();
 			Graphics.batch.begin();
 		}
 	}

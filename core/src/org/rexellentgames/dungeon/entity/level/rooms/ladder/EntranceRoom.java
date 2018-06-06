@@ -1,13 +1,12 @@
 package org.rexellentgames.dungeon.entity.level.rooms.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.item.Gold;
-import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -18,6 +17,11 @@ public class EntranceRoom extends LadderRoom {
 	public void paint(Level level) {
 		super.paint(level);
 		this.place(level, this.getCenter());
+	}
+
+	@Override
+	public boolean canConnect(Room r) {
+		return !(r instanceof EntranceRoom) && super.canConnect(r);
 	}
 
 	protected void place(Level level, Point point) {

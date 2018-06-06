@@ -26,7 +26,7 @@ public class Orbital extends PetEntity {
 
 	private void setPos() {
 		this.a = (float) (((float) id) / ((float) all.size()) * Math.PI * 2 + Dungeon.time / 2f);
-		float d = 32f;
+		float d = 28f + (float) Math.cos(Dungeon.time * 2f) * 4f;
 
 		this.x = this.owner.x + this.owner.w / 2 + (float) Math.cos(a) * d;
 		this.y = this.owner.y + this.owner.h / 2 + (float) Math.sin(a) * d;
@@ -86,6 +86,6 @@ public class Orbital extends PetEntity {
 
 	@Override
 	public void render() {
-		Graphics.render(region, this.x, this.y, (float) Math.toDegrees(this.a), this.w / 2, this.h / 2, false, false, this.sx, this.sy);
+		Graphics.render(region, this.x, this.y, 0, this.w / 2, this.h / 2, false, false, this.sx, this.sy);
 	}
 }

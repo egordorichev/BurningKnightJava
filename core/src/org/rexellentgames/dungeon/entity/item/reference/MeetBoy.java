@@ -9,6 +9,7 @@ public class MeetBoy extends Consumable {
 		name = Locale.get("meetboy");
 		description = Locale.get("meetboy_desc");
 		useOnPickup = true;
+		sprite = "item-meetboy_hp";
 	}
 
 	@Override

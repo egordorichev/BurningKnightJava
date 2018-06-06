@@ -15,11 +15,11 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 public class LampRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
-		RegularRoom room = null;
+		RegularRoom room;
 
 		do {
 			room = RegularRoomPool.instance.generate();
-		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom);
+		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom || room instanceof MazeRoom);
 
 		room.size = this.size;
 		room.left = this.left;

@@ -261,5 +261,18 @@
 	"antidote" : "Antidote",
 	"antidote_desc" : "Gives immunity to poison",
 	"fire_extinguisher" : "Fire Extinguisher",
-	"fire_extinguisher_desc" : "Gives immunity to fire"
+	"fire_extinguisher_desc" : "Gives immunity to fire",
+	"broken_orbital" : "Broken Stone",
+	"broken_orbital_desc" : "Friends till the near end",
+	"vampire_orbital" : "Vampire Stone",
+	"vampire_orbital_desc" : "Defends and heals",
+
+	"lightsaber_a" : "Blue lightsaber",
+	"lightsaber_a_desc" : "You don't know the dark side of the power",
+	"lightsaber_b" : "Red lightsaber",
+	"lightsaber_b_desc" : "Sith",
+	"lightsaber_c" : "Purple lightsaber",
+	"lightsaber_c_desc" : "Half Sith",
+	"lightsaber_d" : "Green lightsaber",
+	"lightsaber_d_desc" : "NOOOOOOOOOOOOOOOOOOOO"
 }
