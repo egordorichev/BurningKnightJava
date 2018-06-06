@@ -278,5 +278,11 @@
 	"chicken_sword" : "Chicken Sword",
 	"chicken_sword_desc" : "KFC?",
 	"shovel" : "Shovel",
-	"shovel_desc" : "Why blue, tho?"
+	"shovel_desc" : "Why blue, tho?",
+	"pico8" : "PICO-8",
+	"pico8-desc" : "128x128",
+	"celeste" : "Strawberry",
+	"celeste_desc" : "I need more",
+	"libgdx" : "LibGDX",
+	"libgdx_desc" : "Best engine"
 }

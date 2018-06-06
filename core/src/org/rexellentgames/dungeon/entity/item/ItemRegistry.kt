@@ -18,6 +18,8 @@ import org.rexellentgames.dungeon.entity.item.key.KeyA
 import org.rexellentgames.dungeon.entity.item.key.KeyB
 import org.rexellentgames.dungeon.entity.item.key.KeyC
 import org.rexellentgames.dungeon.entity.item.pet.Bumbo
+import org.rexellentgames.dungeon.entity.item.pet.LibGDX
+import org.rexellentgames.dungeon.entity.item.pet.Pico8
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet
 import org.rexellentgames.dungeon.entity.item.pet.orbital.BrokenOrbital
 import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital
@@ -184,6 +186,8 @@ object ItemRegistry {
 	    "lightsaber_c" to LightsaberA::class,
 	    "lightsaber_d" to LightsaberB::class,
 	    "chicken_sword" to ChickenSword::class,
-	    "shovel" to Shovel::class
+	    "shovel" to Shovel::class,
+	    "pico8" to Pico8::class,
+	    "libgdx" to LibGDX::class
     )
 }

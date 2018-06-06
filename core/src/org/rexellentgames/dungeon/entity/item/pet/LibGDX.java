@@ -4,11 +4,11 @@ import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.item.pet.impl.PetEntity;
 import org.rexellentgames.dungeon.entity.item.pet.impl.SimpleFollowPet;
 
-public class StrawberryPet extends Pet {
+public class LibGDX extends Pet {
 	{
-		name = Locale.get("celeste");
-		description = Locale.get("celeste_desc");
-		sprite = "item-strawberry";
+		name = Locale.get("libgdx");
+		description = Locale.get("libgdx_desc");
+		sprite = "item-libgdx";
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class StrawberryPet extends Pet {
 
 	public static class Impl extends SimpleFollowPet {
 		{
-			sprite = "item-strawberry";
+			sprite = "item-libgdx_big";
 		}
 	}
 }
