@@ -1,7 +1,10 @@
 package org.rexellentgames.dungeon.entity.item.weapon;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
@@ -61,7 +64,6 @@ public class WeaponBase extends Item {
 		float g = 1f - (1 - c.g) * a;
 		float b = 1f - (1 - c.b) * a;
 
-
 		Graphics.batch.end();
 		Mob.shader.begin();
 		Mob.shader.setUniformf("u_color", new Vector3(r, g, b));
@@ -77,6 +79,18 @@ public class WeaponBase extends Item {
 
 	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy) {
 		renderAt(x, y, a, ox, oy, fx, fy, 1, 1);
+	}
+
+
+	public static ShaderProgram shader;
+
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/blink.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/blink.frag").readString();
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
 	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy) {
@@ -96,7 +110,18 @@ public class WeaponBase extends Item {
 			endRender();
 		}
 
+		Graphics.batch.end();
+		shader.begin();
+		shader.setUniformf("time", Dungeon.time + this.t);
+		shader.end();
+		Graphics.batch.setShader(shader);
+		Graphics.batch.begin();
+
 		Graphics.render(getSprite(), x, y, a, ox, oy, fx, fy, sx, sy);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 	}
 
 	@Override
@@ -112,6 +137,22 @@ public class WeaponBase extends Item {
 		builder.append("[gray]");
 
 		return builder;
+	}
+
+	private float t;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		this.t += dt;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+
+		this.t = Random.newFloat(3f);
 	}
 
 	public void endRender() {

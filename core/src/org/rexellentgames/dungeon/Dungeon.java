@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
 import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
@@ -448,6 +449,7 @@ public class Dungeon extends ApplicationAdapter {
 		BurningKnight.shader.dispose();
 		Level.waterShader.dispose();
 		MagicWell.shader.dispose();
+		WeaponBase.shader.dispose();
 		shader.dispose();
 	}
 
