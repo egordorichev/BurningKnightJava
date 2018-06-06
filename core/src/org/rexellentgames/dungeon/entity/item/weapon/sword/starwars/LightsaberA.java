@@ -17,5 +17,6 @@ public class LightsaberA extends Sword {
 		penetrates = true;
 		tr = 0f;
 		tg = 0.7f;
+		tail = true;
 	}
 }

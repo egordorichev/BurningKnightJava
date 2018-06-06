@@ -6,6 +6,12 @@ import org.rexellentgames.dungeon.entity.item.pet.impl.SimpleFollowPet;
 public class StrawberryPet extends Pet {
 	@Override
 	public PetEntity create() {
-		return new SimpleFollowPet();
+		return new Impl();
+	}
+
+	public static class Impl extends SimpleFollowPet {
+		{
+			sprite = "item-strawberry";
+		}
 	}
 }

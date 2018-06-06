@@ -276,5 +276,7 @@
 	"lightsaber_d" : "Green lightsaber",
 	"lightsaber_d_desc" : "NOOOOOOOOOOOOOOOOOOOO",
 	"chicken_sword" : "Chicken Sword",
-	"chicken_sword_desc" : "KFC?"
+	"chicken_sword_desc" : "KFC?",
+	"shovel" : "Shovel",
+	"shovel_desc" : "Why blue, tho?"
 }

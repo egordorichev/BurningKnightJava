@@ -183,6 +183,7 @@ object ItemRegistry {
 	    "lightsaber_b" to LightsaberB::class,
 	    "lightsaber_c" to LightsaberA::class,
 	    "lightsaber_d" to LightsaberB::class,
-	    "chicken_sword" to ChickenSword::class
+	    "chicken_sword" to ChickenSword::class,
+	    "shovel" to Shovel::class
     )
 }

@@ -21,15 +21,17 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.GunC;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordB;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordC;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.*;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberA;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberB;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberC;
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberD;
 import org.rexellentgames.dungeon.entity.pool.Pool;
 
 public class ShopWeaponPool extends Pool<Item> {
@@ -91,5 +93,11 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(MorningStarB.class, 1f);
 		add(MorningStarC.class, 1f);
 		add(GravelordSword.class, 1f);
+		add(LightsaberA.class, 1f);
+		add(LightsaberB.class, 1f);
+		add(LightsaberC.class, 1f);
+		add(LightsaberD.class, 1f);
+		add(ChickenSword.class, 1f);
+		add(Shovel.class, 1f);
 	}
 }

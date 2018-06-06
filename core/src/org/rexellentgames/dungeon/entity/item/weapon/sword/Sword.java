@@ -167,9 +167,9 @@ public class Sword extends Weapon {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, false);
 		}
 
-		double radAngle = Math.toRadians(pure);
+		if (this.tail && this.frames.size() > 0) {
+			double radAngle = Math.toRadians(pure);
 
-		if (this.frames.size() > 0) {
 			float rx = xx - this.ox - sprite.getRegionWidth() / 2;
 			float ry = yy - this.oy;
 			float d = this.region.getRegionHeight();
@@ -214,6 +214,8 @@ public class Sword extends Weapon {
 			this.body.setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
 		}
 	}
+
+	protected  boolean tail;
 
 	@Override
 	public void onHit(Creature creature) {
