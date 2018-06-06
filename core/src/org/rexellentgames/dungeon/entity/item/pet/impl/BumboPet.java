@@ -6,9 +6,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -83,6 +81,8 @@ public class BumboPet extends SimpleFollowPet {
 	protected void tp() {
 		super.tp();
 		this.body.setTransform(this.x, this.y, 0);
+		this.target = this.owner;
+		this.next = null;
 	}
 
 	@Override
