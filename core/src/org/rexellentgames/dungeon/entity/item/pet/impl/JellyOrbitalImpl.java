@@ -27,7 +27,7 @@ public class JellyOrbitalImpl extends Orbital {
 			this.ylast = null;
 		}
 
-		this.xlast = Tween.to(new Tween.Task(1.3f, 0.2f) {
+		this.xlast = Tween.to(new Tween.Task(1.3f, 0.1f) {
 			@Override
 			public float getValue() {
 				return sx;
@@ -59,7 +59,7 @@ public class JellyOrbitalImpl extends Orbital {
 			}
 		});
 
-		this.ylast = Tween.to(new Tween.Task(0.7f, 0.2f) {
+		this.ylast = Tween.to(new Tween.Task(0.7f, 0.1f) {
 			@Override
 			public float getValue() {
 				return sy;

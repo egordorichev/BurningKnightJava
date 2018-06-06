@@ -72,8 +72,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon || (entity instanceof SolidProp && !(entity instanceof Turret))
-			 || (this.bad && entity instanceof Orbital)) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon || (entity instanceof SolidProp && !(entity instanceof Turret))) {
 
 			this.remove = true;
 		} else if (entity instanceof Creature && this.t >= 0.05f) {

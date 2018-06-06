@@ -5,13 +5,16 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 public class PetEntity extends SaveableEntity {
 	public Player owner;
 	public float z;
 	public TextureRegion region = Item.missing; // todo: replace with anim
+
+	{
+		alwaysActive = true;
+	}
 
 	@Override
 	public void init() {
