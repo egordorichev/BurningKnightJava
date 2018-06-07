@@ -54,6 +54,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLaunch
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherB
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherC
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA
+import org.rexellentgames.dungeon.entity.item.weapon.spear.SpearA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.*
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB
@@ -205,7 +206,8 @@ object ItemRegistry {
         "the_eye" to TheEye::class,
         "lucky_cube" to LuckyCube::class,
         "fortune_armor" to FortuneArmor::class,
-        "stop_and_play" to StopAndPlay::class
+        "stop_and_play" to StopAndPlay::class,
+        "spear_a" to SpearA::class
 
         // todo: challange stone, all enemies have a prefix
     )
