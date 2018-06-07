@@ -308,5 +308,7 @@
 	"star" : "Star",
 	"star_desc": "Rainbow",
 	"blue_watch" : "Blue watch",
-	"blue_watch_desc" : "Control the time"
+	"blue_watch_desc" : "Control the time",
+	"stopwatch" : "Stopwatch",
+	"stopwatch_desc" : "Please stop by, when you can"
 }

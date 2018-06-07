@@ -18,16 +18,12 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.key.KeyC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.BadGun;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun;
-import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
-import org.rexellentgames.dungeon.util.file.FileWriter;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.io.IOException;
@@ -134,10 +130,10 @@ public class CrazyKing extends Boss {
 			return;
 		}
 
-		this.animation.update(dt);
+		this.animation.update(dt * speedMod);
 		super.common();
 
-		this.gun.update(dt);
+		this.gun.update(dt * speedMod);
 		this.secondForm = (this.hp < this.hpMax / 2);
 
 		if (this.body != null) {

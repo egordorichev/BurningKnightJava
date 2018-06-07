@@ -133,10 +133,10 @@ public class Clown extends Mob {
 		}
 
 		if (this.animation != null) {
-			this.animation.update(dt);
+			this.animation.update(dt * speedMod);
 		}
 
-		this.guitar.update(dt);
+		this.guitar.update(dt * speedMod);
 
 		super.common();
 	}

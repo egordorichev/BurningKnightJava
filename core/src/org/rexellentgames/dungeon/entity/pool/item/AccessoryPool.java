@@ -44,5 +44,8 @@ public class AccessoryPool extends Pool<Item> {
 		add(Diamond.class, 0.5f);
 		add(Compass.class, 1f);
 		add(Star.class, 1f);
+		add(PenetrationRune.class, 1f);
+		add(BlueWatch.class, 1f);
+		add(StopWatch.class, 1f);
 	}
 }

@@ -212,7 +212,7 @@ public class BurningKnight extends Boss {
 		}
 
 		if (this.animation != null) {
-			this.animation.update(dt);
+			this.animation.update(dt * speedMod);
 		}
 
 		super.common();

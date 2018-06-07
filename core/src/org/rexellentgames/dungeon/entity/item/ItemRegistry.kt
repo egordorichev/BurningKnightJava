@@ -200,7 +200,8 @@ object ItemRegistry {
         "map_greenprints" to MapGreenprints::class,
         "meetboy_axe" to MeetboyAxe::class,
         "star" to Star::class,
-        "blue_watch" to BlueWatch::class
+        "blue_watch" to BlueWatch::class,
+        "stopwatch" to StopWatch::class
 
         // todo: challange stone, all enemies have a prefix
     )

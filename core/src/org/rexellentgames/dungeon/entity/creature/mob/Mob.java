@@ -10,7 +10,6 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.mob.prefix.Prefix;
@@ -24,7 +23,6 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.pool.PrefixPool;
-import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.ExpFx;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -36,6 +34,7 @@ import java.util.ArrayList;
 
 public class Mob extends Creature {
 	public Point lastSeen;
+	public static float speedMod = 1f;
 	public Creature target;
 	public static ArrayList<Mob> all = new ArrayList<>();
 	public static ArrayList<Mob> every = new ArrayList<>();
@@ -248,7 +247,7 @@ public class Mob extends Creature {
 
 	@Override
 	public void update(float dt) {
-		super.update(dt);
+		super.update(dt * speedMod);
 
 		if (this.freezed) {
 			return;
@@ -300,7 +299,7 @@ public class Mob extends Creature {
 		}
 
 		if (this.ai != null) {
-			this.ai.update(dt);
+			this.ai.update(dt * speedMod);
 
 			if (this.start == null) {
 				this.ai.findCurrentRoom();
@@ -308,12 +307,8 @@ public class Mob extends Creature {
 			}
 
 			if (this.ai != null) { // !?!?!
-				this.ai.t += dt;
+				this.ai.t += dt * speedMod;
 			}
-		}
-
-		if (this.target instanceof Player && this.canSee(this.target)) {
-			((Player) this.target).heat += dt * 3;
 		}
 
 		this.findTarget(false);
@@ -322,9 +317,36 @@ public class Mob extends Creature {
 			this.target = null;
 			this.become("idle");
 		}
+	}
 
-		for (Player player : this.colliding) {
-			// player.modifyHp(-this.damage);
+	@Override
+	protected void common() {
+		float dt = getDt();
+
+		this.t += dt;
+		this.timer += dt;
+		this.invt = Math.max(0, this.invt - dt);
+		this.invtt = Math.max(0, this.invtt - dt);
+
+		if (!this.dead) {
+			if (this.vel.x < 0) {
+				this.flipped = true;
+			} else if (this.vel.x > 0) {
+				this.flipped = false;
+			}
+		}
+
+		if (this.vel.len2() > 1) {
+			this.lastIndex = Dungeon.longTime;
+		}
+
+		if (this.falling) {
+			this.vel.mul(0);
+		}
+
+		if (this.body != null) {
+			this.vel.clamp(0, this.maxSpeed);
+			this.body.setLinearVelocity(this.vel.x * speedMod, this.vel.y * speedMod);
 		}
 	}
 
@@ -391,6 +413,11 @@ public class Mob extends Creature {
 		}
 
 		super.die(force);
+	}
+
+	@Override
+	protected float getDt() {
+		return super.getDt() * speedMod;
 	}
 
 	protected float moveToPoint(float x, float y, float speed) {

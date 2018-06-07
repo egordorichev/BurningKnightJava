@@ -11,8 +11,6 @@ import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.KnightHat;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
-import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
-import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
@@ -72,10 +70,10 @@ public class Knight extends Mob {
 		}
 
 		if (this.animation != null) {
-			this.animation.update(dt);
+			this.animation.update(dt * speedMod);
 		}
 
-		this.sword.update(dt);
+		this.sword.update(dt * speedMod);
 		super.common();
 	}
 

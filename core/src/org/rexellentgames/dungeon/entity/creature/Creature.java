@@ -239,8 +239,12 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	protected float getDt() {
+		return Gdx.graphics.getDeltaTime();
+	}
+
 	protected void common() {
-		float dt = Gdx.graphics.getDeltaTime();
+		float dt = getDt();
 
 		this.t += dt;
 		this.timer += dt;
