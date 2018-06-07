@@ -829,6 +829,11 @@ public abstract class Level extends SaveableEntity {
 				byte tile = this.get(i);
 
 				if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
+					byte left = this.get(i - 1);
+					byte right = this.get(i + 1);
+					boolean lg = (left == Terrain.WALL || left == Terrain.CRACK);
+					boolean rg = (right == Terrain.WALL || right == Terrain.CRACK);
+
 					byte t = this.get(i - getWidth());
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {
@@ -839,6 +844,18 @@ public abstract class Level extends SaveableEntity {
 						if (v != 0) {
 							TextureRegion s = Terrain.decor[v - 1];
 							Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 10);
+						}
+
+						if (!lg || !rg) {
+							t = 1;
+
+							if (lg) {
+								t = 0;
+							} else if (rg) {
+								t = 2;
+							}
+
+							Graphics.render(Terrain.sides[1], x * 16, y * 16 - 16);
 						}
 					}
 				}
