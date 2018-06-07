@@ -1,8 +1,13 @@
 package org.rexellentgames.dungeon.entity.creature.player;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
@@ -707,6 +712,17 @@ public class Player extends Creature {
 		Dungeon.slowDown(0.5f, 1f);
 	}
 
+	public static ShaderProgram shader;
+
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/rainbow.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/rainbow.frag").readString();
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+	}
+
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
@@ -729,13 +745,25 @@ public class Player extends Creature {
 		}
 
 		TextureRegion region = this.animation.getCurrent().frame;
+		Texture texture = region.getTexture();
 
-
-		Graphics.batch.setColor(1, 1, 1, this.a);
+		Graphics.batch.end();
+		shader.begin();
+		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
+		shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
+		shader.setUniformf("a", this.a);
+		shader.end();
+		Graphics.batch.setShader(shader);
+		Graphics.batch.begin();
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
-			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy, false);
+			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 
 		if (this.ui != null) {
 			this.ui.renderOnPlayer(this);

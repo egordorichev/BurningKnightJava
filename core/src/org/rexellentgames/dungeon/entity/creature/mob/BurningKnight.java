@@ -271,7 +271,6 @@ public class BurningKnight extends Boss {
 		}
 
 		Graphics.batch.end();
-		Graphics.batch.setShader(null);
 		shader.begin();
 
 		Texture texture = region.getTexture();

@@ -449,6 +449,7 @@ public class Dungeon extends ApplicationAdapter {
 		Settings.save();
 		Log.close();
 
+		Player.shader.dispose();
 		Mob.shader.dispose();
 		BurningKnight.shader.dispose();
 		Level.waterShader.dispose();

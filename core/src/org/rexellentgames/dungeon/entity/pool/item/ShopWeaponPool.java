@@ -6,10 +6,7 @@ import org.rexellentgames.dungeon.entity.item.reference.BlueBoomerang;
 import org.rexellentgames.dungeon.entity.item.reference.GravelordSword;
 import org.rexellentgames.dungeon.entity.item.reference.IsaacHead;
 import org.rexellentgames.dungeon.entity.item.reference.StarCannon;
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA;
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB;
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeC;
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
+import org.rexellentgames.dungeon.entity.item.weapon.axe.*;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowB;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowC;
@@ -64,6 +61,7 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(AxeB.class, 1f);
 		add(AxeC.class, 1f);
 		add(AxeD.class, 1f);
+		add(MeetboyAxe.class, 1f);
 		add(BlueBoomerang.class, 1f);
 	}
 
