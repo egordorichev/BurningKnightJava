@@ -84,6 +84,10 @@ public abstract class Level extends SaveableEntity {
 	protected ArrayList<Room> rooms;
 	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
 
+	public void exploreAll() {
+		Arrays.fill(explored, true);
+	}
+
 	public void setPassable(int x, int y, boolean v) {
 		this.passable[toIndex(x, y)] = v;
 	}

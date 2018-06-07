@@ -298,5 +298,7 @@
 	"diamond" : "Diamond",
 	"diamond_desc" : "Shutup and dig!",
 	"penetration_rune" : "Penetration Rune",
-	"penetration_rune_desc" : "Multiple"
+	"penetration_rune_desc" : "Multiple",
+	"map" : "Map",
+	"map_desc" : "The plan"
 }

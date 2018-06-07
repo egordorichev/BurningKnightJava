@@ -33,7 +33,7 @@ class GiveCommand : ConsoleCommand() {
 
                 val item = clazz.createInstance()
                 val itemHolder = ItemHolder()
-                itemHolder.item = item
+                itemHolder.item = item as Item
 
                 if (item.isStackable) {
                     item.count = count

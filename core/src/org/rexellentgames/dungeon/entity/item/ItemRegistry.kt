@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.item
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.*
 import org.rexellentgames.dungeon.entity.item.accessory.hat.*
 import org.rexellentgames.dungeon.entity.item.autouse.Backpack
+import org.rexellentgames.dungeon.entity.item.autouse.Map
 import org.rexellentgames.dungeon.entity.item.consumable.food.Bread
 import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken
 import org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage
@@ -196,7 +197,8 @@ object ItemRegistry {
         "cross" to Cross::class,
         "spectacles" to Spectacles::class,
 		"diamond" to Diamond::class,
-        "penetration_rune" to PenetrationRune::class
+        "penetration_rune" to PenetrationRune::class,
+        "map" to Map::class
 
         // todo: challange stone, all enemies have a prefix
     )
