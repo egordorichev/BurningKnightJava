@@ -70,7 +70,6 @@ public class Graphics {
 		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
 		Graphics.surface.begin();
-		Camera.instance.viewport.apply();
 		Graphics.batch.begin();
 	}
 

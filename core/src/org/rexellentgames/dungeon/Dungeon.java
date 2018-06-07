@@ -334,6 +334,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
 		shader.end();
 		Graphics.batch.setShader(shader);
+		Camera.instance.viewport.apply();
 		Graphics.batch.begin();
 
 		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, !flip);
