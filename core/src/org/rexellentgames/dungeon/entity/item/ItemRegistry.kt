@@ -198,7 +198,8 @@ object ItemRegistry {
         "penetration_rune" to PenetrationRune::class,
         "map" to Map::class,
         "map_greenprints" to MapGreenprints::class,
-        "meetboy_axe" to MeetboyAxe::class
+        "meetboy_axe" to MeetboyAxe::class,
+        "star" to Star::class
 
         // todo: challange stone, all enemies have a prefix
     )

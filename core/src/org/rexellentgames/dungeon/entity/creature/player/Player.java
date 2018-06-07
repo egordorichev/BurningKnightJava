@@ -723,6 +723,8 @@ public class Player extends Creature {
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
+	public boolean drawInvt;
+
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
@@ -740,30 +742,40 @@ public class Player extends Creature {
 			this.animation = idle;
 		}
 
+		if (this.invtt == 0) {
+			this.drawInvt = false;
+		}
+
 		if (this.ui != null) {
 			this.ui.renderBeforePlayer(this);
 		}
 
+		boolean shade = this.drawInvt && this.invtt > 0;
 		TextureRegion region = this.animation.getCurrent().frame;
-		Texture texture = region.getTexture();
 
-		Graphics.batch.end();
-		shader.begin();
-		shader.setUniformf("time", Dungeon.time);
-		shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
-		shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
-		shader.setUniformf("a", this.a);
-		shader.end();
-		Graphics.batch.setShader(shader);
-		Graphics.batch.begin();
+		if (shade) {
+			Texture texture = region.getTexture();
+
+			Graphics.batch.end();
+			shader.begin();
+			shader.setUniformf("time", Dungeon.time);
+			shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
+			shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
+			shader.setUniformf("a", this.a);
+			shader.end();
+			Graphics.batch.setShader(shader);
+			Graphics.batch.begin();
+		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
+		if (shade) {
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
 
 		if (this.ui != null) {
 			this.ui.renderOnPlayer(this);

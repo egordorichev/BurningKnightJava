@@ -304,5 +304,7 @@
 	"map_greenprints" : "Map greenprints",
 	"map_greenprints_desc" : "Accurate",
 	"meetboy_axe" : "Cutsaw",
-	"meetboy_axe_desc" : "Bloody awesome!"
+	"meetboy_axe_desc" : "Bloody awesome!",
+	"star" : "Star",
+	"star_desc": "Rainbow"
 }
