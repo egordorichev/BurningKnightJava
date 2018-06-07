@@ -29,6 +29,9 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberC;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberD;
+import org.rexellentgames.dungeon.entity.item.weapon.yoyo.YoyoA;
+import org.rexellentgames.dungeon.entity.item.weapon.yoyo.YoyoB;
+import org.rexellentgames.dungeon.entity.item.weapon.yoyo.YoyoC;
 import org.rexellentgames.dungeon.entity.pool.Pool;
 
 public class ShopWeaponPool extends Pool<Item> {
@@ -97,5 +100,8 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(LightsaberD.class, 1f);
 		add(ChickenSword.class, 1f);
 		add(Shovel.class, 1f);
+		add(YoyoA.class, 1f);
+		add(YoyoB.class, 1f);
+		add(YoyoC.class, 1f);
 	}
 }

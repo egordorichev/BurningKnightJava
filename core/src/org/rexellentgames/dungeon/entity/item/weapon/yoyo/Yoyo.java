@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
@@ -55,7 +56,19 @@ public class Yoyo extends Weapon {
 
 	private Point vel = new Point();
 	private Bezier line = new Bezier();
-	private float max = 128f;
+	protected float max = 128f;
+
+	@Override
+	public void onHit(Creature creature) {
+		super.onHit(creature);
+		TextureRegion region = this.getSprite();
+
+		double a = Math.atan2(creature.y + creature.h / 2 - this.y - region.getRegionHeight() / 2, creature.x + creature.w / 2 - this.x - region.getRegionWidth() / 2);
+
+		float f = 1000f;
+		this.vel.x -= (float) Math.cos(a) * f;
+		this.vel.y -= (float) Math.sin(a) * f;
+	}
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {

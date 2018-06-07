@@ -326,5 +326,9 @@
 	"spear_c" : "Golden Spear",
 	"spear_c_desc" : "Stab them!",
 	"yoyo_a" : "Green yoyo",
-	"yoyo_a_desc" : "Terrarian? Nope."
+	"yoyo_a_desc" : "Terrarian? Nope.",
+	"yoyo_b" : "Orange yoyo",
+	"yoyo_b_desc" : "Yo!",
+	"yoyo_c" : "Yellow yoyo",
+	"yoyo_c_desc" : ""
 }
