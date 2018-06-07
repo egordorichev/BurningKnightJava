@@ -724,6 +724,35 @@ public class Player extends Creature {
 	}
 
 	public boolean drawInvt;
+	public boolean luckDamage;
+	public boolean luckDefense;
+
+	@Override
+	public float rollDamage() {
+		if (luckDamage) {
+			if (Random.chance(60)) {
+				Log.info("luck");
+				return 2;
+			} else {
+				return 0.5f;
+			}
+		}
+
+		return super.rollDamage();
+	}
+
+	@Override
+	public float rollDefense() {
+		if (luckDefense) {
+			if (Random.chance(60)) {
+				return 2;
+			} else {
+				return 0.5f;
+			}
+		}
+
+		return super.rollDefense();
+	}
 
 	@Override
 	public void render() {

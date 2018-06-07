@@ -202,7 +202,10 @@ object ItemRegistry {
         "star" to Star::class,
         "blue_watch" to BlueWatch::class,
         "stopwatch" to StopWatch::class,
-        "the_eye" to TheEye::class
+        "the_eye" to TheEye::class,
+        "lucky_cube" to LuckyCube::class,
+        "fortune_armor" to FortuneArmor::class
+
 
         // todo: challange stone, all enemies have a prefix
     )

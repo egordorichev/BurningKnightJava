@@ -312,5 +312,9 @@
 	"stopwatch" : "Stopwatch",
 	"stopwatch_desc" : "Please stop by, when you can",
 	"the_eye" : "The Eye",
-	"the_eye_desc" : "Big brother is watching"
+	"the_eye_desc" : "Big brother is watching",
+	"fortune_armor" : "Fortune armor",
+	"fortune_armor_desc" : "Might help or harm",
+	"lucky_cube" : "Lucky cube",
+	"lucky_cube_desc" : "Might deal 50% more or less damage"
 }

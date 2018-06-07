@@ -243,6 +243,14 @@ public class Creature extends SaveableEntity {
 		return Gdx.graphics.getDeltaTime();
 	}
 
+	public float rollDamage() {
+		return 1;
+	}
+
+	public float rollDefense() {
+		return 1;
+	}
+
 	protected void common() {
 		float dt = getDt();
 
@@ -314,8 +322,12 @@ public class Creature extends SaveableEntity {
 				return null;
 			}
 
+			if (from != null) {
+				amount *= from.rollDamage();
+			}
+
 			if (!ignoreArmor) {
-				amount += this.defense;
+				amount += this.defense * this.rollDefense();
 
 				if (amount > 0) {
 					amount = -1;
