@@ -47,8 +47,12 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player) {
-			((Player) entity).modifyHp(2, null);
-			this.done = true;
+			Player player = ((Player) entity);
+
+			if (player.getHp() < player.getHpMax()) {
+				player.modifyHp(2, null);
+				this.done = true;
+			}
 		}
 	}
 
