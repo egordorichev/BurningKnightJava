@@ -64,6 +64,7 @@ public class Creature extends SaveableEntity {
 	public float blockChance;
 	protected boolean flying = false;
 	public float knockbackMod = 1f;
+	public boolean penetrates;
 
 	public boolean isFlying() {
 		return this.flying;

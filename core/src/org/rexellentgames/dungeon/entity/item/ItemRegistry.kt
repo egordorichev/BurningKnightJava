@@ -67,6 +67,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberB
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberC
+import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberD
 
 object ItemRegistry {
     val items = mapOf(
@@ -183,8 +185,8 @@ object ItemRegistry {
 		"vampire_orbital" to VampireOrbital::class,
 		"lightsaber_a" to LightsaberA::class,
 		"lightsaber_b" to LightsaberB::class,
-		"lightsaber_c" to LightsaberA::class,
-		"lightsaber_d" to LightsaberB::class,
+		"lightsaber_c" to LightsaberC::class,
+		"lightsaber_d" to LightsaberD::class,
 		"chicken_sword" to ChickenSword::class,
 		"shovel" to Shovel::class,
 		"pico8" to Pico8::class,
@@ -192,6 +194,10 @@ object ItemRegistry {
 		"magic_shield" to MagicShield::class,
         "cobalt_shield" to CobaltShield::class,
         "cross" to Cross::class,
-        "spectacles" to Spectacles::class
+        "spectacles" to Spectacles::class,
+		"diamond" to Diamond::class,
+        "penetration_rune" to PenetrationRune::class
+
+        // todo: challange stone, all enemies have a prefix
     )
 }

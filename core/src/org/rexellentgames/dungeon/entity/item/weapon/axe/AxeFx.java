@@ -115,7 +115,7 @@ public class AxeFx extends Entity {
 
 			this.axe.onHit(creature);
 
-			if (!this.penetrates) {
+			if (!this.penetrates && !this.owner.penetrates) {
 				this.done = true;
 			}
 		}

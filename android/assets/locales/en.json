@@ -296,5 +296,7 @@
 	"gold" : "Gold",
 	"gold_desc" : "$$$",
 	"diamond" : "Diamond",
-	"diamond_desc" : "Shutup and dig!"
+	"diamond_desc" : "Shutup and dig!",
+	"penetration_rune" : "Penetration Rune",
+	"penetration_rune_desc" : "Multiple"
 }

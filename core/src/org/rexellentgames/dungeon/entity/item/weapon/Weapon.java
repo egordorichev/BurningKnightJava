@@ -96,7 +96,7 @@ public class Weapon extends WeaponBase {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature && entity != this.owner) {
-			if (this.used && !this.penetrates) {
+			if (this.used && (!this.penetrates && !this.owner.penetrates)) {
 				return;
 			}
 
@@ -175,7 +175,7 @@ public class Weapon extends WeaponBase {
 			this.modifier.apply(builder);
 		}
 
-		if (this.penetrates) {
+		if (this.penetrates || this.owner.penetrates) {
 			builder.append("\n[green]Can hit multiple targets[gray]");
 		}
 

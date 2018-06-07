@@ -87,7 +87,7 @@ public class BulletEntity extends Entity {
 				fx.crit = true;
 			}
 
-			this.remove = !this.penetrates;
+			this.remove = (!this.penetrates && !this.owner.penetrates);
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
 
