@@ -319,6 +319,7 @@ public class Sword extends Weapon {
 
 	@Override
 	public void secondUse() {
+		/*
 		if (this.body != null || this.blockT > 0 || this.delay > 0) {
 			return;
 		}
@@ -341,6 +342,6 @@ public class Sword extends Weapon {
 				oy = value;
 				ox = value;
 			}
-		});
+		});*/
 	}
 }

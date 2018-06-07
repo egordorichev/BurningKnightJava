@@ -14,6 +14,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
+import org.rexellentgames.dungeon.entity.item.weapon.yoyo.Yoyo;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.Slab;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
@@ -109,6 +110,10 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if (a instanceof PetEntity && (b instanceof Creature || b instanceof Door || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
 			contact.setEnabled(false);
 		} else if (b instanceof PetEntity && (a instanceof Creature || a instanceof Door || a instanceof SolidProp || (a instanceof ItemHolder && !(((ItemHolder) a).getItem() instanceof Gold)))) {
+			contact.setEnabled(false);
+		} else if (a instanceof Yoyo && b instanceof ItemHolder) {
+			contact.setEnabled(false);
+		} else if (b instanceof Yoyo && a instanceof ItemHolder) {
 			contact.setEnabled(false);
 		}
 	}

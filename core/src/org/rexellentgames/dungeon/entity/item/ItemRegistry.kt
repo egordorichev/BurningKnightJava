@@ -69,6 +69,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberB
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberC
 import org.rexellentgames.dungeon.entity.item.weapon.sword.starwars.LightsaberD
+import org.rexellentgames.dungeon.entity.item.weapon.yoyo.YoyoA
 
 object ItemRegistry {
     val items = mapOf(
@@ -192,23 +193,24 @@ object ItemRegistry {
 		"pico8" to Pico8::class,
 		"libgdx" to LibGDX::class,
 		"magic_shield" to MagicShield::class,
-        "cobalt_shield" to CobaltShield::class,
-        "cross" to Cross::class,
-        "spectacles" to Spectacles::class,
+    "cobalt_shield" to CobaltShield::class,
+    "cross" to Cross::class,
+    "spectacles" to Spectacles::class,
 		"diamond" to Diamond::class,
-        "penetration_rune" to PenetrationRune::class,
-        "map" to Map::class,
-        "map_greenprints" to MapGreenprints::class,
-        "meetboy_axe" to MeetboyAxe::class,
-        "star" to Star::class,
-        "blue_watch" to BlueWatch::class,
-        "stopwatch" to StopWatch::class,
-        "the_eye" to TheEye::class,
-        "lucky_cube" to LuckyCube::class,
-        "fortune_armor" to FortuneArmor::class,
-        "stop_and_play" to StopAndPlay::class,
-        "spear_a" to SpearA::class
+    "penetration_rune" to PenetrationRune::class,
+    "map" to Map::class,
+    "map_greenprints" to MapGreenprints::class,
+    "meetboy_axe" to MeetboyAxe::class,
+    "star" to Star::class,
+    "blue_watch" to BlueWatch::class,
+    "stopwatch" to StopWatch::class,
+    "the_eye" to TheEye::class,
+    "lucky_cube" to LuckyCube::class,
+    "fortune_armor" to FortuneArmor::class,
+    "stop_and_play" to StopAndPlay::class,
+    "spear_a" to SpearA::class,
+		"yoyo_a" to YoyoA::class
 
-        // todo: challange stone, all enemies have a prefix
+    // todo: challange stone, all enemies have a prefix
     )
 }
