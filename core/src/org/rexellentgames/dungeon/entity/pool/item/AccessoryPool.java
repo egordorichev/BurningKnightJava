@@ -7,10 +7,7 @@ import org.rexellentgames.dungeon.entity.item.pet.LibGDX;
 import org.rexellentgames.dungeon.entity.item.pet.Pico8;
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet;
 import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital;
-import org.rexellentgames.dungeon.entity.item.reference.Dendy;
-import org.rexellentgames.dungeon.entity.item.reference.MagicMushroom;
-import org.rexellentgames.dungeon.entity.item.reference.MeetBoy;
-import org.rexellentgames.dungeon.entity.item.reference.Switch;
+import org.rexellentgames.dungeon.entity.item.reference.*;
 import org.rexellentgames.dungeon.entity.pool.Pool;
 
 public class AccessoryPool extends Pool<Item> {
@@ -43,5 +40,6 @@ public class AccessoryPool extends Pool<Item> {
 		add(Spectacles.class, 0.1f);
 		add(CobaltShield.class, 1f);
 		add(MagicShield.class, 1f);
+		add(Diamond.class, 0.5f);
 	}
 }

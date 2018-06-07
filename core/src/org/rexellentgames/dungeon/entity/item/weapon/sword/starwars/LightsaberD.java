@@ -14,8 +14,8 @@ public class LightsaberD extends LightsaberA {
 		timeA = 0.2f;
 		timeB = 0;
 		penetrates = true;
-		tr = 1f;
-		tg = 0;
+		tr = 0;
+		tg = 1f;
 		tb = 0.3f;
 	}
 }

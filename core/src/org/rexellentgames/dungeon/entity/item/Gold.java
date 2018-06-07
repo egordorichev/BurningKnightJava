@@ -1,18 +1,19 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
 public class Gold extends Item {
 	{
-		name = "Gold";
+		name = Locale.get("gold");
 		stackable = true;
 		sprite = "item (coin)";
 		autoPickup = true;
 		useable = false;
-		description = "$$$";
+		description = Locale.get("gold_desc");
 		identified = true;
 	}
 

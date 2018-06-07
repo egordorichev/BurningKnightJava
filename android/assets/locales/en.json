@@ -292,5 +292,9 @@
 	"cross" : "Cross",
 	"cross_desc" : "May the Lord bless you and keep you",
 	"spectacles" : "Spectacles",
-	"spectacles_desc" : "I can see forever!"
+	"spectacles_desc" : "I can see forever!",
+	"gold" : "Gold",
+	"gold_desc" : "$$$",
+	"diamond" : "Diamond",
+	"diamond_desc" : "Shutup and dig!"
 }

@@ -16,6 +16,6 @@ public class LightsaberC extends LightsaberA {
 		penetrates = true;
 		tr = 1f;
 		tg = 0;
-		tb = 0.3f;
+		tb = 0.8f;
 	}
 }

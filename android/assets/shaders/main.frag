@@ -54,9 +54,9 @@ void main() {
         vec3 texColor = vec3(0.0);
 
         if (rand(tm) < 0.7) {
-            texColor = texture2D(u_texture, v_texCoord).rgb;
+            texColor = texture2D(u_texture, vec2(x, y)).rgb;
         } else {
-            texColor = texture2D(u_texture, v_texCoord * vec2(rand(tm), rand(tm * 0.99))).rgb;
+            texColor = texture2D(u_texture, vec2(x, y) * vec2(rand(tm), rand(tm * 0.99))).rgb;
         }
 
         float r = rand(tm * 0.001);
@@ -73,12 +73,12 @@ void main() {
             }
         }
 
-        texColor = texture2D(u_texture, v_texCoord + uv2).rgb;
+        texColor = texture2D(u_texture, vec2(x, y) + uv2).rgb;
         texColor += uv;
 
         realColor = vec4(texColor, 1.0);
     } else {
-        realColor = texture2D(u_texture, v_texCoord);
+        realColor = texture2D(u_texture, vec2(x, y));
     }
 
     vec2 position = v_texCoord - vec2(0.5);
