@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
-	protected float invmax = 0.4f;
+	public float invmax = 0.4f;
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;

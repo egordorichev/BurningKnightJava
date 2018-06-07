@@ -288,5 +288,7 @@
 	"magic_shield" : "Magic shield",
 	"magic_shield_desc" : "Gives 10% to block any damage",
 	"cobalt_shield" : "Cobalt shield",
-	"cobalt_shield_desc" : "Gives immunity to knockback"
+	"cobalt_shield_desc" : "Gives immunity to knockback",
+	"cross" : "Cross",
+	"cross_desc" : "May the Lord bless you and keep you"
 }

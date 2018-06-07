@@ -190,6 +190,7 @@ object ItemRegistry {
 		"pico8" to Pico8::class,
 		"libgdx" to LibGDX::class,
 		"magic_shield" to MagicShield::class,
-        "cobalt_shield" to CobaltShield::class
+        "cobalt_shield" to CobaltShield::class,
+        "cross" to Cross::class
     )
 }
