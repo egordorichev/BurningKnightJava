@@ -25,6 +25,7 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.InvisibilityPotion;
+import org.rexellentgames.dungeon.entity.item.entity.BombEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
@@ -102,6 +103,7 @@ public class Player extends Creature {
 	public boolean fireResist;
 	public boolean poisonResist;
 	public boolean stunResist;
+	public boolean seeSecrets;
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
@@ -474,6 +476,25 @@ public class Player extends Creature {
 			Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 			if (room != null) {
+				if (this.currentRoom != room && this.seeSecrets) {
+					for (Room r : room.connected.keySet()) {
+						if (r.hidden) {
+							for (int x = r.left; x <= r.right; x++) {
+								for (int y = r.top; y <= r.bottom; y++) {
+									if (Dungeon.level.get(x, y) == Terrain.CRACK) {
+										r.hidden = false;
+										BombEntity.make(r);
+										Dungeon.level.set(x, y, Terrain.FLOOR_A);
+
+										Dungeon.level.loadPassable();
+										Dungeon.level.addPhysics();
+									}
+								}
+							}
+						}
+					}
+				}
+
 				this.currentRoom = room;
 
 				for (int x = this.currentRoom.left; x <= this.currentRoom.right; x++) {

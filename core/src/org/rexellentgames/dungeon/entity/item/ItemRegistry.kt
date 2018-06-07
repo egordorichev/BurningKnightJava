@@ -191,6 +191,7 @@ object ItemRegistry {
 		"libgdx" to LibGDX::class,
 		"magic_shield" to MagicShield::class,
         "cobalt_shield" to CobaltShield::class,
-        "cross" to Cross::class
+        "cross" to Cross::class,
+        "spectacles" to Spectacles::class
     )
 }

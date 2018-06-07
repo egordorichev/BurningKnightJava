@@ -16,7 +16,7 @@ public class HealingPotion extends Potion {
 	public void onPickup() {
 		super.onPickup();
 
-		if (!this.identified && Player.instance.getType() == Player.Type.WARRIOR) {
+		if (!this.identified && Player.instance != null && Player.instance.getType() == Player.Type.WARRIOR) {
 			this.identify();
 		}
 	}
@@ -25,7 +25,7 @@ public class HealingPotion extends Potion {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		if (!this.identified && Player.instance.getType() == Player.Type.WARRIOR) {
+		if (!this.identified && Player.instance != null && Player.instance.getType() == Player.Type.WARRIOR) {
 			this.identify();
 		}
 	}
