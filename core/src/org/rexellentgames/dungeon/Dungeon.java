@@ -70,6 +70,7 @@ public class Dungeon extends ApplicationAdapter {
 	private Color background2 = Color.valueOf("#323c39");
 	public static SplashWorker worker;
 	public static float shockTime = 10;
+	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
 	public static boolean flip;
 
@@ -237,6 +238,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Tween.update(dt);
 		shockTime += dt;
+		glitchTime = Math.max(0, glitchTime - dt);
 
 		if (Ui.ui != null) {
 			Ui.ui.update(dt);
@@ -323,6 +325,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.begin();
 
 		shader.setUniformf("shockTime", shockTime);
+		shader.setUniformf("glitchT", glitchTime);
 		shader.setUniformf("shockPos", shockPos);
 		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
 		shader.setUniformf("time", Dungeon.time);

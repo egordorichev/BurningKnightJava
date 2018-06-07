@@ -79,6 +79,7 @@ public class BurningKnight extends Boss {
 		vec = Camera.ui.unproject(vec);
 		vec.y = Display.GAME_HEIGHT - vec.y;
 
+		Dungeon.glitchTime = 0.3f;
 		Dungeon.shockTime = 0;
 		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
 		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;

@@ -40,5 +40,8 @@ public class AccessoryPool extends Pool<Item> {
 		add(ObsidianBoots.class, 1f);
 		add(CampfireInABottle.class, 1f);
 		add(Antidote.class, 1f);
+		add(Spectacles.class, 0.1f);
+		add(CobaltShield.class, 1f);
+		add(MagicShield.class, 1f);
 	}
 }

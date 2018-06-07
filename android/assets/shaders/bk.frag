@@ -21,6 +21,7 @@ void main() {
        clamp(v_texCoord.y + round(sin(time * 2.0 + x)) / (cof.y * 24.0), pos.y, pos.y + size.y)
     );
 
+
     vec4 color = texture2D(u_texture, pos);
 
     color.a = min(color.a, a);
