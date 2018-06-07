@@ -306,5 +306,7 @@
 	"meetboy_axe" : "Cutsaw",
 	"meetboy_axe_desc" : "Bloody awesome!",
 	"star" : "Star",
-	"star_desc": "Rainbow"
+	"star_desc": "Rainbow",
+	"blue_watch" : "Blue watch",
+	"blue_watch_desc" : "Control the time"
 }

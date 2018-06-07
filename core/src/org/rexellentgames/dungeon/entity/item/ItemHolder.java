@@ -91,7 +91,7 @@ public class ItemHolder extends SaveableEntity {
 			this.x = Math.round(this.x);
 			this.y = Math.round(this.y);
 
-			this.z += Math.cos(this.t * 1.7f) / 5f * (this.sz / 2);
+			this.z += Math.cos(this.t * 1.7f) / 5f * (this.sz / 2) * dt * 60f;
 
 			this.z = MathUtils.clamp(0, 5f, this.z);
 

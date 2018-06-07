@@ -64,7 +64,6 @@ public class Plant extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.t += dt;
 
 		if (this.dead) {
 			if (this.growProgress == 1f && !Dungeon.reset && this.broke) {
@@ -122,7 +121,6 @@ public class Plant extends SaveableEntity {
 				this.growProgress = 1;
 			}
 		}
-
 	}
 
 	private float sz = 1f;
@@ -132,7 +130,7 @@ public class Plant extends SaveableEntity {
 		TextureRegion sprite = this.animation.getFrames().get(
 			this.animation == this.getWiltAnimation() ? 0 : (int) Math.floor(this.growProgress * 2)).frame;
 
-		float a = (float) (Math.sin(this.t * 2.5f) * Math.cos(this.t * 1.5f) * 5) * this.sz;
+		float a = (float) (Math.sin(this.t * 2.5f * 2) * Math.cos(this.t * 1.5f * 2) * 5) * this.sz;
 
 		Graphics.render(sprite, this.x + 8,
 			this.y + (16 - sprite.getRegionHeight()) / 2, a, sprite.getRegionWidth() / 2, 0, false, false);
