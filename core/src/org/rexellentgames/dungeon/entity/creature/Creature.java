@@ -61,6 +61,7 @@ public class Creature extends SaveableEntity {
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
+	public float blockChance;
 	protected boolean flying = false;
 
 	public boolean isFlying() {
@@ -284,8 +285,13 @@ public class Creature extends SaveableEntity {
 	}
 
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
-		if (this.falling || this.done || this.dead) {
+		if (this.falling || this.done || this.dead || this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
 			return null;
+		} else if (Random.chance(this.blockChance)) {
+			HpFx fx = new HpFx(this, 0);
+			fx.block = true;
+			Dungeon.area.add(fx);
+			return fx;
 		}
 
 		boolean hurt = false;
@@ -305,10 +311,6 @@ public class Creature extends SaveableEntity {
 				if (from != null) {
 					from.onHit(this);
 				}
-			}
-
-			if (this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
-				return null;
 			}
 
 			this.invt = this.invmax;
