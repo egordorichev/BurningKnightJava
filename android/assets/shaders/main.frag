@@ -81,6 +81,11 @@ void main() {
         realColor = texture2D(u_texture, v_texCoord);
     }
 
+    vec2 position = v_texCoord - vec2(0.5);
+    float len = length(position);
+    float vignette = smoothstep(0.75, 0.75 - 0.45, len);
+    realColor.rgb = mix(realColor.rgb, realColor.rgb * vignette, 0.5);
+
     if (transR < 1.0) {
         float dx = (transPos.x - x) * 1.5;
         float dy = transPos.y - y;
