@@ -17,7 +17,6 @@ import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class RocketEntity extends Entity {
@@ -63,8 +62,8 @@ public class RocketEntity extends Entity {
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
 
-			creature.vel.x += Math.cos(a) * this.knockback;
-			creature.vel.y += Math.sin(a) * this.knockback;
+			creature.vel.x += Math.cos(a) * this.knockback * creature.knockbackMod;
+			creature.vel.y += Math.sin(a) * this.knockback * creature.knockbackMod;
 
 			BloodFx.add(entity, 10);
 			Camera.instance.shake(2);
@@ -91,8 +90,8 @@ public class RocketEntity extends Entity {
 
 					float a = (float) Math.atan2(c.y + c.h / 2 - this.y - 8, c.x + c.w / 2 - this.x - 8);
 
-					c.vel.x += Math.cos(a) * 5000f;
-					c.vel.y += Math.sin(a) * 5000f;
+					c.vel.x += Math.cos(a) * 5000f * c.knockbackMod;
+					c.vel.y += Math.sin(a) * 5000f * c.knockbackMod;
 				}
 			} else if (e instanceof Plant) {
 				Plant c = (Plant) e;

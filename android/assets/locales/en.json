@@ -284,5 +284,9 @@
 	"celeste" : "Strawberry",
 	"celeste_desc" : "I need more",
 	"libgdx" : "LibGDX",
-	"libgdx_desc" : "Best engine"
+	"libgdx_desc" : "Best engine",
+	"magic_shield" : "Magic shield",
+	"magic_shield_desc" : "Gives 10% to block any damage",
+	"cobalt_shield" : "Cobalt shield",
+	"cobalt_shield_desc" : "Gives immunity to knockback"
 }

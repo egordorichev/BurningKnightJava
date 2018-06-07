@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -643,9 +642,6 @@ public class BurningKnight extends Boss {
 								ball.owner = self;
 
 								a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
-
-								self.vel.x += Math.cos(a) * 60f;
-								self.vel.y += Math.sin(a) * 60f;
 
 								Dungeon.area.add(ball);
 							}

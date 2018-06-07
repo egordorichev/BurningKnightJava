@@ -1,15 +1,11 @@
 package org.rexellentgames.dungeon.entity.item.entity;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Clown;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.Explosion;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
@@ -19,7 +15,6 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -100,8 +95,8 @@ public class BombEntity extends Entity {
 
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
-						creature.vel.x += Math.cos(a) * 5000f;
-						creature.vel.y += Math.sin(a) * 5000f;
+						creature.vel.x += Math.cos(a) * 5000f * creature.knockbackMod;
+						creature.vel.y += Math.sin(a) * 5000f * creature.knockbackMod;
 					}
 				} else if (entity instanceof Plant) {
 					Plant creature = (Plant) entity;

@@ -110,8 +110,8 @@ public class Weapon extends WeaponBase {
 			float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
 			double a = Math.atan2(dy, dx);
 
-			creature.vel.x += Math.cos(a) * this.knockback * 50;
-			creature.vel.y += Math.sin(a) * this.knockback * 50;
+			creature.vel.x += Math.cos(a) * this.knockback * 50 * creature.knockbackMod;
+			creature.vel.y += Math.sin(a) * this.knockback * 50 * creature.knockbackMod;
 
 			if (this.isBlocking()) {
 				return;
@@ -151,8 +151,8 @@ public class Weapon extends WeaponBase {
 				float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
 				double a = Math.atan2(dy, dx);
 
-				creature.vel.x += Math.cos(a) * this.knockback * 50;
-				creature.vel.y += Math.sin(a) * this.knockback * 50;
+				creature.vel.x += Math.cos(a) * this.knockback * 50 * creature.knockbackMod;
+				creature.vel.y += Math.sin(a) * this.knockback * 50 * creature.knockbackMod;
 			}
 		}
 	}

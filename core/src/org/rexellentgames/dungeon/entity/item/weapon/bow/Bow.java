@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.entity.item.weapon.bow;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
@@ -29,8 +28,8 @@ public class Bow extends WeaponBase {
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
 		float s = 60f;
 
-		this.owner.vel.x += Math.cos(a) * s;
-		this.owner.vel.y += Math.sin(a) * s;
+		this.owner.vel.x += Math.cos(a) * s * owner.knockbackMod;
+		this.owner.vel.y += Math.sin(a) * s * owner.knockbackMod;
 
 		ArrowEntity arrow = new ArrowEntity();
 

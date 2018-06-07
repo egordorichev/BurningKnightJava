@@ -38,8 +38,8 @@ public class ExplosiveDeathPrefix extends Prefix {
 
 					float a = (float) Math.atan2(creature.y + creature.h / 2 - yy, creature.x + creature.w / 2 - xx);
 
-					creature.vel.x += Math.cos(a) * 5000f;
-					creature.vel.y += Math.sin(a) * 5000f;
+					creature.vel.x += Math.cos(a) * 5000f * creature.knockbackMod;
+					creature.vel.y += Math.sin(a) * 5000f * creature.knockbackMod;
 				}
 			} else if (entity instanceof Plant) {
 				Plant creature = (Plant) entity;

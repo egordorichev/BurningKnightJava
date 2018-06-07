@@ -12,7 +12,6 @@ import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.item.pet.impl.Orbital;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
@@ -92,8 +91,8 @@ public class BulletEntity extends Entity {
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
 
-			creature.vel.x += Math.cos(a) * this.knockback;
-			creature.vel.y += Math.sin(a) * this.knockback;
+			creature.vel.x += Math.cos(a) * this.knockback * creature.knockbackMod;
+			creature.vel.y += Math.sin(a) * this.knockback * creature.knockbackMod;
 
 			BloodFx.add(entity, 10);
 			Camera.instance.shake(2);
