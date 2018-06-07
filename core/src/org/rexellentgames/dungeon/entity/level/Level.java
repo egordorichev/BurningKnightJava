@@ -88,6 +88,14 @@ public abstract class Level extends SaveableEntity {
 		Arrays.fill(explored, true);
 	}
 
+	public void exploreRandom() {
+		for (int i = 0; i < getSIZE(); i++) {
+			if (Random.chance(50)) {
+				explored[i] = true;
+			}
+		}
+	}
+
 	public void setPassable(int x, int y, boolean v) {
 		this.passable[toIndex(x, y)] = v;
 	}

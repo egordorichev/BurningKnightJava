@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.pool.item;
 
+import org.rexellentgames.dungeon.entity.item.Compass;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.*;
 import org.rexellentgames.dungeon.entity.item.pet.Bumbo;
@@ -41,5 +42,6 @@ public class AccessoryPool extends Pool<Item> {
 		add(CobaltShield.class, 1f);
 		add(MagicShield.class, 1f);
 		add(Diamond.class, 0.5f);
+		add(Compass.class, 1f);
 	}
 }

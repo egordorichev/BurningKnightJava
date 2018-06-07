@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.entity.item.accessory.equipable.*
 import org.rexellentgames.dungeon.entity.item.accessory.hat.*
 import org.rexellentgames.dungeon.entity.item.autouse.Backpack
 import org.rexellentgames.dungeon.entity.item.autouse.Map
+import org.rexellentgames.dungeon.entity.item.autouse.MapGreenprints
 import org.rexellentgames.dungeon.entity.item.consumable.food.Bread
 import org.rexellentgames.dungeon.entity.item.consumable.food.Chicken
 import org.rexellentgames.dungeon.entity.item.consumable.plant.Cabbage
@@ -198,7 +199,8 @@ object ItemRegistry {
         "spectacles" to Spectacles::class,
 		"diamond" to Diamond::class,
         "penetration_rune" to PenetrationRune::class,
-        "map" to Map::class
+        "map" to Map::class,
+        "map_greenprints" to MapGreenprints::class
 
         // todo: challange stone, all enemies have a prefix
     )

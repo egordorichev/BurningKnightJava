@@ -7,7 +7,7 @@ public class Guitar extends Sword {
 	{
 		description = Locale.get("guitar_desc");
 		name = Locale.get("guitar");
-		damage = 11;
+		damage = 4;
 		sprite = "item (guitar)";
 		useTime = 0.5f;
 	}

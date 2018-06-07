@@ -300,5 +300,7 @@
 	"penetration_rune" : "Penetration Rune",
 	"penetration_rune_desc" : "Multiple",
 	"map" : "Map",
-	"map_desc" : "The plan"
+	"map_desc" : "The plan",
+	"map_greenprints" : "Map greenprints",
+	"map_greenprints_desc" : "Accurate"
 }

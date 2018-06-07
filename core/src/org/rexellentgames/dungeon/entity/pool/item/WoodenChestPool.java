@@ -10,10 +10,6 @@ public class WoodenChestPool extends Pool<Item> {
 	public static WoodenChestPool instance = new WoodenChestPool();
 
 	public WoodenChestPool() {
-		add(MeetBoy.class, 1f);
-		add(Dendy.class, 1f);
-		add(Switch.class, 1f);
-
 		addFrom(AccessoryPool.instance);
 		addFrom(ShopWeaponPool.instance);
 		addFrom(ShopHatPool.instance);
