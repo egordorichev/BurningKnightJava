@@ -48,5 +48,8 @@ public class AccessoryPool extends Pool<Item> {
 		add(BlueWatch.class, 1f);
 		add(StopWatch.class, 1f);
 		add(TheEye.class, 1f);
+		add(LuckyCube.class, 1f);
+		add(FortuneArmor.class, 1f);
+		add(StopAndPlay.class, 1f);
 	}
 }

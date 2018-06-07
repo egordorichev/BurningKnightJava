@@ -726,19 +726,23 @@ public class Player extends Creature {
 	public boolean drawInvt;
 	public boolean luckDamage;
 	public boolean luckDefense;
+	public boolean pauseMore;
 
 	@Override
 	public float rollDamage() {
+		float v;
+
 		if (luckDamage) {
 			if (Random.chance(60)) {
-				Log.info("luck");
-				return 2;
+				v = 2;
 			} else {
-				return 0.5f;
+				v = 0.5f;
 			}
+		} else {
+			v = super.rollDamage();
 		}
 
-		return super.rollDamage();
+		return (pauseMore && this.vel.len() < 1f) ? v * 1.5f : v;
 	}
 
 	@Override
