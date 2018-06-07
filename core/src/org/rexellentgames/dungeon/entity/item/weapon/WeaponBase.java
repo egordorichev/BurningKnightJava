@@ -155,6 +155,12 @@ public class WeaponBase extends Item {
 		this.t = Random.newFloat(3f);
 	}
 
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		this.t = Random.newFloat(3f);
+	}
+
 	public void endRender() {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);

@@ -29,10 +29,7 @@ import org.rexellentgames.dungeon.entity.item.pet.orbital.JellyOrbital
 import org.rexellentgames.dungeon.entity.item.pet.orbital.VampireOrbital
 import org.rexellentgames.dungeon.entity.item.reference.*
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeC
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD
+import org.rexellentgames.dungeon.entity.item.weapon.axe.*
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowB
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowC
@@ -200,7 +197,8 @@ object ItemRegistry {
 		"diamond" to Diamond::class,
         "penetration_rune" to PenetrationRune::class,
         "map" to Map::class,
-        "map_greenprints" to MapGreenprints::class
+        "map_greenprints" to MapGreenprints::class,
+        "meetboy_axe" to MeetboyAxe::class
 
         // todo: challange stone, all enemies have a prefix
     )
