@@ -201,7 +201,8 @@ object ItemRegistry {
         "meetboy_axe" to MeetboyAxe::class,
         "star" to Star::class,
         "blue_watch" to BlueWatch::class,
-        "stopwatch" to StopWatch::class
+        "stopwatch" to StopWatch::class,
+        "the_eye" to TheEye::class
 
         // todo: challange stone, all enemies have a prefix
     )

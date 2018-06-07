@@ -616,7 +616,7 @@ public class BurningKnight extends Boss {
 
 								ball.ignoreWalls = true;
 								float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
-								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+								ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
 
 								ball.x = self.x + (self.w - 16) / 2;
 								ball.y = self.y + (self.h - 10) / 2;
@@ -634,14 +634,12 @@ public class BurningKnight extends Boss {
 								ball.ignoreWalls = true;
 								float a = (float) (i * Math.PI / 2);
 
-								ball.vel = new Vector2((float) Math.cos(a) * 12f, (float) Math.sin(a) * 12f);
+								ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
 
 								ball.x = self.x + (self.w - 16) / 2;
 								ball.y = self.y + (self.h - 10) / 2;
 								ball.bad = !self.stupid;
 								ball.owner = self;
-
-								a = (float) Math.toRadians(Math.round(Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2)) / 90) * 90);
 
 								Dungeon.area.add(ball);
 							}

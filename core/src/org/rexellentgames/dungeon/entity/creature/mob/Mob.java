@@ -35,6 +35,7 @@ import java.util.ArrayList;
 public class Mob extends Creature {
 	public Point lastSeen;
 	public static float speedMod = 1f;
+	public static float shotSpeedMod = 1f;
 	public Creature target;
 	public static ArrayList<Mob> all = new ArrayList<>();
 	public static ArrayList<Mob> every = new ArrayList<>();
