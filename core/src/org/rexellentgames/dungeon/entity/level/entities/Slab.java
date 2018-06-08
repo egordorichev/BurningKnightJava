@@ -6,7 +6,7 @@ import org.rexellentgames.dungeon.Dungeon;
 public class Slab extends SolidProp {
 	{
 		sprite = "prop (slab A)";
-		collider = new Rectangle(1, 10, 12, 1);
+		collider = new Rectangle(3, 10, 8, 1);
 	}
 
 	private boolean s;

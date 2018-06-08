@@ -8,10 +8,9 @@ import org.rexellentgames.dungeon.util.Random;
 public class SpikedRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
+		super.paint(level);
+
 		byte f = Terrain.randomFloor();
-		
-		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, f);
 
 		if (this.getWidth() > 5 && this.getHeight() > 5) {
 			Painter.fill(level, this, 2, Terrain.LAVA);

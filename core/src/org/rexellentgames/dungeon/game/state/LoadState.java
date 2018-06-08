@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
@@ -105,6 +105,8 @@ public class LoadState extends State {
 
 					Dungeon.level.loadPassable();
 					Dungeon.level.addPhysics();
+
+					MusicManager.play(Dungeon.level.getMusic());
 				} catch (RuntimeException e) {
 					Log.report(e);
 					Thread.currentThread().interrupt();

@@ -1,14 +1,10 @@
 package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.debug.GenerateCommand;
-import org.rexellentgames.dungeon.entity.level.save.SaveManager;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.debug.Console;
@@ -17,12 +13,13 @@ import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.save.SaveManager;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiEntity;
+import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.ui.UiMap;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
@@ -32,7 +29,6 @@ import java.util.ArrayList;
 public class InGameState extends State {
 	private UiInventory inventory;
 	private Console console;
-	private int w;
 	private TextureRegion blood;
 	private float a;
 	private ArrayList<UiEntity> ui;
@@ -117,7 +113,8 @@ public class InGameState extends State {
 
 		if (last >= 1f) {
 			last = 0;
-			if (Boss.all.size() > 1) {
+
+			if (Boss.all.size() > 1 && !BurningKnight.instance.getState().equals("unactive")) {
 				MusicManager.play("Rogue");
 			} else {
 				MusicManager.play(Dungeon.level.getMusic());
