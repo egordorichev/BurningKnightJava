@@ -23,10 +23,7 @@ import org.rexellentgames.dungeon.entity.item.pet.Bumbo
 import org.rexellentgames.dungeon.entity.item.pet.LibGDX
 import org.rexellentgames.dungeon.entity.item.pet.Pico8
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet
-import org.rexellentgames.dungeon.entity.item.pet.orbital.BrokenOrbital
-import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital
-import org.rexellentgames.dungeon.entity.item.pet.orbital.JellyOrbital
-import org.rexellentgames.dungeon.entity.item.pet.orbital.VampireOrbital
+import org.rexellentgames.dungeon.entity.item.pet.orbital.*
 import org.rexellentgames.dungeon.entity.item.reference.*
 import org.rexellentgames.dungeon.entity.item.weapon.Guitar
 import org.rexellentgames.dungeon.entity.item.weapon.axe.*
@@ -213,7 +210,8 @@ object ItemRegistry {
             "spear_a" to SpearA::class,
             "yoyo_a" to YoyoA::class,
             "yoyo_b" to YoyoB::class,
-            "yoyo_c" to YoyoC::class
+            "yoyo_c" to YoyoC::class,
+            "nano_orbital" to NanoOrbital::class
 
             // todo: challange stone, all enemies have a prefix
     )

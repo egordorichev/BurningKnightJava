@@ -5,11 +5,11 @@ import org.rexellentgames.dungeon.entity.item.pet.Pet;
 import org.rexellentgames.dungeon.entity.item.pet.impl.Orbital;
 import org.rexellentgames.dungeon.entity.item.pet.impl.PetEntity;
 
-public class JellyOrbital extends Pet {
+public class NanoOrbital extends Pet {
 	{
-		name = Locale.get("jelly");
-		description = Locale.get("jelly_desc");
-		sprite = "item-jelly";
+		name = Locale.get("nano_orbital");
+		description = Locale.get("nano_orbital_desc");
+		sprite = "item-mini_orbital";
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class JellyOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			sprite = "item-jelly";
+			sprite = "item-mini_orbital";
 		}
 	}
 }

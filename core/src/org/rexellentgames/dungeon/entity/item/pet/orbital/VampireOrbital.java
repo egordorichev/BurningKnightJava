@@ -15,6 +15,7 @@ public class VampireOrbital extends Pet {
 	{
 		name = Locale.get("vampire_orbital");
 		description = Locale.get("vampire_orbital_desc");
+		sprite = "item-vamprite_orbital";
 	}
 
 	@Override

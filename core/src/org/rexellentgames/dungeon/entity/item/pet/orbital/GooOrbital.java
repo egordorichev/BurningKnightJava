@@ -9,6 +9,7 @@ public class GooOrbital extends Pet {
 	{
 		name = Locale.get("goo");
 		description = Locale.get("goo_desc");
+		sprite = "item-goo";
 	}
 
 	@Override

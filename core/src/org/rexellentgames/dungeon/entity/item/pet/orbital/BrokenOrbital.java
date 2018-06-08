@@ -17,6 +17,7 @@ public class BrokenOrbital extends Pet {
 	{
 		name = Locale.get("broken_orbital");
 		description = Locale.get("broken_orbital_desc");
+		sprite = "item-broken_orbital";
 	}
 
 	@Override

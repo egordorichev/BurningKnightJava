@@ -330,5 +330,7 @@
 	"yoyo_b" : "Orange yoyo",
 	"yoyo_b_desc" : "Yo!",
 	"yoyo_c" : "Yellow yoyo",
-	"yoyo_c_desc" : ""
+	"yoyo_c_desc" : "Spin it!",
+	"nano_orbital" : "Nano orb",
+	"nano_orbital_desc" : "Nano technology!"
 }
