@@ -4,8 +4,10 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.level.Level;
+import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Slab;
 import org.rexellentgames.dungeon.entity.level.features.Door;
+import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.pool.room.RegularRoomPool;
 import org.rexellentgames.dungeon.util.geometry.Point;
@@ -31,10 +33,10 @@ public class LampRoom extends RegularRoom {
 
 		Point center = this.getCenter();
 
-		//center.y -= 1;
-		//Painter.set(level, center, Terrain.FLOOR_A);
+		center.y -= 1;
+		Painter.set(level, center, Terrain.FLOOR_A);
 		center.y += 1;
-		//Painter.set(level, center, Terrain.FLOOR_A);
+		Painter.set(level, center, Terrain.FLOOR_A);
 
 		ItemHolder holder = new ItemHolder();
 

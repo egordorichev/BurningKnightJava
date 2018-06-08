@@ -16,12 +16,14 @@ import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 
@@ -51,7 +53,7 @@ public class Sword extends Weapon {
 	}
 
 	private float lastFrame;
-	private ArrayList<Frame> frames = new ArrayList<Frame>();
+	private ArrayList<Frame> frames = new ArrayList<>();
 
 	private static class Frame {
 		float added;
@@ -116,6 +118,7 @@ public class Sword extends Weapon {
 	protected float tg = 1f;
 	protected float tb = 1f;
 
+	private float lastAngle;
 	private float pure;
 
 	public void render(float x, float y, float w, float h, boolean flipped) {
@@ -128,34 +131,17 @@ public class Sword extends Weapon {
 		this.pure = 0;
 
 		if (this.owner != null) {
-			if (this.owner instanceof Player) {
-				float dx = this.owner.x + this.owner.w / 2 - Input.instance.worldMouse.x - 8;
-				float dy = this.owner.y + this.owner.h / 2 - Input.instance.worldMouse.y - 8;
-				float a = (float) Math.toDegrees(Math.atan2(dy, dx));
+			Point aim = this.owner.getAim();
 
-				angle += (flipped ? a : -a);
-				pure = a - 180;
+			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
+			an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+			this.lastAngle = an;
+			float a = (float) Math.toDegrees(this.lastAngle);
 
-				angle = flipped ? angle : 180 - angle;
-			} else if (this.owner instanceof Mob && angle == 0) {
-				Mob mob = (Mob) this.owner;
+			angle += (flipped ? a : -a);
+			pure = a - 180;
 
-				if (mob.target != null && mob.saw && !mob.isDead()) {
-					float dx = this.owner.x + this.owner.w / 2 - mob.target .x - mob.target.w / 2;
-					float dy = this.owner.y + this.owner.h / 2 - mob.target .y - mob.target.h / 2;
-					float a = (float) Math.toDegrees(Math.atan2(dy, dx));
-					pure = a - 180;
-
-					angle += (flipped ? a : -a);
-				} else {
-					angle += (flipped ? 0 : 180);
-				}
-
-				angle = flipped ? angle : 180 - angle;
-			} else {
-				angle += (flipped ? 0 : 180);
-				angle = flipped ? angle : 180 - angle;
-			}
+			angle = flipped ? angle : 180 - angle;
 		}
 
 		TextureRegion sprite = this.getSprite();

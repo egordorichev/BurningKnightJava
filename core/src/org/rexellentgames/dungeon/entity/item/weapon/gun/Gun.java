@@ -44,6 +44,8 @@ public class Gun extends WeaponBase {
 
 	private float closestFraction = 1.0f;
 	private Vector2 last = new Point();
+	private float lastAngle;
+
 	private RayCastCallback callback = new RayCastCallback() {
 		@Override
 		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
@@ -63,6 +65,16 @@ public class Gun extends WeaponBase {
 		}
 	};
 
+	public static float shortAngleDist(float a0, float a1) {
+		float max = (float) (Math.PI*2);
+		float da = (a1 - a0) % max;
+		return 2 * da % max - da;
+	}
+
+	public static float angleLerp(float a0, float a1, float t) {
+		return a0 + shortAngleDist(a0,a1) * t;
+	}
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (!s) {
@@ -76,7 +88,9 @@ public class Gun extends WeaponBase {
 		Point aim = this.owner.getAim();
 
 		float an = this.owner.getAngleTo(aim.x, aim.y);
-		float a = (float) Math.toDegrees(an);
+		an = angleLerp(this.lastAngle, an, 0.15f);
+		this.lastAngle = an;
+		float a = (float) Math.toDegrees(this.lastAngle);
 
 		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.ox, sprite.getRegionHeight() / 2,
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
