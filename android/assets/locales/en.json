@@ -338,5 +338,7 @@
 	"bomb_orbital" : "Flying bomb",
 	"bomb_orbital_desc" : "Kaboom!",
 	"lootpick" : "Lootpick",
-	"lootpick_desc" : "Pss, do you have a key?"
+	"lootpick_desc" : "Pss, do you have a key?",
+	"back_gun" : "Gun inside out",
+	"back_gun_desc" : "Don't kill your self!"
 }

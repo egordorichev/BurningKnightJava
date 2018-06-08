@@ -36,10 +36,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowC
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerA
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC
-import org.rexellentgames.dungeon.entity.item.weapon.gun.CKGun
-import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA
-import org.rexellentgames.dungeon.entity.item.weapon.gun.GunB
-import org.rexellentgames.dungeon.entity.item.weapon.gun.GunC
+import org.rexellentgames.dungeon.entity.item.weapon.gun.*
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletA
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletB
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletC
@@ -214,7 +211,8 @@ object ItemRegistry {
             "nano_orbital" to NanoOrbital::class,
             "ammo_orbital" to AmmoOrbital::class,
             "bomb_orbital" to BombOrbital::class,
-            "lootpick" to Lootpick::class
+            "lootpick" to Lootpick::class,
+            "back_gun" to BackGun::class
 
             // todo: challange stone, all enemies have a prefix
     )
