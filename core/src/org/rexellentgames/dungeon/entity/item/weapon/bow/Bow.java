@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.Arrow;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -104,15 +105,18 @@ public class Bow extends WeaponBase {
 		});
 	}
 
+	private float lastAngle;
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		Point aim = this.owner.getAim();
 
-		TextureRegion s = this.getSprite();
-		float dx = aim.x - this.owner.x - this.owner.w / 2;
-		float dy = aim.y - this.owner.y - this.owner.h / 2;
-		float a = (float) Math.toDegrees(Math.atan2(dy, dx));
+		float an = this.owner.getAngleTo(aim.x, aim.y);
+		an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+		this.lastAngle = an;
+		float a = (float) Math.toDegrees(this.lastAngle);
 
+		TextureRegion s = this.getSprite();
 		this.renderAt(x + w / 2, y + h / 2, a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
 	}
 }

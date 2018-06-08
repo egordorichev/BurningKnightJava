@@ -118,7 +118,7 @@ public class Sword extends Weapon {
 	protected float tg = 1f;
 	protected float tb = 1f;
 
-	private float lastAngle;
+	protected float lastAngle;
 	private float pure;
 
 	public void render(float x, float y, float w, float h, boolean flipped) {

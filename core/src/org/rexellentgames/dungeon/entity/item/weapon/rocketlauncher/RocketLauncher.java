@@ -9,6 +9,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.Rocket;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketEntity;
@@ -19,15 +20,19 @@ public class RocketLauncher extends WeaponBase {
 	private float sx = 1f;
 	private float sy = 1f;
 
+	private float lastAngle;
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		Point aim = this.owner.getAim();
 
-		float a = this.owner.getAngleTo(aim.x, aim.y);
-		float an = (float) Math.toDegrees(a);
-		TextureRegion sprite = this.getSprite();
+		float an = this.owner.getAngleTo(aim.x, aim.y);
+		an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+		this.lastAngle = an;
+		float a = (float) Math.toDegrees(this.lastAngle);
+		TextureRegion sprite = getSprite();
 
-		this.renderAt(x + w / 2, y + (h - sprite.getRegionHeight()) / 2, an, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? -sy : sy);
+		this.renderAt(x + w / 2, y + (h - sprite.getRegionHeight()) / 2, a, 3, sprite.getRegionHeight() / 2, false, false, sx, flipped ? -sy : sy);
 
 		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();

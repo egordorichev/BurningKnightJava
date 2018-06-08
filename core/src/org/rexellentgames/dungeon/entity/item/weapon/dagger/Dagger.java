@@ -1,11 +1,9 @@
 package org.rexellentgames.dungeon.entity.item.weapon.dagger;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
-import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Dagger extends Sword {
 	{
@@ -24,26 +22,15 @@ public class Dagger extends Sword {
 		float angle = 0;
 
 		if (this.owner != null) {
-			if (this.owner instanceof Player) {
-				float dx = this.owner.x + this.owner.w / 2 - Input.instance.worldMouse.x - 8;
-				float dy = this.owner.y + this.owner.h / 2 - Input.instance.worldMouse.y - 8;
-				angle = (float) Math.toDegrees(Math.atan2(dy, dx)) + 90;
-			} else if (this.owner instanceof Mob && this.added == 0) {
-				Mob mob = (Mob) this.owner;
+			Point aim = this.owner.getAim();
 
-				if (mob.target != null && mob.saw && !mob.isDead()) {
-					float dx = this.owner.x + this.owner.w / 2 - mob.target .x - mob.target.w / 2;
-					float dy = this.owner.y + this.owner.h / 2 - mob.target .y - mob.target.h / 2;
-					angle = (float) Math.toDegrees(Math.atan2(dy, dx));
-				} else {
-					angle += (flipped ? 0 : 180);
-				}
+			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI / 2);
+			an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+			this.lastAngle = an;
+			float a = (float) Math.toDegrees(this.lastAngle);
 
-				angle = flipped ? angle : 180 - angle;
-			} else {
-				angle += (flipped ? 0 : 180);
-				angle = flipped ? angle : 180 - angle;
-			}
+			angle += a;
+			// angle = flipped ? angle : 180 - angle;
 		}
 
 		TextureRegion sprite = this.getSprite();

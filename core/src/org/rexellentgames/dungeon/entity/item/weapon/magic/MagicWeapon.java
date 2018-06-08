@@ -7,7 +7,9 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.game.input.Input;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class MagicWeapon extends WeaponBase {
 	protected int damage = 1;
@@ -31,15 +33,21 @@ public class MagicWeapon extends WeaponBase {
 		this.identified = ChangableRegistry.identified.get(this.type);
 	}
 
+	private float lastAngle;
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		float dx = Input.instance.worldMouse.x - this.owner.x - this.owner.w / 2;
-		float dy = Input.instance.worldMouse.y - this.owner.y - this.owner.h / 2;
-		double a = Math.atan2(dy, dx);
+		if (this.owner != null) {
+			Point aim = this.owner.getAim();
+
+			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI / 2);
+			an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+			this.lastAngle = an;
+		}
 
 		TextureRegion s = this.getSprite();
 
-		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(a) - 90, s.getRegionWidth() / 2, 0, false, false);
+		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false);
 	}
 
 	@Override
