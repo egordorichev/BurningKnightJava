@@ -23,7 +23,7 @@ void main() {
     float y = (pos.y - v_texCoord.y) * cof.y;
 
     vec4 c = texture2D(u_texture, v_texCoord.xy);
-    c.a = min(a, c.a) + cof.x * 0.0000001;
+    c.a = min(a, c.a);
 
     if (c.r + c.g + c.b < 0.7) {
         gl_FragColor = c;

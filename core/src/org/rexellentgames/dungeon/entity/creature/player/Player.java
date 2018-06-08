@@ -648,7 +648,7 @@ public class Player extends Creature {
 
 		super.common();
 
-		if (this.animation != null) {
+		if (this.animation != null && !this.freezed) {
 			this.animation.update(dt);
 		}
 
@@ -822,13 +822,22 @@ public class Player extends Creature {
 			shader.end();
 			Graphics.batch.setShader(shader);
 			Graphics.batch.begin();
+		} else if (this.freezed) {
+			Graphics.batch.end();
+			Mob.frozen.begin();
+			Mob.frozen.setUniformf("time", Dungeon.time);
+			Mob.frozen.setUniformf("f", 1f);
+			Mob.frozen.setUniformf("a", this.a);
+			Mob.frozen.end();
+			Graphics.batch.setShader(Mob.frozen);
+			Graphics.batch.begin();
 		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
-		if (shade) {
+		if (shade || this.freezed) {
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();

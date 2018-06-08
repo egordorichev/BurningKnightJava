@@ -1,6 +1,8 @@
 package org.rexellentgames.dungeon.entity.item.weapon.sword;
 
 import org.rexellentgames.dungeon.assets.Locale;
+import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.FreezeBuff;
 
 public class SwordA extends Sword {
 	{
@@ -14,5 +16,13 @@ public class SwordA extends Sword {
 	@Override
 	public String getSfx() {
 		return "sword_2";
+	}
+
+	@Override
+	public void onHit(Creature creature) {
+		super.onHit(creature);
+
+		this.owner.addBuff(new FreezeBuff());
+		creature.addBuff(new FreezeBuff());
 	}
 }

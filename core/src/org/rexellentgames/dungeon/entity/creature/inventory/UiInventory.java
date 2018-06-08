@@ -378,7 +378,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (!this.handled && Player.instance != null && !Player.instance.isDead()) {
+		if (!Player.instance.freezed && !this.handled && Player.instance != null && !Player.instance.isDead()) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
 				Item slot = this.currentSlot;
 

@@ -2,8 +2,10 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Dungeon;
@@ -145,14 +147,13 @@ public class Mob extends Creature {
 	}
 
 	public static ShaderProgram shader;
+	public static ShaderProgram frozen;
 
 	static {
-		String vertexShader;
-		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/outline.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/outline.frag").readString();
-		shader = new ShaderProgram(vertexShader, fragmentShader);
+		shader = new ShaderProgram(Gdx.files.internal("shaders/outline.vert").readString(), Gdx.files.internal("shaders/outline.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+		frozen = new ShaderProgram(Gdx.files.internal("shaders/ice.vert").readString(), Gdx.files.internal("shaders/ice.frag").readString());
+		if (!frozen.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + frozen.getLog());
 	}
 
 	public void renderWithOutline(AnimationData data) {
@@ -161,7 +162,7 @@ public class Mob extends Creature {
 
 			Graphics.batch.end();
 			shader.begin();
-			Mob.shader.setUniformf("u_a", 1f);
+			shader.setUniformf("u_a", 1f);
 			shader.setUniformf("u_color", new Vector3(color.r, color.g, color.b));
 			shader.end();
 			Graphics.batch.setShader(shader);
@@ -180,8 +181,24 @@ public class Mob extends Creature {
 			Graphics.batch.begin();
 		}
 
-		Graphics.batch.setColor(1, 1, 1, this.a);
+		if (this.freezed) {
+			Graphics.batch.end();
+			frozen.begin();
+			frozen.setUniformf("time", Dungeon.time);
+			frozen.setUniformf("f", 1f);
+			frozen.setUniformf("a", this.a);
+			frozen.end();
+			Graphics.batch.setShader(frozen);
+			Graphics.batch.begin();
+		}
+
 		data.render(this.x, this.y, this.flipped);
+
+		if (this.freezed) {
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
 	}
 
 	@Override
