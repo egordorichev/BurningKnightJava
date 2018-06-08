@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class SmileRoom extends RegularRoom {
@@ -10,8 +11,9 @@ public class SmileRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
+		byte fill = Random.chance(50) ? Terrain.CHASM : Terrain.LAVA;
 		byte f = Terrain.randomFloor();
-		Painter.fillEllipse(level, this, 2, Terrain.LAVA);
+		Painter.fillEllipse(level, this, 2, fill);
 		Painter.fillEllipse(level, this, 3, f);
 
 		float w = this.getWidth();
@@ -23,8 +25,7 @@ public class SmileRoom extends RegularRoom {
 		);
 
 		Painter.fill(level, r, f);
-
-		Painter.fill(level, r, 1, Terrain.LAVA);
+		Painter.fill(level, r, 1, fill);
 
 		Painter.fill(level, new Rect(
 			this.left + (int) Math.floor(w / 2) - 1, this.top + (int) Math.floor(h / 2) + 1,

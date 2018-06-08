@@ -19,7 +19,7 @@ public class LampRoom extends RegularRoom {
 
 		do {
 			room = RegularRoomPool.instance.generate();
-		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom || room instanceof MazeRoom);
+		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom || room instanceof MazeRoom || room instanceof BigHoleRoom);
 
 		room.size = this.size;
 		room.left = this.left;
