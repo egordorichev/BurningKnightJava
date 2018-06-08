@@ -20,4 +20,9 @@ public class WeaponAltarRoom extends SpecialRoom {
 		Dungeon.area.add(altar);
 		LevelSave.add(altar);
 	}
+
+	@Override
+	public int getMinWidth() {
+		return 8;
+	}
 }

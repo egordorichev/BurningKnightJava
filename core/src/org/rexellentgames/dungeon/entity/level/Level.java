@@ -640,8 +640,6 @@ public abstract class Level extends SaveableEntity {
 						region.setRegionHeight(16);
 
 						Graphics.render(region, x * 16, y * 16 - 8);
-					} else if (tile == Terrain.CHASM) {
-						Graphics.render(Terrain.chasm, x * 16, y * 16 - 8);
 					}
 
 					if (Terrain.variants[tile] != null) {
@@ -824,35 +822,41 @@ public abstract class Level extends SaveableEntity {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
-				if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
-					byte left = this.get(i - 1);
-					byte right = this.get(i + 1);
-					boolean lg = (left == Terrain.WALL || left == Terrain.CRACK);
-					boolean rg = (right == Terrain.WALL || right == Terrain.CRACK);
+				if (i >= getWidth()) {
+					if ((tile == Terrain.WALL || tile == Terrain.CRACK)) {
+						byte left = this.get(i - 1);
+						byte right = this.get(i + 1);
+						boolean lg = (left == Terrain.WALL || left == Terrain.CRACK);
+						boolean rg = (right == Terrain.WALL || right == Terrain.CRACK);
 
-					byte t = this.get(i - getWidth());
+						byte t = this.get(i - getWidth());
 
-					if (t != Terrain.CRACK && t != Terrain.WALL) {
-						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 16);
+						if (t != Terrain.CRACK && t != Terrain.WALL) {
+							Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 16);
 
-						byte v = this.decor[i];
+							byte v = this.decor[i];
 
-						if (v != 0) {
-							TextureRegion s = Terrain.decor[v - 1];
-							Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 10);
-						}
-
-						if (!lg || !rg) {
-							t = 1;
-
-							if (lg) {
-								t = 0;
-							} else if (rg) {
-								t = 2;
+							if (v != 0) {
+								TextureRegion s = Terrain.decor[v - 1];
+								Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 10);
 							}
 
-							Graphics.render(Terrain.sides[t], x * 16, y * 16 - 16);
+							if (!lg || !rg) {
+								t = 1;
+
+								if (lg) {
+									t = 0;
+								} else if (rg) {
+									t = 2;
+								}
+
+								Graphics.render(Terrain.sides[t], x * 16, y * 16 - 16);
+							}
 						}
+					} else if (tile == Terrain.CHASM && this.get(i + getWidth()) != Terrain.CHASM) {
+						Graphics.batch.setColor(0.7f, 0.7f, 0.7f, 1);
+						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 8);
+						Graphics.batch.setColor(1, 1, 1, 1);
 					}
 				}
 			}
@@ -1023,15 +1027,24 @@ public abstract class Level extends SaveableEntity {
 		this.body = World.removeBody(this.body);
 	}
 
+	private Body chasms;
+
 	public void addPhysics() {
+		Log.physics("Creating level body");
+
 		this.body = World.removeBody(this.body);
+		this.chasms = World.removeBody(this.chasms);
 
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.StaticBody;
 
-		Log.physics("Creating level body");
-
 		this.body = World.world.createBody(def);
+
+		BodyDef cdef = new BodyDef();
+		cdef.type = BodyDef.BodyType.StaticBody;
+		cdef.bullet = true;
+
+		this.chasms = World.world.createBody(cdef);
 
 		for (int x = 0; x < getWidth(); x++) {
 			for (int y = 0; y < getHeight(); y++) {
@@ -1117,6 +1130,91 @@ public abstract class Level extends SaveableEntity {
 						fixture.friction = 0;
 
 						body.createFixture(fixture);
+
+						poly.dispose();
+					}
+				} else if (this.checkFor(x, y, Terrain.HOLE)) {
+					int total = 0;
+
+					for (Vector2 vec : NEIGHBOURS8V) {
+						Vector2 v = new Vector2(x + vec.x, y + vec.y);
+
+						if (this.isValid((int) v.x, (int) v.y) && this.checkFor((int) v.x, (int) v.y, Terrain.HOLE)) {
+							total++;
+						}
+					}
+
+					if (total < 8) {
+						PolygonShape poly = new PolygonShape();
+						int xx = x * 16;
+						int yy = y * 16;
+
+
+						if (this.checkFor(x, y + 1, Terrain.HOLE)) {
+							ArrayList<Vector2> array = new ArrayList<>();
+
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.HOLE));
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.HOLE)) {
+								array.add(new Vector2(xx, yy));
+							} else {
+								array.add(new Vector2(xx, yy + 6));
+								array.add(new Vector2(xx + 6, yy));
+							}
+
+							if (bb || !this.isValid(x + 1, y) || this.checkFor(x + 1, y, Terrain.HOLE)) {
+								array.add(new Vector2(xx + 16, yy));
+							} else {
+								array.add(new Vector2(xx + 16, yy + 4));
+								array.add(new Vector2(xx + 10, yy));
+							}
+
+							array.add(new Vector2(xx, yy + 16));
+							array.add(new Vector2(xx + 16, yy + 16));
+
+							poly.set(array.toArray(new Vector2[]{}));
+						} else {
+							ArrayList<Vector2> array = new ArrayList<>();
+
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.HOLE));
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.HOLE)) {
+								array.add(new Vector2(xx, yy));
+							} else {
+								array.add(new Vector2(xx, yy + 4));
+								array.add(new Vector2(xx + 4, yy));
+							}
+
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.HOLE)) {
+								array.add(new Vector2(xx + 16, yy));
+							} else {
+								array.add(new Vector2(xx + 16, yy + 4));
+								array.add(new Vector2(xx + 12, yy));
+							}
+
+							if (this.checkFor(x - 1, y, Terrain.HOLE)) {
+								array.add(new Vector2(xx, yy + 8));
+							} else {
+								array.add(new Vector2(xx, yy + 4));
+								array.add(new Vector2(xx + 4, yy + 8));
+							}
+
+							if (this.checkFor(x + 1, y, Terrain.HOLE)) {
+								array.add(new Vector2(xx + 16, yy + 8));
+							} else {
+								array.add(new Vector2(xx + 12, yy + 8));
+								array.add(new Vector2(xx + 16, yy + 4));
+							}
+
+							poly.set(array.toArray(new Vector2[]{}));
+						}
+
+						FixtureDef fixture = new FixtureDef();
+
+						fixture.shape = poly;
+						fixture.friction = 0;
+
+						chasms.createFixture(fixture);
 
 						poly.dispose();
 					}

@@ -4,12 +4,8 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.util.MathUtils;
-import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.geometry.Point;
-import org.rexellentgames.dungeon.util.geometry.Rect;
 
-public class LavaLakeRoom extends PatchRoom {
+public class CavyChasmRoom extends PatchRoom {
 	@Override
 	protected float[] getSizeChance() {
 		return new float[]{1, 3, 6};
@@ -17,22 +13,21 @@ public class LavaLakeRoom extends PatchRoom {
 
 	@Override
 	public void paint(Level level) {
+		byte f = Terrain.randomFloor();
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.LAVA);
+		Painter.fill(level, this, 1, Terrain.CHASM);
 
-		float fill = 0.1f + (this.getWidth() * this.getHeight()) / 512f;
+		float fill = 0.4f;
 
-		setupPatch(level, fill, 20, true);
+		setupPatch(level, fill, 5, true);
 		cleanDiagonalEdges();
-
-		byte floor = Terrain.randomFloor();
 
 		for (int i = top + 1; i < bottom; i++) {
 			for (int j = left + 1; j < right; j++) {
 				int in = xyToPatchCoords(j, i);
 
 				if (!this.patch[in]) {
-					level.set(j, i, floor);
+					level.set(j, i, f);
 				}
 			}
 		}
@@ -40,6 +35,5 @@ public class LavaLakeRoom extends PatchRoom {
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
 		}
-
 	}
 }

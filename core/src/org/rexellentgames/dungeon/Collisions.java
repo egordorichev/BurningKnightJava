@@ -4,10 +4,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.fx.GoreFx;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.Gold;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.pet.impl.PetEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
@@ -53,7 +52,11 @@ public class Collisions implements ContactListener, ContactFilter {
 		Object a = contact.getFixtureA().getBody().getUserData();
 		Object b = contact.getFixtureB().getBody().getUserData();
 
-		if (a == null && b instanceof ArrowEntity) {
+		if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Player && ((Player) b).canFly) {
+			contact.setEnabled(false);
+		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Player && ((Player) a).canFly) {
+			contact.setEnabled(false);
+		} else if (a == null && b instanceof ArrowEntity) {
 			((ArrowEntity) b).done = true;
 		} else if (b == null && a instanceof ArrowEntity) {
 			((ArrowEntity) a).done = true;

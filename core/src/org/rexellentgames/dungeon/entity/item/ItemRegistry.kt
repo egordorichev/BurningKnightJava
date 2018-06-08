@@ -219,6 +219,7 @@ object ItemRegistry {
             "luck_rune" to LuckRune::class,
             "stoneheart_rune" to StoneHeartRune::class,
             "rage_rune" to RageRune::class,
-	          "gravity_booster" to GravityBooster::class
+	          "gravity_booster" to GravityBooster::class,
+	          "wings" to Wings::class
     )
 }

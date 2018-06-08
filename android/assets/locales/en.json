@@ -93,7 +93,7 @@
 	"worm_hole_desc" : "Sucks projectiles very well",
 	"key_a" : "Iron Chest Key",
 	"key_a_desc" : "Opens iron chests",
-	"key_b" : "Locked Door Key",
+	"key_b" : "Key",
 	"key_b_desc" : "Opens locked doors",
 	"key_c" : "Exit Door Key",
 	"key_c_desc" : "Opens the level exit",
@@ -354,5 +354,7 @@
 	"rage_rune" : "Rage rune",
 	"rage_rune_desc" : "Doubles damage when under 25% hp",
 	"gravity_booster" : "Gravity booster",
-	"gravity_booster_desc" : "Make them spin faster!"
+	"gravity_booster_desc" : "Make them spin faster!",
+	"wings" : "Wings",
+	"wings_desc" : "I believe I can fly!"
 }

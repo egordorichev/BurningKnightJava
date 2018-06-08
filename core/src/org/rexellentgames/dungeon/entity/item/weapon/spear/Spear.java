@@ -1,11 +1,8 @@
 package org.rexellentgames.dungeon.entity.item.weapon.spear;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.Sword;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Spear extends Sword {

@@ -782,6 +782,8 @@ public class Player extends Creature {
 		return v;
 	}
 
+	public boolean canFly;
+
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
