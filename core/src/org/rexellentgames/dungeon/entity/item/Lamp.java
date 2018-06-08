@@ -69,29 +69,27 @@ public class Lamp extends Item {
 
 		Camera.instance.follow(Player.instance, false);
 
-		if (!this.added && BurningKnight.instance == null && Dungeon.type != Dungeon.Type.INTRO) {
+		if (!this.added  && Dungeon.type != Dungeon.Type.INTRO) {
 			this.added = true;
 
-			BurningKnight knight = new BurningKnight();
+			if (BurningKnight.instance == null) {
+				BurningKnight knight = new BurningKnight();
 
-			Dungeon.area.add(knight);
-			knight.attackTp = true;
-			knight.findStartPoint();
-			knight.become("fadeIn");
+				Dungeon.area.add(knight);
+				knight.attackTp = true;
+				knight.findStartPoint();
+			}
+
+			BurningKnight.instance.become("fadeIn");
 
 			Camera.instance.shake(10);
 
-			knight.dialog = BurningKnight.onLampTake;
-
-			PlayerSave.add(knight);
+			BurningKnight.instance.dialog = BurningKnight.onLampTake;
+			PlayerSave.add(BurningKnight.instance);
 		}
 	}
 
 	private float r;
-
-	public float getRadius() {
-		return this.r;
-	}
 
 	@Override
 	public void init() {

@@ -21,7 +21,6 @@ void main() {
        clamp(v_texCoord.y + round(sin(time * 2.0 + x)) / (cof.y * 24.0), pos.y, pos.y + size.y)
     );
 
-
     vec4 color = texture2D(u_texture, pos);
 
     color.a = min(color.a, a);
@@ -42,5 +41,5 @@ void main() {
     float s = 20.0 * (abs(sin(time * 5.0)) / 2.0 + 0.5);
     sum = sum / s;
 
-    gl_FragColor = vec4(max(abs(cos(time / 1.5)) / 2.0, sum + color.r * abs(cos(time * 3.0)) * 2.0), sum * abs(cos(time * 2.0) / 2.5) + color.g, color.b, color.a);
+    gl_FragColor = vec4(max(abs(cos(time / 1.5 - x * 2.0)) / 2.0, sum + color.r * abs(cos(time * 3.0 - y * 1.5)) * 2.0), sum * abs(cos(time * 2.0) / 2.5) + color.g, color.b, color.a);
 }

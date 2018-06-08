@@ -29,7 +29,12 @@ public class GameSave {
 	public static void load(FileReader reader) {
 		try {
 			byte d = reader.readByte();
-			// Dungeon.depth = d;
+
+			if (Dungeon.notLoaded) {
+				Dungeon.notLoaded = false;
+				Dungeon.depth = d;
+			}
+
 			Log.info("Set dungeon depth to " + Dungeon.depth);
 			ChangableRegistry.load(reader);
 

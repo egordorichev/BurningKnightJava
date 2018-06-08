@@ -398,17 +398,14 @@ public abstract class Level extends SaveableEntity {
 		float dt = Gdx.graphics.getDeltaTime() / 5;
 		Color color = colors[Dungeon.level.uid];
 
+		float sp = dt * 3f;
+
 		for (int i = 0; i < getSIZE(); i++) {
-			float v = this.light[i];
-
-			if (v > 0) {
-				// (BurningKnight.instance == null)
-
-				this.light[i] = MathUtils.clamp(Dungeon.level.addLight && false ? 1f : 0, 1f, v - dt);
-				this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - dt);
-				this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - dt);
-				this.lightB[i] = MathUtils.clamp(color.b, 1f, this.lightB[i] - dt);
-			}
+			// FIXME: looks ugly
+			this.light[i] = MathUtils.clamp(0f, 1f, this.light[i] - sp);
+			this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - sp);
+			this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - sp);
+			this.lightB[i] = MathUtils.clamp(color.b, 1f, this.lightB[i] - sp);
 		}
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
@@ -441,7 +438,6 @@ public abstract class Level extends SaveableEntity {
 
 					if (t < 10) {
 						Graphics.batch.setColor(color);
-
 						Graphics.render(Terrain.dither[9 - t], x * 16, y * 16 - 8, 0, 0, 0, false, false);
 					}
 				}
@@ -855,7 +851,7 @@ public abstract class Level extends SaveableEntity {
 								t = 2;
 							}
 
-							Graphics.render(Terrain.sides[1], x * 16, y * 16 - 16);
+							Graphics.render(Terrain.sides[t], x * 16, y * 16 - 16);
 						}
 					}
 				}

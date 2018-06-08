@@ -38,6 +38,7 @@ import java.io.File;
 public class Dungeon extends ApplicationAdapter {
 	public static ShaderProgram shader;
 
+	public static boolean notLoaded = true;
 	public static Game game;
 	public static int depth;
 	public static float time;
