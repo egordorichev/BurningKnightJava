@@ -213,7 +213,8 @@ object ItemRegistry {
             "bomb_orbital" to BombOrbital::class,
             "lootpick" to Lootpick::class,
             "back_gun" to BackGun::class,
-            "sword_orbital" to SwordOrbital::class
+            "sword_orbital" to SwordOrbital::class,
+            "dew_vial" to DewVial::class
 
             // todo: challange stone, all enemies have a prefix
             // same with items

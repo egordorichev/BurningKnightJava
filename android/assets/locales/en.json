@@ -340,5 +340,9 @@
 	"lootpick" : "Lootpick",
 	"lootpick_desc" : "Pss, do you have a key?",
 	"back_gun" : "Gun inside out",
-	"back_gun_desc" : "Don't kill your self!"
+	"back_gun_desc" : "Don't kill your self!",
+	"sword_orbital" : "Holy sword",
+	"sword_orbital_desc" : "Holy judgment",
+	"dew_vial" : "Dew vial",
+	"dew_vial_desc" : "Gives a chance to heal when\nentering a room with enenimies"
 }

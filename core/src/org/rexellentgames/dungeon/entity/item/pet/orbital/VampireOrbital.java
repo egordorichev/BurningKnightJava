@@ -32,7 +32,7 @@ public class VampireOrbital extends Pet {
 			super.onHit(entity);
 
 			if (entity instanceof BulletEntity || entity instanceof ArrowEntity || entity instanceof Fireball) {
-				if (Random.chance(5)) {
+				if (Random.chance(10)) {
 					this.owner.modifyHp(2, null);
 				}
 			}

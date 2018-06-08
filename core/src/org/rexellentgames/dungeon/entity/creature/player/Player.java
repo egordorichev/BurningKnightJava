@@ -382,6 +382,8 @@ public class Player extends Creature {
 		this.ui = ui;
 	}
 
+	public boolean healOnEnter;
+
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -481,22 +483,29 @@ public class Player extends Creature {
 			Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 			if (room != null) {
-				if (this.currentRoom != room && this.seeSecrets) {
-					for (Room r : room.connected.keySet()) {
-						if (r.hidden) {
-							for (int x = r.left; x <= r.right; x++) {
-								for (int y = r.top; y <= r.bottom; y++) {
-									if (Dungeon.level.get(x, y) == Terrain.CRACK) {
-										r.hidden = false;
-										BombEntity.make(r);
-										Dungeon.level.set(x, y, Terrain.FLOOR_A);
+				if (this.currentRoom != room) {
+					if (this.seeSecrets) {
+						for (Room r : room.connected.keySet()) {
+							if (r.hidden) {
+								for (int x = r.left; x <= r.right; x++) {
+									for (int y = r.top; y <= r.bottom; y++) {
+										if (Dungeon.level.get(x, y) == Terrain.CRACK) {
+											r.hidden = false;
+											BombEntity.make(r);
+											Dungeon.level.set(x, y, Terrain.FLOOR_A);
 
-										Dungeon.level.loadPassable();
-										Dungeon.level.addPhysics();
+											Dungeon.level.loadPassable();
+											Dungeon.level.addPhysics();
+										}
 									}
 								}
 							}
 						}
+					}
+
+
+					if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
+						this.modifyHp(2, null);
 					}
 				}
 
