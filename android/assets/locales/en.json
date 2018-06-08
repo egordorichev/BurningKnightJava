@@ -345,6 +345,8 @@
 	"sword_orbital_desc" : "Holy judgment",
 	"dew_vial" : "Dew vial",
 	"dew_vial_desc" : "Gives a chance to heal when\nentering a room with enenimies",
-	"challenge_rune" : "Challenge Rune",
-	"challenge_rune_desc" : "Extra defense and extra challenge"
+	"challenge_rune" : "Challenge rune",
+	"challenge_rune_desc" : "Extra defense and extra challenge",
+	"luck_rune" : "Luck rune",
+	"luck_rune_desc" : "Fortune and glory, kid!"
 }

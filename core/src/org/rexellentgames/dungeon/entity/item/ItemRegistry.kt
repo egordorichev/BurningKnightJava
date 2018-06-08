@@ -215,9 +215,7 @@ object ItemRegistry {
             "back_gun" to BackGun::class,
             "sword_orbital" to SwordOrbital::class,
             "dew_vial" to DewVial::class,
-            "challenge_rune" to ChallengeRune::class
-
-            // todo: challange stone, all enemies have a prefix
-            // same with items
+            "challenge_rune" to ChallengeRune::class,
+            "luck_rune" to LuckRune::class
     )
 }

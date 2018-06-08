@@ -25,6 +25,7 @@ public class WeaponBase extends Item {
 	protected float timeB = 0.1f;
 	protected float knockback = 10f;
 	protected float critChance = 4f;
+	public static boolean luck;
 
 	public void modifyUseTime(float am) {
 		this.useTime += am;
@@ -152,13 +153,14 @@ public class WeaponBase extends Item {
 	public void init() {
 		super.init();
 
-		this.t = Random.newFloat(3f);
+		this.t = Random.newFloat(10f);
 	}
 
 	@Override
 	public void onPickup() {
 		super.onPickup();
-		this.t = Random.newFloat(3f);
+		this.t = Random.newFloat(10f);
+		this.generateModifier();
 	}
 
 	public void endRender() {
@@ -172,6 +174,12 @@ public class WeaponBase extends Item {
 		super.generate();
 
 		if (Random.chance(50)) {
+			this.generateModifier();
+		}
+	}
+
+	public void generateModifier() {
+		if (this.modifier == null) {
 			this.setModifier(ModifierPool.instance.generate());
 		}
 	}
