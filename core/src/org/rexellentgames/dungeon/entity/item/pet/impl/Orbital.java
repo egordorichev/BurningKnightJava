@@ -53,6 +53,11 @@ public class Orbital extends PetEntity {
 		this.onHit(entity);
 	}
 
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
+	}
+
 	protected void onHit(Entity entity) {
 		if (entity instanceof BulletEntity && ((BulletEntity) entity).bad) {
 			((BulletEntity) entity).remove = true;

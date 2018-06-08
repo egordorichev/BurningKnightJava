@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.pet.orbital;
 
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
@@ -20,7 +19,7 @@ public class VampireOrbital extends Pet {
 
 	@Override
 	public PetEntity create() {
-		return new BrokenOrbital.Impl();
+		return new Impl();
 	}
 
 	public static class Impl extends Orbital {
