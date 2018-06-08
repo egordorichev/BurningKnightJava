@@ -809,7 +809,7 @@ public class Player extends Creature {
 
 		boolean shade = this.drawInvt && this.invtt > 0;
 		TextureRegion region = this.animation.getCurrent().frame;
-		
+
 		if (shade) {
 			Texture texture = region.getTexture();
 

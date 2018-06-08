@@ -352,5 +352,7 @@
 	"stone_heart_rune" : "Stoneheart rune",
 	"stone_heart_rune_desc" : "Doubles defense when under 25% hp",
 	"rage_rune" : "Rage rune",
-	"rage_rune_desc" : "Doubles damage when under 25% hp"
+	"rage_rune_desc" : "Doubles damage when under 25% hp",
+	"gravity_booster" : "Gravity booster",
+	"gravity_booster_desc" : "Make them spin faster!"
 }

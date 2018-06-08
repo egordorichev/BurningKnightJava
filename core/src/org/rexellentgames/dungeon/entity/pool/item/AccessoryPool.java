@@ -61,5 +61,6 @@ public class AccessoryPool extends Pool<Item> {
 		add(LuckRune.class, 1f);
 		add(StoneHeartRune.class, 1f);
 		add(RageRune.class, 1f);
+		add(GravityBooster.class, 1f);
 	}
 }

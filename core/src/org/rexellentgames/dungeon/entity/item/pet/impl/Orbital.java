@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class Orbital extends PetEntity {
 	private static ArrayList<Orbital> all = new ArrayList<>();
+	public static float speed = 1f;
 
 	protected float sx = 1;
 	protected float sy = 1;
@@ -24,7 +25,7 @@ public class Orbital extends PetEntity {
 	}
 
 	private void setPos() {
-		this.a = (float) (((float) id) / ((float) all.size()) * Math.PI * 2 + Dungeon.time / 2f);
+		this.a = (float) (((float) id) / ((float) all.size()) * Math.PI * 2 + Dungeon.time / 2f * speed);
 		float d = 28f + (float) Math.cos(Dungeon.time * 2f) * 4f;
 
 		this.x = this.owner.x + this.owner.w / 2 + (float) Math.cos(a) * d;
