@@ -3678,14 +3678,14 @@ actor-iron-chest-open-00
   orig: 24, 16
   offset: 0, 0
   index: -1
-actor-rolling-spike--00
+actor-rolling-spike-idle-00
   rotate: false
   xy: 1, 196
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-actor-rolling-spike--01
+actor-rolling-spike-idle-01
   rotate: false
   xy: 1, 178
   size: 16, 16
