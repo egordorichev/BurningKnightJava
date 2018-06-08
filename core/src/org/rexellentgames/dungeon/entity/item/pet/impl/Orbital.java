@@ -8,12 +8,12 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.physics.World;
-
 import java.util.ArrayList;
 
 public class Orbital extends PetEntity {
 	private static ArrayList<Orbital> all = new ArrayList<>();
 	public static float speed = 1f;
+	public static float count;
 
 	protected float sx = 1;
 	protected float sy = 1;
@@ -25,7 +25,7 @@ public class Orbital extends PetEntity {
 	}
 
 	private void setPos() {
-		this.a = (float) (((float) id) / ((float) all.size()) * Math.PI * 2 + Dungeon.time / 2f * speed);
+		this.a = (float) (((float) id) / (count) * Math.PI * 2 + Dungeon.time / 2f * speed);
 		float d = 28f + (float) Math.cos(Dungeon.time * 2f) * 4f;
 
 		this.x = this.owner.x + this.owner.w / 2 + (float) Math.cos(a) * d;
@@ -33,6 +33,7 @@ public class Orbital extends PetEntity {
 
 		this.body.setTransform(this.x, this.y, a);
 	}
+
 
 	@Override
 	public void init() {
@@ -78,6 +79,7 @@ public class Orbital extends PetEntity {
 		super.update(dt);
 
 		setPos();
+		count += (all.size() - count) * dt;
 	}
 
 	@Override
