@@ -5,11 +5,10 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.pool.ModifierPool;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.entities.fx.WellFx;
+import org.rexellentgames.dungeon.entity.pool.ModifierPool;
 import org.rexellentgames.dungeon.ui.UiLog;
-import org.rexellentgames.dungeon.util.Random;
 
 public class WeaponAltar extends UsableProp {
 	{
@@ -40,13 +39,9 @@ public class WeaponAltar extends UsableProp {
 			return false;
 		}
 
-		if (Random.chance(75f)) {
-			UiLog.instance.print("[green]Your weapon was blessed!");
-			((WeaponBase) item).setModifier(ModifierPool.instance.generate());
-		} else {
-			UiLog.instance.print("[red]Your weapon shattered and disappeared");
-			Player.instance.getInventory().setSlot(Player.instance.getInventory().active, null);
-		}
+		UiLog.instance.print("[green]Your weapon was blessed!");
+		((WeaponBase) item).setModifier(ModifierPool.instance.generate());
+
 
 		this.used = true;
 

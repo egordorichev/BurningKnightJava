@@ -43,6 +43,7 @@ public class Animation {
 				// this: actor_towelknight 0.ase -- and state dead
 				// into this: actor-towelknight-dead-00
 
+				name = name.replace(".aseprite", "");
 				name = name.replace(".ase", "");
 				name = name.replace('_', '-');
 				name = name.replace(' ', '-');
