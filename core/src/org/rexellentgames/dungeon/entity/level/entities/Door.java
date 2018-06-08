@@ -10,15 +10,14 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.Lamp;
+import org.rexellentgames.dungeon.entity.item.accessory.equipable.Lootpick;
 import org.rexellentgames.dungeon.entity.item.key.Key;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -126,7 +125,12 @@ public class Door extends SaveableEntity {
 			if (this.lock && this.lockable && entity instanceof Player) {
 				Player player = (Player) entity;
 
-				if (player.getInventory().find(this.key)) {
+				if (player.ui.hasEquiped(Lootpick.class)) {
+					this.lock = false;
+					this.animation.setBack(false);
+					this.animation.setPaused(false);
+					this.lockAnim = this.unlock;
+				} else if (player.getInventory().find(this.key)) {
 					Item key = player.getInventory().findItem(this.key);
 					key.setCount(key.getCount() - 1);
 

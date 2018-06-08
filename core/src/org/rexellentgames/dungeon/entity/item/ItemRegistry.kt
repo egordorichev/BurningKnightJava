@@ -212,7 +212,9 @@ object ItemRegistry {
             "yoyo_b" to YoyoB::class,
             "yoyo_c" to YoyoC::class,
             "nano_orbital" to NanoOrbital::class,
-            "ammo_orbital" to AmmoOrbital::class
+            "ammo_orbital" to AmmoOrbital::class,
+            "bomb_orbital" to BombOrbital::class,
+            "lootpick" to Lootpick::class
 
             // todo: challange stone, all enemies have a prefix
     )

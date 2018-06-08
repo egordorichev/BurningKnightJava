@@ -8,6 +8,7 @@ import org.rexellentgames.dungeon.entity.item.pet.Pet;
 import org.rexellentgames.dungeon.entity.item.pet.impl.Orbital;
 import org.rexellentgames.dungeon.entity.item.pet.impl.PetEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class AmmoOrbital extends Pet {
@@ -28,6 +29,13 @@ public class AmmoOrbital extends Pet {
 		}
 
 		private float last;
+
+		@Override
+		public void init() {
+			super.init();
+
+			last = Random.newFloat(3);
+		}
 
 		@Override
 		public void update(float dt) {

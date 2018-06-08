@@ -334,5 +334,9 @@
 	"nano_orbital" : "Nano orb",
 	"nano_orbital_desc" : "Nano technology!",
 	"ammo_orbital" : "Floating bullet",
-	"ammo_orbital_desc" : "Defensive and offensive"
+	"ammo_orbital_desc" : "Defensive and offensive",
+	"bomb_orbital" : "Flying bomb",
+	"bomb_orbital_desc" : "Kaboom!",
+	"lootpick" : "Lootpick",
+	"lootpick_desc" : "Pss, do you have a key?"
 }
