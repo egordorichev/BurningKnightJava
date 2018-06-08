@@ -24,6 +24,12 @@ public class Collisions implements ContactListener, ContactFilter {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
 		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
+		if (a == null && contact.getFixtureA().getBody().isBullet()) {
+			return;
+		} else if (b == null && contact.getFixtureB().getBody().isBullet()) {
+			return;
+		}
+
 		if (a != null) {
 			a.onCollision(b);
 		}

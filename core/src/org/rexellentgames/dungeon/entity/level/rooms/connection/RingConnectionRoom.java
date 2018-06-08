@@ -4,6 +4,7 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.MathUtils;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
@@ -27,7 +28,7 @@ public class RingConnectionRoom extends TunnelRoom {
 		byte floor = Terrain.randomFloor();
 
 		Painter.fill(level, ring.left, ring.top, 3, 3, floor);
-		Painter.fill(level, ring.left + 1, ring.top + 1, 1, 1, Terrain.WALL);
+		Painter.fill(level, ring.left + 1, ring.top + 1, 1, 1, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
 	}
 
 	private Rect connSpace;

@@ -15,4 +15,14 @@ public class SpikedTunnelRoom extends TunnelRoom {
 			door.setType(Door.Type.REGULAR);
 		}
 	}
+
+	@Override
+	public int getMinHeight() {
+		return 5;
+	}
+
+	@Override
+	public int getMinWidth() {
+		return 5;
+	}
 }

@@ -21,7 +21,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(RectFloorRoom.class, 0.3f);
 		add(LineRoom.class, 1);
 		add(BrokeLineRoom.class, 1);
-		add(CollumnRoom.class, 0.5f);
+		add(CollumnRoom.class, 1f);
 		add(CollumnsRoom.class, 1);
 		add(RollingSpikeRoom.class, 3);
 		add(TurretRoom.class, 1);
@@ -30,6 +30,8 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(CircleLineRoom.class, 1);
 		add(LavaLakeRoom.class, 1);
 		add(SmileRoom.class, 0.4f);
-		add(CavyChasmRoom.class, 200f);
+		add(CavyChasmRoom.class, 2f);
+		add(SideChasmsRoom.class, 1f);
+		add(HalfRoomChasm.class, 1f);
 	}
 }

@@ -1025,6 +1025,7 @@ public abstract class Level extends SaveableEntity {
 	public void destroy() {
 		super.destroy();
 		this.body = World.removeBody(this.body);
+		this.chasms = World.removeBody(this.chasms);
 	}
 
 	private Body chasms;

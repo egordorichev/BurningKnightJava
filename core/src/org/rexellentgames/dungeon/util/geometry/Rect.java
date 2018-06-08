@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon.util.geometry;
 import java.util.ArrayList;
 
 public class Rect {
-
 	public int left;
 	public int top;
 	public int right;
