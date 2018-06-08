@@ -45,7 +45,7 @@ public class Terrain {
 		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
 		flags[CRACK] = SOLID | HIGH | BREAKS_LOS;
 		flags[WATER] = PASSABLE;
-		flags[WALL_SIDE] = HOLE;
+		flags[WALL_SIDE] = 0;
 		flags[FLOOR_B] = PASSABLE;
 		flags[FLOOR_C] = PASSABLE;
 		flags[FLOOR_D] = PASSABLE;

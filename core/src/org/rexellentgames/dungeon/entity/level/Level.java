@@ -1162,7 +1162,7 @@ public abstract class Level extends SaveableEntity {
 								array.add(new Vector2(xx + 6, yy));
 							}
 
-							if (bb || !this.isValid(x + 1, y) || this.checkFor(x + 1, y, Terrain.HOLE)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.HOLE)) {
 								array.add(new Vector2(xx + 16, yy));
 							} else {
 								array.add(new Vector2(xx + 16, yy + 4));

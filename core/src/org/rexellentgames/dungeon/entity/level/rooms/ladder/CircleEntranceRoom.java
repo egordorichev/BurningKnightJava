@@ -5,8 +5,6 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Log;
-import org.rexellentgames.dungeon.util.MathUtils;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
@@ -67,32 +65,6 @@ public class CircleEntranceRoom extends EntranceRoom {
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
 		}
-	}
-
-	protected Rect getConnectionSpace() {
-		Point c = getDoorCenter();
-
-		return new Rect((int) c.x, (int) c.y, (int) c.x, (int) c.y);
-	}
-
-	//returns a point equidistant from all doors this room has
-	protected final Point getDoorCenter() {
-		Point doorCenter = new Point(0, 0);
-
-		for (Door door : connected.values()) {
-			doorCenter.x += door.x;
-			doorCenter.y += door.y;
-		}
-
-		int n = this.connected.size();
-
-		Point c = new Point((int) doorCenter.x / n, (int) doorCenter.y / n);
-		if (Random.newFloat() < doorCenter.x % 1) c.x++;
-		if (Random.newFloat() < doorCenter.y % 1) c.y++;
-		c.x = (int) MathUtils.clamp(left + 1, right - 1, c.x);
-		c.y = (int) MathUtils.clamp(top + 1, bottom - 1, c.y);
-
-		return c;
 	}
 
 	@Override

@@ -2,36 +2,15 @@ package org.rexellentgames.dungeon.entity.level.rooms.connection;
 
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.CircleRoom;
-import org.rexellentgames.dungeon.util.Random;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.rexellentgames.dungeon.entity.pool.room.ConnectionRoomPool;
 
 public class ConnectionRoom extends Room {
-	private static ArrayList<Class<? extends ConnectionRoom>> rooms = new ArrayList<Class<? extends ConnectionRoom>>(Arrays.asList(
-		TunnelRoom.class, RingConnectionRoom.class, SpikedTunnelRoom.class,
-		CircleRoom.class
-	));
-
-	private static float[] chances = new float[]{
-		5, 3, 2, 1
-	};
-
 	public static ConnectionRoom create() {
 		if (Dungeon.depth == -1 || Dungeon.depth == 4) {
 			return new TunnelRoom();
 		}
 
-		try {
-			return rooms.get(Random.chances(chances)).newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-
-		return new TunnelRoom();
+		return ConnectionRoomPool.instance.generate();
 	}
 
 	@Override
