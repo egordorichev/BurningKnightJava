@@ -3,9 +3,25 @@ package org.rexellentgames.dungeon.entity.trap;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class FourSideTurret extends Turret {
+	private AnimationData four = animations.get("four");
+	boolean str = true;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		this.four.setFrame(str ? 0 : 1);
+	}
+
+	@Override
+	public void render() {
+		four.render(this.x, this.y, false);
+	}
+
 	@Override
 	protected void send() {
 		for (int i = 0; i < 4; i++) {

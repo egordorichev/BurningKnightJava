@@ -12,6 +12,7 @@ import org.rexellentgames.dungeon.entity.item.weapon.bow.BowB;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowC;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC;
+import org.rexellentgames.dungeon.entity.item.weapon.gun.BackGun;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunA;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunB;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunC;
@@ -52,6 +53,7 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(GunA.class, 1f);
 		add(GunB.class, 1f);
 		add(GunC.class, 1f);
+		add(BackGun.class, 1f);
 		add(IsaacHead.class, 1f);
 		add(StarCannon.class, 1f);
 	}

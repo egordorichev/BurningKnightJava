@@ -15,7 +15,7 @@ public class RotatingTurret extends Turret {
 
 	@Override
 	protected void send() {
-		super.send();
 		this.a += (left ? -Math.PI / 4 : Math.PI / 4);
+		super.send();
 	}
 }

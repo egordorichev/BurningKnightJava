@@ -6,13 +6,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
@@ -24,12 +25,15 @@ public class RollingSpike extends SaveableEntity {
 		alwaysActive = true;
 	}
 
+	private static AnimationData animations = Animation.make("actor-rolling-spike").get("idle");
 	private Body body;
-	private TextureRegion region = Graphics.getTexture("item (missing)");
+	private TextureRegion region;
 
 	@Override
 	public void init() {
 		super.init();
+
+		region = animations.getFrames().get(Random.newInt(animations.getFrames().size())).frame;
 
 		body = World.createCircleBody(this, 0, 0, 8, BodyDef.BodyType.DynamicBody, false);
 

@@ -19,6 +19,7 @@ public class Explosion extends Entity {
 	public Explosion(float x, float y) {
 		this.x = x;
 		this.y = y;
+		this.alwaysActive = true;
 	}
 
 	@Override

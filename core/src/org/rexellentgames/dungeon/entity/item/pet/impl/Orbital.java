@@ -8,7 +8,6 @@ import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
 
 import java.util.ArrayList;
 
@@ -38,7 +37,10 @@ public class Orbital extends PetEntity {
 	public void init() {
 		super.init();
 
-		body = World.createCircleCentredBody(this, 0f, 0f, Math.max(region.getRegionWidth(), region.getRegionHeight()) / 2f, BodyDef.BodyType.DynamicBody, true);
+		this.w = this.region.getRegionWidth();
+		this.h = this.region.getRegionHeight();
+
+		body = World.createCircleCentredBody(this, 0f, 0f, Math.min(region.getRegionWidth(), region.getRegionHeight()) / 2f, BodyDef.BodyType.DynamicBody, true);
 		all.add(this);
 
 		readIndex();
@@ -51,8 +53,13 @@ public class Orbital extends PetEntity {
 		this.onHit(entity);
 	}
 
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
+	}
+
 	protected void onHit(Entity entity) {
-		if (entity instanceof BulletEntity) {
+		if (entity instanceof BulletEntity && ((BulletEntity) entity).bad) {
 			((BulletEntity) entity).remove = true;
 		} else if (entity instanceof Fireball) {
 			((Fireball) entity).delete();

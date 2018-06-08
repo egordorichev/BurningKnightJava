@@ -7,11 +7,39 @@ import org.rexellentgames.dungeon.util.Tween;
 
 public class MusicManager {
 	private static Music current;
+	private static boolean important;
 	private static String last = "";
 
-	public static void play(String name) {
-		if (last.equals(name)) {
+	public static void highPriority(String name) {
+		Music music = Graphics.getMusic(name);
+
+		if (music == null) {
+			Log.error("Music '" + name + "' is not found");
 			return;
+		}
+
+		fadeOut();
+
+		music.setLooping(false);
+		music.setVolume(Settings.music);
+		music.play();
+
+		current = music;
+		last = name;
+		important = true;
+	}
+
+	public static void play(String name) {
+		if (name == null || last.equals(name)) {
+			return;
+		}
+
+		if (important) {
+			if (!current.isPlaying()) {
+				important = false;
+			} else {
+				return;
+			}
 		}
 
 		Music music = Graphics.getMusic(name);
@@ -25,7 +53,7 @@ public class MusicManager {
 		music.setVolume(0);
 		music.play();
 
-		Tween.to(new Tween.Task(Settings.music, 3f) {
+		Tween.to(new Tween.Task(Settings.music, 1f) {
 			@Override
 			public float getValue() {
 				return music.getVolume();
@@ -37,10 +65,17 @@ public class MusicManager {
 			}
 		});
 
+		fadeOut();
+
+		current = music;
+		last = name;
+	}
+
+	private static void fadeOut() {
 		if (current != null) {
 			final Music last = current;
 
-			Tween.to(new Tween.Task(0, 3f) {
+			Tween.to(new Tween.Task(0, 1f) {
 				@Override
 				public float getValue() {
 					return last.getVolume();
@@ -52,9 +87,6 @@ public class MusicManager {
 				}
 			});
 		}
-
-		current = music;
-		last = name;
 	}
 
 	public static void update() {

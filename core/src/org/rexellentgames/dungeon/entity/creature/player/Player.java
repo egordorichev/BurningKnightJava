@@ -216,6 +216,8 @@ public class Player extends Creature {
 		setSkin("");
 	}
 
+	public boolean lowHealthDefense;
+
 	public void setSkin(String add) {
 		Animation animations;
 
@@ -382,6 +384,8 @@ public class Player extends Creature {
 		this.ui = ui;
 	}
 
+	public boolean healOnEnter;
+
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -481,22 +485,29 @@ public class Player extends Creature {
 			Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 			if (room != null) {
-				if (this.currentRoom != room && this.seeSecrets) {
-					for (Room r : room.connected.keySet()) {
-						if (r.hidden) {
-							for (int x = r.left; x <= r.right; x++) {
-								for (int y = r.top; y <= r.bottom; y++) {
-									if (Dungeon.level.get(x, y) == Terrain.CRACK) {
-										r.hidden = false;
-										BombEntity.make(r);
-										Dungeon.level.set(x, y, Terrain.FLOOR_A);
+				if (this.currentRoom != room) {
+					if (this.seeSecrets) {
+						for (Room r : room.connected.keySet()) {
+							if (r.hidden) {
+								for (int x = r.left; x <= r.right; x++) {
+									for (int y = r.top; y <= r.bottom; y++) {
+										if (Dungeon.level.get(x, y) == Terrain.CRACK) {
+											r.hidden = false;
+											BombEntity.make(r);
+											Dungeon.level.set(x, y, Terrain.FLOOR_A);
 
-										Dungeon.level.loadPassable();
-										Dungeon.level.addPhysics();
+											Dungeon.level.loadPassable();
+											Dungeon.level.addPhysics();
+										}
 									}
 								}
 							}
 						}
+					}
+
+
+					if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
+						this.modifyHp(2, null);
 					}
 				}
 
@@ -727,6 +738,7 @@ public class Player extends Creature {
 	public boolean luckDamage;
 	public boolean luckDefense;
 	public boolean pauseMore;
+	public boolean lowHealthDamage;
 
 	@Override
 	public float rollDamage() {
@@ -742,20 +754,32 @@ public class Player extends Creature {
 			v = super.rollDamage();
 		}
 
+		if (lowHealthDamage && this.hp < this.hpMax / 4) {
+			v *= 2;
+		}
+
 		return (pauseMore && this.vel.len() < 1f) ? v * 1.5f : v;
 	}
 
 	@Override
 	public float rollDefense() {
+		float v;
+
 		if (luckDefense) {
 			if (Random.chance(60)) {
-				return 2;
+				v = 2;
 			} else {
-				return 0.5f;
+				v = 0.5f;
 			}
+		} else {
+			v = super.rollDefense();
 		}
 
-		return super.rollDefense();
+		if (lowHealthDefense && this.hp < this.hpMax / 4) {
+			v *= 2;
+		}
+
+		return v;
 	}
 
 	@Override

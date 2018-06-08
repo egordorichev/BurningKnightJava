@@ -793,7 +793,7 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					Graphics.batch.setShader(null);
 					Graphics.batch.begin();
-				} else if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.WALL)) {
+				} else if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
 					byte t = this.get(i - getWidth());
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {

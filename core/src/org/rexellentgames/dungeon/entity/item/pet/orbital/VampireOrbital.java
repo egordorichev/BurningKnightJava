@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.pet.orbital;
 
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.fx.Fireball;
@@ -15,11 +14,12 @@ public class VampireOrbital extends Pet {
 	{
 		name = Locale.get("vampire_orbital");
 		description = Locale.get("vampire_orbital_desc");
+		sprite = "item-vamprite_orbital";
 	}
 
 	@Override
 	public PetEntity create() {
-		return new BrokenOrbital.Impl();
+		return new Impl();
 	}
 
 	public static class Impl extends Orbital {
@@ -32,7 +32,7 @@ public class VampireOrbital extends Pet {
 			super.onHit(entity);
 
 			if (entity instanceof BulletEntity || entity instanceof ArrowEntity || entity instanceof Fireball) {
-				if (Random.chance(5)) {
+				if (Random.chance(10)) {
 					this.owner.modifyHp(2, null);
 				}
 			}

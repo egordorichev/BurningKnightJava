@@ -7,7 +7,7 @@ import org.rexellentgames.dungeon.entity.item.pet.Bumbo;
 import org.rexellentgames.dungeon.entity.item.pet.LibGDX;
 import org.rexellentgames.dungeon.entity.item.pet.Pico8;
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet;
-import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital;
+import org.rexellentgames.dungeon.entity.item.pet.orbital.*;
 import org.rexellentgames.dungeon.entity.item.reference.*;
 import org.rexellentgames.dungeon.entity.pool.Pool;
 
@@ -34,6 +34,10 @@ public class AccessoryPool extends Pool<Item> {
 		add(Bumbo.class, 0.5f);
 		add(GooOrbital.class, 1f);
 		add(VampireRing.class, 1f);
+		add(VampireOrbital.class, 1f);
+		add(NanoOrbital.class, 1f);
+		add(AmmoOrbital.class, 1f);
+		add(BombOrbital.class, 1f);
 		add(FireExtinguisher.class, 1f);
 		add(ObsidianBoots.class, 1f);
 		add(CampfireInABottle.class, 1f);
@@ -51,5 +55,11 @@ public class AccessoryPool extends Pool<Item> {
 		add(LuckyCube.class, 1f);
 		add(FortuneArmor.class, 1f);
 		add(StopAndPlay.class, 1f);
+		add(SwordOrbital.class, 1f);
+		add(DewVial.class, 1f);
+		add(ChallengeRune.class, 1f);
+		add(LuckRune.class, 1f);
+		add(StoneHeartRune.class, 1f);
+		add(RageRune.class, 1f);
 	}
 }

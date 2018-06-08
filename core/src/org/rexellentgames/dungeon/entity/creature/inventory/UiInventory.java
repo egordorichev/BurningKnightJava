@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
@@ -298,72 +299,77 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
-			this.active = (this.active + Input.instance.getAmount()) % 6;
+		Item item = this.inventory.getSlot(this.active);
+		if (!(item instanceof WeaponBase && item.getDelay() > 0)) {
 
-			if (this.active == -1) {
+			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
+				this.active = (this.active + Input.instance.getAmount()) % 6;
+
+				if (this.active == -1) {
+					this.active = 5;
+				}
+
+				this.forceT = 1f;
+			}
+
+			if (Input.instance.wasPressed("prev") && Dialog.active == null) {
+				this.active -= 1;
+				this.forceT = 1f;
+
+				if (this.active == -1) {
+					this.active = 5;
+				}
+			}
+
+			if (Input.instance.wasPressed("next") && Dialog.active == null) {
+				this.active = (this.active + 1) % 6;
+				this.forceT = 1f;
+			}
+
+			if (Input.instance.wasPressed("drop_item") && Dialog.active == null) {
+				Item slot = this.inventory.getSlot(this.active);
+
+				if (slot == null) {
+					return;
+				}
+
+				if (slot.isCursed()) {
+					UiLog.instance.print("[red]The item is cursed!");
+				} else {
+					this.drop(slot);
+				}
+			}
+
+
+			if (Input.instance.wasPressed("1")) {
+				this.active = 0;
+				this.forceT = 1f;
+			}
+
+			if (Input.instance.wasPressed("2")) {
+				this.active = 1;
+				this.forceT = 1f;
+			}
+
+			if (Input.instance.wasPressed("3")) {
+				this.active = 2;
+				this.forceT = 1f;
+			}
+
+			if (Input.instance.wasPressed("4")) {
+				this.active = 3;
+				this.forceT = 1f;
+			}
+
+			if (Input.instance.wasPressed("5")) {
+				this.active = 4;
+				this.forceT = 1f;
+			}
+
+			if (Input.instance.wasPressed("6")) {
 				this.active = 5;
+				this.forceT = 1f;
 			}
-
-			this.forceT = 1f;
-		}
-
-		if (Input.instance.wasPressed("prev") && Dialog.active == null) {
-			this.active -= 1;
-			this.forceT = 1f;
-
-			if (this.active == -1) {
-				this.active = 5;
-			}
-		}
-
-		if (Input.instance.wasPressed("next") && Dialog.active == null) {
-			this.active = (this.active + 1) % 6;
-			this.forceT = 1f;
-		}
-
-		if (Input.instance.wasPressed("drop_item") && Dialog.active == null) {
-			Item slot = this.inventory.getSlot(this.active);
-
-			if (slot == null) {
-				return;
-			}
-
-			if (slot.isCursed()) {
-				UiLog.instance.print("[red]The item is cursed!");
-			} else {
-				this.drop(slot);
-			}
-		}
-
-		if (Input.instance.wasPressed("1")) {
-			this.active = 0;
-			this.forceT = 1f;
-		}
-
-		if (Input.instance.wasPressed("2")) {
-			this.active = 1;
-			this.forceT = 1f;
-		}
-
-		if (Input.instance.wasPressed("3")) {
-			this.active = 2;
-			this.forceT = 1f;
-		}
-
-		if (Input.instance.wasPressed("4")) {
-			this.active = 3;
-			this.forceT = 1f;
-		}
-
-		if (Input.instance.wasPressed("5")) {
-			this.active = 4;
-			this.forceT = 1f;
-		}
-
-		if (Input.instance.wasPressed("6")) {
-			this.active = 5;
-			this.forceT = 1f;
 		}
 
 		if (Player.instance != null) {

@@ -3,11 +3,12 @@ package org.rexellentgames.dungeon.entity.trap;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.FreezeBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.PoisonBuff;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
+import org.rexellentgames.dungeon.util.Animation;
+import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -17,6 +18,10 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.io.IOException;
 
 public class Turret extends SolidProp {
+	public static Animation animations = Animation.make("actor-turret");
+
+	private AnimationData single = animations.get("single");
+
 	{
 		sprite = "item (missing)";
 		alwaysActive = true;
@@ -65,7 +70,8 @@ public class Turret extends SolidProp {
 
 	@Override
 	public void render() {
-		Graphics.render(region, this.x + region.getRegionWidth() / 2, this.y, 0, region.getRegionWidth() / 2, 0, false, false, sx, sy);
+		single.render(this.x, this.y, false);
+		//Graphics.render(region, this.x + region.getRegionWidth() / 2, this.y, 0, region.getRegionWidth() / 2, 0, false, false, sx, sy);
 	}
 
 	@Override
@@ -81,6 +87,8 @@ public class Turret extends SolidProp {
 				}
 			}
 		}
+
+		this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4)) + 2), 8));
 
 		this.last += dt;
 

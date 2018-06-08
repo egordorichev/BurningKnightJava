@@ -206,8 +206,6 @@ public class Dungeon extends ApplicationAdapter {
 		game.setState(new AssetLoadState());
 
 		area.add(camera);
-
-		MusicManager.play("Gobbeon");
 	}
 
 	public static int lastDepth;

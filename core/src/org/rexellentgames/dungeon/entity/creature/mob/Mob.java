@@ -34,6 +34,7 @@ import java.util.ArrayList;
 
 public class Mob extends Creature {
 	public Point lastSeen;
+	public static boolean challenge;
 	public static float speedMod = 1f;
 	public static float shotSpeedMod = 1f;
 	public Creature target;
@@ -128,13 +129,19 @@ public class Mob extends Creature {
 	public Mob generate() {
 		this.mind = Mind.values()[Random.newInt(Mind.values().length)];
 
-		if (Random.chance(33)) {
+		if (challenge || Random.chance(20)) {
+			this.generatePrefix();
+		}
+
+		return this;
+	}
+
+	public void generatePrefix() {
+		if (this.prefix == null) {
 			this.prefix = PrefixPool.instance.generate();
 			this.prefix.apply(this);
 			this.prefix.onGenerate();
 		}
-
-		return this;
 	}
 
 	public static ShaderProgram shader;
