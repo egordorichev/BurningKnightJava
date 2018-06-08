@@ -40,7 +40,7 @@ public class Orbital extends PetEntity {
 		this.w = this.region.getRegionWidth();
 		this.h = this.region.getRegionHeight();
 
-		body = World.createCircleCentredBody(this, 0f, 0f, Math.max(region.getRegionWidth(), region.getRegionHeight()) / 2f, BodyDef.BodyType.DynamicBody, true);
+		body = World.createCircleCentredBody(this, 0f, 0f, Math.min(region.getRegionWidth(), region.getRegionHeight()) / 2f, BodyDef.BodyType.DynamicBody, true);
 		all.add(this);
 
 		readIndex();

@@ -55,5 +55,6 @@ public class AccessoryPool extends Pool<Item> {
 		add(LuckyCube.class, 1f);
 		add(FortuneArmor.class, 1f);
 		add(StopAndPlay.class, 1f);
+		add(SwordOrbital.class, 1f);
 	}
 }
