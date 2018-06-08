@@ -37,7 +37,7 @@ public class BulletEntity extends Entity {
 	private boolean rotate;
 	public boolean crit;
 	public Creature owner;
-	private boolean bad;
+	public boolean bad;
 	public static Animation animation = Animation.make("fx-badbullet");
 	public Class<? extends Buff> toApply;
 	public float duration = 1f;

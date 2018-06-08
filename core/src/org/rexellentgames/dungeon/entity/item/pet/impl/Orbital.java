@@ -54,7 +54,7 @@ public class Orbital extends PetEntity {
 	}
 
 	protected void onHit(Entity entity) {
-		if (entity instanceof BulletEntity) {
+		if (entity instanceof BulletEntity && ((BulletEntity) entity).bad) {
 			((BulletEntity) entity).remove = true;
 		} else if (entity instanceof Fireball) {
 			((Fireball) entity).delete();

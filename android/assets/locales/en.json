@@ -332,5 +332,7 @@
 	"yoyo_c" : "Yellow yoyo",
 	"yoyo_c_desc" : "Spin it!",
 	"nano_orbital" : "Nano orb",
-	"nano_orbital_desc" : "Nano technology!"
+	"nano_orbital_desc" : "Nano technology!",
+	"ammo_orbital" : "Floating bullet",
+	"ammo_orbital_desc" : "Defensive and offensive"
 }

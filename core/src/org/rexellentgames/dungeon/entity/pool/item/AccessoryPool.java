@@ -7,6 +7,7 @@ import org.rexellentgames.dungeon.entity.item.pet.Bumbo;
 import org.rexellentgames.dungeon.entity.item.pet.LibGDX;
 import org.rexellentgames.dungeon.entity.item.pet.Pico8;
 import org.rexellentgames.dungeon.entity.item.pet.StrawberryPet;
+import org.rexellentgames.dungeon.entity.item.pet.orbital.AmmoOrbital;
 import org.rexellentgames.dungeon.entity.item.pet.orbital.GooOrbital;
 import org.rexellentgames.dungeon.entity.item.pet.orbital.NanoOrbital;
 import org.rexellentgames.dungeon.entity.item.pet.orbital.VampireOrbital;
@@ -38,6 +39,7 @@ public class AccessoryPool extends Pool<Item> {
 		add(VampireRing.class, 1f);
 		add(VampireOrbital.class, 1f);
 		add(NanoOrbital.class, 1f);
+		add(AmmoOrbital.class, 1f);
 		add(FireExtinguisher.class, 1f);
 		add(ObsidianBoots.class, 1f);
 		add(CampfireInABottle.class, 1f);
