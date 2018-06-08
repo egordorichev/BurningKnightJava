@@ -17,12 +17,4 @@ public class SwordA extends Sword {
 	public String getSfx() {
 		return "sword_2";
 	}
-
-	@Override
-	public void onHit(Creature creature) {
-		super.onHit(creature);
-
-		this.owner.addBuff(new FreezeBuff());
-		creature.addBuff(new FreezeBuff());
-	}
 }

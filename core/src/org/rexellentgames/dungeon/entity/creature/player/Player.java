@@ -809,7 +809,7 @@ public class Player extends Creature {
 
 		boolean shade = this.drawInvt && this.invtt > 0;
 		TextureRegion region = this.animation.getCurrent().frame;
-
+		
 		if (shade) {
 			Texture texture = region.getTexture();
 
@@ -822,22 +822,28 @@ public class Player extends Creature {
 			shader.end();
 			Graphics.batch.setShader(shader);
 			Graphics.batch.begin();
-		} else if (this.freezed) {
+		} else if (this.fa > 0) {
 			Graphics.batch.end();
 			Mob.frozen.begin();
 			Mob.frozen.setUniformf("time", Dungeon.time);
-			Mob.frozen.setUniformf("f", 1f);
+			Mob.frozen.setUniformf("f", this.fa);
 			Mob.frozen.setUniformf("a", this.a);
 			Mob.frozen.end();
 			Graphics.batch.setShader(Mob.frozen);
 			Graphics.batch.begin();
 		}
 
+		if (this.freezed) {
+			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+		} else {
+			this.fa += (0 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+		}
+
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
-		if (shade || this.freezed) {
+		if (shade || this.fa > 0) {
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
@@ -850,6 +856,8 @@ public class Player extends Creature {
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
 	}
+
+	private float fa;
 
 	@Override
 	public void renderShadow() {

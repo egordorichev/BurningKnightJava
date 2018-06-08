@@ -181,11 +181,11 @@ public class Mob extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (this.freezed) {
+		if (this.fa > 0) {
 			Graphics.batch.end();
 			frozen.begin();
 			frozen.setUniformf("time", Dungeon.time);
-			frozen.setUniformf("f", 1f);
+			frozen.setUniformf("f", this.fa);
 			frozen.setUniformf("a", this.a);
 			frozen.end();
 			Graphics.batch.setShader(frozen);
@@ -195,11 +195,19 @@ public class Mob extends Creature {
 		data.render(this.x, this.y, this.flipped);
 
 		if (this.freezed) {
+			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+		} else {
+			this.fa += (0 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+		}
+
+		if (this.fa > 0) {
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
 		}
 	}
+
+	private float fa;
 
 	@Override
 	public void load(FileReader reader) throws IOException {
