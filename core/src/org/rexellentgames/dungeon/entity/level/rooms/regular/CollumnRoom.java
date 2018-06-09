@@ -10,7 +10,11 @@ public class CollumnRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 3, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
+		if (Random.chance(50)) {
+			Painter.fillEllipse(level, this, 3, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
+		} else {
+			Painter.fill(level, this, 3, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
+		}
 	}
 
 	@Override
