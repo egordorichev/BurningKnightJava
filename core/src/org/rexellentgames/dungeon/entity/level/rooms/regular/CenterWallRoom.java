@@ -19,8 +19,10 @@ public class CenterWallRoom extends RegularRoom {
 		Painter.drawLine(level, new Point(this.left + this.getWidth() / 2 + 2, this.top + this.getHeight() / 2 - 1),
 			new Point(this.left + this.getWidth() / 2 + 2, this.bottom - 1), f);
 
-		Painter.set(level, new Point(this.left + this.getWidth() / 2 - 1, this.top + this.getHeight() / 2 + 1), f);
-		Painter.set(level, new Point(this.left + this.getWidth() / 2 + 1, this.top + this.getHeight() / 2 - 1), f);
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.left + this.getWidth() / 2 - 1, this.top + this.getHeight() / 2 + 1), f);
+			Painter.set(level, new Point(this.left + this.getWidth() / 2 + 1, this.top + this.getHeight() / 2 - 1), f);
+		}
 	}
 
 	@Override
