@@ -58,9 +58,9 @@ public class Collisions implements ContactListener, ContactFilter {
 		Object a = contact.getFixtureA().getBody().getUserData();
 		Object b = contact.getFixtureB().getBody().getUserData();
 
-		if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Player && ((Player) b).canFly) {
+		if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Player && ((Player) b).flying) {
 			contact.setEnabled(false);
-		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Player && ((Player) a).canFly) {
+		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Player && ((Player) a).flying) {
 			contact.setEnabled(false);
 		} else if (a == null && b instanceof ArrowEntity) {
 			((ArrowEntity) b).done = true;

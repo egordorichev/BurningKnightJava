@@ -15,7 +15,7 @@ public class Wings extends Equipable {
 		super.onEquip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).canFly = true;
+			((Player) this.owner).flying = true;
 		}
 	}
 
@@ -24,7 +24,7 @@ public class Wings extends Equipable {
 		super.onUnequip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).canFly = false;
+			((Player) this.owner).flying = false;
 		}
 	}
 }

@@ -21,7 +21,14 @@ public class CrossRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		if (!(p.x == this.left + this.getWidth() / 2 && p.y == this.top) && !(p.x == this.left && p.y == this.top + this.getHeight() / 2)) {
+		if (!(p.x == this.left + this.getWidth() / 2 && p.y == this.top)
+			&& !(p.x == this.left + this.getWidth() / 2 && p.y == this.bottom)
+			&& !(p.x == this.left && p.y == this.top + this.getHeight() / 2)
+			&& !(p.x == this.right && p.y == this.top + this.getHeight() / 2)
+			&& !(p.x == this.left + this.getWidth() / 2 - 1 && p.y == this.top)
+			&& !(p.x == this.left + this.getWidth() / 2 - 1 && p.y == this.bottom)
+			&& !(p.x == this.left && p.y == this.top + this.getHeight() / 2 - 1)
+			&& !(p.x == this.right && p.y == this.top + this.getHeight() / 2 - 1)) {
 			return false;
 		}
 

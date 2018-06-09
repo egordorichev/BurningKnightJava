@@ -3,19 +3,21 @@ package org.rexellentgames.dungeon.entity.level;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Bomb;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.builders.*;
+import org.rexellentgames.dungeon.entity.level.builders.Builder;
+import org.rexellentgames.dungeon.entity.level.builders.CastleBuilder;
+import org.rexellentgames.dungeon.entity.level.builders.LineBuilder;
+import org.rexellentgames.dungeon.entity.level.builders.LoopBuilder;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
-import org.rexellentgames.dungeon.entity.level.painters.HallPainter;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
-import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.LampRoom;
+import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.special.SpecialRoom;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
@@ -45,14 +47,20 @@ public abstract class RegularLevel extends Level {
 		this.build();
 		this.paint();
 
+		Log.info("Done painting");
+
 		ChangableRegistry.generate();
 
 		this.loadPassable();
+
+		Log.info("Spawning entities...");
 
 		this.spawnLevelEntities();
 		this.spawnEntities();
 
 		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0) {
+			Log.info("Adding BK...");
+
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
@@ -71,6 +79,7 @@ public abstract class RegularLevel extends Level {
 			MobPool.instance.initForFloor();
 
 			for (Room room : this.rooms) {
+				// todo: remove from here
 				if (room instanceof RegularRoom) {
 					float weight = Random.newFloat(1f, 2f);
 
