@@ -33,7 +33,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(SideChasmsRoom.class, 1f);
 		add(HalfRoomChasm.class, 1f);
 		add(BigHoleRoom.class, 2f);
-		add(RegularRoom.class, 0.5f);
-		add(CrossRoom.class, 1000f);
+		add(RegularRoom.class, 1f);
+		add(CrossRoom.class, 1f);
 	}
 }
