@@ -26,12 +26,23 @@ public class CenterWallRoom extends RegularRoom {
 	}
 
 	@Override
+	public boolean canConnect(Point p) {
+		if ((p.x == this.left + this.getWidth() / 2 - 2 && p.y == this.bottom)
+			|| (p.x == this.left + this.getWidth() / 2 + 2 && p.y == this.top)) {
+
+			return false;
+		}
+
+		return super.canConnect(p);
+	}
+
+	@Override
 	public int getMinWidth() {
-		return 8;
+		return 10;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 8;
+		return 7;
 	}
 }
