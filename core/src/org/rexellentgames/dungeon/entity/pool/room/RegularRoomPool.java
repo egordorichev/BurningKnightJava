@@ -35,5 +35,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(BigHoleRoom.class, 2f);
 		add(RegularRoom.class, 1f);
 		add(CrossRoom.class, 1f);
+		add(RectCornerRoom.class, 1f);
 	}
 }
