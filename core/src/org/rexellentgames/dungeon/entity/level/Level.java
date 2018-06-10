@@ -854,7 +854,7 @@ public abstract class Level extends SaveableEntity {
 							}
 						}
 					} else if (tile == Terrain.CHASM && this.get(i + getWidth()) != Terrain.CHASM) {
-						Graphics.batch.setColor(0.7f, 0.7f, 0.7f, 1);
+						Graphics.batch.setColor(0.4f, 0.4f, 0.4f, 1);
 						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 8);
 						Graphics.batch.setColor(1, 1, 1, 1);
 					}

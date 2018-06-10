@@ -48,8 +48,6 @@ public class Mob extends Creature {
 	protected State ai;
 	public boolean stupid = false;
 	protected Mind mind;
-	protected boolean hide;
-	protected boolean guard;
 	protected Room start;
 	protected Prefix prefix;
 
