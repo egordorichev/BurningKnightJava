@@ -14,11 +14,11 @@ public class PrefixPool {
 		add(new ExplosiveDeathPrefix(), 1f);
 		add(new HighDodgePrefix(), 1f);
 		add(new KnockbackPrefix(), 1f);
-		add(new MoreCritChance(), 1f);
+		add(new MoreCritChancePrefix(), 1f);
 		add(new MoreInvTimePrefix(), 1f);
 		add(new ImmuneToDebuffsPrefix(), 1f);
 		add(new NoKnockbackPrefix(), 1f);
-		add(new DeathShotPrefix(), 10000f);
+		add(new DeathShotPrefix(), 1f);
 
 		// ideas: greed
 		// unkillable till everyone else is killed

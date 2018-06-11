@@ -17,7 +17,7 @@ public class DeathShotPrefix extends Prefix {
 	@Override
 	public void onDeath(Mob mob) {
 		super.onDeath(mob);
-		
+
 		for (int i = 0; i < 8; i++) {
 			BulletEntity ball = new BulletEntity();
 

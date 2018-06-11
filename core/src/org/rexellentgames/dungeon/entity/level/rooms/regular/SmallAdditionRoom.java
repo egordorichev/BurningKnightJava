@@ -18,10 +18,10 @@ public class SmallAdditionRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		if ((p.x == this.left + this.getWidth() / 2 - 2 && p.y == this.top + 1)
-			|| (p.x == this.left + this.getWidth() / 2 - 2 && p.y == this.top - 1)
-			|| (p.x == this.left + this.getWidth() / 2 + 2 && p.y == this.top + 1)
-			|| (p.x == this.left + this.getWidth() / 2 + 2 && p.y == this.top - 1)) {
+		if ((p.x == this.left + this.getWidth() / 2 - 2 && p.y == this.top)
+			|| (p.x == this.left + this.getWidth() / 2 - 2 && p.y == this.bottom)
+			|| (p.x == this.left + this.getWidth() / 2 + 2 && p.y == this.top)
+			|| (p.x == this.left + this.getWidth() / 2 + 2 && p.y == this.bottom)) {
 
 			return false;
 		}
