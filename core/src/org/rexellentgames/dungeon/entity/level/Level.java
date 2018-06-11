@@ -68,6 +68,7 @@ public abstract class Level extends SaveableEntity {
 	private static int HEIGHT = 36;
 	private static int SIZE = getWidth() * getHeight();
 	public byte[] data;
+	public byte[] liquidData;
 	protected byte[] variants;
 	protected byte[] walls;
 	protected float[] light;
@@ -197,6 +198,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void fill() {
 		this.data = new byte[getSIZE()];
+		this.liquidData = new byte[getSIZE()];
 		this.explored = new boolean[getSIZE()];
 
 		this.initLight();
@@ -571,9 +573,9 @@ public abstract class Level extends SaveableEntity {
 							}
 						}
 					}
-				}
 
-				Graphics.batch.setColor(1, 1, 1, 1);
+					Graphics.batch.setColor(1, 1, 1, 1);
+				}
 
 				// useful passable debug
 
@@ -650,7 +652,7 @@ public abstract class Level extends SaveableEntity {
 
 					if (tile == Terrain.EXIT) {
 						Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
-					} else if (tile != Terrain.WATER && tile != Terrain.LAVA && tile != Terrain.DIRT && Terrain.patterns[tile] != null) {
+					} else if (Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						int w = region.getRegionWidth() / 16;
@@ -682,7 +684,7 @@ public abstract class Level extends SaveableEntity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
-				byte tile = this.get(i);
+				byte tile = this.liquidData[i];
 
 				if (tile == Terrain.WATER) {
 					byte variant = this.variants[i];
@@ -693,12 +695,18 @@ public abstract class Level extends SaveableEntity {
 
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
 
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					int rx = r.getRegionX();
+					int ry = r.getRegionY();
+
+					r.setRegionX(rx + x % 4 * 16);
+					r.setRegionY(ry + y % 4 * 16);
 					r.setRegionHeight(16);
 					r.setRegionWidth(16);
 
 					Texture texture = r.getTexture();
+
+					int rw = texture.getWidth();
+					int rh = texture.getHeight();
 
 					Graphics.batch.end();
 					waterShader.begin();
@@ -709,13 +717,13 @@ public abstract class Level extends SaveableEntity {
 					t.bind(1);
 					waterShader.setUniformi("u_texture2", 1);
 
-					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 
 					texture.bind(0);
 					waterShader.setUniformi("u_texture", 1);
 					waterShader.setUniformf("time", Dungeon.time);
-					waterShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-					waterShader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					waterShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					waterShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
 					waterShader.end();
 					Graphics.batch.setShader(waterShader);
 					Graphics.batch.begin();
@@ -738,12 +746,18 @@ public abstract class Level extends SaveableEntity {
 
 					TextureRegion r = new TextureRegion(Terrain.lavaPattern);
 
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					int rx = r.getRegionX();
+					int ry = r.getRegionY();
+
+					r.setRegionX(rx + x % 4 * 16);
+					r.setRegionY(ry + y % 4 * 16);
 					r.setRegionHeight(16);
 					r.setRegionWidth(16);
 
 					Texture texture = r.getTexture();
+
+					int rw = texture.getWidth();
+					int rh = texture.getHeight();
 
 					Graphics.batch.end();
 					waterShader.begin();
@@ -754,13 +768,13 @@ public abstract class Level extends SaveableEntity {
 					t.bind(1);
 					waterShader.setUniformi("u_texture2", 1);
 
-					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 
 					texture.bind(0);
 					waterShader.setUniformi("u_texture", 1);
 					waterShader.setUniformf("time", Dungeon.time);
-					waterShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-					waterShader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					waterShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					waterShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
 					waterShader.end();
 					Graphics.batch.setShader(waterShader);
 					Graphics.batch.begin();
@@ -783,12 +797,18 @@ public abstract class Level extends SaveableEntity {
 
 					TextureRegion r = new TextureRegion(Terrain.dirtPattern);
 
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					int rx = r.getRegionX();
+					int ry = r.getRegionY();
+
+					r.setRegionX(rx + x % 4 * 16);
+					r.setRegionY(ry + y % 4 * 16);
 					r.setRegionHeight(16);
 					r.setRegionWidth(16);
 
 					Texture texture = r.getTexture();
+
+					int rw = texture.getWidth();
+					int rh = texture.getHeight();
 
 					Graphics.batch.end();
 					maskShader.begin();
@@ -799,11 +819,11 @@ public abstract class Level extends SaveableEntity {
 					t.bind(1);
 					maskShader.setUniformi("u_texture2", 1);
 
-					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 
 					texture.bind(0);
 					maskShader.setUniformi("u_texture", 1);
-					maskShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+					maskShader.setUniformf("pos", new Vector2(16f / rw, 16f / rh));
 					maskShader.end();
 					Graphics.batch.setShader(maskShader);
 					Graphics.batch.begin();
@@ -813,13 +833,17 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					Graphics.batch.setShader(null);
 					Graphics.batch.begin();
-				} else if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
-					byte t = this.get(i - getWidth());
+				} else {
+					tile = this.get(i);
 
-					if (t != Terrain.CRACK && t != Terrain.WALL) {
-						Graphics.startShadows();
-						Graphics.render(Terrain.topVariants[0], x * 16, y * 16 - 1, 0, 0, 0, false, false, 1f, -1f);
-						Graphics.endShadows();
+					if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
+						byte t = this.get(i - getWidth());
+
+						if (t != Terrain.CRACK && t != Terrain.WALL) {
+							Graphics.startShadows();
+							Graphics.render(Terrain.topVariants[0], x * 16, y * 16 - 1, 0, 0, 0, false, false, 1f, -1f);
+							Graphics.endShadows();
+						}
 					}
 				}
 			}
@@ -1019,11 +1043,19 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void set(int i, byte v) {
-		this.data[i] = v;
+		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT) {
+			this.liquidData[i] = v;
+		} else {
+			this.data[i] = v;
+		}
 	}
 
 	public void set(int x, int y, byte v) {
-		this.data[toIndex(x, y)] = v;
+		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT) {
+			this.liquidData[toIndex(x, y)] = v;
+		} else {
+			this.data[toIndex(x, y)] = v;
+		}
 	}
 
 	public byte get(int i) {
@@ -1328,6 +1360,7 @@ public abstract class Level extends SaveableEntity {
 
 		for (int i = 0; i < getSIZE(); i++) {
 			writer.writeByte(this.data[i]);
+			writer.writeByte(this.liquidData[i]);
 			writer.writeByte(this.decor[i]);
 			writer.writeBoolean(this.explored[i]);
 		}
@@ -1377,12 +1410,14 @@ public abstract class Level extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		setSize(reader.readInt32(), reader.readInt32());
 		this.data = new byte[getSIZE()];
+		this.liquidData = new byte[getSIZE()];
 		this.decor = new byte[getSIZE()];
 		this.explored = new boolean[getSIZE()];
 		this.initLight();
 
 		for (int i = 0; i < getSIZE(); i++) {
 			this.data[i] = reader.readByte();
+			this.liquidData[i] = reader.readByte();
 			this.decor[i] = reader.readByte();
 			this.explored[i] = reader.readBoolean();
 		}
