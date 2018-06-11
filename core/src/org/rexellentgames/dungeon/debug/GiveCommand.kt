@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.debug
 
 import org.rexellentgames.dungeon.entity.creature.player.Player
-import org.rexellentgames.dungeon.entity.item.Item
 import org.rexellentgames.dungeon.entity.item.ItemHolder
 import org.rexellentgames.dungeon.entity.item.ItemRegistry
 import org.rexellentgames.dungeon.ui.UiLog
@@ -33,7 +32,7 @@ class GiveCommand : ConsoleCommand() {
 
                 val item = clazz.createInstance()
                 val itemHolder = ItemHolder()
-                itemHolder.item = item as Item
+                itemHolder.item = item
 
                 if (item.isStackable) {
                     item.count = count
