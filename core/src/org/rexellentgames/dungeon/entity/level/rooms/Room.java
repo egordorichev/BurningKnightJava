@@ -310,8 +310,7 @@ public abstract class Room extends Rect implements GraphNode {
 		return new Rect((int) c.x, (int) c.y, (int) c.x, (int) c.y);
 	}
 
-	//returns a point equidistant from all doors this room has
-	protected final Point getDoorCenter() {
+	protected Point getDoorCenter() {
 		Point doorCenter = new Point(0, 0);
 
 		for (Door door : connected.values()) {
