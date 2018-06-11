@@ -32,6 +32,7 @@ public class InGameState extends State {
 	private TextureRegion blood;
 	private float a;
 	private ArrayList<UiEntity> ui;
+	private boolean showFps;
 	public static boolean map = false;
 
 	@Override
@@ -109,6 +110,10 @@ public class InGameState extends State {
 
 		if (Input.instance.wasPressed("reset")) {
 			Dungeon.newGame();
+		}
+		
+		if (Input.instance.wasPressed("show_fps")) {
+			this.showFps = !this.showFps;
 		}
 
 		last += dt;
@@ -190,6 +195,10 @@ public class InGameState extends State {
 		this.console.render();
 		Ui.ui.render();
 		Dungeon.ui.render();
+
+		if (this.showFps && !this.isPaused()) {
+			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 20);
+		}
 	}
 
 	private void setupUi() {
@@ -212,12 +221,9 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						SettingsState.fromGame = true;
-						Dungeon.game.setState(new SettingsState());
-					}
+				transition(() -> {
+					SettingsState.fromGame = true;
+					Dungeon.game.setState(new SettingsState());
 				});
 				Camera.instance.shake(3);
 			}
