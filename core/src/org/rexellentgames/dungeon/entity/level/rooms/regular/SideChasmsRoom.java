@@ -28,9 +28,6 @@ public class SideChasmsRoom extends RegularRoom {
 		return getCenter();
 	}
 
-	// FIXME!
-	// WITH ONE DOOR IS BROKEN
-
 	@Override
 	public int getMinWidth() {
 		return 9;

@@ -141,7 +141,7 @@ public class Mob extends Creature {
 	public Mob generate() {
 		this.mind = Mind.values()[Random.newInt(Mind.values().length)];
 
-		if (challenge || Random.chance(20)) {
+		if (challenge || Random.chance(10)) {
 			this.generatePrefix();
 		}
 

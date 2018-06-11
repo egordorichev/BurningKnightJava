@@ -48,7 +48,7 @@ public class MusicManager {
 			Log.error("Music '" + name + "' is not found");
 			return;
 		}
-
+		
 		music.setLooping(true);
 		music.setVolume(0);
 		music.play();

@@ -13,6 +13,8 @@ public class ModifierPool {
 		add(new SlowModifier(), 1f);
 		add(new StrongModifier(), 1f);
 		add(new BrokenModifier(), 1f);
+		add(new NoChanceModifier(), 1f);
+		add(new CriticalModifier(), 1f);
 	}
 
 	public Modifier getModifier(int id) {

@@ -28,11 +28,26 @@ public class WeaponBase extends Item {
 	public static boolean luck;
 	public int initialDamage;
 	public int initialDamageMin;
+	public float initialCrit;
 
 	public void modifyUseTime(float am) {
 		this.useTime += am;
-		this.timeA += am / 2;
-		this.timeB += am / 2;
+
+		if (this.timeB == 0) {
+			this.timeA += am;
+		} else {
+			this.timeA += am / 2;
+			this.timeB += am / 2;
+		}
+	}
+
+	public void setCritChance(float c) {
+		this.initialCrit = this.critChance;
+		this.critChance = c;
+	}
+
+	public void resetCritChance() {
+		this.critChance = initialCrit;
 	}
 
 	protected boolean lastCrit;
