@@ -19,13 +19,15 @@ import java.io.IOException;
 
 public class WeaponBase extends Item {
 	protected Modifier modifier;
-	protected int damage = 1;
+	public int damage = 1;
 	protected int minDamage = 1;
 	protected float timeA = 0.1f;
 	protected float timeB = 0.1f;
 	protected float knockback = 10f;
 	protected float critChance = 4f;
 	public static boolean luck;
+	public int initialDamage;
+	public int initialDamageMin;
 
 	public void modifyUseTime(float am) {
 		this.useTime += am;
@@ -41,8 +43,16 @@ public class WeaponBase extends Item {
 	}
 
 	public void modifyDamage(int am) {
+		this.initialDamage = damage;
+		this.initialDamageMin = minDamage;
+
 		this.damage += am;
 		this.minDamage += am;
+	}
+
+	public void restoreDamage() {
+		this.damage = initialDamage;
+		this.minDamage = initialDamageMin;
 	}
 
 	public void setModifier(Modifier modifier) {

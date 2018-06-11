@@ -67,8 +67,8 @@ public class Dungeon extends ApplicationAdapter {
 	public static Color YELLOW = Color.valueOf("#fbf236");
 	public static Color BROWN = Color.valueOf("#8f563b");
 	private static int to = 0;
-	private Color background = Color.valueOf("#000000");
-	private Color background2 = Color.valueOf("#323c39");
+	public static Color background = Color.valueOf("#000000");
+	public static Color background2 = Color.valueOf("#323c39");
 	public static SplashWorker worker;
 	public static float shockTime = 10;
 	public static float glitchTime = 0;

@@ -58,7 +58,7 @@ public class Terrain {
 		switch (Random.newInt(3)) {
 			case 0: default: return FLOOR_A;
 			case 1: return FLOOR_B;
-			case 3: return FLOOR_C;
+			case 2: return FLOOR_C;
 		}
 	}
 
@@ -70,6 +70,7 @@ public class Terrain {
 	public static TextureRegion lavaPattern;
 	public static TextureRegion wallPattern;
 	public static TextureRegion crackPattern;
+	public static TextureRegion chasmPattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
 
 	public static TextureRegion[] pooledge = new TextureRegion[15];
@@ -92,8 +93,6 @@ public class Terrain {
 
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
-
-	public static TextureRegion chasm;
 
 	private static int last = -1;
 
@@ -194,7 +193,9 @@ public class Terrain {
 			topVariants[i] = Graphics.getTexture(bm + "-wall " + letters[i / 4] + " " + String.format("%02d", i % 4 + 1));
 		}
 
-		variants[CHASM] = chasmVariants;
+		chasmPattern = Graphics.getTexture("biome-gen-chasm_bg");
+		patterns[CHASM] = chasmPattern;
+
 		// variants[WALL] = wallVariants;
 		// variants[CRACK] = wallVariants;
 		variants[FLOOR_B] = woodVariants;
@@ -204,8 +205,6 @@ public class Terrain {
 		variants[TABLE] = tableVariants;
 		variants[FLOOR_C] = badVariants;
 		variants[FLOOR_D] = goldVariants;
-
-		// chasm = Graphics.getTexture(bm + " (chasmbg)");
 	}
 
 	public static char[] letters = new char[] { 'A', 'B', 'C', 'D' };

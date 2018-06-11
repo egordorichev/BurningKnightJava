@@ -8,7 +8,7 @@ import org.rexellentgames.dungeon.entity.level.painters.Painter;
 
 public class HallLevel extends RegularLevel {
 	public HallLevel() {
-		Terrain.loadTextures(3);
+		Terrain.loadTextures(0);
 
 		this.addLight = Dungeon.depth == 0;
 		this.uid = 0;

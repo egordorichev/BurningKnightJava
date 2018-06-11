@@ -542,12 +542,14 @@ public abstract class Level extends SaveableEntity {
 									int vl = Terrain.wallMapExtra[lv];
 
 									if (vl != -1) {
+										Graphics.batch.setColor(1, 1, 1, getLight(x + (xx == 0 ? -1 : 1), y + yy));
 										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
 									}
 								} else {
 									int vl = Terrain.wallMap[lv];
 
 									if (vl != -1) {
+										Graphics.batch.setColor(1, 1, 1, getLight(x + (xx == 0 ? -1 : 1), y + yy));
 										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
 									}
 								}
@@ -555,6 +557,8 @@ public abstract class Level extends SaveableEntity {
 						}
 					}
 				}
+
+				Graphics.batch.setColor(1, 1, 1, 1);
 
 				// useful passable debug
 
@@ -631,11 +635,14 @@ public abstract class Level extends SaveableEntity {
 
 					if (tile == Terrain.EXIT) {
 						Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
-					} else if (tile != Terrain.WATER && tile != Terrain.LAVA && tile != Terrain.DIRT && tile > 0 && Terrain.patterns[tile] != null) {
+					} else if (tile != Terrain.WATER && tile != Terrain.LAVA && tile != Terrain.DIRT && Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
-						region.setRegionX(region.getRegionX() + x % 4 * 16);
-						region.setRegionY(region.getRegionY() + (3 - y % 4) * 16);
+						int w = region.getRegionWidth() / 16;
+						int h = region.getRegionHeight() / 16;
+
+						region.setRegionX(region.getRegionX() + x % w * 16);
+						region.setRegionY(region.getRegionY() + (h - 1 - y % h) * 16);
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 

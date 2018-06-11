@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.save.SaveManager;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -46,6 +47,8 @@ public class InGameState extends State {
 		World.world.setContactFilter(collisions);
 
 		this.setupUi();
+
+		Dungeon.background = Level.colors[Dungeon.level.uid];
 
 		this.console = new Console();
 

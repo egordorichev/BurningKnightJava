@@ -22,7 +22,6 @@ public class PrefixPool {
 
 		// ideas: greed
 		// unkillable till everyone else is killed
-		// releases shots on death
 	}
 
 	public Prefix getModifier(int id) {
