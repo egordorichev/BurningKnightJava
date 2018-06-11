@@ -5,7 +5,6 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
-import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Dialog;
@@ -17,7 +16,6 @@ public class ItemPickupFx extends Entity {
 	private Player player;
 	private float a;
 	private boolean go;
-
 
 	{
 		depth = 15;

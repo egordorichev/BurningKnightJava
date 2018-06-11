@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -16,7 +15,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
 

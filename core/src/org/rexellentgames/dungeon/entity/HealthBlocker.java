@@ -1,13 +1,9 @@
 package org.rexellentgames.dungeon.entity;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-
-import java.util.ArrayList;
 
 public class HealthBlocker extends Plant {
 	private static Animation animations = Animation.make("veggie", "-heartomato");

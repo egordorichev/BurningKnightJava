@@ -1,14 +1,12 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 public class ChargeFx extends Entity {

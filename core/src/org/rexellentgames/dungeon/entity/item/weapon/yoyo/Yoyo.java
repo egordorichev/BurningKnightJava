@@ -12,7 +12,6 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class Yoyo extends Weapon {

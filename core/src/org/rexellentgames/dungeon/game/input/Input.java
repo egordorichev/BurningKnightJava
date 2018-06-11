@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 

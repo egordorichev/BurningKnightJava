@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;

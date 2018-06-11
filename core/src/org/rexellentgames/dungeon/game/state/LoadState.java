@@ -14,7 +14,6 @@ import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.entity.level.save.SaveManager;
-import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.LevelBanner;
@@ -91,61 +90,58 @@ public class LoadState extends State {
 		Player.all.clear();
 		Mob.all.clear();
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					PlayerSave.all.clear();
-					LevelSave.all.clear();
+		new Thread(() -> {
+			try {
+				PlayerSave.all.clear();
+				LevelSave.all.clear();
 
-					SaveManager.load(SaveManager.Type.GAME);
-					SaveManager.load(SaveManager.Type.LEVEL);
-					SaveManager.load(SaveManager.Type.PLAYER);
+				SaveManager.load(SaveManager.Type.GAME);
+				SaveManager.load(SaveManager.Type.LEVEL);
+				SaveManager.load(SaveManager.Type.PLAYER);
 
-					Dungeon.level.loadPassable();
-					Dungeon.level.addPhysics();
+				Dungeon.level.loadPassable();
+				Dungeon.level.addPhysics();
 
-					MusicManager.play(Dungeon.level.getMusic());
-				} catch (RuntimeException e) {
-					Log.report(e);
-					Thread.currentThread().interrupt();
+				MusicManager.play(Dungeon.level.getMusic());
+			} catch (RuntimeException e) {
+				Log.report(e);
+				Thread.currentThread().interrupt();
 
-					return;
-				}
-
-				if (Player.instance == null) {
-					Log.error("No player!");
-					Dungeon.newGame();
-					return;
-				}
-
-				PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
-
-				Log.info("Loading done!");
-
-				LevelBanner banner = new LevelBanner();
-
-				if (Dungeon.depth == 0) {
-					banner.text = "The beginning";
-				} else {
-					banner.text = Dungeon.level.getName() + " " + Dungeon.level.getDepthAsCoolNum();
-				}
-
-				Dungeon.area.add(banner);
-				
-				if (BurningKnight.instance != null) {
-					BurningKnight.instance.become("unactive");
-				}
-
-				ready = true;
+				return;
 			}
+
+			if (Player.instance == null) {
+				Log.error("No player!");
+				Dungeon.newGame();
+				return;
+			}
+
+			PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
+
+			Log.info("Loading done!");
+
+			LevelBanner banner = new LevelBanner();
+
+			if (Dungeon.depth == 0) {
+				banner.text = "The beginning";
+			} else {
+				banner.text = Dungeon.level.getName() + " " + Dungeon.level.getDepthAsCoolNum();
+			}
+
+			Dungeon.area.add(banner);
+			
+			if (BurningKnight.instance != null) {
+				BurningKnight.instance.become("unactive");
+			}
+
+			ready = true;
 		}).run();
 	}
 
 	@Override
 	public void update(float dt) {
 		if (this.ready && this.a == 0) {
-			Game.instance.setState(new InGameState());
+			Dungeon.game.setState(new InGameState());
 			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}

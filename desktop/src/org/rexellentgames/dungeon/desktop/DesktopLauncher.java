@@ -13,12 +13,9 @@ public class DesktopLauncher {
 	private static final int SCALE = 2;
 
 	public static void main(String[] arg) {
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-			@Override
-			public void uncaughtException(Thread thread, Throwable throwable) {
-				Crash.report(thread, throwable);
-				Gdx.app.exit();
-			}
+		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+			Crash.report(thread, throwable);
+			Gdx.app.exit();
 		});
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();

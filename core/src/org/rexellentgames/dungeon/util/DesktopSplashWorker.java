@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.util;
 
-import java.awt.*;
-
 public class DesktopSplashWorker implements SplashWorker {
 	@Override
 	public void closeSplashScreen() {

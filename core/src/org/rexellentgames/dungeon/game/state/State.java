@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.game.state;
 
-import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Tween;

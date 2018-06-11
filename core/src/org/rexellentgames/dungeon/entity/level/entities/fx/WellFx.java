@@ -5,7 +5,6 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.level.entities.MagicWell;
 import org.rexellentgames.dungeon.entity.level.entities.UsableProp;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Dialog;

@@ -11,6 +11,7 @@ import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
+import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;

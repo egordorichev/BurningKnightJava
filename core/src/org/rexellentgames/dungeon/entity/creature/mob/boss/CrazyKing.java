@@ -292,20 +292,17 @@ public class CrazyKing extends Boss {
 						self.target.setUnhittable(true);
 					}
 
-					Dialog.active.onEnd(new Runnable() {
-						@Override
-						public void run() {
-							noticed = true;
-							self.become("chase");
+					Dialog.active.onEnd(() -> {
+						noticed = true;
+						self.become("chase");
 
-							if (self.target != null) {
-								self.target.setUnhittable(false);
-							}
-
-							ignoreHealthbar = false;
-							Camera.instance.follow(Player.instance, false);
-							talked = true;
+						if (self.target != null) {
+							self.target.setUnhittable(false);
 						}
+
+						ignoreHealthbar = false;
+						Camera.instance.follow(Player.instance, false);
+						talked = true;
 					});
 				}
 			}

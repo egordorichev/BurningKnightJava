@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,7 +9,6 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.fx.ChargeFx;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.save.PlayerSave;

@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.entity.fx;
 
 import com.badlogic.gdx.graphics.Color;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 

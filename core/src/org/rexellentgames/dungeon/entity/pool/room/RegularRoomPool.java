@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.pool.room;
 
-import org.rexellentgames.dungeon.entity.level.rooms.regular.FourSideTurretRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.*;
 import org.rexellentgames.dungeon.entity.pool.Pool;
 

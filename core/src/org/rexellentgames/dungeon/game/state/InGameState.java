@@ -33,6 +33,7 @@ public class InGameState extends State {
 	private TextureRegion blood;
 	private float a;
 	private ArrayList<UiEntity> ui;
+	private boolean showFps;
 	public static boolean map = false;
 
 	@Override
@@ -102,7 +103,6 @@ public class InGameState extends State {
 
 	private boolean set;
 	private float last;
-	private Fps fps = new Fps();
 
 	@Override
 	public void update(float dt) {
@@ -110,12 +110,14 @@ public class InGameState extends State {
 			return;
 		}
 
-		fps.update();
-
 		this.console.update(dt);
 
 		if (Input.instance.wasPressed("reset")) {
 			Dungeon.newGame();
+		}
+		
+		if (Input.instance.wasPressed("show_fps")) {
+			this.showFps = !this.showFps;
 		}
 
 		last += dt;
@@ -192,6 +194,7 @@ public class InGameState extends State {
 
 		this.console.render();
 		Dungeon.ui.render();
+
 		Ui.ui.render();
 
 		if (Dialog.active != null) {
@@ -199,7 +202,10 @@ public class InGameState extends State {
 		}
 
 		Ui.ui.renderCursor();
-		Graphics.medium.draw(Graphics.batch, String.valueOf(fps.getFrameRate()),2, Display.GAME_HEIGHT);
+
+		if (this.showFps && !this.isPaused()) {
+			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 20);
+		}
 	}
 
 	private void setupUi() {
@@ -222,12 +228,9 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						SettingsState.fromGame = true;
-						Dungeon.game.setState(new SettingsState());
-					}
+				transition(() -> {
+					SettingsState.fromGame = true;
+					Dungeon.game.setState(new SettingsState());
 				});
 				Camera.instance.shake(3);
 			}
@@ -238,12 +241,7 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				Camera.instance.shake(3);
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new MainMenuState());
-					}
-				});
+				transition(() -> Dungeon.game.setState(new MainMenuState()));
 			}
 		}));
 

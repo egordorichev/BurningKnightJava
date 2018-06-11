@@ -1,14 +1,11 @@
 package org.rexellentgames.dungeon.entity.item.weapon.magic;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
-import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.Gun;
-import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class MagicWeapon extends WeaponBase {

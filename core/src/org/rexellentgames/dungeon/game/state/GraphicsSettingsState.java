@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
@@ -17,7 +16,6 @@ import org.rexellentgames.dungeon.ui.UiCheckbox;
 import org.rexellentgames.dungeon.ui.UiChoice;
 import org.rexellentgames.dungeon.ui.UiSlider;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -140,14 +138,11 @@ public class GraphicsSettingsState extends State {
 				org.rexellentgames.dungeon.assets.Graphics.playSfx("menu/exit");
 
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new SettingsState());
-						Camera.instance.shake(3);
+				transition(() -> {
+					Dungeon.game.setState(new SettingsState());
+					Camera.instance.shake(3);
 
-						Settings.save();
-					}
+					Settings.save();
 				});
 			}
 		});

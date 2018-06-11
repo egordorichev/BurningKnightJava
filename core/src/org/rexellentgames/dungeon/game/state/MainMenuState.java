@@ -1,16 +1,13 @@
 package org.rexellentgames.dungeon.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
-import org.rexellentgames.dungeon.util.Tween;
 
 public class MainMenuState extends State {
 	private static TextureRegion logo = Graphics.getTexture("logo");
@@ -24,12 +21,9 @@ public class MainMenuState extends State {
 			public void onClick() {
 				super.onClick();
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.goToLevel(Dungeon.depth);
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					Dungeon.goToLevel(Dungeon.depth);
+					Camera.instance.shake(3);
 				});
 			}
 		}.setSparks(true));
@@ -39,13 +33,10 @@ public class MainMenuState extends State {
 			public void onClick() {
 				super.onClick();
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						SettingsState.fromGame = false;
-						Dungeon.game.setState(new SettingsState());
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					SettingsState.fromGame = false;
+					Dungeon.game.setState(new SettingsState());
+					Camera.instance.shake(3);
 				});
 			}
 		});
@@ -55,12 +46,7 @@ public class MainMenuState extends State {
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Gdx.app.exit();
-					}
-				});
+				transition(() -> Gdx.app.exit());
 			}
 		});
 	}

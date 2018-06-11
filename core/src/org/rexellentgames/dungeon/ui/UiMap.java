@@ -167,12 +167,12 @@ public class UiMap extends UiEntity {
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
-		try {
-			if (!large) {
+		if (!large) {
+			try {
 				ScissorStack.popScissors();
-			}
-		} catch (Exception exception) {
+			} catch(IllegalStateException ignored) {
 
+			}
 		}
 
 		Graphics.batch.begin();

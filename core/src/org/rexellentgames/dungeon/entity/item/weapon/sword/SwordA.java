@@ -1,8 +1,6 @@
 package org.rexellentgames.dungeon.entity.item.weapon.sword;
 
 import org.rexellentgames.dungeon.assets.Locale;
-import org.rexellentgames.dungeon.entity.creature.Creature;
-import org.rexellentgames.dungeon.entity.creature.buff.FreezeBuff;
 
 public class SwordA extends Sword {
 	{

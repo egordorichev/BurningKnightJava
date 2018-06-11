@@ -1,11 +1,8 @@
 package org.rexellentgames.dungeon.entity.plant;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.consumable.seed.CabbageSeed;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;
-import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 
