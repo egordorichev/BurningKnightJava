@@ -15,7 +15,14 @@ public class PrefixPool {
 		add(new HighDodgePrefix(), 1f);
 		add(new KnockbackPrefix(), 1f);
 		add(new MoreCritChance(), 1f);
-		add(new MoreInvTime(), 1f);
+		add(new MoreInvTimePrefix(), 1f);
+		add(new ImmuneToDebuffsPrefix(), 1f);
+		add(new NoKnockbackPrefix(), 1f);
+		add(new DeathShotPrefix(), 10000f);
+
+		// ideas: greed
+		// unkillable till everyone else is killed
+		// releases shots on death
 	}
 
 	public Prefix getModifier(int id) {

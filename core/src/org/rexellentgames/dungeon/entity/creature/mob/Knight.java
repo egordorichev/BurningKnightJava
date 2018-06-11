@@ -30,7 +30,6 @@ public class Knight extends Mob {
 	{
 		hpMax = 3;
 		speed = 5;
-		guard = true;
 
 		idle = animations.get("idle").randomize();
 		run = animations.get("run").randomize();

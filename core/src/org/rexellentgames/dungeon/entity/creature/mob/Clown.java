@@ -41,7 +41,6 @@ public class Clown extends Mob {
 
 	{
 		hpMax = 3;
-		hide = true;
 		experienceDropped = 2;
 
 		idle = animations.get("idle").randomize();

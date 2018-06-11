@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature.mob.prefix;
 
 import com.badlogic.gdx.graphics.Color;
+import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 
 public class MoreHealthPrefix extends Prefix {
 	private static Color color = Color.valueOf("#ac3232");
@@ -11,12 +12,12 @@ public class MoreHealthPrefix extends Prefix {
 	}
 
 	@Override
-	public void onGenerate() {
-		super.onGenerate();
+	public void onGenerate(Mob mob) {
+		super.onGenerate(mob);
 
-		int add = (int) Math.ceil(((float) this.mob.getHpMax()) / 3f);
+		int add = (int) Math.ceil(((float) mob.getHpMax()) * 1.5f);
 
-		this.mob.setHpMax(this.mob.getHpMax() + add);
-		this.mob.modifyHp(add, null);
+		mob.setHpMax(mob.getHpMax() + add);
+		mob.modifyHp(add, null);
 	}
 }

@@ -13,6 +13,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
 import org.rexellentgames.dungeon.entity.creature.buff.FreezeBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.PoisonBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.mob.prefix.Prefix;
@@ -60,8 +61,7 @@ public class Mob extends Creature {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		if (nodebuffs && (buff instanceof FreezeBuff || buff instanceof BurningBuff)) {
-			// todo
+		if (nodebuffs && (buff instanceof FreezeBuff || buff instanceof BurningBuff || buff instanceof PoisonBuff)) {
 			return false;
 		}
 
@@ -152,7 +152,7 @@ public class Mob extends Creature {
 		if (this.prefix == null) {
 			this.prefix = PrefixPool.instance.generate();
 			this.prefix.apply(this);
-			this.prefix.onGenerate();
+			this.prefix.onGenerate(this);
 		}
 	}
 
@@ -308,7 +308,7 @@ public class Mob extends Creature {
 
 		if (this.drop) {
 			if (this.prefix != null) {
-				this.prefix.onDeath();
+				this.prefix.onDeath(this);
 			}
 
 			this.drop = false;

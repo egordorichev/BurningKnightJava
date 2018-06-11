@@ -14,6 +14,6 @@ public class KnockbackPrefix extends Prefix {
 	@Override
 	public void apply(Mob mob) {
 		super.apply(mob);
-		mob.knockbackMod += 0.5f;
+		mob.knockbackMod += 1f;
 	}
 }

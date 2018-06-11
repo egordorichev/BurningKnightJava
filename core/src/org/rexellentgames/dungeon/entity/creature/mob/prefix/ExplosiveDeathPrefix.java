@@ -18,12 +18,12 @@ public class ExplosiveDeathPrefix extends Prefix {
 	}
 
 	@Override
-	public void onDeath() {
-		super.onDeath();
+	public void onDeath(Mob mob) {
+		super.onDeath(mob);
 
-		this.mob.playSfx("explosion");
-		float xx = this.mob.x + this.mob.w / 2;
-		float yy = this.mob.y + this.mob.h / 2;
+		mob.playSfx("explosion");
+		float xx = mob.x + mob.w / 2;
+		float yy = mob.y + mob.h / 2;
 
 		Dungeon.area.add(new Explosion(xx, yy));
 
@@ -34,7 +34,7 @@ public class ExplosiveDeathPrefix extends Prefix {
 				Creature creature = (Creature) entity;
 
 				if (creature.getDistanceTo(xx, yy) < 32f) {
-					creature.modifyHp(-Math.round(Random.newFloatDice(2, 4)), this.mob, true);
+					creature.modifyHp(-Math.round(Random.newFloatDice(2, 4)), mob, true);
 
 					float a = (float) Math.atan2(creature.y + creature.h / 2 - yy, creature.x + creature.w / 2 - xx);
 
