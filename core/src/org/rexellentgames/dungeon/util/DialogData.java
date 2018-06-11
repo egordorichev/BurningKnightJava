@@ -1,13 +1,13 @@
 package org.rexellentgames.dungeon.util;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 import com.rafaskoberg.gdx.typinglabel.TypingListener;
 import org.rexellentgames.dungeon.Display;
-import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.input.Input;
 
 import java.util.ArrayList;
@@ -17,13 +17,14 @@ public class DialogData {
 	private int current;
 	private TypingLabel label;
 	private static Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-	private static TextureRegion frame = Graphics.getTexture("dialog");
-	private float a;
+	private float a = 1;
 	private int selected;
 	private float oa;
 	private Runnable fin = () -> {};
 	private Runnable stop = () -> {};
 	private Runnable start = () -> {};
+	private float size;
+	private float w;
 
 	public void onEnd(Runnable onEnd) {
 		this.fin = onEnd;
@@ -37,24 +38,60 @@ public class DialogData {
 		this.start = onStart;
 	}
 
+	private static Color color = Color.valueOf("#2a2f4e");
+
+	public void render() {
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+		Graphics.startShape();
+
+		if (size > 0) {
+			Graphics.shape.setColor(0, 0, 0, 1);
+			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, size);
+			Graphics.shape.rect(0, Display.GAME_HEIGHT - size, Display.GAME_WIDTH, size);
+		}
+
+		int y = Display.GAME_HEIGHT - 52 - 16 - 48;
+
+		Graphics.shape.setColor(color.r, color.g, color.b, 1);
+		Graphics.shape.rect((Display.GAME_WIDTH - this.w) / 2, y, this.w, 48);
+		Graphics.endShape();
+
+		if (this.label != null) {
+			this.label.draw(Graphics.batch, this.a);
+		}
+	}
+
 	public void start() {
 		this.current = 0;
+		this.w = 0;
 		this.selected = 0;
 
-		Tween.to(new Tween.Task(1f, 0.3f) {
+		Tween.to(new Tween.Task(Display.GAME_WIDTH - 32,  1f) {
 			@Override
 			public float getValue() {
-				return a;
+				return w;
 			}
 
 			@Override
 			public void setValue(float value) {
-				a = value;
+				w = value;
 			}
 
 			@Override
 			public void onEnd() {
 				next();
+			}
+		});
+
+		Tween.to(new Tween.Task(52, 0.4f) {
+			@Override
+			public float getValue() {
+				return size;
+			}
+
+			@Override
+			public void setValue(float value) {
+				size = value;
 			}
 		});
 	}
@@ -63,9 +100,9 @@ public class DialogData {
 		this.selected = 0;
 
 		Dialog.Phrase phrase = this.phrases.get(this.current);
-		this.label = new TypingLabel("{SPEED=0.5}{COLOR=#FFFFFF}" + phrase.string, skin);
-		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 64);
-		this.label.setPosition(80, Display.GAME_HEIGHT - 64 - 32);
+		this.label = new TypingLabel("{COLOR=#FFFFFF}" + phrase.string, skin);
+		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 32);
+		this.label.setPosition(32, Display.GAME_HEIGHT - 52 - 16 - 48 + 8);
 		this.label.setWrap(true);
 		this.start.run();
 
@@ -192,7 +229,20 @@ public class DialogData {
 	public void end() {
 		stop.run();
 
-		Tween.to(new Tween.Task(0f, 0.3f) {
+		Tween.to(new Tween.Task(0, 0.4f) {
+			@Override
+			public float getValue() {
+				return size;
+			}
+
+			@Override
+			public void setValue(float value) {
+				size = value;
+			}
+		});
+
+
+		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {
 				return a;
@@ -205,51 +255,27 @@ public class DialogData {
 
 			@Override
 			public void onEnd() {
-				Dialog.active = null;
+				Tween.to(new Tween.Task(0, 0.3f) {
+					@Override
+					public float getValue() {
+						return w;
+					}
 
-				if (fin != null) {
-					fin.run();
-				}
+					@Override
+					public void setValue(float value) {
+						w = value;
+					}
+
+					@Override
+					public void onEnd() {
+						Dialog.active = null;
+
+						if (fin != null) {
+							fin.run();
+						}
+					}
+				});
 			}
 		});
-	}
-
-	public void render() {
-		Graphics.batch.setColor(1, 1, 1, this.a);
-		Graphics.render(frame, 16, Display.GAME_HEIGHT - 64 - 32);
-		Graphics.render(this.phrases.get(this.current).region, 32, Display.GAME_HEIGHT - 64 - 16);
-		Graphics.batch.setColor(1, 1, 1, 1);
-
-		if (this.label != null) {
-			this.label.draw(Graphics.batch, this.a);
-		}
-
-		Dialog.Phrase phrase = this.phrases.get(this.current);
-
-		if (phrase.options != null && phrase.options.length > 1 && this.label != null && this.label.hasEnded()) {
-			Graphics.medium.setColor(1, 1, 1, this.oa);
-
-			for (int i = 0; i < phrase.options.length; i++) {
-				String label = phrase.options[i];
-
-				if (i == this.selected) {
-					label += " <"; // todo: replace with a sprite
-				}
-
-				Graphics.print(label, Graphics.medium, 80,
-					Display.GAME_HEIGHT - 128 - i * 16);
-			}
-
-			Graphics.medium.setColor(1, 1, 1, 1);
-		} else {
-			Graphics.small.setColor(1, 1, 1, this.a);
-
-			Graphics.print(">", Graphics.small,
-				80 + Display.GAME_WIDTH - 96 - 16,
-				(float) (Display.GAME_HEIGHT - 96 + 8 +
-					Math.cos(Dungeon.time * 3) * 3.5f));
-
-			Graphics.small.setColor(1, 1, 1, 1);
-		}
 	}
 }

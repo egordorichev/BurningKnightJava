@@ -75,6 +75,9 @@ public class InGameState extends State {
 				Camera.instance.follow(Player.instance);
 			}
 		});
+
+		Dialog.active = BurningKnight.onLampTake;
+		Dialog.active.start();
 	}
 
 	@Override
@@ -175,10 +178,6 @@ public class InGameState extends State {
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 
-		if (Dialog.active != null) {
-			Dialog.active.render();
-		}
-
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		World.render();
 
@@ -188,8 +187,14 @@ public class InGameState extends State {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
-		Ui.ui.render();
 		Dungeon.ui.render();
+		Ui.ui.render();
+
+		if (Dialog.active != null) {
+			Dialog.active.render();
+		}
+
+		Ui.ui.renderCursor();
 	}
 
 	private void setupUi() {

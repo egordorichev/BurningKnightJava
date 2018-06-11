@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
+import org.rexellentgames.dungeon.util.Dialog;
 
 public class Npc extends Creature {
 	private boolean active;
@@ -14,7 +15,7 @@ public class Npc extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Player.instance != null) {
+		if (Player.instance != null && Dialog.active == null) {
 			float d = Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2);
 
 			if (d < 32f && !this.active) {
