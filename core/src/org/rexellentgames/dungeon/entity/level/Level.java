@@ -87,7 +87,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void exploreRandom() {
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			if (Random.chance(50)) {
 				explored[i] = true;
 			}
@@ -114,7 +114,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void generateDecor() {
-		decor = new byte[getSIZE()];
+		decor = new byte[getSize()];
 	}
 
 	public static int getHeight() {
@@ -126,7 +126,7 @@ public abstract class Level extends SaveableEntity {
 		Level.SIZE = Level.WIDTH * Level.HEIGHT;
 	}
 
-	public static int getSIZE() {
+	public static int getSize() {
 		return SIZE;
 	}
 
@@ -177,10 +177,10 @@ public abstract class Level extends SaveableEntity {
 	public boolean addLight = false;
 
 	public void initLight() {
-		this.light = new float[getSIZE()];
-		this.lightR = new float[getSIZE()];
-		this.lightG = new float[getSIZE()];
-		this.lightB = new float[getSIZE()];
+		this.light = new float[getSize()];
+		this.lightR = new float[getSize()];
+		this.lightG = new float[getSize()];
+		this.lightB = new float[getSize()];
 
 		Color color = colors[Dungeon.level.uid];
 
@@ -194,27 +194,27 @@ public abstract class Level extends SaveableEntity {
 	public int uid = 0;
 
 	public void fill() {
-		this.data = new byte[getSIZE()];
-		this.liquidData = new byte[getSIZE()];
-		this.explored = new boolean[getSIZE()];
+		this.data = new byte[getSize()];
+		this.liquidData = new byte[getSize()];
+		this.explored = new boolean[getSize()];
 
 		this.initLight();
 
 		byte tile = Terrain.WALL;
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			this.data[i] = tile;
 		}
 	}
 
 	public void loadPassable() {
-		this.passable = new boolean[getSIZE()];
-		this.low = new boolean[getSIZE()];
-		this.variants = new byte[getSIZE()];
-		this.liquidVariants = new byte[getSIZE()];
-		this.walls = new byte[getSIZE()];
+		this.passable = new boolean[getSize()];
+		this.low = new boolean[getSize()];
+		this.variants = new byte[getSize()];
+		this.liquidVariants = new byte[getSize()];
+		this.walls = new byte[getSize()];
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
 			this.low[i] = !this.checkFor(i, Terrain.HIGH);
 		}
@@ -456,7 +456,7 @@ public abstract class Level extends SaveableEntity {
 
 		float sp = dt * 3f;
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			this.light[i] = MathUtils.clamp(0f, 1f, this.light[i] - sp);
 			this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - sp);
 			this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - sp);
@@ -964,7 +964,7 @@ public abstract class Level extends SaveableEntity {
 		float dt = Gdx.graphics.getDeltaTime();
 		int i = (int) (Math.floor(x / 16) + Math.floor(y / 16) * getWidth());
 
-		if (i < 0 || i >= this.getSIZE()) {
+		if (i < 0 || i >= this.getSize()) {
 			return;
 		}
 
@@ -990,7 +990,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public float getLight(int i) {
-		if (i < 0 || i >= getSIZE()) {
+		if (i < 0 || i >= getSize()) {
 			return 0;
 		}
 
@@ -1000,7 +1000,7 @@ public abstract class Level extends SaveableEntity {
 	public float getLight(int x, int y) {
 		int i = toIndex(x, y);
 
-		if (i < 0 || i >= getSIZE()) {
+		if (i < 0 || i >= getSize()) {
 			return 0;
 		}
 
@@ -1409,7 +1409,7 @@ public abstract class Level extends SaveableEntity {
 		writer.writeInt32(getWidth());
 		writer.writeInt32(getHeight());
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			writer.writeByte(this.data[i]);
 			writer.writeByte(this.liquidData[i]);
 			writer.writeByte(this.decor[i]);
@@ -1460,13 +1460,13 @@ public abstract class Level extends SaveableEntity {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		setSize(reader.readInt32(), reader.readInt32());
-		this.data = new byte[getSIZE()];
-		this.liquidData = new byte[getSIZE()];
-		this.decor = new byte[getSIZE()];
-		this.explored = new boolean[getSIZE()];
+		this.data = new byte[getSize()];
+		this.liquidData = new byte[getSize()];
+		this.decor = new byte[getSize()];
+		this.explored = new boolean[getSize()];
 		this.initLight();
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			this.data[i] = reader.readByte();
 			this.liquidData[i] = reader.readByte();
 			this.decor[i] = reader.readByte();

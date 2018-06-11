@@ -147,7 +147,17 @@ public class UiButton extends UiEntity {
 								super.onEnd();
 								last = null;
 							}
+
+							@Override
+							public boolean runWhenPaused() {
+								return true;
+							}
 						});
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
 					}
 				});
 			}
@@ -191,6 +201,11 @@ public class UiButton extends UiEntity {
 					super.onEnd();
 					last = null;
 				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
 			});
 
 			Tween.to(new Tween.Task(3, 0.1f) {
@@ -202,6 +217,11 @@ public class UiButton extends UiEntity {
 				@Override
 				public void setValue(float value) {
 					mx = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
 				}
 			});
 
@@ -226,6 +246,11 @@ public class UiButton extends UiEntity {
 				public void setValue(float value) {
 					mx = value;
 				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
 			});
 
 			this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
@@ -243,6 +268,11 @@ public class UiButton extends UiEntity {
 				public void onEnd() {
 					super.onEnd();
 					last = null;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
 				}
 			});
 		}

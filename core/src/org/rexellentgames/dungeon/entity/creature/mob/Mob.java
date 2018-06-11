@@ -518,7 +518,7 @@ public class Mob extends Creature {
 
 				for (Point point : line.getPoints()) {
 					int i = (int) (point.x + point.y * Level.getWidth());
-					if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
+					if (i < 0 || i >= Level.getSize() || (!passable[i] && Dungeon.level.get(i) != 13)) {
 						found = true;
 						break;
 					}

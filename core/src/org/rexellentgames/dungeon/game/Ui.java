@@ -141,5 +141,7 @@ public class Ui {
 
 	public void renderUi() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+		renderCursor();
 	}
 }

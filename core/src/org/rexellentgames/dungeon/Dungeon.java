@@ -251,9 +251,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Dungeon.ui.update(dt);
 
-		if (!paused) {
-			game.update(dt);
-		}
+		game.update(dt);
 		
 		updateMouse(dt);
 

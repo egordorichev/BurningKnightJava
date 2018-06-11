@@ -1,17 +1,18 @@
 package org.rexellentgames.dungeon.game;
 
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class Area {
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private Comparator<Entity> comparator;
+	private boolean showWhenPaused;
 
 	public Area() {
 		this.comparator = (a, b) -> {
@@ -27,7 +28,13 @@ public class Area {
 			return Float.compare(bd, ad);
 		};
 	}
-
+	
+	public Area(boolean showWhenPaused) {
+		this();
+		
+		this.showWhenPaused = showWhenPaused;
+	}
+	
 	public Entity add(Entity entity) {
 		this.entities.add(entity);
 
@@ -68,7 +75,11 @@ public class Area {
 	}
 
 	public void render() {
-		Collections.sort(this.entities, this.comparator);
+		if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
+			return;
+		}
+		
+		this.entities.sort(this.comparator);
 
 		for (int i = 0; i < this.entities.size(); i++) {
 			Entity entity = this.entities.get(i);
