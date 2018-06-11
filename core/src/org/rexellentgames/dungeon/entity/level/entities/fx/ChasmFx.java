@@ -51,7 +51,7 @@ public class ChasmFx extends Entity {
 
 					@Override
 					public void onEnd() {
-						done = true;
+						setDone(true);
 					}
 				});
 
