@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.consumable.spell;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;

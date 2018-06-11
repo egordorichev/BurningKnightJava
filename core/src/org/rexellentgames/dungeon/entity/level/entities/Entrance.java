@@ -12,7 +12,6 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.fx.LadderFx;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 

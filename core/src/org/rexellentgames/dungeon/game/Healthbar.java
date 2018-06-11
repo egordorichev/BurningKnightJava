@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Part;
 import org.rexellentgames.dungeon.util.Animation;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;

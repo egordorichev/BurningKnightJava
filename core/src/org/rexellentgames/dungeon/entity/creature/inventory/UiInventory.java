@@ -2,15 +2,15 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
-import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
-import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
+import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;

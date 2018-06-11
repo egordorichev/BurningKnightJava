@@ -7,12 +7,9 @@ import org.rexellentgames.dungeon.game.state.LoadState;
 import org.rexellentgames.dungeon.game.state.State;
 
 public class Game {
-	public static Game instance;
-
 	private org.rexellentgames.dungeon.game.state.State state;
 
 	public Game() {
-		instance = this;
 	}
 
 	public void setState(org.rexellentgames.dungeon.game.state.State state) {

@@ -6,8 +6,6 @@ import org.rexellentgames.dungeon.debug.Console;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -63,17 +61,14 @@ public class Log {
 			JTextField field = new JTextField();
 			panel.add(field);
 
-			field.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent actionEvent) {
-					if (Console.instance != null) {
-						Console.instance.runCommand("/" + actionEvent.getActionCommand());
-					} else {
-						Log.info("Console is not here yet");
-					}
-
-					field.setText("");
+			field.addActionListener(actionEvent -> {
+				if (Console.instance != null) {
+					Console.instance.runCommand("/" + actionEvent.getActionCommand());
+				} else {
+					Log.info("Console is not here yet");
 				}
+
+				field.setText("");
 			});
 
 			frame.add(panel, BorderLayout.PAGE_END);

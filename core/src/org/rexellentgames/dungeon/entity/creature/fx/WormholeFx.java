@@ -1,9 +1,7 @@
 package org.rexellentgames.dungeon.entity.creature.fx;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.Animation;

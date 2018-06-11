@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon.entity.level.rooms.ladder;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class LineEntranceRoom extends EntranceRoom {

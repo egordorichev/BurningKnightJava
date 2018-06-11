@@ -1,24 +1,17 @@
 package org.rexellentgames.dungeon.entity.creature.inventory;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
-import org.rexellentgames.dungeon.entity.item.Lamp;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.Hat;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
-import org.rexellentgames.dungeon.entity.item.weapon.modifier.Modifier;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.util.CollisionHelper;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class UiSlot {

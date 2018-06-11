@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.entity.item.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Tween;
 import org.rexellentgames.dungeon.util.geometry.Point;

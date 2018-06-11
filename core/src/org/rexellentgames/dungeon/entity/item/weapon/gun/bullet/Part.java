@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.weapon.gun.bullet;
 
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.util.Animation;
 import org.rexellentgames.dungeon.util.AnimationData;

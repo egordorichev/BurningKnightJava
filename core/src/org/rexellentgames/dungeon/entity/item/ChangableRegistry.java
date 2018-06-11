@@ -7,7 +7,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.magic.DefenseBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.FireBook;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.MagicWeapon;
 import org.rexellentgames.dungeon.entity.item.weapon.magic.NoteBook;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;

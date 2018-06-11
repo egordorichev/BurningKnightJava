@@ -23,12 +23,9 @@ public class SettingsState extends State {
 			public void onClick() {
 				super.onClick();
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new GraphicsSettingsState());
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					Dungeon.game.setState(new GraphicsSettingsState());
+					Camera.instance.shake(3);
 				});
 			}
 		}.setSparks(true));
@@ -38,12 +35,9 @@ public class SettingsState extends State {
 			public void onClick() {
 				super.onClick();
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new AudioSettingsState());
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					Dungeon.game.setState(new AudioSettingsState());
+					Camera.instance.shake(3);
 				});
 
 			}
@@ -54,12 +48,9 @@ public class SettingsState extends State {
 			public void onClick() {
 				super.onClick();
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new InputSettingsState());
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					Dungeon.game.setState(new InputSettingsState());
+					Camera.instance.shake(3);
 				});
 
 			}
@@ -70,17 +61,14 @@ public class SettingsState extends State {
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
 
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						if (fromGame) {
-							Dungeon.goToLevel(Dungeon.depth);
-						} else {
-							Dungeon.game.setState(new MainMenuState());
-						}
-
-						Camera.instance.shake(3);
+				transition(() -> {
+					if (fromGame) {
+						Dungeon.goToLevel(Dungeon.depth);
+					} else {
+						Dungeon.game.setState(new MainMenuState());
 					}
+
+					Camera.instance.shake(3);
 				});
 			}
 		});

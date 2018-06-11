@@ -234,12 +234,7 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				Camera.instance.shake(3);
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new MainMenuState());
-					}
-				});
+				transition(() -> Dungeon.game.setState(new MainMenuState()));
 			}
 		}));
 

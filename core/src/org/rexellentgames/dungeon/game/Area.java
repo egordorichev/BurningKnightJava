@@ -1,16 +1,8 @@
 package org.rexellentgames.dungeon.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.NetworkedEntity;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
@@ -22,20 +14,17 @@ public class Area {
 	private Comparator<Entity> comparator;
 
 	public Area() {
-		this.comparator = new Comparator<Entity>() {
-			@Override
-			public int compare(Entity a, Entity b) {
-				// -1 - less than, 1 - greater than, 0 - equal
-				float ad = b.getDepth();
-				float bd = a.getDepth();
+		this.comparator = (a, b) -> {
+			// -1 - less than, 1 - greater than, 0 - equal
+			float ad = b.getDepth();
+			float bd = a.getDepth();
 
-				if (ad == bd) {
-					ad = a.y;
-					bd = b.y;
-				}
-
-				return Float.compare(bd, ad);
+			if (ad == bd) {
+				ad = a.y;
+				bd = b.y;
 			}
+
+			return Float.compare(bd, ad);
 		};
 	}
 
