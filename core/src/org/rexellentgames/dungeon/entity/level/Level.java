@@ -401,7 +401,6 @@ public abstract class Level extends SaveableEntity {
 		float sp = dt * 3f;
 
 		for (int i = 0; i < getSIZE(); i++) {
-			// FIXME: looks ugly
 			this.light[i] = MathUtils.clamp(0f, 1f, this.light[i] - sp);
 			this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - sp);
 			this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - sp);
@@ -943,10 +942,8 @@ public abstract class Level extends SaveableEntity {
 						if (vl == 1 && yy >= 0) {
 							v = 0.5f;
 							see = true;
-						} else if (vl == 0) {
-							see = true;
-						} else {
-							see = false;//(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
+						} else { //(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
+							see = vl == 0;
 						}
 					}
 

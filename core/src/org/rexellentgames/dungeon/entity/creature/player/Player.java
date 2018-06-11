@@ -515,6 +515,11 @@ public class Player extends Creature {
 
 				for (int x = this.currentRoom.left; x <= this.currentRoom.right; x++) {
 					for (int y = this.currentRoom.top + 1; y <= this.currentRoom.bottom; y++) {
+						if ((x == this.currentRoom.left || x == this.currentRoom.right || y == this.currentRoom.top || y == this.currentRoom.bottom
+							) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
+							Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
+						}
+
 						Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
 					}
 				}
