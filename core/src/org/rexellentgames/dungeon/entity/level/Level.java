@@ -142,10 +142,6 @@ public abstract class Level extends SaveableEntity {
 	public static RegularLevel forDepth(int depth) {
 		int weight = 0;
 
-		/*for (int i = 0; i < boss.length; i++) {
-			System.out.println(i + " " + boss[i]);
-		}*/
-
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
 
@@ -163,6 +159,22 @@ public abstract class Level extends SaveableEntity {
 
 		return new HallLevel();
 	}
+
+	public String getDepthAsCoolNum() {
+		int weight = 0;
+
+		for (int i = 0; i < 5; i++) {
+			weight += depths[i] + 1;
+
+			if (Dungeon.depth <= weight) {
+				return "" + letters[(depths[i] - (weight - Dungeon.depth))];
+			}
+		}
+
+		return "";
+	}
+
+	private static String[] letters = { "I", "II", "III", "IV", "V", "VI" };
 
 	public boolean addLight = false;
 
@@ -372,6 +384,10 @@ public abstract class Level extends SaveableEntity {
 		ll.setLevel(this);
 
 		Dungeon.area.add(ll);
+	}
+
+	public String getName() {
+		return "";
 	}
 
 	public void renderLight() {

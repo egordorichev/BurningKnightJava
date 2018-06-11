@@ -50,25 +50,24 @@ public class Graphics {
 		}
 	}
 
-	private static Color color;
-
 	public static void startShadows() {
-		color = Graphics.batch.getColor();
 		Graphics.batch.end();
+
 		Graphics.surface.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+
 		Graphics.shadows.begin();
+
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.batch.begin();
-		Graphics.batch.setColor(1, 1, 1, color.a);
 	}
 
 	public static void endShadows() {
-		Graphics.batch.setColor(color);
 		Graphics.batch.end();
 
 		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+
 		Graphics.surface.begin();
 		Graphics.batch.begin();
 	}

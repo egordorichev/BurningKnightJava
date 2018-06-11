@@ -17,6 +17,7 @@ import org.rexellentgames.dungeon.entity.level.save.SaveManager;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.physics.World;
+import org.rexellentgames.dungeon.ui.LevelBanner;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.Tween;
@@ -121,6 +122,16 @@ public class LoadState extends State {
 				PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 
 				Log.info("Loading done!");
+
+				LevelBanner banner = new LevelBanner();
+
+				if (Dungeon.depth == 0) {
+					banner.text = "The beginning";
+				} else {
+					banner.text = Dungeon.level.getName() + " " + Dungeon.level.getDepthAsCoolNum();
+				}
+
+				Dungeon.area.add(banner);
 				
 				if (BurningKnight.instance != null) {
 					BurningKnight.instance.become("unactive");

@@ -12,6 +12,11 @@ public class DesertLevel extends RegularLevel {
 	}
 
 	@Override
+	public String getName() {
+		return "Desert ruins";
+	}
+
+	@Override
 	public String getMusic() {
 		return "Believer";
 	}
