@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.debug
 
 import org.rexellentgames.dungeon.entity.creature.player.Player
-import org.rexellentgames.dungeon.entity.item.Item
 import org.rexellentgames.dungeon.entity.item.ItemHolder
 import org.rexellentgames.dungeon.entity.item.ItemRegistry
 import org.rexellentgames.dungeon.util.Log

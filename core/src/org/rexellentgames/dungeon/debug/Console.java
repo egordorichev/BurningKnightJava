@@ -50,7 +50,7 @@ public class Console implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (!this.open && keycode == Input.Keys.ESCAPE) {
+		if (keycode == Input.Keys.ESCAPE) {
 			this.open = !this.open;
 			org.rexellentgames.dungeon.game.input.Input.instance.blocked = this.open;
 		} else if (keycode == Input.Keys.ENTER && this.open) {
