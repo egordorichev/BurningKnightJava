@@ -2,16 +2,17 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.FreezeBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.mob.prefix.Prefix;
@@ -55,6 +56,17 @@ public class Mob extends Creature {
 	private static TextureRegion noticeSign;
 	public float noticeSignT;
 	public float hideSignT;
+	public boolean nodebuffs;
+
+	@Override
+	protected boolean canHaveBuff(Buff buff) {
+		if (nodebuffs && (buff instanceof FreezeBuff || buff instanceof BurningBuff)) {
+			// todo
+			return false;
+		}
+
+		return super.canHaveBuff(buff);
+	}
 
 	{
 		alwaysActive = true;
