@@ -8,11 +8,4 @@ public class HungryBuff extends Buff {
 		infinite = true;
 		sprite = "ui (hungry buff)";
 	}
-
-	@Override
-	public void onStart() {
-		if (UiLog.instance != null) {
-			UiLog.instance.print("[orange]You are hungry!");
-		}
-	}
 }

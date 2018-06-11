@@ -125,8 +125,6 @@ public class InGameState extends State {
 
 		World.update(dt);
 
-		UiLog.instance.update(dt);
-
 		if (Dialog.active != null) {
 			Dialog.active.update(dt);
 		}

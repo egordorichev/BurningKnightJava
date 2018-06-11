@@ -15,7 +15,6 @@ public class Log {
 	public static final boolean ENABLE_PHYSICS_MESSAGES = false;
 	public static final boolean UI_DEBUG_WINDOW = false;
 	private static FileWriter file;
-	public static boolean UI_LOG = false;
 
 	private static JTextArea area;
 	private static JFrame frame;
@@ -115,10 +114,6 @@ public class Log {
 			e.printStackTrace();
 		}
 
-		if (UiLog.instance != null && UI_LOG) {
-			UiLog.instance.print(string);
-		}
-
 		if (UI_DEBUG_WINDOW) {
 			area.append("ERROR: " + string + "\n");
 			frame.getContentPane().validate();
@@ -132,10 +127,6 @@ public class Log {
 			file.write(string + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		if (UiLog.instance != null && UI_LOG) {
-			UiLog.instance.print(string);
 		}
 
 		if (UI_DEBUG_WINDOW) {

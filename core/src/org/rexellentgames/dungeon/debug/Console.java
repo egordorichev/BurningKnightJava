@@ -69,7 +69,6 @@ public class Console implements InputProcessor {
 	public void runCommand(String input) {
 		if (!input.startsWith("/")) {
 			String string = Player.instance.getName() + ": " + input;
-			UiLog.instance.print(string);
 
 			return;
 		}
@@ -90,8 +89,6 @@ public class Console implements InputProcessor {
 				return;
 			}
 		}
-
-		UiLog.instance.print("Unknown command '" + input + "'");
 	}
 
 	@Override

@@ -59,7 +59,6 @@ public class LadderFx extends UiEntity {
 
 			if (this.ladder instanceof Entrance) {
 				if (Dungeon.depth <= 0) {
-					UiLog.instance.print("[orange]You cant leave just yet!");
 				} else {
 					this.end();
 				}

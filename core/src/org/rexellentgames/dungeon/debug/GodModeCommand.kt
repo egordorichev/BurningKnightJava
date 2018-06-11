@@ -11,11 +11,5 @@ class GodModeCommand : ConsoleCommand() {
 
     override fun run(console: Console, args: Array<String>) {
         Player.instance.isUnhittable = !Player.instance.isUnhittable
-
-        if (Player.instance.isUnhittable) {
-            UiLog.instance.print("[green]You are now unkillable!")
-        } else {
-            UiLog.instance.print("[red]You are now killable!")
-        }
     }
 }

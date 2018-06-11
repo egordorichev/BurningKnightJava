@@ -332,11 +332,7 @@ public class UiInventory extends UiEntity {
 					return;
 				}
 
-				if (slot.isCursed()) {
-					UiLog.instance.print("[red]The item is cursed!");
-				} else {
-					this.drop(slot);
-				}
+				this.drop(slot);
 			}
 
 
@@ -381,9 +377,7 @@ public class UiInventory extends UiEntity {
 			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
 				Item slot = this.currentSlot;
 
-				if (slot.isCursed()) {
-					UiLog.instance.print("[red]The item is cursed!");
-				} else {
+				if (!slot.isCursed()) {
 					this.drop(slot);
 					this.currentSlot = null;
 				}

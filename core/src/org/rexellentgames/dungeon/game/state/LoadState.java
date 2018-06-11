@@ -86,7 +86,6 @@ public class LoadState extends State {
 		World.init();
 
 		Dungeon.area.add(new Camera());
-		Dungeon.ui.add(new UiLog());
 
 		Player.all.clear();
 		Mob.all.clear();
@@ -121,7 +120,6 @@ public class LoadState extends State {
 
 				PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 
-				UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
 				Log.info("Loading done!");
 				
 				if (BurningKnight.instance != null) {

@@ -33,12 +33,6 @@ public class WeaponAltar extends UsableProp {
 	public boolean use() {
 		Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
 
-		if (!(item instanceof WeaponBase)) {
-			UiLog.instance.print("[orange]Item must be a weapon!");
-			return false;
-		}
-
-		UiLog.instance.print("[green]Your weapon was blessed!");
 		((WeaponBase) item).setModifier(ModifierPool.instance.generate());
 
 

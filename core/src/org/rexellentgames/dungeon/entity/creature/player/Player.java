@@ -441,9 +441,6 @@ public class Player extends Creature {
 
 				this.dead = true;
 				this.done = true;
-				if (UiLog.instance != null) {
-					UiLog.instance.print("[red]You died!");
-				}
 
 				Camera.instance.shake(10);
 				this.remove();
@@ -1006,8 +1003,6 @@ public class Player extends Creature {
 			this.experience -= this.experienceMax;
 			this.forThisLevel = expNeeded(this.level);
 			this.experienceMax = expNeeded(this.level + 1);
-
-			UiLog.instance.print("[green]You reached level " + this.level + "!");
 		}
 	}
 }
