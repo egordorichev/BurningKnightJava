@@ -40,7 +40,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -442,9 +441,6 @@ public class Player extends Creature {
 
 				this.dead = true;
 				this.done = true;
-				if (UiLog.instance != null) {
-					UiLog.instance.print("[red]You died!");
-				}
 
 				Camera.instance.shake(10);
 				this.remove();
@@ -515,6 +511,11 @@ public class Player extends Creature {
 
 				for (int x = this.currentRoom.left; x <= this.currentRoom.right; x++) {
 					for (int y = this.currentRoom.top + 1; y <= this.currentRoom.bottom; y++) {
+						if ((x == this.currentRoom.left || x == this.currentRoom.right || y == this.currentRoom.top || y == this.currentRoom.bottom
+							) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
+							Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
+						}
+
 						Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
 					}
 				}
@@ -1002,8 +1003,6 @@ public class Player extends Creature {
 			this.experience -= this.experienceMax;
 			this.forThisLevel = expNeeded(this.level);
 			this.experienceMax = expNeeded(this.level + 1);
-
-			UiLog.instance.print("[green]You reached level " + this.level + "!");
 		}
 	}
 }

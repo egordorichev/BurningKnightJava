@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.debug;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.ui.UiInput;
@@ -70,7 +69,6 @@ public class Console implements InputProcessor {
 	public void runCommand(String input) {
 		if (!input.startsWith("/")) {
 			String string = Player.instance.getName() + ": " + input;
-			UiLog.instance.print(string);
 
 			return;
 		}
@@ -91,8 +89,6 @@ public class Console implements InputProcessor {
 				return;
 			}
 		}
-
-		UiLog.instance.print("Unknown command '" + input + "'");
 	}
 
 	@Override

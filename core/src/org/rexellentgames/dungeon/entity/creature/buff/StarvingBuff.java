@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
-import org.rexellentgames.dungeon.ui.UiLog;
-
 public class StarvingBuff extends Buff {
 	{
 		name = "Starving";
@@ -9,13 +7,6 @@ public class StarvingBuff extends Buff {
 		bad = true;
 		infinite = true;
 		sprite = "ui (starving buff)";
-	}
-
-	@Override
-	public void onStart() {
-		if (UiLog.instance != null) {
-			UiLog.instance.print("[red]You are starving!");
-		}
 	}
 
 	@Override

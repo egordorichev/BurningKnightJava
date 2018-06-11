@@ -14,7 +14,7 @@ public class PathFinder {
 	private static int size = 0;
 	private static int width = 0;
 
-	private static int[] dir;
+	public static int[] dir;
 	private static int[] dirLR;
 
 	//performance-light shortcuts for some common pathfinder cases

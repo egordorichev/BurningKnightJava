@@ -18,7 +18,6 @@
 	"prev" : [ "Controller6", "Numpad 7" ],
 	"next" : [ "Controller7", "Numpad 9" ],
 
-	"debug" : [ "F3" ],
 	"catch" : [ "F2" ],
 	"reset" : [ "F4" ],
 	"inventory" : [ "E", "Controller 6" ],
