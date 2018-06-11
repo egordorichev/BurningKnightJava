@@ -98,8 +98,9 @@ public class Painter {
 		for (Room r : rooms) {
 			for (Point p : r.waterPlaceablePoints()) {
 				int i = level.toIndex((int) p.x, (int) p.y);
-				if (lake[i] && level.data[i] == Terrain.FLOOR_A) {
-					level.data[i] = Terrain.WATER;
+				byte t = level.data[i];
+				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
+					level.set(i, Terrain.WATER);
 				}
 			}
 		}
@@ -111,8 +112,9 @@ public class Painter {
 		for (Room r : rooms) {
 			for (Point p : r.grassPlaceablePoints()) {
 				int i = level.toIndex((int) p.x, (int) p.y);
-				if (grass[i] && level.data[i] == Terrain.FLOOR_A) {
-					level.data[i] = Terrain.DIRT;
+				byte t = level.data[i];
+				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
+					level.set(i, Terrain.DIRT);
 
 					if (Random.chance(10)) {
 						Plant plant = Plant.random();
@@ -230,7 +232,7 @@ public class Painter {
 	}
 
 	public static void set(Level level, int cell, byte value) {
-		level.data[cell] = value;
+		level.set(cell, value);
 	}
 
 	public static void set(Level level, int x, int y, byte value) {

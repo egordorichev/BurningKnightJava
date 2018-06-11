@@ -22,6 +22,7 @@ import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.ui.UiMap;
 import org.rexellentgames.dungeon.util.Dialog;
+import org.rexellentgames.dungeon.util.Fps;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
@@ -76,8 +77,8 @@ public class InGameState extends State {
 			}
 		});
 
-		Dialog.active = BurningKnight.onLampTake;
-		Dialog.active.start();
+		// Dialog.active = BurningKnight.onLampTake;
+		// Dialog.active.start();
 	}
 
 	@Override
@@ -101,12 +102,15 @@ public class InGameState extends State {
 
 	private boolean set;
 	private float last;
+	private Fps fps = new Fps();
 
 	@Override
 	public void update(float dt) {
 		if (map) {
 			return;
 		}
+
+		fps.update();
 
 		this.console.update(dt);
 
@@ -195,6 +199,7 @@ public class InGameState extends State {
 		}
 
 		Ui.ui.renderCursor();
+		Graphics.medium.draw(Graphics.batch, String.valueOf(fps.getFrameRate()),2, Display.GAME_HEIGHT);
 	}
 
 	private void setupUi() {
