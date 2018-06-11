@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.debug;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.ui.UiInput;

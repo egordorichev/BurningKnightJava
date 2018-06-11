@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.debug
 
 import org.rexellentgames.dungeon.Dungeon
-import org.rexellentgames.dungeon.ui.UiLog
 
 class LevelCommand : ConsoleCommand() {
     init {

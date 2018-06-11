@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
-import org.rexellentgames.dungeon.ui.UiLog;
-
 public class StarvingBuff extends Buff {
 	{
 		name = "Starving";

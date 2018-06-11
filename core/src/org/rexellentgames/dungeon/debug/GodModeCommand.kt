@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.debug
 
-import org.rexellentgames.dungeon.ui.UiLog
 import org.rexellentgames.dungeon.entity.creature.player.Player
 
 class GodModeCommand : ConsoleCommand() {

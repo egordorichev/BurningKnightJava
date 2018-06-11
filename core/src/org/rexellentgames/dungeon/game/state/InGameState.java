@@ -20,7 +20,6 @@ import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiEntity;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.ui.UiMap;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;

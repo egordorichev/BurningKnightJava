@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
-import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
@@ -29,7 +28,6 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.game.state.*;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.geometry.Point;
 

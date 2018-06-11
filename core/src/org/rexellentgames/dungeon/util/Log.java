@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.util;
 
 import com.badlogic.gdx.Gdx;
 import org.rexellentgames.dungeon.Display;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.debug.Console;
 
 import javax.swing.*;

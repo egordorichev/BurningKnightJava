@@ -5,7 +5,6 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;

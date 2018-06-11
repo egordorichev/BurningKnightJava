@@ -40,7 +40,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;

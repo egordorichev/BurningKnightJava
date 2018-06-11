@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.debug
 
-import org.rexellentgames.dungeon.ui.UiLog
-
 class HelpCommand : ConsoleCommand() {
     init {
         name = "/help"

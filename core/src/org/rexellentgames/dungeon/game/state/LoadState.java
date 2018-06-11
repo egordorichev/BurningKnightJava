@@ -17,7 +17,6 @@ import org.rexellentgames.dungeon.entity.level.save.SaveManager;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.Tween;
