@@ -9,7 +9,7 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class AssetLoadState extends State {
-	public static final boolean START_TO_MENU = true;
+	public static final boolean START_TO_MENU = false;
 	public static boolean done = false;
 	private static Texture region = new Texture(Gdx.files.internal("sprites_split/rexcellent_games.png"));
 	private float a;
@@ -21,6 +21,16 @@ public class AssetLoadState extends State {
 		this.a = Math.min(1, a + dt);
 
 		if (Graphics.updateLoading()) {
+			finish();
+		}
+	}
+
+	@Override
+	public void init() {
+		super.init();
+
+		if (!START_TO_MENU) {
+			Graphics.finishLoading();
 			finish();
 		}
 	}

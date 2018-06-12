@@ -31,7 +31,7 @@ public class ItemPickupFx extends Entity {
 		this.item = item;
 		this.player = player;
 
-		Graphics.layout.setText(Graphics.small, this.text);
+		Graphics.layout.setText(Graphics.medium, this.text);
 		this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
 		this.y = item.y + item.h + 4;
 		Tween.to(new Tween.Task(1, 0.1f, Tween.Type.QUAD_OUT) {
@@ -95,8 +95,8 @@ public class ItemPickupFx extends Entity {
 	public void render() {
 		float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
-		Graphics.small.setColor(c, c, c, this.a);
-		Graphics.print(this.text, Graphics.small, this.x, this.y);
-		Graphics.small.setColor(1, 1, 1, 1);
+		Graphics.medium.setColor(c, c, c, this.a);
+		Graphics.print(this.text, Graphics.medium, this.x, this.y);
+		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }
