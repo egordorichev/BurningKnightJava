@@ -106,6 +106,7 @@ public class LoadState extends State {
 			} catch (RuntimeException e) {
 				Log.report(e);
 				Thread.currentThread().interrupt();
+				Dungeon.newGame();
 
 				return;
 			}
