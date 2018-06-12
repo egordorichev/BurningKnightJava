@@ -20,7 +20,6 @@ import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.ui.UiLog;
-import org.rexellentgames.dungeon.ui.UiMap;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -196,7 +195,7 @@ public class InGameState extends State {
 		this.inventory = new UiInventory(Player.instance.getInventory());
 		Dungeon.ui.add(this.inventory);
 
-		Dungeon.ui.add(new UiMap());
+		// Dungeon.ui.add(new UiMap());
 
 		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
 			@Override

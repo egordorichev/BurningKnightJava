@@ -17,7 +17,7 @@ public class CavyChasmRoom extends PatchRoom {
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.CHASM);
 
-		float fill = 0.4f;
+		float fill = 0.5f;
 
 		setupPatch(level, fill, 5, true);
 		cleanDiagonalEdges();

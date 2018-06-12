@@ -49,6 +49,8 @@ import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLaunch
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherC
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.rocket.RocketA
 import org.rexellentgames.dungeon.entity.item.weapon.spear.SpearA
+import org.rexellentgames.dungeon.entity.item.weapon.spear.SpearB
+import org.rexellentgames.dungeon.entity.item.weapon.spear.SpearC
 import org.rexellentgames.dungeon.entity.item.weapon.sword.*
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB
@@ -205,7 +207,9 @@ object ItemRegistry {
             "fortune_armor" to FortuneArmor::class,
             "stop_and_play" to StopAndPlay::class,
             "spear_a" to SpearA::class,
-            "yoyo_a" to YoyoA::class,
+				    "spear_b" to SpearB::class,
+				    "spear_c" to SpearC::class,
+				    "yoyo_a" to YoyoA::class,
             "yoyo_b" to YoyoB::class,
             "yoyo_c" to YoyoC::class,
             "nano_orbital" to NanoOrbital::class,

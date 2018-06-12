@@ -3,6 +3,7 @@ package org.rexellentgames.dungeon.entity.level.rooms.regular;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
+import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
@@ -11,7 +12,7 @@ public class CrossRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 1, Terrain.CHASM);
+		Painter.fill(level, this, 1, Random.chance(50) ? Terrain.WALL : Terrain.CHASM);
 
 		byte f = Terrain.randomFloor();
 
