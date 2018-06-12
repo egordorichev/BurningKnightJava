@@ -122,7 +122,7 @@ public class Rect {
 	}
 
 	public ArrayList<Point> getPoints() {
-		ArrayList<Point> points = new ArrayList<Point>();
+		ArrayList<Point> points = new ArrayList<>();
 
 		for (int i = Math.min(right, left); i <= Math.max(right, left); i++) {
 			for (int j = Math.min(top, bottom); j <= Math.max(top, bottom); j++) {

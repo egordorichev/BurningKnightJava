@@ -19,7 +19,8 @@ public class LampRoom extends RegularRoom {
 
 		do {
 			room = RegularRoomPool.instance.generate();
-		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom || room instanceof MazeRoom || room instanceof BigHoleRoom || room instanceof SmallMazeRoom);
+		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom || room instanceof MazeRoom || room instanceof BigHoleRoom || room instanceof SmallMazeRoom || room instanceof CrossRoom
+			|| room instanceof LetterRoom || room instanceof LavaLakeRoom || room instanceof RectCornerRoom || room instanceof SmallAdditionRoom);
 
 		room.size = this.size;
 		room.left = this.left;
@@ -64,12 +65,12 @@ public class LampRoom extends RegularRoom {
 
 	@Override
 	public int getMinHeight() {
-		return 6;
+		return 10;
 	}
 
 	@Override
 	public int getMinWidth() {
-		return 6;
+		return 10;
 	}
 
 	@Override
@@ -84,15 +85,5 @@ public class LampRoom extends RegularRoom {
 	@Override
 	public int getMaxConnections(Connection side) {
 		return 2;
-	}
-
-	@Override
-	public int getMaxHeight() {
-		return 11;
-	}
-
-	@Override
-	public int getMaxWidth() {
-		return 11;
 	}
 }

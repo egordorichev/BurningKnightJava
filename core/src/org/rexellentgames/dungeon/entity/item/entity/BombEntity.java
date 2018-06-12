@@ -36,7 +36,10 @@ public class BombEntity extends Entity {
 		super.init();
 
 		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 
 		this.playSfx("bomb_placed");
 	}

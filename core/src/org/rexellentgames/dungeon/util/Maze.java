@@ -110,10 +110,7 @@ public class Maze {
 			x += mov[0];
 			y += mov[1];
 			//checks if tiles we're examining are valid and open
-			if (x > 0 && x < maze.length - 1 && y > 0 && y < maze[0].length - 1 &&
-				!maze[x][y] && !maze[x + sideX][y + sideY] && !maze[x - sideX][y - sideY]) {
-				continue;
-			} else {
+			if (!(x > 0 && x < maze.length - 1 && y > 0 && y < maze[0].length - 1 && !maze[x][y] && !maze[x + sideX][y + sideY] && !maze[x - sideX][y - sideY])) {
 				return false;
 			}
 		}

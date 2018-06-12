@@ -31,9 +31,11 @@ public class BumboPet extends SimpleFollowPet {
 		this.w = this.region.getRegionWidth();
 		this.h = this.region.getRegionHeight();
 
-		this.body = World.createCircleBody(this, 0, 0, this.w / 2f,
-			BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		this.body = World.createCircleBody(this, 0, 0, this.w / 2f, BodyDef.BodyType.DynamicBody, false);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	@Override

@@ -10,13 +10,11 @@ public class SpikedRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		byte f = Terrain.randomFloor();
-
 		if (this.getWidth() > 5 && this.getHeight() > 5) {
 			Painter.fill(level, this, 2, Terrain.LAVA);
-			Painter.fill(level, this, 3, f);
+			Painter.fill(level, this, 3, Terrain.DIRT);
 
-			Painter.set(level, this.left + this.getWidth() / 2, Random.chance(50) ? this.top + 2 : this.bottom - 2, f);
+			Painter.set(level, this.left + this.getWidth() / 2, Random.chance(50) ? this.top + 2 : this.bottom - 2, Terrain.DIRT);
 		}
 	}
 

@@ -15,7 +15,13 @@ public class FlameFx extends Entity {
 	public static Color orange = Color.valueOf("#df7126");
 
 	{
+		color = Random.newFloat() < 0.7 ? orange : red;
+		t = Random.newFloat(1024);
+		tt = 0;
+		s = Random.newFloat(3, 6);
+		depth = 6;
 		alwaysActive = true;
+		alwaysRender = true;
 	}
 
 	private Color color;
@@ -29,15 +35,8 @@ public class FlameFx extends Entity {
 
 	public FlameFx(Entity owner) {
 		this.owner = owner;
-		this.color = Random.newFloat() < 0.7 ? orange : red;
-		this.t = Random.newFloat(1024);
-		this.tt = 0;
-		this.s = Random.newFloat(3, 6);
-		this.depth = 6;
-		this.alwaysActive = true;
-		this.alwaysRender = true;
-		this.x = owner.x;
-		this.y = owner.y;
+		x = owner.x;
+		y = owner.y;
 
 		Tween.to(new Tween.Task(4, 0.05f) {
 			@Override

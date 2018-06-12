@@ -24,13 +24,10 @@ public class KeyConfigState extends State {
 		Dungeon.area.add(new UiButton("save", Display.GAME_WIDTH / 2, (int) (128 - 24 * 3.5f)) {
 			@Override
 			public void onClick() {
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Graphics.playSfx("menu/exit");
-						Dungeon.game.setState(new InputSettingsState());
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					Graphics.playSfx("menu/exit");
+					Dungeon.game.setState(new InputSettingsState());
+					Camera.instance.shake(3);
 				});
 			}
 		});

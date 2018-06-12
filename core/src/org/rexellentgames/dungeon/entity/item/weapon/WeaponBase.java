@@ -19,18 +19,35 @@ import java.io.IOException;
 
 public class WeaponBase extends Item {
 	protected Modifier modifier;
-	protected int damage = 1;
+	public int damage = 1;
 	protected int minDamage = 1;
 	protected float timeA = 0.1f;
 	protected float timeB = 0.1f;
 	protected float knockback = 10f;
 	protected float critChance = 4f;
 	public static boolean luck;
+	public int initialDamage;
+	public int initialDamageMin;
+	public float initialCrit;
 
 	public void modifyUseTime(float am) {
 		this.useTime += am;
-		this.timeA += am / 2;
-		this.timeB += am / 2;
+
+		if (this.timeB == 0) {
+			this.timeA += am;
+		} else {
+			this.timeA += am / 2;
+			this.timeB += am / 2;
+		}
+	}
+
+	public void setCritChance(float c) {
+		this.initialCrit = this.critChance;
+		this.critChance = c;
+	}
+
+	public void resetCritChance() {
+		this.critChance = initialCrit;
 	}
 
 	protected boolean lastCrit;
@@ -41,8 +58,16 @@ public class WeaponBase extends Item {
 	}
 
 	public void modifyDamage(int am) {
+		this.initialDamage = damage;
+		this.initialDamageMin = minDamage;
+
 		this.damage += am;
 		this.minDamage += am;
+	}
+
+	public void restoreDamage() {
+		this.damage = initialDamage;
+		this.minDamage = initialDamageMin;
 	}
 
 	public void setModifier(Modifier modifier) {

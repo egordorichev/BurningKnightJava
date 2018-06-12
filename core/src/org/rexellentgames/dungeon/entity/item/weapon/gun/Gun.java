@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
@@ -16,7 +15,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Bullet;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.Shell;
-import org.rexellentgames.dungeon.entity.plant.Plant;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
@@ -46,23 +44,20 @@ public class Gun extends WeaponBase {
 	private Vector2 last = new Point();
 	private float lastAngle;
 
-	private RayCastCallback callback = new RayCastCallback() {
-		@Override
-		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-			Log.info(fixture.isSensor() + " " + fixture.getBody().getUserData());
+	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
+		Log.info(fixture.isSensor() + " " + fixture.getBody().getUserData());
 
-			// DOESNT WORK!?!?!
-			if(fixture.isSensor()) {
-				return 1;
-			}
-
-			if (fraction < closestFraction) {
-				closestFraction = fraction;
-				last = point;
-			}
-
-			return fraction;
+		// DOESNT WORK!?!?!
+		if(fixture.isSensor()) {
+			return 1;
 		}
+
+		if (fraction < closestFraction) {
+			closestFraction = fraction;
+			last = point;
+		}
+
+		return fraction;
 	};
 
 	public static float shortAngleDist(float a0, float a1) {
@@ -271,9 +266,7 @@ public class Gun extends WeaponBase {
 			bullet.a = a;
 
 			Dungeon.area.add(bullet);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
+		} catch (IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
 	}

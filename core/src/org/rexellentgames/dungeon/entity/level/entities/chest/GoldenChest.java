@@ -6,23 +6,17 @@ import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.accessory.hat.RubyHat;
 import org.rexellentgames.dungeon.entity.item.consumable.potion.HealingPotion;
-import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeA;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeB;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeC;
 import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeD;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowA;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.BowB;
-import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerB;
 import org.rexellentgames.dungeon.entity.item.weapon.dagger.DaggerC;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.GunC;
 import org.rexellentgames.dungeon.entity.item.weapon.rocketlauncher.RocketLauncherC;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordA;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.SwordC;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.butcher.ButcherC;
-import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarB;
 import org.rexellentgames.dungeon.entity.item.weapon.sword.morning.MorningStarC;
 import org.rexellentgames.dungeon.util.Animation;
@@ -32,6 +26,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class GoldenChest extends Chest {
 	private static Animation animation = Animation.make("actor-golden-chest");
@@ -39,8 +34,9 @@ public class GoldenChest extends Chest {
 	private static AnimationData open = animation.get("anim");
 	private static AnimationData openend = animation.get("open");
 
+	@SuppressWarnings("unchecked")
 	private static ArrayList<Class<? extends Item>>[] items = new ArrayList[]{
-		new ArrayList(Arrays.asList(Gold.class)),
+		new ArrayList(Collections.singletonList(Gold.class)),
 		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, GunC.class, HealingPotion.class, BowA.class, RubyHat.class, RocketLauncherC.class)),
 		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
 		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
@@ -66,9 +62,7 @@ public class GoldenChest extends Chest {
 			}
 
 			return items[Dungeon.depth].get(i).newInstance();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
+		} catch (IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
 

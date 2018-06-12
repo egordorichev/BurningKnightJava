@@ -15,6 +15,11 @@ public class HallLevel extends RegularLevel {
 	}
 
 	@Override
+	public String getName() {
+		return "Old castle";
+	}
+
+	@Override
 	public String getMusic() {
 		return Dungeon.depth == 0 ? "Gobbeon" : "Born to do rogueries";
 	}

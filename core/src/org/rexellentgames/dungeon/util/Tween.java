@@ -1,9 +1,11 @@
 package org.rexellentgames.dungeon.util;
 
+import org.rexellentgames.dungeon.Dungeon;
+
 import java.util.ArrayList;
 
 public class Tween {
-	private static ArrayList<Task> tasks = new ArrayList<Task>();
+	private static ArrayList<Task> tasks = new ArrayList<>();
 	private static float t = 1.70158f;
 
 	public enum Type {
@@ -122,6 +124,10 @@ public class Tween {
 		for (int i = tasks.size() - 1; i >= 0; i--) {
 			Task task = tasks.get(i);
 
+			if (!task.runWhenPaused() && Dungeon.game.getState().isPaused()) {
+				continue;
+			}
+			
 			if (task.delay > 0) {
 				task.delay -= dt;
 				continue;
@@ -182,6 +188,10 @@ public class Tween {
 
 		public float function(float p) {
 			return this.type.get(p);
+		}
+		
+		public boolean runWhenPaused() {
+			return false;
 		}
 	}
 }

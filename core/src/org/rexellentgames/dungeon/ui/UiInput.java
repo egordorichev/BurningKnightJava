@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.CollisionHelper;
-import org.rexellentgames.dungeon.util.Log;
 
 import java.awt.event.KeyEvent;
 

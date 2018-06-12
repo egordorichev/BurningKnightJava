@@ -1,14 +1,13 @@
 package org.rexellentgames.dungeon.entity.fx;
 
 import com.badlogic.gdx.graphics.Color;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 import java.util.ArrayList;
 
 public class Lighting extends Laser {
-	private ArrayList<Point> shift = new ArrayList<Point>();
+	private ArrayList<Point> shift = new ArrayList<>();
 	private int num;
 	private double an;
 	private Point target;

@@ -12,7 +12,6 @@ import org.rexellentgames.dungeon.entity.creature.buff.Buff;
 import org.rexellentgames.dungeon.entity.creature.fx.BloodFx;
 import org.rexellentgames.dungeon.entity.creature.fx.HpFx;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
-import org.rexellentgames.dungeon.entity.item.weapon.Weapon;
 import org.rexellentgames.dungeon.entity.level.entities.Door;
 import org.rexellentgames.dungeon.entity.level.entities.SolidProp;
 import org.rexellentgames.dungeon.entity.trap.Turret;
@@ -62,8 +61,11 @@ public class BulletEntity extends Entity {
 			this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		}
 
-		this.body.setTransform(this.x, this.y, ra);
-		this.body.setBullet(true);
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, ra);
+			this.body.setBullet(true);
+		}
+		
 		this.auto = this.letter.equals("C");
 	}
 
@@ -71,7 +73,7 @@ public class BulletEntity extends Entity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Weapon || (entity instanceof SolidProp && !(entity instanceof Turret))) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || (entity instanceof SolidProp && !(entity instanceof Turret))) {
 
 			this.remove = true;
 		} else if (entity instanceof Creature && this.t >= 0.05f) {
@@ -100,9 +102,7 @@ public class BulletEntity extends Entity {
 			if(toApply != null) {
 				try {
 					creature.addBuff(toApply.newInstance().setDuration(this.duration));
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
+				} catch (InstantiationException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}

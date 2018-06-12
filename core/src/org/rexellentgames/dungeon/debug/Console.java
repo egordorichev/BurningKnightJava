@@ -2,7 +2,6 @@ package org.rexellentgames.dungeon.debug;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.ui.UiInput;
@@ -26,7 +25,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new GiveCommand());
 		this.commands.add(new HealCommand());
 		this.commands.add(new GodModeCommand());
-		this.commands.add(new GenerateCommand());
+		this.commands.add(new ResetCommand());
 		this.commands.add(new LevelCommand());
 		this.commands.add(new LightCommand());
 		this.commands.add(new DebugCommand());
@@ -51,7 +50,7 @@ public class Console implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (!this.open && keycode == Input.Keys.ESCAPE) {
+		if (keycode == Input.Keys.ESCAPE) {
 			this.open = !this.open;
 			org.rexellentgames.dungeon.game.input.Input.instance.blocked = this.open;
 		} else if (keycode == Input.Keys.ENTER && this.open) {
@@ -70,7 +69,6 @@ public class Console implements InputProcessor {
 	public void runCommand(String input) {
 		if (!input.startsWith("/")) {
 			String string = Player.instance.getName() + ": " + input;
-			UiLog.instance.print(string);
 
 			return;
 		}
@@ -82,17 +80,13 @@ public class Console implements InputProcessor {
 			if (command.getName().equals(name) || command.getShortName().equals(name)) {
 				String[] args = new String[parts.length - 1];
 
-				for (int i = 0; i < args.length; i++) {
-					args[i] = parts[i + 1];
-				}
+				System.arraycopy(parts, 1, args, 0, args.length);
 
 				command.run(this, args);
 
 				return;
 			}
 		}
-
-		UiLog.instance.print("Unknown command '" + input + "'");
 	}
 
 	@Override

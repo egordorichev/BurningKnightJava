@@ -57,7 +57,7 @@ public class Creature extends SaveableEntity {
 	public int hw;
 	public int hh;
 	public float z;
-	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
+	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
@@ -188,8 +188,10 @@ public class Creature extends SaveableEntity {
 					}
 
 					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16 + 4, y * 16 - 4, 8, 8)) {
-						short t = Dungeon.level.get(x, y);
+						byte t = Dungeon.level.get(x, y);
+						byte tt = Dungeon.level.liquidData[Level.toIndex(x, y)];
 						this.onTouch(t, x, y);
+						this.onTouch(tt, x, y);
 					}
 				}
 			}
@@ -458,7 +460,7 @@ public class Creature extends SaveableEntity {
 				clazz = Class.forName(t);
 
 				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance(new Object[]{});
+				Object object = constructor.newInstance();
 				Buff buff = (Buff) object;
 
 				buff.setOwner(this);

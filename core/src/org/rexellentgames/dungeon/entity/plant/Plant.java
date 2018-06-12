@@ -17,7 +17,6 @@ import org.rexellentgames.dungeon.entity.item.weapon.axe.AxeFx;
 import org.rexellentgames.dungeon.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexellentgames.dungeon.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
-import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.util.AnimationData;
 import org.rexellentgames.dungeon.util.Random;
@@ -56,7 +55,10 @@ public class Plant extends SaveableEntity {
 
 		this.t = Random.newFloat(128);
 		this.body = World.createSimpleBody(this, 3, 3, 10, 10, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	private float lastFlame;
@@ -175,7 +177,7 @@ public class Plant extends SaveableEntity {
 			this.dead = true;
 			this.animation = this.getWiltAnimation();
 			this.broke = true;
-			Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
+			// Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
 		} else if (entity instanceof Creature) {
 			Tween.to(new Tween.Task(5f, 0.1f) {
 				@Override

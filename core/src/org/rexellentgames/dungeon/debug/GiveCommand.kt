@@ -1,19 +1,12 @@
 package org.rexellentgames.dungeon.debug
 
 import org.rexellentgames.dungeon.entity.creature.player.Player
-import org.rexellentgames.dungeon.entity.item.Item
 import org.rexellentgames.dungeon.entity.item.ItemHolder
 import org.rexellentgames.dungeon.entity.item.ItemRegistry
-import org.rexellentgames.dungeon.ui.UiLog
+import org.rexellentgames.dungeon.util.Log
 import kotlin.reflect.full.createInstance
 
-class GiveCommand : ConsoleCommand() {
-    init {
-        shortName = "/gv"
-        name = "/give"
-        description = "[item] (count) gives an item"
-    }
-
+class GiveCommand : ConsoleCommand("/give", "/gv", "item] (count) gives an item") {
     override fun run(console: Console, args: Array<String>) {
         var count = 1
 
@@ -27,13 +20,13 @@ class GiveCommand : ConsoleCommand() {
             try {
                 val clazz = ItemRegistry.items[name]
                 if (clazz == null) {
-                    UiLog.instance.print("[red]Unknown item")
+                    Log.error("[Unknown item")
                     return
                 }
 
                 val item = clazz.createInstance()
                 val itemHolder = ItemHolder()
-                itemHolder.item = item as Item
+                itemHolder.item = item
 
                 if (item.isStackable) {
                     item.count = count
@@ -41,11 +34,9 @@ class GiveCommand : ConsoleCommand() {
 
                 Player.instance.inventory.add(itemHolder)
             } catch (e: Exception) {
-                UiLog.instance.print("[red]Failed to create item, consult @egordorichev")
+                Log.error("Failed to create item, consult @egordorichev")
                 e.printStackTrace()
             }
-        } else {
-            UiLog.instance.print("/give [item] (count)")
         }
     }
 }

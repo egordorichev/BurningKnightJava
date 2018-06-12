@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon.entity.level.builders;
 import org.rexellentgames.dungeon.entity.level.rooms.connection.ConnectionRoom;
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.regular.RegularRoom;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -50,7 +49,7 @@ public class LoopBuilder extends RegularBuilder {
 
 		float startAngle = Random.newFloat(0, 360);
 
-		ArrayList<Room> loop = new ArrayList<Room>();
+		ArrayList<Room> loop = new ArrayList<>();
 		int roomsOnLoop = (int) (this.multiConnection.size() * this.pathLength) + Random.chances(this.pathLenJitterChances);
 
 		roomsOnLoop = Math.min(roomsOnLoop, this.multiConnection.size());
@@ -129,9 +128,9 @@ public class LoopBuilder extends RegularBuilder {
 		loopCenter.x /= loop.size();
 		loopCenter.y /= loop.size();
 
-		ArrayList<Room> branchable = new ArrayList<Room>(loop);
+		ArrayList<Room> branchable = new ArrayList<>(loop);
 
-		ArrayList<Room> roomsToBranch = new ArrayList<Room>();
+		ArrayList<Room> roomsToBranch = new ArrayList<>();
 		roomsToBranch.addAll(this.multiConnection);
 		roomsToBranch.addAll(this.singleConnection);
 		weightRooms(branchable);

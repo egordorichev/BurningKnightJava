@@ -13,12 +13,9 @@ public class DesktopLauncher {
 	private static final int SCALE = 2;
 
 	public static void main(String[] arg) {
-		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-			@Override
-			public void uncaughtException(Thread thread, Throwable throwable) {
-				Crash.report(thread, throwable);
-				Gdx.app.exit();
-			}
+		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+			Crash.report(thread, throwable);
+			Gdx.app.exit();
 		});
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -65,10 +62,11 @@ public class DesktopLauncher {
 			}
 		});
 
-		config.setTitle("Burning Knight " + Version.asString() + ": " + titles[Random.newInt(titles.length)]);
+		Dungeon.title = "Burning Knight " + Version.asString() + ": " + titles[Random.newInt(titles.length)];
+
+		config.setTitle(Dungeon.title);
 		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
-		config.setIdleFPS(0);
 		config.setBackBufferConfig(1, 1, 1, 1, 0, 0, 4);
 
 		Dungeon.arg = arg;
@@ -83,6 +81,10 @@ public class DesktopLauncher {
 		"'Friendly' fire",
 		"Get ready to burn",
 		"Do you need some heat?",
-		"BBQ is ready!"
+		"BBQ is ready!",
+		"Hot sales!",
+		"AAAAAA",
+		"It burns burns burns",
+		"Not for children under 5"
 	};
 }

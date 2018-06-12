@@ -34,8 +34,8 @@ public class Random {
 		int length = chances.length;
 		float sum = 0;
 
-		for (int i = 0; i < length; i++) {
-			sum += chances[i];
+		for (float chance : chances) {
+			sum += chance;
 		}
 
 		float value = newFloat(sum);
@@ -53,24 +53,12 @@ public class Random {
 	}
 
 	public static int chances(Float[] chances) {
-		int length = chances.length;
-		float sum = 0;
-
-		for (int i = 0; i < length; i++) {
-			sum += chances[i];
+		float[] primitiveChances = new float[chances.length];
+		
+		for (int i = 0; i < chances.length; i++) {
+			primitiveChances[i] = chances[i];
 		}
-
-		float value = newFloat(sum);
-		sum = 0;
-
-		for (int i = 0; i < length; i++) {
-			sum += chances[i];
-
-			if (value < sum) {
-				return i;
-			}
-		}
-
-		return -1;
+		
+		return chances(primitiveChances);
 	}
 }

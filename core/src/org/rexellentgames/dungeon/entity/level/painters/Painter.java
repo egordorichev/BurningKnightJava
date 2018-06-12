@@ -64,7 +64,7 @@ public class Painter {
 		bottomMost += 10;
 
 		//add 1 to account for 0 values
-		level.setSize(rightMost + 1, bottomMost + 1);
+		Level.setSize(rightMost + 1, bottomMost + 1);
 		level.generateDecor();
 		level.fill();
 
@@ -97,9 +97,10 @@ public class Painter {
 
 		for (Room r : rooms) {
 			for (Point p : r.waterPlaceablePoints()) {
-				int i = level.toIndex((int) p.x, (int) p.y);
-				if (lake[i] && level.data[i] == Terrain.FLOOR_A) {
-					level.data[i] = Terrain.WATER;
+				int i = Level.toIndex((int) p.x, (int) p.y);
+				byte t = level.data[i];
+				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
+					level.set(i, Terrain.WATER);
 				}
 			}
 		}
@@ -110,11 +111,12 @@ public class Painter {
 
 		for (Room r : rooms) {
 			for (Point p : r.grassPlaceablePoints()) {
-				int i = level.toIndex((int) p.x, (int) p.y);
-				if (grass[i] && level.data[i] == Terrain.FLOOR_A) {
-					level.data[i] = Terrain.DIRT;
+				int i = Level.toIndex((int) p.x, (int) p.y);
+				byte t = level.data[i];
+				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
+					level.set(i, Terrain.DIRT);
 
-					if (Random.chance(10)) {
+					/*if (Random.chance(10)) {
 						Plant plant = Plant.random();
 
 						plant.x = p.x * 16;
@@ -124,7 +126,7 @@ public class Painter {
 						Dungeon.area.add(plant);
 
 						plant.grow();
-					}
+					}*/
 				}
 			}
 		}
@@ -158,8 +160,9 @@ public class Painter {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
 				byte t = level.get((int) d.x, (int) d.y);
+				boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
 
-				if (t != Terrain.FLOOR_FAKE && t != Terrain.CRACK && (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET)) {
+				if (t != Terrain.FLOOR_FAKE && t != Terrain.FLOOR_A && t != Terrain.CRACK && gt) {
 					org.rexellentgames.dungeon.entity.level.entities.Door door = new org.rexellentgames.dungeon.entity.level.entities.Door(
 						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 
@@ -186,8 +189,10 @@ public class Painter {
 
 				if (d.getType() == Door.Type.SECRET) {
 					level.set((int) d.x, (int) d.y, Terrain.CRACK);
-				} else {
+				} else if (gt) {
 					level.set((int) d.x, (int) d.y, Terrain.FLOOR_FAKE);
+				} else {
+					level.set((int) d.x, (int) d.y, Terrain.FLOOR_A);
 				}
 			}
 		}
@@ -227,11 +232,11 @@ public class Painter {
 	}
 
 	public static void set(Level level, int cell, byte value) {
-		level.data[cell] = value;
+		level.set(cell, value);
 	}
 
 	public static void set(Level level, int x, int y, byte value) {
-		set(level, x + y * level.getWidth(), value);
+		set(level, x + y * Level.getWidth(), value);
 	}
 
 	public static void setBold(Level level, int x, int y, byte value) {
@@ -339,7 +344,7 @@ public class Painter {
 				rowW++;
 			}
 
-			int cell = x + (w - (int) rowW) / 2 + ((y + i) * level.getWidth());
+			int cell = x + (w - (int) rowW) / 2 + ((y + i) * Level.getWidth());
 			Arrays.fill(level.data, cell, cell + (int) rowW, value);
 		}
 	}

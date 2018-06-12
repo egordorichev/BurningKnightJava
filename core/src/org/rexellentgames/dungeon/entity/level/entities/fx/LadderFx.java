@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
@@ -60,7 +59,6 @@ public class LadderFx extends UiEntity {
 
 			if (this.ladder instanceof Entrance) {
 				if (Dungeon.depth <= 0) {
-					UiLog.instance.print("[orange]You cant leave just yet!");
 				} else {
 					this.end();
 				}

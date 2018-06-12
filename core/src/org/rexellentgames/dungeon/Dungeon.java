@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
-import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
@@ -27,9 +26,11 @@ import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
-import org.rexellentgames.dungeon.game.state.*;
+import org.rexellentgames.dungeon.game.state.AssetLoadState;
+import org.rexellentgames.dungeon.game.state.InGameState;
+import org.rexellentgames.dungeon.game.state.LoadState;
+import org.rexellentgames.dungeon.game.state.State;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -66,14 +67,16 @@ public class Dungeon extends ApplicationAdapter {
 	public static Color BLUE = Color.valueOf("#306082");
 	public static Color YELLOW = Color.valueOf("#fbf236");
 	public static Color BROWN = Color.valueOf("#8f563b");
-	private static int to = 0;
-	private Color background = Color.valueOf("#000000");
-	private Color background2 = Color.valueOf("#323c39");
+	private static int to = -2;
+	public static Color background = Color.BLACK;
+	public static Color background2 = Color.BLACK;
 	public static SplashWorker worker;
 	public static float shockTime = 10;
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
 	public static boolean flip;
+
+	public static String title;
 
 	public static void reportException(Exception e) {
 		Log.report(e);
@@ -102,7 +105,17 @@ public class Dungeon extends ApplicationAdapter {
 
 		File file = Gdx.files.external(SaveManager.getDir()).file();
 
-		for (File f : file.listFiles()) {
+		if (file == null) {
+			return;
+		}
+		
+		File[] files = file.listFiles();
+		
+		if (files == null) {
+			return;
+		}
+		
+		for (File f : files) {
 			f.delete();
 		}
 
@@ -228,11 +241,6 @@ public class Dungeon extends ApplicationAdapter {
 
 		if (Input.instance != null) {
 			Input.instance.updateMousePosition();
-
-			if (Input.instance.wasPressed("debug")) {
-				Log.UI_LOG = !Log.UI_LOG;
-				UiLog.instance.print(Log.UI_LOG ? "[orange]Debug logging is now on!" : "[green]Debug logging is now off!");
-			}
 		}
 
 		Tween.update(dt);
@@ -255,13 +263,11 @@ public class Dungeon extends ApplicationAdapter {
 
 		Dungeon.ui.update(dt);
 
-		if (!paused) {
-			game.update(dt);
-		}
+		game.update(dt);
 		
 		updateMouse(dt);
 
-		Gdx.gl.glClearColor(this.background.r, this.background.g, this.background.b, 1);
+		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		renderGame();
@@ -273,7 +279,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void renderGame() {
 		Graphics.surface.begin();
-		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+		Gdx.gl.glClearColor(this.background2.r, this.background2.g, this.background2.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Graphics.batch.begin();
@@ -448,14 +454,16 @@ public class Dungeon extends ApplicationAdapter {
 		Settings.save();
 		Log.close();
 
-		Player.shader.dispose();
-		Mob.shader.dispose();
-		Mob.frozen.dispose();
-		BurningKnight.shader.dispose();
-		Level.waterShader.dispose();
-		MagicWell.shader.dispose();
-		WeaponBase.shader.dispose();
-		shader.dispose();
+		if (Player.shader != null) {
+			Player.shader.dispose();
+			Mob.shader.dispose();
+			Mob.frozen.dispose();
+			BurningKnight.shader.dispose();
+			Level.waterShader.dispose();
+			MagicWell.shader.dispose();
+			WeaponBase.shader.dispose();
+			shader.dispose();
+		}
 	}
 
 	private void initInput() {

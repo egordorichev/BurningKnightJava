@@ -39,7 +39,9 @@ public class HalfRoomChasm extends RegularRoom {
 			rect = new Rect(this.left + 1, this.top + 1, this.right - this.getWidth() / 2, this.bottom);
 		}
 
-		this.paintTunnel(level, f);
-		Painter.fill(level, rect, f);
+		if (rect != null) {
+			this.paintTunnel(level, f);
+			Painter.fill(level, rect, f);
+		}
 	}
 }

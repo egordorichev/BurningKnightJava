@@ -1,6 +1,5 @@
 package org.rexellentgames.dungeon.entity.item.weapon.bow.arrows;
 
-import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.item.Item;
 
 public class Arrow extends Item {

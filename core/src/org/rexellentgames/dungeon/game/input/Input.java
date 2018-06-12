@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
@@ -147,8 +146,8 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 	}
 
-	private HashMap<String, State> keys = new HashMap<String, State>();
-	private HashMap<String, ArrayList<String>> bindings = new HashMap<String, ArrayList<String>>();
+	private HashMap<String, State> keys = new HashMap<>();
+	private HashMap<String, ArrayList<String>> bindings = new HashMap<>();
 	private HashMap<String, Float> axes = new HashMap<>();
 	private int amount;
 
@@ -219,7 +218,7 @@ public class Input implements InputProcessor, ControllerListener {
 			if (this.bindings.containsKey(name)) {
 				array = this.bindings.get(name);
 			} else {
-				array = new ArrayList<String>();
+				array = new ArrayList<>();
 				this.bindings.put(name, array);
 			}
 

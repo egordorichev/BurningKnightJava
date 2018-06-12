@@ -1,10 +1,7 @@
 package org.rexellentgames.dungeon.entity.level;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -22,6 +19,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
+import org.rexellentgames.dungeon.entity.level.levels.desert.DesertBossLevel;
 import org.rexellentgames.dungeon.entity.level.levels.desert.DesertLevel;
 import org.rexellentgames.dungeon.entity.level.levels.hall.HallBossLevel;
 import org.rexellentgames.dungeon.entity.level.levels.hall.HallLevel;
@@ -46,9 +44,8 @@ public abstract class Level extends SaveableEntity {
 	public static boolean SHADOWS = true;
 
 	public static Color[] colors = {
-		Color.valueOf("#221f41"),
-		Color.valueOf("#663531"),
-		Color.valueOf("#221f41")
+		Color.valueOf("#1a1932"),
+		Color.valueOf("#391f21")
 	};
 
 	public Room entrance;
@@ -68,7 +65,9 @@ public abstract class Level extends SaveableEntity {
 	private static int HEIGHT = 36;
 	private static int SIZE = getWidth() * getHeight();
 	public byte[] data;
+	public byte[] liquidData;
 	protected byte[] variants;
+	protected byte[] liquidVariants;
 	protected byte[] walls;
 	protected float[] light;
 	protected float[] lightR;
@@ -80,7 +79,6 @@ public abstract class Level extends SaveableEntity {
 	protected byte[] decor;
 	protected boolean[] explored;
 	protected Body body;
-	public static int level;
 	protected ArrayList<Room> rooms;
 	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
 
@@ -89,7 +87,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void exploreRandom() {
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			if (Random.chance(50)) {
 				explored[i] = true;
 			}
@@ -116,7 +114,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void generateDecor() {
-		decor = new byte[getSIZE()];
+		decor = new byte[getSize()];
 	}
 
 	public static int getHeight() {
@@ -128,7 +126,7 @@ public abstract class Level extends SaveableEntity {
 		Level.SIZE = Level.WIDTH * Level.HEIGHT;
 	}
 
-	public static int getSIZE() {
+	public static int getSize() {
 		return SIZE;
 	}
 
@@ -142,21 +140,28 @@ public abstract class Level extends SaveableEntity {
 	public static RegularLevel forDepth(int depth) {
 		int weight = 0;
 
-		/*for (int i = 0; i < boss.length; i++) {
-			System.out.println(i + " " + boss[i]);
-		}*/
-
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
 
-			if (depth > 0 && boss[depth - 1]) {
-				switch (i) {
-					case 0: default: return new HallBossLevel();
-				}
-			} else if (depth < weight) {
-				switch (i) {
-					case 0: default: return new HallLevel();
-					case 1: return new DesertLevel();
+			if (depth < weight) {
+				if (depth > 0 && boss[depth]) {
+					Log.info("Get boss for depth " + depth + " and type " + i);
+
+					switch (i) {
+						case 0:
+						default:
+							return new HallBossLevel();
+						case 1:
+							return new DesertBossLevel();
+					}
+				} else {
+					switch (i) {
+						case 0:
+						default:
+							return new HallLevel();
+						case 1:
+							return new DesertLevel();
+					}
 				}
 			}
 		}
@@ -164,13 +169,29 @@ public abstract class Level extends SaveableEntity {
 		return new HallLevel();
 	}
 
+	public String getDepthAsCoolNum() {
+		int weight = 0;
+
+		for (int i = 0; i < 5; i++) {
+			weight += depths[i];
+
+			if (Dungeon.depth <= weight) {
+				return "" + letters[(depths[i] - (weight - Dungeon.depth) - 1)];
+			}
+		}
+
+		return "";
+	}
+
+	private static String[] letters = { "I", "II", "III", "IV", "V", "VI" };
+
 	public boolean addLight = false;
 
 	public void initLight() {
-		this.light = new float[getSIZE()];
-		this.lightR = new float[getSIZE()];
-		this.lightG = new float[getSIZE()];
-		this.lightB = new float[getSIZE()];
+		this.light = new float[getSize()];
+		this.lightR = new float[getSize()];
+		this.lightG = new float[getSize()];
+		this.lightB = new float[getSize()];
 
 		Color color = colors[Dungeon.level.uid];
 
@@ -184,25 +205,27 @@ public abstract class Level extends SaveableEntity {
 	public int uid = 0;
 
 	public void fill() {
-		this.data = new byte[getSIZE()];
-		this.explored = new boolean[getSIZE()];
+		this.data = new byte[getSize()];
+		this.liquidData = new byte[getSize()];
+		this.explored = new boolean[getSize()];
 
 		this.initLight();
 
 		byte tile = Terrain.WALL;
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			this.data[i] = tile;
 		}
 	}
 
 	public void loadPassable() {
-		this.passable = new boolean[getSIZE()];
-		this.low = new boolean[getSIZE()];
-		this.variants = new byte[getSIZE()];
-		this.walls = new byte[getSIZE()];
+		this.passable = new boolean[getSize()];
+		this.low = new boolean[getSize()];
+		this.variants = new byte[getSize()];
+		this.liquidVariants = new byte[getSize()];
+		this.walls = new byte[getSize()];
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
 			this.low[i] = !this.checkFor(i, Terrain.HIGH);
 		}
@@ -221,18 +244,22 @@ public abstract class Level extends SaveableEntity {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 			this.tileUp(x, y, tile, false);
-		} else if (tile == Terrain.WATER) {
-			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.TABLE) {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.GRASS) {
 			this.tileUp(x, y, tile, false);
-		} else if (tile == Terrain.LAVA) {
-			this.tileUp(x, y, tile, false);
-		} else if (tile == Terrain.DIRT || tile == Terrain.PLANTED_DIRT) {
-			this.tileUp(x, y, Terrain.IS_DIRT, true);
 		} else if (tile == Terrain.FLOOR_A || tile == Terrain.FLOOR_B || tile == Terrain.FLOOR_C || tile == Terrain.FLOOR_D) {
 			this.makeFloor(x, y, tile);
+		}
+
+		byte t = this.liquidData[toIndex(x, y)];
+
+		if (t == Terrain.LAVA) {
+			this.tileUpLiquid(x, y, t, false);
+		} else if (t == Terrain.WATER) {
+			this.tileUpLiquid(x, y, t, false);
+		} else if (t == Terrain.DIRT) {
+			this.tileUpLiquid(x, y, t, false);
 		}
 
 		byte count = 0;
@@ -337,6 +364,28 @@ public abstract class Level extends SaveableEntity {
 		this.variants[toIndex(x, y)] = count;
 	}
 
+	private void tileUpLiquid(int x, int y, int tile, boolean flag) {
+		byte count = 0;
+
+		if (this.shouldTileLiquid(x, y + 1, tile, flag)) {
+			count += 1;
+		}
+
+		if (this.shouldTileLiquid(x + 1, y, tile, flag)) {
+			count += 2;
+		}
+
+		if (this.shouldTileLiquid(x, y - 1, tile, flag)) {
+			count += 4;
+		}
+
+		if (this.shouldTileLiquid(x - 1, y, tile, flag)) {
+			count += 8;
+		}
+
+		this.liquidVariants[toIndex(x, y)] = count;
+	}
+
 	private boolean shouldTile(int x, int y, int tile, boolean flag) {
 		if (!this.isValid(x, y)) {
 			return false;
@@ -351,6 +400,21 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
+	private boolean shouldTileLiquid(int x, int y, int tile, boolean flag) {
+		if (!this.isValid(x, y)) {
+			return false;
+		}
+
+		byte t = this.get(x, y);
+
+		if (flag) {
+			return this.checkFor(x, y, tile) || t == Terrain.WALL || t == Terrain.CRACK;
+		} else {
+			byte tt = this.liquidData[toIndex(x, y)];
+			return tt == tile || t == Terrain.WALL || t == Terrain.CRACK;
+		}
+	}
+
 	public boolean[] getPassable() {
 		return this.passable;
 	}
@@ -361,7 +425,6 @@ public abstract class Level extends SaveableEntity {
 
 		this.alwaysRender = true;
 		this.depth = -10;
-		this.level = Dungeon.depth;
 
 		SolidLevel l = new SolidLevel();
 		l.setLevel(this);
@@ -374,7 +437,15 @@ public abstract class Level extends SaveableEntity {
 		Dungeon.area.add(ll);
 	}
 
+	public String getName() {
+		return "";
+	}
+
 	public void renderLight() {
+		if (Dungeon.level != this) {
+			return;
+		}
+
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		Graphics.batch.end();
@@ -400,8 +471,7 @@ public abstract class Level extends SaveableEntity {
 
 		float sp = dt * 3f;
 
-		for (int i = 0; i < getSIZE(); i++) {
-			// FIXME: looks ugly
+		for (int i = 0; i < getSize(); i++) {
 			this.light[i] = MathUtils.clamp(0f, 1f, this.light[i] - sp);
 			this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - sp);
 			this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - sp);
@@ -451,7 +521,23 @@ public abstract class Level extends SaveableEntity {
 		return (data & (1 << bit)) != 0;
 	}
 
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+
+		if (this != Dungeon.level) {
+			Log.error("Extra level!");
+			setDone(true);
+		}
+	}
+
+	// TODO: Too complex
 	public void renderSolid() {
+		if (Dungeon.level != this) {
+			return;
+		}
+
 		for (Room room : this.rooms) {
 			room.numEnemies = 0;
 		}
@@ -542,18 +628,30 @@ public abstract class Level extends SaveableEntity {
 									int vl = Terrain.wallMapExtra[lv];
 
 									if (vl != -1) {
-										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+										float a =  getLight(x + (xx == 0 ? -1 : 1), y + yy);
+
+										if (a > 0.05f) {
+											Graphics.batch.setColor(1, 1, 1, a);
+											Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+										}
 									}
 								} else {
 									int vl = Terrain.wallMap[lv];
 
 									if (vl != -1) {
-										Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+										float a =  getLight(x + (xx == 0 ? -1 : 1), y + yy);
+
+										if (a > 0.05f) {
+											Graphics.batch.setColor(1, 1, 1, a);
+											Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+										}
 									}
 								}
 							}
 						}
 					}
+
+					Graphics.batch.setColor(1, 1, 1, 1);
 				}
 
 				// useful passable debug
@@ -607,21 +705,8 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	@Override
-	public void render() {
-		OrthographicCamera camera = Camera.instance.getCamera();
-
-		float zoom = camera.zoom;
-
-		float cx = camera.position.x - Display.GAME_WIDTH / 2 * zoom;
-		float cy = camera.position.y - Display.GAME_HEIGHT / 2 * zoom;
-
-		int sx = (int) (Math.floor(cx / 16) - 1);
-		int sy = (int) (Math.floor(cy / 16) - 1);
-
-		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
-		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
-
+	// TODO: Too complex
+	private void renderFloor(int sx, int sy, int fx, int fy) {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
@@ -631,11 +716,14 @@ public abstract class Level extends SaveableEntity {
 
 					if (tile == Terrain.EXIT) {
 						Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
-					} else if (tile != Terrain.WATER && tile != Terrain.LAVA && tile != Terrain.DIRT && tile > 0 && Terrain.patterns[tile] != null) {
+					} else if (Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
-						region.setRegionX(region.getRegionX() + x % 4 * 16);
-						region.setRegionY(region.getRegionY() + (3 - y % 4) * 16);
+						int w = region.getRegionWidth() / 16;
+						int h = region.getRegionHeight() / 16;
+
+						region.setRegionX(region.getRegionX() + x % w * 16);
+						region.setRegionY(region.getRegionY() + (h - 1 - y % h) * 16);
 						region.setRegionWidth(16);
 						region.setRegionHeight(16);
 
@@ -656,27 +744,32 @@ public abstract class Level extends SaveableEntity {
 				}
 			}
 		}
+	}
 
+	private void renderLiquids(int sx, int sy, int fx, int fy) {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
-				byte tile = this.get(i);
+				byte tile = this.liquidData[i];
 
 				if (tile == Terrain.WATER) {
-					byte variant = this.variants[i];
-
-					if (variant != 15) {
-						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
-					}
+					byte variant = this.liquidVariants[i];
 
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
 
 					r.setRegionX(r.getRegionX() + x % 4 * 16);
 					r.setRegionY(r.getRegionY() + y % 4 * 16);
+
+					int rx = r.getRegionX();
+					int ry = r.getRegionY();
+
 					r.setRegionHeight(16);
 					r.setRegionWidth(16);
 
 					Texture texture = r.getTexture();
+
+					int rw = texture.getWidth();
+					int rh = texture.getHeight();
 
 					Graphics.batch.end();
 					waterShader.begin();
@@ -687,13 +780,14 @@ public abstract class Level extends SaveableEntity {
 					t.bind(1);
 					waterShader.setUniformi("u_texture2", 1);
 
-					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 
 					texture.bind(0);
 					waterShader.setUniformi("u_texture", 1);
 					waterShader.setUniformf("time", Dungeon.time);
-					waterShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-					waterShader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					waterShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					waterShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+
 					waterShader.end();
 					Graphics.batch.setShader(waterShader);
 					Graphics.batch.begin();
@@ -708,20 +802,23 @@ public abstract class Level extends SaveableEntity {
 						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
 					}
 				} else if (tile == Terrain.LAVA) {
-					byte variant = this.variants[i];
-
-					if (variant != 15) {
-						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
-					}
+					byte variant = this.liquidVariants[i];
 
 					TextureRegion r = new TextureRegion(Terrain.lavaPattern);
 
 					r.setRegionX(r.getRegionX() + x % 4 * 16);
 					r.setRegionY(r.getRegionY() + y % 4 * 16);
+
+					int rx = r.getRegionX();
+					int ry = r.getRegionY();
+
 					r.setRegionHeight(16);
 					r.setRegionWidth(16);
 
 					Texture texture = r.getTexture();
+
+					int rw = texture.getWidth();
+					int rh = texture.getHeight();
 
 					Graphics.batch.end();
 					waterShader.begin();
@@ -732,13 +829,13 @@ public abstract class Level extends SaveableEntity {
 					t.bind(1);
 					waterShader.setUniformi("u_texture2", 1);
 
-					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
+					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 
 					texture.bind(0);
 					waterShader.setUniformi("u_texture", 1);
 					waterShader.setUniformf("time", Dungeon.time);
-					waterShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-					waterShader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+					waterShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					waterShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
 					waterShader.end();
 					Graphics.batch.setShader(waterShader);
 					Graphics.batch.begin();
@@ -753,11 +850,7 @@ public abstract class Level extends SaveableEntity {
 						Graphics.render(Terrain.lavaedge[variant], x * 16, y * 16 - 8);
 					}
 				} else if (tile == Terrain.DIRT) {
-					byte variant = this.variants[i];
-
-					if (variant != 15) {
-						Graphics.render(Terrain.floorVariants[0], x * 16, y * 16 - 8);
-					}
+					byte variant = this.liquidVariants[i];
 
 					TextureRegion r = new TextureRegion(Terrain.dirtPattern);
 
@@ -791,7 +884,16 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					Graphics.batch.setShader(null);
 					Graphics.batch.begin();
-				} else if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
+				}
+			}
+		}
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+				int i = x + y * getWidth();
+				byte tile = this.get(i);
+
+				if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
 					byte t = this.get(i - getWidth());
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {
@@ -802,8 +904,12 @@ public abstract class Level extends SaveableEntity {
 				}
 			}
 		}
+	}
 
+	private void renderShadows() {
 		if (SHADOWS) {
+			float zoom = Camera.instance.getCamera().zoom;
+
 			Graphics.batch.setColor(0, 0, 0, 0.5f);
 			Texture texture = Graphics.shadows.getColorBufferTexture();
 			texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -815,7 +921,9 @@ public abstract class Level extends SaveableEntity {
 
 			Graphics.batch.setColor(1, 1, 1, 1f);
 		}
+	}
 
+	private void renderSides(int sx, int sy, int fx, int fy) {
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
@@ -854,7 +962,7 @@ public abstract class Level extends SaveableEntity {
 							}
 						}
 					} else if (tile == Terrain.CHASM && this.get(i + getWidth()) != Terrain.CHASM) {
-						Graphics.batch.setColor(0.7f, 0.7f, 0.7f, 1);
+						Graphics.batch.setColor(0.4f, 0.4f, 0.4f, 1);
 						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 8);
 						Graphics.batch.setColor(1, 1, 1, 1);
 					}
@@ -863,11 +971,37 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
+	@Override
+	public void render() {
+		if (Dungeon.level != this) {
+			setDone(true);
+			return;
+		}
+
+		OrthographicCamera camera = Camera.instance.getCamera();
+
+		float zoom = camera.zoom;
+
+		float cx = camera.position.x - Display.GAME_WIDTH / 2 * zoom;
+		float cy = camera.position.y - Display.GAME_HEIGHT / 2 * zoom;
+
+		int sx = (int) (Math.floor(cx / 16) - 1);
+		int sy = (int) (Math.floor(cy / 16) - 1);
+
+		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
+
+		renderFloor(sx, sy, fx, fy);
+		renderLiquids(sx, sy, fx, fy);
+		renderShadows();
+		renderSides(sx, sy, fx, fy);
+	}
+
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
 		float dt = Gdx.graphics.getDeltaTime();
 		int i = (int) (Math.floor(x / 16) + Math.floor(y / 16) * getWidth());
 
-		if (i < 0 || i >= this.getSIZE()) {
+		if (i < 0 || i >= getSize()) {
 			return;
 		}
 
@@ -893,7 +1027,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public float getLight(int i) {
-		if (i < 0 || i >= getSIZE()) {
+		if (i < 0 || i >= getSize()) {
 			return 0;
 		}
 
@@ -903,7 +1037,7 @@ public abstract class Level extends SaveableEntity {
 	public float getLight(int x, int y) {
 		int i = toIndex(x, y);
 
-		if (i < 0 || i >= getSIZE()) {
+		if (i < 0 || i >= getSize()) {
 			return 0;
 		}
 
@@ -936,10 +1070,8 @@ public abstract class Level extends SaveableEntity {
 						if (vl == 1 && yy >= 0) {
 							v = 0.5f;
 							see = true;
-						} else if (vl == 0) {
-							see = true;
-						} else {
-							see = false;//(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
+						} else { //(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
+							see = vl == 0;
 						}
 					}
 
@@ -999,11 +1131,19 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void set(int i, byte v) {
-		this.data[i] = v;
+		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT) {
+			this.liquidData[i] = v;
+		} else {
+			this.data[i] = v;
+		}
 	}
 
 	public void set(int x, int y, byte v) {
-		this.data[toIndex(x, y)] = v;
+		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT) {
+			this.liquidData[toIndex(x, y)] = v;
+		} else {
+			this.data[toIndex(x, y)] = v;
+		}
 	}
 
 	public byte get(int i) {
@@ -1306,17 +1446,16 @@ public abstract class Level extends SaveableEntity {
 		writer.writeInt32(getWidth());
 		writer.writeInt32(getHeight());
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			writer.writeByte(this.data[i]);
+			writer.writeByte(this.liquidData[i]);
 			writer.writeByte(this.decor[i]);
 			writer.writeBoolean(this.explored[i]);
 		}
 
 		writer.writeInt32(this.rooms.size());
 
-		for (int i = 0; i < this.rooms.size(); i++) {
-			Room room = this.rooms.get(i);
-
+		for (Room room : this.rooms) {
 			writer.writeString(room.getClass().getName());
 			writer.writeInt32(room.left);
 			writer.writeInt32(room.top);
@@ -1356,13 +1495,15 @@ public abstract class Level extends SaveableEntity {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		setSize(reader.readInt32(), reader.readInt32());
-		this.data = new byte[getSIZE()];
-		this.decor = new byte[getSIZE()];
-		this.explored = new boolean[getSIZE()];
+		this.data = new byte[getSize()];
+		this.liquidData = new byte[getSize()];
+		this.decor = new byte[getSize()];
+		this.explored = new boolean[getSize()];
 		this.initLight();
 
-		for (int i = 0; i < getSIZE(); i++) {
+		for (int i = 0; i < getSize(); i++) {
 			this.data[i] = reader.readByte();
+			this.liquidData[i] = reader.readByte();
 			this.decor[i] = reader.readByte();
 			this.explored[i] = reader.readBoolean();
 		}

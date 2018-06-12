@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.level.rooms.ladder;
 
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.npc.Shopkeeper;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.entities.Entrance;
@@ -44,6 +45,14 @@ public class EntranceRoom extends LadderRoom {
 
 		  LevelSave.add(entrance);
 			Dungeon.area.add(entrance);
+
+			Shopkeeper npc = new Shopkeeper();
+
+			npc.x = point.x * 16;
+			npc.y = point.y * 16 - 16;
+
+			LevelSave.add(npc);
+			Dungeon.area.add(npc);
 		}
 	}
 }

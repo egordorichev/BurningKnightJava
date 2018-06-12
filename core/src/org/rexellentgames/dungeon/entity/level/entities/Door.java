@@ -48,13 +48,16 @@ public class Door extends SaveableEntity {
 		alwaysActive = true;
 	}
 
+	public Door() {
+
+	}
+
 	public Door(int x, int y, boolean vertical) {
 		this.x = x * 16;
 		this.y = y * 16;
 		this.sx = x;
 		this.sy = y;
 		this.vertical = vertical;
-		// todo; fix hitbox
 
 		if (!this.vertical) {
 			this.animation = vertAnimation.get("idle");
@@ -68,23 +71,22 @@ public class Door extends SaveableEntity {
 		this.animation.setPaused(true);
 	}
 
-	public Door() {
-		if (this.animation != null) {
-			this.animation.setAutoPause(true);
-			this.animation.setPaused(true);
-		}
-	}
-
 	@Override
 	public void update(float dt) {
 		if (this.body == null) {
 			this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
 				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));
-			this.body.setTransform(this.x, this.y, 0);
+			
+			if (this.body != null) {
+				this.body.setTransform(this.x, this.y, 0);
+			}
 
 			MassData data = new MassData();
 			data.mass = 10000000000f;
-			this.body.setMassData(data);
+			
+			if (this.body != null) {
+				this.body.setMassData(data);
+			}
 		}
 
 		super.update(dt);
@@ -224,6 +226,7 @@ public class Door extends SaveableEntity {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 

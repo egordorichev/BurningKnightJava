@@ -41,7 +41,6 @@ public class Clown extends Mob {
 
 	{
 		hpMax = 3;
-		hide = true;
 		experienceDropped = 2;
 
 		idle = animations.get("idle").randomize();
@@ -232,7 +231,6 @@ public class Clown extends Mob {
 
 				float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2 + Random.newFloat(-10f, 10f);
 				float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2 + Random.newFloat(-10f, 10f);
-				float a = (float) Math.atan2(-dy, -dx);
 
 				note.a = a;
 				note.x = self.x + 2;

@@ -47,6 +47,10 @@ public abstract class RegularLevel extends Level {
 		this.build();
 		this.paint();
 
+		if (this.rooms == null) {
+			Log.error("NO ROOMS!");
+		}
+
 		Log.info("Done painting");
 
 		ChangableRegistry.generate();
@@ -73,9 +77,12 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected void spawnLevelEntities() {
-		this.free = new boolean[this.getSIZE()];
+		this.free = new boolean[getSize()];
 
-		if (Dungeon.depth > 0) {
+		// might freeze!
+
+
+		if (Dungeon.depth > 0 && !Level.boss[Dungeon.depth]) {
 			MobPool.instance.initForFloor();
 
 			for (Room room : this.rooms) {
@@ -145,6 +152,7 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void build() {
 		Builder builder = this.getBuilder();
 

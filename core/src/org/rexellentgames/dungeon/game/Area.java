@@ -1,44 +1,40 @@
 package org.rexellentgames.dungeon.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
-import org.rexellentgames.dungeon.entity.NetworkedEntity;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
-import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class Area {
-	private ArrayList<Entity> entities = new ArrayList<Entity>();
+	private ArrayList<Entity> entities = new ArrayList<>();
 	private Comparator<Entity> comparator;
+	private boolean showWhenPaused;
 
 	public Area() {
-		this.comparator = new Comparator<Entity>() {
-			@Override
-			public int compare(Entity a, Entity b) {
-				// -1 - less than, 1 - greater than, 0 - equal
-				float ad = b.getDepth();
-				float bd = a.getDepth();
+		this.comparator = (a, b) -> {
+			// -1 - less than, 1 - greater than, 0 - equal
+			float ad = b.getDepth();
+			float bd = a.getDepth();
 
-				if (ad == bd) {
-					ad = a.y;
-					bd = b.y;
-				}
-
-				return Float.compare(bd, ad);
+			if (ad == bd) {
+				ad = a.y;
+				bd = b.y;
 			}
+
+			return Float.compare(bd, ad);
 		};
 	}
-
+	
+	public Area(boolean showWhenPaused) {
+		this();
+		
+		this.showWhenPaused = showWhenPaused;
+	}
+	
 	public Entity add(Entity entity) {
 		this.entities.add(entity);
 
@@ -79,11 +75,15 @@ public class Area {
 	}
 
 	public void render() {
-		Collections.sort(this.entities, this.comparator);
+		if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
+			return;
+		}
+		
+		this.entities.sort(this.comparator);
 
 		for (int i = 0; i < this.entities.size(); i++) {
 			Entity entity = this.entities.get(i);
-
+			
 			if (!entity.isActive()) {
 				continue;
 			}
@@ -95,7 +95,7 @@ public class Area {
 	}
 
 	public Entity getRandomEntity(Class<? extends Entity> type) {
-		ArrayList<Entity> list = new ArrayList<Entity>();
+		ArrayList<Entity> list = new ArrayList<>();
 
 		for (Entity entity : this.entities) {
 			if (type.isInstance(entity)) {

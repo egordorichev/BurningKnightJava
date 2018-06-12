@@ -50,25 +50,24 @@ public class Graphics {
 		}
 	}
 
-	private static Color color;
-
 	public static void startShadows() {
-		color = Graphics.batch.getColor();
 		Graphics.batch.end();
+
 		Graphics.surface.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+
 		Graphics.shadows.begin();
+
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
 		Graphics.batch.begin();
-		Graphics.batch.setColor(1, 1, 1, color.a);
 	}
 
 	public static void endShadows() {
-		Graphics.batch.setColor(color);
 		Graphics.batch.end();
 
 		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
 			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+
 		Graphics.surface.begin();
 		Graphics.batch.begin();
 	}
@@ -108,10 +107,8 @@ public class Graphics {
 		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);
 
-		manager.finishLoadingAsset("fonts/large.ttf");
+		// manager.finishLoadingAsset("fonts/large.ttf");
 
-		medium = manager.get("fonts/large.ttf");
-		medium.getData().markupEnabled = true;
 
 		FileHandle file = Gdx.files.external("sfx.json");
 
@@ -125,6 +122,20 @@ public class Graphics {
 		}
 	}
 
+	public static void finishLoading() {
+		manager.finishLoading();
+		small = manager.get("fonts/small.ttf");
+		atlas = manager.get("atlas/atlas.atlas");
+
+		small.getData().markupEnabled = true;
+		small.getData().setLineHeight(10);
+
+		medium = manager.get("fonts/large.ttf");
+		medium.getData().markupEnabled = true;
+
+		new Ui();
+	}
+
 	public static boolean updateLoading() {
 		boolean val = manager.update();
 
@@ -134,6 +145,9 @@ public class Graphics {
 
 			small.getData().markupEnabled = true;
 			small.getData().setLineHeight(10);
+
+			medium = manager.get("fonts/large.ttf");
+			medium.getData().markupEnabled = true;
 
 			new Ui();
 		}
@@ -225,6 +239,12 @@ public class Graphics {
 		font.draw(batch, s, x, y + (font == medium ? 16 : 8));
 	}
 
+	public static void printCenter(String s, BitmapFont font, float x, float y) {
+		layout.setText(font, s);
+
+		print(s, font, (Display.GAME_WIDTH - layout.width) / 2 + x, y);
+	}
+
 	public static void print(String s, BitmapFont font, float y) {
 		layout.setText(font, s);
 
@@ -287,6 +307,10 @@ public class Graphics {
 	}
 
 	public static void destroy() {
+		if (atlas == null) {
+			return;
+		}
+
 		atlas.dispose();
 		manager.dispose();
 		batch.dispose();

@@ -1,14 +1,12 @@
 package org.rexellentgames.dungeon.entity.level.builders;
 
 import org.rexellentgames.dungeon.entity.level.rooms.Room;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.MathUtils;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 import org.rexellentgames.dungeon.util.geometry.Rect;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Builder {
 	private static final double A = 180 / Math.PI;
@@ -27,20 +25,12 @@ public class Builder {
 		Rect space = new Rect((int) (start.x - maxSize),
 			(int) (start.y - maxSize), (int) (start.x + maxSize), (int) (start.y + maxSize));
 
-		ArrayList<Room> colliding = new ArrayList<Room>(collision);
+		ArrayList<Room> colliding = new ArrayList<>(collision);
 
 		do {
-			Iterator<Room> it = colliding.iterator();
-
-			while (it.hasNext()) {
-				Room room = it.next();
-
-				if (room.isEmpty()
-					|| Math.max(space.left, room.left) >= Math.min(space.right, room.right)
-					|| Math.max(space.top, room.top) >= Math.min(space.bottom, room.bottom)) {
-					it.remove();
-				}
-			}
+			colliding.removeIf(room -> room.isEmpty() 
+				|| Math.max(space.left, room.left) >= Math.min(space.right, room.right)
+				|| Math.max(space.top, room.top) >= Math.min(space.bottom, room.bottom));
 
 			Room closestRoom = null;
 

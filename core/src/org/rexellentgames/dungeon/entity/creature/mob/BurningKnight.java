@@ -29,7 +29,6 @@ import org.rexellentgames.dungeon.entity.level.rooms.Room;
 import org.rexellentgames.dungeon.entity.level.rooms.ladder.EntranceRoom;
 import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.entity.plant.Plant;
-import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.util.*;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -259,11 +258,10 @@ public class BurningKnight extends Boss {
 		int h = region.getRegionHeight() / 2;
 		float dt = Gdx.graphics.getDeltaTime();
 
-		for (int i = 0; i < this.frames.size(); i++) {
-			Frame point = this.frames.get(i);
+		for (Frame point : this.frames) {
 			float s = point.s;
 
-			if (!Game.instance.getState().isPaused()) {
+			if (!Dungeon.game.getState().isPaused()) {
 				point.s -= dt * 0.8f;
 			}
 
@@ -734,12 +732,7 @@ public class BurningKnight extends Boss {
 
 			Camera.instance.follow(self, false);
 
-			Dialog.active.onEnd(new Runnable() {
-				@Override
-				public void run() {
-					Camera.instance.follow(Player.instance, false);
-				}
-			});
+			Dialog.active.onEnd(() -> Camera.instance.follow(Player.instance, false));
 
 			Dialog.active.onStop(new Runnable() {
 				@Override

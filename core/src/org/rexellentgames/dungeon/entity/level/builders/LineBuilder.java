@@ -26,7 +26,7 @@ public class LineBuilder extends RegularBuilder {
 			return null;
 		}
 
-		ArrayList<Room> branchable = new ArrayList<Room>();
+		ArrayList<Room> branchable = new ArrayList<>();
 
 		entrance.setSize();
 		entrance.setPos(0, 0);
@@ -51,12 +51,17 @@ public class LineBuilder extends RegularBuilder {
 			for (Room room : init) {
 				if (room instanceof FightRoom) {
 					fight = room;
+					
 					break;
 				}
 			}
 
-			fight.setSize();
+			if (fight == null) {
+				return init;
+			}
 
+			fight.setSize();
+			
 			placeRoom(init, bk, fight, this.direction);
 			placeRoom(init, fight, exit, this.direction);
 
@@ -96,7 +101,7 @@ public class LineBuilder extends RegularBuilder {
 			curr = r;
 		}
 
-		ArrayList<Room> roomsToBranch = new ArrayList<Room>();
+		ArrayList<Room> roomsToBranch = new ArrayList<>();
 		for (int i = roomsOnPath; i < this.multiConnection.size(); i++) {
 			roomsToBranch.add(this.multiConnection.get(i));
 		}

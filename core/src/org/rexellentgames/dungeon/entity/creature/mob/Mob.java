@@ -2,16 +2,18 @@ package org.rexellentgames.dungeon.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.Creature;
+import org.rexellentgames.dungeon.entity.creature.buff.Buff;
+import org.rexellentgames.dungeon.entity.creature.buff.BurningBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.FreezeBuff;
+import org.rexellentgames.dungeon.entity.creature.buff.PoisonBuff;
 import org.rexellentgames.dungeon.entity.creature.fx.HeartFx;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.mob.prefix.Prefix;
@@ -42,14 +44,12 @@ public class Mob extends Creature {
 	public Creature target;
 	public static ArrayList<Mob> all = new ArrayList<>();
 	public static ArrayList<Mob> every = new ArrayList<>();
-	public ArrayList<Player> colliding = new ArrayList<Player>();
+	public ArrayList<Player> colliding = new ArrayList<>();
 	protected boolean drop;
 	protected int experienceDropped = 1;
 	protected State ai;
 	public boolean stupid = false;
 	protected Mind mind;
-	protected boolean hide;
-	protected boolean guard;
 	protected Room start;
 	protected Prefix prefix;
 
@@ -57,6 +57,16 @@ public class Mob extends Creature {
 	private static TextureRegion noticeSign;
 	public float noticeSignT;
 	public float hideSignT;
+	public boolean nodebuffs;
+
+	@Override
+	protected boolean canHaveBuff(Buff buff) {
+		if (nodebuffs && (buff instanceof FreezeBuff || buff instanceof BurningBuff || buff instanceof PoisonBuff)) {
+			return false;
+		}
+
+		return super.canHaveBuff(buff);
+	}
 
 	{
 		alwaysActive = true;
@@ -131,7 +141,7 @@ public class Mob extends Creature {
 	public Mob generate() {
 		this.mind = Mind.values()[Random.newInt(Mind.values().length)];
 
-		if (challenge || Random.chance(20)) {
+		if (challenge || Random.chance(10)) {
 			this.generatePrefix();
 		}
 
@@ -142,7 +152,7 @@ public class Mob extends Creature {
 		if (this.prefix == null) {
 			this.prefix = PrefixPool.instance.generate();
 			this.prefix.apply(this);
-			this.prefix.onGenerate();
+			this.prefix.onGenerate(this);
 		}
 	}
 
@@ -298,7 +308,7 @@ public class Mob extends Creature {
 
 		if (this.drop) {
 			if (this.prefix != null) {
-				this.prefix.onDeath();
+				this.prefix.onDeath(this);
 			}
 
 			this.drop = false;
@@ -412,7 +422,7 @@ public class Mob extends Creature {
 	}
 
 	protected ArrayList<Item> getDrops() {
-		ArrayList<Item> items = new ArrayList<Item>();
+		ArrayList<Item> items = new ArrayList<>();
 
 		Gold gold = new Gold();
 
@@ -508,7 +518,7 @@ public class Mob extends Creature {
 
 				for (Point point : line.getPoints()) {
 					int i = (int) (point.x + point.y * Level.getWidth());
-					if (i < 0 || i >= Level.getSIZE() || (!passable[i] && Dungeon.level.get(i) != 13)) {
+					if (i < 0 || i >= Level.getSize() || (!passable[i] && Dungeon.level.get(i) != 13)) {
 						found = true;
 						break;
 					}

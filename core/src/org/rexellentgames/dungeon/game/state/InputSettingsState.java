@@ -25,12 +25,9 @@ public class InputSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new KeyConfigState());
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					Dungeon.game.setState(new KeyConfigState());
+					Camera.instance.shake(3);
 				});
 			}
 		});
@@ -67,13 +64,10 @@ public class InputSettingsState extends State {
 		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 1.5f)) {
 			@Override
 			public void onClick() {
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Graphics.playSfx("menu/exit");
-						Dungeon.game.setState(new SettingsState());
-						Camera.instance.shake(3);
-					}
+				transition(() -> {
+					Graphics.playSfx("menu/exit");
+					Dungeon.game.setState(new SettingsState());
+					Camera.instance.shake(3);
 				});
 			}
 		});

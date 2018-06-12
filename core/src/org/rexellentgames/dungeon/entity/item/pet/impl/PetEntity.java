@@ -6,10 +6,6 @@ import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.file.FileReader;
-import org.rexellentgames.dungeon.util.file.FileWriter;
-
-import java.io.IOException;
 
 public class PetEntity extends SaveableEntity {
 	public Player owner;

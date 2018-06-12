@@ -123,7 +123,7 @@ public class UiMap extends UiEntity {
 
 					byte t = Dungeon.level.get(x, y);
 
-					if (t != Terrain.WALL && t != Terrain.CRACK) {
+					if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
 						Graphics.shape.setColor(0, 0, 0, 1);
 						Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
 					}
@@ -144,7 +144,7 @@ public class UiMap extends UiEntity {
 				if (Dungeon.level.explored(x, y)) {
 					byte t = Dungeon.level.get(x, y);
 
-					if (t != Terrain.WALL && t != Terrain.CRACK) {
+					if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
 						Graphics.shape.setColor(1, 1, 1, 1);
 						Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
 					}
@@ -168,7 +168,11 @@ public class UiMap extends UiEntity {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
 		if (!large) {
-			ScissorStack.popScissors();
+			try {
+				ScissorStack.popScissors();
+			} catch(IllegalStateException ignored) {
+
+			}
 		}
 
 		Graphics.batch.begin();

@@ -9,33 +9,33 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
+import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.creature.inventory.UiInventory;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
+import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.save.SaveManager;
+import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.physics.World;
 import org.rexellentgames.dungeon.ui.UiButton;
-import org.rexellentgames.dungeon.ui.UiEntity;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.util.Dialog;
 import org.rexellentgames.dungeon.util.Tween;
-
-import java.util.ArrayList;
 
 public class InGameState extends State {
 	private UiInventory inventory;
 	private Console console;
 	private TextureRegion blood;
 	private float a;
-	private ArrayList<UiEntity> ui;
+	private Area pauseMenuUi;
+	private boolean showFps;
 	public static boolean map = false;
 
 	@Override
 	public void init() {
-		ui = new ArrayList<>();
+		pauseMenuUi = new Area(true);
 
 		blood = Graphics.getTexture("blood_frame");
 
@@ -45,6 +45,8 @@ public class InGameState extends State {
 		World.world.setContactFilter(collisions);
 
 		this.setupUi();
+
+		Dungeon.background = Level.colors[Dungeon.level.uid];
 
 		this.console = new Console();
 
@@ -72,6 +74,9 @@ public class InGameState extends State {
 				Camera.instance.follow(Player.instance);
 			}
 		});
+
+		// Dialog.active = BurningKnight.onLampTake;
+		// Dialog.active.start();
 	}
 
 	@Override
@@ -107,6 +112,10 @@ public class InGameState extends State {
 		if (Input.instance.wasPressed("reset")) {
 			Dungeon.newGame();
 		}
+		
+		if (Input.instance.wasPressed("show_fps")) {
+			this.showFps = !this.showFps;
+		}
 
 		last += dt;
 
@@ -122,8 +131,10 @@ public class InGameState extends State {
 
 		World.update(dt);
 
-		UiLog.instance.update(dt);
-
+		if (this.isPaused()) {
+			pauseMenuUi.update(dt);
+		}
+			 
 		if (Dialog.active != null) {
 			Dialog.active.update(dt);
 		}
@@ -167,15 +178,29 @@ public class InGameState extends State {
 	}
 
 	@Override
+	public void render() {
+		super.render();
+
+		if (isPaused()) {
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+			pauseMenuUi.render();
+		}
+	}
+
+	@Override
 	public void renderUi() {
+		Ui.ui.renderUi();
+
+		Dungeon.ui.render();
+
+		if (this.isPaused()) {
+			return;
+		}
+
 		if (this.a != 0) {
 			Graphics.batch.setColor(1, 1, 1, this.a);
 			Graphics.render(blood, 0, 0);
 			Graphics.batch.setColor(1, 1, 1, 1);
-		}
-
-		if (Dialog.active != null) {
-			Dialog.active.render();
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
@@ -183,12 +208,20 @@ public class InGameState extends State {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		Ui.ui.renderUi();
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
 		Ui.ui.render();
-		Dungeon.ui.render();
+
+		if (Dialog.active != null) {
+			Dialog.active.render();
+		}
+
+		Ui.ui.renderCursor();
+
+		if (this.showFps && !this.isPaused()) {
+			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 20);
+		}
 	}
 
 	private void setupUi() {
@@ -197,7 +230,7 @@ public class InGameState extends State {
 
 		// Dungeon.ui.add(new UiMap());
 
-		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
+		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -205,38 +238,30 @@ public class InGameState extends State {
 
 				Camera.instance.shake(3);
 			}
-		}.setSparks(true)));
+		}.setSparks(true));
 
-		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
+		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						SettingsState.fromGame = true;
-						Dungeon.game.setState(new SettingsState());
-					}
+				transition(() -> {
+					SettingsState.fromGame = true;
+					Dungeon.game.setState(new SettingsState());
 				});
 				Camera.instance.shake(3);
 			}
-		}.setSparks(true)));
+		}.setSparks(true));
 
-		this.ui.add((UiEntity) Dungeon.ui.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
+		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
 				Camera.instance.shake(3);
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new MainMenuState());
-					}
-				});
+				transition(() -> Dungeon.game.setState(new MainMenuState()));
 			}
-		}));
+		});
 
-		for (UiEntity entity : this.ui) {
+		for (Entity entity : this.pauseMenuUi.getEntities()) {
 			entity.setActive(false);
 		}
 	}
@@ -245,7 +270,7 @@ public class InGameState extends State {
 	public void onPause() {
 		super.onPause();
 
-		for (UiEntity entity : this.ui) {
+		for (Entity entity : this.pauseMenuUi.getEntities()) {
 			entity.setActive(true);
 		}
 	}
@@ -254,7 +279,7 @@ public class InGameState extends State {
 	public void onUnpause() {
 		super.onUnpause();
 
-		for (UiEntity entity : this.ui) {
+		for (Entity entity : this.pauseMenuUi.getEntities()) {
 			entity.setActive(false);
 		}
 	}

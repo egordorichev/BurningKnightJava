@@ -8,7 +8,6 @@ import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
 import org.rexellentgames.dungeon.entity.level.entities.fx.WellFx;
 import org.rexellentgames.dungeon.entity.pool.ModifierPool;
-import org.rexellentgames.dungeon.ui.UiLog;
 
 public class WeaponAltar extends UsableProp {
 	{
@@ -34,12 +33,6 @@ public class WeaponAltar extends UsableProp {
 	public boolean use() {
 		Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
 
-		if (!(item instanceof WeaponBase)) {
-			UiLog.instance.print("[orange]Item must be a weapon!");
-			return false;
-		}
-
-		UiLog.instance.print("[green]Your weapon was blessed!");
 		((WeaponBase) item).setModifier(ModifierPool.instance.generate());
 
 

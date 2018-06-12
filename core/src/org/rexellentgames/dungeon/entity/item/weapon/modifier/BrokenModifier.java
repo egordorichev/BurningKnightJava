@@ -18,19 +18,19 @@ public class BrokenModifier extends Modifier {
 	@Override
 	public void apply(WeaponBase weapon) {
 		super.apply(weapon);
-		weapon.modifyDamage(-1);
+		weapon.modifyDamage((int) -Math.max(1, Math.ceil(((float) weapon.damage) / 4 * 3)));
 	}
 
 	@Override
 	public void remove(WeaponBase weapon) {
 		super.remove(weapon);
-		weapon.modifyDamage(1);
+		weapon.restoreDamage();
 	}
 
 	@Override
 	public void apply(StringBuilder builder) {
 		super.apply(builder);
 
-		builder.append("[red]-1 damage[gray]");
+		builder.append("[red]-25% damage[gray]");
 	}
 }

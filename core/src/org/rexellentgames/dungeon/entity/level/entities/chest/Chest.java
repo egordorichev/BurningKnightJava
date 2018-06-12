@@ -36,7 +36,10 @@ public class Chest extends SaveableEntity {
 		this.data = this.getClosedAnim();
 		this.data.setAutoPause(true);
 		this.body = World.createSimpleBody(this, 5, 0, 16, 11, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	public Item generate() {
@@ -85,7 +88,7 @@ public class Chest extends SaveableEntity {
 			try {
 				Class<?> clazz = Class.forName(name);
 				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance(new Object[]{});
+				Object object = constructor.newInstance();
 
 				Item item = (Item) object;
 				item.load(reader);

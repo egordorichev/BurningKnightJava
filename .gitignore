@@ -127,3 +127,5 @@ Thumbs.db
 gradle/wrapper/gradle-wrapper\.jar
 
 gradle/wrapper/gradle-wrapper\.properties
+
+packer/build/kotlin/compileTestKotlin/sync/kotlin-files-in-java-timestamps\.bin

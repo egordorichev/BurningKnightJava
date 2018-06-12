@@ -51,7 +51,7 @@ public class ChasmFx extends Entity {
 
 					@Override
 					public void onEnd() {
-						done = true;
+						setDone(true);
 					}
 				});
 
@@ -88,7 +88,7 @@ public class ChasmFx extends Entity {
 
 		float s = this.size / 2;
 
-		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, this.a);
+		Graphics.shape.setColor(color.r, color.g, color.b, this.a);
 		Graphics.shape.rect(this.x, this.y, s, s, this.size,
 			this.size, 1, 1, 0);
 

@@ -35,14 +35,16 @@ public class RollingSpike extends SaveableEntity {
 
 		region = animations.getFrames().get(Random.newInt(animations.getFrames().size())).frame;
 
-		body = World.createCircleBody(this, 0, 0, 8, BodyDef.BodyType.DynamicBody, false);
+		body = World.createCircleBody(this, 1, 1, 7, BodyDef.BodyType.DynamicBody, false);
 
 		MassData data = new MassData();
 		data.mass = 1000000000f;
-		this.body.setMassData(data);
-
-		body.setTransform(this.x, this.y, 0);
-		body.setLinearVelocity(this.vel);
+		
+		if (this.body != null) {
+			this.body.setMassData(data);
+			this.body.setTransform(this.x, this.y, 0);
+			this.body.setLinearVelocity(this.vel);
+		}
 	}
 
 	@Override

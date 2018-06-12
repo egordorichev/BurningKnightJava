@@ -5,6 +5,7 @@ import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
 import org.rexellentgames.dungeon.util.Random;
+import org.rexellentgames.dungeon.util.geometry.Point;
 
 public class SideChasmsRoom extends RegularRoom {
 	@Override
@@ -20,6 +21,11 @@ public class SideChasmsRoom extends RegularRoom {
 		Painter.fill(level, this, Random.newInt(2, 4), f);
 
 		this.paintTunnel(level, f);
+	}
+
+	@Override
+	protected Point getDoorCenter() {
+		return getCenter();
 	}
 
 	@Override

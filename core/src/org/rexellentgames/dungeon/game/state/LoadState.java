@@ -14,13 +14,14 @@ import org.rexellentgames.dungeon.entity.level.entities.Exit;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.entity.level.save.PlayerSave;
 import org.rexellentgames.dungeon.entity.level.save.SaveManager;
-import org.rexellentgames.dungeon.game.Game;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.physics.World;
-import org.rexellentgames.dungeon.ui.UiLog;
+import org.rexellentgames.dungeon.ui.LevelBanner;
 import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.Tween;
+
+import java.io.IOException;
 
 public class LoadState extends State {
 	private boolean ready = false;
@@ -87,64 +88,101 @@ public class LoadState extends State {
 		World.init();
 
 		Dungeon.area.add(new Camera());
-		Dungeon.ui.add(new UiLog());
 
 		Player.all.clear();
 		Mob.all.clear();
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					PlayerSave.all.clear();
-					LevelSave.all.clear();
+		new Thread(() -> {
+			PlayerSave.all.clear();
+			LevelSave.all.clear();
 
-					SaveManager.load(SaveManager.Type.GAME);
-					SaveManager.load(SaveManager.Type.LEVEL);
-					SaveManager.load(SaveManager.Type.PLAYER);
-
-					Dungeon.level.loadPassable();
-					Dungeon.level.addPhysics();
-
-					MusicManager.play(Dungeon.level.getMusic());
-				} catch (RuntimeException e) {
-					Log.report(e);
-					Thread.currentThread().interrupt();
-
-					return;
-				}
-
-				if (Player.instance == null) {
-					Log.error("No player!");
-					Dungeon.newGame();
-					return;
-				}
-
-				PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
-
-				UiLog.instance.print("[orange]Welcome to level " + (Dungeon.depth + 1) + "!");
-				Log.info("Loading done!");
-				
-				if (BurningKnight.instance != null) {
-					BurningKnight.instance.become("unactive");
-				}
-
-				ready = true;
+			try {
+				SaveManager.load(SaveManager.Type.GAME);
+			} catch (IOException e) {
+				Log.error("Failed to load game!");
+				Dungeon.newGame();
+				return;
+			} catch (RuntimeException e) {
+				Log.report(e);
+				Thread.currentThread().interrupt();
+				return;
 			}
+
+			try {
+				SaveManager.load(SaveManager.Type.LEVEL);
+			} catch (IOException e) {
+				Log.error("Failed to load level, generating new...");
+				LevelSave.all.clear();
+
+				if (Dungeon.level != null) {
+					Log.error("Removing old level");
+					Dungeon.area.remove(Dungeon.level);
+					Dungeon.level = null;
+				}
+
+				SaveManager.generate(SaveManager.Type.LEVEL);
+				SaveManager.save(SaveManager.Type.LEVEL);
+			} catch (RuntimeException e) {
+				Log.report(e);
+				Thread.currentThread().interrupt();
+				return;
+			}
+
+			try {
+				SaveManager.load(SaveManager.Type.PLAYER);
+			} catch (IOException e) {
+				Log.error("Failed to load player!");
+				Dungeon.newGame();
+				return;
+			} catch (RuntimeException e) {
+				Log.report(e);
+				Thread.currentThread().interrupt();
+				return;
+			}
+
+			Dungeon.level.loadPassable();
+			Dungeon.level.addPhysics();
+
+			MusicManager.play(Dungeon.level.getMusic());
+
+			if (Player.instance == null) {
+				Log.error("No player!");
+				Dungeon.newGame();
+				return;
+			}
+
+			PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
+
+			Log.info("Loading done!");
+
+			LevelBanner banner = new LevelBanner();
+
+			if (Dungeon.depth == 0) {
+				banner.text = "The beginning";
+			} else {
+				banner.text = Dungeon.level.getName() + " " + Dungeon.level.getDepthAsCoolNum();
+			}
+
+			Dungeon.area.add(banner);
+			
+			if (BurningKnight.instance != null) {
+				BurningKnight.instance.become("unactive");
+			}
+
+			ready = true;
 		}).run();
 	}
 
 	@Override
 	public void update(float dt) {
 		if (this.ready && this.a == 0) {
-			Game.instance.setState(new InGameState());
+			Dungeon.game.setState(new InGameState());
 			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}
 
 	@Override
 	public void renderUi() {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		Graphics.medium.setColor(1, 1, 1, this.a);

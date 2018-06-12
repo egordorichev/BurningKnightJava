@@ -33,30 +33,6 @@ public class HallBossRoom extends RegularRoom {
 
 		Dungeon.area.add(boss);
 		LevelSave.add(boss);
-
-		/*Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 5), Terrain.WALL);
-		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 5), Terrain.WALL);
-
-		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 5, this.top + 15), Terrain.WALL);
-		Painter.fill(level, new Rect().resize(5, 5).setPos(this.left + 15, this.top + 15), Terrain.WALL);*/
-
-		/*Point point = new Point(this.left + this.getWidth() / 2, this.top + this.getHeight() / 2);
-
-		Throne throne = new Throne();
-
-		throne.x = point.x * 16 - (throne.w - 16) / 2;
-		throne.y = point.y * 16;
-
-		Dungeon.area.add(throne);
-		LevelSave.add(throne);
-
-		Table table = new Table();
-
-		table.x = point.x * 16 - (table.w - 16) / 2;
-		table.y = point.y * 16 - table.h;
-
-		Dungeon.area.add(table);
-		LevelSave.add(table);*/
 	}
 
 	@Override

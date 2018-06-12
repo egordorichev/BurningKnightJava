@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.util.path;
 
-import org.rexellentgames.dungeon.util.path.GraphNode;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,7 +10,7 @@ public class Graph {
 			node.setDistance(Integer.MAX_VALUE);
 		}
 
-		LinkedList<org.rexellentgames.dungeon.util.path.GraphNode> queue = new LinkedList<org.rexellentgames.dungeon.util.path.GraphNode>();
+		LinkedList<org.rexellentgames.dungeon.util.path.GraphNode> queue = new LinkedList<>();
 
 		from.setDistance(0);
 		queue.add(from);
@@ -32,8 +30,9 @@ public class Graph {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T extends org.rexellentgames.dungeon.util.path.GraphNode> ArrayList<T> buildPath(Collection<T> nodes, T from, T to) {
-		ArrayList<T> path = new ArrayList<T>();
+		ArrayList<T> path = new ArrayList<>();
 		T room = from;
 
 		while (room != to) {

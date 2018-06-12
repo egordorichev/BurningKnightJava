@@ -82,6 +82,7 @@ public class World {
 
 		if (world.isLocked()) {
 			Log.physics("World is locked! Failed to create body");
+
 			return null;
 		}
 

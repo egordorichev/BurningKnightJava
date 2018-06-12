@@ -67,6 +67,7 @@ public class UiButton extends UiEntity {
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.batch.end();
+		Graphics.surface.end();
 		Graphics.text.begin();
 		Graphics.batch.begin();
 
@@ -77,6 +78,7 @@ public class UiButton extends UiEntity {
 
 		Graphics.batch.end();
 		Graphics.text.end();
+		Graphics.surface.begin();
 		Graphics.batch.begin();
 
 		Texture texture = Graphics.text.getColorBufferTexture();
@@ -147,7 +149,17 @@ public class UiButton extends UiEntity {
 								super.onEnd();
 								last = null;
 							}
+
+							@Override
+							public boolean runWhenPaused() {
+								return true;
+							}
 						});
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
 					}
 				});
 			}
@@ -191,6 +203,11 @@ public class UiButton extends UiEntity {
 					super.onEnd();
 					last = null;
 				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
 			});
 
 			Tween.to(new Tween.Task(3, 0.1f) {
@@ -202,6 +219,11 @@ public class UiButton extends UiEntity {
 				@Override
 				public void setValue(float value) {
 					mx = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
 				}
 			});
 
@@ -226,6 +248,11 @@ public class UiButton extends UiEntity {
 				public void setValue(float value) {
 					mx = value;
 				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
 			});
 
 			this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
@@ -243,6 +270,11 @@ public class UiButton extends UiEntity {
 				public void onEnd() {
 					super.onEnd();
 					last = null;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
 				}
 			});
 		}

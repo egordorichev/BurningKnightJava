@@ -1,7 +1,5 @@
 package org.rexellentgames.dungeon.entity.creature.buff;
 
-import org.rexellentgames.dungeon.ui.UiLog;
-
 public class HungryBuff extends Buff {
 	{
 		name = "Hungry";
@@ -9,12 +7,5 @@ public class HungryBuff extends Buff {
 		bad = true;
 		infinite = true;
 		sprite = "ui (hungry buff)";
-	}
-
-	@Override
-	public void onStart() {
-		if (UiLog.instance != null) {
-			UiLog.instance.print("[orange]You are hungry!");
-		}
 	}
 }

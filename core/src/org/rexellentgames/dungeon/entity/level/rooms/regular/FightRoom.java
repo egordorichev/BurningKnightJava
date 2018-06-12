@@ -1,13 +1,11 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.creature.mob.Clown;
 import org.rexellentgames.dungeon.entity.creature.mob.Knight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.save.LevelSave;
-import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.geometry.Point;
 
 //

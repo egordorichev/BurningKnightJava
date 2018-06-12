@@ -19,7 +19,7 @@ import org.rexellentgames.dungeon.util.Random;
 import java.util.ArrayList;
 
 public class Knight extends Mob {
-	public static Animation animations = Animation.make("actor-towelknight");
+	public static Animation animations = Animation.make("actor-knight-v2", "-blue");
 	protected Item sword;
 	private AnimationData idle;
 	private AnimationData run;
@@ -27,15 +27,18 @@ public class Knight extends Mob {
 	private AnimationData killed;
 	private AnimationData animation;
 
+	public Animation getAnimation() {
+		return animations;
+	}
+
 	{
 		hpMax = 3;
 		speed = 5;
-		guard = true;
 
-		idle = animations.get("idle").randomize();
-		run = animations.get("run").randomize();
-		hurt = animations.get("hurt").randomize();
-		killed = animations.get("dead").randomize();
+		idle = getAnimation().get("idle").randomize();
+		run = getAnimation().get("run").randomize();
+		hurt = getAnimation().get("hurt").randomize();
+		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
 	}
 

@@ -2,17 +2,15 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
-import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
-import org.rexellentgames.dungeon.entity.level.save.LevelSave;
-import org.rexellentgames.dungeon.ui.UiLog;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
 import org.rexellentgames.dungeon.entity.item.accessory.Accessory;
-import org.rexellentgames.dungeon.game.Ui;
+import org.rexellentgames.dungeon.entity.item.accessory.equipable.Equipable;
+import org.rexellentgames.dungeon.entity.item.weapon.WeaponBase;
+import org.rexellentgames.dungeon.entity.level.save.LevelSave;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Dialog;
@@ -94,6 +92,10 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void update(float dt) {
+		if (Dungeon.game.getState().isPaused() || Dialog.active != null) {
+			return;
+		}
+
 		this.handled = false;
 		this.active = this.inventory.active;
 		this.forceT = Math.max(this.forceT - dt, 0);
@@ -104,8 +106,9 @@ public class UiInventory extends UiEntity {
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 			float h = this.inventory.getSize() / 3 * 29;
+			boolean nd = Dialog.active != null;
 
-			if (this.hidden && d < h || this.forceT > 0) {
+			if (!nd && (this.hidden && d < h || this.forceT > 0)) {
 				this.dn = false;
 
 				Tween.to(new Tween.Task(4, 0.3f, Tween.Type.BACK_OUT) {
@@ -131,7 +134,7 @@ public class UiInventory extends UiEntity {
 
 				this.hidden = false;
 			} else {
-				if (!this.hidden && !this.open && dx < 90f && dy < 15f) {
+				if (!nd && !this.hidden && !this.open && dx < 75f && dy < h) {
 					this.open = true;
 					this.dn = false;
 
@@ -198,7 +201,7 @@ public class UiInventory extends UiEntity {
 							}
 						});
 					}
-				} else if (!this.hidden && this.open && (dx > 100f || dy > h + 20) && this.forceT == 0) {
+				} else if (nd || !this.hidden && this.open && (dx > 80f || dy > h + 5) && this.forceT == 0) {
 					if (this.lastA != null) {
 						Tween.remove(this.lastA);
 						this.lastA = null;
@@ -333,11 +336,7 @@ public class UiInventory extends UiEntity {
 					return;
 				}
 
-				if (slot.isCursed()) {
-					UiLog.instance.print("[red]The item is cursed!");
-				} else {
-					this.drop(slot);
-				}
+				this.drop(slot);
 			}
 
 
@@ -378,13 +377,11 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (!Player.instance.freezed && !this.handled && Player.instance != null && !Player.instance.isDead()) {
+		if (Player.instance != null && !Player.instance.freezed && !this.handled && !Player.instance.isDead()) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
 				Item slot = this.currentSlot;
 
-				if (slot.isCursed()) {
-					UiLog.instance.print("[red]The item is cursed!");
-				} else {
+				if (!slot.isCursed()) {
 					this.drop(slot);
 					this.currentSlot = null;
 				}
@@ -541,7 +538,6 @@ public class UiInventory extends UiEntity {
 		}
 
 		this.renderCurrentSlot();
-		Ui.ui.renderCursor();
 	}
 
 	public UiBuff hoveredBuff;
@@ -550,7 +546,7 @@ public class UiInventory extends UiEntity {
 		for (int i = 6; i < this.inventory.getSize(); i++) {
 			Item it = this.inventory.getSlot(i);
 
-			if (it != null && type.isInstance(it)) {
+			if (type.isInstance(it)) {
 				return true;
 			}
 		}

@@ -8,6 +8,7 @@ public class ClosingPool<T> extends Pool<T> {
 	protected ArrayList<Class<? extends T>> newClasses = new ArrayList<>();
 	protected ArrayList<Float> newChances = new ArrayList<>();
 
+	@SuppressWarnings("unchecked")
 	public void reset() {
 		newClasses = (ArrayList<Class<? extends T>>) classes.clone();
 		newChances = (ArrayList<Float>) chances.clone();
@@ -26,9 +27,7 @@ public class ClosingPool<T> extends Pool<T> {
 
 		try {
 			return type.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
 

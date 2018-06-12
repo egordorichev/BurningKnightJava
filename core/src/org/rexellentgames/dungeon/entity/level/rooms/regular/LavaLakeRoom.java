@@ -4,10 +4,6 @@ import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Terrain;
 import org.rexellentgames.dungeon.entity.level.features.Door;
 import org.rexellentgames.dungeon.entity.level.painters.Painter;
-import org.rexellentgames.dungeon.util.MathUtils;
-import org.rexellentgames.dungeon.util.Random;
-import org.rexellentgames.dungeon.util.geometry.Point;
-import org.rexellentgames.dungeon.util.geometry.Rect;
 
 public class LavaLakeRoom extends PatchRoom {
 	@Override
@@ -20,7 +16,7 @@ public class LavaLakeRoom extends PatchRoom {
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.LAVA);
 
-		float fill = 0.1f + (this.getWidth() * this.getHeight()) / 512f;
+		float fill = 0.5f + (this.getWidth() * this.getHeight()) / 512f;
 
 		setupPatch(level, fill, 20, true);
 		cleanDiagonalEdges();
