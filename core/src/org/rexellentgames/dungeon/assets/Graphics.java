@@ -239,6 +239,12 @@ public class Graphics {
 		font.draw(batch, s, x, y + (font == medium ? 16 : 8));
 	}
 
+	public static void printCenter(String s, BitmapFont font, float x, float y) {
+		layout.setText(font, s);
+
+		print(s, font, (Display.GAME_WIDTH - layout.width) / 2 + x, y);
+	}
+
 	public static void print(String s, BitmapFont font, float y) {
 		layout.setText(font, s);
 

@@ -19,7 +19,7 @@ import org.rexellentgames.dungeon.util.Random;
 import java.util.ArrayList;
 
 public class Knight extends Mob {
-	public static Animation animations = Animation.make("actor-knight-v2");
+	public static Animation animations = Animation.make("actor-knight-v2", "-blue");
 	protected Item sword;
 	private AnimationData idle;
 	private AnimationData run;

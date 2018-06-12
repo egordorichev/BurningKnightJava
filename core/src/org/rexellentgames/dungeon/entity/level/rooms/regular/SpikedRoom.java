@@ -9,7 +9,7 @@ public class SpikedRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
-		
+
 		if (this.getWidth() > 5 && this.getHeight() > 5) {
 			Painter.fill(level, this, 2, Terrain.LAVA);
 			Painter.fill(level, this, 3, Terrain.DIRT);

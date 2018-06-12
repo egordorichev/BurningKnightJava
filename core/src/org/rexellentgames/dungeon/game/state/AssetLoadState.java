@@ -39,11 +39,11 @@ public class AssetLoadState extends State {
 		done = true;
 		Gdx.graphics.setTitle(Dungeon.title);
 
-		if (START_TO_MENU) {
+		//if (START_TO_MENU) {
 			Dungeon.game.setState(new MainMenuState());
-		} else {
+		/*} else {
 			Dungeon.goToLevel(Dungeon.depth);
-		}
+		}*/
 
 		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override
@@ -74,7 +74,7 @@ public class AssetLoadState extends State {
 			@Override
 			public void onEnd() {
 				Color color = Color.valueOf("#323c39");
-				float t = 1f;
+				float t = 0.5f;
 
 				Tween.to(new Tween.Task(color.r, t) {
 					@Override
@@ -89,9 +89,9 @@ public class AssetLoadState extends State {
 
 					@Override
 					public void onEnd() {
-						if (START_TO_MENU) {
+						//if (START_TO_MENU) {
 							MainMenuState.instance.tween();
-						}
+						//}
 					}
 				});
 
