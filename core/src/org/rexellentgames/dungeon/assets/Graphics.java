@@ -287,6 +287,10 @@ public class Graphics {
 	}
 
 	public static void destroy() {
+		if (atlas == null) {
+			return;
+		}
+
 		atlas.dispose();
 		manager.dispose();
 		batch.dispose();

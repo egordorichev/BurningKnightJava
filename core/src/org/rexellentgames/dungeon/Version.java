@@ -8,4 +8,6 @@ public class Version {
 	public static String asString() {
 		return "v" + major + "." + minor;
 	}
+
+	public static String string = asString();
 }

@@ -35,8 +35,20 @@ public class AssetLoadState extends State {
 			Dungeon.goToLevel(Dungeon.depth);
 		}
 
-		Color color = Color.valueOf("#323c39");
-		float t = 1.5f;
+		Tween.to(new Tween.Task(0, 0.1f) {
+			@Override
+			public float getValue() {
+				return a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+		});
+
+		Color color = Color.WHITE;
+		float t = 0.1f;
 
 		Tween.to(new Tween.Task(color.r, t) {
 			@Override
@@ -47,6 +59,55 @@ public class AssetLoadState extends State {
 			@Override
 			public void setValue(float value) {
 				Dungeon.background2.r = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Color color = Color.valueOf("#323c39");
+				float t = 1f;
+
+				Tween.to(new Tween.Task(color.r, t) {
+					@Override
+					public float getValue() {
+						return Dungeon.background2.r;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.background2.r = value;
+					}
+
+					@Override
+					public void onEnd() {
+						if (START_TO_MENU) {
+							MainMenuState.instance.tween();
+						}
+					}
+				});
+
+				Tween.to(new Tween.Task(color.g, t) {
+					@Override
+					public float getValue() {
+						return Dungeon.background2.g;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.background2.g = value;
+					}
+				});
+
+				Tween.to(new Tween.Task(color.b, t) {
+					@Override
+					public float getValue() {
+						return Dungeon.background2.b;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.background2.b = value;
+					}
+				});
 			}
 		});
 

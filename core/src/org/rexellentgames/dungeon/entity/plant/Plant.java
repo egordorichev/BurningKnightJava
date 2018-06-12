@@ -175,7 +175,7 @@ public class Plant extends SaveableEntity {
 			this.dead = true;
 			this.animation = this.getWiltAnimation();
 			this.broke = true;
-			Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
+			// Dungeon.level.set((int) this.x / 16, (int) (this.y + 8) / 16, Terrain.DIRT);
 		} else if (entity instanceof Creature) {
 			Tween.to(new Tween.Task(5f, 0.1f) {
 				@Override

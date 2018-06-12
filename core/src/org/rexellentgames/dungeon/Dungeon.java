@@ -444,14 +444,16 @@ public class Dungeon extends ApplicationAdapter {
 		Settings.save();
 		Log.close();
 
-		Player.shader.dispose();
-		Mob.shader.dispose();
-		Mob.frozen.dispose();
-		BurningKnight.shader.dispose();
-		Level.waterShader.dispose();
-		MagicWell.shader.dispose();
-		WeaponBase.shader.dispose();
-		shader.dispose();
+		if (Player.shader != null) {
+			Player.shader.dispose();
+			Mob.shader.dispose();
+			Mob.frozen.dispose();
+			BurningKnight.shader.dispose();
+			Level.waterShader.dispose();
+			MagicWell.shader.dispose();
+			WeaponBase.shader.dispose();
+			shader.dispose();
+		}
 	}
 
 	private void initInput() {
