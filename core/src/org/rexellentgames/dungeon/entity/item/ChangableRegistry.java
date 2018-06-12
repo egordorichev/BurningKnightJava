@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class ChangableRegistry {
-	public static HashMap<String, Type> types = new HashMap<String, Type>();
-	public static HashMap<Type, Boolean> identified = new HashMap<Type, Boolean>();
+	public static HashMap<String, Type> types = new HashMap<>();
+	public static HashMap<Type, Boolean> identified = new HashMap<>();
 
 	public enum Type {
 		RED("item (potion A)"),
@@ -79,12 +79,12 @@ public class ChangableRegistry {
 	}
 
 	public static void generate() {
-		ArrayList<Class<? extends Potion>> potions = new ArrayList<Class<? extends Potion>>(Arrays.asList(
+		ArrayList<Class<? extends Potion>> potions = new ArrayList<>(Arrays.asList(
 			HealingPotion.class, SunPotion.class, FirePotion.class, InvisibilityPotion.class, SpeedPotion.class,
 			RegenerationPotion.class, PoisonPotion.class, DefensePotion.class
 		));
 
-		ArrayList<Type> potionTypes = new ArrayList<Type>(Arrays.asList(
+		ArrayList<Type> potionTypes = new ArrayList<>(Arrays.asList(
 			Type.RED, Type.BLUE, Type.ORANGE, Type.GREEN, Type.YELLOW, Type.CORAL, Type.PINK, Type.BROWN
 		));
 
@@ -95,13 +95,13 @@ public class ChangableRegistry {
 			potions.remove(i);
 		}
 
-		ArrayList<Class<? extends Spell>> spells = new ArrayList<Class<? extends Spell>>(Arrays.asList(
+		ArrayList<Class<? extends Spell>> spells = new ArrayList<>(Arrays.asList(
 			SpellOfTeleportation.class, SpellOfDamage.class, GhostLeaver.class,
 			WormHole.class, ManaSpell.class
 		));
 
 		// todo: finish this list
-		ArrayList<Type> spellTypes = new ArrayList<Type>(Arrays.asList(
+		ArrayList<Type> spellTypes = new ArrayList<>(Arrays.asList(
 			Type.JERA, Type.THURISAZ, Type.FEHU, Type.RAIDO,
 			Type.MANNAZ // , Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
 		));
@@ -119,7 +119,7 @@ public class ChangableRegistry {
 		));
 
 		// todo: finish this list
-		ArrayList<Type> wandTypes = new ArrayList<Type>(Arrays.asList(
+		ArrayList<Type> wandTypes = new ArrayList<>(Arrays.asList(
 			Type.CIRLE, Type.HOLY, Type.DEMON
 		));
 

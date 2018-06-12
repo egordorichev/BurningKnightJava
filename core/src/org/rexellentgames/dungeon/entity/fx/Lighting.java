@@ -7,7 +7,7 @@ import org.rexellentgames.dungeon.util.geometry.Point;
 import java.util.ArrayList;
 
 public class Lighting extends Laser {
-	private ArrayList<Point> shift = new ArrayList<Point>();
+	private ArrayList<Point> shift = new ArrayList<>();
 	private int num;
 	private double an;
 	private Point target;

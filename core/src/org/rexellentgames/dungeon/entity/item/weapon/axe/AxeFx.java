@@ -46,8 +46,11 @@ public class AxeFx extends Entity {
 		);
 
 		this.body = World.createSimpleCentredBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
-		this.body.setBullet(true);
+
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+			this.body.setBullet(true);
+		}
 
 		this.a = Random.newFloat((float) (Math.PI * 2));
 	}
@@ -75,8 +78,6 @@ public class AxeFx extends Entity {
 
 			if (d < 64 && this.t > 1) {
 				f = MathUtils.clamp(1f, 10f, 64 - d);
-			} else if (d > 150f) {
-				f = 10f;
 			}
 
 			this.vel.x += dx / d * f;
@@ -135,9 +136,7 @@ public class AxeFx extends Entity {
 			holder.auto = true;
 
 			Dungeon.area.add(holder);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
 	}

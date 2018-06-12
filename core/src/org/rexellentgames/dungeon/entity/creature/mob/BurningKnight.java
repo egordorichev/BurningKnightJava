@@ -258,8 +258,7 @@ public class BurningKnight extends Boss {
 		int h = region.getRegionHeight() / 2;
 		float dt = Gdx.graphics.getDeltaTime();
 
-		for (int i = 0; i < this.frames.size(); i++) {
-			Frame point = this.frames.get(i);
+		for (Frame point : this.frames) {
 			float s = point.s;
 
 			if (!Dungeon.game.getState().isPaused()) {

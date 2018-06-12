@@ -61,8 +61,11 @@ public class BulletEntity extends Entity {
 			this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		}
 
-		this.body.setTransform(this.x, this.y, ra);
-		this.body.setBullet(true);
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, ra);
+			this.body.setBullet(true);
+		}
+		
 		this.auto = this.letter.equals("C");
 	}
 
@@ -99,9 +102,7 @@ public class BulletEntity extends Entity {
 			if(toApply != null) {
 				try {
 					creature.addBuff(toApply.newInstance().setDuration(this.duration));
-				} catch (InstantiationException e) {
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
+				} catch (InstantiationException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
 			}

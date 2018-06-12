@@ -49,7 +49,10 @@ public class Entrance extends SaveableEntity {
 		this.alwaysActive = true;
 
 		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 
 		if (Level.GENERATED) {
 			this.addSelf();

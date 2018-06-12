@@ -182,9 +182,7 @@ public class Laser extends Entity {
 
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 
-		double aa = a;
-
-		float an = (float) Math.toDegrees(aa - Math.PI / 2);
+		float an = (float) Math.toDegrees(a - Math.PI / 2);
 
 		shade.a = this.al;
 		color.a = this.al;
@@ -193,14 +191,14 @@ public class Laser extends Entity {
 
 		Graphics.batch.setColor(shade);
 		Graphics.render(mid, from.x, from.y, an, 8, 8, false, false, 1, s);
-		Graphics.render(circ, to.x - (float) Math.cos(aa) * 8, to.y - (float) Math.sin(aa) * 8, an, 8, 8, false, false);
+		Graphics.render(circ, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
 		Graphics.batch.setColor(color);
 		Graphics.render(midOverlay, from.x, from.y, an, 8, 8, false, false, 1, s);
-		Graphics.render(circOverlay, to.x - (float) Math.cos(aa) * 8, to.y - (float) Math.sin(aa) * 8, an, 8, 8, false, false);
+		Graphics.render(circOverlay, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
 
 		Graphics.batch.setColor(1, 1, 1, this.al);
 		Graphics.render(midOverlay, from.x, from.y, an, 8, 8, false, false);
-		Graphics.render(circOverlay, to.x - (float) Math.cos(aa) * 8, to.y - (float) Math.sin(aa) * 8, an, 8, 8, false, false);
+		Graphics.render(circOverlay, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		start.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

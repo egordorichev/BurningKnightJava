@@ -14,15 +14,14 @@ public class CastleBuilder extends RegularBuilder {
 			return null;
 		}
 
-		ArrayList<Room> branchable = new ArrayList<Room>();
+		ArrayList<Room> branchable = new ArrayList<>();
 
 		this.entrance.setSize();
 		this.entrance.setPos(0, 0);
 		branchable.add(this.entrance);
 
 
-		ArrayList<Room> roomsToBranch = new ArrayList<Room>();
-		roomsToBranch.addAll(this.multiConnection);
+		ArrayList<Room> roomsToBranch = new ArrayList<>(this.multiConnection);
 
 		if (this.exit != null) {
 			roomsToBranch.add(this.exit);

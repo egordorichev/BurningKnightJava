@@ -103,8 +103,6 @@ public class GameSave {
 			Level.depths[i] = (byte) weights[i];
 		}
 
-		for (int i = 0; i < areas * 4 + 1; i++) {
-			Level.boss[i] = bosses[i];
-		}
+		System.arraycopy(bosses, 0, Level.boss, 0, areas * 4 + 1);
 	}
 }

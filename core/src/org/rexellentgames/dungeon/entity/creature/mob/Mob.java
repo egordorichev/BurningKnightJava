@@ -44,7 +44,7 @@ public class Mob extends Creature {
 	public Creature target;
 	public static ArrayList<Mob> all = new ArrayList<>();
 	public static ArrayList<Mob> every = new ArrayList<>();
-	public ArrayList<Player> colliding = new ArrayList<Player>();
+	public ArrayList<Player> colliding = new ArrayList<>();
 	protected boolean drop;
 	protected int experienceDropped = 1;
 	protected State ai;
@@ -422,7 +422,7 @@ public class Mob extends Creature {
 	}
 
 	protected ArrayList<Item> getDrops() {
-		ArrayList<Item> items = new ArrayList<Item>();
+		ArrayList<Item> items = new ArrayList<>();
 
 		Gold gold = new Gold();
 

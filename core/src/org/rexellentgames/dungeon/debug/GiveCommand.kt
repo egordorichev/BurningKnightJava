@@ -6,13 +6,7 @@ import org.rexellentgames.dungeon.entity.item.ItemRegistry
 import org.rexellentgames.dungeon.util.Log
 import kotlin.reflect.full.createInstance
 
-class GiveCommand : ConsoleCommand() {
-    init {
-        shortName = "/gv"
-        name = "/give"
-        description = "[item] (count) gives an item"
-    }
-
+class GiveCommand : ConsoleCommand("/give", "/gv", "item] (count) gives an item") {
     override fun run(console: Console, args: Array<String>) {
         var count = 1
 

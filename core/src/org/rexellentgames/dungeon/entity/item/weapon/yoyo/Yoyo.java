@@ -70,6 +70,7 @@ public class Yoyo extends Weapon {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.delay > 0) {
 			float dt = Gdx.graphics.getDeltaTime();

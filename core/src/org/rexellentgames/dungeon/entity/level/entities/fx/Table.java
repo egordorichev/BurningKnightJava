@@ -26,7 +26,10 @@ public class Table extends SaveableEntity {
 		this.animation = animations.get("idle");
 
 		this.body = World.createSimpleBody(this, 0, 10, (int) w, (int) h - 14, BodyDef.BodyType.StaticBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	@Override

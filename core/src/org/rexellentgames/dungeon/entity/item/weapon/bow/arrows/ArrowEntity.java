@@ -51,8 +51,11 @@ public class ArrowEntity extends Entity {
 		int h = sprite.getRegionHeight();
 
 		this.body = World.createSimpleCentredBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, true);
-		this.body.setBullet(true);
-		this.body.setTransform(this.x, this.y, this.a);
+
+		if (this.body != null) {
+			this.body.setBullet(true);
+			this.body.setTransform(this.x, this.y, this.a);
+		}
 
 		// todo: charge == high speed
 		float s = 14f * 60f;

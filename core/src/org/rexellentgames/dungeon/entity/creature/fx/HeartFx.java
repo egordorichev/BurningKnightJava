@@ -34,7 +34,10 @@ public class HeartFx extends SaveableEntity {
 
 		this.t = Random.newFloat(128);
 		this.body = World.createSimpleBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	@Override

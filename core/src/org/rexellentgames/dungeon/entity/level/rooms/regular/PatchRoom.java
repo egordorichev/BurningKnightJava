@@ -58,7 +58,7 @@ public class PatchRoom extends RegularRoom {
 				setupPatch(level, fill / 2, clustering, ensurePath);
 			}
 
-			PathFinder.setMapSize(level.getWidth(), level.getHeight());
+			PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 		} else {
 			patch = Patch.generate(this.getWidth() - 2, this.getHeight() - 2, fill, clustering);
 		}

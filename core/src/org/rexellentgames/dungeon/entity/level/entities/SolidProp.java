@@ -18,7 +18,10 @@ public class SolidProp extends Prop {
 
 		if (this.collider != null) {
 			this.body = World.createSimpleBody(this, collider.x, collider.y, collider.width, collider.height, BodyDef.BodyType.StaticBody, false);
-			this.body.setTransform(this.x, this.y, 0);
+			
+			if (this.body != null) {
+				this.body.setTransform(this.x, this.y, 0);
+			}
 		}
 	}
 

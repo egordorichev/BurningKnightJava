@@ -197,7 +197,7 @@ public class ItemHolder extends SaveableEntity {
 		try {
 			Class<?> clazz = Class.forName(type);
 			Constructor<?> constructor = clazz.getConstructor();
-			Object object = constructor.newInstance(new Object[]{});
+			Object object = constructor.newInstance();
 			Item item = (Item) object;
 
 			item.load(reader);

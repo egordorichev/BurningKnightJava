@@ -20,8 +20,6 @@ public class CircleEntranceRoom extends EntranceRoom {
 			return;
 		}
 
-		byte floor = f;
-
 		Rect c = getConnectionSpace();
 
 		for (Door door : this.getConnected().values()) {
@@ -56,8 +54,8 @@ public class CircleEntranceRoom extends EntranceRoom {
 				end = new Point(mid.x + rightShift, mid.y);
 			}
 
-			Painter.drawLine(level, start, mid, floor, true);
-			Painter.drawLine(level, mid, end, floor, false);
+			Painter.drawLine(level, start, mid, f, true);
+			Painter.drawLine(level, mid, end, f, false);
 		}
 
 		this.place(level, this.getCenter());

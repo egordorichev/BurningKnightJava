@@ -506,6 +506,7 @@ public abstract class Level extends SaveableEntity {
 		return (data & (1 << bit)) != 0;
 	}
 
+	// TODO: Too complex
 	public void renderSolid() {
 		for (Room room : this.rooms) {
 			room.numEnemies = 0;
@@ -674,6 +675,7 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
+	// TODO: Too complex
 	private void renderFloor(int sx, int sy, int fx, int fy) {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
@@ -964,7 +966,7 @@ public abstract class Level extends SaveableEntity {
 		float dt = Gdx.graphics.getDeltaTime();
 		int i = (int) (Math.floor(x / 16) + Math.floor(y / 16) * getWidth());
 
-		if (i < 0 || i >= this.getSize()) {
+		if (i < 0 || i >= getSize()) {
 			return;
 		}
 
@@ -1418,9 +1420,7 @@ public abstract class Level extends SaveableEntity {
 
 		writer.writeInt32(this.rooms.size());
 
-		for (int i = 0; i < this.rooms.size(); i++) {
-			Room room = this.rooms.get(i);
-
+		for (Room room : this.rooms) {
 			writer.writeString(room.getClass().getName());
 			writer.writeInt32(room.left);
 			writer.writeInt32(room.top);
