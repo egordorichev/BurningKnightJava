@@ -274,7 +274,7 @@ public class UiInventory extends UiEntity {
 							}
 						});
 					}
-				} else if (nd || !this.open && !this.hidden && d > 14f + h) {
+				} else if (!this.open && !this.hidden && d > 14f + h) {
 					this.dn = false;
 
 					Tween.to(new Tween.Task(-25, 0.3f) {
@@ -377,7 +377,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (!Player.instance.freezed && !this.handled && Player.instance != null && !Player.instance.isDead()) {
+		if (Player.instance != null && !Player.instance.freezed && !this.handled && !Player.instance.isDead()) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
 				Item slot = this.currentSlot;
 
@@ -542,7 +542,7 @@ public class UiInventory extends UiEntity {
 		for (int i = 6; i < this.inventory.getSize(); i++) {
 			Item it = this.inventory.getSlot(i);
 
-			if (it != null && type.isInstance(it)) {
+			if (type.isInstance(it)) {
 				return true;
 			}
 		}

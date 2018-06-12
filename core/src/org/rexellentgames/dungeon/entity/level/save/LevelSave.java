@@ -26,9 +26,7 @@ public class LevelSave {
 
 			writer.writeInt32(all.size());
 
-			for (int i = 0; i < all.size(); i++) {
-				SaveableEntity entity = all.get(i);
-
+			for (SaveableEntity entity : all) {
 				writer.writeString(entity.getClass().getName());
 				entity.save(writer);
 			}

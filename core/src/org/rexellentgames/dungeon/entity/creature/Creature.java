@@ -57,7 +57,7 @@ public class Creature extends SaveableEntity {
 	public int hw;
 	public int hh;
 	public float z;
-	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<Class<? extends Buff>, Buff>();
+	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
@@ -460,7 +460,7 @@ public class Creature extends SaveableEntity {
 				clazz = Class.forName(t);
 
 				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance(new Object[]{});
+				Object object = constructor.newInstance();
 				Buff buff = (Buff) object;
 
 				buff.setOwner(this);

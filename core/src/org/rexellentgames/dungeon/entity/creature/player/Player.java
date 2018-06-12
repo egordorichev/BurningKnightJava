@@ -64,7 +64,7 @@ public class Player extends Creature {
 		GUNNER
 	}
 
-	public static ArrayList<Player> all = new ArrayList<Player>();
+	public static ArrayList<Player> all = new ArrayList<>();
 	public int inventorySize = 12;
 
 	private static final float LIGHT_SIZE = 5f;

@@ -70,24 +70,27 @@ public class Fireball extends NetworkedEntity implements WormholeFx.Suckable {
 		this.y -= 4;
 
 		this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x + 8, this.y + 8, 0);
-		this.body.setBullet(true);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x + 8, this.y + 8, 0);
+			this.body.setBullet(true);
 
-		if (this.vel == null) {
-			this.vel = new Vector2();
-
-			if (this.target != null) {
-				float dx = this.target.x + this.target.w / 2 - this.x - 5;
-				float dy = this.target.y + this.target.h / 2 - this.y - 5;
-				float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-				this.vel.x = dx / d * 3;
-				this.vel.y = dy / d * 3;
-
+			if (this.vel == null) {
+				this.vel = new Vector2();
+	
+				if (this.target != null) {
+					float dx = this.target.x + this.target.w / 2 - this.x - 5;
+					float dy = this.target.y + this.target.h / 2 - this.y - 5;
+					float d = (float) Math.sqrt(dx * dx + dy * dy);
+	
+					this.vel.x = dx / d * 3;
+					this.vel.y = dy / d * 3;
+	
+					this.body.setLinearVelocity(this.vel);
+				}
+			} else {
 				this.body.setLinearVelocity(this.vel);
 			}
-		} else {
-			this.body.setLinearVelocity(this.vel);
 		}
 	}
 

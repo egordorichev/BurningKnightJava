@@ -42,8 +42,11 @@ public class RocketEntity extends Entity {
 		this.h = sprite.getRegionHeight();
 
 		this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, ra);
-		this.body.setBullet(true);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, ra);
+			this.body.setBullet(true);
+		}
 	}
 
 	private Mob target;

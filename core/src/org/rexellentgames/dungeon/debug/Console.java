@@ -25,7 +25,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new GiveCommand());
 		this.commands.add(new HealCommand());
 		this.commands.add(new GodModeCommand());
-		this.commands.add(new GenerateCommand());
+		this.commands.add(new ResetCommand());
 		this.commands.add(new LevelCommand());
 		this.commands.add(new LightCommand());
 		this.commands.add(new DebugCommand());
@@ -80,9 +80,7 @@ public class Console implements InputProcessor {
 			if (command.getName().equals(name) || command.getShortName().equals(name)) {
 				String[] args = new String[parts.length - 1];
 
-				for (int i = 0; i < args.length; i++) {
-					args[i] = parts[i + 1];
-				}
+				System.arraycopy(parts, 1, args, 0, args.length);
 
 				command.run(this, args);
 

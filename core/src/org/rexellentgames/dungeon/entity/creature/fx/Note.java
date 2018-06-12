@@ -48,9 +48,12 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		vel.y = (float) (Math.sin(this.a) * 60);
 
 		this.body = World.createSimpleBody(this, 0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
-		this.body.setBullet(true);
-		this.body.setTransform(this.x, this.y, 0);
-		this.body.setLinearVelocity(this.vel);
+	
+		if (this.body != null) {
+			this.body.setBullet(true);
+			this.body.setTransform(this.x, this.y, 0);
+			this.body.setLinearVelocity(this.vel);
+		}
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
 		region = frames.get(Random.newInt(frames.size())).frame;

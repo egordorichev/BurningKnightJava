@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Area {
-	private ArrayList<Entity> entities = new ArrayList<Entity>();
+	private ArrayList<Entity> entities = new ArrayList<>();
 	private Comparator<Entity> comparator;
 	private boolean showWhenPaused;
 
@@ -83,7 +83,7 @@ public class Area {
 
 		for (int i = 0; i < this.entities.size(); i++) {
 			Entity entity = this.entities.get(i);
-
+			
 			if (!entity.isActive()) {
 				continue;
 			}
@@ -95,7 +95,7 @@ public class Area {
 	}
 
 	public Entity getRandomEntity(Class<? extends Entity> type) {
-		ArrayList<Entity> list = new ArrayList<Entity>();
+		ArrayList<Entity> list = new ArrayList<>();
 
 		for (Entity entity : this.entities) {
 			if (type.isInstance(entity)) {

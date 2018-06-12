@@ -39,10 +39,12 @@ public class RollingSpike extends SaveableEntity {
 
 		MassData data = new MassData();
 		data.mass = 1000000000f;
-		this.body.setMassData(data);
-
-		body.setTransform(this.x, this.y, 0);
-		body.setLinearVelocity(this.vel);
+		
+		if (this.body != null) {
+			this.body.setMassData(data);
+			this.body.setTransform(this.x, this.y, 0);
+			this.body.setLinearVelocity(this.vel);
+		}
 	}
 
 	@Override

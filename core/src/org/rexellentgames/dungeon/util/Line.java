@@ -8,7 +8,7 @@ public class Line {
 	private ArrayList<Point> points;
 
 	public Line(int x0, int y0, int x1, int y1) {
-		this.points = new ArrayList<Point>();
+		this.points = new ArrayList<>();
 
 		int dx = Math.abs(x0 - x1);
 		int dy = Math.abs(y0 - y1);

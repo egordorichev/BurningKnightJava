@@ -218,6 +218,8 @@ public class UiSlot {
 						this.inventory.setCurrentSlot(current);
 					} catch (Exception e) {
 						Dungeon.reportException(e);
+						
+						return;
 					}
 				}
 

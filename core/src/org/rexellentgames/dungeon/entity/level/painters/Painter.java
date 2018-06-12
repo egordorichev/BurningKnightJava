@@ -64,7 +64,7 @@ public class Painter {
 		bottomMost += 10;
 
 		//add 1 to account for 0 values
-		level.setSize(rightMost + 1, bottomMost + 1);
+		Level.setSize(rightMost + 1, bottomMost + 1);
 		level.generateDecor();
 		level.fill();
 
@@ -97,7 +97,7 @@ public class Painter {
 
 		for (Room r : rooms) {
 			for (Point p : r.waterPlaceablePoints()) {
-				int i = level.toIndex((int) p.x, (int) p.y);
+				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
 				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
 					level.set(i, Terrain.WATER);
@@ -111,7 +111,7 @@ public class Painter {
 
 		for (Room r : rooms) {
 			for (Point p : r.grassPlaceablePoints()) {
-				int i = level.toIndex((int) p.x, (int) p.y);
+				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
 				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
 					level.set(i, Terrain.DIRT);
@@ -236,7 +236,7 @@ public class Painter {
 	}
 
 	public static void set(Level level, int x, int y, byte value) {
-		set(level, x + y * level.getWidth(), value);
+		set(level, x + y * Level.getWidth(), value);
 	}
 
 	public static void setBold(Level level, int x, int y, byte value) {
@@ -344,7 +344,7 @@ public class Painter {
 				rowW++;
 			}
 
-			int cell = x + (w - (int) rowW) / 2 + ((y + i) * level.getWidth());
+			int cell = x + (w - (int) rowW) / 2 + ((y + i) * Level.getWidth());
 			Arrays.fill(level.data, cell, cell + (int) rowW, value);
 		}
 	}

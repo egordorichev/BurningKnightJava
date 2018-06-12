@@ -33,7 +33,10 @@ public class IchorFx extends Entity implements WormholeFx.Suckable {
 		this.y -= 4;
 
 		this.body = World.createSimpleBody(this, 0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import org.rexellentgames.dungeon.util.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class IronChest extends Chest {
 	private static Animation animation = Animation.make("actor-iron-chest");
@@ -43,8 +44,9 @@ public class IronChest extends Chest {
 	private static AnimationData open = animation.get("anim");
 	private static AnimationData openend = animation.get("open");
 
+	@SuppressWarnings("unchecked")
 	private static ArrayList<Class<? extends Item>>[] items = new ArrayList[] {
-		new ArrayList(Arrays.asList(Gold.class)),
+		new ArrayList(Collections.singletonList(Gold.class)),
 		new ArrayList(Arrays.asList(SwordA.class, DaggerB.class, SwordB.class, AxeA.class, ButcherA.class, MorningStarA.class, Compass.class, ButcherB.class, MorningStarB.class, GunB.class, HealingPotion.class, BowA.class, VikingHat.class, RocketLauncherB.class)),
 		new ArrayList(Arrays.asList(SwordB.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, AxeC.class, ButcherC.class, MorningStarC.class, GunC.class, HealingPotion.class, BowB.class, ValkyreHat.class, RocketLauncherC.class)),
 		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, SkullHat.class, RocketLauncherC.class)),
@@ -70,9 +72,7 @@ public class IronChest extends Chest {
 			}
 
 			return items[Dungeon.depth].get(i).newInstance();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
+		} catch (IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
 

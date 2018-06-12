@@ -5,7 +5,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import java.io.File;
 
 public class PackerLauncher {
-	public final static void main(String[] args) {
+	public static void main(String[] args) {
 		final File folder = new File("sprites_split");
 
 		final File[] files = folder.listFiles((dir, name) -> name.indexOf('@') != -1);

@@ -5,7 +5,7 @@ import org.rexellentgames.dungeon.Dungeon;
 import java.util.ArrayList;
 
 public class Tween {
-	private static ArrayList<Task> tasks = new ArrayList<Task>();
+	private static ArrayList<Task> tasks = new ArrayList<>();
 	private static float t = 1.70158f;
 
 	public enum Type {

@@ -25,8 +25,8 @@ public class RegularBuilder extends Builder {
 	protected float[] branchTunnelChances = new float[]{2, 2, 1};
 	protected float extraConnectionChance = 0.2f;
 
-	protected ArrayList<Room> multiConnection = new ArrayList<Room>();
-	protected ArrayList<Room> singleConnection = new ArrayList<Room>();
+	protected ArrayList<Room> multiConnection = new ArrayList<>();
+	protected ArrayList<Room> singleConnection = new ArrayList<>();
 
 	public void setupRooms(ArrayList<Room> rooms) {
 		this.entrance = null;
@@ -61,7 +61,7 @@ public class RegularBuilder extends Builder {
 		if (Dungeon.type != Dungeon.Type.INTRO) {
 			this.weightRooms(this.multiConnection);
 			Collections.shuffle(this.multiConnection);
-			this.multiConnection = new ArrayList<Room>(new LinkedHashSet<Room>(this.multiConnection));
+			this.multiConnection = new ArrayList<>(new LinkedHashSet<>(this.multiConnection));
 		}
 	}
 
@@ -108,7 +108,7 @@ public class RegularBuilder extends Builder {
 		float angle;
 		int tries;
 		Room curr;
-		ArrayList<Room> connectingRoomsThisBranch = new ArrayList<Room>();
+		ArrayList<Room> connectingRoomsThisBranch = new ArrayList<>();
 
 		float[] connectionChances = connChances.clone();
 
@@ -183,8 +183,8 @@ public class RegularBuilder extends Builder {
 				continue;
 			}
 
-			for (int j = 0; j < connectingRoomsThisBranch.size(); j++) {
-				if (Random.newInt(3) <= 1) branchable.add(connectingRoomsThisBranch.get(j));
+			for (Room aConnectingRoomsThisBranch : connectingRoomsThisBranch) {
+				if (Random.newInt(3) <= 1) branchable.add(aConnectingRoomsThisBranch);
 			}
 
 			if (r.getMaxConnections(Room.Connection.ALL) > 1 && Random.newInt(3) == 0) {

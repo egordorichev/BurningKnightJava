@@ -32,9 +32,7 @@ public class Inventory {
 		Item[] old = this.slots;
 		this.slots = new Item[size];
 
-		for (int i = 0; i < old.length; i++) {
-			this.slots[i] = old[i];
-		}
+		System.arraycopy(old, 0, this.slots, 0, old.length);
 	}
 
 	public void load(FileReader reader) throws IOException {
@@ -47,7 +45,7 @@ public class Inventory {
 				try {
 					Class<?> clazz = Class.forName(type);
 					Constructor<?> constructor = clazz.getConstructor();
-					Object object = constructor.newInstance(new Object[]{});
+					Object object = constructor.newInstance();
 
 					Item item = (Item) object;
 					item.load(reader);

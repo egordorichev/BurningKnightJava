@@ -266,9 +266,7 @@ public class Gun extends WeaponBase {
 			bullet.a = a;
 
 			Dungeon.area.add(bullet);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
+		} catch (IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
 	}

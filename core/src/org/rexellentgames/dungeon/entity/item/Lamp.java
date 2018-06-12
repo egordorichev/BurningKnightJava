@@ -113,7 +113,7 @@ public class Lamp extends Item {
 			}
 		});
 
-		this.play();
+		play();
 	}
 
 	public boolean isOn() {
@@ -200,7 +200,7 @@ public class Lamp extends Item {
 			}
 		}
 
-		this.play();
+		play();
 	}
 
 	public static void play() {

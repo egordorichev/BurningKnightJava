@@ -17,8 +17,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class Room extends Rect implements GraphNode {
-	public ArrayList<Room> neighbours = new ArrayList<Room>();
-	public HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door>();
+	public ArrayList<Room> neighbours = new ArrayList<>();
+	public HashMap<Room, org.rexellentgames.dungeon.entity.level.features.Door> connected = new HashMap<>();
 	private int price = 1;
 	private int distance = 0;
 	public boolean hidden;
@@ -257,7 +257,7 @@ public abstract class Room extends Rect implements GraphNode {
 	}
 
 	public final ArrayList<Point> waterPlaceablePoints() {
-		ArrayList<Point> points = new ArrayList<Point>();
+		ArrayList<Point> points = new ArrayList<>();
 
 		for (int i = left + 1; i <= right - 1; i++) {
 			for (int j = top + 1; j <= bottom - 1; j++) {
@@ -274,7 +274,7 @@ public abstract class Room extends Rect implements GraphNode {
 	}
 
 	public final ArrayList<Point> grassPlaceablePoints() {
-		ArrayList<Point> points = new ArrayList<Point>();
+		ArrayList<Point> points = new ArrayList<>();
 
 		for (int i = left + 1; i <= right - 1; i++) {
 			for (int j = top + 1; j <= bottom - 1; j++) {

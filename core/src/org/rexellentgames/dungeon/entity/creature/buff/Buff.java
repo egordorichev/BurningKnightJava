@@ -8,7 +8,7 @@ public class Buff {
 	protected String name;
 	protected String description;
 	protected String sprite;
-	protected float duration = 10f;
+	protected float duration;
 	protected float time;
 	protected boolean bad = false;
 	public boolean infinite = false;

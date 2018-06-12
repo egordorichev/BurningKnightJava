@@ -76,6 +76,6 @@ public class Crash {
 			}
 		}
 
-		return String.format("%d total; %s", new Object[] { Integer.valueOf(i), stringbuilder.toString() });
+		return String.format("%d total; %s", i, stringbuilder.toString());
 	}
 }

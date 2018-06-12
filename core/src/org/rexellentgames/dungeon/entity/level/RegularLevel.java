@@ -77,7 +77,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected void spawnLevelEntities() {
-		this.free = new boolean[this.getSize()];
+		this.free = new boolean[getSize()];
 
 		// might freeze!
 
@@ -152,6 +152,7 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void build() {
 		Builder builder = this.getBuilder();
 
