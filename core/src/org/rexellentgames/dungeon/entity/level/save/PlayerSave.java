@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PlayerSave {
@@ -32,7 +33,7 @@ public class PlayerSave {
 		}
 	}
 
-	public static void load(FileReader reader) {
+	public static void load(FileReader reader) throws IOException {
 		try {
 			all.clear();
 			int count = reader.readInt32();
@@ -48,7 +49,11 @@ public class PlayerSave {
 
 				entity.load(reader);
 			}
-		} catch (Exception e) {
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

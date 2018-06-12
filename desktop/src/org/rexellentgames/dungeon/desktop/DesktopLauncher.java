@@ -62,7 +62,9 @@ public class DesktopLauncher {
 			}
 		});
 
-		config.setTitle("Burning Knight " + Version.asString() + ": " + titles[Random.newInt(titles.length)]);
+		Dungeon.title = "Burning Knight " + Version.asString() + ": " + titles[Random.newInt(titles.length)];
+
+		config.setTitle(Dungeon.title);
 		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
 		config.setIdleFPS(0);

@@ -107,10 +107,8 @@ public class Graphics {
 		generateFont("fonts/small.ttf", 16);
 		generateFont("fonts/large.ttf", 16);
 
-		manager.finishLoadingAsset("fonts/large.ttf");
+		// manager.finishLoadingAsset("fonts/large.ttf");
 
-		medium = manager.get("fonts/large.ttf");
-		medium.getData().markupEnabled = true;
 
 		FileHandle file = Gdx.files.external("sfx.json");
 
@@ -124,6 +122,20 @@ public class Graphics {
 		}
 	}
 
+	public static void finishLoading() {
+		manager.finishLoading();
+		small = manager.get("fonts/small.ttf");
+		atlas = manager.get("atlas/atlas.atlas");
+
+		small.getData().markupEnabled = true;
+		small.getData().setLineHeight(10);
+
+		medium = manager.get("fonts/large.ttf");
+		medium.getData().markupEnabled = true;
+
+		new Ui();
+	}
+
 	public static boolean updateLoading() {
 		boolean val = manager.update();
 
@@ -133,6 +145,9 @@ public class Graphics {
 
 			small.getData().markupEnabled = true;
 			small.getData().setLineHeight(10);
+
+			medium = manager.get("fonts/large.ttf");
+			medium.getData().markupEnabled = true;
 
 			new Ui();
 		}
@@ -286,6 +301,10 @@ public class Graphics {
 	}
 
 	public static void destroy() {
+		if (atlas == null) {
+			return;
+		}
+
 		atlas.dispose();
 		manager.dispose();
 		batch.dispose();

@@ -106,9 +106,9 @@ public class UiInventory extends UiEntity {
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 			float h = this.inventory.getSize() / 3 * 29;
-			boolean nd = Dialog.active == null;
+			boolean nd = Dialog.active != null;
 
-			if (nd && (this.hidden && d < h || this.forceT > 0)) {
+			if (!nd && (this.hidden && d < h || this.forceT > 0)) {
 				this.dn = false;
 
 				Tween.to(new Tween.Task(4, 0.3f, Tween.Type.BACK_OUT) {
@@ -134,7 +134,7 @@ public class UiInventory extends UiEntity {
 
 				this.hidden = false;
 			} else {
-				if (nd && !this.hidden && !this.open && dx < 90f && dy < 15f) {
+				if (!nd && !this.hidden && !this.open && dx < 75f && dy < h) {
 					this.open = true;
 					this.dn = false;
 
@@ -201,7 +201,7 @@ public class UiInventory extends UiEntity {
 							}
 						});
 					}
-				} else if (nd || !this.hidden && this.open && (dx > 100f || dy > h + 20) && this.forceT == 0) {
+				} else if (nd || !this.hidden && this.open && (dx > 80f || dy > h + 5) && this.forceT == 0) {
 					if (this.lastA != null) {
 						Tween.remove(this.lastA);
 						this.lastA = null;

@@ -25,6 +25,8 @@ public class Ui {
 	}
 
 	public void update(float dt) {
+		this.ca = Math.min(this.ca + dt, 1);
+
 		for (Boss boss : Boss.all) {
 			if (boss.talked && !boss.getState().equals("unactive") && !healthbars.containsKey(boss.getClass())) {
 				Healthbar healthbar = new Healthbar();
@@ -135,13 +137,16 @@ public class Ui {
 		float sx = 1; //MathUtils.clamp(1f, 2f, dx / 30);
 		float sy = 1; //MathUtils.clamp(1f, 2f, dy / 30);
 
+		Graphics.batch.setColor(1, 1, 1, this.ca);
 		Graphics.render(this.cursor, Input.instance.uiMouse.x,
 			Input.instance.uiMouse.y, a, 8, 8, false, false, sx * s, sy * s);
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
+
+	private float ca;
 
 	public void renderUi() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
 		renderCursor();
 	}
 }

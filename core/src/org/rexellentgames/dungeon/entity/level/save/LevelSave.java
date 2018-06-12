@@ -6,6 +6,7 @@ import org.rexellentgames.dungeon.entity.level.SaveableEntity;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LevelSave {
@@ -34,27 +35,38 @@ public class LevelSave {
 		}
 	}
 
-	public static void load(FileReader reader) {
-		try {
-			all.clear();
-			Dungeon.level = Level.forDepth(Dungeon.depth);
-			Dungeon.area.add(Dungeon.level);
-			Dungeon.level.load(reader);
+	public static void load(FileReader reader) throws IOException {
+		all.clear();
+		Dungeon.level = Level.forDepth(Dungeon.depth);
+		Dungeon.area.add(Dungeon.level);
+		Dungeon.level.load(reader);
 
-			int count = reader.readInt32();
+		int count = reader.readInt32();
 
-			for (int i = 0; i < count; i++) {
-				String t = reader.readString();
-				Class<?> clazz = Class.forName(t);
-				SaveableEntity entity = (SaveableEntity) clazz.newInstance();
+		for (int i = 0; i < count; i++) {
+			String t = reader.readString();
+			Class<?> clazz = null;
 
-				Dungeon.area.add(entity);
-				all.add(entity);
-
-				entity.load(reader);
+			try {
+				clazz = Class.forName(t);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+
+			SaveableEntity entity = null;
+
+			try {
+				entity = (SaveableEntity) clazz.newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+
+			Dungeon.area.add(entity);
+			all.add(entity);
+
+			entity.load(reader);
 		}
 	}
 

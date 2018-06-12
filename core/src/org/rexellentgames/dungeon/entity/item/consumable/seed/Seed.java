@@ -90,7 +90,6 @@ public class Seed extends Consumable {
 
 				Dungeon.area.add(plant);
 				LevelSave.add(plant);
-				Dungeon.level.set(x, y, Terrain.PLANTED_DIRT);
 
 				this.count -= 1;
 			}
