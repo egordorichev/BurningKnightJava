@@ -67,7 +67,6 @@ public class DesktopLauncher {
 		config.setTitle(Dungeon.title);
 		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
-		config.setIdleFPS(0);
 		config.setBackBufferConfig(1, 1, 1, 1, 0, 0, 4);
 
 		Dungeon.arg = arg;
@@ -82,6 +81,10 @@ public class DesktopLauncher {
 		"'Friendly' fire",
 		"Get ready to burn",
 		"Do you need some heat?",
-		"BBQ is ready!"
+		"BBQ is ready!",
+		"Hot sales!",
+		"AAAAAA",
+		"It burns burns burns",
+		"Not for children under 5"
 	};
 }
