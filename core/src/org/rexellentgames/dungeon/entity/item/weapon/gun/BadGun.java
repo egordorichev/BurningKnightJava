@@ -8,7 +8,7 @@ public class BadGun extends Gun {
 		name = Locale.get("gun_a");
 		description = Locale.get("gun_a_desc");
 		sprite = "item (gun A)";
-		useTime = 0.5f;
+		useTime = 1.5f;
 	}
 
 	@Override

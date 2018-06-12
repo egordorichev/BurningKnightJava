@@ -179,19 +179,25 @@ public class InGameState extends State {
 	}
 
 	@Override
+	public void render() {
+		super.render();
+
+		if (isPaused()) {
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+			pauseMenuUi.render();
+		}
+	}
+
+	@Override
 	public void renderUi() {
 		Ui.ui.renderUi();
 
 		Dungeon.ui.render();
 
 		if (this.isPaused()) {
-			pauseMenuUi.render();
-		}
-
-		if (isPaused()) {
 			return;
 		}
-		
+
 		if (this.a != 0) {
 			Graphics.batch.setColor(1, 1, 1, this.a);
 			Graphics.render(blood, 0, 0);

@@ -14,7 +14,6 @@ public class Terrain {
 	public static byte WALL = 5;
 	public static byte FLOOR_B = 6;
 	public static byte LAVA = 7;
-	public static byte PLANTED_DIRT = 8;
 	public static byte GRASS = 9;
 	public static byte TABLE = 10;
 	public static byte EXIT = 11;
@@ -31,15 +30,13 @@ public class Terrain {
 	public static int SOLID = 0x2;
 	public static int HOLE = 0x4;
 	public static int HIGH = 0x8;
-	public static int IS_DIRT = 0x10;
 	public static int BREAKS_LOS = 0x20;
 	public static int BREAKS_ENEMY_LOS = 0x40;
 
 	static {
 		flags[CHASM] = HOLE;
-		flags[DIRT] = PASSABLE | IS_DIRT;
+		flags[DIRT] = PASSABLE;
 		flags[GRASS] = PASSABLE;
-		flags[PLANTED_DIRT] = PASSABLE | IS_DIRT;
 		flags[FLOOR_A] = PASSABLE;
 		flags[FLOOR_FAKE] = PASSABLE | BREAKS_ENEMY_LOS;
 		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
@@ -117,7 +114,6 @@ public class Terrain {
 
 		patterns[DIRT] = dirtPattern;
 		patterns[GRASS] = grassPattern;
-		patterns[PLANTED_DIRT] = dirtPattern;
 		patterns[WATER] = waterPattern;
 		patterns[LAVA] = lavaPattern;
 		patterns[WALL] = wallPattern;

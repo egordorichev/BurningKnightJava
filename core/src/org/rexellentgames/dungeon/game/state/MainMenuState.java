@@ -10,13 +10,13 @@ import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
 
 public class MainMenuState extends State {
-	private static TextureRegion logo = Graphics.getTexture("logo");
+	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
 
 	@Override
 	public void init() {
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiButton("play", Display.GAME_WIDTH / 2, 128) {
+		Dungeon.area.add(new UiButton("play", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -28,7 +28,7 @@ public class MainMenuState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.area.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
+		Dungeon.area.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24 * 2) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -41,7 +41,7 @@ public class MainMenuState extends State {
 			}
 		});
 
-		Dungeon.area.add(new UiButton("exit", Display.GAME_WIDTH / 2, (int) (128 - 24 * 2.5f)) {
+		Dungeon.area.add(new UiButton("exit", Display.GAME_WIDTH / 2, (int) (128 - 24 * 3.5f)) {
 			@Override
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
@@ -52,27 +52,14 @@ public class MainMenuState extends State {
 	}
 
 	@Override
-	public void renderUi() {
-		super.renderUi();
+	public void render() {
+		super.render();
 
-		float sx = (float) (1f + Math.sin(Dungeon.time / 1.5f) / 5);
-		float sy = (float) (1f + Math.cos(Dungeon.time) / 5);
-		float a = (float) (Math.cos(Dungeon.time * 4) * 3f);
+		float sx = (float) (0.8f + Math.sin(Dungeon.time / 1.5f) / 40);
+		float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
+		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
 
-		Graphics.batch.setColor(UiButton.outline.r, UiButton.outline.g, UiButton.outline.b, 1);
-
-		for (int xx = -1; xx < 2; xx++) {
-			for (int yy = -1; yy < 2; yy++) {
-				Graphics.render(logo, Display.GAME_WIDTH / 2 + xx, 200 + yy,
-					a,
-					logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
-			}
-		}
-
-		Graphics.batch.setColor(1, 1, 1, 1);
-
-		Graphics.render(logo, Display.GAME_WIDTH / 2, 200, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
-
+		Graphics.render(logo, Display.GAME_WIDTH / 2, 180, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
 		Ui.ui.renderCursor();
 	}
 }

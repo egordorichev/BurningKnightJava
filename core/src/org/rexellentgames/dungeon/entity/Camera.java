@@ -104,9 +104,8 @@ public class Camera extends Entity {
 			if (this.target instanceof Player && !((Player) this.target).toDeath) {
 				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (1.5f / this.camera.zoom);
 				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (1.5f / this.camera.zoom);
-
-				//x += ((Player) this.target).vel.x;
-				//y += ((Player) this.target).vel.y;
+			} else {
+				y += this.target.h;
 			}
 
 			this.camera.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
@@ -115,29 +114,6 @@ public class Camera extends Entity {
 				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, this.camera.position.x);
 			this.camera.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
 				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, this.camera.position.y);
-
-			/*if (this.clamp.size() > 0) {
-				Rectangle rect = this.clamp.get(0);
-
-				// Todo: make sure it's off-screen
-
-				this.camera.position.x =
-					this.camera.position.x < rect.x + rect.width / 2
-					? rect.x : rect.x + rect.width;
-
-				this.camera.position.y =
-					this.camera.position.y < rect.y + rect.height / 2
-						? rect.y : rect.y + rect.height;
-
-				float tx = this.target.x + this.target.w / 2;
-				float ty = this.target.y + this.target.h / 2;
-
-				if (tx >= rect.x && tx <= rect.x + rect.width &&
-					ty >= rect.y && ty <= rect.y + rect.height) {
-
-					this.clamp.remove(0);
-				}
-			}*/
 
 			this.camera.update();
 		}
