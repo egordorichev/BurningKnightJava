@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class SlotSelectState extends State {
 	private ArrayList<UiButton> buttons = new ArrayList<>();
+	private float tty = -300;
+	private boolean twe;
 
 	@Override
 	public void init() {
@@ -21,6 +23,18 @@ public class SlotSelectState extends State {
 			@Override
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(-300, 0.2f) {
+					@Override
+					public float getValue() {
+						return tty;
+					}
+
+					@Override
+					public void setValue(float value) {
+						tty = value;
+					}
+				});
 
 				for (UiButton button : buttons) {
 					Tween.to(new Tween.Task(button.y - 300, 0.1f) {
@@ -36,8 +50,12 @@ public class SlotSelectState extends State {
 
 						@Override
 						public void onEnd() {
-							MainMenuState.fromBottom = true;
-							Dungeon.game.setState(new MainMenuState());
+							if (!twe) {
+								twe = true;
+
+								MainMenuState.fromBottom = true;
+								Dungeon.game.setState(new MainMenuState());
+							}
 						}
 					});
 				}
@@ -45,7 +63,7 @@ public class SlotSelectState extends State {
 		}));
 
 		for (UiButton button : buttons) {
-			Tween.to(new Tween.Task(button.y + 300, 0.1f) {
+			Tween.to(new Tween.Task(button.y + 300, 0.2f) {
 				@Override
 				public float getValue() {
 					return button.y;
@@ -57,12 +75,25 @@ public class SlotSelectState extends State {
 				}
 			});
 		}
+
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return tty;
+			}
+
+			@Override
+			public void setValue(float value) {
+				tty = value;
+			}
+		});
 	}
 
 	@Override
 	public void renderUi() {
 		super.renderUi();
 
+		Graphics.print("Select slot", Graphics.medium, tty + Display.GAME_HEIGHT - 64);
 		Ui.ui.renderCursor();
 	}
 }

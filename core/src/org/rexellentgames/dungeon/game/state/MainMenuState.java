@@ -21,6 +21,7 @@ public class MainMenuState extends State {
 	private float vy = -32;
 	private float vx = 0;
 	public static boolean fromBottom;
+	public static boolean fromRight;
 
 	@Override
 	public void init() {
@@ -44,7 +45,7 @@ public class MainMenuState extends State {
 						vvx = value;
 					}
 				});
-				
+
 				Tween.to(new Tween.Task(250, 0.3f) {
 					@Override
 					public float getValue() {
@@ -176,6 +177,39 @@ public class MainMenuState extends State {
 					}
 				});
 			}
+		} else if (fromRight) {
+			fromRight = false;
+
+			for (UiButton button : buttons) {
+				button.x = Display.GAME_WIDTH / 2 - 300;
+
+				Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.1f) {
+					@Override
+					public float getValue() {
+						return button.x;
+					}
+
+					@Override
+					public void setValue(float value) {
+						button.x = value;
+					}
+				});
+			}
+
+			vx = Display.GAME_WIDTH / 2 - 300;
+			ly = 0;
+
+			Tween.to(new Tween.Task(0, 0.1f) {
+				@Override
+				public float getValue() {
+					return vx;
+				}
+
+				@Override
+				public void setValue(float value) {
+					vx = value;
+				}
+			});
 		} else {
 			Tween.to(new Tween.Task(0, 1f, Tween.Type.BACK_OUT) {
 				@Override

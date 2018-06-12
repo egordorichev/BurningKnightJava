@@ -13,10 +13,7 @@ import java.util.ArrayList;
 public class SettingsState extends State {
 	public static boolean fromGame;
 	private ArrayList<UiButton> buttons = new ArrayList<>();
-
-	public SettingsState() {
-
-	}
+	private boolean twe;
 
 	@Override
 	public void init() {
@@ -62,13 +59,29 @@ public class SettingsState extends State {
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
 
-				transition(() -> {
-					if (fromGame) {
-						Dungeon.goToLevel(Dungeon.depth);
-					} else {
-						Dungeon.game.setState(new MainMenuState());
-					}
-				});
+				for (UiButton button : buttons) {
+					Tween.to(new Tween.Task(400, 0.3f) {
+						@Override
+						public float getValue() {
+							return button.x;
+						}
+
+						@Override
+						public void setValue(float value) {
+							button.x = value;
+						}
+
+						@Override
+						public void onEnd() {
+							if (!twe) {
+								twe = true;
+
+								MainMenuState.fromRight = true;
+								Dungeon.game.setState(new MainMenuState());
+							}
+						}
+					});
+				}
 			}
 		}));
 
