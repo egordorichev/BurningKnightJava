@@ -68,13 +68,15 @@ public class Dungeon extends ApplicationAdapter {
 	public static Color YELLOW = Color.valueOf("#fbf236");
 	public static Color BROWN = Color.valueOf("#8f563b");
 	private static int to = -2;
-	public static Color background = Color.valueOf("#000000");
-	public static Color background2 = Color.valueOf("#323c39");
+	public static Color background = Color.BLACK;
+	public static Color background2 = Color.BLACK;
 	public static SplashWorker worker;
 	public static float shockTime = 10;
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
 	public static boolean flip;
+
+	public static String title;
 
 	public static void reportException(Exception e) {
 		Log.report(e);
