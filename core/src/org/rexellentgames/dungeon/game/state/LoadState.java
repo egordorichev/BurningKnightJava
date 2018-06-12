@@ -21,6 +21,8 @@ import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.PathFinder;
 import org.rexellentgames.dungeon.util.Tween;
 
+import java.io.IOException;
+
 public class LoadState extends State {
 	private boolean ready = false;
 	private float a;
@@ -91,25 +93,57 @@ public class LoadState extends State {
 		Mob.all.clear();
 
 		new Thread(() -> {
+			PlayerSave.all.clear();
+			LevelSave.all.clear();
+
 			try {
-				PlayerSave.all.clear();
-				LevelSave.all.clear();
-
 				SaveManager.load(SaveManager.Type.GAME);
-				SaveManager.load(SaveManager.Type.LEVEL);
-				SaveManager.load(SaveManager.Type.PLAYER);
-
-				Dungeon.level.loadPassable();
-				Dungeon.level.addPhysics();
-
-				MusicManager.play(Dungeon.level.getMusic());
+			} catch (IOException e) {
+				Log.error("Failed to load game!");
+				Dungeon.newGame();
+				return;
 			} catch (RuntimeException e) {
 				Log.report(e);
 				Thread.currentThread().interrupt();
-				Dungeon.newGame();
-
 				return;
 			}
+
+			try {
+				SaveManager.load(SaveManager.Type.LEVEL);
+			} catch (IOException e) {
+				Log.error("Failed to load level, generating new...");
+				LevelSave.all.clear();
+
+				if (Dungeon.level != null) {
+					Log.error("Removing old level");
+					Dungeon.area.remove(Dungeon.level);
+					Dungeon.level = null;
+				}
+
+				SaveManager.generate(SaveManager.Type.LEVEL);
+				SaveManager.save(SaveManager.Type.LEVEL);
+			} catch (RuntimeException e) {
+				Log.report(e);
+				Thread.currentThread().interrupt();
+				return;
+			}
+
+			try {
+				SaveManager.load(SaveManager.Type.PLAYER);
+			} catch (IOException e) {
+				Log.error("Failed to load player!");
+				Dungeon.newGame();
+				return;
+			} catch (RuntimeException e) {
+				Log.report(e);
+				Thread.currentThread().interrupt();
+				return;
+			}
+
+			Dungeon.level.loadPassable();
+			Dungeon.level.addPhysics();
+
+			MusicManager.play(Dungeon.level.getMusic());
 
 			if (Player.instance == null) {
 				Log.error("No player!");

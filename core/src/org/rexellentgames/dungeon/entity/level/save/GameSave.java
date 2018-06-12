@@ -26,24 +26,20 @@ public class GameSave {
 		}
 	}
 
-	public static void load(FileReader reader) {
-		try {
-			byte d = reader.readByte();
+	public static void load(FileReader reader) throws IOException {
+		byte d = reader.readByte();
 
-			if (Dungeon.notLoaded) {
-				Dungeon.notLoaded = false;
-				Dungeon.depth = d;
-			}
+		if (Dungeon.notLoaded) {
+			Dungeon.notLoaded = false;
+			Dungeon.depth = d;
+		}
 
-			Log.info("Set dungeon depth to " + Dungeon.depth);
-			ChangableRegistry.load(reader);
+		Log.info("Set dungeon depth to " + Dungeon.depth);
+		ChangableRegistry.load(reader);
 
-			for (int i = 0; i < Level.depths.length; i++) {
-				Level.depths[i] = reader.readByte();
-				Level.boss[i] = reader.readBoolean();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (int i = 0; i < Level.depths.length; i++) {
+			Level.depths[i] = reader.readByte();
+			Level.boss[i] = reader.readBoolean();
 		}
 	}
 

@@ -54,7 +54,7 @@ public class SaveManager {
 		}
 	}
 
-	public static void load(Type type) {
+	public static void load(Type type) throws IOException {
 		FileHandle save = Gdx.files.external(getSavePath(type));
 
 		if (!save.exists()) {
@@ -72,19 +72,15 @@ public class SaveManager {
 		} else {
 			Log.info("Loading " + type + " " + Dungeon.depth);
 
-			try {
-				FileReader stream = new FileReader(save.file().getAbsolutePath());
+			FileReader stream = new FileReader(save.file().getAbsolutePath());
 
-				switch (type) {
-					case LEVEL: LevelSave.load(stream); break;
-					case PLAYER: PlayerSave.load(stream); break;
-					case GAME: GameSave.load(stream); break;
-				}
-
-				stream.close();
-			} catch (Exception e) {
-				Dungeon.reportException(e);
+			switch (type) {
+				case LEVEL: LevelSave.load(stream); break;
+				case PLAYER: PlayerSave.load(stream); break;
+				case GAME: GameSave.load(stream); break;
 			}
+
+			stream.close();
 		}
 	}
 

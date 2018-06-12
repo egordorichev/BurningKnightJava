@@ -47,6 +47,10 @@ public abstract class RegularLevel extends Level {
 		this.build();
 		this.paint();
 
+		if (this.rooms == null) {
+			Log.error("NO ROOMS!");
+		}
+
 		Log.info("Done painting");
 
 		ChangableRegistry.generate();

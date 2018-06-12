@@ -116,7 +116,7 @@ public class Painter {
 				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
 					level.set(i, Terrain.DIRT);
 
-					if (Random.chance(10)) {
+					/*if (Random.chance(10)) {
 						Plant plant = Plant.random();
 
 						plant.x = p.x * 16;
@@ -126,7 +126,7 @@ public class Painter {
 						Dungeon.area.add(plant);
 
 						plant.grow();
-					}
+					}*/
 				}
 			}
 		}

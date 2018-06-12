@@ -430,6 +430,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void renderLight() {
+		if (Dungeon.level != this) {
+			return;
+		}
+
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		Graphics.batch.end();
@@ -505,7 +509,22 @@ public abstract class Level extends SaveableEntity {
 		return (data & (1 << bit)) != 0;
 	}
 
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+
+		if (this != Dungeon.level) {
+			Log.error("Extra level!");
+			setDone(true);
+		}
+	}
+
 	public void renderSolid() {
+		if (Dungeon.level != this) {
+			return;
+		}
+
 		for (Room room : this.rooms) {
 			room.numEnemies = 0;
 		}
@@ -940,6 +959,11 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void render() {
+		if (Dungeon.level != this) {
+			setDone(true);
+			return;
+		}
+
 		OrthographicCamera camera = Camera.instance.getCamera();
 
 		float zoom = camera.zoom;
