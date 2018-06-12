@@ -9,7 +9,6 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
-import org.rexellentgames.dungeon.ui.UiEntity;
 import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
@@ -17,64 +16,86 @@ import java.util.ArrayList;
 public class MainMenuState extends State {
 	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
 	public static MainMenuState instance;
-	private float y = Display.GAME_HEIGHT;
+	private float ly = Display.GAME_HEIGHT;
 	private ArrayList<UiButton> buttons = new ArrayList<>();
-	private ArrayList<UiEntity> slot = new ArrayList<>();
 	private float vy = -32;
 	private float vx = 0;
+	public static boolean fromBottom;
 
-	public void tween() {
-		slot.add((UiButton) Dungeon.area.add(new UiButton("Back", Display.GAME_WIDTH / 2 + 300, (int) (128 - 24 * 3.5f)) {
-			@Override
-			public void onClick() {
-				super.onClick();
+	@Override
+	public void init() {
+		instance = this;
 
-				for (UiButton button : buttons) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.3f) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
-
-						@Override
-						public void setValue(float value) {
-							button.x = value;
-						}
-					});
-				}
-
-				for (UiEntity button : slot) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2 + 300, 0.3f) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
-
-						@Override
-						public void setValue(float value) {
-							button.x = value;
-						}
-					});
-				}
-
-				Tween.to(new Tween.Task(0, 0.3f) {
-					@Override
-					public float getValue() {
-						return vx;
-					}
-
-					@Override
-					public void setValue(float value) {
-						vx = value;
-					}
-				});
-			}
-		}));
+		Dungeon.area.add(Camera.instance);
 
 		buttons.add((UiButton) Dungeon.area.add(new UiButton("play", -128, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
+
+				Tween.to(new Tween.Task(-100, 0.1f) {
+					@Override
+					public float getValue() {
+						return vvx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						vvx = value;
+					}
+				});
+				
+				Tween.to(new Tween.Task(250, 0.3f) {
+					@Override
+					public float getValue() {
+						return ly;
+					}
+
+					@Override
+					public void setValue(float value) {
+						ly = value;
+					}
+				});
+
+				for (UiButton button : buttons) {
+					Tween.to(new Tween.Task(300, 0.3f) {
+						@Override
+						public float getValue() {
+							return button.y;
+						}
+
+						@Override
+						public void setValue(float value) {
+							button.y = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Dungeon.game.setState(new SlotSelectState());
+						}
+					});
+				}
+			}
+		}.setSparks(true)));
+
+		buttons.add((UiButton) Dungeon.area.add(new UiButton("settings", Display.GAME_WIDTH + 128, (int) (128 - 24 * 2.5f)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				SettingsState.fromGame = false;
+
+				Tween.to(new Tween.Task(-100, 0.1f) {
+					@Override
+					public float getValue() {
+						return vvx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						vvx = value;
+					}
+				});
 
 				for (UiButton button : buttons) {
 					Tween.to(new Tween.Task(-300, 0.3f) {
@@ -87,19 +108,10 @@ public class MainMenuState extends State {
 						public void setValue(float value) {
 							button.x = value;
 						}
-					});
-				}
-
-				for (UiEntity button : slot) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.3f) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
 
 						@Override
-						public void setValue(float value) {
-							button.x = value;
+						public void onEnd() {
+							Dungeon.game.setState(new SettingsState());
 						}
 					});
 				}
@@ -116,19 +128,6 @@ public class MainMenuState extends State {
 					}
 				});
 			}
-		}.setSparks(true)));
-
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("settings", Display.GAME_WIDTH + 128, 128 - 24 * 2) {
-			@Override
-			public void onClick() {
-				super.onClick();
-
-				transition(() -> {
-					SettingsState.fromGame = false;
-					Dungeon.game.setState(new SettingsState());
-					Camera.instance.shake(3);
-				});
-			}
 		}));
 
 		buttons.add((UiButton) Dungeon.area.add(new UiButton("exit", -128, (int) (128 - 24 * 3.5f)) {
@@ -142,74 +141,100 @@ public class MainMenuState extends State {
 			}
 		}));
 
-		Tween.to(new Tween.Task(0, 1f, Tween.Type.BACK_OUT) {
-			@Override
-			public float getValue() {
-				return y;
-			}
+		if (fromBottom) {
+			fromBottom = false;
 
-			@Override
-			public void setValue(float value) {
-				y = value;
-			}
+			for (UiButton button : buttons) {
+				button.x = Display.GAME_WIDTH / 2;
 
-			@Override
-			public void onEnd() {
-				super.onEnd();
+				int y = (int) button.y;
+				button.y = 300;
 
-				for (UiButton button : buttons) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.6f, Tween.Type.BACK_OUT) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
-
-						@Override
-						public void setValue(float value) {
-							button.x = value;
-						}
-					});
-				}
-
-				Tween.to(new Tween.Task(0, 0.4f) {
+				Tween.to(new Tween.Task(y, 0.1f) {
 					@Override
 					public float getValue() {
-						return vy;
+						return button.y;
 					}
 
 					@Override
 					public void setValue(float value) {
-						vy = value;
+						button.y = value;
 					}
-				}).delay(0.7f);
+				});
+
+				ly = 200;
+
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return ly;
+					}
+
+					@Override
+					public void setValue(float value) {
+						ly = value;
+					}
+				});
 			}
-		});
-	}
+		} else {
+			Tween.to(new Tween.Task(0, 1f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return ly;
+				}
 
-	@Override
-	public void init() {
-		instance = this;
+				@Override
+				public void setValue(float value) {
+					ly = value;
+				}
 
-		Dungeon.area.add(Camera.instance);
+				@Override
+				public void onEnd() {
+					super.onEnd();
+
+					for (UiButton button : buttons) {
+						Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.6f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return button.x;
+							}
+
+							@Override
+							public void setValue(float value) {
+								button.x = value;
+							}
+						});
+					}
+				}
+			});
+		}
+
+		Tween.to(new Tween.Task(0, 0.4f) {
+			@Override
+			public float getValue() {
+				return vy;
+			}
+
+			@Override
+			public void setValue(float value) {
+				vy = value;
+			}
+		}).delay(0.7f);
 	}
 
 	@Override
 	public void render() {
 		super.render();
 
-		if (vx != -300) {
-			float sx = (float) (0.8f + Math.sin(Dungeon.time / 1.5f) / 40);
-			float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
-			float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
+		float sx = (float) (0.8f + Math.sin(Dungeon.time / 1.5f) / 40);
+		float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
+		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
 
-			Graphics.render(logo, Display.GAME_WIDTH / 2 + vx, 180 + y, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
-		}
+		Graphics.render(logo, Display.GAME_WIDTH / 2 + vx, 180 + ly, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
 
-		if (vx != 0) {
-			Graphics.printCenter("Select slot", Graphics.medium, 300 + vx, 200);
-		}
-
-		Graphics.print(Version.string, Graphics.small, 2, vy + 2);
+		Graphics.print(Version.string, Graphics.small, 2 + vvx, vy + 2);
 		Ui.ui.renderCursor();
 	}
+
+	private float vvx;
 }

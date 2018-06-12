@@ -20,8 +20,9 @@ public class AssetLoadState extends State {
 
 		this.a = Math.min(1, a + dt);
 
-		if (Graphics.updateLoading()) {
+		if (!tweened && Graphics.updateLoading()) {
 			finish();
+			tweened = true;
 		}
 	}
 
@@ -32,18 +33,20 @@ public class AssetLoadState extends State {
 		if (!START_TO_MENU) {
 			Graphics.finishLoading();
 			finish();
+			tweened = true;
 		}
 	}
+
+	private boolean tweened;
 
 	private void finish() {
 		done = true;
 		Gdx.graphics.setTitle(Dungeon.title);
 
-		if (START_TO_MENU) {
-			Dungeon.game.setState(new MainMenuState());
-		} else {
+		//if (START_TO_MENU) {
+		/*} else {
 			Dungeon.goToLevel(Dungeon.depth);
-		}
+		}*/
 
 		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override
@@ -89,9 +92,9 @@ public class AssetLoadState extends State {
 
 					@Override
 					public void onEnd() {
-						if (START_TO_MENU) {
-							MainMenuState.instance.tween();
-						}
+						//if (START_TO_MENU) {
+							Dungeon.game.setState(new MainMenuState());
+						//}
 					}
 				});
 

@@ -6,9 +6,13 @@ import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
+import org.rexellentgames.dungeon.util.Tween;
+
+import java.util.ArrayList;
 
 public class SettingsState extends State {
 	public static boolean fromGame;
+	private ArrayList<UiButton> buttons = new ArrayList<>();
 
 	public SettingsState() {
 
@@ -18,45 +22,42 @@ public class SettingsState extends State {
 	public void init() {
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiButton("graphics", Display.GAME_WIDTH / 2, 128 + 24) {
+		buttons.add((UiButton) Dungeon.area.add(new UiButton("graphics", 400, 128 + 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
 
 				transition(() -> {
 					Dungeon.game.setState(new GraphicsSettingsState());
-					Camera.instance.shake(3);
 				});
 			}
-		}.setSparks(true));
+		}.setSparks(true)));
 
-		Dungeon.area.add(new UiButton("audio", Display.GAME_WIDTH / 2, 128) {
+		buttons.add((UiButton) Dungeon.area.add(new UiButton("audio", 400, 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
 
 				transition(() -> {
 					Dungeon.game.setState(new AudioSettingsState());
-					Camera.instance.shake(3);
 				});
 
 			}
-		}.setSparks(true));
+		}.setSparks(true)));
 
-		Dungeon.area.add(new UiButton("input", Display.GAME_WIDTH / 2, 128 - 24) {
+		buttons.add((UiButton) Dungeon.area.add(new UiButton("input", 400, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
 
 				transition(() -> {
 					Dungeon.game.setState(new InputSettingsState());
-					Camera.instance.shake(3);
 				});
 
 			}
-		}.setSparks(true));
+		}.setSparks(true)));
 
-		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 2.5f)) {
+		buttons.add((UiButton) Dungeon.area.add(new UiButton("back", 400, (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				Graphics.playSfx("menu/exit");
@@ -67,11 +68,23 @@ public class SettingsState extends State {
 					} else {
 						Dungeon.game.setState(new MainMenuState());
 					}
-
-					Camera.instance.shake(3);
 				});
 			}
-		});
+		}));
+
+		for (UiButton button : buttons) {
+			Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.1f) {
+				@Override
+				public float getValue() {
+					return button.x;
+				}
+
+				@Override
+				public void setValue(float value) {
+					button.x = value;
+				}
+			});
+		}
 	}
 
 	@Override

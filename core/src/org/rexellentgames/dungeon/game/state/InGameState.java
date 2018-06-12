@@ -101,6 +101,7 @@ public class InGameState extends State {
 	private boolean set;
 	private float last;
 
+
 	@Override
 	public void update(float dt) {
 		if (map) {
