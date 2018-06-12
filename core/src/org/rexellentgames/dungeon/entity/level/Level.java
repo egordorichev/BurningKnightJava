@@ -19,6 +19,7 @@ import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Item;
 import org.rexellentgames.dungeon.entity.level.entities.fx.ChasmFx;
+import org.rexellentgames.dungeon.entity.level.levels.desert.DesertBossLevel;
 import org.rexellentgames.dungeon.entity.level.levels.desert.DesertLevel;
 import org.rexellentgames.dungeon.entity.level.levels.hall.HallBossLevel;
 import org.rexellentgames.dungeon.entity.level.levels.hall.HallLevel;
@@ -142,14 +143,25 @@ public abstract class Level extends SaveableEntity {
 		for (int i = 0; i < 5; i++) {
 			weight += depths[i] + 1;
 
-			if (depth > 0 && boss[depth - 1]) {
-				switch (i) {
-					case 0: default: return new HallBossLevel();
-				}
-			} else if (depth < weight) {
-				switch (i) {
-					case 0: default: return new HallLevel();
-					case 1: return new DesertLevel();
+			if (depth < weight) {
+				if (depth > 0 && boss[depth]) {
+					Log.info("Get boss for depth " + depth + " and type " + i);
+
+					switch (i) {
+						case 0:
+						default:
+							return new HallBossLevel();
+						case 1:
+							return new DesertBossLevel();
+					}
+				} else {
+					switch (i) {
+						case 0:
+						default:
+							return new HallLevel();
+						case 1:
+							return new DesertLevel();
+					}
 				}
 			}
 		}
@@ -161,10 +173,10 @@ public abstract class Level extends SaveableEntity {
 		int weight = 0;
 
 		for (int i = 0; i < 5; i++) {
-			weight += depths[i] + 1;
+			weight += depths[i];
 
 			if (Dungeon.depth <= weight) {
-				return "" + letters[(depths[i] - (weight - Dungeon.depth))];
+				return "" + letters[(depths[i] - (weight - Dungeon.depth) - 1)];
 			}
 		}
 

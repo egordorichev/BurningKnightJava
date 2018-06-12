@@ -1,15 +1,10 @@
 package org.rexellentgames.dungeon.entity.level.rooms.regular;
 
-import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.entity.creature.mob.boss.Boss;
-import org.rexellentgames.dungeon.entity.creature.mob.boss.CrazyKing;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.entity.level.Patch;
 import org.rexellentgames.dungeon.entity.level.Terrain;
-import org.rexellentgames.dungeon.entity.level.save.LevelSave;
-import org.rexellentgames.dungeon.util.geometry.Point;
 
-public class HallBossRoom extends RegularRoom {
+public class DesertBossRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
@@ -24,7 +19,7 @@ public class HallBossRoom extends RegularRoom {
 			}
 		}
 
-		Point center = this.getCenter();
+		/*Point center = this.getCenter();
 
 		Boss boss = new CrazyKing();
 
@@ -32,7 +27,7 @@ public class HallBossRoom extends RegularRoom {
 		boss.y = center.y * 16 + (16 - boss.h) / 2 - 4;
 
 		Dungeon.area.add(boss);
-		LevelSave.add(boss);
+		LevelSave.add(boss);*/
 	}
 
 	@Override

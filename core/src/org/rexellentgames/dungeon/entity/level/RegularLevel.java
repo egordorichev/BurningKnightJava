@@ -79,7 +79,10 @@ public abstract class RegularLevel extends Level {
 	protected void spawnLevelEntities() {
 		this.free = new boolean[this.getSize()];
 
-		if (Dungeon.depth > 0) {
+		// might freeze!
+
+
+		if (Dungeon.depth > 0 && !Level.boss[Dungeon.depth]) {
 			MobPool.instance.initForFloor();
 
 			for (Room room : this.rooms) {
