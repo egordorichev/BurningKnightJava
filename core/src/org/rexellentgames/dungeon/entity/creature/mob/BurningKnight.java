@@ -439,6 +439,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			if (self.lastSeen == null) {
 				self.become("roam");
+				return;
 			}
 
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);

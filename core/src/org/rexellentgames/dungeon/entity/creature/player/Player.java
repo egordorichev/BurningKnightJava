@@ -59,11 +59,10 @@ public class Player extends Creature {
 
 	public enum Type {
 		WARRIOR(0),
-		MAGE(1),
-		SUMMONER(2),
-		ROGUE(3),
-		ARCHER(4),
-		GUNNER(5);
+		WIZARD(1),
+		ROGUE(2),
+		ARCHER(3),
+		GUNNER(4);
 
 		public byte id;
 
@@ -301,11 +300,8 @@ public class Player extends Creature {
 				case WARRIOR:
 					generateWarrior();
 					break;
-				case MAGE:
+				case WIZARD:
 					generateMage();
-					break;
-				case SUMMONER:
-					generateSummoner();
 					break;
 				case ARCHER:
 					generateArcher();
@@ -319,11 +315,6 @@ public class Player extends Creature {
 			}
 		}
 	}
-
-	private void generateSummoner() {
-		// todo
-	}
-
 	private void generateArcher() {
 		this.give(new BowA());
 	}
@@ -333,8 +324,8 @@ public class Player extends Creature {
 	}
 
 	private void generateRogue() {
-		this.give(new InvisibilityPotion());
 		this.give(new DaggerA());
+		this.give(new InvisibilityPotion());
 	}
 
 	private void generateWarrior() {

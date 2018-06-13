@@ -41,8 +41,7 @@ public class ShopWeaponPool extends Pool<Item> {
 	public ShopWeaponPool() {
 		switch (Player.instance.getType()) {
 			case WARRIOR: addWarrior(); break;
-			case MAGE: addMagic(); break;
-			case SUMMONER: addSummon(); break;
+			case WIZARD: addMagic(); break;
 			case ARCHER: addArcher(); break;
 			case GUNNER: addGunner(); break;
 			case ROGUE: addRogue(); break;
@@ -68,10 +67,6 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(AxeD.class, 1f);
 		add(MeetboyAxe.class, 1f);
 		add(BlueBoomerang.class, 1f);
-	}
-
-	private void addSummon() {
-
 	}
 
 	private void addRogue() {

@@ -10,6 +10,10 @@ import org.rexellentgames.dungeon.util.Tween;
 public class SlotSelectState extends State {
 	public static boolean added;
 
+	public static void trans(int l) {
+		transition(() -> Dungeon.goToLevel(l));
+	}
+
 	public static void add() {
 		if (added) {
 			return;

@@ -1,12 +1,16 @@
 package org.rexellentgames.dungeon.ui;
 
 import com.badlogic.gdx.graphics.Color;
-import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.level.save.GameSave;
 import org.rexellentgames.dungeon.entity.level.save.SaveManager;
+import org.rexellentgames.dungeon.game.state.ClassSelectState;
+import org.rexellentgames.dungeon.game.state.MainMenuState;
+import org.rexellentgames.dungeon.game.state.SlotSelectState;
+import org.rexellentgames.dungeon.util.Tween;
 
 public class UiCard extends UiButton {
 	public int id;
@@ -26,7 +30,7 @@ public class UiCard extends UiButton {
 		if (!this.info.free && !this.info.error) {
 			String typeName = this.info.type.toString();
 
-			this.info.first = typeName.substring(0, 1).toUpperCase() + typeName.substring(1).toLowerCase();
+			this.info.first = Locale.get(typeName.toLowerCase());
 			Graphics.layout.setText(Graphics.medium, this.info.first);
 			this.info.firstW = Graphics.layout.width;
 
@@ -40,8 +44,24 @@ public class UiCard extends UiButton {
 		super.onClick();
 
 		SaveManager.slot = this.id;
-		Player.toSet = Player.Type.WARRIOR; // todo: select char
-		Dungeon.goToLevel(this.info.free ? 0 : this.info.depth);
+
+		if (this.info.free) {
+			ClassSelectState.add();
+
+			Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T) {
+				@Override
+				public float getValue() {
+					return MainMenuState.cameraY;
+				}
+
+				@Override
+				public void setValue(float value) {
+					MainMenuState.cameraY = value;
+				}
+			});
+		} else {
+			SlotSelectState.trans(this.info.depth);
+		}
 	}
 
 	@Override

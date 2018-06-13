@@ -356,5 +356,10 @@
 	"gravity_booster" : "Gravity booster",
 	"gravity_booster_desc" : "Make them spin faster!",
 	"wings" : "Wings",
-	"wings_desc" : "I believe I can fly!"
+	"wings_desc" : "I believe I can fly!",
+	"warrior" : "Warrior",
+	"wizard" : "Wizard",
+	"gunner" : "Gunner",
+	"archer" : "Archer",
+	"rogue" : "Rogue"
 }
