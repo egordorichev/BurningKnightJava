@@ -27,9 +27,7 @@ public class CenterWallRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		if ((p.x == this.left + this.getWidth() / 2 - 2 && p.y == this.bottom)
-			|| (p.x == this.left + this.getWidth() / 2 + 2 && p.y == this.top)) {
-
+		if (p.y != this.top && p.y != this.bottom) {
 			return false;
 		}
 

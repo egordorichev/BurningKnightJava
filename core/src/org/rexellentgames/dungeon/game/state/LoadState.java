@@ -3,8 +3,8 @@ package org.rexellentgames.dungeon.game.state;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.mob.BurningKnight;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
@@ -143,7 +143,7 @@ public class LoadState extends State {
 			Dungeon.level.loadPassable();
 			Dungeon.level.addPhysics();
 
-			MusicManager.play(Dungeon.level.getMusic());
+			Audio.play(Dungeon.level.getMusic());
 
 			if (Player.instance == null) {
 				Log.error("No player!");

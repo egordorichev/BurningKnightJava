@@ -4,8 +4,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.creature.Creature;
 import org.rexellentgames.dungeon.entity.creature.buff.Buff;
@@ -180,7 +180,7 @@ public class CrazyKing extends Boss {
 			if (this.t >= 3f) {
 				self.die(false);
 
-				MusicManager.highPriority("Reckless");
+				Audio.highPriority("Reckless");
 				self.dead = true;
 				self.done = true;
 				LevelSave.remove(self);

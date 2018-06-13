@@ -462,10 +462,6 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		if (true) {
-			return;
-		}
-
 		Camera.instance.viewport.apply();
 
 		if (Player.instance != null) {

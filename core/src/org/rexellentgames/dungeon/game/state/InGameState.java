@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Collisions;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.debug.Console;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
@@ -124,9 +124,9 @@ public class InGameState extends State {
 			last = 0;
 
 			if (Boss.all.size() > 1 && !BurningKnight.instance.getState().equals("unactive")) {
-				MusicManager.play("Rogue");
+				Audio.play("Rogue");
 			} else {
-				MusicManager.play(Dungeon.level.getMusic());
+				Audio.play(Dungeon.level.getMusic());
 			}
 		}
 

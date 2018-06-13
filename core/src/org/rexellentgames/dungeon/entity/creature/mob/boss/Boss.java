@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.entity.creature.mob.boss;
 
-import org.rexellentgames.dungeon.assets.MusicManager;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.entity.creature.mob.Mob;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.util.file.FileReader;
@@ -48,7 +48,7 @@ public class Boss extends Mob {
 	@Override
 	protected void die(boolean force) {
 		super.die(force);
-		MusicManager.highPriority("Reckless");
+		Audio.highPriority("Reckless");
 	}
 
 	public class BossState<T extends Mob> extends State<T> {

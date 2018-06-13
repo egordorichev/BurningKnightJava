@@ -3,8 +3,8 @@ package org.rexellentgames.dungeon.game.state;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.assets.MusicManager;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
@@ -26,7 +26,7 @@ public class AudioSettingsState extends State {
 			@Override
 			public void onUpdate() {
 				Settings.music = this.val;
-				MusicManager.update();
+				Audio.update();
 			}
 		}.setValue(Settings.music));
 
