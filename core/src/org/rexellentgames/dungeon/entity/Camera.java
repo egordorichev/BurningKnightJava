@@ -18,9 +18,10 @@ import org.rexellentgames.dungeon.util.Tween;
 public class Camera extends Entity {
 	public static Camera instance;
 	public static OrthographicCamera ui;
+	public static OrthographicCamera nil;
 	public static OrthographicCamera game;
 	public static Viewport viewport;
-	private static Entity target;
+	public static Entity target;
 	private static float shake;
 	private static float pushA;
 	private static float pushAm;
@@ -59,6 +60,10 @@ public class Camera extends Entity {
 		ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
 		ui.update();
 
+		nil = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		nil.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		nil.update();
+
 		alwaysActive = true;
 		game = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		game.position.set(game.viewportWidth / 2, game.viewportHeight / 2, 0);
@@ -84,9 +89,6 @@ public class Camera extends Entity {
 		if (last != null && last.done) {
 			last = null;
 		}
-
-		ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
-		ui.update();
 
 		pushAm = Math.max(0, pushAm - dt * 50);
 		shake = Math.max(0, shake - dt * 10);

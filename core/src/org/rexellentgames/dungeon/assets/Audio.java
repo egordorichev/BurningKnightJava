@@ -170,4 +170,12 @@ public class Audio {
 			current.setVolume(Settings.music);
 		}
 	}
+
+	public static long playSfx(String name) {
+		return playSfx(name, 1f, 1f);
+	}
+
+	public static long playSfx(String name, float volume) {
+		return playSfx(name, volume, 1f);
+	}
 }

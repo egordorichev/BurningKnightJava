@@ -4,7 +4,7 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -65,7 +65,7 @@ public class InputSettingsState extends State {
 			@Override
 			public void onClick() {
 				transition(() -> {
-					Graphics.playSfx("menu/exit");
+					Audio.playSfx("menu/exit");
 					Dungeon.game.setState(new SettingsState());
 					Camera.shake(3);
 				});

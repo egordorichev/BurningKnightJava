@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.entity.Entity;
@@ -58,7 +59,7 @@ public class Item extends Entity {
 	}
 
 	public void onPickup() {
-		Graphics.playSfx("pickup_item");
+		Audio.playSfx("pickup_item");
 
 		if (useOnPickup) {
 			this.use();

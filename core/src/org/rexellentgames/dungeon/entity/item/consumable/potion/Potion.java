@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item.consumable.potion;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.consumable.Consumable;
@@ -59,7 +60,7 @@ public class Potion extends Consumable {
 		super.use();
 		this.identify();
 
-		Graphics.playSfx("potion");
+		Audio.playSfx("potion");
 
 		Tween.to(new Tween.Task(-70, 0.3f) {
 			@Override

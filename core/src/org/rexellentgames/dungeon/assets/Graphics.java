@@ -94,14 +94,6 @@ public class Graphics {
 		new Ui();
 	}
 
-	public static long playSfx(String name) {
-		return Audio.playSfx(name, 1f, 1f);
-	}
-
-	public static long playSfx(String name, float volume) {
-		return Audio.playSfx(name, volume, 1f);
-	}
-
 	public static void resize(int w, int h) {
 		shadows.dispose();
 		surface.dispose();

@@ -2,7 +2,7 @@ package org.rexellentgames.dungeon.entity.item.pet.impl;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.entity.Entity;
 import org.rexellentgames.dungeon.entity.item.Gold;
 import org.rexellentgames.dungeon.entity.item.ItemHolder;
@@ -97,7 +97,7 @@ public class BumboPet extends SimpleFollowPet {
 			this.target = this.owner;
 			entity.done = true;
 			maxDistance = 32f;
-			Graphics.playSfx("coin");
+			Audio.playSfx("coin");
 		}
 	}
 

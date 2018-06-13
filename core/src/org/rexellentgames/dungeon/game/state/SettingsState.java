@@ -2,47 +2,61 @@ package org.rexellentgames.dungeon.game.state;
 
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
-import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.game.Ui;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.util.Tween;
 
-import java.util.ArrayList;
-
 public class SettingsState extends State {
-	public static boolean fromGame;
-	private ArrayList<UiButton> buttons = new ArrayList<>();
-	private boolean twe;
+	public static boolean added;
 
-	@Override
-	public void init() {
-		Dungeon.area.add(Camera.instance);
+	public static void add() {
+		if (added) {
+			return;
+		}
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("graphics", 400, 128 + 24) {
+		added = true;
+
+		Dungeon.area.add(new UiButton("graphics", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
+				GraphicsSettingsState.add();
 
-				transition(() -> {
-					Dungeon.game.setState(new GraphicsSettingsState());
+				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 1.5f, 0.4f) {
+					@Override
+					public float getValue() {
+						return MainMenuState.cameraY;
+					}
+
+					@Override
+					public void setValue(float value) {
+						MainMenuState.cameraY = value;
+					}
 				});
 			}
-		}.setSparks(true)));
+		}.setSparks(true));
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("audio", 400, 128) {
+		Dungeon.area.add(new UiButton("audio", (int) (Display.GAME_WIDTH * 1.5f), 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
+				AudioSettingsState.add();
 
-				transition(() -> {
-					Dungeon.game.setState(new AudioSettingsState());
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 2.5f, 0.4f) {
+					@Override
+					public float getValue() {
+						return MainMenuState.cameraX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						MainMenuState.cameraX = value;
+					}
 				});
-
 			}
-		}.setSparks(true)));
+		}.setSparks(true));
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("input", 400, 128 - 24) {
+		Dungeon.area.add(new UiButton("input", (int) (Display.GAME_WIDTH * 1.5f), 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -52,57 +66,25 @@ public class SettingsState extends State {
 				});
 
 			}
-		}.setSparks(true)));
+		}.setSparks(true));
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("back", 400, (int) (128 - 24 * 2.5f)) {
+		Dungeon.area.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
-				Graphics.playSfx("menu/exit");
+				Audio.playSfx("menu/exit");
 
-				for (UiButton button : buttons) {
-					Tween.to(new Tween.Task(400, 0.3f) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 0.5f, 0.4f) {
+					@Override
+					public float getValue() {
+						return MainMenuState.cameraX;
+					}
 
-						@Override
-						public void setValue(float value) {
-							button.x = value;
-						}
-
-						@Override
-						public void onEnd() {
-							if (!twe) {
-								twe = true;
-
-								Dungeon.game.setState(new MainMenuState());
-							}
-						}
-					});
-				}
+					@Override
+					public void setValue(float value) {
+						MainMenuState.cameraX = value;
+					}
+				});
 			}
-		}));
-
-		for (UiButton button : buttons) {
-			Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.1f) {
-				@Override
-				public float getValue() {
-					return button.x;
-				}
-
-				@Override
-				public void setValue(float value) {
-					button.x = value;
-				}
-			});
-		}
-	}
-
-	@Override
-	public void renderUi() {
-		super.renderUi();
-
-		Ui.ui.renderCursor();
+		});
 	}
 }

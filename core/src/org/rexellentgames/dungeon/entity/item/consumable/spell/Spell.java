@@ -1,6 +1,7 @@
 package org.rexellentgames.dungeon.entity.item.consumable.spell;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.item.WormHole;
@@ -51,7 +52,7 @@ public class Spell extends Consumable {
 
 	@Override
 	public void use() {
-		Graphics.playSfx("scroll");
+		Audio.playSfx("scroll");
 		this.identify();
 		this.count -= 1;
 		super.use();

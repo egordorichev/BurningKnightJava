@@ -2,7 +2,7 @@ package org.rexellentgames.dungeon.game.state;
 
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
-import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.ui.UiButton;
@@ -25,7 +25,7 @@ public class KeyConfigState extends State {
 			@Override
 			public void onClick() {
 				transition(() -> {
-					Graphics.playSfx("menu/exit");
+					Audio.playSfx("menu/exit");
 					Dungeon.game.setState(new InputSettingsState());
 					Camera.shake(3);
 				});

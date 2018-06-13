@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Version;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.Ui;
@@ -16,35 +17,35 @@ import java.util.ArrayList;
 public class MainMenuState extends State {
 	public static MainMenuState instance;
 	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
-	private float logoY = Display.GAME_HEIGHT;
 	private ArrayList<UiButton> buttons = new ArrayList<>();
-	private float versionY = -32;
 	private float logoX = 0;
+	private float logoY = Display.GAME_HEIGHT;
 	private float versionX;
+	private float versionY = -32;
+	public static float cameraX = Display.GAME_WIDTH / 2;
+	public static float cameraY = Display.GAME_HEIGHT / 2;
 
 	@Override
 	public void init() {
 		instance = this;
 		Dungeon.area.add(Camera.instance);
+		Camera.target = null;
 
 		buttons.add((UiButton) Dungeon.area.add(new UiButton("play", -128, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
-
-				if (!SlotSelectState.added) {
-					SlotSelectState.add();
-				}
+				SlotSelectState.add();
 
 				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, 0.4f) {
 					@Override
 					public float getValue() {
-						return Camera.game.position.y;
+						return cameraY;
 					}
 
 					@Override
 					public void setValue(float value) {
-						Camera.game.position.y = value;
+						cameraY = value;
 					}
 				});
 			}
@@ -54,15 +55,26 @@ public class MainMenuState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
+				SettingsState.add();
 
-				SettingsState.fromGame = false;
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, 0.4f) {
+					@Override
+					public float getValue() {
+						return cameraX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						cameraX = value;
+					}
+				});
 			}
 		}));
 
 		buttons.add((UiButton) Dungeon.area.add(new UiButton("exit", -128, (int) (128 - 24 * 3.5f)) {
 			@Override
 			public void onClick() {
-				Graphics.playSfx("menu/exit");
+				Audio.playSfx("menu/exit");
 
 				transition(() -> {
 					Gdx.app.exit();
@@ -118,13 +130,19 @@ public class MainMenuState extends State {
 	public void render() {
 		super.render();
 
+		Camera.ui.position.set(cameraX, cameraY, 0);
+		Camera.ui.update();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
 		float sx = (float) (0.8f + Math.sin(Dungeon.time / 1.5f) / 40);
 		float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
 		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
 
 		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
-
 		Graphics.print(Version.string, Graphics.small, 2 + versionX, versionY + 2);
+
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
 		Ui.ui.renderCursor();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 	}
 }

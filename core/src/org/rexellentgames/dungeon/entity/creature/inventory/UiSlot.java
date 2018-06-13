@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity.creature.inventory;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.Gold;
@@ -79,7 +80,7 @@ public class UiSlot {
 				}
 			});
 
-			Graphics.playSfx("menu/moving");
+			Audio.playSfx("menu/moving");
 		} else if (this.inventory.getActive() != this.id && this.active) {
 			this.active = false;
 
@@ -112,7 +113,7 @@ public class UiSlot {
 				}
 			});
 
-			Graphics.playSfx("menu/moving");
+			Audio.playSfx("menu/moving");
 		} else if (!this.hovered && h) {
 			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
 				@Override
@@ -132,7 +133,7 @@ public class UiSlot {
 			this.inventory.handled = true;
 
 			if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
-				Graphics.playSfx("menu/select");
+				Audio.playSfx("menu/select");
 
 				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
 					@Override

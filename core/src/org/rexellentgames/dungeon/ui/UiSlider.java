@@ -42,23 +42,23 @@ public class UiSlider extends UiButton {
 
 	@Override
 	public void render() {
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		Graphics.batch.setColor(outline.r, outline.g, outline.b, 1);
-
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.batch.end();
+		Graphics.surface.end();
 		Graphics.text.begin();
 		Graphics.batch.begin();
 
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
 		Graphics.medium.draw(Graphics.batch, this.label, 2, 16);
 
 		Graphics.batch.end();
 		Graphics.text.end();
+		Graphics.surface.begin();
 		Graphics.batch.begin();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Texture texture = Graphics.text.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -67,6 +67,7 @@ public class UiSlider extends UiButton {
 			this.w, this.h, this.scale, this.scale, 0,
 			0, 0, this.w + 4, this.h, false, true);
 
+		Graphics.batch.setColor(1, 1, 1, 1);
 		float v = MathUtils.map(this.val, this.min, this.max, 0, this.sw - 8);
 
 		Graphics.render(slider, this.x + this.w / 2 - this.sw, this.y, 0, -8, 1.5f, false, false, this.scale, this.scale);

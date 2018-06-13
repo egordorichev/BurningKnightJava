@@ -3,7 +3,6 @@ package org.rexellentgames.dungeon.entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.assets.Audio;
-import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
 import org.rexellentgames.dungeon.util.Random;
@@ -107,7 +106,7 @@ public class Entity extends Point {
 
 	public long playSfx(String sound) {
 		if (this instanceof Player) {
-			return Graphics.playSfx(sound);
+			return Audio.playSfx(sound);
 		}
 
 		if (!this.onScreen) {

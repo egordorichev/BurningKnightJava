@@ -1,6 +1,6 @@
 package org.rexellentgames.dungeon.entity.item;
 
-import org.rexellentgames.dungeon.assets.Graphics;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Locale;
 import org.rexellentgames.dungeon.util.Random;
 
@@ -21,7 +21,7 @@ public class Gold extends Item {
 
 	@Override
 	public void onPickup() {
-		Graphics.playSfx("coin");
+		Audio.playSfx("coin");
 	}
 
 	@Override

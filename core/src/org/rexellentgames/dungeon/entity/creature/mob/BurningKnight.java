@@ -132,7 +132,7 @@ public class BurningKnight extends Boss {
 	@Override
 	public void init() {
 		sfx = Audio.getSound("bk");
-		this.sid = sfx.loop(Graphics.playSfx("bk", 0f));
+		this.sid = sfx.loop(Audio.playSfx("bk", 0f));
 
 		sfx.setVolume(this.sid, 0);
 

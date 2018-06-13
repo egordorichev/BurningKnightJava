@@ -246,7 +246,6 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				transition(() -> {
-					SettingsState.fromGame = true;
 					Dungeon.game.setState(new SettingsState());
 				});
 				Camera.shake(3);

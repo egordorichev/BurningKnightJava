@@ -322,8 +322,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.surface.end();
 		Texture texture = Graphics.surface.getColorBufferTexture();
 
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
 		Graphics.batch.begin();
 
 		Graphics.batch.end();
