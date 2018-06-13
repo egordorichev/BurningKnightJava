@@ -19,7 +19,6 @@ public class AudioSettingsState extends State {
 		}
 
 		added = true;
-		Dungeon.area.add(Camera.instance);
 
 		Dungeon.area.add(new UiSlider("music", (int) (Display.GAME_WIDTH * 2.5f), 128 + 24) {
 			@Override

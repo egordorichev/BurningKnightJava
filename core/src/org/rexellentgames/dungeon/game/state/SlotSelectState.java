@@ -3,8 +3,8 @@ package org.rexellentgames.dungeon.game.state;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Audio;
-import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.ui.UiButton;
+import org.rexellentgames.dungeon.ui.UiCard;
 import org.rexellentgames.dungeon.util.Tween;
 
 public class SlotSelectState extends State {
@@ -17,9 +17,19 @@ public class SlotSelectState extends State {
 
 		added = true;
 
-		Dungeon.area.add(Camera.instance);
+		Dungeon.area.add(new UiCard(Display.GAME_WIDTH / 2 - 64 - 16, (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
 
-		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 2.5f) - Display.GAME_HEIGHT) {
+		});
+
+		Dungeon.area.add(new UiCard(Display.GAME_WIDTH / 2, (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
+
+		});
+
+		Dungeon.area.add(new UiCard(Display.GAME_WIDTH / 2 + 64 + 16, (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
+
+		});
+
+		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

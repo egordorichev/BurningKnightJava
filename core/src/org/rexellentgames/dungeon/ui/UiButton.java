@@ -46,6 +46,10 @@ public class UiButton extends UiEntity {
 	}
 
 	public void setLabel(String label) {
+		if (label == null) {
+			return;
+		}
+
 		if (Locale.has(label)) {
 			label = Locale.get(label);
 		}

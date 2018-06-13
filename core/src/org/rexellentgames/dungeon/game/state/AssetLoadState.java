@@ -19,7 +19,9 @@ public class AssetLoadState extends State {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.a = Math.min(1, a + dt);
+		if (!tweened) {
+			this.a = Math.min(1, a + dt);
+		}
 
 		if (!tweened && Assets.updateLoading()) {
 			finish();
@@ -44,9 +46,9 @@ public class AssetLoadState extends State {
 		done = true;
 		Gdx.graphics.setTitle(Dungeon.title);
 
-		/*if (!START_TO_MENU) {
-			Dungeon.goToLevel(Dungeon.depth);
-		}*/
+		if (!START_TO_MENU) {
+			//Dungeon.goToLevel(Dungeon.depth);
+		}
 
 		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override

@@ -24,7 +24,6 @@ public class InputSettingsState extends State {
 		}
 
 		added = true;
-		Dungeon.area.add(Camera.instance);
 
 		Dungeon.area.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
 			@Override
