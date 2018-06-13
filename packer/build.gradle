@@ -3,7 +3,7 @@ apply plugin: "kotlin"
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "org.rexellentgames.dungeon.packer.PackerLauncher"
+project.ext.mainClassName = "org.rexcellentgames.burningknight.packer.PackerLauncher"
 project.ext.assetsDir = new File("../android/assets");
 
 task run(dependsOn: classes, type: JavaExec) {

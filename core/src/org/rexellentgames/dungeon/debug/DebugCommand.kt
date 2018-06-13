@@ -1,6 +1,6 @@
-package org.rexellentgames.dungeon.debug
+package org.rexcellentgames.burningknight.debug
 
-import org.rexellentgames.dungeon.physics.World
+import org.rexcellentgames.burningknight.physics.World
 
 class DebugCommand : ConsoleCommand("/debug", "/d", "Toggles physical debug") {
     override fun run(console: Console, args: Array<String>) {

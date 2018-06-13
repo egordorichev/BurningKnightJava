@@ -1,6 +1,6 @@
-package org.rexellentgames.dungeon.debug
+package org.rexcellentgames.burningknight.debug
 
-import org.rexellentgames.dungeon.Dungeon
+import org.rexcellentgames.burningknight.Dungeon
 
 class ArcadeCommand: ConsoleCommand("/arcade", "/ar", "Toggles arcade mode") {
     override fun run(console: Console, args: Array<String>) {

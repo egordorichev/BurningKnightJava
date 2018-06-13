@@ -18,7 +18,7 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "org.rexellentgames.dungeon"
+        applicationId "org.rexcellentgames.burningknight"
         minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
@@ -79,7 +79,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'org.rexellentgames.dungeon/org.rexellentgames.dungeon.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'org.rexcellentgames.burningknight/org.rexcellentgames.burningknight.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.

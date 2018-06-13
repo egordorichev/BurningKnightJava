@@ -1,6 +1,6 @@
-package org.rexellentgames.dungeon.debug
+package org.rexcellentgames.burningknight.debug
 
-import org.rexellentgames.dungeon.entity.level.LightLevel
+import org.rexcellentgames.burningknight.entity.level.LightLevel
 
 class LightCommand : ConsoleCommand("/light", "/lt", "Toggles light") {
     override fun run(console: Console, args: Array<String>) {

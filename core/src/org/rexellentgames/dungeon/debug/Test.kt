@@ -1,3 +1,3 @@
-package org.rexellentgames.dungeon.debug
+package org.rexcellentgames.burningknight.debug
 
 class Test

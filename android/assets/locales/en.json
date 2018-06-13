@@ -361,5 +361,11 @@
 	"wizard" : "Wizard",
 	"gunner" : "Gunner",
 	"archer" : "Archer",
-	"rogue" : "Rogue"
+	"rogue" : "Rogue",
+	"dialog_bk_who_are_you" : "Who are you? I did not see you before",
+	"treasure_1" : "Treasure!",
+	"treasure_2" : "I want treasure!",
+	"dialog_bk_you_know_cant_even_try" : "Treasure? {WAIT}It is {SHAKE}mine{ENDSHAKE}! You must {WAIT}{SHAKE}die{ENDSHAKE}!",
+	"dialog_bk_its_you_again" : "So it's you again? You don't remember, how it ended last time?",
+	"dialog_bk_you_already_died" : "You already died {VAR=deaths}! Stop now!"
 }

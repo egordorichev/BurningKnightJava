@@ -1,7 +1,7 @@
-package org.rexellentgames.dungeon.entity.item.accessory.equipable
+package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
-import org.rexellentgames.dungeon.assets.Locale
-import org.rexellentgames.dungeon.entity.creature.player.Player
+import org.rexcellentgames.burningknight.assets.Locale
+import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class FireRing : Equipable() {
 	init {

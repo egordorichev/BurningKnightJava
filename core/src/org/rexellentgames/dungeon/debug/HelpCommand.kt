@@ -1,6 +1,6 @@
-package org.rexellentgames.dungeon.debug
+package org.rexcellentgames.burningknight.debug
 
-import org.rexellentgames.dungeon.util.Log
+import org.rexcellentgames.burningknight.util.Log
 
 class HelpCommand : ConsoleCommand("/help", "/h", "Prints help") {
     override fun run(console: Console, args: Array<String>) {

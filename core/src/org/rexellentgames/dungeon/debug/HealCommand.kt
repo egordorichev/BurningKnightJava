@@ -1,6 +1,6 @@
-package org.rexellentgames.dungeon.debug
+package org.rexcellentgames.burningknight.debug
 
-import org.rexellentgames.dungeon.entity.creature.player.Player
+import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class HealCommand : ConsoleCommand("/heal", "/hl", "Heals you") {
     override fun run(console: Console, args: Array<String>) {

@@ -1,7 +1,7 @@
 apply plugin: "kotlin"
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = ["src/"]
-project.ext.mainClassName = "org.rexellentgames.dungeon.desktop.DesktopLauncher"
+project.ext.mainClassName = "org.rexcellentgames.burningknight.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName

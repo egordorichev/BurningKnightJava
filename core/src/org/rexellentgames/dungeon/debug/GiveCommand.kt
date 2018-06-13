@@ -1,9 +1,9 @@
-package org.rexellentgames.dungeon.debug
+package org.rexcellentgames.burningknight.debug
 
-import org.rexellentgames.dungeon.entity.creature.player.Player
-import org.rexellentgames.dungeon.entity.item.ItemHolder
-import org.rexellentgames.dungeon.entity.item.ItemRegistry
-import org.rexellentgames.dungeon.util.Log
+import org.rexcellentgames.burningknight.entity.creature.player.Player
+import org.rexcellentgames.burningknight.entity.item.ItemHolder
+import org.rexcellentgames.burningknight.entity.item.ItemRegistry
+import org.rexcellentgames.burningknight.util.Log
 import kotlin.reflect.full.createInstance
 
 class GiveCommand : ConsoleCommand("/give", "/gv", "item] (count) gives an item") {
