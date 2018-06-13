@@ -2,7 +2,7 @@ package org.rexellentgames.dungeon.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -69,6 +69,9 @@ public class Camera extends Entity {
 		game.position.set(game.viewportWidth / 2, game.viewportHeight / 2, 0);
 		game.zoom = 0.8f;
 		game.update();
+
+		this.camPosition = new Vector2(game.position.x, game.position.y);
+
 		viewport = new ScalingViewport(Scaling.fit, Display.GAME_WIDTH, Display.GAME_HEIGHT, game);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
@@ -83,6 +86,8 @@ public class Camera extends Entity {
 
 		depth = 80;
 	}
+
+	private static Vector2 camPosition;
 
 	@Override
 	public void update(float dt) {
@@ -105,12 +110,14 @@ public class Camera extends Entity {
 				y += target.h;
 			}
 
-			game.position.lerp(new Vector3(x + 8, y + 8, 0), dt * 1f);
+			camPosition.lerp(new Vector2(x + 8, y + 8), dt * 1f);
+
+			float s = 4;
 
 			game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
-				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, game.position.x);
+				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, (float) (Math.round(camPosition.x * s) / s));
 			game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
-				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, game.position.y);
+				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, (float) (Math.round(camPosition.y * s) / s));
 
 			game.update();
 		}
@@ -159,6 +166,7 @@ public class Camera extends Entity {
 			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + target.y + 8);
 			game.position.set(x, y, 0);
 			game.update();
+			camPosition.set(x, y);
 		}
 	}
 }

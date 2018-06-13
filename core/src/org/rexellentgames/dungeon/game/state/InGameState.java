@@ -75,8 +75,8 @@ public class InGameState extends State {
 			}
 		});
 
-		// Dialog.active = BurningKnight.onLampTake;
-		// Dialog.active.start();
+		Dialog.active = BurningKnight.onLampTake;
+		Dialog.active.start();
 	}
 
 	@Override

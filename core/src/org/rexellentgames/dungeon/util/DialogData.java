@@ -63,6 +63,7 @@ public class DialogData {
 
 	public void start() {
 		this.current = 0;
+		this.a = 1;
 		this.w = 0;
 		this.selected = 0;
 
