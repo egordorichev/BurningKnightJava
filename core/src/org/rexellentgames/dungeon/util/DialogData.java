@@ -51,17 +51,45 @@ public class DialogData {
 		}
 
 		int y = Display.GAME_HEIGHT - 52 - 16 - 48;
+		int x = (int) ((Display.GAME_WIDTH - this.w) / 2);
 
 		Graphics.shape.setColor(color.r, color.g, color.b, 1);
-		Graphics.shape.rect((Display.GAME_WIDTH - this.w) / 2, y, this.w, 48);
+		Graphics.shape.rect(x, y, this.w, 48);
 		Graphics.endShape();
 
 		if (this.label != null) {
 			this.label.draw(Graphics.batch, this.a);
+
+			if (this.optionsH > 0) {
+				Dialog.Phrase phrase = this.phrases.get(this.current);
+
+				if (phrase.options != null && this.label.hasEnded()) {
+					Graphics.startShape();
+					Graphics.shape.setColor(color.r * 0.6f, color.g * 0.6f, color.b * 0.6f, 1);
+					Graphics.shape.rect(x, y - this.optionsH, this.w, this.optionsH);
+					Graphics.shape.setColor(1, 1, 1, 1);
+					Graphics.endShape();
+
+					if (this.optionsA > 0) {
+						for (int i = 0; i < phrase.options.length; i++) {
+							String option = phrase.options[i];
+
+							if (i == selected) {
+								option += " <";
+							}
+
+							Graphics.small.setColor(1, 1, 1, this.optionsA);
+							Graphics.small.draw(Graphics.batch, option, x + 16, y - (i + 1) * 16);
+							Graphics.small.setColor(1, 1, 1, 1);
+						}
+					}
+				}
+			}
 		}
 	}
 
 	public void start() {
+		this.label = null;
 		this.current = 0;
 		this.a = 1;
 		this.w = 0;
@@ -97,15 +125,18 @@ public class DialogData {
 		});
 	}
 
-	public void next() {
-		this.selected = 0;
-
+	private void readPhrase() {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 		this.label = new TypingLabel("{COLOR=#FFFFFF}" + phrase.string, skin);
 		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 32);
 		this.label.setPosition(32, Display.GAME_HEIGHT - 52 - 16 - 48 + 8);
 		this.label.setWrap(true);
 		this.start.run();
+	}
+
+	public void next() {
+		this.selected = 0;
+		readPhrase();
 
 		this.label.setTypingListener(new TypingListener() {
 			@Override
@@ -128,6 +159,8 @@ public class DialogData {
 						oa = value;
 					}
 				});
+
+				showOptions();
 			}
 
 			@Override
@@ -149,9 +182,50 @@ public class DialogData {
 			this.toNext();
 		} else if (this.label != null && !this.label.hasEnded()) {
 			this.label.skipToTheEnd();
+			this.showOptions();
 		} else {
 			this.toNext();
 		}
+	}
+
+	private float optionsH;
+	private float optionsA;
+
+	private void showOptions() {
+		Dialog.Phrase phrase = this.phrases.get(this.current);
+
+		if (phrase != null && phrase.options != null) {
+			Tween.to(new Tween.Task((phrase.options.length + 1) * 16 + 8, 0.3f) {
+				@Override
+				public float getValue() {
+					return optionsH;
+				}
+
+				@Override
+				public void setValue(float value) {
+					optionsH = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1, 0.2f) {
+						@Override
+						public float getValue() {
+							return optionsA;
+						}
+
+						@Override
+						public void setValue(float value) {
+							optionsA = value;
+						}
+					});
+				}
+			});
+		}
+	}
+
+	private void hideOptions() {
+
 	}
 
 	public void update(float dt) {
@@ -163,7 +237,7 @@ public class DialogData {
 
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 
-		if (phrase.options != null) {
+		if (phrase.options != null && this.label.hasEnded() && this.optionsA == 1) {
 			int next = this.selected;
 
 			if (Input.instance.wasPressed("left") ||
@@ -189,40 +263,79 @@ public class DialogData {
 	}
 
 	public void toNext() {
-		Dialog.Phrase phrase = phrases.get(current);
+		if (this.optionsA != 1) {
+			Dialog.Phrase phrase = this.phrases.get(this.current);
 
-		if (this.oa != 1f && phrase.options != null) {
+			if (phrase.options == null) {
+				end();
+			}
+
 			return;
 		}
 
-		Tween.to(new Tween.Task(0f, 0.2f) {
+		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {
-				return oa;
+				return optionsA;
 			}
 
 			@Override
 			public void setValue(float value) {
-				oa = value;
+				optionsA = value;
 			}
 
 			@Override
 			public void onEnd() {
-				if (phrase.options == null || phrase.next == null) {
-					end();
-				} else {
-					String next = phrase.next[Math.min(phrase.next.length, selected)];
+				Tween.to(new Tween.Task(0, 0.3f) {
+					@Override
+					public float getValue() {
+						return optionsH;
+					}
 
-					for (int i = 0; i < phrases.size(); i++) {
-						Dialog.Phrase p = phrases.get(i);
+					@Override
+					public void setValue(float value) {
+						optionsH = value;
+					}
 
-						if (p != phrase && p.name.equals(next)) {
-							current = i;
-							next();
+					@Override
+					public void onEnd() {
+						Dialog.Phrase phrase = phrases.get(current);
+
+						if (oa != 1f && phrase.options != null) {
 							return;
 						}
+
+						Tween.to(new Tween.Task(0f, 0.2f) {
+							@Override
+							public float getValue() {
+								return oa;
+							}
+
+							@Override
+							public void setValue(float value) {
+								oa = value;
+							}
+
+							@Override
+							public void onEnd() {
+								if (phrase.options == null || phrase.next == null) {
+									end();
+								} else {
+									String next = phrase.next[Math.min(phrase.next.length, selected)];
+
+									for (int i = 0; i < phrases.size(); i++) {
+										Dialog.Phrase p = phrases.get(i);
+
+										if (p != phrase && p.name.equals(next)) {
+											current = i;
+											next();
+										}
+									}
+								}
+							}
+						});
 					}
-				}
+				});
 			}
 		});
 	}
@@ -270,6 +383,8 @@ public class DialogData {
 					@Override
 					public void onEnd() {
 						Dialog.active = null;
+						label.remove();
+						label = null;
 
 						if (fin != null) {
 							fin.run();

@@ -1,14 +1,14 @@
 {
-	"left" : [ "A" ],
-	"right" : [ "D" ],
-	"up" : [ "W" ],
-	"down" : [ "S" ],
+	"left" : [ "A", "Left" ],
+	"right" : [ "D", "Right" ],
+	"up" : [ "W", "Up" ],
+	"down" : [ "S", "Down" ],
 
 	"pickup" : [ "Space", "Controller2" ],
 	"drop_item" : [ "L-Shift", "Controller1", "Q" ],
 	"block" : [ "Mouse2" ],
 
-	"mouse0" : [ "Mouse0", "Controller3", "Controller5", "Down" ],
+	"mouse0" : [ "Mouse0", "Controller3", "Controller5", "Enter" ],
 	"mouse1" : [ "Mouse1" ],
 	"mouse2" : [ "Mouse2" ],
 	"scroll" : [ "MouseWheel" ],
