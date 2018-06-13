@@ -2,6 +2,7 @@ package org.rexellentgames.dungeon.entity;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.game.Area;
@@ -119,6 +120,6 @@ public class Entity extends Point {
 			return -1;
 		}
 
-		return Graphics.playSfx(sound, (256f - d) / 256f, 0.9f + Random.newFloat(0.3f));
+		return Audio.playSfx(sound, (256f - d) / 256f, 0.9f + Random.newFloat(0.3f));
 	}
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.Settings;
+import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.entity.Entity;
@@ -130,7 +131,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void init() {
-		sfx = Graphics.getSound("bk");
+		sfx = Audio.getSound("bk");
 		this.sid = sfx.loop(Graphics.playSfx("bk", 0f));
 
 		sfx.setVolume(this.sid, 0);
@@ -722,8 +723,8 @@ public class BurningKnight extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			voice = Graphics.getSound("bk_voice");
-			vid = Graphics.playSfx("bk_voice", 1f, 1f);
+			voice = Audio.getSound("bk_voice");
+			vid = Audio.playSfx("bk_voice", 1f, 1f);
 			voice.setVolume(vid, 0);
 			voice.pause(vid);
 

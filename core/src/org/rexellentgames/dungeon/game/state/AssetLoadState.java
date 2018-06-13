@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.assets.Assets;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.util.Tween;
 
@@ -20,7 +21,7 @@ public class AssetLoadState extends State {
 
 		this.a = Math.min(1, a + dt);
 
-		if (!tweened && Graphics.updateLoading()) {
+		if (!tweened && Assets.updateLoading()) {
 			finish();
 			tweened = true;
 		}
@@ -31,7 +32,7 @@ public class AssetLoadState extends State {
 		super.init();
 
 		if (!START_TO_MENU) {
-			Graphics.finishLoading();
+			Assets.finishLoading();
 			finish();
 			tweened = true;
 		}
@@ -43,10 +44,10 @@ public class AssetLoadState extends State {
 		done = true;
 		Gdx.graphics.setTitle(Dungeon.title);
 
-		//if (START_TO_MENU) {
-		/*} else {
+		if (START_TO_MENU) {
+		} else {
 			Dungeon.goToLevel(Dungeon.depth);
-		}*/
+		}
 
 		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override
@@ -92,9 +93,9 @@ public class AssetLoadState extends State {
 
 					@Override
 					public void onEnd() {
-						//if (START_TO_MENU) {
+						if (START_TO_MENU) {
 							Dungeon.game.setState(new MainMenuState());
-						//}
+						}
 					}
 				});
 
@@ -156,6 +157,6 @@ public class AssetLoadState extends State {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		Graphics.batch.draw(region, (Display.GAME_WIDTH - region.getWidth()) / 2, (Display.GAME_HEIGHT - region.getHeight()) / 2);
 
-		Gdx.graphics.setTitle(Dungeon.title + " " + Math.floor(Graphics.getPercent() * 100) + "%");
+		Gdx.graphics.setTitle(Dungeon.title + " " + Math.floor(Assets.manager.getProgress() * 100) + "%");
 	}
 }

@@ -11,7 +11,7 @@ public class MusicManager {
 	private static String last = "";
 
 	public static void highPriority(String name) {
-		Music music = Graphics.getMusic(name);
+		Music music = Audio.getMusic(name);
 
 		if (music == null) {
 			Log.error("Music '" + name + "' is not found");
@@ -42,7 +42,7 @@ public class MusicManager {
 			}
 		}
 
-		Music music = Graphics.getMusic(name);
+		Music music = Audio.getMusic(name);
 
 		if (music == null) {
 			Log.error("Music '" + name + "' is not found");
