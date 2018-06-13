@@ -50,19 +50,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Creature {
-	protected Type type = Type.WARRIOR;
+	public Type type;
+	public static Type toSet;
 
 	public Type getType() {
 		return this.type;
 	}
 
 	public enum Type {
-		WARRIOR,
-		MAGE,
-		SUMMONER,
-		ROGUE,
-		ARCHER,
-		GUNNER
+		WARRIOR(0),
+		MAGE(1),
+		SUMMONER(2),
+		ROGUE(3),
+		ARCHER(4),
+		GUNNER(5);
+
+		public byte id;
+
+		Type(int id) {
+			this.id = (byte) id;
+		}
 	}
 
 	public static ArrayList<Player> all = new ArrayList<>();
@@ -402,6 +409,8 @@ public class Player extends Creature {
 	@Override
 	public void init() {
 		super.init();
+
+		this.type = toSet;
 
 		if (instance == null) {
 			instance = this;

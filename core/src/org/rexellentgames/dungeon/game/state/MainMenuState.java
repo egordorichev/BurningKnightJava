@@ -52,6 +52,8 @@ public class MainMenuState extends State {
 			}
 		}.setSparks(true)));
 
+		buttons.get(0).onClick();
+
 		buttons.add((UiButton) Dungeon.area.add(new UiButton("settings", Display.GAME_WIDTH + 128, (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {

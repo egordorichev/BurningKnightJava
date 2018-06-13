@@ -183,6 +183,14 @@ public abstract class Level extends SaveableEntity {
 		return "";
 	}
 
+	public String formatDepth() {
+		if (Dungeon.depth == 0) {
+			return "The beginning";
+		} else {
+			return getName() + " " + getDepthAsCoolNum();
+		}
+	}
+
 	private static String[] letters = { "I", "II", "III", "IV", "V", "VI" };
 
 	public boolean addLight = false;

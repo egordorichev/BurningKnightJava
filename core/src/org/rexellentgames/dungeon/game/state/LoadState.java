@@ -156,13 +156,7 @@ public class LoadState extends State {
 			Log.info("Loading done!");
 
 			LevelBanner banner = new LevelBanner();
-
-			if (Dungeon.depth == 0) {
-				banner.text = "The beginning";
-			} else {
-				banner.text = Dungeon.level.getName() + " " + Dungeon.level.getDepthAsCoolNum();
-			}
-
+			banner.text = Dungeon.level.formatDepth();
 			Dungeon.area.add(banner);
 			
 			if (BurningKnight.instance != null) {

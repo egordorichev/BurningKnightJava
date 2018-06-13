@@ -1,6 +1,9 @@
 package org.rexellentgames.dungeon.entity.level.save;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import org.rexellentgames.dungeon.Dungeon;
+import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.level.Level;
 import org.rexellentgames.dungeon.util.Log;
@@ -13,8 +16,10 @@ import java.io.IOException;
 public class GameSave {
 	public static void save(FileWriter writer) {
 		try {
+			writer.writeByte(Player.instance == null ? Player.toSet.id : Player.instance.type.id);
 			writer.writeByte((byte) Dungeon.lastDepth);
-			Log.info("Save dungeon depth to " + Dungeon.lastDepth);
+			writer.writeString(Dungeon.level == null ? "The beginning" : Dungeon.level.formatDepth());
+
 			ChangableRegistry.save(writer);
 
 			for (int i = 0; i < Level.depths.length; i++) {
@@ -26,15 +31,53 @@ public class GameSave {
 		}
 	}
 
+	public static class Info {
+		public Player.Type type;
+		public boolean free;
+		public boolean error;
+		public byte depth;
+
+		public float firstW;
+		public float secondW;
+		public String first;
+		public String second;
+	}
+
+	public static Info peek(int slot) {
+		FileHandle save = Gdx.files.external(SaveManager.getSavePath(SaveManager.Type.GAME, slot));
+		Info info = new Info();
+
+		if (!save.exists()) {
+			info.free = true;
+			return info;
+		}
+
+		try {
+			FileReader stream = new FileReader(save.file().getAbsolutePath());
+
+			info.type = Player.Type.values()[stream.readByte()];
+			info.depth = stream.readByte();
+			info.second = stream.readString();
+
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			info.error = true;
+		}
+
+		return info;
+	}
+
 	public static void load(FileReader reader) throws IOException {
+		Player.toSet = Player.Type.values()[reader.readByte()];
 		byte d = reader.readByte();
+		String name = reader.readString();
 
 		if (Dungeon.notLoaded) {
 			Dungeon.notLoaded = false;
 			Dungeon.depth = d;
 		}
 
-		Log.info("Set dungeon depth to " + Dungeon.depth);
 		ChangableRegistry.load(reader);
 
 		for (int i = 0; i < Level.depths.length; i++) {

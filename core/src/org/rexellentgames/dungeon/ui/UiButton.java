@@ -1,7 +1,6 @@
 package org.rexellentgames.dungeon.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import org.rexellentgames.dungeon.Dungeon;
@@ -62,7 +61,7 @@ public class UiButton extends UiEntity {
 		this.h = (int) Graphics.layout.height * 2;
 	}
 
-	public static Color outline = Color.valueOf("#221f41");
+	protected float scaleMod = 1;
 
 	@Override
 	public void render() {
@@ -115,7 +114,7 @@ public class UiButton extends UiEntity {
 				this.rg = 1f;
 				this.rb = 1f;
 
-				this.last = Tween.to(new Tween.Task(0.8f, 0.05f) {
+				this.last = Tween.to(new Tween.Task(1f - 0.2f * scaleMod, 0.05f) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -136,7 +135,7 @@ public class UiButton extends UiEntity {
 						g = 0.7f;
 						b = 0.7f;
 
-						last = Tween.to(new Tween.Task(1.2f, 0.05f) {
+						last = Tween.to(new Tween.Task(1 + 0.2f * scaleMod, 0.05f) {
 							@Override
 							public float getValue() {
 								return scale;
@@ -260,7 +259,7 @@ public class UiButton extends UiEntity {
 				}
 			});
 
-			this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
+			this.last = Tween.to(new Tween.Task(1f + 0.2f * scaleMod, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;

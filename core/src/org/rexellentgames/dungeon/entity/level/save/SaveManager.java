@@ -23,6 +23,10 @@ public class SaveManager {
 		return ".bk/" + slot + "/";
 	}
 
+	public static String getDir(int slot) {
+		return ".bk/" + slot + "/";
+	}
+
 	public static String getSavePath(Type type) {
 		return getSavePath(type, false);
 	}
@@ -34,6 +38,15 @@ public class SaveManager {
 			case GAME: default: return getDir() + "game.save";
 		}
 	}
+
+	public static String getSavePath(Type type, int slot) {
+		switch (type) {
+			case LEVEL: return getDir(slot) + "level" + Dungeon.depth + ".save";
+			case PLAYER: return getDir(slot) + "player.save";
+			case GAME: default: return getDir(slot) + "game.save";
+		}
+	}
+
 
 	public static void save(Type type) {
 		FileHandle save = Gdx.files.external(getSavePath(type, true));
