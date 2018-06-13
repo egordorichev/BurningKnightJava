@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 import com.rafaskoberg.gdx.typinglabel.TypingListener;
 import org.rexellentgames.dungeon.Display;
+import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Graphics;
 import org.rexellentgames.dungeon.entity.Camera;
 import org.rexellentgames.dungeon.game.input.Input;
@@ -73,13 +74,18 @@ public class DialogData {
 					if (this.optionsA > 0) {
 						for (int i = 0; i < phrase.options.length; i++) {
 							String option = phrase.options[i];
+							boolean sl = i == selected;
 
-							if (i == selected) {
+							if (sl) {
 								option += " <";
+								float c = (float) (0.6f + Math.cos(Dungeon.time * 4) / 3f);
+
+								Graphics.small.setColor(c * 0.8f, c * 0.8f, c, this.optionsA);
+							} else {
+								Graphics.small.setColor(1, 1, 1, this.optionsA);
 							}
 
-							Graphics.small.setColor(1, 1, 1, this.optionsA);
-							Graphics.small.draw(Graphics.batch, option, x + 16, y - (i + 1) * 16);
+							Graphics.small.draw(Graphics.batch, option, x + (sl ? 20 : 16), y - (i + 1) * 16);
 							Graphics.small.setColor(1, 1, 1, 1);
 						}
 					}
