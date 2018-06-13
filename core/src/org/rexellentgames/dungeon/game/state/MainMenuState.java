@@ -24,6 +24,7 @@ public class MainMenuState extends State {
 	private float versionY = -32;
 	public static float cameraX = Display.GAME_WIDTH / 2;
 	public static float cameraY = Display.GAME_HEIGHT / 2;
+	public static float MOVE_T = 0.2f;
 
 	@Override
 	public void init() {
@@ -37,7 +38,7 @@ public class MainMenuState extends State {
 				super.onClick();
 				SlotSelectState.add();
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, 0.4f) {
+				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T) {
 					@Override
 					public float getValue() {
 						return cameraY;
@@ -57,7 +58,7 @@ public class MainMenuState extends State {
 				super.onClick();
 				SettingsState.add();
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, 0.4f) {
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T) {
 					@Override
 					public float getValue() {
 						return cameraX;
@@ -113,7 +114,7 @@ public class MainMenuState extends State {
 			}
 		});
 
-		Tween.to(new Tween.Task(0, 0.4f) {
+		Tween.to(new Tween.Task(0, MainMenuState.MOVE_T) {
 			@Override
 			public float getValue() {
 				return versionY;

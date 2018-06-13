@@ -144,7 +144,7 @@ public class GraphicsSettingsState extends State {
 			public void onClick() {
 				Audio.playSfx("menu/exit");
 
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, 0.4f) {
+				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;

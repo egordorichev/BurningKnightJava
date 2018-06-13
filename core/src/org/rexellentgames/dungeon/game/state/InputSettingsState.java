@@ -6,22 +6,27 @@ import org.rexellentgames.dungeon.Display;
 import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.assets.Audio;
 import org.rexellentgames.dungeon.entity.Camera;
-import org.rexellentgames.dungeon.game.Ui;
 import org.rexellentgames.dungeon.game.input.Input;
 import org.rexellentgames.dungeon.ui.UiButton;
 import org.rexellentgames.dungeon.ui.UiChoice;
 import org.rexellentgames.dungeon.util.Log;
+import org.rexellentgames.dungeon.util.Tween;
 
 import java.util.ArrayList;
 
 public class InputSettingsState extends State {
-	private UiChoice c;
+	private static UiChoice c;
+	public static boolean added;
 
-	@Override
-	public void init() {
+	public static void add() {
+		if (added) {
+			return;
+		}
+
+		added = true;
 		Dungeon.area.add(Camera.instance);
 
-		Dungeon.area.add(new UiButton("bindings", Display.GAME_WIDTH / 2, 128 + 24) {
+		Dungeon.area.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -32,7 +37,7 @@ public class InputSettingsState extends State {
 			}
 		});
 
-		c = new UiChoice("joystick", Display.GAME_WIDTH / 2, 128) {
+		c = new UiChoice("joystick", (int) (Display.GAME_WIDTH * 1.5f), 128 - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -43,13 +48,13 @@ public class InputSettingsState extends State {
 			public void onUpdate() {
 				super.onUpdate();
 
-				if (this.label.endsWith("None")) {
+				if (label.endsWith("None")) {
 					Input.instance.active = null;
 					return;
 				}
 
 				for (Controller controller : Controllers.getControllers()) {
-					if (this.label.endsWith(controller.getName().replaceAll("\\s+"," "))) {
+					if (label.endsWith(controller.getName().replaceAll("\\s+"," "))) {
 						Input.instance.active = controller;
 						break;
 					}
@@ -57,17 +62,25 @@ public class InputSettingsState extends State {
 			}
 		};
 
-		this.updateChoices();
+		updateChoices();
 
 		Dungeon.area.add(c);
 
-		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 1.5f)) {
+		Dungeon.area.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
-				transition(() -> {
-					Audio.playSfx("menu/exit");
-					Dungeon.game.setState(new SettingsState());
-					Camera.shake(3);
+				Audio.playSfx("menu/exit");
+				
+				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
+					@Override
+					public float getValue() {
+						return MainMenuState.cameraY;
+					}
+
+					@Override
+					public void setValue(float value) {
+						MainMenuState.cameraY = value;
+					}
 				});
 			}
 		});
@@ -78,11 +91,11 @@ public class InputSettingsState extends State {
 		super.update(dt);
 
 		if (Input.instance.hasControllerChanged()) {
-			this.updateChoices();
+			updateChoices();
 		}
 	}
 
-	private void updateChoices() {
+	private static void updateChoices() {
 		ArrayList<String> options = new ArrayList<>();
 
 		options.add("None");
@@ -102,17 +115,10 @@ public class InputSettingsState extends State {
 			i++;
 		}
 
-		this.c.setChoices(options.toArray(new String[] {}));
+		c.setChoices(options.toArray(new String[] {}));
 
 		if (s != -1) {
-			this.c.setCurrent(s);
+			c.setCurrent(s);
 		}
-	}
-
-	@Override
-	public void renderUi() {
-		super.renderUi();
-
-		Ui.ui.renderCursor();
 	}
 }

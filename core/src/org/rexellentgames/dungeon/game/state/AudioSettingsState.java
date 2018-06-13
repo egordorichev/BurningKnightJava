@@ -62,7 +62,7 @@ public class AudioSettingsState extends State {
 			public void onClick() {
 				Audio.playSfx("menu/exit");
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, 0.4f) {
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraX;
