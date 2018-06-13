@@ -6,7 +6,6 @@ import org.rexellentgames.dungeon.Dungeon;
 import org.rexellentgames.dungeon.entity.creature.player.Player;
 import org.rexellentgames.dungeon.entity.item.ChangableRegistry;
 import org.rexellentgames.dungeon.entity.level.Level;
-import org.rexellentgames.dungeon.util.Log;
 import org.rexellentgames.dungeon.util.Random;
 import org.rexellentgames.dungeon.util.file.FileReader;
 import org.rexellentgames.dungeon.util.file.FileWriter;
@@ -75,7 +74,7 @@ public class GameSave {
 
 		if (Dungeon.notLoaded) {
 			Dungeon.notLoaded = false;
-			Dungeon.depth = d;
+			// Dungeon.depth = d;
 		}
 
 		ChangableRegistry.load(reader);

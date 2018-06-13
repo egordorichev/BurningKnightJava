@@ -229,7 +229,6 @@ public class Door extends SaveableEntity {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 

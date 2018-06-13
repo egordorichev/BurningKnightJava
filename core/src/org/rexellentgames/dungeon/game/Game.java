@@ -18,8 +18,14 @@ public class Game {
 			Dungeon.area.destroy();
 		}
 
-		this.destroyState();
+		State old = this.state;
+
 		this.state = state;
+
+		if (old != null) {
+			old.destroy();
+		}
+
 		this.state.init();
 	}
 

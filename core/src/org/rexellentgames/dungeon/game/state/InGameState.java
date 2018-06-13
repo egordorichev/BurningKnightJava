@@ -88,9 +88,11 @@ public class InGameState extends State {
 			Gdx.files.external(".bk/" + SaveManager.slot).deleteDirectory();
 			Dungeon.reset = false;
 		} else {
-			SaveManager.save(SaveManager.Type.GAME);
-			SaveManager.save(SaveManager.Type.LEVEL);
-			SaveManager.save(SaveManager.Type.PLAYER);
+			boolean old = Dungeon.game.getState() instanceof LoadState;
+
+			SaveManager.save(SaveManager.Type.GAME, old);
+			SaveManager.save(SaveManager.Type.LEVEL, old);
+			SaveManager.save(SaveManager.Type.PLAYER, old);
 		}
 
 		if (Dungeon.area != null) {

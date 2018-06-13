@@ -47,9 +47,8 @@ public class SaveManager {
 		}
 	}
 
-
-	public static void save(Type type) {
-		FileHandle save = Gdx.files.external(getSavePath(type, true));
+	public static void save(Type type, boolean old) {
+		FileHandle save = Gdx.files.external(getSavePath(type, old));
 		Log.info("Saving " + type + " " + Dungeon.lastDepth);
 
 		try {
@@ -81,7 +80,7 @@ public class SaveManager {
 			}
 
 			generate(type);
-			save(type);
+			save(type, false);
 		} else {
 			Log.info("Loading " + type + " " + Dungeon.depth);
 

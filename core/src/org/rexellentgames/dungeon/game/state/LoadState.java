@@ -121,7 +121,7 @@ public class LoadState extends State {
 				}
 
 				SaveManager.generate(SaveManager.Type.LEVEL);
-				SaveManager.save(SaveManager.Type.LEVEL);
+				SaveManager.save(SaveManager.Type.LEVEL, false);
 			} catch (RuntimeException e) {
 				Log.report(e);
 				Thread.currentThread().interrupt();
