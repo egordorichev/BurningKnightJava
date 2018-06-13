@@ -75,7 +75,7 @@ public class BurningKnight extends Boss {
 	protected void onHurt(float a, Creature from) {
 		super.onHurt(a, from);
 
-		Vector3 vec = Camera.instance.getCamera().project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
+		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
 		vec.y = Display.GAME_HEIGHT - vec.y;
 
@@ -731,9 +731,9 @@ public class BurningKnight extends Boss {
 			Dialog.active = self.dialog;
 			Dialog.active.start();
 
-			Camera.instance.follow(self, false);
+			Camera.follow(self, false);
 
-			Dialog.active.onEnd(() -> Camera.instance.follow(Player.instance, false));
+			Dialog.active.onEnd(() -> Camera.follow(Player.instance, false));
 
 			Dialog.active.onStop(new Runnable() {
 				@Override

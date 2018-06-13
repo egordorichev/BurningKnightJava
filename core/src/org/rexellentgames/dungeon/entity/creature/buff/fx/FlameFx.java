@@ -90,7 +90,7 @@ public class FlameFx extends Entity {
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 		float s = this.size / 2;

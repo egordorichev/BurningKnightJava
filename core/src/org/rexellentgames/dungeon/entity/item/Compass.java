@@ -25,7 +25,7 @@ public class Compass extends Item {
 		float a = (float) Math.atan2(dy, dx);
 
 		Graphics.batch.end();
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 		Graphics.shape.setColor(1, 1, 1, 1);
 

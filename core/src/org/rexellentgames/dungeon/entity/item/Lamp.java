@@ -47,7 +47,7 @@ public class Lamp extends Item {
 
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 			Graphics.shape.setColor(1, 0.5f, 0, 0.4f);
@@ -66,7 +66,7 @@ public class Lamp extends Item {
 	public void setOwner(Creature owner) {
 		super.setOwner(owner);
 
-		Camera.instance.follow(Player.instance, false);
+		Camera.follow(Player.instance, false);
 
 		if (!this.added  && Dungeon.type != Dungeon.Type.INTRO) {
 			this.added = true;
@@ -81,7 +81,7 @@ public class Lamp extends Item {
 
 			BurningKnight.instance.become("fadeIn");
 
-			Camera.instance.shake(10);
+			Camera.shake(10);
 
 			BurningKnight.instance.dialog = BurningKnight.onLampTake;
 			PlayerSave.add(BurningKnight.instance);

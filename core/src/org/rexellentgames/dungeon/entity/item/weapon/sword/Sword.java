@@ -165,7 +165,7 @@ public class Sword extends Weapon {
 
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 			for (int i = 0; i < this.frames.size(); i++) {
@@ -205,7 +205,7 @@ public class Sword extends Weapon {
 	public void onHit(Creature creature) {
 		super.onHit(creature);
 
-		// Camera.instance.shake(4);
+		// Camera.shake(4);
 		BloodFx.add(creature, 10);
 
 		float a = this.owner.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2);

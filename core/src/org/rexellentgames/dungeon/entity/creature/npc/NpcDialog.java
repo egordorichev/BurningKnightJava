@@ -32,7 +32,7 @@ public class NpcDialog extends Entity {
 	@Override
 	public void render() {
 		Graphics.startShape();
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.setColor(1, 1, 1, 1);
 
 		float x = this.npc.x + this.npc.w / 2 + this.x;

@@ -76,7 +76,6 @@ public class SettingsState extends State {
 							if (!twe) {
 								twe = true;
 
-								MainMenuState.fromRight = true;
 								Dungeon.game.setState(new MainMenuState());
 							}
 						}

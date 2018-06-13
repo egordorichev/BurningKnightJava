@@ -30,7 +30,7 @@ public class GraphicsSettingsState extends State {
 			public void onClick() {
 				super.onClick();
 
-				Camera.instance.shake(3);
+				Camera.shake(3);
 
 				switch (this.getCurrent()) {
 					case 0: default: Settings.quality = 2; break;
@@ -52,7 +52,7 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				org.rexellentgames.dungeon.assets.Graphics.playSfx("menu/select");
-				Camera.instance.shake(3);
+				Camera.shake(3);
 			}
 
 			@Override
@@ -65,7 +65,7 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Camera.instance.shake(3);
+				Camera.shake(3);
 
 				Settings.fullscreen = !Settings.fullscreen;
 
@@ -84,7 +84,7 @@ public class GraphicsSettingsState extends State {
 				super.onClick();
 
 				Settings.blood = !Settings.blood;
-				Camera.instance.shake(3);
+				Camera.shake(3);
 
 				if (Settings.blood) {
 					org.rexellentgames.dungeon.assets.Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4));
@@ -100,7 +100,7 @@ public class GraphicsSettingsState extends State {
 				super.onClick();
 
 				Settings.gore = !Settings.gore;
-				Camera.instance.shake(3);
+				Camera.shake(3);
 
 				if (Settings.gore) {
 					org.rexellentgames.dungeon.assets.Graphics.playSfx("voice_gobbo_" + Random.newInt(1, 4));
@@ -125,7 +125,7 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Camera.instance.shake(3);
+				Camera.shake(3);
 
 				Settings.vsync = !Settings.vsync;
 				Gdx.graphics.setVSync(Settings.vsync);
@@ -140,7 +140,7 @@ public class GraphicsSettingsState extends State {
 
 				transition(() -> {
 					Dungeon.game.setState(new SettingsState());
-					Camera.instance.shake(3);
+					Camera.shake(3);
 
 					Settings.save();
 				});

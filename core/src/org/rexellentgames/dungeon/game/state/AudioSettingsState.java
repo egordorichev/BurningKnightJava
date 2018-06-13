@@ -19,7 +19,7 @@ public class AudioSettingsState extends State {
 		Dungeon.area.add(new UiSlider("music", Display.GAME_WIDTH / 2, 128 + 24) {
 			@Override
 			public void onClick() {
-				Camera.instance.shake(3);
+				Camera.shake(3);
 				Graphics.playSfx("menu/select");
 			}
 
@@ -33,7 +33,7 @@ public class AudioSettingsState extends State {
 		Dungeon.area.add(new UiSlider("sfx", Display.GAME_WIDTH / 2, 128) {
 			@Override
 			public void onClick() {
-				Camera.instance.shake(3);
+				Camera.shake(3);
 				Graphics.playSfx("menu/select");
 			}
 
@@ -46,7 +46,7 @@ public class AudioSettingsState extends State {
 		Dungeon.area.add(new UiCheckbox("uisfx", Display.GAME_WIDTH / 2, 128 - 24) {
 			@Override
 			public void onClick() {
-				Camera.instance.shake(3);
+				Camera.shake(3);
 				Settings.uisfx = !Settings.uisfx;
 				super.onClick();
 			}
@@ -58,7 +58,7 @@ public class AudioSettingsState extends State {
 				transition(() -> {
 					Graphics.playSfx("menu/exit");
 					Dungeon.game.setState(new SettingsState());
-					Camera.instance.shake(3);
+					Camera.shake(3);
 				});
 			}
 		});

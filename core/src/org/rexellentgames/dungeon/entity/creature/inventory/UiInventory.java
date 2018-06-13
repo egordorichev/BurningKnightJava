@@ -462,7 +462,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		Camera.instance.viewport.apply();
+		Camera.viewport.apply();
 
 		if (Player.instance != null) {
 			this.last += (Player.instance.getExperienceForLevel() - this.last) / 10f;

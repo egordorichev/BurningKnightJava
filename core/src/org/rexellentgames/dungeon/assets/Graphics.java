@@ -42,20 +42,20 @@ public class Graphics {
 	public static void startShadows() {
 		Graphics.batch.end();
 
-		Graphics.surface.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
-			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+		Graphics.surface.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
 		Graphics.shadows.begin();
 
-		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		Graphics.batch.begin();
 	}
 
 	public static void endShadows() {
 		Graphics.batch.end();
 
-		Graphics.shadows.end(Camera.instance.viewport.getScreenX(), Camera.instance.viewport.getScreenY(),
-			Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight());
+		Graphics.shadows.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
 		Graphics.surface.begin();
 		Graphics.batch.begin();
@@ -66,8 +66,8 @@ public class Graphics {
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth(), Camera.instance.viewport.getScreenHeight(), false);
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.instance.viewport.getScreenWidth() * Settings.quality, Camera.instance.viewport.getScreenHeight() * Settings.quality, false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight(), false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.viewport.getScreenWidth() * Settings.quality, Camera.viewport.getScreenHeight() * Settings.quality, false);
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 
 		Assets.manager.load("atlas/atlas.atlas", TextureAtlas.class);
@@ -106,13 +106,13 @@ public class Graphics {
 		shadows.dispose();
 		surface.dispose();
 
-		float z = Math.max(1, Camera.instance.getCamera().zoom);
+		float z = Math.max(1, Camera.game.zoom);
 
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z)),
-			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z)), false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.viewport.getScreenWidth() * z)),
+			(int) Math.max(1, Math.ceil(Camera.viewport.getScreenHeight() * z)), false);
 
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenWidth() * z * Settings.quality)),
-			(int) Math.max(1, Math.ceil(Camera.instance.viewport.getScreenHeight() * z * Settings.quality)), false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.viewport.getScreenWidth() * z * Settings.quality)),
+			(int) Math.max(1, Math.ceil(Camera.viewport.getScreenHeight() * z * Settings.quality)), false);
 	}
 
 	public static TextureRegion getTexture(String name) {
@@ -183,7 +183,7 @@ public class Graphics {
 	public static void shadow(float x, float y, float w, float h, float z) {
 		startShadows();
 		Graphics.batch.end();
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 		w -= z;

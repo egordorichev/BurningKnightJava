@@ -27,7 +27,7 @@ public class SpellOfTeleportation extends Spell {
 		} while (!check(x, y));
 
 		Player.instance.tp(x * 16, y * 16);
-		Camera.instance.follow(Player.instance);
+		Camera.follow(Player.instance);
 	}
 
 	private static boolean check(int x, int y) {

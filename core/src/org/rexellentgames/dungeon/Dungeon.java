@@ -279,15 +279,15 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void renderGame() {
 		Graphics.surface.begin();
-		Gdx.gl.glClearColor(this.background2.r, this.background2.g, this.background2.b, 1);
+		Gdx.gl.glClearColor(background2.r, background2.g, background2.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Graphics.batch.begin();
 
 		if (Camera.instance != null) {
-			Camera.instance.applyShake();
-			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Camera.applyShake();
+			Graphics.batch.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 		}
 
 		if (Level.SHADOWS) {
@@ -315,7 +315,7 @@ public class Dungeon extends ApplicationAdapter {
 		game.render(false);
 
 		if (Camera.instance != null) {
-			Camera.instance.removeShake();
+			Camera.removeShake();
 		}
 
 		Graphics.batch.end();
@@ -336,10 +336,10 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("transR", darkR / MAX_R);
 		shader.setUniformf("transPos", new Vector2(darkX / Display.GAME_WIDTH, darkY / Display.GAME_HEIGHT));
-		shader.setUniformf("cam", new Vector2(Camera.instance.getCamera().position.x / 1024f, Camera.instance.getCamera().position.y / 1024f));
+		shader.setUniformf("cam", new Vector2(Camera.game.position.x / 1024f, Camera.game.position.y / 1024f));
 		shader.end();
 		Graphics.batch.setShader(shader);
-		Camera.instance.viewport.apply();
+		Camera.viewport.apply();
 		Graphics.batch.begin();
 
 		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, !flip);
@@ -395,7 +395,7 @@ public class Dungeon extends ApplicationAdapter {
 //
 //			float d = 64f;
 //
-//			Vector3 input = Camera.instance.getCamera().project(new Vector3(
+//			Vector3 input = Camera.game.project(new Vector3(
 //				Player.instance.x + Player.instance.w / 2 + angle.x * d,
 //				Player.instance.y + Player.instance.h / 2 + angle.y * d, 0
 //			));
@@ -423,7 +423,7 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		if (Camera.instance != null) {
-			Camera.instance.resize(width, height);
+			Camera.resize(width, height);
 		}
 
 		State state = game.getState();

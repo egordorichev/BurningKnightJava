@@ -25,7 +25,7 @@ public class Explosion extends Entity {
 	@Override
 	public void init() {
 		super.init();
-		Camera.instance.shake(10f);
+		Camera.shake(10f);
 	}
 
 	@Override

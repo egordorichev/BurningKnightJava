@@ -27,7 +27,7 @@ public class InputSettingsState extends State {
 				super.onClick();
 				transition(() -> {
 					Dungeon.game.setState(new KeyConfigState());
-					Camera.instance.shake(3);
+					Camera.shake(3);
 				});
 			}
 		});
@@ -36,7 +36,7 @@ public class InputSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Camera.instance.shake(3);
+				Camera.shake(3);
 			}
 
 			@Override
@@ -67,7 +67,7 @@ public class InputSettingsState extends State {
 				transition(() -> {
 					Graphics.playSfx("menu/exit");
 					Dungeon.game.setState(new SettingsState());
-					Camera.instance.shake(3);
+					Camera.shake(3);
 				});
 			}
 		});

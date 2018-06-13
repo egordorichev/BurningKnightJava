@@ -95,7 +95,7 @@ public class Entity extends Point {
 	}
 
 	public boolean isOnScreen() {
-		OrthographicCamera camera = Camera.instance.getCamera();
+		OrthographicCamera camera = Camera.game;
 
 		float zoom = camera.zoom;
 

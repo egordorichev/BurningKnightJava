@@ -169,8 +169,8 @@ public class CrazyKing extends Boss {
 	public class ToDeathState extends CKState {
 		@Override
 		public void onEnter() {
-			Camera.instance.shake(4);
-			Camera.instance.follow(self, false);
+			Camera.shake(4);
+			Camera.follow(self, false);
 		}
 
 		@Override
@@ -184,7 +184,7 @@ public class CrazyKing extends Boss {
 				self.dead = true;
 				self.done = true;
 				LevelSave.remove(self);
-				Camera.instance.shake(10);
+				Camera.shake(10);
 
 				if (Settings.gore) {
 					for (Animation.Frame frame : killed.getFrames()) {
@@ -208,7 +208,7 @@ public class CrazyKing extends Boss {
 
 					@Override
 					public void setValue(float value) {
-						Camera.instance.follow(Player.instance, false);
+						Camera.follow(Player.instance, false);
 					}
 				}.delay(1f));
 			}
@@ -286,7 +286,7 @@ public class CrazyKing extends Boss {
 				} else {
 					Dialog.active = onNotice;
 					Dialog.active.start();
-					Camera.instance.follow(self, false);
+					Camera.follow(self, false);
 
 					if (self.target != null) {
 						self.target.setUnhittable(true);
@@ -301,7 +301,7 @@ public class CrazyKing extends Boss {
 						}
 
 						ignoreHealthbar = false;
-						Camera.instance.follow(Player.instance, false);
+						Camera.follow(Player.instance, false);
 						talked = true;
 					});
 				}
@@ -443,7 +443,7 @@ public class CrazyKing extends Boss {
 
 							@Override
 							public void onEnd() {
-								Camera.instance.shake(5);
+								Camera.shake(5);
 								up = false;
 								land.setPaused(true);
 								land.setFrame(0);
@@ -575,7 +575,7 @@ public class CrazyKing extends Boss {
 
 				@Override
 				public void onEnd() {
-					Camera.instance.shake(5);
+					Camera.shake(5);
 					self.playSfx("CK_attack");
 
 					for (Player player : self.colliding) {
@@ -725,7 +725,7 @@ public class CrazyKing extends Boss {
 						});
 
 						set = true;
-						Tween.to(new Tween.Task(Camera.instance.getCamera().position.y + Display.GAME_HEIGHT * 1.5f, 1f, Tween.Type.QUAD_IN) {
+						Tween.to(new Tween.Task(Camera.game.position.y + Display.GAME_HEIGHT * 1.5f, 1f, Tween.Type.QUAD_IN) {
 							@Override
 							public float getValue() {
 								return z;

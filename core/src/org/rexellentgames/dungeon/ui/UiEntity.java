@@ -11,10 +11,10 @@ public class UiEntity extends Entity {
 	}
 
 	protected float fromWorldX(float x) {
-		return x - Camera.instance.getCamera().position.x + Display.GAME_WIDTH / 2;
+		return x - Camera.game.position.x + Display.GAME_WIDTH / 2;
 	}
 
 	protected float fromWorldY(float y) {
-		return y - Camera.instance.getCamera().position.y + Display.GAME_HEIGHT / 2;
+		return y - Camera.game.position.y + Display.GAME_HEIGHT / 2;
 	}
 }

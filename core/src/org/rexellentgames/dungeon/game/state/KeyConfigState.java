@@ -17,7 +17,7 @@ public class KeyConfigState extends State {
 			public void onClick() {
 				super.onClick();
 
-				Camera.instance.shake(3);
+				Camera.shake(3);
 			}
 		});
 
@@ -27,7 +27,7 @@ public class KeyConfigState extends State {
 				transition(() -> {
 					Graphics.playSfx("menu/exit");
 					Dungeon.game.setState(new InputSettingsState());
-					Camera.instance.shake(3);
+					Camera.shake(3);
 				});
 			}
 		});

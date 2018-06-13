@@ -14,19 +14,17 @@ import org.rexellentgames.dungeon.util.Tween;
 import java.util.ArrayList;
 
 public class MainMenuState extends State {
-	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
 	public static MainMenuState instance;
-	private float ly = Display.GAME_HEIGHT;
+	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
+	private float logoY = Display.GAME_HEIGHT;
 	private ArrayList<UiButton> buttons = new ArrayList<>();
-	private float vy = -32;
-	private float vx = 0;
-	public static boolean fromBottom;
-	public static boolean fromRight;
+	private float versionY = -32;
+	private float logoX = 0;
+	private float versionX;
 
 	@Override
 	public void init() {
 		instance = this;
-
 		Dungeon.area.add(Camera.instance);
 
 		buttons.add((UiButton) Dungeon.area.add(new UiButton("play", -128, 128 - 24) {
@@ -34,48 +32,21 @@ public class MainMenuState extends State {
 			public void onClick() {
 				super.onClick();
 
-				Tween.to(new Tween.Task(-100, 0.1f) {
-					@Override
-					public float getValue() {
-						return vvx;
-					}
-
-					@Override
-					public void setValue(float value) {
-						vvx = value;
-					}
-				});
-
-				Tween.to(new Tween.Task(250, 0.3f) {
-					@Override
-					public float getValue() {
-						return ly;
-					}
-
-					@Override
-					public void setValue(float value) {
-						ly = value;
-					}
-				});
-
-				for (UiButton button : buttons) {
-					Tween.to(new Tween.Task(300, 0.3f) {
-						@Override
-						public float getValue() {
-							return button.y;
-						}
-
-						@Override
-						public void setValue(float value) {
-							button.y = value;
-						}
-
-						@Override
-						public void onEnd() {
-							Dungeon.game.setState(new SlotSelectState());
-						}
-					});
+				if (!SlotSelectState.added) {
+					SlotSelectState.add();
 				}
+
+				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, 0.4f) {
+					@Override
+					public float getValue() {
+						return Camera.game.position.y;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Camera.game.position.y = value;
+					}
+				});
 			}
 		}.setSparks(true)));
 
@@ -85,49 +56,6 @@ public class MainMenuState extends State {
 				super.onClick();
 
 				SettingsState.fromGame = false;
-
-				Tween.to(new Tween.Task(-100, 0.1f) {
-					@Override
-					public float getValue() {
-						return vvx;
-					}
-
-					@Override
-					public void setValue(float value) {
-						vvx = value;
-					}
-				});
-
-				for (UiButton button : buttons) {
-					Tween.to(new Tween.Task(-300, 0.3f) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
-
-						@Override
-						public void setValue(float value) {
-							button.x = value;
-						}
-
-						@Override
-						public void onEnd() {
-							Dungeon.game.setState(new SettingsState());
-						}
-					});
-				}
-
-				Tween.to(new Tween.Task(-300, 0.3f) {
-					@Override
-					public float getValue() {
-						return vx;
-					}
-
-					@Override
-					public void setValue(float value) {
-						vx = value;
-					}
-				});
 			}
 		}));
 
@@ -142,116 +70,46 @@ public class MainMenuState extends State {
 			}
 		}));
 
-		if (fromBottom) {
-			fromBottom = false;
-
-			for (UiButton button : buttons) {
-				button.x = Display.GAME_WIDTH / 2;
-
-				int y = (int) button.y;
-				button.y = 300;
-
-				Tween.to(new Tween.Task(y, 0.1f) {
-					@Override
-					public float getValue() {
-						return button.y;
-					}
-
-					@Override
-					public void setValue(float value) {
-						button.y = value;
-					}
-				});
-
-				ly = 200;
-
-				Tween.to(new Tween.Task(0, 0.1f) {
-					@Override
-					public float getValue() {
-						return ly;
-					}
-
-					@Override
-					public void setValue(float value) {
-						ly = value;
-					}
-				});
-			}
-		} else if (fromRight) {
-			fromRight = false;
-
-			for (UiButton button : buttons) {
-				button.x = Display.GAME_WIDTH / 2 - 300;
-
-				Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.1f) {
-					@Override
-					public float getValue() {
-						return button.x;
-					}
-
-					@Override
-					public void setValue(float value) {
-						button.x = value;
-					}
-				});
-			}
-
-			vx = Display.GAME_WIDTH / 2 - 300;
-			ly = 0;
-
-			Tween.to(new Tween.Task(0, 0.1f) {
-				@Override
-				public float getValue() {
-					return vx;
-				}
-
-				@Override
-				public void setValue(float value) {
-					vx = value;
-				}
-			});
-		} else {
-			Tween.to(new Tween.Task(0, 1f, Tween.Type.BACK_OUT) {
-				@Override
-				public float getValue() {
-					return ly;
-				}
-
-				@Override
-				public void setValue(float value) {
-					ly = value;
-				}
-
-				@Override
-				public void onEnd() {
-					super.onEnd();
-
-					for (UiButton button : buttons) {
-						Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.6f, Tween.Type.BACK_OUT) {
-							@Override
-							public float getValue() {
-								return button.x;
-							}
-
-							@Override
-							public void setValue(float value) {
-								button.x = value;
-							}
-						});
-					}
-				}
-			});
-		}
-
-		Tween.to(new Tween.Task(0, 0.4f) {
+		Tween.to(new Tween.Task(0, 1f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
-				return vy;
+				return logoY;
 			}
 
 			@Override
 			public void setValue(float value) {
-				vy = value;
+				logoY = value;
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+
+				for (UiButton button : buttons) {
+					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.6f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return button.x;
+						}
+
+						@Override
+						public void setValue(float value) {
+							button.x = value;
+						}
+					});
+				}
+			}
+		});
+
+		Tween.to(new Tween.Task(0, 0.4f) {
+			@Override
+			public float getValue() {
+				return versionY;
+			}
+
+			@Override
+			public void setValue(float value) {
+				versionY = value;
 			}
 		}).delay(0.7f);
 	}
@@ -264,11 +122,9 @@ public class MainMenuState extends State {
 		float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
 		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
 
-		Graphics.render(logo, Display.GAME_WIDTH / 2 + vx, 180 + ly, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
+		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
 
-		Graphics.print(Version.string, Graphics.small, 2 + vvx, vy + 2);
+		Graphics.print(Version.string, Graphics.small, 2 + versionX, versionY + 2);
 		Ui.ui.renderCursor();
 	}
-
-	private float vvx;
 }

@@ -38,7 +38,7 @@ public class RocketLauncher extends WeaponBase {
 
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 			Graphics.shape.setColor(1, 0.5f, 0, 0.7f);
@@ -62,7 +62,7 @@ public class RocketLauncher extends WeaponBase {
 	@Override
 	public void use() {
 		super.use();
-		Camera.instance.shake(2);
+		Camera.shake(2);
 		Point aim = this.owner.getAim();
 
 		this.owner.playSfx("gun_machinegun");
@@ -87,7 +87,7 @@ public class RocketLauncher extends WeaponBase {
 		this.owner.vel.x -= Math.cos(a) * 40f;
 		this.owner.vel.y -= Math.sin(a) * 40f;
 
-		Camera.instance.push(a, 8f);
+		Camera.push(a, 8f);
 
 		this.sendRockets();
 

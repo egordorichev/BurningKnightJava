@@ -97,7 +97,7 @@ public class BulletEntity extends Entity {
 			creature.vel.y += Math.sin(a) * this.knockback * creature.knockbackMod;
 
 			BloodFx.add(entity, 10);
-			Camera.instance.shake(2);
+			Camera.shake(2);
 
 			if(toApply != null) {
 				try {

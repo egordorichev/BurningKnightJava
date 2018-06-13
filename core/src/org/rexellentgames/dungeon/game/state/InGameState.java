@@ -71,7 +71,7 @@ public class InGameState extends State {
 			public void onEnd() {
 				super.onEnd();
 				Player.instance.setUnhittable(false);
-				Camera.instance.follow(Player.instance);
+				Camera.follow(Player.instance);
 			}
 		});
 
@@ -142,7 +142,7 @@ public class InGameState extends State {
 
 		if (!set) {
 			if (Player.instance != null) {
-				Camera.instance.follow(Player.instance);
+				Camera.follow(Player.instance);
 			}
 
 			set = true;
@@ -204,7 +204,7 @@ public class InGameState extends State {
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 
-		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		World.render();
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
@@ -237,7 +237,7 @@ public class InGameState extends State {
 				super.onClick();
 				setPaused(false);
 
-				Camera.instance.shake(3);
+				Camera.shake(3);
 			}
 		}.setSparks(true));
 
@@ -249,7 +249,7 @@ public class InGameState extends State {
 					SettingsState.fromGame = true;
 					Dungeon.game.setState(new SettingsState());
 				});
-				Camera.instance.shake(3);
+				Camera.shake(3);
 			}
 		}.setSparks(true));
 
@@ -257,7 +257,7 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Camera.instance.shake(3);
+				Camera.shake(3);
 				transition(() -> Dungeon.game.setState(new MainMenuState()));
 			}
 		});

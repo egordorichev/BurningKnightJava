@@ -177,7 +177,7 @@ public class LoadState extends State {
 	public void update(float dt) {
 		if (this.ready && this.a == 0) {
 			Dungeon.game.setState(new InGameState());
-			Camera.instance.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			Camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}
 

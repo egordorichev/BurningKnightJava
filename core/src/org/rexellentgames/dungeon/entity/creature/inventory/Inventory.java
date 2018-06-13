@@ -153,7 +153,7 @@ public class Inventory {
 		fx.x = holder.x + holder.w / 2;
 		fx.y = holder.y + holder.h / 2;
 		fx.region = item.getSprite();
-		fx.target = new Point(Camera.instance.x - Display.GAME_WIDTH / 2 * Camera.instance.getCamera().zoom, Camera.instance.y - Display.GAME_HEIGHT / 2 * Camera.instance.getCamera().zoom); // todo: fix
+		fx.target = new Point(Camera.game.position.x - Display.GAME_WIDTH / 2 * Camera.game.zoom, Camera.game.position.y - Display.GAME_HEIGHT / 2 * Camera.game.zoom); // todo: fix
 
 		Dungeon.area.add(fx);
 	}

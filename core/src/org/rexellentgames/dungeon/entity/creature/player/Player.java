@@ -127,7 +127,7 @@ public class Player extends Creature {
 	protected void onHurt(float a, Creature from) {
 		super.onHurt(a, from);
 
-		Camera.instance.shake(4f);
+		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 
 		if (from != null && Random.chance(this.reflectDamageChance)) {
@@ -413,7 +413,7 @@ public class Player extends Creature {
 		this.inventory = new Inventory(this, inventorySize);
 		this.body = this.createSimpleBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
 
-		Camera.instance.follow(this, true);
+		Camera.follow(this, true);
 
 		if (ladder != null) {
 			this.tp(ladder.x, ladder.y - 2);
@@ -443,7 +443,7 @@ public class Player extends Creature {
 				this.dead = true;
 				this.done = true;
 
-				Camera.instance.shake(10);
+				Camera.shake(10);
 				this.remove();
 
 				if (Settings.gore) {
@@ -712,7 +712,7 @@ public class Player extends Creature {
 			return;
 		}
 
-		Vector3 vec = Camera.instance.getCamera().project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
+		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
 		vec.y = Display.GAME_HEIGHT - vec.y;
 

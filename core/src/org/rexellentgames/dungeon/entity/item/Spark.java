@@ -74,7 +74,7 @@ public class Spark extends Entity {
 		this.animation.render(this.x, this.y, false, false, 3.5f, 3.5f, this.a);
 
 		if (inUi) {
-			Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		}
 	}
 }

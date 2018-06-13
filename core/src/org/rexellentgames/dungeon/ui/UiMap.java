@@ -99,7 +99,7 @@ public class UiMap extends UiEntity {
 
 		Graphics.shape.rect(this.x, this.y, this.w, this.h);
 
-		float zoom = Camera.instance.getCamera().zoom;
+		float zoom = Camera.game.zoom;
 
 		float px = Player.instance.x + Player.instance.w / 2f;
 		float py = Player.instance.y + Player.instance.h / 2f;

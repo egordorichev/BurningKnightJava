@@ -54,7 +54,7 @@ public class World {
 	public static void render() {
 		if (DRAW_DEBUG) {
 			Graphics.batch.end();
-			debug.render(world, Camera.instance.getCamera().combined);
+			debug.render(world, Camera.game.combined);
 			Graphics.batch.begin();
 		}
 	}

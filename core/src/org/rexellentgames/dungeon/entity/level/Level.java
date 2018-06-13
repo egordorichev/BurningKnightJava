@@ -446,11 +446,11 @@ public abstract class Level extends SaveableEntity {
 			return;
 		}
 
-		OrthographicCamera camera = Camera.instance.getCamera();
+		OrthographicCamera camera = Camera.game;
 
 		Graphics.batch.end();
-		Graphics.batch.setProjectionMatrix(Camera.instance.getCamera().combined);
-		Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+		Graphics.batch.setProjectionMatrix(Camera.game.combined);
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
@@ -542,7 +542,7 @@ public abstract class Level extends SaveableEntity {
 			room.numEnemies = 0;
 		}
 
-		OrthographicCamera camera = Camera.instance.getCamera();
+		OrthographicCamera camera = Camera.game;
 
 		float zoom = camera.zoom;
 
@@ -659,7 +659,7 @@ public abstract class Level extends SaveableEntity {
 				if (RENDER_PASSABLE) {
 					if (this.passable[i]) {
 						Graphics.batch.end();
-						Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+						Graphics.shape.setProjectionMatrix(Camera.game.combined);
 						Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
 						Graphics.shape.rect(x * 16 + 1, y * 16 + 1 - 8, 16 - 2, 16 - 2);
 						Graphics.shape.end();
@@ -675,7 +675,7 @@ public abstract class Level extends SaveableEntity {
 			Graphics.batch.end();
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			Graphics.shape.setProjectionMatrix(Camera.instance.getCamera().combined);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 			for (Room room : this.rooms) {
 				Graphics.shape.setColor(room.hidden ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, 0.1f);
@@ -908,15 +908,15 @@ public abstract class Level extends SaveableEntity {
 
 	private void renderShadows() {
 		if (SHADOWS) {
-			float zoom = Camera.instance.getCamera().zoom;
+			float zoom = Camera.game.zoom;
 
 			Graphics.batch.setColor(0, 0, 0, 0.5f);
 			Texture texture = Graphics.shadows.getColorBufferTexture();
 			texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 			Graphics.batch.draw(texture,
-				Camera.instance.getCamera().position.x - Display.GAME_WIDTH / 2 * zoom,
-				Camera.instance.getCamera().position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
+				Camera.game.position.x - Display.GAME_WIDTH / 2 * zoom,
+				Camera.game.position.y - Display.GAME_HEIGHT / 2 * zoom, Display.GAME_WIDTH * zoom, Display.GAME_HEIGHT * zoom,
 				0, 0, texture.getWidth(), texture.getHeight(), false, true);
 
 			Graphics.batch.setColor(1, 1, 1, 1f);
@@ -978,7 +978,7 @@ public abstract class Level extends SaveableEntity {
 			return;
 		}
 
-		OrthographicCamera camera = Camera.instance.getCamera();
+		OrthographicCamera camera = Camera.game;
 
 		float zoom = camera.zoom;
 
