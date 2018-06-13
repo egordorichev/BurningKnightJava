@@ -1,5 +1,6 @@
 package org.rexellentgames.dungeon.entity.level.entities;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
@@ -220,9 +221,11 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.startShadows();
+		Graphics.shape.end();
+		Graphics.batch.begin();
 		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
-		Graphics.endShadows();
+		Graphics.batch.end();
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 	}
 
 	@Override

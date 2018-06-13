@@ -918,6 +918,7 @@ public abstract class Level extends SaveableEntity {
 		if (SHADOWS) {
 			float zoom = Camera.game.zoom;
 
+			Graphics.batch.setProjectionMatrix(Camera.game.combined);
 			Graphics.batch.setColor(0, 0, 0, 0.5f);
 			Texture texture = Graphics.shadows.getColorBufferTexture();
 			texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

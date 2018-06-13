@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -294,9 +295,13 @@ public class Dungeon extends ApplicationAdapter {
 			// Clear shadows
 
 			Graphics.startShadows();
+
 			Gdx.gl.glClearColor(0, 0, 0, 0);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-			Graphics.endShadows();
+			Graphics.batch.end();
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.setColor(1, 1, 1, 1);
 
 			for (int i = 0; i < area.getEntities().size(); i++) {
 				Entity entity = area.getEntities().get(i);
@@ -309,6 +314,11 @@ public class Dungeon extends ApplicationAdapter {
 					entity.renderShadow();
 				}
 			}
+
+			Graphics.shape.end();
+			Graphics.batch.begin();
+
+			Graphics.endShadows();
 		}
 
 		area.render();
