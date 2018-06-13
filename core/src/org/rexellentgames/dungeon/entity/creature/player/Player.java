@@ -51,7 +51,7 @@ import java.util.HashMap;
 
 public class Player extends Creature {
 	public Type type;
-	public static Type toSet;
+	public static Type toSet = Type.WARRIOR;
 
 	public Type getType() {
 		return this.type;
