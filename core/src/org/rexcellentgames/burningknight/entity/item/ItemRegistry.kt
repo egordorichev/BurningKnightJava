@@ -66,6 +66,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.Light
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberD
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC
@@ -226,6 +227,7 @@ object ItemRegistry {
             "rage_rune" to RageRune::class,
             "gravity_booster" to GravityBooster::class,
             "wings" to Wings::class,
-            "shotgun_a" to ShotgunA::class
+            "shotgun_a" to ShotgunA::class,
+            "throwing_a" to ThrowingDaggerA::class
     )
 }

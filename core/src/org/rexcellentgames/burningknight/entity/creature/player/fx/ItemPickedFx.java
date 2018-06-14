@@ -14,6 +14,7 @@ public class ItemPickedFx extends Entity {
 
 	{
 		depth = 15;
+		alwaysActive = true;
 	}
 
 	public ItemPickedFx(ItemHolder item) {

@@ -52,14 +52,6 @@ public class EntranceRoom extends LadderRoom {
 
 		  LevelSave.add(entrance);
 			Dungeon.area.add(entrance);
-
-			Shopkeeper npc = new Shopkeeper();
-
-			npc.x = point.x * 16;
-			npc.y = point.y * 16 - 16;
-
-			LevelSave.add(npc);
-			Dungeon.area.add(npc);
 		}
 	}
 }

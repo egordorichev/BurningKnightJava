@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.level.entities.fx;
 
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -22,6 +21,10 @@ public class LadderFx extends UiEntity {
 	private Entity ladder;
 	private String text;
 	private float a;
+
+	{
+		alwaysActive = true;
+	}
 
 	public LadderFx(Entity ladder, String text) {
 		this.ladder = ladder;

@@ -12,6 +12,7 @@ public class Dagger extends Sword {
 		auto = true;
 	}
 
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.animation == null) {

@@ -7,11 +7,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Assets;
-import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
@@ -52,7 +48,8 @@ public class AssetLoadState extends State {
 		Gdx.graphics.setTitle(Dungeon.title);
 
 		if (!START_TO_MENU) {
-			Dungeon.goToLevel(Dungeon.depth);
+			GameSave.Info info = GameSave.peek(0);
+			Dungeon.goToLevel(info.depth);
 		}
 
 		Tween.to(new Tween.Task(0, 0.1f) {

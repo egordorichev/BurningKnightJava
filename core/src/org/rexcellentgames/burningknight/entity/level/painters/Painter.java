@@ -9,8 +9,6 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -99,7 +97,7 @@ public class Painter {
 			for (Point p : r.waterPlaceablePoints()) {
 				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
-				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
+				if (lake[i] && (t == Terrain.FLOOR_A)) {
 					level.set(i, Terrain.WATER);
 				}
 			}
@@ -113,7 +111,7 @@ public class Painter {
 			for (Point p : r.grassPlaceablePoints()) {
 				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
-				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_D || t == Terrain.FLOOR_C)) {
+				if (grass[i] && (t == Terrain.FLOOR_A)) {
 					level.set(i, Terrain.DIRT);
 
 					/*if (Random.chance(10)) {

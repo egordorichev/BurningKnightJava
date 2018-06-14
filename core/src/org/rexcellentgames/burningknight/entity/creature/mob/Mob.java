@@ -6,12 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -23,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
+import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -559,9 +554,9 @@ public class Mob extends Creature {
 	public Point getAim() {
 		if (this.target != null) {
 			return new Point(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
+		} else {
+			return new Point(this.x + this.w, this.y);
 		}
-
-		return super.getAim();
 	}
 
 	@Override

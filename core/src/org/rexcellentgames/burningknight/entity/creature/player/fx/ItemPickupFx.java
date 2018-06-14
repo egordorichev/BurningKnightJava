@@ -19,6 +19,7 @@ public class ItemPickupFx extends Entity {
 
 	{
 		depth = 15;
+		alwaysActive = true;
 	}
 
 	public ItemPickupFx(ItemHolder item, Player player) {

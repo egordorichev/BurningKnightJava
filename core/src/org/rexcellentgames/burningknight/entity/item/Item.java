@@ -33,6 +33,7 @@ public class Item extends Entity {
 	protected boolean auto = false;
 	protected boolean fly = false;
 	public float a = 1;
+	public boolean shop;
 	protected String useSpeedStr;
 
 	public String getUseSpeedAsString() {

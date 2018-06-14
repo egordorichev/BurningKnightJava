@@ -9,9 +9,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -259,7 +256,10 @@ public class Sword extends Weapon {
 
 		this.owner.playSfx(this.getSfx());
 
-		this.animation.setPaused(false);
+		if (this.animation != null) {
+			this.animation.setPaused(false);
+		}
+
 		super.use();
 
 		float a = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
