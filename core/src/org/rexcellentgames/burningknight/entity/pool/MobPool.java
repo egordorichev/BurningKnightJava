@@ -1,9 +1,6 @@
 package org.rexcellentgames.burningknight.entity.pool;
 
-import org.rexcellentgames.burningknight.entity.creature.mob.Clown;
-import org.rexcellentgames.burningknight.entity.creature.mob.Knight;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.RangedKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.*;
 
 public class MobPool extends Pool<Mob> {
 	public static MobPool instance = new MobPool();
@@ -12,7 +9,8 @@ public class MobPool extends Pool<Mob> {
 		clear();
 
 		add(Knight.class, 1f);
-		add(RangedKnight.class, 0.7f);
-		add(Clown.class, 1.2f);
+		add(RangedKnight.class, 0f);
+		add(StabbingKnight.class, 0f);
+		add(Clown.class, 0f);
 	}
 }

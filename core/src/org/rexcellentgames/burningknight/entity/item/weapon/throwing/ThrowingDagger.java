@@ -12,6 +12,10 @@ public class ThrowingDagger extends Weapon {
 	private boolean forward;
 	float max = 100f;
 
+	{
+		useTime = 1f;
+	}
+
 	@Override
 	public void use() {
 		super.use();
@@ -40,18 +44,14 @@ public class ThrowingDagger extends Weapon {
 		float d = this.max - this.added;
 
 		if (this.forward) {
-			this.delay = this.useTime;
-
 			if (d <= 10f) {
 				this.forward = false;
 			} else {
 				this.added += d * dt;
 			}
 		} else if (this.added > 0) {
-			this.delay = this.useTime;
 			this.added = Math.max(this.added - d * dt, 0);
 		} else {
-			this.delay = 0;
 			endUse();
 		}
 

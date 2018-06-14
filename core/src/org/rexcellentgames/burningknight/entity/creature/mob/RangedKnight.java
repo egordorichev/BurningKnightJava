@@ -2,8 +2,6 @@ package org.rexcellentgames.burningknight.entity.creature.mob;
 
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
-import org.rexcellentgames.burningknight.util.Animation;
 
 public class RangedKnight extends Knight {
 	public static Animation animations = Animation.make("actor-knight-v2", "-red");
@@ -11,6 +9,8 @@ public class RangedKnight extends Knight {
 	public Animation getAnimation() {
 		return animations;
 	}
+
+	// todo: run away if too close
 
 	{
 		hpMax = 5;
@@ -22,12 +22,5 @@ public class RangedKnight extends Knight {
 
 		this.sword = new BadGun();
 		this.sword.setOwner(this);
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-
-		this.sword.destroy();
 	}
 }

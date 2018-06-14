@@ -4,8 +4,6 @@ import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 
 public class CaveRoom extends PatchRoom {
 	@Override
@@ -18,7 +16,7 @@ public class CaveRoom extends PatchRoom {
 		byte f = Terrain.randomFloor();
 		Painter.fill(level, this, Terrain.WALL);
 
-		float fill = 0.1f + (this.getWidth() * this.getHeight()) / 512f;
+		float fill = 0.05f + (this.getWidth() * this.getHeight()) / 512f;
 
 		setupPatch(level, fill, 20, true);
 		cleanDiagonalEdges();

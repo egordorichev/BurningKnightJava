@@ -44,7 +44,7 @@ import java.util.Arrays;
 
 public abstract class Level extends SaveableEntity {
 	public static final boolean RENDER_ROOM_DEBUG = false;
-	public static final boolean RENDER_PASSABLE = false;
+	public static final boolean RENDER_PASSABLE = true;
 	public static boolean SHADOWS = true;
 
 	public static Color[] colors = {
@@ -674,6 +674,7 @@ public abstract class Level extends SaveableEntity {
 					if (this.passable[i]) {
 						Graphics.batch.end();
 						Graphics.shape.setProjectionMatrix(Camera.game.combined);
+						Graphics.shape.setColor(1, 1, 1, 1);
 						Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
 						Graphics.shape.rect(x * 16 + 1, y * 16 + 1 - 8, 16 - 2, 16 - 2);
 						Graphics.shape.end();
@@ -1138,11 +1139,15 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public boolean checkFor(int i, int flag) {
+		if (flag == Terrain.PASSABLE && this.liquidData[i] == Terrain.LAVA) {
+			return true;
+		}
+
 		return (Terrain.flags[this.get(i)] & flag) == flag;
 	}
 
 	public boolean checkFor(int x, int y, int flag) {
-		return (Terrain.flags[this.get(x, y)] & flag) == flag;
+		return checkFor(toIndex(x, y), flag);
 	}
 
 	public void set(int i, byte v) {
