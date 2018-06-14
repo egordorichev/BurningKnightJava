@@ -97,15 +97,15 @@ public class GameSave {
 		boolean[] bosses = new boolean[areas * 4 + 1];
 
 		for (int i = 0; i < areas; i++) {
-			weights[i] = 3;
+			weights[i] = 4;
 		}
 
 		for (int i = 0; i < areas * 2; i++) {
 			int f = Random.newInt(areas);
 
-			if (weights[f] > 2) {
+			if (weights[f] > 3) {
 				for (int j = areas - 1; j >= 0; j--) {
-					if (weights[j] < 4 && Random.chance(((float) areas - j) / areas * 100)) {
+					if (weights[j] < 5 && Random.chance(((float) areas - j) / areas * 100)) {
 						weights[f] --;
 						weights[j] ++;
 
@@ -123,7 +123,7 @@ public class GameSave {
 			for (int j = 0; j < weights[i]; j++) {
 				depth++;
 
-				if (!boss && j != 0 && (Random.chance(45f) || j == weights[i] - 1)) {
+				if (!boss && j > 1 && (Random.chance(45f) || j == weights[i] - 1)) {
 					boss = true;
 					bosses[depth] = true;
 
