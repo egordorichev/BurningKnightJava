@@ -278,7 +278,20 @@ public class DialogData {
 			Dialog.Phrase phrase = this.phrases.get(this.current);
 
 			if (phrase.options == null) {
-				end();
+				if (phrase.next == null) {
+					end();
+				} else {
+					String next = phrase.next[0];
+
+					for (int i = 0; i < phrases.size(); i++) {
+						Dialog.Phrase p = phrases.get(i);
+
+						if (p != phrase && p.name.equals(next)) {
+							current = i;
+							next();
+						}
+					}
+				}
 			}
 
 			return;

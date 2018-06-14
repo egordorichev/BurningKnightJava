@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
@@ -23,7 +21,7 @@ public class LampRoom extends RegularRoom {
 			room = RegularRoomPool.instance.generate();
 		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom || room instanceof MazeRoom || room instanceof BigHoleRoom || room instanceof SmallMazeRoom || room instanceof CrossRoom
 			|| room instanceof LetterRoom || room instanceof LavaLakeRoom || room instanceof RectCornerRoom || room instanceof SmallAdditionRoom
-			|| room instanceof CaveRoom || room instanceof CenterWallRoom);
+			|| room instanceof CaveRoom || room instanceof CenterWallRoom || room instanceof CollumnRoom);
 
 		room.size = this.size;
 		room.left = this.left;
