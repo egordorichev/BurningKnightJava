@@ -14,17 +14,19 @@ public class SaveManager {
 	public enum Type {
 		PLAYER,
 		GAME,
-		LEVEL
+		LEVEL,
+		GLOBAL
 	}
 
+	public static final String SAVE_DIR = ".bk/";
 	public static int slot = 0;
 
 	public static String getDir() {
-		return ".bk/" + slot + "/";
+		return getDir(slot);
 	}
 
 	public static String getDir(int slot) {
-		return ".bk/" + slot + "/";
+		return SAVE_DIR + slot + "/";
 	}
 
 	public static String getSavePath(Type type) {
@@ -36,6 +38,7 @@ public class SaveManager {
 			case LEVEL: return getDir() + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".save";
 			case PLAYER: return getDir() + "player.save";
 			case GAME: default: return getDir() + "game.save";
+			case GLOBAL: return SAVE_DIR + "progress.save";
 		}
 	}
 
@@ -44,6 +47,7 @@ public class SaveManager {
 			case LEVEL: return getDir(slot) + "level" + Dungeon.depth + ".save";
 			case PLAYER: return getDir(slot) + "player.save";
 			case GAME: default: return getDir(slot) + "game.save";
+			case GLOBAL: return SAVE_DIR + "progress.save";
 		}
 	}
 
@@ -58,6 +62,7 @@ public class SaveManager {
 				case LEVEL: LevelSave.save(stream); break;
 				case PLAYER: PlayerSave.save(stream); break;
 				case GAME: GameSave.save(stream); break;
+				case GLOBAL: GlobalSave.save(stream); break;
 			}
 
 			stream.close();
@@ -90,10 +95,32 @@ public class SaveManager {
 				case LEVEL: LevelSave.load(stream); break;
 				case PLAYER: PlayerSave.load(stream); break;
 				case GAME: GameSave.load(stream); break;
+				case GLOBAL: GlobalSave.load(stream); break;
 			}
 
 			stream.close();
 		}
+	}
+
+	public static void delete() {
+		File file = Gdx.files.external(getDir()).file();
+
+		if (file == null) {
+			return;
+		}
+
+		File[] files = file.listFiles();
+
+		if (files == null) {
+			file.delete();
+			return;
+		}
+
+		for (File f : files) {
+			f.delete();
+		}
+
+		file.delete();
 	}
 
 	public static void generate(Type type) {
@@ -104,6 +131,7 @@ public class SaveManager {
 			case LEVEL: LevelSave.generate(); break;
 			case PLAYER: PlayerSave.generate(); break;
 			case GAME: GameSave.generate(); break;
+			case GLOBAL: GlobalSave.generate(); break;
 		}
 	}
 }

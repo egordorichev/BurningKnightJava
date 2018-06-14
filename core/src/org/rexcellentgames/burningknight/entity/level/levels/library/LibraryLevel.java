@@ -23,7 +23,7 @@ public class LibraryLevel extends RegularLevel {
 
 	@Override
 	protected Painter getPainter() {
-		return new HallPainter().setGrass(0.45f).setWater(0.3f);
+		return new HallPainter().setGrass(0.35f).setWater(0);
 	}
 
 	@Override

@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 import com.rafaskoberg.gdx.typinglabel.TypingListener;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 
 import java.util.ArrayList;
@@ -139,7 +138,10 @@ public class DialogData {
 		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 32);
 		this.label.setPosition(32, Display.GAME_HEIGHT - 52 - 16 - 48 + 8);
 		this.label.setWrap(true);
-		this.label.setVariable("deaths", "");
+
+		int deaths = GlobalSave.getInt("deaths");
+
+		this.label.setVariable("deaths", deaths == 1 ? "1 time" : deaths + " times");
 		this.start.run();
 	}
 

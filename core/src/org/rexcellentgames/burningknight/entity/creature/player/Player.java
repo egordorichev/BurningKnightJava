@@ -8,10 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
-import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
-import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
-import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
@@ -44,6 +40,8 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.Butche
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -446,6 +444,7 @@ public class Player extends Creature {
 
 				this.dead = true;
 				this.done = true;
+				SaveManager.delete();
 
 				Camera.shake(10);
 				this.remove();
@@ -715,6 +714,8 @@ public class Player extends Creature {
 		if (this.toDeath) {
 			return;
 		}
+
+		GlobalSave.put("deaths", GlobalSave.getInt("deaths") + 1);
 
 		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);

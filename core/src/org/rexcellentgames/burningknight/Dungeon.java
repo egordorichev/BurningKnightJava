@@ -17,33 +17,12 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
-import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.game.Area;
-import org.rexcellentgames.burningknight.game.Game;
-import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InGameState;
-import org.rexcellentgames.burningknight.game.state.LoadState;
-import org.rexcellentgames.burningknight.game.state.State;
-import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.*;
-import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.assets.Assets;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Game;
@@ -58,6 +37,7 @@ import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Dungeon extends ApplicationAdapter {
 	public static ShaderProgram shader;
@@ -126,21 +106,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static void newGame() {
 		reset = true;
 
-		File file = Gdx.files.external(SaveManager.getDir()).file();
-
-		if (file == null) {
-			return;
-		}
-		
-		File[] files = file.listFiles();
-		
-		if (files == null) {
-			return;
-		}
-		
-		for (File f : files) {
-			f.delete();
-		}
+		SaveManager.delete();
 
 		loadType = Entrance.LoadType.GO_DOWN;
 
@@ -222,6 +188,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		this.setupCursor();
 		Assets.init();
+
+		loadGlobal();
 
 		String vertexShader;
 		String fragmentShader;
@@ -466,11 +434,23 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.resize(width, height);
 	}
 
+	public void saveGlobal() {
+		SaveManager.save(SaveManager.Type.GLOBAL, false);
+	}
+
+	public void loadGlobal() {
+		try {
+			SaveManager.load(SaveManager.Type.GLOBAL);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.error("Failed to load global save, generating a new one");
+			SaveManager.generate(SaveManager.Type.GLOBAL);
+		}
+	}
+
 	@Override
 	public void dispose() {
-		if (Player.instance != null && Player.instance.isDead()) {
-			newGame();
-		}
+		saveGlobal();
 
 		if (area != null) {
 			ui.destroy();

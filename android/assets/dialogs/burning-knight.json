@@ -33,7 +33,7 @@
 
 	"its_you_again" : {
 		"dialog_bk_its_you_again" : {
-			"next" : [ "dialog_bk_you_already_died" ]
+			"next" : "dialog_bk_you_already_died"
 		},
 
 		"dialog_bk_you_already_died" : {}
