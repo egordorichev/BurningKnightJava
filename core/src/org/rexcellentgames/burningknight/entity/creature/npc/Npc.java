@@ -1,10 +1,10 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 
-public class Npc extends Creature {
+public class Npc extends Mob {
 	private boolean active;
 	private NpcDialog dialog;
 
@@ -45,7 +45,7 @@ public class Npc extends Creature {
 			}
 		}*/
 
-		this.invt = Math.max(0, this.invt - dt);
+		super.common();
 	}
 
 	@Override

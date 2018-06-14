@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -106,7 +107,7 @@ public class Mob extends Creature {
 	public void init() {
 		super.init();
 
-		if (!(this instanceof BurningKnight)) {
+		if (!(this instanceof BurningKnight) && !(this instanceof Npc)) {
 			all.add(this);
 		}
 

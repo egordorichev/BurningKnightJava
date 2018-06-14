@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.weapon.modifier;
 
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 
 public class CriticalModifier extends Modifier {
 	public CriticalModifier() {

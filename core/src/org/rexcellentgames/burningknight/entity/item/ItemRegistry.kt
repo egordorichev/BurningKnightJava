@@ -40,6 +40,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.*
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletB
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletC
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.ShotgunA
 import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.DefenseBook
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireBook
@@ -207,9 +208,9 @@ object ItemRegistry {
             "fortune_armor" to FortuneArmor::class,
             "stop_and_play" to StopAndPlay::class,
             "spear_a" to SpearA::class,
-				    "spear_b" to SpearB::class,
-				    "spear_c" to SpearC::class,
-				    "yoyo_a" to YoyoA::class,
+            "spear_b" to SpearB::class,
+            "spear_c" to SpearC::class,
+            "yoyo_a" to YoyoA::class,
             "yoyo_b" to YoyoB::class,
             "yoyo_c" to YoyoC::class,
             "nano_orbital" to NanoOrbital::class,
@@ -223,7 +224,8 @@ object ItemRegistry {
             "luck_rune" to LuckRune::class,
             "stoneheart_rune" to StoneHeartRune::class,
             "rage_rune" to RageRune::class,
-	          "gravity_booster" to GravityBooster::class,
-	          "wings" to Wings::class
+            "gravity_booster" to GravityBooster::class,
+            "wings" to Wings::class,
+            "shotgun_a" to ShotgunA::class
     )
 }

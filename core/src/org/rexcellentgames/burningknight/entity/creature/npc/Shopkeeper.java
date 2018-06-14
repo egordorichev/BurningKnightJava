@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.creature.npc;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -45,7 +46,6 @@ public class Shopkeeper extends Npc {
 	protected void die(boolean force) {
 		super.die(force);
 		this.playSfx("death_towelknight");
-
 		this.done = true;
 
 		deathEffect(death);
@@ -59,5 +59,9 @@ public class Shopkeeper extends Npc {
 	@Override
 	public void renderShadow() {
 		Graphics.shadow(this.x + 2, this.y, this.w - 4, this.h);
+	}
+
+	public class SKState extends Mob.State<Shopkeeper> {
+
 	}
 }
