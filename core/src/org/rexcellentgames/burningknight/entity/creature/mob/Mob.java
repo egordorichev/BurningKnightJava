@@ -647,7 +647,6 @@ public class Mob extends Creature {
 				if (!self.canSee(self.target)) {
 					self.target = null;
 
-					Level.heat = Math.max(0, Level.heat - 1f);
 					self.saw = false;
 				}
 			}
@@ -674,7 +673,6 @@ public class Mob extends Creature {
 					}
 				}
 			} else if (self.saw) {
-				Level.heat = Math.max(0, Level.heat - 1f);
 				self.saw = false;
 			}
 		}

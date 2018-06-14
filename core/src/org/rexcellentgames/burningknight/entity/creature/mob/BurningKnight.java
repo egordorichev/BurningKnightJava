@@ -456,7 +456,6 @@ public class BurningKnight extends Boss {
 				self.become("idle");
 				self.noticeSignT = 0f;
 				self.hideSignT = 2f;
-				Level.heat = Math.max(Level.heat - 1, 0);
 				return;
 			}
 
@@ -916,7 +915,6 @@ public class BurningKnight extends Boss {
 				this.become("alerted");
 				this.noticeSignT = 2f;
 				this.hideSignT = 0f;
-				Level.heat += 1f;
 
 				return;
 			}

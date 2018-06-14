@@ -1,7 +1,10 @@
 package org.rexcellentgames.burningknight.entity.level;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,10 +14,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -27,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLe
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.physics.World;
@@ -49,7 +49,8 @@ public abstract class Level extends SaveableEntity {
 
 	public static Color[] colors = {
 		Color.valueOf("#1a1932"),
-		Color.valueOf("#391f21")
+		Color.valueOf("#391f21"),
+		Color.valueOf("#5d2c28")
 	};
 
 	public Room entrance;
@@ -58,7 +59,6 @@ public abstract class Level extends SaveableEntity {
 	public static final Vector2[] NEIGHBOURS8V = {new Vector2(-1, -1), new Vector2(0, -1), new Vector2(1, -1),
 		new Vector2(-1, 0), new Vector2(1, 0), new Vector2(-1, 1), new Vector2(0, 1), new Vector2(1, 1)};
 	public static boolean GENERATED = false;
-	public static float heat;
 
 	public static String[] COMPASS = {
 		" NESW", " ESW", " NSW", " SW", " NEW", " EW", " NW", " W",
@@ -165,6 +165,8 @@ public abstract class Level extends SaveableEntity {
 							return new HallLevel();
 						case 1:
 							return new DesertLevel();
+						case 2:
+							return new LibraryLevel();
 					}
 				}
 			}

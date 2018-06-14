@@ -4,8 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.ui.UiInput;
 
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ public class Console implements InputProcessor {
 
 	public Console() {
 		instance = this;
-
-		new Test();
 
 		org.rexcellentgames.burningknight.game.input.Input.multiplexer.addProcessor(this);
 
