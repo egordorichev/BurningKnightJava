@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
+import org.rexcellentgames.burningknight.util.DialogData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -84,10 +85,18 @@ public class Lamp extends Item {
 
 			Camera.shake(10);
 
-			BurningKnight.instance.dialog = GlobalSave.isTrue("not_first_time") ? BurningKnight.itsYouAgain : BurningKnight.onLampTake;
+			BurningKnight.instance.dialog = GlobalSave.isTrue("not_first_time") ? randomDialog() : BurningKnight.onLampTake;
 			GlobalSave.put("not_first_time", true);
-			
+
 			PlayerSave.add(BurningKnight.instance);
+		}
+	}
+
+	private static DialogData randomDialog() {
+		switch (Random.newInt(3)) {
+			case 0: default: return BurningKnight.itsYouAgain;
+			case 1: return BurningKnight.justDie;
+			case 2: return BurningKnight.noPoint;
 		}
 	}
 

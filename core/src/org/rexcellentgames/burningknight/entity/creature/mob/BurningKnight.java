@@ -712,6 +712,8 @@ public class BurningKnight extends Boss {
 	public static Dialog dialogs = Dialog.make("burning-knight");
 	public static DialogData onLampTake = dialogs.get("you_seem_new");
 	public static DialogData itsYouAgain = dialogs.get("its_you_again");
+	public static DialogData justDie = dialogs.get("just_die");
+	public static DialogData noPoint = dialogs.get("it_is_pointless");
 	public DialogData dialog;
 	private float volume;
 

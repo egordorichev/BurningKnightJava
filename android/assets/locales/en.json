@@ -367,5 +367,7 @@
 	"treasure_2" : "I want treasure!",
 	"dialog_bk_you_know_cant_even_try" : "Treasure? {WAIT}It is {SHAKE}mine{ENDSHAKE}! You must {WAIT}{SHAKE}die{ENDSHAKE}!",
 	"dialog_bk_its_you_again" : "So it's you again? You don't remember, how it ended last time?",
-	"dialog_bk_you_already_died" : "You already died {VAR=deaths}! Stop now!"
+	"dialog_bk_you_already_died" : "You already died {VAR=deaths}! Stop now!",
+	"dialog_bk_just_die" : "Just die... Please...",
+	"dialog_bk_it_is_pointless" : "It is pointless... {WAIT}Why would you want it?!"
 }

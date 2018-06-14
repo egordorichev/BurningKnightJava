@@ -37,5 +37,13 @@
 		},
 
 		"dialog_bk_you_already_died" : {}
+	},
+
+	"just_die" : {
+		"dialog_bk_just_die" : {}
+	},
+
+	"it_is_pointless" : {
+		"dialog_bk_it_is_pointless" : {}
 	}
 }
