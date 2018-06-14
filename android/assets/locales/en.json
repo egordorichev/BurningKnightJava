@@ -371,5 +371,11 @@
 	"dialog_bk_just_die" : "Just die... Please...",
 	"dialog_bk_it_is_pointless" : "It is pointless... {WAIT}Why would you want it?!",
 	"shotgun_a" : "Bronze shotgun",
-	"shotgun_a_desc" : "Better get closer"
+	"shotgun_a_desc" : "Better get closer",
+	"throwing_dagger_a" : "Bronze throwing dagger",
+	"throwing_dagger_a_desc" : "Stab!",
+	"throwing_dagger_b" : "Iron throwing dagger",
+	"throwing_dagger_b_desc" : "Mom?",
+	"throwing_dagger_c" : "Golden throwing dagger",
+	"throwing_dagger_c_desc" : "Right into the spot"
 }

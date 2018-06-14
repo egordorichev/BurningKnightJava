@@ -1,13 +1,6 @@
 package org.rexcellentgames.burningknight.entity.pool.item;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.weapon.axe.MeetboyAxe;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunB;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunC;
-import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA;
-import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB;
-import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.reference.BlueBoomerang;
 import org.rexcellentgames.burningknight.entity.item.reference.GravelordSword;
@@ -17,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.axe.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowC;
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BackGun;
@@ -37,6 +31,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.Light
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberD;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC;
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA;
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB;
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC;
@@ -77,8 +74,12 @@ public class ShopWeaponPool extends Pool<Item> {
 	}
 
 	private void addRogue() {
+		add(DaggerA.class, 1f);
 		add(DaggerB.class, 1f);
 		add(DaggerC.class, 1f);
+		add(ThrowingDaggerA.class, 1f);
+		add(ThrowingDaggerB.class, 1f);
+		add(ThrowingDaggerC.class, 1f);
 	}
 
 	private void addMagic() {
@@ -107,5 +108,7 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(YoyoA.class, 1f);
 		add(YoyoB.class, 1f);
 		add(YoyoC.class, 1f);
+		add(ThrowingDaggerA.class, 1f);
+		add(ThrowingDaggerB.class, 1f);
 	}
 }

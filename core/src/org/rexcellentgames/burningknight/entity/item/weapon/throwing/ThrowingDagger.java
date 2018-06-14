@@ -6,12 +6,11 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class ThrowingDagger extends Weapon {
 	private boolean forward;
-	private float max = 100f;
+	float max = 100f;
 
 	@Override
 	public void use() {
