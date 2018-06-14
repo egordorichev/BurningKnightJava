@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.save;
 
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -49,7 +50,7 @@ public class GlobalSave {
 	}
 
 	public static void generate() {
-
+		Settings.generate();
 	}
 
 	public static void load(FileReader reader) throws IOException {

@@ -22,7 +22,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
-import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Game;
@@ -36,7 +35,6 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Dungeon extends ApplicationAdapter {
@@ -174,6 +172,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Log.init();
+		loadGlobal();
 		Settings.load();
 
 		long seed = System.currentTimeMillis();
@@ -188,8 +187,6 @@ public class Dungeon extends ApplicationAdapter {
 
 		this.setupCursor();
 		Assets.init();
-
-		loadGlobal();
 
 		String vertexShader;
 		String fragmentShader;
@@ -450,8 +447,6 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
-		saveGlobal();
-
 		if (area != null) {
 			ui.destroy();
 			area.destroy();
@@ -463,6 +458,7 @@ public class Dungeon extends ApplicationAdapter {
 		Assets.destroy();
 
 		Settings.save();
+		saveGlobal();
 		Log.close();
 
 		if (Player.shader != null) {

@@ -1,21 +1,13 @@
 package org.rexcellentgames.burningknight;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter;
-import org.rexcellentgames.burningknight.util.Log;
-
-import java.io.FileWriter;
-import java.io.IOException;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 
 public class Settings {
 	public static boolean fullscreen;
 	public static boolean vsync = true;
 	public static boolean blood = true;
 	public static boolean gore = true;
-	public static boolean shaders = false;
 	public static boolean uisfx = true;
 	public static int quality = 1;
 	public static float screenshake = 0.7f;
@@ -23,47 +15,46 @@ public class Settings {
 	public static float sfx = 0.5f;
 
 	public static void load() {
-		Log.info("Loading settings...");
+		fullscreen = GlobalSave.isTrue("settings_fullscreen");
+		blood = GlobalSave.isTrue("settings_blood");
+		uisfx = GlobalSave.isTrue("settings_uisfx");
+		gore = GlobalSave.isTrue("settings_gore");
+		vsync = GlobalSave.isTrue("settings_vsync");
+		quality = GlobalSave.getInt("settings_quality");
+		screenshake = GlobalSave.getFloat("settings_screenshake");
+		sfx = GlobalSave.getFloat("settings_sfx");
+		music = GlobalSave.getFloat("settings_music");
 
-		FileHandle handle = Gdx.files.external(".bk/settings.json");
-
-		if (handle.exists()) {
-			JsonReader reader = new JsonReader();
-			JsonValue root = reader.parse(handle);
-
-			fullscreen = root.getBoolean("fullscreen");
-			blood = root.getBoolean("blood");
-			uisfx = root.getBoolean("uisfx");
-			gore = root.getBoolean("gore");
-			shaders = root.getBoolean("shaders");
-			vsync = root.getBoolean("vsync");
-			quality = root.getInt("quality");
-			screenshake = root.getFloat("screenshake");
-			sfx = root.getFloat("sfx");
-			music = root.getFloat("music");
-
-			if (fullscreen) {
-				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-			} else {
-				Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2);
-			}
+		if (fullscreen) {
+			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+		} else {
+			Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2);
 		}
 	}
 
 	public static void save() {
-		Log.info("Saving settings...");
+		GlobalSave.put("settings_fullscreen", fullscreen);
+		GlobalSave.put("settings_blood", blood);
+		GlobalSave.put("settings_uisfx", uisfx);
+		GlobalSave.put("settings_gore", gore);
+		GlobalSave.put("settings_vsync", vsync);
 
-		try {
-			FileWriter w = new FileWriter(Gdx.files.external(".bk/settings.json").file().getAbsolutePath());
-			JsonWriter writer = new JsonWriter(w);
+		GlobalSave.put("settings_quality", quality);
+		GlobalSave.put("settings_screenshake", screenshake);
+		GlobalSave.put("settings_sfx", sfx);
+		GlobalSave.put("settings_music", music);
+	}
 
-			writer.write("{ \"fullscreen\" : " + fullscreen + ", \"blood\" : " + blood + ", \"gore\" : " + gore +
-				", \"shaders\" : " + shaders + ", \"vsync\" : " + vsync + ", \"quality\" : " + quality + ", \"screenshake\" : " + ((double) screenshake) +
-				", \"sfx\" : " + sfx + ", \"music\" : " + music + ", \"uisfx\" : " + uisfx + " }");
+	public static void generate() {
+		GlobalSave.put("settings_fullscreen", false);
+		GlobalSave.put("settings_blood", true);
+		GlobalSave.put("settings_uisfx", true);
+		GlobalSave.put("settings_gore", true);
+		GlobalSave.put("settings_vsync", true);
 
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		GlobalSave.put("settings_quality", 1);
+		GlobalSave.put("settings_screenshake", 0.7f);
+		GlobalSave.put("settings_sfx", 0.5f);
+		GlobalSave.put("settings_music", 0.5f);
 	}
 }
