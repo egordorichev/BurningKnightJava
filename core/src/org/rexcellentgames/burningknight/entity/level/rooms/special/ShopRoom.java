@@ -12,18 +12,6 @@ import org.rexcellentgames.burningknight.entity.pool.item.AccessoryPool;
 import org.rexcellentgames.burningknight.entity.pool.item.ShopHatPool;
 import org.rexcellentgames.burningknight.entity.pool.item.ShopWeaponPool;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.entity.pool.item.AccessoryPool;
-import org.rexcellentgames.burningknight.entity.pool.item.ShopHatPool;
-import org.rexcellentgames.burningknight.entity.pool.item.ShopWeaponPool;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.Slab;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
 
@@ -32,7 +20,7 @@ public class ShopRoom extends LockedRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 1, Terrain.FLOOR_B);
+		Painter.fill(level, this, 1, Terrain.randomFloor());
 
 		int c = (this.getWidth() - 2) / 2;
 

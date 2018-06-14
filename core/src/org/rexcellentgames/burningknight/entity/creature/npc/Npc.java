@@ -1,21 +1,30 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.util.Dialog;
 
 public class Npc extends Creature {
 	private boolean active;
 	private NpcDialog dialog;
 
+	{
+		hp = 10;
+		hpMax = 10;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+
+		depth = 0;
+	}
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
+		/*
 		if (Player.instance != null && Dialog.active == null) {
 			float d = Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2);
 
@@ -34,7 +43,7 @@ public class Npc extends Creature {
 				this.active = false;
 				this.dialog.remove();
 			}
-		}
+		}*/
 	}
 
 	@Override
