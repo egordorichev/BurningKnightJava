@@ -4,10 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -16,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -87,7 +84,9 @@ public class Lamp extends Item {
 
 			Camera.shake(10);
 
-			BurningKnight.instance.dialog = BurningKnight.onLampTake;
+			BurningKnight.instance.dialog = GlobalSave.isTrue("not_first_time") ? BurningKnight.itsYouAgain : BurningKnight.onLampTake;
+			GlobalSave.put("not_first_time", true);
+			
 			PlayerSave.add(BurningKnight.instance);
 		}
 	}
