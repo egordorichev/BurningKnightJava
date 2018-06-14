@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -18,7 +17,6 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.*;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.TextFx;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
@@ -449,18 +447,7 @@ public class Player extends Creature {
 				Camera.shake(10);
 				this.remove();
 
-				if (Settings.gore) {
-					for (Animation.Frame frame : killed.getFrames()) {
-						GoreFx fx = new GoreFx();
-
-						fx.texture = frame.frame;
-						fx.x = this.x + this.w / 2;
-						fx.y = this.y + this.h / 2;
-
-						Dungeon.area.add(fx);
-					}
-				}
-
+				deathEffect(killed);
 				BloodFx.add(this, 20);
 			}
 

@@ -808,21 +808,8 @@ public class BurningKnight extends Boss {
 
 		instance = null;
 		this.done = true;
-		PlayerSave.remove(this);
 
-		if (Settings.gore) {
-			for (Animation.Frame frame : killed.getFrames()) {
-				GoreFx fx = new GoreFx();
-
-				fx.texture = frame.frame;
-				fx.x = this.x + this.w / 2;
-				fx.y = this.y + this.h / 2;
-
-				Dungeon.area.add(fx);
-			}
-		}
-
-		BloodFx.add(this, 20);
+		deathEffect(killed);
 	}
 
 	public class UnactiveState extends BKState {

@@ -1,20 +1,14 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.boss;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.RangedKnight;
@@ -186,22 +180,9 @@ public class CrazyKing extends Boss {
 				Audio.highPriority("Reckless");
 				self.dead = true;
 				self.done = true;
-				LevelSave.remove(self);
+
 				Camera.shake(10);
-
-				if (Settings.gore) {
-					for (Animation.Frame frame : killed.getFrames()) {
-						GoreFx fx = new GoreFx();
-
-						fx.texture = frame.frame;
-						fx.x = self.x + self.w / 2;
-						fx.y = self.y + self.h / 2;
-
-						Dungeon.area.add(fx);
-					}
-				}
-
-				BloodFx.add(self, 20);
+				deathEffect(killed);
 
 				Tween.to(new Tween.Task(0, 0.1f) {
 					@Override

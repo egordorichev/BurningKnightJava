@@ -1,13 +1,9 @@
 package org.rexcellentgames.burningknight.entity.creature.mob;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -15,7 +11,6 @@ import org.rexcellentgames.burningknight.entity.item.accessory.hat.UshankaHat;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.NoteBook;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -23,15 +18,12 @@ import org.rexcellentgames.burningknight.util.Random;
 import java.util.ArrayList;
 
 public class Clown extends Mob {
-	public static Animation animations = Animation.make("actor-clown");
+	public static Animation animations = Animation.make("actor-clown-v2", "-purple");
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
 	private AnimationData killed;
-	private AnimationData laugh;
 	private AnimationData animation;
-	private boolean toLaugh;
-	private float laughT = 3f;
 	private Guitar guitar;
 
 	@Override
@@ -46,8 +38,7 @@ public class Clown extends Mob {
 		idle = animations.get("idle").randomize();
 		run = animations.get("run").randomize();
 		hurt = animations.get("hurt").randomize();
-		killed = animations.get("dead").randomize();
-		laugh = animations.get("laugh").randomize();
+		killed = animations.get("death").randomize();
 		animation = this.idle;
 	}
 
@@ -101,21 +92,7 @@ public class Clown extends Mob {
 		this.playSfx("death_clown");
 
 		this.done = true;
-		LevelSave.remove(this);
-
-		if (Settings.gore) {
-			for (Animation.Frame frame : killed.getFrames()) {
-				GoreFx fx = new GoreFx();
-
-				fx.texture = frame.frame;
-				fx.x = this.x + this.w / 2;
-				fx.y = this.y + this.h / 2;
-
-				Dungeon.area.add(fx);
-			}
-		}
-
-		BloodFx.add(this, 20);
+		deathEffect(killed);
 	}
 
 	@Override
@@ -157,9 +134,6 @@ public class Clown extends Mob {
 			this.animation = hurt;
 		} else if (v > 9.9) {
 			this.animation = run;
-		} else if (this.laughT > 0) {
-			this.laughT -= Gdx.graphics.getDeltaTime();
-			this.animation = this.laugh;
 		} else {
 			this.animation = idle;
 		}
@@ -173,7 +147,7 @@ public class Clown extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "idle": case "laugh":
+			case "idle":
 				return new IdleState();
 			case "alerted":
 				return new AlertedState();
@@ -301,7 +275,6 @@ public class Clown extends Mob {
 			if (Random.chance(75)) {
 				self.guitar.use();
 			} else {
-				self.laughT = 3f;
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
 				Dungeon.area.add(e);

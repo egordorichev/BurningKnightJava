@@ -4,17 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
+import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -27,12 +24,10 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.MathUtils;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -140,10 +135,26 @@ public class Creature extends SaveableEntity {
 
 	private boolean shouldDie = false;
 
+	public void deathEffect(AnimationData killed) {
+		LevelSave.remove(this);
+
+		if (Settings.gore) {
+			for (Animation.Frame frame : killed.getFrames()) {
+				GoreFx fx = new GoreFx();
+
+				fx.texture = frame.frame;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+		}
+
+		BloodFx.add(this, 20);
+	}
+
 	@Override
 	public void update(float dt) {
-
-
 		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
 
 		for (int i = buffs.length - 1; i >= 0; i--) {

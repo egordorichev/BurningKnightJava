@@ -44,6 +44,8 @@ public class Npc extends Creature {
 				this.dialog.remove();
 			}
 		}*/
+
+		this.invt = Math.max(0, this.invt - dt);
 	}
 
 	@Override
