@@ -3,12 +3,6 @@ package org.rexcellentgames.burningknight.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -37,11 +31,7 @@ public class UiButton extends UiEntity {
 	protected float ar = 1f;
 	protected float ag = 1f;
 	protected float ab = 1f;
-
-	public UiButton setSparks(boolean sparks) {
-		this.sparks = sparks;
-		return this;
-	}
+	private boolean disableClick;
 
 	public UiButton(String label, int x, int y) {
 		this.setLabel(label);
@@ -50,6 +40,19 @@ public class UiButton extends UiEntity {
 		this.x = x;
 	}
 
+	public UiButton(String label, int x, int y, boolean disableClick) {
+		this.setLabel(label);
+
+		this.y = y;
+		this.x = x;
+		this.disableClick = disableClick;
+	}
+
+	public UiButton setSparks(boolean sparks) {
+		this.sparks = sparks;
+		return this;
+	}
+	
 	public void setLabel(String label) {
 		if (label == null) {
 			return;
@@ -110,7 +113,7 @@ public class UiButton extends UiEntity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Input.instance.wasPressed("mouse0")) {
+		if (Input.instance.wasPressed("mouse0") && !disableClick) {
 			if (this.hover) {
 				if (this.last != null) {
 					Tween.remove(this.last);

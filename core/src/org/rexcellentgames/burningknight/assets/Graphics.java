@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.rexcellentgames.burningknight.Settings;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.Camera;
