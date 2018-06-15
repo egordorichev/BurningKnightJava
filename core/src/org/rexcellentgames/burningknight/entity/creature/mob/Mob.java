@@ -266,8 +266,8 @@ public class Mob extends Creature {
 	}
 
 	public Point getCloser(Point target) {
-		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 9) / 16) * Level.getWidth());
-		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 9) / 16) * Level.getWidth());
+		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
+		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
 		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable());
 
