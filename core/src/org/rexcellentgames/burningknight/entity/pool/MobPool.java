@@ -9,8 +9,8 @@ public class MobPool extends Pool<Mob> {
 		clear();
 
 		add(Knight.class, 0f);
-		add(RangedKnight.class, 1f);
-		add(StabbingKnight.class, 0f);
+		add(RangedKnight.class, 0f); // should be ~0.5f
+		add(StabbingKnight.class, 1f);
 		add(Clown.class, 0f);
 	}
 }

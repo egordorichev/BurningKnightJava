@@ -68,7 +68,7 @@ public class DesktopLauncher {
 		});
 
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
-		String extra = titles[Random.newInt(titles.length)];
+		String extra = titles[Random.newInt(titles.length - 1)];
 		Date now = new Date();
 		Calendar current = Calendar.getInstance();
 
@@ -118,7 +118,9 @@ public class DesktopLauncher {
 		"AAAAAA",
 		"It burns burns burns",
 		"Not for children under -1",
-		"Unhandled fire"
+		"Unhandled fire",
+
+		"This title will never appear, strange?"
 	};
 
 	private static String[] birthdayTitles = new String[] {

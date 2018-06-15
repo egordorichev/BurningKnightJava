@@ -44,7 +44,7 @@ import java.util.Arrays;
 
 public abstract class Level extends SaveableEntity {
 	public static final boolean RENDER_ROOM_DEBUG = false;
-	public static final boolean RENDER_PASSABLE = false;
+	public static boolean RENDER_PASSABLE = false;
 	public static boolean SHADOWS = true;
 
 	public static Color[] colors = {
@@ -1202,7 +1202,7 @@ public abstract class Level extends SaveableEntity {
 		this.body = World.world.createBody(def);
 
 		BodyDef cdef = new BodyDef();
-		cdef.type = BodyDef.BodyType.StaticBody;
+		cdef.type = BodyDef.BodyType.KinematicBody;
 		cdef.bullet = true;
 
 		this.chasms = World.world.createBody(cdef);

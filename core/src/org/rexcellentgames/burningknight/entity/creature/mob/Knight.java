@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -253,6 +254,8 @@ public class Knight extends Mob {
 		deathEffect(killed);
 	}
 
+	public float minAttack = 130f;
+
 	public class ChaseState extends KnightState {
 		public static final float ATTACK_DISTANCE = 20f;
 		public static final float DASH_DIST = 48f;
@@ -266,8 +269,12 @@ public class Knight extends Mob {
 
 			if (self.sword instanceof Sword) {
 				this.att = ATTACK_DISTANCE;
+			} else if (self.sword instanceof ThrowingDagger) {
+				// dagger knights
+				this.att = 80f;
 			} else {
-				this.att = 128f;
+				// ranged knights
+				this.att = 180f;
 			}
 		}
 
@@ -316,7 +323,7 @@ public class Knight extends Mob {
 
 			if (r < 0.1f) {
 				self.become("dash");
-			} else if (r < 0.7f) {
+			} else if (r < 0.55f) {
 				self.become("preattack");
 			}
 		}

@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -74,8 +72,19 @@ public class Door extends SaveableEntity {
 		this.animation.setPaused(true);
 	}
 
+	private boolean did;
+
+	private void setPas() {
+		Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), false);
+	}
+
 	@Override
 	public void update(float dt) {
+		if (!did) {
+			did = true;
+			this.setPas();
+		}
+
 		if (this.body == null) {
 			this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
 				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));

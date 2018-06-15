@@ -253,13 +253,13 @@ public class Mob extends Creature {
 	private Entity last;
 
 	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		if(fixture.isSensor()) {
+		if (fixture.isSensor()) {
 			return 1;
 		}
 
 		Entity entity = (Entity) fixture.getBody().getUserData();
 
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = entity;

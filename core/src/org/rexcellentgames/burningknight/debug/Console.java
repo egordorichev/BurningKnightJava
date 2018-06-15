@@ -30,6 +30,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new ArcadeCommand());
 		this.commands.add(new ShadowCommand());
 		this.commands.add(new DieCommand());
+		this.commands.add(new PassableCommand());
 	}
 
 	public void destroy() {

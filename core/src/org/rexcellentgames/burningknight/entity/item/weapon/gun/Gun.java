@@ -11,15 +11,12 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
-import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -50,14 +47,13 @@ public class Gun extends WeaponBase {
 	private float closestFraction = 1.0f;
 
 	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		if(fixture.isSensor()) {
+		if (fixture.isSensor()) {
 			return 1;
 		}
 
 		Entity entity = (Entity) fixture.getBody().getUserData();
 
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || (entity instanceof SolidProp && !(entity instanceof Turret)) || entity instanceof Creature) {
-
+		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = point;
@@ -126,7 +122,7 @@ public class Gun extends WeaponBase {
 		}
 
 		if (this.owner instanceof Player) {
-			float d = Display.GAME_WIDTH;
+			float d = Display.GAME_WIDTH * 10;
 			closestFraction = 1f;
 			World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);
 
