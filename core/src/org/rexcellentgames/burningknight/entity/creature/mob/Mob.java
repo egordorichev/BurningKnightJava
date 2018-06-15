@@ -550,7 +550,31 @@ public class Mob extends Creature {
 		super.become(state);
 	}
 
+	public class GetOutState extends State {
+		private float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			delay = Random.newFloat(2f, 3f);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			this.moveFrom(self.lastSeen, 7f, 5f);
+
+			if (this.t >= delay) {
+				self.become("idle");
+			}
+		}
+	}
+
 	protected State getAi(String state) {
+		switch (state) {
+			case "getout": return new GetOutState();
+		}
+
 		return null;
 	}
 

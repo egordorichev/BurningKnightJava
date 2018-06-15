@@ -32,7 +32,8 @@ public class Clown extends Mob {
 	}
 
 	{
-		hpMax = 3;
+		blockChance = 90;
+		hpMax = 1;
 		experienceDropped = 2;
 
 		idle = animations.get("idle").randomize();
@@ -147,18 +148,13 @@ public class Clown extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "idle":
-				return new IdleState();
-			case "alerted":
-				return new AlertedState();
-			case "chase":
-				return new ChasingState();
-			case "attack":
-				return new AttackState();
-			case "roam":
-				return new RoamState();
-			case "rangedAttack":
-				return new RangedAttack();
+			case "idle": return new IdleState();
+			case "alerted": return new AlertedState();
+			case "chase": return new ChasingState();
+			case "attack": return new AttackState();
+			case "roam": return new RoamState();
+			case "rangedAttack": return new RangedAttack();
+			case "preattack": return new PreattackState();
 		}
 
 		return super.getAi(state);
@@ -166,6 +162,17 @@ public class Clown extends Mob {
 
 	public class ClownState extends State<Clown> {
 
+	}
+
+	public class PreattackState extends ClownState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 0.5f) {
+				self.become("attack");
+			}
+		}
 	}
 
 	public class IdleState extends ClownState {
@@ -206,7 +213,7 @@ public class Clown extends Mob {
 				float dx = self.x + self.w / 2 - self.target.x - self.target.w / 2 + Random.newFloat(-10f, 10f);
 				float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2 + Random.newFloat(-10f, 10f);
 
-				note.a = a;
+				note.a = (float) Math.atan2(-dy, -dx);
 				note.x = self.x + 2;
 				note.y = self.y + 2;
 				note.bad = !self.stupid;
@@ -244,7 +251,7 @@ public class Clown extends Mob {
 				if (this.moveTo(self.lastSeen, d < 48f ? 20f : 10f, ATTACK_DISTANCE)) {
 					if (self.target != null) {
 
-						self.become("attack");
+						self.become("preattack");
 					} else if (self.target == null) {
 						self.noticeSignT = 0f;
 						self.hideSignT = 2f;
@@ -266,8 +273,6 @@ public class Clown extends Mob {
 	}
 
 	public class AttackState extends ClownState {
-		private float time;
-
 		@Override
 		public void onEnter() {
 			super.onEnter();
@@ -276,16 +281,19 @@ public class Clown extends Mob {
 				self.guitar.use();
 			} else {
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
-
 				Dungeon.area.add(e);
-				time = 0.5f;
+
+				for (Mob mob : Mob.all) {
+					if (mob.room == self.room) {
+						mob.become("getout");
+					}
+				}
 			}
 		}
 
 		@Override
 		public void update(float dt) {
-			time -= dt;
-			if (self.guitar.getDelay() == 0 && time <= 0) {
+			if (self.guitar.getDelay() == 0) {
 				self.become("chase");
 			}
 		}

@@ -28,8 +28,9 @@ public class Knight extends Mob {
 	}
 
 	{
-		hpMax = 7;
+		hpMax = 5;
 		speed = 5;
+		blockChance = 30;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();

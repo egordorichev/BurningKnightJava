@@ -1,20 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
-import org.rexcellentgames.burningknight.Settings;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.Clown;
-import org.rexcellentgames.burningknight.entity.creature.mob.Knight;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.CrazyKing;
-import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.ui.UiCheckbox;
-import org.rexcellentgames.burningknight.ui.UiChoice;
-import org.rexcellentgames.burningknight.ui.UiSlider;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
@@ -126,7 +112,7 @@ public class GraphicsSettingsState extends State {
 				if (Settings.gore) {
 					Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4));
 					ArrayList<Animation.Frame> frames = Random.newFloat() > 0.3 ?
-						(Random.newFloat() > 0.5 ? CrazyKing.animations.getFrames("dead") : Knight.animations.getFrames("dead")) : Clown.animations.getFrames("dead");
+						(Random.newFloat() > 0.5 ? CrazyKing.animations.getFrames("dead") : Knight.animations.getFrames("death")) : Clown.animations.getFrames("death");
 
 					for (Animation.Frame frame : frames) {
 						GoreFx fx = new GoreFx();
