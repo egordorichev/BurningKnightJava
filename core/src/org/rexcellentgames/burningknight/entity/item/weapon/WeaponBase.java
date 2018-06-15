@@ -14,15 +14,6 @@ import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
-import org.rexcellentgames.burningknight.entity.item.weapon.modifier.Modifier;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.file.FileReader;
-import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
 
@@ -147,11 +138,11 @@ public class WeaponBase extends Item {
 
 		Graphics.batch.end();
 		shader.begin();
+		shader.setUniformf("a", this.owner == null ? 1 : this.owner.a);
 		shader.setUniformf("time", Dungeon.time + this.t);
 		shader.end();
 		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();
-
 		Graphics.render(getSprite(), x, y, a, ox, oy, fx, fy, sx, sy);
 
 		Graphics.batch.end();

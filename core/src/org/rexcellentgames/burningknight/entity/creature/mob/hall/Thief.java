@@ -108,8 +108,6 @@ public class Thief extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
-		Graphics.batch.setColor(1, 1, 1, this.a);
-
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
@@ -149,8 +147,13 @@ public class Thief extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			this.checkForPlayer();
 			self.checkForRun();
-			this.moveFrom(self.lastSeen, 40f, 4f);
+
+			if (self.lastSeen != null) {
+				this.moveFrom(self.lastSeen, 40f, 10f);
+			}
 		}
 	}
 
@@ -233,11 +236,12 @@ public class Thief extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+			this.checkForPlayer();
 
 			if (this.t >= delay) {
 				self.become("wait");
-			} else {
-				this.moveFrom(self.lastSeen, 40f, 4f);
+			} else if (self.lastSeen != null) {
+				this.moveFrom(self.lastSeen, 40f, 10f);
 			}
 		}
 	}
@@ -248,13 +252,15 @@ public class Thief extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = Random.newFloat(1f, 5f);
+			delay = Random.newFloat(1f, 3f);
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
+			this.checkForPlayer();
+			self.checkForRun();
 			if (this.t >= delay) {
 				self.become("chase");
 			}

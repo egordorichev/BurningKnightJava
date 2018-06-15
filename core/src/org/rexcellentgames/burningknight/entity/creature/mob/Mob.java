@@ -208,6 +208,7 @@ public class Mob extends Creature {
 			Graphics.batch.begin();
 		}
 
+		Graphics.batch.setColor(1, 1, 1, this.a);
 		data.render(this.x, this.y, this.flipped);
 
 		if (this.freezed) {
@@ -599,21 +600,7 @@ public class Mob extends Creature {
 					return;
 				}
 
-				Line line = new Line((int) Math.floor((this.x + 8) / 16), (int) Math.floor((this.y + 8) / 16),
-					(int) Math.floor((player.x + 8) / 16), (int) Math.floor((player.y + 8) / 16));
-
-				boolean[] passable = Dungeon.level.getPassable();
-				boolean found = false;
-
-				for (Point point : line.getPoints()) {
-					int i = (int) (point.x + point.y * Level.getWidth());
-					if (i < 0 || i >= Level.getSize() || (!passable[i] && Dungeon.level.get(i) != 13)) {
-						found = true;
-						break;
-					}
-				}
-
-				if (!found) {
+				if (this.canSee(player)) {
 					this.target = player;
 					break;
 				}
