@@ -27,11 +27,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
-import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
-import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.ExpFx;
 import org.rexcellentgames.burningknight.util.*;
@@ -301,6 +299,32 @@ public class Mob extends Creature {
 		}
 
 		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable());
+
+		if (step != -1) {
+			Point p = new Point();
+
+			p.x = step % Level.getWidth() * 16;
+			p.y = (float) (Math.floor(step / Level.getWidth()) * 16);
+
+			return p;
+		}
+
+		return null;
+	}
+
+	public Point getFar(Point target) {
+		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
+		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
+
+		if (!Dungeon.level.checkFor(to, Terrain.PASSABLE)) {
+			to -= Level.getWidth();
+		}
+
+		if (!Dungeon.level.checkFor(from, Terrain.PASSABLE)) {
+			from -= Level.getWidth();
+		}
+
+		int step = PathFinder.getStepBack(from, to, Dungeon.level.getPassable());
 
 		if (step != -1) {
 			Point p = new Point();
@@ -663,6 +687,27 @@ public class Mob extends Creature {
 			return false;
 		}
 
+		public boolean moveFrom(Point point, float s, float d) {
+			if (this.nextPathPoint == null) {
+				this.nextPathPoint = self.getFar(point);
+
+				if (this.nextPathPoint == null) {
+					return false;
+				}
+			}
+
+			// tile offset
+			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y , s);
+			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
+
+			if (ds < 4f || dd < d) {
+				this.nextPathPoint = null;
+				return dd <= d;
+			}
+
+			return false;
+		}
+
 		public void checkForPlayer() {
 			this.checkForPlayer(false);
 		}
@@ -683,7 +728,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (Player.instance.currentRoom != null && self.canSee(self.target)) {
+				if (Player.instance.currentRoom == this.currentRoom && self.canSee(self.target)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {
