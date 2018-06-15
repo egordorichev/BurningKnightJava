@@ -1,18 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level;
 
-import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.level.builders.Builder;
-import org.rexcellentgames.burningknight.entity.level.builders.CastleBuilder;
-import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
-import org.rexcellentgames.burningknight.entity.level.builders.LoopBuilder;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -45,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class RegularLevel extends Level {
+	public static Entrance ladder;
+
 	@Override
 	public void generate() {
 		Level.GENERATED = true;
@@ -108,18 +97,25 @@ public abstract class RegularLevel extends Level {
 						weight -= mob.getWeight();
 
 						Point point;
+						int i = 0;
 
 						do {
 							point = room.getRandomCell();
+
+							if (i++ > 40) {
+								Log.error("Failed to place " + mob.getClass());
+								break;
+							}
 						} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
 
-						mob.generate();
+						if (i <= 40) {
+							mob.generate();
 
-						Dungeon.area.add(mob);
-						LevelSave.add(mob);
+							Dungeon.area.add(mob);
+							LevelSave.add(mob);
 
-
-						mob.tp(point.x * 16, point.y * 16);
+							mob.tp(point.x * 16, point.y * 16);
+						}
 					}
 				}
 			}
@@ -149,8 +145,6 @@ public abstract class RegularLevel extends Level {
 	protected void spawnEntities() {
 
 	}
-
-	public static Entrance ladder;
 
 	protected void paint() {
 		Log.info("Painting...");
@@ -248,11 +242,17 @@ public abstract class RegularLevel extends Level {
 			return new LineBuilder();
 		} else {
 			switch (Random.newInt(5)) {
-				case 0: case 3: case 5: default: return new CastleBuilder();
+				case 0:
+				case 3:
+				case 5:
+				default:
+					return new CastleBuilder();
 				// case 1: return new LineBuilder();
-				case 2: case 4: return new LoopBuilder().setShape(2,
-					Random.newFloat(0.4f, 0.7f),
-					Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1,1,1});
+				case 2:
+				case 4:
+					return new LoopBuilder().setShape(2,
+						Random.newFloat(0.4f, 0.7f),
+						Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1, 1, 1});
 			}
 		}
 	}
