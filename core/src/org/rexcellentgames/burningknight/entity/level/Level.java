@@ -334,7 +334,7 @@ public abstract class Level extends SaveableEntity {
 			for (int xx = x; xx < x + 2; xx++) {
 				for (int yy = y; yy < y + 2; yy++) {
 					if (this.get(xx, yy) != tile || this.variants[toIndex(xx, yy)] != 0) {
-						var = (byte) Random.newInt(0, 8);
+						var = (byte) Random.newInt(0, 9);
 						break;
 					}
 				}
@@ -352,7 +352,7 @@ public abstract class Level extends SaveableEntity {
 			this.variants[toIndex(x, y + 1)] = 12;
 			this.variants[toIndex(x + 1, y + 1)] = 13;
 		} else {
-			this.variants[i] = var;
+			this.variants[i] = (byte) MathUtils.clamp(1, 7, var);
 		}
 	}
 

@@ -81,9 +81,6 @@ public abstract class RegularLevel extends Level {
 	protected void spawnLevelEntities() {
 		this.free = new boolean[getSize()];
 
-		// might freeze!
-
-
 		if (Dungeon.depth > 0 && !Level.boss[Dungeon.depth]) {
 			MobPool.instance.initForFloor();
 
@@ -103,7 +100,7 @@ public abstract class RegularLevel extends Level {
 							point = room.getRandomCell();
 
 							if (i++ > 40) {
-								Log.error("Failed to place " + mob.getClass());
+								Log.error("Failed to place " + mob.getClass() + " in room " + room.getClass());
 								break;
 							}
 						} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));

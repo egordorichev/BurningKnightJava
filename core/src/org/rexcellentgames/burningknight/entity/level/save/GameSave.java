@@ -123,7 +123,7 @@ public class GameSave {
 			for (int j = 0; j < weights[i]; j++) {
 				depth++;
 
-				if (!boss && j > 1 && (Random.chance(45f) || j == weights[i] - 1)) {
+				if (!boss && j > 0 && (Random.chance(45f) || j == weights[i] - 1)) {
 					boss = true;
 					bosses[depth] = true;
 
