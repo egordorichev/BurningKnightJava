@@ -232,6 +232,9 @@ object ItemRegistry {
             "shotgun_a" to ShotgunA::class,
             "throwing_a" to ThrowingDaggerA::class,
             "throwing_b" to ThrowingDaggerB::class,
-            "throwing_c" to ThrowingDaggerC::class
+            "throwing_c" to ThrowingDaggerC::class,
+            "fire_bombs" to FireBombs::class,
+            "ice_bombs" to IceBombs::class,
+            "poison_bombs" to PoisonBombs::class
     )
 }

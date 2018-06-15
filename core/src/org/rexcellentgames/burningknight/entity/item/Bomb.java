@@ -1,8 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item;
 
-import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 
 public class Bomb extends Item {
@@ -29,5 +30,22 @@ public class Bomb extends Item {
 		e.owner = this.owner;
 
 		Dungeon.area.add(e);
+
+
+		if (this.owner instanceof Player) {
+			Player player = (Player) this.owner;
+
+			if (player.fireBombs) {
+				e.toApply.add(new BurningBuff());
+			}
+
+			if (player.iceBombs) {
+				e.toApply.add(new BurningBuff());
+			}
+
+			if (player.poisonBombs) {
+				e.toApply.add(new BurningBuff());
+			}
+		}
 	}
 }

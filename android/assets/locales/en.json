@@ -377,5 +377,11 @@
 	"throwing_dagger_b" : "Iron throwing dagger",
 	"throwing_dagger_b_desc" : "Mom?",
 	"throwing_dagger_c" : "Golden throwing dagger",
-	"throwing_dagger_c_desc" : "Right into the spot"
+	"throwing_dagger_c_desc" : "Right into the spot",
+	"fire_bombs" : "Fire bombs",
+	"fire_bombs_desc" : "When it's not hot enough",
+	"poison_bombs" : "Poison bombs",
+	"poison_bombs_desc" : "Yummy",
+	"ice_bombs" : "Ice bombs",
+	"ice_bombs_desc" : "Please cool down"
 }

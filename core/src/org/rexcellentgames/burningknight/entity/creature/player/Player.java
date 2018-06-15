@@ -74,6 +74,9 @@ public class Player extends Creature {
 	public static ArrayList<Player> all = new ArrayList<>();
 	public int inventorySize = 12;
 
+	public boolean fireBombs;
+	public boolean iceBombs;
+	public boolean poisonBombs;
 	private static final float LIGHT_SIZE = 5f;
 	public static String NAME;
 	public static Player instance;
