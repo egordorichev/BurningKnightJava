@@ -26,20 +26,24 @@ public class Clown extends Mob {
 	private AnimationData animation;
 	private Guitar guitar;
 
+	public Animation getAnimation() {
+		return animations;
+	}
+
 	@Override
 	public float getWeight() {
 		return 0.7f;
 	}
 
 	{
-		blockChance = 90;
+		blockChance = 70;
 		hpMax = 1;
 		experienceDropped = 2;
 
-		idle = animations.get("idle").randomize();
-		run = animations.get("run").randomize();
-		hurt = animations.get("hurt").randomize();
-		killed = animations.get("death").randomize();
+		idle = getAnimation().get("idle").randomize();
+		run = getAnimation().get("run").randomize();
+		hurt = getAnimation().get("hurt").randomize();
+		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
 	}
 
@@ -283,6 +287,8 @@ public class Clown extends Mob {
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 				Dungeon.area.add(e);
 
+				self.apply(e);
+
 				for (Mob mob : Mob.all) {
 					if (mob.room == self.room) {
 						mob.become("getout");
@@ -297,6 +303,10 @@ public class Clown extends Mob {
 				self.become("chase");
 			}
 		}
+	}
+
+	public void apply(BombEntity bomb) {
+
 	}
 
 	public class RoamState extends ClownState {

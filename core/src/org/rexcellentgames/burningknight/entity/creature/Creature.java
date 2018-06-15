@@ -327,7 +327,7 @@ public class Creature extends SaveableEntity {
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
 			return null;
-		} else if (Random.chance(this.blockChance)) {
+		} else if (Random.chance(this.blockChance) && !ignoreArmor) {
 			HpFx fx = new HpFx(this, 0);
 			fx.block = true;
 			Dungeon.area.add(fx);

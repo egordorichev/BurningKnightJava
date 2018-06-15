@@ -2,17 +2,10 @@ package org.rexcellentgames.burningknight.entity.item.entity;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.mob.Clown;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.mob.Clown;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -25,6 +18,8 @@ import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
+import java.util.ArrayList;
+
 public class BombEntity extends Entity {
 	public static Animation animations = Animation.make("actor-bomb");
 	private AnimationData animation = animations.get("idle");
@@ -32,6 +27,7 @@ public class BombEntity extends Entity {
 	private Point vel;
 	public Creature owner;
 	private boolean flip = Random.chance(50);
+	public ArrayList<Buff> toApply = new ArrayList<>();
 
 	public BombEntity(float x, float y) {
 		this.x = x;
@@ -97,7 +93,7 @@ public class BombEntity extends Entity {
 			for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 				Entity entity = Dungeon.area.getEntities().get(i);
 
-				if (entity instanceof Creature && !(entity instanceof Clown)) {
+				if (entity instanceof Creature) {
 					Creature creature = (Creature) entity;
 
 					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
@@ -107,6 +103,14 @@ public class BombEntity extends Entity {
 
 						creature.vel.x += Math.cos(a) * 5000f * creature.knockbackMod;
 						creature.vel.y += Math.sin(a) * 5000f * creature.knockbackMod;
+
+						try {
+							for (Buff buff : toApply) {
+								creature.addBuff(buff.getClass().newInstance().setDuration(buff.getDuration()));
+							}
+						} catch (IllegalAccessException | InstantiationException e) {
+							e.printStackTrace();
+						}
 					}
 				} else if (entity instanceof Plant) {
 					Plant creature = (Plant) entity;

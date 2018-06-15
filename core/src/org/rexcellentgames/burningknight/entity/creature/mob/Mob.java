@@ -713,6 +713,10 @@ public class Mob extends Creature {
 
 		public boolean moveFrom(Point point, float s, float d) {
 			if (this.nextPathPoint == null) {
+				if (self.target == null) {
+					self.target = Player.instance;
+				}
+
 				this.nextPathPoint = self.getFar(point);
 
 				if (this.nextPathPoint == null) {
