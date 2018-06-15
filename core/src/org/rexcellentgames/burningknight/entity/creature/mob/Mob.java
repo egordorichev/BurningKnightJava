@@ -718,6 +718,10 @@ public class Mob extends Creature {
 					self.target = Player.instance;
 				}
 
+				if (self.lastSeen == null) {
+					self.lastSeen = new Point(self.target.x, self.target.y);
+				}
+
 				this.nextPathPoint = self.getFar(point);
 
 				if (this.nextPathPoint == null) {

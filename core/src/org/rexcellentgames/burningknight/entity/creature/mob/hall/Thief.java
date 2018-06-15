@@ -1,13 +1,22 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.file.FileReader;
+import org.rexcellentgames.burningknight.util.file.FileWriter;
+
+import java.io.IOException;
 
 public class Thief extends Mob {
 	public static Animation animations = Animation.make("actor-thief", "-purple");
@@ -33,6 +42,34 @@ public class Thief extends Mob {
 		animation = this.idle;
 	}
 
+	private Item stolen;
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		if (reader.readBoolean()) {
+			try {
+				String name = reader.readString();
+				this.stolen = (Item) Class.forName(name).newInstance();
+				this.become("took");
+			} catch (Exception e) {
+
+			}
+		}
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeBoolean(stolen != null);
+
+		if (stolen != null) {
+			writer.writeString(stolen.getClass().getName());
+		}
+	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -43,8 +80,8 @@ public class Thief extends Mob {
 		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 
-		speed = 100;
-		maxSpeed = 100;
+		speed = 150;
+		maxSpeed = 150;
 	}
 
 	@Override
@@ -90,16 +127,44 @@ public class Thief extends Mob {
 			case "attack": return new AttackState();
 			case "preattack": return new PreattackState();
 			case "wait": return new WaitState();
+			case "took": return new TookState();
 		}
 
 		return super.getAi(state);
+	}
+
+	public class TookState extends ThiefState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			self.blockChance = 10;
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			self.blockChance = 90;
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			this.moveFrom(self.lastSeen, 40f, 4f);
+		}
 	}
 
 	public class IdleState extends ThiefState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			if (self.stolen != null) {
+				self.become("took");
+				return;
+			}
+
 			this.checkForPlayer();
+			self.checkForRun();
 		}
 	}
 
@@ -108,6 +173,11 @@ public class Thief extends Mob {
 
 		@Override
 		public void update(float dt) {
+			if (self.stolen != null) {
+				self.become("took");
+				return;
+			}
+
 			this.checkForPlayer();
 
 			if (self.lastSeen == null) {
@@ -127,6 +197,18 @@ public class Thief extends Mob {
 			}
 
 			super.update(dt);
+		}
+	}
+
+	public void checkForRun() {
+		if (this.target == null) {
+			return;
+		}
+
+		float d = this.getDistanceTo(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
+
+		if (d < 64f) {
+			this.become("unchase");
 		}
 	}
 
@@ -187,6 +269,30 @@ public class Thief extends Mob {
 		}
 	}
 
+	@Override
+	public void onHit(Creature who) {
+		super.onHit(who);
+
+		if (stolen == null && who instanceof Player && Random.chance(30)) {
+			Player player = (Player) who;
+
+			for (int i = 0; i < 6; i++) {
+				if (i != player.getInventory().active) {
+					Item item = player.getInventory().getSlot(i);
+
+					if (item != null) {
+						Log.info("Stolen " + item.getName());
+						stolen = item;
+						stolen.setOwner(this);
+						player.getInventory().setSlot(i, null);
+						this.become("took");
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	public class PreattackState extends ThiefState {
 		@Override
 		public void update(float dt) {
@@ -235,5 +341,13 @@ public class Thief extends Mob {
 
 		this.done = true;
 		deathEffect(killed);
+
+		if (stolen != null) {
+			ItemHolder holder = new ItemHolder();
+			holder.setItem(this.stolen);
+			holder.x = this.x + (this.w - holder.w) / 2;
+			holder.y = this.y + (this.h - holder.h) / 2;
+			Dungeon.area.add(holder);
+		}
 	}
 }
