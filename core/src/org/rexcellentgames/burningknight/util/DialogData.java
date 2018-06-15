@@ -407,8 +407,11 @@ public class DialogData {
 					@Override
 					public void onEnd() {
 						Dialog.active = null;
-						label.remove();
-						label = null;
+
+						if (label != null) {
+							label.remove();
+							label = null;
+						}
 
 						if (fin != null) {
 							fin.run();
