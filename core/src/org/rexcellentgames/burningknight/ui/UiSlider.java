@@ -18,17 +18,18 @@ public class UiSlider extends UiButton {
 	private static TextureRegion slider = Graphics.getTexture("ui (slider)");
 	private static TextureRegion handle = Graphics.getTexture("ui (slider_handle)");
 
-	public UiSlider setValue(float val) {
-		this.val = val;
-		return this;
-	}
-
 	public UiSlider(String label, int x, int y) {
-		super(label, x, y);
+		super(label, x, y, true);
 
 		this.min = 0;
 		this.max = 1;
 		this.val = 1;
+	}
+
+	public UiSlider setValue(float val) {
+		this.val = val;
+		
+		return this;
 	}
 
 	@Override
