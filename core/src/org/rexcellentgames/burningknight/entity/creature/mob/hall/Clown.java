@@ -1,10 +1,11 @@
-package org.rexcellentgames.burningknight.entity.creature.mob;
+package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.Note;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.UshankaHat;
@@ -106,6 +107,10 @@ public class Clown extends Mob {
 
 		if (this.freezed) {
 			return;
+		}
+
+		if (Math.abs(this.vel.x) > 1f) {
+			this.flipped = this.vel.x < 0;
 		}
 
 		if (this.dead) {

@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity.creature.mob;
+package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA;
 import org.rexcellentgames.burningknight.util.Animation;

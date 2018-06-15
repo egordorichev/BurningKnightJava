@@ -1,13 +1,10 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 
-import org.rexcellentgames.burningknight.entity.creature.mob.Knight;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.Knight;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 

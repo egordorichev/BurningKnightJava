@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity.creature.mob;
+package org.rexcellentgames.burningknight.entity.creature.mob.boss;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -19,7 +19,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;

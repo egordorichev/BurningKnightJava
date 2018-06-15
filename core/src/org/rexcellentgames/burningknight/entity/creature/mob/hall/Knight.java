@@ -1,9 +1,10 @@
-package org.rexcellentgames.burningknight.entity.creature.mob;
+package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
@@ -81,9 +82,8 @@ public class Knight extends Mob {
 
 	@Override
 	public void render() {
-		if (this.target != null) {
-			float dx = this.x + this.w / 2 - this.target.x - this.target.w / 2;
-			this.flipped = dx >= 0;
+		if (Math.abs(this.vel.x) > 1f) {
+			this.flipped = this.vel.x < 0;
 		}
 
 		if (this.falling) {
