@@ -149,6 +149,7 @@ public class Thief extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+			self.checkForRun();
 			this.moveFrom(self.lastSeen, 40f, 4f);
 		}
 	}
@@ -207,7 +208,7 @@ public class Thief extends Mob {
 
 		float d = this.getDistanceTo(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
 
-		if (d < 64f) {
+		if (d < 128f) {
 			this.become("unchase");
 		}
 	}
@@ -273,14 +274,14 @@ public class Thief extends Mob {
 	public void onHit(Creature who) {
 		super.onHit(who);
 
-		if (stolen == null && who instanceof Player && Random.chance(30)) {
+		if (stolen == null && who instanceof Player && Random.chance(70)) {
 			Player player = (Player) who;
 
 			for (int i = 0; i < 6; i++) {
 				if (i != player.getInventory().active) {
 					Item item = player.getInventory().getSlot(i);
 
-					if (item != null) {
+					if (item != null && Random.chance(30)) {
 						Log.info("Stolen " + item.getName());
 						stolen = item;
 						stolen.setOwner(this);

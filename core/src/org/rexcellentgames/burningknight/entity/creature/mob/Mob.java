@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -274,7 +275,14 @@ public class Mob extends Creature {
 
 	public boolean canSee(Creature player) {
 		closestFraction = 1f;
-		World.world.rayCast(callback, this.x + this.w / 2, this.y + this.h / 2, player.x + player.w / 2, player.y + player.h / 2);
+		float x = this.x + this.w / 2;
+		float y = this.y + this.h / 2;
+		float dx = player.x + player.w / 2 - x;
+		float dy = player.y + player.h / 2 - y;
+		double a = Math.atan2(dy, dx);
+		float d = Display.GAME_WIDTH * 10;
+
+		World.world.rayCast(callback, x, y, x + (float) Math.cos(a) * d, y + (float) Math.sin(a) * d);
 
 		return last == player;
 	}
