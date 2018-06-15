@@ -3,12 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class SmallAdditionRoom extends RegularRoom {
@@ -18,7 +12,7 @@ public class SmallAdditionRoom extends RegularRoom {
 
 		Painter.drawLine(level, new Point(this.left + this.getWidth() / 2 - 2, this.top + 1), new Point(this.left + this.getWidth() / 2 - 2, this.bottom - 1), Terrain.WALL);
 		Painter.drawLine(level, new Point(this.left + this.getWidth() / 2 + 2, this.top + 1), new Point(this.left + this.getWidth() / 2 + 2, this.bottom - 1), Terrain.WALL);
-		Painter.fill(level, this, Random.newInt(2, 4), Terrain.randomFloor());
+		Painter.fill(level, this, 2, Terrain.randomFloor());
 	}
 
 	@Override

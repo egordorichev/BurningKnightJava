@@ -42,7 +42,7 @@ public class Thief extends Mob {
 		animation = this.idle;
 	}
 
-	private Item stolen;
+	protected Item stolen;
 
 	@Override
 	public void load(FileReader reader) throws IOException {

@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.pool;
 
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.BossThief;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 
 public class MobPool extends Pool<Mob> {
@@ -18,6 +19,7 @@ public class MobPool extends Pool<Mob> {
 		add(BurningClown.class, 0.7f);
 		add(FreezingClown.class, 0.5f);*/
 
-		add(Thief.class, 1f);
+		add(Thief.class, 0f);
+		add(BossThief.class, 0.1f);
 	}
 }
