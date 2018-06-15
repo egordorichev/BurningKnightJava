@@ -6,22 +6,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -45,24 +44,29 @@ public class Gun extends WeaponBase {
 		useTime = 0.2f;
 	}
 
-	private float closestFraction = 1.0f;
 	private Vector2 last = new Point();
 	private float lastAngle;
 
-	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		Log.info(fixture.isSensor() + " " + fixture.getBody().getUserData());
+	private float closestFraction = 1.0f;
 
-		// DOESNT WORK!?!?!
+	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		if(fixture.isSensor()) {
 			return 1;
 		}
 
-		if (fraction < closestFraction) {
-			closestFraction = fraction;
-			last = point;
+		Entity entity = (Entity) fixture.getBody().getUserData();
+
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || (entity instanceof SolidProp && !(entity instanceof Turret)) || entity instanceof Creature) {
+
+			if (fraction < closestFraction) {
+				closestFraction = fraction;
+				last = point;
+			}
+
+			return fraction;
 		}
 
-		return fraction;
+		return 1;
 	};
 
 	public static float shortAngleDist(float a0, float a1) {

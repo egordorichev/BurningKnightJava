@@ -2,18 +2,14 @@ package org.rexcellentgames.burningknight.entity.creature.mob;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.util.ArrayList;
 

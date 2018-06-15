@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -25,9 +26,13 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
+import org.rexcellentgames.burningknight.entity.trap.Turret;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.ExpFx;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -246,15 +251,33 @@ public class Mob extends Creature {
 		}
 	}
 
-	public boolean canSee(Creature player) {
-		return canSee(player, 0);
-	}
+	private float closestFraction = 1.0f;
+	private Entity last;
 
-	public boolean canSee(Creature player, int flag) {
-		return this.getDistanceTo(player.x + 8, player.y + 8) < 256f && Dungeon.level.canSee(
-			(int) Math.floor((this.x + this.w / 2) / 16), (int) Math.floor((this.y + this.h / 2) / 16),
-			(int) Math.floor((player.x + player.w / 2) / 16), (int) Math.floor((player.y + player.h / 2) / 16)
-		, flag) == 0;
+	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
+		if(fixture.isSensor()) {
+			return 1;
+		}
+
+		Entity entity = (Entity) fixture.getBody().getUserData();
+
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+			if (fraction < closestFraction) {
+				closestFraction = fraction;
+				last = entity;
+			}
+
+			return fraction;
+		}
+
+		return 1;
+	};
+
+	public boolean canSee(Creature player) {
+		closestFraction = 1f;
+		World.world.rayCast(callback, this.x + this.w / 2, this.y + this.h / 2, player.x + player.w / 2, player.y + player.h / 2);
+
+		return last == player;
 	}
 
 	protected void assignTarget() {
@@ -648,11 +671,11 @@ public class Mob extends Creature {
 			if (self.target != null) {
 				self.lastSeen = new Point(self.target.x, self.target.y);
 
-				/*if (!self.canSee(self.target)) {
+				if (!self.canSee(self.target)) {
 					self.target = null;
 
 					self.saw = false;
-				}*/
+				}
 			}
 
 			if (this.target == null && force) {
@@ -660,7 +683,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (Player.instance.currentRoom == this.currentRoom) {//self.canSee(self.target, Terrain.BREAKS_ENEMY_LOS)) {
+				if (Player.instance.currentRoom != null && self.canSee(self.target)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {
