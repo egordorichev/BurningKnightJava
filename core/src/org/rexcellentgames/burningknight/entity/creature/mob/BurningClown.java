@@ -12,6 +12,10 @@ public class BurningClown extends Clown {
 		return animations;
 	}
 
+	{
+		hpMax = 2;
+	}
+
 	@Override
 	public void apply(BombEntity bomb) {
 		super.apply(bomb);
