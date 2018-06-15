@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -804,6 +805,7 @@ public class BurningKnight extends Boss {
 		this.done = true;
 
 		deathEffect(killed);
+		PlayerSave.remove(this);
 	}
 
 	public class UnactiveState extends BKState {
