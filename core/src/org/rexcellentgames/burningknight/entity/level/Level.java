@@ -44,7 +44,7 @@ import java.util.Arrays;
 
 public abstract class Level extends SaveableEntity {
 	public static final boolean RENDER_ROOM_DEBUG = false;
-	public static final boolean RENDER_PASSABLE = true;
+	public static final boolean RENDER_PASSABLE = false;
 	public static boolean SHADOWS = true;
 
 	public static Color[] colors = {
@@ -77,7 +77,7 @@ public abstract class Level extends SaveableEntity {
 	protected float[] lightR;
 	protected float[] lightG;
 	protected float[] lightB;
-	protected boolean[] passable;
+	public boolean[] passable;
 	protected boolean[] low;
 	protected boolean[] free;
 	protected byte[] decor;
@@ -674,7 +674,7 @@ public abstract class Level extends SaveableEntity {
 					if (this.passable[i]) {
 						Graphics.batch.end();
 						Graphics.shape.setProjectionMatrix(Camera.game.combined);
-						Graphics.shape.setColor(1, 1, 1, 1);
+						Graphics.shape.setColor(0.5f, 0.5f, 0.5f, 1);
 						Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
 						Graphics.shape.rect(x * 16 + 1, y * 16 + 1 - 8, 16 - 2, 16 - 2);
 						Graphics.shape.end();

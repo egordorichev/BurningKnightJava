@@ -2,14 +2,18 @@ package org.rexcellentgames.burningknight.entity.creature.mob;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.util.ArrayList;
 
@@ -106,6 +110,36 @@ public class Knight extends Mob {
 
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
+
+		/*
+		Graphics.startShape();
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
+		Graphics.shape.setColor(1, 0, 1, 1);
+
+		if (this.ai != null && this.ai.nextPathPoint != null) {
+			Graphics.shape.line(this.x + this.w / 2, this.y + 12, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y);
+		}
+
+
+		if (lastSeen != null) {
+			Point from = new Point((int) Math.floor((this.x + this.w / 2) / 16), (int) Math.floor((this.y + 12) / 16));
+			Point to = new Point((int) Math.floor((lastSeen.x + this.w / 2) / 16), (int) Math.floor((lastSeen.y + 12) / 16));
+
+			if (!Dungeon.level.checkFor((int) to.x, (int) to.y, Terrain.PASSABLE)) {
+				to.y -= 1;
+			}
+
+			if (!Dungeon.level.checkFor((int) from.x, (int) from.y, Terrain.PASSABLE)) {
+				from.y -= 1;
+			}
+
+			Graphics.shape.setColor(1, 1, 0, 1);
+			Graphics.shape.rect(from.x * 16, from.y * 16 - 8, 16, 16);
+			Graphics.shape.setColor(0, 1, 1, 1);
+			Graphics.shape.rect(to.x * 16, to.y * 16 - 8, 16, 16);
+		}
+
+		Graphics.endShape();*/
 	}
 
 	@Override

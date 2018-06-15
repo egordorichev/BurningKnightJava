@@ -97,7 +97,7 @@ public class Painter {
 			for (Point p : r.waterPlaceablePoints()) {
 				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
-				if (lake[i] && (t == Terrain.FLOOR_A)) {
+				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C)) {
 					level.set(i, Terrain.WATER);
 				}
 			}
@@ -111,7 +111,7 @@ public class Painter {
 			for (Point p : r.grassPlaceablePoints()) {
 				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
-				if (grass[i] && (t == Terrain.FLOOR_A)) {
+				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C)) {
 					level.set(i, Terrain.DIRT);
 
 					/*if (Random.chance(10)) {

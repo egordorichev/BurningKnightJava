@@ -269,6 +269,14 @@ public class Mob extends Creature {
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
+		if (!Dungeon.level.checkFor(to, Terrain.PASSABLE)) {
+			to -= Level.getWidth();
+		}
+
+		if (!Dungeon.level.checkFor(from, Terrain.PASSABLE)) {
+			from -= Level.getWidth();
+		}
+
 		int step = PathFinder.getStep(from, to, Dungeon.level.getPassable());
 
 		if (step != -1) {
@@ -640,11 +648,11 @@ public class Mob extends Creature {
 			if (self.target != null) {
 				self.lastSeen = new Point(self.target.x, self.target.y);
 
-				if (!self.canSee(self.target)) {
+				/*if (!self.canSee(self.target)) {
 					self.target = null;
 
 					self.saw = false;
-				}
+				}*/
 			}
 
 			if (this.target == null && force) {
@@ -652,7 +660,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (Player.instance.currentRoom != null && self.canSee(self.target, Terrain.BREAKS_ENEMY_LOS)) {
+				if (Player.instance.currentRoom == this.currentRoom) {//self.canSee(self.target, Terrain.BREAKS_ENEMY_LOS)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {
