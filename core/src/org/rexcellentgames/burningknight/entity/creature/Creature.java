@@ -324,6 +324,8 @@ public class Creature extends SaveableEntity {
 		return this.defense;
 	}
 
+	public boolean explosionBlock;
+
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
 			return null;

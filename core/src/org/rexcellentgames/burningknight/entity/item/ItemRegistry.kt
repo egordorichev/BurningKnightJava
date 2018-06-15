@@ -235,6 +235,7 @@ object ItemRegistry {
             "throwing_c" to ThrowingDaggerC::class,
             "fire_bombs" to FireBombs::class,
             "ice_bombs" to IceBombs::class,
-            "poison_bombs" to PoisonBombs::class
+            "poison_bombs" to PoisonBombs::class,
+            "protective_band" to ProtectiveBand::class
     )
 }

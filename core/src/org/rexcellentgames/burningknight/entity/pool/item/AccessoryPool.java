@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.pool.item;
 
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
-import org.rexcellentgames.burningknight.entity.item.reference.Diamond;
 import org.rexcellentgames.burningknight.entity.item.Compass;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
@@ -65,5 +63,9 @@ public class AccessoryPool extends Pool<Item> {
 		add(RageRune.class, 1f);
 		add(GravityBooster.class, 1f);
 		add(Wings.class, 1f);
+		add(FireBombs.class, 1f);
+		add(PoisonBombs.class, 1f);
+		add(ProtectiveBand.class, 1f);
+		add(IceBombs.class, 1f);
 	}
 }

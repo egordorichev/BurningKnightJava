@@ -383,5 +383,7 @@
 	"poison_bombs" : "Poison bombs",
 	"poison_bombs_desc" : "Yummy",
 	"ice_bombs" : "Ice bombs",
-	"ice_bombs_desc" : "Please cool down"
+	"ice_bombs_desc" : "Please cool down",
+	"protective_band" : "Protective band",
+	"protective_band_desc" : "I still don't get, how can it\nsave you from explosions..."
 }

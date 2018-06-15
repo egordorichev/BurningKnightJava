@@ -554,15 +554,18 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		if (this.currentSlot != null) {
-			TextureRegion sprite = this.currentSlot.getSprite();
-			Graphics.render(sprite,
-				Input.instance.uiMouse.x + 12 - sprite.getRegionWidth() / 2,
-				Input.instance.uiMouse.y - 8);
-
 			int count = this.currentSlot.getCount();
 
-			if (count > 1) {
-				Graphics.small.draw(Graphics.batch, String.valueOf(count), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 4);
+			if (count > 0) {
+				TextureRegion sprite = this.currentSlot.getSprite();
+				Graphics.render(sprite,
+					Input.instance.uiMouse.x + 12 - sprite.getRegionWidth() / 2,
+					Input.instance.uiMouse.y - 8);
+
+
+				if (count > 1) {
+					Graphics.small.draw(Graphics.batch, String.valueOf(count), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 4);
+				}
 			}
 		} else if (this.hoveredSlot != -1) {
 			Item item = this.inventory.getSlot(this.hoveredSlot);

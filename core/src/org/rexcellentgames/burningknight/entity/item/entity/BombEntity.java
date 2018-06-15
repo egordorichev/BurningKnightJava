@@ -97,7 +97,9 @@ public class BombEntity extends Entity {
 					Creature creature = (Creature) entity;
 
 					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
-						creature.modifyHp(-Math.round(Random.newFloatDice(10 / 3 * 2, 10)), this.owner, true);
+						if (!creature.explosionBlock) {
+							creature.modifyHp(-Math.round(Random.newFloatDice(10 / 3 * 2, 10)), this.owner, true);
+						}
 
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
