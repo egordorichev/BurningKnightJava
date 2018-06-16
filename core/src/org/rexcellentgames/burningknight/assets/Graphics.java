@@ -181,6 +181,17 @@ public class Graphics {
 		Graphics.shape.ellipse(x - 1, y - h / 4, w + 2, h / 2);
 	}
 
+	public static void shadow(float x, float y, float w, float h, float z, float a) {
+		w -= z;
+		h -= z;
+		x += z / 2;
+		y -= z / 2;
+
+		Graphics.shape.setColor(1, 1, 1, a);
+		Graphics.shape.ellipse(x - 1, y - h / 4, w + 2, h / 2);
+		Graphics.shape.setColor(1, 1, 1, 1);
+	}
+
 	public static void startShape() {
 		Graphics.batch.end();
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);

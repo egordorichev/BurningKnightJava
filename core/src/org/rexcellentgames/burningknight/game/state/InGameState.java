@@ -11,8 +11,8 @@ import org.rexcellentgames.burningknight.debug.Console;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -85,7 +85,7 @@ public class InGameState extends State {
 			Gdx.files.external(".bk/" + SaveManager.slot).deleteDirectory();
 			Dungeon.reset = false;
 		} else {
-			boolean old = Dungeon.game.getState() instanceof LoadState;
+			boolean old = (Dungeon.game.getState() instanceof LoadState);
 
 			SaveManager.save(SaveManager.Type.GAME, old);
 			SaveManager.save(SaveManager.Type.LEVEL, old);

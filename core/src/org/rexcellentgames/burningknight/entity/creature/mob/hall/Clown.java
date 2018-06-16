@@ -131,11 +131,6 @@ public class Clown extends Mob {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		if (this.falling) {
-			this.renderFalling(this.animation);
-			return;
-		}
-
 		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (this.dead) {

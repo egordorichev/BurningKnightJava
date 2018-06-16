@@ -1,9 +1,5 @@
 package org.rexcellentgames.burningknight.game;
 
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.game.state.LoadState;
-import org.rexcellentgames.burningknight.game.state.State;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -14,6 +10,7 @@ public class Game {
 	private State state;
 
 	public Game() {
+
 	}
 
 	public void setState(State state) {
@@ -35,7 +32,9 @@ public class Game {
 
 	public void destroyState() {
 		if (this.state != null) {
-			this.state.destroy();
+			State old = this.state;
+			this.state = null; // For depth saving!
+			old.destroy();
 		}
 	}
 

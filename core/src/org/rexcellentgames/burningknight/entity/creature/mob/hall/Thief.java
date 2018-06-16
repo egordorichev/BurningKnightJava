@@ -34,6 +34,7 @@ public class Thief extends Mob {
 	{
 		hpMax = 1;
 		blockChance = 90;
+		w = 15;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();
@@ -43,6 +44,11 @@ public class Thief extends Mob {
 	}
 
 	protected Item stolen;
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h, 0, this.a);
+	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
