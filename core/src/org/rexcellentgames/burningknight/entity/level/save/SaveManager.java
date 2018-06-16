@@ -61,7 +61,7 @@ public class SaveManager {
 			switch (type) {
 				case LEVEL: LevelSave.save(stream); break;
 				case PLAYER: PlayerSave.save(stream); break;
-				case GAME: GameSave.save(stream); break;
+				case GAME: GameSave.save(stream, old); break;
 				case GLOBAL: GlobalSave.save(stream); break;
 			}
 
