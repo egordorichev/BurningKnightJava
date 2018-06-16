@@ -115,6 +115,8 @@ public class Skeleton extends Mob {
 		vel.y = ivel.y * v;
 	}
 
+	public int side;
+	public boolean eight;
 	public float boneSpeed = 120f;
 	public int bonesMissing;
 
@@ -122,6 +124,8 @@ public class Skeleton extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			side = Random.chance(50) ? -1 : 1;
+
 
 			float t = 0.3f;
 
@@ -164,7 +168,7 @@ public class Skeleton extends Mob {
 			bonesMissing = 4;
 			float add = Random.chance(50) ? (float) (Math.PI / 4) : 0;
 
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < (eight ? 8 : 4); i++) {
 				BulletEntity ball = new BulletEntity() {
 					@Override
 					public void control() {
@@ -188,7 +192,7 @@ public class Skeleton extends Mob {
 					}
 				};
 
-				float a = (float) (i * Math.PI / 2) + add;
+				float a = (float) (i * Math.PI / (eight ? 4 : 2)) + add;
 				ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod);
 
 				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
