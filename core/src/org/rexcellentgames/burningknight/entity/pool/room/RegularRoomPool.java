@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.pool.room;
 
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.*;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.*;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class RegularRoomPool extends Pool<RegularRoom> {
@@ -10,7 +9,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 	public RegularRoomPool() {
 		add(GardenRoom.class, 1f);
 		add(FloodedRoom.class, 0.3f);
-		add(SpikedRoom.class, 1);
+		add(SpikedRoom.class, 100000000000f);
 		add(MazeRoom.class, 0.6f);
 		add(MazeFloorRoom.class, 0.3f);
 		add(StatueRoom.class, 1);

@@ -698,20 +698,13 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	public static ShaderProgram waterShader;
 	public static ShaderProgram maskShader;
 
 	static {
-		waterShader = new ShaderProgram( Gdx.files.internal("shaders/water.vert").readString(),  Gdx.files.internal("shaders/water.frag").readString());
-
-		if (!waterShader.isCompiled()) {
-			throw new GdxRuntimeException("Couldn't compile shader: " + waterShader.getLog());
-		}
-
 		maskShader = new ShaderProgram( Gdx.files.internal("shaders/mask.vert").readString(),  Gdx.files.internal("shaders/mask.frag").readString());
 
 		if (!maskShader.isCompiled()) {
-			throw new GdxRuntimeException("Couldn't compile shader: " + waterShader.getLog());
+			throw new GdxRuntimeException("Couldn't compile shader: " + maskShader.getLog());
 		}
 	}
 
@@ -757,6 +750,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	private void renderLiquids(int sx, int sy, int fx, int fy) {
+		Graphics.batch.end();
+		Graphics.batch.setShader(maskShader);
+		Graphics.batch.begin();
+		
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
@@ -781,31 +778,30 @@ public abstract class Level extends SaveableEntity {
 					int rw = texture.getWidth();
 					int rh = texture.getHeight();
 
-					Graphics.batch.end();
-					waterShader.begin();
-
 					TextureRegion rr = Terrain.waterVariants[variant];
 					Texture t = rr.getTexture();
 
+					Graphics.batch.end();
+					maskShader.begin();
 					t.bind(1);
-					waterShader.setUniformi("u_texture2", 1);
-
-					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-
+					maskShader.setUniformf("water", 1);
+					maskShader.setUniformf("activated", 1);
+					maskShader.setUniformi("u_texture2", 1);
+					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 					texture.bind(0);
-					waterShader.setUniformi("u_texture", 1);
-					waterShader.setUniformf("time", Dungeon.time);
-					waterShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					waterShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
-
-					waterShader.end();
-					Graphics.batch.setShader(waterShader);
+					maskShader.setUniformi("u_texture", 1);
+					maskShader.setUniformf("time", Dungeon.time);
+					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+					maskShader.end();
 					Graphics.batch.begin();
 
 					Graphics.render(r, x * 16, y * 16 - 8);
 
 					Graphics.batch.end();
-					Graphics.batch.setShader(null);
+					maskShader.begin();
+					maskShader.setUniformf("activated", 0);
+					maskShader.end();
 					Graphics.batch.begin();
 
 					if (variant != 15) {
@@ -830,30 +826,30 @@ public abstract class Level extends SaveableEntity {
 					int rw = texture.getWidth();
 					int rh = texture.getHeight();
 
-					Graphics.batch.end();
-					waterShader.begin();
-
 					TextureRegion rr = Terrain.lavaVariants[variant];
 					Texture t = rr.getTexture();
 
+					Graphics.batch.end();
+					maskShader.begin();
 					t.bind(1);
-					waterShader.setUniformi("u_texture2", 1);
-
-					waterShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-
+					maskShader.setUniformf("activated", 1);
+					maskShader.setUniformf("water", 1);
+					maskShader.setUniformi("u_texture2", 1);
+					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 					texture.bind(0);
-					waterShader.setUniformi("u_texture", 1);
-					waterShader.setUniformf("time", Dungeon.time);
-					waterShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					waterShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
-					waterShader.end();
-					Graphics.batch.setShader(waterShader);
+					maskShader.setUniformi("u_texture", 1);
+					maskShader.setUniformf("time", Dungeon.time);
+					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+					maskShader.end();
 					Graphics.batch.begin();
 
 					Graphics.render(r, x * 16, y * 16 - 8);
 
 					Graphics.batch.end();
-					Graphics.batch.setShader(null);
+					maskShader.begin();
+					maskShader.setUniformf("activated", 0);
+					maskShader.end();
 					Graphics.batch.begin();
 
 					if (variant != 15) {
@@ -871,32 +867,30 @@ public abstract class Level extends SaveableEntity {
 
 					Texture texture = r.getTexture();
 
-					Graphics.batch.end();
-					maskShader.begin();
-
 					TextureRegion rr = Terrain.lavaVariants[variant];
 					Texture t = rr.getTexture();
 
+					Graphics.batch.end();
+					maskShader.begin();
 					t.bind(1);
 					maskShader.setUniformi("u_texture2", 1);
-
+					maskShader.setUniformf("activated", 1);
+					maskShader.setUniformf("water", 0);
 					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / t.getWidth(), ((float) rr.getRegionY()) / t.getHeight()));
-
 					texture.bind(0);
 					maskShader.setUniformi("u_texture", 1);
 					maskShader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
 					maskShader.end();
-					Graphics.batch.setShader(maskShader);
 					Graphics.batch.begin();
 
 					Graphics.render(r, x * 16, y * 16 - 8);
-
-					Graphics.batch.end();
-					Graphics.batch.setShader(null);
-					Graphics.batch.begin();
 				}
 			}
 		}
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
