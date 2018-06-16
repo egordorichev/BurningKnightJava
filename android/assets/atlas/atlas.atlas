@@ -2356,11 +2356,11 @@ bullet (bullet C)
   orig: 14, 5
   offset: 0, 0
   index: -1
-bullet (bullet large)
+bullet (bullet bone)
   rotate: false
-  xy: 894, 733
-  size: 22, 22
-  orig: 22, 22
+  xy: 730, 1
+  size: 16, 9
+  orig: 16, 9
   offset: 0, 0
   index: -1
 bullet (bulllet bone)
@@ -2368,6 +2368,13 @@ bullet (bulllet bone)
   xy: 730, 1
   size: 16, 9
   orig: 16, 9
+  offset: 0, 0
+  index: -1
+bullet (bullet large)
+  rotate: false
+  xy: 894, 733
+  size: 22, 22
+  orig: 22, 22
   offset: 0, 0
   index: -1
 bullet (rocket A)

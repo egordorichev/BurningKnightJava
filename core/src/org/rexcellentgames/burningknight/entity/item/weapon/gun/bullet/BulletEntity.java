@@ -3,10 +3,6 @@ package org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -36,7 +32,8 @@ public class BulletEntity extends Entity {
 	public boolean penetrates;
 	private boolean auto;
 	public String letter;
-	private float t;
+	public float time;
+	public boolean circ;
 	private boolean rotate;
 	public boolean crit;
 	public Creature owner;
@@ -44,11 +41,17 @@ public class BulletEntity extends Entity {
 	public static Animation animation = Animation.make("fx-badbullet");
 	public Class<? extends Buff> toApply;
 	public float duration = 1f;
+	public boolean parts;
+	public int dir;
+	public Point ivel;
 
 	@Override
 	public void init() {
-		this.bad = this.letter.equals("bullet bad") || this.letter.equals("bad");
-		this.rotate = this.letter.equals("star");
+		this.ivel = new Point(this.vel.x, this.vel.y);
+		this.dir = Random.chance(50) ? -1 : 1;
+		this.parts = this.letter.equals("bullet bad") || this.letter.equals("bad");
+		this.bad = this.letter.equals("bullet bad") || this.letter.equals("bad") || letter.equals("bone");
+		this.rotate = this.letter.equals("star") || letter.equals("bone");
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
@@ -59,7 +62,7 @@ public class BulletEntity extends Entity {
 		this.w = sprite.getRegionWidth();
 		this.h = sprite.getRegionHeight();
 
-		if (sprite.getRegionWidth() == sprite.getRegionHeight()) {
+		if (sprite.getRegionWidth() == sprite.getRegionHeight() || circ) {
 			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil(((float)sprite.getRegionWidth()) / 2), BodyDef.BodyType.DynamicBody, false);
 		} else {
 			this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
@@ -74,13 +77,21 @@ public class BulletEntity extends Entity {
 	}
 
 	private Mob target;
+	public boolean canBeRemoved;
+
+	public void countRemove() {
+
+	}
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || (entity instanceof SolidProp && !(entity instanceof Turret))) {
+		if (remove) {
+			return;
+		}
 
-			this.remove = true;
-		} else if (entity instanceof Creature && this.t >= 0.05f) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || (entity instanceof SolidProp && !(entity instanceof Turret))) {
+			this.remove = canBeRemoved;
+		} else if (entity instanceof Creature && this.time >= 0.05f) {
 			if (this.bad && entity instanceof Mob) {
 				return;
 			}
@@ -94,6 +105,9 @@ public class BulletEntity extends Entity {
 			}
 
 			this.remove = (!this.penetrates && (this.owner == null || !this.owner.penetrates));
+			if (this.remove) {
+				countRemove();
+			}
 
 			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
 
@@ -137,9 +151,9 @@ public class BulletEntity extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.t += dt;
+		this.time += dt;
 
-		if (this.bad) {
+		if (this.parts) {
 			this.last += dt;
 
 			if (this.last > 0.08f) {
@@ -198,17 +212,22 @@ public class BulletEntity extends Entity {
 
 		this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
 
-
 		if (this.rotate) {
-			this.a += dt * 360 * 2;
+			this.a += dt * 360 * 2 * dir;
 		} else {
 			this.a = (float) Math.toDegrees(this.ra);
 		}
+
+		this.control();
 
 		this.x += this.vel.x * dt;
 		this.y += this.vel.y * dt;
 
 		this.body.setTransform(this.x, this.y, this.ra);
 		this.body.setLinearVelocity(this.vel);
+	}
+
+	public void control() {
+
 	}
 }

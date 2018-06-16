@@ -1,11 +1,16 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Skeleton extends Mob {
 	public static Animation animations = Animation.make("actor-skeleton", "-white");
@@ -61,16 +66,11 @@ public class Skeleton extends Mob {
 			this.flipped = this.vel.x < 0;
 		}
 
-		if (this.falling) {
-			this.renderFalling(this.animation);
-			return;
-		}
-
 		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (this.state.equals("revive")) {
 			this.animation = revive;
-		} else if (this.state.equals("dead")) {
+		} else if (this.state.equals("dead") || this.state.equals("kindadead")) {
 			this.animation = killed;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
@@ -81,7 +81,6 @@ public class Skeleton extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
-		Graphics.print(this.state, Graphics.small, this.x, this.y);
 	}
 
 	public class SkeletonState extends Mob.State<Skeleton> {
@@ -92,13 +91,112 @@ public class Skeleton extends Mob {
 	protected State getAi(String state) {
 		switch (state) {
 			case "dead": return new DeadState();
+			case "kindadead": return new KindaDeadState();
 			case "revive": return new ReviveState();
 			case "idle": case "roam": return new IdleState();
 			case "alerted": case "chase": return new ChaseState();
+			case "attack": return new AttackState();
+			case "preattack": return new PreattackState();
 		}
 
 		return super.getAi(state);
 	}
+
+	public int bonesMissing;
+
+	public class AttackState extends SkeletonState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			float t = 0.3f;
+
+			Tween.to(new Tween.Task(32, t, Tween.Type.SINE_OUT) {
+				@Override
+				public float getValue() {
+					return self.z;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.z = value;
+					self.depth = (int) value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(0, t, Tween.Type.SINE_IN) {
+						@Override
+						public float getValue() {
+							return self.z;
+						}
+
+						@Override
+						public void setValue(float value) {
+							self.z = value;
+							self.depth = (int) value;
+						}
+
+						@Override
+						public void onEnd() {
+							attack();
+						}
+					});
+				}
+			});
+		}
+
+		public void attack() {
+			bonesMissing = 4;
+			float add = Random.chance(50) ? (float) (Math.PI / 4) : 0;
+
+			for (int i = 0; i < 4; i++) {
+				BulletEntity ball = new BulletEntity() {
+					@Override
+					public void control() {
+						float v = (float) Math.cos(time * 2f);
+
+						vel.x = ivel.x * v;
+						vel.y = ivel.y * v;
+					}
+
+					@Override
+					public void onCollision(Entity entity) {
+						super.onCollision(entity);
+
+						if (entity == this.owner && killed.isPaused()) {
+							bonesMissing -= 1;
+							remove = true;
+						}
+					}
+
+					@Override
+					public void countRemove() {
+						super.countRemove();
+						bonesMissing -= 1;
+					}
+				};
+
+				float a = (float) (i * Math.PI / 2) + add;
+				ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(70f * shotSpeedMod);
+
+				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
+				ball.damage = 2;
+				ball.canBeRemoved = false;
+				ball.owner = self;
+				ball.circ = true;
+				ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
+
+				ball.letter = "bone";
+				Dungeon.area.add(ball);
+			}
+
+			Camera.shake(4);
+			self.become("kindadead");
+		}
+	}
+
+	public float okm;
 
 	public class DeadState extends SkeletonState {
 		private float delay;
@@ -106,10 +204,21 @@ public class Skeleton extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			self.ignoreRooms = true;
 			self.killed.setFrame(0);
 			self.killed.setPaused(false);
-			delay = Random.newFloat(5f, 10f);
+			self.okm = self.knockbackMod;
+			self.knockbackMod = 0;
+			delay = Random.newFloat(10f, 20f);
 			self.setUnhittable(true);
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			self.knockbackMod = self.okm;
+			self.ignoreRooms = false;
+			self.setUnhittable(false);
 		}
 
 		@Override
@@ -117,7 +226,36 @@ public class Skeleton extends Mob {
 			super.update(dt);
 
 			if (t >= delay) {
-				self.setUnhittable(false);
+				self.become("revive");
+			}
+		}
+	}
+
+	public class KindaDeadState extends SkeletonState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			self.ignoreRooms = true;
+			self.killed.setFrame(0);
+			self.killed.setPaused(false);
+			self.okm = self.knockbackMod;
+			self.knockbackMod = 0;
+			self.setUnhittable(true);
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			self.knockbackMod = self.okm;
+			self.ignoreRooms = false;
+			self.setUnhittable(false);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (bonesMissing == 0) {
 				self.become("revive");
 			}
 		}
@@ -149,6 +287,21 @@ public class Skeleton extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 			checkForPlayer();
+
+			if (this.moveTo(self.lastSeen, 4f, 48f)) {
+				self.become("preattack");
+			}
+		}
+	}
+
+	public class PreattackState extends SkeletonState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 1f) {
+				self.become("attack");
+			}
 		}
 	}
 

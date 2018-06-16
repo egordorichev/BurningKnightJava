@@ -76,6 +76,11 @@ public class Creature extends SaveableEntity {
 		return this.flying;
 	}
 
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h, this.z / 5);
+	}
+
 	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
 		this.hx = x;
 		this.hy = y;

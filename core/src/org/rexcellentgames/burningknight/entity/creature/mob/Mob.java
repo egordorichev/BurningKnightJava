@@ -189,7 +189,7 @@ public class Mob extends Creature {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						data.render(this.x + xx, this.y + yy, this.flipped);
+						data.render(this.x + xx, this.y + yy + z, this.flipped);
 					}
 				}
 			}
@@ -211,7 +211,7 @@ public class Mob extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		data.render(this.x, this.y, this.flipped);
+		data.render(this.x, this.y + z, this.flipped);
 
 		if (this.freezed) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
