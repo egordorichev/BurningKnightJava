@@ -24,6 +24,8 @@ import org.rexcellentgames.burningknight.ui.LevelBanner;
 import java.io.IOException;
 
 public class LoadState extends State {
+	public static boolean QUICK = true;
+
 	private boolean ready = false;
 	private float a;
 	private String s;
@@ -169,7 +171,7 @@ public class LoadState extends State {
 
 	@Override
 	public void update(float dt) {
-		if (this.ready && this.a == 0) {
+		if (this.ready && (QUICK || this.a == 0)) {
 			Dungeon.game.setState(new InGameState());
 			Camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}

@@ -1,10 +1,7 @@
 package org.rexcellentgames.burningknight.entity.level.levels.hall;
 
-import org.rexcellentgames.burningknight.entity.level.RegularLevel;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
@@ -20,7 +17,7 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	public String getName() {
-		return "Old castle";
+		return Locale.get("old_castle");
 	}
 
 	@Override

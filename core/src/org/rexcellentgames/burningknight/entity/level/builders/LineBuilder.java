@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.builders;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.FightRoom;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -31,43 +30,7 @@ public class LineBuilder extends RegularBuilder {
 		entrance.setSize();
 		entrance.setPos(0, 0);
 		branchable.add(entrance);
-
-
-		if (Dungeon.depth == 0 && Dungeon.type == Dungeon.Type.INTRO) {
-			if (lamp == null) {
-				Log.error("No lamp room!");
-			} else {
-				placeRoom(init, this.entrance, lamp, this.direction);
-
-				if (bk == null) {
-					Log.error("No bk room!");
-				} else {
-					placeRoom(init, lamp, bk, this.direction);
-				}
-			}
-
-			Room fight = null;
-
-			for (Room room : init) {
-				if (room instanceof FightRoom) {
-					fight = room;
-					
-					break;
-				}
-			}
-
-			if (fight == null) {
-				return init;
-			}
-
-			fight.setSize();
-			
-			placeRoom(init, bk, fight, this.direction);
-			placeRoom(init, fight, exit, this.direction);
-
-			return init;
-		}
-
+		
 		int roomsOnPath = (int) (this.multiConnection.size() * pathLength) + Random.chances(pathLenJitterChances);
 		roomsOnPath = Math.min(roomsOnPath, this.multiConnection.size());
 

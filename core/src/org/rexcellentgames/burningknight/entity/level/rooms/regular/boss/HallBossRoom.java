@@ -1,13 +1,16 @@
-package org.rexcellentgames.burningknight.entity.level.rooms.regular;
+package org.rexcellentgames.burningknight.entity.level.rooms.regular.boss;
 
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.CrazyKing;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Patch;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Patch;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class DesertBossRoom extends RegularRoom {
+public class HallBossRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
@@ -22,7 +25,7 @@ public class DesertBossRoom extends RegularRoom {
 			}
 		}
 
-		/*Point center = this.getCenter();
+		Point center = this.getCenter();
 
 		Boss boss = new CrazyKing();
 
@@ -30,7 +33,7 @@ public class DesertBossRoom extends RegularRoom {
 		boss.y = center.y * 16 + (16 - boss.h) / 2 - 4;
 
 		Dungeon.area.add(boss);
-		LevelSave.add(boss);*/
+		LevelSave.add(boss);
 	}
 
 	@Override

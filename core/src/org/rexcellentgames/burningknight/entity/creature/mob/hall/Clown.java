@@ -31,11 +31,6 @@ public class Clown extends Mob {
 		return animations;
 	}
 
-	@Override
-	public float getWeight() {
-		return 0.7f;
-	}
-
 	{
 		blockChance = 70;
 		hpMax = 1;
@@ -46,6 +41,11 @@ public class Clown extends Mob {
 		hurt = getAnimation().get("hurt").randomize();
 		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
+	}
+
+	@Override
+	public float getWeight() {
+		return 0.7f;
 	}
 
 	@Override

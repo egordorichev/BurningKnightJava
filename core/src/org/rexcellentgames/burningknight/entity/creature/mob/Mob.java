@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -34,7 +33,10 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.ExpFx;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.PathFinder;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -278,12 +280,8 @@ public class Mob extends Creature {
 		closestFraction = 1f;
 		float x = this.x + this.w / 2;
 		float y = this.y + this.h / 2;
-		float dx = player.x + player.w / 2 - x;
-		float dy = player.y + player.h / 2 - y;
-		double a = Math.atan2(dy, dx);
-		float d = Display.GAME_WIDTH * 10;
 
-		World.world.rayCast(callback, x, y, x + (float) Math.cos(a) * d, y + (float) Math.sin(a) * d);
+		World.world.rayCast(callback, x, y, player.x + player.w / 2, player.y + player.h / 2);
 
 		return last == player;
 	}
@@ -402,8 +400,6 @@ public class Mob extends Creature {
 			if (this.ai != null) {
 				this.ai.self = this;
 				this.ai.onEnter();
-			} else {
-				Log.error("No ai for " + this.state + " " + this.getClass().getSimpleName());
 			}
 		}
 

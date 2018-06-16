@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.util;
 
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Graphics;
 
 import java.util.ArrayList;
 
@@ -56,6 +55,10 @@ public class AnimationData {
 				this.t = 0;
 
 				if ((!this.back && this.index >= this.frames.size()) || (this.back && this.index < 0)) {
+					if (this.listener != null) {
+						this.listener.onEnd();
+					}
+
 					this.index = (this.back ? this.frames.size() - 1 : 0);
 					val = true;
 
@@ -131,6 +134,10 @@ public class AnimationData {
 
 	public static class Listener {
 		public void onFrame(int frame) {
+
+		}
+
+		public void onEnd() {
 
 		}
 	}

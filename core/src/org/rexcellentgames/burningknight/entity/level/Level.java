@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLe
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
@@ -152,21 +153,15 @@ public abstract class Level extends SaveableEntity {
 					Log.info("Get boss for depth " + depth + " and type " + i);
 
 					switch (i) {
-						case 0:
-						default:
-							return new HallBossLevel();
-						case 1:
-							return new DesertBossLevel();
+						case 0: default: return new HallBossLevel();
+						case 1: return new DesertBossLevel();
+						case 2: return new LibraryBossLevel();
 					}
 				} else {
 					switch (i) {
-						case 0:
-						default:
-							return new HallLevel();
-						case 1:
-							return new DesertLevel();
-						case 2:
-							return new LibraryLevel();
+						case 0: default: return new HallLevel();
+						case 1: return new DesertLevel();
+						case 2: return new LibraryLevel();
 					}
 				}
 			}

@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.builders;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.BKRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
@@ -17,7 +16,6 @@ public class RegularBuilder extends Builder {
 	protected EntranceRoom entrance;
 	protected EntranceRoom exit;
 	protected LampRoom lamp;
-	protected BKRoom bk;
 	protected float pathVariance = 45f;
 	protected float pathLength = 0.5f;
 	protected float[] pathLenJitterChances = new float[]{0, 1, 0};
@@ -32,7 +30,6 @@ public class RegularBuilder extends Builder {
 		this.entrance = null;
 		this.exit = null;
 		this.lamp = null;
-		this.bk = null;
 		this.multiConnection.clear();
 		this.singleConnection.clear();
 
@@ -53,8 +50,6 @@ public class RegularBuilder extends Builder {
 
 			if (room instanceof LampRoom) {
 				this.lamp = (LampRoom) room;
-			} else if (room instanceof BKRoom) {
-				this.bk = (BKRoom) room;
 			}
 		}
 

@@ -1,9 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.levels.desert;
 
-import org.rexcellentgames.burningknight.entity.level.RegularLevel;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
@@ -17,7 +14,7 @@ public class DesertLevel extends RegularLevel {
 
 	@Override
 	public String getName() {
-		return "Desert ruins";
+		return Locale.get("desert_ruins");
 	}
 
 	@Override

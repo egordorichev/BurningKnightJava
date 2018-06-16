@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.levels.library;
 
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
@@ -13,7 +14,7 @@ public class LibraryLevel extends RegularLevel {
 
 	@Override
 	public String getName() {
-		return "Ancient library";
+		return Locale.get("ancient_library");
 	}
 
 	@Override

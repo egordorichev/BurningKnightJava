@@ -385,5 +385,8 @@
 	"ice_bombs" : "Ice bombs",
 	"ice_bombs_desc" : "Please cool down",
 	"protective_band" : "Protective band",
-	"protective_band_desc" : "I still don't get, how can it\nsave you from explosions..."
+	"protective_band_desc" : "I still don't get, how can it\nsave you from explosions...",
+	"old_castle" : "Old castle",
+	"desert_ruins" : "Desert ruins",
+	"ancient_library" : "Ancient library"
 }
