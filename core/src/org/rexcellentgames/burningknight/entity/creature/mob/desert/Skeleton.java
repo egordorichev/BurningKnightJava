@@ -20,6 +20,7 @@ public class Skeleton extends Mob {
 	private AnimationData killed;
 	private AnimationData revive;
 	private AnimationData animation;
+	public float distance = 48;
 
 	public Animation getAnimation() {
 		return animations;
@@ -58,6 +59,10 @@ public class Skeleton extends Mob {
 		this.hp = this.hpMax;
 		this.done = false;
 		this.become("dead");
+
+		if (this.prefix != null) {
+			this.prefix.onDeath(this);
+		}
 	}
 
 	@Override
@@ -97,11 +102,20 @@ public class Skeleton extends Mob {
 			case "alerted": case "chase": return new ChaseState();
 			case "attack": return new AttackState();
 			case "preattack": return new PreattackState();
+			case "todead": return new ToDeadState();
 		}
 
 		return super.getAi(state);
 	}
 
+	public void mod(Point vel, Point ivel, float a, float d, float time) {
+		float v = (float) Math.cos(time * 2f);
+
+		vel.x = ivel.x * v;
+		vel.y = ivel.y * v;
+	}
+
+	public float boneSpeed = 120f;
 	public int bonesMissing;
 
 	public class AttackState extends SkeletonState {
@@ -154,17 +168,14 @@ public class Skeleton extends Mob {
 				BulletEntity ball = new BulletEntity() {
 					@Override
 					public void control() {
-						float v = (float) Math.cos(time * 2f);
-
-						vel.x = ivel.x * v;
-						vel.y = ivel.y * v;
+						mod(vel, ivel, angle, dist, time);
 					}
 
 					@Override
 					public void onCollision(Entity entity) {
 						super.onCollision(entity);
 
-						if (entity == this.owner && killed.isPaused()) {
+						if (entity == this.owner && time >= 0.1f) {
 							bonesMissing -= 1;
 							remove = true;
 						}
@@ -178,7 +189,7 @@ public class Skeleton extends Mob {
 				};
 
 				float a = (float) (i * Math.PI / 2) + add;
-				ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(70f * shotSpeedMod);
+				ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod);
 
 				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 				ball.damage = 2;
@@ -192,7 +203,17 @@ public class Skeleton extends Mob {
 			}
 
 			Camera.shake(4);
-			self.become("kindadead");
+			self.become("todead");
+		}
+	}
+
+	public class ToDeadState extends SkeletonState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			if (this.t >= 0.3f) {
+				self.become("kindadead");
+			}
 		}
 	}
 
@@ -209,7 +230,7 @@ public class Skeleton extends Mob {
 			self.killed.setPaused(false);
 			self.okm = self.knockbackMod;
 			self.knockbackMod = 0;
-			delay = Random.newFloat(10f, 20f);
+			delay = Random.newFloat(20f, 30f);
 			self.setUnhittable(true);
 		}
 
@@ -235,7 +256,6 @@ public class Skeleton extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			self.ignoreRooms = true;
 			self.killed.setFrame(0);
 			self.killed.setPaused(false);
 			self.okm = self.knockbackMod;
@@ -247,7 +267,6 @@ public class Skeleton extends Mob {
 		public void onExit() {
 			super.onExit();
 			self.knockbackMod = self.okm;
-			self.ignoreRooms = false;
 			self.setUnhittable(false);
 		}
 
@@ -255,7 +274,7 @@ public class Skeleton extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (bonesMissing == 0) {
+			if (bonesMissing <= 0) {
 				self.become("revive");
 			}
 		}
@@ -288,7 +307,7 @@ public class Skeleton extends Mob {
 			super.update(dt);
 			checkForPlayer();
 
-			if (this.moveTo(self.lastSeen, 4f, 48f)) {
+			if (this.moveTo(self.lastSeen, 4f, distance)) {
 				self.become("preattack");
 			}
 		}

@@ -44,9 +44,14 @@ public class BulletEntity extends Entity {
 	public boolean parts;
 	public int dir;
 	public Point ivel;
+	public float angle;
+	public float dist;
 
 	@Override
 	public void init() {
+		angle = (float) Math.atan2(this.vel.y, this.vel.x);
+		dist = (float) Math.sqrt(vel.x * vel.x + vel.y * vel.y);
+
 		this.ivel = new Point(this.vel.x, this.vel.y);
 		this.dir = Random.chance(50) ? -1 : 1;
 		this.parts = this.letter.equals("bullet bad") || this.letter.equals("bad");
@@ -54,6 +59,8 @@ public class BulletEntity extends Entity {
 		this.rotate = this.letter.equals("star") || letter.equals("bone");
 		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
+
+		depth = letter.equals("bone") ? 6 : 0;
 
 		if (this.sprite == null) {
 			this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
@@ -63,7 +70,7 @@ public class BulletEntity extends Entity {
 		this.h = sprite.getRegionHeight();
 
 		if (sprite.getRegionWidth() == sprite.getRegionHeight() || circ) {
-			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil(((float)sprite.getRegionWidth()) / 2), BodyDef.BodyType.DynamicBody, false);
+			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil(((float)sprite.getRegionWidth()) / 2), BodyDef.BodyType.DynamicBody, this.letter.equals("bone"));
 		} else {
 			this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		}
@@ -91,6 +98,9 @@ public class BulletEntity extends Entity {
 
 		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || (entity instanceof SolidProp && !(entity instanceof Turret))) {
 			this.remove = canBeRemoved;
+			if (this.remove) {
+				countRemove();
+			}
 		} else if (entity instanceof Creature && this.time >= 0.05f) {
 			if (this.bad && entity instanceof Mob) {
 				return;

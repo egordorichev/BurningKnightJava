@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.pool;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.desert.BlackSkeleton;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Skeleton;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.*;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
@@ -31,11 +32,12 @@ public class MobPool extends Pool<Mob> {
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {
-			add(Skeleton.class, 100000f);
+			add(Skeleton.class, 1f);
+			add(BlackSkeleton.class, 1f);
 		}
 
 		if (Dungeon.level instanceof LibraryLevel) {
-			add(Skeleton.class, 100000f);
+			add(Skeleton.class, 1f);
 			// tmp
 		}
 	}
