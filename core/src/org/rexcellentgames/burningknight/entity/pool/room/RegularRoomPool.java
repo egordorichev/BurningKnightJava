@@ -9,7 +9,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 	public RegularRoomPool() {
 		add(GardenRoom.class, 1f);
 		add(FloodedRoom.class, 0.3f);
-		add(SpikedRoom.class, 100000000000f);
+		add(SpikedRoom.class, 1f);
 		add(MazeRoom.class, 0.6f);
 		add(MazeFloorRoom.class, 0.3f);
 		add(StatueRoom.class, 1);

@@ -33,7 +33,7 @@ public class Thief extends Mob {
 
 	{
 		hpMax = 1;
-		blockChance = 90;
+		blockChance = 20;
 		w = 15;
 
 		idle = getAnimation().get("idle").randomize();
@@ -147,7 +147,7 @@ public class Thief extends Mob {
 		@Override
 		public void onExit() {
 			super.onExit();
-			self.blockChance = 90;
+			self.blockChance = 20;
 		}
 
 		@Override
@@ -236,7 +236,7 @@ public class Thief extends Mob {
 		@Override
 		public void onExit() {
 			super.onExit();
-			self.blockChance = 90;
+			self.blockChance = 20;
 		}
 
 		@Override
