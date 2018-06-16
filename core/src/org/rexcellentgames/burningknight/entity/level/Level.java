@@ -1135,7 +1135,7 @@ public abstract class Level extends SaveableEntity {
 
 	public boolean checkFor(int i, int flag) {
 		if (flag == Terrain.PASSABLE && this.liquidData[i] == Terrain.LAVA) {
-			return true;
+			return false;
 		}
 
 		return (Terrain.flags[this.get(i)] & flag) == flag;

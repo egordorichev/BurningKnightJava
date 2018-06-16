@@ -84,7 +84,7 @@ public class BulletEntity extends Entity {
 	}
 
 	private Mob target;
-	public boolean canBeRemoved;
+	public boolean canBeRemoved = true;
 
 	public void countRemove() {
 

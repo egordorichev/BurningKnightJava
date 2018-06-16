@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
@@ -38,6 +37,10 @@ public class RangedKnight extends Knight {
 	}
 
 	public void checkForRun() {
+		if (this.ai != null) {
+			this.ai.checkForPlayer();
+		}
+
 		if (this.target == null) {
 			return;
 		}
@@ -63,6 +66,8 @@ public class RangedKnight extends Knight {
 				last = 0;
 				this.nextPathPoint = null;
 			}
+
+			this.checkForPlayer();
 
 			this.moveFrom(self.lastSeen, 10f, 5f);
 
@@ -93,7 +98,6 @@ public class RangedKnight extends Knight {
 
 			if (self.sword.getDelay() == 0) {
 				self.become("chase");
-				this.checkForPlayer();
 			}
 
 			checkForRun();
