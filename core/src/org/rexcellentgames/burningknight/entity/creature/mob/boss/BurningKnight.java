@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.plant.Plant;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -256,7 +257,7 @@ public class BurningKnight extends Boss {
 		for (Frame point : this.frames) {
 			float s = point.s;
 
-			if (!Dungeon.game.getState().isPaused()) {
+			if (!Dungeon.game.getState().isPaused() && !InGameState.map) {
 				point.s -= dt * 0.8f;
 			}
 
