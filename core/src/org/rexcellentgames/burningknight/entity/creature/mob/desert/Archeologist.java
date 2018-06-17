@@ -2,12 +2,11 @@ package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 
-public class Mummy extends Mob {
-	public static Animation animations = Animation.make("actor-mummy", "-brown");
+public class Archeologist extends Mob {
+	public static Animation animations = Animation.make("actor-archeologist", "-green");
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
@@ -19,7 +18,6 @@ public class Mummy extends Mob {
 	}
 
 	{
-		w = 12;
 		hpMax = 10;
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();
@@ -54,29 +52,5 @@ public class Mummy extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
-	}
-
-	@Override
-	public void update(float dt) {
-		super.update(dt);
-
-		if (this.freezed) {
-			return;
-		}
-
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
-		}
-
-		if (this.dead) {
-			super.common();
-			return;
-		}
-
-		if (this.animation != null) {
-			this.animation.update(dt * speedMod);
-		}
-
-		super.common();
 	}
 }
