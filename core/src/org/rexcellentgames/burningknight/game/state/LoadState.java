@@ -24,7 +24,7 @@ import org.rexcellentgames.burningknight.ui.LevelBanner;
 import java.io.IOException;
 
 public class LoadState extends State {
-	public static boolean QUICK = true;
+	public static boolean QUICK = !AssetLoadState.START_TO_MENU;
 
 	private boolean ready = false;
 	private float a;

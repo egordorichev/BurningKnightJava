@@ -260,8 +260,10 @@ public class BurningKnight extends Boss {
 				point.s -= dt * 0.8f;
 			}
 
-			Graphics.render(this.idle.getFrames().get(Math.min(1, point.frame)).frame, point.x + w, point.y + h, 0, w, h, false, false, point.flipped ? -s : s, s);
+			Graphics.render(this.idle.getFrames().get(Math.min(1, point.frame)).frame, this.x + this.w / 2, this.y + this.h / 2, 0, w / 2, h / 2, false, false, point.flipped ? -s : s, s);
 		}
+
+		// todo: fix
 
 		Graphics.batch.end();
 		shader.begin();
@@ -276,7 +278,9 @@ public class BurningKnight extends Boss {
 		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();
 
-		this.animation.render(this.x, this.y, this.flipped);
+		TextureRegion reg = this.animation.getCurrent().frame;
+
+		Graphics.render(reg, this.x + this.w / 2, this.y + this.h / 2, 0, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.flipped ? -1 : 1, 1);
 
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
