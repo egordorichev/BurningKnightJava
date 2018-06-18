@@ -1197,7 +1197,7 @@ public abstract class Level extends SaveableEntity {
 		this.body = World.world.createBody(def);
 
 		BodyDef cdef = new BodyDef();
-		cdef.type = BodyDef.BodyType.KinematicBody;
+		cdef.type = BodyDef.BodyType.StaticBody;
 		cdef.bullet = true;
 
 		this.chasms = World.world.createBody(cdef);

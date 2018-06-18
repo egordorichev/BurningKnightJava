@@ -158,7 +158,7 @@ public class Thief extends Mob {
 			self.checkForRun();
 
 			if (self.lastSeen != null) {
-				this.moveFrom(self.lastSeen, 40f, 10f);
+				this.moveFrom(self.lastSeen, 8f, 10f);
 			}
 		}
 	}
@@ -193,7 +193,7 @@ public class Thief extends Mob {
 			if (self.lastSeen == null) {
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 30f, ATTACK_DISTANCE)) {
+				if (this.moveTo(self.lastSeen, 8f, ATTACK_DISTANCE)) {
 					if (self.target != null) {
 						self.become("preattack");
 					} else {
@@ -247,7 +247,7 @@ public class Thief extends Mob {
 			if (this.t >= delay) {
 				self.become("wait");
 			} else if (self.lastSeen != null) {
-				this.moveFrom(self.lastSeen, 40f, 10f);
+				this.moveFrom(self.lastSeen, 8f, 10f);
 			}
 		}
 	}

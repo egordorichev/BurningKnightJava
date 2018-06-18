@@ -198,9 +198,9 @@ public class InGameState extends State {
 		}
 
 		if (this.a != 0) {
-			Graphics.batch.setColor(1, 1, 1, this.a);
+			/*Graphics.batch.setColor(1, 1, 1, this.a);
 			Graphics.render(blood, 0, 0);
-			Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.batch.setColor(1, 1, 1, 1);*/
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);

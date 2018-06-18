@@ -174,7 +174,6 @@ public class Door extends SaveableEntity {
 				return;
 			}
 
-			Log.info("End collision");
 			this.numCollisions -= 1;
 
 			if (this.numCollisions <= 0) {
