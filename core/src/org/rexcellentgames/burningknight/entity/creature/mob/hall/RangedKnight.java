@@ -69,7 +69,7 @@ public class RangedKnight extends Knight {
 
 			this.checkForPlayer();
 
-			this.moveFrom(self.lastSeen, 10f, 5f);
+			this.moveFrom(self.lastSeen, 8f, 5f);
 
 			if (self.target == null) {
 				self.become("idle");
