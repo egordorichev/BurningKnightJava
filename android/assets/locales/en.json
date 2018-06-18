@@ -389,5 +389,6 @@
 	"old_castle" : "Old castle",
 	"desert_ruins" : "Desert ruins",
 	"ancient_library" : "Ancient library",
-	"secret_laboratory" : "Secret laboratory"
+	"secret_laboratory" : "Secret laboratory",
+	"corrupted_castle" : "Corrupted castle"
 }

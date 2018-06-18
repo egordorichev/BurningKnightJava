@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
+import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
@@ -53,7 +54,8 @@ public abstract class Level extends SaveableEntity {
 		Color.valueOf("#1a1932"),
 		Color.valueOf("#391f21"),
 		Color.valueOf("#5d2c28"),
-		Color.valueOf("#1a1932")
+		Color.valueOf("#1a1932"),
+		Color.valueOf("#1b1b1b")
 	};
 
 	public Room entrance;
@@ -165,6 +167,7 @@ public abstract class Level extends SaveableEntity {
 						case 1: return new DesertLevel();
 						case 2: return new LibraryLevel();
 						case 3: return new TechLevel();
+						case 4: return new CreepLevel();
 					}
 				}
 			}
