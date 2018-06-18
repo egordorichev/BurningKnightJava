@@ -321,6 +321,10 @@ public class Mob extends Creature {
 	}
 
 	public Point getFar(Point target) {
+		if (target == null) {
+			return null;
+		}
+
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
@@ -568,6 +572,7 @@ public class Mob extends Creature {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+			this.checkForPlayer();
 			this.moveFrom(self.lastSeen, 7f, 5f);
 
 			if (this.t >= delay) {
