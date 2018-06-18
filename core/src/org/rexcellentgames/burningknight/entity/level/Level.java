@@ -28,6 +28,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.physics.World;
@@ -51,7 +52,8 @@ public abstract class Level extends SaveableEntity {
 	public static Color[] colors = {
 		Color.valueOf("#1a1932"),
 		Color.valueOf("#391f21"),
-		Color.valueOf("#5d2c28")
+		Color.valueOf("#5d2c28"),
+		Color.valueOf("#1a1932")
 	};
 
 	public Room entrance;
@@ -162,6 +164,7 @@ public abstract class Level extends SaveableEntity {
 						case 0: default: return new HallLevel();
 						case 1: return new DesertLevel();
 						case 2: return new LibraryLevel();
+						case 3: return new TechLevel();
 					}
 				}
 			}

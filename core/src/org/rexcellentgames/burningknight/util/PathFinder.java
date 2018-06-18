@@ -132,7 +132,6 @@ public class PathFinder {
 	}
 
 	private static boolean buildDistanceMap(int from, int to, boolean[] passable) {
-
 		if (from == to) {
 			return false;
 		}

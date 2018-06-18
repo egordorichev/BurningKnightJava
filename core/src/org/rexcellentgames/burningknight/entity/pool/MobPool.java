@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.*;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 
 public class MobPool extends Pool<Mob> {
 	public static MobPool instance = new MobPool();
@@ -39,6 +40,11 @@ public class MobPool extends Pool<Mob> {
 		}
 
 		if (Dungeon.level instanceof LibraryLevel) {
+			add(Skeleton.class, 1f);
+			// tmp
+		}
+
+		if (Dungeon.level instanceof TechLevel) {
 			add(Skeleton.class, 1f);
 			// tmp
 		}

@@ -11,16 +11,6 @@ import org.rexcellentgames.burningknight.game.state.ClassSelectState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.game.state.SlotSelectState;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.level.save.GameSave;
-import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.game.state.ClassSelectState;
-import org.rexcellentgames.burningknight.game.state.MainMenuState;
-import org.rexcellentgames.burningknight.game.state.SlotSelectState;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiCard extends UiButton {
 	public int id;
@@ -43,6 +33,10 @@ public class UiCard extends UiButton {
 			this.info.first = Locale.get(typeName.toLowerCase());
 			Graphics.layout.setText(Graphics.medium, this.info.first);
 			this.info.firstW = Graphics.layout.width;
+
+			if (this.info.second == null) {
+				this.info.second = "";
+			}
 
 			Graphics.layout.setText(Graphics.small, this.info.second);
 			this.info.secondW = Graphics.layout.width;
