@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Spark;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -67,13 +65,19 @@ public class HeartFx extends SaveableEntity {
 		this.body = World.removeBody(this.body);
 	}
 
+	float last;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
 		this.t += dt;
+		this.last += dt;
 
-		Spark.random(this);
+		if (this.last >= 0.2f) {
+			this.last = 0;
+			Spark.randomOn(this);
+		}
 	}
 
 	@Override
