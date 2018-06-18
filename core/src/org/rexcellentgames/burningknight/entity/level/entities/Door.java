@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -173,6 +174,7 @@ public class Door extends SaveableEntity {
 				return;
 			}
 
+			Log.info("End collision");
 			this.numCollisions -= 1;
 
 			if (this.numCollisions <= 0) {
