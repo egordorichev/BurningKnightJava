@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -49,7 +47,7 @@ public class Note extends Entity implements WormholeFx.Suckable {
 		vel.x = (float) (Math.cos(this.a) * 60);
 		vel.y = (float) (Math.sin(this.a) * 60);
 
-		this.body = World.createSimpleBody(this, 0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleCentredBody(this, 0, 0, 10, 10, BodyDef.BodyType.DynamicBody, true);
 	
 		if (this.body != null) {
 			this.body.setBullet(true);
