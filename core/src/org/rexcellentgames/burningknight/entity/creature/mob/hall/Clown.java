@@ -34,7 +34,6 @@ public class Clown extends Mob {
 	{
 		blockChance = 70;
 		hpMax = 1;
-		experienceDropped = 2;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();

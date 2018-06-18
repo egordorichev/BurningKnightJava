@@ -98,7 +98,7 @@ public class UiInventory extends UiEntity {
 
 		this.handled = false;
 		this.active = this.inventory.active;
-		this.forceT = Math.max(this.forceT - dt, 0);
+		this.forceT = 1f; // Math.max(this.forceT - dt, 0);
 
 		if (this.dn) {
 			float dx = Math.abs(Input.instance.uiMouse.x - 88);
@@ -451,22 +451,14 @@ public class UiInventory extends UiEntity {
 		});
 	}
 
-	private static TextureRegion frame = Graphics.getTexture("ui (exp_bar_frame)");
-	private static TextureRegion bar = Graphics.getTexture("ui (exp_in_bar)");
 	private static TextureRegion heart = Graphics.getTexture("ui (heart)");
 	private static TextureRegion heart_bg = Graphics.getTexture("ui (heart_bg)");
 	private static TextureRegion hurt = Graphics.getTexture("ui (hurt_heart)");
 	private static TextureRegion half = Graphics.getTexture("ui (half_heart)");
 
-	private float last = 0f;
-
 	@Override
 	public void render() {
 		Camera.viewport.apply();
-
-		if (Player.instance != null) {
-			this.last += (Player.instance.getExperienceForLevel() - this.last) / 10f;
-		}
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
@@ -478,29 +470,9 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		float y = this.slots[this.inventory.getSize() - 1].y + 29;
-		float w = 168f;
-
-		int l = Player.instance.getLevel();
-		Graphics.layout.setText(Graphics.small, l + "");
+		float y = this.slots[this.inventory.getSize() - 1].y + 20;
 
 		float x = 4; // Display.GAME_WIDTH / 2 - w / 2;
-
-		TextureRegion region = new TextureRegion();
-		region.setRegion(bar);
-
-		Graphics.batch.setColor(0.2f, 0.2f, 0.2f, 1);
-
-		Graphics.render(region, x, y + 1);
-
-		Graphics.batch.setColor(1, 1, 1, 1);
-
-		region.setRegionWidth((int) (this.last / Player.instance.getExperienceMaxForLevel() * region.getRegionWidth()));
-
-		Graphics.render(region, x, y + 1);
-		Graphics.render(frame, x, y);
-
-		Graphics.print(l + "", Graphics.small, x + w / 2 - Graphics.layout.width / 2, y - 1);
 
 		int hp = Player.instance.getHp();
 		float invt = Player.instance.getInvt();
