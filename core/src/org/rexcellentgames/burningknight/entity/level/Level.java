@@ -55,7 +55,7 @@ public abstract class Level extends SaveableEntity {
 		Color.valueOf("#391f21"),
 		Color.valueOf("#5d2c28"),
 		Color.valueOf("#1a1932"),
-		Color.valueOf("#1b1b1b")
+		Color.valueOf("#272727")
 	};
 
 	public Room entrance;
