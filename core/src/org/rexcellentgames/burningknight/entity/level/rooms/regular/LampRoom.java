@@ -52,12 +52,12 @@ public class LampRoom extends RegularRoom {
 
 	@Override
 	public int getMinHeight() {
-		return 10;
+		return 7;
 	}
 
 	@Override
 	public int getMinWidth() {
-		return 10;
+		return 7;
 	}
 
 	@Override

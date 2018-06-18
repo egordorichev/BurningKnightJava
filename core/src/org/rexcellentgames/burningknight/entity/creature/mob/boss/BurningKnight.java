@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -187,7 +188,7 @@ public class BurningKnight extends Boss {
 			float dy = this.y + 8 - Player.instance.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			sfx.setVolume(sid, this.state.equals("unactive") ? 0 : MathUtils.clamp(0, 1, (100 - d) / 100f));
+			sfx.setVolume(sid, this.state.equals("unactive") ? 0 : Settings.sfx * MathUtils.clamp(0, 1, (100 - d) / 100f));
 		} else {
 			sfx.setVolume(sid, 0);
 		}
@@ -725,7 +726,7 @@ public class BurningKnight extends Boss {
 			super.onEnter();
 
 			voice = Audio.getSound("bk_voice");
-			vid = Audio.playSfx("bk_voice", 1f, 1f);
+			vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
 			voice.setVolume(vid, 0);
 			voice.pause(vid);
 

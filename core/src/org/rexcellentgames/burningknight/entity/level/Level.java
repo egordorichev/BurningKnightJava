@@ -147,10 +147,10 @@ public abstract class Level extends SaveableEntity {
 	public static boolean[] boss = new boolean[21];
 
 	public static RegularLevel forDepth(int depth) {
-		int weight = 0;
+		int weight = 1;
 
 		for (int i = 0; i < 5; i++) {
-			weight += depths[i] + 1;
+			weight += depths[i];
 
 			if (depth < weight) {
 				if (depth > 0 && boss[depth]) {
