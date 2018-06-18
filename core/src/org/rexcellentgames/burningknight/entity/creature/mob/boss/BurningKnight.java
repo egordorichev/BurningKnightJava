@@ -250,8 +250,6 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 		TextureRegion region = this.animation.getCurrent().frame;
 
-		int w = region.getRegionWidth() / 2;
-		int h = region.getRegionHeight() / 2;
 		float dt = Gdx.graphics.getDeltaTime();
 
 		for (Frame point : this.frames) {
@@ -261,7 +259,8 @@ public class BurningKnight extends Boss {
 				point.s -= dt * 0.8f;
 			}
 
-			Graphics.render(this.idle.getFrames().get(Math.min(1, point.frame)).frame, this.x + this.w / 2, this.y + this.h / 2, 0, w / 2, h / 2, false, false, point.flipped ? -s : s, s);
+			TextureRegion r = this.idle.getFrames().get(Math.min(1, point.frame)).frame;
+			Graphics.render(r, point.x + this.w / 2, point.y + this.h / 2, 0, r.getRegionWidth() / 2, r.getRegionHeight() / 2, false, false, point.flipped ? -s : s, s);
 		}
 
 		// todo: fix
