@@ -8,4 +8,7 @@
 %ASEPRITE% -b fx_dither.ase --trim --list-tags --save-as %OUT%fx-dither-{tag}-{tagframe00}.png --data %OUT%fx-dither.json
 %ASEPRITE% -b fx_fireball.ase --trim --list-tags --save-as %OUT%fx-fireball-{tag}-{tagframe00}.png --data %OUT%fx-fireball.json
 %ASEPRITE% -b fx_blood.ase --trim --list-tags --save-as %OUT%fx-blood-{tag}-{tagframe00}.png --data %OUT%fx-blood.json
+
+%ASEPRITE% -b fx_bloodsplat.ase --trim --save-as %OUT%fx-bloodsplat-{frame00}.png --data
+
 %ASEPRITE% -b bullet.ase --trim --save-as %OUT%bullet ({layer}).png --data %OUT%bullet.json
