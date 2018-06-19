@@ -5,13 +5,8 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.util.Tween;
 
-public class LevelBanner extends Entity {
+public class UiBanner extends Entity {
 	{
 		alwaysActive = true;
 		alwaysRender = true;
@@ -19,6 +14,10 @@ public class LevelBanner extends Entity {
 	}
 
 	public String text;
+	public String extra;
+
+	private float w1;
+	private float w2;
 
 	@Override
 	public void init() {
@@ -26,8 +25,15 @@ public class LevelBanner extends Entity {
 
 		this.w = 0;
 		Graphics.layout.setText(Graphics.small, this.text);
+		this.w1 = Graphics.layout.width;
 
-		Tween.to(new Tween.Task(Graphics.layout.width + 16, 0.5f) {
+		if (this.extra != null) {
+			Graphics.layout.setText(Graphics.small, this.extra);
+			this.w2 = Graphics.layout.width;
+			this.h += 16;
+		}
+
+		Tween.to(new Tween.Task(Math.max(this.w2, this.w1) + 16, 0.5f) {
 			@Override
 			public float getValue() {
 				return w;
@@ -87,7 +93,7 @@ public class LevelBanner extends Entity {
 					}
 				});
 			}
-		}).delay(1f);
+		});
 	}
 
 	private float a;
@@ -104,7 +110,12 @@ public class LevelBanner extends Entity {
 
 		if (this.a > 0) {
 			Graphics.small.setColor(1, 1, 1, this.a);
-			Graphics.small.draw(Graphics.batch, this.text, Display.GAME_WIDTH / 2 - this.w / 2 + 8, 48 + 12);
+			Graphics.small.draw(Graphics.batch, this.text, Display.GAME_WIDTH / 2 - (this.w1) / 2, 48 + this.h - 4);
+
+			if (this.extra != null) {
+				Graphics.small.draw(Graphics.batch, this.extra, Display.GAME_WIDTH / 2 - (this.w2) / 2, 48 + 12);
+			}
+
 			Graphics.small.setColor(1, 1, 1, 1);
 		}
 	}

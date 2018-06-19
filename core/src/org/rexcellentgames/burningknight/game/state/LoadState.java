@@ -19,7 +19,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.ui.LevelBanner;
+import org.rexcellentgames.burningknight.ui.UiBanner;
 
 import java.io.IOException;
 
@@ -157,8 +157,9 @@ public class LoadState extends State {
 
 			Log.info("Loading done!");
 
-			LevelBanner banner = new LevelBanner();
+			UiBanner banner = new UiBanner();
 			banner.text = Dungeon.level.formatDepth();
+			banner.extra = "test";
 			Dungeon.area.add(banner);
 			
 			if (BurningKnight.instance != null) {

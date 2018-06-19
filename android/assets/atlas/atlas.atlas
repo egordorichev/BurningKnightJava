@@ -11792,21 +11792,7 @@ fx-blood-idle-00
   orig: 5, 5
   offset: 0, 0
   index: -1
-fx-blood-idle-idle-00
-  rotate: false
-  xy: 766, 801
-  size: 5, 5
-  orig: 5, 5
-  offset: 0, 0
-  index: -1
 fx-blood-idle-01
-  rotate: false
-  xy: 920, 46
-  size: 5, 5
-  orig: 5, 5
-  offset: 0, 0
-  index: -1
-fx-blood-idle-idle-01
   rotate: false
   xy: 920, 46
   size: 5, 5
@@ -11820,21 +11806,7 @@ fx-blood-idle-02
   orig: 5, 5
   offset: 0, 0
   index: -1
-fx-blood-idle-idle-02
-  rotate: false
-  xy: 929, 411
-  size: 5, 5
-  orig: 5, 5
-  offset: 0, 0
-  index: -1
 fx-blood-idle-03
-  rotate: false
-  xy: 933, 2
-  size: 5, 5
-  orig: 5, 5
-  offset: 0, 0
-  index: -1
-fx-blood-idle-idle-03
   rotate: false
   xy: 933, 2
   size: 5, 5
@@ -11848,56 +11820,49 @@ fx-blood-idle-04
   orig: 5, 5
   offset: 0, 0
   index: -1
-fx-blood-idle-idle-04
-  rotate: false
-  xy: 946, 544
-  size: 5, 5
-  orig: 5, 5
-  offset: 0, 0
-  index: -1
-fx-bloodsplat-00
+fx-bloodsplat-idle-00
   rotate: false
   xy: 705, 895
   size: 77, 101
   orig: 77, 101
   offset: 0, 0
   index: -1
-fx-bloodsplat-01
+fx-bloodsplat-idle-01
   rotate: false
   xy: 515, 704
   size: 77, 101
   orig: 77, 101
   offset: 0, 0
   index: -1
-fx-bloodsplat-02
+fx-bloodsplat-idle-02
   rotate: false
   xy: 1, 274
   size: 77, 101
   orig: 77, 101
   offset: 0, 0
   index: -1
-fx-bloodsplat-03
+fx-bloodsplat-idle-03
   rotate: false
   xy: 784, 895
   size: 77, 101
   orig: 77, 101
   offset: 0, 0
   index: -1
-fx-bloodsplat-04
+fx-bloodsplat-idle-04
   rotate: false
   xy: 515, 601
   size: 77, 101
   orig: 77, 101
   offset: 0, 0
   index: -1
-fx-bloodsplat-05
+fx-bloodsplat-idle-05
   rotate: false
   xy: 1, 171
   size: 77, 101
   orig: 77, 101
   offset: 0, 0
   index: -1
-fx-bloodsplat-06
+fx-bloodsplat-idle-06
   rotate: false
   xy: 1, 68
   size: 77, 101

@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -20,15 +19,15 @@ import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.ui.Bloodsplat;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class InGameState extends State {
 	private UiInventory inventory;
 	private Console console;
-	private TextureRegion blood;
-	private float a;
 	private Area pauseMenuUi;
 	private boolean showFps;
 	public static boolean map = false;
@@ -36,8 +35,6 @@ public class InGameState extends State {
 	@Override
 	public void init() {
 		pauseMenuUi = new Area(true);
-
-		blood = Graphics.getTexture("blood_frame");
 
 		Collisions collisions = new Collisions();
 
@@ -147,35 +144,32 @@ public class InGameState extends State {
 			set = true;
 		}
 
-		if (this.a == 0 && Player.instance != null && Player.instance.getInvt() > 0) {
-			Tween.to(new Tween.Task(1f, 0.2f) {
-				@Override
-				public float getValue() {
-					return a;
-				}
+		if (Player.instance != null && Player.instance.getInvt() > 0) {
+			if (!setFrames) {
+				setFrames = true;
 
-				@Override
-				public void setValue(float value) {
-					a = value;
-				}
+				for (int i = 0; i < 64; i++) {
+					Bloodsplat splat = new Bloodsplat();
 
-				@Override
-				public void onEnd() {
-					Tween.to(new Tween.Task(0f, 0.8f) {
-						@Override
-						public float getValue() {
-							return a;
-						}
+					splat.x = Random.newFloat(Display.GAME_WIDTH);
 
-						@Override
-						public void setValue(float value) {
-							a = value;
-						}
-					});
+					if (splat.x < 64 || splat.x > Display.GAME_WIDTH - 64) {
+						splat.y = Random.newFloat(Display.GAME_HEIGHT);
+					} else if (Random.chance(50)) {
+						splat.y = Random.newFloat(32);
+					} else {
+						splat.y = Display.GAME_HEIGHT - Random.newFloat(32);
+					}
+
+					Dungeon.ui.add(splat);
 				}
-			});
+			}
+		} else {
+			setFrames = false;
 		}
 	}
+
+	private boolean setFrames;
 
 	@Override
 	public void render() {
@@ -195,12 +189,6 @@ public class InGameState extends State {
 
 		if (this.isPaused()) {
 			return;
-		}
-
-		if (this.a != 0) {
-			/*Graphics.batch.setColor(1, 1, 1, this.a);
-			Graphics.render(blood, 0, 0);
-			Graphics.batch.setColor(1, 1, 1, 1);*/
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
