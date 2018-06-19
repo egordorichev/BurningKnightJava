@@ -76,6 +76,8 @@ public class Dungeon extends ApplicationAdapter {
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
 	public static boolean flip;
+	public static float colorBlind = 0f;
+	public static float colorBlindFix = 1f;
 
 	public static String title;
 
@@ -328,6 +330,8 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("shockTime", shockTime);
 		shader.setUniformf("glitchT", glitchTime);
 		shader.setUniformf("shockPos", shockPos);
+		shader.setUniformf("colorBlind", colorBlind);
+		shader.setUniformf("correct", colorBlindFix);
 		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("transR", darkR / MAX_R);
