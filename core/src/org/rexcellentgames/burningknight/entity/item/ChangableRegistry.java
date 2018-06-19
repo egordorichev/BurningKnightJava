@@ -2,17 +2,7 @@ package org.rexcellentgames.burningknight.entity.item;
 
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.*;
 import org.rexcellentgames.burningknight.entity.item.consumable.spell.*;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.DefenseBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicWeapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.NoteBook;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.*;
-import org.rexcellentgames.burningknight.entity.item.consumable.spell.*;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.DefenseBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicWeapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.NoteBook;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -43,9 +33,7 @@ public class ChangableRegistry {
 		SOWULO(70),
 		HAGALAZ(71)*/
 
-		DEMON("item (wand A)"),
-		HOLY("item (wand B)"),
-		CIRLE("item (wand C)");
+		;
 
 		private String sprite;
 
@@ -117,23 +105,6 @@ public class ChangableRegistry {
 			types.put(spells.get(i).getSimpleName(), type);
 			identified.put(type, false);
 			spells.remove(i);
-		}
-
-
-		ArrayList<Class<? extends MagicWeapon>> wands = new ArrayList<>(Arrays.asList(
-			FireBook.class, DefenseBook.class, NoteBook.class
-		));
-
-		// todo: finish this list
-		ArrayList<Type> wandTypes = new ArrayList<>(Arrays.asList(
-			Type.CIRLE, Type.HOLY, Type.DEMON
-		));
-
-		for (Type type : wandTypes) {
-			int i = Random.newInt(wands.size());
-			types.put(wands.get(i).getSimpleName(), type);
-			identified.put(type, false);
-			wands.remove(i);
 		}
 	}
 }

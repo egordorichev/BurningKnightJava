@@ -42,9 +42,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletB
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletC
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.ShotgunA
 import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.DefenseBook
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireBook
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.NoteBook
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherA
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherB
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC

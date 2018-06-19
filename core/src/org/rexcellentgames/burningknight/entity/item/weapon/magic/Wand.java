@@ -3,33 +3,17 @@ package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class MagicWeapon extends WeaponBase {
+public class Wand extends WeaponBase {
 	protected int damage = 1;
 	protected float mana;
 	protected Player owner;
-	protected ChangableRegistry.Type type;
-
-	public MagicWeapon() {
-		this.onPickup();
-		this.identified = true;
-	}
 
 	public void setOwner(Creature owner) {
 		this.owner = (Player) owner;
-	}
-
-	@Override
-	public void onPickup() {
-		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
-		this.sprite = this.type.getSprite();
-		this.identified = ChangableRegistry.identified.get(this.type);
 	}
 
 	private float lastAngle;
@@ -56,7 +40,6 @@ public class MagicWeapon extends WeaponBase {
 		}
 
 		super.use();
-		this.identify();
 
 		this.owner.modifyMana(-this.mana);
 	}
