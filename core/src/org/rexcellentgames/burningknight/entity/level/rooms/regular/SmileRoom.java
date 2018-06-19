@@ -29,7 +29,7 @@ public class SmileRoom extends RegularRoom {
 			(int) (this.left + w - 1), (int) (Math.floor(h / 2) + Math.ceil(this.top + h / 2) - 1)
 		);
 
-		Painter.fill(level, r, f);
+		Painter.fill(level, r, fill == Terrain.LAVA ? Terrain.DIRT : f);
 		Painter.fill(level, r, 1, fill);
 
 		Painter.fill(level, new Rect(

@@ -321,6 +321,7 @@ public class Painter {
 		//radii
 		double radH = h / 2f;
 		double radW = w / 2f;
+		boolean liquid = (value == Terrain.DIRT || value == Terrain.LAVA || value == Terrain.WATER);
 
 		//fills each row of the ellipse from top to bottom
 		for (int i = 0; i < h; i++) {
@@ -343,7 +344,7 @@ public class Painter {
 			}
 
 			int cell = x + (w - (int) rowW) / 2 + ((y + i) * Level.getWidth());
-			Arrays.fill(level.data, cell, cell + (int) rowW, value);
+			Arrays.fill(liquid ? level.liquidData : level.data, cell, cell + (int) rowW, value);
 		}
 	}
 
