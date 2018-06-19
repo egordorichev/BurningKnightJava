@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -24,6 +25,10 @@ public class GameSave {
 			for (int i = 0; i < Level.depths.length; i++) {
 				writer.writeByte(Level.depths[i]);
 				writer.writeBoolean(Level.boss[i]);
+			}
+
+			for (int i = 0; i< 5; i++) {
+				writer.writeByte((byte) Level.orders[i]);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -72,16 +77,15 @@ public class GameSave {
 		byte d = reader.readByte();
 		String name = reader.readString();
 
-		if (Dungeon.notLoaded) {
-			Dungeon.notLoaded = false;
-			// Dungeon.depth = d;
-		}
-
 		ChangableRegistry.load(reader);
 
 		for (int i = 0; i < Level.depths.length; i++) {
 			Level.depths[i] = reader.readByte();
 			Level.boss[i] = reader.readBoolean();
+		}
+
+		for (int i = 0; i < 5; i++) {
+			Level.orders[i] = reader.readByte();
 		}
 	}
 
@@ -142,5 +146,23 @@ public class GameSave {
 		}
 
 		System.arraycopy(bosses, 0, Level.boss, 0, areas * 4 + 1);
+
+		int[] levels = new int[] { 0, 1, 2, 4, 5 };
+		shuffleArray(levels);
+
+		for (int i = 0; i < 5; i++) {
+			Log.info("Depth " + i + " id " + levels[i]);
+		}
+
+		Level.orders = levels;
+	}
+
+	static void shuffleArray(int[] ar) {
+		for (int i = ar.length - 1; i > 0; i--) {
+			int index = Random.newInt(i + 1);
+			int a = ar[index];
+			ar[index] = ar[i];
+			ar[i] = a;
+		}
 	}
 }

@@ -153,7 +153,7 @@ public class InGameState extends State {
 
 					splat.x = Random.newFloat(Display.GAME_WIDTH);
 
-					if (splat.x < 64 || splat.x > Display.GAME_WIDTH - 64) {
+					if (splat.x < 32 || splat.x > Display.GAME_WIDTH - 32) {
 						splat.y = Random.newFloat(Display.GAME_HEIGHT);
 					} else if (Random.chance(50)) {
 						splat.y = Random.newFloat(32);

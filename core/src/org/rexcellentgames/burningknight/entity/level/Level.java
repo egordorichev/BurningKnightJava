@@ -78,6 +78,7 @@ public abstract class Level extends SaveableEntity {
 	protected byte[] variants;
 	protected byte[] liquidVariants;
 	protected byte[] walls;
+	public static int[] orders = new int[5];
 	protected float[] light;
 	protected float[] lightR;
 	protected float[] lightG;
@@ -154,15 +155,13 @@ public abstract class Level extends SaveableEntity {
 
 			if (depth < weight) {
 				if (depth > 0 && boss[depth]) {
-					Log.info("Get boss for depth " + depth + " and type " + i);
-
-					switch (i) {
+					switch (orders[i]) {
 						case 0: default: return new HallBossLevel();
 						case 1: return new DesertBossLevel();
 						case 2: return new LibraryBossLevel();
 					}
 				} else {
-					switch (i) {
+					switch (orders[i]) {
 						case 0: default: return new HallLevel();
 						case 1: return new DesertLevel();
 						case 2: return new LibraryLevel();
