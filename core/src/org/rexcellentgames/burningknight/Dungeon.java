@@ -241,6 +241,14 @@ public class Dungeon extends ApplicationAdapter {
 			Ui.ui.update(dt);
 		}
 
+		if (Input.instance.wasPressed("switch_colorblind")) {
+			colorBlind = (colorBlind + 1) % 4;
+		}
+
+		if (Input.instance.wasPressed("toggle_correction")) {
+			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
+		}
+
 		boolean paused = game.getState().isPaused() || (game.getState() instanceof InGameState && InGameState.map);
 
 		if (Input.instance.wasPressed("pause")) {
