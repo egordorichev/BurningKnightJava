@@ -324,6 +324,7 @@ public class Dungeon extends ApplicationAdapter {
 		if (org.rexcellentgames.burningknight.entity.Camera.instance != null) {
 			org.rexcellentgames.burningknight.entity.Camera.removeShake();
 		}
+		game.renderUi();
 
 		Graphics.batch.end();
 		Graphics.surface.end();
@@ -355,8 +356,6 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
-
-		game.renderUi();
 		Graphics.batch.end();
 	}
 

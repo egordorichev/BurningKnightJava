@@ -458,8 +458,6 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		Camera.viewport.apply();
-
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
