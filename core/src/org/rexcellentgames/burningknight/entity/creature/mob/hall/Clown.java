@@ -8,10 +8,10 @@ import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ProtectiveBand;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.UshankaHat;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.NoteBook;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -34,7 +34,6 @@ public class Clown extends Mob {
 	{
 		blockChance = 70;
 		hpMax = 1;
-		experienceDropped = 2;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();
@@ -66,12 +65,8 @@ public class Clown extends Mob {
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = super.getDrops();
 
-		if (Random.chance(50)) {
+		if (Random.chance(15)) {
 			items.add(new Bomb());
-		}
-
-		if (Random.chance(10)) {
-			items.add(new NoteBook());
 		}
 
 		if (Random.chance(10)) {
@@ -80,6 +75,10 @@ public class Clown extends Mob {
 
 		if (Random.chance(5)) {
 			items.add(new UshankaHat());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new ProtectiveBand());
 		}
 
 		return items;

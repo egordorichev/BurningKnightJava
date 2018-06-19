@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -187,7 +188,7 @@ public class BurningKnight extends Boss {
 			float dy = this.y + 8 - Player.instance.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			sfx.setVolume(sid, this.state.equals("unactive") ? 0 : MathUtils.clamp(0, 1, (100 - d) / 100f));
+			sfx.setVolume(sid, this.state.equals("unactive") ? 0 : Settings.sfx * MathUtils.clamp(0, 1, (100 - d) / 100f));
 		} else {
 			sfx.setVolume(sid, 0);
 		}
@@ -250,8 +251,6 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 		TextureRegion region = this.animation.getCurrent().frame;
 
-		int w = region.getRegionWidth() / 2;
-		int h = region.getRegionHeight() / 2;
 		float dt = Gdx.graphics.getDeltaTime();
 
 		for (Frame point : this.frames) {
@@ -261,7 +260,8 @@ public class BurningKnight extends Boss {
 				point.s -= dt * 0.8f;
 			}
 
-			Graphics.render(this.idle.getFrames().get(Math.min(1, point.frame)).frame, this.x + this.w / 2, this.y + this.h / 2, 0, w / 2, h / 2, false, false, point.flipped ? -s : s, s);
+			TextureRegion r = this.idle.getFrames().get(Math.min(1, point.frame)).frame;
+			Graphics.render(r, point.x + this.w / 2, point.y + this.h / 2, 0, r.getRegionWidth() / 2, r.getRegionHeight() / 2, false, false, point.flipped ? -s : s, s);
 		}
 
 		// todo: fix
@@ -726,7 +726,7 @@ public class BurningKnight extends Boss {
 			super.onEnter();
 
 			voice = Audio.getSound("bk_voice");
-			vid = Audio.playSfx("bk_voice", 1f, 1f);
+			vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
 			voice.setVolume(vid, 0);
 			voice.pause(vid);
 

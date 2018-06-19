@@ -32,7 +32,6 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.ui.ExpFx;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
@@ -54,7 +53,6 @@ public class Mob extends Creature {
 	public static ArrayList<Mob> every = new ArrayList<>();
 	public ArrayList<Player> colliding = new ArrayList<>();
 	protected boolean drop;
-	protected int experienceDropped = 1;
 	protected State ai;
 	public boolean stupid = false;
 	protected Mind mind;
@@ -321,6 +319,10 @@ public class Mob extends Creature {
 	}
 
 	public Point getFar(Point target) {
+		if (target == null) {
+			return null;
+		}
+
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
@@ -502,10 +504,6 @@ public class Mob extends Creature {
 		}
 
 		if (!Player.instance.isDead() && !force) {
-			for (int i = 0; i < this.experienceDropped; i++) {
-				Dungeon.area.add(new ExpFx(this.x + this.w / 2 + Random.newFloat(-4, 4), this.y + this.w / 2 + Random.newFloat(-4, 4)));
-			}
-
 			for (int i = 0; i < Random.newInt(1, 2); i++) {
 				HeartFx fx = new HeartFx();
 
@@ -568,6 +566,7 @@ public class Mob extends Creature {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+			this.checkForPlayer();
 			this.moveFrom(self.lastSeen, 7f, 5f);
 
 			if (this.t >= delay) {

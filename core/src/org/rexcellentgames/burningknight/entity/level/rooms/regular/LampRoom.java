@@ -4,26 +4,16 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.entity.pool.room.RegularRoomPool;
+import org.rexcellentgames.burningknight.entity.pool.room.LampRoomPool;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class LampRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
-		RegularRoom room;
-
-		// todo: pool?
-
-		do {
-			room = RegularRoomPool.instance.generate();
-		} while (room instanceof TrapRoom || room instanceof TableRoom || room instanceof CenterTableRoom || room instanceof MazeRoom || room instanceof BigHoleRoom || room instanceof SmallMazeRoom || room instanceof CrossRoom
-			|| room instanceof LetterRoom || room instanceof LavaLakeRoom || room instanceof RectCornerRoom || room instanceof SmallAdditionRoom
-			|| room instanceof CaveRoom || room instanceof CenterWallRoom || room instanceof CollumnRoom || room instanceof ChasmRoom);
+		RegularRoom room = LampRoomPool.instance.generate();
 
 		room.size = this.size;
 		room.left = this.left;
@@ -36,12 +26,6 @@ public class LampRoom extends RegularRoom {
 		room.paint(level);
 
 		Point center = this.getCenter();
-
-		center.y -= 1;
-		Painter.set(level, center, Terrain.FLOOR_A);
-		center.y += 1;
-		Painter.set(level, center, Terrain.FLOOR_A);
-
 		ItemHolder holder = new ItemHolder();
 
 		Slab slab = new Slab();
@@ -68,12 +52,12 @@ public class LampRoom extends RegularRoom {
 
 	@Override
 	public int getMinHeight() {
-		return 10;
+		return 7;
 	}
 
 	@Override
 	public int getMinWidth() {
-		return 10;
+		return 7;
 	}
 
 	@Override

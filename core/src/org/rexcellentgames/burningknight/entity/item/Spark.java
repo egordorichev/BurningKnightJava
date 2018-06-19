@@ -15,25 +15,23 @@ public class Spark extends Entity {
 	public float a;
 	public boolean inUi;
 
-	public static void random(Entity entity) {
-		random(entity.x, entity.y, entity.w, entity.h);
+	public static void randomOn(Entity entity) {
+		randomOn(entity.x, entity.y, entity.w, entity.h);
 	}
 
-	public static void random(float x, float y, float w, float h) {
-		random(x, y, w, h, false);
+	public static void randomOn(float x, float y, float w, float h) {
+		randomOn(x, y, w, h, false);
 	}
 
-	public static void random(float x, float y, float w, float h, boolean ui) {
-		if (Random.newFloat() > 0.97f) {
-			Spark spark = new Spark();
+	public static void randomOn(float x, float y, float w, float h, boolean ui) {
+		Spark spark = new Spark();
 
-			spark.inUi = ui;
-			spark.a = Random.newFloat(360);
-			spark.x = Random.newFloat(x, x + w) - 3.5f;
-			spark.y = Random.newFloat(y, y + h) - 3.5f;
+		spark.inUi = ui;
+		spark.a = Random.newFloat(360);
+		spark.x = Random.newFloat(x, x + w) - 3.5f;
+		spark.y = Random.newFloat(y, y + h) - 3.5f;
 
-			Dungeon.area.add(spark);
-		}
+		Dungeon.area.add(spark);
 	}
 
 	@Override

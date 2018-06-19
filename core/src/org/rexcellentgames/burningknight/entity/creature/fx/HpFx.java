@@ -3,14 +3,12 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.util.Tween;
-
-import static org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx.orange;
 
 public class HpFx extends Entity {
 	public static Color bad = Color.valueOf("#ac3232");
@@ -37,7 +35,7 @@ public class HpFx extends Entity {
 		this.low = change < 0;
 		this.depth = 15;
 
-		Tween.to(new Tween.Task(this.y + creature.h * 1.5f, 0.5f, Tween.Type.BACK_OUT) {
+		Tween.to(new Tween.Task(this.y + creature.h * 1.5f, 0.8f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
 				return y;

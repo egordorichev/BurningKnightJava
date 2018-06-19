@@ -6,10 +6,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.Random;
 
 public class ExpFx extends UiEntity {
 	private static Animation animations = Animation.make("fx_exp");
@@ -36,7 +32,6 @@ public class ExpFx extends UiEntity {
 
 		if (d < 3) {
 			this.done = true;
-			Player.instance.addExperience(1);
 		}
 	}
 

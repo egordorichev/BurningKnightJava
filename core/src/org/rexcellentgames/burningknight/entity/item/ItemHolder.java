@@ -3,9 +3,6 @@ package org.rexcellentgames.burningknight.entity.item;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -66,6 +63,8 @@ public class ItemHolder extends SaveableEntity {
 		this.vel.y = (float) (Math.sin(a) * 100f);
 	}
 
+	public float last;
+
 	@Override
 	public void update(float dt) {
 		if (this.done) {
@@ -73,8 +72,12 @@ public class ItemHolder extends SaveableEntity {
 		}
 
 		this.t += dt;
+		this.last += dt;
 
-		Spark.random(this.x, this.y, this.hw, this.hh);
+		if (this.last > 0.2f) {
+			this.last = 0;
+			Spark.randomOn(this.x, this.y, this.hw, this.hh);
+		}
 
 		super.update(dt);
 

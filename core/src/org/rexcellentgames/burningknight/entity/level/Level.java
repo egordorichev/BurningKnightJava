@@ -22,12 +22,14 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
+import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.physics.World;
@@ -51,7 +53,9 @@ public abstract class Level extends SaveableEntity {
 	public static Color[] colors = {
 		Color.valueOf("#1a1932"),
 		Color.valueOf("#391f21"),
-		Color.valueOf("#5d2c28")
+		Color.valueOf("#5d2c28"),
+		Color.valueOf("#1a1932"),
+		Color.valueOf("#272727")
 	};
 
 	public Room entrance;
@@ -143,10 +147,10 @@ public abstract class Level extends SaveableEntity {
 	public static boolean[] boss = new boolean[21];
 
 	public static RegularLevel forDepth(int depth) {
-		int weight = 0;
+		int weight = 1;
 
 		for (int i = 0; i < 5; i++) {
-			weight += depths[i] + 1;
+			weight += depths[i];
 
 			if (depth < weight) {
 				if (depth > 0 && boss[depth]) {
@@ -162,6 +166,8 @@ public abstract class Level extends SaveableEntity {
 						case 0: default: return new HallLevel();
 						case 1: return new DesertLevel();
 						case 2: return new LibraryLevel();
+						case 3: return new TechLevel();
+						case 4: return new CreepLevel();
 					}
 				}
 			}
@@ -1191,7 +1197,7 @@ public abstract class Level extends SaveableEntity {
 		this.body = World.world.createBody(def);
 
 		BodyDef cdef = new BodyDef();
-		cdef.type = BodyDef.BodyType.KinematicBody;
+		cdef.type = BodyDef.BodyType.StaticBody;
 		cdef.bullet = true;
 
 		this.chasms = World.world.createBody(cdef);

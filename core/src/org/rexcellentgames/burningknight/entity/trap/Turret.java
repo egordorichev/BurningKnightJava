@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.trap;
 
 import com.badlogic.gdx.math.Rectangle;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
@@ -84,7 +82,7 @@ public class Turret extends SolidProp {
 			s = true;
 
 			for (int x = 0; x < this.w / 16; x++) {
-				for (int y = 0; y < this.h / 16; y++) {
+				for (int y = 0; y < this.h / 16 + 1; y++) {
 					Dungeon.level.setPassable((int) (x + this.x / 16), (int) (y + (this.y + 8) / 16), false);
 				}
 			}

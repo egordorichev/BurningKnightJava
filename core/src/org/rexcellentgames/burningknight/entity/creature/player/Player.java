@@ -87,8 +87,6 @@ public class Player extends Creature {
 	public float heat;
 	protected float mana;
 	protected float manaMax;
-	protected int experience;
-	protected int experienceMax;
 	protected int level;
 	protected int forThisLevel;
 	private ItemPickupFx pickupFx;
@@ -279,16 +277,6 @@ public class Player extends Creature {
 		return LIGHT_SIZE + this.lightModifier;
 	}
 
-	public static int expNeeded(int level) {
-		if (level == 1) {
-			return 0;
-		}
-
-		level -= 1;
-
-		return level * 2;
-	}
-
 	public String getName() {
 		return this.name;
 	}
@@ -410,8 +398,6 @@ public class Player extends Creature {
 			instance = this;
 		}
 
-		this.experienceMax = expNeeded(this.level);
-		this.forThisLevel = expNeeded(this.level);
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, inventorySize);
 		this.body = this.createSimpleBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
@@ -874,10 +860,7 @@ public class Player extends Creature {
 
 		this.mana = reader.readInt32();
 		this.manaMax = reader.readFloat();
-		this.experience = reader.readInt32();
-		this.experienceMax = reader.readInt32();
 		this.level = reader.readInt32();
-		this.forThisLevel = expNeeded(this.level);
 
 		float last = this.speed;
 		this.speed = reader.readFloat();
@@ -900,8 +883,6 @@ public class Player extends Creature {
 
 		writer.writeFloat(this.mana);
 		writer.writeFloat(this.manaMax);
-		writer.writeInt32(this.experience);
-		writer.writeInt32(this.experienceMax);
 		writer.writeInt32(this.level);
 		writer.writeFloat(this.speed);
 
@@ -971,14 +952,6 @@ public class Player extends Creature {
 		return this.inventory;
 	}
 
-	public float getExperienceForLevel() {
-		return this.experience;
-	}
-
-	public float getExperienceMaxForLevel() {
-		return this.experienceMax;
-	}
-
 	public float getMana() {
 		return this.mana;
 	}
@@ -989,16 +962,5 @@ public class Player extends Creature {
 
 	public int getLevel() {
 		return this.level;
-	}
-
-	public void addExperience(int am) {
-		this.experience += am;
-
-		while (this.experience >= this.experienceMax) {
-			this.level += 1;
-			this.experience -= this.experienceMax;
-			this.forThisLevel = expNeeded(this.level);
-			this.experienceMax = expNeeded(this.level + 1);
-		}
 	}
 }
