@@ -30,7 +30,7 @@ public class UiBanner extends Entity {
 		if (this.extra != null) {
 			Graphics.layout.setText(Graphics.small, this.extra);
 			this.w2 = Graphics.layout.width;
-			this.h += 16;
+			this.h += Graphics.layout.height + 4;
 		}
 
 		Tween.to(new Tween.Task(Math.max(this.w2, this.w1) + 16, 0.5f) {
