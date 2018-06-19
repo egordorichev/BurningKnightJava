@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -28,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.game.state.InGameState;
+import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -799,6 +801,10 @@ public class BurningKnight extends Boss {
 		public void onExit() {
 			super.onExit();
 			talked = true;
+
+			UiBanner banner = new UiBanner();
+			banner.text = Locale.get("burning_knight");
+			Dungeon.area.add(banner);
 		}
 	}
 

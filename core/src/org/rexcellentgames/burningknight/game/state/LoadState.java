@@ -159,7 +159,6 @@ public class LoadState extends State {
 
 			UiBanner banner = new UiBanner();
 			banner.text = Dungeon.level.formatDepth();
-			banner.extra = "test";
 			Dungeon.area.add(banner);
 			
 			if (BurningKnight.instance != null) {

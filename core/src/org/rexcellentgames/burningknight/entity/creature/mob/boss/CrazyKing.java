@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
@@ -20,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEnt
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -287,6 +289,11 @@ public class CrazyKing extends Boss {
 						ignoreHealthbar = false;
 						Camera.follow(Player.instance, false);
 						talked = true;
+
+
+						UiBanner banner = new UiBanner();
+						banner.text = Locale.get("crazy_king");
+						Dungeon.area.add(banner);
 					});
 				}
 			}
