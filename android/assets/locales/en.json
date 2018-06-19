@@ -392,5 +392,19 @@
 	"secret_laboratory" : "Secret laboratory",
 	"corrupted_castle" : "Corrupted castle",
 	"crazy_king" : "The Crazy King",
-	"burning_knight" : "The Burning Knight"
+	"burning_knight" : "The Burning Knight",
+	"bronze_shovel_desc" : "Shut up and dig!",
+	"bronze_shovel" : "Bronze shovel",
+	"iron_shovel" : "Iron shovel",
+	"iron_shovel_desc" : "Looks like a shovel",
+	"gold_shovel" : "Golden shovel",
+	"gold_shovel_desc" : "Too bad to dig",
+	"bronze_pickaxe" : "Bronze pickaxe",
+	"bronze_pickaxe_desc" : "Please take time to mine",
+	"iron_pickaxe" : "Iron pickaxe",
+	"iron_pickaxe_desc" : "Real metal!",
+	"golden_pickaxe" : "Golden pickaxe",
+	"golden_pickaxe_desc" : "Breaks fast",
+	"diamond_pickaxe" : "Diamond pickaxe",
+	"diamond_pickaxe_desc" : "@_@"
 }

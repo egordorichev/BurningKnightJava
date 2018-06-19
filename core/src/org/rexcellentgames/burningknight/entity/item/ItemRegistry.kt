@@ -66,6 +66,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.Light
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberD
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.*
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC
@@ -236,6 +237,13 @@ object ItemRegistry {
             "fire_bombs" to FireBombs::class,
             "ice_bombs" to IceBombs::class,
             "poison_bombs" to PoisonBombs::class,
-            "protective_band" to ProtectiveBand::class
+            "protective_band" to ProtectiveBand::class,
+            "shovel_a" to ShovelA::class,
+            "shovel_b" to ShovelB::class,
+            "shovel_c" to ShovelC::class,
+            "pickaxe_a" to PickaxeA::class,
+            "pickaxe_b" to PickaxeB::class,
+            "pickaxe_c" to PickaxeC::class,
+            "pickaxe_d" to PickaxeD::class
     )
 }

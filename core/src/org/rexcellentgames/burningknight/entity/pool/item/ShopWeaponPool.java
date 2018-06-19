@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.Light
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberD;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC;
@@ -48,9 +49,6 @@ public class ShopWeaponPool extends Pool<Item> {
 			case WIZARD: addMagic(); break;
 			case RANGER: addRanger(); break;
 		}
-	}
-
-	private void addGunner() {
 	}
 
 	private void addRanger() {
@@ -105,5 +103,12 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(ThrowingDaggerA.class, 1f);
 		add(ThrowingDaggerB.class, 1f);
 		add(ThrowingDaggerC.class, 1f);
+		add(PickaxeA.class, 1f);
+		add(PickaxeB.class, 1f);
+		add(PickaxeC.class, 1f);
+		add(PickaxeD.class, 1f);
+		add(ShovelA.class, 1f);
+		add(ShovelB.class, 1f);
+		add(ShovelC.class, 1f);
 	}
 }
