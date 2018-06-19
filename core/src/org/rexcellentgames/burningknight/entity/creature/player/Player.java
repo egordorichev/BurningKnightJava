@@ -28,10 +28,8 @@ import org.rexcellentgames.burningknight.entity.creature.player.fx.RunFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.InvisibilityPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
@@ -60,9 +58,7 @@ public class Player extends Creature {
 	public enum Type {
 		WARRIOR(0),
 		WIZARD(1),
-		ROGUE(2),
-		ARCHER(3),
-		GUNNER(4);
+		RANGER(2);
 
 		public byte id;
 
@@ -294,29 +290,17 @@ public class Player extends Creature {
 				case WIZARD:
 					generateMage();
 					break;
-				case ARCHER:
-					generateArcher();
-					break;
-				case GUNNER:
-					generateGunner();
-					break;
-				case ROGUE:
-					generateRogue();
+				case RANGER:
+					generateRanger();
 					break;
 			}
 		}
 	}
-	private void generateArcher() {
-		this.give(new BowA());
-	}
-
-	private void generateGunner() {
-		this.give(new GunA());
-	}
-
-	private void generateRogue() {
-		this.give(new DaggerA());
-		this.give(new InvisibilityPotion());
+	private void generateRanger() {
+		switch (Random.newInt(2)) {
+			case 0: default: this.give(new BowA()); break;
+			case 1: this.give(new GunA()); break;
+		}
 	}
 
 	private void generateWarrior() {

@@ -46,22 +46,14 @@ public class ShopWeaponPool extends Pool<Item> {
 		switch (Player.instance.getType()) {
 			case WARRIOR: addWarrior(); break;
 			case WIZARD: addMagic(); break;
-			case ARCHER: addArcher(); break;
-			case GUNNER: addGunner(); break;
-			case ROGUE: addRogue(); break;
+			case RANGER: addRanger(); break;
 		}
 	}
 
 	private void addGunner() {
-		add(GunA.class, 1f);
-		add(GunB.class, 1f);
-		add(GunC.class, 1f);
-		add(BackGun.class, 1f);
-		add(IsaacHead.class, 1f);
-		add(StarCannon.class, 1f);
 	}
 
-	private void addArcher() {
+	private void addRanger() {
 		add(BowA.class, 1f);
 		add(BowB.class, 1f);
 		add(BowC.class, 1f);
@@ -71,15 +63,12 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(AxeD.class, 1f);
 		add(MeetboyAxe.class, 1f);
 		add(BlueBoomerang.class, 1f);
-	}
-
-	private void addRogue() {
-		add(DaggerA.class, 1f);
-		add(DaggerB.class, 1f);
-		add(DaggerC.class, 1f);
-		add(ThrowingDaggerA.class, 1f);
-		add(ThrowingDaggerB.class, 1f);
-		add(ThrowingDaggerC.class, 1f);
+		add(GunA.class, 1f);
+		add(GunB.class, 1f);
+		add(GunC.class, 1f);
+		add(BackGun.class, 1f);
+		add(IsaacHead.class, 1f);
+		add(StarCannon.class, 1f);
 	}
 
 	private void addMagic() {
@@ -110,5 +99,11 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(YoyoC.class, 1f);
 		add(ThrowingDaggerA.class, 1f);
 		add(ThrowingDaggerB.class, 1f);
+		add(DaggerA.class, 1f);
+		add(DaggerB.class, 1f);
+		add(DaggerC.class, 1f);
+		add(ThrowingDaggerA.class, 1f);
+		add(ThrowingDaggerB.class, 1f);
+		add(ThrowingDaggerC.class, 1f);
 	}
 }
