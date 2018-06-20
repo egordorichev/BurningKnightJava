@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeFx;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeProjectile;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -69,8 +69,9 @@ public class Axe extends Weapon {
 			float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
 			float yy = y + (this.ox == 0 ? h / 4 : h / 2);
 
-			this.renderAt(xx - (flipped ? sprite.getRegionWidth() : 0), yy,
-				angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
+			this.renderAt(xx, yy,
+				angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy,
+				false, false, flipped ? -1f : 1f, 1f);
 		}
 	}
 
@@ -102,7 +103,7 @@ public class Axe extends Weapon {
 				count -= 1;
 				added = 0;
 
-				AxeFx fx = new AxeFx();
+				AxeProjectile fx = new AxeProjectile();
 
 				fx.region = getSprite();
 				fx.type = self.getClass();

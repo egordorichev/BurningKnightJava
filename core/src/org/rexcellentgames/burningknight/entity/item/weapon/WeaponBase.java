@@ -107,7 +107,6 @@ public class WeaponBase extends Item {
 		renderAt(x, y, a, ox, oy, fx, fy, 1, 1);
 	}
 
-
 	public static ShaderProgram shader;
 
 	static {

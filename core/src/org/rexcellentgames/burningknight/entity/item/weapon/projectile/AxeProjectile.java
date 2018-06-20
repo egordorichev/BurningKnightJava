@@ -1,49 +1,40 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class AxeFx extends Entity {
-	private Point vel;
-	private Body body;
+public class AxeProjectile extends Projectile {
 	private float t;
 	private float a;
 
-	public boolean crit;
-	public float damage;
 	public TextureRegion region;
-	public Creature owner;
 	public boolean penetrates;
 	public Class<? extends Axe> type;
 	public int speed;
 	public Axe axe;
 
+	{
+		alwaysActive = true;
+		depth = 9;
+	}
+
 	@Override
 	public void init() {
-		this.alwaysActive = true;
 		float dx = Input.instance.worldMouse.x - this.x - 8;
 		float dy = Input.instance.worldMouse.y - this.y - 8;
 		float a = (float) Math.atan2(dy, dx);
-
-		this.depth = 9;
 
 		this.vel = new Point(
 			(float) Math.cos(a) * this.speed,
@@ -51,19 +42,39 @@ public class AxeFx extends Entity {
 		);
 
 		this.body = World.createSimpleCentredBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-
-		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
-			this.body.setBullet(true);
-		}
+		this.body.setTransform(this.x, this.y, 0);
+		this.body.setBullet(true);
 
 		this.a = Random.newFloat((float) (Math.PI * 2));
 	}
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
+	private boolean did;
 
+	@Override
+	protected boolean hit(Entity entity) {
+		if (!this.penetrates && this.did) {
+			return false;
+		}
+
+		if (this.bad) {
+			if (entity instanceof Player) {
+				this.doHit(entity);
+				this.did = true;
+				return true;
+			}
+		} else if (entity instanceof Mob) {
+			this.doHit(entity);
+			this.did = true;
+			return true;
+		} else if (entity instanceof Player && this.t > 0.2f) {
+			this.done = true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public void logic(float dt) {
 		this.vel.mul(0.95f);
 
 		this.t += dt;
@@ -98,40 +109,9 @@ public class AxeFx extends Entity {
 	}
 
 	@Override
-	public void onCollision(Entity entity) {
-		super.onCollision(entity);
-
-		if (entity == this.owner) {
-			if (this.t >= 1f) {
-				this.done = true;
-			}
-		} else if (entity instanceof Creature) {
-			Creature creature = ((Creature) entity);
-
-			creature.vel.x += this.vel.x;
-			creature.vel.y += this.vel.y;
-
-			HpFx fx = creature.modifyHp((int) -this.damage, this.owner);
-
-			if (fx != null && crit) {
-				fx.crit = true;
-			}
-
-			BloodFx.add(entity, 10);
-
-			this.axe.onHit(creature);
-
-			if (!this.penetrates && !this.owner.penetrates) {
-				this.done = true;
-			}
-		}
-	}
-
-	@Override
 	public void destroy() {
 		super.destroy();
 
-		this.body = World.removeBody(this.body);
 		ItemHolder holder = new ItemHolder();
 
 		try {

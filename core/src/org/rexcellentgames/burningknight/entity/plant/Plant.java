@@ -14,7 +14,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeFx;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.physics.World;
@@ -173,7 +173,7 @@ public class Plant extends SaveableEntity {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if ((entity instanceof Weapon || entity instanceof ArrowProjectile || entity instanceof BulletEntity || entity instanceof AxeFx) && this.growProgress == 1f && !this.dead) {
+		if ((entity instanceof Weapon || entity instanceof ArrowProjectile || entity instanceof BulletEntity || entity instanceof AxeProjectile) && this.growProgress == 1f && !this.dead) {
 			this.dead = true;
 			this.animation = this.getWiltAnimation();
 			this.broke = true;
