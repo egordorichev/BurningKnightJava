@@ -1,10 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item.pet.impl;
 
-import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Fireball;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class JellyOrbitalImpl extends Orbital {

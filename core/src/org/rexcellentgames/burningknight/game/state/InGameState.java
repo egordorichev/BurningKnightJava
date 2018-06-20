@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.Bloodsplat;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -216,7 +217,7 @@ public class InGameState extends State {
 		this.inventory = new UiInventory(Player.instance.getInventory());
 		Dungeon.ui.add(this.inventory);
 
-		// Dungeon.ui.add(new UiMap());
+		Dungeon.ui.add(new UiMap());
 
 		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
 			@Override

@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.levels.library;
 
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -19,7 +20,7 @@ public class LibraryLevel extends RegularLevel {
 
 	@Override
 	public String getMusic() {
-		return "Believer";
+		return Dungeon.depth == 0 ? "Gobbeon" : "Believer";
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class SmileRoom extends RegularRoom {
 		Painter.fill(level, new Rect(
 			this.left + (int) Math.floor(w / 2) - 1, this.top + (int) Math.floor(h / 2) + 1,
 			this.left + (int) Math.ceil(w / 2) + 1, this.bottom - 1
-		), f);
+		), fill == Terrain.LAVA ? Terrain.DIRT : f);
 	}
 
 	@Override

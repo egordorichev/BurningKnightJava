@@ -1,11 +1,8 @@
-package org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet;
+package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 

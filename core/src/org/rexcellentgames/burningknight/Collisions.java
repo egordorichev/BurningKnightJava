@@ -10,22 +10,8 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
-import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.Yoyo;
-import org.rexcellentgames.burningknight.entity.level.entities.Door;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Bomb;
-import org.rexcellentgames.burningknight.entity.item.Gold;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.Yoyo;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -76,10 +62,10 @@ public class Collisions implements ContactListener, ContactFilter {
 			contact.setEnabled(false);
 		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Player && ((Player) a).flying) {
 			contact.setEnabled(false);
-		} else if (a == null && b instanceof ArrowEntity) {
-			((ArrowEntity) b).done = true;
-		} else if (b == null && a instanceof ArrowEntity) {
-			((ArrowEntity) a).done = true;
+		} else if (a == null && b instanceof ArrowProjectile) {
+			((ArrowProjectile) b).done = true;
+		} else if (b == null && a instanceof ArrowProjectile) {
+			((ArrowProjectile) a).done = true;
 		} else if (a instanceof Creature && b instanceof Creature) {
 			contact.setEnabled(false);
 		} else if ((a instanceof Creature && b instanceof ItemHolder) || (b instanceof Creature && a instanceof ItemHolder)) {
@@ -104,12 +90,12 @@ public class Collisions implements ContactListener, ContactFilter {
 			if (!((Door) b).lock) {
 				contact.setEnabled(false);
 			}
-		} else if (a instanceof ArrowEntity) {
-			if (((ArrowEntity) a).owner == b) {
+		} else if (a instanceof ArrowProjectile) {
+			if (((ArrowProjectile) a).owner == b) {
 				contact.setEnabled(false);
 			}
-		} else if (b instanceof ArrowEntity) {
-			if (((ArrowEntity) b).owner == a) {
+		} else if (b instanceof ArrowProjectile) {
+			if (((ArrowProjectile) b).owner == a) {
 				contact.setEnabled(false);
 			}
 		} else if ((a instanceof BulletEntity || a instanceof Shell) && b != null) {

@@ -40,8 +40,17 @@ public class Wand extends WeaponBase {
 		}
 
 		super.use();
-
 		this.owner.modifyMana(-this.mana);
+		float a = (float) Math.toDegrees(this.lastAngle);
+		float h = this.region.getRegionHeight();
+		double an = this.lastAngle + Math.PI / 2;
+
+		this.spawnProjectile(this.owner.x + this.owner.w / 2 + h * (float) Math.cos(an),
+			this.owner.y + this.owner.h / 2 + h * (float) Math.sin(an), a + 90);
+	}
+
+	public void spawnProjectile(float x, float y, float a) {
+
 	}
 
 	@Override

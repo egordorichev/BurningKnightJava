@@ -1,19 +1,15 @@
 package org.rexcellentgames.burningknight.entity.item.pet.orbital;
 
-import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Fireball;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
 import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -38,7 +34,7 @@ public class BrokenOrbital extends Pet {
 		protected void onHit(Entity entity) {
 			super.onHit(entity);
 
-			if (entity instanceof BulletEntity || entity instanceof ArrowEntity || entity instanceof Fireball) {
+			if (entity instanceof BulletEntity || entity instanceof ArrowProjectile || entity instanceof Fireball) {
 				this.done = true;
 
 				for (int i = 0; i < 20; i++) {

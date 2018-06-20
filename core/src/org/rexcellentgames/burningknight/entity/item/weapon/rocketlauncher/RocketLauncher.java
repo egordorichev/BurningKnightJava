@@ -12,16 +12,8 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocket.Rocket;
-import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocket.RocketEntity;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.util.geometry.Point;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.RocketEntity;
 
 public class RocketLauncher extends WeaponBase {
 	private float sx = 1f;

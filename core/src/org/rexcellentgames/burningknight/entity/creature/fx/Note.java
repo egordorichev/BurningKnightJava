@@ -17,7 +17,7 @@ import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
 
-public class Note extends Entity implements WormholeFx.Suckable {
+public class Note extends Entity {
 	public static Animation animations = Animation.make("note");
 	private TextureRegion region;
 	public float a;
@@ -29,11 +29,6 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	public Creature owner;
 
 	@Override
-	public Body getBody() {
-		return body;
-	}
-
-	@Override
 	public void init() {
 		this.playSfx("ukulele_" + Random.newInt(1, 5));
 
@@ -41,7 +36,6 @@ public class Note extends Entity implements WormholeFx.Suckable {
 
 		this.vel = new Vector2();
 
-		WormholeFx.suck.add(this);
 		this.y -= 4;
 
 		vel.x = (float) (Math.cos(this.a) * 60);
@@ -106,7 +100,6 @@ public class Note extends Entity implements WormholeFx.Suckable {
 	@Override
 	public void destroy() {
 		super.destroy();
-		WormholeFx.suck.remove(this);
 		this.body = World.removeBody(this.body);
 	}
 

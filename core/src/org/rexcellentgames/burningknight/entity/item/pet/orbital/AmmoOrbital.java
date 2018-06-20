@@ -6,19 +6,10 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.pet.Pet;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class AmmoOrbital extends Pet {
 	{

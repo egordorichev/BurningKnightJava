@@ -42,6 +42,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletB
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletC
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.ShotgunA
 import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherA
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherB
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
@@ -114,8 +115,6 @@ object ItemRegistry {
             "cabbage" to Cabbage::class,
             "lightroom_seed" to LightroomSeed::class,
             "potiongrass_seed" to PotionGrassSeed::class,
-            "fire_book" to FireBook::class,
-            "note_book" to NoteBook::class,
             "arrow_a" to ArrowA::class,
             "arrow_b" to ArrowB::class,
             "arrow_c" to ArrowC::class,
@@ -124,9 +123,7 @@ object ItemRegistry {
             "bow_c" to BowC::class,
             "guitar" to Guitar::class,
             "lamp" to Lamp::class,
-            "defense_book" to DefenseBook::class,
             "ghost" to GhostLeaver::class,
-            "worm_hole" to WormHole::class,
             "mana_spell" to ManaSpell::class,
             "key_a" to KeyA::class,
             "key_b" to KeyB::class,
@@ -241,6 +238,7 @@ object ItemRegistry {
             "pickaxe_a" to PickaxeA::class,
             "pickaxe_b" to PickaxeB::class,
             "pickaxe_c" to PickaxeC::class,
-            "pickaxe_d" to PickaxeD::class
+            "pickaxe_d" to PickaxeD::class,
+            "missile_wand" to MagicMissileWand::class
     )
 }

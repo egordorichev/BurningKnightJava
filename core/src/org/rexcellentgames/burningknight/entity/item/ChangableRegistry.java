@@ -91,13 +91,13 @@ public class ChangableRegistry {
 
 		ArrayList<Class<? extends Spell>> spells = new ArrayList<>(Arrays.asList(
 			SpellOfTeleportation.class, SpellOfDamage.class, GhostLeaver.class,
-			WormHole.class, ManaSpell.class
+			ManaSpell.class
 		));
 
 		// todo: finish this list
 		ArrayList<Type> spellTypes = new ArrayList<>(Arrays.asList(
-			Type.JERA, Type.THURISAZ, Type.FEHU, Type.RAIDO,
-			Type.MANNAZ // , Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
+			Type.JERA, Type.THURISAZ, Type.FEHU, Type.RAIDO
+			// Type.MANNAZ  , Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
 		));
 
 		for (Type type : spellTypes) {

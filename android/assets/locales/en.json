@@ -89,8 +89,6 @@
 	"compass_desc" : "Will show your way!",
 	"the_sword" : "The Sword",
 	"the_sword_desc" : "OP EZ GG",
-	"worm_hole" : "Worm Hole",
-	"worm_hole_desc" : "Sucks projectiles very well",
 	"key_a" : "Iron Chest Key",
 	"key_a_desc" : "Opens iron chests",
 	"key_b" : "Key",
@@ -406,5 +404,7 @@
 	"golden_pickaxe" : "Golden pickaxe",
 	"golden_pickaxe_desc" : "Breaks fast",
 	"diamond_pickaxe" : "Diamond pickaxe",
-	"diamond_pickaxe_desc" : "@_@"
+	"diamond_pickaxe_desc" : "@_@",
+	"magic_missile_wand" : "Wand of magic missile",
+	"magic_missile_wand_desc" : "Tadam"
 }

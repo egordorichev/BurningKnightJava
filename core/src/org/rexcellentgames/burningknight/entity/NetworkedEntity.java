@@ -14,7 +14,6 @@ public class NetworkedEntity extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-
 		this.t += dt;
 	}
 

@@ -3,12 +3,9 @@ package org.rexcellentgames.burningknight.entity.item.weapon.bow;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -35,7 +32,7 @@ public class Bow extends WeaponBase {
 		this.owner.vel.x += Math.cos(a) * s * owner.knockbackMod;
 		this.owner.vel.y += Math.sin(a) * s * owner.knockbackMod;
 
-		ArrowEntity arrow = new ArrowEntity();
+		ArrowProjectile arrow = new ArrowProjectile();
 
 		arrow.owner = this.owner;
 

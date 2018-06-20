@@ -7,19 +7,15 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeFx;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeFx;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -177,7 +173,7 @@ public class Plant extends SaveableEntity {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if ((entity instanceof Weapon || entity instanceof ArrowEntity || entity instanceof BulletEntity || entity instanceof AxeFx) && this.growProgress == 1f && !this.dead) {
+		if ((entity instanceof Weapon || entity instanceof ArrowProjectile || entity instanceof BulletEntity || entity instanceof AxeFx) && this.growProgress == 1f && !this.dead) {
 			this.dead = true;
 			this.animation = this.getWiltAnimation();
 			this.broke = true;

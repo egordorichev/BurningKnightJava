@@ -1,5 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BigBulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BigBulletEntity;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class CKGun extends GunA {

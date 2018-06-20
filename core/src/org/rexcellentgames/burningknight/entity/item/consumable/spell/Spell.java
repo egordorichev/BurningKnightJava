@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
-import org.rexcellentgames.burningknight.entity.item.WormHole;
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -77,7 +76,7 @@ public class Spell extends Consumable {
 	}
 
 	public static Spell random() {
-		int random = Random.newInt(5);
+		int random = Random.newInt(4);
 
 		switch (random) {
 			case 0: case 1:
@@ -86,8 +85,6 @@ public class Spell extends Consumable {
 				return new SpellOfDamage();
 			case 3:
 				return new GhostLeaver();
-			case 4:
-				return new WormHole();
 		}
 	}
 }

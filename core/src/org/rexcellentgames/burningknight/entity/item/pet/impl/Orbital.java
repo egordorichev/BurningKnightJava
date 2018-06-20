@@ -2,15 +2,11 @@ package org.rexcellentgames.burningknight.entity.item.pet.impl;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
 import org.rexcellentgames.burningknight.physics.World;
+
 import java.util.ArrayList;
 
 public class Orbital extends PetEntity {
@@ -64,11 +60,7 @@ public class Orbital extends PetEntity {
 	}
 
 	protected void onHit(Entity entity) {
-		if (entity instanceof BulletEntity && ((BulletEntity) entity).bad) {
-			((BulletEntity) entity).remove = true;
-		} else if (entity instanceof Fireball) {
-			((Fireball) entity).delete();
-		}
+
 	}
 
 	protected void readIndex() {

@@ -20,7 +20,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.fx.Fireball;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Fireball;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
@@ -580,7 +580,6 @@ public class BurningKnight extends Boss {
 						case MISSILE:
 							ball = new Fireball();
 
-							ball.ignoreWalls = true;
 							ball.owner = self;
 							ball.target = self.target;
 							ball.x = self.x + (self.w - 16) / 2;
@@ -594,14 +593,14 @@ public class BurningKnight extends Boss {
 							for (int i = 0; i < Random.newInt(10, 20); i++) {
 								ball = new Fireball();
 
-								ball.ignoreWalls = true;
+								// ball.ignoreWalls = true;
 
 								float d = Random.newFloat(16f, 64f);
 								float a = Random.newFloat((float) (Math.PI * 2));
 
 								ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
 								ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
-								ball.noMove = true;
+								/// ball.noMove = true;
 								ball.owner = self;
 								ball.bad = !self.stupid;
 
@@ -614,9 +613,9 @@ public class BurningKnight extends Boss {
 								ball = new Fireball();
 
 
-								ball.ignoreWalls = true;
+							//	ball.ignoreWalls = true;
 								float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
-								ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
+								// ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
 
 								ball.x = self.x + (self.w - 16) / 2;
 								ball.y = self.y + (self.h - 10) / 2;
@@ -631,10 +630,9 @@ public class BurningKnight extends Boss {
 								ball = new Fireball();
 
 
-								ball.ignoreWalls = true;
 								float a = (float) (i * Math.PI / 2);
 
-								ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
+								// ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
 
 								ball.x = self.x + (self.w - 16) / 2;
 								ball.y = self.y + (self.h - 10) / 2;

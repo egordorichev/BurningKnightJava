@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocket;
+package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;

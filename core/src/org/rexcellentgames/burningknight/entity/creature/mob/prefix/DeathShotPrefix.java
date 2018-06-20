@@ -3,8 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.prefix;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class DeathShotPrefix extends Prefix {
