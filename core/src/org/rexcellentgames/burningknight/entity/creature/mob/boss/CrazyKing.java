@@ -470,6 +470,7 @@ public class CrazyKing extends Boss {
 											float a = (float) (i * Math.PI / 4);
 											ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
 
+											ball.parts = true;
 											ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 											ball.damage = 2;
 											ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
@@ -582,6 +583,7 @@ public class CrazyKing extends Boss {
 						ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 						ball.damage = 2;
 						ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
+						ball.parts = true;
 
 						ball.letter = "bad";
 						Dungeon.area.add(ball);

@@ -239,6 +239,7 @@ object ItemRegistry {
             "pickaxe_b" to PickaxeB::class,
             "pickaxe_c" to PickaxeC::class,
             "pickaxe_d" to PickaxeD::class,
-            "missile_wand" to MagicMissileWand::class
+            "missile_wand" to MagicMissileWand::class,
+            "laser_aim" to LaserAim::class
     )
 }

@@ -121,7 +121,7 @@ public class Gun extends WeaponBase {
 			Graphics.batch.begin();
 		}
 
-		if (this.owner instanceof Player) {
+		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
 			float d = Display.GAME_WIDTH * 10;
 			closestFraction = 1f;
 			World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);

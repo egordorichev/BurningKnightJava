@@ -31,7 +31,7 @@ public class Laser extends Entity {
 	public static TextureRegion endOverlay = Graphics.getTexture("laser (end_over)");
 	public static TextureRegion mid = Graphics.getTexture("laser (mid)");
 	public static TextureRegion midOverlay = Graphics.getTexture("laser (mid_over)");
-	public static TextureRegion circ = Graphics.getTexture("laser (circ)");
+	public static TextureRegion circ = Graphics.getTexture("laser (circleShape)");
 	public static TextureRegion circOverlay = Graphics.getTexture("laser (circ_over)");
 
 	private Body body;

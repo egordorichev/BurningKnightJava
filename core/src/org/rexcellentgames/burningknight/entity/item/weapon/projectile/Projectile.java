@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.NetworkedEntity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.physics.World;
 
 public class Projectile extends NetworkedEntity {
@@ -17,6 +18,12 @@ public class Projectile extends NetworkedEntity {
 
 	protected boolean broke;
 	protected Body body;
+
+	@Override
+	public void init() {
+		super.init();
+		this.bad = this.owner instanceof Mob;
+	}
 
 	@Override
 	public void destroy() {
@@ -85,9 +92,8 @@ public class Projectile extends NetworkedEntity {
 			}
 
 			BloodFx.add(entity, 10);
+			this.onHit(entity);
 		}
-
-		this.onHit(entity);
 	}
 
 	protected void logic(float dt) {

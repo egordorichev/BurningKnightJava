@@ -406,5 +406,7 @@
 	"diamond_pickaxe" : "Diamond pickaxe",
 	"diamond_pickaxe_desc" : "@_@",
 	"magic_missile_wand" : "Wand of magic missile",
-	"magic_missile_wand_desc" : "Tadam"
+	"magic_missile_wand_desc" : "Tadam",
+	"laser_aim" : "Laser aim",
+	"laser_aim_desc" : "It will point, but you probably\nstill will miss it"
 }

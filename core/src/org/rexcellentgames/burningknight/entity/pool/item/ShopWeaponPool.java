@@ -64,6 +64,9 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(BackGun.class, 1f);
 		add(IsaacHead.class, 1f);
 		add(StarCannon.class, 1f);
+		add(ThrowingDaggerA.class, 1f);
+		add(ThrowingDaggerB.class, 1f);
+		add(ThrowingDaggerC.class, 1f);
 	}
 
 	private void addMagic() {
@@ -105,5 +108,10 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(ShovelA.class, 1f);
 		add(ShovelB.class, 1f);
 		add(ShovelC.class, 1f);
+		add(AxeA.class, 1f);
+		add(AxeB.class, 1f);
+		add(AxeC.class, 1f);
+		add(AxeD.class, 1f);
+		add(MeetboyAxe.class, 1);
 	}
 }

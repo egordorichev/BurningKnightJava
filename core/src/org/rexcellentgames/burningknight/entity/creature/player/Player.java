@@ -81,6 +81,7 @@ public class Player extends Creature {
 	public float lightModifier;
 	public int connectionId;
 	public float heat;
+	public boolean hasRedLine;
 	protected float mana;
 	protected float manaMax;
 	protected int level;

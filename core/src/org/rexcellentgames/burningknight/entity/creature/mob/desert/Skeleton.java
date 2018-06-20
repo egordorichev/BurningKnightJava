@@ -173,14 +173,14 @@ public class Skeleton extends Mob {
 				BulletEntity ball = new BulletEntity() {
 					@Override
 					public void control() {
-						mod(vel, ivel, angle, dist, time);
+						mod(vel, ivel, angle, dist, t);
 					}
 
 					@Override
 					public void onCollision(Entity entity) {
 						super.onCollision(entity);
 
-						if (entity == this.owner && time >= 0.1f) {
+						if (entity == this.owner && t >= 0.1f) {
 							bonesMissing -= 1;
 							remove = true;
 						}
@@ -200,7 +200,8 @@ public class Skeleton extends Mob {
 				ball.damage = 2;
 				ball.canBeRemoved = false;
 				ball.owner = self;
-				ball.circ = true;
+				ball.circleShape = true;
+				ball.rotates = true;
 				ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
 
 				ball.letter = "bone";
