@@ -23,6 +23,8 @@ public class BigBulletEntity extends BulletEntity {
 			BulletEntity bullet = new BulletEntity();
 			bullet.damage = 2;
 			bullet.letter = "bad";
+			bullet.owner = this.owner;
+			bullet.bad = true;
 			bullet.a = a;
 			bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
 			bullet.x = this.x + (this.w - bullet.sprite.getRegionWidth()) / 2;

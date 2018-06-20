@@ -1,41 +1,34 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
-import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class RocketEntity extends Entity {
+public class RocketEntity extends Projectile {
 	public TextureRegion sprite;
 	public float a;
 	public Point vel;
-	private Body body;
 	private float ra;
-	public Creature owner;
-	public int damage;
-	private boolean remove;
-	public float knockback = 50f;
-	private boolean auto = true;
 	public String letter;
-	public boolean crit;
+
+	{
+		alwaysActive = true;
+		depth = 1;
+	}
 
 	@Override
 	public void init() {
-		this.alwaysActive = true;
 		this.ra = (float) Math.toRadians(this.a);
 
 		this.w = sprite.getRegionWidth();
@@ -50,28 +43,6 @@ public class RocketEntity extends Entity {
 	}
 
 	private Mob target;
-
-	@Override
-	public void onCollision(Entity entity) {
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof SolidProp) {
-			this.remove = true;
-			this.explode();
-		} else if (entity instanceof Creature) {
-			Creature creature = ((Creature) entity);
-
-			this.explode();
-			// creature.modifyHp(-this.damage);
-			this.remove = true;
-
-			float a = (float) (this.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2) - Math.PI * 2);
-
-			creature.vel.x += Math.cos(a) * this.knockback * creature.knockbackMod;
-			creature.vel.y += Math.sin(a) * this.knockback * creature.knockbackMod;
-
-			BloodFx.add(entity, 10);
-			Camera.shake(2);
-		}
-	}
 
 	private void explode() {
 		this.playSfx("explosion");
@@ -113,8 +84,13 @@ public class RocketEntity extends Entity {
 	}
 
 	@Override
-	public void destroy() {
-		this.body = World.removeBody(this.body);
+	protected boolean hit(Entity entity) {
+		if (entity == null || entity instanceof Creature || entity instanceof SolidProp) {
+			this.explode();
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
@@ -130,9 +106,7 @@ public class RocketEntity extends Entity {
 	private float last;
 
 	@Override
-	public void update(float dt) {
-		super.update(dt);
-
+	public void logic(float dt) {
 		this.last += dt;
 
 		if (this.last >= 0.12f) {
@@ -148,8 +122,6 @@ public class RocketEntity extends Entity {
 
 			Dungeon.area.add(part);
 		}
-
-		this.done = this.remove;
 
 		if (this.done) {
 			for (int i = 0; i < 20; i++) {
@@ -180,7 +152,7 @@ public class RocketEntity extends Entity {
 			if (this.target.isDead()) {
 				this.target = null;
 			}
-		} else if (this.auto) {
+		} else {
 			float m = 512f;
 
 			for (Mob mob : Mob.every) {
