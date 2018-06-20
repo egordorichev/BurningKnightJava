@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.physics.World;
@@ -85,7 +86,7 @@ public class RocketProjectile extends Projectile {
 
 	@Override
 	protected boolean hit(Entity entity) {
-		if (entity == null || entity instanceof Creature || entity instanceof SolidProp) {
+		if (entity == null || entity instanceof Creature || entity instanceof SolidProp || entity instanceof Door) {
 			this.explode();
 			return true;
 		}

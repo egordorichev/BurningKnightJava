@@ -408,5 +408,7 @@
 	"magic_missile_wand" : "Wand of magic missile",
 	"magic_missile_wand_desc" : "Tadam",
 	"laser_aim" : "Laser aim",
-	"laser_aim_desc" : "It will point, but you probably\nstill will miss it"
+	"laser_aim_desc" : "It will point, but you probably\nstill will miss it",
+	"fireball_wand" : "Fireball wand",
+	"fireball_wand_desc" : "With great fire comes great BBQ"
 }

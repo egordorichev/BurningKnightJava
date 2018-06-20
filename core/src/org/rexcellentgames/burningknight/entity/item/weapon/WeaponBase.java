@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.modifier.Modifier;
 import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
@@ -19,8 +20,8 @@ import java.io.IOException;
 
 public class WeaponBase extends Item {
 	protected Modifier modifier;
-	public int damage = 1;
-	protected int minDamage = 1;
+	public int damage = 2;
+	protected int minDamage = -1;
 	protected float timeA = 0.1f;
 	protected float timeB = 0.1f;
 	protected float knockback = 10f;
@@ -53,6 +54,14 @@ public class WeaponBase extends Item {
 	protected boolean lastCrit;
 
 	public int rollDamage() {
+		if (this.owner == null) {
+			this.owner = Player.instance;
+		}
+
+		if (this.minDamage == -1) {
+			minDamage = Math.round(((float) damage) / 3 * 2);
+		}
+
 		lastCrit = Random.chance(this.critChance + this.owner.critChance);
 		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
 	}

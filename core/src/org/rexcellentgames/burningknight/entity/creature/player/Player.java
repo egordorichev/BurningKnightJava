@@ -694,11 +694,7 @@ public class Player extends Creature {
 	public static ShaderProgram shader;
 
 	static {
-		String vertexShader;
-		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/rainbow.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/rainbow.frag").readString();
-		shader = new ShaderProgram(vertexShader, fragmentShader);
+		shader = new ShaderProgram(Gdx.files.internal("shaders/rainbow.vert").readString(),  Gdx.files.internal("shaders/rainbow.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 

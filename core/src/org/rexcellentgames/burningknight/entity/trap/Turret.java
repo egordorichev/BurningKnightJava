@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -153,7 +153,7 @@ public class Turret extends SolidProp {
 	}
 
 	protected void send() {
-		BulletEntity bullet = new BulletEntity();
+		BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
 
 		float x = this.x + region.getRegionWidth() / 2;
@@ -177,7 +177,7 @@ public class Turret extends SolidProp {
 		Dungeon.area.add(bullet);
 	}
 
-	protected void modify(BulletEntity entity) {
+	protected void modify(BulletProjectile entity) {
 		switch (this.type) {
 			case 1: entity.toApply = PoisonBuff.class; break;
 			case 2: entity.toApply = FreezeBuff.class; break;

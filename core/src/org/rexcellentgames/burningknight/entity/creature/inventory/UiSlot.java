@@ -17,9 +17,9 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiSlot {
 	private static TextureRegion slot;
-	private static TextureRegion armorBg = Graphics.getTexture("ui (armor_bg)");
-	private static TextureRegion coinBg = Graphics.getTexture("ui (gold_bg)");
-	private static TextureRegion equipBg = Graphics.getTexture("ui (equip_bg)");
+	private static TextureRegion armorBg = Graphics.getTexture("ui-hat_bg");
+	private static TextureRegion coinBg = Graphics.getTexture("ui-coin_bg");
+	private static TextureRegion equipBg = Graphics.getTexture("ui-ring_bg");
 
 	public int x;
 	public float y;
@@ -42,7 +42,7 @@ public class UiSlot {
 		this.inventory = inventory;
 
 		if (slot == null) {
-			slot = Graphics.getTexture("ui (inventory slot)");
+			slot = Graphics.getTexture("ui-inventory_slot");
 		}
 	}
 

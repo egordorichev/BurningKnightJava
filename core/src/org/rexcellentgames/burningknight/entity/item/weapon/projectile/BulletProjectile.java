@@ -10,13 +10,14 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class BulletEntity extends Projectile {
+public class BulletProjectile extends Projectile {
 	public TextureRegion sprite;
 	public float a;
 	private float ra;
@@ -48,17 +49,19 @@ public class BulletEntity extends Projectile {
 		this.ra = (float) Math.toRadians(this.a);
 		this.parts = this.bad;
 
-		if (this.sprite == null) {
+		if (this.sprite == null && this.letter != null) {
 			this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
 		}
 
-		this.w = sprite.getRegionWidth();
-		this.h = sprite.getRegionHeight();
+		if (this.sprite != null) {
+			this.w = sprite.getRegionWidth();
+			this.h = sprite.getRegionHeight();
+		}
 
-		if (sprite.getRegionWidth() == sprite.getRegionHeight() || circleShape) {
-			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil(((float)sprite.getRegionWidth()) / 2), BodyDef.BodyType.DynamicBody, this.letter.equals("bone"));
+		if ((this.w == this.h || circleShape) && !rectShape) {
+			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil((this.h) / 2), BodyDef.BodyType.DynamicBody, this.letter != null && this.letter.equals("bone"));
 		} else {
-			this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
 		}
 
 		if (this.body != null) {
@@ -67,6 +70,7 @@ public class BulletEntity extends Projectile {
 		}
 	}
 
+	public boolean rectShape;
 	public boolean canBeRemoved = true;
 
 	public void countRemove() {
@@ -92,11 +96,11 @@ public class BulletEntity extends Projectile {
 
 	}
 
-	private float last;
+	protected float last;
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		return entity == null || entity instanceof SolidProp;
+		return entity == null || entity instanceof SolidProp || entity instanceof Door;
 	}
 
 	@Override
@@ -104,11 +108,11 @@ public class BulletEntity extends Projectile {
 		if (this.bad) {
 			if (entity instanceof Player) {
 				this.doHit(entity);
-				return true;
+				return this.canBeRemoved;
 			}
 		} else if (entity instanceof Mob) {
 			this.doHit(entity);
-			return true;
+			return this.canBeRemoved;
 		}
 
 		return false;
@@ -127,9 +131,9 @@ public class BulletEntity extends Projectile {
 
 	@Override
 	public void logic(float dt) {
-		if (this.parts) {
-			this.last += dt;
+		this.last += dt;
 
+		if (this.parts) {
 			if (this.last > 0.08f) {
 				this.last = 0;
 				Part part = new Part();

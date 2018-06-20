@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -49,7 +49,7 @@ public class AmmoOrbital extends Pet {
 				if (Player.instance.currentRoom != null) {
 					for (Mob mob : Mob.all) {
 						if (mob.onScreen) {
-							BulletEntity ball = new BulletEntity();
+							BulletProjectile ball = new BulletProjectile();
 
 							float a = this.getAngleTo(mob.x + mob.w / 2, mob.y + mob.h / 2);
 							ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * 5f);

@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -50,7 +51,7 @@ public class ArrowProjectile extends Projectile {
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		if (!this.did && (entity == null || entity instanceof SolidProp)) {
+		if (!this.did && (entity == null || entity instanceof SolidProp || entity instanceof Door)) {
 			this.did = true;
 			this.vel.mul(0);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);

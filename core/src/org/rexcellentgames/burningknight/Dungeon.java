@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
@@ -480,6 +481,7 @@ public class Dungeon extends ApplicationAdapter {
 			Level.maskShader.dispose();
 			MagicWell.shader.dispose();
 			WeaponBase.shader.dispose();
+			RectFx.shader.dispose();
 			shader.dispose();
 		}
 	}

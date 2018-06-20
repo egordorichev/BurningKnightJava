@@ -17,7 +17,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.CKGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -465,7 +465,7 @@ public class CrazyKing extends Boss {
 										}
 
 										for (int i = 0; i < 8; i++) {
-											BulletEntity ball = new BulletEntity();
+											BulletProjectile ball = new BulletProjectile();
 
 											float a = (float) (i * Math.PI / 4);
 											ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
@@ -575,7 +575,7 @@ public class CrazyKing extends Boss {
 					}
 
 					for (int i = 0; i < 8; i++) {
-						BulletEntity ball = new BulletEntity();
+						BulletProjectile ball = new BulletProjectile();
 
 						float a = (float) (i * Math.PI / 4);
 						ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);

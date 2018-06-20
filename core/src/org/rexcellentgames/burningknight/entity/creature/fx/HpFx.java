@@ -68,7 +68,7 @@ public class HpFx extends Entity {
 		});
 	}
 
-	private static TextureRegion blockTexture = Graphics.getTexture("ui (block)");
+	private static TextureRegion blockTexture = Graphics.getTexture("ui-block");
 
 	@Override
 	public void render() {

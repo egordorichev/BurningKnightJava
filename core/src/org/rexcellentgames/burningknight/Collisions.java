@@ -10,9 +10,9 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.Yoyo;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
@@ -62,10 +62,10 @@ public class Collisions implements ContactListener, ContactFilter {
 			contact.setEnabled(false);
 		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Player && ((Player) a).flying) {
 			contact.setEnabled(false);
-		} else if (a == null && b instanceof ArrowProjectile) {
-			((ArrowProjectile) b).done = true;
-		} else if (b == null && a instanceof ArrowProjectile) {
-			((ArrowProjectile) a).done = true;
+		} else if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Projectile) {
+			contact.setEnabled(false);
+		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Projectile) {
+			contact.setEnabled(false);
 		} else if (a instanceof Creature && b instanceof Creature) {
 			contact.setEnabled(false);
 		} else if ((a instanceof Creature && b instanceof ItemHolder) || (b instanceof Creature && a instanceof ItemHolder)) {
@@ -90,17 +90,9 @@ public class Collisions implements ContactListener, ContactFilter {
 			if (!((Door) b).lock) {
 				contact.setEnabled(false);
 			}
-		} else if (a instanceof ArrowProjectile) {
-			if (((ArrowProjectile) a).owner == b) {
-				contact.setEnabled(false);
-			}
-		} else if (b instanceof ArrowProjectile) {
-			if (((ArrowProjectile) b).owner == a) {
-				contact.setEnabled(false);
-			}
-		} else if ((a instanceof BulletEntity || a instanceof Shell) && b != null) {
+		} else if ((a instanceof BulletProjectile || a instanceof Shell) && b != null) {
 			contact.setEnabled(false);
-		} else if ((b instanceof BulletEntity || b instanceof Shell) && a != null) {
+		} else if ((b instanceof BulletProjectile || b instanceof Shell) && a != null) {
 			contact.setEnabled(false);
 		} else if ((a instanceof GoreFx) && b != null) {
 			contact.setEnabled(false);

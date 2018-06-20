@@ -1,6 +1,6 @@
 package org.rexcellentgames.burningknight.entity.trap;
 
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -25,7 +25,7 @@ public class FourSideTurret extends Turret {
 	@Override
 	protected void send() {
 		for (int i = 0; i < 4; i++) {
-			BulletEntity bullet = new BulletEntity();
+			BulletProjectile bullet = new BulletProjectile();
 			bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
 
 			float x = this.x + region.getRegionWidth() / 2;

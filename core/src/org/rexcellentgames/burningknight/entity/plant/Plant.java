@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -173,7 +173,7 @@ public class Plant extends SaveableEntity {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if ((entity instanceof Weapon || entity instanceof ArrowProjectile || entity instanceof BulletEntity || entity instanceof AxeProjectile) && this.growProgress == 1f && !this.dead) {
+		if ((entity instanceof Weapon || entity instanceof ArrowProjectile || entity instanceof BulletProjectile || entity instanceof AxeProjectile) && this.growProgress == 1f && !this.dead) {
 			this.dead = true;
 			this.animation = this.getWiltAnimation();
 			this.broke = true;

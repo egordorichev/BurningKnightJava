@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.consumable.seed;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
@@ -29,7 +27,7 @@ public class Seed extends Consumable {
 
 	@Override
 	public void beforeRender(float x, float y, float w, float h, boolean flipped) {
-		if (frame == null) {
+		/*if (frame == null) {
 			frame = Graphics.getTexture("ui (plant cursor)");
 		}
 
@@ -38,7 +36,7 @@ public class Seed extends Consumable {
 
 		if (Dungeon.level.get(xx, yy) == Terrain.DIRT) {
 			Graphics.render(frame, xx * 16, yy * 16 - 12);
-		}
+		}*/
 	}
 
 	@Override

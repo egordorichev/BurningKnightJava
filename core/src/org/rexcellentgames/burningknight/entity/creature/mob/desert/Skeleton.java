@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -170,7 +170,7 @@ public class Skeleton extends Mob {
 			float add = Random.chance(50) ? (float) (Math.PI / 4) : 0;
 
 			for (int i = 0; i < (eight ? 8 : 4); i++) {
-				BulletEntity ball = new BulletEntity() {
+				BulletProjectile ball = new BulletProjectile() {
 					@Override
 					public void control() {
 						mod(vel, ivel, angle, dist, t);

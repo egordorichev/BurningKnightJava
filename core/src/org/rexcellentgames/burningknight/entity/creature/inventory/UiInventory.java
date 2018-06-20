@@ -399,10 +399,10 @@ public class UiInventory extends UiEntity {
 		});
 	}
 
-	private static TextureRegion heart = Graphics.getTexture("ui (heart)");
-	private static TextureRegion heart_bg = Graphics.getTexture("ui (heart_bg)");
-	private static TextureRegion hurt = Graphics.getTexture("ui (hurt_heart)");
-	private static TextureRegion half = Graphics.getTexture("ui (half_heart)");
+	private static TextureRegion heart = Graphics.getTexture("ui-heart");
+	private static TextureRegion heart_bg = Graphics.getTexture("ui-heart_bg");
+	private static TextureRegion hurt = Graphics.getTexture("ui-hit_heart");
+	private static TextureRegion half = Graphics.getTexture("ui-half_heart");
 
 	@Override
 	public void render() {

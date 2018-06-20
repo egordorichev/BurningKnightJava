@@ -71,7 +71,6 @@ public class FireballProjectile extends Projectile {
 
 		this.t = Random.newFloat(32f);
 
-		this.y -= 4;
 		this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);

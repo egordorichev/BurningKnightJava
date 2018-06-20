@@ -18,7 +18,7 @@ public class StrongModifier extends Modifier {
 	@Override
 	public void apply(WeaponBase weapon) {
 		super.apply(weapon);
-		weapon.modifyDamage((int) Math.max(1, Math.ceil(((float) weapon.damage) / 4 * 3)));
+		weapon.modifyDamage((int) Math.max(1, Math.ceil(((float) weapon.damage) / 4)));
 	}
 
 	@Override

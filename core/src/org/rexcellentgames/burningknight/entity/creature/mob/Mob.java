@@ -113,11 +113,6 @@ public class Mob extends Creature {
 
 		every.add(this);
 
-		if (hideSign == null) {
-			hideSign = Graphics.getTexture("ui (hide sign)");
-			noticeSign = Graphics.getTexture("ui (notice sign)");
-		}
-
 		if (Random.chance(50)) {
 			this.become("roam");
 		}

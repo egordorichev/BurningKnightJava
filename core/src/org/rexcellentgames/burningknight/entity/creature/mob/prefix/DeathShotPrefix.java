@@ -3,7 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.prefix;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class DeathShotPrefix extends Prefix {
@@ -19,7 +19,7 @@ public class DeathShotPrefix extends Prefix {
 		super.onDeath(mob);
 
 		for (int i = 0; i < 8; i++) {
-			BulletEntity ball = new BulletEntity();
+			BulletProjectile ball = new BulletProjectile();
 
 			float a = (float) (i * Math.PI / 4);
 			ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * Mob.shotSpeedMod);

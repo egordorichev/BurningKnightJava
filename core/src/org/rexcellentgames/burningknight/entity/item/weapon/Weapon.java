@@ -5,11 +5,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
@@ -22,10 +17,6 @@ public class Weapon extends WeaponBase {
 	protected boolean penetrates = false;
 	private boolean used = false;
 	protected float added;
-
-	public Weapon() {
-		minDamage = Math.round(((float) damage) / 3 * 2);
-	}
 
 	{
 		identified = true;

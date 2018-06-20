@@ -15,8 +15,8 @@ public class UiSlider extends UiButton {
 	private float max;
 	protected float val;
 	private float sw;
-	private static TextureRegion slider = Graphics.getTexture("ui (slider)");
-	private static TextureRegion handle = Graphics.getTexture("ui (slider_handle)");
+	private static TextureRegion slider = Graphics.getTexture("ui-slider");
+	private static TextureRegion handle = Graphics.getTexture("ui-slider_handle");
 
 	public UiSlider(String label, int x, int y) {
 		super(label, x, y, true);

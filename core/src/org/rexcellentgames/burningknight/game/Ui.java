@@ -29,7 +29,7 @@ public class Ui {
 	private TextureRegion cursor;
 	public Ui() {
 		ui = this;
-		cursor = Graphics.getTexture("ui (cursor)");
+		cursor = Graphics.getTexture("ui-cursor");
 	}
 
 	public void update(float dt) {
