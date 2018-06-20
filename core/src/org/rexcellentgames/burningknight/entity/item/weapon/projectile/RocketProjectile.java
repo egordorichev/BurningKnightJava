@@ -15,7 +15,7 @@ import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class RocketEntity extends Projectile {
+public class RocketProjectile extends Projectile {
 	public TextureRegion sprite;
 	public float a;
 	public Point vel;

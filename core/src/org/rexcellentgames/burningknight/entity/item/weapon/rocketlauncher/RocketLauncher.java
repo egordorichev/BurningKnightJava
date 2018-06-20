@@ -13,7 +13,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocket.Rocket;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.RocketEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.RocketProjectile;
 
 public class RocketLauncher extends WeaponBase {
 	private float sx = 1f;
@@ -157,7 +157,7 @@ public class RocketLauncher extends WeaponBase {
 	protected void sendRocket(float an) {
 		TextureRegion sprite = this.getSprite();
 
-		RocketEntity bullet = new RocketEntity();
+		RocketProjectile bullet = new RocketProjectile();
 		float a = (float) Math.toDegrees(an);
 
 		Rocket b = (Rocket) this.owner.getAmmo("rocket");

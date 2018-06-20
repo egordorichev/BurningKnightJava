@@ -1,5 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BigBulletEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BigBulletProjectile;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class CKGun extends GunA {
@@ -24,7 +24,7 @@ public class CKGun extends GunA {
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
 		this.vel = 1f;
-		sendBullet(a, 0, 0, new BigBulletEntity());
+		sendBullet(a, 0, 0, new BigBulletProjectile());
 	}
 
 	public void trippleShot() {

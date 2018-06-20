@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class BigBulletEntity extends BulletEntity {
+public class BigBulletProjectile extends BulletEntity {
 	@Override
 	public void init() {
 		this.sprite = Graphics.getTexture("bullet (bullet large)");

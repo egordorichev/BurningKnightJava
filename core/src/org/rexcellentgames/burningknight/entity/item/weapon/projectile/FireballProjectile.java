@@ -13,7 +13,7 @@ import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class Fireball extends Projectile {
+public class FireballProjectile extends Projectile {
 	private static Animation animations = Animation.make("fx-fireball");
 	private AnimationData born = animations.get("appear");
 	private AnimationData idle = animations.get("idle");

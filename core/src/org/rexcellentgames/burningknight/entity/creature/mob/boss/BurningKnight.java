@@ -20,7 +20,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Fireball;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
@@ -574,11 +574,11 @@ public class BurningKnight extends Boss {
 
 			if (self.nextAttack != AttackType.NULL && !this.attacked) {
 				if (Dialog.active == null) {
-					Fireball ball;
+					FireballProjectile ball;
 
 					switch (self.nextAttack) {
 						case MISSILE:
-							ball = new Fireball();
+							ball = new FireballProjectile();
 
 							ball.owner = self;
 							ball.target = self.target;
@@ -591,7 +591,7 @@ public class BurningKnight extends Boss {
 
 						case AREA:
 							for (int i = 0; i < Random.newInt(10, 20); i++) {
-								ball = new Fireball();
+								ball = new FireballProjectile();
 
 								// ball.ignoreWalls = true;
 
@@ -610,7 +610,7 @@ public class BurningKnight extends Boss {
 							break;
 						case DIAGONAL:
 							for (int i = 0; i < 4; i++) {
-								ball = new Fireball();
+								ball = new FireballProjectile();
 
 
 							//	ball.ignoreWalls = true;
@@ -627,7 +627,7 @@ public class BurningKnight extends Boss {
 							break;
 						case VERTICAL:
 							for (int i = 0; i < 4; i++) {
-								ball = new Fireball();
+								ball = new FireballProjectile();
 
 
 								float a = (float) (i * Math.PI / 2);

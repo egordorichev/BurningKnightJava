@@ -2,7 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Fireball;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 
 public class MagicMissileWand extends Wand {
 	{
@@ -13,7 +13,7 @@ public class MagicMissileWand extends Wand {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
-		Fireball fireball = new Fireball();
+		FireballProjectile fireball = new FireballProjectile();
 
 		fireball.owner = this.owner;
 		fireball.x = x;
