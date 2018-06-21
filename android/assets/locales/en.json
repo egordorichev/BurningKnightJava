@@ -440,5 +440,7 @@
 	"red_book" : "Red book",
 	"red_book_desc" : "Life regen becomes mana regen",
 	"yellow_book" : "Yellow book",
-	"yellow_book_desc" : "Turn your damage into mana!"
+	"yellow_book_desc" : "Turn your damage into mana!",
+	"green_book" : "Green book",
+	"green_book_desc" : "Turn your mana into damage!"
 }
