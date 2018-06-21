@@ -428,5 +428,7 @@
 	"mana_bottle" : "Mana bottle",
 	"mana_bottle_desc" : "Gives a chance to restore mana,\nwhen entering a room with enemies",
 	"mana_heart" : "Blue heart",
-	"mana_heart_desc" : "Two with price of one!"
+	"mana_heart_desc" : "Two with price of one!",
+	"blue_bomb" : "Blue bomb",
+	"blue_bomb_desc" : "Boosts mana regen"
 }

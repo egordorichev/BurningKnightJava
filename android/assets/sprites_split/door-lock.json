@@ -1,73 +1,105 @@
 { "frames": {
    "door_lock 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 10, "h": 13 },
+    "frame": { "x": 0, "y": 0, "w": 8, "h": 9 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 1, "w": 10, "h": 13 },
+    "spriteSourceSize": { "x": 4, "y": 4, "w": 8, "h": 9 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 1.ase": {
-    "frame": { "x": 10, "y": 0, "w": 10, "h": 11 },
+    "frame": { "x": 8, "y": 0, "w": 8, "h": 9 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 2, "w": 10, "h": 11 },
+    "spriteSourceSize": { "x": 4, "y": 4, "w": 8, "h": 9 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 2.ase": {
-    "frame": { "x": 20, "y": 0, "w": 8, "h": 9 },
+    "frame": { "x": 16, "y": 0, "w": 10, "h": 8 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 4, "y": 3, "w": 8, "h": 9 },
+    "spriteSourceSize": { "x": 3, "y": 5, "w": 10, "h": 8 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 3.ase": {
-    "frame": { "x": 28, "y": 0, "w": 6, "h": 7 },
+    "frame": { "x": 26, "y": 0, "w": 6, "h": 14 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 5, "y": 4, "w": 6, "h": 7 },
+    "spriteSourceSize": { "x": 5, "y": 1, "w": 6, "h": 14 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 4.ase": {
-    "frame": { "x": 34, "y": 0, "w": 4, "h": 5 },
+    "frame": { "x": 32, "y": 0, "w": 10, "h": 15 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 5, "w": 4, "h": 5 },
+    "spriteSourceSize": { "x": 3, "y": 0, "w": 10, "h": 15 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 5.ase": {
-    "frame": { "x": 38, "y": 0, "w": 4, "h": 5 },
+    "frame": { "x": 42, "y": 0, "w": 4, "h": 14 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 5, "w": 4, "h": 5 },
+    "spriteSourceSize": { "x": 6, "y": 1, "w": 4, "h": 14 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 6.ase": {
-    "frame": { "x": 42, "y": 0, "w": 6, "h": 7 },
+    "frame": { "x": 46, "y": 0, "w": 8, "h": 11 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 5, "y": 4, "w": 6, "h": 7 },
+    "spriteSourceSize": { "x": 4, "y": 1, "w": 8, "h": 11 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 7.ase": {
-    "frame": { "x": 48, "y": 0, "w": 8, "h": 9 },
+    "frame": { "x": 54, "y": 0, "w": 2, "h": 9 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 4, "y": 3, "w": 8, "h": 9 },
+    "spriteSourceSize": { "x": 7, "y": 3, "w": 2, "h": 9 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    },
    "door_lock 8.ase": {
-    "frame": { "x": 56, "y": 0, "w": 10, "h": 11 },
+    "frame": { "x": 56, "y": 0, "w": 8, "h": 1 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 2, "w": 10, "h": 11 },
+    "spriteSourceSize": { "x": 4, "y": 9, "w": 8, "h": 1 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "door_lock 9.ase": {
+    "frame": { "x": 64, "y": 0, "w": 4, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 1, "w": 4, "h": 14 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "door_lock 10.ase": {
+    "frame": { "x": 68, "y": 0, "w": 10, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 5, "w": 10, "h": 8 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "door_lock 11.ase": {
+    "frame": { "x": 78, "y": 0, "w": 8, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 4, "y": 2, "w": 8, "h": 11 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "door_lock 12.ase": {
+    "frame": { "x": 86, "y": 0, "w": 8, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 4, "y": 4, "w": 8, "h": 9 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
    }
@@ -76,12 +108,12 @@
   "app": "http://www.aseprite.org/",
   "version": "1.3-dev",
   "format": "I8",
-  "size": { "w": 66, "h": 13 },
+  "size": { "w": 94, "h": 15 },
   "scale": "1",
   "frameTags": [
    { "name": "idle", "from": 0, "to": 0, "direction": "forward" },
-   { "name": "unlock", "from": 1, "to": 4, "direction": "forward" },
-   { "name": "lock", "from": 5, "to": 8, "direction": "forward" }
+   { "name": "open", "from": 1, "to": 7, "direction": "forward" },
+   { "name": "close", "from": 8, "to": 12, "direction": "forward" }
   ]
  }
 }
