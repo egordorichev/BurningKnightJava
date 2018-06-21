@@ -8,17 +8,19 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class Waterbolt extends Wand {
+public class Firebolt extends Wand {
 	{
-		name = Locale.get("waterbolt");
-		description = Locale.get("waterbolt_desc");
-		sprite = "item (wand B)";
+		name = Locale.get("firebolt");
+		description = Locale.get("firebolt_desc");
+		sprite = "item (wand A)";
 		damage = 2;
 	}
 
@@ -35,9 +37,9 @@ public class Waterbolt extends Wand {
 			public void render() {
 				Graphics.batch.end();
 				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", 0.1f);
-				RectFx.shader.setUniformf("g", 0.1f);
-				RectFx.shader.setUniformf("b", 1f);
+				RectFx.shader.setUniformf("r", 1f);
+				RectFx.shader.setUniformf("g", 0.6f);
+				RectFx.shader.setUniformf("b", 0.1f);
 				RectFx.shader.setUniformf("a", 0.9f);
 				RectFx.shader.end();
 				Graphics.batch.setShader(RectFx.shader);
@@ -61,8 +63,8 @@ public class Waterbolt extends Wand {
 					fx.y = this.y + Random.newFloat(this.w) - this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
-					fx.r = 0.3f;
-					fx.g = 0.3f;
+					fx.b = 0.3f;
+					fx.g = 0.6f;
 
 					Dungeon.area.add(fx);
 				}
@@ -85,7 +87,7 @@ public class Waterbolt extends Wand {
 				}
 
 				if (entity == null || entity instanceof SolidProp) {
-					num ++;
+					num++;
 
 					if (num >= 5) {
 						broke = true;
@@ -120,6 +122,15 @@ public class Waterbolt extends Wand {
 					}
 
 					this.body.setLinearVelocity(this.vel.x, this.vel.y);
+				}
+			}
+
+			@Override
+			protected void onHit(Entity entity) {
+				super.onHit(entity);
+
+				if (entity instanceof Creature) {
+					((Creature) entity).addBuff(new BurningBuff());
 				}
 			}
 		};

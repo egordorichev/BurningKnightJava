@@ -244,6 +244,7 @@ object ItemRegistry {
             "poison_wand" to PoisonWand::class,
             "fire_wand" to FireWand::class,
             "ice_wand" to IceWand::class,
-            "waterbolt" to Waterbolt::class
+            "waterbolt" to Waterbolt::class,
+            "firebolt" to Firebolt::class
     )
 }

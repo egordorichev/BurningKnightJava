@@ -35,6 +35,11 @@ public class RectFx extends Entity {
 		super.init();
 		left = Random.chance(50);
 		angle = Random.newFloat(360);
+
+		this.r += Random.newFloat(-0.1f, 0.1f);
+		this.g += Random.newFloat(-0.1f, 0.1f);
+		this.b += Random.newFloat(-0.1f, 0.1f);
+		this.a += Random.newFloat(-0.1f, 0.1f);
 	}
 
 	@Override

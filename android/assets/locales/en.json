@@ -418,5 +418,7 @@
 	"ice_wand" : "Wand of frost",
 	"ice_wand_desc" : "When you need to put out the fire",
 	"waterbolt" : "Waterbolt",
-	"waterbolt_desc" : "Does this have anything to do\nwith Terraria?"
+	"waterbolt_desc" : "Does this have anything to do\nwith Terraria?",
+	"firebolt" : "Firebolt",
+	"firebolt_desc" : "F-F-FIRE!"
 }
