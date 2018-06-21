@@ -73,18 +73,14 @@ public class Player extends Creature {
 	public boolean iceBombs;
 	public boolean poisonBombs;
 	private static final float LIGHT_SIZE = 5f;
-	public static String NAME;
 	public static Player instance;
-	public static boolean REGISTERED = false;
 	private static HashMap<String, Animation> skins = new HashMap<>();
 	public float lightModifier;
-	public int connectionId;
 	public float heat;
 	public boolean hasRedLine;
-	protected float mana;
-	protected float manaMax;
+	protected int mana;
+	protected int manaMax;
 	protected int level;
-	protected int forThisLevel;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
 	public UiInventory ui;
@@ -112,6 +108,7 @@ public class Player extends Creature {
 	public boolean poisonResist;
 	public boolean stunResist;
 	public boolean seeSecrets;
+	public float manaRegenRate = 1f;
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
@@ -207,7 +204,7 @@ public class Player extends Creature {
 
 	{
 		hpMax = 16;
-		manaMax = 16;
+		manaMax = 6;
 		level = 1;
 		hunger = 10;
 		mul = 0.85f;
@@ -393,14 +390,16 @@ public class Player extends Creature {
 		}
 	}
 
-	public void modifyMana(float a) {
-		this.mana = MathUtils.clamp(0, this.manaMax, this.mana + a);
+	public void modifyMana(int a) {
+		this.mana = (int) MathUtils.clamp(0, this.manaMax, this.mana + a);
 	}
 
 	private float lastRun;
 	private float lastDashT;
 	private float dashTimeout;
 	private float lastRegen;
+
+	private float lastMana;
 
 	@Override
 	public void update(float dt) {
@@ -427,6 +426,14 @@ public class Player extends Creature {
 			return;
 		}
 
+		if (this.mana != this.manaMax) {
+			this.lastMana += dt * (this.vel.len2() > 9.9f ? 1f : 2f) * this.manaRegenRate;
+
+			if (this.lastMana > 1f) {
+				this.lastMana = 0;
+				this.mana += 1;
+			}
+		}
 
 		if (this.regen > 0 && this.hp != this.hpMax) {
 			this.lastRegen += dt;
@@ -485,10 +492,6 @@ public class Player extends Creature {
 				}
 			}
 		}
-
-		float l = this.mana;
-
-		this.modifyMana(dt * 10);
 
 		/*if (l < this.mana && Float.compare(this.mana, this.manaMax) == 0) {
 			Dungeon.area.add(new TextFx("Full Mana", this).setColor(Dungeon.BLUE));
@@ -839,7 +842,7 @@ public class Player extends Creature {
 		this.inventory.load(reader);
 
 		this.mana = reader.readInt32();
-		this.manaMax = reader.readFloat();
+		this.manaMax = reader.readInt32();
 		this.level = reader.readInt32();
 
 		float last = this.speed;
@@ -861,8 +864,8 @@ public class Player extends Creature {
 		writer.writeInt16((short) this.inventorySize);
 		this.inventory.save(writer);
 
-		writer.writeFloat(this.mana);
-		writer.writeFloat(this.manaMax);
+		writer.writeInt32(this.mana);
+		writer.writeInt32(this.manaMax);
 		writer.writeInt32(this.level);
 		writer.writeFloat(this.speed);
 
@@ -932,11 +935,11 @@ public class Player extends Creature {
 		return this.inventory;
 	}
 
-	public float getMana() {
+	public int getMana() {
 		return this.mana;
 	}
 
-	public float getManaMax() {
+	public int getManaMax() {
 		return this.manaMax;
 	}
 

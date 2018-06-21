@@ -107,7 +107,7 @@ public class UiInventory extends UiEntity {
 			float h = this.inventory.getSize() / 3 * 29;
 			boolean nd = Dialog.active != null;
 
-			if (!nd && !this.open && dx < 75f && dy < h) {
+			if (!nd && !this.open && dx < 75f && dy < 15) {
 				this.open = true;
 				this.dn = false;
 
@@ -445,7 +445,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		int mana = Player.instance.getHp();
+		int mana = Player.instance.getMana();
 
 		for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
 			float s = 1f;

@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class MagicMissileWand extends Wand {
@@ -14,7 +13,8 @@ public class MagicMissileWand extends Wand {
 		name = Locale.get("magic_missile_wand");
 		description = Locale.get("magic_missile_wand_desc");
 		sprite = "item (wand B)";
-		damage = 4;
+		damage = 5;
+		mana = 2;
 	}
 
 	public static TextureRegion region = Graphics.getTexture("particle-big");
@@ -66,7 +66,10 @@ public class MagicMissileWand extends Wand {
 		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
-missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
+		missile.y = y - 3;
+		missile.rectShape = true;
+		missile.w = 6;
+		missile.h = 6;
 		missile.rotates = true;
 
 		double ra = Math.toRadians(a);

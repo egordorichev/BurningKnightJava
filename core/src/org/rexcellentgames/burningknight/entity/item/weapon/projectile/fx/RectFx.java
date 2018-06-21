@@ -44,7 +44,7 @@ public class RectFx extends Entity {
 
 	@Override
 	public void update(float dt) {
-		this.a -= dt / 2;
+		this.a -= dt / 4;
 		this.angle += (this.left ? dt : -dt) * 360;
 		this.scale -= dt;
 

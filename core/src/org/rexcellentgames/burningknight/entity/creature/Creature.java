@@ -510,6 +510,10 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void knockBack(Entity from, float force) {
+		if (from == null) {
+			return;
+		}
+
 		float a = from.getAngleTo(this.x + this.w / 2, this.y + this.h / 2);
 
 		this.vel.x += Math.cos(a) * force * knockbackMod;

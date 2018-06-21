@@ -420,5 +420,7 @@
 	"waterbolt" : "Waterbolt",
 	"waterbolt_desc" : "Does this have anything to do\nwith Terraria?",
 	"firebolt" : "Firebolt",
-	"firebolt_desc" : "F-F-FIRE!"
+	"firebolt_desc" : "F-F-FIRE!",
+	"mana_ring" : "Mana ring",
+	"mana_ring_desc" : "Boosts your mana regeneration"
 }
