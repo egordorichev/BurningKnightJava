@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.weapon.modifier;
 
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 
 public class NoChanceModifier extends Modifier {
 	public NoChanceModifier() {
@@ -26,5 +25,12 @@ public class NoChanceModifier extends Modifier {
 	public void remove(WeaponBase weapon) {
 		super.remove(weapon);
 		weapon.resetCritChance();
+	}
+
+	@Override
+	public void apply(StringBuilder builder) {
+		super.apply(builder);
+
+		builder.append("[red]-100% crit chance[gray]");
 	}
 }

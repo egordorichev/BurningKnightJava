@@ -18,12 +18,19 @@ public class CriticalModifier extends Modifier {
 	@Override
 	public void apply(WeaponBase weapon) {
 		super.apply(weapon);
-		weapon.setCritChance(20);
+		weapon.setCritChance(weapon.critChance + 20);
 	}
 
 	@Override
 	public void remove(WeaponBase weapon) {
 		super.remove(weapon);
 		weapon.resetCritChance();
+	}
+
+	@Override
+	public void apply(StringBuilder builder) {
+		super.apply(builder);
+
+		builder.append("[green]+20% crit chance[gray]");
 	}
 }

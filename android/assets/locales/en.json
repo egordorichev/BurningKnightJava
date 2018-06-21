@@ -410,5 +410,7 @@
 	"laser_aim" : "Laser aim",
 	"laser_aim_desc" : "It will point, but you probably\nstill will miss it",
 	"fireball_wand" : "Fireball wand",
-	"fireball_wand_desc" : "With great fire comes great BBQ"
+	"fireball_wand_desc" : "With great fire comes great BBQ",
+	"poison_wand" : "Wand of poison",
+	"poison_wand_desc" : "Sweet death"
 }
