@@ -394,6 +394,11 @@ public class Player extends Creature {
 		this.mana = (int) MathUtils.clamp(0, this.manaMax, this.mana + a);
 	}
 
+	public void modifyManaMax(int a) {
+		this.manaMax += a;
+		this.modifyMana(0);
+	}
+
 	private float lastRun;
 	private float lastDashT;
 	private float dashTimeout;

@@ -422,5 +422,7 @@
 	"firebolt" : "Firebolt",
 	"firebolt_desc" : "F-F-FIRE!",
 	"mana_ring" : "Mana ring",
-	"mana_ring_desc" : "Boosts your mana regeneration"
+	"mana_ring_desc" : "Boosts your mana regeneration",
+	"star_on_a_string" : "Star on a string",
+	"star_on_a_string_desc" : "More stars for the stars master!"
 }
