@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.entities.chest;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -171,7 +169,7 @@ public class Chest extends SaveableEntity {
 			this.create = false;
 		}
 
-		if (this.data.update(dt)) {
+		if (this.data != null && this.data.update(dt)) {
 			if (this.data == this.getOpenAnim()) {
 				this.data = this.getOpenedAnim();
 			}
@@ -184,14 +182,16 @@ public class Chest extends SaveableEntity {
 
 	@Override
 	public void render() {
-		TextureRegion sprite = this.data.getCurrent().frame;
+		if (this.data != null) {
+			TextureRegion sprite = this.data.getCurrent().frame;
 
-		int w = sprite.getRegionWidth();
+			int w = sprite.getRegionWidth();
 
-		float sx = 1f;
-		float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
-		Graphics.render(sprite, this.x + w / 2, this.y, 0,
-			w / 2, 0, false, false, sx, sy);
+			float sx = 1f;
+			float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
+			Graphics.render(sprite, this.x + w / 2, this.y, 0,
+				w / 2, 0, false, false, sx, sy);
+		}
 	}
 
 	@Override

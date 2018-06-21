@@ -19,7 +19,6 @@ import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -34,8 +33,8 @@ public class Door extends SaveableEntity {
 	private static Animation lockAnimation = Animation.make("door-lock");
 	private AnimationData animation;
 	private AnimationData locked = lockAnimation.get("idle");
-	private AnimationData unlock = lockAnimation.get("unlock");
-	private AnimationData lk = lockAnimation.get("lock");
+	private AnimationData unlock = lockAnimation.get("open");
+	private AnimationData lk = lockAnimation.get("close");
 	private AnimationData lockAnim;
 
 	public boolean autoLock;
@@ -47,6 +46,7 @@ public class Door extends SaveableEntity {
 	private int sy;
 
 	{
+		depth = -1;
 		alwaysActive = true;
 	}
 
@@ -86,6 +86,15 @@ public class Door extends SaveableEntity {
 			this.setPas();
 		}
 
+		if (this.numCollisions == 0 && this.animation.isPaused() && this.animation.getFrame() == 3) {
+			this.clearT += dt;
+
+			if (this.clearT > 0.5f) {
+				this.animation.setBack(true);
+				this.animation.setPaused(false);
+			}
+		}
+
 		if (this.body == null) {
 			this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
 				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));
@@ -106,9 +115,8 @@ public class Door extends SaveableEntity {
 
 
 		if (this.animation.update(dt)) {
-			if (this.animation.getFrame() == 2) {
-				this.animation.setBack(true);
-				this.animation.setPaused(false);
+			if (this.animation.getFrame() == 3) {
+				this.animation.setPaused(true);
 			}
 		}
 
@@ -178,9 +186,12 @@ public class Door extends SaveableEntity {
 
 			if (this.numCollisions <= 0) {
 				this.numCollisions = 0; // to make sure
+				this.clearT = 0;
 			}
 		}
 	}
+
+	private float clearT;
 
 	@Override
 	public void render() {
@@ -227,7 +238,7 @@ public class Door extends SaveableEntity {
 		this.animation.render(this.x, this.y, false, false);
 
 		if (this.lockAnim != null) {
-			this.lockAnim.render(this.x + (this.vertical ? 0 : 3), this.y, false, false);
+			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false, false);
 		}
 	}
 
