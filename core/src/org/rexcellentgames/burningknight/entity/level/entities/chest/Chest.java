@@ -9,13 +9,11 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -35,7 +33,7 @@ public class Chest extends SaveableEntity {
 
 		this.data = this.getClosedAnim();
 		this.data.setAutoPause(true);
-		this.body = World.createSimpleBody(this, 5, 0, 16, 11, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
@@ -56,16 +54,13 @@ public class Chest extends SaveableEntity {
 		if (!this.open && entity instanceof Player) {
 			this.open = true;
 			this.data = this.getOpenAnim();
-			this.create = true;
 
-			for (int i = 0; i < 20; i++) {
-				Part part = new Part();
-
-				part.x = this.x + Random.newFloat(this.w);
-				part.y = this.y + Random.newFloat(this.h);
-
-				Dungeon.area.add(part);
-			}
+			this.data.setListener(new AnimationData.Listener() {
+				@Override
+				public void onEnd() {
+					create = true;
+				}
+			});
 		}
 	}
 
@@ -132,38 +127,15 @@ public class Chest extends SaveableEntity {
 		this.t += dt;
 
 		if (this.item != null && this.create) {
-			for (int i = 0; i < 20; i++) {
-				Part part = new Part();
-
-				part.x = Random.newFloat(this.w) + this.x;
-				part.y = Random.newFloat(this.h) + this.y;
-
-				Dungeon.area.add(part);
-			}
-
 			ItemHolder holder = new ItemHolder();
 
-			holder.x = this.x + 5 + (this.w - this.item.getSprite().getRegionWidth()) / 2;
+			holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;
 			holder.y = this.y - 3;
 
 			holder.setItem(this.item);
 
 			Dungeon.area.add(holder);
 			LevelSave.add(holder);
-
-			/*if (this.item instanceof Gun || this.item instanceof Bow || this.item instanceof RocketLauncher) {
-				Item item = (this.item instanceof Gun ? new BulletA().setCount(Random.newInt(100, 200)) :
-					(this.item instanceof Bow ? new ArrowA().setCount(Random.newInt(100, 200)) : new RocketA().setCount(Random.newInt(30, 100))));
-				holder = new ItemHolder();
-
-				holder.x = this.x + 5 + (this.w - item.getSprite().getRegionWidth()) / 2;
-				holder.y = this.y - 3;
-
-				holder.setItem(item);
-
-				Dungeon.area.add(holder);
-				LevelSave.add(holder);
-			}*/
 
 			this.item = null;
 			this.create = false;
@@ -188,7 +160,7 @@ public class Chest extends SaveableEntity {
 			int w = sprite.getRegionWidth();
 
 			float sx = 1f;
-			float sy = (float) (1f + Math.sin(this.t * 3f) / 15f);
+			float sy = 1f;//(float) (1f + Math.sin(this.t * 3f) / 15f);
 			Graphics.render(sprite, this.x + w / 2, this.y, 0,
 				w / 2, 0, false, false, sx, sy);
 		}
@@ -196,7 +168,7 @@ public class Chest extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.data.getCurrent().frame.getRegionWidth() / 2, this.y, this.w, this.h);
+		Graphics.shadow(this.x, this.y, this.w, this.h);
 	}
 
 	protected AnimationData getClosedAnim() {

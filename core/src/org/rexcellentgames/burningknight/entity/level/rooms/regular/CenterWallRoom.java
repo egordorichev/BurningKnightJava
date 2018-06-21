@@ -5,11 +5,6 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class CenterWallRoom extends RegularRoom {
 	@Override
@@ -32,7 +27,7 @@ public class CenterWallRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		if (p.y != this.top && p.y != this.bottom) {
+		if (p.y == this.top || p.y == this.bottom) {
 			return false;
 		}
 
