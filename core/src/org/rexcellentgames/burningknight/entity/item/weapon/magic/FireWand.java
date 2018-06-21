@@ -6,16 +6,16 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class PoisonWand extends Wand {
+public class FireWand extends Wand {
 	{
-		name = Locale.get("poison_wand");
-		description = Locale.get("poison_wand_desc");
-		sprite = "item (wand D)";
+		name = Locale.get("fire_wand");
+		description = Locale.get("fire_wand_desc");
+		sprite = "item (wand G)";
 		damage = 2;
 	}
 
@@ -28,8 +28,8 @@ public class PoisonWand extends Wand {
 			public void render() {
 				Graphics.batch.end();
 				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", 0.3f);
-				RectFx.shader.setUniformf("g", 1f);
+				RectFx.shader.setUniformf("r", 1f);
+				RectFx.shader.setUniformf("g", 0.3f);
 				RectFx.shader.setUniformf("b", 0.3f);
 				RectFx.shader.setUniformf("a", 0.8f);
 				RectFx.shader.end();
@@ -54,7 +54,7 @@ public class PoisonWand extends Wand {
 					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
-					fx.r = 0.3f;
+					fx.g = 0.3f;
 					fx.b = 0.3f;
 
 					Dungeon.area.add(fx);
@@ -68,7 +68,7 @@ public class PoisonWand extends Wand {
 				super.onHit(entity);
 
 				if (entity instanceof Creature) {
-					((Creature) entity).addBuff(new PoisonBuff());
+					((Creature) entity).addBuff(new BurningBuff());
 				}
 			}
 		};

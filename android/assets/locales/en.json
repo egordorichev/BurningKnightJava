@@ -412,5 +412,7 @@
 	"fireball_wand" : "Fireball wand",
 	"fireball_wand_desc" : "With great fire comes great BBQ",
 	"poison_wand" : "Wand of poison",
-	"poison_wand_desc" : "Sweet death"
+	"poison_wand_desc" : "Sweet death",
+	"fire_wand" : "Wand of fire",
+	"fire_wand_desc" : "'I like it' - BK"
 }

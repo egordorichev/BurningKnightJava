@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.creature.buff;
 
-import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 
@@ -27,7 +26,7 @@ public class BurningBuff extends Buff {
 
 		this.lastHit += dt;
 
-		if (this.lastHit >= 2f) {
+		if (this.lastHit >= 1f) {
 			this.lastHit = 0;
 			this.owner.modifyHp(-1, null, true);
 		}

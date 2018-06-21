@@ -42,6 +42,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletB
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletC
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.ShotgunA
 import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.PoisonWand
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherA
@@ -242,6 +243,7 @@ object ItemRegistry {
             "pickaxe_d" to PickaxeD::class,
             "missile_wand" to MagicMissileWand::class,
             "laser_aim" to LaserAim::class,
-            "poison_wand" to PoisonWand::class
+            "poison_wand" to PoisonWand::class,
+            "fire_wand" to FireWand::class
     )
 }
