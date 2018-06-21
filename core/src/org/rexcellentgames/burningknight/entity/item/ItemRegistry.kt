@@ -247,6 +247,7 @@ object ItemRegistry {
             "waterbolt" to Waterbolt::class,
             "firebolt" to Firebolt::class,
             "mana_ring" to ManaRing::class,
-            "mana_up" to StarOnAString::class
+            "mana_up" to StarOnAString::class,
+            "mana_bottle" to ManaBottle::class
     )
 }

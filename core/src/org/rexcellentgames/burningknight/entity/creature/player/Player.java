@@ -109,6 +109,7 @@ public class Player extends Creature {
 	public boolean stunResist;
 	public boolean seeSecrets;
 	public float manaRegenRate = 1f;
+	public boolean manaRegenRoom = false;
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
@@ -432,7 +433,7 @@ public class Player extends Creature {
 		}
 
 		if (this.mana != this.manaMax) {
-			this.lastMana += dt * (this.vel.len2() > 9.9f ? 1f : 2f) * this.manaRegenRate;
+			this.lastMana += dt * (this.vel.len2() > 9.9f ? 0.5f : 1f) * this.manaRegenRate;
 
 			if (this.lastMana > 1f) {
 				this.lastMana = 0;
@@ -480,6 +481,10 @@ public class Player extends Creature {
 
 					if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
 						this.modifyHp(2, null);
+					}
+
+					if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
+						this.modifyMana(this.getManaMax());
 					}
 				}
 

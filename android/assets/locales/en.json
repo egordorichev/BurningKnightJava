@@ -424,5 +424,7 @@
 	"mana_ring" : "Mana ring",
 	"mana_ring_desc" : "Boosts your mana regeneration",
 	"star_on_a_string" : "Star on a string",
-	"star_on_a_string_desc" : "More stars for the stars master!"
+	"star_on_a_string_desc" : "More stars for the stars master!",
+	"mana_bottle" : "Mana bottle",
+	"mana_bottle_desc" : "Gives a chance to restore mana,\nwhen entering a room with enemies"
 }
