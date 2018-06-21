@@ -765,7 +765,7 @@ public class BurningKnight extends Boss {
 				@Override
 				public void run() {
 					voice.resume(vid);
-					Tween.to(new Tween.Task(1, 0.3f) {
+					Tween.to(new Tween.Task(Settings.sfx, 0.3f) {
 						@Override
 						public float getValue() {
 							return volume;

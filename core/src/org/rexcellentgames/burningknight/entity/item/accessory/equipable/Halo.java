@@ -32,7 +32,7 @@ public class Halo extends Equipable {
 		if (this.owner instanceof Player) {
 			Player player = (Player) this.owner;
 
-			player.modifyMana(+3);
+			player.modifyMana(3);
 			player.damageModifier -= 1;
 			player.setHpMax(player.getHpMax() - 4);
 		}

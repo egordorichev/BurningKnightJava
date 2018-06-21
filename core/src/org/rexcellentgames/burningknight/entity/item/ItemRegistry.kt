@@ -254,6 +254,7 @@ object ItemRegistry {
             "mana_heart" to ManaHeart::class,
             "blue_bomb" to BlueBomb::class,
             "mana_knife" to ManaKnife::class,
-            "halo" to Halo::class
+            "halo" to Halo::class,
+            "blue_book" to BlueBook::class
     )
 }

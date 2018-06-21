@@ -434,5 +434,7 @@
 	"mana_knife" : "Mana knife",
 	"mana_knife_desc" : "Stab for mana!",
 	"halo" : "The halo",
-	"halo_desc" : "Holy power"
+	"halo_desc" : "Holy power",
+	"blue_book" : "Blue book",
+	"blue_book_desc" : "Sacrifice your hp to use less mana"
 }

@@ -78,7 +78,7 @@ public class Player extends Creature {
 	public float lightModifier;
 	public float heat;
 	public boolean hasRedLine;
-	protected int mana;
+	protected float mana;
 	protected int manaMax;
 	protected int level;
 	private ItemPickupFx pickupFx;
@@ -394,7 +394,7 @@ public class Player extends Creature {
 	}
 
 	public void modifyMana(int a) {
-		this.mana = (int) MathUtils.clamp(0, this.manaMax, this.mana + a);
+		this.mana = (int) MathUtils.clamp(0, this.manaMax, this.mana + a * manaModifier);
 	}
 
 	public void modifyManaMax(int a) {
@@ -716,6 +716,7 @@ public class Player extends Creature {
 	public boolean luckDamage;
 	public boolean luckDefense;
 	public boolean pauseMore;
+	public float manaModifier = 1;
 	public boolean lowHealthDamage;
 
 	@Override
@@ -876,7 +877,7 @@ public class Player extends Creature {
 		writer.writeInt16((short) this.inventorySize);
 		this.inventory.save(writer);
 
-		writer.writeInt32(this.mana);
+		writer.writeInt32((int) this.mana);
 		writer.writeInt32(this.manaMax);
 		writer.writeInt32(this.level);
 		writer.writeFloat(this.speed);
@@ -948,7 +949,7 @@ public class Player extends Creature {
 	}
 
 	public int getMana() {
-		return this.mana;
+		return (int) this.mana;
 	}
 
 	public int getManaMax() {
