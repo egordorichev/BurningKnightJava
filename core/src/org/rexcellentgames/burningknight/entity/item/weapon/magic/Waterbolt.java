@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.util.Random;
 
 public class Waterbolt extends Wand {
 	{
@@ -25,7 +26,7 @@ public class Waterbolt extends Wand {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
-		float s = 60f;
+		float s = 80f;
 
 		BulletProjectile missile = new BulletProjectile() {
 			private int num;
@@ -50,6 +51,22 @@ public class Waterbolt extends Wand {
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
+
+				if (this.last > 0.03f) {
+					this.last = 0;
+					RectFx fx = new RectFx();
+
+					fx.depth = this.depth;
+					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
+					fx.y = this.y + Random.newFloat(this.w) - this.h / 2;
+					fx.w = 4;
+					fx.h = 4;
+					fx.r = 0.3f;
+					fx.g = 0.3f;
+
+					Dungeon.area.add(fx);
+				}
+
 				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 			}
 
@@ -62,7 +79,12 @@ public class Waterbolt extends Wand {
 			public void onCollision(Entity entity) {
 				super.onCollision(entity);
 
-				if (entity == null || entity instanceof SolidProp || entity instanceof Door) {
+				if (entity instanceof Door) {
+					broke = true;
+					return;
+				}
+
+				if (entity == null || entity instanceof SolidProp) {
 					num ++;
 
 					if (num >= 5) {
@@ -82,8 +104,8 @@ public class Waterbolt extends Wand {
 					sum.x /= poly.getVertexCount();
 					sum.y /= poly.getVertexCount();
 
-					float x = this.x + this.w / 2;
-					float y = this.y + this.h / 2;
+					float x = this.x;
+					float y = this.y;
 
 					double a = Math.atan2(y - sum.y, x - sum.x);
 

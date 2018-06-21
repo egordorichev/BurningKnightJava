@@ -15,6 +15,7 @@ public class Projectile extends NetworkedEntity {
 	public boolean bad;
 	public boolean crit;
 	public float knockback = 200f;
+	public boolean penetrates;
 
 	protected boolean broke;
 	protected Body body;
@@ -70,7 +71,7 @@ public class Projectile extends NetworkedEntity {
 		}
 
 		if (this.hit(entity)) {
-			this.broke = true;
+			this.broke = !this.penetrates;
 		}
 	}
 

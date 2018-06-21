@@ -22,7 +22,6 @@ public class BulletProjectile extends Projectile {
 	public float a;
 	private float ra;
 	public boolean remove;
-	public boolean penetrates;
 	public String letter;
 	public boolean circleShape;
 	public boolean rotates;

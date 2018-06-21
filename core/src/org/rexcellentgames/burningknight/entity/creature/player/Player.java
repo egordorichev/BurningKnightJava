@@ -491,9 +491,9 @@ public class Player extends Creature {
 
 		this.modifyMana(dt * 10);
 
-		if (l < this.mana && Float.compare(this.mana, this.manaMax) == 0) {
+		/*if (l < this.mana && Float.compare(this.mana, this.manaMax) == 0) {
 			Dungeon.area.add(new TextFx("Full Mana", this).setColor(Dungeon.BLUE));
-		}
+		}*/
 
 		this.watery = Math.max(0, this.watery - dt);
 
