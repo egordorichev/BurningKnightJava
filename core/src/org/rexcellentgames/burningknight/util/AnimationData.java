@@ -14,6 +14,12 @@ public class AnimationData {
 	private boolean auto;
 	private Listener listener;
 
+	public void setSpeedModifier(float mod) {
+		for (Animation.Frame frame : frames) {
+			frame.delay = frame.initial * mod;
+		}
+	}
+
 	public void setListener(Listener listener) {
 		this.listener = listener;
 	}

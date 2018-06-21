@@ -9,13 +9,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.codedisaster.steamworks.SteamAPI;
+import com.codedisaster.steamworks.SteamException;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
@@ -72,7 +74,6 @@ public class Dungeon extends ApplicationAdapter {
 	private static int to = -3;
 	public static Color background = Color.BLACK;
 	public static Color background2 = Color.BLACK;
-	public static SplashWorker worker;
 	public static float shockTime = 10;
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
@@ -162,19 +163,28 @@ public class Dungeon extends ApplicationAdapter {
 		});
 	}
 
+	public static boolean steam = true;
+
 	@Override
 	public void create() {
-		instance = this;
-
-		if (worker != null) {
-			// worker.closeSplashScreen();
+		try {
+			if (!SteamAPI.init()) {
+				steam = false;
+			}
+		} catch (SteamException e) {
+			e.printStackTrace();
+			steam = false;
 		}
+
+		instance = this;
 
 		if (arg.length > 0 && arg[0].startsWith("reset")) {
 			Dungeon.newGame();
 		}
 
 		Log.init();
+		Log.info("Loading from " + (steam ? "Steam" : "native"));
+
 		loadGlobal();
 		Settings.load();
 
@@ -213,6 +223,7 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	public static int lastDepth;
+	private float lastUpdate;
 
 	@Override
 	public void render() {
@@ -229,6 +240,11 @@ public class Dungeon extends ApplicationAdapter {
 		float dt = Gdx.graphics.getDeltaTime() * speed;
 		time += dt;
 		longTime += 1;
+		this.lastUpdate += dt;
+
+		if (this.lastUpdate >= 0.06f && SteamAPI.isSteamRunning()) {
+			SteamAPI.runCallbacks();
+		}
 
 		if (Input.instance != null) {
 			Input.instance.updateMousePosition();
@@ -484,6 +500,8 @@ public class Dungeon extends ApplicationAdapter {
 			RectFx.shader.dispose();
 			shader.dispose();
 		}
+
+		SteamAPI.shutdown();
 	}
 
 	private void initInput() {

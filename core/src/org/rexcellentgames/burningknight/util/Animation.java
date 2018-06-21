@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Graphics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,10 +79,12 @@ public class Animation {
 	public class Frame {
 		public TextureRegion frame;
 		public float delay;
+		public float initial;
 
 		public Frame(TextureRegion frame, float delay) {
 			this.frame = frame;
 			this.delay = delay;
+			this.initial = delay;
 		}
 	}
 }
