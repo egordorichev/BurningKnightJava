@@ -436,5 +436,9 @@
 	"halo" : "The halo",
 	"halo_desc" : "Holy power",
 	"blue_book" : "Blue book",
-	"blue_book_desc" : "Sacrifice your hp to use less mana"
+	"blue_book_desc" : "Sacrifice your hp to use less mana",
+	"red_book" : "Red book",
+	"red_book_desc" : "Life regen becomes mana regen",
+	"yellow_book" : "Yellow book",
+	"yellow_book_desc" : "Turn your damage into mana!"
 }

@@ -111,6 +111,7 @@ public class Player extends Creature {
 	public float manaRegenRate = 1f;
 	public float damageModifier = 1f;
 	public boolean manaRegenRoom = false;
+	public boolean lifeRegenRegensMana;
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
@@ -447,7 +448,12 @@ public class Player extends Creature {
 			this.lastRegen += dt;
 
 			if (this.lastRegen > (20f - this.regen)) {
-				this.modifyHp(1, null);
+				if (this.lifeRegenRegensMana) {
+					this.modifyMana(1);
+				} else {
+					this.modifyHp(1, null);
+				}
+
 				this.lastRegen = 0;
 			}
 		}

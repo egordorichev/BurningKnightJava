@@ -255,6 +255,8 @@ object ItemRegistry {
             "blue_bomb" to BlueBomb::class,
             "mana_knife" to ManaKnife::class,
             "halo" to Halo::class,
-            "blue_book" to BlueBook::class
+            "blue_book" to BlueBook::class,
+            "red_book" to RedBook::class,
+            "yellow_book" to YellowBook::class
     )
 }
