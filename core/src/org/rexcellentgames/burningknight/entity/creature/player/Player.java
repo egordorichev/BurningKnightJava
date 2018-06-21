@@ -355,6 +355,7 @@ public class Player extends Creature {
 		this.ui = ui;
 	}
 
+	public boolean manaBombs;
 	public boolean healOnEnter;
 
 	@Override

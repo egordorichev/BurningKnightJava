@@ -1,3 +1,4 @@
+
 package org.rexcellentgames.burningknight.entity.item;
 
 import org.rexcellentgames.burningknight.Dungeon;
@@ -45,6 +46,10 @@ public class Bomb extends Item {
 
 			if (player.poisonBombs) {
 				e.toApply.add(new BurningBuff());
+			}
+
+			if (player.manaBombs) {
+				player.modifyMana(player.getManaMax());
 			}
 		}
 	}
