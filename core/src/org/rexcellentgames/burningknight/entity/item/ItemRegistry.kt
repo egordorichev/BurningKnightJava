@@ -37,6 +37,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowC
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.ManaKnife
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.*
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletB
@@ -251,6 +252,7 @@ object ItemRegistry {
             "mana_up" to StarOnAString::class,
             "mana_bottle" to ManaBottle::class,
             "mana_heart" to ManaHeart::class,
-            "blue_bomb" to BlueBomb::class
+            "blue_bomb" to BlueBomb::class,
+            "mana_knife" to ManaKnife::class
     )
 }

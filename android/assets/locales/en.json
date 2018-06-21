@@ -430,5 +430,7 @@
 	"mana_heart" : "Blue heart",
 	"mana_heart_desc" : "Two with price of one!",
 	"blue_bomb" : "Blue bomb",
-	"blue_bomb_desc" : "Boosts mana regen, and makes use of your bombs"
+	"blue_bomb_desc" : "Boosts mana regen, and makes use of your bombs",
+	"mana_knife" : "Mana knife",
+	"mana_knife_desc" : "Stab for mana!"
 }
