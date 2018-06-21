@@ -19,6 +19,8 @@ import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 
 public class Collisions implements ContactListener, ContactFilter {
+	public static Fixture last;
+
 	@Override
 	public void beginContact(Contact contact) {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
@@ -31,10 +33,12 @@ public class Collisions implements ContactListener, ContactFilter {
 		}
 
 		if (a != null) {
+			last = contact.getFixtureB();
 			a.onCollision(b);
 		}
 
 		if (b != null) {
+			last = contact.getFixtureA();
 			b.onCollision(a);
 		}
 	}

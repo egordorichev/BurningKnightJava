@@ -5,7 +5,7 @@ public class FreezeBuff extends Buff {
 		name = "Speed = 0";
 		description = "You are slow!";
 		duration = 5f;
-		sprite = "ui (freeze buff)";
+		sprite = "ui-freezed";
 	}
 
 	@Override

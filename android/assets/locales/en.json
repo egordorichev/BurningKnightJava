@@ -416,5 +416,7 @@
 	"fire_wand" : "Wand of fire",
 	"fire_wand_desc" : "'I like it' - BK",
 	"ice_wand" : "Wand of frost",
-	"ice_wand_desc" : "When you need to put out the fire"
+	"ice_wand_desc" : "When you need to put out the fire",
+	"waterbolt" : "Waterbolt",
+	"waterbolt_desc" : "Does this have anything to do\nwith Terraria?"
 }

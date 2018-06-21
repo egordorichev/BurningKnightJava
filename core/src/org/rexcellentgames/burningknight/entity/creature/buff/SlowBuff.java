@@ -5,8 +5,7 @@ public class SlowBuff extends Buff {
 		name = "Speed = 0";
 		description = "You are slow!";
 		duration = 5f;
-		// todo: replace
-		sprite = "ui (speed buff)";
+		sprite = "ui-slowed";
 	}
 
 	@Override

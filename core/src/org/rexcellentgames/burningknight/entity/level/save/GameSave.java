@@ -148,7 +148,7 @@ public class GameSave {
 		System.arraycopy(bosses, 0, Level.boss, 0, areas * 4 + 1);
 
 		int[] levels = new int[] { 0, 1, 2, 4, 5 };
-		shuffleArray(levels);
+		// shuffleArray(levels);
 
 		for (int i = 0; i < 5; i++) {
 			Log.info("Depth " + i + " id " + levels[i]);

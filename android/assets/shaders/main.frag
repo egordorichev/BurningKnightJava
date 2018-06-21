@@ -136,7 +136,7 @@ void main() {
 
     vec2 position = v_texCoord - vec2(0.5);
     float len = length(position);
-    float vignette = smoothstep(0.75, 0.75 - 0.45, len);
+    float vignette = smoothstep(0.75, 0.3, len);
     realColor.rgb = mix(realColor.rgb, realColor.rgb * vignette, 0.5);
 
     if (transR < 1.0) {
