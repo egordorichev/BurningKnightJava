@@ -426,5 +426,7 @@
 	"star_on_a_string" : "Star on a string",
 	"star_on_a_string_desc" : "More stars for the stars master!",
 	"mana_bottle" : "Mana bottle",
-	"mana_bottle_desc" : "Gives a chance to restore mana,\nwhen entering a room with enemies"
+	"mana_bottle_desc" : "Gives a chance to restore mana,\nwhen entering a room with enemies",
+	"mana_heart" : "Blue heart",
+	"mana_heart_desc" : "Two with price of one!"
 }

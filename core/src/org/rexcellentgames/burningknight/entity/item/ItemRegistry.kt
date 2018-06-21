@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
 import org.rexcellentgames.burningknight.entity.item.autouse.Backpack
+import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
 import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
@@ -248,6 +249,7 @@ object ItemRegistry {
             "firebolt" to Firebolt::class,
             "mana_ring" to ManaRing::class,
             "mana_up" to StarOnAString::class,
-            "mana_bottle" to ManaBottle::class
+            "mana_bottle" to ManaBottle::class,
+            "mana_heart" to ManaHeart::class
     )
 }
