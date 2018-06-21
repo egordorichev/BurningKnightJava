@@ -36,15 +36,15 @@ public class RectFx extends Entity {
 		left = Random.chance(50);
 		angle = Random.newFloat(360);
 
-		this.r += Random.newFloat(-0.1f, 0.1f);
-		this.g += Random.newFloat(-0.1f, 0.1f);
-		this.b += Random.newFloat(-0.1f, 0.1f);
-		this.a += Random.newFloat(-0.1f, 0.1f);
+		this.r += Random.newFloat(-0.2f, 0.2f);
+		this.g += Random.newFloat(-0.2f, 0.2f);
+		this.b += Random.newFloat(-0.2f, 0.2f);
+		this.a = 1;
 	}
 
 	@Override
 	public void update(float dt) {
-		this.a -= dt;
+		this.a -= dt / 2;
 		this.angle += (this.left ? dt : -dt) * 360;
 		this.scale -= dt;
 

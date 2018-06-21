@@ -120,8 +120,6 @@ public class Firebolt extends Wand {
 					} else {
 						this.vel.y *= -1;
 					}
-
-					this.body.setLinearVelocity(this.vel.x, this.vel.y);
 				}
 			}
 

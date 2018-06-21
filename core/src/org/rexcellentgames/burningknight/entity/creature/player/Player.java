@@ -17,7 +17,6 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.*;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.TextFx;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
