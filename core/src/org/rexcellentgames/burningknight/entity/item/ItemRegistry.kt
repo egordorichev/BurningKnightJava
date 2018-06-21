@@ -253,6 +253,7 @@ object ItemRegistry {
             "mana_bottle" to ManaBottle::class,
             "mana_heart" to ManaHeart::class,
             "blue_bomb" to BlueBomb::class,
-            "mana_knife" to ManaKnife::class
+            "mana_knife" to ManaKnife::class,
+            "halo" to Halo::class
     )
 }

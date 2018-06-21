@@ -109,6 +109,7 @@ public class Player extends Creature {
 	public boolean stunResist;
 	public boolean seeSecrets;
 	public float manaRegenRate = 1f;
+	public float damageModifier = 1f;
 	public boolean manaRegenRoom = false;
 
 	@Override
@@ -735,7 +736,7 @@ public class Player extends Creature {
 			v *= 2;
 		}
 
-		return (pauseMore && this.vel.len() < 1f) ? v * 1.5f : v;
+		return ((pauseMore && this.vel.len() < 1f) ? v * 1.5f : v) * damageModifier;
 	}
 
 	@Override
