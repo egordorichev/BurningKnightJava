@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Wand extends WeaponBase {
-	protected float mana;
+	protected int mana = 1;
 	protected Player owner;
 
 	public void setOwner(Creature owner) {

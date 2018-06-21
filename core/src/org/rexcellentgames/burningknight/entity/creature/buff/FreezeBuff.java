@@ -5,16 +5,13 @@ public class FreezeBuff extends Buff {
 		name = "Speed = 0";
 		description = "You are slow!";
 		duration = 5f;
-		// todo: replace
-		sprite = "ui (speed buff)";
+		sprite = "ui (freeze buff)";
 	}
 
-	private int s;
-
-		@Override
+	@Override
 	public void onStart() {
-		s = (int) this.owner.getSpeed();
 		this.owner.freezed = true;
+		this.owner.removeBuff(BurningBuff.class);
 	}
 
 	@Override

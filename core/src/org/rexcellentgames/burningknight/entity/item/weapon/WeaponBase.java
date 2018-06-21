@@ -193,7 +193,6 @@ public class WeaponBase extends Item {
 	public void onPickup() {
 		super.onPickup();
 		this.t = Random.newFloat(10f);
-		this.generateModifier();
 	}
 
 	public void endRender() {
@@ -206,7 +205,7 @@ public class WeaponBase extends Item {
 	public void generate() {
 		super.generate();
 
-		if (Random.chance(50)) {
+		if (Random.chance(25)) {
 			this.generateModifier();
 		}
 	}

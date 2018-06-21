@@ -15,6 +15,12 @@ public class BurningBuff extends Buff {
 	private float lastFlame = 0;
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		this.owner.removeBuff(FreezeBuff.class);
+	}
+
+	@Override
 	protected void onUpdate(float dt) {
 		Dungeon.level.addLightInRadius(this.owner.x + this.owner.w / 2, this.owner.y + this.owner.h / 2, 1f, 0.9f, 0f, 0.9f, 3f, false);
 		this.lastFlame += dt;

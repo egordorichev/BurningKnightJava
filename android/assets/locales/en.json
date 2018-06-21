@@ -414,5 +414,7 @@
 	"poison_wand" : "Wand of poison",
 	"poison_wand_desc" : "Sweet death",
 	"fire_wand" : "Wand of fire",
-	"fire_wand_desc" : "'I like it' - BK"
+	"fire_wand_desc" : "'I like it' - BK",
+	"ice_wand" : "Wand of frost",
+	"ice_wand_desc" : "When you need to put out the fire"
 }
