@@ -1,20 +1,33 @@
 package org.rexcellentgames.burningknight.entity.pool.item;
 
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Compass;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
+import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart;
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo;
 import org.rexcellentgames.burningknight.entity.item.pet.LibGDX;
 import org.rexcellentgames.burningknight.entity.item.pet.Pico8;
 import org.rexcellentgames.burningknight.entity.item.pet.StrawberryPet;
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*;
 import org.rexcellentgames.burningknight.entity.item.reference.*;
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.ManaKnife;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class AccessoryPool extends Pool<Item> {
 	public static AccessoryPool instance = new AccessoryPool();
 
 	public AccessoryPool() {
+		switch (Player.instance.getType()) {
+			case WARRIOR: addWarrior(); break;
+			case WIZARD: addMagic(); break;
+			case RANGER: addRanger(); break;
+		}
+
+		addAll();
+	}
+
+	public void addAll() {
 		add(FireFlower.class, 0.3f);
 		add(StrawberryPet.class, 0.1f);
 		add(Pico8.class, 0.1f);
@@ -54,7 +67,6 @@ public class AccessoryPool extends Pool<Item> {
 		add(TheEye.class, 1f);
 		add(LuckyCube.class, 1f);
 		add(FortuneArmor.class, 1f);
-		add(StopAndPlay.class, 1f);
 		add(SwordOrbital.class, 1f);
 		add(DewVial.class, 1f);
 		add(ChallengeRune.class, 1f);
@@ -67,5 +79,27 @@ public class AccessoryPool extends Pool<Item> {
 		add(PoisonBombs.class, 1f);
 		add(ProtectiveBand.class, 1f);
 		add(IceBombs.class, 1f);
+		add(Halo.class, 1f);
+	}
+
+	public void addWarrior() {
+		add(StopAndPlay.class, 1f);
+	}
+
+	public void addMagic() {
+		add(ManaRing.class, 1f);
+		add(ManaBottle.class, 1f);
+		add(ManaHeart.class, 1f);
+		add(ManaKnife.class, 1f);
+
+		add(BlueBomb.class, 1f);
+		add(BlueBook.class, 1f);
+		add(GreenBook.class, 1f);
+		add(RedBook.class, 1f);
+		add(YellowBook.class, 1f);
+	}
+
+	public void addRanger() {
+		add(LaserAim.class, 1f);
 	}
 }
