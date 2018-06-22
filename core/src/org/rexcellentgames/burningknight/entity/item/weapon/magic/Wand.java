@@ -15,7 +15,7 @@ public class Wand extends WeaponBase {
 		this.owner = (Player) owner;
 	}
 
-	private float lastAngle;
+	protected float lastAngle;
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {

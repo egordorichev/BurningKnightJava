@@ -21,6 +21,7 @@ allprojects {
     apply plugin: "idea"
 
     version = '1.0'
+
     ext {
         appName = "dungeon"
         gdxVersion = '1.9.8'
@@ -37,7 +38,6 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "kotlin"
-
 
     dependencies {
         compile project(":core")
@@ -110,6 +110,9 @@ project(":core") {
         compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
         compile "com.code-disaster.steamworks4j:steamworks4j:1.7.0"
         compile "com.code-disaster.steamworks4j:steamworks4j-server:1.7.0"
+        compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
+        compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+        compile group: 'commons-io', name: 'commons-io', version: '2.4'
     }
 }
 

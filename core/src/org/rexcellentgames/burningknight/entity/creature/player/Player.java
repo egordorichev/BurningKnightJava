@@ -28,6 +28,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
@@ -41,6 +42,7 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -792,6 +794,19 @@ public class Player extends Creature {
 			this.ui.renderBeforePlayer(this);
 		}
 
+		boolean before = false;
+		Item item = this.inventory.getSlot(this.inventory.active);
+
+		if (item instanceof WeaponBase) {
+			Point aim = this.getAim();
+			double a = this.getAngleTo(aim.x, aim.y);
+			before = (a > 0 && a < Math.PI);
+		}
+
+		if (this.ui != null && before) {
+			this.ui.renderOnPlayer(this);
+		}
+
 		boolean shade = this.drawInvt && this.invtt > 0;
 		TextureRegion region = this.animation.getCurrent().frame;
 
@@ -834,7 +849,7 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (this.ui != null) {
+		if (this.ui != null && !before) {
 			this.ui.renderOnPlayer(this);
 		}
 
