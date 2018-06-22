@@ -1,0 +1,8 @@
+{
+  "classPath": [
+    "burningknight.jar"
+  ],
+  "mainClass": "org.rexcellentgames.burningknight.desktop.DesktopLauncher",
+  "vmArgs": [
+  ]
+}

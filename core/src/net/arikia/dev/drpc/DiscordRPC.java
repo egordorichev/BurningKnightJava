@@ -146,9 +146,7 @@ public final class DiscordRPC{
         }
 
         File f = new File(tempPath);
-
-        System.out.println("final: " + finalPath + ", f: " + f);
-
+        
         try (InputStream in = Gdx.files.internal(finalPath).read(); OutputStream out = FileUtils.openOutputStream(f)) {
             IOUtils.copy(in, out);
             FileUtils.forceDeleteOnExit(f);
