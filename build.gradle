@@ -4,6 +4,10 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
+
+        flatDir {
+            dirs 'libs'
+        }
     }
 
     ext.kotlin_version = '1.2.41'
@@ -110,6 +114,9 @@ project(":core") {
         compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
         compile "com.code-disaster.steamworks4j:steamworks4j:1.7.0"
         compile "com.code-disaster.steamworks4j:steamworks4j-server:1.7.0"
+        compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
+        compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+        compile group: 'commons-io', name: 'commons-io', version: '2.4'
     }
 }
 

@@ -173,11 +173,18 @@ public class Dungeon extends ApplicationAdapter {
 
 	private static void initDiscord() {
 		DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
-			Log.info("Welcome " + user.username + "#" + user.discriminator);
-			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Score = 0").setDetails("Running Test | Private").build());
+
 		}).build();
 
 		DiscordRPC.discordInitialize("459603244256198657", handlers, true);
+	}
+
+	public static void buildDiscordBadge() {
+		if (Dungeon.level != null) {
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(Version.string).build());
+		} else {
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Main menu").setDetails(Version.string).build());
+		}
 	}
 
 	@Override

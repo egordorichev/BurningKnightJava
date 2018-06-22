@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -191,7 +192,7 @@ public abstract class Level extends SaveableEntity {
 
 	public String formatDepth() {
 		if (Dungeon.depth == 0) {
-			return "The beginning";
+			return Locale.get("beginning");
 		} else {
 			return getName() + " " + getDepthAsCoolNum();
 		}

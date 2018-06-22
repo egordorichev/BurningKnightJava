@@ -1,5 +1,6 @@
 package net.arikia.dev.drpc;
 
+import com.badlogic.gdx.Gdx;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import org.apache.commons.io.FileUtils;
@@ -129,24 +130,26 @@ public final class DiscordRPC{
         if (SystemUtils.IS_OS_MAC_OSX) {
             name = System.mapLibraryName("discord-rpc");
             homeDir = new File(System.getProperty("user.home") + "/Library/Application Support/");
-            finalPath = "/darwin/" + name;
+            finalPath = "libs/mac/" + name;
             tempPath = homeDir + "/discord-rpc/" + name;
         } else if (SystemUtils.IS_OS_WINDOWS) {
             name = System.mapLibraryName("discord-rpc");
             homeDir = new File(System.getenv("TEMP"));
             boolean is64bit = System.getProperty("sun.arch.data.model").equals("64");
-            finalPath = is64bit ? "/win-x64/" + name : "win-x86/" + name;
+            finalPath = is64bit ? "libs/win64/" + name : "libs/win32/" + name;
             tempPath = homeDir + "/discord-rpc/" + name;
         } else {
             name = System.mapLibraryName("discord-rpc");
             homeDir = new File(System.getProperty("user.home"), ".discord-rpc");
-            finalPath = "/linux/" + name;
+            finalPath = "libs/linux/" + name;
             tempPath = homeDir + "/" + name;
         }
 
         File f = new File(tempPath);
 
-        try(InputStream in = DiscordRPC.class.getResourceAsStream(finalPath); OutputStream out = FileUtils.openOutputStream(f)){
+        System.out.println("final: " + finalPath + ", f: " + f);
+
+        try (InputStream in = Gdx.files.internal(finalPath).read(); OutputStream out = FileUtils.openOutputStream(f)) {
             IOUtils.copy(in, out);
             FileUtils.forceDeleteOnExit(f);
         } catch(IOException e){
