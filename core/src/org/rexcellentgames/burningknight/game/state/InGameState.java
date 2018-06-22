@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -113,6 +114,7 @@ public class InGameState extends State {
 		
 		if (Input.instance.wasPressed("show_fps")) {
 			this.showFps = !this.showFps;
+			Achievements.unlock(Achievements.TEST);
 		}
 
 		last += dt;

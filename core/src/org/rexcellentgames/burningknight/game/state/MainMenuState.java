@@ -2,9 +2,6 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
@@ -31,6 +28,8 @@ public class MainMenuState extends State {
 
 	@Override
 	public void init() {
+		Dungeon.buildDiscordBadge();
+
 		instance = this;
 		Dungeon.area.add(Camera.instance);
 		Camera.target = null;

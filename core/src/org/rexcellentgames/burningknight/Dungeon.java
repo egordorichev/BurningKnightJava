@@ -11,9 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.codedisaster.steamworks.SteamAPI;
 import com.codedisaster.steamworks.SteamException;
-import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -29,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Game;
 import org.rexcellentgames.burningknight.game.Ui;
@@ -172,12 +171,23 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean steam = true;
 
 	private static void initDiscord() {
-		DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
-			Log.info("Welcome " + user.username + "#" + user.discriminator);
-			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Score = 0").setDetails("Running Test | Private").build());
+		/*DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
+
 		}).build();
 
-		DiscordRPC.discordInitialize("459603244256198657", handlers, true);
+		DiscordRPC.discordInitialize("459603244256198657", handlers, true);*/
+	}
+
+	private static void shutdownDiscord() {
+//		DiscordRPC.discordShutdown();
+	}
+
+	public static void buildDiscordBadge() {
+		/*if (Dungeon.level != null) {
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(Version.string).build());
+		} else {
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Main menu").setDetails(Version.string).build());
+		}*/
 	}
 
 	@Override
@@ -203,6 +213,7 @@ public class Dungeon extends ApplicationAdapter {
 		initDiscord();
 
 		loadGlobal();
+		Achievements.init();
 		Settings.load();
 
 		long seed = System.currentTimeMillis();
@@ -508,6 +519,7 @@ public class Dungeon extends ApplicationAdapter {
 		Assets.destroy();
 
 		Settings.save();
+		Achievements.dispose();
 		saveGlobal();
 		Log.close();
 
@@ -523,7 +535,7 @@ public class Dungeon extends ApplicationAdapter {
 			shader.dispose();
 		}
 
-		DiscordRPC.discordShutdown();
+		shutdownDiscord();
 		SteamAPI.shutdown();
 	}
 

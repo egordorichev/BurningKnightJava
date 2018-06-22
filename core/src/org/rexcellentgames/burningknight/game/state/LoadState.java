@@ -165,6 +165,7 @@ public class LoadState extends State {
 				BurningKnight.instance.become("unactive");
 			}
 
+			Dungeon.buildDiscordBadge();
 			ready = true;
 		}).run();
 	}

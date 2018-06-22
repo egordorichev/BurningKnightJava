@@ -38,8 +38,7 @@
 	"c" : [ "C" ],
 	"z" : [ "Z" ],
 
-	"pause" : [ "F1" ],
-	"dash" : [ "Mouse2", "F", "Controller4" ],
+	"pause" : [ "Escape" ],
 
 	"mouseX" : [ "Axis2" ],
 	"mouseY" : [ "Axis3" ],

@@ -4,6 +4,10 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
+
+        flatDir {
+            dirs 'libs'
+        }
     }
 
     ext.kotlin_version = '1.2.41'
