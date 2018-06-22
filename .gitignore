@@ -77,7 +77,6 @@ com_crashlytics_export_strings.xml
 /ios/nbbuild/
 /ios-moe/nbbuild/
 
-/dist/
 /android/dist/
 /core/dist/
 /desktop/dist/
