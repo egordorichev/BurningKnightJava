@@ -29,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Game;
 import org.rexcellentgames.burningknight.game.Ui;
@@ -210,6 +211,7 @@ public class Dungeon extends ApplicationAdapter {
 		initDiscord();
 
 		loadGlobal();
+		Achievements.init();
 		Settings.load();
 
 		long seed = System.currentTimeMillis();
@@ -515,6 +517,7 @@ public class Dungeon extends ApplicationAdapter {
 		Assets.destroy();
 
 		Settings.save();
+		Achievements.dispose();
 		saveGlobal();
 		Log.close();
 

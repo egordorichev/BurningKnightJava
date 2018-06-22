@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.debug;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.ui.UiInput;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class Console implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Input.Keys.ESCAPE) {
+		if (keycode == Input.Keys.F1) {
 			this.open = !this.open;
 			org.rexcellentgames.burningknight.game.input.Input.instance.blocked = this.open;
 		} else if (keycode == Input.Keys.ENTER && this.open) {
@@ -67,8 +66,6 @@ public class Console implements InputProcessor {
 
 	public void runCommand(String input) {
 		if (!input.startsWith("/")) {
-			String string = Player.instance.getName() + ": " + input;
-
 			return;
 		}
 
