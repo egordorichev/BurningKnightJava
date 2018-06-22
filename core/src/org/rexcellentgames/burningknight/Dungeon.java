@@ -11,6 +11,9 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.codedisaster.steamworks.SteamAPI;
 import com.codedisaster.steamworks.SteamException;
+import net.arikia.dev.drpc.DiscordEventHandlers;
+import net.arikia.dev.drpc.DiscordRPC;
+import net.arikia.dev.drpc.DiscordRichPresence;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -35,7 +38,10 @@ import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.LoadState;
 import org.rexcellentgames.burningknight.game.state.State;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.MathUtils;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
@@ -165,6 +171,15 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static boolean steam = true;
 
+	private static void initDiscord() {
+		DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
+			Log.info("Welcome " + user.username + "#" + user.discriminator);
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Score = 0").setDetails("Running Test | Private").build());
+		}).build();
+
+		DiscordRPC.discordInitialize("459603244256198657", handlers, true);
+	}
+
 	@Override
 	public void create() {
 		try {
@@ -184,6 +199,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		Log.init();
 		Log.info("Loading from " + (steam ? "Steam" : "native"));
+
+		initDiscord();
 
 		loadGlobal();
 		Settings.load();
@@ -242,8 +259,13 @@ public class Dungeon extends ApplicationAdapter {
 		longTime += 1;
 		this.lastUpdate += dt;
 
-		if (this.lastUpdate >= 0.06f && SteamAPI.isSteamRunning()) {
-			SteamAPI.runCallbacks();
+		if (this.lastUpdate >= 0.06f) {
+			if (SteamAPI.isSteamRunning()) {
+				SteamAPI.runCallbacks();
+			}
+
+			DiscordRPC.discordRunCallbacks();
+			this.lastUpdate = 0;
 		}
 
 		if (Input.instance != null) {
@@ -501,6 +523,7 @@ public class Dungeon extends ApplicationAdapter {
 			shader.dispose();
 		}
 
+		DiscordRPC.discordShutdown();
 		SteamAPI.shutdown();
 	}
 
