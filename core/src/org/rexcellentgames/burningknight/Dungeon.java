@@ -11,9 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.codedisaster.steamworks.SteamAPI;
 import com.codedisaster.steamworks.SteamException;
-import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -173,19 +171,23 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean steam = true;
 
 	private static void initDiscord() {
-		DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
+		/*DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
 
 		}).build();
 
-		DiscordRPC.discordInitialize("459603244256198657", handlers, true);
+		DiscordRPC.discordInitialize("459603244256198657", handlers, true);*/
+	}
+
+	private static void shutdownDiscord() {
+//		DiscordRPC.discordShutdown();
 	}
 
 	public static void buildDiscordBadge() {
-		if (Dungeon.level != null) {
+		/*if (Dungeon.level != null) {
 			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(Version.string).build());
 		} else {
 			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Main menu").setDetails(Version.string).build());
-		}
+		}*/
 	}
 
 	@Override
@@ -533,7 +535,7 @@ public class Dungeon extends ApplicationAdapter {
 			shader.dispose();
 		}
 
-		DiscordRPC.discordShutdown();
+		shutdownDiscord();
 		SteamAPI.shutdown();
 	}
 
