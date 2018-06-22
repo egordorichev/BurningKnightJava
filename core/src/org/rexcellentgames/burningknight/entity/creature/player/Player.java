@@ -795,13 +795,13 @@ public class Player extends Creature {
 		}
 
 		boolean before = false;
-		Item item = this.inventory.getSlot(this.inventory.active);
+		/*Item item = this.inventory.getSlot(this.inventory.active);
 
 		if (item instanceof WeaponBase) {
 			Point aim = this.getAim();
 			double a = this.getAngleTo(aim.x, aim.y);
 			before = (a > 0 && a < Math.PI);
-		}
+		}*/
 
 		if (this.ui != null && before) {
 			this.ui.renderOnPlayer(this);
