@@ -1,0 +1,54 @@
+{
+	"left" : [ "A", "Left" ],
+	"right" : [ "D", "Right" ],
+	"up" : [ "W", "Up" ],
+	"down" : [ "S", "Down" ],
+
+	"pickup" : [ "Space", "Controller2" ],
+	"drop_item" : [ "L-Shift", "Controller1", "Q" ],
+	"block" : [ "Mouse2" ],
+
+	"mouse0" : [ "Mouse0", "Controller3", "Controller5", "Enter" ],
+	"mouse1" : [ "Mouse1" ],
+	"mouse2" : [ "Mouse2" ],
+	"scroll" : [ "MouseWheel" ],
+
+	"action" : [ "Space", "Controller2" ],
+
+	"prev" : [ "Controller6", "Numpad 7" ],
+	"next" : [ "Controller7", "Numpad 9" ],
+
+	"catch" : [ "F2" ],
+	"reset" : [ "F4" ],
+	"show_fps" : [ "F3" ],
+	"switch_colorblind" : [ "F5" ],
+	"toggle_correction" : [ "F6" ],
+	
+	"inventory" : [ "E", "Controller 6" ],
+
+	"circle" : [ "Controller0" ],
+
+	"1" : [ "1" ],
+	"2" : [ "2" ],
+	"3" : [ "3" ],
+	"4" : [ "4" ],
+	"5" : [ "5" ],
+	"6" : [ "6" ],
+
+	"c" : [ "C" ],
+	"z" : [ "Z" ],
+
+	"pause" : [ "Escape" ],
+
+	"mouseX" : [ "Axis2" ],
+	"mouseY" : [ "Axis3" ],
+
+	"moveX" : [ "Axis0" ],
+	"moveY" : [ "Axis1" ],
+	"map" : [ "M" ],
+
+	"mouse_left" : [ "Numpad 4" ],
+	"mouse_right" : [ "Numpad 6" ],
+	"mouse_up" : [ "Numpad 8" ],
+	"mouse_down" : [ "Numpad 2", "Numpad 5" ]
+}
