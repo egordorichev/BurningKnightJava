@@ -19,6 +19,7 @@ public class DesktopLauncher {
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable throwable) {
+				throwable.printStackTrace();
 				Crash.report(thread, throwable);
 				Gdx.app.exit();
 			}
@@ -104,7 +105,7 @@ public class DesktopLauncher {
 		config.addIcon("icon.png", Files.FileType.Internal);
 		config.addIcon("icon32x32.png", Files.FileType.Internal);
 		config.addIcon("icon128x128.png", Files.FileType.Internal);
-		
+
 		Dungeon.arg = arg;
 
 		new LwjglApplication(new Client(), config);

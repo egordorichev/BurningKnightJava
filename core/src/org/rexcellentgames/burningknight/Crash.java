@@ -37,9 +37,6 @@ public class Crash {
 		builder.append(writer.toString());
 		builder.append("\n--- END CRASH REPORT ---\n");
 
-		Log.error(builder.toString());
-		System.err.flush();
-
 		JTextArea text = new JTextArea();
 
 		text.setText(builder.toString());
