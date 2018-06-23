@@ -94,79 +94,82 @@ public class LoadState extends State {
 		Player.all.clear();
 		Mob.all.clear();
 
-		new Thread(() -> {
-			PlayerSave.all.clear();
-			LevelSave.all.clear();
-
-			try {
-				SaveManager.load(SaveManager.Type.GAME);
-			} catch (IOException e) {
-				Log.error("Failed to load game!");
-				Dungeon.newGame();
-				return;
-			} catch (RuntimeException e) {
-				Log.report(e);
-				Thread.currentThread().interrupt();
-				return;
-			}
-
-			try {
-				SaveManager.load(SaveManager.Type.LEVEL);
-			} catch (IOException e) {
-				Log.error("Failed to load level, generating new...");
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				PlayerSave.all.clear();
 				LevelSave.all.clear();
 
-				if (Dungeon.level != null) {
-					Log.error("Removing old level");
-					Dungeon.area.remove(Dungeon.level);
-					Dungeon.level = null;
+				try {
+					SaveManager.load(SaveManager.Type.GAME);
+				} catch (IOException e) {
+					Log.error("Failed to load game!");
+					Dungeon.newGame();
+					return;
+				} catch (RuntimeException e) {
+					Log.report(e);
+					Thread.currentThread().interrupt();
+					return;
 				}
 
-				SaveManager.generate(SaveManager.Type.LEVEL);
-				SaveManager.save(SaveManager.Type.LEVEL, false);
-			} catch (RuntimeException e) {
-				Log.report(e);
-				Thread.currentThread().interrupt();
-				return;
+				try {
+					SaveManager.load(SaveManager.Type.LEVEL);
+				} catch (IOException e) {
+					Log.error("Failed to load level, generating new...");
+					LevelSave.all.clear();
+
+					if (Dungeon.level != null) {
+						Log.error("Removing old level");
+						Dungeon.area.remove(Dungeon.level);
+						Dungeon.level = null;
+					}
+
+					SaveManager.generate(SaveManager.Type.LEVEL);
+					SaveManager.save(SaveManager.Type.LEVEL, false);
+				} catch (RuntimeException e) {
+					Log.report(e);
+					Thread.currentThread().interrupt();
+					return;
+				}
+
+				try {
+					SaveManager.load(SaveManager.Type.PLAYER);
+				} catch (IOException e) {
+					Log.error("Failed to load player!");
+					Dungeon.newGame();
+					return;
+				} catch (RuntimeException e) {
+					Log.report(e);
+					Thread.currentThread().interrupt();
+					return;
+				}
+
+				Dungeon.level.loadPassable();
+				Dungeon.level.addPhysics();
+
+				Audio.play(Dungeon.level.getMusic());
+
+				if (Player.instance == null) {
+					Log.error("No player!");
+					Dungeon.newGame();
+					return;
+				}
+
+				PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
+
+				Log.info("Loading done!");
+
+				UiBanner banner = new UiBanner();
+				banner.text = Dungeon.level.formatDepth();
+				Dungeon.area.add(banner);
+
+				if (BurningKnight.instance != null) {
+					BurningKnight.instance.become("unactive");
+				}
+
+				Dungeon.buildDiscordBadge();
+				ready = true;
 			}
-
-			try {
-				SaveManager.load(SaveManager.Type.PLAYER);
-			} catch (IOException e) {
-				Log.error("Failed to load player!");
-				Dungeon.newGame();
-				return;
-			} catch (RuntimeException e) {
-				Log.report(e);
-				Thread.currentThread().interrupt();
-				return;
-			}
-
-			Dungeon.level.loadPassable();
-			Dungeon.level.addPhysics();
-
-			Audio.play(Dungeon.level.getMusic());
-
-			if (Player.instance == null) {
-				Log.error("No player!");
-				Dungeon.newGame();
-				return;
-			}
-
-			PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
-
-			Log.info("Loading done!");
-
-			UiBanner banner = new UiBanner();
-			banner.text = Dungeon.level.formatDepth();
-			Dungeon.area.add(banner);
-			
-			if (BurningKnight.instance != null) {
-				BurningKnight.instance.become("unactive");
-			}
-
-			Dungeon.buildDiscordBadge();
-			ready = true;
 		}).run();
 	}
 

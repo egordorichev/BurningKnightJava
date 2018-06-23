@@ -363,7 +363,7 @@ public class UiInventory extends UiEntity {
 		this.inventory.active = this.active;
 	}
 
-	private void drop(Item slot) {
+	private void drop(final Item slot) {
 		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override
 			public float getValue() {

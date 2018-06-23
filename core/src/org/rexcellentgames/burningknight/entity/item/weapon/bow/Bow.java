@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.bow;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -155,22 +156,25 @@ public class Bow extends WeaponBase {
 	private Vector2 last;
 	private float closestFraction = 1.0f;
 
-	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		if (fixture.isSensor()) {
-			return 1;
-		}
-
-		Entity entity = (Entity) fixture.getBody().getUserData();
-
-		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
-			if (fraction < closestFraction) {
-				closestFraction = fraction;
-				last = point;
+	private RayCastCallback callback = new RayCastCallback() {
+		@Override
+		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+			if (fixture.isSensor()) {
+				return 1;
 			}
 
-			return fraction;
-		}
+			Entity entity = (Entity) fixture.getBody().getUserData();
 
-		return 1;
+			if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+				if (fraction < closestFraction) {
+					closestFraction = fraction;
+					last = point;
+				}
+
+				return fraction;
+			}
+
+			return 1;
+		}
 	};
 }

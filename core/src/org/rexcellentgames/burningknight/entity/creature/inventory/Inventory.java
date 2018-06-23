@@ -131,7 +131,7 @@ public class Inventory {
 	}
 
 	private void onAdd(ItemHolder holder, int slot) {
-		Item item = holder.getItem();
+		final Item item = holder.getItem();
 
 		item.setOwner(Player.instance);
 		item.a = 0;

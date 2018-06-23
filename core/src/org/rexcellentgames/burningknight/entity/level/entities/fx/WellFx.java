@@ -9,14 +9,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.UsableProp;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.level.entities.UsableProp;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class WellFx extends Entity {
 	private UsableProp well;
@@ -67,8 +59,6 @@ public class WellFx extends Entity {
 	}
 
 	public void remove() {
-		WellFx self = this;
-
 		Tween.to(new Tween.Task(0, 0.2f, Tween.Type.QUAD_IN) {
 			@Override
 			public float getValue() {
@@ -83,8 +73,7 @@ public class WellFx extends Entity {
 			@Override
 			public void onEnd() {
 				super.onEnd();
-
-				self.done = true;
+				setDone(true);
 			}
 		});
 	}

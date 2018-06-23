@@ -2,11 +2,6 @@ package org.rexcellentgames.burningknight.game.state;
 
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.Ui;
@@ -29,10 +24,13 @@ public class KeyConfigState extends State {
 		Dungeon.area.add(new UiButton("save", Display.GAME_WIDTH / 2, (int) (128 - 24 * 3.5f)) {
 			@Override
 			public void onClick() {
-				transition(() -> {
-					Audio.playSfx("menu/exit");
-					Dungeon.game.setState(new InputSettingsState());
-					Camera.shake(3);
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Audio.playSfx("menu/exit");
+						Dungeon.game.setState(new InputSettingsState());
+						Camera.shake(3);
+					}
 				});
 			}
 		});

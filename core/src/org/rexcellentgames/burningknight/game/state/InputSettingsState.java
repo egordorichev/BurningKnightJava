@@ -4,14 +4,6 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.ui.UiChoice;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -37,9 +29,12 @@ public class InputSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(() -> {
-					Dungeon.game.setState(new KeyConfigState());
-					Camera.shake(3);
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new KeyConfigState());
+						Camera.shake(3);
+					}
 				});
 			}
 		});

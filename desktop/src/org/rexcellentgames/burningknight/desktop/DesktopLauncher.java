@@ -1,10 +1,9 @@
 package org.rexcellentgames.burningknight.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.rexcellentgames.burningknight.*;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -17,14 +16,17 @@ public class DesktopLauncher {
 	private static final int SCALE = 2;
 
 	public static void main(String[] arg) {
-		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-			Crash.report(thread, throwable);
-			Gdx.app.exit();
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread thread, Throwable throwable) {
+				Crash.report(thread, throwable);
+				Gdx.app.exit();
+			}
 		});
 
-		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.setWindowListener(new Lwjgl3WindowListener() {
+		/*config.setWindowListener(new Lwjgl3WindowListener() {
 			@Override
 			public void created(Lwjgl3Window window) {
 
@@ -64,7 +66,7 @@ public class DesktopLauncher {
 			public void refreshRequested() {
 
 			}
-		});
+		});*/
 
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
 		String extra = titles[Random.newInt(titles.length - 1)];
@@ -95,14 +97,17 @@ public class DesktopLauncher {
 
 		Dungeon.title = "Burning Knight " + Version.asString() + ": " + extra;
 
-		config.setTitle(Dungeon.title);
-		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
-		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
-		config.setBackBufferConfig(1, 1, 1, 1, 0, 0, 4);
-
+		config.title = Dungeon.title;
+		config.samples = 4;
+		config.width = Display.GAME_WIDTH * SCALE;
+		config.height = Display.GAME_HEIGHT * SCALE;
+		config.addIcon("icon.png", Files.FileType.Internal);
+		config.addIcon("icon32x32.png", Files.FileType.Internal);
+		config.addIcon("icon128x128.png", Files.FileType.Internal);
+		
 		Dungeon.arg = arg;
 
-		new Lwjgl3Application(new Client(), config);
+		new LwjglApplication(new Client(), config);
 	}
 
 	private static String[] titles = new String[] {

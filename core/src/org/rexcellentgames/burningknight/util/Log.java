@@ -1,12 +1,13 @@
 package org.rexcellentgames.burningknight.util;
 
 import com.badlogic.gdx.Gdx;
-import org.rexcellentgames.burningknight.debug.Console;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.debug.Console;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -59,17 +60,20 @@ public class Log {
 			area.setLineWrap(true);
 			panel.add(area, BorderLayout.PAGE_START);
 
-			JTextField field = new JTextField();
+			final JTextField field = new JTextField();
 			panel.add(field);
 
-			field.addActionListener(actionEvent -> {
-				if (Console.instance != null) {
-					Console.instance.runCommand("/" + actionEvent.getActionCommand());
-				} else {
-					Log.info("Console is not here yet");
-				}
+			field.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent actionEvent) {
+					if (Console.instance != null) {
+						Console.instance.runCommand("/" + actionEvent.getActionCommand());
+					} else {
+						Log.info("Console is not here yet");
+					}
 
-				field.setText("");
+					field.setText("");
+				}
 			});
 
 			frame.add(panel, BorderLayout.PAGE_END);

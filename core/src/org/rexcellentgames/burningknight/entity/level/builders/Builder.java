@@ -28,9 +28,16 @@ public class Builder {
 		ArrayList<Room> colliding = new ArrayList<>(collision);
 
 		do {
-			colliding.removeIf(room -> room.isEmpty() 
-				|| Math.max(space.left, room.left) >= Math.min(space.right, room.right)
-				|| Math.max(space.top, room.top) >= Math.min(space.bottom, room.bottom));
+			for (int i = colliding.size() - 1; i >= 0; i--) {
+				Room room = colliding.get(i);
+
+				if (room.isEmpty()
+					|| Math.max(space.left, room.left) >= Math.min(space.right, room.right)
+					|| Math.max(space.top, room.top) >= Math.min(space.bottom, room.bottom)) {
+
+					colliding.remove(i);
+				}
+			}
 
 			Room closestRoom = null;
 

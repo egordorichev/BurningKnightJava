@@ -278,22 +278,25 @@ public class CrazyKing extends Boss {
 						self.target.setUnhittable(true);
 					}
 
-					Dialog.active.onEnd(() -> {
-						noticed = true;
-						self.become("chase");
+					Dialog.active.onEnd(new Runnable() {
+						@Override
+						public void run() {
+							noticed = true;
+							self.become("chase");
 
-						if (self.target != null) {
-							self.target.setUnhittable(false);
+							if (self.target != null) {
+								self.target.setUnhittable(false);
+							}
+
+							ignoreHealthbar = false;
+							Camera.follow(Player.instance, false);
+							talked = true;
+
+
+							UiBanner banner = new UiBanner();
+							banner.text = Locale.get("crazy_king");
+							Dungeon.area.add(banner);
 						}
-
-						ignoreHealthbar = false;
-						Camera.follow(Player.instance, false);
-						talked = true;
-
-
-						UiBanner banner = new UiBanner();
-						banner.text = Locale.get("crazy_king");
-						Dungeon.area.add(banner);
 					});
 				}
 			}

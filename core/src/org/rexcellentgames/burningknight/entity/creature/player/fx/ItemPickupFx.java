@@ -70,8 +70,8 @@ public class ItemPickupFx extends Entity {
 	}
 
 	public void remove() {
-		ItemPickupFx self = this;
 		this.go = true;
+
 		Tween.to(new Tween.Task(0, 0.2f, Tween.Type.QUAD_IN) {
 			@Override
 			public float getValue() {
@@ -86,8 +86,7 @@ public class ItemPickupFx extends Entity {
 			@Override
 			public void onEnd() {
 				super.onEnd();
-
-				self.done = true;
+				setDone(true);
 			}
 		});
 	}

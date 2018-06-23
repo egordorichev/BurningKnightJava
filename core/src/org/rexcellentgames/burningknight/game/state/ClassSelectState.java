@@ -2,12 +2,6 @@ package org.rexcellentgames.burningknight.game.state;
 
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.ui.UiClass;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.ui.UiButton;
@@ -41,8 +35,11 @@ public class ClassSelectState extends State {
 				super.onClick();
 				Player.toSet = selected.type;
 
-				transition(() -> {
-					Dungeon.goToLevel(0);
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.goToLevel(0);
+					}
 				});
 			}
 		});

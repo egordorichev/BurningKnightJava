@@ -9,9 +9,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Settings;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.HashMap;
 
@@ -121,7 +118,7 @@ public class Audio {
 			}
 		}
 
-		Music music = getMusic(name);
+		final Music music = getMusic(name);
 
 		if (music == null) {
 			Log.error("Music '" + name + "' is not found");

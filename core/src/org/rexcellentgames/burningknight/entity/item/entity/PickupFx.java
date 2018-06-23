@@ -5,10 +5,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class PickupFx extends Entity {
 	public TextureRegion region;
@@ -21,8 +17,6 @@ public class PickupFx extends Entity {
 		this.alwaysActive = true;
 		this.alwaysRender = true;
 		this.depth = 30;
-
-		PickupFx self = this;
 
 		Tween.to(new Tween.Task(0, 1f, Tween.Type.LINEAR) {
 			@Override
@@ -37,7 +31,7 @@ public class PickupFx extends Entity {
 
 			@Override
 			public void onEnd() {
-				self.done = true;
+				setDone(true);
 			}
 		});
 	}
