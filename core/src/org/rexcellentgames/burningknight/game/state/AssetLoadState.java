@@ -13,7 +13,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 public class AssetLoadState extends State {
 	public static final boolean START_TO_MENU = true;
 	public static boolean done = false;
-	private static Texture region = new Texture(Gdx.files.internal("sprites_split/rexcellent_games.png"));
+	private static Texture region;
 	private float a;
 
 	@Override
@@ -38,6 +38,8 @@ public class AssetLoadState extends State {
 			Assets.finishLoading();
 			finish();
 			tweened = true;
+		} else {
+			region = new Texture(Gdx.files.internal("sprites_split/rexcellent_games.png"));
 		}
 	}
 

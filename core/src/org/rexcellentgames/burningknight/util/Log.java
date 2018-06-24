@@ -8,25 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class Log {
 	public static final boolean ENABLE_PHYSICS_MESSAGES = false;
 	public static final boolean UI_DEBUG_WINDOW = false;
-	private static FileWriter file;
 
 	private static JTextArea area;
 	private static JFrame frame;
 
 	public static void report(Throwable t) {
-		try {
-			file.write("Exception:");
-			file.write(t.getMessage() + "\n" + t.getCause());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		if (UI_DEBUG_WINDOW) {
 			area.append("Exception: " + t.getMessage() + "\n" + t.getCause() + "\n");
 			frame.getContentPane().validate();
@@ -39,12 +30,6 @@ public class Log {
 	}
 
 	public static void init() {
-		try {
-			file = new FileWriter(Gdx.files.external("bk.log").file());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		if (UI_DEBUG_WINDOW) {
 			frame = new JFrame();
 			frame.setSize(Display.GAME_WIDTH, Display.GAME_HEIGHT * 2);
@@ -83,12 +68,6 @@ public class Log {
 	private static boolean force;
 
 	public static void close() {
-		try {
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		if (frame != null) {
 			if (force) {
 				force = false;
@@ -108,12 +87,6 @@ public class Log {
 	}
 
 	public static void error(String string) {
-		try {
-			file.write("[ERROR]: " + string + "\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		if (UI_DEBUG_WINDOW) {
 			area.append("ERROR: " + string + "\n");
 			frame.getContentPane().validate();
@@ -123,12 +96,6 @@ public class Log {
 	}
 
 	public static void info(String string) {
-		try {
-			file.write(string + "\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		if (UI_DEBUG_WINDOW) {
 			area.append(string + "\n");
 			frame.getContentPane().validate();
@@ -140,12 +107,6 @@ public class Log {
 	public static void physics(String string) {
 		if (!ENABLE_PHYSICS_MESSAGES) {
 			return;
-		}
-
-		try {
-			file.write("Physics: " + string + "\n");
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 		if (UI_DEBUG_WINDOW) {
