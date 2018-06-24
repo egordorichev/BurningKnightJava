@@ -461,5 +461,7 @@
 	"arcane_battery" : "Arcane battery",
 	"arcane_battery_desc" : "Activate only in trouble",
 	"blue_coin" : "Blue coin",
-	"blue_coin_desc" : "Gives %"
+	"blue_coin_desc" : "Gives %",
+	"blue_heart" : "Blue heart",
+	"blue_heart_desc" : "Life == mana?"
 }

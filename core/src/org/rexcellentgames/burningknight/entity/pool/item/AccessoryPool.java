@@ -104,6 +104,8 @@ public class AccessoryPool extends Pool<Item> {
 		add(ManaShield.class, 1f);
 		add(ManaBoots.class, 1f);
 		add(ArcaneBattery.class, 1f);
+		add(BlueCoin.class, 1f);
+		add(BlueHeart.class, 1f);
 	}
 
 	public void addRanger() {
