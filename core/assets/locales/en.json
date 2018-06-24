@@ -473,5 +473,9 @@
 	"book_of_magic_trinity" : "Book of magic trinity",
 	"book_of_magic_trinity_desc" : "For extra aim power",
 	"book_of_magic_wall" : "Book of magic wall",
-	"book_of_magic_wall_desc" : "I want MOAR WALLS"
+	"book_of_magic_wall_desc" : "I want MOAR WALLS",
+	"book_of_magic_missile" : "Book of magic missile",
+	"book_of_magic_missile_desc" : "Come on, why is it SO SLOW?",
+	"book_of_crazy_particles" : "Book of crazy particles",
+	"book_of_crazy_particles_desc" : "Use with care"
 }

@@ -17,6 +17,8 @@ public class HomingBook extends Book {
 		name = Locale.get("book_of_magic_aim");
 		description = Locale.get("book_of_magic_aim_desc");
 		sprite = "item-book_a";
+		mana = 3;
+		damage = 3;
 	}
 
 	@Override
@@ -68,8 +70,8 @@ public class HomingBook extends Book {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w);
-					fx.y = this.y + Random.newFloat(this.h);
+					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
+					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
 

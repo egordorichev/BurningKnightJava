@@ -34,6 +34,7 @@ public class BulletProjectile extends Projectile {
 	public float angle;
 	public float dist;
 	public boolean dissappearWithTime;
+	public float rotationSpeed = 1f;
 
 	{
 		alwaysActive = true;
@@ -173,7 +174,7 @@ public class BulletProjectile extends Projectile {
 		this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
 
 		if (this.rotates) {
-			this.a += dt * 360 * 2 * dir;
+			this.a += dt * 360 * 2 * dir * rotationSpeed;
 		} else {
 			this.a = (float) Math.toDegrees(this.ra);
 		}

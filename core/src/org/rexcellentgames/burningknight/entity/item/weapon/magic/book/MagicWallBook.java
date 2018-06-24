@@ -15,6 +15,8 @@ public class MagicWallBook extends Book {
 		name = Locale.get("book_of_magic_wall");
 		description = Locale.get("book_of_magic_wall_desc");
 		sprite = "item-book_c";
+		damage = 4;
+		mana = 4;
 	}
 
 	@Override
@@ -59,8 +61,8 @@ public class MagicWallBook extends Book {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w);
-					fx.y = this.y + Random.newFloat(this.h);
+					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
+					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
 					fx.g = 0;

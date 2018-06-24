@@ -18,9 +18,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunB;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunC;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.*;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.HomingBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.MagicWallBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.TripleShotBook;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherB;
@@ -83,6 +81,8 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(MagicMissileWand.class, 1f);
 		add(TripleShotBook.class, 1f);
 		add(MagicWallBook.class, 1f);
+		add(SlowBook.class, 1f);
+		add(FastBook.class, 1f);
 	}
 
 	private void addWarrior() {

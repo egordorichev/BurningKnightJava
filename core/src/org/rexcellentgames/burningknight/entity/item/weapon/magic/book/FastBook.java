@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity.item.weapon.magic;
+package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -8,27 +8,31 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class MagicMissileWand extends Wand {
-	{
-		name = Locale.get("magic_missile_wand");
-		description = Locale.get("magic_missile_wand_desc");
-		sprite = "item (wand B)";
-		damage = 5;
-		mana = 2;
-	}
+public class FastBook extends Book {
+	public static TextureRegion region = Graphics.getTexture("particle-triangle");
 
-	public static TextureRegion region = Graphics.getTexture("particle-big");
+	{
+		name = Locale.get("book_of_crazy_particles");
+		description = Locale.get("book_of_crazy_particles_desc");
+		sprite = "item-book_e";
+		damage = 2;
+		mana = 1;
+	}
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
+		this.spawnShot(x, y, a);
+	}
+
+	private void spawnShot(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
 			public void render() {
 				Graphics.batch.end();
 				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", 1f);
-				RectFx.shader.setUniformf("g", 1f);
-				RectFx.shader.setUniformf("b", 1f);
+				RectFx.shader.setUniformf("r", 0f);
+				RectFx.shader.setUniformf("g", 1f - (float) Math.abs(Math.sin(this.t * 3f) / 2));
+				RectFx.shader.setUniformf("b", 0f);
 				RectFx.shader.setUniformf("a", 0.8f);
 				RectFx.shader.end();
 				Graphics.batch.setShader(RectFx.shader);
@@ -52,6 +56,9 @@ public class MagicMissileWand extends Wand {
 					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
+					fx.b = 0f;
+					fx.r = 0;
+					fx.g = 1f - (float) Math.abs(Math.sin(this.t * 3f) / 2);
 
 					Dungeon.area.add(fx);
 				}
@@ -74,7 +81,7 @@ public class MagicMissileWand extends Wand {
 
 		double ra = Math.toRadians(a);
 
-		float s = 60f;
+		float s = 180f;
 
 		missile.vel.x = (float) Math.cos(ra) * s;
 		missile.vel.y = (float) Math.sin(ra) * s;
