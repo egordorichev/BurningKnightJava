@@ -50,8 +50,8 @@ public class PoisonWand extends Wand {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
-					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
+					fx.x = this.x + Random.newFloat(this.w);
+					fx.y = this.y + Random.newFloat(this.h);
 					fx.w = 4;
 					fx.h = 4;
 					fx.r = 0.3f;
@@ -79,7 +79,7 @@ public class PoisonWand extends Wand {
 		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
-missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
+		missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
 		missile.rotates = true;
 
 		double ra = Math.toRadians(a);

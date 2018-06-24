@@ -1,36 +1,39 @@
-package org.rexcellentgames.burningknight.entity.item.weapon.magic;
+package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class FireWand extends Wand {
-	{
-		name = Locale.get("fire_wand");
-		description = Locale.get("fire_wand_desc");
-		sprite = "item (wand G)";
-		damage = 2;
-	}
+public class TripleShotBook extends Book {
+	public static TextureRegion region = Graphics.getTexture("particle-empty");
 
-	public static TextureRegion region = Graphics.getTexture("particle-big");
+	{
+		name = Locale.get("book_of_magic_trinity");
+		description = Locale.get("book_of_magic_trinity_desc");
+		sprite = "item-book_b";
+		damage = 4;
+	}
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
+		this.spawnShot(x, y, a);
+		this.spawnShot(x, y, a - Random.newFloat(5f, 10f) * 2f);
+		this.spawnShot(x, y, a + Random.newFloat(5f, 10f) * 2f);
+	}
+
+	private void spawnShot(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
 			public void render() {
 				Graphics.batch.end();
 				RectFx.shader.begin();
 				RectFx.shader.setUniformf("r", 1f);
-				RectFx.shader.setUniformf("g", 0.3f);
-				RectFx.shader.setUniformf("b", 0.3f);
+				RectFx.shader.setUniformf("g", 1f);
+				RectFx.shader.setUniformf("b", 0f);
 				RectFx.shader.setUniformf("a", 0.8f);
 				RectFx.shader.end();
 				Graphics.batch.setShader(RectFx.shader);
@@ -54,22 +57,12 @@ public class FireWand extends Wand {
 					fx.y = this.y + Random.newFloat(this.h);
 					fx.w = 4;
 					fx.h = 4;
-					fx.g = 0.3f;
-					fx.b = 0.3f;
+					fx.b = 0f;
 
 					Dungeon.area.add(fx);
 				}
 
 				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
-			}
-
-			@Override
-			protected void onHit(Entity entity) {
-				super.onHit(entity);
-
-				if (entity instanceof Creature) {
-					((Creature) entity).addBuff(new BurningBuff());
-				}
 			}
 		};
 
@@ -79,7 +72,10 @@ public class FireWand extends Wand {
 		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
-missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
+		missile.y = y - 3;
+		missile.rectShape = true;
+		missile.w = 6;
+		missile.h = 6;
 		missile.rotates = true;
 
 		double ra = Math.toRadians(a);

@@ -2,7 +2,10 @@ package org.rexcellentgames.burningknight.entity.pool.item;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.reference.*;
+import org.rexcellentgames.burningknight.entity.item.reference.BlueBoomerang;
+import org.rexcellentgames.burningknight.entity.item.reference.GravelordSword;
+import org.rexcellentgames.burningknight.entity.item.reference.IsaacHead;
+import org.rexcellentgames.burningknight.entity.item.reference.StarCannon;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
@@ -16,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunB;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunC;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.HomingBook;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.TripleShotBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherB;
@@ -76,6 +80,7 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(FireWand.class, 1f);
 		add(IceWand.class, 1f);
 		add(MagicMissileWand.class, 1f);
+		add(TripleShotBook.class, 1f);
 	}
 
 	private void addWarrior() {

@@ -46,6 +46,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.ShotgunA
 import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.*
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.HomingBook
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.TripleShotBook
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherA
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherB
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
@@ -272,6 +273,7 @@ object ItemRegistry {
 	          "blue_heart" to BlueHeart::class,
 	          "black_heart" to BlackHeart::class,
 	          "clock_heart" to ClockHeart::class,
-	          "aim_book" to HomingBook::class
+	          "aim_book" to HomingBook::class,
+	          "triple_book" to TripleShotBook::class
     )
 }
