@@ -18,7 +18,7 @@ public class Waterbolt extends Wand {
 	{
 		name = Locale.get("waterbolt");
 		description = Locale.get("waterbolt_desc");
-		sprite = "item (wand B)";
+		sprite = "item-wand_b";
 		damage = 2;
 	}
 

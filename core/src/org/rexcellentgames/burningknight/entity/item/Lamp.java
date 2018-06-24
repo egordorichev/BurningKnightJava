@@ -27,7 +27,7 @@ public class Lamp extends Item {
 
 	{
 		name = Locale.get("lamp");
-		sprite = "item (lamp)";
+		sprite = "item-lamp";
 		description = Locale.get("lamp_desc");
 		identified = true;
 		useTime = 0.2f;

@@ -23,7 +23,6 @@ public class Turret extends SolidProp {
 	private AnimationData single = animations.get("single");
 
 	{
-		sprite = "item (missing)";
 		alwaysActive = true;
 		collider = new Rectangle(1, 10, 14, 4);
 	}

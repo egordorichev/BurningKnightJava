@@ -4,7 +4,6 @@ public class Bread extends Food {
 	{
 		name = "Bread";
 		description = "A loaf of bread";
-		sprite = "item (food A)";
 		hunger = 260;
 	}
 }

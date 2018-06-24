@@ -28,9 +28,9 @@ public class Door extends SaveableEntity {
 	private boolean vertical;
 	private Body body;
 	private int numCollisions;
-	private static Animation vertAnimation = Animation.make("actor-door-vertical");
-	private static Animation horizAnimation = Animation.make("actor-door-horizontal");
-	private static Animation lockAnimation = Animation.make("door-lock");
+	private static Animation vertAnimation = Animation.make("actor-door-vertical", "-wooden");
+	private static Animation horizAnimation = Animation.make("actor-door-horizontal", "-wooden");
+	private static Animation lockAnimation = Animation.make("door-lock", "-iron");
 	private AnimationData animation;
 	private AnimationData locked = lockAnimation.get("idle");
 	private AnimationData unlock = lockAnimation.get("open");

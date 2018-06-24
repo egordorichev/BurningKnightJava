@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore;
 
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -10,7 +8,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class ClaymoreA extends Sword {
 	{
-		sprite = "item (claymore)";
+		sprite = "item-claymore_a";
 		damage = 2;
 		description = Locale.get("claymore_a_desc");
 		name = Locale.get("claymore_a");

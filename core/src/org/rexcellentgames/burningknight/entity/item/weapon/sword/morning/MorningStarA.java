@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class MorningStarA extends MorningStar {
 	{
-		sprite = "item (morning A)";
+		sprite = "item-morning_a";
 		name = Locale.get("morning_a");
 		description = Locale.get("morning_a_desc");
 		damage = 5;

@@ -10,7 +10,7 @@ public class Gold extends Item {
 	{
 		name = Locale.get("gold");
 		stackable = true;
-		sprite = "item (coin)";
+		sprite = "item-coin";
 		autoPickup = true;
 		useable = false;
 		description = Locale.get("gold_desc");

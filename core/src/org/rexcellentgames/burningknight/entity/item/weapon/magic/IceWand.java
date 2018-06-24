@@ -15,7 +15,7 @@ public class IceWand extends Wand {
 	{
 		name = Locale.get("ice_wand");
 		description = Locale.get("ice_wand_desc");
-		sprite = "item (wand F)";
+		sprite = "item-wand_f";
 		damage = 2;
 	}
 

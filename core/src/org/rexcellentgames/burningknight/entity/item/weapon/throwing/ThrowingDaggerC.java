@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class ThrowingDaggerC extends ThrowingDagger {
 	{
-		sprite = "item (dagger C)";
+		sprite = "item-dagger_c";
 		damage = 7;
 		name = Locale.get("throwing_dagger_c");
 		description = Locale.get("throwing_dagger_c_desc");

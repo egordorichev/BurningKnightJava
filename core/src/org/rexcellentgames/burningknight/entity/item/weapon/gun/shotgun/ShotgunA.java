@@ -6,6 +6,6 @@ public class ShotgunA extends Shotgun {
 	{
 		name = Locale.get("shotgun_a");
 		description = Locale.get("shotgun_a_desc");
-		sprite = "item (cannon A)";
+		sprite = "item-cannon_a";
 	}
 }

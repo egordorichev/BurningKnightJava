@@ -9,7 +9,7 @@ class FireRing : Equipable() {
 
 		name = Locale.get("fire_ring")
 		description = Locale.get("fire_ring_desc")
-		sprite = "item (ring F)"
+		sprite = "item-ring_f"
 	}
 
 	override fun onEquip() {

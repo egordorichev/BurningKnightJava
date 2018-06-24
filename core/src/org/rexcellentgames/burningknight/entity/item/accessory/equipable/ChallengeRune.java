@@ -2,14 +2,12 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 
 public class ChallengeRune extends Equipable {
 	{
 		name = Locale.get("challenge_rune");
 		description = Locale.get("challenge_rune_desc");
-		sprite = "item (scroll D)";
+		sprite = "item-scroll_d";
 	}
 
 	@Override

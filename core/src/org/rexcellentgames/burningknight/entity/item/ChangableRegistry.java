@@ -15,20 +15,20 @@ public class ChangableRegistry {
 	public static HashMap<Type, Boolean> identified = new HashMap<>();
 
 	public enum Type {
-		RED("item (potion A)"),
-		BLUE("item (potion B)"),
-		ORANGE("item (potion C)"),
-		GREEN("item (potion D)"),
-		YELLOW("item (potion E)"),
-		CORAL("item (potion F)"),
-		PINK("item (potion G)"),
-		BROWN("item (potion H)"),
+		RED("item-potion_a"),
+		BLUE("item-potion_b"),
+		ORANGE("item-potion_c"),
+		GREEN("item-potion_d"),
+		YELLOW("item-potion_e"),
+		CORAL("item-potion_f"),
+		PINK("item-potion_g"),
+		BROWN("item-potion_h"),
 
-		JERA("item (scroll A)"),
-		THURISAZ("item (scroll B)"),
-		FEHU("item (scroll C)"),
-		RAIDO("item (scroll D)"),
-		MANNAZ("item (scroll E)"),
+		JERA("item-scroll_a"),
+		THURISAZ("item-scroll_b"),
+		FEHU("item-scroll_c"),
+		RAIDO("item-scroll_d"),
+		MANNAZ("item-scroll_e"),
 		/*TEIWAZ(69),
 		SOWULO(70),
 		HAGALAZ(71)*/

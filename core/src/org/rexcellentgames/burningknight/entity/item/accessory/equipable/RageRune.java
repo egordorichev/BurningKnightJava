@@ -2,14 +2,12 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class RageRune extends Equipable {
 	{
 		name = Locale.get("rage_rune");
 		description = Locale.get("rage_rune_desc");
-		sprite = "item (scroll G)";
+		sprite = "item-scroll_g";
 	}
 
 	@Override

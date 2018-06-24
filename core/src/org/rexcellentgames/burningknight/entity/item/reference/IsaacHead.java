@@ -1,13 +1,12 @@
 package org.rexcellentgames.burningknight.entity.item.reference;
 
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Tear;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class IsaacHead extends Gun {
 	{
-		sprite = "item (isaac_head)";
+		sprite = "item-isaac";
 		ammo = Tear.class;
 		textureA = 90;
 		ox = 9;

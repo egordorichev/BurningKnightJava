@@ -6,7 +6,7 @@ public class ButcherA extends Butcher {
 	{
 		name = Locale.get("butcher_a");
 		description = Locale.get("butcher_a_desc");
-		sprite = "item (butcher A)";
+		sprite = "item-butcher_a";
 		damage = 2;
 	}
 }

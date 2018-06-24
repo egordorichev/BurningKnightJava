@@ -7,7 +7,7 @@ public class GunC extends Gun {
 	{
 		name = Locale.get("gun_c");
 		description = Locale.get("gun_c_desc");
-		sprite = "item (gun C)";
+		sprite = "item-gun_c";
 		useTime = 0.15f;
 	}
 

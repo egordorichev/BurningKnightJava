@@ -2,14 +2,12 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class BloodRing extends Equipable {
 	{
 		description = Locale.get("blood_ring_desc");
 		name = Locale.get("blood_ring");
-		sprite = "item (ring C)";
+		sprite = "item-ring_c";
 	}
 
 	@Override

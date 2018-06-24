@@ -6,6 +6,6 @@ public class KeyA extends Key {
 	{
 		description = Locale.get("key_a_desc");
 		name = Locale.get("key_a");
-		sprite = "item (key A)";
+		sprite = "item-key_a";
 	}
 }

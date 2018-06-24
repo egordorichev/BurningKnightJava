@@ -8,6 +8,6 @@ public class TheSword extends Sword {
 		description = Locale.get("the_sword_desc");
 		damage = 601;
 		useTime = 0.3f;
-		sprite = "item (claymore)";
+		sprite = "item-claymore_a";
 	}
 }

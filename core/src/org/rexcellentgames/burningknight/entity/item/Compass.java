@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -12,7 +11,7 @@ public class Compass extends Item {
 	{
 		description = Locale.get("compass_desc");
 		name = Locale.get("compass");
-		sprite = "item (compass)";
+		sprite = "item_compass";
 		identified = true;
 	}
 

@@ -15,7 +15,7 @@ public class PoisonWand extends Wand {
 	{
 		name = Locale.get("poison_wand");
 		description = Locale.get("poison_wand_desc");
-		sprite = "item (wand D)";
+		sprite = "item-wand_d";
 		damage = 2;
 	}
 

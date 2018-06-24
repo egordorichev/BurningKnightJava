@@ -9,6 +9,6 @@ public class AxeC extends Axe {
 		damage = 7;
 		penetrates = true;
 		speed = 800;
-		sprite = "item (axe C)";
+		sprite = "item-axe_c";
 	}
 }

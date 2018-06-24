@@ -15,7 +15,7 @@ public class FireWand extends Wand {
 	{
 		name = Locale.get("fire_wand");
 		description = Locale.get("fire_wand_desc");
-		sprite = "item (wand G)";
+		sprite = "item-wand_g";
 		damage = 2;
 	}
 

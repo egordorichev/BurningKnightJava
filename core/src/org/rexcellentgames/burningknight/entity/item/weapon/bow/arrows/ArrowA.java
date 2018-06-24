@@ -6,7 +6,7 @@ public class ArrowA extends Arrow {
 	{
 		name = Locale.get("arrow_a");
 		description = Locale.get("arrow_a_desc");
-		sprite = "item (arrow A)";
+		sprite = "item-arrow_a";
 		damage = 2;
 	}
 }

@@ -6,7 +6,7 @@ public class DaggerA extends Dagger {
 	{
 		description = Locale.get("dagger_a_desc");
 		name = Locale.get("dagger_a");
-		sprite = "item (dagger A)";
+		sprite = "item-dagger_a";
 		damage = 2;
 	}
 }
