@@ -30,5 +30,5 @@ vec4 effect(vec4 colour) {
 }
 
 void main() {
-    gl_FragColor = effect(vec4(r, g, b, a));
+    gl_FragColor = texture2D(u_texture, v_texCoord) * vec4(r, g, b, a); // effect(vec4(r, g, b, a));
 }

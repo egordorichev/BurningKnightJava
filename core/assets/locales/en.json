@@ -467,5 +467,7 @@
 	"black_heart" : "Black heart",
 	"black_heart_desc" : "They will pay for their sins",
 	"clock_heart" : "Clock heart",
-	"clock_heart_desc" : "Works like a clock"
+	"clock_heart_desc" : "Works like a clock",
+	"book_of_magic_aim" : "Book of magic aim",
+	"book_of_magic_aim_desc" : "Get him!"
 }
