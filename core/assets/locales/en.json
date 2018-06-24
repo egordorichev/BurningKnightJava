@@ -477,5 +477,7 @@
 	"book_of_magic_missile" : "Book of magic missile",
 	"book_of_magic_missile_desc" : "Come on, why is it SO SLOW?",
 	"book_of_crazy_particles" : "Book of crazy particles",
-	"book_of_crazy_particles_desc" : "Use with care"
+	"book_of_crazy_particles_desc" : "Use with care",
+	"book_of_green_energy" : "Book of green energy",
+	"book_of_green_energy_desc" : "We came with peace!"
 }

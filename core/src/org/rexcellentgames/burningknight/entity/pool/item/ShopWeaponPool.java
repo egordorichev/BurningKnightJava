@@ -83,6 +83,7 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(MagicWallBook.class, 1f);
 		add(SlowBook.class, 1f);
 		add(FastBook.class, 1f);
+		add(CrazyBook.class, 1f);
 	}
 
 	private void addWarrior() {

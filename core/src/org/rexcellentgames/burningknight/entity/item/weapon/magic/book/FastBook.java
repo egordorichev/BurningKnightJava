@@ -9,13 +9,13 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FastBook extends Book {
-	public static TextureRegion region = Graphics.getTexture("particle-triangle");
+	public static TextureRegion region = Graphics.getTexture("particle-thick");
 
 	{
-		name = Locale.get("book_of_crazy_particles");
-		description = Locale.get("book_of_crazy_particles_desc");
+		name = Locale.get("book_of_green_energy");
+		description = Locale.get("book_of_green_energy_desc");
 		sprite = "item-book_e";
-		damage = 2;
+		damage = 3;
 		mana = 1;
 	}
 
@@ -74,7 +74,6 @@ public class FastBook extends Book {
 		missile.owner = this.owner;
 		missile.x = x;
 		missile.y = y - 3;
-		missile.rectShape = true;
 		missile.w = 6;
 		missile.h = 6;
 		missile.rotates = true;

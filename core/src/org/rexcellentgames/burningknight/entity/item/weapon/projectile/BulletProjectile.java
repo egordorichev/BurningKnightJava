@@ -93,10 +93,6 @@ public class BulletProjectile extends Projectile {
 		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
 	}
 
-	protected void onDeath() {
-
-	}
-
 	protected float last;
 
 	@Override
