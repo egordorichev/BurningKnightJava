@@ -1,14 +1,6 @@
 package org.rexcellentgames.burningknight.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InGameState;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -17,7 +9,8 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.HashMap;
 
@@ -56,7 +49,7 @@ public class Ui {
 
 				int j = 0;
 
-				for (Healthbar bar : healthbars.values()) {
+				for (final Healthbar bar : healthbars.values()) {
 					bar.targetValue = j * 19 + 16;
 					bar.tweened = true;
 

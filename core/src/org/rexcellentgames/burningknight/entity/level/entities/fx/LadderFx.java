@@ -126,7 +126,6 @@ public class LadderFx extends UiEntity {
 	}
 
 	public void remove() {
-		LadderFx self = this;
 		Tween.to(new Tween.Task(0, 0.2f, Tween.Type.QUAD_IN) {
 			@Override
 			public float getValue() {
@@ -141,8 +140,7 @@ public class LadderFx extends UiEntity {
 			@Override
 			public void onEnd() {
 				super.onEnd();
-
-				self.done = true;
+				setDone(true);
 			}
 		});
 	}

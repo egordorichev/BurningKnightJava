@@ -107,5 +107,10 @@ public class Projectile extends NetworkedEntity {
 
 	protected void death() {
 		this.done = true;
+		this.onDeath();
+	}
+
+	protected void onDeath() {
+
 	}
 }

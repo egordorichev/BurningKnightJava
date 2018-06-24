@@ -235,8 +235,11 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(() -> {
-					Dungeon.game.setState(new SettingsState());
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new SettingsState());
+					}
 				});
 				Camera.shake(3);
 			}
@@ -247,7 +250,12 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				Camera.shake(3);
-				transition(() -> Dungeon.game.setState(new MainMenuState()));
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.game.setState(new MainMenuState());
+					}
+				});
 			}
 		});
 

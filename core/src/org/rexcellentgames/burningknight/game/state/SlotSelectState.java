@@ -2,10 +2,6 @@ package org.rexcellentgames.burningknight.game.state;
 
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiCard;
@@ -14,8 +10,13 @@ import org.rexcellentgames.burningknight.util.Tween;
 public class SlotSelectState extends State {
 	public static boolean added;
 
-	public static void trans(int l) {
-		transition(() -> Dungeon.goToLevel(l));
+	public static void trans(final int l) {
+		transition(new Runnable() {
+			@Override
+			public void run() {
+				Dungeon.goToLevel(l);
+			}
+		});
 	}
 
 	public static void add() {

@@ -127,8 +127,7 @@ public class Skeleton extends Mob {
 			super.onEnter();
 			side = Random.chance(50) ? -1 : 1;
 
-
-			float t = 0.3f;
+			final float t = 0.3f;
 
 			Tween.to(new Tween.Task(32, t, Tween.Type.SINE_OUT) {
 				@Override

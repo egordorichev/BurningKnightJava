@@ -79,8 +79,11 @@ public class MainMenuState extends State {
 			public void onClick() {
 				Audio.playSfx("menu/exit");
 
-				transition(() -> {
-					Gdx.app.exit();
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Gdx.app.exit();
+					}
 				});
 			}
 		}));
@@ -100,7 +103,7 @@ public class MainMenuState extends State {
 			public void onEnd() {
 				super.onEnd();
 
-				for (UiButton button : buttons) {
+				for (final UiButton button : buttons) {
 					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.6f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {

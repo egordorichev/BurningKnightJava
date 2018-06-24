@@ -40,6 +40,10 @@ public class Wand extends WeaponBase {
 
 		super.use();
 		this.owner.modifyMana(-this.mana);
+		this.sendProjectiles();
+	}
+
+	protected void sendProjectiles() {
 		float a = (float) Math.toDegrees(this.lastAngle);
 		float h = this.region.getRegionHeight();
 		double an = this.lastAngle + Math.PI / 2;

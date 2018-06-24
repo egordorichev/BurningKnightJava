@@ -14,6 +14,8 @@ import com.codedisaster.steamworks.SteamException;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
+import net.arikia.dev.drpc.DiscordUser;
+import net.arikia.dev.drpc.callbacks.ReadyCallback;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -141,7 +143,7 @@ public class Dungeon extends ApplicationAdapter {
 		to = level;
 	}
 
-	public static void slowDown(float a, float t) {
+	public static void slowDown(float a, final float t) {
 		Tween.to(new Tween.Task(a, 0.3f) {
 			@Override
 			public float getValue() {
@@ -173,8 +175,11 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean steam = true;
 
 	private static void initDiscord() {
-		DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler((user) -> {
+		DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler(new ReadyCallback() {
+			@Override
+			public void apply(DiscordUser user) {
 
+			}
 		}).build();
 
 		DiscordRPC.discordInitialize("459603244256198657", handlers, true);

@@ -79,7 +79,7 @@ public class PoisonWand extends Wand {
 		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
-missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
+		missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
 		missile.rotates = true;
 
 		double ra = Math.toRadians(a);

@@ -24,11 +24,14 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.RunFx;
+import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlackHeart;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHeart;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
@@ -42,7 +45,6 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +53,9 @@ import java.util.HashMap;
 public class Player extends Creature {
 	public Type type;
 	public static Type toSet = Type.WARRIOR;
+	public static float mobSpawnModifier = 1f;
+	public boolean flipRegenFormula;
+	public boolean manaCoins;
 
 	public Type getType() {
 		return this.type;
@@ -82,10 +87,12 @@ public class Player extends Creature {
 	public boolean hasRedLine;
 	protected float mana;
 	protected int manaMax;
+	public float defenseModifier = 1f;
 	protected int level;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
 	public UiInventory ui;
+	public boolean moreManaRegenWhenLow;
 	private float hunger;
 	private String name;
 	private float watery;
@@ -116,6 +123,16 @@ public class Player extends Creature {
 	public boolean lifeRegenRegensMana;
 
 	@Override
+	public boolean rollBlock() {
+		if (Random.chance(50) && this.ui.hasEquiped(ManaShield.class) && this.mana >= 2) {
+			this.modifyMana(-2);
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	protected boolean canHaveBuff(Buff buff) {
 		if (fireResist && buff instanceof BurningBuff) {
 			return false;
@@ -137,6 +154,20 @@ public class Player extends Creature {
 
 		if (from != null && Random.chance(this.reflectDamageChance)) {
 			from.modifyHp((int) Math.ceil(a / 2), this, true);
+		}
+
+		if (this.ui.hasEquiped(BlackHeart.class) && this.currentRoom != null) {
+			for (int i = Mob.all.size() - 1; i >= 0; i--) {
+				Mob mob = Mob.all.get(i);
+
+				if (mob.room == this.currentRoom) {
+					mob.modifyHp(-1, this, true);
+				}
+			}
+		}
+
+		if (this.ui.hasEquiped(ClockHeart.class)) {
+			Dungeon.slowDown(0.5f, 1f);
 		}
 	}
 
@@ -208,7 +239,7 @@ public class Player extends Creature {
 	}
 
 	{
-		hpMax = 16;
+		hpMax = 8;
 		manaMax = 6;
 		level = 1;
 		hunger = 10;
@@ -438,7 +469,11 @@ public class Player extends Creature {
 		}
 
 		if (this.mana != this.manaMax) {
-			this.lastMana += dt * (this.vel.len2() > 9.9f ? 0.5f : 1f) * this.manaRegenRate;
+			this.lastMana += dt * (this.vel.len2() > 9.9f ?
+				(this.flipRegenFormula ? 1f : 0.5f) :
+				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
+					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 2 : 1
+				);
 
 			if (this.lastMana > 1f) {
 				this.lastMana = 0;
@@ -766,7 +801,7 @@ public class Player extends Creature {
 			v *= 2;
 		}
 
-		return v;
+		return v * defenseModifier;
 	}
 
 	@Override
@@ -952,10 +987,13 @@ public class Player extends Creature {
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
-
 			if (this.inventory.add(item)) {
 				if (item.getItem().hasAutoPickup()) {
 					this.area.add(new ItemPickedFx(item));
+				}
+
+				if (item.getItem() instanceof Gold && this.manaCoins) {
+					this.modifyMana(2);
 				}
 
 				return true;

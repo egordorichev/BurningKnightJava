@@ -128,3 +128,7 @@ gradle/wrapper/gradle-wrapper\.jar
 gradle/wrapper/gradle-wrapper\.properties
 
 packer/build/kotlin/compileTestKotlin/sync/kotlin-files-in-java-timestamps\.bin
+dist/jdk-*
+dist/jdk-*
+dist/out/linux32 dist/out/linux64 dist/out/mac dist/out/windows32 dist/out/windows64
+dist/out/*

@@ -22,9 +22,24 @@ public class DialogData {
 	private float a = 1;
 	private int selected;
 	private float oa;
-	private Runnable fin = () -> {};
-	private Runnable stop = () -> {};
-	private Runnable start = () -> {};
+	private Runnable fin = new Runnable() {
+		@Override
+		public void run() {
+		}
+	};
+
+	private Runnable stop = new Runnable() {
+		@Override
+		public void run() {
+		}
+	};
+
+	private Runnable start = new Runnable() {
+		@Override
+		public void run() {
+		}
+	};
+
 	private float size;
 	private float w;
 
@@ -323,7 +338,7 @@ public class DialogData {
 
 					@Override
 					public void onEnd() {
-						Dialog.Phrase phrase = phrases.get(current);
+						final Dialog.Phrase phrase = phrases.get(current);
 
 						if (oa != 1f && phrase.options != null) {
 							return;

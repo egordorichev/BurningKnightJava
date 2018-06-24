@@ -17,9 +17,13 @@ public class DesktopLauncher {
 	private static final int SCALE = 2;
 
 	public static void main(String[] arg) {
-		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
-			Crash.report(thread, throwable);
-			Gdx.app.exit();
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread thread, Throwable throwable) {
+				throwable.printStackTrace();
+				Crash.report(thread, throwable);
+				Gdx.app.exit();
+			}
 		});
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -96,9 +100,10 @@ public class DesktopLauncher {
 		Dungeon.title = "Burning Knight " + Version.asString() + ": " + extra;
 
 		config.setTitle(Dungeon.title);
-		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
-		config.setBackBufferConfig(1, 1, 1, 1, 0, 0, 4);
+		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 4);
+		config.setWindowSizeLimits(Display.GAME_WIDTH, Display.GAME_HEIGHT, 1000000000, 10000000);
+		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 
 		Dungeon.arg = arg;
 

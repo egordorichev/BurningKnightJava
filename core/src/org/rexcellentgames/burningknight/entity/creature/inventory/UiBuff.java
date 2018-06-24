@@ -7,12 +7,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiBuff {
 	public float x;
@@ -44,8 +38,7 @@ public class UiBuff {
 		}
 
 		done = true;
-
-		UiBuff self = this;
+		final UiBuff self = this;
 
 		Tween.to(new Tween.Task(0f, 0.4f) {
 			@Override

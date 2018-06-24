@@ -1,9 +1,5 @@
 package org.rexcellentgames.burningknight.game;
 
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
@@ -11,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class Area {
@@ -19,17 +16,20 @@ public class Area {
 	private boolean showWhenPaused;
 
 	public Area() {
-		this.comparator = (a, b) -> {
-			// -1 - less than, 1 - greater than, 0 - equal
-			float ad = b.getDepth();
-			float bd = a.getDepth();
+		this.comparator = new Comparator<Entity>() {
+			@Override
+			public int compare(Entity a, Entity b) {
+				// -1 - less than, 1 - greater than, 0 - equal
+				float ad = b.getDepth();
+				float bd = a.getDepth();
 
-			if (ad == bd) {
-				ad = a.y;
-				bd = b.y;
+				if (ad == bd) {
+					ad = a.y;
+					bd = b.y;
+				}
+
+				return Float.compare(bd, ad);
 			}
-
-			return Float.compare(bd, ad);
 		};
 	}
 	
@@ -82,8 +82,8 @@ public class Area {
 		if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
 			return;
 		}
-		
-		this.entities.sort(this.comparator);
+
+		Collections.sort(this.entities, this.comparator);
 
 		for (int i = 0; i < this.entities.size(); i++) {
 			Entity entity = this.entities.get(i);

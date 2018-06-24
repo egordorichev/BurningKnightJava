@@ -33,6 +33,8 @@ public class BulletProjectile extends Projectile {
 	public Point ivel;
 	public float angle;
 	public float dist;
+	public boolean dissappearWithTime;
+	public float rotationSpeed = 1f;
 
 	{
 		alwaysActive = true;
@@ -91,10 +93,6 @@ public class BulletProjectile extends Projectile {
 		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
 	}
 
-	protected void onDeath() {
-
-	}
-
 	protected float last;
 
 	@Override
@@ -132,6 +130,12 @@ public class BulletProjectile extends Projectile {
 	public void logic(float dt) {
 		this.last += dt;
 
+		if (this.dissappearWithTime && this.t >= 5f) {
+			this.death();
+			this.remove = true;
+			this.broke = true;
+		}
+
 		if (this.parts) {
 			if (this.last > 0.08f) {
 				this.last = 0;
@@ -166,7 +170,7 @@ public class BulletProjectile extends Projectile {
 		this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
 
 		if (this.rotates) {
-			this.a += dt * 360 * 2 * dir;
+			this.a += dt * 360 * 2 * dir * rotationSpeed;
 		} else {
 			this.a = (float) Math.toDegrees(this.ra);
 		}

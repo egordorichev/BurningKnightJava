@@ -735,7 +735,12 @@ public class BurningKnight extends Boss {
 
 			Camera.follow(self, false);
 
-			Dialog.active.onEnd(() -> Camera.follow(Player.instance, false));
+			Dialog.active.onEnd(new Runnable() {
+				@Override
+				public void run() {
+					Camera.follow(Player.instance, false);
+				}
+			});
 
 			Dialog.active.onStop(new Runnable() {
 				@Override

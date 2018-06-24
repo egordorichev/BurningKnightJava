@@ -80,6 +80,11 @@ public class AccessoryPool extends Pool<Item> {
 		add(ProtectiveBand.class, 1f);
 		add(IceBombs.class, 1f);
 		add(Halo.class, 1f);
+		add(BloodCrown.class, 1f);
+		add(DamageEmblem.class, 1f);
+		add(DefenseEmblem.class, 1f);
+		add(BlackHeart.class, 1f);
+		add(ClockHeart.class, 1f);
 	}
 
 	public void addWarrior() {
@@ -97,6 +102,12 @@ public class AccessoryPool extends Pool<Item> {
 		add(GreenBook.class, 1f);
 		add(RedBook.class, 1f);
 		add(YellowBook.class, 1f);
+		add(FlyingStar.class, 1f);
+		add(ManaShield.class, 1f);
+		add(ManaBoots.class, 1f);
+		add(ArcaneBattery.class, 1f);
+		add(BlueCoin.class, 1f);
+		add(BlueHeart.class, 1f);
 	}
 
 	public void addRanger() {

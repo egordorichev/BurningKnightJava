@@ -45,6 +45,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletC
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.ShotgunA
 import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.*
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherA
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherB
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
@@ -258,6 +259,25 @@ object ItemRegistry {
             "blue_book" to BlueBook::class,
             "red_book" to RedBook::class,
             "yellow_book" to YellowBook::class,
-            "green_book" to GreenBook::class
+            "green_book" to GreenBook::class,
+            "arcane_shield" to ManaShield::class,
+	          "flying_star" to FlyingStar::class,
+	          "diamond_sword" to DiamondSword::class,
+	          "blood_crown" to BloodCrown::class,
+	          "mana_boots" to ManaBoots::class,
+	          "damage_emblem" to DamageEmblem::class,
+	          "defense_emblem" to DefenseEmblem::class,
+	          "arcane_battery" to ArcaneBattery::class,
+	          "blue_coin" to BlueCoin::class,
+	          "blue_heart" to BlueHeart::class,
+	          "black_heart" to BlackHeart::class,
+	          "clock_heart" to ClockHeart::class,
+	          "aim_book" to HomingBook::class,
+	          "triple_book" to TripleShotBook::class,
+	          "wall_book" to MagicWallBook::class,
+	          "slow_book" to SlowBook::class,
+	          "fast_book" to FastBook::class,
+	          "crazy_book" to CrazyBook::class,
+	          "crash_book" to SuperCrazyBook::class
     )
 }

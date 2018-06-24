@@ -79,7 +79,7 @@ public class Axe extends Weapon {
 	public void use() {
 		super.use();
 
-		Axe self = this;
+		final Axe self = this;
 
 		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
 		float s = 60f;

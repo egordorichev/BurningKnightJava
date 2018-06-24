@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.game.state;
 
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -58,7 +57,7 @@ public class State {
 
 	}
 
-	protected static void transition(Runnable runnable) {
+	protected static void transition(final Runnable runnable) {
 		Dungeon.darkX = Input.instance.uiMouse.x;
 		Dungeon.darkY = Input.instance.uiMouse.y;
 

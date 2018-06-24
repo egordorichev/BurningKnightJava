@@ -45,9 +45,9 @@ public class AssetLoadState extends State {
 
 	private void finish() {
 		done = true;
-		Gdx.graphics.setTitle(Dungeon.title);
 
 		if (!START_TO_MENU) {
+			Gdx.graphics.setTitle(Dungeon.title);
 			GameSave.Info info = GameSave.peek(0);
 			Dungeon.goToLevel(info.depth);
 		}
@@ -96,6 +96,8 @@ public class AssetLoadState extends State {
 
 					@Override
 					public void onEnd() {
+						Gdx.graphics.setTitle(Dungeon.title);
+
 						if (START_TO_MENU) {
 							Dungeon.game.setState(new MainMenuState());
 						}
