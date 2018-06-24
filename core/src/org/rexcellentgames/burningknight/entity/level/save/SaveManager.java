@@ -26,7 +26,7 @@ public class SaveManager {
 	}
 
 	public static String getDir(int slot) {
-		return SAVE_DIR + slot + "/";
+		return SAVE_DIR + "slot-" + slot + "/";
 	}
 
 	public static String getSavePath(Type type) {

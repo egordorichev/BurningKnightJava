@@ -34,6 +34,8 @@ import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPo
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
@@ -354,7 +356,10 @@ public class Player extends Creature {
 	}
 
 	private void generateMage() {
-		// todo
+		switch (Random.newInt(2)) {
+			case 0: default: this.give(new MagicMissileWand()); break;
+			case 1: this.give(new FastBook()); break;
+		}
 	}
 
 	private void give(Item item) {

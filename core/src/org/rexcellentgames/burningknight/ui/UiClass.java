@@ -6,13 +6,8 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.state.ClassSelectState;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiClass extends UiButton {
@@ -20,7 +15,7 @@ public class UiClass extends UiButton {
 	private int id;
 	private int ox;
 	private int oy;
-	private static String[] textures = new String[] { "ui-warrior", "ui-wizard", "ui-rogue", "ui-archer", "ui-gunner" };
+	private static String[] textures = new String[] { "ui-warrior", "ui-wizard", "ui-archer" };
 	private TextureRegion region;
 	private String name;
 	private float nw;
@@ -34,6 +29,9 @@ public class UiClass extends UiButton {
 		this.oy = y;
 		this.w = 32;
 		this.h = 32;
+
+
+		Log.info(this.type.toString());
 		this.name = Locale.get(this.type.toString().toLowerCase());
 
 		Graphics.layout.setText(Graphics.medium, this.name);
