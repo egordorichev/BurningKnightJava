@@ -51,6 +51,7 @@ public class Player extends Creature {
 	public Type type;
 	public static Type toSet = Type.WARRIOR;
 	public static float mobSpawnModifier = 1f;
+	public boolean flipRegenFormula;
 
 	public Type getType() {
 		return this.type;
@@ -448,7 +449,9 @@ public class Player extends Creature {
 		}
 
 		if (this.mana != this.manaMax) {
-			this.lastMana += dt * (this.vel.len2() > 9.9f ? 0.5f : 1f) * this.manaRegenRate;
+			this.lastMana += dt * (this.vel.len2() > 9.9f ?
+				(this.flipRegenFormula ? 1f : 0.5f) :
+				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate;
 
 			if (this.lastMana > 1f) {
 				this.lastMana = 0;

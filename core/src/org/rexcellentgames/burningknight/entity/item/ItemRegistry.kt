@@ -262,6 +262,7 @@ object ItemRegistry {
             "arcane_shield" to ManaShield::class,
 	          "flying_star" to FlyingStar::class,
 	          "diamond_sword" to DiamondSword::class,
-	          "blood_crown" to BloodCrown::class
+	          "blood_crown" to BloodCrown::class,
+	          "mana_boots" to ManaBoots::class
     )
 }
