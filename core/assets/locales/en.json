@@ -457,5 +457,7 @@
 	"damage_emblem" : "Damage emblem",
 	"damage_emblem_desc" : "+20% damage",
 	"defense_emblem" : "Defense emblem",
-	"defense_emblem_desc" : "+20% defense"
+	"defense_emblem_desc" : "+20% defense",
+	"arcane_battery" : "Arcane battery",
+	"arcane_battery_desc" : "Activate only in trouble"
 }

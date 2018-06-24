@@ -265,6 +265,7 @@ object ItemRegistry {
 	          "blood_crown" to BloodCrown::class,
 	          "mana_boots" to ManaBoots::class,
 	          "damage_emblem" to DamageEmblem::class,
-	          "defense_emblem" to DefenseEmblem::class
+	          "defense_emblem" to DefenseEmblem::class,
+	          "arcane_battery" to ArcaneBattery::class
     )
 }

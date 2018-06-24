@@ -88,6 +88,7 @@ public class Player extends Creature {
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
 	public UiInventory ui;
+	public boolean moreManaRegenWhenLow;
 	private float hunger;
 	private String name;
 	private float watery;
@@ -452,7 +453,9 @@ public class Player extends Creature {
 		if (this.mana != this.manaMax) {
 			this.lastMana += dt * (this.vel.len2() > 9.9f ?
 				(this.flipRegenFormula ? 1f : 0.5f) :
-				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate;
+				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
+					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 2 : 1
+				);
 
 			if (this.lastMana > 1f) {
 				this.lastMana = 0;
