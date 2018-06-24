@@ -1,9 +1,10 @@
 package org.rexcellentgames.burningknight.desktop;
 
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import org.rexcellentgames.burningknight.*;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -25,9 +26,9 @@ public class DesktopLauncher {
 			}
 		});
 
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
-		/*config.setWindowListener(new Lwjgl3WindowListener() {
+		config.setWindowListener(new Lwjgl3WindowListener() {
 			@Override
 			public void created(Lwjgl3Window window) {
 
@@ -67,7 +68,7 @@ public class DesktopLauncher {
 			public void refreshRequested() {
 
 			}
-		});*/
+		});
 
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
 		String extra = titles[Random.newInt(titles.length - 1)];
@@ -98,17 +99,15 @@ public class DesktopLauncher {
 
 		Dungeon.title = "Burning Knight " + Version.asString() + ": " + extra;
 
-		config.title = Dungeon.title;
-		config.samples = 4;
-		config.width = Display.GAME_WIDTH * SCALE;
-		config.height = Display.GAME_HEIGHT * SCALE;
-		config.addIcon("icon.png", Files.FileType.Internal);
-		config.addIcon("icon32x32.png", Files.FileType.Internal);
-		config.addIcon("icon128x128.png", Files.FileType.Internal);
+		config.setTitle(Dungeon.title);
+		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
+		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 4);
+		config.setWindowSizeLimits(Display.GAME_WIDTH, Display.GAME_HEIGHT, 1000000000, 10000000);
+		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 
 		Dungeon.arg = arg;
 
-		new LwjglApplication(new Client(), config);
+		new Lwjgl3Application(new Client(), config);
 	}
 
 	private static String[] titles = new String[] {

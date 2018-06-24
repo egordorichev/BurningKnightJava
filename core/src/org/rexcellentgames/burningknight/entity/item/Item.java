@@ -17,7 +17,7 @@ public class Item extends Entity {
 	public static TextureRegion missing = Graphics.getTexture("item (missing)");
 
 	public boolean useOnPickup;
-	protected String sprite = "item (missing)";
+	protected String sprite = "item-missing";
 	protected String name = "Missing Item Name";
 	protected String description = "";
 	protected boolean stackable = false;
@@ -186,8 +186,11 @@ public class Item extends Entity {
 
 		builder.append(this.getName());
 		builder.append("[gray]");
-		builder.append('\n');
-		builder.append(this.getDescription());
+
+		if (!this.description.isEmpty()) {
+			builder.append('\n');
+			builder.append(this.getDescription());
+		}
 
 		if (this.cursed) {
 			builder.append("\n[red]Cursed[gray]");
