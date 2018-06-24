@@ -447,5 +447,7 @@
 	"arcane_shield" : "Arcane shield",
 	"arcane_shield_desc" : "You are safe. Well,\nuntil you run out of mana",
 	"flying_star" : "Flying star",
-	"flying_star_desc" : "It flies!"
+	"flying_star_desc" : "It flies!",
+	"diamond_sword" : "Diamond sword",
+	"diamond_sword_desc" : "Shiny"
 }

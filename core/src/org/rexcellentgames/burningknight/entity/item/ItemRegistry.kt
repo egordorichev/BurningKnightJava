@@ -260,6 +260,7 @@ object ItemRegistry {
             "yellow_book" to YellowBook::class,
             "green_book" to GreenBook::class,
             "arcane_shield" to ManaShield::class,
-	          "flying_star" to FlyingStar::class // let me add the game window to  the view
+	          "flying_star" to FlyingStar::class,
+	          "diamond_sword" to DiamondSword::class
     )
 }

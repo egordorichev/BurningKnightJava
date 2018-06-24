@@ -97,6 +97,8 @@ public class AccessoryPool extends Pool<Item> {
 		add(GreenBook.class, 1f);
 		add(RedBook.class, 1f);
 		add(YellowBook.class, 1f);
+		add(FlyingStar.class, 1f);
+		add(ManaShield.class, 1f);
 	}
 
 	public void addRanger() {
