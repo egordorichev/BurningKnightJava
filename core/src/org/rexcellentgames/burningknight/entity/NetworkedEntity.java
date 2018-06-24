@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class NetworkedEntity extends Entity {
 	public Point vel = new Point();
-	protected float t;
+	public float t;
 	protected String state = "idle";
 
 	public String getState() {

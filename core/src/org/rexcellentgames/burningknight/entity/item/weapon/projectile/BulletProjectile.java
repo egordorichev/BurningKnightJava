@@ -33,6 +33,7 @@ public class BulletProjectile extends Projectile {
 	public Point ivel;
 	public float angle;
 	public float dist;
+	public boolean dissappearWithTime;
 
 	{
 		alwaysActive = true;
@@ -131,6 +132,12 @@ public class BulletProjectile extends Projectile {
 	@Override
 	public void logic(float dt) {
 		this.last += dt;
+
+		if (this.dissappearWithTime && this.t >= 5f) {
+			this.death();
+			this.remove = true;
+			this.broke = true;
+		}
 
 		if (this.parts) {
 			if (this.last > 0.08f) {
