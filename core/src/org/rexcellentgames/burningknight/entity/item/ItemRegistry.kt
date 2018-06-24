@@ -258,6 +258,7 @@ object ItemRegistry {
             "blue_book" to BlueBook::class,
             "red_book" to RedBook::class,
             "yellow_book" to YellowBook::class,
-            "green_book" to GreenBook::class
+            "green_book" to GreenBook::class,
+            "arcane_shield" to ManaShield::class
     )
 }

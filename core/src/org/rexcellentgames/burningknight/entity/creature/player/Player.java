@@ -26,9 +26,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.RunFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
@@ -42,7 +42,6 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -114,6 +113,16 @@ public class Player extends Creature {
 	public float damageModifier = 1f;
 	public boolean manaRegenRoom = false;
 	public boolean lifeRegenRegensMana;
+
+	@Override
+	public boolean rollBlock() {
+		if (Random.chance(50) && this.ui.hasEquiped(ManaShield.class) && this.mana >= 2) {
+			this.modifyMana(-2);
+			return true;
+		}
+
+		return false;
+	}
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
