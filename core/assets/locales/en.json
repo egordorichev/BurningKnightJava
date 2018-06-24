@@ -445,5 +445,7 @@
 	"green_book_desc" : "Turn your mana into damage!",
 	"beginning" : "The beginning",
 	"arcane_shield" : "Arcane shield",
-	"arcane_shield_desc" : "You are safe. Well,\nuntil you run out of mana"
+	"arcane_shield_desc" : "You are safe. Well,\nuntil you run out of mana",
+	"flying_star" : "Flying star",
+	"flying_star_desc" : "It flies!"
 }
