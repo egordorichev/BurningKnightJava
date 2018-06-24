@@ -2,10 +2,7 @@ package org.rexcellentgames.burningknight.entity.pool.item;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.reference.BlueBoomerang;
-import org.rexcellentgames.burningknight.entity.item.reference.GravelordSword;
-import org.rexcellentgames.burningknight.entity.item.reference.IsaacHead;
-import org.rexcellentgames.burningknight.entity.item.reference.StarCannon;
+import org.rexcellentgames.burningknight.entity.item.reference.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
@@ -113,5 +110,6 @@ public class ShopWeaponPool extends Pool<Item> {
 		add(AxeC.class, 1f);
 		add(AxeD.class, 1f);
 		add(MeetboyAxe.class, 1);
+		add(DiamondSword.class, 0.6f);
 	}
 }

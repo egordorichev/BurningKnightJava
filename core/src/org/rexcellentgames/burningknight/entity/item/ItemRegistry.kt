@@ -261,6 +261,7 @@ object ItemRegistry {
             "green_book" to GreenBook::class,
             "arcane_shield" to ManaShield::class,
 	          "flying_star" to FlyingStar::class,
-	          "diamond_sword" to DiamondSword::class
+	          "diamond_sword" to DiamondSword::class,
+	          "blood_crown" to BloodCrown::class
     )
 }

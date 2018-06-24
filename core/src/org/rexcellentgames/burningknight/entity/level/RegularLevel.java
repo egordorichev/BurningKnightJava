@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.level;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -85,9 +86,8 @@ public abstract class RegularLevel extends Level {
 			MobPool.instance.initForFloor();
 
 			for (Room room : this.rooms) {
-				// todo: remove from here
 				if (room instanceof RegularRoom) {
-					float weight = Random.newFloat(1f, 2f);
+					float weight = (Random.newFloat(1f, 2f) + Dungeon.depth % 5 / 2) * Player.mobSpawnModifier;
 
 					while (weight > 0) {
 						Mob mob = MobPool.instance.generate();
