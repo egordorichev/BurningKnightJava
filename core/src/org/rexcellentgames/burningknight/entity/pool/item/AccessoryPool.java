@@ -84,6 +84,7 @@ public class AccessoryPool extends Pool<Item> {
 		add(DamageEmblem.class, 1f);
 		add(DefenseEmblem.class, 1f);
 		add(BlackHeart.class, 1f);
+		add(ClockHeart.class, 1f);
 	}
 
 	public void addWarrior() {

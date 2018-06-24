@@ -28,6 +28,7 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlackHeart;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHeart;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
@@ -163,6 +164,10 @@ public class Player extends Creature {
 					mob.modifyHp(-1, this, true);
 				}
 			}
+		}
+
+		if (this.ui.hasEquiped(ClockHeart.class)) {
+			Dungeon.slowDown(0.5f, 1f);
 		}
 	}
 

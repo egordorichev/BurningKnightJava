@@ -269,6 +269,7 @@ object ItemRegistry {
 	          "arcane_battery" to ArcaneBattery::class,
 	          "blue_coin" to BlueCoin::class,
 	          "blue_heart" to BlueHeart::class,
-	          "black_heart" to BlackHeart::class
+	          "black_heart" to BlackHeart::class,
+	          "clock_heart" to ClockHeart::class
     )
 }

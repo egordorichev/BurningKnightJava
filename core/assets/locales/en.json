@@ -465,5 +465,7 @@
 	"blue_heart" : "Blue heart",
 	"blue_heart_desc" : "Life == mana?",
 	"black_heart" : "Black heart",
-	"black_heart_desc" : "They will pay for their sins"
+	"black_heart_desc" : "They will pay for their sins",
+	"clock_heart" : "Clock heart",
+	"clock_heart_desc" : "Works like a clock"
 }
