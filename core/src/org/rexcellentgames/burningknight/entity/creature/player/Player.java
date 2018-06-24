@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.fx.RunFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlackHeart;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
@@ -152,6 +153,16 @@ public class Player extends Creature {
 
 		if (from != null && Random.chance(this.reflectDamageChance)) {
 			from.modifyHp((int) Math.ceil(a / 2), this, true);
+		}
+
+		if (this.ui.hasEquiped(BlackHeart.class) && this.currentRoom != null) {
+			for (int i = Mob.all.size() - 1; i >= 0; i--) {
+				Mob mob = Mob.all.get(i);
+
+				if (mob.room == this.currentRoom) {
+					mob.modifyHp(-1, this, true);
+				}
+			}
 		}
 	}
 

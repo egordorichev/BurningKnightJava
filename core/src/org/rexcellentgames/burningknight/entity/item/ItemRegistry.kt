@@ -268,6 +268,7 @@ object ItemRegistry {
 	          "defense_emblem" to DefenseEmblem::class,
 	          "arcane_battery" to ArcaneBattery::class,
 	          "blue_coin" to BlueCoin::class,
-	          "blue_heart" to BlueHeart::class
+	          "blue_heart" to BlueHeart::class,
+	          "black_heart" to BlackHeart::class
     )
 }
