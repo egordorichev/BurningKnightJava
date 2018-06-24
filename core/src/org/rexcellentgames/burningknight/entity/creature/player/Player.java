@@ -83,6 +83,7 @@ public class Player extends Creature {
 	public boolean hasRedLine;
 	protected float mana;
 	protected int manaMax;
+	public float defenseModifier = 1f;
 	protected int level;
 	private ItemPickupFx pickupFx;
 	private Inventory inventory;
@@ -779,7 +780,7 @@ public class Player extends Creature {
 			v *= 2;
 		}
 
-		return v;
+		return v * defenseModifier;
 	}
 
 	@Override

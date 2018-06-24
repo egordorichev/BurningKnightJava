@@ -263,6 +263,8 @@ object ItemRegistry {
 	          "flying_star" to FlyingStar::class,
 	          "diamond_sword" to DiamondSword::class,
 	          "blood_crown" to BloodCrown::class,
-	          "mana_boots" to ManaBoots::class
+	          "mana_boots" to ManaBoots::class,
+	          "damage_emblem" to DamageEmblem::class,
+	          "defense_emblem" to DefenseEmblem::class
     )
 }
