@@ -479,5 +479,7 @@
 	"book_of_crazy_particles" : "Book of crazy particles",
 	"book_of_crazy_particles_desc" : "Use with care",
 	"book_of_green_energy" : "Book of green energy",
-	"book_of_green_energy_desc" : "We came with peace!"
+	"book_of_green_energy_desc" : "We came with peace!",
+	"book_of_crash" : "Book of crash",
+	"book_of_crash_desc" : "Poor GPU..."
 }

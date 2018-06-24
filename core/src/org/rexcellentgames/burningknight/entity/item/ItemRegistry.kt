@@ -277,6 +277,7 @@ object ItemRegistry {
 	          "wall_book" to MagicWallBook::class,
 	          "slow_book" to SlowBook::class,
 	          "fast_book" to FastBook::class,
-	          "crazy_book" to CrazyBook::class
+	          "crazy_book" to CrazyBook::class,
+	          "crash_book" to SuperCrazyBook::class
     )
 }
