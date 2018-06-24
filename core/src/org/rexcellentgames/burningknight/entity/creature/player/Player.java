@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.RunFx;
+import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
@@ -52,6 +53,7 @@ public class Player extends Creature {
 	public static Type toSet = Type.WARRIOR;
 	public static float mobSpawnModifier = 1f;
 	public boolean flipRegenFormula;
+	public boolean manaCoins;
 
 	public Type getType() {
 		return this.type;
@@ -969,10 +971,13 @@ public class Player extends Creature {
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
-
 			if (this.inventory.add(item)) {
 				if (item.getItem().hasAutoPickup()) {
 					this.area.add(new ItemPickedFx(item));
+				}
+
+				if (item.getItem() instanceof Gold && this.manaCoins) {
+					this.modifyMana(2);
 				}
 
 				return true;

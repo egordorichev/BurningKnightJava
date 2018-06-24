@@ -459,5 +459,7 @@
 	"defense_emblem" : "Defense emblem",
 	"defense_emblem_desc" : "+20% defense",
 	"arcane_battery" : "Arcane battery",
-	"arcane_battery_desc" : "Activate only in trouble"
+	"arcane_battery_desc" : "Activate only in trouble",
+	"blue_coin" : "Blue coin",
+	"blue_coin_desc" : "Gives %"
 }
