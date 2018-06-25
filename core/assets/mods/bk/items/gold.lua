@@ -1,5 +1,5 @@
 local gold = item:create("gold", {
-  Wellsprite = "item-coin"
+	sprite = "item-coin"
 })
 
 return gold

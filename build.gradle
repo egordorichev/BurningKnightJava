@@ -65,6 +65,7 @@ project(":core") {
         compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
         compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
         compile group: 'commons-io', name: 'commons-io', version: '2.4'
+        compile group: 'org.luaj', name: 'luaj-jse', version: '3.0.1'
     }
 }
 
