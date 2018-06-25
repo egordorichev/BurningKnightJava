@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -13,8 +12,8 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowA;
@@ -23,7 +22,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocke
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
@@ -34,6 +32,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -68,6 +67,39 @@ public class Creature extends SaveableEntity {
 	public boolean penetrates;
 	protected float invtt;
 
+	protected HashMap<String, ArrayList<Runnable>> events = new HashMap<>();
+
+	public void triggerEvent(String name) {
+		ArrayList<Runnable> e = events.get(name);
+
+		if (e != null) {
+			for (Runnable event : e) {
+				event.run();
+			}
+		}
+	}
+
+	public int registerCallback(String name, Runnable runnable) {
+		ArrayList<Runnable> e = events.computeIfAbsent(name, k -> new ArrayList<>());
+		e.add(runnable);
+
+		return e.size() - 1;
+	}
+
+	public void removeCallback(String name, int id) {
+		ArrayList<Runnable> e = events.get(name);
+
+		if (e == null) {
+			return;
+		}
+
+		if (id >= e.size()) {
+			return;
+		}
+
+		e.remove(id);
+	}
+
 	public void setInvt(float invt) {
 		this.invtt = invt;
 	}
@@ -90,15 +122,6 @@ public class Creature extends SaveableEntity {
 		return World.createSimpleBody(this, x, y, w, h, type, sensor);
 	}
 
-	public Body createSimpleCentredBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
-		this.hx = x;
-		this.hy = y;
-		this.hw = w;
-		this.hh = h;
-
-		return World.createSimpleCentredBody(this, x, y, w, h, type, sensor);
-	}
-
 	public void modifyDefense(int amount) {
 		this.defense += amount;
 	}
@@ -110,6 +133,8 @@ public class Creature extends SaveableEntity {
 		if (this.body != null) {
 			this.body.setTransform(x, y, 0);
 		}
+
+		this.triggerEvent("tp");
 	}
 
 	@Override
@@ -229,32 +254,6 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected void renderFalling(AnimationData animation) {
-		if (this.dead) {
-			return;
-		}
-
-		TextureRegion sprite = animation.getCurrent().frame;
-
-		float s = 1 - this.t / 2;
-
-		if (s <= 0) {
-			if (this instanceof Player) {
-				Dungeon.loadType = Entrance.LoadType.FALL_DOWN;
-				Dungeon.goToLevel(Dungeon.depth + 1);
-			} else {
-				this.die();
-			}
-
-			return;
-		}
-
-		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2 - this.t * 8f,
-			this.t * 360, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2,
-			false, false, s, s);
-		Graphics.batch.setColor(1, 1, 1, 1);
-	}
-
 	protected void onTouch(short t, int x, int y) {
 		if (t == Terrain.WATER && !this.flying) {
 			this.removeBuff(BurningBuff.class);
@@ -314,7 +313,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void onHit(Creature who) {
-
+		this.triggerEvent("on_hit");
 	}
 
 	public HpFx modifyHp(int amount, Creature from) {
@@ -379,6 +378,10 @@ public class Creature extends SaveableEntity {
 
 		if (hurt) {
 			this.onHurt(amount, from);
+
+			this.triggerEvent("on_hurt");
+		} else {
+			this.triggerEvent("on_heal");
 		}
 
 		if (this.hp == 0) {
@@ -417,6 +420,9 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
+
+
+		this.triggerEvent("on_hurt");
 		this.remove = true;
 		this.dead = true;
 	}

@@ -281,10 +281,7 @@ public class Player extends Creature {
 		this.name = name;
 
 		all.add(this);
-
-		if (!name.equals("ghost")) {
-			instance = this;
-		}
+		instance = this;
 
 		run.setListener(new AnimationData.Listener() {
 			@Override
