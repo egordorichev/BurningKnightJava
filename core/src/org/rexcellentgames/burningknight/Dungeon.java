@@ -40,6 +40,7 @@ import org.rexcellentgames.burningknight.game.state.AssetLoadState;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.LoadState;
 import org.rexcellentgames.burningknight.game.state.State;
+import org.rexcellentgames.burningknight.mod.ModManager;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -260,6 +261,8 @@ public class Dungeon extends ApplicationAdapter {
 		game.setState(new AssetLoadState());
 
 		area.add(camera);
+
+		ModManager.INSTANCE.load();
 	}
 
 	public static int lastDepth;
@@ -324,7 +327,8 @@ public class Dungeon extends ApplicationAdapter {
 		Dungeon.ui.update(dt);
 
 		game.update(dt);
-		
+		ModManager.INSTANCE.update(dt);
+
 		updateMouse(dt);
 
 		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
@@ -387,6 +391,7 @@ public class Dungeon extends ApplicationAdapter {
 			org.rexcellentgames.burningknight.entity.Camera.removeShake();
 		}
 		game.renderUi();
+		ModManager.INSTANCE.draw();
 
 		Graphics.batch.end();
 		Graphics.surface.end();
@@ -520,6 +525,8 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		ModManager.INSTANCE.destroy();
+
 		if (area != null) {
 			ui.destroy();
 			area.destroy();

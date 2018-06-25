@@ -24,8 +24,21 @@ object ModManager {
 
 				if (mod != null) {
 					mods[mod.name!!] = mod
+					mod.init()
 				}
 			}
+		}
+	}
+
+	fun update(dt: Float) {
+		for (mod in mods.values) {
+			mod.update(dt)
+		}
+	}
+
+	fun draw() {
+		for (mod in mods.values) {
+			mod.draw()
 		}
 	}
 
