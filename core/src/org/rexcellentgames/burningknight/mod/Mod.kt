@@ -5,16 +5,19 @@ import com.badlogic.gdx.utils.JsonReader
 import org.luaj.vm2.Globals
 import org.luaj.vm2.LuaValue
 import org.luaj.vm2.lib.jse.JsePlatform
+import org.rexcellentgames.burningknight.assets.Graphics
 import org.rexcellentgames.burningknight.assets.Locale
+import org.rexcellentgames.burningknight.mod.item.Item
 import org.rexcellentgames.burningknight.util.Log
 
-class Mod(val name: String, val id: String, val description: String, val author: String, val version: String, val main: FileHandle, val itemsDirectory: FileHandle?, val localesDirectory: FileHandle?) {
+class Mod(val name: String, val id: String, val description: String, val author: String, val version: String, val main: FileHandle, val itemsDirectory: FileHandle?, val localesDirectory: FileHandle?, val spritesDirectory: FileHandle?) {
   private var updateCallback: LuaValue? = null
   private var drawCallback: LuaValue? = null
   private val globals: Globals = JsePlatform.standardGlobals()
 
   fun init() {
     Locale.loadForMod(Locale.current, this)
+    Graphics.loadModAssets(this)
 
     globals.loadfile(main.path()).call()
 
@@ -85,7 +88,8 @@ class Mod(val name: String, val id: String, val description: String, val author:
       var info: FileHandle? = null
       var items: FileHandle? = null
       var locales: FileHandle? = null
-
+      var sprites: FileHandle? = null
+      
       for (file in files) {
         if (file.nameWithoutExtension() == "main" && file.extension() == "lua") {
           main = file
@@ -95,6 +99,8 @@ class Mod(val name: String, val id: String, val description: String, val author:
           items = file
         } else if (file.isDirectory && file.name() == "locales") {
           locales = file
+        } else if (file.isDirectory && file.name() == "sprites") {
+          sprites = file
         }
       }
 
@@ -108,18 +114,9 @@ class Mod(val name: String, val id: String, val description: String, val author:
         return null
       }
 
-/*
-			if (items == null) {
-				Log.error("Warning: items folder was not found!")
-			}
-*/
-
       val root = JsonReader().parse(info)
 
-      
-      val mod = Mod(root.getString("name", "Name Missing"), root.getString("id"), root.getString("description"), root.getString("author", "Anonymous"), root.getString("version", "Version Missing"), main, items, locales)
-
-      return mod
+      return Mod(root.getString("name", "Name Missing"), root.getString("id"), root.getString("description"), root.getString("author", "Anonymous"), root.getString("version", "Version Missing"), main, items, locales, sprites)
     }
   }
 }

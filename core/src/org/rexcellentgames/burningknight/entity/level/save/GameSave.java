@@ -151,7 +151,7 @@ public class GameSave {
 		// shuffleArray(levels);
 
 		for (int i = 0; i < 5; i++) {
-			Log.info("Depth " + i + " id " + levels[i]);
+			Log.info("Depth " + i + " modId " + levels[i]);
 		}
 
 		Level.orders = levels;

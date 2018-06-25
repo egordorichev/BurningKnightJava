@@ -10,7 +10,7 @@ public class Achievements {
 	public static final String TEST = "TEST_ACHIEVEMENT";
 
 	public static boolean unlocked(String id) {
-		return false; // GlobalSave.isTrue(id);
+		return false; // GlobalSave.isTrue(modId);
 	}
 
 	public static void unlock(String id) {

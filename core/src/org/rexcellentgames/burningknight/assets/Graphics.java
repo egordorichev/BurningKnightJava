@@ -3,9 +3,11 @@ package org.rexcellentgames.burningknight.assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
@@ -15,8 +17,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.mod.Mod;
 import org.rexcellentgames.burningknight.util.Log;
+
+import java.util.HashMap;
 
 public class Graphics {
 	public static SpriteBatch batch;
@@ -28,6 +34,8 @@ public class Graphics {
 	public static FrameBuffer shadows;
 	public static FrameBuffer surface;
 	public static FrameBuffer text;
+	
+	private static HashMap<String, HashMap<String, TextureRegion>> modSprites = new HashMap<>();
 
 	public static void delay() {
 		delay(20);
@@ -95,6 +103,18 @@ public class Graphics {
 
 		new Ui();
 	}
+	
+	public static void loadModAssets(Mod mod) {
+	  HashMap<String, TextureRegion> regions = new HashMap<>();
+	  
+	  for (FileHandle file : mod.getSpritesDirectory().list()) {
+	    if (!file.isDirectory() && file.extension().equals("png")) {
+	      regions.put(file.nameWithoutExtension(), new TextureRegion(new Texture(file)));
+      }
+    }
+
+    modSprites.put(mod.getId(), regions);
+  }
 
 	public static void resize(int w, int h) {
 		shadows.dispose();
@@ -118,6 +138,16 @@ public class Graphics {
 
 		return region;
 	}
+	
+	public static TextureRegion getModTexture(String modId, String name) {
+	  TextureRegion region = modSprites.get(modId).get(name);
+
+    if (region == null) {
+      return Item.missing;
+    }
+	  
+    return region;
+  }
 
 	private static void generateFont(String path, int size) {
 		FreetypeFontLoader.FreeTypeFontLoaderParameter font = new FreetypeFontLoader.FreeTypeFontLoaderParameter();

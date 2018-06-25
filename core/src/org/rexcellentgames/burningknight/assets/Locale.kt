@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.assets
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.JsonReader
 import org.rexcellentgames.burningknight.mod.Mod
-import java.util.*
 
 object Locale {
   private val map = HashMap<String, String>()

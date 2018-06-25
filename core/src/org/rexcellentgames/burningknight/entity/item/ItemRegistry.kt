@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.item.consumable.spell.SpellOfTel
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
 import org.rexcellentgames.burningknight.entity.item.key.KeyC
+import org.rexcellentgames.burningknight.entity.item.mod.ModItem
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo
 import org.rexcellentgames.burningknight.entity.item.pet.LibGDX
 import org.rexcellentgames.burningknight.entity.item.pet.Pico8

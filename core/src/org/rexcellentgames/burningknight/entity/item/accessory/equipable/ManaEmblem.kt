@@ -14,7 +14,7 @@ class ManaEmblem : Equipable() {
     super.onEquip()
 
     if (this.owner is Player) {
-      (this.owner as Player).manaRegenRate += 7.5f
+      (this.owner as Player).manaRegenRate += 5.0f
     }
   }
 
@@ -22,7 +22,7 @@ class ManaEmblem : Equipable() {
     super.onUnequip()
 
     if (this.owner is Player) {
-      (this.owner as Player).manaRegenRate -= 7.5f
+      (this.owner as Player).manaRegenRate -= 5.0f
     }
   }
 }

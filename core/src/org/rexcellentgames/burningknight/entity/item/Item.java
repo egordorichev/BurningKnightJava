@@ -85,10 +85,10 @@ public class Item extends Entity {
   }
 
   public void render(float x, float y, float w, float h, boolean flipped) {
-    TextureRegion s = this.getSprite();
-
-    Graphics.render(s, x + (w - s.getRegionWidth()) / 2 + (flipped ? -w / 2 : w / 2),
-      y + (h - s.getRegionHeight()) / 2, 0, s.getRegionWidth() / 2, s.getRegionHeight() / 2, flipped, false);
+    getSprite();
+    
+    Graphics.render(this.region, x + (w - this.region.getRegionWidth()) / 2 + (flipped ? -w / 2 : w / 2),
+      y + (h - this.region.getRegionHeight()) / 2, 0, this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, flipped, false);
   }
 
   public void beforeRender(float x, float y, float w, float h, boolean flipped) {
@@ -138,6 +138,8 @@ public class Item extends Entity {
 
       if (this.region == null) {
         Log.error("Invalid item sprite " + this.getClass().getSimpleName());
+        
+        return missing;
       }
     }
 
