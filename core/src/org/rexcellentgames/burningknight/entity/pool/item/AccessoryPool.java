@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart;
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple;
+import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread;
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle;
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo;
 import org.rexcellentgames.burningknight.entity.item.pet.LibGDX;
@@ -88,6 +89,7 @@ public class AccessoryPool extends Pool<Item> {
 		add(BlackHeart.class, 1f);
 		add(ClockHeart.class, 1f);
 		add(Apple.class, 2f);
+		add(Bread.class, 1f);
 	}
 
 	public void addWarrior() {

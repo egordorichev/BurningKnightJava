@@ -485,5 +485,7 @@
 	"apple" : "Apple",
 	"apple_desc" : "An apple a day keeps the death away!",
 	"mana_in_a_bottle" : "Mana in a bottle",
-	"mana_in_a_bottle_desc" : "Take this"
+	"mana_in_a_bottle_desc" : "Take this",
+	"bread" : "Bread",
+	"bread_desc" : "No GMO"
 }

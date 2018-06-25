@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
 import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple
+import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.*
 import org.rexcellentgames.burningknight.entity.item.consumable.spell.ManaSpell
@@ -266,6 +267,7 @@ object ItemRegistry {
 	          "crash_book" to SuperCrazyBook::class,
 				    "demage_emblem" to DemageEmblem::class,
 	          "apple" to Apple::class,
-	          "mana_bottle" to ManaInABottle::class
+	          "mana_bottle" to ManaInABottle::class,
+	          "bread" to Bread::class
     )
 }

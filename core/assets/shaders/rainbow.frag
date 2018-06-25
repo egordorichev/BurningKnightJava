@@ -28,6 +28,6 @@ void main() {
     if (c.r + c.g + c.b < 0.7) {
         gl_FragColor = c;
     } else {
-        gl_FragColor = vec4(hsv2rgb(vec3(time + (x + y) * 2.0, 1.0, 1.0)), c.a);
+        gl_FragColor = vec4(hsv2rgb(vec3(time + (x + y) / 2.0, 1.0, 1.0)), c.a);
    }
 }
