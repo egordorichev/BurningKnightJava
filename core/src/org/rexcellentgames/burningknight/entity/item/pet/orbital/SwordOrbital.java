@@ -6,12 +6,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.pet.Pet;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 
 public class SwordOrbital extends Pet {
 	{
@@ -36,7 +30,7 @@ public class SwordOrbital extends Pet {
 
 			if (entity instanceof Mob) {
 				((Mob) entity).modifyHp(-3, this.owner);
-				((Mob) entity).knockBack(this, 1000f);
+				((Mob) entity).knockBackFrom(this, 1000f);
 			}
 		}
 	}

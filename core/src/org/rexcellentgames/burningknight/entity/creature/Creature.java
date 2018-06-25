@@ -33,7 +33,6 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
@@ -66,6 +65,7 @@ public class Creature extends SaveableEntity {
 	public float knockbackMod = 1f;
 	public boolean penetrates;
 	protected float invtt;
+	public boolean explosionBlock;
 
 	protected HashMap<String, ArrayList<Runnable>> events = new HashMap<>();
 
@@ -108,11 +108,6 @@ public class Creature extends SaveableEntity {
 		return this.flying;
 	}
 
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h, this.z / 5);
-	}
-
 	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
 		this.hx = x;
 		this.hy = y;
@@ -120,6 +115,11 @@ public class Creature extends SaveableEntity {
 		this.hh = h;
 
 		return World.createSimpleBody(this, x, y, w, h, type, sensor);
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h, this.z / 5);
 	}
 
 	public void modifyDefense(int amount) {
@@ -328,8 +328,6 @@ public class Creature extends SaveableEntity {
 		return this.defense;
 	}
 
-	public boolean explosionBlock;
-
 	public boolean rollBlock() {
 		return false;
 	}
@@ -420,9 +418,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-
-
-		this.triggerEvent("on_hurt");
+		this.triggerEvent("on_death");
 		this.remove = true;
 		this.dead = true;
 	}
@@ -520,7 +516,7 @@ public class Creature extends SaveableEntity {
 		return this.body;
 	}
 
-	public void knockBack(Entity from, float force) {
+	public void knockBackFrom(Entity from, float force) {
 		if (from == null) {
 			return;
 		}
@@ -547,6 +543,8 @@ public class Creature extends SaveableEntity {
 				buff.setOwner(this);
 				buff.onStart();
 			}
+
+			this.triggerEvent("buff_added");
 		}
 	}
 
@@ -562,13 +560,5 @@ public class Creature extends SaveableEntity {
 
 	public boolean isFlipped() {
 		return this.flipped;
-	}
-
-	public Collection<Buff> getBuffs() {
-		return this.buffs.values();
-	}
-
-	public int toIndex() {
-		return (int) (Math.floor(this.x / 16) + Math.floor(this.y / 16) * Level.getWidth());
 	}
 }

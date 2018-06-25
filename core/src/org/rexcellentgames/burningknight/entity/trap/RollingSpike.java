@@ -10,11 +10,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -95,7 +91,7 @@ public class RollingSpike extends SaveableEntity {
 		for (Player player : colliding) {
 			if (player.getInvt() == 0) {
 				player.modifyHp(-2, null);
-				player.knockBack(this, 400f);
+				player.knockBackFrom(this, 400f);
 			}
 		}
 	}

@@ -85,7 +85,7 @@ public class Projectile extends NetworkedEntity {
 
 	protected void doHit(Entity entity) {
 		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner);
-		((Creature) entity).knockBack(this.owner, this.knockback);
+		((Creature) entity).knockBackFrom(this.owner, this.knockback);
 
 		if (fx != null) {
 			if (this.crit) {
