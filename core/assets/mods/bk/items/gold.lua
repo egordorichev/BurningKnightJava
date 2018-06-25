@@ -1,5 +1,5 @@
-local gold = item:create("gold", {
-	sprite = "item-coin"
-})
+print(item)
+
+local gold = item:create("gold")
 
 return gold

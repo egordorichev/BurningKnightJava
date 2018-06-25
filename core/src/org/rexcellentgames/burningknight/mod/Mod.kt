@@ -2,111 +2,124 @@ package org.rexcellentgames.burningknight.mod
 
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.JsonReader
+import org.luaj.vm2.Globals
 import org.luaj.vm2.LuaValue
 import org.luaj.vm2.lib.jse.JsePlatform
+import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.util.Log
 
-class Mod {
-	var name: String? = null
-	var description: String? = null
-	var author: String? = null
+class Mod(val name: String, val id: String, val description: String, val author: String, val version: String, val main: FileHandle, val itemsDirectory: FileHandle?, val localesDirectory: FileHandle?) {
+  private var updateCallback: LuaValue? = null
+  private var drawCallback: LuaValue? = null
+  private val globals: Globals = JsePlatform.standardGlobals()
 
-	private var updateCallback: LuaValue? = null
-	private var drawCallback: LuaValue? = null
-	val globals = JsePlatform.standardGlobals()
+  fun init() {
+    Locale.loadForMod(Locale.current, this)
 
-	fun init() {
-		this.updateCallback = globals.get("update")
+    globals.loadfile(main.path()).call()
 
-		if (updateCallback != null && !updateCallback!!.isfunction()) {
-			this.updateCallback = null
-		}
+    this.updateCallback = globals.get("update")
 
-		this.drawCallback = globals.get("draw")
+    if (updateCallback != null && !updateCallback!!.isfunction()) {
+      this.updateCallback = null
+    }
 
-		if (drawCallback != null && !drawCallback!!.isfunction()) {
-			this.drawCallback = null
-		}
+    this.drawCallback = globals.get("draw")
 
-		val initCallback = globals.get("init")
+    if (drawCallback != null && !drawCallback!!.isfunction()) {
+      this.drawCallback = null
+    }
 
-		if (initCallback != null && initCallback.isfunction()) {
-			initCallback.call()
-		}
-	}
+    val initCallback = globals.get("init")
 
-	fun destroy() {
-		val disposeCallback = globals.get("destroy")
+    if (initCallback != null && initCallback.isfunction()) {
+      initCallback.call()
+    }
 
-		if (disposeCallback != null && disposeCallback.isfunction()) {
-			disposeCallback.call()
-		}
-	}
+    val apiCode = "item = luajava.newInstance(\"${Item::class.qualifiedName}\", \"$id\")"
 
-	fun update(dt: Float) {
-		this.updateCallback?.call(LuaValue.valueOf(dt.toDouble()))
-	}
+    globals.load(apiCode).call()
 
-	fun draw() {
-		this.drawCallback?.call()
-	}
+    if (this.itemsDirectory != null) {
+      for (entry in this.itemsDirectory.list()) {
+        if (!entry.isDirectory && entry.extension() == "lua") {
+          globals.load(entry.readString()).call()
+        }
+      }
+    }
+  }
 
-	companion object {
-		fun make(folder: FileHandle): Mod? {
-			val mod = Mod()
+  fun destroy() {
+    val destroyCallback = globals.get("destroy")
 
-			Log.info("Loading mod '" + folder.name() + "'...")
+    if (destroyCallback != null && destroyCallback.isfunction()) {
+      destroyCallback.call()
+    }
+  }
 
-			if (!folder.isDirectory) {
-				Log.error("Mod folder is not a directory!")
-				return null
-			}
+  fun update(dt: Float) {
+    this.updateCallback?.call(LuaValue.valueOf(dt.toDouble()))
+  }
 
-			val files = folder.list()
+  fun draw() {
+    this.drawCallback?.call()
+  }
 
-			if (files.size == 0) {
-				Log.error("Mod folder is empty!")
-				return null
-			}
+  companion object {
+    fun load(folder: FileHandle): Mod? {
+      Log.info("Loading mod '" + folder.name() + "'...")
 
-			var main: FileHandle? = null
-			var info: FileHandle? = null
-			var items: FileHandle? = null
+      if (!folder.isDirectory) {
+        Log.error("Mod folder is not a directory!")
+        return null
+      }
 
-			for (file in files) {
-				if (file.nameWithoutExtension() == "main" && file.extension() == "lua") {
-					main = file
-				} else if (file.nameWithoutExtension() == "mod" && file.extension() == "json") {
-					info = file
-				} else if (file.isDirectory && file.name() == "items") {
-					items = file
-				}
-			}
+      val files = folder.list()
 
-			if (main == null) {
-				Log.error("main.lua was not found!")
-				return null
-			}
+      if (files.isEmpty()) {
+        Log.error("Mod folder is empty!")
+        return null
+      }
 
-			if (info == null) {
-				Log.error("mod.json was not found!")
-				return null
-			}
+      var main: FileHandle? = null
+      var info: FileHandle? = null
+      var items: FileHandle? = null
+      var locales: FileHandle? = null
 
+      for (file in files) {
+        if (file.nameWithoutExtension() == "main" && file.extension() == "lua") {
+          main = file
+        } else if (file.nameWithoutExtension() == "mod" && file.extension() == "json") {
+          info = file
+        } else if (file.isDirectory && file.name() == "items") {
+          items = file
+        } else if (file.isDirectory && file.name() == "locales") {
+          locales = file
+        }
+      }
+
+      if (main == null) {
+        Log.error("main.lua was not found!")
+        return null
+      }
+
+      if (info == null) {
+        Log.error("mod.json was not found!")
+        return null
+      }
+
+/*
 			if (items == null) {
 				Log.error("Warning: items folder was not found!")
-				return null
 			}
+*/
 
-			val root = JsonReader().parse(info)
+      val root = JsonReader().parse(info)
 
-			mod.name = root.getString("name", "Missing name")
-			mod.description = root.getString("description", "Missing description")
-			mod.author = root.getString("author", "Someone")
+      
+      val mod = Mod(root.getString("name", "Name Missing"), root.getString("id"), root.getString("description"), root.getString("author", "Anonymous"), root.getString("version", "Version Missing"), main, items, locales)
 
-			mod.globals.loadfile(main.path()).call()
-
-			return mod
-		}
-	}
+      return mod
+    }
+  }
 }

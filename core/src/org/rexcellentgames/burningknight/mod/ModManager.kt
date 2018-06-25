@@ -5,48 +5,49 @@ import org.rexcellentgames.burningknight.util.Log
 import java.util.*
 
 object ModManager {
-	val MODS_SAVE_DIR = "mods/"
-	val mods = HashMap<String, Mod>()
+  private const val modDirectory = "mods/"
+  val mods = ArrayList<Mod>()
 
-	fun load() {
-		val dir = Gdx.files.internal(MODS_SAVE_DIR)
+  fun load() {
+    val dir = Gdx.files.internal(modDirectory)
 
-		if (!dir.exists()) {
-			Log.error("Mods directory does not exist!")
-			return
-		}
+    if (!dir.exists()) {
+      Log.error("Mods directory does not exist!")
+      return
+    }
 
-		val files = dir.list()
+    val files = dir.list()
 
-		for (file in files) {
-			if (file.isDirectory) {
-				val mod = Mod.make(file)
+    for (file in files) {
+      if (file.isDirectory) {
+        val mod = Mod.load(file)
 
-				if (mod != null) {
-					mods[mod.name!!] = mod
-					mod.init()
-				}
-			}
-		}
-	}
+        if (mod != null) {
+          mods.add(mod)
+          
+          mod.init()
+        }
+      }
+    }
+  }
 
-	fun update(dt: Float) {
-		for (mod in mods.values) {
-			mod.update(dt)
-		}
-	}
+  fun update(dt: Float) {
+    for (mod in mods) {
+      mod.update(dt)
+    }
+  }
 
-	fun draw() {
-		for (mod in mods.values) {
-			mod.draw()
-		}
-	}
+  fun draw() {
+    for (mod in mods) {
+      mod.draw()
+    }
+  }
 
-	fun destroy() {
-		for (mod in mods.values) {
-			mod.destroy()
-		}
+  fun destroy() {
+    for (mod in mods) {
+      mod.destroy()
+    }
 
-		mods.clear()
-	}
+    mods.clear()
+  }
 }
