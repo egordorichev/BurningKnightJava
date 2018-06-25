@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -113,15 +112,6 @@ public class BombEntity extends Entity {
 						} catch (IllegalAccessException | InstantiationException e) {
 							e.printStackTrace();
 						}
-					}
-				} else if (entity instanceof Plant) {
-					Plant creature = (Plant) entity;
-
-					float dx = creature.x + creature.w / 2 - this.x - 8;
-					float dy = creature.y + creature.h / 2 - this.y - 8;
-
-					if (Math.sqrt(dx * dx + dy * dy) < 24f) {
-						creature.startBurning();
 					}
 				}
 			}

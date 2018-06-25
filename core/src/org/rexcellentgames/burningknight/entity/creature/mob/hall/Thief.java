@@ -96,11 +96,6 @@ public class Thief extends Mob {
 			this.flipped = this.vel.x < 0;
 		}
 
-		if (this.falling) {
-			this.renderFalling(this.animation);
-			return;
-		}
-
 		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
 
 		if (this.dead) {

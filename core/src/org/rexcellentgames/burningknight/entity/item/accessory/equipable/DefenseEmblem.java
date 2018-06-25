@@ -15,7 +15,7 @@ public class DefenseEmblem extends Equipable {
 		super.onEquip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).defenseModifier += 0.2f;
+			((Player) this.owner).defenseModifier += 0.4f;
 		}
 	}
 
@@ -24,7 +24,7 @@ public class DefenseEmblem extends Equipable {
 		super.onUnequip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).defenseModifier -= 0.2f;
+			((Player) this.owner).defenseModifier -= 0.4f;
 		}
 	}
 }

@@ -12,7 +12,6 @@ import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -70,15 +69,6 @@ public class RocketProjectile extends Projectile {
 
 					c.vel.x += Math.cos(a) * 5000f * c.knockbackMod;
 					c.vel.y += Math.sin(a) * 5000f * c.knockbackMod;
-				}
-			} else if (e instanceof Plant) {
-				Plant c = (Plant) e;
-
-				float dx = c.x + c.w / 2 - this.x;
-				float dy = c.y + c.h / 2 - this.y;
-
-				if (Math.sqrt(dx * dx + dy * dy) < 24f) {
-					c.startBurning();
 				}
 			}
 		}

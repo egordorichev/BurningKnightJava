@@ -37,6 +37,19 @@ import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
 	public float invmax = 0.4f;
+	public float critChance;
+	public int hw;
+	public int hh;
+	public float z;
+	public float a = 1f;
+	public long lastIndex;
+	public boolean invisible;
+	public float blockChance;
+	public boolean flying = false;
+	public float knockbackMod = 1f;
+	public boolean penetrates;
+	public boolean explosionBlock;
+	public boolean freezed;
 	protected int hp;
 	protected int hpMax;
 	protected float speed = 10;
@@ -50,34 +63,14 @@ public class Creature extends SaveableEntity {
 	protected float mul = 0.9f;
 	protected float timer;
 	protected boolean flipped = false;
-	public float critChance;
 	protected int hx;
 	protected int hy;
-	public int hw;
-	public int hh;
-	public float z;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
-	public float a = 1f;
-	public long lastIndex;
-	public boolean invisible;
-	public float blockChance;
-	public boolean flying = false;
-	public float knockbackMod = 1f;
-	public boolean penetrates;
 	protected float invtt;
-	public boolean explosionBlock;
-
 	protected HashMap<String, ArrayList<Runnable>> events = new HashMap<>();
-
-	public void triggerEvent(String name) {
-		ArrayList<Runnable> e = events.get(name);
-
-		if (e != null) {
-			for (Runnable event : e) {
-				event.run();
-			}
-		}
-	}
+	protected boolean falling;
+	private boolean shouldDie = false;
+	private boolean remove;
 
 	public int registerCallback(String name, Runnable runnable) {
 		ArrayList<Runnable> e = events.computeIfAbsent(name, k -> new ArrayList<>());
@@ -100,10 +93,6 @@ public class Creature extends SaveableEntity {
 		e.remove(id);
 	}
 
-	public void setInvt(float invt) {
-		this.invtt = invt;
-	}
-
 	public boolean isFlying() {
 		return this.flying;
 	}
@@ -115,11 +104,6 @@ public class Creature extends SaveableEntity {
 		this.hh = h;
 
 		return World.createSimpleBody(this, x, y, w, h, type, sensor);
-	}
-
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h, this.z / 5);
 	}
 
 	public void modifyDefense(int amount) {
@@ -137,17 +121,22 @@ public class Creature extends SaveableEntity {
 		this.triggerEvent("tp");
 	}
 
-	@Override
-	public void destroy() {
-		super.destroy();
+	public void triggerEvent(String name) {
+		ArrayList<Runnable> e = events.get(name);
 
-		if (this.body != null) {
-			this.body = World.removeBody(this.body);
+		if (e != null) {
+			for (Runnable event : e) {
+				event.run();
+			}
 		}
 	}
 
 	public float getInvt() {
 		return this.invt;
+	}
+
+	public void setInvt(float invt) {
+		this.invtt = invt;
 	}
 
 	@Override
@@ -163,7 +152,19 @@ public class Creature extends SaveableEntity {
 		this.hp = this.hpMax;
 	}
 
-	private boolean shouldDie = false;
+	@Override
+	public void destroy() {
+		super.destroy();
+
+		if (this.body != null) {
+			this.body = World.removeBody(this.body);
+		}
+	}
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h, this.z / 5);
+	}
 
 	public void deathEffect(AnimationData killed) {
 		LevelSave.remove(this);
@@ -245,8 +246,6 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected boolean falling;
-
 	@Override
 	public void become(String state) {
 		if (!this.falling) {
@@ -260,18 +259,6 @@ public class Creature extends SaveableEntity {
 		} else if (t == Terrain.LAVA && !this.flying) {
 			this.modifyHp(-1, null,true);
 		}
-	}
-
-	protected float getDt() {
-		return Gdx.graphics.getDeltaTime();
-	}
-
-	public float rollDamage() {
-		return 1;
-	}
-
-	public float rollDefense() {
-		return 1;
 	}
 
 	protected void common() {
@@ -307,29 +294,17 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	protected float getDt() {
+		return Gdx.graphics.getDeltaTime();
+	}
+
 	public void modifySpeed(int amount) {
 		this.speed += amount;
 		this.maxSpeed += amount * 7;
 	}
 
-	public void onHit(Creature who) {
-		this.triggerEvent("on_hit");
-	}
-
 	public HpFx modifyHp(int amount, Creature from) {
 		return this.modifyHp(amount, from, false);
-	}
-
-	public boolean isUnhittable() {
-		return unhittable;
-	}
-
-	public int getDefense() {
-		return this.defense;
-	}
-
-	public boolean rollBlock() {
-		return false;
 	}
 
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
@@ -389,22 +364,44 @@ public class Creature extends SaveableEntity {
 		return fx;
 	}
 
-	public float getSpeed() {
-		return speed;
+	public boolean rollBlock() {
+		return false;
 	}
 
-	public boolean freezed;
+	public float rollDamage() {
+		return 1;
+	}
+
+	public float rollDefense() {
+		return 1;
+	}
+
+	public void onHit(Creature who) {
+		this.triggerEvent("on_hit");
+	}
+
+	protected void onHurt(float a, Creature from) {
+		Graphics.delay(20);
+	}
+
+	public boolean isUnhittable() {
+		return unhittable;
+	}
 
 	public void setUnhittable(boolean unhittable) {
 		this.unhittable = unhittable;
 	}
 
-	public boolean isDead() {
-		return this.dead;
+	public int getDefense() {
+		return this.defense;
 	}
 
-	protected void onHurt(float a, Creature from) {
-		Graphics.delay(20);
+	public float getSpeed() {
+		return speed;
+	}
+
+	public boolean isDead() {
+		return this.dead;
 	}
 
 	public void die() {
@@ -422,8 +419,6 @@ public class Creature extends SaveableEntity {
 		this.remove = true;
 		this.dead = true;
 	}
-
-	private boolean remove;
 
 	public void onBuffRemove(Buff buff) {
 
@@ -508,6 +503,27 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	public void addBuff(Buff buff) {
+		if (this.canHaveBuff(buff)) {
+			Buff b = this.buffs.get(buff.getClass());
+
+			if (b != null) {
+				b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
+			} else {
+				this.buffs.put(buff.getClass(), buff);
+
+				buff.setOwner(this);
+				buff.onStart();
+			}
+
+			this.triggerEvent("buff_added");
+		}
+	}
+
+	protected boolean canHaveBuff(Buff buff) {
+		return true;
+	}
+
 	public boolean hasBuff(Class<? extends Buff> buff) {
 		return this.buffs.containsKey(buff);
 	}
@@ -525,27 +541,6 @@ public class Creature extends SaveableEntity {
 
 		this.vel.x += Math.cos(a) * force * knockbackMod;
 		this.vel.y += Math.sin(a) * force * knockbackMod;
-	}
-
-	protected boolean canHaveBuff(Buff buff) {
-		return true;
-	}
-
-	public void addBuff(Buff buff) {
-		if (this.canHaveBuff(buff)) {
-			Buff b = this.buffs.get(buff.getClass());
-
-			if (b != null) {
-				b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
-			} else {
-				this.buffs.put(buff.getClass(), buff);
-
-				buff.setOwner(this);
-				buff.onStart();
-			}
-
-			this.triggerEvent("buff_added");
-		}
 	}
 
 	public void removeBuff(Class<? extends Buff> buff) {

@@ -20,14 +20,13 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
@@ -150,8 +149,6 @@ public class BurningKnight extends Boss {
 
 		if (entity instanceof Player && !this.isDead()) {
 			((Player) entity).addBuff(new BurningBuff().setDuration(10));
-		} else if (entity instanceof Plant) {
-			((Plant) entity).startBurning();
 		}
 	}
 

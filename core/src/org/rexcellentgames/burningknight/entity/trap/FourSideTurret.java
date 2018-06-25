@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.trap;
 
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -9,6 +10,10 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 public class FourSideTurret extends Turret {
 	private AnimationData four = animations.get("four");
 	boolean str = true;
+
+	{
+		region = Item.missing;
+	}
 
 	@Override
 	public void update(float dt) {

@@ -3,11 +3,11 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class DamageEmblem extends Equipable {
+public class DemageEmblem extends Equipable {
 	{
-		name = Locale.get("damage_emblem");
-		description = Locale.get("damage_emblem_desc");
-		sprite = "item-more_damage";
+		name = Locale.get("demage_emblem");
+		description = Locale.get("demage_emblem_desc");
+		sprite = "item-more_defense_and_damage";
 	}
 
 	@Override
@@ -15,7 +15,8 @@ public class DamageEmblem extends Equipable {
 		super.onEquip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).damageModifier += 0.4f;
+			((Player) this.owner).defenseModifier += 0.2f;
+			((Player) this.owner).damageModifier += 0.2f;
 		}
 	}
 
@@ -24,7 +25,8 @@ public class DamageEmblem extends Equipable {
 		super.onUnequip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).damageModifier -= 0.4f;
+			((Player) this.owner).defenseModifier -= 0.2f;
+			((Player) this.owner).damageModifier -= 0.2f;
 		}
 	}
 }

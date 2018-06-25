@@ -6,14 +6,9 @@ import org.rexcellentgames.burningknight.entity.item.autouse.Backpack
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
 import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
-import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
-import org.rexcellentgames.burningknight.entity.item.consumable.food.Chicken
-import org.rexcellentgames.burningknight.entity.item.consumable.plant.Cabbage
+import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple
+import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.*
-import org.rexcellentgames.burningknight.entity.item.consumable.seed.CabbageSeed
-import org.rexcellentgames.burningknight.entity.item.consumable.seed.LightroomSeed
-import org.rexcellentgames.burningknight.entity.item.consumable.seed.PotionGrassSeed
-import org.rexcellentgames.burningknight.entity.item.consumable.spell.GhostLeaver
 import org.rexcellentgames.burningknight.entity.item.consumable.spell.ManaSpell
 import org.rexcellentgames.burningknight.entity.item.consumable.spell.SpellOfDamage
 import org.rexcellentgames.burningknight.entity.item.consumable.spell.SpellOfTeleportation
@@ -102,22 +97,13 @@ object ItemRegistry {
             "the_sword" to TheSword::class,
             "gold" to Gold::class,
             "healing_potion" to HealingPotion::class,
-            "sun_potion" to SunPotion::class,
             "fire_potion" to FirePotion::class,
             "invis_potion" to InvisibilityPotion::class,
-            "speed_potion" to SpeedPotion::class,
             "regen_potion" to RegenerationPotion::class,
             "poison_potion" to PoisonPotion::class,
-            "defense_potion" to DefensePotion::class,
             "tp_spell" to SpellOfTeleportation::class,
             "damage_spell" to SpellOfDamage::class,
-            "bread" to Bread::class,
-            "chicken" to Chicken::class,
             "bomb" to Bomb::class,
-            "cabbage_seed" to CabbageSeed::class,
-            "cabbage" to Cabbage::class,
-            "lightroom_seed" to LightroomSeed::class,
-            "potiongrass_seed" to PotionGrassSeed::class,
             "arrow_a" to ArrowA::class,
             "arrow_b" to ArrowB::class,
             "arrow_c" to ArrowC::class,
@@ -126,7 +112,6 @@ object ItemRegistry {
             "bow_c" to BowC::class,
             "guitar" to Guitar::class,
             "lamp" to Lamp::class,
-            "ghost" to GhostLeaver::class,
             "mana_spell" to ManaSpell::class,
             "key_a" to KeyA::class,
             "key_b" to KeyB::class,
@@ -278,6 +263,9 @@ object ItemRegistry {
 	          "slow_book" to SlowBook::class,
 	          "fast_book" to FastBook::class,
 	          "crazy_book" to CrazyBook::class,
-	          "crash_book" to SuperCrazyBook::class
+	          "crash_book" to SuperCrazyBook::class,
+				    "demage_emblem" to DemageEmblem::class,
+	          "apple" to Apple::class,
+	          "mana_bottle" to ManaInABottle::class
     )
 }

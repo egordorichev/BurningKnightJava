@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -29,11 +28,6 @@ public class FireballProjectile extends Projectile {
 
 	@Override
 	protected boolean hit(Entity entity) {
-		if (entity instanceof Plant) {
-			((Plant) entity).startBurning();
-			return false;
-		}
-
 		if (this.bad) {
 			if (entity instanceof Player) {
 				this.doHit(entity);

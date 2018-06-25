@@ -74,12 +74,12 @@ public class ChangableRegistry {
 
 	public static void generate() {
 		ArrayList<Class<? extends Potion>> potions = new ArrayList<>(Arrays.asList(
-			HealingPotion.class, SunPotion.class, FirePotion.class, InvisibilityPotion.class, SpeedPotion.class,
-			RegenerationPotion.class, PoisonPotion.class, DefensePotion.class
+			HealingPotion.class, FirePotion.class, InvisibilityPotion.class,
+			RegenerationPotion.class, PoisonPotion.class
 		));
 
 		ArrayList<Type> potionTypes = new ArrayList<>(Arrays.asList(
-			Type.RED, Type.BLUE, Type.ORANGE, Type.GREEN, Type.YELLOW, Type.CORAL, Type.PINK, Type.BROWN
+			Type.RED, Type.BLUE, Type.ORANGE, Type.GREEN, Type.YELLOW//, Type.CORAL, Type.PINK, Type.BROWN
 		));
 
 		for (Type type : potionTypes) {
@@ -90,13 +90,13 @@ public class ChangableRegistry {
 		}
 
 		ArrayList<Class<? extends Spell>> spells = new ArrayList<>(Arrays.asList(
-			SpellOfTeleportation.class, SpellOfDamage.class, GhostLeaver.class,
+			SpellOfTeleportation.class, SpellOfDamage.class,
 			ManaSpell.class
 		));
 
 		// todo: finish this list
 		ArrayList<Type> spellTypes = new ArrayList<>(Arrays.asList(
-			Type.JERA, Type.THURISAZ, Type.FEHU, Type.RAIDO
+			Type.JERA, Type.THURISAZ, Type.FEHU//, Type.RAIDO
 			// Type.MANNAZ  , Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ
 		));
 

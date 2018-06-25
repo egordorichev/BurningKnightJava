@@ -453,9 +453,9 @@
 	"mana_boots" : "Mana boots",
 	"mana_boots_desc" : "Run for your life,\nah wait, for your mana!",
 	"damage_emblem" : "Damage emblem",
-	"damage_emblem_desc" : "+20% damage",
+	"damage_emblem_desc" : "+40% damage",
 	"defense_emblem" : "Defense emblem",
-	"defense_emblem_desc" : "+20% defense",
+	"defense_emblem_desc" : "+40% defense",
 	"arcane_battery" : "Arcane battery",
 	"arcane_battery_desc" : "Activate only in trouble",
 	"blue_coin" : "Blue coin",
@@ -479,5 +479,11 @@
 	"book_of_green_energy" : "Book of green energy",
 	"book_of_green_energy_desc" : "We came with peace!",
 	"book_of_crash" : "Book of crash",
-	"book_of_crash_desc" : "Poor GPU..."
+	"book_of_crash_desc" : "Poor GPU...",
+	"demege_emblem" : "Demege emblem",
+	"demege_emblem_desc" : "+20% defense, +20% damage",
+	"apple" : "Apple",
+	"apple_desc" : "An apple a day keeps the death away!",
+	"mana_in_a_bottle" : "Mana in a bottle",
+	"mana_in_a_bottle_desc" : "Take this"
 }

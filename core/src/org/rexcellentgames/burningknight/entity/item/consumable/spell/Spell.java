@@ -76,15 +76,13 @@ public class Spell extends Consumable {
 	}
 
 	public static Spell random() {
-		int random = Random.newInt(4);
+		int random = Random.newInt(3);
 
 		switch (random) {
 			case 0: case 1:
 				return new SpellOfTeleportation();
 			case 2: default:
 				return new SpellOfDamage();
-			case 3:
-				return new GhostLeaver();
 		}
 	}
 }

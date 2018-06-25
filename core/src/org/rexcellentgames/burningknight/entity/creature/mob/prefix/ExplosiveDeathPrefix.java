@@ -5,13 +5,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.Explosion;
-import org.rexcellentgames.burningknight.entity.plant.Plant;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class ExplosiveDeathPrefix extends Prefix {
@@ -45,15 +39,6 @@ public class ExplosiveDeathPrefix extends Prefix {
 
 					creature.vel.x += Math.cos(a) * 5000f * creature.knockbackMod;
 					creature.vel.y += Math.sin(a) * 5000f * creature.knockbackMod;
-				}
-			} else if (entity instanceof Plant) {
-				Plant creature = (Plant) entity;
-
-				float dx = creature.x + creature.w / 2 - xx;
-				float dy = creature.y + creature.h / 2 - yy;
-
-				if (Math.sqrt(dx * dx + dy * dy) < 24f) {
-					creature.startBurning();
 				}
 			}
 		}
