@@ -1,6 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.luaj.vm2.LuaFunction;
+import org.luaj.vm2.LuaTable;
+import org.luaj.vm2.LuaValue;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -11,6 +14,7 @@ import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Item extends Entity {
   public static TextureRegion missing = Graphics.getTexture("item-missing");
@@ -36,6 +40,7 @@ public class Item extends Entity {
   protected String useSpeedStr;
 
   protected Item() {
+
   }
   
   protected Item(String name, String description, String sprite) {
@@ -207,5 +212,34 @@ public class Item extends Entity {
     }
 
     return builder;
+  }
+
+  /*
+   * Lua logic
+   */
+
+  private HashMap<String, LuaFunction> events = new HashMap<>();
+
+  public void registerEvent(String name, LuaValue value) {
+  	LuaValue val = value.get(name);
+
+  	if (val != LuaValue.NIL && val.isfunction()) {
+  		events.put(name, (LuaFunction) val);
+	  }
+  }
+
+  public void triggerEvent(String name) {
+  	LuaFunction fun = events.get(name);
+
+  	if (fun != null) {
+  		fun.call();
+	  }
+  }
+
+  private String modId;
+
+  public void initFromMod(String modId, String name, LuaTable args) {
+  	this.modId = modId;
+  	this.name = Locale.get(name);
   }
 }

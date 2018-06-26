@@ -1,20 +1,18 @@
 package org.rexcellentgames.burningknight.entity.level.entities.chest;
 
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunC;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.TripleMachineGun;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Compass;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.RubyHat;
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeB;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeC;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeD;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunC;
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordC;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherB;
@@ -39,9 +37,9 @@ public class GoldenChest extends Chest {
 	@SuppressWarnings("unchecked")
 	private static ArrayList<Class<? extends Item>>[] items = new ArrayList[]{
 		new ArrayList(Collections.singletonList(Gold.class)),
-		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, GunC.class, HealingPotion.class, BowA.class, RubyHat.class, RocketLauncherC.class)),
-		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
-		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
+		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, TripleMachineGun.class, HealingPotion.class, BowA.class, RubyHat.class, RocketLauncherC.class)),
+		new ArrayList(Arrays.asList(SwordC.class, DaggerC.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, TripleMachineGun.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
+		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, TripleMachineGun.class, HealingPotion.class, BowB.class, RubyHat.class, RocketLauncherC.class)),
 		new ArrayList(Arrays.asList(AxeD.class, Compass.class))
 	};
 

@@ -134,6 +134,8 @@ public class Graphics {
 
 		if (region == null) {
 			Log.error("Texture '" + name + "' is not found!");
+			
+			return Item.missing;
 		}
 
 		return region;

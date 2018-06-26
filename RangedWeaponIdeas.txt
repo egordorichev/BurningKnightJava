@@ -1,0 +1,6 @@
+Belga == my friend's ideas
+
+KatlingGun - Kotlin-themed gatling gun
+SlimeGun (Belga) - makes enemies slower
+ChocolateGun (Belga) -
+GunGun - OP, shots a projectile from any other weapon randomly

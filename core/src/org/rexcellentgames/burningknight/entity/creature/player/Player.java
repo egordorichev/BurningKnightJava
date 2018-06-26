@@ -33,7 +33,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShi
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
@@ -246,7 +246,7 @@ public class Player extends Creature {
 	private void generateRanger() {
 		switch (Random.newInt(2)) {
 			case 0: default: this.give(new BowA()); break;
-			case 1: this.give(new GunA()); break;
+			case 1: this.give(new Revolver()); break;
 		}
 	}
 
