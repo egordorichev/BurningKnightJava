@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -23,25 +22,18 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Gun extends WeaponBase {
-  protected float sx = 1f;
-  protected float sy = 1f;
-  protected float vel = 6f;
-  protected Class<? extends Bullet> ammo;
-  protected float textureA;
-  protected boolean penetrates;
-  protected float tw;
-  protected float th;
-  protected boolean s;
-  protected Point origin = new Point(3, 1);
-  protected Point hole = new Point(13, 5);
-  private float accuracy = 10f;
-  private Vector2 last = new Point();
-  private float lastAngle;
-  private float closestFraction = 1.0f;
-  private RayCastCallback callback = (fixture, point, normal, fraction) -> {
-    if (fixture.isSensor()) {
-      return 1;
-    }
+	private float accuracy = 10f;
+	protected float sx = 1f;
+	protected float sy = 1f;
+	protected float vel = 6f;
+	protected Class<? extends Bullet> ammo;
+	protected float textureA;
+	protected boolean penetrates;
+	protected float tw;
+	protected float th;
+	protected boolean s;
+	protected Point origin = new Point(3, 1);
+	protected Point hole = new Point(13, 6);
 
     Entity entity = (Entity) fixture.getBody().getUserData();
 
@@ -89,39 +81,43 @@ public class Gun extends WeaponBase {
     TextureRegion sprite = this.getSprite();
     Point aim = this.owner.getAim();
 
-    float an = this.owner.getAngleTo(aim.x, aim.y);
-    an = angleLerp(this.lastAngle, an, 0.15f);
-    this.lastAngle = an;
-    float a = (float) Math.toDegrees(this.lastAngle);
+	protected float getAimX() {
+		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x) + (float) Math.cos(this.lastAngle +
+			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y);
+	}
+
+	protected float getAimY() {
+		return (float) Math.sin(this.lastAngle) * (this.hole.x - this.origin.x) + (float) Math.sin(this.lastAngle +
+			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y);
+	}
+
+	@Override
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		if (!s) {
+			s = true;
 
     this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x, this.origin.y,
       false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
     float r = 6;
 
-    x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
-    y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+		Point aim = this.owner.getAim();
+		float an = this.owner.getAngleTo(aim.x, aim.y);
 
-    float px = this.tw;
+		an = angleLerp(this.lastAngle, an, 0.15f);
+		this.lastAngle = an;
+		float a = (float) Math.toDegrees(this.lastAngle);
 
     float xx = (float) (x + (this.tw + this.origin.x) * Math.cos(an) - this.origin.x);
     float yy = (float) (y + (this.th + this.origin.y) * Math.sin(an) - this.origin.y);
 
-    Graphics.startShape();
-    Graphics.shape.circle(x + xx, y + yy, 3);
-    Graphics.shape.circle(x - origin.x, y - origin.y, 3);
-    Graphics.endShape();
+		x = x + w / 2 + (flipped ? -7 : 7);
+		y = y + h / 4 + this.owner.z;
 
-    if (this.delay + 0.09f >= this.useTime) {
-      Graphics.batch.end();
+		float xx = x + getAimX();
+		float yy = y + getAimY();
 
-      Gdx.gl.glEnable(GL20.GL_BLEND);
-      Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-      Graphics.shape.setProjectionMatrix(Camera.game.combined);
-      Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-
-      Graphics.shape.setColor(1, 0.5f, 0, 0.7f);
-
-      Graphics.shape.circle(xx, yy, r);
+		if (this.delay + 0.09f >= this.useTime) {
+			Graphics.batch.end();
 
       Graphics.shape.end();
       Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -273,15 +269,14 @@ public class Gun extends WeaponBase {
 
       bullet.a = a;
 
-      Dungeon.area.add(bullet);
-    } catch (IllegalAccessException | InstantiationException e) {
-      e.printStackTrace();
-    }
-  }
 
-  public float getAccuracy() {
-    return Math.max(0, accuracy - (this.owner instanceof Player ? ((Player) this.owner).accuracy : 0));
-  }
+			bullet.x = x + this.getAimX();
+			bullet.y = y + this.getAimY();
+			bullet.damage = b.damage + rollDamage();
+			bullet.crit = true;
+			bullet.letter = b.bulletName;
+			bullet.owner = this.owner;
+			bullet.penetrates = this.penetrates;
 
   public void setAccuracy(float accuracy) {
     this.accuracy = accuracy;
