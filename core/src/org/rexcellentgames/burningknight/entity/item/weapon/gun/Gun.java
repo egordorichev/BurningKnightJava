@@ -34,8 +34,9 @@ public class Gun extends WeaponBase {
 	protected boolean penetrates;
 	protected float tw;
 	protected float th;
-	protected int ox = 3;
 	protected boolean s;
+	protected Point origin = new Point(3, 1);
+	protected Point hole = new Point(13, 5);
 
 	{
 		identified = true;
@@ -103,7 +104,7 @@ public class Gun extends WeaponBase {
 		this.lastAngle = an;
 		float a = (float) Math.toDegrees(this.lastAngle);
 
-		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.ox, sprite.getRegionHeight() / 2,
+		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x, this.origin.y,
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
 		float r = 6;
 

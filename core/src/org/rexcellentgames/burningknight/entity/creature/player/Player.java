@@ -117,20 +117,18 @@ public class Player extends Creature {
 	private Inventory inventory;
 	private String name;
 	private float watery;
-	private AnimationData idle;
-	private AnimationData run;
-	private AnimationData hurt;
-	private AnimationData killed;
-	private AnimationData animation;
 	private float lastRun;
-	private float lastDashT;
-	private float dashTimeout;
 	private float lastRegen;
 	private float lastMana;
 	private float fa;
 	private float sx = 1f;
 	private float sy = 1f;
 	private ArrayList<ItemHolder> holders = new ArrayList<>();
+	private AnimationData idle;
+	private AnimationData run;
+	private AnimationData hurt;
+	private AnimationData killed;
+	private AnimationData animation;
 	public float accuracy;
 
 	{
@@ -140,10 +138,15 @@ public class Player extends Creature {
 		mul = 0.85f;
 		speed = 25;
 		alwaysActive = true;
-		invmax = 1f;
-		// unhittable = true; // todo: remove
 
 		setSkin("");
+	}
+
+	@Override
+	public void initStats() {
+		super.initStats();
+
+		this.stats.put("inv_time", 1f);
 	}
 
 	public Player() {
@@ -496,9 +499,6 @@ public class Player extends Creature {
 			}
 		}
 
-		this.dashT = Math.max(0, this.dashT - dt);
-		this.dashTimeout = Math.max(0, this.dashTimeout - dt);
-
 		if (Dungeon.level != null) {
 			//Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
 			//Room room = Dungeon.level.findRoomFor(this.x, this.y);
@@ -671,42 +671,6 @@ public class Player extends Creature {
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
-
-		if (this.lastDashT != 0 && this.dashT == 0) {
-			this.vel.mul(0.5f);
-			this.dashTimeout = 3f;
-
-			Tween.to(new Tween.Task(0.8f, 0.05f) {
-				@Override
-				public float getValue() {
-					return sx;
-				}
-
-				@Override
-				public void setValue(float value) {
-					sx = value;
-				}
-
-				@Override
-				public void onEnd() {
-					super.onEnd();
-
-					Tween.to(new Tween.Task(1f, 0.05f) {
-						@Override
-						public float getValue() {
-							return sx;
-						}
-
-						@Override
-						public void setValue(float value) {
-							sx = value;
-						}
-					});
-				}
-			});
-		}
-
-		this.lastDashT = this.dashT;
 	}
 
 	public float getLightSize() {
