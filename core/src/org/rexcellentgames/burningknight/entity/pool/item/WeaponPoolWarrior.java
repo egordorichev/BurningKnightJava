@@ -1,24 +1,11 @@
 package org.rexcellentgames.burningknight.entity.pool.item;
 
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.reference.BlueBoomerang;
 import org.rexcellentgames.burningknight.entity.item.reference.GravelordSword;
-import org.rexcellentgames.burningknight.entity.item.reference.IsaacHead;
-import org.rexcellentgames.burningknight.entity.item.reference.StarCannon;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowC;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.BackGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.MachineGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.TripleMachineGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.*;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherB;
@@ -39,55 +26,10 @@ import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB;
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
-public class ShopWeaponPool extends Pool<Item> {
-	public static ShopWeaponPool instance = new ShopWeaponPool();
+public class WeaponPoolWarrior extends Pool<Item> {
+	public static WeaponPoolWarrior instance = new WeaponPoolWarrior();
 
-	public ShopWeaponPool() {
-		switch (Player.instance.getType()) {
-			case WARRIOR: addWarrior(); break;
-			case WIZARD: addMagic(); break;
-			case RANGER: addRanger(); break;
-		}
-	}
-
-	private void addRanger() {
-		add(BowA.class, 1f);
-		add(BowB.class, 1f);
-		add(BowC.class, 1f);
-		add(AxeA.class, 1f);
-		add(AxeB.class, 1f);
-		add(AxeC.class, 1f);
-		add(AxeD.class, 1f);
-		add(MeetboyAxe.class, 1f);
-		add(BlueBoomerang.class, 1f);
-		add(Revolver.class, 1f);
-		add(MachineGun.class, 1f);
-		add(TripleMachineGun.class, 1f);
-		add(BackGun.class, 1f);
-		add(IsaacHead.class, 1f);
-		add(StarCannon.class, 1f);
-		add(ThrowingDaggerA.class, 1f);
-		add(ThrowingDaggerB.class, 1f);
-		add(ThrowingDaggerC.class, 1f);
-	}
-
-	private void addMagic() {
-		add(HomingBook.class, 1f);
-		add(Firebolt.class, 1f);
-		add(Waterbolt.class, 1f);
-		add(PoisonWand.class, 1f);
-		add(FireWand.class, 1f);
-		add(IceWand.class, 1f);
-		add(MagicMissileWand.class, 1f);
-		add(TripleShotBook.class, 1f);
-		add(MagicWallBook.class, 1f);
-		add(SlowBook.class, 1f);
-		add(FastBook.class, 1f);
-		add(CrazyBook.class, 0.5f);
-		add(SuperCrazyBook.class, 0.2f);
-	}
-
-	private void addWarrior() {
+	public WeaponPoolWarrior() {
 		add(SwordA.class, 1f);
 		add(SwordB.class, 1f);
 		add(SwordC.class, 1f);

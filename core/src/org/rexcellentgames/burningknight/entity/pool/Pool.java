@@ -20,7 +20,7 @@ public class Pool<T> {
 		return null;
 	}
 
-	protected void add(Class<? extends T> type, float chance) {
+	public void add(Class<? extends T> type, float chance) {
 		classes.add(type);
 		chances.add(chance);
 	}

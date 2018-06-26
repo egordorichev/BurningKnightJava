@@ -1,5 +1,6 @@
 item:equipable("black_heart", {
 	sprite = "item-gold_shovel",
+	pool = "accessory_all",
 
 	on_equip = function(self, owner)
 		self:set("hurt_callback", owner:registerCallback("on_hurt", function(owner)

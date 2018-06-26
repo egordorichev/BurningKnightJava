@@ -1,36 +1,22 @@
 package org.rexcellentgames.burningknight.entity.pool.item;
 
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Compass;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
-import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart;
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple;
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread;
-import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle;
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo;
 import org.rexcellentgames.burningknight.entity.item.pet.LibGDX;
 import org.rexcellentgames.burningknight.entity.item.pet.Pico8;
 import org.rexcellentgames.burningknight.entity.item.pet.StrawberryPet;
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*;
 import org.rexcellentgames.burningknight.entity.item.reference.*;
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.ManaKnife;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
-public class AccessoryPool extends Pool<Item> {
-	public static AccessoryPool instance = new AccessoryPool();
+public class AccessoryPoolAll extends Pool<Item> {
+	public static AccessoryPoolAll instance = new AccessoryPoolAll();
 
-	public AccessoryPool() {
-		switch (Player.instance.getType()) {
-			case WARRIOR: addWarrior(); break;
-			case WIZARD: addMagic(); break;
-			case RANGER: addRanger(); break;
-		}
-
-		addAll();
-	}
-
-	public void addAll() {
+	public AccessoryPoolAll() {
 		add(FireFlower.class, 0.3f);
 		add(StrawberryPet.class, 0.1f);
 		add(Pico8.class, 0.1f);
@@ -90,35 +76,5 @@ public class AccessoryPool extends Pool<Item> {
 		add(ClockHeart.class, 1f);
 		add(Apple.class, 1f);
 		add(Bread.class, 1f);
-	}
-
-	public void addWarrior() {
-		add(StopAndPlay.class, 1f);
-	}
-
-	public void addMagic() {
-		add(ManaRing.class, 1f);
-		add(ManaBottle.class, 1f);
-		add(ManaHeart.class, 1f);
-		add(ManaKnife.class, 1f);
-
-		add(BlueBomb.class, 1f);
-		add(BlueBook.class, 1f);
-		add(GreenBook.class, 1f);
-		add(RedBook.class, 1f);
-		add(YellowBook.class, 1f);
-		add(FlyingStar.class, 1f);
-		add(ManaShield.class, 1f);
-		add(ManaBoots.class, 1f);
-		add(ArcaneBattery.class, 1f);
-		add(BlueCoin.class, 1f);
-		add(BlueHeart.class, 1f);
-		add(ManaInABottle.class, 2f);
-	}
-
-	public void addRanger() {
-		add(LaserAim.class, 1f);
-		add(Aim.class, 1f);
-		add(CursedAim.class, 1f);
 	}
 }
