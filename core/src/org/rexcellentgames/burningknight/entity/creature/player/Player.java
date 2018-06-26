@@ -42,7 +42,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -538,12 +537,7 @@ public class Player extends Creature {
 				this.room = room;*/
 
 				for (int x = this.room.left; x <= this.room.right; x++) {
-					for (int y = this.room.top + 1; y <= this.room.bottom; y++) {
-						if ((x == this.room.left || x == this.room.right || y == this.room.top || y == this.room.bottom
-							) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
-							Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
-						}
-
+					for (int y = this.room.top; y <= this.room.bottom; y++) {
 						Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
 					}
 				}

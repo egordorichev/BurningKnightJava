@@ -202,9 +202,7 @@ public class Creature extends SaveableEntity {
 
 		if (room != this.room) {
 			this.room = room;
-
-		} else {
-			this.room = room;
+			this.triggerEvent("on_room_change");
 		}
 
 		super.update(dt);
