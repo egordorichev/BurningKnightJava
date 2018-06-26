@@ -278,7 +278,8 @@ public class Gun extends WeaponBase {
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
 
-			float s = this.vel * 60f;
+			// todo: make the bullet be right at the hole
+			float s = this.vel; // * 60f;
 
 			bullet.vel = new Point(
 				(float) Math.cos(an) * s, (float) Math.sin(an) * s
