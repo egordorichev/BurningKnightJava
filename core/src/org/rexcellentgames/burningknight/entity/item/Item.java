@@ -39,7 +39,7 @@ public class Item extends Entity {
   protected boolean fly = false;
   protected String useSpeedStr;
 
-  protected Item() {
+  public Item() {
 
   }
   
@@ -115,6 +115,7 @@ public class Item extends Entity {
 
   public void use() {
     this.delay = this.useTime;
+    triggerEvent("use");
   }
 
   public void secondUse() {
@@ -138,13 +139,16 @@ public class Item extends Entity {
   }
 
   public TextureRegion getSprite() {
-    if (this.region == null) {
-      this.region = Graphics.getTexture(this.sprite);
+  	if (this.region == null) {
+      if (this.modId != null) {
+      	this.region = Graphics.getModTexture(this.modId, this.sprite); // Graphics.getTexture(this.sprite);
+      } else {
+      	this.region = Graphics.getTexture(this.sprite);
+		  }
 
       if (this.region == null) {
         Log.error("Invalid item sprite " + this.getClass().getSimpleName());
-        
-        return missing;
+        this.region = missing;
       }
     }
 
@@ -241,5 +245,22 @@ public class Item extends Entity {
   public void initFromMod(String modId, String name, LuaTable args) {
   	this.modId = modId;
   	this.name = Locale.get(name);
+  	this.description = Locale.get(modId + ":" + name + "_desc");
+
+  	LuaValue val = args.get("sprite");
+
+	  if (val == LuaValue.NIL) {
+	  	this.sprite = "item-$name";
+	  } else {
+		  this.sprite = val.toString();
+	  }
+
+	  this.getSprite();
+
+	  registerEvents(args);
+  }
+
+  protected void registerEvents(LuaTable args) {
+	  registerEvent("use", args);
   }
 }

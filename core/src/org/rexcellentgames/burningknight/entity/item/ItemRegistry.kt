@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.item.consumable.spell.SpellOfTel
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
 import org.rexcellentgames.burningknight.entity.item.key.KeyC
-import org.rexcellentgames.burningknight.entity.item.mod.ModItem
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo
 import org.rexcellentgames.burningknight.entity.item.pet.LibGDX
 import org.rexcellentgames.burningknight.entity.item.pet.Pico8
@@ -34,9 +33,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.ManaKnife
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.*
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletB
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletC
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun
 import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.*
@@ -274,5 +270,5 @@ object ItemRegistry {
 	  "ball" to Ball::class.java
   )
 
-  val modItems = mutableMapOf<String, ModItem>()
+  val modItems = mutableMapOf<String, Item>()
 }

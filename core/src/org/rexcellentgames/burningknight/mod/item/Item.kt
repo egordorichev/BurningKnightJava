@@ -2,7 +2,8 @@ package org.rexcellentgames.burningknight.mod.item
 
 import org.luaj.vm2.LuaTable
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry
-import org.rexcellentgames.burningknight.entity.item.mod.ModItem
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable
+import org.rexcellentgames.burningknight.entity.item.weapon.Weapon
 
 class Item(private val modId: String) {
   fun create(name: String, args: LuaTable) {
@@ -18,10 +19,15 @@ class Item(private val modId: String) {
   }
   
   private fun register(name: String, args: LuaTable, type: ItemType) {
-    ItemRegistry.modItems["$modId:$name"] = when (type) {
-      ItemType.ITEM -> ModItem(modId, name, args)
-      ItemType.EQUIPABLE -> ModItem(modId, name, args)
-      ItemType.WEAPON -> ModItem(modId, name, args)
-    }
+    var item: org.rexcellentgames.burningknight.entity.item.Item? = null
+
+	  when (type) {
+			ItemType.ITEM -> item = org.rexcellentgames.burningknight.entity.item.Item()
+			ItemType.EQUIPABLE -> item = Equipable()
+			ItemType.WEAPON -> item = Weapon()
+		}
+
+    item.initFromMod(modId, name, args)
+    ItemRegistry.modItems["$modId:$name"] = item
   }
 }
