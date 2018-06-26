@@ -131,6 +131,7 @@ public class Player extends Creature {
 	private float sx = 1f;
 	private float sy = 1f;
 	private ArrayList<ItemHolder> holders = new ArrayList<>();
+	public float accuracy;
 
 	{
 		hpMax = 8;

@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Shotgun extends Gun {
 	{
-		accuracy = 20;
+		setAccuracy(20);
 		useTime = 3f;
 		damage = 3;
 	}
@@ -18,7 +18,7 @@ public class Shotgun extends Gun {
 
 		for (int i = 0; i < 3; i++) {
 			float a = (float) (an - Math.PI * 2);
-			this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy))));
+			this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.getAccuracy(), this.getAccuracy()))));
 		}
 	}
 }

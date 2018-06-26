@@ -24,7 +24,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Gun extends WeaponBase {
-	protected float accuracy = 10f;
+	private float accuracy = 10f;
 	protected float sx = 1f;
 	protected float sy = 1f;
 	protected float vel = 6f;
@@ -233,7 +233,7 @@ public class Gun extends WeaponBase {
 		Point aim = this.owner.getAim();
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
-		this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy))));
+		this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.getAccuracy(), this.getAccuracy()))));
 	}
 
 	protected void sendBullet(float an) {
@@ -246,7 +246,6 @@ public class Gun extends WeaponBase {
 	}
 
 	protected void sendBullet(float an, float xx, float yy, BulletProjectile bullet) {
-		TextureRegion sprite = this.getSprite();
 		float a = (float) Math.toDegrees(an);
 
 		try {
@@ -278,5 +277,13 @@ public class Gun extends WeaponBase {
 		} catch (IllegalAccessException | InstantiationException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public float getAccuracy() {
+		return Math.max(0, accuracy - (this.owner instanceof Player ? ((Player) this.owner).accuracy : 0));
+	}
+
+	public void setAccuracy(float accuracy) {
+		this.accuracy = accuracy;
 	}
 }

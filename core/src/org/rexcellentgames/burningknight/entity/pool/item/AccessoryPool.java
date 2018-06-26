@@ -88,7 +88,7 @@ public class AccessoryPool extends Pool<Item> {
 		add(DefenseEmblem.class, 1f);
 		add(BlackHeart.class, 1f);
 		add(ClockHeart.class, 1f);
-		add(Apple.class, 2f);
+		add(Apple.class, 1f);
 		add(Bread.class, 1f);
 	}
 
@@ -118,5 +118,6 @@ public class AccessoryPool extends Pool<Item> {
 
 	public void addRanger() {
 		add(LaserAim.class, 1f);
+		add(Aim.class, 1f);
 	}
 }

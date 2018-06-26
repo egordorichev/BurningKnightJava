@@ -9,7 +9,7 @@ public class StarCannon extends Gun {
 		sprite = "item-star_cannon";
 		damage = 4;
 		ammo = Star.class;
-		accuracy = 1f;
+		setAccuracy(1f);
 		penetrates = true;
 		name = Locale.get("star_cannon");
 		description = Locale.get("star_cannon_desc");
