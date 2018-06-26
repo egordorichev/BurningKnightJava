@@ -40,7 +40,7 @@ class Mod(val name: String, val id: String, val description: String, val author:
       initCallback.call()
     }
 
-    val apiCode = "item = luajava.newInstance(\"${Item::class.qualifiedName}\", \"$id\")"
+    val apiCode = "item = luajava.newInstance(\"${Item::class.qualifiedName}\", \"$id\")\ngame = luajava.newInstance(\"${Game::class.qualifiedName}\", \"$id\")"
 
     globals.load(apiCode).call()
 

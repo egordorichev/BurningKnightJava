@@ -3,6 +3,7 @@ item:consumable("bread", {
 
 	use = function(self, owner)
 		owner:heal()
+		game:slowmo(0.5, 2.5)
 	end,
 
 	can_use = function(self, owner)
