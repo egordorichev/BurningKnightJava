@@ -119,5 +119,6 @@ public class AccessoryPool extends Pool<Item> {
 	public void addRanger() {
 		add(LaserAim.class, 1f);
 		add(Aim.class, 1f);
+		add(CursedAim.class, 1f);
 	}
 }

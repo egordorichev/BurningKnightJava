@@ -489,5 +489,9 @@
 	"mana_in_a_bottle" : "Mana in a bottle",
 	"mana_in_a_bottle_desc" : "Take this",
 	"bread" : "Bread",
-	"bread_desc" : "No GMO"
+	"bread_desc" : "No GMO",
+	"cursed_aim" : "Cursed aim",
+	"cursed_aim_desc" : "Is it worth it?",
+	"aim" : "Aim",
+	"aim_desc" : "Better accuracy"
 }

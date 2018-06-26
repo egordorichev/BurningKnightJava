@@ -271,7 +271,8 @@ object ItemRegistry {
     "mana_bottle" to ManaInABottle::class,
     "bread" to Bread::class,
     "mana_emblem" to ManaEmblem::class,
-    "aim" to Aim::class
+    "aim" to Aim::class,
+    "cursed_aim" to CursedAim::class
   )
 
   val modItems = mutableMapOf<String, ModItem>()

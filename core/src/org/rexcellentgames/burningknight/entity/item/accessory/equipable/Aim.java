@@ -6,7 +6,7 @@ public class Aim extends Equipable {
 	{
 		name = Locale.get("aim");
 		description = Locale.get("aim_desc");
-		sprite = "item-laser_pointer";
+		sprite = "item-aim";
 	}
 
 	@Override
