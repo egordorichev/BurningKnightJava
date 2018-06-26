@@ -105,9 +105,10 @@ public class Weapon extends WeaponBase {
 			float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
 			float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
 			double a = Math.atan2(dy, dx);
+			float knockbackMod = creature.getStat("knockback");
 
-			creature.vel.x += Math.cos(a) * this.knockback * 50 * creature.knockbackMod;
-			creature.vel.y += Math.sin(a) * this.knockback * 50 * creature.knockbackMod;
+			creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
+			creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
 
 			if (this.isBlocking()) {
 				return;
@@ -146,9 +147,10 @@ public class Weapon extends WeaponBase {
 				float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
 				float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
 				double a = Math.atan2(dy, dx);
+				float knockbackMod = creature.getStat("knockback");
 
-				creature.vel.x += Math.cos(a) * this.knockback * 50 * creature.knockbackMod;
-				creature.vel.y += Math.sin(a) * this.knockback * 50 * creature.knockbackMod;
+				creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
+				creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
 			}
 		}
 	}
@@ -161,9 +163,11 @@ public class Weapon extends WeaponBase {
 		builder.append(this.damage);
 		builder.append(" damage[gray]");
 
-		if (this.critChance + this.owner.critChance != 4f) {
+		float stat = this.owner.getStat("crit_chance") * 10;
+
+		if (this.critChance + stat != 4f) {
 			builder.append("\n[orange]");
-			builder.append((int) Math.floor(this.critChance + this.owner.critChance));
+			builder.append((int) Math.floor(this.critChance + stat));
 			builder.append("% crit chance[gray]");
 		}
 

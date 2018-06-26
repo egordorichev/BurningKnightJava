@@ -326,7 +326,7 @@ public class Creature extends SaveableEntity {
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
 			return null;
-		} else if ((Random.chance(this.getStat("block_chance")) || this.rollBlock()) && !ignoreArmor) {
+		} else if ((Random.chance(this.getStat("block_chance") * 10) || this.rollBlock()) && !ignoreArmor) {
 			HpFx fx = new HpFx(this, 0);
 			fx.block = true;
 			Dungeon.area.add(fx);
@@ -621,7 +621,12 @@ public class Creature extends SaveableEntity {
 		stats.put("damage", 1f);
 		stats.put("speed", 1f);
 		stats.put("knockback", 1f);
-		stats.put("block_chance", 4f);
+		stats.put("block_chance", 0.1f);
 		stats.put("inv_max", 0.4f);
+		stats.put("crit_chance", 0.04f);
+	}
+
+	public void setStat(String name, float val) {
+		stats.put(name, val);
 	}
 }

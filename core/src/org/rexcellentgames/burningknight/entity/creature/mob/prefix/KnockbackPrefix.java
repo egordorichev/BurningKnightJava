@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.creature.mob.prefix;
 
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 
 public class KnockbackPrefix extends Prefix {
 	private static Color color = Color.valueOf("#ffff00");
@@ -15,6 +14,6 @@ public class KnockbackPrefix extends Prefix {
 	@Override
 	public void apply(Mob mob) {
 		super.apply(mob);
-		mob.knockbackMod += 1f;
+		mob.setStat("knockback", 1);
 	}
 }

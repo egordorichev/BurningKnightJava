@@ -7,7 +7,7 @@ class IsaacHead : Gun() {
   init {
     ammo = Tear::class.java
     textureA = 90f
-    ox = 9
+    origin.x = 9f
     vel = 2f
   }
 

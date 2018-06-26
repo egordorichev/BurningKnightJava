@@ -33,7 +33,6 @@ public class Thief extends Mob {
 
 	{
 		hpMax = 1;
-		blockChance = 20;
 		w = 15;
 
 		idle = getAnimation().get("idle").randomize();
@@ -41,6 +40,12 @@ public class Thief extends Mob {
 		hurt = getAnimation().get("hurt").randomize();
 		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
+	}
+
+	@Override
+	public void initStats() {
+		super.initStats();
+		this.setStat("block_chance", 0.2f);
 	}
 
 	protected Item stolen;
@@ -136,13 +141,13 @@ public class Thief extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			self.blockChance = 10;
+			self.setStat("block_chance", 0.1f);
 		}
 
 		@Override
 		public void onExit() {
 			super.onExit();
-			self.blockChance = 20;
+			self.setStat("block_chance", 0.2f);
 		}
 
 		@Override
@@ -225,13 +230,13 @@ public class Thief extends Mob {
 			super.onEnter();
 
 			delay = Random.newFloat(2f, 5f);
-			self.blockChance = 10;
+			self.setStat("block_chance", 0.1f);
 		}
 
 		@Override
 		public void onExit() {
 			super.onExit();
-			self.blockChance = 20;
+			self.setStat("block_chance", 0.2f);
 		}
 
 		@Override

@@ -20,7 +20,7 @@ public class LaserGun extends Revolver {
 
 		double an = this.owner.getAngleTo(this.owner.getAim().x, this.owner.getAim().y);
 
-		laser.x = (float) (x + px * Math.cos(an) - this.ox);
+		laser.x = (float) (x + px * Math.cos(an) - this.origin.x);
 		laser.y = (float) (y + px * Math.sin(an));
 
 		laser.a = (float) Math.toDegrees(an - Math.PI / 2);

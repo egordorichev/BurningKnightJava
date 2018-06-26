@@ -40,8 +40,10 @@ public class Bow extends WeaponBase {
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
 		float s = 60f;
 
-		this.owner.vel.x += Math.cos(a) * s * owner.knockbackMod;
-		this.owner.vel.y += Math.sin(a) * s * owner.knockbackMod;
+		float knockbackMod = owner.getStat("knockback");
+
+		this.owner.vel.x += Math.cos(a) * s * knockbackMod;
+		this.owner.vel.y += Math.sin(a) * s * knockbackMod;
 
 		ArrowProjectile arrow = new ArrowProjectile();
 

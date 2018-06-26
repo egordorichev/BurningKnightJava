@@ -31,13 +31,18 @@ public class Knight extends Mob {
 	{
 		hpMax = 5;
 		speed = 5;
-		blockChance = 30;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();
 		hurt = getAnimation().get("hurt").randomize();
 		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
+	}
+
+	@Override
+	public void initStats() {
+		super.initStats();
+		this.setStat("block_chance", 0.3f);
 	}
 
 	@Override

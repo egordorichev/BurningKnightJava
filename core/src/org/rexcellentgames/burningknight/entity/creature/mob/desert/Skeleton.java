@@ -233,8 +233,8 @@ public class Skeleton extends Mob {
 			self.ignoreRooms = true;
 			self.killed.setFrame(0);
 			self.killed.setPaused(false);
-			self.okm = self.knockbackMod;
-			self.knockbackMod = 0;
+			self.okm = self.getStat("knockback");
+			self.setStat("knockback", 0);
 			delay = Random.newFloat(20f, 30f);
 			self.setUnhittable(true);
 		}
@@ -242,7 +242,7 @@ public class Skeleton extends Mob {
 		@Override
 		public void onExit() {
 			super.onExit();
-			self.knockbackMod = self.okm;
+			self.setStat("knockback", self.okm);
 			self.ignoreRooms = false;
 			self.setUnhittable(false);
 		}
@@ -263,15 +263,15 @@ public class Skeleton extends Mob {
 			super.onEnter();
 			self.killed.setFrame(0);
 			self.killed.setPaused(false);
-			self.okm = self.knockbackMod;
-			self.knockbackMod = 0;
+			self.okm = self.getStat("knockback");
+			self.setStat("knockback", 0);
 			self.setUnhittable(true);
 		}
 
 		@Override
 		public void onExit() {
 			super.onExit();
-			self.knockbackMod = self.okm;
+			self.setStat("knockback", self.okm);
 			self.setUnhittable(false);
 		}
 

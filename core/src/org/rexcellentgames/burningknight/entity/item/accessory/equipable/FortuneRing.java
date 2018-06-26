@@ -12,12 +12,12 @@ public class FortuneRing extends Equipable {
 	@Override
 	public void onEquip() {
 		super.onEquip();
-		this.owner.critChance += 10f;
+		this.owner.modifyStat("crit_chance", 0.1f);
 	}
 
 	@Override
 	public void onUnequip() {
 		super.onUnequip();
-		this.owner.critChance -= 10f;
+		this.owner.modifyStat("crit_chance", -0.1f);
 	}
 }
