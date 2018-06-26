@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.creature.mob.prefix;
 
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 
 public class MoreInvTimePrefix extends Prefix {
 	private static Color color = Color.valueOf("#ffffff");
@@ -15,6 +14,6 @@ public class MoreInvTimePrefix extends Prefix {
 	@Override
 	public void apply(Mob mob) {
 		super.apply(mob);
-		mob.invmax += 0.4f;
+		mob.modifyStat("inv_time", 0.4f);
 	}
 }

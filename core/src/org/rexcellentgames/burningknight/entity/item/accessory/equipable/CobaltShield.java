@@ -14,18 +14,12 @@ public class CobaltShield extends Equipable {
 	@Override
 	public void onEquip() {
 		super.onEquip();
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).knockbackMod = 0;
-		}
+		this.owner.modifyStat("knockback", -1);
 	}
 
 	@Override
 	public void onUnequip() {
 		super.onUnequip();
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).knockbackMod = 1;
-		}
+		this.owner.modifyStat("knockback", 1);
 	}
 }

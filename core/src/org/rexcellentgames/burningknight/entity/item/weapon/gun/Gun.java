@@ -113,8 +113,13 @@ public class Gun extends WeaponBase {
 
 		float px = this.tw;
 
-		float xx = (float) (x + px * Math.cos(an) - this.ox);
-		float yy = (float) (y + px * Math.sin(an));
+		float xx = (float) (x + (this.tw + this.origin.x) * Math.cos(an) - this.origin.x);
+		float yy = (float) (y + (this.th + this.origin.y) * Math.sin(an) - this.origin.y);
+
+		Graphics.startShape();
+		Graphics.shape.circle(x + xx, y + yy, 3);
+		Graphics.shape.circle(x - origin.x, y - origin.y, 3);
+		Graphics.endShape();
 
 		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
@@ -265,7 +270,7 @@ public class Gun extends WeaponBase {
 
 			float px = this.tw;
 
-			bullet.x = (float) (x + px * Math.cos(an) - this.ox);
+			bullet.x = (float) (x + px * Math.cos(an) - this.origin.x);
 			bullet.y = (float) (y + px * Math.sin(an));
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;

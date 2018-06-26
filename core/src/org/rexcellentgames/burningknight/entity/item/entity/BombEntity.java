@@ -102,8 +102,9 @@ public class BombEntity extends Entity {
 
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
-						creature.vel.x += Math.cos(a) * 5000f * creature.knockbackMod;
-						creature.vel.y += Math.sin(a) * 5000f * creature.knockbackMod;
+						float knockbackMod = creature.getStat("knockback");
+						creature.vel.x += Math.cos(a) * 5000f * knockbackMod;
+						creature.vel.y += Math.sin(a) * 5000f * knockbackMod;
 
 						try {
 							for (Buff buff : toApply) {

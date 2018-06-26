@@ -62,7 +62,7 @@ public class WeaponBase extends Item {
 			minDamage = Math.round(((float) damage) / 3 * 2);
 		}
 
-		lastCrit = Random.chance(this.critChance + this.owner.critChance);
+		lastCrit = Random.chance(this.critChance + this.owner.getStat("crit_chance") * 10);
 		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
 	}
 

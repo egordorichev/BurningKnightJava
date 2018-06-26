@@ -32,7 +32,6 @@ public class Clown extends Mob {
 	}
 
 	{
-		blockChance = 70;
 		hpMax = 1;
 
 		idle = getAnimation().get("idle").randomize();
@@ -40,6 +39,12 @@ public class Clown extends Mob {
 		hurt = getAnimation().get("hurt").randomize();
 		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
+	}
+
+	@Override
+	public void initStats() {
+		super.initStats();
+		this.setStat("blockChance", 0.7f);
 	}
 
 	@Override
