@@ -5,7 +5,6 @@ import org.rexcellentgames.burningknight.entity.item.Item
 import org.rexcellentgames.burningknight.entity.item.ItemHolder
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry
 import org.rexcellentgames.burningknight.util.Log
-import kotlin.reflect.full.createInstance
 
 class GiveCommand : ConsoleCommand("/give", "/gv", "item] (count) gives an item") {
   override fun run(console: Console, args: Array<String>) {
@@ -26,12 +25,12 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "item] (count) gives an item"
           val clazz = ItemRegistry.items[name]
 
           if (clazz == null) {
-            Log.error("[Unknown item")
+            Log.error("Unknown item " + name)
 
             return
           }
 
-          clazz.createInstance()
+          clazz.newInstance()
         }
         
         val itemHolder = ItemHolder()

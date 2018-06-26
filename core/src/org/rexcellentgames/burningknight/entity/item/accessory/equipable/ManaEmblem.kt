@@ -7,7 +7,7 @@ class ManaEmblem : Equipable() {
   init {
     name = Locale.get("mana_emblem")
     description = Locale.get("mana_emblem_desc")
-    // Add sprite
+    sprite = "item-mana-emblem"
   }
 
   override fun onEquip() {

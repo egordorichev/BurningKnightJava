@@ -1,8 +1,8 @@
 package org.rexcellentgames.burningknight.entity.level.entities.chest;
 
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunB;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunC;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.MachineGun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.TripleMachineGun;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Compass;
 import org.rexcellentgames.burningknight.entity.item.Gold;
@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.SkullHat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.ValkyreHat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeA;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeB;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeC;
@@ -19,8 +18,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunB;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunC;
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherB;
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
@@ -50,9 +47,9 @@ public class IronChest extends Chest {
 	@SuppressWarnings("unchecked")
 	private static ArrayList<Class<? extends Item>>[] items = new ArrayList[] {
 		new ArrayList(Collections.singletonList(Gold.class)),
-		new ArrayList(Arrays.asList(SwordA.class, DaggerB.class, SwordB.class, AxeA.class, ButcherA.class, MorningStarA.class, Compass.class, ButcherB.class, MorningStarB.class, GunB.class, HealingPotion.class, BowA.class, VikingHat.class, RocketLauncherB.class)),
-		new ArrayList(Arrays.asList(SwordB.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, AxeC.class, ButcherC.class, MorningStarC.class, GunC.class, HealingPotion.class, BowB.class, ValkyreHat.class, RocketLauncherC.class)),
-		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, GunC.class, HealingPotion.class, BowB.class, SkullHat.class, RocketLauncherC.class)),
+		new ArrayList(Arrays.asList(SwordA.class, DaggerB.class, SwordB.class, AxeA.class, ButcherA.class, MorningStarA.class, Compass.class, ButcherB.class, MorningStarB.class, MachineGun.class, HealingPotion.class, BowA.class, VikingHat.class, RocketLauncherB.class)),
+		new ArrayList(Arrays.asList(SwordB.class, DaggerC.class, SwordC.class, AxeB.class, ButcherB.class, MorningStarB.class, Compass.class, AxeC.class, ButcherC.class, MorningStarC.class, TripleMachineGun.class, HealingPotion.class, BowB.class, ValkyreHat.class, RocketLauncherC.class)),
+		new ArrayList(Arrays.asList(AxeD.class, SwordC.class, AxeC.class, ButcherC.class, MorningStarC.class, Compass.class, TripleMachineGun.class, HealingPotion.class, BowB.class, SkullHat.class, RocketLauncherC.class)),
 		new ArrayList(Arrays.asList(AxeD.class, Compass.class))
 	};
 

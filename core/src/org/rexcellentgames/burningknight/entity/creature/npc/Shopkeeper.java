@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.ShotgunA;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -141,7 +141,7 @@ public class Shopkeeper extends Npc {
 
 			enranged = true;
 
-			self.shotgun = new ShotgunA();
+			self.shotgun = new BronzeShotgun();
 			self.shotgun.modifyUseTime(2f);
 			self.shotgun.setOwner(self);
 		}

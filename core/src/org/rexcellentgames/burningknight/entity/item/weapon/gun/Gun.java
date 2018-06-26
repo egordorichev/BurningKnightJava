@@ -5,22 +5,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Gun extends WeaponBase {
@@ -46,27 +47,33 @@ public class Gun extends WeaponBase {
 	private float lastAngle;
 
 	private float closestFraction = 1.0f;
+	
+	protected Gun() {
+	  String unlocalizedName = Utils.INSTANCE.pascalCaseToSnakeCase(getClass().getSimpleName());
+	  
+	  this.name = Locale.get(unlocalizedName);
+	  this.description = Locale.get(unlocalizedName + "_desc");
+	  this.sprite = "item-" + unlocalizedName;
 
-	private RayCastCallback callback = new RayCastCallback() {
-		@Override
-		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-			if (fixture.isSensor()) {
-				return 1;
-			}
-
-			Entity entity = (Entity) fixture.getBody().getUserData();
-
-			if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
-				if (fraction < closestFraction) {
-					closestFraction = fraction;
-					last = point;
-				}
-
-				return fraction;
-			}
-
+  }
+	
+	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
+		if (fixture.isSensor()) {
 			return 1;
 		}
+
+		Entity entity = (Entity) fixture.getBody().getUserData();
+
+		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+			if (fraction < closestFraction) {
+				closestFraction = fraction;
+				last = point;
+			}
+
+			return fraction;
+		}
+
+		return 1;
 	};
 
 	public static float shortAngleDist(float a0, float a1) {

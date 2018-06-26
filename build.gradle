@@ -58,10 +58,10 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        compile "com.rafaskoberg.gdx:typing-label:1.0.4"
+        compile 'com.rafaskoberg.gdx:typing-label:1.0.4'
         compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-        compile "com.code-disaster.steamworks4j:steamworks4j:1.7.0"
-        compile "com.code-disaster.steamworks4j:steamworks4j-server:1.7.0"
+        compile 'com.code-disaster.steamworks4j:steamworks4j:1.7.0'
+        compile 'com.code-disaster.steamworks4j:steamworks4j-server:1.7.0'
         compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
         compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
         compile group: 'commons-io', name: 'commons-io', version: '2.4'

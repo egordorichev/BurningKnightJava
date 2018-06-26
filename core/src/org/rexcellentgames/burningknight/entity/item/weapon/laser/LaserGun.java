@@ -1,12 +1,10 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.laser;
 
 import org.rexcellentgames.burningknight.entity.fx.Laser;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.fx.Laser;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.GunA;
 
-public class LaserGun extends GunA {
+public class LaserGun extends Revolver {
 	{
 		useTime = 1f;
 		damage = 10;
