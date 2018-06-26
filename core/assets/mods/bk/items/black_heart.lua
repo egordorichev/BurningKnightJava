@@ -1,5 +1,5 @@
 item:equipable("black_heart", {
-	sprite = "item-gold_shovel",
+	sprite = "item-black_heart",
 	pool = "accessory_all",
 
 	on_equip = function(self, owner)

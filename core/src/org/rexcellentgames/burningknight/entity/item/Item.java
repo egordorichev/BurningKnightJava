@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.pool.item.AccessoryPoolAll;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -147,7 +146,11 @@ public class Item extends Entity {
   public TextureRegion getSprite() {
   	if (this.region == null) {
       if (this.modId != null) {
-      	this.region = Graphics.getModTexture(this.modId, this.sprite); // Graphics.getTexture(this.sprite);
+      	this.region = Graphics.getModTexture(this.modId, this.sprite);
+
+        if (this.region == null) {
+	        this.region = Graphics.getTexture(this.sprite);
+        }
       } else {
       	this.region = Graphics.getTexture(this.sprite);
 		  }
@@ -252,8 +255,9 @@ public class Item extends Entity {
 
   public void initFromMod(String modId, String name, LuaTable args) {
   	this.modId = modId;
+
   	this.name = Locale.get(name);
-  	this.description = Locale.get(modId + ":" + name + "_desc");
+	  this.description = Locale.get(name + "_desc");
 
   	LuaValue val = args.get("sprite");
 

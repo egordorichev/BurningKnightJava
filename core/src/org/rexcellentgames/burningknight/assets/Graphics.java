@@ -142,13 +142,7 @@ public class Graphics {
 	}
 	
 	public static TextureRegion getModTexture(String modId, String name) {
-	  TextureRegion region = modSprites.get(modId).get(name);
-
-    if (region == null) {
-      return Item.missing;
-    }
-	  
-    return region;
+		return modSprites.get(modId).get(name);
   }
 
 	private static void generateFont(String path, int size) {

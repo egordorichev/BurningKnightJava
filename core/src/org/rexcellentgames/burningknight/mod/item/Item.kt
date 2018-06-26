@@ -15,6 +15,7 @@ class Item(private val modId: String) {
     register(name, args, ItemType.ITEM)
   }
 
+
   fun equipable(name: String, args: LuaTable) {
     register(name, args, ItemType.EQUIPABLE)
   }
