@@ -8,28 +8,28 @@ import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 
 public class LibraryLevel extends RegularLevel {
-	public LibraryLevel() {
-		Terrain.loadTextures(2);
-		this.uid = 2;
-	}
+  public LibraryLevel() {
+    Terrain.loadTextures(2);
+    this.uid = 2;
+  }
 
-	@Override
-	public String getName() {
-		return Locale.get("ancient_library");
-	}
+  @Override
+  public String getName() {
+    return Locale.get("ancient_library");
+  }
 
-	@Override
-	public String getMusic() {
-		return Dungeon.depth == 0 ? "Gobbeon" : "Believer";
-	}
+  @Override
+  public String getMusic() {
+    return Dungeon.depth == 0 ? "Gobbeon" : "Believer";
+  }
 
-	@Override
-	protected Painter getPainter() {
-		return new HallPainter().setGrass(0.35f).setWater(0);
-	}
+  @Override
+  protected Painter getPainter() {
+    return new HallPainter().setGrass(0.35f).setWater(0);
+  }
 
-	@Override
-	protected int getNumConnectionRooms() {
-		return 0;
-	}
+  @Override
+  protected int getNumConnectionRooms() {
+    return 0;
+  }
 }

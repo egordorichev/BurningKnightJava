@@ -11,118 +11,118 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Area {
-	private ArrayList<Entity> entities = new ArrayList<>();
-	private Comparator<Entity> comparator;
-	private boolean showWhenPaused;
+  private ArrayList<Entity> entities = new ArrayList<>();
+  private Comparator<Entity> comparator;
+  private boolean showWhenPaused;
 
-	public Area() {
-		this.comparator = new Comparator<Entity>() {
-			@Override
-			public int compare(Entity a, Entity b) {
-				// -1 - less than, 1 - greater than, 0 - equal
-				float ad = b.getDepth();
-				float bd = a.getDepth();
+  public Area() {
+    this.comparator = new Comparator<Entity>() {
+      @Override
+      public int compare(Entity a, Entity b) {
+        // -1 - less than, 1 - greater than, 0 - equal
+        float ad = b.getDepth();
+        float bd = a.getDepth();
 
-				if (ad == bd) {
-					ad = a.y;
-					bd = b.y;
-				}
+        if (ad == bd) {
+          ad = a.y;
+          bd = b.y;
+        }
 
-				return Float.compare(bd, ad);
-			}
-		};
-	}
-	
-	public Area(boolean showWhenPaused) {
-		this();
-		
-		this.showWhenPaused = showWhenPaused;
-	}
-	
-	public Entity add(Entity entity) {
-		this.entities.add(entity);
+        return Float.compare(bd, ad);
+      }
+    };
+  }
 
-		entity.setArea(this);
-		entity.init();
+  public Area(boolean showWhenPaused) {
+    this();
 
-		return entity;
-	}
+    this.showWhenPaused = showWhenPaused;
+  }
 
-	public void remove(Entity entity) {
-		this.entities.remove(entity);
-	}
+  public Entity add(Entity entity) {
+    this.entities.add(entity);
 
-	public void update(float dt) {
-		for (int i = this.entities.size() - 1; i >= 0; i--) {
-			Entity entity = this.entities.get(i);
+    entity.setArea(this);
+    entity.init();
 
-			if (!entity.isActive()) {
-				continue;
-			}
+    return entity;
+  }
 
-			entity.onScreen = entity.isOnScreen();
+  public void remove(Entity entity) {
+    this.entities.remove(entity);
+  }
 
-			if (entity.onScreen || entity.alwaysActive) {
-				entity.update(dt);
-			}
+  public void update(float dt) {
+    for (int i = this.entities.size() - 1; i >= 0; i--) {
+      Entity entity = this.entities.get(i);
 
-			if (entity.done) {
-				if (entity instanceof SaveableEntity) {
-					SaveableEntity saveableEntity = (SaveableEntity) entity;
-					LevelSave.remove(saveableEntity);
-				}
+      if (!entity.isActive()) {
+        continue;
+      }
 
-				entity.destroy();
-				this.entities.remove(i);
-			}
-		}
-	}
+      entity.onScreen = entity.isOnScreen();
 
-	public void render() {
-		if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
-			return;
-		}
+      if (entity.onScreen || entity.alwaysActive) {
+        entity.update(dt);
+      }
 
-		Collections.sort(this.entities, this.comparator);
+      if (entity.done) {
+        if (entity instanceof SaveableEntity) {
+          SaveableEntity saveableEntity = (SaveableEntity) entity;
+          LevelSave.remove(saveableEntity);
+        }
 
-		for (int i = 0; i < this.entities.size(); i++) {
-			Entity entity = this.entities.get(i);
-			
-			if (!entity.isActive()) {
-				continue;
-			}
+        entity.destroy();
+        this.entities.remove(i);
+      }
+    }
+  }
 
-			if (entity.onScreen || entity.alwaysRender) {
-				entity.render();
-			}
-		}
-	}
+  public void render() {
+    if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
+      return;
+    }
 
-	public Entity getRandomEntity(Class<? extends Entity> type) {
-		ArrayList<Entity> list = new ArrayList<>();
+    Collections.sort(this.entities, this.comparator);
 
-		for (Entity entity : this.entities) {
-			if (type.isInstance(entity)) {
-				list.add(entity);
-			}
-		}
+    for (int i = 0; i < this.entities.size(); i++) {
+      Entity entity = this.entities.get(i);
 
-		if (list.size() == 0) {
-			return null;
-		}
+      if (!entity.isActive()) {
+        continue;
+      }
 
-		return list.get(Random.newInt(list.size()));
-	}
+      if (entity.onScreen || entity.alwaysRender) {
+        entity.render();
+      }
+    }
+  }
 
-	public void destroy() {
-		for (int i = this.entities.size() - 1; i >= 0; i--) {
-			this.entities.get(i).destroy();
-		}
+  public Entity getRandomEntity(Class<? extends Entity> type) {
+    ArrayList<Entity> list = new ArrayList<>();
 
-		this.entities.clear();
-	}
+    for (Entity entity: this.entities) {
+      if (type.isInstance(entity)) {
+        list.add(entity);
+      }
+    }
 
-	public ArrayList<Entity> getEntities() {
-		return this.entities;
-	}
+    if (list.size() == 0) {
+      return null;
+    }
+
+    return list.get(Random.newInt(list.size()));
+  }
+
+  public void destroy() {
+    for (int i = this.entities.size() - 1; i >= 0; i--) {
+      this.entities.get(i).destroy();
+    }
+
+    this.entities.clear();
+  }
+
+  public ArrayList<Entity> getEntities() {
+    return this.entities;
+  }
 }

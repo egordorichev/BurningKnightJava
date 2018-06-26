@@ -20,165 +20,165 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.util.ArrayList;
 
 public class BombEntity extends Entity {
-	public static Animation animations = Animation.make("actor-bomb");
-	private AnimationData animation = animations.get("idle");
-	private Body body;
-	private Point vel;
-	public Creature owner;
-	private boolean flip = Random.chance(50);
-	public ArrayList<Buff> toApply = new ArrayList<>();
+  public static Animation animations = Animation.make("actor-bomb");
+  public Creature owner;
+  public ArrayList<Buff> toApply = new ArrayList<>();
+  private AnimationData animation = animations.get("idle");
+  private Body body;
+  private Point vel;
+  private boolean flip = Random.chance(50);
 
-	public BombEntity(float x, float y) {
-		this.x = x;
-		this.y = y;
-	}
+  public BombEntity(float x, float y) {
+    this.x = x;
+    this.y = y;
+  }
 
-	@Override
-	public void init() {
-		super.init();
+  public static void make(Room room) {
+    for (int x = room.left; x <= room.right; x++) {
+      for (int y = room.top; y <= room.bottom; y++) {
+        Dungeon.level.set(x, y, (byte) -Dungeon.level.data[Level.toIndex(x, y)]);
+      }
+    }
+  }
 
-		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
+  @Override
+  public void init() {
+    super.init();
 
-		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
-		}
+    this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
 
-		this.playSfx("bomb_placed");
-	}
+    if (this.body != null) {
+      this.body.setTransform(this.x, this.y, 0);
+    }
 
-	@Override
-	public void destroy() {
-		super.destroy();
-		this.body = World.removeBody(this.body);
-	}
+    this.playSfx("bomb_placed");
+  }
 
-	public BombEntity randomVel() {
-		float a = Random.newFloat((float) (Math.PI * 2));
-		this.vel = new Point((float) Math.cos(a) * 50f, (float) Math.sin(a) * 50f);
+  @Override
+  public void destroy() {
+    super.destroy();
+    this.body = World.removeBody(this.body);
+  }
 
-		this.x += Math.cos(a) * 5f;
-		this.y += Math.sin(a) * 5f;
+  public BombEntity randomVel() {
+    float a = Random.newFloat((float) (Math.PI * 2));
+    this.vel = new Point((float) Math.cos(a) * 50f, (float) Math.sin(a) * 50f);
 
-		return this;
-	}
+    this.x += Math.cos(a) * 5f;
+    this.y += Math.sin(a) * 5f;
 
-	public BombEntity toMouseVel() {
-		return this.velTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
-	}
+    return this;
+  }
 
-	public BombEntity velTo(float x, float y) {
-		float a = (float) Math.atan2(y - this.y - 8, x - this.x - 8);
-		this.vel = new Point((float) Math.cos(a) * 50f, (float) Math.sin(a) * 50f);
+  public BombEntity toMouseVel() {
+    return this.velTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+  }
 
-		this.x += Math.cos(a) * 5f;
-		this.y += Math.sin(a) * 5f;
+  public BombEntity velTo(float x, float y) {
+    float a = (float) Math.atan2(y - this.y - 8, x - this.x - 8);
+    this.vel = new Point((float) Math.cos(a) * 50f, (float) Math.sin(a) * 50f);
 
-		return this;
-	}
+    this.x += Math.cos(a) * 5f;
+    this.y += Math.sin(a) * 5f;
 
-	@Override
-	public void update(float dt) {
-		this.x = this.body.getPosition().x;
-		this.y = this.body.getPosition().y;
+    return this;
+  }
 
-		this.vel.mul(0.9f);
-		this.body.setLinearVelocity(this.vel);
+  @Override
+  public void update(float dt) {
+    this.x = this.body.getPosition().x;
+    this.y = this.body.getPosition().y;
 
-		if (this.animation.update(dt)) {
-			this.playSfx("explosion");
-			this.done = true;
-			Dungeon.area.add(new Explosion(this.x + 8, this.y + 8));
+    this.vel.mul(0.9f);
+    this.body.setLinearVelocity(this.vel);
 
-			for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
-				Entity entity = Dungeon.area.getEntities().get(i);
+    if (this.animation.update(dt)) {
+      this.playSfx("explosion");
+      this.done = true;
+      Dungeon.area.add(new Explosion(this.x + 8, this.y + 8));
 
-				if (entity instanceof Creature) {
-					Creature creature = (Creature) entity;
+      for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
+        Entity entity = Dungeon.area.getEntities().get(i);
 
-					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
-						if (!creature.explosionBlock) {
-							creature.modifyHp(-Math.round(Random.newFloatDice(10 / 3 * 2, 10)), this.owner, true);
-						}
+        if (entity instanceof Creature) {
+          Creature creature = (Creature) entity;
 
-						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
+          if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+            if (!creature.explosionBlock) {
+              creature.modifyHp(-Math.round(Random.newFloatDice(10 / 3 * 2, 10)), this.owner, true);
+            }
 
-						float knockbackMod = creature.getStat("knockback");
-						creature.vel.x += Math.cos(a) * 5000f * knockbackMod;
-						creature.vel.y += Math.sin(a) * 5000f * knockbackMod;
+            float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
-						try {
-							for (Buff buff : toApply) {
-								creature.addBuff(buff.getClass().newInstance().setDuration(buff.getDuration()));
-							}
-						} catch (IllegalAccessException | InstantiationException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
+            float knockbackMod = creature.getStat("knockback");
+            creature.vel.x += Math.cos(a) * 5000f * knockbackMod;
+            creature.vel.y += Math.sin(a) * 5000f * knockbackMod;
 
-			int s = 2;
+            try {
+              for (Buff buff: toApply) {
+                creature.addBuff(buff.getClass().newInstance().setDuration(buff.getDuration()));
+              }
+            } catch (IllegalAccessException | InstantiationException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      }
 
-			for (int xx = -s; xx <= s; xx++) {
-				for (int yy = -s; yy <= s; yy++) {
-					int x = (int) ((this.x + this.w / 2) / 16 + xx);
-					int y = (int) ((this.y + this.h / 2) / 16 + yy);
+      int s = 2;
 
-					if (Math.sqrt(xx * xx + yy * yy) <= s) {
+      for (int xx = -s; xx <= s; xx++) {
+        for (int yy = -s; yy <= s; yy++) {
+          int x = (int) ((this.x + this.w / 2) / 16 + xx);
+          int y = (int) ((this.y + this.h / 2) / 16 + yy);
 
-						int t = Dungeon.level.get(x, y);
+          if (Math.sqrt(xx * xx + yy * yy) <= s) {
 
-						if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
-							Dungeon.level.set(x, y, Terrain.DIRT);
-							Dungeon.level.tileRegion(x, y);
-						}
-					}
-				}
-			}
+            int t = Dungeon.level.get(x, y);
 
-			boolean set = false;
+            if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
+              Dungeon.level.set(x, y, Terrain.DIRT);
+              Dungeon.level.tileRegion(x, y);
+            }
+          }
+        }
+      }
 
-			for (Room room : Dungeon.level.getRooms()) {
-				if (room.hidden) {
-					if (check(room)) {
-						set =  true;
-					}
-				}
-			}
+      boolean set = false;
 
-			if (set) {
-				Dungeon.level.loadPassable();
-				Dungeon.level.addPhysics();
-			}
-		}
-	}
+      for (Room room: Dungeon.level.getRooms()) {
+        if (room.hidden) {
+          if (check(room)) {
+            set = true;
+          }
+        }
+      }
 
-	public boolean check(Room room) {
-		for (int x = room.left; x <= room.right; x++) {
-			for (int y = room.top; y <= room.bottom; y++) {
-				if (Dungeon.level.get(x, y) == Terrain.CRACK && this.getDistanceTo(x * 16 + 8, y * 16 + 8) <= 32f) {
-					make(room);
-					room.hidden = false;
-					Dungeon.level.set(x, y, Terrain.FLOOR_A);
+      if (set) {
+        Dungeon.level.loadPassable();
+        Dungeon.level.addPhysics();
+      }
+    }
+  }
 
-					return true;
-				}
-			}
-		}
+  public boolean check(Room room) {
+    for (int x = room.left; x <= room.right; x++) {
+      for (int y = room.top; y <= room.bottom; y++) {
+        if (Dungeon.level.get(x, y) == Terrain.CRACK && this.getDistanceTo(x * 16 + 8, y * 16 + 8) <= 32f) {
+          make(room);
+          room.hidden = false;
+          Dungeon.level.set(x, y, Terrain.FLOOR_A);
 
-		return false;
-	}
+          return true;
+        }
+      }
+    }
 
-	public static void make(Room room) {
-		for (int x = room.left; x <= room.right; x++) {
-			for (int y = room.top; y <= room.bottom; y++) {
-				Dungeon.level.set(x, y, (byte) -Dungeon.level.data[Level.toIndex(x, y)]);
-			}
-		}
-	}
+    return false;
+  }
 
-	@Override
-	public void render() {
-		this.animation.render(this.x, this.y, this.flip);
-	}
+  @Override
+  public void render() {
+    this.animation.render(this.x, this.y, this.flip);
+  }
 }

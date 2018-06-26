@@ -15,112 +15,112 @@ import org.rexcellentgames.burningknight.util.Tween;
 import java.util.ArrayList;
 
 public class InputSettingsState extends State {
-	private static UiChoice c;
-	public static boolean added;
+  public static boolean added;
+  private static UiChoice c;
 
-	public static void add() {
-		if (added) {
-			return;
-		}
+  public static void add() {
+    if (added) {
+      return;
+    }
 
-		added = true;
+    added = true;
 
-		Dungeon.area.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new KeyConfigState());
-						Camera.shake(3);
-					}
-				});
-			}
-		});
+    Dungeon.area.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
+      @Override
+      public void onClick() {
+        super.onClick();
+        transition(new Runnable() {
+          @Override
+          public void run() {
+            Dungeon.game.setState(new KeyConfigState());
+            Camera.shake(3);
+          }
+        });
+      }
+    });
 
-		c = new UiChoice("joystick", (int) (Display.GAME_WIDTH * 1.5f), 128 - Display.GAME_HEIGHT) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				Camera.shake(3);
-			}
+    c = new UiChoice("joystick", (int) (Display.GAME_WIDTH * 1.5f), 128 - Display.GAME_HEIGHT) {
+      @Override
+      public void onClick() {
+        super.onClick();
+        Camera.shake(3);
+      }
 
-			@Override
-			public void onUpdate() {
-				super.onUpdate();
+      @Override
+      public void onUpdate() {
+        super.onUpdate();
 
-				if (label.endsWith("None")) {
-					Input.instance.active = null;
-					return;
-				}
+        if (label.endsWith("None")) {
+          Input.instance.active = null;
+          return;
+        }
 
-				for (Controller controller : Controllers.getControllers()) {
-					if (label.endsWith(controller.getName().replaceAll("\\s+"," "))) {
-						Input.instance.active = controller;
-						break;
-					}
-				}
-			}
-		};
+        for (Controller controller: Controllers.getControllers()) {
+          if (label.endsWith(controller.getName().replaceAll("\\s+", " "))) {
+            Input.instance.active = controller;
+            break;
+          }
+        }
+      }
+    };
 
-		updateChoices();
+    updateChoices();
 
-		Dungeon.area.add(c);
+    Dungeon.area.add(c);
 
-		Dungeon.area.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
-			@Override
-			public void onClick() {
-				Audio.playSfx("menu/exit");
-				
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
-					@Override
-					public float getValue() {
-						return MainMenuState.cameraY;
-					}
+    Dungeon.area.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
+      @Override
+      public void onClick() {
+        Audio.playSfx("menu/exit");
 
-					@Override
-					public void setValue(float value) {
-						MainMenuState.cameraY = value;
-					}
-				});
-			}
-		});
-	}
+        Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
+          @Override
+          public float getValue() {
+            return MainMenuState.cameraY;
+          }
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
+          @Override
+          public void setValue(float value) {
+            MainMenuState.cameraY = value;
+          }
+        });
+      }
+    });
+  }
 
-		if (Input.instance.hasControllerChanged()) {
-			updateChoices();
-		}
-	}
+  private static void updateChoices() {
+    ArrayList<String> options = new ArrayList<>();
 
-	private static void updateChoices() {
-		ArrayList<String> options = new ArrayList<>();
+    options.add("None");
+    int i = 1;
+    int s = -1;
 
-		options.add("None");
-		int i = 1;
-		int s = -1;
+    for (Controller controller: Controllers.getControllers()) {
+      options.add(controller.getName().replaceAll("\\s+", " "));
 
-		for (Controller controller : Controllers.getControllers()) {
-			options.add(controller.getName().replaceAll("\\s+"," "));
+      if (controller == Input.instance.active || Input.instance.active == null) {
+        s = i;
+        Input.instance.active = controller;
 
-			if (controller == Input.instance.active || Input.instance.active == null) {
-				s = i;
-				Input.instance.active = controller;
+        Log.info("set to " + controller.getName());
+      }
 
-				Log.info("set to " + controller.getName());
-			}
+      i++;
+    }
 
-			i++;
-		}
+    c.setChoices(options.toArray(new String[]{}));
 
-		c.setChoices(options.toArray(new String[] {}));
+    if (s != -1) {
+      c.setCurrent(s);
+    }
+  }
 
-		if (s != -1) {
-			c.setCurrent(s);
-		}
-	}
+  @Override
+  public void update(float dt) {
+    super.update(dt);
+
+    if (Input.instance.hasControllerChanged()) {
+      updateChoices();
+    }
+  }
 }

@@ -1,53 +1,127 @@
-{ "frames": {
-   "actor_bomb 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 16, "h": 14 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 14 },
-    "sourceSize": { "w": 16, "h": 14 },
-    "duration": 300
-   },
-   "actor_bomb 1.ase": {
-    "frame": { "x": 16, "y": 0, "w": 16, "h": 14 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 14 },
-    "sourceSize": { "w": 16, "h": 14 },
-    "duration": 300
-   },
-   "actor_bomb 2.ase": {
-    "frame": { "x": 32, "y": 0, "w": 16, "h": 14 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 14 },
-    "sourceSize": { "w": 16, "h": 14 },
-    "duration": 300
-   },
-   "actor_bomb 3.ase": {
-    "frame": { "x": 48, "y": 0, "w": 16, "h": 14 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 14 },
-    "sourceSize": { "w": 16, "h": 14 },
-    "duration": 300
-   },
-   "actor_bomb 4.ase": {
-    "frame": { "x": 64, "y": 0, "w": 16, "h": 14 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 14 },
-    "sourceSize": { "w": 16, "h": 14 },
-    "duration": 50
-   }
- },
- "meta": {
-  "app": "http://www.aseprite.org/",
-  "version": "1.2-dev",
-  "format": "I8",
-  "size": { "w": 80, "h": 14 },
-  "scale": "1",
-  "frameTags": [
-   { "name": "idle", "from": 0, "to": 4, "direction": "forward" }
-  ]
- }
+{
+  "frames": {
+    "actor_bomb 0.ase": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 14
+      },
+      "duration": 300
+    },
+    "actor_bomb 1.ase": {
+      "frame": {
+        "x": 16,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 14
+      },
+      "duration": 300
+    },
+    "actor_bomb 2.ase": {
+      "frame": {
+        "x": 32,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 14
+      },
+      "duration": 300
+    },
+    "actor_bomb 3.ase": {
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 14
+      },
+      "duration": 300
+    },
+    "actor_bomb 4.ase": {
+      "frame": {
+        "x": 64,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 16,
+        "h": 14
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 14
+      },
+      "duration": 50
+    }
+  },
+  "meta": {
+    "app": "http://www.aseprite.org/",
+    "version": "1.2-dev",
+    "format": "I8",
+    "size": {
+      "w": 80,
+      "h": 14
+    },
+    "scale": "1",
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 4,
+        "direction": "forward"
+      }
+    ]
+  }
 }

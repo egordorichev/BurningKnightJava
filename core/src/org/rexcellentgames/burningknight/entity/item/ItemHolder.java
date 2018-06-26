@@ -22,223 +22,220 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 
 public class ItemHolder extends SaveableEntity {
-	private Body body;
-	private Item item;
+  public boolean falling;
+  public int hw;
+  public int hh;
+  public boolean auto;
+  public float last;
+  private Body body;
+  private Item item;
+  private int hx;
+  private int hy;
+  private float z = 0;
+  private float sz = 1f;
 
-	public boolean falling;
-	private int hx;
-	private int hy;
-	public int hw;
-	public int hh;
-	public boolean auto;
-	private float z = 0;
+  public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
+    this.hx = x;
+    this.hy = y;
+    this.hw = w;
+    this.hh = h;
 
-	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
-		this.hx = x;
-		this.hy = y;
-		this.hw = w;
-		this.hh = h;
+    return World.createSimpleBody(this, x, y, w, h, type, sensor);
+  }
 
-		return World.createSimpleBody(this, x, y, w, h, type, sensor);
-	}
+  public Body getBody() {
+    return body;
+  }
 
-	public Body getBody() {
-		return body;
-	}
+  public void randomVel() {
+    double a = Random.newFloat((float) (Math.PI * 2));
 
-	public void randomVel() {
-		double a = Random.newFloat((float) (Math.PI * 2));
+    this.vel.x = (float) (Math.cos(a) * 100f);
+    this.vel.y = (float) (Math.sin(a) * 100f);
+  }
 
-		this.vel.x = (float) (Math.cos(a) * 100f);
-		this.vel.y = (float) (Math.sin(a) * 100f);
-	}
+  public void velToMouse() {
+    float dx = Input.instance.worldMouse.x - this.x;
+    float dy = Input.instance.worldMouse.y - this.y;
 
-	public void velToMouse() {
-		float dx = Input.instance.worldMouse.x - this.x;
-		float dy = Input.instance.worldMouse.y - this.y;
+    float a = (float) Math.atan2(dy, dx);
 
-		float a = (float) Math.atan2(dy, dx);
+    this.vel.x = (float) (Math.cos(a) * 100f);
+    this.vel.y = (float) (Math.sin(a) * 100f);
+  }
 
-		this.vel.x = (float) (Math.cos(a) * 100f);
-		this.vel.y = (float) (Math.sin(a) * 100f);
-	}
+  @Override
+  public void update(float dt) {
+    if (this.done) {
+      return;
+    }
 
-	public float last;
+    this.t += dt;
+    this.last += dt;
 
-	@Override
-	public void update(float dt) {
-		if (this.done) {
-			return;
-		}
+    if (this.last > 0.2f) {
+      this.last = 0;
+      Spark.randomOn(this.x, this.y, this.hw, this.hh);
+    }
 
-		this.t += dt;
-		this.last += dt;
+    super.update(dt);
 
-		if (this.last > 0.2f) {
-			this.last = 0;
-			Spark.randomOn(this.x, this.y, this.hw, this.hh);
-		}
+    if (this.body == null) {
+      Log.error("Null body with " + (this.item == null ? "null" : this.item.getClass().getSimpleName()));
+    } else {
+      this.x = this.body.getPosition().x;
+      this.y = this.body.getPosition().y - this.z;
+    }
 
-		super.update(dt);
+    this.vel.mul(0.9f);
 
-		if (this.body == null) {
-			Log.error("Null body with " + (this.item == null ? "null" : this.item.getClass().getSimpleName()));
-		} else {
-			this.x = this.body.getPosition().x;
-			this.y = this.body.getPosition().y - this.z;
-		}
+    this.sz = Math.max(1, this.sz - this.sz * dt);
 
-		this.vel.mul(0.9f);
+    if (this.vel.len() <= 0.1f) {
+      this.vel.mul(0);
+      this.x = Math.round(this.x);
+      this.y = Math.round(this.y);
 
-		this.sz = Math.max(1, this.sz - this.sz * dt);
+      this.z += Math.cos(this.t * 1.7f) / 5f * (this.sz / 2) * dt * 60f;
 
-		if (this.vel.len() <= 0.1f) {
-			this.vel.mul(0);
-			this.x = Math.round(this.x);
-			this.y = Math.round(this.y);
+      this.z = MathUtils.clamp(0, 5f, this.z);
 
-			this.z += Math.cos(this.t * 1.7f) / 5f * (this.sz / 2) * dt * 60f;
+      this.body.setTransform(this.x, this.y + this.z, 0);
+    }
 
-			this.z = MathUtils.clamp(0, 5f, this.z);
+    if (this.item instanceof Lamp) {
+      Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 3f, false);
 
-			this.body.setTransform(this.x, this.y + this.z, 0);
-		}
+      // Camera.follow(this, false);
+    }
 
-		if (this.item instanceof Lamp) {
-			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 3f, false);
+    this.body.setLinearVelocity(this.vel);
+  }
 
-			// Camera.follow(this, false);
-		}
+  protected void onTouch(short t, int x, int y) {
 
-		this.body.setLinearVelocity(this.vel);
-	}
+  }
 
-	protected void onTouch(short t, int x, int y) {
+  @Override
+  public void init() {
+    super.init();
 
-	}
+    this.t = Random.newFloat(32f);
 
-	@Override
-	public void init() {
-		super.init();
+    if (this.body != null) {
+      this.body.setTransform(this.x, this.y, 0);
+    }
+  }
 
-		this.t = Random.newFloat(32f);
+  @Override
+  public void destroy() {
+    if (this.item instanceof Gold) {
+      Gold.all.remove(this);
+    }
 
-		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
-		}
-	}
+    super.destroy();
 
-	@Override
-	public void destroy() {
-		if (this.item instanceof Gold) {
-			Gold.all.remove(this);
-		}
+    if (this.body != null) {
+      this.body = World.removeBody(this.body);
+    }
+  }
 
-		super.destroy();
+  @Override
+  public void render() {
+    TextureRegion sprite = this.item.getSprite();
 
-		if (this.body != null) {
-			this.body = World.removeBody(this.body);
-		}
-	}
+    int w = sprite.getRegionWidth();
+    int h = sprite.getRegionHeight();
 
-	@Override
-	public void render() {
-		TextureRegion sprite = this.item.getSprite();
+    float a = (float) Math.cos(this.t * 3f) * 8f * sz;
+    float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
-		int w = sprite.getRegionWidth();
-		int h = sprite.getRegionHeight();
+    if (this.item instanceof WeaponBase) {
+      ((WeaponBase) this.item).renderAt(this.x + w / 2, this.y + this.z + h / 2, a,
+        w / 2, h / 2, false, false, 1f, sy);
+    } else {
+      Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
+        w / 2, h / 2, false, false, 1f, sy);
+    }
+  }
 
-		float a = (float) Math.cos(this.t * 3f) * 8f * sz;
-		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
+  @Override
+  public void renderShadow() {
+    Graphics.shadow(this.x, this.y, this.hw, this.hh, this.z);
+  }
 
-		if (this.item instanceof WeaponBase) {
-			((WeaponBase) this.item).renderAt(this.x + w / 2, this.y + this.z + h / 2, a,
-				w / 2, h / 2, false, false, 1f, sy);
-		} else {
-			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
-				w / 2, h / 2, false, false, 1f, sy);
-		}
-	}
+  @Override
+  public void onCollision(Entity entity) {
+    super.onCollision(entity);
 
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.hw, this.hh, this.z);
-	}
+    if (entity instanceof Creature) {
+      Tween.to(new Tween.Task(4f, 0.3f) {
+        @Override
+        public float getValue() {
+          return sz;
+        }
 
-	private float sz = 1f;
+        @Override
+        public void setValue(float value) {
+          sz = value;
+        }
+      });
+    }
+  }
 
-	@Override
-	public void onCollision(Entity entity) {
-		super.onCollision(entity);
+  @Override
+  public void save(FileWriter writer) throws IOException {
+    super.save(writer);
 
-		if (entity instanceof Creature) {
-			Tween.to(new Tween.Task(4f, 0.3f) {
-				@Override
-				public float getValue() {
-					return sz;
-				}
+    writer.writeString(this.item.getClass().getName());
+    this.item.save(writer);
+  }
 
-				@Override
-				public void setValue(float value) {
-					sz = value;
-				}
-			});
-		}
-	}
+  @Override
+  public void load(FileReader reader) throws IOException {
+    super.load(reader);
 
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
+    String type = reader.readString();
 
-		writer.writeString(this.item.getClass().getName());
-		this.item.save(writer);
-	}
+    try {
+      Class<?> clazz = Class.forName(type);
+      Constructor<?> constructor = clazz.getConstructor();
+      Object object = constructor.newInstance();
+      Item item = (Item) object;
 
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
+      item.load(reader);
+      this.setItem(item);
+    } catch (Exception e) {
+      Dungeon.reportException(e);
+    }
 
-		String type = reader.readString();
+    this.body.setTransform(this.x, this.y, 0);
+  }
 
-		try {
-			Class<?> clazz = Class.forName(type);
-			Constructor<?> constructor = clazz.getConstructor();
-			Object object = constructor.newInstance();
-			Item item = (Item) object;
+  public Item getItem() {
+    return this.item;
+  }
 
-			item.load(reader);
-			this.setItem(item);
-		} catch (Exception e) {
-			Dungeon.reportException(e);
-		}
+  public ItemHolder setItem(Item item) {
+    this.item = item;
 
-		this.body.setTransform(this.x, this.y, 0);
-	}
+    if (this.body != null) {
+      this.body = World.removeBody(this.body);
+    }
 
-	public ItemHolder setItem(Item item) {
-		this.item = item;
+    if (this.item == null) {
+      Log.error("Warn: null item");
+      return this;
+    }
 
-		if (this.body != null) {
-			this.body = World.removeBody(this.body);
-		}
+    if (this.item instanceof Gold) {
+      Gold.all.add(this);
+    }
 
-		if (this.item == null) {
-			Log.error("Warn: null item");
-			return this;
-		}
+    // This might be bad!
+    this.body = this.createSimpleBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
+      BodyDef.BodyType.DynamicBody, false);
 
-		if (this.item instanceof Gold) {
-			Gold.all.add(this);
-		}
-
-		// This might be bad!
-		this.body = this.createSimpleBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
-			BodyDef.BodyType.DynamicBody, false);
-
-		return this;
-	}
-
-	public Item getItem() {
-		return this.item;
-	}
+    return this;
+  }
 }

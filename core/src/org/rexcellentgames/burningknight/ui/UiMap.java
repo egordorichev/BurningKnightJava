@@ -14,176 +14,164 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InGameState;
 
 public class UiMap extends UiEntity {
-	{
-		depth = 16;
-	}
+  private boolean large;
+  private float xc;
+  private float yc;
 
-	private boolean large;
-	private float xc;
-	private float yc;
+  {
+    depth = 16;
+  }
 
-	@Override
-	public void init() {
-		super.init();
+  @Override
+  public void init() {
+    super.init();
 
-		setSize();
-	}
+    setSize();
+  }
 
-	public void setSize() {
-		this.w = large ? Display.GAME_WIDTH : 64;
-		this.h = Math.min(this.w / 4f * 3f, Display.GAME_HEIGHT);
+  public void setSize() {
+    this.w = large ? Display.GAME_WIDTH : 64;
+    this.h = Math.min(this.w / 4f * 3f, Display.GAME_HEIGHT);
 
-		this.x = Display.GAME_WIDTH - this.w - (large ? 0 : 4);
-		this.y = Display.GAME_HEIGHT - this.h - (large ? 0 : 4);
-	}
+    this.x = Display.GAME_WIDTH - this.w - (large ? 0 : 4);
+    this.y = Display.GAME_HEIGHT - this.h - (large ? 0 : 4);
+  }
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
+  @Override
+  public void update(float dt) {
+    super.update(dt);
 
-		InGameState.map = large;
+    InGameState.map = large;
 
-		if (large) {
-			float s = 120f;
+    if (large) {
+      float s = 120f;
 
-			if (Input.instance.isDown("left")) {
-				xc += s * dt;
-			}
+      if (Input.instance.isDown("left")) {
+        xc += s * dt;
+      }
 
-			if (Input.instance.isDown("right")) {
-				xc -= s * dt;
-			}
+      if (Input.instance.isDown("right")) {
+        xc -= s * dt;
+      }
 
-			if (Input.instance.isDown("up")) {
-				yc -= s * dt;
-			}
+      if (Input.instance.isDown("up")) {
+        yc -= s * dt;
+      }
 
-			if (Input.instance.isDown("down")) {
-				yc += s * dt;
-			}
-		}
+      if (Input.instance.isDown("down")) {
+        yc += s * dt;
+      }
+    }
 
-		if (Input.instance.wasPressed("map")) {
-			large = !large;
-			xc = 0;
-			yc = 0;
+    if (Input.instance.wasPressed("map")) {
+      large = !large;
+      xc = 0;
+      yc = 0;
 
-			setSize();
-		}
-	}
+      setSize();
+    }
+  }
 
-	@Override
-	public void render() {
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		Graphics.batch.end();
+  @Override
+  public void render() {
+    Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+    Graphics.batch.end();
 
-		if (!large) {
-			Rectangle scissors = new Rectangle();
-			Rectangle clipBounds = new Rectangle(x, y, w, h);
-			ScissorStack.calculateScissors(Camera.ui, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
-			ScissorStack.pushScissors(scissors);
-		}
+    if (!large) {
+      Rectangle scissors = new Rectangle();
+      Rectangle clipBounds = new Rectangle(x, y, w, h);
+      ScissorStack.calculateScissors(Camera.ui, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
+      ScissorStack.pushScissors(scissors);
+    }
 
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    Gdx.gl.glEnable(GL20.GL_BLEND);
+    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+    Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
-		if (large) {
-			Graphics.shape.setColor(Dungeon.GRAY);
-		} else {
-			Graphics.shape.setColor(0.5f, 0.5f, 0.5f, 0.3f);
-		}
+    if (large) {
+      Graphics.shape.setColor(Dungeon.GRAY);
+    } else {
+      Graphics.shape.setColor(0.5f, 0.5f, 0.5f, 0.3f);
+    }
 
-		Graphics.shape.rect(this.x, this.y, this.w, this.h);
+    Graphics.shape.rect(this.x, this.y, this.w, this.h);
 
-		float zoom = Camera.game.zoom;
+    float zoom = Camera.game.zoom;
 
-		float px = Player.instance.x + Player.instance.w / 2f;
-		float py = Player.instance.y + Player.instance.h / 2f;
+    float px = Player.instance.x + Player.instance.w / 2f;
+    float py = Player.instance.y + Player.instance.h / 2f;
 
-		int s = (int) (large ? 6 : 4 * zoom);
+    int s = (int) (large ? 6 : 4 * zoom);
 
-		float mx = -px / (16f / s) + this.x + this.w / 2 + xc;
-		float my = -py / (16f / s) + this.y + this.h / 2 + yc;
+    float mx = -px / (16f / s) + this.x + this.w / 2 + xc;
+    float my = -py / (16f / s) + this.y + this.h / 2 + yc;
 
-		float o = 1f;
+    float o = 1f;
 
-		int xx = 0;
-		int yy;
+    int xx = 0;
+    int yy;    for (int x = 0; x < Level.getWidth(); x++) {
+      yy = 0;
 
+      for (int y = 0; y < Level.getHeight(); y++) {
+        if (Dungeon.level.explored(x, y)) {
 
-		for (int x = 0; x < Level.getWidth(); x++) {
-			yy = 0;
+          byte t = Dungeon.level.get(x, y);
 
-			for (int y = 0; y < Level.getHeight(); y++) {
-				if (Dungeon.level.explored(x, y)) {
+          if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
+            Graphics.shape.setColor(0, 0, 0, 1);
+            Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
+          }
+        }
 
-					byte t = Dungeon.level.get(x, y);
+        yy++;
+      }
 
-					if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
-						Graphics.shape.setColor(0, 0, 0, 1);
-						Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
-					}
-				}
+      xx++;
+    }
 
-				yy ++;
-			}
+    xx = 0;
 
-			xx ++;
-		}
+    for (int x = 0; x < Level.getWidth(); x++) {
+      yy = 0;
 
-		xx = 0;
+      for (int y = 0; y < Level.getHeight(); y++) {
+        if (Dungeon.level.explored(x, y)) {
+          byte t = Dungeon.level.get(x, y);
 
-		for (int x = 0; x < Level.getWidth(); x++) {
-			yy = 0;
+          if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
+            Graphics.shape.setColor(1, 1, 1, 1);
+            Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
+          }
+        }
 
-			for (int y = 0; y < Level.getHeight(); y++) {
-				if (Dungeon.level.explored(x, y)) {
-					byte t = Dungeon.level.get(x, y);
+        yy++;
+      }
 
-					if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
-						Graphics.shape.setColor(1, 1, 1, 1);
-						Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
-					}
-				}
+      xx++;
+    }
 
-				yy ++;
-			}
+    float plx = Player.instance.x / 16f;
+    float ply = Player.instance.y / 16f;
 
-			xx ++;
-		}
+    Graphics.shape.setColor(0, 0, 0, 1);
+    Graphics.shape.rect(plx * s + s / 4f - o + mx, ply * s + s / 4f - o + my, s / 2f + o * 2, s / 2f + o * 2);
+    Graphics.shape.setColor(0, 1, 0, 1);
+    Graphics.shape.rect(plx * s + s / 4f + mx, ply * s + s / 4f + my, s / 2f, s / 2f);
 
-		float plx = Player.instance.x / 16f;
-		float ply = Player.instance.y / 16f;
+    Graphics.shape.end();
+    Gdx.gl.glDisable(GL20.GL_BLEND);
 
-		Graphics.shape.setColor(0, 0, 0, 1);
-		Graphics.shape.rect(plx * s + s / 4f - o + mx, ply * s + s / 4f - o + my, s / 2f + o * 2, s / 2f + o * 2);
-		Graphics.shape.setColor(0, 1, 0, 1);
-		Graphics.shape.rect(plx * s + s / 4f + mx, ply * s + s / 4f + my, s / 2f, s / 2f);
+    if (!large) {
+      try {
+        ScissorStack.popScissors();
+      } catch (IllegalStateException ignored) {
 
-		Graphics.shape.end();
-		Gdx.gl.glDisable(GL20.GL_BLEND);
+      }
+    }
 
-		if (!large) {
-			try {
-				ScissorStack.popScissors();
-			} catch(IllegalStateException ignored) {
-
-			}
-		}
-
-		Graphics.batch.begin();
-	}
+    Graphics.batch.begin();
+  }
 }

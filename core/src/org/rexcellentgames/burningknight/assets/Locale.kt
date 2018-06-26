@@ -19,18 +19,18 @@ object Locale {
       } else {
         map[value.name] = value.asString()
       }
-    }      
+    }
   }
-  
+
   @JvmStatic
   fun load(locale: String) {
     this.current = locale
-    
+
     map.clear()
-    
+
     loadRaw(Gdx.files.internal("locales/$locale.json").readString())
   }
-  
+
   @JvmStatic
   fun loadForMod(locale: String, mod: Mod) {
     if (mod.localesDirectory != null) {

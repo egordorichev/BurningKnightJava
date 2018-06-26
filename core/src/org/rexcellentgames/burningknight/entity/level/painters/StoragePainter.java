@@ -6,8 +6,8 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import java.util.ArrayList;
 
 public class StoragePainter extends Painter {
-	@Override
-	protected void decorate(Level level, ArrayList<Room> rooms) {
+  @Override
+  protected void decorate(Level level, ArrayList<Room> rooms) {
 
-	}
+  }
 }

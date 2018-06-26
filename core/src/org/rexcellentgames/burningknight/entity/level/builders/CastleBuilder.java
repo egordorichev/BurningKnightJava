@@ -6,44 +6,41 @@ import org.rexcellentgames.burningknight.util.Random;
 import java.util.ArrayList;
 
 public class CastleBuilder extends RegularBuilder {
-	@Override
-	public ArrayList<Room> build(ArrayList<Room> init) {
-		this.setupRooms(init);
+  @Override
+  public ArrayList<Room> build(ArrayList<Room> init) {
+    this.setupRooms(init);
 
-		if (this.entrance == null) {
-			return null;
-		}
+    if (this.entrance == null) {
+      return null;
+    }
 
-		ArrayList<Room> branchable = new ArrayList<>();
+    ArrayList<Room> branchable = new ArrayList<>();
 
-		this.entrance.setSize();
-		this.entrance.setPos(0, 0);
-		branchable.add(this.entrance);
+    this.entrance.setSize();
+    this.entrance.setPos(0, 0);
+    branchable.add(this.entrance);    ArrayList<Room> roomsToBranch = new ArrayList<>(this.multiConnection);
 
+    if (this.exit != null) {
+      roomsToBranch.add(this.exit);
+    }
 
-		ArrayList<Room> roomsToBranch = new ArrayList<>(this.multiConnection);
+    roomsToBranch.addAll(this.singleConnection);
 
-		if (this.exit != null) {
-			roomsToBranch.add(this.exit);
-		}
+    if (!this.createBranches(init, branchable, roomsToBranch, this.branchTunnelChances)) {
+      return null;
+    }
 
-		roomsToBranch.addAll(this.singleConnection);
+    findNeighbours(init);
 
-		if (!this.createBranches(init, branchable, roomsToBranch, this.branchTunnelChances)) {
-			return null;
-		}
+    for (Room r: init) {
+      for (Room n: r.getNeighbours()) {
+        if (!n.getConnected().containsKey(r)
+          && Random.newFloat() < this.extraConnectionChance) {
+          r.connectWithRoom(n);
+        }
+      }
+    }
 
-		findNeighbours(init);
-
-		for (Room r : init) {
-			for (Room n : r.getNeighbours()) {
-				if (!n.getConnected().containsKey(r)
-					&& Random.newFloat() < this.extraConnectionChance) {
-					r.connectWithRoom(n);
-				}
-			}
-		}
-
-		return init;
-	}
+    return init;
+  }
 }

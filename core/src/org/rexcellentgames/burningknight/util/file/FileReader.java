@@ -3,53 +3,53 @@ package org.rexcellentgames.burningknight.util.file;
 import java.io.*;
 
 public class FileReader {
-	private DataInputStream stream;
+  private DataInputStream stream;
 
-	public FileReader(String path) throws FileNotFoundException {
-		this.stream = new DataInputStream(new BufferedInputStream(new FileInputStream(path), 32768));
-	}
-	
-	public byte readByte() throws IOException {
-		return this.stream.readByte();
-	}
+  public FileReader(String path) throws FileNotFoundException {
+    this.stream = new DataInputStream(new BufferedInputStream(new FileInputStream(path), 32768));
+  }
 
-	public boolean readBoolean() throws IOException {
-		return this.stream.readBoolean();
-	}
+  public byte readByte() throws IOException {
+    return this.stream.readByte();
+  }
 
-	public short readInt16() throws IOException {
-		return this.stream.readShort();
-	}
+  public boolean readBoolean() throws IOException {
+    return this.stream.readBoolean();
+  }
 
-	public int readInt32() throws IOException {
-		return this.stream.readInt();
-	}
+  public short readInt16() throws IOException {
+    return this.stream.readShort();
+  }
 
-	public String readString() throws IOException {
-		byte length = this.stream.readByte();
+  public int readInt32() throws IOException {
+    return this.stream.readInt();
+  }
 
-		if (length == 0) {
-			return null;
-		}
+  public String readString() throws IOException {
+    byte length = this.stream.readByte();
 
-		StringBuilder result = new StringBuilder();
+    if (length == 0) {
+      return null;
+    }
 
-		for (int i = 0; i < length; i++) {
-			result.append(this.stream.readChar());
-		}
+    StringBuilder result = new StringBuilder();
 
-		return result.toString();
-	}
+    for (int i = 0; i < length; i++) {
+      result.append(this.stream.readChar());
+    }
 
-	public double readDouble() throws IOException {
-		return this.stream.readDouble();
-	}
+    return result.toString();
+  }
 
-	public float readFloat() throws IOException {
-		return this.stream.readFloat();
-	}
+  public double readDouble() throws IOException {
+    return this.stream.readDouble();
+  }
 
-	public void close() throws IOException {
-		this.stream.close();
-	}
+  public float readFloat() throws IOException {
+    return this.stream.readFloat();
+  }
+
+  public void close() throws IOException {
+    this.stream.close();
+  }
 }

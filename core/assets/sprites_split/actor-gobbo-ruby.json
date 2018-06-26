@@ -1,184 +1,481 @@
-{ "frames": {
-   "actor_gobbo 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 1.ase": {
-    "frame": { "x": 19, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 2.ase": {
-    "frame": { "x": 38, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 3.ase": {
-    "frame": { "x": 57, "y": 0, "w": 19, "h": 19 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 13, "w": 19, "h": 19 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 4.ase": {
-    "frame": { "x": 76, "y": 0, "w": 19, "h": 19 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 13, "w": 19, "h": 19 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 5.ase": {
-    "frame": { "x": 95, "y": 0, "w": 19, "h": 19 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 13, "w": 19, "h": 19 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 6.ase": {
-    "frame": { "x": 114, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 7.ase": {
-    "frame": { "x": 133, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 8.ase": {
-    "frame": { "x": 152, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 9.ase": {
-    "frame": { "x": 171, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 11, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 10.ase": {
-    "frame": { "x": 190, "y": 0, "w": 19, "h": 21 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 11, "w": 19, "h": 21 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 11.ase": {
-    "frame": { "x": 209, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 12.ase": {
-    "frame": { "x": 228, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 13.ase": {
-    "frame": { "x": 247, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 11, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 14.ase": {
-    "frame": { "x": 266, "y": 0, "w": 19, "h": 21 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 11, "w": 19, "h": 21 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 15.ase": {
-    "frame": { "x": 285, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 16.ase": {
-    "frame": { "x": 304, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 17.ase": {
-    "frame": { "x": 323, "y": 0, "w": 19, "h": 20 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 12, "w": 19, "h": 20 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 18.ase": {
-    "frame": { "x": 342, "y": 0, "w": 19, "h": 16 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 14, "y": 16, "w": 19, "h": 16 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 19.ase": {
-    "frame": { "x": 361, "y": 0, "w": 5, "h": 5 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 21, "y": 21, "w": 5, "h": 5 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   },
-   "actor_gobbo 20.ase": {
-    "frame": { "x": 366, "y": 0, "w": 5, "h": 5 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 23, "y": 21, "w": 5, "h": 5 },
-    "sourceSize": { "w": 48, "h": 48 },
-    "duration": 100
-   }
- },
- "meta": {
-  "app": "http://www.aseprite.org/",
-  "version": "1.2.9-beta2-x64",
-  "format": "I8",
-  "size": { "w": 371, "h": 21 },
-  "scale": "1",
-  "frameTags": [
-   { "name": "idle", "from": 0, "to": 7, "direction": "forward" },
-   { "name": "run", "from": 8, "to": 15, "direction": "forward" },
-   { "name": "hurt", "from": 16, "to": 17, "direction": "forward" },
-   { "name": "dead", "from": 18, "to": 20, "direction": "forward" }
-  ]
- }
+{
+  "frames": {
+    "actor_gobbo 0.ase": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 1.ase": {
+      "frame": {
+        "x": 19,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 2.ase": {
+      "frame": {
+        "x": 38,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 3.ase": {
+      "frame": {
+        "x": 57,
+        "y": 0,
+        "w": 19,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 13,
+        "w": 19,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 4.ase": {
+      "frame": {
+        "x": 76,
+        "y": 0,
+        "w": 19,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 13,
+        "w": 19,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 5.ase": {
+      "frame": {
+        "x": 95,
+        "y": 0,
+        "w": 19,
+        "h": 19
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 13,
+        "w": 19,
+        "h": 19
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 6.ase": {
+      "frame": {
+        "x": 114,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 7.ase": {
+      "frame": {
+        "x": 133,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 8.ase": {
+      "frame": {
+        "x": 152,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 9.ase": {
+      "frame": {
+        "x": 171,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 11,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 10.ase": {
+      "frame": {
+        "x": 190,
+        "y": 0,
+        "w": 19,
+        "h": 21
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 11,
+        "w": 19,
+        "h": 21
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 11.ase": {
+      "frame": {
+        "x": 209,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 12.ase": {
+      "frame": {
+        "x": 228,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 13.ase": {
+      "frame": {
+        "x": 247,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 11,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 14.ase": {
+      "frame": {
+        "x": 266,
+        "y": 0,
+        "w": 19,
+        "h": 21
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 11,
+        "w": 19,
+        "h": 21
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 15.ase": {
+      "frame": {
+        "x": 285,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 16.ase": {
+      "frame": {
+        "x": 304,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 17.ase": {
+      "frame": {
+        "x": 323,
+        "y": 0,
+        "w": 19,
+        "h": 20
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 12,
+        "w": 19,
+        "h": 20
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 18.ase": {
+      "frame": {
+        "x": 342,
+        "y": 0,
+        "w": 19,
+        "h": 16
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 14,
+        "y": 16,
+        "w": 19,
+        "h": 16
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 19.ase": {
+      "frame": {
+        "x": 361,
+        "y": 0,
+        "w": 5,
+        "h": 5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 21,
+        "y": 21,
+        "w": 5,
+        "h": 5
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    },
+    "actor_gobbo 20.ase": {
+      "frame": {
+        "x": 366,
+        "y": 0,
+        "w": 5,
+        "h": 5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 23,
+        "y": 21,
+        "w": 5,
+        "h": 5
+      },
+      "sourceSize": {
+        "w": 48,
+        "h": 48
+      },
+      "duration": 100
+    }
+  },
+  "meta": {
+    "app": "http://www.aseprite.org/",
+    "version": "1.2.9-beta2-x64",
+    "format": "I8",
+    "size": {
+      "w": 371,
+      "h": 21
+    },
+    "scale": "1",
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 7,
+        "direction": "forward"
+      },
+      {
+        "name": "run",
+        "from": 8,
+        "to": 15,
+        "direction": "forward"
+      },
+      {
+        "name": "hurt",
+        "from": 16,
+        "to": 17,
+        "direction": "forward"
+      },
+      {
+        "name": "dead",
+        "from": 18,
+        "to": 20,
+        "direction": "forward"
+      }
+    ]
+  }
 }

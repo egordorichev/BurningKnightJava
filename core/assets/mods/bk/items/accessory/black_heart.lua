@@ -1,18 +1,15 @@
 item:equipable("black_heart", {
-	sprite = "item-black_heart",
-	pool = "accessory_all",
+  pool = "accessory_all",
+  on_equip = function(self, owner)
+    self:set("hurt_callback", owner:registerCallback("on_hurt", function(owner)
+      local room = owner:getRoom()
 
-	on_equip = function(self, owner)
-		self:set("hurt_callback", owner:registerCallback("on_hurt", function(owner)
-			local room = owner:getRoom()
-
-			for _, mob in pairs(room:getMobs()) do
-				mob:modifyHp(-1, owner, true)
-			end
-		end))
-	end,
-
-	on_unequip = function(self, owner)
-		owner:removeCallback("on_hurt", self:get("hurt_callback"))
-	end
+      for _, mob in pairs(room:getMobs()) do
+        mob:modifyHp(-1, owner, true)
+      end
+    end))
+  end,
+  on_unequip = function(self, owner)
+    owner:removeCallback("on_hurt", self:get("hurt_callback"))
+  end
 })

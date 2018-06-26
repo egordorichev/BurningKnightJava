@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.ui;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
@@ -12,142 +10,141 @@ import org.rexcellentgames.burningknight.util.CollisionHelper;
 import java.awt.event.KeyEvent;
 
 public class UiInput extends UiEntity implements InputProcessor {
-	private String input = "";
-	private String placeholder = "";
-	private boolean open = false;
+  public int w = 64;
+  public int h = 12;
+  private String input = "";
+  private String placeholder = "";
+  private boolean open = false;
+  private int pw = 0;
 
-	public int w = 64;
-	public int h = 12;
-	private int pw = 0;
+  public static boolean isPrintableChar(char c) {
+    Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
 
-	public String getInput() {
-		return this.input;
-	}
+    return (!Character.isISOControl(c)) &&
+      c != KeyEvent.CHAR_UNDEFINED &&
+      block != null &&
+      block != Character.UnicodeBlock.SPECIALS;
+  }
 
-	@Override
-	public void init() {
-		org.rexcellentgames.burningknight.game.input.Input.multiplexer.addProcessor(this);
-		this.calcPW();
-	}
+  public String getInput() {
+    return this.input;
+  }
 
-	private void calcPW() {
-		Graphics.layout.setText(Graphics.medium, this.placeholder);
-		this.pw = (int) Graphics.layout.width;
-		this.w = this.pw;
-		this.x = (Display.GAME_WIDTH - this.pw) / 2;
-	}
+  public void setInput(String input) {
+    this.input = input;
+  }
 
-	private void calcW() {
-		Graphics.layout.setText(Graphics.medium, this.input);
-		this.w = (int) Graphics.layout.width;
-		this.x = (Display.GAME_WIDTH - this.w) / 2;
-	}
+  @Override
+  public void init() {
+    org.rexcellentgames.burningknight.game.input.Input.multiplexer.addProcessor(this);
+    this.calcPW();
+  }
 
-	public void setPlaceholder(String placeholder) {
-		this.placeholder = placeholder;
-	}
+  private void calcPW() {
+    Graphics.layout.setText(Graphics.medium, this.placeholder);
+    this.pw = (int) Graphics.layout.width;
+    this.w = this.pw;
+    this.x = (Display.GAME_WIDTH - this.pw) / 2;
+  }
 
-	@Override
-	public void render() {
-		String str = this.input;
+  private void calcW() {
+    Graphics.layout.setText(Graphics.medium, this.input);
+    this.w = (int) Graphics.layout.width;
+    this.x = (Display.GAME_WIDTH - this.w) / 2;
+  }
 
-		if (!this.open && str.isEmpty()) {
-			str = this.placeholder;
-			Graphics.medium.setColor(0.7f, 0.7f, 0.7f, 1f);
-		}
+  public void setPlaceholder(String placeholder) {
+    this.placeholder = placeholder;
+  }
 
-		Graphics.medium.draw(Graphics.batch, this.open ? str + "|" : str, this.x, this.y + 12);
-		Graphics.medium.setColor(1, 1, 1, 1);
-	}
+  @Override
+  public void render() {
+    String str = this.input;
 
-	public void onEnter(String input) {
+    if (!this.open && str.isEmpty()) {
+      str = this.placeholder;
+      Graphics.medium.setColor(0.7f, 0.7f, 0.7f, 1f);
+    }
 
-	}
+    Graphics.medium.draw(Graphics.batch, this.open ? str + "|" : str, this.x, this.y + 12);
+    Graphics.medium.setColor(1, 1, 1, 1);
+  }
 
-	public void setInput(String input) {
-		this.input = input;
-	}
+  public void onEnter(String input) {
 
-	@Override
-	public boolean keyDown(int keycode) {
-		if (keycode == Input.Keys.ENTER && this.open) {
-			this.onEnter(this.input);
-			this.open = false;
+  }
 
-			if (this.input.isEmpty()) {
-				this.calcPW();
-			} else {
-				this.calcW();
-			}
-		} else if (keycode == Input.Keys.BACKSPACE && this.open && this.input.length() > 0) {
-			this.input = this.input.substring(0, this.input.length() - 1);
-			this.calcW();
-		}
+  @Override
+  public boolean keyDown(int keycode) {
+    if (keycode == Input.Keys.ENTER && this.open) {
+      this.onEnter(this.input);
+      this.open = false;
 
-		return false;
-	}
+      if (this.input.isEmpty()) {
+        this.calcPW();
+      } else {
+        this.calcW();
+      }
+    } else if (keycode == Input.Keys.BACKSPACE && this.open && this.input.length() > 0) {
+      this.input = this.input.substring(0, this.input.length() - 1);
+      this.calcW();
+    }
 
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
+    return false;
+  }
 
-	@Override
-	public boolean keyTyped(char character) {
-		if (this.open && isPrintableChar(character)) {
-			this.input += character;
-			this.calcW();
-		}
+  @Override
+  public boolean keyUp(int keycode) {
+    return false;
+  }
 
-		return false;
-	}
+  @Override
+  public boolean keyTyped(char character) {
+    if (this.open && isPrintableChar(character)) {
+      this.input += character;
+      this.calcW();
+    }
 
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		boolean was = this.open;
+    return false;
+  }
 
-		Vector2 mouse = org.rexcellentgames.burningknight.game.input.Input.instance.uiMouse;
-		this.open = (CollisionHelper.check((int) mouse.x, (int) mouse.y, (int) this.x, (int) this.y, this.w, this.h));
+  @Override
+  public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    boolean was = this.open;
 
-		if (was && !this.open) {
-			if (this.input.isEmpty()) {
-				this.calcPW();
-			} else {
-				this.calcW();
-			}
-		} else if (!was && this.open) {
-			this.calcW();
-		}
+    Vector2 mouse = org.rexcellentgames.burningknight.game.input.Input.instance.uiMouse;
+    this.open = (CollisionHelper.check((int) mouse.x, (int) mouse.y, (int) this.x, (int) this.y, this.w, this.h));
 
-		return this.open;
-	}
+    if (was && !this.open) {
+      if (this.input.isEmpty()) {
+        this.calcPW();
+      } else {
+        this.calcW();
+      }
+    } else if (!was && this.open) {
+      this.calcW();
+    }
 
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
+    return this.open;
+  }
 
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
+  @Override
+  public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    return false;
+  }
 
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
+  @Override
+  public boolean touchDragged(int screenX, int screenY, int pointer) {
+    return false;
+  }
 
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
-	}
+  @Override
+  public boolean mouseMoved(int screenX, int screenY) {
+    return false;
+  }
 
-	public static boolean isPrintableChar(char c) {
-		Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
-
-		return (!Character.isISOControl(c)) &&
-			c != KeyEvent.CHAR_UNDEFINED &&
-			block != null &&
-			block != Character.UnicodeBlock.SPECIALS;
-	}
+  @Override
+  public boolean scrolled(int amount) {
+    return false;
+  }
 }

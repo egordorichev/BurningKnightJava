@@ -7,70 +7,70 @@ import org.rexcellentgames.burningknight.game.state.LoadState;
 import org.rexcellentgames.burningknight.game.state.State;
 
 public class Game {
-	private State state;
+  private State state;
 
-	public Game() {
+  public Game() {
 
-	}
+  }
 
-	public void setState(State state) {
-		if (!(this.state instanceof LoadState)) {
-			Dungeon.ui.destroy();
-			Dungeon.area.destroy();
-		}
+  public void destroyState() {
+    if (this.state != null) {
+      State old = this.state;
+      this.state = null; // For depth saving!
+      old.destroy();
+    }
+  }
 
-		State old = this.state;
+  public State getState() {
+    return this.state;
+  }
 
-		this.state = state;
+  public void setState(State state) {
+    if (!(this.state instanceof LoadState)) {
+      Dungeon.ui.destroy();
+      Dungeon.area.destroy();
+    }
 
-		if (old != null) {
-			old.destroy();
-		}
+    State old = this.state;
 
-		this.state.init();
-	}
+    this.state = state;
 
-	public void destroyState() {
-		if (this.state != null) {
-			State old = this.state;
-			this.state = null; // For depth saving!
-			old.destroy();
-		}
-	}
+    if (old != null) {
+      old.destroy();
+    }
 
-	public State getState() {
-		return this.state;
-	}
+    this.state.init();
+  }
 
-	public void update(float dt) {
-		if (this.state != null) {
-			this.state.update(dt);
-		}
-	}
+  public void update(float dt) {
+    if (this.state != null) {
+      this.state.update(dt);
+    }
+  }
 
-	public void render() {
-		render(true);
-	}
+  public void render() {
+    render(true);
+  }
 
-	public void render(boolean ui) {
-		if (this.state != null) {
-			Graphics.shape.setProjectionMatrix(Camera.game.combined);
-			this.state.render();
+  public void render(boolean ui) {
+    if (this.state != null) {
+      Graphics.shape.setProjectionMatrix(Camera.game.combined);
+      this.state.render();
 
-			if (ui) {
-				renderUi();
-			}
-		}
-	}
+      if (ui) {
+        renderUi();
+      }
+    }
+  }
 
-	public void renderUi() {
-		if (this.state != null) {
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-			this.state.renderUi();
-		}
-	}
+  public void renderUi() {
+    if (this.state != null) {
+      Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+      this.state.renderUi();
+    }
+  }
 
-	public void destroy() {
-		this.destroyState();
-	}
+  public void destroy() {
+    this.destroyState();
+  }
 }

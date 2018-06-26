@@ -11,48 +11,48 @@ import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLeve
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 
 public class MobPool extends Pool<Mob> {
-	public static MobPool instance = new MobPool();
+  public static MobPool instance = new MobPool();
 
-	public void initForFloor() {
-		clear();
+  public void initForFloor() {
+    clear();
 
-		if (Dungeon.level instanceof HallLevel) {
-			add(Knight.class, 1f);
-			add(RangedKnight.class, 0.5f);
-			add(StabbingKnight.class, 0.5f);
+    if (Dungeon.level instanceof HallLevel) {
+      add(Knight.class, 1f);
+      add(RangedKnight.class, 0.5f);
+      add(StabbingKnight.class, 0.5f);
 
-			add(Clown.class, 1f);
-			add(BurningClown.class, 0.7f);
-			add(FreezingClown.class, 0.5f);
-		}
+      add(Clown.class, 1f);
+      add(BurningClown.class, 0.7f);
+      add(FreezingClown.class, 0.5f);
+    }
 
-		if (Dungeon.level instanceof HallLevel || Dungeon.level instanceof DesertLevel) {
-			add(Thief.class, 1f);
-			add(InvisThief.class, 0.7f);
-			add(BossThief.class, 0.1f);
-		}
+    if (Dungeon.level instanceof HallLevel || Dungeon.level instanceof DesertLevel) {
+      add(Thief.class, 1f);
+      add(InvisThief.class, 0.7f);
+      add(BossThief.class, 0.1f);
+    }
 
-		if (Dungeon.level instanceof DesertLevel) {
-			add(Skeleton.class, 1f);
-			add(BlackSkeleton.class, 1f);
-			add(BrownSkeleton.class, 0.7f);
-			add(Mummy.class, 100f);
-			add(Archeologist.class, 100f);
-		}
+    if (Dungeon.level instanceof DesertLevel) {
+      add(Skeleton.class, 1f);
+      add(BlackSkeleton.class, 1f);
+      add(BrownSkeleton.class, 0.7f);
+      add(Mummy.class, 100f);
+      add(Archeologist.class, 100f);
+    }
 
-		if (Dungeon.level instanceof LibraryLevel) {
-			add(Skeleton.class, 1f);
-			// tmp
-		}
+    if (Dungeon.level instanceof LibraryLevel) {
+      add(Skeleton.class, 1f);
+      // tmp
+    }
 
-		if (Dungeon.level instanceof TechLevel) {
-			add(Skeleton.class, 1f);
-			// tmp
-		}
+    if (Dungeon.level instanceof TechLevel) {
+      add(Skeleton.class, 1f);
+      // tmp
+    }
 
-		if (Dungeon.level instanceof CreepLevel) {
-			add(Skeleton.class, 1f);
-			// tmp
-		}
-	}
+    if (Dungeon.level instanceof CreepLevel) {
+      add(Skeleton.class, 1f);
+      // tmp
+    }
+  }
 }

@@ -16,332 +16,331 @@ import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiSlot {
-	private static TextureRegion slot;
-	private static TextureRegion armorBg = Graphics.getTexture("ui-hat_bg");
-	private static TextureRegion coinBg = Graphics.getTexture("ui-coin_bg");
-	private static TextureRegion equipBg = Graphics.getTexture("ui-ring_bg");
+  private static TextureRegion slot;
+  private static TextureRegion armorBg = Graphics.getTexture("ui-hat_bg");
+  private static TextureRegion coinBg = Graphics.getTexture("ui-coin_bg");
+  private static TextureRegion equipBg = Graphics.getTexture("ui-ring_bg");
 
-	public int x;
-	public float y;
-	private int id;
-	private boolean hovered = false;
-	private UiInventory inventory;
-	private float scale = 1f;
-	private boolean active;
-	private float r = 1f;
-	private float g = 1f;
-	private float b = 1f;
-	private float rr = 1f;
-	private float rg = 1f;
-	private float rb = 1f;
+  public int x;
+  public float y;
+  public float a = 0.5f;
+  private int id;
+  private boolean hovered = false;
+  private UiInventory inventory;
+  private float scale = 1f;
+  private boolean active;
+  private float r = 1f;
+  private float g = 1f;
+  private float b = 1f;
+  private float rr = 1f;
+  private float rg = 1f;
+  private float rb = 1f;
+  private boolean acted;
 
-	public UiSlot(UiInventory inventory, int id, int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.id = id;
-		this.inventory = inventory;
+  public UiSlot(UiInventory inventory, int id, int x, int y) {
+    this.x = x;
+    this.y = y;
+    this.id = id;
+    this.inventory = inventory;
 
-		if (slot == null) {
-			slot = Graphics.getTexture("ui-inventory_slot");
-		}
-	}
+    if (slot == null) {
+      slot = Graphics.getTexture("ui-inventory_slot");
+    }
+  }
 
-	public void update(float dt) {
-		Item item = this.inventory.getInventory().getSlot(this.id);
+  public static boolean canAccept(int id, Item item) {
+    if (id == 6) {
+      return item instanceof Hat;
+    } else if (id == 11) {
+      return item instanceof Gold;
+    } else if (id > 6 && id < 12) {
+      return item instanceof Equipable;
+    }
 
-		this.r += (this.rr - this.r) * dt * 10;
-		this.g += (this.rg - this.g) * dt * 10;
-		this.b += (this.rb - this.b) * dt * 10;
+    return true;
+  }
 
-		if (item != null) {
-			item.update(dt);
+  public void update(float dt) {
+    Item item = this.inventory.getInventory().getSlot(this.id);
 
-			if (item.getCount() == 0) {
-				this.inventory.getInventory().setSlot(this.id, null);
-			}
-		}
+    this.r += (this.rr - this.r) * dt * 10;
+    this.g += (this.rg - this.g) * dt * 10;
+    this.b += (this.rb - this.b) * dt * 10;
 
-		if (!this.inventory.isOpen() && this.id >= 6) {
-			return;
-		}
+    if (item != null) {
+      item.update(dt);
 
-		if (this.inventory.getActive() == this.id && !this.active) {
-			this.active = true;
+      if (item.getCount() == 0) {
+        this.inventory.getInventory().setSlot(this.id, null);
+      }
+    }
 
-			Tween.to(new Tween.Task(1.2f, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
+    if (!this.inventory.isOpen() && this.id >= 6) {
+      return;
+    }
 
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-			});
+    if (this.inventory.getActive() == this.id && !this.active) {
+      this.active = true;
 
-			Audio.playSfx("menu/moving");
-		} else if (this.inventory.getActive() != this.id && this.active) {
-			this.active = false;
+      Tween.to(new Tween.Task(1.2f, 0.1f) {
+        @Override
+        public float getValue() {
+          return scale;
+        }
 
-			Tween.to(new Tween.Task(1f, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
+        @Override
+        public void setValue(float value) {
+          scale = value;
+        }
+      });
 
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-			});
-		}
+      Audio.playSfx("menu/moving");
+    } else if (this.inventory.getActive() != this.id && this.active) {
+      this.active = false;
 
-		boolean h = this.hovered;
-		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, (int) this.y, 24, 24);
+      Tween.to(new Tween.Task(1f, 0.1f) {
+        @Override
+        public float getValue() {
+          return scale;
+        }
 
-		if (this.hovered && !h) {
-			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
+        @Override
+        public void setValue(float value) {
+          scale = value;
+        }
+      });
+    }
 
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-			});
+    boolean h = this.hovered;
+    this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, (int) this.y, 24, 24);
 
-			Audio.playSfx("menu/moving");
-		} else if (!this.hovered && h) {
-			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
+    if (this.hovered && !h) {
+      Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
+        @Override
+        public float getValue() {
+          return scale;
+        }
 
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-			});
-		}
+        @Override
+        public void setValue(float value) {
+          scale = value;
+        }
+      });
 
-		if (this.hovered) {
-			this.inventory.hoveredSlot = this.id;
-			this.inventory.handled = true;
+      Audio.playSfx("menu/moving");
+    } else if (!this.hovered && h) {
+      Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
+        @Override
+        public float getValue() {
+          return scale;
+        }
 
-			if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
-				Audio.playSfx("menu/select");
+        @Override
+        public void setValue(float value) {
+          scale = value;
+        }
+      });
+    }
 
-				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
-					@Override
-					public float getValue() {
-						return scale;
-					}
+    if (this.hovered) {
+      this.inventory.hoveredSlot = this.id;
+      this.inventory.handled = true;
 
-					@Override
-					public void setValue(float value) {
-						scale = value;
-					}
+      if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
+        Audio.playSfx("menu/select");
 
-					@Override
-					public void onEnd() {
-						super.onEnd();
+        Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+          @Override
+          public float getValue() {
+            return scale;
+          }
 
-						Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
-							@Override
-							public float getValue() {
-								return scale;
-							}
+          @Override
+          public void setValue(float value) {
+            scale = value;
+          }
 
-							@Override
-							public void setValue(float value) {
-								scale = value;
-							}
-						});
-					}
-				});
-			}
+          @Override
+          public void onEnd() {
+            super.onEnd();
 
-			if (Input.instance.wasPressed("mouse0")) {
-				Item current = this.inventory.getCurrentSlot();
-				Item self = this.inventory.getInventory().getSlot(this.id);
+            Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
+              @Override
+              public float getValue() {
+                return scale;
+              }
 
-				if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
-					current.setCount(current.getCount() + self.getCount());
-					this.inventory.getInventory().setSlot(this.id, current);
-					this.inventory.setCurrentSlot(null);
-				} else if (canAccept(this.id, current) || current == null) {
-					if (this.id > 5 && current != null) {
-						for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
-							Item sl = this.inventory.getInventory().getSlot(i);
+              @Override
+              public void setValue(float value) {
+                scale = value;
+              }
+            });
+          }
+        });
+      }
 
-							if (sl != null && sl.getClass().isInstance(current)) {
-								return;
-							}
-						}
-					}
+      if (Input.instance.wasPressed("mouse0")) {
+        Item current = this.inventory.getCurrentSlot();
+        Item self = this.inventory.getInventory().getSlot(this.id);
 
-					this.inventory.setCurrentSlot(self);
-					this.inventory.getInventory().setSlot(this.id, current);
+        if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
+          current.setCount(current.getCount() + self.getCount());
+          this.inventory.getInventory().setSlot(this.id, current);
+          this.inventory.setCurrentSlot(null);
+        } else if (canAccept(this.id, current) || current == null) {
+          if (this.id > 5 && current != null) {
+            for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
+              Item sl = this.inventory.getInventory().getSlot(i);
 
-					if (this.id > 5) {
-						if (self instanceof Accessory) {
-							((Accessory) self).onUnequip();
-						}
+              if (sl != null && sl.getClass().isInstance(current)) {
+                return;
+              }
+            }
+          }
 
-						if (current instanceof Accessory) {
-							current.setOwner(Player.instance);
-							((Accessory) current).onEquip();
-						}
-					}
-				}
-			} else if (Input.instance.wasPressed("mouse1")) {
-				Item self = this.inventory.getInventory().getSlot(this.id);
-				Item current = this.inventory.getCurrentSlot();
+          this.inventory.setCurrentSlot(self);
+          this.inventory.getInventory().setSlot(this.id, current);
 
-				if (self == null || !self.isStackable()) {
-					return;
-				}
+          if (this.id > 5) {
+            if (self instanceof Accessory) {
+              ((Accessory) self).onUnequip();
+            }
 
-				if (current != null && self.getClass() != current.getClass()) {
-					return;
-				}
+            if (current instanceof Accessory) {
+              current.setOwner(Player.instance);
+              ((Accessory) current).onEquip();
+            }
+          }
+        }
+      } else if (Input.instance.wasPressed("mouse1")) {
+        Item self = this.inventory.getInventory().getSlot(this.id);
+        Item current = this.inventory.getCurrentSlot();
 
-				if (current == null) {
-					try {
-						current = self.getClass().newInstance();
-						current.setCount(0);
-						current.setOwner(Player.instance);
+        if (self == null || !self.isStackable()) {
+          return;
+        }
 
-						this.inventory.setCurrentSlot(current);
-					} catch (Exception e) {
-						Dungeon.reportException(e);
-						
-						return;
-					}
-				}
+        if (current != null && self.getClass() != current.getClass()) {
+          return;
+        }
 
-				if (self.getCount() == 1) {
-					this.inventory.getInventory().setSlot(this.id, null);
-				}
+        if (current == null) {
+          try {
+            current = self.getClass().newInstance();
+            current.setCount(0);
+            current.setOwner(Player.instance);
 
-				current.setCount(current.getCount() + 1);
-				current.setOwner(Player.instance);
-				self.setCount(self.getCount() - 1);
-			}
-		}
-	}
+            this.inventory.setCurrentSlot(current);
+          } catch (Exception e) {
+            Dungeon.reportException(e);
 
-	public static boolean canAccept(int id, Item item) {
-		if (id == 6) {
-			return item instanceof Hat;
-		} else if (id == 11) {
-			return item instanceof Gold;
-		} else if (id > 6 && id < 12) {
-			return item instanceof Equipable;
-		}
+            return;
+          }
+        }
 
-		return true;
-	}
+        if (self.getCount() == 1) {
+          this.inventory.getInventory().setSlot(this.id, null);
+        }
 
-	private boolean acted;
-	public float a = 0.5f;
+        current.setCount(current.getCount() + 1);
+        current.setOwner(Player.instance);
+        self.setCount(self.getCount() - 1);
+      }
+    }
+  }
 
-	public void render(Item item) {
-		if (this.inventory.getActive() == this.id) {
-			this.rr = 0.6f;
-			this.rg = 0.6f;
-			this.rb = 0.6f;
-		} else if (this.hovered) {
-			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
-				this.rr = 0.4f;
-				this.rg = 0.4f;
-				this.rb = 0.4f;
-			} else {
-				this.rr = 0.8f;
-				this.rg = 0.8f;
-				this.rb = 0.8f;
-			}
-		} else {
-			this.rr = 1f;
-			this.rg = 1f;
-			this.rb = 1f;
-		}
+  public void render(Item item) {
+    if (this.inventory.getActive() == this.id) {
+      this.rr = 0.6f;
+      this.rg = 0.6f;
+      this.rb = 0.6f;
+    } else if (this.hovered) {
+      if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
+        this.rr = 0.4f;
+        this.rg = 0.4f;
+        this.rb = 0.4f;
+      } else {
+        this.rr = 0.8f;
+        this.rg = 0.8f;
+        this.rb = 0.8f;
+      }
+    } else {
+      this.rr = 1f;
+      this.rg = 1f;
+      this.rb = 1f;
+    }
 
-		float an = 0;//(float) (Math.cos(Dungeon.time) * 10f);
+    float an = 0;//(float) (Math.cos(Dungeon.time) * 10f);
 
-		Graphics.batch.setColor(this.r, this.g, this.b, a);
+    Graphics.batch.setColor(this.r, this.g, this.b, a);
 
-		Graphics.render(slot, this.x + slot.getRegionWidth() / 2, this.y + slot.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, slot.getRegionHeight() / 2, false, false, this.scale, this.scale);
+    Graphics.render(slot, this.x + slot.getRegionWidth() / 2, this.y + slot.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, slot.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
-		if (item == null) {
-			if (this.id == 6) {
-				Graphics.render(armorBg, this.x + 12 - armorBg.getRegionWidth() / 2,
-					this.y + 12 - armorBg.getRegionHeight() / 2);
-			} else if (this.id > 6 && this.id < 11) {
-				Graphics.render(equipBg, this.x + 12 - equipBg.getRegionWidth() / 2,
-					this.y + 12 - equipBg.getRegionHeight() / 2);
-			} else if (this.id == 11) {
-				Graphics.render(coinBg, this.x + 12 - coinBg.getRegionWidth() / 2,
-					this.y + 12 - coinBg.getRegionHeight() / 2);
-			}
-		}
+    if (item == null) {
+      if (this.id == 6) {
+        Graphics.render(armorBg, this.x + 12 - armorBg.getRegionWidth() / 2,
+          this.y + 12 - armorBg.getRegionHeight() / 2);
+      } else if (this.id > 6 && this.id < 11) {
+        Graphics.render(equipBg, this.x + 12 - equipBg.getRegionWidth() / 2,
+          this.y + 12 - equipBg.getRegionHeight() / 2);
+      } else if (this.id == 11) {
+        Graphics.render(coinBg, this.x + 12 - coinBg.getRegionWidth() / 2,
+          this.y + 12 - coinBg.getRegionHeight() / 2);
+      }
+    }
 
-		if (item != null && item.getDelay() != 0) {
-			float delay = item.getDelay();
-			float maxDelay = item.getUseTime();
+    if (item != null && item.getDelay() != 0) {
+      float delay = item.getDelay();
+      float maxDelay = item.getUseTime();
 
-			int w = (int) ((delay / maxDelay) * 24);
-			Graphics.batch.setColor(0.3f, 0.3f, 0.3f, a);
-			TextureRegion region = new TextureRegion(slot);
-			region.setRegionWidth(w);
-			Graphics.render(region, this.x + slot.getRegionWidth() / 2, this.y + region.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale, this.scale);
-			Graphics.batch.setColor(1, 1, 1, a);
+      int w = (int) ((delay / maxDelay) * 24);
+      Graphics.batch.setColor(0.3f, 0.3f, 0.3f, a);
+      TextureRegion region = new TextureRegion(slot);
+      region.setRegionWidth(w);
+      Graphics.render(region, this.x + slot.getRegionWidth() / 2, this.y + region.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+      Graphics.batch.setColor(1, 1, 1, a);
 
-			if (!this.acted) {
-				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
-					@Override
-					public float getValue() {
-						return scale;
-					}
+      if (!this.acted) {
+        Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+          @Override
+          public float getValue() {
+            return scale;
+          }
 
-					@Override
-					public void setValue(float value) {
-						scale = value;
-					}
+          @Override
+          public void setValue(float value) {
+            scale = value;
+          }
 
-					@Override
-					public void onEnd() {
-						super.onEnd();
+          @Override
+          public void onEnd() {
+            super.onEnd();
 
-						Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
-							@Override
-							public float getValue() {
-								return scale;
-							}
+            Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
+              @Override
+              public float getValue() {
+                return scale;
+              }
 
-							@Override
-							public void setValue(float value) {
-								scale = value;
-							}
-						});
-					}
-				});
+              @Override
+              public void setValue(float value) {
+                scale = value;
+              }
+            });
+          }
+        });
 
-				this.acted = true;
-			}
-		} else {
-			this.acted = false;
-		}
+        this.acted = true;
+      }
+    } else {
+      this.acted = false;
+    }
 
-		Graphics.batch.setColor(1, 1, 1, a);
+    Graphics.batch.setColor(1, 1, 1, a);
 
-		if (item != null) {
-			TextureRegion sprite = item.getSprite();
-			int count = item.getValue();
+    if (item != null) {
+      TextureRegion sprite = item.getSprite();
+      int count = item.getValue();
 
 			/*if (item instanceof Lamp && ((Lamp) item).getRadius() > 0) {
 				Graphics.batch.end();
@@ -359,23 +358,23 @@ public class UiSlot {
 				Graphics.batch.begin();
 			}*/
 
-			if (item instanceof WeaponBase) {
-				((WeaponBase) item).renderAt(this.x + slot.getRegionWidth() / 2,
-					this.y + slot.getRegionHeight() / 2, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, this.scale);
-			} else {
-				Graphics.batch.setColor(1, 1, 1, item.a);
+      if (item instanceof WeaponBase) {
+        ((WeaponBase) item).renderAt(this.x + slot.getRegionWidth() / 2,
+          this.y + slot.getRegionHeight() / 2, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, this.scale);
+      } else {
+        Graphics.batch.setColor(1, 1, 1, item.a);
 
-				Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
-					this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
-			}
+        Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
+          this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+      }
 
-			if (count != 1) {
-				Graphics.small.setColor(1, 1, 1, item.a);
-				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
-				Graphics.small.setColor(1, 1, 1, 1);
-			}
-		}
+      if (count != 1) {
+        Graphics.small.setColor(1, 1, 1, item.a);
+        Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
+        Graphics.small.setColor(1, 1, 1, 1);
+      }
+    }
 
-		Graphics.batch.setColor(1, 1, 1, 1);
-	}
+    Graphics.batch.setColor(1, 1, 1, 1);
+  }
 }

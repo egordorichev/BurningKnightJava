@@ -1,103 +1,265 @@
-{ "frames": {
-   "fireball 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 4, "h": 4 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 6, "w": 4, "h": 4 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 300
-   },
-   "fireball 1.ase": {
-    "frame": { "x": 4, "y": 0, "w": 6, "h": 6 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 5, "y": 5, "w": 6, "h": 6 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 300
-   },
-   "fireball 2.ase": {
-    "frame": { "x": 10, "y": 0, "w": 8, "h": 8 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 4, "y": 4, "w": 8, "h": 8 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 300
-   },
-   "fireball 3.ase": {
-    "frame": { "x": 18, "y": 0, "w": 10, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 3, "w": 10, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "fireball 4.ase": {
-    "frame": { "x": 28, "y": 0, "w": 10, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 3, "w": 10, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "fireball 5.ase": {
-    "frame": { "x": 38, "y": 0, "w": 10, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 3, "w": 10, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "fireball 6.ase": {
-    "frame": { "x": 48, "y": 0, "w": 10, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 3, "w": 10, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "fireball 7.ase": {
-    "frame": { "x": 58, "y": 0, "w": 10, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 3, "w": 10, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "fireball 8.ase": {
-    "frame": { "x": 68, "y": 0, "w": 8, "h": 8 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 4, "y": 4, "w": 8, "h": 8 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "fireball 9.ase": {
-    "frame": { "x": 76, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 4, "y": 4, "w": 7, "h": 7 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "fireball 10.ase": {
-    "frame": { "x": 83, "y": 0, "w": 5, "h": 4 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 5, "y": 6, "w": 5, "h": 4 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   }
- },
- "meta": {
-  "app": "http://www.aseprite.org/",
-  "version": "1.2-dev",
-  "format": "I8",
-  "size": { "w": 88, "h": 10 },
-  "scale": "1",
-  "frameTags": [
-   { "name": "appear", "from": 0, "to": 2, "direction": "forward" },
-   { "name": "idle", "from": 4, "to": 6, "direction": "forward" },
-   { "name": "dead", "from": 7, "to": 10, "direction": "forward" }
-  ]
- }
+{
+  "frames": {
+    "fireball 0.ase": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 6,
+        "y": 6,
+        "w": 4,
+        "h": 4
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 300
+    },
+    "fireball 1.ase": {
+      "frame": {
+        "x": 4,
+        "y": 0,
+        "w": 6,
+        "h": 6
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 5,
+        "w": 6,
+        "h": 6
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 300
+    },
+    "fireball 2.ase": {
+      "frame": {
+        "x": 10,
+        "y": 0,
+        "w": 8,
+        "h": 8
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 4,
+        "y": 4,
+        "w": 8,
+        "h": 8
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 300
+    },
+    "fireball 3.ase": {
+      "frame": {
+        "x": 18,
+        "y": 0,
+        "w": 10,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 10,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "fireball 4.ase": {
+      "frame": {
+        "x": 28,
+        "y": 0,
+        "w": 10,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 10,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "fireball 5.ase": {
+      "frame": {
+        "x": 38,
+        "y": 0,
+        "w": 10,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 10,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "fireball 6.ase": {
+      "frame": {
+        "x": 48,
+        "y": 0,
+        "w": 10,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 10,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "fireball 7.ase": {
+      "frame": {
+        "x": 58,
+        "y": 0,
+        "w": 10,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 10,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "fireball 8.ase": {
+      "frame": {
+        "x": 68,
+        "y": 0,
+        "w": 8,
+        "h": 8
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 4,
+        "y": 4,
+        "w": 8,
+        "h": 8
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "fireball 9.ase": {
+      "frame": {
+        "x": 76,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 4,
+        "y": 4,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "fireball 10.ase": {
+      "frame": {
+        "x": 83,
+        "y": 0,
+        "w": 5,
+        "h": 4
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 6,
+        "w": 5,
+        "h": 4
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    }
+  },
+  "meta": {
+    "app": "http://www.aseprite.org/",
+    "version": "1.2-dev",
+    "format": "I8",
+    "size": {
+      "w": 88,
+      "h": 10
+    },
+    "scale": "1",
+    "frameTags": [
+      {
+        "name": "appear",
+        "from": 0,
+        "to": 2,
+        "direction": "forward"
+      },
+      {
+        "name": "idle",
+        "from": 4,
+        "to": 6,
+        "direction": "forward"
+      },
+      {
+        "name": "dead",
+        "from": 7,
+        "to": 10,
+        "direction": "forward"
+      }
+    ]
+  }
 }

@@ -21,165 +21,165 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 
 public class Chest extends SaveableEntity {
-	private AnimationData data;
-	protected Body body;
-	protected boolean open;
-	protected Item item;
-	protected boolean create;
+  protected Body body;
+  protected boolean open;
+  protected Item item;
+  protected boolean create;
+  private AnimationData data;
 
-	@Override
-	public void init() {
-		super.init();
+  public static Chest random() {
+    return new WoodenChest();
+  }
 
-		this.data = this.getClosedAnim();
-		this.data.setAutoPause(true);
-		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		
-		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
-		}
-	}
+  @Override
+  public void init() {
+    super.init();
 
-	public Item generate() {
-		return null;
-	}
+    this.data = this.getClosedAnim();
+    this.data.setAutoPause(true);
+    this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 
-	public void setItem(Item item) {
-		this.item = item;
-		this.item.generate();
-	}
+    if (this.body != null) {
+      this.body.setTransform(this.x, this.y, 0);
+    }
+  }
 
-	@Override
-	public void onCollision(Entity entity) {
-		if (!this.open && entity instanceof Player) {
-			this.open = true;
-			this.data = this.getOpenAnim();
+  public Item generate() {
+    return null;
+  }
 
-			this.data.setListener(new AnimationData.Listener() {
-				@Override
-				public void onEnd() {
-					create = true;
-				}
-			});
-		}
-	}
+  public void setItem(Item item) {
+    this.item = item;
+    this.item.generate();
+  }
 
-	@Override
-	public void destroy() {
-		super.destroy();
-		this.body = World.removeBody(this.body);
-	}
+  @Override
+  public void onCollision(Entity entity) {
+    if (!this.open && entity instanceof Player) {
+      this.open = true;
+      this.data = this.getOpenAnim();
 
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
+      this.data.setListener(new AnimationData.Listener() {
+        @Override
+        public void onEnd() {
+          create = true;
+        }
+      });
+    }
+  }
 
-		this.open = reader.readBoolean();
-		this.body.setTransform(this.x, this.y, 0);
+  @Override
+  public void destroy() {
+    super.destroy();
+    this.body = World.removeBody(this.body);
+  }
 
-		if (!this.open) {
-			String name = reader.readString();
+  @Override
+  public void load(FileReader reader) throws IOException {
+    super.load(reader);
 
-			try {
-				Class<?> clazz = Class.forName(name);
-				Constructor<?> constructor = clazz.getConstructor();
-				Object object = constructor.newInstance();
+    this.open = reader.readBoolean();
+    this.body.setTransform(this.x, this.y, 0);
 
-				Item item = (Item) object;
-				item.load(reader);
+    if (!this.open) {
+      String name = reader.readString();
 
-				this.item = item;
-			} catch (Exception e) {
-				Log.error(name);
-				Dungeon.reportException(e);
-			}
-		}
+      try {
+        Class<?> clazz = Class.forName(name);
+        Constructor<?> constructor = clazz.getConstructor();
+        Object object = constructor.newInstance();
 
-		if (this.item == null && !this.open) {
-			Log.error("Something wrong with chest");
-		}
+        Item item = (Item) object;
+        item.load(reader);
 
-		if (this.open) {
-			this.data = this.getOpenedAnim();
-		}
-	}
+        this.item = item;
+      } catch (Exception e) {
+        Log.error(name);
+        Dungeon.reportException(e);
+      }
+    }
 
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
+    if (this.item == null && !this.open) {
+      Log.error("Something wrong with chest");
+    }
 
-		writer.writeBoolean(this.open);
+    if (this.open) {
+      this.data = this.getOpenedAnim();
+    }
+  }
 
-		if (!this.open && this.item == null) {
-			Log.error("Something wrong when saving");
-		}
+  @Override
+  public void save(FileWriter writer) throws IOException {
+    super.save(writer);
 
-		if (!this.open) {
-			writer.writeString(this.item.getClass().getName());
-			this.item.save(writer);
-		}
-	}
+    writer.writeBoolean(this.open);
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
+    if (!this.open && this.item == null) {
+      Log.error("Something wrong when saving");
+    }
 
-		this.t += dt;
+    if (!this.open) {
+      writer.writeString(this.item.getClass().getName());
+      this.item.save(writer);
+    }
+  }
 
-		if (this.item != null && this.create) {
-			ItemHolder holder = new ItemHolder();
+  @Override
+  public void update(float dt) {
+    super.update(dt);
 
-			holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;
-			holder.y = this.y - 3;
+    this.t += dt;
 
-			holder.setItem(this.item);
+    if (this.item != null && this.create) {
+      ItemHolder holder = new ItemHolder();
 
-			Dungeon.area.add(holder);
-			LevelSave.add(holder);
+      holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;
+      holder.y = this.y - 3;
 
-			this.item = null;
-			this.create = false;
-		}
+      holder.setItem(this.item);
 
-		if (this.data != null && this.data.update(dt)) {
-			if (this.data == this.getOpenAnim()) {
-				this.data = this.getOpenedAnim();
-			}
-		}
-	}
+      Dungeon.area.add(holder);
+      LevelSave.add(holder);
 
-	public static Chest random() {
-		return new WoodenChest();
-	}
+      this.item = null;
+      this.create = false;
+    }
 
-	@Override
-	public void render() {
-		if (this.data != null) {
-			TextureRegion sprite = this.data.getCurrent().frame;
+    if (this.data != null && this.data.update(dt)) {
+      if (this.data == this.getOpenAnim()) {
+        this.data = this.getOpenedAnim();
+      }
+    }
+  }
 
-			int w = sprite.getRegionWidth();
+  @Override
+  public void render() {
+    if (this.data != null) {
+      TextureRegion sprite = this.data.getCurrent().frame;
 
-			float sx = 1f;
-			float sy = 1f;//(float) (1f + Math.sin(this.t * 3f) / 15f);
-			Graphics.render(sprite, this.x + w / 2, this.y, 0,
-				w / 2, 0, false, false, sx, sy);
-		}
-	}
+      int w = sprite.getRegionWidth();
 
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h);
-	}
+      float sx = 1f;
+      float sy = 1f;//(float) (1f + Math.sin(this.t * 3f) / 15f);
+      Graphics.render(sprite, this.x + w / 2, this.y, 0,
+        w / 2, 0, false, false, sx, sy);
+    }
+  }
 
-	protected AnimationData getClosedAnim() {
-		return null;
-	}
+  @Override
+  public void renderShadow() {
+    Graphics.shadow(this.x, this.y, this.w, this.h);
+  }
 
-	protected AnimationData getOpenedAnim() {
-		return null;
-	}
+  protected AnimationData getClosedAnim() {
+    return null;
+  }
 
-	protected AnimationData getOpenAnim() {
-		return null;
-	}
+  protected AnimationData getOpenedAnim() {
+    return null;
+  }
+
+  protected AnimationData getOpenAnim() {
+    return null;
+  }
 }

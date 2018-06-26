@@ -1,217 +1,571 @@
-{ "frames": {
-   "actor_clown 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 1.ase": {
-    "frame": { "x": 13, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 2.ase": {
-    "frame": { "x": 26, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 3.ase": {
-    "frame": { "x": 39, "y": 0, "w": 13, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 6, "w": 13, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 4.ase": {
-    "frame": { "x": 52, "y": 0, "w": 13, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 6, "w": 13, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 5.ase": {
-    "frame": { "x": 65, "y": 0, "w": 13, "h": 10 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 6, "w": 13, "h": 10 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 6.ase": {
-    "frame": { "x": 78, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 7.ase": {
-    "frame": { "x": 91, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 8.ase": {
-    "frame": { "x": 104, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 9.ase": {
-    "frame": { "x": 117, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 4, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 10.ase": {
-    "frame": { "x": 130, "y": 0, "w": 13, "h": 12 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 4, "w": 13, "h": 12 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 11.ase": {
-    "frame": { "x": 143, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 12.ase": {
-    "frame": { "x": 156, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 13.ase": {
-    "frame": { "x": 169, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 4, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 14.ase": {
-    "frame": { "x": 182, "y": 0, "w": 13, "h": 12 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 4, "w": 13, "h": 12 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 15.ase": {
-    "frame": { "x": 195, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 16.ase": {
-    "frame": { "x": 208, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 17.ase": {
-    "frame": { "x": 221, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 18.ase": {
-    "frame": { "x": 234, "y": 0, "w": 13, "h": 12 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 4, "w": 13, "h": 12 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 19.ase": {
-    "frame": { "x": 247, "y": 0, "w": 13, "h": 12 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 4, "w": 13, "h": 12 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 20.ase": {
-    "frame": { "x": 260, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 21.ase": {
-    "frame": { "x": 273, "y": 0, "w": 13, "h": 11 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 22.ase": {
-    "frame": { "x": 286, "y": 0, "w": 13, "h": 8 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 8 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 23.ase": {
-    "frame": { "x": 299, "y": 0, "w": 5, "h": 5 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 5, "y": 7, "w": 5, "h": 5 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   },
-   "actor_clown 24.ase": {
-    "frame": { "x": 304, "y": 0, "w": 6, "h": 5 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 5, "y": 7, "w": 6, "h": 5 },
-    "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
-   }
- },
- "meta": {
-  "app": "http://www.aseprite.org/",
-  "version": "1.2.9-beta2-x64",
-  "format": "I8",
-  "size": { "w": 310, "h": 12 },
-  "scale": "1",
-  "frameTags": [
-   { "name": "idle", "from": 0, "to": 7, "direction": "forward" },
-   { "name": "run", "from": 8, "to": 15, "direction": "forward" },
-   { "name": "hurt", "from": 16, "to": 17, "direction": "forward" },
-   { "name": "laugh", "from": 18, "to": 21, "direction": "forward" },
-   { "name": "dead", "from": 22, "to": 24, "direction": "forward" }
-  ]
- }
+{
+  "frames": {
+    "actor_clown 0.ase": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 1.ase": {
+      "frame": {
+        "x": 13,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 2.ase": {
+      "frame": {
+        "x": 26,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 3.ase": {
+      "frame": {
+        "x": 39,
+        "y": 0,
+        "w": 13,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 6,
+        "w": 13,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 4.ase": {
+      "frame": {
+        "x": 52,
+        "y": 0,
+        "w": 13,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 6,
+        "w": 13,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 5.ase": {
+      "frame": {
+        "x": 65,
+        "y": 0,
+        "w": 13,
+        "h": 10
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 6,
+        "w": 13,
+        "h": 10
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 6.ase": {
+      "frame": {
+        "x": 78,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 7.ase": {
+      "frame": {
+        "x": 91,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 8.ase": {
+      "frame": {
+        "x": 104,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 9.ase": {
+      "frame": {
+        "x": 117,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 4,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 10.ase": {
+      "frame": {
+        "x": 130,
+        "y": 0,
+        "w": 13,
+        "h": 12
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 4,
+        "w": 13,
+        "h": 12
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 11.ase": {
+      "frame": {
+        "x": 143,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 12.ase": {
+      "frame": {
+        "x": 156,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 13.ase": {
+      "frame": {
+        "x": 169,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 4,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 14.ase": {
+      "frame": {
+        "x": 182,
+        "y": 0,
+        "w": 13,
+        "h": 12
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 4,
+        "w": 13,
+        "h": 12
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 15.ase": {
+      "frame": {
+        "x": 195,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 16.ase": {
+      "frame": {
+        "x": 208,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 17.ase": {
+      "frame": {
+        "x": 221,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 18.ase": {
+      "frame": {
+        "x": 234,
+        "y": 0,
+        "w": 13,
+        "h": 12
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 4,
+        "w": 13,
+        "h": 12
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 19.ase": {
+      "frame": {
+        "x": 247,
+        "y": 0,
+        "w": 13,
+        "h": 12
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 4,
+        "w": 13,
+        "h": 12
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 20.ase": {
+      "frame": {
+        "x": 260,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 21.ase": {
+      "frame": {
+        "x": 273,
+        "y": 0,
+        "w": 13,
+        "h": 11
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 11
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 22.ase": {
+      "frame": {
+        "x": 286,
+        "y": 0,
+        "w": 13,
+        "h": 8
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 5,
+        "w": 13,
+        "h": 8
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 23.ase": {
+      "frame": {
+        "x": 299,
+        "y": 0,
+        "w": 5,
+        "h": 5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 7,
+        "w": 5,
+        "h": 5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    },
+    "actor_clown 24.ase": {
+      "frame": {
+        "x": 304,
+        "y": 0,
+        "w": 6,
+        "h": 5
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 5,
+        "y": 7,
+        "w": 6,
+        "h": 5
+      },
+      "sourceSize": {
+        "w": 16,
+        "h": 16
+      },
+      "duration": 100
+    }
+  },
+  "meta": {
+    "app": "http://www.aseprite.org/",
+    "version": "1.2.9-beta2-x64",
+    "format": "I8",
+    "size": {
+      "w": 310,
+      "h": 12
+    },
+    "scale": "1",
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 7,
+        "direction": "forward"
+      },
+      {
+        "name": "run",
+        "from": 8,
+        "to": 15,
+        "direction": "forward"
+      },
+      {
+        "name": "hurt",
+        "from": 16,
+        "to": 17,
+        "direction": "forward"
+      },
+      {
+        "name": "laugh",
+        "from": 18,
+        "to": 21,
+        "direction": "forward"
+      },
+      {
+        "name": "dead",
+        "from": 22,
+        "to": 24,
+        "direction": "forward"
+      }
+    ]
+  }
 }

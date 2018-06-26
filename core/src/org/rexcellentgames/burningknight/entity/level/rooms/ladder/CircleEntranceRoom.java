@@ -4,88 +4,84 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 public class CircleEntranceRoom extends EntranceRoom {
-	@Override
-	public void paint(Level level) {
-		byte f = Terrain.randomFloor();
-		Painter.fill(level, this, Terrain.WALL);
-		Painter.fillEllipse(level, this, 1, f);
+  @Override
+  public void paint(Level level) {
+    byte f = Terrain.randomFloor();
+    Painter.fill(level, this, Terrain.WALL);
+    Painter.fillEllipse(level, this, 1, f);
 
-		if (this.connected.size() == 0) {
-			Log.error("Invalid connection room");
-			return;
-		}
+    if (this.connected.size() == 0) {
+      Log.error("Invalid connection room");
+      return;
+    }
 
-		Rect c = getConnectionSpace();
+    Rect c = getConnectionSpace();
 
-		for (Door door : this.getConnected().values()) {
-			Point start;
-			Point mid;
-			Point end;
+    for (Door door: this.getConnected().values()) {
+      Point start;
+      Point mid;
+      Point end;
 
-			start = new Point(door);
-			if (start.x == left) start.x++;
-			else if (start.y == top) start.y++;
-			else if (start.x == right) start.x--;
-			else if (start.y == bottom) start.y--;
+      start = new Point(door);
+      if (start.x == left) start.x++;
+      else if (start.y == top) start.y++;
+      else if (start.x == right) start.x--;
+      else if (start.y == bottom) start.y--;
 
-			int rightShift;
-			int downShift;
+      int rightShift;
+      int downShift;
 
-			if (start.x < c.left) rightShift = (int) (c.left - start.x);
-			else if (start.x > c.right) rightShift = (int) (c.right - start.x);
-			else rightShift = 0;
+      if (start.x < c.left) rightShift = (int) (c.left - start.x);
+      else if (start.x > c.right) rightShift = (int) (c.right - start.x);
+      else rightShift = 0;
 
-			if (start.y < c.top) downShift = (int) (c.top - start.y);
-			else if (start.y > c.bottom) downShift = (int) (c.bottom - start.y);
-			else downShift = 0;
+      if (start.y < c.top) downShift = (int) (c.top - start.y);
+      else if (start.y > c.bottom) downShift = (int) (c.bottom - start.y);
+      else downShift = 0;
 
-			// always goes inward first
-			if (door.x == left || door.x == right) {
-				mid = new Point(start.x + rightShift, start.y);
-				end = new Point(mid.x, mid.y + downShift);
+      // always goes inward first
+      if (door.x == left || door.x == right) {
+        mid = new Point(start.x + rightShift, start.y);
+        end = new Point(mid.x, mid.y + downShift);
 
-			} else {
-				mid = new Point(start.x, start.y + downShift);
-				end = new Point(mid.x + rightShift, mid.y);
-			}
+      } else {
+        mid = new Point(start.x, start.y + downShift);
+        end = new Point(mid.x + rightShift, mid.y);
+      }
 
-			Painter.drawLine(level, start, mid, f, true);
-			Painter.drawLine(level, mid, end, f, false);
-		}
+      Painter.drawLine(level, start, mid, f, true);
+      Painter.drawLine(level, mid, end, f, false);
+    }
 
-		this.place(level, this.getCenter());
+    this.place(level, this.getCenter());
 
-		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.REGULAR);
-		}
-	}
+    for (Door door: this.connected.values()) {
+      door.setType(Door.Type.REGULAR);
+    }
+  }
 
-	@Override
-	public int getMinWidth() {
-		return 5;
-	}
+  @Override
+  public int getMinWidth() {
+    return 5;
+  }
 
-	@Override
-	public int getMinHeight() {
-		return 5;
-	}
+  @Override
+  public int getMinHeight() {
+    return 5;
+  }
 
-	@Override
-	public int getMaxWidth() {
-		return 10;
-	}
+  @Override
+  public int getMaxWidth() {
+    return 10;
+  }
 
-	@Override
-	public int getMaxHeight() {
-		return 10;
-	}
+  @Override
+  public int getMaxHeight() {
+    return 10;
+  }
 }

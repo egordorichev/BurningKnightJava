@@ -1,10 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.consumable.spell;
 
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -12,28 +8,25 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class SpellOfTeleportation extends Spell {
-	{
-		name = Locale.get("teleport_spell");
-		description = Locale.get("teleport_spell_desc");
-	}
+  {  }
 
-	@Override
-	public void use() {
-		super.use();
+  private static boolean check(int x, int y) {
+    return Dungeon.level.checkFor(x, y, Terrain.PASSABLE);
+  }
 
-		int x;
-		int y;
+  @Override
+  public void use() {
+    super.use();
 
-		do {
-			x = Random.newInt(1, Level.getWidth() - 2);
-			y = Random.newInt(1, Level.getHeight() - 2);
-		} while (!check(x, y));
+    int x;
+    int y;
 
-		Player.instance.tp(x * 16, y * 16);
-		Camera.follow(Player.instance);
-	}
+    do {
+      x = Random.newInt(1, Level.getWidth() - 2);
+      y = Random.newInt(1, Level.getHeight() - 2);
+    } while (!check(x, y));
 
-	private static boolean check(int x, int y) {
-		return Dungeon.level.checkFor(x, y, Terrain.PASSABLE);
-	}
+    Player.instance.tp(x * 16, y * 16);
+    Camera.follow(Player.instance);
+  }
 }

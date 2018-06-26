@@ -6,19 +6,19 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 
 public class LibraryBossRoom extends RegularRoom {
-	@Override
-	public void paint(Level level) {
-		super.paint(level);
+  @Override
+  public void paint(Level level) {
+    super.paint(level);
 
-		boolean[] patch = Patch.generate(this.getWidth(), this.getHeight(), 0.4f, 4);
+    boolean[] patch = Patch.generate(this.getWidth(), this.getHeight(), 0.4f, 4);
 
-		for (int x = 1; x < this.getWidth() - 1; x++) {
-			for (int y = 1; y < this.getHeight() - 1; y++) {
-				if (patch[x + y * this.getWidth()]) {
-					level.set(this.left + x, this.top + y, Terrain.FLOOR_B);
-				}
-			}
-		}
+    for (int x = 1; x < this.getWidth() - 1; x++) {
+      for (int y = 1; y < this.getHeight() - 1; y++) {
+        if (patch[x + y * this.getWidth()]) {
+          level.set(this.left + x, this.top + y, Terrain.FLOOR_B);
+        }
+      }
+    }
 
 		/*Point center = this.getCenter();
 
@@ -29,25 +29,25 @@ public class LibraryBossRoom extends RegularRoom {
 
 		Dungeon.area.add(boss);
 		LevelSave.add(boss);*/
-	}
+  }
 
-	@Override
-	public int getMinWidth() {
-		return 25;
-	}
+  @Override
+  public int getMinWidth() {
+    return 25;
+  }
 
-	@Override
-	public int getMaxWidth() {
-		return 26;
-	}
+  @Override
+  public int getMaxWidth() {
+    return 26;
+  }
 
-	@Override
-	public int getMinHeight() {
-		return 25;
-	}
+  @Override
+  public int getMinHeight() {
+    return 25;
+  }
 
-	@Override
-	public int getMaxHeight() {
-		return 26;
-	}
+  @Override
+  public int getMaxHeight() {
+    return 26;
+  }
 }

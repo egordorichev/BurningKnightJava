@@ -16,140 +16,137 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class Turret extends SolidProp {
-	public static Animation animations = Animation.make("actor-turret");
+  public static Animation animations = Animation.make("actor-turret");
+  public float a;
+  public float last;
+  protected float sp = 1.5f;
+  private AnimationData single = animations.get("single");
+  private boolean s;
+  private float sx = 1;
+  private float sy = 1;
+  private byte type;
 
-	private AnimationData single = animations.get("single");
+  {
+    alwaysActive = true;
+    collider = new Rectangle(1, 10, 14, 4);
+  }
 
-	{
-		alwaysActive = true;
-		collider = new Rectangle(1, 10, 14, 4);
-	}
+  @Override
+  public void init() {
+    super.init();
 
-	public float a;
-	public float last;
-	protected float sp = 1.5f;
-	private boolean s;
-	private float sx = 1;
-	private float sy = 1;
+    float r = Random.newFloat();
 
-	@Override
-	public void init() {
-		super.init();
+    if (r < 0.1f) {
+      this.type = 1;
+    } else if (r < 0.2f) {
+      this.type = 2;
+    }
+  }
 
-		float r = Random.newFloat();
+  @Override
+  public void load(FileReader reader) throws IOException {
+    super.load(reader);
 
-		if (r < 0.1f) {
-			this.type = 1;
-		} else if (r < 0.2f) {
-			this.type = 2;
-		}
-	}
+    this.last = reader.readFloat();
+    this.a = reader.readFloat();
+    this.type = reader.readByte();
+  }
 
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
+  @Override
+  public void save(FileWriter writer) throws IOException {
+    super.save(writer);
 
-		this.last = reader.readFloat();
-		this.a = reader.readFloat();
-		this.type = reader.readByte();
-	}
+    writer.writeFloat(this.last);
+    writer.writeFloat(this.a);
+    writer.writeByte(this.type);
+  }
 
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
+  @Override
+  public void render() {
+    single.render(this.x, this.y, false);
+    //Graphics.render(region, this.x + region.getRegionWidth() / 2, this.y, 0, region.getRegionWidth() / 2, 0, false, false, sx, sy);
+  }
 
-		writer.writeFloat(this.last);
-		writer.writeFloat(this.a);
-		writer.writeByte(this.type);
-	}
+  @Override
+  public void update(float dt) {
+    super.update(dt);
 
-	private byte type;
+    if (!s) {
+      s = true;
 
-	@Override
-	public void render() {
-		single.render(this.x, this.y, false);
-		//Graphics.render(region, this.x + region.getRegionWidth() / 2, this.y, 0, region.getRegionWidth() / 2, 0, false, false, sx, sy);
-	}
+      for (int x = 0; x < this.w / 16; x++) {
+        for (int y = 0; y < this.h / 16 + 1; y++) {
+          Dungeon.level.setPassable((int) (x + this.x / 16), (int) (y + (this.y + 8) / 16), false);
+        }
+      }
+    }
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
+    this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4)) + 2), 8));
 
-		if (!s) {
-			s = true;
+    this.last += dt;
 
-			for (int x = 0; x < this.w / 16; x++) {
-				for (int y = 0; y < this.h / 16 + 1; y++) {
-					Dungeon.level.setPassable((int) (x + this.x / 16), (int) (y + (this.y + 8) / 16), false);
-				}
-			}
-		}
+    if (this.last >= sp) {
+      this.last = 0;
+      Tween.to(new Tween.Task(0.6f, 0.05f) {
+        @Override
+        public float getValue() {
+          return sy;
+        }
 
-		this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4)) + 2), 8));
+        @Override
+        public void setValue(float value) {
+          sy = value;
+        }
 
-		this.last += dt;
+        @Override
+        public void onEnd() {
+          Tween.to(new Tween.Task(1f, 0.1f) {
+            @Override
+            public float getValue() {
+              return sy;
+            }
 
-		if (this.last >= sp) {
-			this.last = 0;
-			Tween.to(new Tween.Task(0.6f, 0.05f) {
-				@Override
-				public float getValue() {
-					return sy;
-				}
+            @Override
+            public void setValue(float value) {
+              sy = value;
+            }
+          });
+        }
+      });
 
-				@Override
-				public void setValue(float value) {
-					sy = value;
-				}
+      Tween.to(new Tween.Task(1.4f, 0.05f) {
+        @Override
+        public float getValue() {
+          return sx;
+        }
 
-				@Override
-				public void onEnd() {
-					Tween.to(new Tween.Task(1f, 0.1f) {
-						@Override
-						public float getValue() {
-							return sy;
-						}
+        @Override
+        public void setValue(float value) {
+          sx = value;
+        }
 
-						@Override
-						public void setValue(float value) {
-							sy = value;
-						}
-					});
-				}
-			});
+        @Override
+        public void onEnd() {
+          Tween.to(new Tween.Task(1f, 0.1f) {
+            @Override
+            public float getValue() {
+              return sx;
+            }
 
-			Tween.to(new Tween.Task(1.4f, 0.05f) {
-				@Override
-				public float getValue() {
-					return sx;
-				}
+            @Override
+            public void setValue(float value) {
+              sx = value;
+            }
+          });
+        }
+      });
 
-				@Override
-				public void setValue(float value) {
-					sx = value;
-				}
+      this.send();
+    }
+  }
 
-				@Override
-				public void onEnd() {
-					Tween.to(new Tween.Task(1f, 0.1f) {
-						@Override
-						public float getValue() {
-							return sx;
-						}
-
-						@Override
-						public void setValue(float value) {
-							sx = value;
-						}
-					});
-				}
-			});
-
-			this.send();
-		}
-	}
-
-	protected void send() {
+  protected void send() {
 		/*BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
 
@@ -172,12 +169,16 @@ public class Turret extends SolidProp {
 		bullet.a = a;
 
 		Dungeon.area.add(bullet);*/
-	}
+  }
 
-	protected void modify(BulletProjectile entity) {
-		switch (this.type) {
-			case 1: entity.toApply = PoisonBuff.class; break;
-			case 2: entity.toApply = FreezeBuff.class; break;
-		}
-	}
+  protected void modify(BulletProjectile entity) {
+    switch (this.type) {
+      case 1:
+        entity.toApply = PoisonBuff.class;
+        break;
+      case 2:
+        entity.toApply = FreezeBuff.class;
+        break;
+    }
+  }
 }

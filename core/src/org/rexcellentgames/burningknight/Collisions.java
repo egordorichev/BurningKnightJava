@@ -19,117 +19,117 @@ import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 
 public class Collisions implements ContactListener, ContactFilter {
-	public static Fixture last;
+  public static Fixture last;
 
-	@Override
-	public void beginContact(Contact contact) {
-		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
-		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
+  @Override
+  public void beginContact(Contact contact) {
+    Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
+    Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
-		if (a == null && contact.getFixtureA().getBody().isBullet()) {
-			return;
-		} else if (b == null && contact.getFixtureB().getBody().isBullet()) {
-			return;
-		}
+    if (a == null && contact.getFixtureA().getBody().isBullet()) {
+      return;
+    } else if (b == null && contact.getFixtureB().getBody().isBullet()) {
+      return;
+    }
 
-		if (a != null) {
-			last = contact.getFixtureB();
-			a.onCollision(b);
-		}
+    if (a != null) {
+      last = contact.getFixtureB();
+      a.onCollision(b);
+    }
 
-		if (b != null) {
-			last = contact.getFixtureA();
-			b.onCollision(a);
-		}
-	}
+    if (b != null) {
+      last = contact.getFixtureA();
+      b.onCollision(a);
+    }
+  }
 
-	@Override
-	public void endContact(Contact contact) {
-		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
-		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
+  @Override
+  public void endContact(Contact contact) {
+    Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
+    Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
-		if (a != null) {
-			a.onCollisionEnd(b);
-		}
+    if (a != null) {
+      a.onCollisionEnd(b);
+    }
 
-		if (b != null) {
-			b.onCollisionEnd(a);
-		}
-	}
+    if (b != null) {
+      b.onCollisionEnd(a);
+    }
+  }
 
-	@Override
-	public void preSolve(Contact contact, Manifold oldManifold) {
-		Object a = contact.getFixtureA().getBody().getUserData();
-		Object b = contact.getFixtureB().getBody().getUserData();
+  @Override
+  public void preSolve(Contact contact, Manifold oldManifold) {
+    Object a = contact.getFixtureA().getBody().getUserData();
+    Object b = contact.getFixtureB().getBody().getUserData();
 
-		if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Player && ((Player) b).flying) {
-			contact.setEnabled(false);
-		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Player && ((Player) a).flying) {
-			contact.setEnabled(false);
-		} else if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Projectile) {
-			contact.setEnabled(false);
-		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Projectile) {
-			contact.setEnabled(false);
-		} else if (a instanceof Creature && b instanceof Creature) {
-			contact.setEnabled(false);
-		} else if ((a instanceof Creature && b instanceof ItemHolder) || (b instanceof Creature && a instanceof ItemHolder)) {
-			contact.setEnabled(false);
-		} else if (a instanceof Creature && b instanceof Weapon) {
-			Weapon weapon = (Weapon) b;
+    if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Player && ((Player) b).flying) {
+      contact.setEnabled(false);
+    } else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Player && ((Player) a).flying) {
+      contact.setEnabled(false);
+    } else if (a == null && contact.getFixtureA().getBody().isBullet() && b instanceof Projectile) {
+      contact.setEnabled(false);
+    } else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Projectile) {
+      contact.setEnabled(false);
+    } else if (a instanceof Creature && b instanceof Creature) {
+      contact.setEnabled(false);
+    } else if ((a instanceof Creature && b instanceof ItemHolder) || (b instanceof Creature && a instanceof ItemHolder)) {
+      contact.setEnabled(false);
+    } else if (a instanceof Creature && b instanceof Weapon) {
+      Weapon weapon = (Weapon) b;
 
-			if (weapon.getOwner() == a) {
-				contact.setEnabled(false);
-			}
-		} else if (b instanceof Creature && a instanceof Weapon) {
-			Weapon weapon = (Weapon) a;
+      if (weapon.getOwner() == a) {
+        contact.setEnabled(false);
+      }
+    } else if (b instanceof Creature && a instanceof Weapon) {
+      Weapon weapon = (Weapon) a;
 
-			if (weapon.getOwner() == b) {
-				contact.setEnabled(false);
-			}
-		} else if (a instanceof Door) {
-			if (!((Door) a).lock) {
-				contact.setEnabled(false);
-			}
-		} else if (b instanceof Door) {
-			if (!((Door) b).lock) {
-				contact.setEnabled(false);
-			}
-		} else if ((a instanceof BulletProjectile || a instanceof Shell) && b != null) {
-			contact.setEnabled(false);
-		} else if ((b instanceof BulletProjectile || b instanceof Shell) && a != null) {
-			contact.setEnabled(false);
-		} else if ((a instanceof GoreFx) && b != null) {
-			contact.setEnabled(false);
-		} else if ((b instanceof GoreFx) && a != null) {
-			contact.setEnabled(false);
-		} else if (a instanceof Slab && b instanceof ItemHolder) {
-			contact.setEnabled(false);
-			((ItemHolder) b).depth = 1;
-		} else if (b instanceof Slab && a instanceof ItemHolder) {
-			contact.setEnabled(false);
-			((ItemHolder) a).depth = 1;
-		} else if ((a instanceof Bomb) && b != null) {
-			contact.setEnabled(false);
-		} else if ((b instanceof Bomb) && a != null) {
-			contact.setEnabled(false);
-		} else if (a instanceof PetEntity && (b instanceof Creature || b instanceof Door || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
-			contact.setEnabled(false);
-		} else if (b instanceof PetEntity && (a instanceof Creature || a instanceof Door || a instanceof SolidProp || (a instanceof ItemHolder && !(((ItemHolder) a).getItem() instanceof Gold)))) {
-			contact.setEnabled(false);
-		} else if (a instanceof Yoyo && b instanceof ItemHolder) {
-			contact.setEnabled(false);
-		} else if (b instanceof Yoyo && a instanceof ItemHolder) {
-			contact.setEnabled(false);
-		}
-	}
+      if (weapon.getOwner() == b) {
+        contact.setEnabled(false);
+      }
+    } else if (a instanceof Door) {
+      if (!((Door) a).lock) {
+        contact.setEnabled(false);
+      }
+    } else if (b instanceof Door) {
+      if (!((Door) b).lock) {
+        contact.setEnabled(false);
+      }
+    } else if ((a instanceof BulletProjectile || a instanceof Shell) && b != null) {
+      contact.setEnabled(false);
+    } else if ((b instanceof BulletProjectile || b instanceof Shell) && a != null) {
+      contact.setEnabled(false);
+    } else if ((a instanceof GoreFx) && b != null) {
+      contact.setEnabled(false);
+    } else if ((b instanceof GoreFx) && a != null) {
+      contact.setEnabled(false);
+    } else if (a instanceof Slab && b instanceof ItemHolder) {
+      contact.setEnabled(false);
+      ((ItemHolder) b).depth = 1;
+    } else if (b instanceof Slab && a instanceof ItemHolder) {
+      contact.setEnabled(false);
+      ((ItemHolder) a).depth = 1;
+    } else if ((a instanceof Bomb) && b != null) {
+      contact.setEnabled(false);
+    } else if ((b instanceof Bomb) && a != null) {
+      contact.setEnabled(false);
+    } else if (a instanceof PetEntity && (b instanceof Creature || b instanceof Door || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
+      contact.setEnabled(false);
+    } else if (b instanceof PetEntity && (a instanceof Creature || a instanceof Door || a instanceof SolidProp || (a instanceof ItemHolder && !(((ItemHolder) a).getItem() instanceof Gold)))) {
+      contact.setEnabled(false);
+    } else if (a instanceof Yoyo && b instanceof ItemHolder) {
+      contact.setEnabled(false);
+    } else if (b instanceof Yoyo && a instanceof ItemHolder) {
+      contact.setEnabled(false);
+    }
+  }
 
-	@Override
-	public void postSolve(Contact contact, ContactImpulse impulse) {
+  @Override
+  public void postSolve(Contact contact, ContactImpulse impulse) {
 
-	}
+  }
 
-	@Override
-	public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
-		return true;
-	}
+  @Override
+  public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
+    return true;
+  }
 }

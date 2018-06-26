@@ -10,87 +10,84 @@ import org.rexcellentgames.burningknight.physics.World;
 import java.util.ArrayList;
 
 public class Orbital extends PetEntity {
-	private static ArrayList<Orbital> all = new ArrayList<>();
-	public static float speed = 1f;
-	public static float count;
+  public static float speed = 1f;
+  public static float count;
+  private static ArrayList<Orbital> all = new ArrayList<>();
+  protected float sx = 1;
+  protected float sy = 1;
+  private Body body;
+  private float a;
+  private int id;
 
-	protected float sx = 1;
-	protected float sy = 1;
-	private Body body;
-	private float a;
+  {
+    noTp = false;
+  }
 
-	{
-		noTp = false;
-	}
+  private void setPos() {
+    this.a = (float) (((float) id) / (count) * Math.PI * 2 + Dungeon.time / 2f * speed);
+    float d = 28f + (float) Math.cos(Dungeon.time * 2f) * 4f;
 
-	private void setPos() {
-		this.a = (float) (((float) id) / (count) * Math.PI * 2 + Dungeon.time / 2f * speed);
-		float d = 28f + (float) Math.cos(Dungeon.time * 2f) * 4f;
+    this.x = this.owner.x + this.owner.w / 2 + (float) Math.cos(a) * d;
+    this.y = this.owner.y + this.owner.h / 2 + (float) Math.sin(a) * d;
 
-		this.x = this.owner.x + this.owner.w / 2 + (float) Math.cos(a) * d;
-		this.y = this.owner.y + this.owner.h / 2 + (float) Math.sin(a) * d;
+    this.body.setTransform(this.x, this.y, a);
+  }
 
-		this.body.setTransform(this.x, this.y, a);
-	}
+  @Override
+  public void init() {
+    super.init();
 
+    this.w = this.region.getRegionWidth();
+    this.h = this.region.getRegionHeight();
 
-	@Override
-	public void init() {
-		super.init();
+    body = World.createCircleCentredBody(this, 0f, 0f, Math.min(region.getRegionWidth(), region.getRegionHeight()) / 2f, BodyDef.BodyType.DynamicBody, true);
+    all.add(this);
 
-		this.w = this.region.getRegionWidth();
-		this.h = this.region.getRegionHeight();
+    readIndex();
+    setPos();
+  }
 
-		body = World.createCircleCentredBody(this, 0f, 0f, Math.min(region.getRegionWidth(), region.getRegionHeight()) / 2f, BodyDef.BodyType.DynamicBody, true);
-		all.add(this);
+  @Override
+  public void onCollision(Entity entity) {
+    super.onCollision(entity);
+    this.onHit(entity);
+  }
 
-		readIndex();
-		setPos();
-	}
+  @Override
+  public void renderShadow() {
+    Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
+  }
 
-	@Override
-	public void onCollision(Entity entity) {
-		super.onCollision(entity);
-		this.onHit(entity);
-	}
+  protected void onHit(Entity entity) {
 
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
-	}
+  }
 
-	protected void onHit(Entity entity) {
+  protected void readIndex() {
+    this.id = all.indexOf(this);
+  }
 
-	}
+  @Override
+  public void update(float dt) {
+    super.update(dt);
 
-	protected void readIndex() {
-		this.id = all.indexOf(this);
-	}
+    setPos();
+    count += (all.size() - count) * dt;
+  }
 
-	private int id;
+  @Override
+  public void destroy() {
+    super.destroy();
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
+    body = World.removeBody(this.body);
+    all.remove(this);
 
-		setPos();
-		count += (all.size() - count) * dt;
-	}
+    for (Orbital o: all) {
+      o.readIndex();
+    }
+  }
 
-	@Override
-	public void destroy() {
-		super.destroy();
-
-		body = World.removeBody(this.body);
-		all.remove(this);
-
-		for (Orbital o : all) {
-			o.readIndex();
-		}
-	}
-
-	@Override
-	public void render() {
-		Graphics.render(region, this.x, this.y, 0, this.w / 2, this.h / 2, false, false, this.sx, this.sy);
-	}
+  @Override
+  public void render() {
+    Graphics.render(region, this.x, this.y, 0, this.w / 2, this.h / 2, false, false, this.sx, this.sy);
+  }
 }

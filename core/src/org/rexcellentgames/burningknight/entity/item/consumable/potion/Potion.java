@@ -9,106 +9,108 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class Potion extends Consumable {
-	protected float added;
-	protected ChangableRegistry.Type type;
+  protected float added;
+  protected ChangableRegistry.Type type;
 
-	{
-		useTime = 10f;
-	}
+  {
+    useTime = 10f;
+  }
 
-	public Potion() {
-		this.onPickup();
-	}
+  public Potion() {
+    this.onPickup();
+  }
 
-	@Override
-	public void onPickup() {
-		super.onPickup();
+  public static Potion random() {
+    int random = Random.newInt(8);
 
-		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
-		this.sprite = this.type.getSprite();
-		this.identified = ChangableRegistry.identified.get(this.type);
-	}
+    switch (random) {
+      case 0:
+      case 1:
+        return new RegenerationPotion();
+      case 2:
+        return new PoisonPotion();
+      case 6:
+      default:
+        return new InvisibilityPotion();
+    }
+  }
 
-	@Override
-	public boolean isIdentified() {
-		if (super.isIdentified()) {
-			return true;
-		}
+  @Override
+  public void onPickup() {
+    super.onPickup();
 
-		if (ChangableRegistry.identified.get(this.type)) {
-			this.identified = true;
-			return true;
-		}
+    this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
+    this.sprite = this.type.getSprite();
+    this.identified = ChangableRegistry.identified.get(this.type);
+  }
 
-		return false;
-	}
+  @Override
+  public boolean isIdentified() {
+    if (super.isIdentified()) {
+      return true;
+    }
 
-	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
-		if (this.added != 0) {
-			float angle = (flipped ? this.added : -this.added);
-			TextureRegion sprite = this.getSprite();
+    if (ChangableRegistry.identified.get(this.type)) {
+      this.identified = true;
+      return true;
+    }
 
-			Graphics.render(sprite, x + (flipped ? w / 3 : w / 3 * 2), y + h / 3, angle, sprite.getRegionWidth() / 2,
-				sprite.getRegionHeight() - 4, false,
-				false);
-		}
-	}
+    return false;
+  }
 
-	@Override
-	public void use() {
-		super.use();
-		this.identify();
+  @Override
+  public void render(float x, float y, float w, float h, boolean flipped) {
+    if (this.added != 0) {
+      float angle = (flipped ? this.added : -this.added);
+      TextureRegion sprite = this.getSprite();
 
-		Audio.playSfx("potion");
+      Graphics.render(sprite, x + (flipped ? w / 3 : w / 3 * 2), y + h / 3, angle, sprite.getRegionWidth() / 2,
+        sprite.getRegionHeight() - 4, false,
+        false);
+    }
+  }
 
-		Tween.to(new Tween.Task(-70, 0.3f) {
-			@Override
-			public float getValue() {
-				return added;
-			}
+  @Override
+  public void use() {
+    super.use();
+    this.identify();
 
-			@Override
-			public void setValue(float value) {
-				added = value;
-			}
+    Audio.playSfx("potion");
 
-			@Override
-			public void onEnd() {
-				count -= 1;
-				added = 0;
-			}
-		});
-	}
+    Tween.to(new Tween.Task(-70, 0.3f) {
+      @Override
+      public float getValue() {
+        return added;
+      }
 
-	@Override
-	public String getName() {
-		if (this.isIdentified()) {
-			return super.getName();
-		} else {
-			String name = this.type.toString().toLowerCase();
-			name = name.substring(0, 1).toUpperCase() + name.substring(1);
+      @Override
+      public void setValue(float value) {
+        added = value;
+      }
 
-			return name + " Potion";
-		}
-	}
+      @Override
+      public void onEnd() {
+        count -= 1;
+        added = 0;
+      }
+    });
+  }
 
-	@Override
-	public void identify() {
-		super.identify();
-		ChangableRegistry.identified.put(this.type, true);
-	}
+  @Override
+  public String getName() {
+    if (this.isIdentified()) {
+      return super.getName();
+    } else {
+      String name = this.type.toString().toLowerCase();
+      name = name.substring(0, 1).toUpperCase() + name.substring(1);
 
-	public static Potion random() {
-		int random = Random.newInt(8);
+      return name + " Potion";
+    }
+  }
 
-		switch (random) {
-			case 0: case 1:
-				return new RegenerationPotion();
-			case 2:
-				return new PoisonPotion();
-			case 6: default:
-				return new InvisibilityPotion();
-		}
-	}
+  @Override
+  public void identify() {
+    super.identify();
+    ChangableRegistry.identified.put(this.type, true);
+  }
 }

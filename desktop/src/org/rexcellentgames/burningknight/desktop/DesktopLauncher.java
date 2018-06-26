@@ -94,9 +94,8 @@ public class DesktopLauncher {
 		} catch (ParseException e) {
 			e.printStackTrace();
 			extra = "Houston, we have a problem!";
-		}
-
-
+		}		
+		
 		Dungeon.title = "Burning Knight " + Version.asString() + ": " + extra;
 
 		config.setTitle(Dungeon.title);

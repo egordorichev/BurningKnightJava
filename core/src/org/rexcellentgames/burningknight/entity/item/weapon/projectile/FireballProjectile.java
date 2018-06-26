@@ -13,94 +13,93 @@ import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FireballProjectile extends Projectile {
-	private static Animation animations = Animation.make("fx-fireball");
-	private AnimationData born = animations.get("appear");
-	private AnimationData idle = animations.get("idle");
-	private AnimationData dead = animations.get("dead");
-	private AnimationData animation = born;
+  private static Animation animations = Animation.make("fx-fireball");
+  public Creature target;
+  private AnimationData born = animations.get("appear");
+  private AnimationData idle = animations.get("idle");
+  private AnimationData dead = animations.get("dead");
+  private AnimationData animation = born;
 
-	public Creature target;
+  {
+    alwaysActive = true;
+    depth = 11;
+  }
 
-	{
-		alwaysActive = true;
-		depth = 11;
-	}
+  @Override
+  protected boolean hit(Entity entity) {
+    if (this.bad) {
+      if (entity instanceof Player) {
+        this.doHit(entity);
+        return true;
+      }
+    } else if (entity instanceof Mob) {
+      this.doHit(entity);
+      return true;
+    }
 
-	@Override
-	protected boolean hit(Entity entity) {
-		if (this.bad) {
-			if (entity instanceof Player) {
-				this.doHit(entity);
-				return true;
-			}
-		} else if (entity instanceof Mob) {
-			this.doHit(entity);
-			return true;
-		}
+    return false;
+  }
 
-		return false;
-	}
+  @Override
+  protected void death() {
+    this.animation = dead;
+    this.dead.setListener(new AnimationData.Listener() {
+      @Override
+      public void onEnd() {
+        setDone(true);
+      }
+    });
+  }
 
-	@Override
-	protected void death() {
-		this.animation = dead;
-		this.dead.setListener(new AnimationData.Listener() {
-			@Override
-			public void onEnd() {
-				setDone(true);
-			}
-		});
-	}
+  @Override
+  public void update(float dt) {
+    this.animation.update(dt);
+    super.update(dt);
+  }
 
-	@Override
-	public void update(float dt) {
-		this.animation.update(dt);
-		super.update(dt);
-	}
+  @Override
+  public void init() {
+    super.init();
+    this.playSfx("fireball_cast");
 
-	@Override
-	public void init() {
-		super.init();
-		this.playSfx("fireball_cast");
+    this.t = Random.newFloat(32f);
 
-		this.t = Random.newFloat(32f);
+    this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
+    this.body.setTransform(this.x, this.y, 0);
+    this.body.setBullet(true);
 
-		this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
-		this.body.setBullet(true);
+    if (this.target != null) {
+      float dx = this.target.x + this.target.w / 2 - this.x - 5;
+      float dy = this.target.y + this.target.h / 2 - this.y - 5;
+      float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		if (this.target != null) {
-			float dx = this.target.x + this.target.w / 2 - this.x - 5;
-			float dy = this.target.y + this.target.h / 2 - this.y - 5;
-			float d = (float) Math.sqrt(dx * dx + dy * dy);
+      this.vel.x = dx / d * 3;
+      this.vel.y = dy / d * 3;
 
-			this.vel.x = dx / d * 3;
-			this.vel.y = dy / d * 3;
+      this.body.setLinearVelocity(this.vel);
+    }
 
-			this.body.setLinearVelocity(this.vel);
-		}
+    this.born.setListener(new AnimationData.Listener() {
+      @Override
+      public void onEnd() {
+        animation = idle;
+      }
+    });
+  }
 
-		this.born.setListener(new AnimationData.Listener() {
-			@Override
-			public void onEnd() {
-				animation = idle;
-			}
-		});
-	}
+  @Override
+  public void render() {
+    TextureRegion texture = this.animation.getCurrent().frame;
 
-	@Override
-	public void render() {
-		TextureRegion texture = this.animation.getCurrent().frame;
+    float sx = (float) (1f + Math.cos(this.t * 7) / 6f);
+    float sy = (float) (1f + Math.sin(this.t * 6f) / 6f);
 
-		float sx = (float) (1f + Math.cos(this.t * 7) / 6f);
-		float sy = (float) (1f + Math.sin(this.t * 6f) / 6f);
+    Graphics.render(texture, this.x, this.y,
+      0, texture.getRegionWidth() / 2, texture.getRegionHeight() / 2, false, false, sx, sy);
+  }
 
-		Graphics.render(texture, this.x, this.y,
-			0, texture.getRegionWidth() / 2, texture.getRegionHeight() / 2, false, false, sx, sy);
-	}
-
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x - 8, this.y, this.w, this.h, 5);
-	}
+  @Override
+  public void renderShadow() {
+    Graphics.shadow(this.x - 8, this.y, this.w, this.h, 5);
+  }
 }

@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.connection;
 
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
@@ -10,42 +9,39 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 public class RingConnectionRoom extends TunnelRoom {
-	@Override
-	public int getMinWidth() {
-		return Math.max(5, super.getMinWidth());
-	}
+  private Rect connSpace;
 
-	@Override
-	public int getMinHeight() {
-		return Math.max(5, super.getMinHeight());
-	}
+  @Override
+  public int getMinWidth() {
+    return Math.max(5, super.getMinWidth());
+  }
 
-	@Override
-	public void paint(Level level) {
-		Painter.fill(level, this, Terrain.WALL);
-		super.paint(level);
+  @Override
+  public int getMinHeight() {
+    return Math.max(5, super.getMinHeight());
+  }
 
-		Rect ring = getConnectionSpace();
-		byte floor = Terrain.randomFloor();
+  @Override
+  public void paint(Level level) {
+    Painter.fill(level, this, Terrain.WALL);
+    super.paint(level);
 
-		Painter.fill(level, ring.left, ring.top, 3, 3, floor);
-		Painter.fill(level, ring.left + 1, ring.top + 1, 1, 1, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
-	}
+    Rect ring = getConnectionSpace();
+    byte floor = Terrain.randomFloor();
 
-	private Rect connSpace;
+    Painter.fill(level, ring.left, ring.top, 3, 3, floor);
+    Painter.fill(level, ring.left + 1, ring.top + 1, 1, 1, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
+  }
 
-	@Override
-	protected Rect getConnectionSpace() {
-		if (connSpace == null) {
-			Point c = getDoorCenter();
+  @Override
+  protected Rect getConnectionSpace() {
+    if (connSpace == null) {
+      Point c = getDoorCenter();
 
-			c.x = (int) MathUtils.clamp(left + 2, right - 2, c.x);
-			c.y = (int) MathUtils.clamp(top + 2, bottom - 2, c.y);
+      c.x = (int) MathUtils.clamp(left + 2, right - 2, c.x);
+      c.y = (int) MathUtils.clamp(top + 2, bottom - 2, c.y);      connSpace = new Rect((int) c.x - 1, (int) c.y - 1, (int) c.x + 1, (int) c.y + 1);
+    }
 
-
-			connSpace = new Rect((int) c.x - 1, (int) c.y - 1, (int) c.x + 1, (int) c.y + 1);
-		}
-
-		return connSpace;
-	}
+    return connSpace;
+  }
 }

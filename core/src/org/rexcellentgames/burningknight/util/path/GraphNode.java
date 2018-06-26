@@ -3,10 +3,13 @@ package org.rexcellentgames.burningknight.util.path;
 import java.util.Collection;
 
 public interface GraphNode {
-	void setPrice(int price);
-	int getPrice();
-	void setDistance(int distance);
-	int getDistance();
+  int getPrice();
 
-	Collection<? extends GraphNode> getEdges();
+  void setPrice(int price);
+
+  int getDistance();
+
+  void setDistance(int distance);
+
+  Collection<? extends GraphNode> getEdges();
 }

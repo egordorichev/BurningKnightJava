@@ -12,76 +12,76 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class Table extends SolidProp {
-	private boolean s;
+  private boolean s;
 
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
+  @Override
+  public void load(FileReader reader) throws IOException {
+    super.load(reader);
 
-		this.w = reader.readInt16();
-		this.h = reader.readInt16();
-	}
+    this.w = reader.readInt16();
+    this.h = reader.readInt16();
+  }
 
-	private void makeBody() {
-		this.body = World.createSimpleBody(this, 2, 4, this.w - 4, Math.max(1, this.h - 16 - 8), BodyDef.BodyType.StaticBody, false);
-		
-		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
-		}
-	}
+  private void makeBody() {
+    this.body = World.createSimpleBody(this, 2, 4, this.w - 4, Math.max(1, this.h - 16 - 8), BodyDef.BodyType.StaticBody, false);
 
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
+    if (this.body != null) {
+      this.body.setTransform(this.x, this.y, 0);
+    }
+  }
 
-		writer.writeInt16((short) this.w);
-		writer.writeInt16((short) this.h);
-	}
+  @Override
+  public void save(FileWriter writer) throws IOException {
+    super.save(writer);
 
-	@Override
-	public void render() {
-		if (!s) {
-			s = true;
+    writer.writeInt16((short) this.w);
+    writer.writeInt16((short) this.h);
+  }
 
-			for (int x = 0; x < this.w / 16; x++) {
-				for (int y = 0; y < this.h / 16; y++) {
-					Dungeon.level.setPassable((int) (x + this.x / 16), (int) (y + (this.y + 8) / 16), false);
-				}
-			}
-		}
+  @Override
+  public void render() {
+    if (!s) {
+      s = true;
 
-		if (this.body == null) {
-			this.makeBody();
-		}
+      for (int x = 0; x < this.w / 16; x++) {
+        for (int y = 0; y < this.h / 16; y++) {
+          Dungeon.level.setPassable((int) (x + this.x / 16), (int) (y + (this.y + 8) / 16), false);
+        }
+      }
+    }
 
-		for (int x = 0; x < this.w / 16; x++) {
-			for (int y = 0; y < this.h / 16; y++) {
-				int count = 0;
+    if (this.body == null) {
+      this.makeBody();
+    }
 
-				if (y < this.h / 16 - 1) {
-					count += 1;
-				}
+    for (int x = 0; x < this.w / 16; x++) {
+      for (int y = 0; y < this.h / 16; y++) {
+        int count = 0;
 
-				if (x < this.w / 16 - 1) {
-					count += 2;
-				}
+        if (y < this.h / 16 - 1) {
+          count += 1;
+        }
 
-				if (y > 0) {
-					count += 4;
-				}
+        if (x < this.w / 16 - 1) {
+          count += 2;
+        }
 
-				if (x > 0) {
-					count += 8;
-				}
+        if (y > 0) {
+          count += 4;
+        }
 
-				TextureRegion sprite = Terrain.tableVariants[count];
-				Graphics.render(sprite, this.x + x * 16 + (16 - sprite.getRegionWidth()) / 2, this.y + y * 16 - 8 + (16 - sprite.getRegionHeight()) / 2);
-			}
-		}
-	}
+        if (x > 0) {
+          count += 8;
+        }
 
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h);
-	}
+        TextureRegion sprite = Terrain.tableVariants[count];
+        Graphics.render(sprite, this.x + x * 16 + (16 - sprite.getRegionWidth()) / 2, this.y + y * 16 - 8 + (16 - sprite.getRegionHeight()) / 2);
+      }
+    }
+  }
+
+  @Override
+  public void renderShadow() {
+    Graphics.shadow(this.x, this.y, this.w, this.h);
+  }
 }

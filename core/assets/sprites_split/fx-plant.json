@@ -1,53 +1,127 @@
-{ "frames": {
-   "fx_plant 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 2, "h": 2 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 3, "w": 2, "h": 2 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   "fx_plant 1.ase": {
-    "frame": { "x": 2, "y": 0, "w": 4, "h": 4 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 2, "w": 4, "h": 4 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   "fx_plant 2.ase": {
-    "frame": { "x": 6, "y": 0, "w": 6, "h": 6 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 1, "y": 1, "w": 6, "h": 6 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   "fx_plant 3.ase": {
-    "frame": { "x": 12, "y": 0, "w": 4, "h": 4 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 2, "y": 2, "w": 4, "h": 4 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   },
-   "fx_plant 4.ase": {
-    "frame": { "x": 16, "y": 0, "w": 2, "h": 2 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 3, "y": 3, "w": 2, "h": 2 },
-    "sourceSize": { "w": 8, "h": 8 },
-    "duration": 100
-   }
- },
- "meta": {
-  "app": "http://www.aseprite.org/",
-  "version": "1.2.9-beta2-x64",
-  "format": "I8",
-  "size": { "w": 18, "h": 6 },
-  "scale": "1",
-  "frameTags": [
-   { "name": "idle", "from": 0, "to": 4, "direction": "forward" }
-  ]
- }
+{
+  "frames": {
+    "fx_plant 0.ase": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 2,
+        "h": 2
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 2,
+        "h": 2
+      },
+      "sourceSize": {
+        "w": 8,
+        "h": 8
+      },
+      "duration": 100
+    },
+    "fx_plant 1.ase": {
+      "frame": {
+        "x": 2,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 2,
+        "w": 4,
+        "h": 4
+      },
+      "sourceSize": {
+        "w": 8,
+        "h": 8
+      },
+      "duration": 100
+    },
+    "fx_plant 2.ase": {
+      "frame": {
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 6
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 1,
+        "y": 1,
+        "w": 6,
+        "h": 6
+      },
+      "sourceSize": {
+        "w": 8,
+        "h": 8
+      },
+      "duration": 100
+    },
+    "fx_plant 3.ase": {
+      "frame": {
+        "x": 12,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 2,
+        "y": 2,
+        "w": 4,
+        "h": 4
+      },
+      "sourceSize": {
+        "w": 8,
+        "h": 8
+      },
+      "duration": 100
+    },
+    "fx_plant 4.ase": {
+      "frame": {
+        "x": 16,
+        "y": 0,
+        "w": 2,
+        "h": 2
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 3,
+        "y": 3,
+        "w": 2,
+        "h": 2
+      },
+      "sourceSize": {
+        "w": 8,
+        "h": 8
+      },
+      "duration": 100
+    }
+  },
+  "meta": {
+    "app": "http://www.aseprite.org/",
+    "version": "1.2.9-beta2-x64",
+    "format": "I8",
+    "size": {
+      "w": 18,
+      "h": 6
+    },
+    "scale": "1",
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 4,
+        "direction": "forward"
+      }
+    ]
+  }
 }

@@ -14,155 +14,155 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class GameSave {
-	public static void save(FileWriter writer, boolean old) {
-		try {
-			writer.writeByte(Player.instance == null ? Player.toSet.id : Player.instance.type.id);
-			writer.writeByte((byte) (old ? Dungeon.depth : Dungeon.lastDepth));
-			writer.writeString(Dungeon.level == null ? "The beginning" : Dungeon.level.formatDepth());
+  private static final int areas = 5;
 
-			ChangableRegistry.save(writer);
+  public static void save(FileWriter writer, boolean old) {
+    try {
+      writer.writeByte(Player.instance == null ? Player.toSet.id : Player.instance.type.id);
+      writer.writeByte((byte) (old ? Dungeon.depth : Dungeon.lastDepth));
+      writer.writeString(Dungeon.level == null ? "The beginning" : Dungeon.level.formatDepth());
 
-			for (int i = 0; i < Level.depths.length; i++) {
-				writer.writeByte(Level.depths[i]);
-				writer.writeBoolean(Level.boss[i]);
-			}
+      ChangableRegistry.save(writer);
 
-			for (int i = 0; i< 5; i++) {
-				writer.writeByte((byte) Level.orders[i]);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+      for (int i = 0; i < Level.depths.length; i++) {
+        writer.writeByte(Level.depths[i]);
+        writer.writeBoolean(Level.boss[i]);
+      }
 
-	public static class Info {
-		public Player.Type type;
-		public boolean free;
-		public boolean error;
-		public byte depth;
+      for (int i = 0; i < 5; i++) {
+        writer.writeByte((byte) Level.orders[i]);
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-		public float firstW;
-		public float secondW;
-		public String first;
-		public String second;
-	}
+  public static Info peek(int slot) {
+    FileHandle save = Gdx.files.external(SaveManager.getSavePath(SaveManager.Type.GAME, slot));
+    Info info = new Info();
 
-	public static Info peek(int slot) {
-		FileHandle save = Gdx.files.external(SaveManager.getSavePath(SaveManager.Type.GAME, slot));
-		Info info = new Info();
+    if (!save.exists()) {
+      info.free = true;
+      return info;
+    }
 
-		if (!save.exists()) {
-			info.free = true;
-			return info;
-		}
+    try {
+      FileReader stream = new FileReader(save.file().getAbsolutePath());
 
-		try {
-			FileReader stream = new FileReader(save.file().getAbsolutePath());
+      info.type = Player.Type.values()[stream.readByte()];
+      info.depth = stream.readByte();
+      info.second = stream.readString();
 
-			info.type = Player.Type.values()[stream.readByte()];
-			info.depth = stream.readByte();
-			info.second = stream.readString();
+      stream.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+      info.error = true;
+    }
 
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			info.error = true;
-		}
+    return info;
+  }
 
-		return info;
-	}
+  public static void load(FileReader reader) throws IOException {
+    Player.toSet = Player.Type.values()[reader.readByte()];
+    byte d = reader.readByte();
+    String name = reader.readString();
 
-	public static void load(FileReader reader) throws IOException {
-		Player.toSet = Player.Type.values()[reader.readByte()];
-		byte d = reader.readByte();
-		String name = reader.readString();
+    ChangableRegistry.load(reader);
 
-		ChangableRegistry.load(reader);
+    for (int i = 0; i < Level.depths.length; i++) {
+      Level.depths[i] = reader.readByte();
+      Level.boss[i] = reader.readBoolean();
+    }
 
-		for (int i = 0; i < Level.depths.length; i++) {
-			Level.depths[i] = reader.readByte();
-			Level.boss[i] = reader.readBoolean();
-		}
+    for (int i = 0; i < 5; i++) {
+      Level.orders[i] = reader.readByte();
+    }
+  }
 
-		for (int i = 0; i < 5; i++) {
-			Level.orders[i] = reader.readByte();
-		}
-	}
+  public static void generate() {
+    generateDepths();
+    ChangableRegistry.generate();
+  }
 
-	public static void generate() {
-		generateDepths();
-		ChangableRegistry.generate();
-	}
+  private static void generateDepths() {
+    int[] weights = new int[areas];
+    boolean[] bosses = new boolean[areas * 4 + 1];
 
-	private static final int areas = 5;
+    for (int i = 0; i < areas; i++) {
+      weights[i] = 4;
+    }
 
-	private static void generateDepths() {
-		int[] weights = new int[areas];
-		boolean[] bosses = new boolean[areas * 4 + 1];
+    for (int i = 0; i < areas * 2; i++) {
+      int f = Random.newInt(areas);
 
-		for (int i = 0; i < areas; i++) {
-			weights[i] = 4;
-		}
+      if (weights[f] > 3) {
+        for (int j = areas - 1; j >= 0; j--) {
+          if (weights[j] < 5 && Random.chance(((float) areas - j) / areas * 100)) {
+            weights[f]--;
+            weights[j]++;
 
-		for (int i = 0; i < areas * 2; i++) {
-			int f = Random.newInt(areas);
+            break;
+          }
+        }
+      }
+    }
 
-			if (weights[f] > 3) {
-				for (int j = areas - 1; j >= 0; j--) {
-					if (weights[j] < 5 && Random.chance(((float) areas - j) / areas * 100)) {
-						weights[f] --;
-						weights[j] ++;
+    int depth = 0;
 
-						break;
-					}
-				}
-			}
-		}
+    for (int i = 0; i < areas; i++) {
+      boolean boss = false;
 
-		int depth = 0;
+      for (int j = 0; j < weights[i]; j++) {
+        depth++;
 
-		for (int i = 0; i < areas; i++) {
-			boolean boss = false;
+        if (!boss && j > 0 && (Random.chance(45f) || j == weights[i] - 1)) {
+          boss = true;
+          bosses[depth] = true;
 
-			for (int j = 0; j < weights[i]; j++) {
-				depth++;
+          System.out.print("B");
+        } else {
+          bosses[depth] = false;
+          System.out.print("#");
+        }
+      }
 
-				if (!boss && j > 0 && (Random.chance(45f) || j == weights[i] - 1)) {
-					boss = true;
-					bosses[depth] = true;
+      System.out.println();
+    }
 
-					System.out.print("B");
-				} else {
-					bosses[depth] = false;
-					System.out.print("#");
-				}
-			}
+    for (int i = 0; i < areas; i++) {
+      Level.depths[i] = (byte) weights[i];
+    }
 
-			System.out.println();
-		}
+    System.arraycopy(bosses, 0, Level.boss, 0, areas * 4 + 1);
 
-		for (int i = 0; i < areas; i++) {
-			Level.depths[i] = (byte) weights[i];
-		}
+    int[] levels = new int[]{0, 1, 2, 4, 5};
+    // shuffleArray(levels);
 
-		System.arraycopy(bosses, 0, Level.boss, 0, areas * 4 + 1);
+    for (int i = 0; i < 5; i++) {
+      Log.info("Depth " + i + " modId " + levels[i]);
+    }
 
-		int[] levels = new int[] { 0, 1, 2, 4, 5 };
-		// shuffleArray(levels);
+    Level.orders = levels;
+  }
 
-		for (int i = 0; i < 5; i++) {
-			Log.info("Depth " + i + " modId " + levels[i]);
-		}
+  static void shuffleArray(int[] ar) {
+    for (int i = ar.length - 1; i > 0; i--) {
+      int index = Random.newInt(i + 1);
+      int a = ar[index];
+      ar[index] = ar[i];
+      ar[i] = a;
+    }
+  }
 
-		Level.orders = levels;
-	}
+  public static class Info {
+    public Player.Type type;
+    public boolean free;
+    public boolean error;
+    public byte depth;
 
-	static void shuffleArray(int[] ar) {
-		for (int i = ar.length - 1; i > 0; i--) {
-			int index = Random.newInt(i + 1);
-			int a = ar[index];
-			ar[index] = ar[i];
-			ar[i] = a;
-		}
-	}
+    public float firstW;
+    public float secondW;
+    public String first;
+    public String second;
+  }
 }

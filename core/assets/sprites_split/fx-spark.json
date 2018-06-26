@@ -1,69 +1,169 @@
-{ "frames": {
-   "fx_spark 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "sourceSize": { "w": 7, "h": 7 },
-    "duration": 50
-   },
-   "fx_spark 1.ase": {
-    "frame": { "x": 7, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "sourceSize": { "w": 7, "h": 7 },
-    "duration": 50
-   },
-   "fx_spark 2.ase": {
-    "frame": { "x": 14, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "sourceSize": { "w": 7, "h": 7 },
-    "duration": 50
-   },
-   "fx_spark 3.ase": {
-    "frame": { "x": 21, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "sourceSize": { "w": 7, "h": 7 },
-    "duration": 50
-   },
-   "fx_spark 4.ase": {
-    "frame": { "x": 28, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "sourceSize": { "w": 7, "h": 7 },
-    "duration": 50
-   },
-   "fx_spark 5.ase": {
-    "frame": { "x": 35, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "sourceSize": { "w": 7, "h": 7 },
-    "duration": 50
-   },
-   "fx_spark 6.ase": {
-    "frame": { "x": 42, "y": 0, "w": 7, "h": 7 },
-    "rotated": false,
-    "trimmed": false,
-    "spriteSourceSize": { "x": 0, "y": 0, "w": 7, "h": 7 },
-    "sourceSize": { "w": 7, "h": 7 },
-    "duration": 50
-   }
- },
- "meta": {
-  "app": "http://www.aseprite.org/",
-  "version": "1.2-dev",
-  "format": "I8",
-  "size": { "w": 49, "h": 7 },
-  "scale": "1",
-  "frameTags": [
-   { "name": "idle", "from": 0, "to": 6, "direction": "forward" }
-  ]
- }
+{
+  "frames": {
+    "fx_spark 0.ase": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "duration": 50
+    },
+    "fx_spark 1.ase": {
+      "frame": {
+        "x": 7,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "duration": 50
+    },
+    "fx_spark 2.ase": {
+      "frame": {
+        "x": 14,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "duration": 50
+    },
+    "fx_spark 3.ase": {
+      "frame": {
+        "x": 21,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "duration": 50
+    },
+    "fx_spark 4.ase": {
+      "frame": {
+        "x": 28,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "duration": 50
+    },
+    "fx_spark 5.ase": {
+      "frame": {
+        "x": 35,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "duration": 50
+    },
+    "fx_spark 6.ase": {
+      "frame": {
+        "x": 42,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 7,
+        "h": 7
+      },
+      "sourceSize": {
+        "w": 7,
+        "h": 7
+      },
+      "duration": 50
+    }
+  },
+  "meta": {
+    "app": "http://www.aseprite.org/",
+    "version": "1.2-dev",
+    "format": "I8",
+    "size": {
+      "w": 49,
+      "h": 7
+    },
+    "scale": "1",
+    "frameTags": [
+      {
+        "name": "idle",
+        "from": 0,
+        "to": 6,
+        "direction": "forward"
+      }
+    ]
+  }
 }

@@ -1,107 +1,105 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.pool.room.RegularRoomPool;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.pool.room.RegularRoomPool;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class RegularRoom extends Room {
-	public enum Size {
-		NORMAL(10, 14, 1),
-		LARGE(14, 18, 2),
-		GIANT(18, 24, 3);
+  protected Size size = Size.NORMAL;
 
-		public final int minDim;
-		public final int maxDim;
-		public final int roomValue;
+  public static RegularRoom create() {
+    if (Dungeon.depth < 1 || Dungeon.depth == 4) {
+      return new RegularRoom();
+    }
 
-		Size(int min, int max, int val) {
-			this.minDim = min;
-			this.maxDim = max;
-			this.roomValue = val;
-		}
+    return RegularRoomPool.instance.generate();
+  }
 
-		public int getConnectionWeight() {
-			return this.roomValue * this.roomValue;
-		}
-	}
+  @Override
+  public void paint(Level level) {
+    byte f = Terrain.randomFloor();
+    Painter.fill(level, this, Terrain.WALL);
+    Painter.fill(level, this, 1, f);
 
-	@Override
-	public void paint(Level level) {
-		byte f = Terrain.randomFloor();
-		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, f);
+    for (Door door: this.connected.values()) {
+      door.setType(Door.Type.REGULAR);
+    }
+  }
 
-		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.REGULAR);
-		}
-	}
+  public boolean setSize(int min, int max) {
+    float[] chances = this.getSizeChance();
+    Size[] sizes = Size.values();
 
-	protected Size size = Size.NORMAL;
+    if (chances.length != sizes.length) {
+      return false;
+    }
 
-	public boolean setSize(int min, int max) {
-		float[] chances = this.getSizeChance();
-		Size[] sizes = Size.values();
+    for (int i = 0; i < min; i++) {
+      chances[i] = 0;
+    }
 
-		if (chances.length != sizes.length) {
-			return false;
-		}
+    for (int i = max + 1; i < chances.length; i++) {
+      chances[i] = 0;
+    }
 
-		for (int i = 0; i < min; i++) {
-			chances[i] = 0;
-		}
+    int index = Random.chances(chances);
 
-		for (int i = max + 1; i < chances.length; i++) {
-			chances[i] = 0;
-		}
+    if (index == -1) {
+      this.size = sizes[0];
+      return false;
+    } else {
+      return true;
+    }
+  }
 
-		int index = Random.chances(chances);
+  protected float[] getSizeChance() {
+    return new float[]{1, 0, 0};
+  }
 
-		if (index == -1) {
-			this.size = sizes[0];
-			return false;
-		} else {
-			return true;
-		}
-	}
+  public Size getSize() {
+    return this.size;
+  }
 
-	protected float[] getSizeChance() {
-		return new float[]{1,0,0};
-	}
+  @Override
+  public int getMaxConnections(Connection side) {
+    if (side == Connection.ALL) {
+      return 16;
+    }
 
-	public Size getSize() {
-		return this.size;
-	}
+    return 4;
+  }
 
-	public static RegularRoom create() {
-		if (Dungeon.depth < 1 || Dungeon.depth == 4) {
-			return new RegularRoom();
-		}
+  @Override
+  public int getMinConnections(Connection side) {
+    if (side == Connection.ALL) {
+      return 1;
+    }
 
-		return RegularRoomPool.instance.generate();
-	}
+    return 0;
+  }
 
-	@Override
-	public int getMaxConnections(Connection side) {
-		if (side == Connection.ALL) {
-			return 16;
-		}
+  public enum Size {
+    NORMAL(10, 14, 1),
+    LARGE(14, 18, 2),
+    GIANT(18, 24, 3);
 
-		return 4;
-	}
+    public final int minDim;
+    public final int maxDim;
+    public final int roomValue;
 
-	@Override
-	public int getMinConnections(Connection side) {
-		if (side == Connection.ALL) {
-			return 1;
-		}
+    Size(int min, int max, int val) {
+      this.minDim = min;
+      this.maxDim = max;
+      this.roomValue = val;
+    }
 
-		return 0;
-	}
+    public int getConnectionWeight() {
+      return this.roomValue * this.roomValue;
+    }
+  }
 }

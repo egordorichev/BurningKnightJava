@@ -1,32 +1,22 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class ObsidianBoots extends Equipable {
-	{
-		name = Locale.get("obsidian_boots");
-		description = Locale.get("obsidian_boots_desc");
-		sprite = "item-obsidian_boots";
-	}
+public class ObsidianBoots extends Equipable {  @Override
+  public void onEquip() {
+    super.onEquip();
 
-	@Override
-	public void onEquip() {
-		super.onEquip();
+    if (this.owner instanceof Player) {
+      ((Player) this.owner).lavaResist = true;
+    }
+  }
 
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lavaResist = true;
-		}
-	}
+  @Override
+  public void onUnequip() {
+    super.onUnequip();
 
-	@Override
-	public void onUnequip() {
-		super.onUnequip();
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lavaResist = false;
-		}
-	}
+    if (this.owner instanceof Player) {
+      ((Player) this.owner).lavaResist = false;
+    }
+  }
 }

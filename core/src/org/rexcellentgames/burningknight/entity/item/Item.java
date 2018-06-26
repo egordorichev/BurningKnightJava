@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -24,7 +25,7 @@ public class Item extends Entity {
   public boolean useOnPickup;
   public float a = 1;
   public boolean shop;
-  protected String sprite = "item-missing";
+  protected String sprite;
   protected String name = "Missing Item Name";
   protected String description = "";
   protected boolean stackable = false;
@@ -42,13 +43,11 @@ public class Item extends Entity {
   protected String useSpeedStr;
 
   public Item() {
+    String unlocalizedName = Utils.pascalCaseToSnakeCase(getClass().getSimpleName());
 
-  }
-  
-  protected Item(String name, String description, String sprite) {
-    this.name = name;
-    this.description = description;
-    this.sprite = sprite;
+    this.name = Locale.get(unlocalizedName);
+    this.description = Locale.get(unlocalizedName + "_desc");
+    this.sprite = "item-" + unlocalizedName;
   }
   
   public String getUseSpeedAsString() {
@@ -275,8 +274,8 @@ public class Item extends Entity {
   public void initFromMod(String modId, String name, LuaTable args) {
 	  this.modId = modId;
 
-	  this.name = Locale.get(name);
-	  this.description = Locale.get(name + "_desc");
+    this.name = Locale.get(name);
+    this.description = Locale.get(name + "_desc");
 
 	  LuaValue val = args.get("sprite");
 

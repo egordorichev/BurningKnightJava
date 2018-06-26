@@ -1,8 +1,8 @@
 package org.rexcellentgames.burningknight.entity.level;
 
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
@@ -33,240 +33,240 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public abstract class RegularLevel extends Level {
-	public static Entrance ladder;
+  public static Entrance ladder;
 
-	@Override
-	public void generate() {
-		Level.GENERATED = true;
+  @Override
+  public void generate() {
+    Level.GENERATED = true;
 
-		this.itemsToSpawn.clear();
+    this.itemsToSpawn.clear();
 
-		if (Dungeon.depth > 0) {
-			for (int i = 0; i < Random.newInt(4); i++) {
-				this.itemsToSpawn.add(new Bomb());
-			}
-		}
+    if (Dungeon.depth > 0) {
+      for (int i = 0; i < Random.newInt(4); i++) {
+        this.itemsToSpawn.add(new Bomb());
+      }
+    }
 
-		this.build();
-		this.paint();
+    this.build();
+    this.paint();
 
-		if (this.rooms == null) {
-			Log.error("NO ROOMS!");
-		}
+    if (this.rooms == null) {
+      Log.error("NO ROOMS!");
+    }
 
-		Log.info("Done painting");
+    Log.info("Done painting");
 
-		ChangableRegistry.generate();
+    ChangableRegistry.generate();
 
-		this.loadPassable();
+    this.loadPassable();
 
-		Log.info("Spawning entities...");
+    Log.info("Spawning entities...");
 
-		this.spawnLevelEntities();
-		this.spawnEntities();
+    this.spawnLevelEntities();
+    this.spawnEntities();
 
-		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0) {
-			Log.info("Adding BK...");
+    if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0) {
+      Log.info("Adding BK...");
 
-			BurningKnight knight = new BurningKnight();
+      BurningKnight knight = new BurningKnight();
 
-			Dungeon.area.add(knight);
-			PlayerSave.add(knight);
+      Dungeon.area.add(knight);
+      PlayerSave.add(knight);
 
-			knight.findStartPoint();
-		}
+      knight.findStartPoint();
+    }
 
-		Log.info("Done!");
-	}
+    Log.info("Done!");
+  }
 
-	protected void spawnLevelEntities() {
-		this.free = new boolean[getSize()];
+  protected void spawnLevelEntities() {
+    this.free = new boolean[getSize()];
 
-		if (Dungeon.depth > 0 && !Level.boss[Dungeon.depth]) {
-			MobPool.instance.initForFloor();
+    if (Dungeon.depth > 0 && !Level.boss[Dungeon.depth]) {
+      MobPool.instance.initForFloor();
 
-			for (Room room : this.rooms) {
-				if (room instanceof RegularRoom) {
-					float weight = (Random.newFloat(1f, 2f) + Dungeon.depth % 5 / 2) * Player.mobSpawnModifier;
+      for (Room room: this.rooms) {
+        if (room instanceof RegularRoom) {
+          float weight = (Random.newFloat(1f, 2f) + Dungeon.depth % 5 / 2) * Player.mobSpawnModifier;
 
-					while (weight > 0) {
-						Mob mob = MobPool.instance.generate();
-						weight -= mob.getWeight();
+          while (weight > 0) {
+            Mob mob = MobPool.instance.generate();
+            weight -= mob.getWeight();
 
-						Point point;
-						int i = 0;
+            Point point;
+            int i = 0;
 
-						do {
-							point = room.getRandomCell();
+            do {
+              point = room.getRandomCell();
 
-							if (i++ > 40) {
-								Log.error("Failed to place " + mob.getClass() + " in room " + room.getClass());
-								break;
-							}
-						} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
+              if (i++ > 40) {
+                Log.error("Failed to place " + mob.getClass() + " in room " + room.getClass());
+                break;
+              }
+            } while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
 
-						if (i <= 40) {
-							mob.generate();
+            if (i <= 40) {
+              mob.generate();
 
-							Dungeon.area.add(mob);
-							LevelSave.add(mob);
+              Dungeon.area.add(mob);
+              LevelSave.add(mob);
 
-							mob.tp(point.x * 16, point.y * 16);
-						}
-					}
-				}
-			}
-		}
+              mob.tp(point.x * 16, point.y * 16);
+            }
+          }
+        }
+      }
+    }
 
-		for (Item item : this.itemsToSpawn) {
-			Point point = null;
+    for (Item item: this.itemsToSpawn) {
+      Point point = null;
 
-			while (point == null) {
-				point = this.getRandomFreePoint(RegularRoom.class);
-			}
+      while (point == null) {
+        point = this.getRandomFreePoint(RegularRoom.class);
+      }
 
-			ItemHolder holder = new ItemHolder();
+      ItemHolder holder = new ItemHolder();
 
-			item.generate();
-			holder.setItem(item);
-			holder.x = point.x * 16 + Random.newInt(-4, 4);
-			holder.y = point.y * 16 + Random.newInt(-4, 4);
+      item.generate();
+      holder.setItem(item);
+      holder.x = point.x * 16 + Random.newInt(-4, 4);
+      holder.y = point.y * 16 + Random.newInt(-4, 4);
 
-			holder.add();
-			this.area.add(holder);
-		}
+      holder.add();
+      this.area.add(holder);
+    }
 
-		this.itemsToSpawn.clear();
-	}
+    this.itemsToSpawn.clear();
+  }
 
-	protected void spawnEntities() {
+  protected void spawnEntities() {
 
-	}
+  }
 
-	protected void paint() {
-		Log.info("Painting...");
+  protected void paint() {
+    Log.info("Painting...");
 
-		Painter painter = this.getPainter();
+    Painter painter = this.getPainter();
 
-		if (painter != null) {
-			painter.paint(this, this.rooms);
-			painter.draw(this, this.rooms);
-		} else {
-			Log.error("No painter!");
-		}
-	}
+    if (painter != null) {
+      painter.paint(this, this.rooms);
+      painter.draw(this, this.rooms);
+    } else {
+      Log.error("No painter!");
+    }
+  }
 
-	@SuppressWarnings("unchecked")
-	protected void build() {
-		Builder builder = this.getBuilder();
+  @SuppressWarnings("unchecked")
+  protected void build() {
+    Builder builder = this.getBuilder();
 
-		ArrayList<Room> rooms = this.createRooms();
-		Collections.shuffle(rooms);
+    ArrayList<Room> rooms = this.createRooms();
+    Collections.shuffle(rooms);
 
-		do {
-			Log.info("Generating...");
+    do {
+      Log.info("Generating...");
 
-			for (Room room : rooms) {
-				room.getConnected().clear();
-				room.getNeighbours().clear();
-			}
+      for (Room room: rooms) {
+        room.getConnected().clear();
+        room.getNeighbours().clear();
+      }
 
-			this.rooms = builder.build((ArrayList<Room>) rooms.clone());
+      this.rooms = builder.build((ArrayList<Room>) rooms.clone());
 
-			if (this.rooms == null) {
-				Log.error("Failed!");
-			}
-		} while (this.rooms == null);
-	}
+      if (this.rooms == null) {
+        Log.error("Failed!");
+      }
+    } while (this.rooms == null);
+  }
 
-	protected ArrayList<Room> createRooms() {
-		ArrayList<Room> rooms = new ArrayList<>();
+  protected ArrayList<Room> createRooms() {
+    ArrayList<Room> rooms = new ArrayList<>();
 
-		this.entrance = EntranceRoomPool.instance.generate();
-		this.exit = EntranceRoomPool.instance.generate();
-		((EntranceRoom) this.exit).exit = true;
+    this.entrance = EntranceRoomPool.instance.generate();
+    this.exit = EntranceRoomPool.instance.generate();
+    ((EntranceRoom) this.exit).exit = true;
 
-		rooms.add(this.entrance);
-		rooms.add(this.exit);
+    rooms.add(this.entrance);
+    rooms.add(this.exit);
 
-		if (Dungeon.depth == 0) {
-			rooms.add(new LampRoom());
-		}
+    if (Dungeon.depth == 0) {
+      rooms.add(new LampRoom());
+    }
 
-		int regular = this.getNumRegularRooms();
-		int special = this.getNumSpecialRooms();
-		int connection = this.getNumConnectionRooms();
-		int secret = this.getNumSecretRooms();
+    int regular = this.getNumRegularRooms();
+    int special = this.getNumSpecialRooms();
+    int connection = this.getNumConnectionRooms();
+    int secret = this.getNumSecretRooms();
 
-		Log.info("Creating " + regular + " " + special + " " + connection + " " + secret + " rooms");
+    Log.info("Creating " + regular + " " + special + " " + connection + " " + secret + " rooms");
 
-		for (int i = 0; i < regular; i++) {
-			RegularRoom room;
+    for (int i = 0; i < regular; i++) {
+      RegularRoom room;
 
-			do {
-				room = RegularRoom.create();
-			} while (!room.setSize(0, regular - i));
+      do {
+        room = RegularRoom.create();
+      } while (!room.setSize(0, regular - i));
 
-			i += room.getSize().roomValue - 1;
-			rooms.add(room);
-		}
+      i += room.getSize().roomValue - 1;
+      rooms.add(room);
+    }
 
-		SpecialRoom.init();
+    SpecialRoom.init();
 
-		for (int i = 0; i < special; i++) {
-			SpecialRoom room = SpecialRoom.create();
+    for (int i = 0; i < special; i++) {
+      SpecialRoom room = SpecialRoom.create();
 
-			if (room != null) {
-				rooms.add(room);
-			}
-		}
+      if (room != null) {
+        rooms.add(room);
+      }
+    }
 
-		for (int i = 0; i < connection; i++) {
-			rooms.add(ConnectionRoom.create());
-		}
+    for (int i = 0; i < connection; i++) {
+      rooms.add(ConnectionRoom.create());
+    }
 
-		for (int i = 0; i < secret; i++) {
-			rooms.add(SecretRoomPool.instance.generate());
-		}
+    for (int i = 0; i < secret; i++) {
+      rooms.add(SecretRoomPool.instance.generate());
+    }
 
-		return rooms;
-	}
+    return rooms;
+  }
 
-	protected abstract Painter getPainter();
+  protected abstract Painter getPainter();
 
-	protected Builder getBuilder() {
-		if (Dungeon.depth == 0) {
-			return new LineBuilder();
-		} else {
-			switch (Random.newInt(5)) {
-				case 0:
-				case 3:
-				case 5:
-				default:
-					return new CastleBuilder();
-				// case 1: return new LineBuilder();
-				case 2:
-				case 4:
-					return new LoopBuilder().setShape(2,
-						Random.newFloat(0.4f, 0.7f),
-						Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1, 1, 1});
-			}
-		}
-	}
+  protected Builder getBuilder() {
+    if (Dungeon.depth == 0) {
+      return new LineBuilder();
+    } else {
+      switch (Random.newInt(5)) {
+        case 0:
+        case 3:
+        case 5:
+        default:
+          return new CastleBuilder();
+        // case 1: return new LineBuilder();
+        case 2:
+        case 4:
+          return new LoopBuilder().setShape(2,
+            Random.newFloat(0.4f, 0.7f),
+            Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1, 1, 1});
+      }
+    }
+  }
 
-	protected int getNumRegularRooms() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt((int) (Dungeon.depth % 5 * 1.4f + 2f), (int) (Dungeon.depth % 5 * 2.5f + 3));
-	}
+  protected int getNumRegularRooms() {
+    return Dungeon.depth == 0 ? 0 : Random.newInt((int) (Dungeon.depth % 5 * 1.4f + 2f), (int) (Dungeon.depth % 5 * 2.5f + 3));
+  }
 
-	protected int getNumSpecialRooms() {
-		return Dungeon.depth == 0 ? 0 : 3;
-	}
+  protected int getNumSpecialRooms() {
+    return Dungeon.depth == 0 ? 0 : 3;
+  }
 
-	protected int getNumSecretRooms() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt(1, 3);
-	}
+  protected int getNumSecretRooms() {
+    return Dungeon.depth == 0 ? 0 : Random.newInt(1, 3);
+  }
 
-	protected int getNumConnectionRooms() {
-		return 0;
-	}
+  protected int getNumConnectionRooms() {
+    return 0;
+  }
 }

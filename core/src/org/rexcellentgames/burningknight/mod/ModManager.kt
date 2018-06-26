@@ -24,7 +24,7 @@ object ModManager {
 
         if (mod != null) {
           mods.add(mod)
-          
+
           mod.init()
         }
       }

@@ -28,257 +28,254 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class InGameState extends State {
-	private UiInventory inventory;
-	private Console console;
-	private Area pauseMenuUi;
-	private boolean showFps;
-	public static boolean map = false;
+  public static boolean map = false;
+  private UiInventory inventory;
+  private Console console;
+  private Area pauseMenuUi;
+  private boolean showFps;
+  private boolean set;
+  private float last;
+  private boolean setFrames;
 
-	@Override
-	public void init() {
-		pauseMenuUi = new Area(true);
+  @Override
+  public void init() {
+    pauseMenuUi = new Area(true);
 
-		Collisions collisions = new Collisions();
+    Collisions collisions = new Collisions();
 
-		World.world.setContactListener(collisions);
-		World.world.setContactFilter(collisions);
+    World.world.setContactListener(collisions);
+    World.world.setContactFilter(collisions);
 
-		this.setupUi();
+    this.setupUi();
 
-		Dungeon.background = Level.colors[Dungeon.level.uid];
+    Dungeon.background = Level.colors[Dungeon.level.uid];
 
-		this.console = new Console();
+    this.console = new Console();
 
-		if (BurningKnight.instance != null && Dungeon.depth > 0) {
-			BurningKnight.instance.findStartPoint();
-		}
+    if (BurningKnight.instance != null && Dungeon.depth > 0) {
+      BurningKnight.instance.findStartPoint();
+    }
 
-		Dungeon.darkR = 0;
+    Dungeon.darkR = 0;
 
-		Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f) {
-			@Override
-			public float getValue() {
-				return Dungeon.darkR;
-			}
+    Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f) {
+      @Override
+      public float getValue() {
+        return Dungeon.darkR;
+      }
 
-			@Override
-			public void setValue(float value) {
-				Dungeon.darkR = value;
-			}
+      @Override
+      public void setValue(float value) {
+        Dungeon.darkR = value;
+      }
 
-			@Override
-			public void onEnd() {
-				super.onEnd();
-				Player.instance.setUnhittable(false);
-				Camera.follow(Player.instance);
-			}
-		});
-	}
+      @Override
+      public void onEnd() {
+        super.onEnd();
+        Player.instance.setUnhittable(false);
+        Camera.follow(Player.instance);
+      }
+    });
+  }
 
-	@Override
-	public void destroy() {
-		super.destroy();
-		this.console.destroy();
+  @Override
+  public void destroy() {
+    super.destroy();
+    this.console.destroy();
 
-		if (Dungeon.reset) {
-			Gdx.files.external(".bk/" + SaveManager.slot).deleteDirectory();
-			Dungeon.reset = false;
-		} else {
-			boolean old = (Dungeon.game.getState() instanceof LoadState);
+    if (Dungeon.reset) {
+      Gdx.files.external(".bk/" + SaveManager.slot).deleteDirectory();
+      Dungeon.reset = false;
+    } else {
+      boolean old = (Dungeon.game.getState() instanceof LoadState);
 
-			SaveManager.save(SaveManager.Type.GAME, old);
-			SaveManager.save(SaveManager.Type.LEVEL, old);
-			SaveManager.save(SaveManager.Type.PLAYER, old);
-		}
+      SaveManager.save(SaveManager.Type.GAME, old);
+      SaveManager.save(SaveManager.Type.LEVEL, old);
+      SaveManager.save(SaveManager.Type.PLAYER, old);
+    }
 
-		if (Dungeon.area != null) {
-			Dungeon.area.destroy();
-		}
-	}
+    if (Dungeon.area != null) {
+      Dungeon.area.destroy();
+    }
+  }
 
-	private boolean set;
-	private float last;
+  @Override
+  public void update(float dt) {
+    if (map) {
+      return;
+    }
 
+    this.console.update(dt);
 
-	@Override
-	public void update(float dt) {
-		if (map) {
-			return;
-		}
+    if (Input.instance.wasPressed("reset")) {
+      Dungeon.newGame();
+    }
 
-		this.console.update(dt);
+    if (Input.instance.wasPressed("show_fps")) {
+      this.showFps = !this.showFps;
+      Achievements.unlock(Achievements.TEST);
+    }
 
-		if (Input.instance.wasPressed("reset")) {
-			Dungeon.newGame();
-		}
-		
-		if (Input.instance.wasPressed("show_fps")) {
-			this.showFps = !this.showFps;
-			Achievements.unlock(Achievements.TEST);
-		}
+    last += dt;
 
-		last += dt;
+    if (last >= 1f) {
+      last = 0;
 
-		if (last >= 1f) {
-			last = 0;
+      if (Boss.all.size() > 1 && !BurningKnight.instance.getState().equals("unactive")) {
+        Audio.play("Rogue");
+      } else {
+        Audio.play(Dungeon.level.getMusic());
+      }
+    }
 
-			if (Boss.all.size() > 1 && !BurningKnight.instance.getState().equals("unactive")) {
-				Audio.play("Rogue");
-			} else {
-				Audio.play(Dungeon.level.getMusic());
-			}
-		}
+    World.update(dt);
 
-		World.update(dt);
+    if (this.isPaused()) {
+      pauseMenuUi.update(dt);
+    }
 
-		if (this.isPaused()) {
-			pauseMenuUi.update(dt);
-		}
-			 
-		if (Dialog.active != null) {
-			Dialog.active.update(dt);
-		}
+    if (Dialog.active != null) {
+      Dialog.active.update(dt);
+    }
 
-		if (!set) {
-			if (Player.instance != null) {
-				Camera.follow(Player.instance);
-			}
+    if (!set) {
+      if (Player.instance != null) {
+        Camera.follow(Player.instance);
+      }
 
-			set = true;
-		}
+      set = true;
+    }
 
-		if (Player.instance != null && Player.instance.getInvt() > 0) {
-			if (!setFrames) {
-				setFrames = true;
+    if (Player.instance != null && Player.instance.getInvt() > 0) {
+      if (!setFrames) {
+        setFrames = true;
 
-				for (int i = 0; i < 64; i++) {
-					Bloodsplat splat = new Bloodsplat();
+        for (int i = 0; i < 64; i++) {
+          Bloodsplat splat = new Bloodsplat();
 
-					splat.x = Random.newFloat(Display.GAME_WIDTH);
+          splat.x = Random.newFloat(Display.GAME_WIDTH);
 
-					if (splat.x < 32 || splat.x > Display.GAME_WIDTH - 32) {
-						splat.y = Random.newFloat(Display.GAME_HEIGHT);
-					} else if (Random.chance(50)) {
-						splat.y = Random.newFloat(32);
-					} else {
-						splat.y = Display.GAME_HEIGHT - Random.newFloat(32);
-					}
+          if (splat.x < 32 || splat.x > Display.GAME_WIDTH - 32) {
+            splat.y = Random.newFloat(Display.GAME_HEIGHT);
+          } else if (Random.chance(50)) {
+            splat.y = Random.newFloat(32);
+          } else {
+            splat.y = Display.GAME_HEIGHT - Random.newFloat(32);
+          }
 
-					Dungeon.ui.add(splat);
-				}
-			}
-		} else {
-			setFrames = false;
-		}
-	}
+          Dungeon.ui.add(splat);
+        }
+      }
+    } else {
+      setFrames = false;
+    }
+  }
 
-	private boolean setFrames;
+  @Override
+  public void render() {
+    super.render();
 
-	@Override
-	public void render() {
-		super.render();
+    if (isPaused()) {
+      Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+      pauseMenuUi.render();
+    }
+  }
 
-		if (isPaused()) {
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-			pauseMenuUi.render();
-		}
-	}
+  @Override
+  public void renderUi() {
+    Ui.ui.renderUi();
 
-	@Override
-	public void renderUi() {
-		Ui.ui.renderUi();
+    Dungeon.ui.render();
 
-		Dungeon.ui.render();
+    if (this.isPaused()) {
+      return;
+    }
 
-		if (this.isPaused()) {
-			return;
-		}
+    Graphics.batch.setProjectionMatrix(Camera.game.combined);
+    World.render();
 
-		Graphics.batch.setProjectionMatrix(Camera.game.combined);
-		World.render();
+    Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+    Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+    this.console.render();
+    Ui.ui.render();
 
-		this.console.render();
-		Ui.ui.render();
+    if (Dialog.active != null) {
+      Dialog.active.render();
+    }
 
-		if (Dialog.active != null) {
-			Dialog.active.render();
-		}
+    Ui.ui.renderCursor();
 
-		Ui.ui.renderCursor();
+    if (this.showFps && !this.isPaused()) {
+      Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 20);
+    }
+  }
 
-		if (this.showFps && !this.isPaused()) {
-			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 20);
-		}
-	}
+  private void setupUi() {
+    this.inventory = new UiInventory(Player.instance.getInventory());
+    Dungeon.ui.add(this.inventory);
 
-	private void setupUi() {
-		this.inventory = new UiInventory(Player.instance.getInventory());
-		Dungeon.ui.add(this.inventory);
+    Dungeon.ui.add(new UiMap());
 
-		Dungeon.ui.add(new UiMap());
+    this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
+      @Override
+      public void onClick() {
+        super.onClick();
+        setPaused(false);
 
-		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				setPaused(false);
+        Camera.shake(3);
+      }
+    }.setSparks(true));
 
-				Camera.shake(3);
-			}
-		}.setSparks(true));
+    this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
+      @Override
+      public void onClick() {
+        super.onClick();
+        transition(new Runnable() {
+          @Override
+          public void run() {
+            Dungeon.game.setState(new SettingsState());
+          }
+        });
+        Camera.shake(3);
+      }
+    }.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new SettingsState());
-					}
-				});
-				Camera.shake(3);
-			}
-		}.setSparks(true));
+    this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
+      @Override
+      public void onClick() {
+        super.onClick();
+        Camera.shake(3);
+        transition(new Runnable() {
+          @Override
+          public void run() {
+            Dungeon.game.setState(new MainMenuState());
+          }
+        });
+      }
+    });
 
-		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				Camera.shake(3);
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new MainMenuState());
-					}
-				});
-			}
-		});
+    for (Entity entity: this.pauseMenuUi.getEntities()) {
+      entity.setActive(false);
+    }
+  }
 
-		for (Entity entity : this.pauseMenuUi.getEntities()) {
-			entity.setActive(false);
-		}
-	}
+  @Override
+  public void onPause() {
+    super.onPause();
 
-	@Override
-	public void onPause() {
-		super.onPause();
+    for (Entity entity: this.pauseMenuUi.getEntities()) {
+      entity.setActive(true);
+    }
+  }
 
-		for (Entity entity : this.pauseMenuUi.getEntities()) {
-			entity.setActive(true);
-		}
-	}
+  @Override
+  public void onUnpause() {
+    super.onUnpause();
 
-	@Override
-	public void onUnpause() {
-		super.onUnpause();
-
-		for (Entity entity : this.pauseMenuUi.getEntities()) {
-			entity.setActive(false);
-		}
-	}
+    for (Entity entity: this.pauseMenuUi.getEntities()) {
+      entity.setActive(false);
+    }
+  }
 }
