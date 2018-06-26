@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.trap;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -13,7 +12,6 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 
@@ -152,7 +150,7 @@ public class Turret extends SolidProp {
 	}
 
 	protected void send() {
-		BulletProjectile bullet = new BulletProjectile();
+		/*BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
 
 		float x = this.x + region.getRegionWidth() / 2;
@@ -173,7 +171,7 @@ public class Turret extends SolidProp {
 
 		bullet.a = a;
 
-		Dungeon.area.add(bullet);
+		Dungeon.area.add(bullet);*/
 	}
 
 	protected void modify(BulletProjectile entity) {

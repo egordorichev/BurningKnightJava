@@ -2,10 +2,8 @@ package org.rexcellentgames.burningknight.entity.item
 
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
-import org.rexcellentgames.burningknight.entity.item.autouse.Backpack
-import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
+import org.rexcellentgames.burningknight.entity.item.autouse.*
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
-import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
@@ -272,7 +270,8 @@ object ItemRegistry {
     "bread" to Bread::class,
     "mana_emblem" to ManaEmblem::class,
     "aim" to Aim::class,
-    "cursed_aim" to CursedAim::class
+    "cursed_aim" to CursedAim::class,
+	  "ball" to Ball::class
   )
 
   val modItems = mutableMapOf<String, ModItem>()

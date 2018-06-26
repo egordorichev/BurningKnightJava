@@ -151,6 +151,10 @@ public class World {
 	}
 
 	public static Body createCircleBody(Entity owner, float x, float y, float r, BodyDef.BodyType type, boolean sensor) {
+		return createCircleBody(owner, x, y, r, type, sensor, 0f);
+	}
+
+	public static Body createCircleBody(Entity owner, float x, float y, float r, BodyDef.BodyType type, boolean sensor, float restitution) {
 		Log.physics("Creating circle centred body for " + owner.getClass().getSimpleName() + " with params (" + x + ", " + y + ", " + r + ") and sensor = " + sensor);
 
 		if (world.isLocked()) {
@@ -172,6 +176,7 @@ public class World {
 		fixture.shape = poly;
 		fixture.friction = 0;
 		fixture.isSensor = sensor;
+		fixture.restitution = restitution;
 
 		body.createFixture(fixture);
 		body.setUserData(owner);

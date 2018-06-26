@@ -493,5 +493,7 @@
 	"cursed_aim" : "Cursed aim",
 	"cursed_aim_desc" : "Is it worth it?",
 	"aim" : "Aim",
-	"aim_desc" : "Better accuracy"
+	"aim_desc" : "Better accuracy",
+	"ball" : "Ball",
+	"ball_desc" : "OLE, OLE, O-O-OLE!"
 }

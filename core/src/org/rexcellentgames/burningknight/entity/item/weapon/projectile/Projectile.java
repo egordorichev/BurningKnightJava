@@ -54,10 +54,12 @@ public class Projectile extends NetworkedEntity {
 
 		this.logic(dt);
 
-		if (this.body != null) {
+		if (this.body != null && !this.ignoreVel) {
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		}
 	}
+
+	protected boolean ignoreVel;
 
 	@Override
 	public void onCollision(Entity entity) {
