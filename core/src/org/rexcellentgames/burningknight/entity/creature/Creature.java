@@ -41,24 +41,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
-	public float invmax = 0.4f;
-	public float critChance;
 	public int hw;
 	public int hh;
 	public float z;
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
-	public float blockChance;
 	public boolean flying = false;
-	public float knockbackMod = 1f;
 	public boolean penetrates;
 	public boolean explosionBlock;
 	public boolean freezed;
+	public float speed = 10f;
+	public float maxSpeed = 90f;
 	protected int hp;
 	protected int hpMax;
-	protected float speed = 10;
-	protected float maxSpeed = 90;
 	protected int damage = 2;
 	protected int defense;
 	protected float invt = 0;
@@ -162,6 +158,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		this.hp = this.hpMax;
+		this.initStats();
 	}
 
 	@Override
@@ -329,7 +326,7 @@ public class Creature extends SaveableEntity {
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0 || (this instanceof Player && ((Player) this).dashT > 0)) {
 			return null;
-		} else if ((Random.chance(this.blockChance) || this.rollBlock()) && !ignoreArmor) {
+		} else if ((Random.chance(this.getStat("block_chance")) || this.rollBlock()) && !ignoreArmor) {
 			HpFx fx = new HpFx(this, 0);
 			fx.block = true;
 			Dungeon.area.add(fx);
@@ -359,7 +356,7 @@ public class Creature extends SaveableEntity {
 				}
 			}
 
-			this.invt = this.invmax;
+			this.invt = this.getStat("inv_time");
 			hurt = true;
 		}
 
@@ -572,6 +569,8 @@ public class Creature extends SaveableEntity {
 
 		float a = from.getAngleTo(this.x + this.w / 2, this.y + this.h / 2);
 
+		float knockbackMod = this.getStat("knockback");
+
 		this.vel.x += Math.cos(a) * force * knockbackMod;
 		this.vel.y += Math.sin(a) * force * knockbackMod;
 	}
@@ -592,9 +591,37 @@ public class Creature extends SaveableEntity {
 
 	public Room room;
 
-
 	// for lua
 	public Room getRoom() {
 		return room;
+	}
+
+	protected HashMap<String, Float> stats = new HashMap<>();
+
+	public void modifyStat(String name, float val) {
+		if (stats.containsKey(name)) {
+			stats.put(name, stats.get(name) + val);
+		} else {
+			stats.put(name, val);
+		}
+	}
+
+	public float getStat(String name) {
+		Float f = this.stats.get(name);
+
+		if (f == null) {
+			return 0;
+		}
+
+		return f;
+	}
+
+	public void initStats() {
+		stats.put("defense", 1f);
+		stats.put("damage", 1f);
+		stats.put("speed", 1f);
+		stats.put("knockback", 1f);
+		stats.put("block_chance", 4f);
+		stats.put("inv_max", 0.4f);
 	}
 }
