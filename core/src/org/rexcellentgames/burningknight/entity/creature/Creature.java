@@ -201,7 +201,8 @@ public class Creature extends SaveableEntity {
 			buffs[i].update(dt);
 		}
 
-		Room room = Dungeon.level.findRoomFor(this.x + this.w / 2, this.y);
+		// FIXME: patch
+		Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 		if (room != this.room) {
 			this.room = room;

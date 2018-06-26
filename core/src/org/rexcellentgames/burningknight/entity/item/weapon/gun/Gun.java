@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -36,7 +35,7 @@ public class Gun extends WeaponBase {
 	protected float th;
 	protected boolean s;
 	protected Point origin = new Point(3, 1);
-	protected Point hole = new Point(13, 5);
+	protected Point hole = new Point(13, 6);
 
 	{
 		identified = true;
@@ -87,6 +86,16 @@ public class Gun extends WeaponBase {
 		return a0 + shortAngleDist(a0,a1) * t;
 	}
 
+	protected float getAimX() {
+		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x) + (float) Math.cos(this.lastAngle +
+			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y);
+	}
+
+	protected float getAimY() {
+		return (float) Math.sin(this.lastAngle) * (this.hole.x - this.origin.x) + (float) Math.sin(this.lastAngle +
+			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y);
+	}
+
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (!s) {
@@ -96,10 +105,9 @@ public class Gun extends WeaponBase {
 			this.th = this.getSprite().getRegionHeight();
 		}
 
-		TextureRegion sprite = this.getSprite();
 		Point aim = this.owner.getAim();
-
 		float an = this.owner.getAngleTo(aim.x, aim.y);
+
 		an = angleLerp(this.lastAngle, an, 0.15f);
 		this.lastAngle = an;
 		float a = (float) Math.toDegrees(this.lastAngle);
@@ -108,18 +116,11 @@ public class Gun extends WeaponBase {
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
 		float r = 6;
 
-		x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
-		y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+		x = x + w / 2 + (flipped ? -7 : 7);
+		y = y + h / 4 + this.owner.z;
 
-		float px = this.tw;
-
-		float xx = (float) (x + (this.tw + this.origin.x) * Math.cos(an) - this.origin.x);
-		float yy = (float) (y + (this.th + this.origin.y) * Math.sin(an) - this.origin.y);
-
-		Graphics.startShape();
-		Graphics.shape.circle(x + xx, y + yy, 3);
-		Graphics.shape.circle(x - origin.x, y - origin.y, 3);
-		Graphics.endShape();
+		float xx = x + getAimX();
+		float yy = y + getAimY();
 
 		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
@@ -268,10 +269,9 @@ public class Gun extends WeaponBase {
 			float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
 			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
-			float px = this.tw;
 
-			bullet.x = (float) (x + px * Math.cos(an) - this.origin.x);
-			bullet.y = (float) (y + px * Math.sin(an));
+			bullet.x = x + this.getAimX();
+			bullet.y = y + this.getAimY();
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;
