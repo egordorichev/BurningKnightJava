@@ -58,7 +58,6 @@ public class Mob extends Creature {
 	protected State ai;
 	public boolean stupid = false;
 	protected Mind mind;
-	protected Room start;
 	protected Prefix prefix;
 
 	private static TextureRegion hideSign;
@@ -348,8 +347,6 @@ public class Mob extends Creature {
 		return null;
 	}
 
-	public Room room;
-
 	public float getWeight() {
 		return 1;
 	}
@@ -360,12 +357,6 @@ public class Mob extends Creature {
 
 		if (this.freezed) {
 			return;
-		}
-
-		Room room = Dungeon.level.findRoomFor(this.x, this.y);
-
-		if (room != null) {
-			this.room = room;
 		}
 
 		if (this.room != null && !this.ignoreRooms) {
@@ -407,11 +398,6 @@ public class Mob extends Creature {
 
 		if (this.ai != null) {
 			this.ai.update(dt * speedMod);
-
-			if (this.start == null) {
-				this.ai.findCurrentRoom();
-				this.start = this.ai.currentRoom;
-			}
 
 			if (this.ai != null) { // !?!?!
 				this.ai.t += dt * speedMod;
@@ -751,7 +737,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (Player.instance.currentRoom == this.currentRoom && self.canSee(self.target)) {
+				if (Player.instance.room == this.currentRoom && self.canSee(self.target)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {

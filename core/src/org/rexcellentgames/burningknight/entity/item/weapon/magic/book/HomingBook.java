@@ -33,7 +33,7 @@ public class HomingBook extends Book {
 				float closest = 256;
 
 				for (Mob mob : Mob.all) {
-					if (mob.room == Player.instance.currentRoom && !mob.isDead()) {
+					if (mob.room == Player.instance.room && !mob.isDead()) {
 						float d = this.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2);
 
 						if (d < closest) {

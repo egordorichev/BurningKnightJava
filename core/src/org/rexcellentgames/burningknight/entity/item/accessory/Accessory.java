@@ -9,12 +9,20 @@ public class Accessory extends Item {
 		useable = false;
 	}
 
+	private boolean equiped;
+
 	public void onEquip() {
+		equiped = true;
 		this.triggerEvent("on_equip");
 	}
 
 	public void onUnequip() {
+		equiped = false;
 		this.triggerEvent("on_unequip");
+	}
+
+	public boolean isEquiped() {
+		return equiped;
 	}
 
 	@Override

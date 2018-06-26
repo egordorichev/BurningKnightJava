@@ -113,7 +113,7 @@ public class Shopkeeper extends Npc {
 
 			this.findCurrentRoom();
 
-			if (Player.instance.currentRoom == this.currentRoom) {
+			if (Player.instance.room == this.currentRoom) {
 				self.become("help");
 			}
 		}
@@ -126,7 +126,7 @@ public class Shopkeeper extends Npc {
 
 			this.findCurrentRoom();
 
-			if (this.currentRoom != Player.instance.currentRoom) {
+			if (this.currentRoom != Player.instance.room) {
 				self.become("idle");
 			} else if (this.moveTo(new Point(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2), 5f, 32f)) {
 

@@ -210,13 +210,13 @@ public class Door extends SaveableEntity {
 					break;
 				} else */
 
-				if (Player.instance != null && this.rooms[i] == Player.instance.currentRoom) {
-					if (Player.instance.currentRoom instanceof LampRoom
+				if (Player.instance != null && this.rooms[i] == Player.instance.room) {
+					if (Player.instance.room instanceof LampRoom
 						&& !Player.instance.getInventory().find(Lamp.class)) {
 
 						this.lock = true;
 						break;
-					} else if (Player.instance.currentRoom.numEnemies > 0) {
+					} else if (Player.instance.room.numEnemies > 0) {
 						this.lock = true;
 						break;
 					}

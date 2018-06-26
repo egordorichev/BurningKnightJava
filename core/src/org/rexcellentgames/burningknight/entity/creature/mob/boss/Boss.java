@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.boss;
 
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -63,7 +62,7 @@ public class Boss extends Mob {
 					continue;
 				}
 
-				if (self.canSee(player) && (!shouldBeInTheSameRoom || player.currentRoom == self.room)) {
+				if (self.canSee(player) && (!shouldBeInTheSameRoom || player.room == self.room)) {
 					self.target = player;
 					self.become("alerted");
 					self.noticeSignT = 2f;

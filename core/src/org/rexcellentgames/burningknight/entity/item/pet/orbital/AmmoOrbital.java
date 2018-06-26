@@ -46,7 +46,7 @@ public class AmmoOrbital extends Pet {
 			if (this.last > 3f) {
 				this.last = 0;
 
-				if (Player.instance.currentRoom != null) {
+				if (Player.instance.room != null) {
 					for (Mob mob : Mob.all) {
 						if (mob.onScreen) {
 							BulletProjectile ball = new BulletProjectile();

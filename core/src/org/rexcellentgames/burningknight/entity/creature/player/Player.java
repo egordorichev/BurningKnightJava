@@ -15,7 +15,10 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.*;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
@@ -31,7 +34,6 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlackHe
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHeart;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
-import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
@@ -80,7 +82,6 @@ public class Player extends Creature {
 	public float defenseModifier = 1f;
 	public UiInventory ui;
 	public boolean moreManaRegenWhenLow;
-	public Room currentRoom;
 	public float dashT;
 	public ArrayList<UiBuff> uiBuffs = new ArrayList<>();
 	public float poisonChance;
@@ -500,11 +501,11 @@ public class Player extends Creature {
 		this.dashTimeout = Math.max(0, this.dashTimeout - dt);
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
-			Room room = Dungeon.level.findRoomFor(this.x, this.y);
+			//Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
+			//Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 			if (room != null) {
-				if (this.currentRoom != room) {
+				/*if (this.room != room) {
 					if (this.seeSecrets) {
 						for (Room r : room.connected.keySet()) {
 							if (r.hidden) {
@@ -534,11 +535,11 @@ public class Player extends Creature {
 					}
 				}
 
-				this.currentRoom = room;
+				this.room = room;*/
 
-				for (int x = this.currentRoom.left; x <= this.currentRoom.right; x++) {
-					for (int y = this.currentRoom.top + 1; y <= this.currentRoom.bottom; y++) {
-						if ((x == this.currentRoom.left || x == this.currentRoom.right || y == this.currentRoom.top || y == this.currentRoom.bottom
+				for (int x = this.room.left; x <= this.room.right; x++) {
+					for (int y = this.room.top + 1; y <= this.room.bottom; y++) {
+						if ((x == this.room.left || x == this.room.right || y == this.room.top || y == this.room.bottom
 							) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
 							Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
 						}
@@ -820,11 +821,11 @@ public class Player extends Creature {
 			from.modifyHp((int) Math.ceil(a / 2), this, true);
 		}
 
-		if (this.ui.hasEquiped(BlackHeart.class) && this.currentRoom != null) {
+		if (this.ui.hasEquiped(BlackHeart.class) && this.room != null) {
 			for (int i = Mob.all.size() - 1; i >= 0; i--) {
 				Mob mob = Mob.all.get(i);
 
-				if (mob.room == this.currentRoom) {
+				if (mob.getRoom() == this.room) {
 					mob.modifyHp(-1, this, true);
 				}
 			}

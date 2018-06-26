@@ -694,7 +694,7 @@ public abstract class Level extends SaveableEntity {
 			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 			for (Room room : this.rooms) {
-				Graphics.shape.setColor(room.hidden ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, room == Player.instance.currentRoom ? 0 : 1, 0.1f);
+				Graphics.shape.setColor(room.hidden ? 0 : 1, room == Player.instance.room ? 0 : 1, room == Player.instance.room ? 0 : 1, 0.1f);
 				Graphics.shape.rect(room.left * 16 + 8, room.top * 16 + 8, room.getWidth() * 16 - 16, room.getHeight() * 16 - 16);
 			}
 

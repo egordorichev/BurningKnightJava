@@ -840,7 +840,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (Player.instance.currentRoom != null && !(Player.instance.currentRoom instanceof EntranceRoom)) {
+			if (Player.instance.room != null && !(Player.instance.room instanceof EntranceRoom)) {
 				Log.info("BK is out");
 
 				float a = Random.newFloat((float) (Math.PI * 2));
@@ -894,7 +894,7 @@ public class BurningKnight extends Boss {
 				continue;
 			}
 
-			if (player instanceof Player && this.state.equals("wait") && ((Player) player).currentRoom != this.room) {
+			if (player instanceof Player && this.state.equals("wait") && ((Player) player).room != this.room) {
 				continue;
 			}
 

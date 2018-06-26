@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Item extends Entity {
@@ -271,5 +272,15 @@ public class Item extends Entity {
 
   protected void registerEvents(LuaTable args) {
 	  registerEvent("use", args);
+  }
+
+  private HashMap<String, Object> fields = new HashMap<>();
+
+  public void set(String key, Object value) {
+  	fields.put(key, value);
+  }
+
+  public Object get(String key) {
+  	return fields.get(key);
   }
 }

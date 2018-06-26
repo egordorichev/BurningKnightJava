@@ -3,6 +3,9 @@ package org.rexcellentgames.burningknight.entity.creature;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.luaj.vm2.LuaFunction;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -22,6 +25,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocke
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
@@ -67,20 +71,20 @@ public class Creature extends SaveableEntity {
 	protected int hy;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
 	protected float invtt;
-	protected HashMap<String, ArrayList<Runnable>> events = new HashMap<>();
+	protected HashMap<String, ArrayList<LuaFunction>> events = new HashMap<>();
 	protected boolean falling;
 	private boolean shouldDie = false;
 	private boolean remove;
 
-	public int registerCallback(String name, Runnable runnable) {
-		ArrayList<Runnable> e = events.computeIfAbsent(name, k -> new ArrayList<>());
+	public int registerCallback(String name, LuaFunction runnable) {
+		ArrayList<LuaFunction> e = events.computeIfAbsent(name, k -> new ArrayList<>());
 		e.add(runnable);
 
 		return e.size() - 1;
 	}
 
 	public void removeCallback(String name, int id) {
-		ArrayList<Runnable> e = events.get(name);
+		ArrayList<LuaFunction> e = events.get(name);
 
 		if (e == null) {
 			return;
@@ -122,14 +126,16 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void triggerEvent(String name) {
-		ArrayList<Runnable> e = events.get(name);
+		ArrayList<LuaFunction> e = events.get(name);
 
 		if (e != null) {
-			for (Runnable event : e) {
-				event.run();
+			for (LuaFunction event : e) {
+				event.call(self);
 			}
 		}
 	}
+
+	public LuaValue self = CoerceJavaToLua.coerce(this);
 
 	public float getInvt() {
 		return this.invt;
@@ -190,6 +196,15 @@ public class Creature extends SaveableEntity {
 
 		for (int i = buffs.length - 1; i >= 0; i--) {
 			buffs[i].update(dt);
+		}
+
+		Room room = Dungeon.level.findRoomFor(this.x + this.w / 2, this.y + 4);
+
+		if (room != this.room) {
+			this.room = room;
+
+		} else {
+			this.room = room;
 		}
 
 		super.update(dt);
@@ -555,5 +570,13 @@ public class Creature extends SaveableEntity {
 
 	public boolean isFlipped() {
 		return this.flipped;
+	}
+
+	public Room room;
+
+
+	// for lua
+	public Room getRoom() {
+		return room;
 	}
 }
