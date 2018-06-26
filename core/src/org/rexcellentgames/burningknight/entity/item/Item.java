@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -110,7 +111,11 @@ public class Item extends Entity {
   }
 
   public void setOwner(Creature owner) {
-    this.owner = owner;
+	  this.owner = owner;
+
+	  if (this.modId != null) {
+		  this.ownerValue = CoerceJavaToLua.coerce(this.owner);
+	  }
   }
 
   public void use() {
@@ -236,11 +241,13 @@ public class Item extends Entity {
   	LuaFunction fun = events.get(name);
 
   	if (fun != null) {
-  		fun.call();
+  		fun.call(self, ownerValue);
 	  }
   }
 
   private String modId;
+  protected LuaValue self;
+	protected LuaValue ownerValue;
 
   public void initFromMod(String modId, String name, LuaTable args) {
   	this.modId = modId;
@@ -256,6 +263,8 @@ public class Item extends Entity {
 	  }
 
 	  this.getSprite();
+	  this.self = CoerceJavaToLua.coerce(this);
+	  this.ownerValue = CoerceJavaToLua.coerce(this.owner);
 
 	  registerEvents(args);
   }
