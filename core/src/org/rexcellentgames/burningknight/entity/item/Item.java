@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -112,10 +113,6 @@ public class Item extends Entity {
 
   public void setOwner(Creature owner) {
 	  this.owner = owner;
-
-	  if (this.modId != null) {
-		  this.ownerValue = CoerceJavaToLua.coerce(this.owner);
-	  }
   }
 
   public void use() {
@@ -166,6 +163,23 @@ public class Item extends Entity {
 
   public boolean isUseable() {
     return this.useable;
+  }
+
+  public boolean canBeUsed() {
+  	if (this.canBeUsedCallback != null) {
+  		try {
+			  LuaValue can = this.canBeUsedCallback.call(self, this.owner.self);
+
+			  if (can.isboolean()) {
+			  	return can.toboolean();
+			  }
+		  } catch (LuaError error) {
+  			Log.error("Internal mod error");
+  			error.printStackTrace();
+		  }
+	  }
+
+  	return true;
   }
 
   public String getName() {
@@ -245,31 +259,41 @@ public class Item extends Entity {
   	LuaFunction fun = events.get(name);
 
   	if (fun != null) {
-  		fun.call(self, ownerValue);
+  		try {
+			  fun.call(self, this.owner.self);
+		  } catch (LuaError error) {
+			  Log.error("Internal mod error!");
+  			error.printStackTrace();
+		  }
 	  }
   }
 
   private String modId;
   protected LuaValue self;
-	protected LuaValue ownerValue;
+	protected LuaFunction canBeUsedCallback;
 
   public void initFromMod(String modId, String name, LuaTable args) {
-  	this.modId = modId;
+	  this.modId = modId;
 
-  	this.name = Locale.get(name);
+	  this.name = Locale.get(name);
 	  this.description = Locale.get(name + "_desc");
 
-  	LuaValue val = args.get("sprite");
+	  LuaValue val = args.get("sprite");
 
 	  if (val == LuaValue.NIL) {
-	  	this.sprite = "item-$name";
+		  this.sprite = "item-" + name;
 	  } else {
 		  this.sprite = val.toString();
 	  }
 
 	  this.getSprite();
 	  this.self = CoerceJavaToLua.coerce(this);
-	  this.ownerValue = CoerceJavaToLua.coerce(this.owner);
+
+	  val = args.get("can_use");
+
+	  if (val != LuaValue.NIL && val.isfunction()) {
+		  this.canBeUsedCallback = (LuaFunction) val;
+    }
 
 	  registerEvents(args);
   }

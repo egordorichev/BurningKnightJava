@@ -14,4 +14,11 @@ public class Consumable extends Item {
 
 		return builder;
 	}
+
+	@Override
+	public void use() {
+		super.use();
+
+		this.setCount(this.count - 1);
+	}
 }

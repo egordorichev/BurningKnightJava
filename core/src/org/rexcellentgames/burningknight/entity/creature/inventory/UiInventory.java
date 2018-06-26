@@ -338,12 +338,12 @@ public class UiInventory extends UiEntity {
 
 				if (slot != null) {
 					if (Input.instance.wasPressed("mouse0")) {
-						if (slot.isUseable() && slot.getDelay() == 0) {
+						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0) {
 							slot.setOwner(Player.instance);
 							slot.use();
 						}
 					} else if (Input.instance.wasPressed("mouse1")) {
-						if (slot.isUseable() && slot.getDelay() == 0) {
+						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0) {
 							slot.setOwner(Player.instance);
 							slot.secondUse();
 						}

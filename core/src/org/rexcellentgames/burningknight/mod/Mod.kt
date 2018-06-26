@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.mod
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.utils.JsonReader
 import org.luaj.vm2.Globals
+import org.luaj.vm2.LuaError
 import org.luaj.vm2.LuaValue
 import org.luaj.vm2.lib.jse.JsePlatform
 import org.rexcellentgames.burningknight.assets.Graphics
@@ -44,9 +45,20 @@ class Mod(val name: String, val id: String, val description: String, val author:
     globals.load(apiCode).call()
 
     if (this.itemsDirectory != null) {
-      for (entry in this.itemsDirectory.list()) {
-        if (!entry.isDirectory && entry.extension() == "lua") {
+      this.parseDir(itemsDirectory.list())
+    }
+  }
+
+  private fun parseDir(dir: Array<FileHandle>) {
+    for (entry in dir) {
+      if (entry.isDirectory) {
+        parseDir(entry.list())
+      } else if (entry.extension() == "lua") {
+        try {
           globals.load(entry.readString()).call()
+        } catch (error: LuaError) {
+          Log.error("Internal mod error!")
+          error.printStackTrace()
         }
       }
     }

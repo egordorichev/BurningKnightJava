@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
@@ -130,7 +131,12 @@ public class Creature extends SaveableEntity {
 
 		if (e != null) {
 			for (LuaFunction event : e) {
-				event.call(self);
+				try {
+					event.call(self);
+				} catch (LuaError error) {
+					Log.error("Internal mod error!");
+					error.printStackTrace();
+				}
 			}
 		}
 	}
@@ -461,13 +467,27 @@ public class Creature extends SaveableEntity {
 		return this.hp;
 	}
 
+	public void heal() {
+		if (!this.hasFullHealth()) {
+			this.modifyHp(this.getHpMax() - this.hp, null);
+		}
+	}
+
 	public int getHpMax() {
 		return this.hpMax;
+	}
+
+	public boolean hasFullHealth() {
+		return this.hp == this.hpMax;
 	}
 
 	public void setHpMax(int hpMax) {
 		this.hpMax = Math.max(2, hpMax);
 		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp);
+	}
+
+	public void modifyHpMax(int amount) {
+		this.setHpMax(this.hpMax + amount);
 	}
 
 	@Override
