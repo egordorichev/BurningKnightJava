@@ -499,5 +499,7 @@
   "bad_gun": "Bad gun",
   "bad_gun_desc": "Does this even work?",
   "kotling_gun": "Kotling Gun",
-  "kotling_gun_desc": "What's \"Kotlin\" again?"
+  "kotling_gun_desc": "What's \"Kotlin\" again?",
+	"zoom" : "Zoom",
+	"zoom_desc" : "To see more"
 }

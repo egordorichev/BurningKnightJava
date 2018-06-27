@@ -6,9 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import org.rexcellentgames.burningknight.Settings;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -107,8 +104,8 @@ public class Camera extends Entity {
 			float z = game.zoom;
 
 			if (target instanceof Player && !((Player) target).toDeath) {
-				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (1.5f / game.zoom);
-				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (1.5f / game.zoom);
+				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (Player.seeMore ? 1f : 1.5f / game.zoom);
+				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (Player.seeMore ? 1f : 1.5f / game.zoom);
 			} else {
 				y += target.h;
 			}

@@ -130,6 +130,7 @@ public class Player extends Creature {
 	private AnimationData killed;
 	private AnimationData animation;
 	public float accuracy;
+	public static boolean seeMore;
 
 	{
 		hpMax = 8;
