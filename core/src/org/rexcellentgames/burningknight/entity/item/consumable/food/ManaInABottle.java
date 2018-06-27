@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 
 public class ManaInABottle extends Consumable {
 	{
+		name = Locale.get("mana_in_a_bottle");
+		description = Locale.get("mana_in_a_bottle_desc");
+		sprite = "item-mana_in_bottle";
 	}
 
 	@Override

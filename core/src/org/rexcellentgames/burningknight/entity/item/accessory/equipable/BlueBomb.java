@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class BlueBomb extends Equipable {
 	{
+		name = Locale.get("blue_bomb");
+		description = Locale.get("blue_bomb_desc");
+		sprite = "item-mana_bombs";
 	}
 
 	@Override

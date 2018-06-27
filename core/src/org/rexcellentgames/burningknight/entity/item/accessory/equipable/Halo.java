@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class Halo extends Equipable {
 	{
+		name = Locale.get("halo");
+		description = Locale.get("halo_desc");
+		sprite = "item-halo";
 	}
 
 	@Override

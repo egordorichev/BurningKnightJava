@@ -13,6 +13,9 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class IceWand extends Wand {
 	{
+		name = Locale.get("ice_wand");
+		description = Locale.get("ice_wand_desc");
+		sprite = "item-wand_f";
 		damage = 2;
 	}
 

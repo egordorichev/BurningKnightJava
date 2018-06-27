@@ -1,14 +1,16 @@
 package org.rexcellentgames.burningknight.entity.item.consumable.potion;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 
 import java.io.IOException;
 
 public class HealingPotion extends Potion {
 	{
-		
-		
+		name = Locale.get("healing_potion");
+		description = Locale.get("healing_potion_desc");
 	}
 
 	@Override

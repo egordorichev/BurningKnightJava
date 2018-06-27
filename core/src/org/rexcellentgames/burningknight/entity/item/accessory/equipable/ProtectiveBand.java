@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ProtectiveBand extends Equipable {
 	{
+		name = Locale.get("protective_band");
+		description = Locale.get("protective_band_desc");
+		sprite = "item-black_belt";
 	}
 
 	@Override

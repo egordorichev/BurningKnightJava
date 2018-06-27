@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class PenetrationRune extends Equipable {
 	{
+		name = Locale.get("penetration_rune");
+		description = Locale.get("penetration_rune_desc");
+		sprite = "item-penetration_stone";
 	}
 
 	@Override

@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class LightsaberC extends LightsaberA {
 	{
+		name = Locale.get("lightsaber_c");
+		description = Locale.get("lightsaber_c_desc");
+		sprite = "item-lightsaber C";
 		damage = 12;
 		maxAngle = 360;
 		auto = true;

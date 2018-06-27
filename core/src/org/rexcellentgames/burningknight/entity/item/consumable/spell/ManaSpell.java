@@ -6,8 +6,8 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ManaSpell extends Spell {
 	{
-		
-		
+		name = Locale.get("mana_spell");
+		description = Locale.get("mana_spell_desc");
 	}
 
 	@Override

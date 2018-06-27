@@ -7,6 +7,9 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 
 public class TheEye extends Equipable {
 	{
+		name = Locale.get("the_eye");
+		description = Locale.get("the_eye_desc");
+		sprite = "item-the_eye";
 	}
 
 	@Override

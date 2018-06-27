@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ManaRing extends Equipable {
 	{
+		name = Locale.get("mana_ring");
+		description = Locale.get("mana_ring_desc");
+		sprite = "item-mana_ring";
 	}
 
 	@Override

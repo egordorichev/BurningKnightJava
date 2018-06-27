@@ -9,12 +9,12 @@ import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 
 public class Diamond extends Autouse {
 	{
-		
+		name = Locale.get("diamond");
 		stackable = true;
-		
+		sprite = "item-diamond";
 		autoPickup = true;
 		useable = false;
-		
+		description = Locale.get("diamond_desc");
 	}
 
 	@Override

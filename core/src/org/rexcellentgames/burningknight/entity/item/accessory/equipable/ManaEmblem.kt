@@ -5,9 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class ManaEmblem : Equipable() {
   init {
-    
-    
-    
+    name = Locale.get("mana_emblem")
+    description = Locale.get("mana_emblem_desc")
+    sprite = "item-mana-emblem"
   }
 
   override fun onEquip() {

@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item.pet.impl;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;

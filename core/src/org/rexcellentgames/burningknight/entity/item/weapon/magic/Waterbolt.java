@@ -16,6 +16,9 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class Waterbolt extends Wand {
 	{
+		name = Locale.get("waterbolt");
+		description = Locale.get("waterbolt_desc");
+		sprite = "item-wand_b";
 		damage = 2;
 	}
 

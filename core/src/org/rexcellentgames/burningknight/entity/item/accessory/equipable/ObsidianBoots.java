@@ -7,6 +7,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ObsidianBoots extends Equipable {
 	{
+		name = Locale.get("obsidian_boots");
+		description = Locale.get("obsidian_boots_desc");
+		sprite = "item-obsidian_boots";
 	}
 
 	@Override

@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class BlueCoin extends Equipable {
 	{
+		name = Locale.get("blue_coin");
+		description = Locale.get("blue_coin_desc");
+		sprite = "item-picking_up_coins_gives_mana";
 	}
 
 	@Override

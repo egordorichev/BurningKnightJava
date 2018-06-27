@@ -8,6 +8,9 @@ import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 
 public class MeetBoy extends Autouse {
 	{
+		name = Locale.get("meetboy");
+		description = Locale.get("meetboy_desc");
+		sprite = "item-meetboy_hp";
 	}
 
 	@Override

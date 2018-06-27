@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class StopAndPlay extends Equipable {
 	{
+		name = Locale.get("stop_and_play");
+		description = Locale.get("stop_and_play_desc");
+		sprite = "item-pause_and_play";
 	}
 
 	@Override

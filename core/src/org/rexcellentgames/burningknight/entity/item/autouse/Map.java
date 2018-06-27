@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class Map extends Autouse {
 	{
+		name = Locale.get("map");
+		description = Locale.get("map_desc");
+		sprite = "item-map";
 	}
 
 	@Override

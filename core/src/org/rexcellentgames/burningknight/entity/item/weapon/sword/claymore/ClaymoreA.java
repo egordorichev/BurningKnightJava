@@ -8,10 +8,10 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class ClaymoreA extends Sword {
 	{
-		
+		sprite = "item-claymore_a";
 		damage = 2;
-		
-		
+		description = Locale.get("claymore_a_desc");
+		name = Locale.get("claymore_a");
 	}
 
 	@Override

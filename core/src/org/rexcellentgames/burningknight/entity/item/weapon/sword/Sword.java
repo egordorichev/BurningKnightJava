@@ -42,7 +42,7 @@ public class Sword extends Weapon {
 
 	{
 		name = "Sword";
-		
+		sprite = "item-sword_b";
 		damage = 3;
 	}
 

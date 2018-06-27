@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 
 public class Bread extends Consumable {
 	{
+		name = Locale.get("bread");
+		description = Locale.get("bread_desc");
+		sprite = "item-bread";
 	}
 
 	@Override

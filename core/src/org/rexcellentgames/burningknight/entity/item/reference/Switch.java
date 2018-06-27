@@ -5,5 +5,8 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipab
 
 public class Switch extends Equipable {
 	{
+		description = Locale.get("switch_desc");
+		name = Locale.get("switch");
+		sprite = "item-switch";
 	}
 }

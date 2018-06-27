@@ -14,6 +14,9 @@ public class HomingBook extends Book {
 	public static TextureRegion particle = Graphics.getTexture("particle-cool");
 
 	{
+		name = Locale.get("book_of_magic_aim");
+		description = Locale.get("book_of_magic_aim_desc");
+		sprite = "item-book_a";
 		mana = 3;
 		damage = 3;
 	}

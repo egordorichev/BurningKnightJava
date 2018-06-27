@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class YellowBook extends Equipable {
 	{
+		name = Locale.get("yellow_book");
+		description = Locale.get("yellow_book_desc");
+		sprite = "item-more_mana_less_damage";
 	}
 
 	@Override

@@ -9,6 +9,9 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class GravityBooster extends Equipable {
 	{
+		name = Locale.get("gravity_booster");
+		description = Locale.get("gravity_booster_desc");
+		sprite = "item-blank_card";
 	}
 
 	@Override

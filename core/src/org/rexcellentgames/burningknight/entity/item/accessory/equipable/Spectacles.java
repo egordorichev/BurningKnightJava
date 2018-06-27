@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class Spectacles extends Equipable {
 	{
+		name = Locale.get("spectacles");
+		description = Locale.get("spectacles_desc");
+		sprite = "item-spectacles";
 	}
 
 	@Override

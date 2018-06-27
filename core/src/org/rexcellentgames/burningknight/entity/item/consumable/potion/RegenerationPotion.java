@@ -6,8 +6,8 @@ import org.rexcellentgames.burningknight.entity.creature.buff.RegenerationBuff;
 
 public class RegenerationPotion extends Potion {
 	{
-		
-		
+		name = Locale.get("regen_potion");
+		description = Locale.get("regen_potion_desc");
 	}
 
 	@Override

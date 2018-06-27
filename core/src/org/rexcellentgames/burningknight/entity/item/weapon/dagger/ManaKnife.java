@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ManaKnife extends Dagger {
 	{
+		description = Locale.get("mana_knife_desc");
+		name = Locale.get("mana_knife");
+		sprite = "item-mana_knife";
 		damage = 1;
 	}
 

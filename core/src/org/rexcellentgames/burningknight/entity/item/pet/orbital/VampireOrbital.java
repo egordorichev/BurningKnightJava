@@ -12,6 +12,9 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class VampireOrbital extends Pet {
 	{
+		name = Locale.get("vampire_orbital");
+		description = Locale.get("vampire_orbital_desc");
+		sprite = "item-vamprite_orbital";
 	}
 
 	@Override
@@ -21,7 +24,7 @@ public class VampireOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-vamprite_orbital";
 		}
 
 		@Override

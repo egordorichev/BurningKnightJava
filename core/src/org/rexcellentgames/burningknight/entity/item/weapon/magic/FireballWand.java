@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballP
 
 public class FireballWand extends MagicMissileWand {
 	{
+		name = Locale.get("fireball_wand");
+		description = Locale.get("fireball_wand_desc");
+		sprite = "item-wand_a";
 		damage = 3;
 	}
 

@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class LuckyCube extends Equipable {
 	{
+		name = Locale.get("lucky_cube");
+		description = Locale.get("lucky_cube_desc");
+		sprite = "item-damage_roll";
 	}
 
 	@Override

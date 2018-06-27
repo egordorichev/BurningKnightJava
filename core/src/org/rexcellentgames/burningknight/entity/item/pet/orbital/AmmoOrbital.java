@@ -13,6 +13,9 @@ import org.rexcellentgames.burningknight.Dungeon;
 
 public class AmmoOrbital extends Pet {
 	{
+		name = Locale.get("ammo_orbital");
+		description = Locale.get("ammo_orbital_desc");
+		sprite = "item-mini_orbital";
 	}
 
 	@Override
@@ -22,7 +25,7 @@ public class AmmoOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-ammo_orbital";
 		}
 
 		private float last;

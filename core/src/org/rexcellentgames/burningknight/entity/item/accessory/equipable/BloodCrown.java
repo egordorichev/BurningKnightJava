@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class BloodCrown extends Equipable {
 	{
+		name = Locale.get("blood_crown");
+		description = Locale.get("blood_crown_desc");
+		sprite = "item-blood_crown";
 	}
 
 	@Override

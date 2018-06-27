@@ -26,6 +26,9 @@ public class Lamp extends Item {
 	public static Lamp instance;
 
 	{
+		name = Locale.get("lamp");
+		sprite = "item-lamp";
+		description = Locale.get("lamp_desc");
 		identified = true;
 		useTime = 0.2f;
 		cursed = true;

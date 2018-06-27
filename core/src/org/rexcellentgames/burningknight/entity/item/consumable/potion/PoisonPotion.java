@@ -6,8 +6,8 @@ import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 
 public class PoisonPotion extends Potion {
 	{
-		
-		
+		name = Locale.get("poison_potion");
+		description = Locale.get("poison_potion_desc");
 	}
 
 	@Override

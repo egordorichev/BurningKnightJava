@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ManaBoots extends Equipable {
 	{
+		name = Locale.get("mana_boots");
+		description = Locale.get("mana_boots_desc");
+		sprite = "item-running_boosts_mana_regen";
 	}
 
 	@Override

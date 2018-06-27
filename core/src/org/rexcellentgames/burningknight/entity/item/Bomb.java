@@ -9,6 +9,9 @@ import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 
 public class Bomb extends Item {
 	{
+		name = Locale.get("bomb");
+		description = Locale.get("bomb_desc");
+		sprite = "item-bomb";
 		useTime = 1f;
 		stackable = true;
 		identified = true;

@@ -5,8 +5,8 @@ import org.rexcellentgames.burningknight.entity.creature.buff.InvisibilityBuff;
 
 public class InvisibilityPotion extends Potion {
 	{
-		
-		
+		name = Locale.get("invis_potion");
+		description = Locale.get("invis_potion_desc");
 	}
 
 	@Override

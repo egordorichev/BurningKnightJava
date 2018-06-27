@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class Aim extends Equipable {
 	{
+		name = Locale.get("aim");
+		description = Locale.get("aim_desc");
+		sprite = "item-aim";
 	}
 
 	@Override

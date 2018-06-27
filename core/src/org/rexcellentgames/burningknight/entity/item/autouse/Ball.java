@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.fx.BallProjectile;
 
 public class Ball extends Autouse {
 	{
+		name = Locale.get("ball");
+		description = Locale.get("ball_desc");
+		sprite = "item-bullet_e";
 	}
 
 	@Override

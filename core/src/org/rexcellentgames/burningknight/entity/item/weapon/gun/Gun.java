@@ -50,10 +50,11 @@ public class Gun extends WeaponBase {
 	
 	protected Gun() {
 	  String unlocalizedName = Utils.INSTANCE.pascalCaseToSnakeCase(getClass().getSimpleName());
+	  
+	  this.name = Locale.get(unlocalizedName);
+	  this.description = Locale.get(unlocalizedName + "_desc");
+	  this.sprite = "item-" + unlocalizedName;
 
-    this.name = Locale.get(unlocalizedName);
-    this.description = Locale.get(unlocalizedName + "_desc");
-    this.sprite = "item-" + unlocalizedName;
   }
 	
 	private RayCastCallback callback = (fixture, point, normal, fraction) -> {

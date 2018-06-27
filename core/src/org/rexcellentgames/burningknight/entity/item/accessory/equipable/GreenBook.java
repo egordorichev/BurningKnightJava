@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class GreenBook extends Equipable {
 	{
+		name = Locale.get("green_book");
+		description = Locale.get("green_book_desc");
+		sprite = "item-less_mana_more_damage";
 	}
 
 	@Override

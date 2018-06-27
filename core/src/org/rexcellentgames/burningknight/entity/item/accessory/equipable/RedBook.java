@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class RedBook extends Equipable {
 	{
+		name = Locale.get("red_book");
+		description = Locale.get("red_book_desc");
+		sprite = "item-life_regen_becomes_mana_regen";
 	}
 
 	@Override

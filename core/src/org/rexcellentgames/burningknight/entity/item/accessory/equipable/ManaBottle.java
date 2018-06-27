@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ManaBottle extends Equipable {
 	{
+		name = Locale.get("mana_bottle");
+		description = Locale.get("mana_bottle_desc");
+		sprite = "item-mana_bottle";
 	}
 
 	@Override

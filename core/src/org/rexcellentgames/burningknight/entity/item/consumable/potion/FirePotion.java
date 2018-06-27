@@ -6,8 +6,8 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 
 public class FirePotion extends Potion {
 	{
-		
-		
+		name = Locale.get("fire_potion");
+		description = Locale.get("fire_potion_desc");
 	}
 
 	@Override

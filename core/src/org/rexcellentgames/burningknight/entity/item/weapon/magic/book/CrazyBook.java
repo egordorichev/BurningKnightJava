@@ -13,6 +13,9 @@ public class CrazyBook extends Book {
 	public static TextureRegion small = Graphics.getTexture("particle-cool");
 
 	{
+		name = Locale.get("book_of_crazy_particles");
+		description = Locale.get("book_of_crazy_particles_desc");
+		sprite = "item-book_f";
 		mana = 3;
 		damage = 4;
 	}

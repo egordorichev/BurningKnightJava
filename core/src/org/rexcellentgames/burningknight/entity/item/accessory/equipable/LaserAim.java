@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class LaserAim extends Equipable {
 	{
+		name = Locale.get("laser_aim");
+		description = Locale.get("laser_aim");
+		sprite = "item-laser_pointer";
 	}
 
 	@Override

@@ -9,6 +9,9 @@ import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 
 public class SwordOrbital extends Pet {
 	{
+		name = Locale.get("sword_orbital");
+		description = Locale.get("sword_orbital_desc");
+		sprite = "item-sword_orbital";
 	}
 
 	@Override
@@ -18,7 +21,7 @@ public class SwordOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-sword_orbital";
 		}
 
 		@Override

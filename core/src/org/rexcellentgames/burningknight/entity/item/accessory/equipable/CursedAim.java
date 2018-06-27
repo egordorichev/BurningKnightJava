@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class CursedAim extends Equipable {
 	{
+		name = Locale.get("cursed_aim");
+		description = Locale.get("cursed_aim_desc");
+		sprite = "item-cursed_aim";
 	}
 
 	@Override

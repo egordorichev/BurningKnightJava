@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class FortuneRing extends Equipable {
 	{
+		description = Locale.get("fortune_ring_desc");
+		name = Locale.get("fortune_ring");
+		sprite = "item-ring_i";
 	}
 
 	@Override

@@ -7,6 +7,9 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 
 public class StopWatch extends Equipable {
 	{
+		name = Locale.get("stopwatch");
+		description = Locale.get("stopwatch_desc");
+		sprite = "item-stop_watch";
 	}
 
 	@Override

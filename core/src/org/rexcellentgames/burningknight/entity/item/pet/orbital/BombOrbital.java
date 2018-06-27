@@ -12,6 +12,9 @@ import org.rexcellentgames.burningknight.Dungeon;
 
 public class BombOrbital extends Pet {
 	{
+		name = Locale.get("bomb_orbital");
+		description = Locale.get("bomb_orbital_desc");
+		sprite = "item-bomb_orbital";
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class BombOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-bomb_orbital";
 		}
 
 		private float last;

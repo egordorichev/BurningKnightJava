@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class StarOnAString extends Equipable {
 	{
+		name = Locale.get("star_on_a_string");
+		description = Locale.get("star_on_a_string_desc");
+		sprite = "item-mana_up";
 	}
 
 	@Override

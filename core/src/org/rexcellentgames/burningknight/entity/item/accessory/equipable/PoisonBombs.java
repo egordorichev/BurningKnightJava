@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class PoisonBombs extends Equipable {
 	{
+		name = Locale.get("poison_bombs");
+		description = Locale.get("poison_bombs_desc");
+		sprite = "item-poison_bomb";
 	}
 
 	@Override

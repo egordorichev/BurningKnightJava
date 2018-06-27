@@ -12,6 +12,9 @@ public class MagicWallBook extends Book {
 	public static TextureRegion particle = Graphics.getTexture("particle-cool");
 
 	{
+		name = Locale.get("book_of_magic_wall");
+		description = Locale.get("book_of_magic_wall_desc");
+		sprite = "item-book_c";
 		damage = 4;
 		mana = 4;
 	}

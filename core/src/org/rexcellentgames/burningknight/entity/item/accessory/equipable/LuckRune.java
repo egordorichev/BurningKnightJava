@@ -7,6 +7,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 
 public class LuckRune extends Equipable {
 	{
+		name = Locale.get("luck_rune");
+		description = Locale.get("luck_rune_desc");
+		sprite = "item-scroll_f";
 	}
 
 	@Override

@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class MagicShield extends Equipable {
 	{
+		name = Locale.get("magic_shield");
+		description = Locale.get("magic_shield_desc");
+		sprite = "item-shield";
 	}
 
 	@Override

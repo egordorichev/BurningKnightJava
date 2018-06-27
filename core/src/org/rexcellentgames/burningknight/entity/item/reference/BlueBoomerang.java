@@ -8,7 +8,10 @@ import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.util.Log;
 
 public class BlueBoomerang extends Axe {
-	{damage = 10;
+	{
+		name = Locale.get("blue_boomerang");
+		description = Locale.get("blue_boomerang_desc");
+		damage = 10;
 		speed = 1000;
 		penetrates = true;
 	}

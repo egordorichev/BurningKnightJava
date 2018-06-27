@@ -7,6 +7,9 @@ import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 
 public class GooOrbital extends Pet {
 	{
+		name = Locale.get("goo");
+		description = Locale.get("goo_desc");
+		sprite = "item-goo";
 	}
 
 	@Override
@@ -16,7 +19,7 @@ public class GooOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-goo";
 		}
 	}
 }

@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class Cross extends Equipable {
 	{
+		name = Locale.get("cross");
+		description = Locale.get("cross_desc");
+		sprite = "item-cross";
 	}
 
 	@Override

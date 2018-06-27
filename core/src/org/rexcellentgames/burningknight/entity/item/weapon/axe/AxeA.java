@@ -3,8 +3,11 @@ package org.rexcellentgames.burningknight.entity.item.weapon.axe;
 import org.rexcellentgames.burningknight.assets.Locale;
 
 public class AxeA extends Axe {
-	{damage = 3;
+	{
+		name = Locale.get("axe_a");
+		description = Locale.get("axe_a_desc");
+		damage = 3;
 		penetrates = true;
-		
+		sprite = "item-axe_a";
 	}
 }

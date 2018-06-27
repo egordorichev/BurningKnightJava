@@ -7,6 +7,9 @@ class MetalRing : Equipable() {
 	init {
 		super.init()
 
+		name = Locale.get("metal_ring")
+		description = Locale.get("metal_ring_desc")
+		sprite = "item-ring_d"
 	}
 
 	override fun onEquip() {

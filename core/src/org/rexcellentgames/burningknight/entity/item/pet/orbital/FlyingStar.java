@@ -11,6 +11,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballP
 
 public class FlyingStar extends Pet {
 	{
+		name = Locale.get("flying_star");
+		description = Locale.get("flying_star_desc");
+		sprite = "item-mana_orbital";
 	}
 
 	@Override
@@ -20,7 +23,7 @@ public class FlyingStar extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-mana_orbital";
 		}
 
 		@Override

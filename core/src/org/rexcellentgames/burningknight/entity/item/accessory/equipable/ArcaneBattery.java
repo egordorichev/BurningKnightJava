@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ArcaneBattery extends Equipable {
 	{
+		name = Locale.get("arcane_battery");
+		description = Locale.get("arcane_battery_desc");
+		sprite = "item-lower_health_more_mana_regen";
 	}
 
 	@Override

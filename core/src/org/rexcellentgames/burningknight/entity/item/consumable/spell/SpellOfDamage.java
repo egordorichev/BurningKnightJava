@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class SpellOfDamage extends Spell {
 	{
-		
-		
+		name = Locale.get("damage_spell");
+		description = Locale.get("damage_spell_desc");
 	}
 
 	@Override

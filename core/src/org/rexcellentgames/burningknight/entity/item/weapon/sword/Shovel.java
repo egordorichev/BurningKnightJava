@@ -8,5 +8,8 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.Claym
 public class Shovel extends ClaymoreA {
 	{
 		damage = 12;
+		sprite = "item-shovel";
+		name = Locale.get("shovel");
+		description = Locale.get("shovel_desc");
 	}
 }

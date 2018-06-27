@@ -22,7 +22,7 @@ public class BumboPet extends SimpleFollowPet {
 		dependOnDistance = true;
 		maxDistance = 32f;
 		buildPath = true;
-		
+		sprite = "item-bumbo";
 	}
 
 	@Override

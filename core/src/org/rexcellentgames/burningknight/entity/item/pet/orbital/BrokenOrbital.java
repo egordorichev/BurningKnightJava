@@ -15,6 +15,9 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class BrokenOrbital extends Pet {
 	{
+		name = Locale.get("broken_orbital");
+		description = Locale.get("broken_orbital_desc");
+		sprite = "item-broken_orbital";
 	}
 
 	@Override
@@ -24,7 +27,7 @@ public class BrokenOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-broken_orbital";
 		}
 
 		@Override

@@ -15,6 +15,9 @@ public class SuperCrazyBook extends Book {
 	public static TextureRegion tiny = Graphics.getTexture("particle-triangle");
 
 	{
+		name = Locale.get("book_of_crash");
+		description = Locale.get("book_of_crash_desc");
+		sprite = "item-book_g";
 		mana = 6;
 		damage = 4;
 	}

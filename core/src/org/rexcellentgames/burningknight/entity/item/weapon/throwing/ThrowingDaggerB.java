@@ -4,7 +4,10 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class ThrowingDaggerB extends ThrowingDagger {
 	{
-		
-		damage = 5;max = 150;
+		sprite = "item-dagger_b";
+		damage = 5;
+		name = Locale.get("throwing_dagger_b");
+		description = Locale.get("throwing_dagger_b_desc");
+		max = 150;
 	}
 }

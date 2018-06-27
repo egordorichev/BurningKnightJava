@@ -13,8 +13,8 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class SpellOfTeleportation extends Spell {
 	{
-		
-		
+		name = Locale.get("teleport_spell");
+		description = Locale.get("teleport_spell_desc");
 	}
 
 	@Override

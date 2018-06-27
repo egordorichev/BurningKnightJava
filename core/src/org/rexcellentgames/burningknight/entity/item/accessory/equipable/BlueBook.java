@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class BlueBook extends Equipable {
 	{
+		name = Locale.get("blue_book");
+		description = Locale.get("blue_book_desc");
+		sprite = "item-less_mana_used_but_minus_hp_percent";
 	}
 
 	@Override

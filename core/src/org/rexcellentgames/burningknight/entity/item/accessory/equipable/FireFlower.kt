@@ -7,8 +7,8 @@ class FireFlower : Equipable() {
 	init {
 		super.init()
 
-		
-		
+		name = Locale.get("fire_flower")
+		description = Locale.get("fire_flower_desc")
 	}
 
 	override fun onEquip() {

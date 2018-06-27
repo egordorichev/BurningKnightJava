@@ -18,6 +18,9 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class Firebolt extends Wand {
 	{
+		name = Locale.get("firebolt");
+		description = Locale.get("firebolt_desc");
+		sprite = "item-wand_h";
 		damage = 2;
 	}
 

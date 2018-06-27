@@ -4,6 +4,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class DaggerB extends Dagger {
 	{
+		description = Locale.get("dagger_b_desc");
+		name = Locale.get("dagger_b");
+		sprite = "item-dagger_b";
 		damage = 4;
 	}
 }

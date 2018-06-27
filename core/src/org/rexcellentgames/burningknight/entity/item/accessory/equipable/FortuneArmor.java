@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class FortuneArmor extends Equipable {
 	{
+		name = Locale.get("fortune_armor");
+		description = Locale.get("fortune_armor_desc");
+		sprite = "item-defense_roll";
 	}
 
 	@Override

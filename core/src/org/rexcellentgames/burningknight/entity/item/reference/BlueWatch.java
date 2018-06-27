@@ -11,6 +11,9 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class BlueWatch extends Item {
 	{
+		name = Locale.get("blue_watch");
+		description = Locale.get("blue_watch_desc");
+		sprite = "item-time_modifier";
 	}
 
 	@Override

@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class DamageEmblem extends Equipable {
 	{
+		name = Locale.get("damage_emblem");
+		description = Locale.get("damage_emblem_desc");
+		sprite = "item-more_damage";
 	}
 
 	@Override

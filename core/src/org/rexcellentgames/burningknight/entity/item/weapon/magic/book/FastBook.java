@@ -12,6 +12,9 @@ public class FastBook extends Book {
 	public static TextureRegion region = Graphics.getTexture("particle-thick");
 
 	{
+		name = Locale.get("book_of_green_energy");
+		description = Locale.get("book_of_green_energy_desc");
+		sprite = "item-book_e";
 		damage = 3;
 		mana = 1;
 	}

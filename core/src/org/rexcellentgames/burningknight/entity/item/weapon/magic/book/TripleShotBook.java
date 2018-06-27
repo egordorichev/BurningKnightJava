@@ -12,6 +12,9 @@ public class TripleShotBook extends Book {
 	public static TextureRegion region = Graphics.getTexture("particle-empty");
 
 	{
+		name = Locale.get("book_of_magic_trinity");
+		description = Locale.get("book_of_magic_trinity_desc");
+		sprite = "item-book_b";
 		damage = 4;
 		mana = 2;
 	}

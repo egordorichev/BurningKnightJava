@@ -11,6 +11,9 @@ import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 
 public class NanoOrbital extends Pet {
 	{
+		name = Locale.get("nano_orbital");
+		description = Locale.get("nano_orbital_desc");
+		sprite = "item-mini_orbital";
 	}
 
 	@Override
@@ -20,7 +23,7 @@ public class NanoOrbital extends Pet {
 
 	public static class Impl extends Orbital {
 		{
-			
+			sprite = "item-mini_orbital";
 		}
 	}
 }

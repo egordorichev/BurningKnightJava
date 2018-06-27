@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class FireBombs extends Equipable {
 	{
+		name = Locale.get("fire_bombs");
+		description = Locale.get("fire_bombs_desc");
+		sprite = "item-fire_bomb";
 	}
 
 	@Override

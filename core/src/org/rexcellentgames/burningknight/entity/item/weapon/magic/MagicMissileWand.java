@@ -10,6 +10,9 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class MagicMissileWand extends Wand {
 	{
+		name = Locale.get("magic_missile_wand");
+		description = Locale.get("magic_missile_wand_desc");
+		sprite = "item-wand_b";
 		damage = 5;
 		mana = 2;
 	}

@@ -7,8 +7,8 @@ import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 
 public class MagicMushroom extends Autouse {
 	{
-		
-		
+		name = Locale.get("magic_mushroom");
+		description = Locale.get("magic_mushroom_desc");
 	}
 
 	@Override

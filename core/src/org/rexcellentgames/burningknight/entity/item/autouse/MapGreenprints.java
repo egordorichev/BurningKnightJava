@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class MapGreenprints extends Autouse {
 	{
+		name = Locale.get("map_greenprints");
+		description = Locale.get("map_greenprints_desc");
+		sprite = "item-greenprint";
 	}
 
 	@Override

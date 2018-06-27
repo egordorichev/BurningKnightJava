@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class DefenseEmblem extends Equipable {
 	{
+		name = Locale.get("defense_emblem");
+		description = Locale.get("defense_emblem_desc");
+		sprite = "item-more_defense";
 	}
 
 	@Override

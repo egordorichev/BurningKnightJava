@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class GoldRing extends Equipable {
 	{
+		description = Locale.get("gold_ring_desc");
+		name = Locale.get("gold_ring");
+		sprite = "item-ring_b";
 	}
 
 	@Override

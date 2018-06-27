@@ -7,6 +7,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class Antidote extends Equipable {
 	{
+		name = Locale.get("antidote");
+		description = Locale.get("antidote_desc");
+		sprite = "item-antidote";
 	}
 
 	@Override

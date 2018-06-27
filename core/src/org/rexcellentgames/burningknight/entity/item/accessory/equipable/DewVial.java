@@ -7,6 +7,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class DewVial extends Equipable {
 	{
+		name = Locale.get("dew_vial");
+		description = Locale.get("dew_vial_desc");
+		sprite = "item-dew_vial";
 	}
 
 	@Override

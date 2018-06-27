@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class CobaltShield extends Equipable {
 	{
+		name = Locale.get("cobalt_shield");
+		description = Locale.get("cobalt_shield_desc");
+		sprite = "item-obsidian_shield";
 	}
 
 	@Override

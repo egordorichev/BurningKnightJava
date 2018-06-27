@@ -5,6 +5,9 @@ import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 
 public class Apple extends Consumable {
 	{
+		name = Locale.get("apple");
+		description = Locale.get("apple_desc");
+		sprite = "item-apple";
 	}
 
 	@Override

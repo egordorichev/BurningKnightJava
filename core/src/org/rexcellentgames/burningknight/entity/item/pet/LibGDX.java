@@ -8,6 +8,9 @@ import org.rexcellentgames.burningknight.entity.item.pet.impl.SimpleFollowPet;
 
 public class LibGDX extends Pet {
 	{
+		name = Locale.get("libgdx");
+		description = Locale.get("libgdx_desc");
+		sprite = "item-libgdx";
 	}
 
 	@Override
@@ -17,7 +20,7 @@ public class LibGDX extends Pet {
 
 	public static class Impl extends SimpleFollowPet {
 		{
-			
+			sprite = "item-libgdx_big";
 		}
 	}
 }
