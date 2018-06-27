@@ -271,7 +271,8 @@ object ItemRegistry {
 	  "zoom" to Zoom::class.java,
 	  "riffle" to Riffle::class.java,
 	  "chopper" to Chopper::class.java,
-	  "pistol" to Pistol::class.java
+	  "pistol" to Pistol::class.java,
+	  "hammer" to Hammer::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()
