@@ -9,6 +9,7 @@ public class Riffle extends Gun {
 		origin.y = 5;
 		hole.x = 34;
 		hole.y = 6;
+		vel = 1.5f;
 		setAccuracy(0);
 	}
 }

@@ -382,6 +382,7 @@ public class Gun extends WeaponBase {
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
+			bullet.rotates = b.bulletName.equals("bill");
 
 			if (b.bulletName.equals("snow")) {
 				bullet.toApply = FreezeBuff.class;

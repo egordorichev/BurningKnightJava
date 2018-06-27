@@ -258,7 +258,6 @@ object ItemRegistry {
     "bread" to Bread::class.java,
     "mana_emblem" to ManaEmblem::class.java,
     "bronze_shotgun" to BronzeShotgun::class.java,
-    "bronze_shotgun" to BronzeShotgun::class.java,
     "back_gun" to BackGun::class.java,
     "bad_gun" to BadGun::class.java,
     "ck_gun" to CKGun::class.java,
@@ -274,7 +273,9 @@ object ItemRegistry {
 	  "chopper" to Chopper::class.java,
 	  "pistol" to Pistol::class.java,
 	  "headshot" to HeadshotGun::class.java,
-	  "snowgun" to SnowGun::class.java
+	  "snowgun" to SnowGun::class.java,
+	  "hammer" to Hammer::class.java,
+	  "money_printer" to MoneyPrinter::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()

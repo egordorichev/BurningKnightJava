@@ -511,5 +511,9 @@
 	"headshot_gun" : "Headshot",
 	"headshot_gun_desc" : "Gotta be careful",
 	"snowgun" : "Snow gun",
-	"snowgun_desc" : "Let it snow"
+	"snowgun_desc" : "Let it snow",
+	"hammer" : "Hammer",
+	"hammer_desc" : "Nailed enemy",
+	"money_printer" : "Money printer",
+	"money_printer_desc" : "Money money money"
 }
