@@ -509,5 +509,7 @@
 	"pistol" : "Pistol",
 	"pistol_desc" : "Pau pau!",
 	"headshot_gun" : "Headshot",
-	"headshot_gun_desc" : "Gotta be careful"
+	"headshot_gun_desc" : "Gotta be careful",
+	"snowgun" : "Snow gun",
+	"snowgun_desc" : "Let it snow"
 }

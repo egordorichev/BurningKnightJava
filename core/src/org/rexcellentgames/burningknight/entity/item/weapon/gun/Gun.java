@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
@@ -279,6 +280,11 @@ public class Gun extends WeaponBase {
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
+
+			if (b.bulletName.equals("snow")) {
+				bullet.toApply = FreezeBuff.class;
+				bullet.rotates = true;
+			}
 
 			float s = this.vel * 60;
 
