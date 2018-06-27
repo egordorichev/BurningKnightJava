@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -24,9 +25,9 @@ public class Item extends Entity {
   public boolean useOnPickup;
   public float a = 1;
   public boolean shop;
-  protected String sprite = "item-missing";
-  protected String name = "Missing Item Name";
-  protected String description = "";
+  protected String sprite;
+  protected String name;
+  protected String description;
   protected boolean stackable = false;
   protected int count = 1;
   protected boolean autoPickup = false;
@@ -42,13 +43,30 @@ public class Item extends Entity {
   protected String useSpeedStr;
 
   public Item() {
-
+		initStats();
   }
   
   protected Item(String name, String description, String sprite) {
     this.name = name;
     this.description = description;
     this.sprite = sprite;
+    initStats();
+  }
+
+  private void initStats() {
+	  String unlocalizedName = Utils.INSTANCE.pascalCaseToSnakeCase(getClass().getSimpleName());
+
+  	if (this.sprite == null) {
+  		this.sprite = "item-" + unlocalizedName;
+	  }
+
+	  if (this.name == null) {
+  		this.name = Locale.get(unlocalizedName);
+	  }
+
+	  if (this.description == null) {
+		  this.description = Locale.get(unlocalizedName + "_desc");
+	  }
   }
   
   public String getUseSpeedAsString() {

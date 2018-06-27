@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Dungeon;
 
 public class Slab extends SolidProp {
 	{
