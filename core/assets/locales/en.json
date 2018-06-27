@@ -507,5 +507,7 @@
 	"chopper" : "Chopper",
 	"chopper_desc" : "Chop chop. Salad ready!",
 	"pistol" : "Pistol",
-	"pistol_desc" : "Pau pau!"
+	"pistol_desc" : "Pau pau!",
+	"headshot_gun" : "Headshot",
+	"headshot_gun_desc" : "Gotta be careful"
 }

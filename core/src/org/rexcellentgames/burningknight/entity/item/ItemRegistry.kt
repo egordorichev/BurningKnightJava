@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.item.pet.StrawberryPet
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*
 import org.rexcellentgames.burningknight.entity.item.reference.*
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar
+import org.rexcellentgames.burningknight.entity.item.weapon.HeadshotGun
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB
@@ -271,7 +272,8 @@ object ItemRegistry {
 	  "zoom" to Zoom::class.java,
 	  "riffle" to Riffle::class.java,
 	  "chopper" to Chopper::class.java,
-	  "pistol" to Pistol::class.java
+	  "pistol" to Pistol::class.java,
+	  "headshot" to HeadshotGun::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()
