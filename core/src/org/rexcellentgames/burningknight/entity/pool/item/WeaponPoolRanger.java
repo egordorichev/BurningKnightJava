@@ -39,5 +39,6 @@ public class WeaponPoolRanger extends Pool<Item> {
 		add(Pistol.class, 1f);
 		add(Chopper.class, 1f);
 		add(Riffle.class, 1f);
+		add(Hammer.class, 1f);
 	}
 }
