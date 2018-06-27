@@ -501,5 +501,11 @@
   "kotling_gun": "Kotling Gun",
   "kotling_gun_desc": "What's \"Kotlin\" again?",
 	"zoom" : "Zoom",
-	"zoom_desc" : "To see more"
+	"zoom_desc" : "To see more",
+	"riffle" : "Riffle",
+	"riffle_desc" : "Real power",
+	"chopper" : "Chopper",
+	"chopper_desc" : "Chop chop. Salad ready!",
+	"pistol" : "Pistol",
+	"pistol_desc" : "Pau pau!"
 }

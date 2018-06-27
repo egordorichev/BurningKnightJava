@@ -170,7 +170,7 @@ public class Gun extends WeaponBase {
 
 		Shell shell = new Shell();
 
-		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
+		float x = this.owner.x + this.owner.w / 2f;
 		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
 		shell.x = x;
@@ -269,11 +269,11 @@ public class Gun extends WeaponBase {
 			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
 			bullet.sprite = Graphics.getTexture("bullet-" + b.bulletName);
 
-			float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
+			float x = this.owner.x + this.owner.w / 2;
 			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
-			bullet.x = x + this.getAimX(-bullet.sprite.getRegionWidth() / 2, 0);
-			bullet.y = y + this.getAimY(-bullet.sprite.getRegionWidth() / 2, 0);
+			bullet.x = x + this.getAimX(bullet.sprite.getRegionWidth() / 2, 0);
+			bullet.y = y + this.getAimY(bullet.sprite.getRegionWidth() / 2, 0);
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;
