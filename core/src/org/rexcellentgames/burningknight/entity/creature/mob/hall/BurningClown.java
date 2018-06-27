@@ -6,28 +6,28 @@ import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.util.Animation;
 
 public class BurningClown extends Clown {
-  public static Animation animations = Animation.make("actor-clown-v2", "-green");
+	public static Animation animations = Animation.make("actor-clown-v2", "-green");
 
-  {
-    hpMax = 2;
-  }
+	public Animation getAnimation() {
+		return animations;
+	}
 
-  public Animation getAnimation() {
-    return animations;
-  }
+	{
+		hpMax = 2;
+	}
 
-  @Override
-  public void apply(BombEntity bomb) {
-    super.apply(bomb);
-    bomb.toApply.add(new BurningBuff());
-  }
+	@Override
+	public void apply(BombEntity bomb) {
+		super.apply(bomb);
+		bomb.toApply.add(new BurningBuff());
+	}
 
-  @Override
-  protected boolean canHaveBuff(Buff buff) {
-    if (buff instanceof BurningBuff) {
-      return false;
-    }
+	@Override
+	protected boolean canHaveBuff(Buff buff) {
+		if (buff instanceof BurningBuff) {
+			return false;
+		}
 
-    return super.canHaveBuff(buff);
-  }
+		return super.canHaveBuff(buff);
+	}
 }

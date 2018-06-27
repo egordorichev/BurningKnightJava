@@ -3,6 +3,8 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -16,101 +18,103 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class Exit extends SaveableEntity {
-  public static Exit instance;
-  private static TextureRegion region;
-  private Body body;
-  private LadderFx fx;
-  private byte type;
+	private Body body;
+	private LadderFx fx;
+	private static TextureRegion region;
 
-  public byte getType() {
-    return this.type;
-  }
 
-  public void setType(byte type) {
-    this.type = type;
+	public static Exit instance;
+	private byte type;
 
-    if (type == Entrance.NORMAL) {
-      instance = this;
-    }
-  }
+	public void setType(byte type) {
+		this.type = type;
 
-  @Override
-  public void init() {
-    super.init();
+		if (type == Entrance.NORMAL) {
+			instance = this;
+		}
+	}
 
-    this.alwaysActive = true;
+	public byte getType() {
+		return this.type;
+	}
 
-    this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+	@Override
+	public void init() {
+		super.init();
 
-    if (this.body != null) {
-      this.body.setTransform(this.x, this.y, 0);
-    }
+		this.alwaysActive = true;
 
-    if (Level.GENERATED) {
-      this.addSelf();
-    }
-  }
+		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, 0);
+		}
 
-  @Override
-  public void destroy() {
-    super.destroy();
-    this.body = World.removeBody(this.body);
-  }
+		if (Level.GENERATED) {
+			this.addSelf();
+		}
+	}
 
-  private void addSelf() {
-    if (Dungeon.loadType == Entrance.LoadType.GO_UP && (Dungeon.ladderId == this.type || Player.ladder == null)) {
-      Player.ladder = this;
-    }
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
+	}
 
-    if (this.type == Entrance.NORMAL) {
-      instance = this;
-    }
-  }
+	private void addSelf() {
+		if (Dungeon.loadType == Entrance.LoadType.GO_UP && (Dungeon.ladderId == this.type || Player.ladder == null)) {
+			Player.ladder = this;
+		}
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+		if (this.type == Entrance.NORMAL) {
+			instance = this;
+		}
+	}
 
-    if (Dungeon.level != null) {
-      Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0.0f, 0.5f, 3f, false);
-    }
-  }
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-  @Override
-  public void render() {
+		if (Dungeon.level != null) {
+			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0.0f, 0.5f, 3f, false);
+		}
+	}
 
-  }
+	@Override
+	public void render() {
 
-  @Override
-  public void load(FileReader reader) throws IOException {
-    super.load(reader);
+	}
 
-    this.type = reader.readByte();
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
 
-    this.body.setTransform(this.x, this.y, 0);
-    this.addSelf();
-  }
+		this.type = reader.readByte();
 
-  @Override
-  public void save(FileWriter writer) throws IOException {
-    super.save(writer);
+		this.body.setTransform(this.x, this.y, 0);
+		this.addSelf();
+	}
 
-    writer.writeByte(this.type);
-  }
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
 
-  @Override
-  public void onCollision(Entity entity) {
-    if (entity instanceof Player && this.fx == null) {
-      this.fx = new LadderFx(this, this.type == Entrance.ENTRANCE_TUTORIAL ? "tutorial" : "descend");
-      this.area.add(this.fx);
-    }
-  }
+		writer.writeByte(this.type);
+	}
 
-  @Override
-  public void onCollisionEnd(Entity entity) {
-    if (entity instanceof Player && this.fx != null) {
-      this.fx.remove();
-      this.fx = null;
-    }
-  }
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Player && this.fx == null) {
+			this.fx = new LadderFx(this, this.type == Entrance.ENTRANCE_TUTORIAL ? "tutorial" : "descend");
+			this.area.add(this.fx);
+		}
+	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (entity instanceof Player && this.fx != null) {
+			this.fx.remove();
+			this.fx = null;
+		}
+	}
 }

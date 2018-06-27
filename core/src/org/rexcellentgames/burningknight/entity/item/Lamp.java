@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
@@ -22,150 +23,145 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class Lamp extends Item {
-  public static Lamp instance;
-  public float val = Dungeon.type == Dungeon.Type.INTRO ? 90f : 100f;
-  private boolean lightUp;
-  private boolean added;
-  private float r;
+	public static Lamp instance;
 
-  {    identified = true;
-    useTime = 0.2f;
-    cursed = true;
-  }
+	{
+		identified = true;
+		useTime = 0.2f;
+		cursed = true;
+	}
 
-  private static DialogData randomDialog() {
-    switch (Random.newInt(3)) {
-      case 0:
-      default:
-        return BurningKnight.itsYouAgain;
-      case 1:
-        return BurningKnight.justDie;
-      case 2:
-        return BurningKnight.noPoint;
-    }
-  }
+	public float val = Dungeon.type == Dungeon.Type.INTRO ? 90f : 100f;
+	private boolean lightUp;
+	private boolean added;
 
-  public static void play() {
-    Audio.playSfx("curse_lamp_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
-  }
+	@Override
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		TextureRegion sprite = this.getSprite();
 
-  @Override
-  public void render(float x, float y, float w, float h, boolean flipped) {
-    TextureRegion sprite = this.getSprite();
+		float xx = x + (flipped ? -w / 2 : w / 2);
 
-    float xx = x + (flipped ? -w / 2 : w / 2);
+		if (this.r > 0) {
+			Graphics.batch.end();
 
-    if (this.r > 0) {
-      Graphics.batch.end();
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
-      Gdx.gl.glEnable(GL20.GL_BLEND);
-      Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-      Graphics.shape.setProjectionMatrix(Camera.game.combined);
-      Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(1, 0.5f, 0, 0.4f);
+			Graphics.shape.circle(x + w / 2 + (flipped ? -w/4 : w/4), y + sprite.getRegionHeight() / 2,
+				(float) (10f + Math.cos(Dungeon.time * 3) * Math.sin(Dungeon.time * 4)) * r);
 
-      Graphics.shape.setColor(1, 0.5f, 0, 0.4f);
-      Graphics.shape.circle(x + w / 2 + (flipped ? -w / 4 : w / 4), y + sprite.getRegionHeight() / 2,
-        (float) (10f + Math.cos(Dungeon.time * 3) * Math.sin(Dungeon.time * 4)) * r);
+			Graphics.shape.end();
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+			Graphics.batch.begin();
+		}
 
-      Graphics.shape.end();
-      Gdx.gl.glDisable(GL20.GL_BLEND);
-      Graphics.batch.begin();
-    }
+		Graphics.render(sprite, xx + sprite.getRegionWidth() / 2, y, 0, sprite.getRegionWidth() / 2, 0, flipped, false);
+	}
 
-    Graphics.render(sprite, xx + sprite.getRegionWidth() / 2, y, 0, sprite.getRegionWidth() / 2, 0, flipped, false);
-  }
+	@Override
+	public void setOwner(Creature owner) {
+		super.setOwner(owner);
 
-  @Override
-  public void setOwner(Creature owner) {
-    super.setOwner(owner);
+		Camera.follow(Player.instance, false);
 
-    Camera.follow(Player.instance, false);
+		if (!this.added  && Dungeon.type != Dungeon.Type.INTRO) {
+			this.added = true;
 
-    if (!this.added && Dungeon.type != Dungeon.Type.INTRO) {
-      this.added = true;
+			if (BurningKnight.instance == null) {
+				BurningKnight knight = new BurningKnight();
 
-      if (BurningKnight.instance == null) {
-        BurningKnight knight = new BurningKnight();
+				Dungeon.area.add(knight);
+				knight.attackTp = true;
+				knight.findStartPoint();
+			}
 
-        Dungeon.area.add(knight);
-        knight.attackTp = true;
-        knight.findStartPoint();
-      }
+			BurningKnight.instance.become("fadeIn");
 
-      BurningKnight.instance.become("fadeIn");
+			Camera.shake(10);
 
-      Camera.shake(10);
+			BurningKnight.instance.dialog = GlobalSave.isTrue("not_first_time") ? randomDialog() : BurningKnight.onLampTake;
+			GlobalSave.put("not_first_time", true);
 
-      BurningKnight.instance.dialog = GlobalSave.isTrue("not_first_time") ? randomDialog() : BurningKnight.onLampTake;
-      GlobalSave.put("not_first_time", true);
+			PlayerSave.add(BurningKnight.instance);
+		}
+	}
 
-      PlayerSave.add(BurningKnight.instance);
-    }
-  }
+	private static DialogData randomDialog() {
+		switch (Random.newInt(3)) {
+			case 0: default: return BurningKnight.itsYouAgain;
+			case 1: return BurningKnight.justDie;
+			case 2: return BurningKnight.noPoint;
+		}
+	}
 
-  @Override
-  public void init() {
-    super.init();
-    instance = this;
-  }
+	private float r;
 
-  @Override
-  public void use() {
-    super.use();
+	@Override
+	public void init() {
+		super.init();
+		instance = this;
+	}
 
-    this.lightUp = !this.lightUp;
+	@Override
+	public void use() {
+		super.use();
 
-    Tween.to(new Tween.Task(this.lightUp ? 1 : 0, 0.4f) {
-      @Override
-      public float getValue() {
-        return r;
-      }
+		this.lightUp = !this.lightUp;
 
-      @Override
-      public void setValue(float value) {
-        r = value;
-      }
-    });
+		Tween.to(new Tween.Task(this.lightUp ? 1 : 0, 0.4f) {
+			@Override
+			public float getValue() {
+				return r;
+			}
 
-    play();
-  }
+			@Override
+			public void setValue(float value) {
+				r = value;
+			}
+		});
 
-  public boolean isOn() {
-    return this.lightUp;
-  }
+		play();
+	}
 
-  @Override
-  public void save(FileWriter writer) throws IOException {
-    super.save(writer);
-    writer.writeFloat(this.val);
-    writer.writeBoolean(this.lightUp);
-    writer.writeBoolean(this.added);
-  }
+	public boolean isOn() {
+		return this.lightUp;
+	}
 
-  @Override
-  public void load(FileReader reader) throws IOException {
-    super.load(reader);
-    this.val = reader.readFloat();
-    this.lightUp = reader.readBoolean();
-    this.added = reader.readBoolean();
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		writer.writeFloat(this.val);
+		writer.writeBoolean(this.lightUp);
+		writer.writeBoolean(this.added);
+	}
 
-    if (this.lightUp) {
-      this.r = 1;
-    }
-  }
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		this.val = reader.readFloat();
+		this.lightUp = reader.readBoolean();
+		this.added = reader.readBoolean();
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+		if (this.lightUp) {
+			this.r = 1;
+		}
+	}
 
-    if (this.lightUp) {
-      if (this.val > 0) {
-        this.val = Math.max(this.val - dt, 0);
-        Dungeon.level.addLightInRadius(this.owner.x + 8, this.owner.y + 8, 0, 0, 0, 2f * (this.val / 100 + 0.3f), 8f, false);
-      } else {
-        this.lightUp = false;
-      }
-    }/* else {
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (this.lightUp) {
+			if (this.val > 0) {
+				this.val = Math.max(this.val - dt, 0);
+				Dungeon.level.addLightInRadius(this.owner.x + 8, this.owner.y + 8, 0, 0, 0, 2f * (this.val / 100 + 0.3f), 8f, false);
+			} else {
+				this.lightUp = false;
+			}
+		}/* else {
 			if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !Player.instance.isDead()) {
 				float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
 					BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
@@ -182,38 +178,42 @@ public class Lamp extends Item {
 				}
 			}
 		}*/
-  }
+	}
 
-  @Override
-  public StringBuilder buildInfo() {
-    StringBuilder builder = super.buildInfo();
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
 
-    builder.append("\n");
-    builder.append(Math.round(this.val));
-    builder.append("% charged");
+		builder.append("\n");
+		builder.append(Math.round(this.val));
+		builder.append("% charged");
 
-    return builder;
-  }
+		return builder;
+	}
 
-  @Override
-  public int getValue() {
-    return Math.round(this.val);
-  }
+	@Override
+	public int getValue() {
+		return Math.round(this.val);
+	}
 
-  @Override
-  public void secondUse() {
-    super.secondUse();
+	@Override
+	public void secondUse() {
+		super.secondUse();
 
-    if (BurningKnight.instance != null) {
-      float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
-        BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
+		if (BurningKnight.instance != null) {
+			float d = this.owner.getDistanceTo(BurningKnight.instance.x + BurningKnight.instance.w / 2,
+				BurningKnight.instance.y + BurningKnight.instance.h / 2) / 16;
 
-      if (d < 64f) {
-        BurningKnight.instance.become("fadeOut");
-        BurningKnight.instance.attackTp = true;
-      }
-    }
+			if (d < 64f) {
+				BurningKnight.instance.become("fadeOut");
+				BurningKnight.instance.attackTp = true;
+			}
+		}
 
-    play();
-  }
+		play();
+	}
+
+	public static void play() {
+		Audio.playSfx("curse_lamp_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
+	}
 }

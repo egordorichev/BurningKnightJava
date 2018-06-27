@@ -1,8 +1,13 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher;
 
-public class RocketLauncherC extends RocketLauncher {
-  {
+import org.rexcellentgames.burningknight.assets.Locale;
 
-    useTime = 1f;
-    damage = 5;  }
+public class RocketLauncherC extends RocketLauncher {
+	{
+		
+		useTime = 1f;
+		damage = 5;
+		
+		
+	}
 }

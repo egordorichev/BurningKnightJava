@@ -1,32 +1,37 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class Halo extends Equipable {  @Override
-  public void onEquip() {
-    super.onEquip();
+public class Halo extends Equipable {
+	{
+	}
 
-    if (this.owner instanceof Player) {
-      Player player = (Player) this.owner;
-      boolean full = player.getHp() == player.getHpMax();
-      player.setHpMax(player.getHpMax() + 4);
+	@Override
+	public void onEquip() {
+		super.onEquip();
 
-      if (full) {
-        player.modifyHp(4, null);
-      }
-    }
-  }
+		if (this.owner instanceof Player) {
+			Player player = (Player) this.owner;
+			boolean full = player.getHp() == player.getHpMax();
+			player.setHpMax(player.getHpMax() + 4);
 
-  @Override
-  public void onUnequip() {
-    super.onUnequip();
+			if (full) {
+				player.modifyHp(4, null);
+			}
+		}
+	}
 
-    if (this.owner instanceof Player) {
-      Player player = (Player) this.owner;
+	@Override
+	public void onUnequip() {
+		super.onUnequip();
 
-      player.modifyMana(3);
-      player.damageModifier -= 1;
-      player.setHpMax(player.getHpMax() - 4);
-    }
-  }
+		if (this.owner instanceof Player) {
+			Player player = (Player) this.owner;
+
+			player.modifyMana(3);
+			player.damageModifier -= 1;
+			player.setHpMax(player.getHpMax() - 4);
+		}
+	}
 }

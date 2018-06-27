@@ -10,107 +10,109 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.physics.World;
 
 public class Projectile extends NetworkedEntity {
-  public Creature owner;
-  public int damage;
-  public boolean bad;
-  public boolean crit;
-  public float knockback = 200f;
-  public boolean penetrates;
+	public Creature owner;
+	public int damage;
+	public boolean bad;
+	public boolean crit;
+	public float knockback = 200f;
+	public boolean penetrates;
 
-  protected boolean broke;
-  protected Body body;
-  protected boolean ignoreVel;
-  private boolean didDie;
+	protected boolean broke;
+	protected Body body;
 
-  @Override
-  public void init() {
-    super.init();
-    this.bad = this.owner instanceof Mob;
-  }
+	@Override
+	public void init() {
+		super.init();
+		this.bad = this.owner instanceof Mob;
+	}
 
-  @Override
-  public void destroy() {
-    super.destroy();
-    this.body = World.removeBody(this.body);
-  }
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
+	}
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+	private boolean didDie;
 
-    if (broke) {
-      if (!didDie) {
-        didDie = true;
-        this.death();
-      }
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-      return;
-    }
+		if (broke) {
+			if (!didDie) {
+				didDie = true;
+				this.death();
+			}
 
-    if (this.body != null) {
-      this.x = this.body.getPosition().x;
-      this.y = this.body.getPosition().y;
-    }
+			return;
+		}
 
-    this.logic(dt);
+		if (this.body != null) {
+			this.x = this.body.getPosition().x;
+			this.y = this.body.getPosition().y;
+		}
 
-    if (this.body != null && !this.ignoreVel) {
-      this.body.setLinearVelocity(this.vel.x, this.vel.y);
-    }
-  }
+		this.logic(dt);
 
-  @Override
-  public void onCollision(Entity entity) {
-    if (this.broke) {
-      return;
-    }
+		if (this.body != null && !this.ignoreVel) {
+			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+		}
+	}
 
-    if (this.breaksFrom(entity)) {
-      this.broke = true;
-      return;
-    }
+	protected boolean ignoreVel;
 
-    if (this.hit(entity)) {
-      this.broke = !this.penetrates;
-    }
-  }
+	@Override
+	public void onCollision(Entity entity) {
+		if (this.broke) {
+			return;
+		}
 
-  protected boolean breaksFrom(Entity entity) {
-    return false;
-  }
+		if (this.breaksFrom(entity)) {
+			this.broke = true;
+			return;
+		}
 
-  protected boolean hit(Entity entity) {
-    return false;
-  }
+		if (this.hit(entity)) {
+			this.broke = !this.penetrates;
+		}
+	}
 
-  protected void doHit(Entity entity) {
-    HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner);
-    ((Creature) entity).knockBackFrom(this.owner, this.knockback);
+	protected boolean breaksFrom(Entity entity) {
+		return false;
+	}
 
-    if (fx != null) {
-      if (this.crit) {
-        fx.crit = true;
-      }
+	protected boolean hit(Entity entity) {
+		return false;
+	}
 
-      BloodFx.add(entity, 10);
-      this.onHit(entity);
-    }
-  }
+	protected void doHit(Entity entity) {
+		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner);
+		((Creature) entity).knockBackFrom(this.owner, this.knockback);
 
-  protected void logic(float dt) {
+		if (fx != null) {
+			if (this.crit) {
+				fx.crit = true;
+			}
 
-  }
+			BloodFx.add(entity, 10);
+			this.onHit(entity);
+		}
+	}
 
-  protected void onHit(Entity entity) {
+	protected void logic(float dt) {
 
-  }
+	}
 
-  protected void death() {
-    this.done = true;
-    this.onDeath();
-  }
+	protected void onHit(Entity entity) {
 
-  protected void onDeath() {
+	}
 
-  }
+	protected void death() {
+		this.done = true;
+		this.onDeath();
+	}
+
+	protected void onDeath() {
+
+	}
 }

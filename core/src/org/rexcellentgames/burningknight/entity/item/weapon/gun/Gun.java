@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -19,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Gun extends WeaponBase {
@@ -35,51 +37,53 @@ public class Gun extends WeaponBase {
 	protected Point origin = new Point(3, 1);
 	protected Point hole = new Point(13, 6);
 
-    Entity entity = (Entity) fixture.getBody().getUserData();
+	{
+		identified = true;
+		auto = true;
+		useTime = 0.2f;
+	}
 
-    if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
-      if (fraction < closestFraction) {
-        closestFraction = fraction;
-        last = point;
-      }
+	private Vector2 last = new Point();
+	private float lastAngle;
 
-      return fraction;
-    }
+	private float closestFraction = 1.0f;
+	
+	protected Gun() {
+	  String unlocalizedName = Utils.INSTANCE.pascalCaseToSnakeCase(getClass().getSimpleName());
 
-    return 1;
-  };
-
-  {
-    identified = true;
-    auto = true;
-    useTime = 0.2f;
+    this.name = Locale.get(unlocalizedName);
+    this.description = Locale.get(unlocalizedName + "_desc");
+    this.sprite = "item-" + unlocalizedName;
   }
+	
+	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
+		if (fixture.isSensor()) {
+			return 1;
+		}
 
-  protected Gun() {
-    super();
-  }
+		Entity entity = (Entity) fixture.getBody().getUserData();
 
-  public static float shortAngleDist(float a0, float a1) {
-    float max = (float) (Math.PI * 2);
-    float da = (a1 - a0) % max;
-    return 2 * da % max - da;
-  }
+		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+			if (fraction < closestFraction) {
+				closestFraction = fraction;
+				last = point;
+			}
 
-  public static float angleLerp(float a0, float a1, float t) {
-    return a0 + shortAngleDist(a0, a1) * t;
-  }
+			return fraction;
+		}
 
-  @Override
-  public void render(float x, float y, float w, float h, boolean flipped) {
-    if (!s) {
-      s = true;
+		return 1;
+	};
 
-      this.tw = this.getSprite().getRegionWidth();
-      this.th = this.getSprite().getRegionHeight();
-    }
+	public static float shortAngleDist(float a0, float a1) {
+		float max = (float) (Math.PI*2);
+		float da = (a1 - a0) % max;
+		return 2 * da % max - da;
+	}
 
-    TextureRegion sprite = this.getSprite();
-    Point aim = this.owner.getAim();
+	public static float angleLerp(float a0, float a1, float t) {
+		return a0 + shortAngleDist(a0,a1) * t;
+	}
 
 	protected float getAimX() {
 		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x) + (float) Math.cos(this.lastAngle +
@@ -96,9 +100,9 @@ public class Gun extends WeaponBase {
 		if (!s) {
 			s = true;
 
-    this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x, this.origin.y,
-      false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
-    float r = 6;
+			this.tw = this.getSprite().getRegionWidth();
+			this.th = this.getSprite().getRegionHeight();
+		}
 
 		Point aim = this.owner.getAim();
 		float an = this.owner.getAngleTo(aim.x, aim.y);
@@ -107,8 +111,9 @@ public class Gun extends WeaponBase {
 		this.lastAngle = an;
 		float a = (float) Math.toDegrees(this.lastAngle);
 
-    float xx = (float) (x + (this.tw + this.origin.x) * Math.cos(an) - this.origin.x);
-    float yy = (float) (y + (this.th + this.origin.y) * Math.sin(an) - this.origin.y);
+		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x, this.origin.y,
+			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
+		float r = 6;
 
 		x = x + w / 2 + (flipped ? -7 : 7);
 		y = y + h / 4 + this.owner.z;
@@ -119,155 +124,149 @@ public class Gun extends WeaponBase {
 		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
 
-      Graphics.shape.end();
-      Gdx.gl.glDisable(GL20.GL_BLEND);
-      Graphics.batch.begin();
-    }
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
-    if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
-      float d = Display.GAME_WIDTH * 10;
-      closestFraction = 1f;
-      World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);
+			Graphics.shape.setColor(1, 0.5f, 0, 0.7f);
 
-      Graphics.batch.end();
-      Graphics.shape.setProjectionMatrix(Camera.game.combined);
-      Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-      Graphics.shape.setColor(1, 0, 0, 0.7f);
+			Graphics.shape.circle(xx, yy, r);
 
-      Graphics.shape.line(xx, yy, last.x, last.y);
-      Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
+			Graphics.shape.end();
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+			Graphics.batch.begin();
+		}
 
-      Graphics.shape.end();
-      Graphics.batch.begin();
-    }
-  }
+		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
+			float d = Display.GAME_WIDTH * 10;
+			closestFraction = 1f;
+			World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);
 
-  @Override
-  public void use() {
-    super.use();
-    this.owner.playSfx("gun_machinegun");
-    Point aim = this.owner.getAim();
+			Graphics.batch.end();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(1, 0, 0, 0.7f);
 
-    float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
+			Graphics.shape.line(xx, yy, last.x, last.y);
+			Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
 
-    Shell shell = new Shell();
+			Graphics.shape.end();
+			Graphics.batch.begin();
+		}
+	}
 
-    float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
-    float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+	@Override
+	public void use() {
+		super.use();
+		this.owner.playSfx("gun_machinegun");
+		Point aim = this.owner.getAim();
 
-    shell.x = x;
-    shell.y = y - 10;
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
-    shell.vel = new Point(
-      (float) -Math.cos(a) * 2f,
-      1.5f
-    );
+		Shell shell = new Shell();
 
-    Dungeon.area.add(shell);
+		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
+		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
-    this.owner.vel.x -= Math.cos(a) * 40f;
-    this.owner.vel.y -= Math.sin(a) * 40f;
+		shell.x = x;
+		shell.y = y - 10;
 
-    Camera.push(a, 8f);
-    Camera.shake(2);
+		shell.vel = new Point(
+			(float) -Math.cos(a) * 2f,
+			1.5f
+		);
 
-    Tween.to(new Tween.Task(0.5f, 0.1f) {
-      @Override
-      public float getValue() {
-        return sx;
-      }
+		Dungeon.area.add(shell);
 
-      @Override
-      public void setValue(float value) {
-        sx = value;
-      }
+		this.owner.vel.x -= Math.cos(a) * 40f;
+		this.owner.vel.y -= Math.sin(a) * 40f;
 
-      @Override
-      public void onEnd() {
-        Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
-          @Override
-          public float getValue() {
-            return sx;
-          }
+		Camera.push(a, 8f);
+		Camera.shake(2);
 
-          @Override
-          public void setValue(float value) {
-            sx = value;
-          }
-        });
-      }
-    });
+		Tween.to(new Tween.Task(0.5f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
 
-    Tween.to(new Tween.Task(1.4f, 0.1f) {
-      @Override
-      public float getValue() {
-        return sy;
-      }
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
 
-      @Override
-      public void setValue(float value) {
-        sy = value;
-      }
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
 
-      @Override
-      public void onEnd() {
-        Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
-          @Override
-          public float getValue() {
-            return sy;
-          }
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+				});
+			}
+		});
 
-          @Override
-          public void setValue(float value) {
-            sy = value;
-          }
-        });
-      }
-    });
+		Tween.to(new Tween.Task(1.4f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sy;
+			}
 
-    this.sendBullets();
-  }
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
 
-  protected void sendBullets() {
-    Point aim = this.owner.getAim();
-    float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
 
-    this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.getAccuracy(), this.getAccuracy()))));
-  }
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
+				});
+			}
+		});
 
-  protected void sendBullet(float an) {
-    sendBullet(an, 0, 0);
-  }  protected void sendBullet(float an, float xx, float yy) {
-    sendBullet(an, xx, yy, new BulletProjectile());
-  }
+		this.sendBullets();
+	}
 
-  protected void sendBullet(float an, float xx, float yy, BulletProjectile bullet) {
-    float a = (float) Math.toDegrees(an);
+	protected void sendBullets() {
+		Point aim = this.owner.getAim();
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
-    try {
-      Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
-      bullet.sprite = Graphics.getTexture("bullet (" + b.bulletName + ")");
+		this.sendBullet((float) (a + Math.toRadians(Random.newFloat(-this.getAccuracy(), this.getAccuracy()))));
+	}
 
-      float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
-      float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+	protected void sendBullet(float an) {
+		sendBullet(an, 0, 0);
+	}
 
-      float px = this.tw;
 
-      bullet.x = (float) (x + px * Math.cos(an) - this.origin.x);
-      bullet.y = (float) (y + px * Math.sin(an));
-      bullet.damage = b.damage + rollDamage();
-      bullet.crit = true;
-      bullet.letter = b.bulletName;
-      bullet.owner = this.owner;
-      bullet.penetrates = this.penetrates;
+	protected void sendBullet(float an, float xx, float yy) {
+		sendBullet(an, xx, yy, new BulletProjectile());
+	}
 
-      float s = this.vel * 60f;
+	protected void sendBullet(float an, float xx, float yy, BulletProjectile bullet) {
+		float a = (float) Math.toDegrees(an);
 
-      bullet.vel = new Point(
-        (float) Math.cos(an) * s, (float) Math.sin(an) * s
-      );
+		try {
+			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
+			bullet.sprite = Graphics.getTexture("bullet (" + b.bulletName + ")");
 
-      bullet.a = a;
+			float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
+			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
 
 			bullet.x = x + this.getAimX();
@@ -278,7 +277,25 @@ public class Gun extends WeaponBase {
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
 
-  public void setAccuracy(float accuracy) {
-    this.accuracy = accuracy;
-  }
+			float s = this.vel * 60f;
+
+			bullet.vel = new Point(
+				(float) Math.cos(an) * s, (float) Math.sin(an) * s
+			);
+
+			bullet.a = a;
+
+			Dungeon.area.add(bullet);
+		} catch (IllegalAccessException | InstantiationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public float getAccuracy() {
+		return Math.max(0, accuracy - (this.owner instanceof Player ? ((Player) this.owner).accuracy : 0));
+	}
+
+	public void setAccuracy(float accuracy) {
+		this.accuracy = accuracy;
+	}
 }

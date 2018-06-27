@@ -18,26 +18,26 @@ import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDag
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class WeaponPoolRanger extends Pool<Item> {
-  public static WeaponPoolRanger instance = new WeaponPoolRanger();
+	public static WeaponPoolRanger instance = new WeaponPoolRanger();
 
-  public WeaponPoolRanger() {
-    add(BowA.class, 1f);
-    add(BowB.class, 1f);
-    add(BowC.class, 1f);
-    add(AxeA.class, 1f);
-    add(AxeB.class, 1f);
-    add(AxeC.class, 1f);
-    add(AxeD.class, 1f);
-    add(MeetboyAxe.class, 1f);
-    add(BlueBoomerang.class, 1f);
-    add(Revolver.class, 1f);
-    add(MachineGun.class, 1f);
-    add(TripleMachineGun.class, 1f);
-    add(BackGun.class, 1f);
-    add(IsaacHead.class, 1f);
-    add(StarCannon.class, 1f);
-    add(ThrowingDaggerA.class, 1f);
-    add(ThrowingDaggerB.class, 1f);
-    add(ThrowingDaggerC.class, 1f);
-  }
+	public WeaponPoolRanger() {
+		add(BowA.class, 1f);
+		add(BowB.class, 1f);
+		add(BowC.class, 1f);
+		add(AxeA.class, 1f);
+		add(AxeB.class, 1f);
+		add(AxeC.class, 1f);
+		add(AxeD.class, 1f);
+		add(MeetboyAxe.class, 1f);
+		add(BlueBoomerang.class, 1f);
+		add(Revolver.class, 1f);
+		add(MachineGun.class, 1f);
+		add(TripleMachineGun.class, 1f);
+		add(BackGun.class, 1f);
+		add(IsaacHead.class, 1f);
+		add(StarCannon.class, 1f);
+		add(ThrowingDaggerA.class, 1f);
+		add(ThrowingDaggerB.class, 1f);
+		add(ThrowingDaggerC.class, 1f);
+	}
 }

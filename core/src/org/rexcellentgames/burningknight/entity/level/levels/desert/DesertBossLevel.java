@@ -9,20 +9,20 @@ import org.rexcellentgames.burningknight.entity.level.rooms.regular.boss.DesertB
 import java.util.ArrayList;
 
 public class DesertBossLevel extends DesertLevel {
-  @Override
-  protected ArrayList<Room> createRooms() {
-    ArrayList<Room> rooms = new ArrayList<>();
+	@Override
+	protected ArrayList<Room> createRooms() {
+		ArrayList<Room> rooms = new ArrayList<>();
 
-    rooms.add(this.entrance = new EntranceRoom());
-    rooms.add(new DesertBossRoom());
-    rooms.add(this.exit = new EntranceRoom());
-    ((EntranceRoom) this.exit).exit = true;
+		rooms.add(this.entrance = new EntranceRoom());
+		rooms.add(new DesertBossRoom());
+		rooms.add(this.exit = new EntranceRoom());
+		((EntranceRoom) this.exit).exit = true;
 
-    return rooms;
-  }
+		return rooms;
+	}
 
-  @Override
-  protected Builder getBuilder() {
-    return new LineBuilder();
-  }
+	@Override
+	protected Builder getBuilder() {
+		return new LineBuilder();
+	}
 }

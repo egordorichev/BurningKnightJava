@@ -1,22 +1,27 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class DefenseEmblem extends Equipable {  @Override
-  public void onEquip() {
-    super.onEquip();
+public class DefenseEmblem extends Equipable {
+	{
+	}
 
-    if (this.owner instanceof Player) {
-      ((Player) this.owner).defenseModifier += 0.4f;
-    }
-  }
+	@Override
+	public void onEquip() {
+		super.onEquip();
 
-  @Override
-  public void onUnequip() {
-    super.onUnequip();
+		if (this.owner instanceof Player) {
+			((Player) this.owner).defenseModifier += 0.4f;
+		}
+	}
 
-    if (this.owner instanceof Player) {
-      ((Player) this.owner).defenseModifier -= 0.4f;
-    }
-  }
+	@Override
+	public void onUnequip() {
+		super.onUnequip();
+
+		if (this.owner instanceof Player) {
+			((Player) this.owner).defenseModifier -= 0.4f;
+		}
+	}
 }

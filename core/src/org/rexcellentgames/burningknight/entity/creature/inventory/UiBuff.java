@@ -9,112 +9,114 @@ import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiBuff {
-  public float x;
-  public float y;
-  public Buff buff;
-  public Player owner;
+	public float x;
+	public float y;
+	public Buff buff;
+	public Player owner;
 
-  private float scale;
-  private boolean done;
-  private boolean hover;
+	private float scale;
 
-  public UiBuff() {
-    Tween.to(new Tween.Task(1f, 0.4f, Tween.Type.BACK_OUT) {
-      @Override
-      public float getValue() {
-        return scale;
-      }
+	public UiBuff() {
+		Tween.to(new Tween.Task(1f, 0.4f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return scale;
+			}
 
-      @Override
-      public void setValue(float value) {
-        scale = value;
-      }
-    });
-  }
+			@Override
+			public void setValue(float value) {
+				scale = value;
+			}
+		});
+	}
 
-  public void remove() {
-    if (done) {
-      return;
-    }
+	private boolean done;
 
-    done = true;
-    final UiBuff self = this;
+	public void remove() {
+		if (done) {
+			return;
+		}
 
-    Tween.to(new Tween.Task(0f, 0.4f) {
-      @Override
-      public float getValue() {
-        return scale;
-      }
+		done = true;
+		final UiBuff self = this;
 
-      @Override
-      public void setValue(float value) {
-        scale = value;
-      }
+		Tween.to(new Tween.Task(0f, 0.4f) {
+			@Override
+			public float getValue() {
+				return scale;
+			}
 
-      @Override
-      public void onEnd() {
-        owner.uiBuffs.remove(self);
-      }
-    });
-  }
+			@Override
+			public void setValue(float value) {
+				scale = value;
+			}
 
-  public void render(int i, float y) {
-    int x = 4 + i * 12;
-    y = y + 9 + 11;
+			@Override
+			public void onEnd() {
+				owner.uiBuffs.remove(self);
+			}
+		});
+	}
 
-    boolean h = this.hover;
-    boolean hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, x, (int) y, 8, 8);
-    this.hover = hover;
+	private boolean hover;
 
-    if (hover && !h) {
-      Tween.to(new Tween.Task(1.4f, 0.2f) {
-        @Override
-        public float getValue() {
-          return scale;
-        }
+	public void render(int i, float y) {
+		int x = 4 + i * 12;
+		y = y + 9 + 11;
 
-        @Override
-        public void setValue(float value) {
-          scale = value;
-        }
-      });
-    } else if (!hover && h) {
-      Tween.to(new Tween.Task(1f, 0.2f) {
-        @Override
-        public float getValue() {
-          return scale;
-        }
+		boolean h = this.hover;
+		boolean hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, x, (int) y, 8, 8);
+		this.hover = hover;
 
-        @Override
-        public void setValue(float value) {
-          scale = value;
-        }
-      });
-    }
+		if (hover && !h) {
+			Tween.to(new Tween.Task(1.4f, 0.2f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
 
-    if (this.hover) {
-      Player.instance.ui.hoveredBuff = this;
-    }
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+			});
+		} else if (!hover && h) {
+			Tween.to(new Tween.Task(1f, 0.2f) {
+				@Override
+				public float getValue() {
+					return scale;
+				}
 
-    TextureRegion sprite = this.buff.getSprite();
-    Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, scale, scale);
-  }
+				@Override
+				public void setValue(float value) {
+					scale = value;
+				}
+			});
+		}
 
-  public String getInfo() {
-    StringBuilder builder = new StringBuilder();
+		if (this.hover) {
+			Player.instance.ui.hoveredBuff = this;
+		}
 
-    builder.append(this.buff.getName());
-    builder.append("[gray]\n");
-    builder.append(this.buff.getDescription());
-    builder.append('\n');
+		TextureRegion sprite = this.buff.getSprite();
+		Graphics.render(sprite, x + sprite.getRegionWidth() / 2, y + sprite.getRegionHeight() / 2, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, scale, scale);
+	}
 
-    if (this.buff.infinite) {
-      builder.append("Infinite");
-    } else {
-      builder.append(Math.max(0, Math.floor(this.buff.getDuration() - this.buff.getTime())));
-      builder.append(" seconds left");
-    }
+	public String getInfo() {
+		StringBuilder builder = new StringBuilder();
 
-    return builder.toString();
-  }
+		builder.append(this.buff.getName());
+		builder.append("[gray]\n");
+		builder.append(this.buff.getDescription());
+		builder.append('\n');
+
+		if (this.buff.infinite) {
+			builder.append("Infinite");
+		} else {
+			builder.append(Math.max(0, Math.floor(this.buff.getDuration() - this.buff.getTime())));
+			builder.append(" seconds left");
+		}
+
+		return builder.toString();
+	}
 }

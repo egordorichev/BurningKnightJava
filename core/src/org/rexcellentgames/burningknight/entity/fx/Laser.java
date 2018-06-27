@@ -10,6 +10,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -21,199 +25,200 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Laser extends Entity {
-  public static TextureRegion start = Graphics.getTexture("laser (start)");
-  public static TextureRegion startOverlay = Graphics.getTexture("laser (start_over)");
-  public static TextureRegion end = Graphics.getTexture("laser (end)");
-  public static TextureRegion endOverlay = Graphics.getTexture("laser (end_over)");
-  public static TextureRegion mid = Graphics.getTexture("laser (mid)");
-  public static TextureRegion midOverlay = Graphics.getTexture("laser (mid_over)");
-  public static TextureRegion circ = Graphics.getTexture("laser (circleShape)");
-  public static TextureRegion circOverlay = Graphics.getTexture("laser (circ_over)");
-  public float a;
-  public int damage;
-  public boolean crit;
-  public Color shade = new Color(1, 0, 0, 1);
-  public Color color = new Color(1, 0.6f, 0.6f, 1);
-  public Creature owner;
-  private Body body;
-  private float al = 0.3f;
+	public static TextureRegion start = Graphics.getTexture("laser (start)");
+	public static TextureRegion startOverlay = Graphics.getTexture("laser (start_over)");
+	public static TextureRegion end = Graphics.getTexture("laser (end)");
+	public static TextureRegion endOverlay = Graphics.getTexture("laser (end_over)");
+	public static TextureRegion mid = Graphics.getTexture("laser (mid)");
+	public static TextureRegion midOverlay = Graphics.getTexture("laser (mid_over)");
+	public static TextureRegion circ = Graphics.getTexture("laser (circleShape)");
+	public static TextureRegion circOverlay = Graphics.getTexture("laser (circ_over)");
 
-  {
-    alwaysActive = true;
-    alwaysRender = true;
-    depth = 1;
-  }
+	private Body body;
+	public float a;
+	private float al = 0.3f;
+	public int damage;
+	public boolean crit;
+	public Color shade = new Color(1, 0, 0, 1);
+	public Color color = new Color(1, 0.6f, 0.6f, 1);
+	public Creature owner;
 
-  @Override
-  public void init() {
-    super.init();
+	{
+		alwaysActive = true;
+		alwaysRender = true;
+		depth = 1;
+	}
 
-    Tween.to(new Tween.Task(1, 0.05f) {
-      @Override
-      public float getValue() {
-        return al;
-      }
+	@Override
+	public void init() {
+		super.init();
 
-      @Override
-      public void setValue(float value) {
-        al = value;
-      }
+		Tween.to(new Tween.Task(1, 0.05f) {
+			@Override
+			public float getValue() {
+				return al;
+			}
 
-      @Override
-      public void onEnd() {
-        Tween.to(new Tween.Task(0, 0.3f) {
-          @Override
-          public float getValue() {
-            return al;
-          }
+			@Override
+			public void setValue(float value) {
+				al = value;
+			}
 
-          @Override
-          public void setValue(float value) {
-            al = value;
-          }
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(0, 0.3f) {
+					@Override
+					public float getValue() {
+						return al;
+					}
 
-          @Override
-          public void onEnd() {
-            setDone(true);
-          }
-        });
-      }
-    });
+					@Override
+					public void setValue(float value) {
+						al = value;
+					}
 
-    Log.physics("Creating centred body for laser");
+					@Override
+					public void onEnd() {
+						setDone(true);
+					}
+				});
+			}
+		});
 
-    if (World.world.isLocked()) {
-      Log.physics("World is locked! Failed to create body");
-      return;
-    }
+		Log.physics("Creating centred body for laser");
 
-    BodyDef def = new BodyDef();
-    def.type = BodyDef.BodyType.StaticBody;
+		if (World.world.isLocked()) {
+			Log.physics("World is locked! Failed to create body");
+			return;
+		}
 
-    body = World.world.createBody(def);
-    PolygonShape poly = new PolygonShape();
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.StaticBody;
 
-    float x = 0f;
-    float w = 6f;
-    float h = this.w - 8;
-    float y = 0f;
+		body = World.world.createBody(def);
+		PolygonShape poly = new PolygonShape();
 
-    poly.set(new Vector2[]{
-      new Vector2(x - w / 2, y), new Vector2(x + w / 2, y),
-      new Vector2(x - w / 2, y + h), new Vector2(x + w / 2, y + h)
-    });
+		float x = 0f;
+		float w = 6f;
+		float h = this.w - 8;
+		float y = 0f;
 
-    FixtureDef fixture = new FixtureDef();
+		poly.set(new Vector2[]{
+			new Vector2(x - w / 2, y), new Vector2(x + w / 2, y),
+			new Vector2(x - w / 2, y + h), new Vector2(x + w / 2, y + h)
+		});
 
-    fixture.shape = poly;
-    fixture.friction = 0;
-    fixture.isSensor = true;
+		FixtureDef fixture = new FixtureDef();
 
-    body.createFixture(fixture);
-    body.setUserData(this);
-    poly.dispose();
+		fixture.shape = poly;
+		fixture.friction = 0;
+		fixture.isSensor = true;
 
-    this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
-  }
+		body.createFixture(fixture);
+		body.setUserData(this);
+		poly.dispose();
 
-  @Override
-  public void destroy() {
-    super.destroy();
-    this.body = World.removeBody(this.body);
-  }
+		this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+	}
 
-  public void render() {
-    start.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
+	}
 
-    int v = (int) (Math.ceil(this.w / 16) - 1);
+	public void render() {
+		start.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-    double a = Math.toRadians(this.a + 90);
+		int v = (int) (Math.ceil(this.w / 16) - 1);
 
-    shade.a = this.al;
-    color.a = this.al;
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+		double a = Math.toRadians(this.a + 90);
 
-    for (int i = 0; i < v + 1; i++) {
-      if (i == 0) {
-        Graphics.batch.setColor(shade);
-        Graphics.render(start, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-        Graphics.batch.setColor(color);
-        Graphics.render(startOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-      } else if (i == v) {
-        Graphics.batch.setColor(shade);
-        Graphics.render(end, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-        Graphics.batch.setColor(color);
-        Graphics.render(endOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-      } else {
-        Graphics.batch.setColor(shade);
-        Graphics.render(mid, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-        Graphics.batch.setColor(color);
-        Graphics.render(midOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-      }
-    }
+		shade.a = this.al;
+		color.a = this.al;
 
-    Graphics.batch.setColor(1, 1, 1, this.al);
+		for (int i = 0; i < v + 1; i++) {
+			if (i == 0) {
+				Graphics.batch.setColor(shade);
+				Graphics.render(start, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+				Graphics.batch.setColor(color);
+				Graphics.render(startOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+			} else if (i == v) {
+				Graphics.batch.setColor(shade);
+				Graphics.render(end, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+				Graphics.batch.setColor(color);
+				Graphics.render(endOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+			} else {
+				Graphics.batch.setColor(shade);
+				Graphics.render(mid, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+				Graphics.batch.setColor(color);
+				Graphics.render(midOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+			}
+		}
 
-    for (int i = 0; i < v + 1; i++) {
-      if (i == 0) {
-        Graphics.render(startOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-      } else if (i == v) {
-        Graphics.render(endOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-      } else {
-        Graphics.render(midOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
-      }
-    }
+		Graphics.batch.setColor(1, 1, 1, this.al);
 
-    Graphics.batch.setColor(1, 1, 1, 1);
-    start.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-  }
+		for (int i = 0; i < v + 1; i++) {
+			if (i == 0) {
+				Graphics.render(startOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+			} else if (i == v) {
+				Graphics.render(endOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+			} else {
+				Graphics.render(midOverlay, this.x + (float) Math.cos(a) * i * 16, this.y + (float) Math.sin(a) * i * 16, this.a, 8, 8, false, false);
+			}
+		}
 
-  public void renderFrom(Point from, Point to) {
-    float dx = to.x - from.x;
-    float dy = to.y - from.y;
-    double d = Math.sqrt(dx * dx + dy * dy);
-    double a = Math.atan2(dy, dx);
+		Graphics.batch.setColor(1, 1, 1, 1);
+		start.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	}
 
-    start.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+	public void renderFrom(Point from, Point to) {
+		float dx = to.x - from.x;
+		float dy = to.y - from.y;
+		double d = Math.sqrt(dx * dx + dy * dy);
+		double a = Math.atan2(dy, dx);
 
-    int v = (int) (Math.ceil(d / 16) - 1);
+		start.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+		int v = (int) (Math.ceil(d / 16) - 1);
 
-    float an = (float) Math.toDegrees(a - Math.PI / 2);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 
-    shade.a = this.al;
-    color.a = this.al;
+		float an = (float) Math.toDegrees(a - Math.PI / 2);
 
-    float s = (float) (d / 16f);
+		shade.a = this.al;
+		color.a = this.al;
 
-    Graphics.batch.setColor(shade);
-    Graphics.render(mid, from.x, from.y, an, 8, 8, false, false, 1, s);
-    Graphics.render(circ, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
-    Graphics.batch.setColor(color);
-    Graphics.render(midOverlay, from.x, from.y, an, 8, 8, false, false, 1, s);
-    Graphics.render(circOverlay, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
+		float s = (float) (d / 16f);
 
-    Graphics.batch.setColor(1, 1, 1, this.al);
-    Graphics.render(midOverlay, from.x, from.y, an, 8, 8, false, false);
-    Graphics.render(circOverlay, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
+		Graphics.batch.setColor(shade);
+		Graphics.render(mid, from.x, from.y, an, 8, 8, false, false, 1, s);
+		Graphics.render(circ, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
+		Graphics.batch.setColor(color);
+		Graphics.render(midOverlay, from.x, from.y, an, 8, 8, false, false, 1, s);
+		Graphics.render(circOverlay, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
 
-    Graphics.batch.setColor(1, 1, 1, 1);
-    start.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-  }
+		Graphics.batch.setColor(1, 1, 1, this.al);
+		Graphics.render(midOverlay, from.x, from.y, an, 8, 8, false, false);
+		Graphics.render(circOverlay, to.x - (float) Math.cos(a) * 8, to.y - (float) Math.sin(a) * 8, an, 8, 8, false, false);
 
-  @Override
-  public void onCollision(Entity entity) {
-    super.onCollision(entity);
+		Graphics.batch.setColor(1, 1, 1, 1);
+		start.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	}
 
-    if (entity instanceof Mob) {
-      HpFx fx = ((Mob) entity).modifyHp(-this.damage, this.owner);
+	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
 
-      if (fx != null) {
-        fx.crit = this.crit;
-      }
-    }
-  }
+		if (entity instanceof Mob) {
+			HpFx fx = ((Mob) entity).modifyHp(-this.damage, this.owner);
+
+			if (fx != null) {
+				fx.crit = this.crit;
+			}
+		}
+	}
 }

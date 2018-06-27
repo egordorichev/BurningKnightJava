@@ -19,229 +19,231 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class WeaponBase extends Item {
-  public static boolean luck;
-  public static ShaderProgram shader;
+	protected Modifier modifier;
+	public int damage = 2;
+	protected int minDamage = -1;
+	protected float timeA = 0.1f;
+	protected float timeB = 0.1f;
+	protected float knockback = 10f;
+	public float critChance = 4f;
+	public static boolean luck;
+	public int initialDamage;
+	public int initialDamageMin;
+	public float initialCrit;
 
-  static {
-    String vertexShader;
-    String fragmentShader;
-    vertexShader = Gdx.files.internal("shaders/blink.vert").readString();
-    fragmentShader = Gdx.files.internal("shaders/blink.frag").readString();
-    shader = new ShaderProgram(vertexShader, fragmentShader);
-    if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-  }
+	public void modifyUseTime(float am) {
+		this.useTime += am;
 
-  public int damage = 2;
-  public float critChance = 4f;
-  public int initialDamage;
-  public int initialDamageMin;
-  public float initialCrit;
-  protected Modifier modifier;
-  protected int minDamage = -1;
-  protected float timeA = 0.1f;
-  protected float timeB = 0.1f;
-  protected float knockback = 10f;
-  protected boolean lastCrit;
-  private float t;
+		if (this.timeB == 0) {
+			this.timeA += am;
+		} else {
+			this.timeA += am / 2;
+			this.timeB += am / 2;
+		}
+	}
 
-  public void modifyUseTime(float am) {
-    this.useTime += am;
+	public void setCritChance(float c) {
+		this.initialCrit = this.critChance;
+		this.critChance = c;
+	}
 
-    if (this.timeB == 0) {
-      this.timeA += am;
-    } else {
-      this.timeA += am / 2;
-      this.timeB += am / 2;
-    }
-  }
+	public void resetCritChance() {
+		this.critChance = initialCrit;
+	}
 
-  public void setCritChance(float c) {
-    this.initialCrit = this.critChance;
-    this.critChance = c;
-  }
+	protected boolean lastCrit;
 
-  public void resetCritChance() {
-    this.critChance = initialCrit;
-  }
+	public int rollDamage() {
+		if (this.owner == null) {
+			this.owner = Player.instance;
+		}
 
-  public int rollDamage() {
-    if (this.owner == null) {
-      this.owner = Player.instance;
-    }
+		if (this.minDamage == -1) {
+			minDamage = Math.round(((float) damage) / 3 * 2);
+		}
 
-    if (this.minDamage == -1) {
-      minDamage = Math.round(((float) damage) / 3 * 2);
-    }
+		lastCrit = Random.chance(this.critChance + this.owner.getStat("crit_chance") * 10);
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
+	}
 
-    lastCrit = Random.chance(this.critChance + this.owner.getStat("crit_chance") * 10);
-    return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
-  }
+	public void modifyDamage(int am) {
+		this.initialDamage = damage;
+		this.initialDamageMin = minDamage;
 
-  public void modifyDamage(int am) {
-    this.initialDamage = damage;
-    this.initialDamageMin = minDamage;
+		this.damage += am;
+		this.minDamage += am;
+	}
 
-    this.damage += am;
-    this.minDamage += am;
-  }
+	public void restoreDamage() {
+		this.damage = initialDamage;
+		this.minDamage = initialDamageMin;
+	}
 
-  public void restoreDamage() {
-    this.damage = initialDamage;
-    this.minDamage = initialDamageMin;
-  }
+	public void setModifier(Modifier modifier) {
+		if (this.modifier != null) {
+			this.modifier.remove(this);
+		}
 
-  public void setModifier(Modifier modifier) {
-    if (this.modifier != null) {
-      this.modifier.remove(this);
-    }
+		this.modifier = modifier;
 
-    this.modifier = modifier;
+		if (this.modifier != null) {
+			this.modifier.apply(this);
+		}
+	}
 
-    if (this.modifier != null) {
-      this.modifier.apply(this);
-    }
-  }
+	public void startRender() {
+		float a = (float) Math.abs(Math.sin(Dungeon.time));
+		Color c = modifier.getColor();
 
-  public void startRender() {
-    float a = (float) Math.abs(Math.sin(Dungeon.time));
-    Color c = modifier.getColor();
+		float r = 1f - (1 - c.r) * a;
+		float g = 1f - (1 - c.g) * a;
+		float b = 1f - (1 - c.b) * a;
 
-    float r = 1f - (1 - c.r) * a;
-    float g = 1f - (1 - c.g) * a;
-    float b = 1f - (1 - c.b) * a;
+		Graphics.batch.end();
+		Mob.shader.begin();
+		Mob.shader.setUniformf("u_color", new Vector3(r, g, b));
+		Mob.shader.setUniformf("u_a", 1f);
+		Mob.shader.end();
+		Graphics.batch.setShader(Mob.shader);
+		Graphics.batch.begin();
+	}
 
-    Graphics.batch.end();
-    Mob.shader.begin();
-    Mob.shader.setUniformf("u_color", new Vector3(r, g, b));
-    Mob.shader.setUniformf("u_a", 1f);
-    Mob.shader.end();
-    Graphics.batch.setShader(Mob.shader);
-    Graphics.batch.begin();
-  }
+	public void renderAt(float x, float y, float ox, float oy, float scale) {
+		renderAt(x, y, 0, ox, oy, false, false, scale, scale);
+	}
 
-  public void renderAt(float x, float y, float ox, float oy, float scale) {
-    renderAt(x, y, 0, ox, oy, false, false, scale, scale);
-  }
+	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy) {
+		renderAt(x, y, a, ox, oy, fx, fy, 1, 1);
+	}
 
-  public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy) {
-    renderAt(x, y, a, ox, oy, fx, fy, 1, 1);
-  }
+	public static ShaderProgram shader;
 
-  public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy) {
-    Graphics.batch.setColor(1, 1, 1, 1);
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/blink.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/blink.frag").readString();
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+	}
 
-    if (this.modifier != null) {
-      startRender();
+	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy) {
+		Graphics.batch.setColor(1, 1, 1, 1);
 
-      for (int xx = -1; xx < 2; xx++) {
-        for (int yy = -1; yy < 2; yy++) {
-          if (Math.abs(xx) + Math.abs(yy) == 1) {
-            Graphics.render(getSprite(), x, y, a, ox + xx, oy + yy, fx, fy, sx, sy);
-          }
-        }
-      }
+		if (this.modifier != null) {
+			startRender();
 
-      endRender();
-    }
+			for (int xx = -1; xx < 2; xx++) {
+				for (int yy = -1; yy < 2; yy++) {
+					if (Math.abs(xx) + Math.abs(yy) == 1) {
+						Graphics.render(getSprite(), x, y, a, ox + xx, oy + yy, fx, fy, sx, sy);
+					}
+				}
+			}
 
-    Graphics.batch.end();
-    shader.begin();
-    shader.setUniformf("a", this.owner == null ? 1 : this.owner.a);
-    shader.setUniformf("time", Dungeon.time + this.t);
-    shader.end();
-    Graphics.batch.setShader(shader);
-    Graphics.batch.begin();
-    Graphics.render(getSprite(), x, y, a, ox, oy, fx, fy, sx, sy);
+			endRender();
+		}
 
-    Graphics.batch.end();
-    Graphics.batch.setShader(null);
-    Graphics.batch.begin();
-  }
+		Graphics.batch.end();
+		shader.begin();
+		shader.setUniformf("a", this.owner == null ? 1 : this.owner.a);
+		shader.setUniformf("time", Dungeon.time + this.t);
+		shader.end();
+		Graphics.batch.setShader(shader);
+		Graphics.batch.begin();
+		Graphics.render(getSprite(), x, y, a, ox, oy, fx, fy, sx, sy);
 
-  @Override
-  public StringBuilder buildInfo() {
-    StringBuilder builder = super.buildInfo();
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+	}
 
-    if (this.useSpeedStr == null) {
-      this.useSpeedStr = this.getUseSpeedAsString();
-    }
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
 
-    builder.append("\n[white]");
-    builder.append(this.useSpeedStr);
-    builder.append("[gray]");
+		if (this.useSpeedStr == null) {
+			this.useSpeedStr = this.getUseSpeedAsString();
+		}
 
-    return builder;
-  }
+		builder.append("\n[white]");
+		builder.append(this.useSpeedStr);
+		builder.append("[gray]");
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+		return builder;
+	}
 
-    this.t += dt;
-  }
+	private float t;
 
-  @Override
-  public void init() {
-    super.init();
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-    this.t = Random.newFloat(10f);
-  }
+		this.t += dt;
+	}
 
-  @Override
-  public void onPickup() {
-    super.onPickup();
-    this.t = Random.newFloat(10f);
-  }
+	@Override
+	public void init() {
+		super.init();
 
-  public void endRender() {
-    Graphics.batch.end();
-    Graphics.batch.setShader(null);
-    Graphics.batch.begin();
-  }
+		this.t = Random.newFloat(10f);
+	}
 
-  @Override
-  public void generate() {
-    super.generate();
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		this.t = Random.newFloat(10f);
+	}
 
-    if (Random.chance(25)) {
-      this.generateModifier();
-    }
-  }
+	public void endRender() {
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+	}
 
-  public void generateModifier() {
-    if (this.modifier == null) {
-      this.setModifier(ModifierPool.instance.generate());
-    }
-  }
+	@Override
+	public void generate() {
+		super.generate();
 
-  @Override
-  public String getName() {
-    if (this.modifier != null) {
-      return this.modifier.getName() + " " + super.getName();
-    }
+		if (Random.chance(25)) {
+			this.generateModifier();
+		}
+	}
 
-    return super.getName();
-  }
+	public void generateModifier() {
+		if (this.modifier == null) {
+			this.setModifier(ModifierPool.instance.generate());
+		}
+	}
 
-  @Override
-  public void load(FileReader reader) throws IOException {
-    super.load(reader);
+	@Override
+	public String getName() {
+		if (this.modifier != null) {
+			return this.modifier.getName() + " " + super.getName();
+		}
 
-    int id = reader.readInt16();
+		return super.getName();
+	}
 
-    if (id > 0) {
-      this.setModifier(ModifierPool.instance.getModifier(id - 1));
-    }
-  }
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
 
-  @Override
-  public void save(FileWriter writer) throws IOException {
-    super.save(writer);
+		int id = reader.readInt16();
 
-    if (this.modifier == null) {
-      writer.writeInt16((short) 0);
-    } else {
-      writer.writeInt16((short) (this.modifier.id + 1));
-    }
-  }
+		if (id > 0) {
+			this.setModifier(ModifierPool.instance.getModifier(id - 1));
+		}
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		if (this.modifier == null) {
+			writer.writeInt16((short) 0);
+		} else {
+			writer.writeInt16((short) (this.modifier.id + 1));
+		}
+	}
 }

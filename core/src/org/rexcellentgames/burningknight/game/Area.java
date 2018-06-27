@@ -11,118 +11,118 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Area {
-  private ArrayList<Entity> entities = new ArrayList<>();
-  private Comparator<Entity> comparator;
-  private boolean showWhenPaused;
+	private ArrayList<Entity> entities = new ArrayList<>();
+	private Comparator<Entity> comparator;
+	private boolean showWhenPaused;
 
-  public Area() {
-    this.comparator = new Comparator<Entity>() {
-      @Override
-      public int compare(Entity a, Entity b) {
-        // -1 - less than, 1 - greater than, 0 - equal
-        float ad = b.getDepth();
-        float bd = a.getDepth();
+	public Area() {
+		this.comparator = new Comparator<Entity>() {
+			@Override
+			public int compare(Entity a, Entity b) {
+				// -1 - less than, 1 - greater than, 0 - equal
+				float ad = b.getDepth();
+				float bd = a.getDepth();
 
-        if (ad == bd) {
-          ad = a.y;
-          bd = b.y;
-        }
+				if (ad == bd) {
+					ad = a.y;
+					bd = b.y;
+				}
 
-        return Float.compare(bd, ad);
-      }
-    };
-  }
+				return Float.compare(bd, ad);
+			}
+		};
+	}
+	
+	public Area(boolean showWhenPaused) {
+		this();
+		
+		this.showWhenPaused = showWhenPaused;
+	}
+	
+	public Entity add(Entity entity) {
+		this.entities.add(entity);
 
-  public Area(boolean showWhenPaused) {
-    this();
+		entity.setArea(this);
+		entity.init();
 
-    this.showWhenPaused = showWhenPaused;
-  }
+		return entity;
+	}
 
-  public Entity add(Entity entity) {
-    this.entities.add(entity);
+	public void remove(Entity entity) {
+		this.entities.remove(entity);
+	}
 
-    entity.setArea(this);
-    entity.init();
+	public void update(float dt) {
+		for (int i = this.entities.size() - 1; i >= 0; i--) {
+			Entity entity = this.entities.get(i);
 
-    return entity;
-  }
+			if (!entity.isActive()) {
+				continue;
+			}
 
-  public void remove(Entity entity) {
-    this.entities.remove(entity);
-  }
+			entity.onScreen = entity.isOnScreen();
 
-  public void update(float dt) {
-    for (int i = this.entities.size() - 1; i >= 0; i--) {
-      Entity entity = this.entities.get(i);
+			if (entity.onScreen || entity.alwaysActive) {
+				entity.update(dt);
+			}
 
-      if (!entity.isActive()) {
-        continue;
-      }
+			if (entity.done) {
+				if (entity instanceof SaveableEntity) {
+					SaveableEntity saveableEntity = (SaveableEntity) entity;
+					LevelSave.remove(saveableEntity);
+				}
 
-      entity.onScreen = entity.isOnScreen();
+				entity.destroy();
+				this.entities.remove(i);
+			}
+		}
+	}
 
-      if (entity.onScreen || entity.alwaysActive) {
-        entity.update(dt);
-      }
+	public void render() {
+		if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
+			return;
+		}
 
-      if (entity.done) {
-        if (entity instanceof SaveableEntity) {
-          SaveableEntity saveableEntity = (SaveableEntity) entity;
-          LevelSave.remove(saveableEntity);
-        }
+		Collections.sort(this.entities, this.comparator);
 
-        entity.destroy();
-        this.entities.remove(i);
-      }
-    }
-  }
+		for (int i = 0; i < this.entities.size(); i++) {
+			Entity entity = this.entities.get(i);
+			
+			if (!entity.isActive()) {
+				continue;
+			}
 
-  public void render() {
-    if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
-      return;
-    }
+			if (entity.onScreen || entity.alwaysRender) {
+				entity.render();
+			}
+		}
+	}
 
-    Collections.sort(this.entities, this.comparator);
+	public Entity getRandomEntity(Class<? extends Entity> type) {
+		ArrayList<Entity> list = new ArrayList<>();
 
-    for (int i = 0; i < this.entities.size(); i++) {
-      Entity entity = this.entities.get(i);
+		for (Entity entity : this.entities) {
+			if (type.isInstance(entity)) {
+				list.add(entity);
+			}
+		}
 
-      if (!entity.isActive()) {
-        continue;
-      }
+		if (list.size() == 0) {
+			return null;
+		}
 
-      if (entity.onScreen || entity.alwaysRender) {
-        entity.render();
-      }
-    }
-  }
+		return list.get(Random.newInt(list.size()));
+	}
 
-  public Entity getRandomEntity(Class<? extends Entity> type) {
-    ArrayList<Entity> list = new ArrayList<>();
+	public void destroy() {
+		for (int i = this.entities.size() - 1; i >= 0; i--) {
+			this.entities.get(i).destroy();
+		}
 
-    for (Entity entity: this.entities) {
-      if (type.isInstance(entity)) {
-        list.add(entity);
-      }
-    }
+		this.entities.clear();
+	}
 
-    if (list.size() == 0) {
-      return null;
-    }
-
-    return list.get(Random.newInt(list.size()));
-  }
-
-  public void destroy() {
-    for (int i = this.entities.size() - 1; i >= 0; i--) {
-      this.entities.get(i).destroy();
-    }
-
-    this.entities.clear();
-  }
-
-  public ArrayList<Entity> getEntities() {
-    return this.entities;
-  }
+	public ArrayList<Entity> getEntities() {
+		return this.entities;
+	}
 }

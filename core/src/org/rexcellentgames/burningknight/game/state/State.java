@@ -5,89 +5,89 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class State {
-  private boolean paused;
+	private boolean paused;
 
-  public State() {
+	public void onPause() {
 
-  }
+	}
 
-  protected static void transition(final Runnable runnable) {
-    Dungeon.darkX = Input.instance.uiMouse.x;
-    Dungeon.darkY = Input.instance.uiMouse.y;
+	public void onUnpause() {
 
-    Tween.to(new Tween.Task(0, 0.2f) {
-      @Override
-      public float getValue() {
-        return Dungeon.darkR;
-      }
+	}
 
-      @Override
-      public void setValue(float value) {
-        Dungeon.darkR = value;
-      }
+	public boolean isPaused() {
+		return paused;
+	}
 
-      @Override
-      public void onEnd() {
-        runnable.run();
+	public void setPaused(boolean paused) {
+		this.paused = paused;
 
-        Tween.to(new Tween.Task(Dungeon.MAX_R, 0.2f) {
-          @Override
-          public float getValue() {
-            return Dungeon.darkR;
-          }
+		if (this.paused) {
+			this.onPause();
+		} else {
+			this.onUnpause();
+		}
+	}
 
-          @Override
-          public void setValue(float value) {
-            Dungeon.darkR = value;
-          }
-        });
-      }
-    });
-  }
+	public State() {
 
-  public void onPause() {
+	}
 
-  }
+	public void init() {
 
-  public void onUnpause() {
+	}
 
-  }
+	public void destroy() {
 
-  public boolean isPaused() {
-    return paused;
-  }
+	}
 
-  public void setPaused(boolean paused) {
-    this.paused = paused;
+	public void update(float dt) {
 
-    if (this.paused) {
-      this.onPause();
-    } else {
-      this.onUnpause();
-    }
-  }
+	}
 
-  public void init() {
+	public void render() {
 
-  }
+	}
 
-  public void destroy() {
+	public void renderUi() {
 
-  }
+	}
 
-  public void update(float dt) {
+	public void resize(int width, int height) {
 
-  }
+	}
 
-  public void render() {
+	protected static void transition(final Runnable runnable) {
+		Dungeon.darkX = Input.instance.uiMouse.x;
+		Dungeon.darkY = Input.instance.uiMouse.y;
 
-  }
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return Dungeon.darkR;
+			}
 
-  public void renderUi() {
+			@Override
+			public void setValue(float value) {
+				Dungeon.darkR = value;
+			}
 
-  }
+			@Override
+			public void onEnd() {
+				runnable.run();
 
-  public void resize(int width, int height) {
+				Tween.to(new Tween.Task(Dungeon.MAX_R, 0.2f) {
+					@Override
+					public float getValue() {
+						return Dungeon.darkR;
+					}
 
-  }
+					@Override
+					public void setValue(float value) {
+						Dungeon.darkR = value;
+					}
+				});
+			}
+		});
+	}
 }

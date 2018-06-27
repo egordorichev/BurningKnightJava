@@ -1,64 +1,29 @@
-{
-  "frames": {
-    "fx_heart 0.ase": {
-      "frame": {
-        "x": 0,
-        "y": 0,
-        "w": 9,
-        "h": 9
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 9,
-        "h": 9
-      },
-      "sourceSize": {
-        "w": 9,
-        "h": 9
-      },
-      "duration": 100
-    },
-    "fx_heart 1.ase": {
-      "frame": {
-        "x": 9,
-        "y": 0,
-        "w": 9,
-        "h": 9
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 9,
-        "h": 9
-      },
-      "sourceSize": {
-        "w": 9,
-        "h": 9
-      },
-      "duration": 100
-    }
-  },
-  "meta": {
-    "app": "http://www.aseprite.org/",
-    "version": "1.2-dev",
-    "format": "I8",
-    "size": {
-      "w": 18,
-      "h": 9
-    },
-    "scale": "1",
-    "frameTags": [
-      {
-        "name": "idle",
-        "from": 0,
-        "to": 1,
-        "direction": "forward"
-      }
-    ]
-  }
+{ "frames": {
+   "fx_heart 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 9, "h": 9 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 9, "h": 9 },
+    "sourceSize": { "w": 9, "h": 9 },
+    "duration": 100
+   },
+   "fx_heart 1.ase": {
+    "frame": { "x": 9, "y": 0, "w": 9, "h": 9 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 9, "h": 9 },
+    "sourceSize": { "w": 9, "h": 9 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2-dev",
+  "format": "I8",
+  "size": { "w": 18, "h": 9 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 1, "direction": "forward" }
+  ]
+ }
 }

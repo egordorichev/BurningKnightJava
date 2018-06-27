@@ -5,25 +5,25 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 
 public class Npc extends Mob {
-  private boolean active;
-  private NpcDialog dialog;
+	private boolean active;
+	private NpcDialog dialog;
 
-  {
-    // tmp
-    hp = 1000;
-    hpMax = 1000;
-  }
+	{
+		// tmp
+		hp = 1000;
+		hpMax = 1000;
+	}
 
-  @Override
-  public void init() {
-    super.init();
+	@Override
+	public void init() {
+		super.init();
 
-    depth = 0;
-  }
+		depth = 0;
+	}
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
 		/*
 		if (Player.instance != null && Dialog.active == null) {
@@ -46,16 +46,16 @@ public class Npc extends Mob {
 			}
 		}*/
 
-    super.common();
-  }
+		super.common();
+	}
 
-  @Override
-  public void render() {
-    Graphics.render(Item.missing, this.x, this.y);
-  }
+	@Override
+	public void render() {
+		Graphics.render(Item.missing, this.x, this.y);
+	}
 
-  @Override
-  public void renderShadow() {
-    Graphics.shadow(this.x, this.y, this.w, this.h);
-  }
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h);
+	}
 }

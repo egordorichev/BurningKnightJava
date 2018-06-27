@@ -1,27 +1,32 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class VVVVV extends Equipable {  @Override
-  public void onEquip() {
-    super.onEquip();
+public class VVVVV extends Equipable {
+	{
+	}
 
-    Dungeon.flip = !Dungeon.flip;
+	@Override
+	public void onEquip() {
+		super.onEquip();
 
-    if (this.owner instanceof Player) {
-      ((Player) this.owner).goldModifier += 30f;
-    }
-  }
+		Dungeon.flip = !Dungeon.flip;
 
-  @Override
-  public void onUnequip() {
-    super.onEquip();
+		if (this.owner instanceof Player) {
+			((Player) this.owner).goldModifier += 30f;
+		}
+	}
 
-    Dungeon.flip = !Dungeon.flip;
+	@Override
+	public void onUnequip() {
+		super.onEquip();
 
-    if (this.owner instanceof Player) {
-      ((Player) this.owner).goldModifier -= 30f;
-    }
-  }
+		Dungeon.flip = !Dungeon.flip;
+
+		if (this.owner instanceof Player) {
+			((Player) this.owner).goldModifier -= 30f;
+		}
+	}
 }

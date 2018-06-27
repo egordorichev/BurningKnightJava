@@ -18,171 +18,173 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class BulletProjectile extends Projectile {
-  public static Animation animation = Animation.make("fx-badbullet");
-  public TextureRegion sprite;
-  public float a;
-  public boolean remove;
-  public String letter;
-  public boolean circleShape;
-  public boolean rotates;
-  public Class<? extends Buff> toApply;
-  public float duration = 1f;
-  public boolean parts;
-  public int dir;
-  public Point ivel;
-  public float angle;
-  public float dist;
-  public boolean dissappearWithTime;
-  public float rotationSpeed = 1f;
-  public boolean rectShape;
-  public boolean canBeRemoved = true;
-  protected float last;
-  private float ra;
+	public TextureRegion sprite;
+	public float a;
+	private float ra;
+	public boolean remove;
+	public String letter;
+	public boolean circleShape;
+	public boolean rotates;
+	public static Animation animation = Animation.make("fx-badbullet");
+	public Class<? extends Buff> toApply;
+	public float duration = 1f;
+	public boolean parts;
+	public int dir;
+	public Point ivel;
+	public float angle;
+	public float dist;
+	public boolean dissappearWithTime;
+	public float rotationSpeed = 1f;
 
-  {
-    alwaysActive = true;
-  }
+	{
+		alwaysActive = true;
+	}
 
-  @Override
-  public void init() {
-    angle = (float) Math.atan2(this.vel.y, this.vel.x);
-    dist = (float) Math.sqrt(vel.x * vel.x + vel.y * vel.y);
+	@Override
+	public void init() {
+		angle = (float) Math.atan2(this.vel.y, this.vel.x);
+		dist = (float) Math.sqrt(vel.x * vel.x + vel.y * vel.y);
 
-    this.ivel = new Point(this.vel.x, this.vel.y);
-    this.dir = Random.chance(50) ? -1 : 1;
-    this.ra = (float) Math.toRadians(this.a);
-    this.parts = this.bad;
+		this.ivel = new Point(this.vel.x, this.vel.y);
+		this.dir = Random.chance(50) ? -1 : 1;
+		this.ra = (float) Math.toRadians(this.a);
+		this.parts = this.bad;
 
-    if (this.sprite == null && this.letter != null) {
-      this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
-    }
+		if (this.sprite == null && this.letter != null) {
+			this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
+		}
 
-    if (this.sprite != null) {
-      this.w = sprite.getRegionWidth();
-      this.h = sprite.getRegionHeight();
-    }
+		if (this.sprite != null) {
+			this.w = sprite.getRegionWidth();
+			this.h = sprite.getRegionHeight();
+		}
 
-    if ((this.w == this.h || circleShape) && !rectShape) {
-      this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil((this.h) / 2), BodyDef.BodyType.DynamicBody, this.letter != null && this.letter.equals("bone"));
-    } else {
-      this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
-    }
+		if ((this.w == this.h || circleShape) && !rectShape) {
+			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil((this.h) / 2), BodyDef.BodyType.DynamicBody, this.letter != null && this.letter.equals("bone"));
+		} else {
+			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
+		}
 
-    if (this.body != null) {
-      this.body.setTransform(this.x, this.y, ra);
-      this.body.setBullet(true);
-    }
-  }
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, ra);
+			this.body.setBullet(true);
+		}
+	}
 
-  public void countRemove() {
+	public boolean rectShape;
+	public boolean canBeRemoved = true;
 
-  }
+	public void countRemove() {
 
-  @Override
-  public void destroy() {
-    this.body = World.removeBody(this.body);
-  }
+	}
 
-  @Override
-  public void render() {
-    Graphics.render(sprite, this.x, this.y, this.a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
-  }
+	@Override
+	public void destroy() {
+		this.body = World.removeBody(this.body);
+	}
 
-  @Override
-  public void renderShadow() {
-    Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
-  }
+	@Override
+	public void render() {
+		Graphics.render(sprite, this.x, this.y, this.a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
+	}
 
-  @Override
-  protected boolean breaksFrom(Entity entity) {
-    return entity == null || entity instanceof SolidProp || entity instanceof Door;
-  }
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 5);
+	}
 
-  @Override
-  protected boolean hit(Entity entity) {
-    if (this.bad) {
-      if (entity instanceof Player) {
-        this.doHit(entity);
-        return this.canBeRemoved;
-      }
-    } else if (entity instanceof Mob) {
-      this.doHit(entity);
-      return this.canBeRemoved;
-    }
+	protected float last;
 
-    return false;
-  }
+	@Override
+	protected boolean breaksFrom(Entity entity) {
+		return entity == null || entity instanceof SolidProp || entity instanceof Door;
+	}
 
-  @Override
-  protected void onHit(Entity entity) {
-    if (toApply != null) {
-      try {
-        ((Creature) entity).addBuff(toApply.newInstance().setDuration(this.duration));
-      } catch (InstantiationException | IllegalAccessException e) {
-        e.printStackTrace();
-      }
-    }
-  }
+	@Override
+	protected boolean hit(Entity entity) {
+		if (this.bad) {
+			if (entity instanceof Player) {
+				this.doHit(entity);
+				return this.canBeRemoved;
+			}
+		} else if (entity instanceof Mob) {
+			this.doHit(entity);
+			return this.canBeRemoved;
+		}
 
-  @Override
-  public void logic(float dt) {
-    this.last += dt;
+		return false;
+	}
 
-    if (this.dissappearWithTime && this.t >= 5f) {
-      this.death();
-      this.remove = true;
-      this.broke = true;
-    }
+	@Override
+	protected void onHit(Entity entity) {
+		if (toApply != null) {
+			try {
+				((Creature) entity).addBuff(toApply.newInstance().setDuration(this.duration));
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    if (this.parts) {
-      if (this.last > 0.08f) {
-        this.last = 0;
-        Part part = new Part();
-        part.vel = new Point();
+	@Override
+	public void logic(float dt) {
+		this.last += dt;
 
-        part.x = this.x + Random.newFloat(this.sprite.getRegionWidth()) - this.sprite.getRegionWidth() / 2 - 4;
-        part.y = this.y + Random.newFloat(this.sprite.getRegionHeight()) - this.sprite.getRegionHeight() / 2 - 4;
-        part.depth = -1;
-        part.animation = animation.get("idle");
+		if (this.dissappearWithTime && this.t >= 5f) {
+			this.death();
+			this.remove = true;
+			this.broke = true;
+		}
 
-        Dungeon.area.add(part);
-      }
-    }
+		if (this.parts) {
+			if (this.last > 0.08f) {
+				this.last = 0;
+				Part part = new Part();
+				part.vel = new Point();
 
-    boolean dd = this.done;
-    this.done = this.remove;
+				part.x = this.x + Random.newFloat(this.sprite.getRegionWidth()) - this.sprite.getRegionWidth()/ 2 - 4;
+				part.y = this.y + Random.newFloat(this.sprite.getRegionHeight()) - this.sprite.getRegionHeight() / 2 - 4;
+				part.depth = -1;
+				part.animation = animation.get("idle");
 
-    if (this.done && !dd) {
-      this.onDeath();
+				Dungeon.area.add(part);
+			}
+		}
 
-      for (int i = 0; i < 20; i++) {
-        Part part = new Part();
+		boolean dd = this.done;
+		this.done = this.remove;
 
-        part.x = this.x - this.vel.x * dt;
-        part.y = this.y - this.vel.y * dt;
+		if (this.done && !dd) {
+			this.onDeath();
 
-        Dungeon.area.add(part);
-      }
-    }
+			for (int i = 0; i < 20; i++) {
+				Part part = new Part();
 
-    this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
+				part.x = this.x - this.vel.x * dt;
+				part.y = this.y - this.vel.y * dt;
 
-    if (this.rotates) {
-      this.a += dt * 360 * 2 * dir * rotationSpeed;
-    } else {
-      this.a = (float) Math.toDegrees(this.ra);
-    }
+				Dungeon.area.add(part);
+			}
+		}
 
-    this.control();
+		this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
 
-    this.x += this.vel.x * dt;
-    this.y += this.vel.y * dt;
+		if (this.rotates) {
+			this.a += dt * 360 * 2 * dir * rotationSpeed;
+		} else {
+			this.a = (float) Math.toDegrees(this.ra);
+		}
 
-    this.body.setTransform(this.x, this.y, this.ra);
-    this.body.setLinearVelocity(this.vel);
-  }
+		this.control();
 
-  public void control() {
+		this.x += this.vel.x * dt;
+		this.y += this.vel.y * dt;
 
-  }
+		this.body.setTransform(this.x, this.y, this.ra);
+		this.body.setLinearVelocity(this.vel);
+	}
+
+	public void control() {
+
+	}
 }

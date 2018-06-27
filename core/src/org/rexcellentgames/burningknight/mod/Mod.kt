@@ -101,7 +101,7 @@ class Mod(val name: String, val id: String, val description: String, val author:
       var items: FileHandle? = null
       var locales: FileHandle? = null
       var sprites: FileHandle? = null
-
+      
       for (file in files) {
         if (file.nameWithoutExtension() == "main" && file.extension() == "lua") {
           main = file

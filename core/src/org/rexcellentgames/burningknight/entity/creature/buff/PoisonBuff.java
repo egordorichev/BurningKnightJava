@@ -1,24 +1,24 @@
 package org.rexcellentgames.burningknight.entity.creature.buff;
 
 public class PoisonBuff extends Buff {
-  private float last;
+	{
+		name = "Poisoned";
+		description = "You are slowly losing your life";
+		duration = 60f;
+		sprite = "ui-poisoned";
+		bad = true;
+	}
 
-  {
-    name = "Poisoned";
-    description = "You are slowly losing your life";
-    duration = 60f;
+	private float last;
 
-    bad = true;
-  }
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+		this.last += dt;
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
-    this.last += dt;
-
-    if (this.last >= 0.5f) {
-      this.last = 0;
-      this.owner.modifyHp(-1, null, true);
-    }
-  }
+		if (this.last >= 0.5f) {
+			this.last = 0;
+			this.owner.modifyHp(-1, null, true);
+		}
+	}
 }

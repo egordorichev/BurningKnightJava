@@ -1,8 +1,15 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
+import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class ManaEmblem : Equipable() {
+  init {
+    
+    
+    
+  }
+
   override fun onEquip() {
     super.onEquip()
 

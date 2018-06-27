@@ -1,7 +1,12 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.throwing;
 
-public class ThrowingDaggerA extends ThrowingDagger {
-  {
+import org.rexcellentgames.burningknight.assets.Locale;
 
-    damage = 3;  }
+public class ThrowingDaggerA extends ThrowingDagger {
+	{
+		
+		damage = 3;
+		
+		
+	}
 }

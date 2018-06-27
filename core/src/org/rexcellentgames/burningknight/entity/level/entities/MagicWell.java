@@ -11,103 +11,113 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.WellFx;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class MagicWell extends UsableProp {
-  public static ShaderProgram shader;
-  private static TextureRegion[] water = new TextureRegion[]{
-    Graphics.getTexture("prop (water_none)"),
-    Graphics.getTexture("prop (water_heal)")
-  };
+	public static ShaderProgram shader;
 
-  static {
-    String vertexShader;
-    String fragmentShader;
-    vertexShader = Gdx.files.internal("shaders/dist.vert").readString();
-    fragmentShader = Gdx.files.internal("shaders/dist.frag").readString();
-    shader = new ShaderProgram(vertexShader, fragmentShader);
-    if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-  }
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/dist.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/dist.frag").readString();
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+	}
 
-  private boolean s;
-  private WellFx fx;
+	private static TextureRegion[] water = new TextureRegion[] {
+		Graphics.getTexture("prop (water_none)"),
+		Graphics.getTexture("prop (water_heal)")
+	};
 
-  {
+	{
+		sprite = "prop (tub)";
+		collider = new Rectangle(4, 5, 30 - 8, 12);
+	}
 
-    collider = new Rectangle(4, 5, 30 - 8, 12);
-  }
+	private boolean s;
 
-  @Override
-  public boolean use() {
-    this.used = true;    int r = Random.newInt(3);
+	@Override
+	public boolean use() {
+		this.used = true;
 
-    switch (r) {
-      case 0:
-      default:
-        Player.instance.modifyHp(Player.instance.getHpMax() - Player.instance.getHp(), null);
-        Log.info("[green]You take a sip and feel refreshed!");
-        break;
+
+		int r = Random.newInt(3);
+
+		switch (r) {
+			case 0: default:
+				Player.instance.modifyHp(Player.instance.getHpMax() - Player.instance.getHp(), null);
+				Log.info("[green]You take a sip and feel refreshed!");
+				break;
 			/*case 1:
 
 				break;
 			case 2:
 				break;*/
-    }
-    return true;
-  }
+		}
+		return true;
+	}
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-    if (!s) {
-      s = true;
-      for (int x = (int) (this.x / 16); x < Math.ceil((this.x + 32) / 16); x++) {
-        Dungeon.level.setPassable(x, (int) ((this.y + 11) / 16), false);
-        Dungeon.level.setPassable(x, (int) ((this.y) / 16), false);
-      }
-    }
-  }
+		if (!s) {
+			s = true;
+			for (int x = (int) (this.x / 16); x < Math.ceil((this.x + 32) / 16); x++) {
+				Dungeon.level.setPassable(x, (int) ((this.y + 11) / 16), false);
+				Dungeon.level.setPassable(x, (int) ((this.y) / 16), false);
+			}
+		}
+	}
 
-  @Override
-  public void onCollision(Entity entity) {
-    if (entity instanceof Player && !this.used) {
-      this.fx = new WellFx(this, "take_a_sip");
-      Dungeon.area.add(fx);
-    }
-  }
+	private WellFx fx;
 
-  @Override
-  public void onCollisionEnd(Entity entity) {
-    if (this.fx != null && entity instanceof Player) {
-      this.fx.remove();
-      this.fx = null;
-    }
-  }
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Player && !this.used) {
+			this.fx = new WellFx(this, "take_a_sip");
+			Dungeon.area.add(fx);
+		}
+	}
 
-  @Override
-  public void render() {
-    super.render();
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (this.fx != null && entity instanceof Player) {
+			this.fx.remove();
+			this.fx = null;
+		}
+	}
 
-    Graphics.batch.end();
-    shader.begin();
+	@Override
+	public void render() {
+		super.render();
 
-    TextureRegion r = water[this.used ? 0 : 1];
-    Texture t = r.getTexture();
+		Graphics.batch.end();
+		shader.begin();
 
-    shader.setUniformf("time", Dungeon.time);
-    shader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-    shader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
-    shader.end();
-    Graphics.batch.setShader(shader);
-    Graphics.batch.begin();
+		TextureRegion r = water[this.used ? 0 : 1];
+		Texture t = r.getTexture();
 
-    Graphics.render(r, this.x + 5, this.y + 8);
+		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+		shader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+		shader.end();
+		Graphics.batch.setShader(shader);
+		Graphics.batch.begin();
 
-    Graphics.batch.end();
-    Graphics.batch.setShader(null);
-    Graphics.batch.begin();
-  }
+		Graphics.render(r, this.x + 5, this.y + 8);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+	}
 }

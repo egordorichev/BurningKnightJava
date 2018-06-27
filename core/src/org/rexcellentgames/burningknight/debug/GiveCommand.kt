@@ -17,7 +17,7 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
     if (args.size < 3) {
       val name = args[0]
       val item: Item
-
+      
       try {
         item = if (name.contains(":")) {
           ItemRegistry.modItems[name] as Item
@@ -32,9 +32,9 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
 
           clazz.newInstance()
         }
-
+        
         val itemHolder = ItemHolder()
-
+        
         itemHolder.item = item
 
         if (item.isStackable) {

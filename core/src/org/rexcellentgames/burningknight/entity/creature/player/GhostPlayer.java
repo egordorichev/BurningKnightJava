@@ -5,60 +5,61 @@ import org.rexcellentgames.burningknight.entity.creature.buff.InvisibilityBuff;
 import org.rexcellentgames.burningknight.util.Log;
 
 public class GhostPlayer extends Player {
-  private Player owner;
-  private boolean tpd;
+	{
+		hpMax = 50;
+	}
 
-  {
-    hpMax = 50;
-  }
+	private Player owner;
 
-  public GhostPlayer() {
-    super("ghost");
+	public GhostPlayer() {
+		super("ghost");
 
-    this.owner = Player.instance;
-  }
+		this.owner = Player.instance;
+	}
 
-  @Override
-  public void init() {
-    super.init();
-    this.alwaysActive = true;
-  }
+	@Override
+	public void init() {
+		super.init();
+		this.alwaysActive = true;
+	}
 
-  @Override
-  public void onHurt(float a, Creature creature) {
-    super.onHurt(a, creature);
+	@Override
+	public void onHurt(float a, Creature creature) {
+		super.onHurt(a, creature);
 
-    // FIXME: doesnt remove it
+		// FIXME: doesnt remove it
 
-    if (this.hp <= 0 && Player.instance != null) {
-      Log.info("remove");
-      Player.instance.removeBuff(InvisibilityBuff.class);
-    }
-  }
+		if (this.hp <= 0 && Player.instance != null) {
+			Log.info("remove");
+			Player.instance.removeBuff(InvisibilityBuff.class);
+		}
+	}
 
-  @Override
-  public void destroy() {
-    super.destroy();
-    if (Player.instance != null) {
-      Log.info("remove");
-      this.owner.removeBuff(InvisibilityBuff.class);
-    }
-  }
+	@Override
+	public void destroy() {
+		super.destroy();
+		if (Player.instance != null) {
+			Log.info("remove");
+			this.owner.removeBuff(InvisibilityBuff.class);
+		}
+	}
 
-  @Override
-  public void update(float dt) {
-    // Log.info(this.hp + " " + Player.instance + " " + this);
+	private boolean tpd;
 
-    if (!this.tpd) {
-      tpd = true;
-      tp(Player.instance.x, Player.instance.y);
-    }
+	@Override
+	public void update(float dt) {
+		// Log.info(this.hp + " " + Player.instance + " " + this);
 
-    super.update(dt);
-  }
+		if (!this.tpd) {
+			tpd = true;
+			tp(Player.instance.x, Player.instance.y);
+		}
 
-  @Override
-  public void render() {
-    super.render();
-  }
+		super.update(dt);
+	}
+
+	@Override
+	public void render() {
+		super.render();
+	}
 }

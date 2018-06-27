@@ -22,157 +22,161 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Bow extends WeaponBase {
-  private float sx = 1f;
-  private float sy = 1f;
-  private float lastAngle;
-  private Vector2 last;
-  private float closestFraction = 1.0f;
-  private RayCastCallback callback = new RayCastCallback() {
-    @Override
-    public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-      if (fixture.isSensor()) {
-        return 1;
-      }
+	private float sx = 1f;
+	private float sy = 1f;
 
-      Entity entity = (Entity) fixture.getBody().getUserData();
+	{
+		auto = true;
+		identified = true;
+	}
 
-      if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
-        if (fraction < closestFraction) {
-          closestFraction = fraction;
-          last = point;
-        }
+	@Override
+	public void use() {
+		Arrow ar = (Arrow) this.owner.getAmmo("arrow");
+		Point aim = this.owner.getAim();
 
-        return fraction;
-      }
+		super.use();
 
-      return 1;
-    }
-  };
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
+		float s = 60f;
 
-  {
-    auto = true;
-    identified = true;
-  }
+		float knockbackMod = owner.getStat("knockback");
 
-  @Override
-  public void use() {
-    Arrow ar = (Arrow) this.owner.getAmmo("arrow");
-    Point aim = this.owner.getAim();
+		this.owner.vel.x += Math.cos(a) * s * knockbackMod;
+		this.owner.vel.y += Math.sin(a) * s * knockbackMod;
 
-    super.use();
+		ArrowProjectile arrow = new ArrowProjectile();
 
-    float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
-    float s = 60f;
+		arrow.owner = this.owner;
 
-    float knockbackMod = owner.getStat("knockback");
+		float dx = aim.x - this.owner.x - this.owner.w / 2;
+		float dy = aim.y - this.owner.y - this.owner.h / 2;
 
-    this.owner.vel.x += Math.cos(a) * s * knockbackMod;
-    this.owner.vel.y += Math.sin(a) * s * knockbackMod;
+		arrow.type = ar.getClass();
+		arrow.sprite = ar.getSprite();
+		arrow.a = (float) Math.atan2(dy, dx);
+		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
+		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
+		arrow.damage = rollDamage() + ar.damage;
+		arrow.crit = lastCrit;
+		arrow.bad = this.owner instanceof Mob;
 
-    ArrowProjectile arrow = new ArrowProjectile();
+		Dungeon.area.add(arrow);
 
-    arrow.owner = this.owner;
+		Tween.to(new Tween.Task(1.5f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
 
-    float dx = aim.x - this.owner.x - this.owner.w / 2;
-    float dy = aim.y - this.owner.y - this.owner.h / 2;
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
 
-    arrow.type = ar.getClass();
-    arrow.sprite = ar.getSprite();
-    arrow.a = (float) Math.atan2(dy, dx);
-    arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
-    arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
-    arrow.damage = rollDamage() + ar.damage;
-    arrow.crit = lastCrit;
-    arrow.bad = this.owner instanceof Mob;
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
 
-    Dungeon.area.add(arrow);
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+				});
+			}
+		});
 
-    Tween.to(new Tween.Task(1.5f, 0.1f) {
-      @Override
-      public float getValue() {
-        return sx;
-      }
+		Tween.to(new Tween.Task(0.4f, 0.1f) {
+			@Override
+			public float getValue() {
+				return sy;
+			}
 
-      @Override
-      public void setValue(float value) {
-        sx = value;
-      }
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
 
-      @Override
-      public void onEnd() {
-        Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
-          @Override
-          public float getValue() {
-            return sx;
-          }
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
 
-          @Override
-          public void setValue(float value) {
-            sx = value;
-          }
-        });
-      }
-    });
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
+				});
+			}
+		});
+	}
 
-    Tween.to(new Tween.Task(0.4f, 0.1f) {
-      @Override
-      public float getValue() {
-        return sy;
-      }
+	private float lastAngle;
 
-      @Override
-      public void setValue(float value) {
-        sy = value;
-      }
+	@Override
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		Point aim = this.owner.getAim();
 
-      @Override
-      public void onEnd() {
-        Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
-          @Override
-          public float getValue() {
-            return sy;
-          }
+		float an = this.owner.getAngleTo(aim.x, aim.y);
+		an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+		this.lastAngle = an;
+		float a = (float) Math.toDegrees(this.lastAngle);
 
-          @Override
-          public void setValue(float value) {
-            sy = value;
-          }
-        });
-      }
-    });
-  }
+		TextureRegion s = this.getSprite();
 
-  @Override
-  public void render(float x, float y, float w, float h, boolean flipped) {
-    Point aim = this.owner.getAim();
+		float xx = x + w / 2;
+		float yy = y + h / 2;
 
-    float an = this.owner.getAngleTo(aim.x, aim.y);
-    an = Gun.angleLerp(this.lastAngle, an, 0.15f);
-    this.lastAngle = an;
-    float a = (float) Math.toDegrees(this.lastAngle);
+		this.renderAt(xx, yy, a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
 
-    TextureRegion s = this.getSprite();
+		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
+			float d = Display.GAME_WIDTH * 10;
+			closestFraction = 1f;
+			World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);
 
-    float xx = x + w / 2;
-    float yy = y + h / 2;
+			Graphics.batch.end();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(1, 0, 0, 0.7f);
 
-    this.renderAt(xx, yy, a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
+			Graphics.shape.line(xx, yy, last.x, last.y);
+			Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
 
-    if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
-      float d = Display.GAME_WIDTH * 10;
-      closestFraction = 1f;
-      World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);
+			Graphics.shape.end();
+			Graphics.batch.begin();
+		}
+	}
 
-      Graphics.batch.end();
-      Graphics.shape.setProjectionMatrix(Camera.game.combined);
-      Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-      Graphics.shape.setColor(1, 0, 0, 0.7f);
 
-      Graphics.shape.line(xx, yy, last.x, last.y);
-      Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
+	private Vector2 last;
+	private float closestFraction = 1.0f;
 
-      Graphics.shape.end();
-      Graphics.batch.begin();
-    }
-  }
+	private RayCastCallback callback = new RayCastCallback() {
+		@Override
+		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+			if (fixture.isSensor()) {
+				return 1;
+			}
+
+			Entity entity = (Entity) fixture.getBody().getUserData();
+
+			if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+				if (fraction < closestFraction) {
+					closestFraction = fraction;
+					last = point;
+				}
+
+				return fraction;
+			}
+
+			return 1;
+		}
+	};
 }

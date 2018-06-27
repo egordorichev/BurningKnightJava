@@ -1,85 +1,37 @@
-{
-  "frames": {
-    "fx_exp 0.ase": {
-      "frame": {
-        "x": 0,
-        "y": 0,
-        "w": 2,
-        "h": 2
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 1,
-        "y": 1,
-        "w": 2,
-        "h": 2
-      },
-      "sourceSize": {
-        "w": 4,
-        "h": 4
-      },
-      "duration": 100
-    },
-    "fx_exp 1.ase": {
-      "frame": {
-        "x": 2,
-        "y": 0,
-        "w": 4,
-        "h": 4
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 4,
-        "h": 4
-      },
-      "sourceSize": {
-        "w": 4,
-        "h": 4
-      },
-      "duration": 100
-    },
-    "fx_exp 2.ase": {
-      "frame": {
-        "x": 6,
-        "y": 0,
-        "w": 3,
-        "h": 3
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 3,
-        "h": 3
-      },
-      "sourceSize": {
-        "w": 4,
-        "h": 4
-      },
-      "duration": 100
-    }
-  },
-  "meta": {
-    "app": "http://www.aseprite.org/",
-    "version": "1.2-dev",
-    "format": "I8",
-    "size": {
-      "w": 9,
-      "h": 4
-    },
-    "scale": "1",
-    "frameTags": [
-      {
-        "name": "idle",
-        "from": 0,
-        "to": 2,
-        "direction": "forward"
-      }
-    ]
-  }
+{ "frames": {
+   "fx_exp 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 2, "h": 2 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 2, "h": 2 },
+    "sourceSize": { "w": 4, "h": 4 },
+    "duration": 100
+   },
+   "fx_exp 1.ase": {
+    "frame": { "x": 2, "y": 0, "w": 4, "h": 4 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 4, "h": 4 },
+    "sourceSize": { "w": 4, "h": 4 },
+    "duration": 100
+   },
+   "fx_exp 2.ase": {
+    "frame": { "x": 6, "y": 0, "w": 3, "h": 3 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 3, "h": 3 },
+    "sourceSize": { "w": 4, "h": 4 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2-dev",
+  "format": "I8",
+  "size": { "w": 9, "h": 4 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 2, "direction": "forward" }
+  ]
+ }
 }

@@ -11,92 +11,92 @@ import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class ItemPickupFx extends Entity {
-  public ItemHolder item;
-  private String text;
-  private Player player;
-  private float a;
-  private boolean go;
+	private String text;
+	public ItemHolder item;
+	private Player player;
+	private float a;
+	private boolean go;
 
-  {
-    depth = 15;
-    alwaysActive = true;
-  }
+	{
+		depth = 15;
+		alwaysActive = true;
+	}
 
-  public ItemPickupFx(ItemHolder item, Player player) {
-    this.text = item.getItem().getName();
+	public ItemPickupFx(ItemHolder item, Player player) {
+		this.text = item.getItem().getName();
 
-    if (this.text == null) {
-      this.text = "Missing item name";
-    }
+		if (this.text == null) {
+			this.text = "Missing item name";
+		}
 
-    this.item = item;
-    this.player = player;
+		this.item = item;
+		this.player = player;
 
-    Graphics.layout.setText(Graphics.medium, this.text);
-    this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
-    this.y = item.y + item.h + 4;
-    Tween.to(new Tween.Task(1, 0.1f, Tween.Type.QUAD_OUT) {
-      @Override
-      public float getValue() {
-        return a;
-      }
+		Graphics.layout.setText(Graphics.medium, this.text);
+		this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
+		this.y = item.y + item.h + 4;
+		Tween.to(new Tween.Task(1, 0.1f, Tween.Type.QUAD_OUT) {
+			@Override
+			public float getValue() {
+				return a;
+			}
 
-      @Override
-      public void setValue(float value) {
-        a = value;
-      }
-    });
-  }
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+		});
+	}
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-    if (this.go) {
-      return;
-    }
+		if (this.go) {
+			return;
+		}
 
-    if (Input.instance.wasPressed("pickup") && Dialog.active == null) {
-      if (this.player.tryToPickup(this.item)) {
-        this.remove();
-        this.area.add(new ItemPickedFx(item));
-        LevelSave.remove(item);
-      }
-    } else if (this.item.done) {
-      this.remove();
-      this.area.add(new ItemPickedFx(item));
-      LevelSave.remove(item);
-    }
-  }
+		if (Input.instance.wasPressed("pickup") && Dialog.active == null) {
+			if (this.player.tryToPickup(this.item)) {
+				this.remove();
+				this.area.add(new ItemPickedFx(item));
+				LevelSave.remove(item);
+			}
+		} else if (this.item.done) {
+			this.remove();
+			this.area.add(new ItemPickedFx(item));
+			LevelSave.remove(item);
+		}
+	}
 
-  public void remove() {
-    this.go = true;
+	public void remove() {
+		this.go = true;
 
-    Tween.to(new Tween.Task(0, 0.2f, Tween.Type.QUAD_IN) {
-      @Override
-      public float getValue() {
-        return a;
-      }
+		Tween.to(new Tween.Task(0, 0.2f, Tween.Type.QUAD_IN) {
+			@Override
+			public float getValue() {
+				return a;
+			}
 
-      @Override
-      public void setValue(float value) {
-        a = value;
-      }
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
 
-      @Override
-      public void onEnd() {
-        super.onEnd();
-        setDone(true);
-      }
-    });
-  }
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				setDone(true);
+			}
+		});
+	}
 
-  @Override
-  public void render() {
-    float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
+	@Override
+	public void render() {
+		float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
-    Graphics.medium.setColor(c, c, c, this.a);
-    Graphics.print(this.text, Graphics.medium, this.x, this.y);
-    Graphics.medium.setColor(1, 1, 1, 1);
-  }
+		Graphics.medium.setColor(c, c, c, this.a);
+		Graphics.print(this.text, Graphics.medium, this.x, this.y);
+		Graphics.medium.setColor(1, 1, 1, 1);
+	}
 }

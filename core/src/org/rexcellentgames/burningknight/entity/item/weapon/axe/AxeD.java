@@ -1,9 +1,11 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.axe;
 
-public class AxeD extends Axe {
-  {    damage = 9;
-    penetrates = true;
+import org.rexcellentgames.burningknight.assets.Locale;
 
-    speed = 1000;
-  }
+public class AxeD extends Axe {
+	{damage = 9;
+		penetrates = true;
+		
+		speed = 1000;
+	}
 }

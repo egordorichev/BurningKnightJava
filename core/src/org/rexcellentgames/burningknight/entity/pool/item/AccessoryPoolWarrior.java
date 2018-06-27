@@ -5,9 +5,9 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.StopAnd
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class AccessoryPoolWarrior extends Pool<Item> {
-  public static AccessoryPoolWarrior instance = new AccessoryPoolWarrior();
+	public static AccessoryPoolWarrior instance = new AccessoryPoolWarrior();
 
-  public AccessoryPoolWarrior() {
-    add(StopAndPlay.class, 1f);
-  }
+	public AccessoryPoolWarrior() {
+		add(StopAndPlay.class, 1f);
+	}
 }

@@ -8,64 +8,65 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Wand extends WeaponBase {
-  protected int mana = 1;
-  protected Player owner;
-  protected float lastAngle;
+	protected int mana = 1;
+	protected Player owner;
 
-  public void setOwner(Creature owner) {
-    super.setOwner(owner);
-    this.owner = (Player) owner;
-  }
+	public void setOwner(Creature owner) {
+		super.setOwner(owner);
+		this.owner = (Player) owner;
+	}
 
-  @Override
-  public void render(float x, float y, float w, float h, boolean flipped) {
-    if (this.owner != null) {
-      Point aim = this.owner.getAim();
+	protected float lastAngle;
 
-      float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI / 2);
-      an = Gun.angleLerp(this.lastAngle, an, 0.15f);
-      this.lastAngle = an;
-    }
+	@Override
+	public void render(float x, float y, float w, float h, boolean flipped) {
+		if (this.owner != null) {
+			Point aim = this.owner.getAim();
 
-    TextureRegion s = this.getSprite();
+			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI / 2);
+			an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+			this.lastAngle = an;
+		}
 
-    this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false);
-  }
+		TextureRegion s = this.getSprite();
 
-  @Override
-  public void use() {
-    if (this.owner.getMana() < this.mana) {
-      return;
-    }
+		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false);
+	}
 
-    super.use();
-    this.owner.modifyMana(-this.mana);
-    this.sendProjectiles();
-  }
+	@Override
+	public void use() {
+		if (this.owner.getMana() < this.mana) {
+			return;
+		}
 
-  protected void sendProjectiles() {
-    float a = (float) Math.toDegrees(this.lastAngle);
-    float h = this.region.getRegionHeight();
-    double an = this.lastAngle + Math.PI / 2;
+		super.use();
+		this.owner.modifyMana(-this.mana);
+		this.sendProjectiles();
+	}
 
-    this.spawnProjectile(this.owner.x + this.owner.w / 2 + h * (float) Math.cos(an),
-      this.owner.y + this.owner.h / 2 + h * (float) Math.sin(an), a + 90);
-  }
+	protected void sendProjectiles() {
+		float a = (float) Math.toDegrees(this.lastAngle);
+		float h = this.region.getRegionHeight();
+		double an = this.lastAngle + Math.PI / 2;
 
-  public void spawnProjectile(float x, float y, float a) {
+		this.spawnProjectile(this.owner.x + this.owner.w / 2 + h * (float) Math.cos(an),
+			this.owner.y + this.owner.h / 2 + h * (float) Math.sin(an), a + 90);
+	}
 
-  }
+	public void spawnProjectile(float x, float y, float a) {
 
-  @Override
-  public StringBuilder buildInfo() {
-    StringBuilder builder = super.buildInfo();
+	}
 
-    builder.append("\n[blue]Uses ");
-    builder.append((int) this.mana);
-    builder.append(" mana[gray]\n");
-    builder.append(this.damage);
-    builder.append(" damage\n");
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
 
-    return builder;
-  }
+		builder.append("\n[blue]Uses ");
+		builder.append((int) this.mana);
+		builder.append(" mana[gray]\n");
+		builder.append(this.damage);
+		builder.append(" damage\n");
+
+		return builder;
+	}
 }

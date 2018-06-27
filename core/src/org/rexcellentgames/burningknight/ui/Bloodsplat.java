@@ -11,62 +11,63 @@ import org.rexcellentgames.burningknight.util.Tween;
 import java.util.ArrayList;
 
 public class Bloodsplat extends Entity {
-  private static ArrayList<Animation.Frame> blood = Animation.make("fx-bloodsplat").getFrames("idle");
-  private float a;
-  private float c;
-  private TextureRegion texture;
-  private float al;
+	private static ArrayList<Animation.Frame> blood = Animation.make("fx-bloodsplat").getFrames("idle");
 
-  {
-    alwaysActive = true;
-    alwaysRender = true;
-  }
+	{
+		alwaysActive = true;
+		alwaysRender = true;
+	}
 
-  @Override
-  public void init() {
-    super.init();
-    this.c = Random.newFloat(0.1f, 0.5f);
-    texture = blood.get(Random.newInt(blood.size())).frame;
-    a = Random.newFloat(360);
+	private float a;
+	private float c;
+	private TextureRegion texture;
+	private float al;
 
-    Tween.to(new Tween.Task(1, 0.05f) {
-      @Override
-      public float getValue() {
-        return al;
-      }
+	@Override
+	public void init() {
+		super.init();
+		this.c = Random.newFloat(0.1f, 0.5f);
+		texture = blood.get(Random.newInt(blood.size())).frame;
+		a = Random.newFloat(360);
 
-      @Override
-      public void setValue(float value) {
-        al = value;
-      }
+		Tween.to(new Tween.Task(1, 0.05f) {
+			@Override
+			public float getValue() {
+				return al;
+			}
 
-      @Override
-      public void onEnd() {
-        Tween.to(new Tween.Task(0, 0.5f) {
-          @Override
-          public float getValue() {
-            return al;
-          }
+			@Override
+			public void setValue(float value) {
+				al = value;
+			}
 
-          @Override
-          public void setValue(float value) {
-            al = value;
-          }
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(0, 0.5f) {
+					@Override
+					public float getValue() {
+						return al;
+					}
 
-          @Override
-          public void onEnd() {
-            setDone(true);
-          }
-        }).delay(0.5f);
-      }
-    });
-  }
+					@Override
+					public void setValue(float value) {
+						al = value;
+					}
 
-  @Override
-  public void render() {
-    Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-    Graphics.batch.setColor(1, this.c, this.c, this.al);
-    Graphics.render(texture, this.x, this.y, this.a, texture.getRegionWidth() / 2, texture.getRegionHeight() / 2, false, false);
-    Graphics.batch.setColor(1, 1, 1, 1);
-  }
+					@Override
+					public void onEnd() {
+						setDone(true);
+					}
+				}).delay(0.5f);
+			}
+		});
+	}
+
+	@Override
+	public void render() {
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		Graphics.batch.setColor(1, this.c, this.c, this.al);
+		Graphics.render(texture, this.x, this.y, this.a, texture.getRegionWidth() / 2, texture.getRegionHeight() / 2, false, false);
+		Graphics.batch.setColor(1, 1, 1, 1);
+	}
 }

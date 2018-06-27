@@ -16,111 +16,113 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class AxeProjectile extends Projectile {
-  public TextureRegion region;
-  public boolean penetrates;
-  public Class<? extends Axe> type;
-  public int speed;
-  public Axe axe;
-  private float t;
-  private float a;
-  private boolean did;
+	private float t;
+	private float a;
 
-  {
-    alwaysActive = true;
-    depth = 9;
-  }
+	public TextureRegion region;
+	public boolean penetrates;
+	public Class<? extends Axe> type;
+	public int speed;
+	public Axe axe;
 
-  @Override
-  public void init() {
-    float dx = Input.instance.worldMouse.x - this.x - 8;
-    float dy = Input.instance.worldMouse.y - this.y - 8;
-    float a = (float) Math.atan2(dy, dx);
+	{
+		alwaysActive = true;
+		depth = 9;
+	}
 
-    this.vel = new Point(
-      (float) Math.cos(a) * this.speed,
-      (float) Math.sin(a) * this.speed
-    );
+	@Override
+	public void init() {
+		float dx = Input.instance.worldMouse.x - this.x - 8;
+		float dy = Input.instance.worldMouse.y - this.y - 8;
+		float a = (float) Math.atan2(dy, dx);
 
-    this.body = World.createSimpleCentredBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-    this.body.setTransform(this.x, this.y, 0);
-    this.body.setBullet(true);
+		this.vel = new Point(
+			(float) Math.cos(a) * this.speed,
+			(float) Math.sin(a) * this.speed
+		);
 
-    this.a = Random.newFloat((float) (Math.PI * 2));
-  }
+		this.body = World.createSimpleCentredBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		this.body.setTransform(this.x, this.y, 0);
+		this.body.setBullet(true);
 
-  @Override
-  protected boolean hit(Entity entity) {
-    if (!this.penetrates && this.did) {
-      return false;
-    }
+		this.a = Random.newFloat((float) (Math.PI * 2));
+	}
 
-    if (this.bad) {
-      if (entity instanceof Player) {
-        this.doHit(entity);
-        this.did = true;
-        return true;
-      }
-    } else if (entity instanceof Mob) {
-      this.doHit(entity);
-      this.did = true;
-      return true;
-    } else if (entity instanceof Player && this.t > 0.2f) {
-      this.done = true;
-    }
+	private boolean did;
 
-    return false;
-  }
+	@Override
+	protected boolean hit(Entity entity) {
+		if (!this.penetrates && this.did) {
+			return false;
+		}
 
-  @Override
-  public void logic(float dt) {
-    this.vel.mul(0.95f);
+		if (this.bad) {
+			if (entity instanceof Player) {
+				this.doHit(entity);
+				this.did = true;
+				return true;
+			}
+		} else if (entity instanceof Mob) {
+			this.doHit(entity);
+			this.did = true;
+			return true;
+		} else if (entity instanceof Player && this.t > 0.2f) {
+			this.done = true;
+		}
 
-    this.t += dt;
-    this.x += this.vel.x * dt;
-    this.y += this.vel.y * dt;
+		return false;
+	}
 
-    this.a += dt * 1000;
+	@Override
+	public void logic(float dt) {
+		this.vel.mul(0.95f);
 
-    this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+		this.t += dt;
+		this.x += this.vel.x * dt;
+		this.y += this.vel.y * dt;
 
-    float dx = this.owner.x + this.owner.w / 2 - this.x - 8;
-    float dy = this.owner.y + this.owner.h / 2 - this.y - 8;
-    float d = (float) Math.sqrt(dx * dx + dy * dy);
+		this.a += dt * 1000;
 
-    if (d > 8) {
-      float f = 10;
+		this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 
-      if (d < 64 && this.t > 1) {
-        f = MathUtils.clamp(1f, 10f, 64 - d);
-      }
+		float dx = this.owner.x + this.owner.w / 2 - this.x - 8;
+		float dy = this.owner.y + this.owner.h / 2 - this.y - 8;
+		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-      this.vel.x += dx / d * f;
-      this.vel.y += dy / d * f;
-    }
+		if (d > 8) {
+			float f = 10;
 
-    this.body.setLinearVelocity(this.vel);
-  }
+			if (d < 64 && this.t > 1) {
+				f = MathUtils.clamp(1f, 10f, 64 - d);
+			}
 
-  @Override
-  public void render() {
-    Graphics.render(this.region, this.x, this.y, this.a, 8, 8, false, false);
-  }
+			this.vel.x += dx / d * f;
+			this.vel.y += dy / d * f;
+		}
 
-  @Override
-  public void destroy() {
-    super.destroy();
+		this.body.setLinearVelocity(this.vel);
+	}
 
-    ItemHolder holder = new ItemHolder();
+	@Override
+	public void render() {
+		Graphics.render(this.region, this.x, this.y, this.a, 8, 8, false, false);
+	}
 
-    try {
-      holder.setItem(this.type.newInstance());
-      holder.x = this.x;
-      holder.y = this.y;
-      holder.auto = true;
+	@Override
+	public void destroy() {
+		super.destroy();
 
-      Dungeon.area.add(holder);
-    } catch (InstantiationException | IllegalAccessException e) {
-      e.printStackTrace();
-    }
-  }
+		ItemHolder holder = new ItemHolder();
+
+		try {
+			holder.setItem(this.type.newInstance());
+			holder.x = this.x;
+			holder.y = this.y;
+			holder.auto = true;
+
+			Dungeon.area.add(holder);
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
 }

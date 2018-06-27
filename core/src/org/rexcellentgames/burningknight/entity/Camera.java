@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import org.rexcellentgames.burningknight.Settings;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -16,154 +19,157 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class Camera extends Entity {
-  public static Camera instance;
-  public static OrthographicCamera ui;
-  public static OrthographicCamera nil;
-  public static OrthographicCamera game;
-  public static Viewport viewport;
-  public static Entity target;
-  private static float shake;
-  private static float pushA;
-  private static float pushAm;
-  private static Tween.Task last;
-  private static Vector2 camPosition;
-  private static float mx;
-  private static float my;
+	public static Camera instance;
+	public static OrthographicCamera ui;
+	public static OrthographicCamera nil;
+	public static OrthographicCamera game;
+	public static Viewport viewport;
+	public static Entity target;
+	private static float shake;
+	private static float pushA;
+	private static float pushAm;
 
-  public Camera() {
-    instance = this;
+	public static void shake(float amount) {
+		shake = amount * Settings.screenshake;
+	}
 
-    ui = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
-    ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
-    ui.update();
+	private static Tween.Task last;
 
-    nil = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
-    nil.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
-    nil.update();
+	public static void push(float a, float am) {
+		pushA = a;
+		pushAm = 0;
 
-    alwaysActive = true;
-    game = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
-    game.position.set(game.viewportWidth / 2, game.viewportHeight / 2, 0);
-    game.zoom = 0.8f;
-    game.update();
+		if (last != null) {
+			Tween.remove(last);
+		}
 
-    this.camPosition = new Vector2(game.position.x, game.position.y);
+		last = Tween.to(new Tween.Task(am * Settings.screenshake, 0.05f) {
+			@Override
+			public float getValue() {
+				return pushAm;
+			}
 
-    viewport = new ScalingViewport(Scaling.fit, Display.GAME_WIDTH, Display.GAME_HEIGHT, game);
-    viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-  }
+			@Override
+			public void setValue(float value) {
+				pushAm = value;
+			}
+		});
+	}
 
-  public static void shake(float amount) {
-    shake = amount * Settings.screenshake;
-  }
+	public Camera() {
+		instance = this;
 
-  public static void push(float a, float am) {
-    pushA = a;
-    pushAm = 0;
+		ui = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		ui.update();
 
-    if (last != null) {
-      Tween.remove(last);
-    }
+		nil = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		nil.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		nil.update();
 
-    last = Tween.to(new Tween.Task(am * Settings.screenshake, 0.05f) {
-      @Override
-      public float getValue() {
-        return pushAm;
-      }
+		alwaysActive = true;
+		game = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		game.position.set(game.viewportWidth / 2, game.viewportHeight / 2, 0);
+		game.zoom = 0.8f;
+		game.update();
 
-      @Override
-      public void setValue(float value) {
-        pushAm = value;
-      }
-    });
-  }
+		this.camPosition = new Vector2(game.position.x, game.position.y);
 
-  public static void resize(int width, int height) {
-    viewport.update(width, height);
-  }
+		viewport = new ScalingViewport(Scaling.fit, Display.GAME_WIDTH, Display.GAME_HEIGHT, game);
+		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
 
-  public static void applyShake() {
-    mx = 0;
-    my = 0;
+	public static void resize(int width, int height) {
+		viewport.update(width, height);
+	}
 
-    if (pushAm > 0) {
-      mx += (float) Math.cos(pushA) * pushAm;
-      my += (float) Math.sin(pushA) * pushAm;
-    }
+	@Override
+	public void init() {
+		super.init();
 
-    if (shake > 0) {
-      mx += Random.newFloat(-shake / 2, shake / 2);
-      my += Random.newFloat(-shake / 2, shake / 2);
-    }
+		depth = 80;
+	}
 
-    game.position.add(mx, my, 0);
+	private static Vector2 camPosition;
 
-    game.update();
-  }
+	@Override
+	public void update(float dt) {
+		if (last != null && last.done) {
+			last = null;
+		}
 
-  public static void removeShake() {
-    game.position.add(-mx, -my, 0);
-    game.update();
-  }
+		pushAm = Math.max(0, pushAm - dt * 50);
+		shake = Math.max(0, shake - dt * 10);
 
-  public static void follow(Entity entity) {
-    follow(entity, true);
-  }
+		if (target != null) {
+			int x = (int) (target.x + 8);
+			int y = (int) (target.y + 8);
+			float z = game.zoom;
 
-  public static void follow(Entity entity, boolean jump) {
-    target = entity;
+			if (target instanceof Player && !((Player) target).toDeath) {
+				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (1.5f / game.zoom);
+				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (1.5f / game.zoom);
+			} else {
+				y += target.h;
+			}
 
-    if (target == null) {
-      return;
-    }
+			camPosition.lerp(new Vector2(x + 8, y + 8), dt * 1f);
 
-    if (jump) {
-      int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + target.x + 8);
-      int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + target.y + 8);
-      game.position.set(x, y, 0);
-      game.update();
-      camPosition.set(x, y);
-    }
-  }
+			float s = 4;
 
-  @Override
-  public void init() {
-    super.init();
+			game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
+				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, (float) (Math.round(camPosition.x * s) / s));
+			game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
+				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, (float) (Math.round(camPosition.y * s) / s));
 
-    depth = 80;
-  }
+			game.update();
+		}
+	}
 
-  @Override
-  public void update(float dt) {
-    if (last != null && last.done) {
-      last = null;
-    }
+	private static float mx;
+	private static float my;
 
-    pushAm = Math.max(0, pushAm - dt * 50);
-    shake = Math.max(0, shake - dt * 10);
+	public static void applyShake() {
+		mx = 0;
+		my = 0;
 
-    if (target != null) {
-      int x = (int) (target.x + 8);
-      int y = (int) (target.y + 8);
-      float z = game.zoom;
+		if (pushAm > 0) {
+			mx += (float) Math.cos(pushA) * pushAm;
+			my += (float) Math.sin(pushA) * pushAm;
+		}
 
-      if (target instanceof Player && !((Player) target).toDeath) {
-        x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (1.5f / game.zoom);
-        y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (1.5f / game.zoom);
-      } else {
-        y += target.h;
-      }
+		if (shake > 0) {
+			mx += Random.newFloat(-shake / 2, shake / 2);
+			my += Random.newFloat(-shake / 2, shake / 2);
+		}
 
-      camPosition.lerp(new Vector2(x + 8, y + 8), dt * 1f);
+		game.position.add(mx, my, 0);
 
-      float s = 4;
+		game.update();
+	}
 
-      game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
-        Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, (float) (Math.round(camPosition.x * s) / s));
-      game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
-        Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, (float) (Math.round(camPosition.y * s) / s));
+	public static void removeShake() {
+		game.position.add(-mx, -my, 0);
+		game.update();
+	}
 
-      game.update();
-    }
-  }
+	public static void follow(Entity entity) {
+		follow(entity, true);
+	}
+
+	public static void follow(Entity entity, boolean jump) {
+		target = entity;
+
+		if (target == null) {
+			return;
+		}
+
+		if (jump) {
+			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + target.x + 8);
+			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + target.y + 8);
+			game.position.set(x, y, 0);
+			game.update();
+			camPosition.set(x, y);
+		}
+	}
 }

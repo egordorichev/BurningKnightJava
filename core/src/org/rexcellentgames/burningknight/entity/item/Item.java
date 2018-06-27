@@ -25,7 +25,7 @@ public class Item extends Entity {
   public boolean useOnPickup;
   public float a = 1;
   public boolean shop;
-  protected String sprite;
+  protected String sprite = ""; 
   protected String name = "Missing Item Name";
   protected String description = "";
   protected boolean stackable = false;
@@ -48,6 +48,12 @@ public class Item extends Entity {
     this.name = Locale.get(unlocalizedName);
     this.description = Locale.get(unlocalizedName + "_desc");
     this.sprite = "item-" + unlocalizedName;
+  }
+  
+  protected Item(String name, String description, String sprite) {
+    this.name = name;
+    this.description = description;
+    this.sprite = sprite;
   }
   
   public String getUseSpeedAsString() {

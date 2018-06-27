@@ -1,5 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
-public class Lootpick extends Equipable {
+import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.assets.Locale;
 
+public class Lootpick extends Equipable {
+	{
+	}
 }

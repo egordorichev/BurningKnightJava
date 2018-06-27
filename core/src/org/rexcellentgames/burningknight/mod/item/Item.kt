@@ -16,9 +16,9 @@ class Item(private val modId: String) {
     register(name, args, ItemType.ITEM)
   }
 
-  fun consumable(name: String, args: LuaTable) {
-    register(name, args, ItemType.CONSUMABLE)
-  }
+	fun consumable(name: String, args: LuaTable) {
+		register(name, args, ItemType.CONSUMABLE)
+	}
 
   fun equipable(name: String, args: LuaTable) {
     register(name, args, ItemType.EQUIPABLE)
@@ -27,37 +27,37 @@ class Item(private val modId: String) {
   fun weapon(name: String, args: LuaTable) {
     register(name, args, ItemType.WEAPON)
   }
-
+  
   private fun register(name: String, args: LuaTable, type: ItemType) {
     var item: org.rexcellentgames.burningknight.entity.item.Item? = null
 
-    when (type) {
-      ItemType.ITEM -> item = org.rexcellentgames.burningknight.entity.item.Item()
-      ItemType.EQUIPABLE -> item = Equipable()
-      ItemType.WEAPON -> item = Weapon()
-      ItemType.CONSUMABLE -> item = Consumable()
-    }
+	  when (type) {
+			ItemType.ITEM -> item = org.rexcellentgames.burningknight.entity.item.Item()
+			ItemType.EQUIPABLE -> item = Equipable()
+			ItemType.WEAPON -> item = Weapon()
+		  ItemType.CONSUMABLE -> item = Consumable()
+		}
 
     item.initFromMod(modId, name, args)
     ItemRegistry.modItems["$modId:$name"] = item
 
-    val pool = args.get("pool")
+	  val pool = args.get("pool")
 
-    if (pool !== LuaValue.NIL && pool.isstring()) {
-      val pool = pool.toString()
-      var chance = 1f
-      val chanceField = args.get("chance")
+	  if (pool !== LuaValue.NIL && pool.isstring()) {
+		  val pool = pool.toString()
+		  var chance = 1f
+		  val chanceField = args.get("chance")
 
-      if (chanceField !== LuaValue.NIL && chanceField.isnumber()) {
-        chance = chanceField.tofloat()
-      }
+		  if (chanceField !== LuaValue.NIL && chanceField.isnumber()) {
+			  chance = chanceField.tofloat()
+		  }
 
-      when (pool) {
-        "accessory_all" -> AccessoryPoolAll.instance.add(item.javaClass, chance)
-        "accessory_mage" -> AccessoryPoolMage.instance.add(item.javaClass, chance)
-        "accessory_warrior" -> AccessoryPoolWarrior.instance.add(item.javaClass, chance)
-        "accessory_ranged" -> AccessoryPoolRanger.instance.add(item.javaClass, chance)
-      }
-    }
+		  when (pool) {
+			  "accessory_all" -> AccessoryPoolAll.instance.add(item.javaClass, chance)
+			  "accessory_mage" -> AccessoryPoolMage.instance.add(item.javaClass, chance)
+			  "accessory_warrior" -> AccessoryPoolWarrior.instance.add(item.javaClass, chance)
+			  "accessory_ranged" -> AccessoryPoolRanger.instance.add(item.javaClass, chance)
+		  }
+	  }
   }
 }

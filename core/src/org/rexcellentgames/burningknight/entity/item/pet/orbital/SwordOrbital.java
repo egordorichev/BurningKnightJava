@@ -1,29 +1,34 @@
 package org.rexcellentgames.burningknight.entity.item.pet.orbital;
 
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 
-public class SwordOrbital extends Pet {  @Override
-  public PetEntity create() {
-    return new Impl();
-  }
+public class SwordOrbital extends Pet {
+	{
+	}
 
-  public static class Impl extends Orbital {
-    {
+	@Override
+	public PetEntity create() {
+		return new Impl();
+	}
 
-    }
+	public static class Impl extends Orbital {
+		{
+			
+		}
 
-    @Override
-    public void onCollision(Entity entity) {
-      super.onCollision(entity);
+		@Override
+		public void onCollision(Entity entity) {
+			super.onCollision(entity);
 
-      if (entity instanceof Mob) {
-        ((Mob) entity).modifyHp(-3, this.owner);
-        ((Mob) entity).knockBackFrom(this, 1000f);
-      }
-    }
-  }
+			if (entity instanceof Mob) {
+				((Mob) entity).modifyHp(-3, this.owner);
+				((Mob) entity).knockBackFrom(this, 1000f);
+			}
+		}
+	}
 }

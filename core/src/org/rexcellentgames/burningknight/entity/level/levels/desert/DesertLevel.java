@@ -8,28 +8,28 @@ import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 
 public class DesertLevel extends RegularLevel {
-  public DesertLevel() {
-    Terrain.loadTextures(1);
-    this.uid = 1;
-  }
+	public DesertLevel() {
+		Terrain.loadTextures(1);
+		this.uid = 1;
+	}
 
-  @Override
-  public String getName() {
-    return Locale.get("desert_ruins");
-  }
+	@Override
+	public String getName() {
+		return Locale.get("desert_ruins");
+	}
 
-  @Override
-  public String getMusic() {
-    return Dungeon.depth == 0 ? "Gobbeon" : "Believer";
-  }
+	@Override
+	public String getMusic() {
+		return Dungeon.depth == 0 ? "Gobbeon" : "Believer";
+	}
 
-  @Override
-  protected Painter getPainter() {
-    return new HallPainter().setGrass(0.45f).setWater(0.3f);
-  }
+	@Override
+	protected Painter getPainter() {
+		return new HallPainter().setGrass(0.45f).setWater(0.3f);
+	}
 
-  @Override
-  protected int getNumConnectionRooms() {
-    return 0;
-  }
+	@Override
+	protected int getNumConnectionRooms() {
+		return 0;
+	}
 }

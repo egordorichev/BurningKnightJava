@@ -11,161 +11,127 @@ import java.io.File;
 import java.io.IOException;
 
 public class SaveManager {
-  public static final String SAVE_DIR = ".bk/";
-  public static int slot = 0;
+	public enum Type {
+		PLAYER,
+		GAME,
+		LEVEL,
+		GLOBAL
+	}
 
-  public static String getDir() {
-    return getDir(slot);
-  }
+	public static final String SAVE_DIR = ".bk/";
+	public static int slot = 0;
 
-  public static String getDir(int slot) {
-    return SAVE_DIR + "slot-" + slot + "/";
-  }
+	public static String getDir() {
+		return getDir(slot);
+	}
 
-  public static String getSavePath(Type type) {
-    return getSavePath(type, false);
-  }
+	public static String getDir(int slot) {
+		return SAVE_DIR + "slot-" + slot + "/";
+	}
 
-  public static String getSavePath(Type type, boolean old) {
-    switch (type) {
-      case LEVEL:
-        return getDir() + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".save";
-      case PLAYER:
-        return getDir() + "player.save";
-      case GAME:
-      default:
-        return getDir() + "game.save";
-      case GLOBAL:
-        return SAVE_DIR + "progress.save";
-    }
-  }
+	public static String getSavePath(Type type) {
+		return getSavePath(type, false);
+	}
 
-  public static String getSavePath(Type type, int slot) {
-    switch (type) {
-      case LEVEL:
-        return getDir(slot) + "level" + Dungeon.depth + ".save";
-      case PLAYER:
-        return getDir(slot) + "player.save";
-      case GAME:
-      default:
-        return getDir(slot) + "game.save";
-      case GLOBAL:
-        return SAVE_DIR + "progress.save";
-    }
-  }
+	public static String getSavePath(Type type, boolean old) {
+		switch (type) {
+			case LEVEL: return getDir() + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".save";
+			case PLAYER: return getDir() + "player.save";
+			case GAME: default: return getDir() + "game.save";
+			case GLOBAL: return SAVE_DIR + "progress.save";
+		}
+	}
 
-  public static void save(Type type, boolean old) {
-    FileHandle save = Gdx.files.external(getSavePath(type, old));
-    Log.info("Saving " + type + " " + Dungeon.lastDepth);
+	public static String getSavePath(Type type, int slot) {
+		switch (type) {
+			case LEVEL: return getDir(slot) + "level" + Dungeon.depth + ".save";
+			case PLAYER: return getDir(slot) + "player.save";
+			case GAME: default: return getDir(slot) + "game.save";
+			case GLOBAL: return SAVE_DIR + "progress.save";
+		}
+	}
 
-    try {
-      FileWriter stream = new FileWriter(save.file().getAbsolutePath());
+	public static void save(Type type, boolean old) {
+		FileHandle save = Gdx.files.external(getSavePath(type, old));
+		Log.info("Saving " + type + " " + Dungeon.lastDepth);
 
-      switch (type) {
-        case LEVEL:
-          LevelSave.save(stream);
-          break;
-        case PLAYER:
-          PlayerSave.save(stream);
-          break;
-        case GAME:
-          GameSave.save(stream, old);
-          break;
-        case GLOBAL:
-          GlobalSave.save(stream);
-          break;
-      }
+		try {
+			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
 
-      stream.close();
-    } catch (Exception e) {
-      Dungeon.reportException(e);
-    }
-  }
+			switch (type) {
+				case LEVEL: LevelSave.save(stream); break;
+				case PLAYER: PlayerSave.save(stream); break;
+				case GAME: GameSave.save(stream, old); break;
+				case GLOBAL: GlobalSave.save(stream); break;
+			}
 
-  public static void load(Type type) throws IOException {
-    FileHandle save = Gdx.files.external(getSavePath(type));
+			stream.close();
+		} catch (Exception e) {
+			Dungeon.reportException(e);
+		}
+	}
 
-    if (!save.exists()) {
-      File file = save.file();
-      file.getParentFile().mkdirs();
+	public static void load(Type type) throws IOException {
+		FileHandle save = Gdx.files.external(getSavePath(type));
 
-      try {
-        file.createNewFile();
-      } catch (IOException e) {
-        Dungeon.reportException(e);
-      }
+		if (!save.exists()) {
+			File file = save.file();
+			file.getParentFile().mkdirs();
 
-      generate(type);
-      save(type, false);
-    } else {
-      Log.info("Loading " + type + " " + Dungeon.depth);
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				Dungeon.reportException(e);
+			}
 
-      FileReader stream = new FileReader(save.file().getAbsolutePath());
+			generate(type);
+			save(type, false);
+		} else {
+			Log.info("Loading " + type + " " + Dungeon.depth);
 
-      switch (type) {
-        case LEVEL:
-          LevelSave.load(stream);
-          break;
-        case PLAYER:
-          PlayerSave.load(stream);
-          break;
-        case GAME:
-          GameSave.load(stream);
-          break;
-        case GLOBAL:
-          GlobalSave.load(stream);
-          break;
-      }
+			FileReader stream = new FileReader(save.file().getAbsolutePath());
 
-      stream.close();
-    }
-  }
+			switch (type) {
+				case LEVEL: LevelSave.load(stream); break;
+				case PLAYER: PlayerSave.load(stream); break;
+				case GAME: GameSave.load(stream); break;
+				case GLOBAL: GlobalSave.load(stream); break;
+			}
 
-  public static void delete() {
-    File file = Gdx.files.external(getDir()).file();
+			stream.close();
+		}
+	}
 
-    if (file == null) {
-      return;
-    }
+	public static void delete() {
+		File file = Gdx.files.external(getDir()).file();
 
-    File[] files = file.listFiles();
+		if (file == null) {
+			return;
+		}
 
-    if (files == null) {
-      file.delete();
-      return;
-    }
+		File[] files = file.listFiles();
 
-    for (File f: files) {
-      f.delete();
-    }
+		if (files == null) {
+			file.delete();
+			return;
+		}
 
-    file.delete();
-  }
+		for (File f : files) {
+			f.delete();
+		}
 
-  public static void generate(Type type) {
-    Log.info("Generating " + type + " " + Dungeon.depth);
-    Dungeon.lastDepth = Dungeon.depth;
+		file.delete();
+	}
 
-    switch (type) {
-      case LEVEL:
-        LevelSave.generate();
-        break;
-      case PLAYER:
-        PlayerSave.generate();
-        break;
-      case GAME:
-        GameSave.generate();
-        break;
-      case GLOBAL:
-        GlobalSave.generate();
-        break;
-    }
-  }
+	public static void generate(Type type) {
+		Log.info("Generating " + type + " " + Dungeon.depth);
+		Dungeon.lastDepth = Dungeon.depth;
 
-  public enum Type {
-    PLAYER,
-    GAME,
-    LEVEL,
-    GLOBAL
-  }
+		switch (type) {
+			case LEVEL: LevelSave.generate(); break;
+			case PLAYER: PlayerSave.generate(); break;
+			case GAME: GameSave.generate(); break;
+			case GLOBAL: GlobalSave.generate(); break;
+		}
+	}
 }

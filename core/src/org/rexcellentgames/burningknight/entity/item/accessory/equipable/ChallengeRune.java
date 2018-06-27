@@ -1,23 +1,28 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 
-public class ChallengeRune extends Equipable {  @Override
-  public void onEquip() {
-    super.onEquip();
-    Mob.challenge = true;
+public class ChallengeRune extends Equipable {
+	{
+	}
 
-    for (Mob mob: Mob.all) {
-      mob.generatePrefix();
-    }
+	@Override
+	public void onEquip() {
+		super.onEquip();
+		Mob.challenge = true;
 
-    this.owner.modifyDefense(2);
-  }
+		for (Mob mob : Mob.all) {
+			mob.generatePrefix();
+		}
 
-  @Override
-  public void onUnequip() {
-    super.onUnequip();
-    Mob.challenge = false;
-    this.owner.modifyDefense(-2);
-  }
+		this.owner.modifyDefense(2);
+	}
+
+	@Override
+	public void onUnequip() {
+		super.onUnequip();
+		Mob.challenge = false;
+		this.owner.modifyDefense(-2);
+	}
 }

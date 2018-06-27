@@ -1,232 +1,93 @@
-{
-  "frames": {
-    "ui_bkbar_flame 0.ase": {
-      "frame": {
-        "x": 0,
-        "y": 0,
-        "w": 1,
-        "h": 2
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 8,
-        "y": 14,
-        "w": 1,
-        "h": 2
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 1.ase": {
-      "frame": {
-        "x": 1,
-        "y": 0,
-        "w": 2,
-        "h": 4
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 7,
-        "y": 11,
-        "w": 2,
-        "h": 4
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 2.ase": {
-      "frame": {
-        "x": 3,
-        "y": 0,
-        "w": 4,
-        "h": 7
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 6,
-        "y": 7,
-        "w": 4,
-        "h": 7
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 3.ase": {
-      "frame": {
-        "x": 7,
-        "y": 0,
-        "w": 4,
-        "h": 7
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 6,
-        "y": 5,
-        "w": 4,
-        "h": 7
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 4.ase": {
-      "frame": {
-        "x": 11,
-        "y": 0,
-        "w": 4,
-        "h": 7
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 7,
-        "y": 3,
-        "w": 4,
-        "h": 7
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 5.ase": {
-      "frame": {
-        "x": 15,
-        "y": 0,
-        "w": 3,
-        "h": 6
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 7,
-        "y": 2,
-        "w": 3,
-        "h": 6
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 6.ase": {
-      "frame": {
-        "x": 18,
-        "y": 0,
-        "w": 3,
-        "h": 4
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 7,
-        "y": 2,
-        "w": 3,
-        "h": 4
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 7.ase": {
-      "frame": {
-        "x": 21,
-        "y": 0,
-        "w": 3,
-        "h": 3
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 7,
-        "y": 1,
-        "w": 3,
-        "h": 3
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 8.ase": {
-      "frame": {
-        "x": 24,
-        "y": 0,
-        "w": 1,
-        "h": 2
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 8,
-        "y": 1,
-        "w": 1,
-        "h": 2
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    },
-    "ui_bkbar_flame 9.ase": {
-      "frame": {
-        "x": 25,
-        "y": 0,
-        "w": 1,
-        "h": 1
-      },
-      "rotated": false,
-      "trimmed": true,
-      "spriteSourceSize": {
-        "x": 8,
-        "y": 0,
-        "w": 1,
-        "h": 1
-      },
-      "sourceSize": {
-        "w": 16,
-        "h": 16
-      },
-      "duration": 100
-    }
-  },
-  "meta": {
-    "app": "http://www.aseprite.org/",
-    "version": "1.2-dev",
-    "format": "I8",
-    "size": {
-      "w": 26,
-      "h": 7
-    },
-    "scale": "1",
-    "frameTags": [
-      {
-        "name": "idle",
-        "from": 0,
-        "to": 9,
-        "direction": "forward"
-      }
-    ]
-  }
+{ "frames": {
+   "ui_bkbar_flame 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 1, "h": 2 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 14, "w": 1, "h": 2 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 1.ase": {
+    "frame": { "x": 1, "y": 0, "w": 2, "h": 4 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 11, "w": 2, "h": 4 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 2.ase": {
+    "frame": { "x": 3, "y": 0, "w": 4, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 7, "w": 4, "h": 7 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 3.ase": {
+    "frame": { "x": 7, "y": 0, "w": 4, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 5, "w": 4, "h": 7 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 4.ase": {
+    "frame": { "x": 11, "y": 0, "w": 4, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 3, "w": 4, "h": 7 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 5.ase": {
+    "frame": { "x": 15, "y": 0, "w": 3, "h": 6 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 2, "w": 3, "h": 6 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 6.ase": {
+    "frame": { "x": 18, "y": 0, "w": 3, "h": 4 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 2, "w": 3, "h": 4 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 7.ase": {
+    "frame": { "x": 21, "y": 0, "w": 3, "h": 3 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 1, "w": 3, "h": 3 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 8.ase": {
+    "frame": { "x": 24, "y": 0, "w": 1, "h": 2 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 1, "w": 1, "h": 2 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "ui_bkbar_flame 9.ase": {
+    "frame": { "x": 25, "y": 0, "w": 1, "h": 1 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 0, "w": 1, "h": 1 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2-dev",
+  "format": "I8",
+  "size": { "w": 26, "h": 7 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 9, "direction": "forward" }
+  ]
+ }
 }

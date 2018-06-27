@@ -1,28 +1,33 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class YellowBook extends Equipable {  @Override
-  public void onEquip() {
-    super.onEquip();
+public class YellowBook extends Equipable {
+	{
+	}
 
-    if (this.owner instanceof Player) {
-      Player player = (Player) this.owner;
+	@Override
+	public void onEquip() {
+		super.onEquip();
 
-      player.modifyManaMax(6);
-      player.damageModifier -= 0.5;
-    }
-  }
+		if (this.owner instanceof Player) {
+			Player player = (Player) this.owner;
 
-  @Override
-  public void onUnequip() {
-    super.onUnequip();
+			player.modifyManaMax(6);
+			player.damageModifier -= 0.5;
+		}
+	}
 
-    if (this.owner instanceof Player) {
-      Player player = (Player) this.owner;
+	@Override
+	public void onUnequip() {
+		super.onUnequip();
 
-      player.modifyManaMax(-6);
-      player.damageModifier += 0.5;
-    }
-  }
+		if (this.owner instanceof Player) {
+			Player player = (Player) this.owner;
+
+			player.modifyManaMax(-6);
+			player.damageModifier += 0.5;
+		}
+	}
 }

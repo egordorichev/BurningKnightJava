@@ -3,23 +3,23 @@ package org.rexcellentgames.burningknight.entity.level.features;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Door extends Point {
-  private Type type = Type.EMPTY;
+	public enum Type {
+		EMPTY, TUNNEL, REGULAR, MAZE, ENEMY, LOCKED, LEVEL_LOCKED, SECRET
+	}
 
-  public Door(Point p) {
-    super(p);
-  }
+	private Type type = Type.EMPTY;
 
-  public Type getType() {
-    return this.type;
-  }
+	public Door(Point p) {
+		super(p);
+	}
 
-  public void setType(Type type) {
-    if (type.compareTo(this.type) > 0) {
-      this.type = type;
-    }
-  }
+	public void setType(Type type) {
+		if (type.compareTo(this.type) > 0) {
+			this.type = type;
+		}
+	}
 
-  public enum Type {
-    EMPTY, TUNNEL, REGULAR, MAZE, ENEMY, LOCKED, LEVEL_LOCKED, SECRET
-  }
+	public Type getType() {
+		return this.type;
+	}
 }

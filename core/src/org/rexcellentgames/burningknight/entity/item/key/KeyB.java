@@ -1,5 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item.key;
 
-public class KeyB extends Key {
+import org.rexcellentgames.burningknight.assets.Locale;
 
+public class KeyB extends Key {
+	{
+	}
 }

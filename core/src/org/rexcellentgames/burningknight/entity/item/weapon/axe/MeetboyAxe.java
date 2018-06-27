@@ -1,7 +1,10 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.axe;
 
+import org.rexcellentgames.burningknight.assets.Locale;
+
 public class MeetboyAxe extends AxeA {
-  {    damage = 6;
-    speed = 800;
-  }
+	{
+		damage = 6;
+		speed = 800;
+	}
 }

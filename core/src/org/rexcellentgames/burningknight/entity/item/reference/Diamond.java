@@ -1,29 +1,31 @@
 package org.rexcellentgames.burningknight.entity.item.reference;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 
 public class Diamond extends Autouse {
-  {
+	{
+		
+		stackable = true;
+		
+		autoPickup = true;
+		useable = false;
+		
+	}
 
-    stackable = true;
+	@Override
+	public void use() {
+		super.use();
+		setCount(count - 1);
 
-    autoPickup = true;
-    useable = false;
+		ItemHolder item = new ItemHolder();
+		item.setItem(new Gold());
+		item.getItem().setCount(99);
 
-  }
-
-  @Override
-  public void use() {
-    super.use();
-    setCount(count - 1);
-
-    ItemHolder item = new ItemHolder();
-    item.setItem(new Gold());
-    item.getItem().setCount(99);
-
-    Player.instance.tryToPickup(item);
-  }
+		Player.instance.tryToPickup(item);
+	}
 }

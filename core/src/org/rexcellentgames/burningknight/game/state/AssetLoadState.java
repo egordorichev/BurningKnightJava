@@ -11,158 +11,159 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
-  public static final boolean START_TO_MENU = false;
-  public static boolean done = false;
-  private static Texture region;
-  private float a;
-  private boolean tweened;
+	public static final boolean START_TO_MENU = false;
+	public static boolean done = false;
+	private static Texture region;
+	private float a;
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-    if (!tweened) {
-      this.a = Math.min(1, a + dt);
-    }
+		if (!tweened) {
+			this.a = Math.min(1, a + dt);
+		}
 
-    if (!tweened && Assets.updateLoading()) {
-      finish();
-      tweened = true;
-    }
-  }
+		if (!tweened && Assets.updateLoading()) {
+			finish();
+			tweened = true;
+		}
+	}
 
-  @Override
-  public void init() {
-    super.init();
+	@Override
+	public void init() {
+		super.init();
 
-    if (!START_TO_MENU) {
-      Assets.finishLoading();
-      finish();
-      tweened = true;
-    } else {
-      region = new Texture(Gdx.files.internal("sprites_split/rexcellent_games.png"));
-    }
-  }
+		if (!START_TO_MENU) {
+			Assets.finishLoading();
+			finish();
+			tweened = true;
+		} else {
+			region = new Texture(Gdx.files.internal("sprites_split/rexcellent_games.png"));
+		}
+	}
 
-  private void finish() {
-    done = true;
+	private boolean tweened;
 
-    if (!START_TO_MENU) {
-      Gdx.graphics.setTitle(Dungeon.title);
-      GameSave.Info info = GameSave.peek(0);
-      Dungeon.goToLevel(info.depth);
-    }
+	private void finish() {
+		done = true;
 
-    Tween.to(new Tween.Task(0, 0.1f) {
-      @Override
-      public float getValue() {
-        return a;
-      }
+		if (!START_TO_MENU) {
+			Gdx.graphics.setTitle(Dungeon.title);
+			GameSave.Info info = GameSave.peek(0);
+			Dungeon.goToLevel(info.depth);
+		}
 
-      @Override
-      public void setValue(float value) {
-        a = value;
-      }
-    });
+		Tween.to(new Tween.Task(0, 0.1f) {
+			@Override
+			public float getValue() {
+				return a;
+			}
 
-    Color color = Color.WHITE;
-    float t = 0.1f;
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+		});
 
-    Tween.to(new Tween.Task(color.r, t) {
-      @Override
-      public float getValue() {
-        return 0;
-      }
+		Color color = Color.WHITE;
+		float t = 0.1f;
 
-      @Override
-      public void setValue(float value) {
-        Dungeon.background2.r = value;
-      }
+		Tween.to(new Tween.Task(color.r, t) {
+			@Override
+			public float getValue() {
+				return 0;
+			}
 
-      @Override
-      public void onEnd() {
-        Color color = Color.valueOf("#323c39");
-        float t = 0.5f;
+			@Override
+			public void setValue(float value) {
+				Dungeon.background2.r = value;
+			}
 
-        Tween.to(new Tween.Task(color.r, t) {
-          @Override
-          public float getValue() {
-            return Dungeon.background2.r;
-          }
+			@Override
+			public void onEnd() {
+				Color color = Color.valueOf("#323c39");
+				float t = 0.5f;
 
-          @Override
-          public void setValue(float value) {
-            Dungeon.background2.r = value;
-          }
+				Tween.to(new Tween.Task(color.r, t) {
+					@Override
+					public float getValue() {
+						return Dungeon.background2.r;
+					}
 
-          @Override
-          public void onEnd() {
-            Gdx.graphics.setTitle(Dungeon.title);
+					@Override
+					public void setValue(float value) {
+						Dungeon.background2.r = value;
+					}
 
-            if (START_TO_MENU) {
-              Dungeon.game.setState(new MainMenuState());
-            }
-          }
-        });
+					@Override
+					public void onEnd() {
+						Gdx.graphics.setTitle(Dungeon.title);
 
-        Tween.to(new Tween.Task(color.g, t) {
-          @Override
-          public float getValue() {
-            return Dungeon.background2.g;
-          }
+						if (START_TO_MENU) {
+							Dungeon.game.setState(new MainMenuState());
+						}
+					}
+				});
 
-          @Override
-          public void setValue(float value) {
-            Dungeon.background2.g = value;
-          }
-        });
+				Tween.to(new Tween.Task(color.g, t) {
+					@Override
+					public float getValue() {
+						return Dungeon.background2.g;
+					}
 
-        Tween.to(new Tween.Task(color.b, t) {
-          @Override
-          public float getValue() {
-            return Dungeon.background2.b;
-          }
+					@Override
+					public void setValue(float value) {
+						Dungeon.background2.g = value;
+					}
+				});
 
-          @Override
-          public void setValue(float value) {
-            Dungeon.background2.b = value;
-          }
-        });
-      }
-    });
+				Tween.to(new Tween.Task(color.b, t) {
+					@Override
+					public float getValue() {
+						return Dungeon.background2.b;
+					}
 
-    Tween.to(new Tween.Task(color.g, t) {
-      @Override
-      public float getValue() {
-        return 0;
-      }
+					@Override
+					public void setValue(float value) {
+						Dungeon.background2.b = value;
+					}
+				});
+			}
+		});
 
-      @Override
-      public void setValue(float value) {
-        Dungeon.background2.g = value;
-      }
-    });
+		Tween.to(new Tween.Task(color.g, t) {
+			@Override
+			public float getValue() {
+				return 0;
+			}
 
-    Tween.to(new Tween.Task(color.b, t) {
-      @Override
-      public float getValue() {
-        return 0;
-      }
+			@Override
+			public void setValue(float value) {
+				Dungeon.background2.g = value;
+			}
+		});
 
-      @Override
-      public void setValue(float value) {
-        Dungeon.background2.b = value;
-      }
-    });
-  }
+		Tween.to(new Tween.Task(color.b, t) {
+			@Override
+			public float getValue() {
+				return 0;
+			}
 
-  @Override
-  public void render() {
-    super.render();
+			@Override
+			public void setValue(float value) {
+				Dungeon.background2.b = value;
+			}
+		});
+	}
 
-    Graphics.batch.setColor(1, 1, 1, this.a);
-    Graphics.batch.draw(region, (Display.GAME_WIDTH - region.getWidth()) / 2, (Display.GAME_HEIGHT - region.getHeight()) / 2);
+	@Override
+	public void render() {
+		super.render();
 
-    Gdx.graphics.setTitle(Dungeon.title + " " + Math.floor(Assets.manager.getProgress() * 100) + "%");
-  }
+		Graphics.batch.setColor(1, 1, 1, this.a);
+		Graphics.batch.draw(region, (Display.GAME_WIDTH - region.getWidth()) / 2, (Display.GAME_HEIGHT - region.getHeight()) / 2);
+
+		Gdx.graphics.setTitle(Dungeon.title + " " + Math.floor(Assets.manager.getProgress() * 100) + "%");
+	}
 }

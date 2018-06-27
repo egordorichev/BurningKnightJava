@@ -25,286 +25,292 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class Door extends SaveableEntity {
-  private static Animation vertAnimation = Animation.make("actor-door-vertical", "-wooden");
-  private static Animation horizAnimation = Animation.make("actor-door-horizontal", "-wooden");
-  private static Animation lockAnimation = Animation.make("door-lock", "-iron");
-  public boolean autoLock;
-  public boolean lockable;
-  public boolean lock;
-  public Room[] rooms = new Room[2];
-  public Class<? extends Key> key;
-  private boolean vertical;
-  private Body body;
-  private int numCollisions;
-  private AnimationData animation;
-  private AnimationData locked = lockAnimation.get("idle");
-  private AnimationData unlock = lockAnimation.get("open");
-  private AnimationData lk = lockAnimation.get("close");
-  private AnimationData lockAnim;
-  private int sx;
-  private int sy;
-  private boolean did;
-  private float clearT;
+	private boolean vertical;
+	private Body body;
+	private int numCollisions;
+	private static Animation vertAnimation = Animation.make("actor-door-vertical", "-wooden");
+	private static Animation horizAnimation = Animation.make("actor-door-horizontal", "-wooden");
+	private static Animation lockAnimation = Animation.make("door-lock", "-iron");
+	private AnimationData animation;
+	private AnimationData locked = lockAnimation.get("idle");
+	private AnimationData unlock = lockAnimation.get("open");
+	private AnimationData lk = lockAnimation.get("close");
+	private AnimationData lockAnim;
 
-  {
-    depth = -1;
-    alwaysActive = true;
-  }
+	public boolean autoLock;
+	public boolean lockable;
+	public boolean lock;
+	public Room[] rooms = new Room[2];
+	public Class<? extends Key> key;
+	private int sx;
+	private int sy;
 
-  public Door() {
+	{
+		depth = -1;
+		alwaysActive = true;
+	}
 
-  }
+	public Door() {
 
-  public Door(int x, int y, boolean vertical) {
-    this.x = x * 16;
-    this.y = y * 16;
-    this.sx = x;
-    this.sy = y;
-    this.vertical = vertical;
+	}
 
-    if (!this.vertical) {
-      this.animation = vertAnimation.get("idle");
-      this.y -= 8;
-    } else {
-      this.animation = horizAnimation.get("idle");
-      this.x += 4;
-    }
+	public Door(int x, int y, boolean vertical) {
+		this.x = x * 16;
+		this.y = y * 16;
+		this.sx = x;
+		this.sy = y;
+		this.vertical = vertical;
 
-    this.animation.setAutoPause(true);
-    this.animation.setPaused(true);
-  }
+		if (!this.vertical) {
+			this.animation = vertAnimation.get("idle");
+			this.y -= 8;
+		} else {
+			this.animation = horizAnimation.get("idle");
+			this.x += 4;
+		}
 
-  private void setPas() {
-    Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), false);
-  }
+		this.animation.setAutoPause(true);
+		this.animation.setPaused(true);
+	}
 
-  @Override
-  public void update(float dt) {
-    if (!did) {
-      did = true;
-      this.setPas();
-    }
+	private boolean did;
 
-    if (this.numCollisions == 0 && this.animation.isPaused() && this.animation.getFrame() == 3) {
-      this.clearT += dt;
+	private void setPas() {
+		Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), false);
+	}
 
-      if (this.clearT > 0.5f) {
-        this.animation.setBack(true);
-        this.animation.setPaused(false);
-      }
-    }
+	@Override
+	public void update(float dt) {
+		if (!did) {
+			did = true;
+			this.setPas();
+		}
 
-    if (this.body == null) {
-      this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
-        this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));
+		if (this.numCollisions == 0 && this.animation.isPaused() && this.animation.getFrame() == 3) {
+			this.clearT += dt;
 
-      if (this.body != null) {
-        this.body.setTransform(this.x, this.y, 0);
-      }
+			if (this.clearT > 0.5f) {
+				this.animation.setBack(true);
+				this.animation.setPaused(false);
+			}
+		}
 
-      MassData data = new MassData();
-      data.mass = 1000000000000000f;
+		if (this.body == null) {
+			this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
+				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));
+			
+			if (this.body != null) {
+				this.body.setTransform(this.x, this.y, 0);
+			}
 
-      if (this.body != null) {
-        this.body.setMassData(data);
-      }
-    }
+			MassData data = new MassData();
+			data.mass = 1000000000000000f;
+			
+			if (this.body != null) {
+				this.body.setMassData(data);
+			}
+		}
 
-    super.update(dt);
+		super.update(dt);
 
-    if (Player.instance.room == this.rooms[0] || Player.instance.room == this.rooms[1]) {
-      Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 2f, false);
-    }
+		if (Player.instance.room == this.rooms[0] || Player.instance.room == this.rooms[1]) {
+			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 2f, false);
+		}
 
-    if (this.animation.update(dt)) {
-      if (this.animation.getFrame() == 3) {
-        this.animation.setPaused(true);
-      }
-    }
+		if (this.animation.update(dt)) {
+			if (this.animation.getFrame() == 3) {
+				this.animation.setPaused(true);
+			}
+		}
 
-    if (this.lockAnim != null) {
-      if (this.lockAnim.update(dt)) {
-        if (this.lockAnim == this.unlock) {
-          this.lock = false;
-          this.lockAnim = null;
-        } else if (this.lockAnim == this.lk) {
-          this.lockAnim = this.locked;
-        }
-      }
-    }
-  }
+		if (this.lockAnim != null) {
+			if (this.lockAnim.update(dt)) {
+				if (this.lockAnim == this.unlock) {
+					this.lock = false;
+					this.lockAnim = null;
+				} else if (this.lockAnim == this.lk) {
+					this.lockAnim = this.locked;
+				}
+			}
+		}
+	}
 
-  public boolean isOpen() {
-    return this.animation.getFrame() != 0;
-  }
+	public boolean isOpen() {
+		return this.animation.getFrame() != 0;
+	}
 
-  @Override
-  public void destroy() {
-    super.destroy();
-    this.body = World.removeBody(this.body);
-  }
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
+	}
 
-  @Override
-  public void onCollision(Entity entity) {
-    if (entity instanceof Creature) {
-      if (this.lock && this.lockable && entity instanceof Player) {
-        Player player = (Player) entity;
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Creature) {
+			if (this.lock && this.lockable && entity instanceof Player) {
+				Player player = (Player) entity;
 
-        if (player.ui.hasEquiped(Lootpick.class)) {
-          this.lock = false;
-          this.animation.setBack(false);
-          this.animation.setPaused(false);
-          this.lockAnim = this.unlock;
-        } else if (player.getInventory().find(this.key)) {
-          Item key = player.getInventory().findItem(this.key);
-          key.setCount(key.getCount() - 1);
+				if (player.ui.hasEquiped(Lootpick.class)) {
+					this.lock = false;
+					this.animation.setBack(false);
+					this.animation.setPaused(false);
+					this.lockAnim = this.unlock;
+				} else if (player.getInventory().find(this.key)) {
+					Item key = player.getInventory().findItem(this.key);
+					key.setCount(key.getCount() - 1);
 
-          this.lock = false;
-          this.animation.setBack(false);
-          this.animation.setPaused(false);
-          this.lockAnim = this.unlock;
-        }
-      }
+					this.lock = false;
+					this.animation.setBack(false);
+					this.animation.setPaused(false);
+					this.lockAnim = this.unlock;
+				}
+			}
 
-      if (this.lock) {
-        return;
-      }
+			if (this.lock) {
+				return;
+			}
 
-      this.numCollisions += 1;
+			this.numCollisions += 1;
 
-      this.animation.setBack(false);
-      this.animation.setPaused(false);
-    }
-  }
+			this.animation.setBack(false);
+			this.animation.setPaused(false);
+		}
+	}
 
-  @Override
-  public void onCollisionEnd(Entity entity) {
-    if (entity instanceof Creature) {
-      if (this.lock) {
-        return;
-      }
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (entity instanceof Creature) {
+			if (this.lock) {
+				return;
+			}
 
-      this.numCollisions -= 1;
+			this.numCollisions -= 1;
 
-      if (this.numCollisions <= 0) {
-        this.numCollisions = 0; // to make sure
-        this.clearT = 0;
-      }
-    }
-  }
+			if (this.numCollisions <= 0) {
+				this.numCollisions = 0; // to make sure
+				this.clearT = 0;
+			}
+		}
+	}
 
-  @Override
-  public void render() {
-    if (this.lock && this.lockAnim == null) {
-      this.lockAnim = this.lk;
-    }
+	private float clearT;
 
-    boolean last = this.lock;
+	@Override
+	public void render() {
+		if (this.lock && this.lockAnim == null) {
+			this.lockAnim = this.lk;
+		}
 
-    if (this.autoLock) {
-      this.lock = false;
+		boolean last = this.lock;
 
-      for (int i = 0; i < 2; i++) {
+		if (this.autoLock) {
+			this.lock = false;
+
+			for (int i = 0; i < 2; i++) {
 				/*if (this.rooms[i] instanceof ExitRoom && Mob.all.size() > 0) {
 					this.lock = true;
 					break;
 				} else */
 
-        if (Player.instance != null && this.rooms[i] == Player.instance.room) {
-          if (Player.instance.room instanceof LampRoom
-            && !Player.instance.getInventory().find(Lamp.class)) {
+				if (Player.instance != null && this.rooms[i] == Player.instance.room) {
+					if (Player.instance.room instanceof LampRoom
+						&& !Player.instance.getInventory().find(Lamp.class)) {
 
-            this.lock = true;
-            break;
-          } else if (Player.instance.room.numEnemies > 0) {
-            this.lock = true;
-            break;
-          }
-        }
-      }
-    }    if (this.lock && !last) {
-      this.lockAnim = this.lk;
-      this.animation.setBack(true);
-      this.animation.setPaused(false);
-    } else if (!this.lock && last) {
-      //this.animation.setBack(false);
-      //this.animation.setPaused(false);
-      this.lockAnim = this.unlock;
-    }
+						this.lock = true;
+						break;
+					} else if (Player.instance.room.numEnemies > 0) {
+						this.lock = true;
+						break;
+					}
+				}
+			}
+		}
 
-    this.animation.render(this.x, this.y, false, false);
 
-    if (this.lockAnim != null) {
-      this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false, false);
-    }
-  }
+		if (this.lock && !last) {
+			this.lockAnim = this.lk;
+			this.animation.setBack(true);
+			this.animation.setPaused(false);
+		} else if (!this.lock && last) {
+			//this.animation.setBack(false);
+			//this.animation.setPaused(false);
+			this.lockAnim = this.unlock;
+		}
 
-  @Override
-  public void renderShadow() {
-    Graphics.shape.end();
-    Graphics.batch.begin();
-    this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
-    Graphics.batch.end();
-    Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-  }
+		this.animation.render(this.x, this.y, false, false);
 
-  @Override
-  public void load(FileReader reader) throws IOException {
-    super.load(reader);
+		if (this.lockAnim != null) {
+			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false, false);
+		}
+	}
 
-    this.vertical = reader.readBoolean();
+	@Override
+	public void renderShadow() {
+		Graphics.shape.end();
+		Graphics.batch.begin();
+		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
+		Graphics.batch.end();
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+	}
 
-    if (!this.vertical) {
-      this.animation = vertAnimation.get("idle");
-    } else {
-      this.animation = horizAnimation.get("idle");
-    }
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
 
-    this.animation.setPaused(true);
-    this.animation.setAutoPause(true);
+		this.vertical = reader.readBoolean();
 
-    this.autoLock = reader.readBoolean();
-    this.lock = reader.readBoolean();
-    this.lockable = reader.readBoolean();
+		if (!this.vertical) {
+			this.animation = vertAnimation.get("idle");
+		} else {
+			this.animation = horizAnimation.get("idle");
+		}
 
-    if (this.autoLock) {
-      this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
-      this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
-    }
+		this.animation.setPaused(true);
+		this.animation.setAutoPause(true);
 
-    if (reader.readBoolean()) {
-      try {
-        this.key = (Class<? extends Key>) Class.forName(reader.readString());
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      }
-    }
+		this.autoLock = reader.readBoolean();
+		this.lock = reader.readBoolean();
+		this.lockable = reader.readBoolean();
 
-    this.sx = reader.readInt16();
-    this.sy = reader.readInt16();
-  }
+		if (this.autoLock) {
+			this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
+			this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
+		}
 
-  @Override
-  public void save(FileWriter writer) throws IOException {
-    super.save(writer);
+		if (reader.readBoolean()) {
+			try {
+				this.key = (Class<? extends Key>) Class.forName(reader.readString());
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 
-    writer.writeBoolean(this.vertical);
-    writer.writeBoolean(this.autoLock);
-    writer.writeBoolean(this.lock);
-    writer.writeBoolean(this.lockable);
+		this.sx = reader.readInt16();
+		this.sy = reader.readInt16();
+	}
 
-    if (this.autoLock) {
-      writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));
-      writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
-    }
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
 
-    writer.writeBoolean(this.lock && this.key != null);
+		writer.writeBoolean(this.vertical);
+		writer.writeBoolean(this.autoLock);
+		writer.writeBoolean(this.lock);
+		writer.writeBoolean(this.lockable);
 
-    if (this.lock && this.key != null) {
-      writer.writeString(this.key.getName());
-    }
+		if (this.autoLock) {
+			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));
+			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
+		}
 
-    writer.writeInt16((short) this.sx);
-    writer.writeInt16((short) this.sy);
-  }
+		writer.writeBoolean(this.lock && this.key != null);
+		
+		if (this.lock && this.key != null) {
+			writer.writeString(this.key.getName());
+		}
+
+		writer.writeInt16((short) this.sx);
+		writer.writeInt16((short) this.sy);
+	}
 }

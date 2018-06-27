@@ -7,88 +7,90 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiAchievement extends Entity {
-  public String text;
-  public String extra;
-  private float w1;
-  private float w2;
-  private float a = 1;
+	{
+		alwaysActive = true;
+		alwaysRender = true;
+		depth = 32;
+	}
 
-  {
-    alwaysActive = true;
-    alwaysRender = true;
-    depth = 32;
-  }
+	public String text;
+	public String extra;
 
-  @Override
-  public void init() {
-    super.init();
+	private float w1;
+	private float w2;
 
-    this.w = 0;
-    Graphics.layout.setText(Graphics.small, this.text);
-    this.w1 = Graphics.layout.width;
+	@Override
+	public void init() {
+		super.init();
 
-    if (this.extra != null) {
-      Graphics.layout.setText(Graphics.small, this.extra);
-      this.w2 = Graphics.layout.width;
-      this.h += Graphics.layout.height + 4;
-    }
+		this.w = 0;
+		Graphics.layout.setText(Graphics.small, this.text);
+		this.w1 = Graphics.layout.width;
 
-    this.w = Math.max(this.w2, this.w1) + 16;
-    this.y = -this.h;
-    this.x = Display.GAME_WIDTH - 2 - this.w;
+		if (this.extra != null) {
+			Graphics.layout.setText(Graphics.small, this.extra);
+			this.w2 = Graphics.layout.width;
+			this.h += Graphics.layout.height + 4;
+		}
 
-    Tween.to(new Tween.Task(2, 0.5f, Tween.Type.BACK_OUT) {
-      @Override
-      public float getValue() {
-        return y;
-      }
+		this.w = Math.max(this.w2, this.w1) + 16;
+		this.y = -this.h;
+		this.x = Display.GAME_WIDTH - 2 - this.w;
 
-      @Override
-      public void setValue(float value) {
-        y = value;
-      }
+		Tween.to(new Tween.Task(2, 0.5f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return y;
+			}
 
-      @Override
-      public void onEnd() {
-        Tween.to(new Tween.Task(-h, 0.5f, Tween.Type.BACK_OUT) {
-          @Override
-          public float getValue() {
-            return y;
-          }
+			@Override
+			public void setValue(float value) {
+				y = value;
+			}
 
-          @Override
-          public void setValue(float value) {
-            y = value;
-          }
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(-h, 0.5f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return y;
+					}
 
-          @Override
-          public void onEnd() {
-            setDone(true);
-          }
-        }).delay(3);
-      }
-    });
-  }
+					@Override
+					public void setValue(float value) {
+						y = value;
+					}
 
-  @Override
-  public void render() {
-    Graphics.startShape();
-    Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-    Graphics.shape.setColor(1, 1, 1, 1);
-    Graphics.shape.rect(this.x, this.y, this.w, this.h);
-    Graphics.endShape();
+					@Override
+					public void onEnd() {
+						setDone(true);
+					}
+				}).delay(3);
+			}
+		});
+	}
 
-    Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+	private float a = 1;
 
-    if (this.a > 0) {
-      Graphics.small.setColor(1, 1, 1, this.a);
-      Graphics.small.draw(Graphics.batch, this.text, this.x + (this.w - this.w1) / 2, this.y + this.h - 4);
+	@Override
+	public void render() {
+		Graphics.startShape();
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+		Graphics.shape.setColor(1, 1, 1, 1);
+		Graphics.shape.rect(this.x, this.y, this.w, this.h);
+		Graphics.endShape();
 
-      if (this.extra != null) {
-        Graphics.small.draw(Graphics.batch, this.extra, this.x + (this.w - this.w2) / 2, this.y + 12);
-      }
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-      Graphics.small.setColor(1, 1, 1, 1);
-    }
-  }
+		if (this.a > 0) {
+			Graphics.small.setColor(1, 1, 1, this.a);
+			Graphics.small.draw(Graphics.batch, this.text, this.x + (this.w - this.w1) / 2, this.y + this.h - 4);
+
+			if (this.extra != null) {
+				Graphics.small.draw(Graphics.batch, this.extra, this.x + (this.w - this.w2) / 2, this.y + 12);
+			}
+
+			Graphics.small.setColor(1, 1, 1, 1);
+		}
+	}
 }

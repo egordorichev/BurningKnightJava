@@ -8,49 +8,51 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class PetEntity extends SaveableEntity {
-  public Player owner;
-  public float z;
-  protected String sprite = "";
-  public TextureRegion region = Item.missing; // todo: replace with anim
-  protected boolean noTp;
+	public Player owner;
+	public float z;
+	protected String sprite = "";
+	public TextureRegion region = Item.missing; // todo: replace with anim
 
-  {
-    alwaysActive = true;
-  }
+	{
+		alwaysActive = true;
+	}
 
-  @Override
-  public void update(float dt) {
-    super.update(dt);
+	protected boolean noTp;
 
-    if (!this.onScreen && !this.noTp) {
-      this.x = this.owner.x + this.owner.w / 2;
-      this.y = this.owner.y + this.owner.h / 2;
-      this.tp();
-    }
-  }
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-  protected void tp() {
+		if (!this.onScreen && !this.noTp) {
+			this.x = this.owner.x + this.owner.w / 2;
+			this.y = this.owner.y + this.owner.h / 2;
+			this.tp();
+		}
+	}
 
-  }  
-  
-  @Override
-  public void init() {
-    super.init();
+	protected void tp() {
 
-    if (!this.sprite.isEmpty()) {
-      this.region = Graphics.getTexture(this.sprite);
-    }
+	}
 
-    this.owner = Player.instance;
-    double a = Random.newFloat() * Math.PI * 2;
-    float d = 24f;
 
-    this.x = this.owner.x + this.owner.w / 2 + (float) (Math.cos(a) * d);
-    this.y = this.owner.y + this.owner.h / 2 + (float) (Math.sin(a) * d);
-  }
+	@Override
+	public void init() {
+		super.init();
 
-  @Override
-  public void render() {
-    Graphics.render(region, this.x, this.y);
-  }
+		if (!this.sprite.isEmpty()) {
+			this.region = Graphics.getTexture(this.sprite);
+		}
+
+		this.owner = Player.instance;
+		double a = Random.newFloat() * Math.PI * 2;
+		float d = 24f;
+
+		this.x = this.owner.x + this.owner.w / 2 + (float) (Math.cos(a) * d);
+		this.y = this.owner.y + this.owner.h / 2 + (float) (Math.sin(a) * d);
+	}
+
+	@Override
+	public void render() {
+		Graphics.render(region, this.x, this.y);
+	}
 }

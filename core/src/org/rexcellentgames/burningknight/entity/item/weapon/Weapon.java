@@ -13,172 +13,172 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.physics.World;
 
 public class Weapon extends WeaponBase {
-  protected Body body;
-  protected boolean penetrates = false;
-  protected float added;
-  private boolean used = false;
+	protected Body body;
+	protected boolean penetrates = false;
+	private boolean used = false;
+	protected float added;
 
-  {
-    identified = true;
-  }
+	{
+		identified = true;
+	}
 
-  public boolean isBlocking() {
-    return false;
-  }
+	public boolean isBlocking() {
+		return false;
+	}
 
-  @Override
-  public void use() {
-    super.use();
+	@Override
+	public void use() {
+		super.use();
 
-    if (this.body != null) {
-      this.body = World.removeBody(this.body);
-    }
+		if (this.body != null) {
+			this.body = World.removeBody(this.body);
+		}
 
-    this.createHitbox();
-  }
+		this.createHitbox();
+	}
 
-  @Override
-  public void secondUse() {
-    super.secondUse();
-  }
+	@Override
+	public void secondUse() {
+		super.secondUse();
+	}
 
-  protected void createHitbox() {
-    BodyDef def = new BodyDef();
-    def.type = BodyDef.BodyType.DynamicBody;
+	protected void createHitbox() {
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.DynamicBody;
 
-    body = World.world.createBody(def);
-    PolygonShape poly = new PolygonShape();
+		body = World.world.createBody(def);
+		PolygonShape poly = new PolygonShape();
 
-    int w = this.region.getRegionWidth();
-    int h = this.region.getRegionHeight();
+		int w = this.region.getRegionWidth();
+		int h = this.region.getRegionHeight();
 
-    poly.set(new Vector2[]{
-      new Vector2((float) Math.floor((double) -w / 2), 0), new Vector2((float) Math.ceil((double) w / 2), 0),
-      new Vector2((float) Math.floor((double) -w / 2), h), new Vector2((float) Math.ceil((double) w / 2), h)
-    });
+		poly.set(new Vector2[]{
+			new Vector2((float) Math.floor((double) -w / 2), 0), new Vector2((float) Math.ceil((double) w / 2), 0),
+			new Vector2((float) Math.floor((double) -w / 2), h), new Vector2((float) Math.ceil((double) w / 2), h)
+		});
 
-    FixtureDef fixture = new FixtureDef();
+		FixtureDef fixture = new FixtureDef();
 
-    fixture.shape = poly;
-    fixture.friction = 0;
-    fixture.isSensor = true;
+		fixture.shape = poly;
+		fixture.friction = 0;
+		fixture.isSensor = true;
 
-    body.createFixture(fixture);
-    body.setUserData(this);
-    body.setBullet(true);
-    poly.dispose();
-  }
+		body.createFixture(fixture);
+		body.setUserData(this);
+		body.setBullet(true);
+		poly.dispose();
+	}
 
-  @Override
-  public void endUse() {
-    this.body = World.removeBody(this.body);
-    this.used = false;
-  }
+	@Override
+	public void endUse() {
+		this.body = World.removeBody(this.body);
+		this.used = false;
+	}
 
-  @Override
-  public void destroy() {
-    super.destroy();
-    this.body = World.removeBody(this.body);
-  }
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
+	}
 
-  public void setAdded(float added) {
-    this.added = added;
-  }
+	public void setAdded(float added) {
+		this.added = added;
+	}
 
-  public void onHit(Creature creature) {
+	public void onHit(Creature creature) {
 
-  }
+	}
 
-  @Override
-  public void onCollision(Entity entity) {
-    if (entity instanceof Creature && entity != this.owner) {
-      if (this.used && (!this.penetrates && !this.owner.penetrates)) {
-        return;
-      }
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Creature && entity != this.owner) {
+			if (this.used && (!this.penetrates && !this.owner.penetrates)) {
+				return;
+			}
 
-      Creature creature = (Creature) entity;
+			Creature creature = (Creature) entity;
 
-      if (creature.isDead()) {
-        return;
-      }
+			if (creature.isDead()) {
+				return;
+			}
 
-      float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
-      float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
-      double a = Math.atan2(dy, dx);
-      float knockbackMod = creature.getStat("knockback");
+			float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
+			float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
+			double a = Math.atan2(dy, dx);
+			float knockbackMod = creature.getStat("knockback");
 
-      creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
-      creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
+			creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
+			creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
 
-      if (this.isBlocking()) {
-        return;
-      }
+			if (this.isBlocking()) {
+				return;
+			}
 
-      if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
-        return;
-      }
+			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
+				return;
+			}
 
-      this.used = true;
-      this.onHit(creature);
+			this.used = true;
+			this.onHit(creature);
 
-      int damage = -Math.max(creature.getDefense() + 1, this.rollDamage());
+			int damage = -Math.max(creature.getDefense() + 1, this.rollDamage());
 
-      if (this.modifier != null) {
-        damage = this.modifier.modDamage(damage);
-      }
+			if (this.modifier != null) {
+				damage = this.modifier.modDamage(damage);
+			}
 
-      HpFx fx = creature.modifyHp(damage, this.owner);
+			HpFx fx = creature.modifyHp(damage, this.owner);
 
-      if (fx != null && lastCrit) {
-        fx.crit = true;
-      }
+			if (fx != null && lastCrit) {
+				fx.crit = true;
+			}
 
-      if (this.modifier != null) {
-        this.modifier.onHit((Player) this.owner, creature, damage);
-      }
-    } else if (entity instanceof Weapon) {
-      if (this.isBlocking()) {
-        Weapon weapon = ((Weapon) entity);
+			if (this.modifier != null) {
+				this.modifier.onHit((Player) this.owner, creature, damage);
+			}
+		} else if (entity instanceof Weapon) {
+			if (this.isBlocking()) {
+				Weapon weapon = ((Weapon) entity);
 
-        weapon.used = true;
+				weapon.used = true;
 
-        Creature creature = this.owner;
+				Creature creature = this.owner;
 
-        float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
-        float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
-        double a = Math.atan2(dy, dx);
-        float knockbackMod = creature.getStat("knockback");
+				float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
+				float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
+				double a = Math.atan2(dy, dx);
+				float knockbackMod = creature.getStat("knockback");
 
-        creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
-        creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
-      }
-    }
-  }
+				creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
+				creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
+			}
+		}
+	}
 
-  @Override
-  public StringBuilder buildInfo() {
-    StringBuilder builder = super.buildInfo();
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
 
-    builder.append("\n[orange]");
-    builder.append(this.damage);
-    builder.append(" damage[gray]");
+		builder.append("\n[orange]");
+		builder.append(this.damage);
+		builder.append(" damage[gray]");
 
-    float stat = this.owner.getStat("crit_chance") * 10;
+		float stat = this.owner.getStat("crit_chance") * 10;
 
-    if (this.critChance + stat != 4f) {
-      builder.append("\n[orange]");
-      builder.append((int) Math.floor(this.critChance + stat));
-      builder.append("% crit chance[gray]");
-    }
+		if (this.critChance + stat != 4f) {
+			builder.append("\n[orange]");
+			builder.append((int) Math.floor(this.critChance + stat));
+			builder.append("% crit chance[gray]");
+		}
 
-    if (this.modifier != null) {
-      this.modifier.apply(builder);
-    }
+		if (this.modifier != null) {
+			this.modifier.apply(builder);
+		}
 
-    if (this.penetrates || this.owner.penetrates) {
-      builder.append("\n[green]Can hit multiple targets[gray]");
-    }
+		if (this.penetrates || this.owner.penetrates) {
+			builder.append("\n[green]Can hit multiple targets[gray]");
+		}
 
-    return builder;
-  }
+		return builder;
+	}
 }

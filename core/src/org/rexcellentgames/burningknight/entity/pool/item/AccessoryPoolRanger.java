@@ -7,11 +7,11 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.LaserAi
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class AccessoryPoolRanger extends Pool<Item> {
-  public static AccessoryPoolRanger instance = new AccessoryPoolRanger();
+	public static AccessoryPoolRanger instance = new AccessoryPoolRanger();
 
-  public AccessoryPoolRanger() {
-    add(LaserAim.class, 1f);
-    add(Aim.class, 1f);
-    add(CursedAim.class, 1f);
-  }
+	public AccessoryPoolRanger() {
+		add(LaserAim.class, 1f);
+		add(Aim.class, 1f);
+		add(CursedAim.class, 1f);
+	}
 }

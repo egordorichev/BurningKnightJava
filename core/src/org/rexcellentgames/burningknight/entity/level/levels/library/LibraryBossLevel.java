@@ -9,20 +9,20 @@ import org.rexcellentgames.burningknight.entity.level.rooms.regular.boss.Library
 import java.util.ArrayList;
 
 public class LibraryBossLevel extends LibraryLevel {
-  @Override
-  protected ArrayList<Room> createRooms() {
-    ArrayList<Room> rooms = new ArrayList<>();
+	@Override
+	protected ArrayList<Room> createRooms() {
+		ArrayList<Room> rooms = new ArrayList<>();
 
-    rooms.add(this.entrance = new EntranceRoom());
-    rooms.add(new LibraryBossRoom());
-    rooms.add(this.exit = new EntranceRoom());
-    ((EntranceRoom) this.exit).exit = true;
+		rooms.add(this.entrance = new EntranceRoom());
+		rooms.add(new LibraryBossRoom());
+		rooms.add(this.exit = new EntranceRoom());
+		((EntranceRoom) this.exit).exit = true;
 
-    return rooms;
-  }
+		return rooms;
+	}
 
-  @Override
-  protected Builder getBuilder() {
-    return new LineBuilder();
-  }
+	@Override
+	protected Builder getBuilder() {
+		return new LineBuilder();
+	}
 }
