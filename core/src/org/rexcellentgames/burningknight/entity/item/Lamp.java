@@ -195,11 +195,6 @@ public class Lamp extends Item {
 	}
 
 	@Override
-	public int getValue() {
-		return Math.round(this.val);
-	}
-
-	@Override
 	public void secondUse() {
 		super.secondUse();
 

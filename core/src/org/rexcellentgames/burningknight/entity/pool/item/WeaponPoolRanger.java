@@ -4,14 +4,12 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.reference.BlueBoomerang;
 import org.rexcellentgames.burningknight.entity.item.reference.IsaacHead;
 import org.rexcellentgames.burningknight.entity.item.reference.StarCannon;
+import org.rexcellentgames.burningknight.entity.item.weapon.HeadshotGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowC;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.BackGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.MachineGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.TripleMachineGun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC;
@@ -39,5 +37,8 @@ public class WeaponPoolRanger extends Pool<Item> {
 		add(ThrowingDaggerA.class, 1f);
 		add(ThrowingDaggerB.class, 1f);
 		add(ThrowingDaggerC.class, 1f);
+		add(SnowGun.class, 1f);
+		add(KotlingGun.class, 0.1f);
+		add(HeadshotGun.class, 1f);
 	}
 }

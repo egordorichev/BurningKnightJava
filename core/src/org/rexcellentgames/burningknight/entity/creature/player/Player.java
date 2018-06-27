@@ -563,6 +563,12 @@ public class Player extends Creature {
 			return;
 		}
 
+		Item item = this.inventory.getSlot(this.inventory.active);
+
+		if (item != null) {
+			item.updateInHands(dt);
+		}
+
 		this.heat = Math.max(0, this.heat - dt / 3);
 
 		if (Dialog.active == null && !this.freezed) {

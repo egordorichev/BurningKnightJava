@@ -68,6 +68,10 @@ public class Item extends Entity {
 		  this.description = Locale.get(unlocalizedName + "_desc");
 	  }
   }
+
+  public void updateInHands(float dt) {
+
+  }
   
   public String getUseSpeedAsString() {
     String str = "super_slow";

@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -369,7 +370,7 @@ public class UiSlot {
 					this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
 			}
 
-			if (count != 1) {
+			if (count != 1 || item instanceof Gun) {
 				Graphics.small.setColor(1, 1, 1, item.a);
 				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
 				Graphics.small.setColor(1, 1, 1, 1);
