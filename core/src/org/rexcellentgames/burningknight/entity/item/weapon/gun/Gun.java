@@ -267,7 +267,7 @@ public class Gun extends WeaponBase {
 
 		try {
 			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
-			bullet.sprite = Graphics.getTexture("bullet (" + b.bulletName + ")");
+			bullet.sprite = Graphics.getTexture("bullet-" + b.bulletName);
 
 			float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
 			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;

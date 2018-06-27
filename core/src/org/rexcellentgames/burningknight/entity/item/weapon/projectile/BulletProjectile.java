@@ -51,7 +51,7 @@ public class BulletProjectile extends Projectile {
 		this.parts = this.bad;
 
 		if (this.sprite == null && this.letter != null) {
-			this.sprite = Graphics.getTexture("bullet (bullet " + this.letter + ")");
+			this.sprite = Graphics.getTexture("bullet-" + this.letter);
 		}
 
 		if (this.sprite != null) {

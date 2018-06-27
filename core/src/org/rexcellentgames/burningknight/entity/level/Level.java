@@ -1437,10 +1437,6 @@ public abstract class Level extends SaveableEntity {
 		return this.rooms;
 	}
 
-	protected ArrayList<Creature> generateCreatures() {
-		return new ArrayList<>();
-	}
-
 	public Room findRoomFor(float x, float y) {
 		y += 2;
 

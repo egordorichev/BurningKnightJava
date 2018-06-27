@@ -9,7 +9,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 public class BigBulletProjectile extends BulletProjectile {
 	@Override
 	public void init() {
-		this.sprite = Graphics.getTexture("bullet (bullet large)");
+		this.sprite = Graphics.getTexture("bullet-big");
 		super.init();
 	}
 
@@ -26,7 +26,7 @@ public class BigBulletProjectile extends BulletProjectile {
 			bullet.owner = this.owner;
 			bullet.bad = true;
 			bullet.a = a;
-			bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
+			bullet.sprite = Graphics.getTexture("bullet-bad");
 			bullet.x = this.x + (this.w - bullet.sprite.getRegionWidth()) / 2;
 			bullet.y = this.y + (this.h - bullet.sprite.getRegionHeight()) / 2;
 
