@@ -31,7 +31,7 @@ public class FourSideTurret extends Turret {
 	protected void send() {
 		for (int i = 0; i < 4; i++) {
 			BulletProjectile bullet = new BulletProjectile();
-			bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
+			bullet.sprite = Graphics.getTexture("bullet-bad");
 
 			float x = this.x + region.getRegionWidth() / 2;
 			float y = this.y + region.getRegionHeight() / 2;

@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiBanner;
@@ -814,6 +815,7 @@ public class BurningKnight extends Boss {
 
 		instance = null;
 		this.done = true;
+		GameSave.defeatedBK = true;
 
 		deathEffect(killed);
 		PlayerSave.remove(this);
@@ -894,6 +896,7 @@ public class BurningKnight extends Boss {
 				continue;
 			}
 
+			// todo
 			if (player instanceof Player && this.state.equals("wait") && ((Player) player).room != this.room) {
 				continue;
 			}

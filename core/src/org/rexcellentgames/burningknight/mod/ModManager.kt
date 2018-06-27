@@ -7,8 +7,13 @@ import java.util.*
 object ModManager {
   private const val modDirectory = "mods/"
   val mods = ArrayList<Mod>()
+  private var inited = false
 
   fun load() {
+    if (inited) {
+      return
+    }
+
     val dir = Gdx.files.internal(modDirectory)
 
     if (!dir.exists()) {
@@ -29,21 +34,35 @@ object ModManager {
         }
       }
     }
+
+    inited = true
   }
 
   fun update(dt: Float) {
+    if (!inited) {
+      return
+    }
+
     for (mod in mods) {
       mod.update(dt)
     }
   }
 
   fun draw() {
+    if (!inited) {
+      return
+    }
+
     for (mod in mods) {
       mod.draw()
     }
   }
 
   fun destroy() {
+    if (!inited) {
+      return
+    }
+
     for (mod in mods) {
       mod.destroy()
     }

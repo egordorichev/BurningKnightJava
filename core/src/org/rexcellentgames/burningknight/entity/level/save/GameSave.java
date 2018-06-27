@@ -14,6 +14,8 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class GameSave {
+	public static boolean defeatedBK;
+
 	public static void save(FileWriter writer, boolean old) {
 		try {
 			writer.writeByte(Player.instance == null ? Player.toSet.id : Player.instance.type.id);
@@ -30,6 +32,8 @@ public class GameSave {
 			for (int i = 0; i< 5; i++) {
 				writer.writeByte((byte) Level.orders[i]);
 			}
+
+			writer.writeBoolean(defeatedBK);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -87,6 +91,8 @@ public class GameSave {
 		for (int i = 0; i < 5; i++) {
 			Level.orders[i] = reader.readByte();
 		}
+
+		defeatedBK = reader.readBoolean();
 	}
 
 	public static void generate() {

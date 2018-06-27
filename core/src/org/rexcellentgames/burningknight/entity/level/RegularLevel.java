@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
@@ -65,15 +66,13 @@ public abstract class RegularLevel extends Level {
 		this.spawnLevelEntities();
 		this.spawnEntities();
 
-		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0) {
+		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0 && !GameSave.defeatedBK) {
 			Log.info("Adding BK...");
 
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
 			PlayerSave.add(knight);
-
-			knight.findStartPoint();
 		}
 
 		Log.info("Done!");

@@ -86,14 +86,17 @@ public class Gun extends WeaponBase {
 		return a0 + shortAngleDist(a0,a1) * t;
 	}
 
-	protected float getAimX() {
-		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x) + (float) Math.cos(this.lastAngle +
-			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y);
+	protected float getAimX(float ex, float ey) {
+
+		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.cos(this.lastAngle +
+			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
 	}
 
-	protected float getAimY() {
-		return (float) Math.sin(this.lastAngle) * (this.hole.x - this.origin.x) + (float) Math.sin(this.lastAngle +
-			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y);
+	protected float getAimY(float ex, float ey) {
+
+
+		return (float) Math.sin(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.sin(this.lastAngle +
+			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
 	}
 
 	@Override
@@ -119,8 +122,8 @@ public class Gun extends WeaponBase {
 		x = x + w / 2 + (flipped ? -7 : 7);
 		y = y + h / 4 + this.owner.z;
 
-		float xx = x + getAimX();
-		float yy = y + getAimY();
+		float xx = x + getAimX(0, 0);
+		float yy = y + getAimY(0, 0);
 
 		if (this.delay + 0.09f >= this.useTime) {
 			Graphics.batch.end();
@@ -264,22 +267,20 @@ public class Gun extends WeaponBase {
 
 		try {
 			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
-			bullet.sprite = Graphics.getTexture("bullet (" + b.bulletName + ")");
+			bullet.sprite = Graphics.getTexture("bullet-" + b.bulletName);
 
 			float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
 			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
-
-			bullet.x = x + this.getAimX();
-			bullet.y = y + this.getAimY();
+			bullet.x = x + this.getAimX(-bullet.sprite.getRegionWidth() / 2, 0);
+			bullet.y = y + this.getAimY(-bullet.sprite.getRegionWidth() / 2, 0);
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
 
-			// todo: make the bullet be right at the hole
-			float s = this.vel; // * 60f;
+			float s = this.vel * 60;
 
 			bullet.vel = new Point(
 				(float) Math.cos(an) * s, (float) Math.sin(an) * s

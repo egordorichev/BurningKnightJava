@@ -113,10 +113,6 @@ public class Door extends SaveableEntity {
 
 		super.update(dt);
 
-		if (Player.instance.room == this.rooms[0] || Player.instance.room == this.rooms[1]) {
-			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 2f, false);
-		}
-
 		if (this.animation.update(dt)) {
 			if (this.animation.getFrame() == 3) {
 				this.animation.setPaused(true);
