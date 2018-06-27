@@ -1442,9 +1442,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public Room findRoomFor(float x, float y) {
-		for (Room room : this.rooms) {
+		y += 2;
 
-			if (room.left * 16 + 8 <= x && room.right * 16 - 8 > x && room.top * 16 + 8 <= y && room.bottom * 16 - 8 > y) {
+		for (Room room : this.rooms) {
+			if (x > room.left * 16 && x < room.right * 16 && y > room.top * 16 && y < room.bottom * 16) {
 				return room;
 			}
 		}

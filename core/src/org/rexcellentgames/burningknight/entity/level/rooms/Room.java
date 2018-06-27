@@ -39,11 +39,11 @@ public abstract class Room extends Rect implements GraphNode {
 	}
 
 	public int getMinWidth() {
-		return 5;
+		return 8;
 	}
 
 	public int getMinHeight() {
-		return 5;
+		return 8;
 	}
 
 	public int getMaxWidth() {

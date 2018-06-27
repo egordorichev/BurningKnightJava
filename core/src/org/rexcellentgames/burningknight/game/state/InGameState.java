@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.mod.ModManager;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.Bloodsplat;
 import org.rexcellentgames.burningknight.ui.UiButton;
@@ -36,6 +37,8 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
+		ModManager.INSTANCE.load();
+
 		pauseMenuUi = new Area(true);
 
 		Collisions collisions = new Collisions();

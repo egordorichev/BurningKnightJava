@@ -11,10 +11,12 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Tween;
+import v4lk.lwbd.util.Beat;
 
 import java.util.ArrayList;
 
 public class MainMenuState extends State {
+	private Beat[] beats;
 	public static MainMenuState instance;
 	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
 	private ArrayList<UiButton> buttons = new ArrayList<>();
@@ -28,11 +30,29 @@ public class MainMenuState extends State {
 
 	@Override
 	public void init() {
+		SettingsState.added = false;
+		InputSettingsState.added = false;
+		SlotSelectState.added = false;
+		GraphicsSettingsState.added = false;
+		AudioSettingsState.added = false;
+		ClassSelectState.added = false;
+
+		Audio.play("Burning Knight");
+
 		Dungeon.buildDiscordBadge();
 
 		instance = this;
 		Dungeon.area.add(Camera.instance);
 		Camera.target = null;
+
+		/*try {
+			File audioFile = Gdx.files.internal("music/Fatiga.mp3").file();
+			FileInputStream stream = new FileInputStream(audioFile);
+			Decoder decoder = new JLayerMp3Decoder(stream);
+			this.beats = BeatDetector.detectBeats(decoder);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 
 		buttons.add((UiButton) Dungeon.area.add(new UiButton("play", -128, 128 - 24) {
 			@Override

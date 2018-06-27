@@ -261,8 +261,6 @@ public class Dungeon extends ApplicationAdapter {
 		game.setState(new AssetLoadState());
 
 		area.add(camera);
-
-		ModManager.INSTANCE.load();
 	}
 
 	public static int lastDepth;
