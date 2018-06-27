@@ -284,6 +284,8 @@ public class Gun extends WeaponBase {
 			if (b.bulletName.equals("snow")) {
 				bullet.toApply = FreezeBuff.class;
 				bullet.rotates = true;
+			} else if (b.bulletName.equals("kotlin")) {
+				bullet.rotates = true;
 			}
 
 			float s = this.vel * 60;
