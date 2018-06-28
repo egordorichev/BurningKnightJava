@@ -160,7 +160,7 @@ public class Painter {
 				byte t = level.get((int) d.x, (int) d.y);
 				boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
 
-				if (t != Terrain.FLOOR_A && t != Terrain.FLOOR_B && t != Terrain.FLOOR_C && t != Terrain.CRACK && gt) {
+				if (t != Terrain.FLOOR_A && t != Terrain.FLOOR_B && t != Terrain.FLOOR_C && t != Terrain.FLOOR_D && t != Terrain.CRACK && gt) {
 					org.rexcellentgames.burningknight.entity.level.entities.Door door = new org.rexcellentgames.burningknight.entity.level.entities.Door(
 						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 

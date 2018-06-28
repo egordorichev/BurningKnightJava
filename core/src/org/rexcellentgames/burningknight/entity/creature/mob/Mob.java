@@ -449,11 +449,11 @@ public class Mob extends Creature {
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = new ArrayList<>();
 
-		Gold gold = new Gold();
-
-		gold.generate();
-
-		items.add(gold);
+		if (Random.chance(50)) {
+			Gold gold = new Gold();
+			gold.generate();
+			items.add(gold);
+		}
 
 		return items;
 	}

@@ -87,7 +87,7 @@ public class BombEntity extends Entity {
 		if (this.animation.update(dt)) {
 			this.playSfx("explosion");
 			this.done = true;
-			Dungeon.area.add(new Explosion(this.x + 8, this.y + 8));
+			Explosion.make(this.x + 8, this.y + 8);
 
 			for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 				Entity entity = Dungeon.area.getEntities().get(i);

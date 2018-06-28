@@ -79,7 +79,7 @@ public class HeartFx extends SaveableEntity {
 		this.t += dt;
 		this.last += dt;
 
-		if (this.last >= 0.2f) {
+		if (this.last >= 0.5f) {
 			this.last = 0;
 			Spark.randomOn(this);
 		}

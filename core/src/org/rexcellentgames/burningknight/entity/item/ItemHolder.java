@@ -74,7 +74,7 @@ public class ItemHolder extends SaveableEntity {
 		this.t += dt;
 		this.last += dt;
 
-		if (this.last > 0.2f) {
+		if (this.last > 0.5f) {
 			this.last = 0;
 			Spark.randomOn(this.x, this.y, this.hw, this.hh);
 		}
@@ -110,6 +110,7 @@ public class ItemHolder extends SaveableEntity {
 			// Camera.follow(this, false);
 		}
 
+		this.item.update(dt);
 		this.body.setLinearVelocity(this.vel);
 	}
 
@@ -122,6 +123,7 @@ public class ItemHolder extends SaveableEntity {
 		super.init();
 
 		this.t = Random.newFloat(32f);
+		this.last = Random.newFloat(1);
 
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
@@ -151,13 +153,19 @@ public class ItemHolder extends SaveableEntity {
 		float a = (float) Math.cos(this.t * 3f) * 8f * sz;
 		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
-		if (this.item instanceof WeaponBase) {
-			((WeaponBase) this.item).renderAt(this.x + w / 2, this.y + this.z + h / 2, a,
-				w / 2, h / 2, false, false, 1f, sy);
-		} else {
-			Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
-				w / 2, h / 2, false, false, 1f, sy);
-		}
+		Graphics.batch.end();
+		WeaponBase.shader.begin();
+		WeaponBase.shader.setUniformf("a", 1);
+		WeaponBase.shader.setUniformf("time", Dungeon.time + this.t);
+		WeaponBase.shader.end();
+		Graphics.batch.setShader(WeaponBase.shader);
+		Graphics.batch.begin();
+		Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
+			w / 2, h / 2, false, false, 1f, sy);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 	}
 
 	@Override
