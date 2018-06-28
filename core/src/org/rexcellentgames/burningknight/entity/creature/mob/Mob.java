@@ -276,11 +276,11 @@ public class Mob extends Creature {
 	public boolean canSee(Creature player) {
 		closestFraction = 1f;
 		float x = this.x + this.w / 2;
-		float y = this.y + this.h / 2;
+		float y = this.y + 4;
 
-		World.world.rayCast(callback, x, y, player.x + player.w / 2, player.y + player.h / 2);
+		World.world.rayCast(callback, x, y, player.x + player.w / 2, player.y + 4);
 
-		return true; //last == player;
+		return last == player;
 	}
 
 	protected void assignTarget() {
@@ -582,6 +582,7 @@ public class Mob extends Creature {
 				}
 
 				if (this.canSee(player)) {
+					Log.info("Notice");
 					this.target = player;
 					break;
 				}

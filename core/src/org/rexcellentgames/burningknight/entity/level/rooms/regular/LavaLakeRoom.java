@@ -4,10 +4,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.util.Random;
 
 public class LavaLakeRoom extends PatchRoom {
 	@Override
@@ -25,7 +22,7 @@ public class LavaLakeRoom extends PatchRoom {
 		setupPatch(level, fill, 20, true);
 		cleanDiagonalEdges();
 
-		byte floor = Terrain.randomFloor();
+		byte floor = Random.chance(50) ? Terrain.WATER : Terrain.DIRT;
 
 		for (int i = top + 1; i < bottom; i++) {
 			for (int j = left + 1; j < right; j++) {
@@ -40,6 +37,5 @@ public class LavaLakeRoom extends PatchRoom {
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
 		}
-
 	}
 }

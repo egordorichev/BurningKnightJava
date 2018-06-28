@@ -187,10 +187,23 @@ public class Painter {
 
 				if (d.getType() == Door.Type.SECRET) {
 					level.set((int) d.x, (int) d.y, Terrain.CRACK);
-				} else if (gt) {
-					level.set((int) d.x, (int) d.y, Terrain.FLOOR_A);
 				} else {
-					level.set((int) d.x, (int) d.y, Terrain.FLOOR_A);
+					byte f = Terrain.randomFloor();
+
+					for (int xx = -1; xx <= 1; xx++) {
+						for (int yy = -1; yy <= 1; yy++) {
+							if (Math.abs(xx) + Math.abs(yy) == 1) {
+								byte tl = level.get((int) d.x + xx, (int) d.y + yy);
+
+								if (tl != Terrain.WALL && tl != Terrain.CRACK) {
+									f = tl;
+									break;
+								}
+							}
+						}
+					}
+
+					level.set((int) d.x, (int) d.y, f);
 				}
 			}
 		}
