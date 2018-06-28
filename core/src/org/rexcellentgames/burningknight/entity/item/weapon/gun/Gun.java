@@ -110,11 +110,11 @@ public class Gun extends WeaponBase {
 		super.updateInHands(dt);
 
 		if (this.ammoLeft == 0) {
-			if (this.chargeProgress == 0) {
-				this.time = 1f / this.owner.getStat("reload_time");
+			if (this.chargeProgress == 0 || this.time == 0) {
+				this.time = this.owner.getStat("reload_time");
 			}
 
-			this.chargeProgress += dt / 3f;
+			this.chargeProgress += dt * this.time / 3f;
 
 			if (this.chargeProgress >= 1f) {
 				this.ammoLeft = this.ammoMax;
@@ -236,12 +236,11 @@ public class Gun extends WeaponBase {
 
 		if (this.chargeProgress > 0 && this.chargeProgress < 1f && this.chargeA < 1) {
 			this.chargeA += (1 - this.chargeA) * dt * 5;
+			this.back = false;
 		} else if (this.chargeA > 0) {
+			this.chargeProgress = 0;
+			this.back = true;
 			this.chargeA += -this.chargeA * dt * 5;
-
-			if (this.chargeA <= 0) {
-				this.chargeProgress = 0;
-			}
 		}
 
 		if (this.chargeA > 0) {
@@ -249,7 +248,7 @@ public class Gun extends WeaponBase {
 			Graphics.shape.setColor(1, 1, 1, this.chargeA);
 			Graphics.shape.line(x - 8, y, x + 8, y);
 
-			xx = this.chargeProgress * 16 - 8 + x;
+			xx = (back ? 16 : this.chargeProgress * 16) - 8 + x;
 
 			Graphics.shape.setColor(0, 0, 0, this.chargeA);
 			Graphics.shape.rect(xx - 2, y - 2, 4, 4);
@@ -260,6 +259,7 @@ public class Gun extends WeaponBase {
 		}
 	}
 
+	private boolean back = false;
 	private float chargeA = 0;
 
 	@Override

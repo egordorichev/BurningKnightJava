@@ -600,11 +600,7 @@ public class Creature extends SaveableEntity {
 	protected HashMap<String, Float> stats = new HashMap<>();
 
 	public void modifyStat(String name, float val) {
-		if (stats.containsKey(name)) {
-			stats.put(name, stats.get(name) + val);
-		} else {
-			stats.put(name, val);
-		}
+		this.setStat(name, this.getStat(name) + val);
 	}
 
 	public float getStat(String name) {

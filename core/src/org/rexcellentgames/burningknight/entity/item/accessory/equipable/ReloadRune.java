@@ -7,17 +7,17 @@ public class ReloadRune extends Equipable {
 		sprite = "item-scroll_a";
 	}
 
-	// broken
 	@Override
 	public void onEquip() {
 		super.onEquip();
-		Log.info(this.owner.getStat("reload_time") + "");
-		this.owner.modifyStat("reload_time", -0.5f);
+		this.owner.modifyStat("reload_speed", 1f);
+		Log.info(this.owner.getStat("reload_speed") + " on");
 	}
 
 	@Override
 	public void onUnequip() {
 		super.onUnequip();
-		this.owner.modifyStat("reload_time", 0.5f);
+		this.owner.modifyStat("reload_speed", -1f);
+		Log.info(this.owner.getStat("reload_speed") + " off");
 	}
 }
