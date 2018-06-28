@@ -145,6 +145,11 @@ public class Gun extends WeaponBase {
 		return 1;
 	};
 
+	@Override
+	public void update(float dt) {
+		this.delay = Math.max(0, this.delay - dt * this.owner.getStat("gun_use_time"));
+	}
+
 	public static float shortAngleDist(float a0, float a1) {
 		float max = (float) (Math.PI*2);
 		float da = (a1 - a0) % max;

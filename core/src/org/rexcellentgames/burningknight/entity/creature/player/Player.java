@@ -152,7 +152,7 @@ public class Player extends Creature {
 		this.modifyStat("ammo_capacity", 1f);
 		this.modifyStat("inv_time", 1f);
 		this.modifyStat("reload_time", 1f);
-		this.modifyStat("ammo_save_chance", 0f);
+		this.modifyStat("gun_use_time", 1f);
 	}
 
 	public Player() {
@@ -735,7 +735,7 @@ public class Player extends Creature {
 			v *= 2;
 		}
 
-		return ((pauseMore && this.vel.len() < 1f) ? v * 1.5f : v) * damageModifier;
+		return ((pauseMore && this.vel.len() < 1f) ? v * 1.5f : v) * damageModifier * this.getStat("damage");
 	}
 
 	@Override

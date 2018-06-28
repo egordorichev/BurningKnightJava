@@ -531,5 +531,7 @@
 	"rng_bullet" : "RNG bullet",
 	"rng_bullet_desc" : "Pure RNG",
 	"time_bullet" : "Time bullet",
-	"time_bullet_desc" : "Manages time. How? Don't ask me."
+	"time_bullet_desc" : "Manages time. How? Don't ask me.",
+	"big_bullet" : "Big bullet",
+	"big_bullet_desc" : "Big boy"
 }

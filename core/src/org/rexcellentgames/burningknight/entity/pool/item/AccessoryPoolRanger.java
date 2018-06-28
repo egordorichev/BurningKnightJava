@@ -15,5 +15,6 @@ public class AccessoryPoolRanger extends Pool<Item> {
 		add(OldManual.class, 1f);
 		add(AmmoHolder.class, 1f);
 		add(LuckyBullet.class, 1f);
+		add(BigBullet.class, 1f);
 	}
 }
