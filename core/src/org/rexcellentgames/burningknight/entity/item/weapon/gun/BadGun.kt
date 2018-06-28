@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob
 class BadGun : Gun() {
   init {
     useTime = 1.5f
-    sprite = "item-gun_a";
+    sprite = "item-gun_a"
   }
 
   override fun use() {
