@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class BulletProjectile extends Projectile {
+	private static TextureRegion burst = Graphics.getTexture("bullet-thrust");
 	public TextureRegion sprite;
 	public float a;
 	private float ra;
@@ -38,6 +39,7 @@ public class BulletProjectile extends Projectile {
 
 	{
 		alwaysActive = true;
+		depth = 1;
 	}
 
 	@Override
@@ -85,7 +87,8 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void render() {
-		Graphics.render(sprite, this.x, this.y, this.a, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
+		TextureRegion reg = this.t < 0.02f ? burst : sprite;
+		Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
 	}
 
 	@Override

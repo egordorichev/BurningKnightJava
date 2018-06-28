@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -195,7 +194,7 @@ public class Gun extends WeaponBase {
 		float xx = x + getAimX(0, 0);
 		float yy = y + getAimY(0, 0);
 
-		if (this.delay + 0.06f >= this.useTime) {
+		/*if (this.delay + 0.06f >= this.useTime) {
 			Graphics.batch.end();
 
 			Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -210,7 +209,7 @@ public class Gun extends WeaponBase {
 			Graphics.shape.end();
 			Gdx.gl.glDisable(GL20.GL_BLEND);
 			Graphics.batch.begin();
-		}
+		}*/
 
 		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
 			float d = Display.GAME_WIDTH * 10;
