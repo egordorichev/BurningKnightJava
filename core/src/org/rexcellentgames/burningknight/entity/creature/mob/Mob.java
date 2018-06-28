@@ -79,31 +79,6 @@ public class Mob extends Creature {
 		alwaysActive = true;
 	}
 
-	protected void renderSigns() {
-		Graphics.batch.setColor(1, 1, 1, this.a);
-		float dt = Gdx.graphics.getDeltaTime();
-
-		this.hideSignT = Math.max(0, this.hideSignT - dt);
-		this.noticeSignT = Math.max(0, this.noticeSignT - dt);
-
-		if (this.hideSignT > 0) {
-			Graphics.render(hideSign, this.x + this.w / 2,
-				(float) (this.y + this.h + Math.cos(this.hideSignT * 8f) * 3f),
-				(float) Math.sin(this.hideSignT * 5f) * 15f,
-				hideSign.getRegionWidth() / 2, 3,
-				false, false);
-		}
-
-		if (this.noticeSignT > 0) {
-			Graphics.render(noticeSign, this.x + this.w / 2,
-				(float) (this.y + this.h + Math.cos(this.noticeSignT * 8f) * 3f),
-				(float) Math.sin(this.noticeSignT * 5f) * 15f,
-				noticeSign.getRegionWidth() / 2, 3,
-				false, false);
-		}
-		Graphics.batch.setColor(1, 1, 1, 1);
-	}
-
 	@Override
 	public void init() {
 		super.init();
@@ -582,7 +557,6 @@ public class Mob extends Creature {
 				}
 
 				if (this.canSee(player)) {
-					Log.info("Notice");
 					this.target = player;
 					break;
 				}
@@ -738,7 +712,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (Player.instance.room == this.currentRoom && self.canSee(self.target)) {
+				if (Player.instance.room == self.room && self.canSee(self.target)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {
@@ -759,34 +733,27 @@ public class Mob extends Creature {
 			}
 		}
 
-		public Room currentRoom;
 		public Room target;
-
-		public void findCurrentRoom() {
-			this.currentRoom = Dungeon.level.findRoomFor(self.x, self.y);
-		}
-
+		
 		public void findNearbyPoint() {
 			if (this.targetPoint != null) {
 				return;
 			}
-
-			this.findCurrentRoom();
-
-			if (this.currentRoom != null) {
+			
+			if (self.room != null) {
 				if (true) {
-					this.target = this.currentRoom;
+					this.target = self.room;
 				} else {
 					for (int i = 0; i < 10; i++) {
-						this.target = this.currentRoom.neighbours.get(Random.newInt(this.currentRoom.neighbours.size()));
+						this.target = self.room.neighbours.get(Random.newInt(self.room.neighbours.size()));
 
-						if (this.target != self.lastRoom && this.target != this.currentRoom) {
-							self.lastRoom = this.currentRoom;
+						if (this.target != self.lastRoom && this.target != self.room) {
+							self.lastRoom = self.room;
 							break;
 						}
 
 						if (i == 9) {
-							self.lastRoom = this.currentRoom;
+							self.lastRoom = self.room;
 						}
 					}
 				}

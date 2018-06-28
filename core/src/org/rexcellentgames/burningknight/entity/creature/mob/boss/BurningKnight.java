@@ -535,8 +535,6 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
-			this.findCurrentRoom();
-
 			if (self.target == null) {
 				self.become("idle");
 				return;
