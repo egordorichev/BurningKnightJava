@@ -121,6 +121,15 @@ public class BulletProjectile extends Projectile {
 	}
 
 	@Override
+	protected void doHit(Entity entity) {
+		super.doHit(entity);
+
+		if (Random.chance(this.owner.getStat("slow_down_on_hit") * 100)) {
+			Dungeon.slowDown(0.5f, 0.5f);
+		}
+	}
+
+	@Override
 	protected void onHit(Entity entity) {
 		if (toApply != null) {
 			try {

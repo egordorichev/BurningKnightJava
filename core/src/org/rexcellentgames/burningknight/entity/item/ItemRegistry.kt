@@ -282,7 +282,8 @@ object ItemRegistry {
 	  "ammo_holder" to AmmoHolder::class.java,
 	  "lucky_bullet" to LuckyBullet::class.java,
 	  "smart_bullet" to SmartBullet::class.java,
-	  "rng_bullet" to RngBullet::class.java
+	  "rng_bullet" to RngBullet::class.java,
+	  "time_bullet" to TimeBullet::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()

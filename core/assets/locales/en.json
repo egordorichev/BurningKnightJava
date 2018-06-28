@@ -529,5 +529,7 @@
 	"smart_bullet" : "Smart bullet",
 	"smart_bullet_desc" : "It might return",
 	"rng_bullet" : "RNG bullet",
-	"rng_bullet_desc" : "Pure RNG"
+	"rng_bullet_desc" : "Pure RNG",
+	"time_bullet" : "Time bullet",
+	"time_bullet_desc" : "Manages time. How? Don't ask me."
 }
