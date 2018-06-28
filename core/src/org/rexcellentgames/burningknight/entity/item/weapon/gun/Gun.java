@@ -103,7 +103,6 @@ public class Gun extends WeaponBase {
 	  this.name = Locale.get(unlocalizedName);
 	  this.description = Locale.get(unlocalizedName + "_desc");
 	  this.sprite = "item-" + unlocalizedName;
-
   }
 
 	@Override
@@ -111,6 +110,10 @@ public class Gun extends WeaponBase {
 		super.updateInHands(dt);
 
 		if (this.ammoLeft == 0) {
+			if (this.chargeProgress == 0) {
+				this.time = 1f / this.owner.getStat("reload_time");
+			}
+
 			this.chargeProgress += dt / 3f;
 
 			if (this.chargeProgress >= 1f) {
@@ -121,6 +124,8 @@ public class Gun extends WeaponBase {
 			}
 		}
 	}
+
+	private float time;
 
 	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		if (fixture.isSensor()) {

@@ -148,6 +148,7 @@ public class Player extends Creature {
 		super.initStats();
 
 		this.stats.put("inv_time", 1f);
+		this.stats.put("reload_time", 1f);
 	}
 
 	public Player() {
