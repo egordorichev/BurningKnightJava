@@ -148,7 +148,7 @@ public class Sword extends Weapon {
 		float yy = y + h / 4;//(this.ox == 0 ? h / 4 : h / 2);
 
 		if (!this.animation.isPaused() && !this.owner.isDead()) {
-			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, false);
+			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, 1, this.owner.isFlipped() ? -1 : 1, false);
 		}
 
 		if (this.tail && this.frames.size() > 0) {

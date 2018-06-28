@@ -1,5 +1,5 @@
 { "frames": {
-   "fx_sword 0.ase": {
+   "sword_fx 0.ase": {
     "frame": { "x": 0, "y": 0, "w": 13, "h": 7 },
     "rotated": false,
     "trimmed": true,
@@ -7,7 +7,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 33
    },
-   "fx_sword 1.ase": {
+   "sword_fx 1.ase": {
     "frame": { "x": 13, "y": 0, "w": 15, "h": 22 },
     "rotated": false,
     "trimmed": true,
@@ -15,7 +15,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 33
    },
-   "fx_sword 2.ase": {
+   "sword_fx 2.ase": {
     "frame": { "x": 28, "y": 0, "w": 15, "h": 23 },
     "rotated": false,
     "trimmed": true,
@@ -23,7 +23,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 33
    },
-   "fx_sword 3.ase": {
+   "sword_fx 3.ase": {
     "frame": { "x": 43, "y": 0, "w": 15, "h": 22 },
     "rotated": false,
     "trimmed": true,
@@ -31,7 +31,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 33
    },
-   "fx_sword 4.ase": {
+   "sword_fx 4.ase": {
     "frame": { "x": 58, "y": 0, "w": 15, "h": 13 },
     "rotated": false,
     "trimmed": true,
@@ -39,7 +39,7 @@
     "sourceSize": { "w": 32, "h": 32 },
     "duration": 33
    },
-   "fx_sword 5.ase": {
+   "sword_fx 5.ase": {
     "frame": { "x": 73, "y": 0, "w": 15, "h": 12 },
     "rotated": false,
     "trimmed": true,

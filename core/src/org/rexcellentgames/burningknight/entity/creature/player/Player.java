@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.RunFx;
+import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -454,6 +455,15 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (Random.chance(10f)) {
+			BloodSplatFx fx = new BloodSplatFx();
+
+			fx.x = this.x;
+			fx.y = this.y;
+
+			Dungeon.area.add(fx);
+		}
 
 		if (this.toDeath) {
 			this.t += dt;
