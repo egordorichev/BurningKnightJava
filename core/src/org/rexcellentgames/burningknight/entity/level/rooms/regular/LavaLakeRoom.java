@@ -15,9 +15,10 @@ public class LavaLakeRoom extends PatchRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
+		Painter.fill(level, this, 1, Terrain.randomFloor());
 		Painter.fill(level, this, 1, Terrain.LAVA);
 
-		float fill = 0.5f + (this.getWidth() * this.getHeight()) / 512f;
+		float fill = 0.2f + (this.getWidth() * this.getHeight()) / 512f;
 
 		setupPatch(level, fill, 20, true);
 		cleanDiagonalEdges();

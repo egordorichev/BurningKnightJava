@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends SaveableEntity {
-	public static final boolean RENDER_ROOM_DEBUG = false;
+	public static final boolean RENDER_ROOM_DEBUG = true;
 	public static boolean RENDER_PASSABLE = false;
 	public static boolean SHADOWS = true;
 
@@ -700,6 +700,10 @@ public abstract class Level extends SaveableEntity {
 			Graphics.shape.end();
 			Gdx.gl.glDisable(GL20.GL_BLEND);
 			Graphics.batch.begin();
+
+			for (Room room : this.rooms) {
+				Graphics.print(room.getClass().getSimpleName(), Graphics.small, room.left * 16 + 16, room.top * 16 + 16);
+			}
 		}
 	}
 
@@ -1437,7 +1441,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public Room findRoomFor(float x, float y) {
-		y += 2;
+		y += 4;
 
 		for (Room room : this.rooms) {
 			if (x > room.left * 16 + 8 && x < room.right * 16 + 8 && y > room.top * 16 + 8 && y < room.bottom * 16 + 8) {
