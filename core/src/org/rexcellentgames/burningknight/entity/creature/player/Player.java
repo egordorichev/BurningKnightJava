@@ -34,6 +34,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlackHe
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHeart;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
@@ -42,6 +43,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -502,42 +504,7 @@ public class Player extends Creature {
 		}
 
 		if (Dungeon.level != null) {
-			//Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0, 2f, this.getLightSize(), false);
-			//Room room = Dungeon.level.findRoomFor(this.x, this.y);
-
 			if (room != null) {
-				/*if (this.room != room) {
-					if (this.seeSecrets) {
-						for (Room r : room.connected.keySet()) {
-							if (r.hidden) {
-								for (int x = r.left; x <= r.right; x++) {
-									for (int y = r.top; y <= r.bottom; y++) {
-										if (Dungeon.level.get(x, y) == Terrain.CRACK) {
-											r.hidden = false;
-											BombEntity.make(r);
-											Dungeon.level.set(x, y, Terrain.FLOOR_A);
-
-											Dungeon.level.loadPassable();
-											Dungeon.level.addPhysics();
-										}
-									}
-								}
-							}
-						}
-					}
-
-
-					if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
-						this.modifyHp(2, null);
-					}
-
-					if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
-						this.modifyMana(this.getManaMax());
-					}
-				}
-
-				this.room = room;*/
-
 				for (int x = this.room.left; x <= this.room.right; x++) {
 					for (int y = this.room.top; y <= this.room.bottom; y++) {
 						if ((x == this.room.left || x == this.room.right || y == this.room.top || y == this.room.bottom
@@ -703,6 +670,39 @@ public class Player extends Creature {
 			this.watery = 5f;
 		} else if (t == Terrain.LAVA && !this.flying && !this.lavaResist) {
 			this.modifyHp(-1, null,true);
+		}
+	}
+
+	@Override
+	protected void onRoomChange() {
+		super.onRoomChange();
+
+		if (this.seeSecrets) {
+			for (Room r : room.connected.keySet()) {
+				if (r.hidden) {
+					for (int x = r.left; x <= r.right; x++) {
+						for (int y = r.top; y <= r.bottom; y++) {
+							if (Dungeon.level.get(x, y) == Terrain.CRACK) {
+								r.hidden = false;
+								BombEntity.make(r);
+								Dungeon.level.set(x, y, Terrain.FLOOR_A);
+
+								Dungeon.level.loadPassable();
+								Dungeon.level.addPhysics();
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+		if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
+			this.modifyHp(2, null);
+		}
+
+		if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
+			this.modifyMana(this.getManaMax());
 		}
 	}
 

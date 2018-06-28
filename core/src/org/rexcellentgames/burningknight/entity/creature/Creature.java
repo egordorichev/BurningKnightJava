@@ -170,6 +170,10 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	protected void onRoomChange() {
+
+	}
+
 	@Override
 	public void renderShadow() {
 		Graphics.shadow(this.x, this.y, this.w, this.h, this.z / 5);
@@ -205,6 +209,7 @@ public class Creature extends SaveableEntity {
 
 		if (room != this.room) {
 			this.room = room;
+			this.onRoomChange();
 			this.triggerEvent("on_room_change");
 		}
 

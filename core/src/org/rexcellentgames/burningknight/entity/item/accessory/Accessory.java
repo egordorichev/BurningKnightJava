@@ -32,4 +32,6 @@ public class Accessory extends Item {
 		this.registerEvent("on_equip", args);
 		this.registerEvent("on_unequip", args);
 	}
+
+
 }
