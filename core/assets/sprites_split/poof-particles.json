@@ -47,6 +47,7 @@
   "size": { "w": 52, "h": 20 },
   "scale": "1",
   "frameTags": [
+   { "name": "idle", "from": 0, "to": 4, "direction": "forward" }
   ]
  }
 }
