@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -250,9 +249,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		Item item = this.inventory.getSlot(this.active);
-		if (!(item instanceof WeaponBase && item.getDelay() > 0)) {
-
+		if (true) {
 			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
 				this.active = (this.active + Input.instance.getAmount()) % 6;
 

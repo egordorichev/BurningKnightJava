@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
-import org.rexcellentgames.burningknight.util.Log;
-
 public class ReloadRune extends Equipable {
 	{
 		sprite = "item-scroll_a";
@@ -10,14 +8,12 @@ public class ReloadRune extends Equipable {
 	@Override
 	public void onEquip() {
 		super.onEquip();
-		this.owner.modifyStat("reload_speed", 1f);
-		Log.info(this.owner.getStat("reload_speed") + " on");
+		this.owner.modifyStat("reload_time", 1f);
 	}
 
 	@Override
 	public void onUnequip() {
 		super.onUnequip();
-		this.owner.modifyStat("reload_speed", -1f);
-		Log.info(this.owner.getStat("reload_speed") + " off");
+		this.owner.modifyStat("reload_time", -1f);
 	}
 }

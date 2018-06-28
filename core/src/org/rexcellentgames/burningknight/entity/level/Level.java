@@ -19,7 +19,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
@@ -1441,7 +1440,7 @@ public abstract class Level extends SaveableEntity {
 		y += 2;
 
 		for (Room room : this.rooms) {
-			if (x > room.left * 16 && x < room.right * 16 && y > room.top * 16 && y < room.bottom * 16) {
+			if (x > room.left * 16 + 8 && x < room.right * 16 + 8 && y > room.top * 16 + 8 && y < room.bottom * 16 + 8) {
 				return room;
 			}
 		}

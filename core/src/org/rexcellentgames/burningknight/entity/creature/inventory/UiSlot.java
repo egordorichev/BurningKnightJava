@@ -295,7 +295,7 @@ public class UiSlot {
 			float delay = item.getDelay();
 			float maxDelay = item.getUseTime();
 
-			int w = (int) ((delay / maxDelay) * 24);
+			int w = (int) (Math.min(1, (delay / maxDelay)) * 24);
 			Graphics.batch.setColor(0.1f, 0.1f, 0.1f, a);
 			TextureRegion region = new TextureRegion(slot);
 			region.setRegionWidth(w);

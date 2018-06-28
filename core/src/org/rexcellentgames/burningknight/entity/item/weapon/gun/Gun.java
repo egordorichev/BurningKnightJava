@@ -185,7 +185,7 @@ public class Gun extends WeaponBase {
 		this.lastAngle = an;
 		float a = (float) Math.toDegrees(this.lastAngle);
 
-		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x, this.origin.y,
+		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x + this.mod, this.origin.y,
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
 		float r = 4;
 
@@ -261,6 +261,8 @@ public class Gun extends WeaponBase {
 
 	private boolean back = false;
 	private float chargeA = 0;
+	private float mod;
+	protected int usedTime;
 
 	@Override
 	public void use() {
@@ -270,7 +272,41 @@ public class Gun extends WeaponBase {
 
 		this.ammoLeft -= 1;
 
+		Tween.to(new Tween.Task(6, 0.05f) {
+			@Override
+			public float getValue() {
+				return mod;
+			}
+
+			@Override
+			public void setValue(float value) {
+				mod = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return mod;
+					}
+
+					@Override
+					public void setValue(float value) {
+						mod = value;
+					}
+				});
+			}
+		});
+
+		float t = this.useTime;
+		this.useTime = this.getUseTimeGun();
+
 		super.use();
+
+		this.useTime = t;
+		this.usedTime += 1;
+
 		this.owner.playSfx("gun_machinegun");
 		Point aim = this.owner.getAim();
 
@@ -352,6 +388,10 @@ public class Gun extends WeaponBase {
 		});
 
 		this.sendBullets();
+	}
+
+	protected float getUseTimeGun() {
+		return useTime;
 	}
 
 	protected void sendBullets() {

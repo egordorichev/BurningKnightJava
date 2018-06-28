@@ -147,8 +147,8 @@ public class Player extends Creature {
 	public void initStats() {
 		super.initStats();
 
-		this.stats.put("inv_time", 1f);
-		this.stats.put("reload_time", 1f);
+		this.modifyStat("inv_time", 1f);
+		this.modifyStat("reload_time", 1f);
 	}
 
 	public Player() {
@@ -440,7 +440,7 @@ public class Player extends Creature {
 
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, inventorySize);
-		this.body = this.createSimpleBody(3, 1, 10, 10, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(3, 2, 10, 11, BodyDef.BodyType.DynamicBody, false);
 
 		Camera.follow(this, true);
 

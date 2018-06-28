@@ -201,8 +201,7 @@ public class Creature extends SaveableEntity {
 			buffs[i].update(dt);
 		}
 
-		// FIXME: patch
-		Room room = Dungeon.level.findRoomFor(this.x, this.y);
+		Room room = Dungeon.level.findRoomFor(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (room != this.room) {
 			this.room = room;
@@ -614,13 +613,13 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void initStats() {
-		stats.put("defense", 1f);
-		stats.put("damage", 1f);
-		stats.put("speed", 1f);
-		stats.put("knockback", 1f);
-		stats.put("block_chance", 0.1f);
-		stats.put("inv_max", 0.4f);
-		stats.put("crit_chance", 0.04f);
+		modifyStat("defense", 1f);
+		modifyStat("damage", 1f);
+		modifyStat("speed", 1f);
+		modifyStat("knockback", 1f);
+		modifyStat("block_chance", 0.1f);
+		modifyStat("inv_max", 0.4f);
+		modifyStat("crit_chance", 0.04f);
 	}
 
 	public void setStat(String name, float val) {

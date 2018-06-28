@@ -515,5 +515,9 @@
 	"hammer" : "Hammer",
 	"hammer_desc" : "Nailed enemy",
 	"money_printer" : "Money printer",
-	"money_printer_desc" : "Money money money"
+	"money_printer_desc" : "Money money money",
+	"izu" : "Izu",
+	"izu_desc" : "I wonder what that means",
+	"reload_rune" : "Reload rune",
+	"reload_rune_desc" : "Faster, stronger, longer!"
 }

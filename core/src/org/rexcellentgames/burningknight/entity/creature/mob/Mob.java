@@ -280,7 +280,7 @@ public class Mob extends Creature {
 
 		World.world.rayCast(callback, x, y, player.x + player.w / 2, player.y + player.h / 2);
 
-		return last == player;
+		return true; //last == player;
 	}
 
 	protected void assignTarget() {
