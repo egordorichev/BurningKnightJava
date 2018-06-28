@@ -253,18 +253,18 @@ public class UiSlot {
 
 	public void render(Item item) {
 		if (this.inventory.getActive() == this.id) {
-			this.rr = 0.6f;
-			this.rg = 0.6f;
-			this.rb = 0.6f;
+			this.rr = 0.7f;
+			this.rg = 0.7f;
+			this.rb = 0.7f;
 		} else if (this.hovered) {
 			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
 				this.rr = 0.4f;
 				this.rg = 0.4f;
 				this.rb = 0.4f;
 			} else {
-				this.rr = 0.8f;
-				this.rg = 0.8f;
-				this.rb = 0.8f;
+				this.rr = 0.9f;
+				this.rg = 0.9f;
+				this.rb = 0.9f;
 			}
 		} else {
 			this.rr = 1f;
@@ -296,7 +296,7 @@ public class UiSlot {
 			float maxDelay = item.getUseTime();
 
 			int w = (int) ((delay / maxDelay) * 24);
-			Graphics.batch.setColor(0.3f, 0.3f, 0.3f, a);
+			Graphics.batch.setColor(0.1f, 0.1f, 0.1f, a);
 			TextureRegion region = new TextureRegion(slot);
 			region.setRegionWidth(w);
 			Graphics.render(region, this.x + slot.getRegionWidth() / 2, this.y + region.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale, this.scale);
