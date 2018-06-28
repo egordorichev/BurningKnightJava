@@ -277,7 +277,8 @@ object ItemRegistry {
 	  "hammer" to Hammer::class.java,
 	  "money_printer" to MoneyPrinter::class.java,
 	  "reload_rune" to ReloadRune::class.java,
-		"izu" to Izu::class.java
+		"izu" to Izu::class.java,
+	  "old_manual" to OldManual::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()

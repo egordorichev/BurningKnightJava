@@ -237,6 +237,14 @@ public class Gun extends WeaponBase {
 			this.chargeA += (1 - this.chargeA) * dt * 5;
 			this.back = false;
 		} else if (this.chargeA > 0) {
+			if (!this.back) {
+				if (this.owner.getStat("fire_on_reload") > 0) {
+					this.delay = 0;
+					this.ammoLeft ++;
+					this.use();
+				}
+			}
+
 			this.chargeProgress = 0;
 			this.back = true;
 			this.chargeA += -this.chargeA * dt * 5;
