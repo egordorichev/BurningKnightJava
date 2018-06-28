@@ -521,5 +521,7 @@
 	"reload_rune" : "Reload rune",
 	"reload_rune_desc" : "Faster, stronger, longer!",
 	"old_manual" : "Old manual",
-	"old_manual_desc" : "When you read docs you always\nfind some secret features!"
+	"old_manual_desc" : "When you read docs you always\nfind some secret features!",
+	"ammo_holder" : "Ammo holder",
+	"ammo_holder_desc" : "Holds ammo"
 }

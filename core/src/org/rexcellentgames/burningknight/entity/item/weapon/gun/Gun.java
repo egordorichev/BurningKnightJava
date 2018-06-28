@@ -116,7 +116,7 @@ public class Gun extends WeaponBase {
 			this.chargeProgress += dt * this.time / 3f;
 
 			if (this.chargeProgress >= 1f) {
-				this.ammoLeft = this.ammoMax;
+				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
 				this.charge -= this.ammoMax;
 
 				// todo: what if no left?
