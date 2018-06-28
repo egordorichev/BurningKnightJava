@@ -25,7 +25,7 @@ public class TinyParticle extends Entity {
 		this.alwaysActive = true;
 
 		double a = Random.newFloat(360);
-		float speed = Random.newFloat(1, 2) * 60;
+		float speed = Random.newFloat(1, 2) * 120;
 		this.vel.x = (float) (Math.cos(a) * speed);
 		this.vel.y = (float) (Math.sin(a) * speed);
 	}
@@ -34,9 +34,9 @@ public class TinyParticle extends Entity {
 	public void init() {
 		super.init();
 
-		this.r = Random.newFloat(0.6f, 1f);
-		this.g = Random.newFloat(0.6f, 1f);
-		this.b = Random.newFloat(0.6f, 1f);
+		this.r = Random.newFloat(0.8f, 1f);
+		this.g = Random.newFloat(0.8f, 1f);
+		this.b = Random.newFloat(0.8f, 1f);
 		this.a = Random.newFloat(360f);
 	}
 
@@ -57,6 +57,10 @@ public class TinyParticle extends Entity {
 	public void render() {
 		TextureRegion region = this.animation.getCurrent().frame;
 		Graphics.batch.setColor(r, g, b, 1);
-		this.animation.render(this.x, this.y, false, false, region.getRegionWidth() / 2, region.getRegionHeight() / 2, this.a);
+
+		float w = region.getRegionWidth() / 2;
+		float h = region.getRegionHeight() / 2;
+
+		this.animation.render(this.x - w, this.y - h, false, false, w, h, this.a);
 	}
 }

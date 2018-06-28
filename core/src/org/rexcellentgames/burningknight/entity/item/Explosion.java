@@ -51,21 +51,27 @@ public class Explosion extends Entity {
 		}
 
 		TextureRegion region = this.animation.getCurrent().frame;
-		this.animation.render(this.x, this.y, false, false, region.getRegionWidth() / 2, region.getRegionHeight() / 2, this.a);
+
+		float w = region.getRegionWidth() / 2;
+		float h = region.getRegionHeight() / 2;
+
+		this.animation.render(this.x - w, this.y - h, false, false, w, h, this.a);
 	}
 
 	public static void make(float x, float y) {
 		for (int i = 0; i < Random.newInt(2, 5); i++) {
 			Explosion explosion = new Explosion(x + Random.newFloat(-16, 16), y + Random.newFloat(-16, 16));
-			explosion.delay = Random.newFloat(-0.1f, 0.5f);
+			explosion.delay = Random.newFloat(0, 0.25f);
 			Dungeon.area.add(explosion);
 		}
 
+
 		for (int i = 0; i < Random.newInt(4, 8); i++) {
-			Smoke explosion = new Smoke(x + Random.newFloat(-16, 16), y + Random.newFloat(-16, 16));
-			explosion.delay = Random.newFloat(-0.1f, 0.5f);
+			Smoke explosion = new Smoke(x + Random.newFloat(-32, 32), y + Random.newFloat(-32, 32));
+			explosion.delay = Random.newFloat(0.1f, 0.3f);
 			Dungeon.area.add(explosion);
 		}
+
 
 		for (int i = 0; i < Random.newInt(4, 12); i++) {
 			TinyParticle explosion = new TinyParticle(x + Random.newFloat(-8, 8), y + Random.newFloat(-8, 8));
