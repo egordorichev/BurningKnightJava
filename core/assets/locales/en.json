@@ -525,5 +525,7 @@
 	"ammo_holder" : "Ammo holder",
 	"ammo_holder_desc" : "Holds ammo",
 	"lucky_bullet" : "Lucky bullet",
-	"lucky_bullet_desc" : "Feels lucky"
+	"lucky_bullet_desc" : "Feels lucky",
+	"smart_bullet" : "Smart bullet",
+	"smart_bullet_desc" : "It might return"
 }

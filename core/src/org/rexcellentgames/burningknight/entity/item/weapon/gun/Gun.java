@@ -436,6 +436,7 @@ public class Gun extends WeaponBase {
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.penetrates = this.penetrates;
+			bullet.gun = this;
 			bullet.rotates = b.bulletName.equals("bill");
 
 			if (b.bulletName.equals("snow")) {
@@ -465,5 +466,9 @@ public class Gun extends WeaponBase {
 
 	public void setAccuracy(float accuracy) {
 		this.accuracy = accuracy;
+	}
+
+	public void setAmmoLeft(int i) {
+		this.ammoLeft = i;
 	}
 }

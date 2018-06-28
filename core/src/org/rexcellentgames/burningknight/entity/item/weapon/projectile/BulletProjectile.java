@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
@@ -36,6 +37,7 @@ public class BulletProjectile extends Projectile {
 	public float dist;
 	public boolean dissappearWithTime;
 	public float rotationSpeed = 1f;
+	public Gun gun;
 
 	{
 		alwaysActive = true;
@@ -185,6 +187,15 @@ public class BulletProjectile extends Projectile {
 
 		this.body.setTransform(this.x, this.y, this.ra);
 		this.body.setLinearVelocity(this.vel);
+	}
+
+	@Override
+	protected void onDeath() {
+		super.onDeath();
+
+		if (Random.chance(this.owner.getStat("ammo_restore_chance_on_lost") * 100)) {
+			this.gun.setAmmoLeft(this.gun.getAmmoLeft() + 1);
+		}
 	}
 
 	public void control() {
