@@ -76,12 +76,12 @@ void main() {
     float x = v_texCoord.x;
     float y = v_texCoord.y;
 
-    if (shockTime >= 0.0 && shockTime < 1.5) {
+    if (shockTime >= 0.0 && shockTime < 0.9) {
         float dx = (shockPos.x - x) * 1.5;
         float dy = shockPos.y - y;
-        float d = sqrt(dx * dx + dy * dy) * 2.0 - shockTime * 4.0;
+        float d = sqrt(dx * dx + dy * dy) * 5.0 - shockTime * 6.0;
 
-        float v = max(0.0, (cos(d) / 2.0 - 0.45)) / 3.0;
+        float v = max(0.0, (cos(d) / 2.0 - 0.46));
         float a = atan(dy, dx);
 
         x = clamp(v_texCoord.x + v * cos(a), 0.0, 1.0);

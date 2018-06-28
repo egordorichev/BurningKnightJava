@@ -277,7 +277,9 @@ public class Gun extends WeaponBase {
 			return;
 		}
 
-		this.ammoLeft -= 1;
+		if (!Random.chance(this.owner.getStat("ammo_save_chance") * 100)) {
+			this.ammoLeft -= 1;
+		}
 
 		Tween.to(new Tween.Task(6, 0.05f) {
 			@Override

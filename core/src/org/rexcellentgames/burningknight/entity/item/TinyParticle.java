@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -13,21 +12,11 @@ public class TinyParticle extends Entity {
 	private float g;
 	private float b;
 	private float a;
-	private Vector2 vel = new Vector2();
-
-	{
-		depth = 29;
-	}
 
 	public TinyParticle(float x, float y) {
 		this.x = x;
 		this.y = y;
 		this.alwaysActive = true;
-
-		double a = Random.newFloat(360);
-		float speed = Random.newFloat(1, 2) * 120;
-		this.vel.x = (float) (Math.cos(a) * speed);
-		this.vel.y = (float) (Math.sin(a) * speed);
 	}
 
 	@Override
@@ -45,12 +34,6 @@ public class TinyParticle extends Entity {
 		if (this.animation.update(dt)) {
 			this.done = true;
 		}
-
-		this.x += this.vel.x * dt;
-		this.y += this.vel.y * dt;
-
-		this.vel.x *= (58 * dt);
-		this.vel.y *= (58 * dt);
 	}
 
 	@Override

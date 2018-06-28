@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -65,7 +67,6 @@ public class Explosion extends Entity {
 			Dungeon.area.add(explosion);
 		}
 
-
 		for (int i = 0; i < Random.newInt(4, 8); i++) {
 			Smoke explosion = new Smoke(x + Random.newFloat(-32, 32), y + Random.newFloat(-32, 32));
 			explosion.delay = Random.newFloat(0.1f, 0.3f);
@@ -74,9 +75,17 @@ public class Explosion extends Entity {
 
 
 		for (int i = 0; i < Random.newInt(4, 12); i++) {
-			TinyParticle explosion = new TinyParticle(x + Random.newFloat(-8, 8), y + Random.newFloat(-8, 8));
+			ParticleSpawner explosion = new ParticleSpawner(x + Random.newFloat(-8, 8), y + Random.newFloat(-8, 8));
 			Dungeon.area.add(explosion);
 		}
+
+		Vector3 vec = Camera.game.project(new Vector3(x, y, 0));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y;
+
+		Dungeon.shockTime = 0;
+		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
 
 		Camera.shake(10f);
 	}

@@ -152,6 +152,7 @@ public class Player extends Creature {
 		this.modifyStat("ammo_capacity", 1f);
 		this.modifyStat("inv_time", 1f);
 		this.modifyStat("reload_time", 1f);
+		this.modifyStat("ammo_save_chance", 0f);
 	}
 
 	public Player() {
