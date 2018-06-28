@@ -277,7 +277,11 @@ public class Gun extends WeaponBase {
 			return;
 		}
 
-		if (!Random.chance(this.owner.getStat("ammo_save_chance") * 100)) {
+		boolean rng = Random.chance(this.owner.getStat("restore_ammo_chance") * 100);
+
+		if (rng) {
+			ammoLeft += 1f;
+		} else if (!Random.chance(this.owner.getStat("ammo_save_chance") * 100)) {
 			this.ammoLeft -= 1;
 		}
 
@@ -396,7 +400,9 @@ public class Gun extends WeaponBase {
 			}
 		});
 
-		this.sendBullets();
+		if (!rng) {
+			this.sendBullets();
+		}
 	}
 
 	protected float getUseTimeGun() {
