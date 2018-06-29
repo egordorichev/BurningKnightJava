@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA;
@@ -372,6 +373,17 @@ public class Creature extends SaveableEntity {
 
 		if (hurt) {
 			this.onHurt(amount, from);
+
+			for (int i = 0; i < Random.newInt(2, 3); i++) {
+				BloodSplatFx fxx = new BloodSplatFx();
+
+				fxx.x = x + Random.newFloat(w);
+				fxx.y = y + Random.newFloat(h);
+
+				Dungeon.area.add(fxx);
+			}
+
+			BloodFx.add(this, 10);
 
 			this.triggerEvent("on_hurt");
 		} else {

@@ -449,6 +449,11 @@ public abstract class Level extends SaveableEntity {
 		ll.setLevel(this);
 
 		Dungeon.area.add(ll);
+
+		WallLevel lll = new WallLevel();
+		lll.setLevel(this);
+
+		Dungeon.area.add(lll);
 	}
 
 	public String getName() {
@@ -937,7 +942,19 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	private void renderSides(int sx, int sy, int fx, int fy) {
+	public void renderSides() {
+		OrthographicCamera camera = Camera.game;
+
+		float zoom = camera.zoom;
+
+		float cx = camera.position.x - Display.GAME_WIDTH / 2 * zoom;
+		float cy = camera.position.y - Display.GAME_HEIGHT / 2 * zoom;
+
+		int sx = (int) (Math.floor(cx / 16) - 1);
+		int sy = (int) (Math.floor(cy / 16) - 1);
+
+		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
@@ -1008,7 +1025,6 @@ public abstract class Level extends SaveableEntity {
 		renderFloor(sx, sy, fx, fy);
 		renderLiquids(sx, sy, fx, fy);
 		renderShadows();
-		renderSides(sx, sy, fx, fy);
 	}
 
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {

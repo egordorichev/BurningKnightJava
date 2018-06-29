@@ -202,7 +202,7 @@ public class BulletProjectile extends Projectile {
 	protected void onDeath() {
 		super.onDeath();
 
-		if (Random.chance(this.owner.getStat("ammo_restore_chance_on_lost") * 100)) {
+		if (this.owner != null && Random.chance(this.owner.getStat("ammo_restore_chance_on_lost") * 100)) {
 			this.gun.setAmmoLeft(this.gun.getAmmoLeft() + 1);
 		}
 	}

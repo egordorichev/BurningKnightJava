@@ -206,7 +206,6 @@ public class Sword extends Weapon {
 		super.onHit(creature);
 
 		// Camera.shake(4);
-		BloodFx.add(creature, 10);
 
 		float a = this.owner.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2);
 		this.owner.vel.x += -Math.cos(a) * 120f;

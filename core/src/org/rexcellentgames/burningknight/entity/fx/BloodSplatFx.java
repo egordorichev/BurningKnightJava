@@ -18,7 +18,7 @@ public class BloodSplatFx extends Entity {
 	private float al;
 
 	{
-		depth = -1;
+		depth = -9;
 	}
 
 	@Override

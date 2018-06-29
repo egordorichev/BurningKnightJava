@@ -94,7 +94,6 @@ public class Projectile extends NetworkedEntity {
 				fx.crit = true;
 			}
 
-			BloodFx.add(entity, 10);
 			this.onHit(entity);
 		}
 	}

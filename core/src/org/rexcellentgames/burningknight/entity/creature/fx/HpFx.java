@@ -76,7 +76,7 @@ public class HpFx extends Entity {
 						public void onEnd() {
 							done = true;
 						}
-					});
+					}).delay(0.5f);
 				}
 			});
 		}

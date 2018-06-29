@@ -457,15 +457,6 @@ public class Player extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
-		/*if (Random.chance(10f)) {
-			BloodSplatFx fx = new BloodSplatFx();
-
-			fx.x = this.x;
-			fx.y = this.y;
-
-			Dungeon.area.add(fx);
-		}*/
-
 		if (this.toDeath) {
 			this.t += dt;
 			this.animation.update(dt);

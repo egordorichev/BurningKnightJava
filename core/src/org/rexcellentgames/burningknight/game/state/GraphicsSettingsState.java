@@ -6,11 +6,10 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.CrazyKing;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.CrazyKing;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiCheckbox;
@@ -95,7 +94,6 @@ public class GraphicsSettingsState extends State {
 
 				if (Settings.blood) {
 					Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4));
-					BloodFx.add(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h, 10);
 				}
 			}
 		}.setOn(Settings.blood));
