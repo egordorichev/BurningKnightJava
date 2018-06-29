@@ -452,6 +452,8 @@ public class Gun extends WeaponBase {
 			bullet.gun = this;
 			bullet.rotates = b.bulletName.equals("bill");
 
+			this.modifyBullet(bullet);
+
 			if (b.bulletName.equals("snow")) {
 				bullet.toApply = FreezeBuff.class;
 				bullet.rotates = true;
@@ -483,5 +485,9 @@ public class Gun extends WeaponBase {
 
 	public void setAmmoLeft(int i) {
 		this.ammoLeft = i;
+	}
+
+	protected void modifyBullet(BulletProjectile bullet) {
+
 	}
 }

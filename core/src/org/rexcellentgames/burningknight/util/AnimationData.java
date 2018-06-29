@@ -38,6 +38,7 @@ public class AnimationData {
 	}
 
 	public AnimationData randomize() {
+		this.setFrame(Random.newInt(this.frames.size()));
 		this.t = Random.newFloat(0f, 100f);
 		return this;
 	}

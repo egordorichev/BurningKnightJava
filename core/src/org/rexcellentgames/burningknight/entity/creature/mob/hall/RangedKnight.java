@@ -11,8 +11,6 @@ public class RangedKnight extends Knight {
 		return animations;
 	}
 
-	// todo: run away if too close
-
 	{
 		hpMax = 5;
 	}
@@ -48,7 +46,6 @@ public class RangedKnight extends Knight {
 		float d = this.getDistanceTo(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
 
 		if (d < 64f) {
-			// todo: count doors!
 			this.become("runaway");
 		}
 	}

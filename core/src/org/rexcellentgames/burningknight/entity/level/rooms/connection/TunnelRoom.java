@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.connection;
 
-import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
@@ -13,7 +12,7 @@ public class TunnelRoom extends ConnectionRoom {
 	@Override
 	public void paint(Level level) {
 		this.fill(level);
-		this.paintTunnel(level, Terrain.randomFloor());
+		this.paintTunnel(level, this instanceof SpikedTunnelRoom ? Terrain.DIRT : Terrain.randomFloor());
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.TUNNEL);
