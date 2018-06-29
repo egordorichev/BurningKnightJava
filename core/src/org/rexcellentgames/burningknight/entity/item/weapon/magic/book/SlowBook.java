@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -30,6 +32,11 @@ public class SlowBook extends Book {
 				RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
 				RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
 				RectFx.shader.setUniformf("a", 0.8f);
+				Texture texture = region.getTexture();
+
+				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
+				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
+
 				RectFx.shader.end();
 				Graphics.batch.setShader(RectFx.shader);
 				Graphics.batch.begin();

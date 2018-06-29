@@ -459,7 +459,7 @@ public class Gun extends WeaponBase {
 				bullet.rotates = true;
 			}
 
-			float s = this.vel * 60;
+			float s = this.vel * 60f;
 
 			bullet.vel = new Point(
 				(float) Math.cos(an) * s, (float) Math.sin(an) * s

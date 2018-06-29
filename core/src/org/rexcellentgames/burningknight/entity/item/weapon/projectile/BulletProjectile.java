@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -11,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.physics.World;
@@ -90,7 +93,28 @@ public class BulletProjectile extends Projectile {
 	@Override
 	public void render() {
 		TextureRegion reg = this.t < 0.02f ? burst : sprite;
+		Texture texture = reg.getTexture();
+
+		Graphics.batch.end();
+
+		RectFx.shader.begin();
+		RectFx.shader.setUniformf("r", 1f);
+		RectFx.shader.setUniformf("g", 1f);
+		RectFx.shader.setUniformf("b", 1f);
+		RectFx.shader.setUniformf("a", 1f);
+
+		RectFx.shader.setUniformf("pos", new Vector2(((float) reg.getRegionX()) / texture.getWidth(), ((float) reg.getRegionY()) / texture.getHeight()));
+		RectFx.shader.setUniformf("size", new Vector2(((float) reg.getRegionWidth()) / texture.getWidth(), ((float) reg.getRegionHeight()) / texture.getHeight()));
+
+		RectFx.shader.end();
+
+		Graphics.batch.setShader(RectFx.shader);
+		Graphics.batch.begin();
+
 		Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 	}
 
 	@Override

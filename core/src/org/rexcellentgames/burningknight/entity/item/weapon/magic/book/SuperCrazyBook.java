@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -35,6 +37,11 @@ public class SuperCrazyBook extends Book {
 					RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
 					RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
 					RectFx.shader.setUniformf("a", 0.8f);
+					Texture texture = tiny.getTexture();
+
+					RectFx.shader.setUniformf("pos", new Vector2(((float) tiny.getRegionX()) / texture.getWidth(), ((float) tiny.getRegionY()) / texture.getHeight()));
+					RectFx.shader.setUniformf("size", new Vector2(((float) tiny.getRegionWidth()) / texture.getWidth(), ((float) tiny.getRegionHeight()) / texture.getHeight()));
+
 					RectFx.shader.end();
 					Graphics.batch.setShader(RectFx.shader);
 					Graphics.batch.begin();
@@ -86,6 +93,11 @@ public class SuperCrazyBook extends Book {
 					RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 1.4f - 0.1f)));
 					RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 1.7f)));
 					RectFx.shader.setUniformf("a", 0.8f);
+					Texture texture = small.getTexture();
+
+					RectFx.shader.setUniformf("pos", new Vector2(((float) small.getRegionX()) / texture.getWidth(), ((float) small.getRegionY()) / texture.getHeight()));
+					RectFx.shader.setUniformf("size", new Vector2(((float) small.getRegionWidth()) / texture.getWidth(), ((float) small.getRegionHeight()) / texture.getHeight()));
+
 					RectFx.shader.end();
 					Graphics.batch.setShader(RectFx.shader);
 					Graphics.batch.begin();
@@ -141,6 +153,11 @@ public class SuperCrazyBook extends Book {
 				RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
 				RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
 				RectFx.shader.setUniformf("a", 0.8f);
+				Texture texture = big.getTexture();
+
+				RectFx.shader.setUniformf("pos", new Vector2(((float) big.getRegionX()) / texture.getWidth(), ((float) big.getRegionY()) / texture.getHeight()));
+				RectFx.shader.setUniformf("size", new Vector2(((float) big.getRegionWidth()) / texture.getWidth(), ((float) big.getRegionHeight()) / texture.getHeight()));
+
 				RectFx.shader.end();
 				Graphics.batch.setShader(RectFx.shader);
 				Graphics.batch.begin();
@@ -216,6 +233,11 @@ public class SuperCrazyBook extends Book {
 					RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
 					RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
 					RectFx.shader.setUniformf("a", 0.8f);
+					Texture texture = particle.getTexture();
+
+					RectFx.shader.setUniformf("pos", new Vector2(((float) particle.getRegionX()) / texture.getWidth(), ((float) particle.getRegionY()) / texture.getHeight()));
+					RectFx.shader.setUniformf("size", new Vector2(((float) particle.getRegionWidth()) / texture.getWidth(), ((float) particle.getRegionHeight()) / texture.getHeight()));
+
 					RectFx.shader.end();
 					Graphics.batch.setShader(RectFx.shader);
 					Graphics.batch.begin();

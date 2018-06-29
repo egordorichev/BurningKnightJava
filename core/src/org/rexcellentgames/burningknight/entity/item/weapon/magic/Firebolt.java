@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -41,6 +42,11 @@ public class Firebolt extends Wand {
 				RectFx.shader.setUniformf("g", 0.6f);
 				RectFx.shader.setUniformf("b", 0.1f);
 				RectFx.shader.setUniformf("a", 0.9f);
+				Texture texture = region.getTexture();
+
+				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
+				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
+
 				RectFx.shader.end();
 				Graphics.batch.setShader(RectFx.shader);
 				Graphics.batch.begin();

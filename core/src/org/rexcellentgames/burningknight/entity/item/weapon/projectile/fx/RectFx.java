@@ -1,8 +1,10 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -61,6 +63,12 @@ public class RectFx extends Entity {
 		RectFx.shader.setUniformf("g", this.g);
 		RectFx.shader.setUniformf("b", this.b);
 		RectFx.shader.setUniformf("a", this.a);
+
+		Texture texture = region.getTexture();
+
+		RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
+		RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
+
 		RectFx.shader.end();
 
 		Graphics.batch.setShader(RectFx.shader);
