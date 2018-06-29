@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.trap;
 
-import org.rexcellentgames.burningknight.util.Random;
-
 public class RotatingTurret extends Turret {
 	private boolean left;
 
@@ -11,7 +9,7 @@ public class RotatingTurret extends Turret {
 
 		sp = 1f;
 		rotates = true;
-		left = Random.chance(50);
+	// 	left = Random.chance(50);
 	}
 
 	@Override

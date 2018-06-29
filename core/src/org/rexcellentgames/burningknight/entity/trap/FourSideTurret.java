@@ -5,7 +5,11 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.file.FileReader;
+import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.io.IOException;
 
 public class FourSideTurret extends Turret {
 	private AnimationData four = animations.get("turret_4_directions");
@@ -13,6 +17,18 @@ public class FourSideTurret extends Turret {
 
 	{
 		region = Item.missing;
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		this.str = reader.readBoolean();
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		writer.writeBoolean(this.str);
 	}
 
 	@Override
@@ -24,7 +40,7 @@ public class FourSideTurret extends Turret {
 
 	@Override
 	public void render() {
-		four.render(this.x, this.y, false);
+		four.render(this.x, this.y, false, false, 8, 0, 0, sx, sy);
 	}
 
 	@Override

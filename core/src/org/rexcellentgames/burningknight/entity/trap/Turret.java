@@ -19,7 +19,6 @@ import java.io.IOException;
 
 public class Turret extends SolidProp {
 	public static Animation animations = Animation.make("actor-turret", "-fire");
-
 	private AnimationData single = animations.get("turret_1_directions");
 
 	{
@@ -31,8 +30,8 @@ public class Turret extends SolidProp {
 	public float last;
 	protected float sp = 1.5f;
 	private boolean s;
-	private float sx = 1;
-	private float sy = 1;
+	protected float sx = 1f;
+	protected float sy = 1f;
 
 	@Override
 	public void init() {
@@ -69,7 +68,7 @@ public class Turret extends SolidProp {
 
 	@Override
 	public void render() {
-		single.render(this.x, this.y, false);
+		single.render(this.x, this.y, false, false, 8, 0, 0, sx, sy);
 	}
 
 	protected boolean rotates;
@@ -88,11 +87,7 @@ public class Turret extends SolidProp {
 			}
 		}
 
-		if (rotates) {
-			this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))), 8));
-		} else {
-			this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
-		}
+		this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
 
 		this.last += dt;
 
