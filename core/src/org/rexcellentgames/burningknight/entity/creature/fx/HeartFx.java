@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -31,10 +32,11 @@ public class HeartFx extends SaveableEntity {
 
 		this.t = Random.newFloat(128);
 		this.body = World.createSimpleBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
-		
-		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
-		}
+
+		MassData data = new MassData();
+		data.mass = 0.1f;
+		this.body.setMassData(data);
+		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	@Override
@@ -79,6 +81,17 @@ public class HeartFx extends SaveableEntity {
 			this.last = 0;
 			Spark.randomOn(this);
 		}
+
+		this.x = this.body.getPosition().x;
+		this.y = this.body.getPosition().y;
+
+		this.vel.x = this.body.getLinearVelocity().x;
+		this.vel.y = this.body.getLinearVelocity().y;
+
+		this.vel.x *= 0.96f;
+		this.vel.y *= 0.96f;
+
+		this.body.setLinearVelocity(this.vel);
 
 		this.animation.update(dt);
 	}

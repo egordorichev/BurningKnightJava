@@ -712,7 +712,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (Player.instance.room == self.room && self.canSee(self.target)) {
+				if (!self.saw && Player.instance.room == self.room && self.canSee(self.target)) {
 					self.saw = true;
 
 					if (self.noticeSignT <= 0) {
