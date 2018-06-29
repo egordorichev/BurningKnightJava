@@ -531,7 +531,11 @@
 	"rng_bullet" : "RNG bullet",
 	"rng_bullet_desc" : "Pure RNG",
 	"time_bullet" : "Time bullet",
-	"time_bullet_desc" : "Manages time. How? Don't ask me.",
+	"time_bullet_desc" : "Manages time. How? Don't ask me.Hey h",
 	"big_bullet" : "Big bullet",
-	"big_bullet_desc" : "Big boy"
+	"big_bullet_desc" : "Big boy",
+	"confetti_gun" : "Confetti gun",
+	"confetti_gun_desc" : "Tada!",
+	"confetti_grenade" : "Confetti grenade",
+	"confetti_grenade_desc" : "3... 2... 1... Party!"
 }

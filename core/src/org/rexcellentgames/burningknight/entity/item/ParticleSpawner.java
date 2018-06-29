@@ -55,6 +55,6 @@ public class ParticleSpawner extends Entity {
 		this.x += this.vel.x * dt;
 		this.y += this.vel.y * dt;
 
-		this.vel.y -= 1f;
+		this.vel.y -= 60f * dt;
 	}
 }

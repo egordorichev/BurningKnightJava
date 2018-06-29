@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.entity;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -38,10 +39,11 @@ public class BombEntity extends Entity {
 		super.init();
 
 		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		MassData data = new MassData();
+		data.mass = 0.1f;
+		this.body.setMassData(data);
 
-		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
-		}
+		this.body.setTransform(this.x, this.y, 0);
 
 		this.playSfx("bomb_placed");
 	}

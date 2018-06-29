@@ -78,6 +78,10 @@ public class World {
 	}
 
 	public static Body createSimpleBody(Entity owner, float x, float y, float w, float h, BodyDef.BodyType type, boolean sensor) {
+		return createSimpleBody(owner, x, y, w, h, type, sensor, 0f);
+	}
+
+	public static Body createSimpleBody(Entity owner, float x, float y, float w, float h, BodyDef.BodyType type, boolean sensor, float den) {
 		Log.physics("Creating body for " + owner.getClass().getSimpleName() + " with params (" + x + ", " + y + ", " + w + ", " + h + ") and sensor = " + sensor);
 
 		if (world.isLocked()) {
@@ -102,6 +106,7 @@ public class World {
 		fixture.shape = poly;
 		fixture.friction = 0;
 		fixture.isSensor = sensor;
+		fixture.restitution = den;
 
 		body.createFixture(fixture);
 		body.setUserData(owner);
@@ -114,7 +119,12 @@ public class World {
 		return createSimpleCentredBody(owner, x, y, w, h, type, false);
 	}
 
+
 	public static Body createSimpleCentredBody(Entity owner, float x, float y, float w, float h, BodyDef.BodyType type, boolean sensor) {
+		return createSimpleCentredBody(owner, x, y, w, h, type, sensor, 0f);
+	}
+
+	public static Body createSimpleCentredBody(Entity owner, float x, float y, float w, float h, BodyDef.BodyType type, boolean sensor, float den) {
 		Log.physics("Creating centred body for " + owner.getClass().getSimpleName() + " with params (" + x + ", " + y + ", " + w + ", " + h + ") and sensor = " + sensor);
 
 		if (world.isLocked()) {
@@ -137,6 +147,7 @@ public class World {
 
 		fixture.shape = poly;
 		fixture.friction = 0;
+		fixture.restitution = den;
 		fixture.isSensor = sensor;
 
 		body.createFixture(fixture);

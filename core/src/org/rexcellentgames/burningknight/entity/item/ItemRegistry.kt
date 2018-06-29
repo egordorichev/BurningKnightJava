@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.item.pet.Pico8
 import org.rexcellentgames.burningknight.entity.item.pet.StrawberryPet
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*
 import org.rexcellentgames.burningknight.entity.item.reference.*
+import org.rexcellentgames.burningknight.entity.item.weapon.ConfettiGun
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar
 import org.rexcellentgames.burningknight.entity.item.weapon.HeadshotGun
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*
@@ -60,6 +61,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.Light
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberD
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.*
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ConfettiGrenade
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC
@@ -284,7 +286,9 @@ object ItemRegistry {
 	  "smart_bullet" to SmartBullet::class.java,
 	  "rng_bullet" to RngBullet::class.java,
 	  "time_bullet" to TimeBullet::class.java,
-	  "big_bullet" to BigBullet::class.java
+	  "big_bullet" to BigBullet::class.java,
+	  "confetti_gun" to ConfettiGun::class.java,
+	  "confetti_grenade" to ConfettiGrenade::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()
