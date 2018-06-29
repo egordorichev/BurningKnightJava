@@ -464,16 +464,14 @@ public class Mob extends Creature {
 			this.drop = true;
 		}
 
-		if (!Player.instance.isDead() && !force) {
-			for (int i = 0; i < Random.newInt(1, 2); i++) {
-				HeartFx fx = new HeartFx();
+		if (!Player.instance.isDead() && !force && Random.chance(30)) {
+			HeartFx fx = new HeartFx();
 
-				fx.x = this.x + this.w / 2 + Random.newFloat(-4, 4);
-				fx.y = this.y + this.h / 2 + Random.newFloat(-4, 4);
+			fx.x = this.x + this.w / 2 + Random.newFloat(-4, 4);
+			fx.y = this.y + this.h / 2 + Random.newFloat(-4, 4);
 
-				Dungeon.area.add(fx);
-				LevelSave.add(fx);
-			}
+			Dungeon.area.add(fx);
+			LevelSave.add(fx);
 		}
 
 		super.die(force);

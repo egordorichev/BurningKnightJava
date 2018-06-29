@@ -577,10 +577,10 @@ public class BurningKnight extends Boss {
 							ball = new FireballProjectile();
 
 							ball.owner = self;
+							ball.bad = true;
 							ball.target = self.target;
 							ball.x = self.x + (self.w - 16) / 2;
 							ball.y = self.y + (self.h - 10) / 2;
-							ball.bad = !self.stupid;
 
 							Dungeon.area.add(ball);
 							break;
@@ -598,7 +598,7 @@ public class BurningKnight extends Boss {
 								ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
 								/// ball.noMove = true;
 								ball.owner = self;
-								ball.bad = !self.stupid;
+								ball.bad = true;
 
 								Dungeon.area.add(ball);
 							}
@@ -616,8 +616,8 @@ public class BurningKnight extends Boss {
 								ball.x = self.x + (self.w - 16) / 2;
 								ball.y = self.y + (self.h - 10) / 2;
 
-								ball.bad = !self.stupid;
 								ball.owner = self;
+								ball.bad = true;
 								Dungeon.area.add(ball);
 							}
 							break;
@@ -632,8 +632,8 @@ public class BurningKnight extends Boss {
 
 								ball.x = self.x + (self.w - 16) / 2;
 								ball.y = self.y + (self.h - 10) / 2;
-								ball.bad = !self.stupid;
 								ball.owner = self;
+								ball.bad = true;
 
 								Dungeon.area.add(ball);
 							}

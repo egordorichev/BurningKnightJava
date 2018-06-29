@@ -479,6 +479,7 @@ public class CrazyKing extends Boss {
 											ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
 
 											ball.letter = "bad";
+											ball.bad = true;
 											Dungeon.area.add(ball);
 										}
 
@@ -587,6 +588,7 @@ public class CrazyKing extends Boss {
 						ball.damage = 2;
 						ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
 						ball.parts = true;
+						ball.bad = true;
 
 						ball.letter = "bad";
 						Dungeon.area.add(ball);

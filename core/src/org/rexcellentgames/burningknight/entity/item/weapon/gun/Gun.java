@@ -163,17 +163,16 @@ public class Gun extends WeaponBase {
 	}
 
 	protected float getAimX(float ex, float ey) {
-
 		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.cos(this.lastAngle +
-			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
+			(flipped ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
 	}
 
 	protected float getAimY(float ex, float ey) {
-
-
 		return (float) Math.sin(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.sin(this.lastAngle +
-			(this.owner.isFlipped() ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
+			(flipped ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
 	}
+	
+	protected boolean flipped;
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
@@ -185,6 +184,9 @@ public class Gun extends WeaponBase {
 		}
 
 		Point aim = this.owner.getAim();
+		flipped = aim.x < this.owner.x + this.owner.w / 2;
+		
+		this.flipped = flipped;
 		float an = this.owner.getAngleTo(aim.x, aim.y);
 
 		an = angleLerp(this.lastAngle, an, 0.15f);

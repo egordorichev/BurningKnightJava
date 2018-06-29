@@ -122,9 +122,9 @@ public class Collisions implements ContactListener, ContactFilter {
 			contact.setEnabled(false);
 		} else if (b instanceof Yoyo && a instanceof ItemHolder) {
 			contact.setEnabled(false);
-		} else if (a instanceof HeartFx && !(b instanceof Player) && b != null) {
+		} else if (a instanceof HeartFx && !(b instanceof Player || b instanceof HeartFx || b instanceof SolidProp) && b != null) {
 			contact.setEnabled(false);
-		} else if (b instanceof HeartFx && !(a instanceof Player) && a != null) {
+		} else if (b instanceof HeartFx && !(a instanceof Player || a instanceof HeartFx || a instanceof SolidProp) && a != null) {
 			contact.setEnabled(false);
 		} else if (a instanceof CGFx && b instanceof Creature) {
 			contact.setEnabled(false);

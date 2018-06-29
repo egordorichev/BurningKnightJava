@@ -355,6 +355,8 @@ public class Creature extends SaveableEntity {
 
 				if (amount > 0) {
 					amount = -1;
+				} else if (this instanceof Player) {
+					amount = -1;
 				}
 
 				if (from != null) {
