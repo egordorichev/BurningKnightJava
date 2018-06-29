@@ -34,38 +34,52 @@ public class HpFx extends Entity {
 		this.y = creature.y + creature.h - 4;
 		this.low = change < 0;
 		this.depth = 15;
+		this.ch = creature.h;
+	}
 
-		Tween.to(new Tween.Task(this.y + creature.h * 1.5f, 0.8f, Tween.Type.BACK_OUT) {
-			@Override
-			public float getValue() {
-				return y;
-			}
+	private float ch;
+	private boolean tweened;
 
-			@Override
-			public void setValue(float value) {
-				y = value;
-			}
+	@Override
+	public void update(float dt) {
+		super.update(dt);
 
-			@Override
-			public void onEnd() {
-				Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_IN) {
-					@Override
-					public void setValue(float value) {
-						a = value;
-					}
+		if (!tweened) {
+			tweened = true;
 
-					@Override
-					public float getValue() {
-						return a;
-					}
 
-					@Override
-					public void onEnd() {
-						done = true;
-					}
-				});
-			}
-		});
+			Tween.to(new Tween.Task(this.y + ch * 1.5f, block ? 0.3f : 0.8f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return y;
+				}
+
+				@Override
+				public void setValue(float value) {
+					y = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_IN) {
+						@Override
+						public void setValue(float value) {
+							a = value;
+						}
+
+						@Override
+						public float getValue() {
+							return a;
+						}
+
+						@Override
+						public void onEnd() {
+							done = true;
+						}
+					});
+				}
+			});
+		}
 	}
 
 	private static TextureRegion blockTexture = Graphics.getTexture("ui-block");

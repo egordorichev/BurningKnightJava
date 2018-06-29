@@ -180,7 +180,7 @@ public class UiInventory extends UiEntity {
 				}
 				this.dn = false;
 
-				this.lastA = Tween.to(new Tween.Task(0.3f, 0.5f, Tween.Type.QUAD_IN) {
+				this.lastA = Tween.to(new Tween.Task(0.5f, 0.5f, Tween.Type.QUAD_IN) {
 					@Override
 					public float getValue() {
 						return slots[0].a;
