@@ -273,8 +273,8 @@ public class BurningKnight extends Boss {
 
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("a", this.a);
-		shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
-		shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
+		shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
+		shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
 		shader.end();
 		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();
