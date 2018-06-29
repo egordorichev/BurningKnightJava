@@ -48,15 +48,6 @@ public class ShopRoom extends LockedRoom {
 	}
 
 	@Override
-	public boolean canConnect(Room r) {
-		if (!(r instanceof EntranceRoom)) {
-			return false;
-		}
-
-		return super.canConnect(r);
-	}
-
-	@Override
 	public int getMinWidth() {
 		return 12;
 	}

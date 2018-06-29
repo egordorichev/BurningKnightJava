@@ -124,7 +124,7 @@ public class BulletProjectile extends Projectile {
 	protected void doHit(Entity entity) {
 		super.doHit(entity);
 
-		if (Random.chance(this.owner.getStat("slow_down_on_hit") * 100)) {
+		if (this.owner != null && Random.chance(this.owner.getStat("slow_down_on_hit") * 100)) {
 			Dungeon.slowDown(0.5f, 0.5f);
 		}
 	}

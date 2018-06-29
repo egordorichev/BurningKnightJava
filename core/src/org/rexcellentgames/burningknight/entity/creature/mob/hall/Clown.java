@@ -222,8 +222,8 @@ public class Clown extends Mob {
 				float dy = self.y + self.h / 2 - self.target.y - self.target.h / 2 + Random.newFloat(-10f, 10f);
 
 				note.a = (float) Math.atan2(-dy, -dx);
-				note.x = self.x + (self.w - note.w) / 2;
-				note.y = self.y + (self.h - note.h) / 2;
+				note.x = self.x + (self.w) / 2;
+				note.y = self.y + (self.h) / 2;
 				note.bad = !self.stupid;
 
 				Dungeon.area.add(note);
