@@ -101,7 +101,7 @@ public class CGFx extends Entity {
 
 	@Override
 	public void render() {
-		float v = (float) (Math.cos(this.t * 3f) / 5f);
+		float v = 0;
 
 		Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false,
 			1f + v, 1f + v);

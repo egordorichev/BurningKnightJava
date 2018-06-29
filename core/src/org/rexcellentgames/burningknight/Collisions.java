@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.CGFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.Yoyo;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
@@ -124,6 +125,10 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if (a instanceof HeartFx && !(b instanceof Player) && b != null) {
 			contact.setEnabled(false);
 		} else if (b instanceof HeartFx && !(a instanceof Player) && a != null) {
+			contact.setEnabled(false);
+		} else if (a instanceof CGFx && b instanceof Creature) {
+			contact.setEnabled(false);
+		} else if (b instanceof CGFx && a instanceof Creature) {
 			contact.setEnabled(false);
 		}
 	}

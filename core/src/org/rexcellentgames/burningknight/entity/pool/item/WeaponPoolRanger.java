@@ -50,5 +50,6 @@ public class WeaponPoolRanger extends Pool<Item> {
 		add(BronzeShotgun.class, 1f);
 		add(ConfettiGun.class, 0.1f);
 		add(ConfettiGrenade.class, 0.1f);
+		add(TadaGun.class, 0.1f);
 	}
 }

@@ -92,10 +92,14 @@ public class ShopRoom extends LockedRoom {
 	private void paintAccessory(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 
+		Pool all = new Pool<Item>();
 		Pool pool = getAccessoryPool();
 
+		all.addFrom(pool);
+		all.addFrom(AccessoryPoolAll.instance);
+
 		for (int i = 0; i < c; i++) {
-			items.add((Item) pool.generate());
+			items.add((Item) all.generate());
 		}
 
 		placeItems(items);
@@ -158,5 +162,10 @@ public class ShopRoom extends LockedRoom {
 
 			i++;
 		}
+	}
+
+	@Override
+	public boolean canConnect(Room r) {
+		return r instanceof EntranceRoom && super.canConnect(r);
 	}
 }
