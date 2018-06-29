@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BigBullet
 class CKGun : Gun() {
   init {
     useTime = 0.2f
+    sprite = "item-gun_a"
   }
 
   override fun sendBullets() {
