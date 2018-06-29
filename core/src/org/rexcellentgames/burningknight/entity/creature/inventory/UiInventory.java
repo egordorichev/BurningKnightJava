@@ -453,20 +453,20 @@ public class UiInventory extends UiEntity {
 				star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
 
 			if (mana - 2 >= i * 2) {
-				Graphics.render(star, x + i * 11 + 1 + star.getRegionWidth() / 2, yy + 9
+				Graphics.render(star, x + i * 11 + star.getRegionWidth() / 2, yy + 8
 					+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
 			} else if (mana - 2 >= i * 2 - 1) {
-				Graphics.render(halfStar, x + i * 11 + 1 + star.getRegionWidth() / 2, yy + 9 + star.getRegionHeight() / 2, 0,
+				Graphics.render(halfStar, x + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
 					star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
 			}
 		}
 
-		UiBuff[] buffs = Player.instance.uiBuffs.toArray(new UiBuff[]{});
+		/*UiBuff[] buffs = Player.instance.uiBuffs.toArray(new UiBuff[]{});
 
 		for (int i = 0; i < buffs.length; i++) {
 			UiBuff buff = buffs[i];
 			buff.render(i, y);
-		}
+		}*/
 
 		this.renderCurrentSlot();
 	}
@@ -512,14 +512,14 @@ public class UiInventory extends UiEntity {
 				float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 				Graphics.small.setColor(c, c, c, 1);
-				Graphics.print(info, Graphics.small, 4, this.slots[this.inventory.getSize() - 1].y + 20 + Graphics.layout.height + 14);
+				Graphics.print(info, Graphics.small, 4, this.slots[this.inventory.getSize() - 1].y + 20 + Graphics.layout.height + 14 + 8);
 				Graphics.small.setColor(1, 1, 1, 1);
 
 				this.hoveredSlot = -1;
 			}
 		}
 
-		if (hoveredBuff != null) {
+		/*if (hoveredBuff != null) {
 			String info = hoveredBuff.getInfo();
 			Graphics.layout.setText(Graphics.small, info);
 
@@ -530,7 +530,7 @@ public class UiInventory extends UiEntity {
 			Graphics.small.setColor(1, 1, 1, 1);
 
 			hoveredBuff = null;
-		}
+		}*/
 	}
 
 	public void renderOnPlayer(Player player) {

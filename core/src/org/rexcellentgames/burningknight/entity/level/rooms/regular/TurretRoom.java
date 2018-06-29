@@ -5,11 +5,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.entity.trap.Turret;
-import org.rexcellentgames.burningknight.util.Random;
 
 public class TurretRoom extends TrapRoom {
 	@Override

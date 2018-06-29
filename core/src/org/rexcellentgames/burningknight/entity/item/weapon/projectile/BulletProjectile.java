@@ -16,8 +16,10 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -61,7 +63,7 @@ public class BulletProjectile extends Projectile {
 			this.sprite = Graphics.getTexture("bullet-" + this.letter);
 		}
 
-		if (this.sprite != null) {
+		if (this.sprite != null && this.anim == null) {
 			this.w = sprite.getRegionWidth();
 			this.h = sprite.getRegionHeight();
 		}
@@ -111,7 +113,12 @@ public class BulletProjectile extends Projectile {
 		Graphics.batch.setShader(RectFx.shader);
 		Graphics.batch.begin();
 
-		Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
+		if (this.anim != null) {
+			this.anim.render(this.x - 8, this.y - 8, false, false, 8, 8, 0);
+		} else {
+			Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
+		}
+
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
@@ -126,7 +133,7 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		return entity == null || entity instanceof SolidProp || entity instanceof Door;
+		return entity == null || (entity instanceof SolidProp && !(entity instanceof Turret)) || entity instanceof Door;
 	}
 
 	@Override
@@ -164,9 +171,15 @@ public class BulletProjectile extends Projectile {
 		}
 	}
 
+	public AnimationData anim;
+
 	@Override
 	public void logic(float dt) {
 		this.last += dt;
+
+		if (this.anim != null) {
+			this.anim.update(dt);
+		}
 
 		if (this.dissappearWithTime && this.t >= 5f) {
 			this.death();

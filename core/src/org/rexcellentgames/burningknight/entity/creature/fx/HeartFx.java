@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.creature.fx;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -11,15 +10,15 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlueHea
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class HeartFx extends SaveableEntity {
-	private static Animation animations = Animation.make("fx-heart");
-	private TextureRegion region;
+	private static Animation animations = Animation.make("fx-heart", "-full");
+	private AnimationData animation = animations.get("idle");
 	private Body body;
 	private float t;
 
@@ -27,14 +26,11 @@ public class HeartFx extends SaveableEntity {
 	public void init() {
 		super.init();
 
-		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
-		this.region = frames.get(Random.newInt(frames.size())).frame;
-
-		this.w = this.region.getRegionWidth();
-		this.h = this.region.getRegionHeight();
+		this.w = 12;
+		this.h = 9;
 
 		this.t = Random.newFloat(128);
-		this.body = World.createSimpleBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
 		
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
@@ -83,6 +79,8 @@ public class HeartFx extends SaveableEntity {
 			this.last = 0;
 			Spark.randomOn(this);
 		}
+
+		this.animation.update(dt);
 	}
 
 	@Override
@@ -91,7 +89,7 @@ public class HeartFx extends SaveableEntity {
 		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 		float sx = 1f;
 
-		Graphics.render(this.region, this.x + this.w / 2, this.y + this.h / 2, a, this.w / 2, this.h / 2, false, false, sx, sy);
+		this.animation.render(this.x, this.y, false, false, this.w / 2, this.h / 2, a, sx, sy);
 	}
 
 	@Override

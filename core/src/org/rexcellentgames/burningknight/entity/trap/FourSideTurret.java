@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class FourSideTurret extends Turret {
-	private AnimationData four = animations.get("four");
+	private AnimationData four = animations.get("turret_4_directions");
 	boolean str = true;
 
 	{
@@ -32,18 +32,22 @@ public class FourSideTurret extends Turret {
 		for (int i = 0; i < 4; i++) {
 			BulletProjectile bullet = new BulletProjectile();
 			bullet.sprite = Graphics.getTexture("bullet-bad");
+			bullet.anim = animations.get("projectile");
 
-			float x = this.x + region.getRegionWidth() / 2;
-			float y = this.y + region.getRegionHeight() / 2;
+			float x = this.x + 8;
+			float y = this.y + 8;
 
 			bullet.x = x;
 			bullet.y = y;
 			bullet.damage = 2;
-			bullet.letter = "bullet bad";
+			bullet.w = 4;
+			bullet.h = 4;
+			bullet.letter = "bad";
+			bullet.bad = true;
 
 			this.modify(bullet);
 
-			float s = 1.5f * 60f;
+			float s = 1.5f * 30f;
 
 			float a = (float) (this.a + i * Math.PI / 2);
 

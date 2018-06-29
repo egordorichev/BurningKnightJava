@@ -10,6 +10,7 @@ public class RotatingTurret extends Turret {
 		super.init();
 
 		sp = 1f;
+		rotates = true;
 		left = Random.chance(50);
 	}
 

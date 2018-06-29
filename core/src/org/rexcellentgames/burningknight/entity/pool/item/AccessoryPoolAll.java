@@ -76,5 +76,6 @@ public class AccessoryPoolAll extends Pool<Item> {
 		add(ClockHeart.class, 1f);
 		add(Apple.class, 1f);
 		add(Bread.class, 1f);
+		add(RedBalloon.class, 1f);
 	}
 }

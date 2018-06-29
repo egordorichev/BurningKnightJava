@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.trap;
 
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -12,13 +13,14 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 
 public class Turret extends SolidProp {
-	public static Animation animations = Animation.make("actor-turret");
+	public static Animation animations = Animation.make("actor-turret", "-fire");
 
-	private AnimationData single = animations.get("single");
+	private AnimationData single = animations.get("turret_1_directions");
 
 	{
 		alwaysActive = true;
@@ -68,8 +70,9 @@ public class Turret extends SolidProp {
 	@Override
 	public void render() {
 		single.render(this.x, this.y, false);
-		//Graphics.render(region, this.x + region.getRegionWidth() / 2, this.y, 0, region.getRegionWidth() / 2, 0, false, false, sx, sy);
 	}
+
+	protected boolean rotates;
 
 	@Override
 	public void update(float dt) {
@@ -85,7 +88,11 @@ public class Turret extends SolidProp {
 			}
 		}
 
-		this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4)) + 2), 8));
+		if (rotates) {
+			this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))), 8));
+		} else {
+			this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
+		}
 
 		this.last += dt;
 
@@ -150,20 +157,24 @@ public class Turret extends SolidProp {
 	}
 
 	protected void send() {
-		/*BulletProjectile bullet = new BulletProjectile();
-		bullet.sprite = Graphics.getTexture("bullet (bullet bad)");
+		BulletProjectile bullet = new BulletProjectile();
+		bullet.sprite = Graphics.getTexture("bullet-bad");
+		bullet.anim = animations.get("projectile");
 
-		float x = this.x + region.getRegionWidth() / 2;
-		float y = this.y + region.getRegionHeight() / 2;
+		float x = this.x + 8;
+		float y = this.y + 8;
 
 		bullet.x = x;
 		bullet.y = y;
 		bullet.damage = 2;
-		bullet.letter = "bullet bad";
+		bullet.w = 4;
+		bullet.h = 4;
+		bullet.letter = "bad";
+		bullet.bad = true;
 
 		this.modify(bullet);
 
-		float s = 1.5f * 60f;
+		float s = 1.5f * 30f;
 
 		bullet.vel = new Point(
 			(float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s
@@ -171,7 +182,7 @@ public class Turret extends SolidProp {
 
 		bullet.a = a;
 
-		Dungeon.area.add(bullet);*/
+		Dungeon.area.add(bullet);
 	}
 
 	protected void modify(BulletProjectile entity) {

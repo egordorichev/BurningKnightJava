@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
+import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Gold;
@@ -119,6 +120,10 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if (a instanceof Yoyo && b instanceof ItemHolder) {
 			contact.setEnabled(false);
 		} else if (b instanceof Yoyo && a instanceof ItemHolder) {
+			contact.setEnabled(false);
+		} else if (a instanceof HeartFx && !(b instanceof Player) && b != null) {
+			contact.setEnabled(false);
+		} else if (b instanceof HeartFx && !(a instanceof Player) && a != null) {
 			contact.setEnabled(false);
 		}
 	}

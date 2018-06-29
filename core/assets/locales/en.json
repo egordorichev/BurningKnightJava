@@ -537,5 +537,7 @@
 	"confetti_gun" : "Confetti gun",
 	"confetti_gun_desc" : "Tada!",
 	"confetti_grenade" : "Confetti grenade",
-	"confetti_grenade_desc" : "3... 2... 1... Party!"
+	"confetti_grenade_desc" : "3... 2... 1... Party!",
+	"red_balloon" : "Red balloon",
+	"red_balloon_desc" : "Can it... POP?"
 }
