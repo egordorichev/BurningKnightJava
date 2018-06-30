@@ -14,11 +14,14 @@ public class BrokeLineRoom extends RegularRoom {
 
 		byte f = Terrain.randomFloor();
 		byte fl = Random.chance(30) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
+		Painter.fill(level, this, Terrain.WALL);
 
 		if (fl == Terrain.LAVA) {
 			f = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
+			Painter.fill(level, this, 1, Terrain.randomFloor());
 		}
 
+		Painter.fill(level, this, 1, f);
 		Painter.fill(level, this, 2, fl);
 		Painter.fill(level, this, 3, f);
 

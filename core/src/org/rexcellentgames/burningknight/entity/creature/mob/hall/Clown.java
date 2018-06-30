@@ -213,8 +213,9 @@ public class Clown extends Mob {
 			super.update(dt);
 
 			this.lastAttack += dt;
+			this.checkForPlayer();
 
-			if (this.lastAttack >= 0.5f && Random.chance(75)) {
+			if (self.target != null && this.lastAttack >= 0.5f && Random.chance(75)) {
 				Note note = new Note();
 				this.lastAttack = 0;
 
@@ -228,8 +229,6 @@ public class Clown extends Mob {
 
 				Dungeon.area.add(note);
 			}
-
-			this.checkForPlayer();
 
 			if (self.target != null) {
 				float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);

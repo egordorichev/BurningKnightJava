@@ -5,11 +5,6 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class LineRoom extends RegularRoom {
 	@Override
@@ -17,7 +12,15 @@ public class LineRoom extends RegularRoom {
 		super.paint(level);
 
 		byte f = Terrain.randomFloor();
-		Painter.fill(level, this, 2, Terrain.WALL);
+		byte fl = Random.chance(30) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
+		Painter.fill(level, this, Terrain.WALL);
+
+		if (fl == Terrain.LAVA) {
+			f = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
+			Painter.fill(level, this, 1, Terrain.randomFloor());
+		}
+
+		Painter.fill(level, this, 2, fl);
 		Painter.fill(level, this, 3, f);
 
 		Point point;
