@@ -44,6 +44,16 @@ public class TriangleRoom extends RegularRoom {
 					new Point(this.left + 1, this.type == Type.BOTTOM_RIGHT ? this.bottom - 2 : this.top + 2), f);
 			}
 		}
+
+		if (Random.chance(50)) {
+			byte ff = f == Terrain.LAVA ? Terrain.DIRT : Terrain.randomFloor();
+
+			if (Random.chance(50)) {
+				Painter.fill(level, this, 3, ff);
+			} else {
+				Painter.fillEllipse(level, this, 3, ff);
+			}
+		}
 	}
 
 	@Override
