@@ -47,11 +47,20 @@ public class TriangleRoom extends RegularRoom {
 
 		if (Random.chance(50)) {
 			byte ff = f == Terrain.LAVA ? Terrain.DIRT : Terrain.randomFloor();
+			boolean rect = Random.chance(50);
 
-			if (Random.chance(50)) {
+			if (rect) {
 				Painter.fill(level, this, 3, ff);
 			} else {
 				Painter.fillEllipse(level, this, 3, ff);
+			}
+
+			if (Random.chance(50)) {
+				if (rect) {
+					Painter.fill(level, this, 5, f);
+				} else {
+					Painter.fillEllipse(level, this, 5, f);
+				}
 			}
 		}
 	}
