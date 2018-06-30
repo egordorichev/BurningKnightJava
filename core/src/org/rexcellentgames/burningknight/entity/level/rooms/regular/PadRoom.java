@@ -37,6 +37,14 @@ public class PadRoom extends RegularRoom {
 		return rect;
 	}
 
+	private byte generate() {
+		if (Random.chance(50)) {
+			return Terrain.randomFloorNotLast();
+		}
+
+		return Random.chance(33) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
+	}
+
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
@@ -50,10 +58,32 @@ public class PadRoom extends RegularRoom {
 		}
 
 		Painter.fill(level, new Rect(this.left + 1, this.top + 1, this.left + 1 + topLeftW, this.top + 1 + topLeftH), Terrain.randomFloor());
+
+		if (Random.chance(70)) {
+			byte f = generate();
+			fun(level, new Rect(this.left + 1, this.top + 1, this.left + 1 + topLeftW, this.top + 1 + topLeftH), Random.newInt(1, 3), f);
+		}
+
 		Painter.fill(level, new Rect(this.right - topRightW, this.top + 1, this.right, this.top + 1 + topRightH), Terrain.randomFloor());
 
+		if (Random.chance(70)) {
+			byte f = generate();
+			fun(level, new Rect(this.right - topRightW, this.top + 1, this.right, this.top + 1 + topRightH), Random.newInt(1, 3), f);
+		}
+
 		Painter.fill(level, new Rect(this.left + 1, this.bottom - this.bottomLeftH, this.left + 1 + bottomLeftW, this.bottom), Terrain.randomFloor());
+
+		if (Random.chance(70)) {
+			byte f = generate();
+			fun(level, new Rect(this.left + 1, this.bottom - this.bottomLeftH, this.left + 1 + bottomLeftW, this.bottom), Random.newInt(1, 3), f);
+		}
+
 		Painter.fill(level, new Rect(this.right - bottomRightW, this.bottom - this.bottomRightH, this.right, this.bottom), Terrain.randomFloor());
+
+		if (Random.chance(70)) {
+			byte f = generate();
+			fun(level, new Rect(this.right - bottomRightW, this.bottom - this.bottomRightH, this.right, this.bottom), Random.newInt(1, 3), f);
+		}
 
 		Rect rect = new Rect(this.left + Math.min(this.topLeftW, this.bottomLeftW),
 			this.top + Math.min(this.topLeftH, this.topRightH),
@@ -63,13 +93,21 @@ public class PadRoom extends RegularRoom {
 		Painter.fill(level, rect, Terrain.randomFloor());
 
 		if (Random.chance(50)) {
-			Painter.fillEllipse(level, rect, Random.newInt(1, 3), Terrain.randomFloor());
+			Painter.fillEllipse(level, rect, Random.newInt(1, 3), generate());
 		} else {
-			Painter.fill(level, rect, Random.newInt(1, 3), Terrain.randomFloor());
+			Painter.fill(level, rect, Random.newInt(1, 3), generate());
 		}
-		
+
 		if (!below) {
 			this.paintTunnel(level, Terrain.randomFloor());
+		}
+	}
+
+	private static void fun(Level level, Rect rect, int m, byte f) {
+		if (Random.chance(50)) {
+			Painter.fillEllipse(level, rect, m, f);
+		} else {
+			Painter.fill(level, rect, m, f);
 		}
 	}
 

@@ -48,12 +48,26 @@ public class Terrain {
 		flags[EXIT] = 0;
 	}
 
+	public static byte last;
+
+	public static byte randomFloorNotLast() {
+		byte l = last;
+
+		do {
+			randomFloor();
+		} while (last == l);
+
+		return last;
+	}
+
 	public static byte randomFloor() {
 		switch (Random.newInt(3)) {
-			case 0: default: return FLOOR_A;
-			case 1: return FLOOR_B;
-			case 2: return FLOOR_C;
+			case 0: default: last = FLOOR_A; break;
+			case 1: last = FLOOR_B; break;
+			case 2: last = FLOOR_C; break;
 		}
+
+		return last;
 	}
 
 	public static TextureRegion[] dither = new TextureRegion[10];
@@ -88,14 +102,14 @@ public class Terrain {
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
 
-	private static int last = -1;
+	private static int lastt = -1;
 
 	public static void loadTextures(int set) {
-		if (last == set) {
+		if (lastt == set) {
 			return;
 		}
 
-		last = set;
+		lastt = set;
 		String bm = "biome-" + set;
 
 		Log.info("Loading biome " + set);
