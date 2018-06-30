@@ -13,7 +13,7 @@ public class BrokeLineRoom extends RegularRoom {
 		super.paint(level);
 
 		byte f = Terrain.randomFloor();
-		byte fl = Random.chance(50) ? Terrain.WALL : Terrain.LAVA;
+		byte fl = Random.chance(30) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
 
 		if (fl == Terrain.LAVA) {
 			f = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
