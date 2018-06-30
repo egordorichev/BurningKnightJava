@@ -12,12 +12,30 @@ public class CrossRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 1, Random.chance(50) ? Terrain.WALL : Terrain.CHASM);
+		boolean wall = Random.chance(50);
+		Painter.fill(level, this, 1, wall ? Terrain.WALL : Terrain.CHASM);
+
+		if (wall && Random.chance(50)) {
+			if (Random.chance(50)) {
+				Painter.fill(level, this, 2, Terrain.CHASM);
+			} else {
+				Painter.fillEllipse(level, this, 2, Terrain.CHASM);
+			}
+		}
+
 
 		byte f = Terrain.randomFloor();
 
 		Painter.fill(level, new Rect(this.left + 1, this.top + this.getHeight() / 2 - 1, this.right, this.top + this.getHeight() / 2 + 1), f);
 		Painter.fill(level, new Rect(this.left + this.getWidth() / 2 - 1, this.top + 1, this.left + this.getWidth() / 2 + 1, this.bottom), f);
+
+		if (!wall && Random.chance(50)) {
+			if (Random.chance(50)) {
+				Painter.fill(level, this, 2, f);
+			} else {
+				Painter.fillEllipse(level, this, 2, f);
+			}
+		}
 	}
 
 	@Override
