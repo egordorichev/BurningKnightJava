@@ -1,0 +1,3 @@
+knight = mob:create({
+
+}, "dungeon")
