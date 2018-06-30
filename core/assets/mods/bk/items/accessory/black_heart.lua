@@ -16,3 +16,19 @@ item:equipable("black_heart", {
 		owner:removeCallback("on_hurt", self:get("hurt_callback"))
 	end
 })
+
+local black_heart = setmetatable({},{__index = item})
+
+function black_heart:on_equip()
+	self.id = self.owner:registerCallback("on_hurt", function()
+		local room = self.owner:getRoom()
+
+		for _, mob in pairs(room:getMobs()) do
+			mob:modifyHp(-1, self.owner, true)
+		end
+	end)
+end
+
+function black_heart:on_unequip()
+	self.owner:removeCallback("on_hurt", self.id)
+end

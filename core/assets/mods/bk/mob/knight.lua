@@ -1,3 +1,10 @@
-knight = mob:create({
+knight = setmetatable({},{__index = mob})
 
-}, "dungeon")
+function knight:init()
+	mob:init(self)
+
+end
+
+function knight:idle()
+
+end

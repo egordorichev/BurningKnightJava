@@ -4,10 +4,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class BlueWatch extends Item {
 	{

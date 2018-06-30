@@ -229,6 +229,16 @@ public class Clown extends Mob {
 				Dungeon.area.add(note);
 			}
 
+			this.checkForPlayer();
+
+			if (self.target != null) {
+				float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
+
+				if (d < 64f) {
+					self.become("chase");
+				}
+			}
+
 			if (this.t >= 3f) {
 				self.become("chase");
 				// I know
