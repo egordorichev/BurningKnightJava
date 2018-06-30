@@ -43,6 +43,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(VerticalSpikeTrapRoom.class, 1f);
 		add(PrisonRoom.class, 1f);
 
-		add(TriangleRoom.class, 1000f);
+		add(TriangleRoom.class, 2f);
 	}
 }
