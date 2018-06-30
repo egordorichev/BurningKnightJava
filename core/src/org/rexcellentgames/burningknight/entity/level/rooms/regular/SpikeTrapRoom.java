@@ -23,6 +23,11 @@ public class SpikeTrapRoom extends TrapRoom {
 		byte f = Terrain.randomFloor();
 
 		Painter.fill(level, this, Terrain.WALL);
+		
+		if (Random.chance(50)) {
+			Painter.fill(level, this, 1, Terrain.CHASM);
+		}
+
 		Painter.fill(level, new Rect(this.left + 1, this.top + 1, this.left + 4, this.bottom), f);
 		Painter.fill(level, new Rect(this.right - 3, this.top + 1, this.right, this.bottom), f);
 
