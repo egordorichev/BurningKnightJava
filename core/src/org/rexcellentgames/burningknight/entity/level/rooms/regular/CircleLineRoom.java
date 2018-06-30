@@ -16,7 +16,7 @@ public class CircleLineRoom extends RegularRoom {
 
 		byte floor = Terrain.randomFloor();
 		byte fl = Random.chance(30) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
-		
+
 		if (fl == Terrain.LAVA) {
 			floor = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
 		}
@@ -31,6 +31,10 @@ public class CircleLineRoom extends RegularRoom {
 		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), floor);
 		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), floor);
 		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), floor);
+
+		if (Random.chance(50)) {
+			Painter.fillEllipse(level, this, 4, fl);
+		}
 	}
 
 	@Override

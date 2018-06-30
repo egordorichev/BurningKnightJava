@@ -27,6 +27,10 @@ public class BrokeLineRoom extends RegularRoom {
 		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
 		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
 
+		if (Random.chance(50)) {
+			Painter.fill(level, this, 4, fl);
+		}
+
 		for (Door door : connected.values()) {
 			door.setType(Door.Type.REGULAR);
 		}
