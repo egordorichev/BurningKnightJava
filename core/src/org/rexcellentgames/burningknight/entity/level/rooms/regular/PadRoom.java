@@ -38,7 +38,7 @@ public class PadRoom extends RegularRoom {
 	}
 
 	private byte generate() {
-		if (Random.chance(50)) {
+		if (Random.chance(30)) {
 			return Terrain.randomFloorNotLast();
 		}
 
@@ -57,32 +57,40 @@ public class PadRoom extends RegularRoom {
 			this.paintTunnel(level, Terrain.randomFloor());
 		}
 
-		Painter.fill(level, new Rect(this.left + 1, this.top + 1, this.left + 1 + topLeftW, this.top + 1 + topLeftH), Terrain.randomFloor());
+		if (Random.chance(50)) {
+			Painter.fill(level, new Rect(this.left + 1, this.top + 1, this.left + 1 + topLeftW, this.top + 1 + topLeftH), Terrain.randomFloor());
 
-		if (Random.chance(70)) {
-			byte f = generate();
-			fun(level, new Rect(this.left + 1, this.top + 1, this.left + 1 + topLeftW, this.top + 1 + topLeftH), Random.newInt(1, 3), f);
+			if (Random.chance(70)) {
+				byte f = generate();
+				fun(level, new Rect(this.left + 1, this.top + 1, this.left + 1 + topLeftW, this.top + 1 + topLeftH), Random.newInt(1, 3), f);
+			}
 		}
 
-		Painter.fill(level, new Rect(this.right - topRightW, this.top + 1, this.right, this.top + 1 + topRightH), Terrain.randomFloor());
+		if (Random.chance(50)) {
+			Painter.fill(level, new Rect(this.right - topRightW, this.top + 1, this.right, this.top + 1 + topRightH), Terrain.randomFloor());
 
-		if (Random.chance(70)) {
-			byte f = generate();
-			fun(level, new Rect(this.right - topRightW, this.top + 1, this.right, this.top + 1 + topRightH), Random.newInt(1, 3), f);
+			if (Random.chance(70)) {
+				byte f = generate();
+				fun(level, new Rect(this.right - topRightW, this.top + 1, this.right, this.top + 1 + topRightH), Random.newInt(1, 3), f);
+			}
 		}
 
-		Painter.fill(level, new Rect(this.left + 1, this.bottom - this.bottomLeftH, this.left + 1 + bottomLeftW, this.bottom), Terrain.randomFloor());
+		if (Random.chance(50)) {
+			Painter.fill(level, new Rect(this.left + 1, this.bottom - this.bottomLeftH, this.left + 1 + bottomLeftW, this.bottom), Terrain.randomFloor());
 
-		if (Random.chance(70)) {
-			byte f = generate();
-			fun(level, new Rect(this.left + 1, this.bottom - this.bottomLeftH, this.left + 1 + bottomLeftW, this.bottom), Random.newInt(1, 3), f);
+			if (Random.chance(70)) {
+				byte f = generate();
+				fun(level, new Rect(this.left + 1, this.bottom - this.bottomLeftH, this.left + 1 + bottomLeftW, this.bottom), Random.newInt(1, 3), f);
+			}
 		}
 
-		Painter.fill(level, new Rect(this.right - bottomRightW, this.bottom - this.bottomRightH, this.right, this.bottom), Terrain.randomFloor());
+		if (Random.chance(50)) {
+			Painter.fill(level, new Rect(this.right - bottomRightW, this.bottom - this.bottomRightH, this.right, this.bottom), Terrain.randomFloor());
 
-		if (Random.chance(70)) {
-			byte f = generate();
-			fun(level, new Rect(this.right - bottomRightW, this.bottom - this.bottomRightH, this.right, this.bottom), Random.newInt(1, 3), f);
+			if (Random.chance(70)) {
+				byte f = generate();
+				fun(level, new Rect(this.right - bottomRightW, this.bottom - this.bottomRightH, this.right, this.bottom), Random.newInt(1, 3), f);
+			}
 		}
 
 		Rect rect = new Rect(this.left + Math.min(this.topLeftW, this.bottomLeftW),
