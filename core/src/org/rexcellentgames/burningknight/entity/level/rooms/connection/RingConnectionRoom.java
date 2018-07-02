@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.connection;
 
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
@@ -23,6 +22,11 @@ public class RingConnectionRoom extends TunnelRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
+
+		if (Random.chance(50)) {
+			Painter.fill(level, this, 1, Terrain.CHASM);
+		}
+
 		super.paint(level);
 
 		Rect ring = getConnectionSpace();

@@ -7,6 +7,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 	public static RegularRoomPool instance = new RegularRoomPool();
 
 	public RegularRoomPool() {
+		this.add(CircleRoom.class, 3);
 		add(GardenRoom.class, 1f);
 		add(FloodedRoom.class, 0.3f);
 		add(SpikedRoom.class, 1f);
@@ -25,8 +26,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(TurretRoom.class, 1);
 		add(FourSideTurretRoom.class, 1);
 		add(RotatingTurretRoom.class, 1);
-		add(CircleLineRoom.class, 1);
-
+		add(CircleLineRoom.class, 3);
 		add(LavaLakeRoom.class, 1);
 		add(SmileRoom.class, 0.4f);
 		add(CavyChasmRoom.class, 2f);
@@ -44,7 +44,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(PrisonRoom.class, 1f);
 		add(TriangleRoom.class, 2f);
 		add(AnticrossRoom.class, 2f);
-
-		add(PadRoom.class, 10000f);
+		add(PadRoom.class, 2f);
 	}
 }

@@ -24,10 +24,17 @@ public class RectCornerRoom extends RegularRoom {
 		Painter.fill(level, this, 2, f);
 		Painter.fill(level, this, 3, chasm ? Terrain.CHASM : Terrain.WALL);
 
-		Painter.fill(level, new Rect(this.left + 1, this.top + 1, this.left + 4, this.top + 4), f);
-		Painter.fill(level, new Rect(this.right - 3, this.top + 1, this.right, this.top + 4), f);
-		Painter.fill(level, new Rect(this.left + 1, this.bottom - 3, this.left + 4, this.bottom), f);
-		Painter.fill(level, new Rect(this.right - 3, this.bottom - 3, this.right, this.bottom), f);
+		if (Random.chance(50)) {
+			Painter.fillEllipse(level, new Rect(this.left + 1, this.top + 1, this.left + 4, this.top + 4), f);
+			Painter.fillEllipse(level, new Rect(this.right - 3, this.top + 1, this.right, this.top + 4), f);
+			Painter.fillEllipse(level, new Rect(this.left + 1, this.bottom - 3, this.left + 4, this.bottom), f);
+			Painter.fillEllipse(level, new Rect(this.right - 3, this.bottom - 3, this.right, this.bottom), f);
+		} else {
+			Painter.fill(level, new Rect(this.left + 1, this.top + 1, this.left + 4, this.top + 4), f);
+			Painter.fill(level, new Rect(this.right - 3, this.top + 1, this.right, this.top + 4), f);
+			Painter.fill(level, new Rect(this.left + 1, this.bottom - 3, this.left + 4, this.bottom), f);
+			Painter.fill(level, new Rect(this.right - 3, this.bottom - 3, this.right, this.bottom), f);
+		}
 
 		for (Door door : connected.values()) {
 			door.setType(Door.Type.REGULAR);

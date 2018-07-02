@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.rooms;
 
 import org.luaj.vm2.LuaTable;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -344,6 +343,10 @@ public abstract class Room extends Rect implements GraphNode {
 	}
 
 	protected void paintTunnel(Level level, byte floor) {
+		paintTunnel(level, floor, false);
+	}
+
+	protected void paintTunnel(Level level, byte floor, boolean bold) {
 		if (this.connected.size() == 0) {
 			Log.error("Invalid connection room");
 			return;
@@ -381,8 +384,8 @@ public abstract class Room extends Rect implements GraphNode {
 				end = new Point(mid.x + rightShift, mid.y);
 			}
 
-			Painter.drawLine(level, start, mid, floor, false);
-			Painter.drawLine(level, mid, end, floor, false);
+			Painter.drawLine(level, start, mid, floor, bold);
+			Painter.drawLine(level, mid, end, floor, bold);
 		}
 	}
 }

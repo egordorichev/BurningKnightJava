@@ -98,7 +98,7 @@ public class RangedKnight extends Knight {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (self.sword.getDelay() == 0) {
+			if (this.t >= 0.6f) {
 				self.become("chase");
 			}
 
