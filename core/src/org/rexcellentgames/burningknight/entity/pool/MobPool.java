@@ -36,8 +36,8 @@ public class MobPool extends Pool<Mob> {
 			add(Skeleton.class, 1f);
 			add(BlackSkeleton.class, 1f);
 			add(BrownSkeleton.class, 0.7f);
-			add(Mummy.class, 100f);
-			add(Archeologist.class, 100f);
+			// add(Mummy.class, 100f);
+			// add(Archeologist.class, 100f);
 		}
 
 		if (Dungeon.level instanceof LibraryLevel) {

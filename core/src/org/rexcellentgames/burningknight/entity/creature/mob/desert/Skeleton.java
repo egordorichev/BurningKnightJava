@@ -204,6 +204,9 @@ public class Skeleton extends Mob {
 				ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
 
 				ball.letter = "bone";
+				ball.bad = true;
+				ball.canBeRemoved = false;
+
 				Dungeon.area.add(ball);
 			}
 

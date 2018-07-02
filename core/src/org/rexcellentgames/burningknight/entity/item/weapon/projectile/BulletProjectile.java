@@ -57,7 +57,6 @@ public class BulletProjectile extends Projectile {
 		this.ivel = new Point(this.vel.x, this.vel.y);
 		this.dir = Random.chance(50) ? -1 : 1;
 		this.ra = (float) Math.toRadians(this.a);
-		this.parts = this.bad;
 
 		if (this.sprite == null && this.letter != null) {
 			this.sprite = Graphics.getTexture("bullet-" + this.letter);
@@ -78,6 +77,8 @@ public class BulletProjectile extends Projectile {
 			this.body.setTransform(this.x, this.y, ra);
 			this.body.setBullet(true);
 		}
+
+		penetrates = !canBeRemoved;
 	}
 
 	public boolean rectShape;
@@ -133,7 +134,7 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		return entity == null || (entity instanceof SolidProp && !(entity instanceof Turret)) || entity instanceof Door;
+		return this.canBeRemoved && (entity == null || (entity instanceof SolidProp && !(entity instanceof Turret)) || entity instanceof Door);
 	}
 
 	@Override
