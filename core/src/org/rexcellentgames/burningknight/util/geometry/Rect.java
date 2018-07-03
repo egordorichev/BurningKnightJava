@@ -117,6 +117,10 @@ public class Rect {
 		return new Rect(left + d, top + d, right - d, bottom - d);
 	}
 
+	public Rect shrink(int d, int h) {
+		return new Rect(left + d, top + h, right - d, bottom - h);
+	}
+
 	public Rect shrink() {
 		return shrink(1);
 	}

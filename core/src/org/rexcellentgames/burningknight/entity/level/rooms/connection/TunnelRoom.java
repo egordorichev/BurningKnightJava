@@ -14,7 +14,7 @@ public class TunnelRoom extends ConnectionRoom {
 	public void paint(Level level) {
 		this.fill(level);
 
-		byte fl =  this instanceof SpikedTunnelRoom ? Terrain.DIRT :
+		byte fl = this instanceof SpikedTunnelRoom ? Terrain.DIRT :
 			(Random.chance(25) ? (Random.chance(33) ? Terrain.CHASM : (Random.chance(50) ? Terrain.WALL : Terrain.LAVA))
 			: Terrain.randomFloor());
 
@@ -26,7 +26,7 @@ public class TunnelRoom extends ConnectionRoom {
 			this.paintTunnel(level, Terrain.randomFloor());
 		}
 
-		this.paintTunnel(level, fl == Terrain.LAVA ? (Random.chance(50) ? Terrain.WATER : Terrain.DIRT) : Terrain.randomFloor());
+		this.paintTunnel(level, fl == Terrain.DIRT ? (Random.chance(50) ? Terrain.WATER : Terrain.DIRT) : Terrain.randomFloor());
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.TUNNEL);

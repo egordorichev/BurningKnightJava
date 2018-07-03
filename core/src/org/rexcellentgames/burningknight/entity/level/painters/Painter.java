@@ -279,6 +279,22 @@ public class Painter {
 		}
 	}
 
+	public static void triangle(Level level, Point from, Point p1, Point p2, byte v) {
+		if (p1.x != p2.x) {
+			// x
+
+			for (int x = (int) p1.x; x < p2.x; x++) {
+				drawLine(level, from, new Point(x, p1.y), v);
+			}
+		} else {
+			// y
+
+			for (int y = (int) p1.y; y < p2.y; y++) {
+				drawLine(level, from, new Point(p1.x, y), v);
+			}
+		}
+	}
+
 	public static void fill(Level level, Rect rect, byte value) {
 		fill(level, rect.left, rect.top, rect.getWidth(), rect.getHeight(), value);
 	}

@@ -1188,8 +1188,16 @@ public abstract class Level extends SaveableEntity {
 	public void set(int i, byte v) {
 		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT) {
 			this.liquidData[i] = v;
+
+			if (this.get(i) == Terrain.CHASM) {
+				this.set(i, Terrain.FLOOR_A);
+			}
 		} else {
 			this.data[i] = v;
+
+			if (v == Terrain.CHASM) {
+				this.liquidData[i] = 0;
+			}
 		}
 	}
 
