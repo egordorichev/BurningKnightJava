@@ -254,7 +254,7 @@ public class Painter {
 		for (int xx = x - 1; xx < x + 2; xx++) {
 			for (int yy = y - 1; yy < y + 2; yy++) {
 				if (level.get(xx, yy) != value) {
-					set(level, xx, yy, (xx == x && yy == y) ? value : Terrain.WALL);
+					set(level, xx, yy, value);
 				}
 			}
 		}

@@ -1,17 +1,19 @@
-package org.rexcellentgames.burningknight.entity.creature.mob.hall;
+package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.MathUtils;
 
-public class InvisThief extends Thief {
-	public static Animation animations = Animation.make("actor-thief", "-black");
-
-	public Animation getAnimation() {
-		return animations;
-	}
+public class RedArcheologist extends Archeologist {
+	public static Animation animations = Animation.make("actor-archeologist", "-red");
 
 	{
-		hpMax = 2;
+		skeletonChance = 0;
+		toPlayer = true;
+	}
+
+	@Override
+	public Animation getAnimation() {
+		return animations;
 	}
 
 	@Override

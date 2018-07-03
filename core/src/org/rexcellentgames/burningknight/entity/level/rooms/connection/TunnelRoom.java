@@ -14,12 +14,13 @@ public class TunnelRoom extends ConnectionRoom {
 	public void paint(Level level) {
 		this.fill(level);
 
-		boolean bold = Random.chance(20);
-		this.paintTunnel(level, this instanceof SpikedTunnelRoom ? Terrain.DIRT : Terrain.randomFloor(), bold);
+		boolean bold = Random.chance(50);
 
-		if (bold && !(this instanceof SpikedTunnelRoom)) {
-			this.paintTunnel(level, Terrain.randomFloor());
-		}
+		byte fl =  this instanceof SpikedTunnelRoom ? Terrain.DIRT : (Random.chance(25) ? (Random.chance(33) ? Terrain.CHASM : (Random.chance(50) ? Terrain.WALL : Terrain.LAVA))
+			: Terrain.randomFloor());
+
+		this.paintTunnel(level, fl, bold);
+		this.paintTunnel(level, fl == Terrain.LAVA ? (Random.chance(50) ? Terrain.WATER : Terrain.DIRT) : Terrain.randomFloor());
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.TUNNEL);

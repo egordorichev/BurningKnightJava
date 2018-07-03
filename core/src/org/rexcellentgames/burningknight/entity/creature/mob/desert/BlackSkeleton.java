@@ -13,7 +13,7 @@ public class BlackSkeleton extends Skeleton {
 	{
 		distance = 72;
 		boneSpeed = 300;
-		hpMax = 8;
+		hpMax = 2;
 	}
 
 	@Override

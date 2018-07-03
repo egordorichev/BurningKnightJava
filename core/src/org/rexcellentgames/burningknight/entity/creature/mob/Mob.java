@@ -718,7 +718,7 @@ public class Mob extends Creature {
 						self.noticeSignT = 2f;
 					}
 
-					if (!self.state.equals("chase") && !self.state.equals("fleeing")) {
+					if (!self.state.equals("chase") && !self.state.equals("runaway")) {
 						self.become("alerted");
 					}
 				} else {

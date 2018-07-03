@@ -27,7 +27,7 @@ public class Skeleton extends Mob {
 	}
 
 	{
-		hpMax = 13;
+		hpMax = 3;
 		w = 13;
 
 		idle = getAnimation().get("idle").randomize();

@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.level.rooms;
 
 import org.luaj.vm2.LuaTable;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -171,12 +172,26 @@ public abstract class Room extends Rect implements GraphNode {
 		return false;
 	}
 
-
 	public Point getRandomCell() {
 		int x = Random.newInt(this.left + 1, this.right);
 		int y = Random.newInt(this.top + 1, this.bottom);
 
 		return new Point(x, y);
+	}
+
+	public Point getRandomFreeCell() {
+		Point point;
+		int at = 0;
+
+		do {
+			if (at++ > 200) {
+				Log.error("To many attempts");
+			}
+
+			point = getRandomCell();
+		} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
+
+		return point;
 	}
 
 	@Override

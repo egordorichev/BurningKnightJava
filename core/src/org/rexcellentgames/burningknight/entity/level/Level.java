@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public abstract class Level extends SaveableEntity {
-	public static final boolean RENDER_ROOM_DEBUG = false;
+	public static boolean RENDER_ROOM_DEBUG = false;
 	public static boolean RENDER_PASSABLE = false;
 	public static boolean SHADOWS = true;
 

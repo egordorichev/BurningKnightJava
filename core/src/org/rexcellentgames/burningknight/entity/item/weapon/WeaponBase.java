@@ -22,7 +22,7 @@ public class WeaponBase extends Item {
 	protected Modifier modifier;
 	public int damage = 2;
 	protected int minDamage = -1;
-	protected float timeA = 0.1f;
+	public float timeA = 0.1f;
 	protected float timeB = 0.1f;
 	protected float knockback = 10f;
 	public float critChance = 4f;
