@@ -238,7 +238,7 @@ public class Skeleton extends Mob {
 			self.killed.setPaused(false);
 			self.okm = self.getStat("knockback");
 			self.setStat("knockback", 0);
-			delay = Random.newFloat(20f, 30f);
+			delay = Random.newFloat(40f, 60f);
 			self.setUnhittable(true);
 		}
 

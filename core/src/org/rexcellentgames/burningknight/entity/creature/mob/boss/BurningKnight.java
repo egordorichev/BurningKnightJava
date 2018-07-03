@@ -53,7 +53,6 @@ public class BurningKnight extends Boss {
 
 	{
 		texture = "ui-bkbar-skull";
-		mind = Mind.ATTACKER;
 		hpMax = 430;
 		damage = 10;
 		w = 36;

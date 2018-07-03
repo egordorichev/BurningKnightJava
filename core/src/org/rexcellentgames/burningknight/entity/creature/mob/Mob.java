@@ -57,7 +57,6 @@ public class Mob extends Creature {
 	protected boolean drop;
 	protected State ai;
 	public boolean stupid = false;
-	protected Mind mind;
 	protected Prefix prefix;
 
 	private static TextureRegion hideSign;
@@ -94,30 +93,7 @@ public class Mob extends Creature {
 		}
 	}
 
-	public Mind getMind() {
-		return this.mind;
-	}
-
-	public enum Mind {
-		ATTACKER(0),
-		DEFENDER(1),
-		COWARD(2),
-		RAT(3);
-
-		private byte id;
-
-		Mind(int id) {
-			this.id = (byte) id;
-		}
-
-		public byte getId() {
-			return this.id;
-		}
-	}
-
 	public Mob generate() {
-		this.mind = Mind.values()[Random.newInt(Mind.values().length)];
-
 		if (challenge || Random.chance(10)) {
 			this.generatePrefix();
 		}
@@ -200,7 +176,6 @@ public class Mob extends Creature {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
-		this.mind = Mind.values()[reader.readByte()];
 		int id = reader.readInt16();
 
 		if (id > 0) {
@@ -214,7 +189,6 @@ public class Mob extends Creature {
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
-		writer.writeByte(this.mind.getId());
 
 		if (this.prefix == null) {
 			writer.writeInt16((short) 0);

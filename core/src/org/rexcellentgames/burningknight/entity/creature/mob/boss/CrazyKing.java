@@ -48,7 +48,6 @@ public class CrazyKing extends Boss {
 		w = 20;
 		h = 24;
 		texture = "ui-bkbar-ck_head";
-		mind = Mind.ATTACKER;
 		ignoreHealthbar = true;
 
 		alwaysRender = true;

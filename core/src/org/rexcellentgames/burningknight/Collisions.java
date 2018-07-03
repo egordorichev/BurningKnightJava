@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Gold;
@@ -73,7 +74,9 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if (b == null && contact.getFixtureB().getBody().isBullet() && a instanceof Projectile) {
 			contact.setEnabled(false);
 		} else if (a instanceof Creature && b instanceof Creature) {
-			contact.setEnabled(false);
+			if (!(b instanceof Player && a instanceof Mummy) && !(a instanceof Player && b instanceof Mummy)) {
+				contact.setEnabled(false);
+			}
 		} else if ((a instanceof Creature && b instanceof ItemHolder) || (b instanceof Creature && a instanceof ItemHolder)) {
 			contact.setEnabled(false);
 		} else if (a instanceof Creature && b instanceof Weapon) {

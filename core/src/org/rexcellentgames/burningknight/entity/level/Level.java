@@ -773,7 +773,9 @@ public abstract class Level extends SaveableEntity {
 				int i = x + y * getWidth();
 				byte tile = this.liquidData[i];
 
-				if (tile == Terrain.WATER) {
+				if (tile == Terrain.EXIT) {
+					Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
+				} else if (tile == Terrain.WATER) {
 					byte variant = this.liquidVariants[i];
 
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
@@ -1184,7 +1186,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void set(int i, byte v) {
-		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT) {
+		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT) {
 			this.liquidData[i] = v;
 		} else {
 			this.data[i] = v;

@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.PickaxeA;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.ShovelA;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -160,6 +161,7 @@ public class Archeologist extends Mob {
 
 					skeleton.x = self.x;
 					skeleton.y = self.y;
+					skeleton.generate();
 
 					Dungeon.area.add(skeleton);
 					LevelSave.add(skeleton);
@@ -192,7 +194,7 @@ public class Archeologist extends Mob {
 		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
 
-		this.weapon = new PickaxeA();
+		this.weapon = Random.chance(50) ? new PickaxeA() : new ShovelA();
 		this.weapon.setOwner(this);
 	}
 

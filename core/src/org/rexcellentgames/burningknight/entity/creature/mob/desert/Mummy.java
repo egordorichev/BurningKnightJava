@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Mummy extends Mob {
 	public static Animation animations = Animation.make("actor-mummy", "-brown");
@@ -29,7 +31,76 @@ public class Mummy extends Mob {
 
 	/*
 	 * Close range enemy:
+	 * Slowly runs to you, collides with you, doesn't make it possible to run through it
+	 * Deals contact damage after some time after contact
 	 */
+
+	@Override
+	protected State getAi(String state) {
+		switch (state) {
+			case "alerted": case "chase": case "roam": case "idle": return new ChaseState();
+			case "tired": return new TiredState();
+		}
+
+		return super.getAi(state);
+	}
+
+	public class MummyState extends Mob.State<Mummy> {
+
+	}
+
+	public class ChaseState extends MummyState {
+		private float delay;
+		private Point to;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			this.delay = Random.newFloat(7, 10);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			this.checkForPlayer();
+
+			if (self.target != null) {
+				this.moveTo(self.lastSeen, 4f, 8f);
+			} else {
+				if (to == null) {
+					to = self.room.getRandomFreeCell();
+				}
+
+				this.moveTo(this.to, 3f, 16f);
+			}
+
+			if (this.t >= this.delay) {
+				self.become("tired");
+			}
+		}
+	}
+
+	public class TiredState extends MummyState {
+		private float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			this.delay = Random.newFloat(3, 5);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= this.delay) {
+				self.become("chase");
+			}
+		}
+	}
 
 	@Override
 	public void init() {
