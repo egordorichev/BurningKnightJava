@@ -43,12 +43,6 @@ public class Mummy extends Mob {
 		animation = this.idle;
 	}
 
-	/*
-	 * Close range enemy:
-	 * Slowly runs to you, collides with you, doesn't make it possible to run through it
-	 * Deals contact damage after some time after contact
-	 */
-
 	@Override
 	protected State getAi(String state) {
 		switch (state) {

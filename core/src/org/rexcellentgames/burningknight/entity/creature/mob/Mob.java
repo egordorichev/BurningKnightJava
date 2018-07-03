@@ -341,12 +341,25 @@ public class Mob extends Creature {
 
 			if (this.ai != null) {
 				this.ai.self = this;
-				this.ai.onEnter();
+
+				try {
+					this.ai.onEnter();
+				} catch (RuntimeException e) {
+					e.printStackTrace();
+					Log.error("AI error in " + this.getClass().getSimpleName());
+					this.become("idle");
+				}
 			}
 		}
 
 		if (this.ai != null) {
-			this.ai.update(dt * speedMod);
+			try {
+				this.ai.update(dt * speedMod);
+			} catch (RuntimeException e) {
+				e.printStackTrace();
+				Log.error("AI error in " + this.getClass().getSimpleName());
+				this.become("idle");
+			}
 
 			if (this.ai != null) { // !?!?!
 				this.ai.t += dt * speedMod;
@@ -471,14 +484,25 @@ public class Mob extends Creature {
 	public void become(String state) {
 		if (!this.state.equals(state)) {
 			if (this.ai != null) {
-				this.ai.onExit();
+				try {
+					this.ai.onExit();
+				} catch (RuntimeException e) {
+					e.printStackTrace();
+					Log.error("Mob AI exception " + this.getClass().getSimpleName());
+				}
 			}
 
 			this.ai = this.getAi(state);
 
 			if (this.ai != null) {
 				this.ai.self = this;
-				this.ai.onEnter();
+
+				try {
+					this.ai.onEnter();
+				} catch (RuntimeException e) {
+					e.printStackTrace();
+					Log.error("Mob AI exception " + this.getClass().getSimpleName());
+				}
 			} else {
 				Log.error("'" + state + "' ai is not found for mob " + this.getClass().getSimpleName());
 			}
