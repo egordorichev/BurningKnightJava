@@ -1,14 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.ladder;
 
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
@@ -16,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class EntranceRoom extends LadderRoom {
@@ -24,6 +17,13 @@ public class EntranceRoom extends LadderRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
+
+		if (Random.chance(50)) {
+			Painter.fill(level, this, 2, Terrain.randomFloor());
+		} else {
+			Painter.fillEllipse(level, this, 2, Terrain.randomFloor());
+		}
+
 		this.place(level, this.getCenter());
 	}
 

@@ -14,6 +14,7 @@ public class CircleEntranceRoom extends EntranceRoom {
 		byte f = Terrain.randomFloor();
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fillEllipse(level, this, 1, f);
+		Painter.fillEllipse(level, this, 2, Terrain.randomFloor());
 
 		if (this.connected.size() == 0) {
 			Log.error("Invalid connection room");
