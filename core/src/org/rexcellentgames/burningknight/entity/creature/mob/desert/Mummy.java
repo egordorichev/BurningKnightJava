@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 
@@ -27,6 +26,10 @@ public class Mummy extends Mob {
 		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
 	}
+
+	/*
+	 * Close range enemy:
+	 */
 
 	@Override
 	public void init() {

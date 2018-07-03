@@ -253,7 +253,14 @@ public class Painter {
 	public static void setBold(Level level, int x, int y, byte value) {
 		for (int xx = x - 1; xx < x + 2; xx++) {
 			for (int yy = y - 1; yy < y + 2; yy++) {
-				if (level.get(xx, yy) != value) {
+				byte t = level.get(xx, yy);
+				if (t != value) {
+					if (xx != x || yy != y) {
+						if (t == Terrain.WALL) {
+							continue;
+						}
+					}
+
 					set(level, xx, yy, value);
 				}
 			}

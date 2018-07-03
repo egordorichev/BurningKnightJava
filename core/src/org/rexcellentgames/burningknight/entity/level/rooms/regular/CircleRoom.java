@@ -11,7 +11,12 @@ public class CircleRoom extends RegularRoom {
 	public void paint(Level level) {
 		byte f = Terrain.randomFloor();
 
-		Painter.fill(level, this, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
+		Painter.fill(level, this, Terrain.WALL);
+
+		if (Random.chance(50)) {
+			Painter.fill(level, this, 1, Terrain.CHASM);
+		}
+
 		Painter.fillEllipse(level, this, 1, f);
 
 		if (Random.chance(50)) {

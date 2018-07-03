@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.PickaxeA;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -36,13 +37,6 @@ public class Archeologist extends Mob {
 	}
 
 	private Item weapon;
-
-	/*
-	 * AI plan:
-	 * Ranged enemy
-	 * Alerts every enemy in the room
-	 * Digs up dirt and spawns skeleton (10%) chance, otherwise that spawns bones that fly to you
-	 */
 
 	@Override
 	protected State getAi(String state) {
@@ -125,7 +119,7 @@ public class Archeologist extends Mob {
 	}
 
 	protected boolean triple;
-	protected float skeletonChance = 10;
+	protected float skeletonChance = 100;
 
 	public class DigState extends ArcheologistState {
 		@Override
@@ -161,16 +155,26 @@ public class Archeologist extends Mob {
 			this.checkForPlayer();
 
 			if (!this.did && this.t > ((Weapon) self.weapon).timeA) {
-				Point aim = self.getAim();
-				float a = (float) (self.getAngleTo(aim.x, aim.y) - Math.PI * 2);
-				float ac = 2f;
+				if (Random.chance(skeletonChance)) {
+					Skeleton skeleton = Skeleton.random();
 
-				if (triple) {
-					this.sendBone((float) (a + Math.toRadians(Random.newFloat(-ac, ac) + 20f)));
-					this.sendBone((float) (a + Math.toRadians(Random.newFloat(-ac, ac) - 20f)));
+					skeleton.x = self.x;
+					skeleton.y = self.y;
+
+					Dungeon.area.add(skeleton);
+					LevelSave.add(skeleton);
+				} else {
+					Point aim = self.getAim();
+					float a = (float) (self.getAngleTo(aim.x, aim.y) - Math.PI * 2);
+					float ac = 2f;
+
+					if (triple) {
+						this.sendBone((float) (a + Math.toRadians(Random.newFloat(-ac, ac) + 20f)));
+						this.sendBone((float) (a + Math.toRadians(Random.newFloat(-ac, ac) - 20f)));
+					}
+
+					this.sendBone((float) (a + Math.toRadians(Random.newFloat(-ac, ac))));
 				}
-
-				this.sendBone((float) (a + Math.toRadians(Random.newFloat(-ac, ac))));
 
 				this.did = true;
 			}
