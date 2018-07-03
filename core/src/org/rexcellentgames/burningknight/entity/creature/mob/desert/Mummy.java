@@ -19,6 +19,16 @@ public class Mummy extends Mob {
 		return animations;
 	}
 
+	@Override
+	protected void die(boolean force) {
+		super.die(force);
+
+		this.playSfx("death_clown");
+
+		this.done = true;
+		deathEffect(killed);
+	}
+
 	{
 		w = 12;
 		hpMax = 10;
@@ -38,8 +48,8 @@ public class Mummy extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "alerted": case "chase": case "roam": case "idle": return new ChaseState();
-			case "tired": return new TiredState();
+			case "alerted": case "chase": case "roam": return new ChaseState();
+			case "idle": case "tired": return new TiredState();
 		}
 
 		return super.getAi(state);
@@ -57,7 +67,7 @@ public class Mummy extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			this.delay = Random.newFloat(7, 10);
+			this.delay = Random.newFloat(7, 15);
 		}
 
 		@Override
@@ -71,9 +81,13 @@ public class Mummy extends Mob {
 			} else {
 				if (to == null) {
 					to = self.room.getRandomFreeCell();
+					to.x *= 16;
+					to.y *= 16;
 				}
 
-				this.moveTo(this.to, 3f, 16f);
+				if (this.moveTo(this.to, 3f, 16f)) {
+					this.to = null;
+				}
 			}
 
 			if (this.t >= this.delay) {
