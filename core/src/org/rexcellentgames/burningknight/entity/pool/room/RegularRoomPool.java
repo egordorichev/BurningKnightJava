@@ -47,7 +47,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(PadRoom.class, 2f);
 		add(CenterStructRoom.class, 2);
 		add(RombRoom.class, 2f);
-
 		add(FilledRombRoom.class, 3f);
 	}
 }

@@ -20,17 +20,27 @@ public class FilledRombRoom extends RegularRoom {
 		byte floor = Random.chance(33) ? Terrain.WALL : (Random.chance(50) ? Terrain.LAVA : Terrain.CHASM);
 		byte fix = (floor == Terrain.LAVA ? (Random.chance(50) ? Terrain.WATER : Terrain.DIRT) : Terrain.randomFloor());
 
-		Painter.triangle(level, new Point(this.left + 1, this.top + (int) Math.ceil(h / 2) + 1),
-			new Point(this.left + 1, this.bottom - 1), new Point(this.left + (int) Math.floor(w / 2) - 1, this.bottom - 1), floor);
+		boolean a = Random.chance(30);
 
-		Painter.triangle(level, new Point(this.left + 1, this.top + (int) Math.floor(h / 2) - 1),
-			new Point(this.left + 1, this.top + 1), new Point(this.left + (int) Math.floor(w / 2) - 1, this.top + 1), floor);
+		if (a || Random.chance(50)) {
+			Painter.triangle(level, new Point(this.left + 1, this.top + (int) Math.ceil(h / 2) + 1),
+				new Point(this.left + 1, this.bottom - 1), new Point(this.left + (int) Math.floor(w / 2) - 1, this.bottom - 1), floor);
+		}
 
-		Painter.triangle(level, new Point(this.right - (int) Math.floor((w - 0.5) / 2) + 1, this.bottom - 1),
-			new Point(this.right - 1, this.top + (int) Math.ceil(h / 2) + 1), new Point(this.right - 1, this.bottom), floor);
+		if (a || Random.chance(50)) {
+			Painter.triangle(level, new Point(this.left + 1, this.top + (int) Math.floor(h / 2) - 1),
+				new Point(this.left + 1, this.top + 1), new Point(this.left + (int) Math.floor(w / 2) - 1, this.top + 1), floor);
+		}
 
-		Painter.triangle(level, new Point(this.right - (int) Math.floor((w - 0.5) / 2) + 1, this.top + 1),
-			new Point(this.right - 1, this.top + 1), new Point(this.right - 1, this.top + (int) Math.floor(h / 2) - 1), floor);
+		if (a || Random.chance(50)) {
+			Painter.triangle(level, new Point(this.right - (int) Math.floor((w - 0.5) / 2) + 1, this.bottom - 1),
+				new Point(this.right - 1, this.top + (int) Math.ceil(h / 2) + 1), new Point(this.right - 1, this.bottom), floor);
+		}
+
+		if (a || Random.chance(50)) {
+			Painter.triangle(level, new Point(this.right - (int) Math.floor((w - 0.5) / 2) + 1, this.top + 1),
+				new Point(this.right - 1, this.top + 1), new Point(this.right - 1, this.top + (int) Math.floor(h / 2) - 1), floor);
+		}
 
 		float r = Random.newFloat(1);
 		floor = Random.chance(50) ? Terrain.WALL : (Random.chance(30) ? Terrain.LAVA : Terrain.CHASM);
