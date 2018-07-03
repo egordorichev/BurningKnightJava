@@ -355,13 +355,15 @@ public class Creature extends SaveableEntity {
 
 				if (amount > 0) {
 					amount = -1;
-				} else if (this instanceof Player) {
-					amount = -1;
 				}
 
 				if (from != null) {
 					from.onHit(this);
 				}
+			}
+
+			if (this instanceof Player) {
+				amount = amount < -7 ? -2 : -1;
 			}
 
 			this.invt = this.getStat("inv_time");

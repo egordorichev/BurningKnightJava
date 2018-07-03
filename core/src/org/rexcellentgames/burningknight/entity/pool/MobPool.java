@@ -36,7 +36,9 @@ public class MobPool extends Pool<Mob> {
 			add(Skeleton.class, 1f);
 			add(BlackSkeleton.class, 1f);
 			add(BrownSkeleton.class, 0.7f);
-			add(Mummy.class, 10000f);
+			add(Mummy.class, 1f);
+			add(BrownMummy.class, 0.4f);
+			add(GrayMummy.class, 100000000.7f);
 			add(Archeologist.class, 1f);
 			add(BlueArcheologist.class, 0.8f);
 			add(RedArcheologist.class, 0.5f);

@@ -1,9 +1,13 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -12,16 +16,17 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.util.ArrayList;
 
 public class Mummy extends Mob {
-	public static Animation animations = Animation.make("actor-mummy", "-brown");
+	public static Animation animations = Animation.make("actor-mummy", "-white");
+
+	public Animation getAnimation() {
+		return animations;
+	}
+
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
-
-	public Animation getAnimation() {
-		return animations;
-	}
 
 	@Override
 	protected void die(boolean force) {
@@ -30,7 +35,6 @@ public class Mummy extends Mob {
 		this.playSfx("death_clown");
 
 		this.done = true;
-		deathEffect(killed);
 	}
 
 	{
@@ -75,7 +79,7 @@ public class Mummy extends Mob {
 			this.checkForPlayer();
 
 			if (self.target != null) {
-				this.moveTo(self.lastSeen, 3f, 8f);
+				this.moveTo(self.lastSeen, 3f * speedModifer, 8f);
 			} else {
 				if (to == null) {
 					to = self.room.getRandomFreeCell();
@@ -83,7 +87,7 @@ public class Mummy extends Mob {
 					to.y *= 16;
 				}
 
-				if (this.moveTo(this.to, 2f, 16f)) {
+				if (this.moveTo(this.to, 2f * speedModifer, 16f)) {
 					this.to = null;
 				}
 			}
@@ -123,6 +127,11 @@ public class Mummy extends Mob {
 
 		speed = 100;
 		maxSpeed = 100;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
 	}
 
 	@Override
@@ -166,6 +175,7 @@ public class Mummy extends Mob {
 		if (this.lastHit > 1f) {
 			for (Player player : this.colliding) {
 				player.modifyHp(-4, this);
+				player.knockBackFrom(this, 1000f * mod);
 			}
 		}
 
@@ -186,7 +196,14 @@ public class Mummy extends Mob {
 			colliding.add((Player) entity);
 			lastHit = 0;
 			((Player) entity).modifyHp(-4, this);
+			((Player) entity).knockBackFrom(this, 1000f * mod);
+
+			collide((Player) entity);
 		}
+	}
+
+	protected void collide(Player player) {
+
 	}
 
 	@Override
@@ -197,4 +214,7 @@ public class Mummy extends Mob {
 			colliding.remove(entity);
 		}
 	}
+
+	protected float mod = 1f;
+	protected float speedModifer = 1f;
 }
