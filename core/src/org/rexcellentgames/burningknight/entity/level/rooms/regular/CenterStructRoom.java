@@ -14,12 +14,19 @@ public class CenterStructRoom extends RegularRoom {
 			door.setType(Door.Type.REGULAR);
 		}
 
+		boolean el = Random.chance(50);
+
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.CHASM);
 
 		int m = Random.newInt(2, 4);
 
-		Painter.fill(level, this, m, Terrain.randomFloor());
+		if (el) {
+			Painter.fillEllipse(level, this, m, Terrain.randomFloor());
+		} else {
+			Painter.fill(level, this, m, Terrain.randomFloor());
+		}
+
 		m += Random.newInt(1, 3);
 
 		boolean before = Random.chance(50);
@@ -53,7 +60,7 @@ public class CenterStructRoom extends RegularRoom {
 		}
 
 		m += 1f;
-		boolean el = Random.chance(50);
+		el = el || Random.chance(50);
 
 		if (el) {
 			Painter.fillEllipse(level, this, m, f);
