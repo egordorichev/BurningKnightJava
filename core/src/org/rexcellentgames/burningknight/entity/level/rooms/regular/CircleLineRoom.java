@@ -27,11 +27,27 @@ public class CircleLineRoom extends RegularRoom {
 		Painter.fillEllipse(level, this, 2, fl);
 		Painter.fillEllipse(level, this, 3, floor);
 
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), floor);
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), floor);
-		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), floor);
-		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), floor);
+		byte f = floor;
+		boolean s = false;
 
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), f);
+			s = true;
+		}
+
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), f);
+			s = true;
+		}
+
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
+			s = true;
+		}
+
+		if (Random.chance(50) || !s) {
+			Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
+		}
 		if (Random.chance(50)) {
 			Painter.fillEllipse(level, this, 4, fl);
 		}

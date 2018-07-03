@@ -22,10 +22,26 @@ public class LineEntranceRoom extends EntranceRoom {
 		Painter.fill(level, this, 2, fl);
 		Painter.fill(level, this, 3, f);
 
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), f);
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), f);
-		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
-		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
+		boolean s = false;
+
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), f);
+			s = true;
+		}
+
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), f);
+			s = true;
+		}
+
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
+			s = true;
+		}
+
+		if (Random.chance(50) || !s) {
+			Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
+		}
 
 		place(level, this.getCenter());
 	}

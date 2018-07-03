@@ -23,15 +23,42 @@ public class BrokeLineRoom extends RegularRoom {
 
 		Painter.fill(level, this, 1, f);
 		Painter.fill(level, this, 2, fl);
-		Painter.fill(level, this, 3, f);
 
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), f);
-		Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), f);
-		Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
-		Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
+		boolean el = Random.chance(50);
+
+		if (el) {
+			Painter.fillEllipse(level, this, 3, f);
+		} else {
+			Painter.fill(level, this, 3, f);
+		}
+
+		boolean s = false;
 
 		if (Random.chance(50)) {
-			Painter.fill(level, this, 4, fl);
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), f);
+			s = true;
+		}
+
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), f);
+			s = true;
+		}
+
+		if (Random.chance(50)) {
+			Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
+			s = true;
+		}
+
+		if (Random.chance(50) || !s) {
+			Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
+		}
+
+		if (Random.chance(50)) {
+			if (el) {
+				Painter.fillEllipse(level, this, 4, fl);
+			} else {
+				Painter.fill(level, this, 4, fl);
+			}
 		}
 
 		for (Door door : connected.values()) {
