@@ -1,11 +1,15 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.util.ArrayList;
 
 public class Mummy extends Mob {
 	public static Animation animations = Animation.make("actor-mummy", "-brown");
@@ -77,7 +81,7 @@ public class Mummy extends Mob {
 			this.checkForPlayer();
 
 			if (self.target != null) {
-				this.moveTo(self.lastSeen, 4f, 8f);
+				this.moveTo(self.lastSeen, 3f, 8f);
 			} else {
 				if (to == null) {
 					to = self.room.getRandomFreeCell();
@@ -85,7 +89,7 @@ public class Mummy extends Mob {
 					to.y *= 16;
 				}
 
-				if (this.moveTo(this.to, 3f, 16f)) {
+				if (this.moveTo(this.to, 2f, 16f)) {
 					this.to = null;
 				}
 			}
@@ -144,6 +148,8 @@ public class Mummy extends Mob {
 		this.renderWithOutline(this.animation);
 	}
 
+	private float lastHit;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -161,10 +167,40 @@ public class Mummy extends Mob {
 			return;
 		}
 
+		this.lastHit += dt;
+
+		if (this.lastHit > 1f) {
+			for (Player player : this.colliding) {
+				player.modifyHp(-4, this);
+			}
+		}
+
 		if (this.animation != null) {
 			this.animation.update(dt * speedMod);
 		}
 
 		super.common();
+	}
+
+	protected ArrayList<Player> colliding = new ArrayList<>();
+
+	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
+
+		if (entity instanceof Player) {
+			colliding.add((Player) entity);
+			lastHit = 0;
+			((Player) entity).modifyHp(-4, this);
+		}
+	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		super.onCollisionEnd(entity);
+
+		if (entity instanceof Player) {
+			colliding.remove(entity);
+		}
 	}
 }
