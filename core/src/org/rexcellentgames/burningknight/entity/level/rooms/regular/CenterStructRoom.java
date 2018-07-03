@@ -72,6 +72,7 @@ public class CenterStructRoom extends RegularRoom {
 			m += 1f;
 
 			if (el) {
+				m += 1f;
 				Painter.fillEllipse(level, this, m, getSolid());
 			} else {
 				Painter.fill(level, this, m, getSolid());
