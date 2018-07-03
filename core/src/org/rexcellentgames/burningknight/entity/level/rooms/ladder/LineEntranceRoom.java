@@ -16,8 +16,9 @@ public class LineEntranceRoom extends EntranceRoom {
 
 		if (fl == Terrain.LAVA) {
 			f = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
-			Painter.fill(level, this, 1, Terrain.randomFloor());
 		}
+
+		Painter.fill(level, this, 1, Terrain.randomFloor());
 
 		Painter.fill(level, this, 1, f);
 		Painter.fill(level, this, 2, fl);
@@ -46,6 +47,7 @@ public class LineEntranceRoom extends EntranceRoom {
 
 		if (Random.chance(50)) {
 			f = Terrain.randomFloor();
+
 			if (fl == Terrain.LAVA) {
 				f = Terrain.DIRT;
 			}

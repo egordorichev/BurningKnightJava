@@ -1,14 +1,12 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.pool.room.RegularRoomPool;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.pool.room.RegularRoomPool;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class RegularRoom extends Room {
@@ -80,7 +78,7 @@ public class RegularRoom extends Room {
 	}
 
 	public static RegularRoom create() {
-		if (Dungeon.depth < 1 || Dungeon.depth == 4) {
+		if (Dungeon.depth < 1) {
 			return new RegularRoom();
 		}
 

@@ -27,9 +27,4 @@ public class DesertLevel extends RegularLevel {
 	protected Painter getPainter() {
 		return new HallPainter().setGrass(0.45f).setWater(0.3f);
 	}
-
-	@Override
-	protected int getNumConnectionRooms() {
-		return 0;
-	}
 }

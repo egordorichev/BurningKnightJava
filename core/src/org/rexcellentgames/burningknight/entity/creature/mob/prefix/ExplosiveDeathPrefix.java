@@ -24,7 +24,7 @@ public class ExplosiveDeathPrefix extends Prefix {
 		float xx = mob.x + mob.w / 2;
 		float yy = mob.y + mob.h / 2;
 
-		Dungeon.area.add(new Explosion(xx, yy));
+		Explosion.make(xx, yy);
 
 		for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 			Entity entity = Dungeon.area.getEntities().get(i);

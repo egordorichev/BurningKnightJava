@@ -21,8 +21,9 @@ public class CircleLineRoom extends RegularRoom {
 
 		if (fl == Terrain.LAVA) {
 			floor = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
-			Painter.fill(level, this, 1, Terrain.randomFloor());
 		}
+
+		Painter.fill(level, this, 1, Terrain.randomFloor());
 
 		Painter.fill(level, this, 1, floor);
 		Painter.fillEllipse(level, this, 2, fl);

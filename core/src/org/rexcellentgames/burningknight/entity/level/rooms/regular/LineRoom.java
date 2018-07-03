@@ -17,8 +17,9 @@ public class LineRoom extends RegularRoom {
 
 		if (fl == Terrain.LAVA) {
 			f = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
-			Painter.fill(level, this, 1, Terrain.randomFloor());
 		}
+
+		Painter.fill(level, this, 1, Terrain.randomFloor());
 
 		Painter.fill(level, this, 2, fl);
 		Painter.fill(level, this, 3, f);
