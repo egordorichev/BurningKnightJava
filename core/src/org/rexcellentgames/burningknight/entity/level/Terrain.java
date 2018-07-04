@@ -205,7 +205,7 @@ public class Terrain {
 		}
 
 		chasmPattern = Graphics.getTexture("biome-gen-chasm_bg");
-		patterns[CHASM] = chasmPattern;
+		//patterns[CHASM] = chasmPattern;
 
 		// variants[WALL] = wallVariants;
 		// variants[CRACK] = wallVariants;

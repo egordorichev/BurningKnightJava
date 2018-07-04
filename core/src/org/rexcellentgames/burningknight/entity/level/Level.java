@@ -963,6 +963,14 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
+	public static ShaderProgram shader;
+
+	static {
+		shader = new ShaderProgram(Gdx.files.internal("shaders/fadeout.vert").readString(),  Gdx.files.internal("shaders/fadeout.frag").readString());
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+	}
+
+
 	public void renderSides() {
 		OrthographicCamera camera = Camera.game;
 
@@ -1013,14 +1021,45 @@ public abstract class Level extends SaveableEntity {
 								Graphics.render(Terrain.sides[t], x * 16, y * 16 - 16);
 							}
 						}
-					} else if (tile == Terrain.CHASM && this.get(i + getWidth()) != Terrain.CHASM) {
-						Graphics.batch.setColor(0.4f, 0.4f, 0.4f, 1);
-						Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 8);
-						Graphics.batch.setColor(1, 1, 1, 1);
+					} else if (tile == Terrain.CHASM) {
+						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
 					}
 				}
 			}
 		}
+
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(shader);
+		Graphics.batch.begin();
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+				int i = x + y * getWidth();
+				byte tile = this.get(i);
+
+				if (i >= getWidth()) {
+					if (tile == Terrain.CHASM && this.get(i + getWidth()) != Terrain.CHASM) {
+						Graphics.batch.end();
+						shader.begin();
+
+						TextureRegion reg = Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12];
+						Texture texture = reg.getTexture();
+
+						shader.setUniformf("pos", new Vector2(((float) reg.getRegionX()) / texture.getWidth(), ((float) reg.getRegionY()) / texture.getHeight()));
+						shader.setUniformf("size", new Vector2(((float) reg.getRegionWidth()) / texture.getWidth(), ((float) reg.getRegionHeight()) / texture.getHeight()));
+
+						shader.end();
+						Graphics.batch.begin();
+						Graphics.render(reg, x * 16, y * 16 - 8);
+					}
+				}
+			}
+		}
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 	}
 
 	@Override

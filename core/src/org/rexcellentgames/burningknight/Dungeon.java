@@ -546,6 +546,7 @@ public class Dungeon extends ApplicationAdapter {
 			Mob.frozen.dispose();
 			BurningKnight.shader.dispose();
 			Level.maskShader.dispose();
+			Level.shader.dispose();
 			MagicWell.shader.dispose();
 			WeaponBase.shader.dispose();
 			RectFx.shader.dispose();

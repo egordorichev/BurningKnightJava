@@ -62,8 +62,8 @@ public class Player extends Creature {
 	public static ArrayList<Player> all = new ArrayList<>();
 	public static Player instance;
 	public static Entity ladder;
-	public static ShaderProgram shader;
 	private static HashMap<String, Animation> skins = new HashMap<>();
+	public static ShaderProgram shader;
 
 	static {
 		shader = new ShaderProgram(Gdx.files.internal("shaders/rainbow.vert").readString(),  Gdx.files.internal("shaders/rainbow.frag").readString());

@@ -120,7 +120,7 @@ public class Archeologist extends Mob {
 	}
 
 	protected boolean triple;
-	protected float skeletonChance = 100;
+	protected float skeletonChance = 10;
 
 	public class DigState extends ArcheologistState {
 		@Override

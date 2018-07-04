@@ -12,7 +12,7 @@ varying vec4 v_color;
 void main() {
     vec4 color = texture2D(u_texture, v_texCoord);
 
-    if (sin(time / 3.0 + (v_texCoord.y - v_texCoord.x) * 10.0) > 0.999) {
+    if (sin(time / 4.0 + (v_texCoord.y - v_texCoord.x) * 10.0) > 0.999) {
         color.r = 1.0;
         color.g = 1.0;
         color.b = 1.0;
