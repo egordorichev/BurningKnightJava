@@ -160,6 +160,37 @@ public class Graphics {
 		Assets.manager.load(path, BitmapFont.class, font);
 	}
 
+	public static void write(String s, BitmapFont font, float x, float y) {
+		write(s, font, x, y, 0, 1, 1);
+	}
+
+	public static void write(String s, BitmapFont font, float x, float y, float a, float sx, float sy) {
+		Graphics.batch.end();
+		Graphics.surface.end();
+		Graphics.text.begin();
+		Graphics.batch.begin();
+
+		Graphics.layout.setText(font, s);
+
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+		font.draw(Graphics.batch, s, 2, (font == medium ? 16 : 8));
+
+		Graphics.batch.end();
+		Graphics.text.end();
+		Graphics.surface.begin();
+		Graphics.batch.begin();
+		Graphics.batch.setProjectionMatrix(Camera.game.combined);
+
+		Texture texture = Graphics.text.getColorBufferTexture();
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Graphics.batch.draw(texture, x + 2, y, Graphics.layout.width / 2 + 4, Graphics.layout.height,
+			Graphics.layout.width, Graphics.layout.height * 2, sx, sy, a,
+			0, 0, (int) Graphics.layout.width + 4, (int) Graphics.layout.height * 2, false, true);
+	}
+
 	public static void print(String s, BitmapFont font, float x, float y) {
 		font.draw(batch, s, x, y + (font == medium ? 16 : 8));
 	}

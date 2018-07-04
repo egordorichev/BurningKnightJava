@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class ItemPickedFx extends Entity {
 	private String text;
-	private float t = 0;
 	private float a;
 
 	{
@@ -59,21 +58,15 @@ public class ItemPickedFx extends Entity {
 
 			@Override
 			public void onEnd() {
-				done = true;
+				setDone(true);
 			}
 		});
 	}
 
 	@Override
-	public void update(float dt) {
-		super.update(dt);
-		this.t += dt;
-	}
-
-	@Override
 	public void render() {
-		Graphics.medium.setColor(1, 1, 1, this.a);
-		Graphics.print(this.text, Graphics.medium, this.x, this.y);
-		Graphics.medium.setColor(1, 1, 1, 1);
+		//Graphics.medium.setColor(1, 1, 1, this.a);
+		Graphics.write(this.text, Graphics.medium, this.x, this.y);
+		//Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }
