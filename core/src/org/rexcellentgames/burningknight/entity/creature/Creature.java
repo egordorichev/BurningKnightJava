@@ -381,8 +381,8 @@ public class Creature extends SaveableEntity {
 			for (int i = 0; i < Random.newInt(2, 3); i++) {
 				BloodSplatFx fxx = new BloodSplatFx();
 
-				fxx.x = x + Random.newFloat(w);
-				fxx.y = y + Random.newFloat(h);
+				fxx.x = x + Random.newFloat(w) - 8;
+				fxx.y = y + Random.newFloat(h) - 8;
 
 				Dungeon.area.add(fxx);
 			}
