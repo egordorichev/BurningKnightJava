@@ -293,7 +293,7 @@ public class Thief extends Mob {
 				if (i != player.getInventory().active) {
 					Item item = player.getInventory().getSlot(i);
 
-					if (item != null && Random.chance(30)) {
+					if (item != null && !item.isCursed() && Random.chance(30)) {
 						Log.info("Stolen " + item.getName());
 						stolen = item;
 						stolen.setOwner(this);

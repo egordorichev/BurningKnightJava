@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.fx;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -23,12 +22,12 @@ public class HpFx extends Entity {
 	public HpFx(Creature creature, int change) {
 		this.text = String.valueOf(Math.abs(change));
 
-		GlyphLayout layout = new GlyphLayout(Graphics.small, this.text);
+		Graphics.layout.setText(Graphics.medium, text);
 
 		if (this.block) {
 			this.x = creature.x + (creature.w) / 2;
 		} else {
-			this.x = creature.x + (creature.w - layout.width) / 2 + 1;
+			this.x = creature.x + (creature.w - Graphics.layout.width) / 2;
 		}
 
 		this.y = creature.y + creature.h - 4;
@@ -95,9 +94,9 @@ public class HpFx extends Entity {
 		} else {
 			Color color = this.low ? (this.crit ? FlameFx.orange : bad) : good;
 
-			Graphics.small.setColor(color.r * c, color.g * c, color.b * c, this.a);
-			Graphics.small.draw(Graphics.batch, this.text, this.x, this.y);
-			Graphics.small.setColor(1, 1, 1, 1);
+			Graphics.medium.setColor(color.r * c, color.g * c, color.b * c, this.a);
+			Graphics.write(this.text, Graphics.medium, this.x, this.y - 16);
+			Graphics.medium.setColor(1, 1, 1, 1);
 		}
 	}
 }

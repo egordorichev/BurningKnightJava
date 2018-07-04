@@ -70,7 +70,7 @@ public class ItemPickupFx extends Entity {
 		if (go) {
 			return;
 		}
-		
+
 		this.go = true;
 
 		Tween.to(new Tween.Task(0, 0.2f) {

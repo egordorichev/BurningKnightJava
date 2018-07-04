@@ -64,7 +64,7 @@ public class TextFx extends Entity {
 	@Override
 	public void render() {
 		Graphics.medium.setColor(this.color.r, this.color.g, this.color.b, this.a);
-		Graphics.print(this.text, Graphics.medium, this.x, this.y);
+		Graphics.write(this.text, Graphics.medium, this.x, this.y);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }
