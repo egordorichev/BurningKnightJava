@@ -57,6 +57,18 @@ public class ItemPickupFx extends Entity {
 		}
 
 		if (Input.instance.wasPressed("pickup") && Dialog.active == null) {
+			if (this.item.getItem().shop) {
+				int g = this.player.getInventory().getGold();
+
+				if (g < this.item.getItem().price) {
+					this.remove();
+					return;
+				} else {
+					this.player.getInventory().removeGold(this.item.getItem().price);
+					this.item.getItem().shop = false;
+				}
+			}
+
 			if (this.player.tryToPickup(this.item)) {
 				this.erase();
 				LevelSave.remove(item);

@@ -35,6 +35,41 @@ public class Inventory {
 		System.arraycopy(old, 0, this.slots, 0, old.length);
 	}
 
+	public int getGold() {
+		int c = 0;
+
+		for (int i = 0; i < getSize(); i++) {
+			Item item = this.getSlot(i);
+
+			if (item instanceof Gold) {
+				c += item.getCount();
+			}
+		}
+
+		return c;
+	}
+
+	public void removeGold(int c) {
+		for (int i = 0; i < getSize(); i++) {
+			Item item = this.getSlot(i);
+
+			if (item instanceof Gold) {
+				int r = item.getCount();
+
+				if (r == c) {
+					this.setSlot(i, null);
+					break;
+				} else if (r < c) {
+					this.setSlot(i, null);
+					c -= r;
+				} else {
+					item.setCount(r - c);
+					return;
+				}
+			}
+		}
+	}
+
 	public void load(FileReader reader) throws IOException {
 		this.active = reader.readByte();
 

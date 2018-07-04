@@ -371,10 +371,10 @@ public class Creature extends SaveableEntity {
 			hurt = true;
 		}
 
-		HpFx fx = new HpFx(this, amount);
+		/*HpFx fx = new HpFx(this, amount);
 		Dungeon.area.add(fx);
 
-		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);
+		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp + amount);*/
 
 		if (hurt) {
 			this.onHurt(amount, from);
@@ -399,7 +399,7 @@ public class Creature extends SaveableEntity {
 			this.shouldDie = true;
 		}
 
-		return fx;
+		return null;
 	}
 
 	public boolean rollBlock() {
