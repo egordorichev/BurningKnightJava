@@ -541,5 +541,15 @@
 	"red_balloon" : "Red balloon",
 	"red_balloon_desc" : "Can it... POP?",
 	"tada_gun" : "Tada gun",
-	"tada_gun_desc" : "TADADADA"
+	"tada_gun_desc" : "TADADADA",
+	"hi" : "Hi",
+	"bad_to_see_you" : "Bad to see you",
+	"still_alive" : "Still alive?",
+	"buy_something" : "Buy something",
+	"welcome" : "Welcome",
+	"look_at_this" : "Look at this!",
+	"so_pretty" : "So pretty",
+	"only_for_you" : "Only for you!",
+	"must_have" : "MUST HAVE",
+	"buy_this" : "BUY THIS"
 }

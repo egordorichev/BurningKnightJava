@@ -329,6 +329,8 @@ public class Gun extends WeaponBase {
 		this.useTime = t;
 		this.usedTime += 1;
 
+		getSprite();
+
 		this.owner.playSfx("gun_machinegun");
 		Point aim = this.owner.getAim();
 

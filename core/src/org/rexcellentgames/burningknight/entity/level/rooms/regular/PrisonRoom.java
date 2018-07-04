@@ -85,21 +85,15 @@ public class PrisonRoom extends RegularRoom {
 		}
 	}
 
-	private void paintPatch(Level level, Rect self, boolean top) {
-
-	}
-
 	private void paintCircle(Level level, Rect self, boolean top) {
 		byte f = Terrain.randomFloor();
 		Painter.fill(level, self, 1, Terrain.FLOOR_A);
-		Painter.fill(level, self, 1, Random.chance(50) ? Terrain.WALL : (Random.chance(50) ? Terrain.LAVA : Terrain.FLOOR_D));
+		Painter.fill(level, self, 1, Random.chance(50) ? Terrain.WALL : (Random.chance(60) ? (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA) : Terrain.FLOOR_D));
 		Painter.fillEllipse(level, self, 1, f);
-
-		f = Terrain.FLOOR_D;
 	}
 
 	private void paintLava(Level level, Rect self, boolean top) {
-		Painter.fill(level, self, 1, Terrain.LAVA);
+		Painter.fill(level, self, 1, Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
 
 		if (Random.chance(50)) {
 			byte f = Terrain.DIRT;
@@ -112,7 +106,7 @@ public class PrisonRoom extends RegularRoom {
 	}
 
 	private void paintDead(Level level, Rect self, boolean top) {
-		Painter.fill(level, self, Terrain.WALL);
+		Painter.fill(level, self, 1, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
 	}
 
 	private void paintCollumn(Level level, Rect self, boolean top) {

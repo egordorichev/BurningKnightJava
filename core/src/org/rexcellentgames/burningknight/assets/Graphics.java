@@ -151,8 +151,10 @@ public class Graphics {
 
 		font.fontFileName = path;
 		font.fontParameters.size = size;
+		font.fontParameters.hinting = FreeTypeFontGenerator.Hinting.AutoFull;
+		font.fontParameters.borderGamma = 1f;
 		font.fontParameters.borderColor = Color.BLACK;
-		font.fontParameters.borderWidth = 1;
+		font.fontParameters.borderWidth = 1f;
 		font.fontParameters.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#\"'&()[]|`/\\@°+=*%€$£¢<>©®ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØŒÙÚÛÜÝÞàáâãäåæçèéêëìíîïðñòóôõöøœùúûüýþßÿ¿¡АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
 		Assets.manager.load(path, BitmapFont.class, font);

@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -41,6 +42,7 @@ public class Item extends Entity {
   protected boolean auto = false;
   protected boolean fly = false;
   protected String useSpeedStr;
+  public byte price = 15;
 
   public Item() {
 		initStats();
@@ -101,6 +103,7 @@ public class Item extends Entity {
     Audio.playSfx("pickup_item");
 
     if (useOnPickup) {
+    	this.owner = Player.instance;
       this.use();
     }
   }
@@ -156,10 +159,14 @@ public class Item extends Entity {
 
   public void save(FileWriter writer) throws IOException {
     writer.writeInt32(this.count);
+    writer.writeBoolean(this.shop);
+    writer.writeByte(this.price);
   }
 
   public void load(FileReader reader) throws IOException {
     this.count = reader.readInt32();
+    this.shop = reader.readBoolean();
+    this.price = reader.readByte();
   }
 
   public TextureRegion getSprite() {

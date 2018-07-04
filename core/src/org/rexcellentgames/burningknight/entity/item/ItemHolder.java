@@ -20,10 +20,13 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 public class ItemHolder extends SaveableEntity {
 	private Body body;
 	private Item item;
+
+	public static ArrayList<ItemHolder> all = new ArrayList<>();
 
 	public boolean falling;
 	private int hx;
@@ -128,6 +131,8 @@ public class ItemHolder extends SaveableEntity {
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
 		}
+
+		all.add(this);
 	}
 
 	@Override
@@ -141,6 +146,8 @@ public class ItemHolder extends SaveableEntity {
 		if (this.body != null) {
 			this.body = World.removeBody(this.body);
 		}
+
+		all.remove(this);
 	}
 
 	@Override
@@ -166,6 +173,10 @@ public class ItemHolder extends SaveableEntity {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+
+		if (this.item.shop) {
+			Graphics.small.draw(Graphics.batch, String.valueOf(this.item.price), this.x, this.y);
+		}
 	}
 
 	@Override
@@ -242,6 +253,9 @@ public class ItemHolder extends SaveableEntity {
 		// This might be bad!
 		this.body = this.createSimpleBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
 			BodyDef.BodyType.DynamicBody, false);
+
+		this.w = item.getSprite().getRegionWidth();
+		this.h = item.getSprite().getRegionHeight();
 
 		return this;
 	}

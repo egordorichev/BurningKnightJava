@@ -418,6 +418,27 @@ public class UiInventory extends UiEntity {
 		float y = this.slots[this.inventory.getSize() - 1].y + 20;
 		float x = 4;
 
+
+		int mana = Player.instance.getMana();
+
+		for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
+			float s = 1f;
+			float yy = y + 10;
+
+			Graphics.render(star_bg, x + i * 11 + star.getRegionWidth() / 2,
+				yy + 8 + star.getRegionHeight() / 2, 0,
+				star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+
+			if (mana - 2 >= i * 2) {
+				Graphics.render(star, x + i * 11 + star.getRegionWidth() / 2, yy + 8
+					+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+			} else if (mana - 2 >= i * 2 - 1) {
+				Graphics.render(halfStar, x + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
+					star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+			}
+		}
+
+
 		int hp = Player.instance.getHp();
 		float invt = Player.instance.getInvt();
 
@@ -439,25 +460,6 @@ public class UiInventory extends UiEntity {
 			} else if (hp - 2 >= i * 2 - 1) {
 				Graphics.render(half, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
-			}
-		}
-
-		int mana = Player.instance.getMana();
-
-		for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
-			float s = 1f;
-			float yy = y + 10;
-
-			Graphics.render(star_bg, x + i * 11 + star.getRegionWidth() / 2,
-				yy + 8 + star.getRegionHeight() / 2, 0,
-				star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-
-			if (mana - 2 >= i * 2) {
-				Graphics.render(star, x + i * 11 + star.getRegionWidth() / 2, yy + 8
-					+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-			} else if (mana - 2 >= i * 2 - 1) {
-				Graphics.render(halfStar, x + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
-					star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
 			}
 		}
 

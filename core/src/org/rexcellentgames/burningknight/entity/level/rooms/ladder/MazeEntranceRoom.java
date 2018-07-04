@@ -4,10 +4,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.util.Maze;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -28,7 +24,7 @@ public class MazeEntranceRoom extends EntranceRoom {
 				for (int y = 0; y < this.getHeight(); y++) {
 					if (maze[x][y] == Maze.FILLED) {
 						Painter.set(level, this.left + x, this.top + y, wall);
-					} else if (x != 0 && y != 0 && !set && Random.chance(this.getMaxWidth() * this.getHeight() / 100)) {
+					} else if (x != 0 && y != 0 && x != getWidth() - 1 && y != getHeight() - 1 && !set && Random.chance(this.getMaxWidth() * this.getHeight() / 100)) {
 						set = true;
 						place(level, new Point(this.left + x, this.top + y));
 					}

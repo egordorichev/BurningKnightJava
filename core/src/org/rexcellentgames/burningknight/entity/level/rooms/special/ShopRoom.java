@@ -59,12 +59,12 @@ public class ShopRoom extends LockedRoom {
 
 	@Override
 	public int getMinHeight() {
-		return 6;
+		return 8;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 7;
+		return 9;
 	}
 
 	private void paintArmor(int c) {
@@ -152,9 +152,9 @@ public class ShopRoom extends LockedRoom {
 
 			ItemHolder holder = new ItemHolder();
 
-			holder.x = (this.left + x) * 16 + 4;
-			holder.y = (this.top + 3) * 16;
 			holder.setItem(items.get(i));
+			holder.x = (this.left + x) * 16 + (16 - holder.w) / 2;
+			holder.y = (this.top + 3) * 16 + (16 - holder.h) / 2;
 			holder.getItem().shop = true;
 
 			LevelSave.add(holder);

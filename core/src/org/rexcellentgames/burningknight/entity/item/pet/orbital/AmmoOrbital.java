@@ -15,7 +15,7 @@ public class AmmoOrbital extends Pet {
 	{
 		name = Locale.get("ammo_orbital");
 		description = Locale.get("ammo_orbital_desc");
-		sprite = "item-mini_orbital";
+		sprite = "item-ammo_orbital";
 	}
 
 	@Override

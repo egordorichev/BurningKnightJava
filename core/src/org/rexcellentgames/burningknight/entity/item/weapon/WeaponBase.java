@@ -127,7 +127,12 @@ public class WeaponBase extends Item {
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
+
 	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy) {
+		renderAt(x, y, a, ox, oy, fx, fy, sx, sy, 1);
+	}
+
+	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy, float al) {
 		Graphics.batch.setColor(1, 1, 1, 1);
 
 		if (this.modifier != null) {
@@ -146,7 +151,7 @@ public class WeaponBase extends Item {
 
 		Graphics.batch.end();
 		shader.begin();
-		shader.setUniformf("a", this.owner == null ? 1 : this.owner.a);
+		shader.setUniformf("a", al == 1 ? (this.owner == null ? 1 : this.owner.a) : al);
 		shader.setUniformf("time", Dungeon.time + this.t);
 		shader.end();
 		Graphics.batch.setShader(shader);

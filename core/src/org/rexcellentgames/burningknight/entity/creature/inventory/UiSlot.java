@@ -362,12 +362,21 @@ public class UiSlot {
 
 			if (item instanceof WeaponBase) {
 				((WeaponBase) item).renderAt(this.x + slot.getRegionWidth() / 2,
-					this.y + slot.getRegionHeight() / 2, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, this.scale);
+					this.y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
 			} else {
-				Graphics.batch.setColor(1, 1, 1, item.a);
-
+				Graphics.batch.end();
+				WeaponBase.shader.begin();
+				WeaponBase.shader.setUniformf("a", item.a);
+				WeaponBase.shader.setUniformf("time", Dungeon.time);
+				WeaponBase.shader.end();
+				Graphics.batch.setShader(WeaponBase.shader);
+				Graphics.batch.begin();
 				Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
 					this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+
+				Graphics.batch.end();
+				Graphics.batch.setShader(null);
+				Graphics.batch.begin();
 			}
 
 			if (count != 1 || item instanceof Gun) {
