@@ -70,6 +70,32 @@ public class ItemHolder extends SaveableEntity {
 	private boolean added;
 	public ItemPrice price;
 
+	public void sale() {
+		getItem().sale = true;
+		getItem().price = (byte) Math.max(0, Math.floor(getItem().price / 2));
+
+		added = false;
+
+		if (price != null) {
+			price.done = true;
+		}
+	}
+
+	public void unsale() {
+		getItem().sale = false;
+		getItem().price *= 2;
+
+		if (getItem().price % 2 == 0) {
+			getItem().price ++;
+		}
+
+		added = false;
+
+		if (price != null) {
+			price.done = true;
+		}
+	}
+
 	@Override
 	public void update(float dt) {
 		if (this.getItem().shop && !added) {

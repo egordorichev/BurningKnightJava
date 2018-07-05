@@ -555,5 +555,7 @@
 	"thanks" : "Thanks",
 	"nice_choice" : "Nice choice!",
 	"great" : "Great!",
-	"$$$" : "$$$"
+	"$$$" : "$$$",
+	"shop_sale" : "Shop sale",
+	"shop_sale_desc" : "50% off!"
 }

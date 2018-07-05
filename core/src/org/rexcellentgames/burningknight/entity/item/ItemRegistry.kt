@@ -290,7 +290,8 @@ object ItemRegistry {
 	  "confetti_gun" to ConfettiGun::class.java,
 	  "confetti_grenade" to ConfettiGrenade::class.java,
 	  "red_balloon" to RedBalloon::class.java,
-	  "tada_gun" to TadaGun::class.java
+	  "tada_gun" to TadaGun::class.java,
+	  "sale" to ShopSale::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()

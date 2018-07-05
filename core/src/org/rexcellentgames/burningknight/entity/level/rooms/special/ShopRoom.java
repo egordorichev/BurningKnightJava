@@ -164,8 +164,7 @@ public class ShopRoom extends LockedRoom {
 			}
 
 			for (int j = 0; j < cn; j++) {
-				holder.getItem().sale = true;
-				holder.getItem().price = (byte) Math.max(0, Math.floor(holder.getItem().price / 2));
+				holder.sale();
 			}
 
 			LevelSave.add(holder);
