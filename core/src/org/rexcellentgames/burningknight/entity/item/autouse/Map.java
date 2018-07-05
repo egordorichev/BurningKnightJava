@@ -13,7 +13,6 @@ public class Map extends Autouse {
 	@Override
 	public void use() {
 		super.use();
-		this.setCount(count - 1);
 		Dungeon.level.exploreAll();
 	}
 }

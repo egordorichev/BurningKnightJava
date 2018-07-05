@@ -14,8 +14,6 @@ public class Ball extends Autouse {
 	@Override
 	public void use() {
 		super.use();
-		setCount(count - 1);
-
 		BallProjectile projectile = new BallProjectile();
 
 		projectile.x = this.owner.x + (this.owner.w - projectile.w) / 2;

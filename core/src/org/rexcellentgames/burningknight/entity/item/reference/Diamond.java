@@ -20,7 +20,6 @@ public class Diamond extends Autouse {
 	@Override
 	public void use() {
 		super.use();
-		setCount(count - 1);
 
 		ItemHolder item = new ItemHolder();
 		item.setItem(new Gold());

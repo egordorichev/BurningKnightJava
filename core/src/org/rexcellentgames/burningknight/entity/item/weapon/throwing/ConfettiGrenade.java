@@ -8,7 +8,6 @@ public class ConfettiGrenade extends Consumable {
 	@Override
 	public void use() {
 		super.use();
-		setCount(count - 1);
 
 		CGFx fx = new CGFx();
 

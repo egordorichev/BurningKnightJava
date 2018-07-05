@@ -14,7 +14,6 @@ public class ManaHeart extends Autouse {
 	public void use() {
 		super.use();
 
-		setCount(count - 1);
 		this.owner.setHpMax(this.owner.getHpMax() + 2);
 
 		if (this.owner instanceof Player) {

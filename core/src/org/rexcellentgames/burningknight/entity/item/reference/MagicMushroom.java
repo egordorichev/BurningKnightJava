@@ -14,7 +14,6 @@ public class MagicMushroom extends Autouse {
 	@Override
 	public void use() {
 		super.use();
-		this.setCount(this.getCount() - 1);
 
 		this.owner.setHpMax(this.owner.getHpMax() + 4);
 		this.owner.modifyHp(4, null);

@@ -13,7 +13,6 @@ public class MapGreenprints extends Autouse {
 	@Override
 	public void use() {
 		super.use();
-		this.setCount(count - 1);
 		Dungeon.level.exploreRandom();
 	}
 }

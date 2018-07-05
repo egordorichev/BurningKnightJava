@@ -15,7 +15,6 @@ public class Dendy extends Consumable {
 	@Override
 	public void use() {
 		super.use();
-		this.setCount(this.count - 1);
 		this.owner.modifySpeed(3);
 	}
 }

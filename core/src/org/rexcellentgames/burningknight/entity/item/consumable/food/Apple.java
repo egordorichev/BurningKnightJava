@@ -13,7 +13,6 @@ public class Apple extends Consumable {
 	@Override
 	public void use() {
 		super.use();
-		setCount(count - 1);
 		this.owner.modifyHp(this.owner.getHpMax(), null);
 	}
 }

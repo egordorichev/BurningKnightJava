@@ -17,8 +17,6 @@ public class Pet extends Autouse {
 	public void use() {
 		super.use();
 
-		setCount(count - 1);
-
 		PetEntity entity = create();
 
 		double a = Random.newFloat() * Math.PI * 2;

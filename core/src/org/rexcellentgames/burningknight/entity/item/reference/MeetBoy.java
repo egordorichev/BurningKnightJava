@@ -16,7 +16,6 @@ public class MeetBoy extends Autouse {
 	@Override
 	public void use() {
 		super.use();
-		this.setCount(this.getCount() - 1);
 
 		this.owner.setHpMax(this.owner.getHpMax() + 2);
 		this.owner.modifyHp(2, null);
