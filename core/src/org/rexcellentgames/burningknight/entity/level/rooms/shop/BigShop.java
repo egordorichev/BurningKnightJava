@@ -16,7 +16,7 @@ public class BigShop extends ShopRoom {
 			if (Random.chance(50)) {
 				Painter.fill(level, this, 2, Terrain.randomFloor());
 			} else {
-				Painter.fill(level, this, 2, Terrain.randomFloor());
+				Painter.fillEllipse(level, this, 2, Terrain.randomFloor());
 			}
 
 			placeItems();
