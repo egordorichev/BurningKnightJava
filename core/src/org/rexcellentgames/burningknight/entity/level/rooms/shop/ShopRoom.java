@@ -3,9 +3,12 @@ package org.rexcellentgames.burningknight.entity.level.rooms.shop;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
+import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.LockedRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
@@ -36,6 +39,32 @@ public class ShopRoom extends LockedRoom {
 
 		LevelSave.add(npc);
 		Dungeon.area.add(npc);
+
+		if (Random.chance(30)) {
+			for (int i = 0; i < Random.newInt(1, 3); i++) {
+				ItemHolder holder = new ItemHolder();
+				holder.setItem(new Gold()).getItem().generate();
+
+				Point p = this.getRandomFreeCell();
+
+				holder.x = p.x * 16 + (16 - holder.getItem().getSprite().getRegionWidth()) / 2;
+				holder.y = p.y * 16 + (16 - holder.getItem().getSprite().getRegionHeight()) / 2;
+
+				Dungeon.area.add(holder);
+				LevelSave.add(holder);
+			}
+		}
+	}
+
+	@Override
+	public void paint(Level level) {
+		super.paint(level);
+
+		if (Random.chance(25)) {
+			for (Door door : this.connected.values()) {
+				door.setType(Door.Type.SECRET);
+			}
+		}
 	}
 
 	protected int getItemCount() {

@@ -438,7 +438,7 @@ public class Mob extends Creature {
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = new ArrayList<>();
 
-		if (Random.chance(50)) {
+		if (Random.chance(30)) {
 			Gold gold = new Gold();
 			gold.generate();
 			items.add(gold);

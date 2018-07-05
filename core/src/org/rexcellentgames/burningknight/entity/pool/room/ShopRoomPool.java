@@ -10,6 +10,6 @@ public class ShopRoomPool extends Pool<SpecialRoom> {
 
 	public ShopRoomPool() {
 		add(ClassicShopRoom.class, 1);
-		add(QuadShopRoom.class, 1000);
+		add(QuadShopRoom.class, 1);
 	}
 }
