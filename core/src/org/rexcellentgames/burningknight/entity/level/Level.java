@@ -582,6 +582,14 @@ public abstract class Level extends SaveableEntity {
 					byte tile = this.get(i);
 
 					if (tile > 0 && Terrain.patterns[tile] != null) {
+						if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+							byte variant = this.walls[i];
+
+							if (variant == 0) {
+								continue;
+							}
+						}
+
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						int n = region.getRegionHeight() / 16;
