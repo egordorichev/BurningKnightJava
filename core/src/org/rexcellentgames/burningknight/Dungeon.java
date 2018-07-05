@@ -329,8 +329,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		updateMouse(dt);
 
-		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+		// Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
+		// Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		renderGame();
 		
@@ -341,7 +341,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void renderGame() {
 		Graphics.surface.begin();
-		Gdx.gl.glClearColor(background2.r, background2.g, background2.b, 1);
+		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Graphics.batch.begin();
