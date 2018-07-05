@@ -14,15 +14,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InGameState;
 
 public class UiMap extends UiEntity {
 	{
@@ -151,10 +142,15 @@ public class UiMap extends UiEntity {
 
 			for (int y = 0; y < Level.getHeight(); y++) {
 				if (Dungeon.level.explored(x, y)) {
-					byte t = Dungeon.level.get(x, y);
+					int i = Level.toIndex(x, y);
+					byte t = Dungeon.level.liquidData[i];
+
+					if (t == 0) {
+						t = Dungeon.level.get(i);
+					}
 
 					if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
-						Graphics.shape.setColor(1, 1, 1, 1);
+						Graphics.shape.setColor(Terrain.getColor(t));
 						Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
 					}
 				}

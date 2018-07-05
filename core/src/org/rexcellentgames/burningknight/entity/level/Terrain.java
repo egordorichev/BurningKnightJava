@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.level;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
@@ -24,6 +26,7 @@ public class Terrain {
 	public static byte SIZE = 15;
 
 	public static int[] flags = new int[SIZE];
+	public static Color[] colors = new Color[SIZE];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
@@ -46,6 +49,32 @@ public class Terrain {
 		flags[LAVA] = 0;
 		flags[TABLE] = SOLID | HIGH;
 		flags[EXIT] = 0;
+
+		colors[CHASM] = Color.BLACK;
+		colors[DIRT] = Color.valueOf("#8a4836");
+		colors[GRASS] = Color.valueOf("#33984b");
+		colors[FLOOR_A] = Color.valueOf("#657392");
+		colors[FLOOR_B] = Color.valueOf("#bf6f4a");
+		colors[FLOOR_C] = Color.valueOf("#92a1b9");
+		colors[FLOOR_D] = Color.valueOf("#ffa214");
+		colors[WATER] = Color.valueOf("#0098dc");
+		colors[LAVA] = Color.valueOf("#ff5000");
+		colors[EXIT] = Color.valueOf("#424c6e");
+		colors[TABLE] = Color.valueOf("#f6ca9f");
+	}
+
+	public static Color getColor(byte t) {
+		if (t == Terrain.WALL || t == Terrain.CRACK) {
+			return Level.colors[Dungeon.level.uid];
+		}
+
+		Color color = colors[t];
+
+		if (color != null) {
+			return color;
+		}
+
+		return Color.WHITE;
 	}
 
 	public static byte last;
