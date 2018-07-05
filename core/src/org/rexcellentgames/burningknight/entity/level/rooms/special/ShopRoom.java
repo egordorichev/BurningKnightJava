@@ -35,7 +35,7 @@ public class ShopRoom extends LockedRoom {
 			case 3: case 4: case 5: paintMixed(c); break;
 		}
 
-		Point point = this.getRandomCell();
+		Point point = this.getRandomFreeCell();
 
 		Shopkeeper npc = new Shopkeeper();
 

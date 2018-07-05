@@ -67,9 +67,21 @@ public class ItemHolder extends SaveableEntity {
 	}
 
 	public float last;
+	private boolean added;
 
 	@Override
 	public void update(float dt) {
+		if (this.getItem().shop && !added) {
+			added = true;
+			ItemPrice price = new ItemPrice();
+
+			price.x = this.x + this.w / 2;
+			price.y = this.y - 16 - (16 - this.h) / 2;
+			price.price = this.getItem().price;
+
+			Dungeon.area.add(price);
+		}
+
 		if (this.done) {
 			return;
 		}
@@ -173,10 +185,6 @@ public class ItemHolder extends SaveableEntity {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
-
-		if (this.item.shop) {
-			Graphics.small.draw(Graphics.batch, String.valueOf(this.item.price), this.x, this.y);
-		}
 	}
 
 	@Override

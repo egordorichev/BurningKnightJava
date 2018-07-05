@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -28,6 +29,7 @@ public class Shopkeeper extends Npc {
 	private AnimationData hurt = animations.get("hurt");
 	private AnimationData death = animations.get("death");
 	private AnimationData animation = idle;
+	public static Shopkeeper instance;
 
 	{
 		w = 15;
@@ -75,11 +77,13 @@ public class Shopkeeper extends Npc {
 		super.init();
 		this.body = World.createSimpleBody(this, 4, 0, 8, 14, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
+		instance = this;
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
+		instance = null;
 	}
 
 	@Override
@@ -227,7 +231,6 @@ public class Shopkeeper extends Npc {
 		}
 	}
 
-
 	private static String[] itemMessages = {
 		"look_at_this", "so_pretty", "only_for_you", "must_have", "buy_this"
 	};
@@ -265,6 +268,44 @@ public class Shopkeeper extends Npc {
 		}
 	}
 
+
+	private static String[] thanksMessages = {
+		"thanks", "nice_choice", "great", "$$$"
+	};
+
+	public class ThanksState extends SKState {
+		private NpcDialog dialog;
+		private float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			delay = Random.newFloat(7f, 12f);
+
+			dialog = new NpcDialog(self, Locale.get(thanksMessages[Random.newInt(thanksMessages.length)]));
+			dialog.open();
+			Dungeon.area.add(dialog);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (self.room != Player.instance.room) {
+				self.become("idle");
+			} else if (this.t >= delay) {
+				self.become("help");
+			}
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			dialog.remove();
+		}
+	}
+
 	public class StandState extends SKState {
 		private float delay;
 
@@ -282,7 +323,7 @@ public class Shopkeeper extends Npc {
 			if (self.room != Player.instance.room) {
 				self.become("idle");
 			} else if (this.t >= delay) {
-				self.become("sell"); // new String[] { "help", "walk", "sell" }[Random.newInt(3)]);
+				self.become(new String[] { "help", "walk", "sell" }[Random.newInt(3)]);
 			}
 		}
 	}
@@ -340,10 +381,15 @@ public class Shopkeeper extends Npc {
 
 					to.x = target.x + (self.w - target.w) / 2;
 					to.y = target.y + 24;
+					Log.info("found");
+				} else {
+					Log.error("not found");
+					self.become("stand");
+					return;
 				}
 			}
 
-			if (to != null && this.moveTo(this.to, 3f, 8f)) {
+			if (this.moveTo(this.to, 3f, 16f)) {
 				self.become("talk");
 			}
 		}
@@ -384,6 +430,7 @@ public class Shopkeeper extends Npc {
 			case "walk": return new WalkState();
 			case "sell": return new SellState();
 			case "talk": return new TalkState();
+			case "thanks": return new ThanksState();
 		}
 
 		return super.getAi(state);

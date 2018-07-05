@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.player.fx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -66,6 +67,10 @@ public class ItemPickupFx extends Entity {
 				} else {
 					this.player.getInventory().removeGold(this.item.getItem().price);
 					this.item.getItem().shop = false;
+
+					if (Shopkeeper.instance != null) {
+						Shopkeeper.instance.become("thanks");
+					}
 				}
 			}
 
