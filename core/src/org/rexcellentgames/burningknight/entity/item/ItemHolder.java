@@ -68,6 +68,7 @@ public class ItemHolder extends SaveableEntity {
 
 	public float last;
 	private boolean added;
+	public ItemPrice price;
 
 	@Override
 	public void update(float dt) {
@@ -78,7 +79,7 @@ public class ItemHolder extends SaveableEntity {
 			price.x = this.x + this.w / 2;
 			price.y = this.y - 16 - (16 - this.h) / 2;
 			price.price = this.getItem().price;
-
+			this.price = price;
 			Dungeon.area.add(price);
 		}
 
@@ -154,6 +155,11 @@ public class ItemHolder extends SaveableEntity {
 		}
 
 		super.destroy();
+
+		if (price != null) {
+			price.remove();
+			price = null;
+		}
 
 		if (this.body != null) {
 			this.body = World.removeBody(this.body);

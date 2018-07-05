@@ -67,6 +67,7 @@ public class ItemPickupFx extends Entity {
 				} else {
 					this.player.getInventory().removeGold(this.item.getItem().price);
 					this.item.getItem().shop = false;
+					this.item.price.remove();
 
 					if (Shopkeeper.instance != null) {
 						Shopkeeper.instance.become("thanks");
