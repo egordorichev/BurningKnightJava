@@ -36,25 +36,10 @@ public class Shopkeeper extends Npc {
 	{
 		w = 15;
 		h = 15;
-		speed = 20;
+		speed = 7;
 		maxSpeed = 200;
+		hpMax = 7;
 	}
-
-	/*
-	 * AI plan:
-	 *o - When not enranged:
-	 *o + Welcomes you with a random message
-	 *o + Can stand somewhere for a while
-	 *o + Can start following you for a short while
-	 *o + Might go to a stand with an item and say something about it
-	 *o * Getting hurt from player enrages him, or going away from the shop without paying for the item
-	 * - When enranged:
-	 * + Starts running around really fast
-	 * + Sometimes stops, aims at you and shoots
-	 * + On death drops a lot of coins
-	 * + All items become free
-	 * + All other shopkeepers become enraged
-	 */
 
 	public boolean enranged;
 
@@ -431,6 +416,8 @@ public class Shopkeeper extends Npc {
 		public void update(float dt) {
 			super.update(dt);
 
+			this.tt += dt;
+
 			if (this.t >= 3f) {
 				if (this.t >= 3.3f) {
 					this.t = 0f;
@@ -444,11 +431,14 @@ public class Shopkeeper extends Npc {
 					to.y *= 16;
 				}
 
-				if (this.moveTo(to, 12f, 32f)) {
+				if (this.moveTo(to, 12f, 32f) || this.tt >= 5f) {
 					to = null;
+					this.tt = 0;
 				}
 			}
 		}
+
+		private float tt;
 	}
 
 	public Shotgun shotgun;

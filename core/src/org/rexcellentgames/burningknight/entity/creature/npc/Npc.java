@@ -9,9 +9,8 @@ public class Npc extends Mob {
 	private NpcDialog dialog;
 
 	{
-		// tmp
-		hp = 1000;
-		hpMax = 1000;
+		hp = 10;
+		hpMax = 10;
 	}
 
 	@Override
