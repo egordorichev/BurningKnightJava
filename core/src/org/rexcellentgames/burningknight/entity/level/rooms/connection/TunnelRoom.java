@@ -26,7 +26,7 @@ public class TunnelRoom extends ConnectionRoom {
 			this.paintTunnel(level, Terrain.randomFloor());
 		}
 
-		this.paintTunnel(level, fl == Terrain.DIRT ? (Random.chance(50) ? Terrain.WATER : Terrain.DIRT) : Terrain.randomFloor());
+		this.paintTunnel(level, (fl == Terrain.DIRT || fl == Terrain.LAVA) ? (Random.chance(50) ? Terrain.WATER : Terrain.DIRT) : Terrain.randomFloor());
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.TUNNEL);

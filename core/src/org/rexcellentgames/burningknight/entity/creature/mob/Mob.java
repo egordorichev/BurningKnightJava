@@ -323,6 +323,8 @@ public class Mob extends Creature {
 			for (Item item : items) {
 				ItemHolder holder = new ItemHolder();
 
+				item.generate();
+
 				holder.setItem(item);
 				holder.x = this.x;
 				holder.y = this.y;

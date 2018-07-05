@@ -7,7 +7,10 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Gold;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ShopSale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.physics.World;
@@ -38,21 +41,36 @@ public class Shopkeeper extends Npc {
 
 	/*
 	 * AI plan:
-	 * - When not enranged:
+	 *o - When not enranged:
 	 *o + Welcomes you with a random message
 	 *o + Can stand somewhere for a while
 	 *o + Can start following you for a short while
 	 *o + Might go to a stand with an item and say something about it
-	 * * Getting hurt from player enrages him, or going away from the shop without paying for the item
+	 *o * Getting hurt from player enrages him, or going away from the shop without paying for the item
 	 * - When enranged:
 	 * + Starts running around really fast
-	 * + Sometimes stops, aims at you with laser aim (aka snipers from nuclear throne) and shoots
+	 * + Sometimes stops, aims at you and shoots
 	 * + On death drops a lot of coins
 	 * + All items become free
 	 * + All other shopkeepers become enraged
 	 */
 
 	public boolean enranged;
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> drops = super.getDrops();
+
+		if (Random.chance(20)) {
+			drops.add(new ShopSale());
+		}
+
+		for (int i = 0; i < Random.newInt(3, 8); i++) {
+			drops.add(new Gold());
+		}
+
+		return drops;
+	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
@@ -400,10 +418,8 @@ public class Shopkeeper extends Npc {
 		public void onEnter() {
 			super.onEnter();
 
-			enranged = true;
-
+			self.enranged = true;
 			self.shotgun = new BronzeShotgun();
-			self.shotgun.modifyUseTime(2f);
 			self.shotgun.setOwner(self);
 		}
 
@@ -411,7 +427,8 @@ public class Shopkeeper extends Npc {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (self.shotgun.getDelay() == 0) {
+			if (this.t >= 1f) {
+				this.t = 0f;
 				self.shotgun.use();
 			}
 		}
@@ -421,6 +438,10 @@ public class Shopkeeper extends Npc {
 
 	@Override
 	protected State getAi(String state) {
+		if (enranged) {
+			return new HanaState();
+		}
+
 		switch (state) {
 			case "alerted": case "chase": case "idle": case "roam": return new IdleState();
 			case "help": return new HelpState();

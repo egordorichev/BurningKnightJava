@@ -69,7 +69,7 @@ public class ItemPickupFx extends Entity {
 					this.item.getItem().shop = false;
 					this.item.price.remove();
 
-					if (Shopkeeper.instance != null) {
+					if (Shopkeeper.instance != null && !Shopkeeper.instance.enranged) {
 						Shopkeeper.instance.become("thanks");
 					}
 				}
