@@ -173,9 +173,4 @@ public class ShopRoom extends LockedRoom {
 			i++;
 		}
 	}
-
-	@Override
-	public boolean canConnect(Room r) {
-		return r instanceof EntranceRoom && super.canConnect(r);
-	}
 }
