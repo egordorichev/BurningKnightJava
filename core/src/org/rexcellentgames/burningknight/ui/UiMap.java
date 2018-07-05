@@ -122,11 +122,8 @@ public class UiMap extends UiEntity {
 				if (Dungeon.level.explored(x, y)) {
 
 					byte t = Dungeon.level.get(x, y);
-
-					if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
-						Graphics.shape.setColor(0, 0, 0, 1);
-						Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
-					}
+					Graphics.shape.setColor(0, 0, 0, 1);
+					Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
 				}
 
 				yy ++;
@@ -149,10 +146,8 @@ public class UiMap extends UiEntity {
 						t = Dungeon.level.get(i);
 					}
 
-					if (t != Terrain.WALL && t != Terrain.CRACK && t != Terrain.CHASM) {
-						Graphics.shape.setColor(Terrain.getColor(t));
-						Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
-					}
+					Graphics.shape.setColor(Terrain.getColor(t));
+					Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
 				}
 
 				yy ++;

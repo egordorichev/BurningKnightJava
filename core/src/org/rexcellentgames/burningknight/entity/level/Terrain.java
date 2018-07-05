@@ -50,7 +50,7 @@ public class Terrain {
 		flags[TABLE] = SOLID | HIGH;
 		flags[EXIT] = 0;
 
-		colors[CHASM] = Color.BLACK;
+		colors[CHASM] = Color.valueOf("#000000");
 		colors[DIRT] = Color.valueOf("#8a4836");
 		colors[GRASS] = Color.valueOf("#33984b");
 		colors[FLOOR_A] = Color.valueOf("#657392");
