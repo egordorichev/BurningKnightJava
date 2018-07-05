@@ -13,6 +13,6 @@ public class ShopRoomPool extends Pool<SpecialRoom> {
 		add(GoldShopRoom.class, 1);
 		add(BigShop.class, 0.5f);
 		add(GiantShop.class, 0.1f);
-		add(TinyShop.class, 1000f);
+		add(TinyShop.class, 0.4f);
 	}
 }

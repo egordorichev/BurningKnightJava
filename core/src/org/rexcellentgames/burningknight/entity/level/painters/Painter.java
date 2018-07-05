@@ -173,9 +173,9 @@ public class Painter {
 					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
 
 					if (d.getType() == Door.Type.LEVEL_LOCKED) {
-						door.key = KeyC.class;
-					} else if (d.getType() == Door.Type.LOCKED) {
 						door.key = KeyB.class;
+					} else if (d.getType() == Door.Type.LOCKED) {
+						door.key = KeyC.class;
 					}
 
 					door.rooms[0] = r;

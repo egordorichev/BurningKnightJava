@@ -30,11 +30,13 @@ public class Door extends SaveableEntity {
 	private int numCollisions;
 	private static Animation vertAnimation = Animation.make("actor-door-vertical", "-wooden");
 	private static Animation horizAnimation = Animation.make("actor-door-horizontal", "-wooden");
-	private static Animation lockAnimation = Animation.make("door-lock", "-iron");
+	private static Animation ironLockAnimation = Animation.make("door-lock", "-iron");
+	private static Animation bronzeLockAnimation = Animation.make("door-lock", "-bronze");
+	private static Animation goldLockAnimation = Animation.make("door-lock", "-gold");
 	private AnimationData animation;
-	private AnimationData locked = lockAnimation.get("idle");
-	private AnimationData unlock = lockAnimation.get("open");
-	private AnimationData lk = lockAnimation.get("close");
+	private AnimationData locked;
+	private AnimationData unlock;
+	private AnimationData lk;
 	private AnimationData lockAnim;
 
 	public boolean autoLock;
@@ -52,6 +54,14 @@ public class Door extends SaveableEntity {
 
 	public Door() {
 
+	}
+
+	public Animation getAnimation() {
+		if (this.autoLock) {
+			return ironLockAnimation;
+		}
+
+		return goldLockAnimation;
 	}
 
 	public Door(int x, int y, boolean vertical) {
@@ -81,6 +91,14 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		if (locked == null) {
+			Animation animation = getAnimation();
+
+			locked = animation.get("idle");
+			unlock = animation.get("open");
+			lk = animation.get("close");
+		}
+
 		if (!did) {
 			did = true;
 			this.setPas();
