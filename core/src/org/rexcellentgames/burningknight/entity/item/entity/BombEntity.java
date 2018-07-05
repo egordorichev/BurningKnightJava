@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
+import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -46,6 +47,12 @@ public class BombEntity extends Entity {
 		this.body.setTransform(this.x, this.y, 0);
 
 		this.playSfx("bomb_placed");
+
+		Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+		if (Shopkeeper.instance != null && Shopkeeper.instance.room == room) {
+			Shopkeeper.instance.enrage();
+		}
 	}
 
 	@Override

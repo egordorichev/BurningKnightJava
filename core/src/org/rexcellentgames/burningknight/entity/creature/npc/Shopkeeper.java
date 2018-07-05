@@ -38,7 +38,7 @@ public class Shopkeeper extends Npc {
 		h = 15;
 		speed = 7;
 		maxSpeed = 200;
-		hpMax = 7;
+		hpMax = 20;
 	}
 
 	public boolean enranged;
@@ -392,22 +392,31 @@ public class Shopkeeper extends Npc {
 		}
 	}
 
+	public void enrage() {
+		if (enranged) {
+			return;
+		}
+
+		this.become("hana");
+
+		for (ItemHolder holder : ItemHolder.all) {
+			holder.getItem().shop = false;
+			if (holder.price != null) {
+				holder.price.remove();
+				holder.price = null;
+			}
+		}
+
+		enranged = true;
+		shotgun = new BronzeShotgun();
+		shotgun.setOwner(this);
+	}
+
 	public class HanaState extends SKState {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-
-			for (ItemHolder holder : ItemHolder.all) {
-				holder.getItem().shop = false;
-				if (holder.price != null) {
-					holder.price.remove();
-					holder.price = null;
-				}
-			}
-
-			self.enranged = true;
-			self.shotgun = new BronzeShotgun();
-			self.shotgun.setOwner(self);
+			enrage();
 		}
 
 		private Point to;
