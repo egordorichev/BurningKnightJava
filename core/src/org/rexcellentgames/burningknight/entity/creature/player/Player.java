@@ -363,7 +363,10 @@ public class Player extends Creature {
 
 			if (item.getItem().hasAutoPickup() || item.auto) {
 				if (this.tryToPickup(item) && !item.auto) {
-					this.area.add(new ItemPickedFx(item));
+					if (!(item.getItem() instanceof Gold)) {
+						this.area.add(new ItemPickedFx(item));
+					}
+
 					item.remove();
 				}
 			} else if (!item.falling) {
@@ -402,7 +405,9 @@ public class Player extends Creature {
 		if (!item.done) {
 			if (this.inventory.add(item)) {
 				if (item.getItem().hasAutoPickup()) {
-					this.area.add(new ItemPickedFx(item));
+					if (!(item.getItem() instanceof Gold)) {
+						this.area.add(new ItemPickedFx(item));
+					}
 				}
 
 				if (item.getItem() instanceof Gold && this.manaCoins) {

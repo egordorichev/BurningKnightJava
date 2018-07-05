@@ -235,6 +235,14 @@ public abstract class Room extends Rect implements GraphNode {
 		return setSize(this.getMinWidth(), this.getMaxWidth(), this.getMinHeight(), this.getMaxHeight());
 	}
 
+	protected int validateWidth(int w) {
+		return w;
+	}
+
+	protected int validateHeight(int h) {
+		return h;
+	}
+
 	protected boolean setSize(int minW, int maxW, int minH, int maxH) {
 		if (minW < this.getMinWidth()
 			|| maxW > this.getMaxWidth()
@@ -246,13 +254,13 @@ public abstract class Room extends Rect implements GraphNode {
 			return false;
 		} else {
 			if (quad()) {
-				int v = Math.min(Random.newInt(minW, maxW) - 1,
-					Random.newInt(minH, maxH) - 1);
+				int v = Math.min(validateWidth(Random.newInt(minW, maxW) - 1),
+					validateHeight(Random.newInt(minH, maxH) - 1));
 
 				this.resize(v, v);
 			} else {
-				this.resize(Random.newInt(minW, maxW) - 1,
-					Random.newInt(minH, maxH) - 1);
+				this.resize(validateWidth(Random.newInt(minW, maxW) - 1),
+					validateHeight(Random.newInt(minH, maxH) - 1));
 			}
 
 			return true;

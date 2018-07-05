@@ -29,7 +29,7 @@ public class ShopRoom extends LockedRoom {
 			case 3: case 4: case 5: paintMixed(c); break;
 		}
 
-		Point point = this.getRandomFreeCell();
+		Point point = getSpawn();
 
 		Shopkeeper npc = new Shopkeeper();
 
@@ -41,7 +41,7 @@ public class ShopRoom extends LockedRoom {
 		Dungeon.area.add(npc);
 
 		if (Random.chance(30)) {
-			for (int i = 0; i < Random.newInt(1, 3); i++) {
+			for (int i = 0; i < Random.newInt(1, 4); i++) {
 				ItemHolder holder = new ItemHolder();
 				holder.setItem(new Gold()).getItem().generate();
 
@@ -56,6 +56,10 @@ public class ShopRoom extends LockedRoom {
 		}
 	}
 
+	protected Point getSpawn() {
+		return this.getRandomFreeCell();
+	}
+
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
@@ -68,7 +72,12 @@ public class ShopRoom extends LockedRoom {
 	}
 
 	protected int getItemCount() {
-		return (this.getWidth() - 2) / 2;
+		return (this.getWidth() - 1) / 2;
+	}
+
+	@Override
+	protected int validateWidth(int w) {
+		return (int) (Math.floor(w / 2) * 2);
 	}
 
 	@Override

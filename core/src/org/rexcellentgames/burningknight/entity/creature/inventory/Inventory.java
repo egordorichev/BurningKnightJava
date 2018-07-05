@@ -183,16 +183,14 @@ public class Inventory {
 			}
 		});
 
-		if (!(item instanceof Gold)) {
-			PickupFx fx = new PickupFx();
+		PickupFx fx = new PickupFx();
 
-			fx.x = holder.x + holder.w / 2;
-			fx.y = holder.y + holder.h / 2;
-			fx.region = item.getSprite();
-			fx.target = new Point(Camera.game.position.x - Display.GAME_WIDTH / 2 * Camera.game.zoom, Camera.game.position.y - Display.GAME_HEIGHT / 2 * Camera.game.zoom); // todo: fix
+		fx.x = holder.x + holder.w / 2;
+		fx.y = holder.y + holder.h / 2;
+		fx.region = item.getSprite();
+		fx.target = new Point(Camera.game.position.x - Display.GAME_WIDTH / 2 * Camera.game.zoom, Camera.game.position.y - Display.GAME_HEIGHT / 2 * Camera.game.zoom); // todo: fix
 
-			Dungeon.area.add(fx);
-		}
+		Dungeon.area.add(fx);
 	}
 
 	public boolean find(Class<? extends Item> clazz) {

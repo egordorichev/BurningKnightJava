@@ -1,9 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.secret;
 
-import org.rexcellentgames.burningknight.entity.item.Gold;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -17,7 +13,7 @@ public class GoldSecretRoom extends SecretRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		for (int i = 0; i < Random.newInt(3, 5); i++) {
+		for (int i = 0; i < Random.newInt(3, 10); i++) {
 			Point point = this.getRandomCell();
 			ItemHolder holder = new ItemHolder();
 			holder.setItem(new Gold());
