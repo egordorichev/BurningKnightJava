@@ -157,6 +157,17 @@ public class ShopRoom extends LockedRoom {
 			holder.y = (this.top + 3) * 16 + (16 - holder.h) / 2;
 			holder.getItem().shop = true;
 
+			int cn = (int) Player.instance.getStat("sale");
+
+			if (cn == 0 && Random.chance(33)) {
+				cn ++;
+			}
+
+			for (int j = 0; j < cn; j++) {
+				holder.getItem().sale = true;
+				holder.getItem().price = (byte) Math.max(0, Math.floor(holder.getItem().price / 2));
+			}
+
 			LevelSave.add(holder);
 			Dungeon.area.add(holder);
 

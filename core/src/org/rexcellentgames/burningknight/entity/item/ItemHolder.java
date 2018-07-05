@@ -79,6 +79,8 @@ public class ItemHolder extends SaveableEntity {
 			price.x = this.x + this.w / 2;
 			price.y = this.y - 16 - (16 - this.h) / 2;
 			price.price = this.getItem().price;
+			price.sale = this.getItem().sale;
+
 			this.price = price;
 			Dungeon.area.add(price);
 		}

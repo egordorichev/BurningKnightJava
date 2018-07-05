@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 public class ItemPrice extends Entity {
 	public byte price;
 	private String text;
+	public boolean sale;
 
 	{
 		depth = -1;
@@ -65,7 +66,12 @@ public class ItemPrice extends Entity {
 	public void render() {
 		super.render();
 
-		Graphics.medium.setColor(1, 1, 1, this.a);
+		if (sale) {
+			Graphics.medium.setColor(1, 0.2f, 0.2f, this.a);
+		} else {
+			Graphics.medium.setColor(1, 1, 1, this.a);
+		}
+
 		Graphics.medium.draw(Graphics.batch, text, this.x, this.y + 16);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}

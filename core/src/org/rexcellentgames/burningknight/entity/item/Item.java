@@ -43,6 +43,7 @@ public class Item extends Entity {
   protected boolean fly = false;
   protected String useSpeedStr;
   public byte price = 15;
+  public boolean sale;
 
   public Item() {
 		initStats();
@@ -161,12 +162,14 @@ public class Item extends Entity {
     writer.writeInt32(this.count);
     writer.writeBoolean(this.shop);
     writer.writeByte(this.price);
+    writer.writeBoolean(this.sale);
   }
 
   public void load(FileReader reader) throws IOException {
     this.count = reader.readInt32();
     this.shop = reader.readBoolean();
     this.price = reader.readByte();
+    this.sale = reader.readBoolean();
   }
 
   public TextureRegion getSprite() {
