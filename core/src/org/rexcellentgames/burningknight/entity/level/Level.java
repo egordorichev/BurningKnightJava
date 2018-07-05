@@ -578,7 +578,7 @@ public abstract class Level extends SaveableEntity {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
 
-				if (!this.low[i]) {
+				if (!this.low[i] && this.light[i] > 0) {
 					byte tile = this.get(i);
 
 					if (tile > 0 && Terrain.patterns[tile] != null) {
@@ -736,7 +736,7 @@ public abstract class Level extends SaveableEntity {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
 
-				if (this.low[i]) {
+				if (this.low[i] && this.light[i] > 0) {
 					byte tile = this.get(i);
 
 					if (tile == Terrain.EXIT) {
@@ -779,6 +779,10 @@ public abstract class Level extends SaveableEntity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
+				if (this.light[i] == 0) {
+					continue;
+				}
+
 				byte tile = this.liquidData[i];
 
 				if (tile == Terrain.EXIT) {
@@ -998,7 +1002,7 @@ public abstract class Level extends SaveableEntity {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
-				if (i >= getWidth()) {
+				if (this.light[i] > 0 && i >= getWidth()) {
 					if ((tile == Terrain.WALL || tile == Terrain.CRACK)) {
 						byte left = this.get(i - 1);
 						byte right = this.get(i + 1);
@@ -1046,7 +1050,7 @@ public abstract class Level extends SaveableEntity {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
-				if (i >= getWidth()) {
+				if (this.light[i] > 0 && i >= getWidth()) {
 					if (tile == Terrain.CHASM && this.get(i + getWidth()) != Terrain.CHASM) {
 						Graphics.batch.end();
 						shader.begin();
