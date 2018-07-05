@@ -64,7 +64,7 @@ public class ShopRoom extends LockedRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		if (Random.chance(100)) {
+		if (Random.chance(25)) {
 			for (Door door : this.connected.values()) {
 				door.setType(Door.Type.SECRET);
 			}

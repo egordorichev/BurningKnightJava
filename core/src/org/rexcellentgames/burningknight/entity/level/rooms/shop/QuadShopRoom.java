@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 import java.util.ArrayList;
@@ -23,6 +24,22 @@ public class QuadShopRoom extends ShopRoom {
 			this.top + (this.getHeight() + v) / 2);
 
 		Painter.fill(level, quad, Terrain.FLOOR_D);
+
+		if (Random.chance(70)) {
+			if (Random.chance(50)) {
+				if (Random.chance(50)) {
+					Painter.fill(level, quad, 1, Terrain.CHASM);
+				} else {
+					Painter.fillEllipse(level, quad, 1, Terrain.CHASM);
+				}
+			} else {
+				if (Random.chance(50)) {
+					Painter.fill(level, quad, 1, Terrain.randomFloor());
+				} else {
+					Painter.fillEllipse(level, quad, 1, Terrain.randomFloor());
+				}
+			}
+		}
 
 		placeItems();
 	}
