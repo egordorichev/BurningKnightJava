@@ -525,9 +525,11 @@ public class Player extends Creature {
 							Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
 						}
 
-						//if (y != this.room.top) {
+						// if (y == this.room.top) {
 							Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
-						//}
+						// }
+
+						// fixme!
 					}
 				}
 			}

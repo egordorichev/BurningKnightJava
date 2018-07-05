@@ -87,7 +87,7 @@ public abstract class Level extends SaveableEntity {
 	protected boolean[] low;
 	protected boolean[] free;
 	protected byte[] decor;
-	protected boolean[] explored;
+	public boolean[] explored;
 	protected Body body;
 	protected ArrayList<Room> rooms;
 	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
@@ -949,7 +949,7 @@ public abstract class Level extends SaveableEntity {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
-				if (i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
+				if (this.light[i] > 0 && i >= getWidth() && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
 					byte t = this.get(i - getWidth());
 
 					if (t != Terrain.CRACK && t != Terrain.WALL) {
