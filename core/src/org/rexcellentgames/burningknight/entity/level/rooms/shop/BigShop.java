@@ -9,31 +9,28 @@ import org.rexcellentgames.burningknight.util.Random;
 import java.util.ArrayList;
 
 public class BigShop extends ShopRoom {
-	@Override
-	public void paint(Level level) {
-		super.paint(level);
+		@Override
+		public void paint(Level level) {
+			super.paint(level);
 
-		if (Random.chance(50)) {
-			Painter.fill(level, this, 2, Terrain.randomFloor());
-		} else {
-			Painter.fill(level, this, 2, Terrain.randomFloor());
+			if (Random.chance(50)) {
+				Painter.fill(level, this, 2, Terrain.randomFloor());
+			} else {
+				Painter.fill(level, this, 2, Terrain.randomFloor());
+			}
+
+			placeItems();
 		}
 
-		placeItems();
-	}
-
-	protected void placeItems(ArrayList<Item> items) {
-		int i = 0;
-
-
-		for (int x = 0; x < items.size() * 2 - 4; x += 2) {
-			placeItem(items.get(i), (this.left + x % (items.size() - 2) + 2) * 16 + 1, (this.top + 3 + (int) Math.floor(x / (items.size() - 2)) * 2) * 16 - 4);
-			i++;
+		protected void placeItems(ArrayList<Item> items) {
+			for (int i = 0; i < items.size(); i++) {
+				placeItem(items.get(i), (this.left + i % (items.size() / 2) * 2 + 2) * 16 + 1,
+					(this.top + 3 + (int) Math.floor(i / (items.size() / 2)) * 2) * 16 - 4);
+			}
 		}
-	}
 
-	@Override
-	protected int getItemCount() {
-		return super.getItemCount() * 2;
-	}
+		@Override
+		protected int getItemCount() {
+			return super.getItemCount() * 2;
+		}
 }

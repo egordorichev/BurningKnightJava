@@ -64,7 +64,7 @@ public class ShopRoom extends LockedRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		if (Random.chance(25)) {
+		if (Random.chance(0)) {
 			for (Door door : this.connected.values()) {
 				door.setType(Door.Type.SECRET);
 			}
@@ -74,7 +74,7 @@ public class ShopRoom extends LockedRoom {
 	}
 
 	protected int getItemCount() {
-		return (this.getWidth() - 1) / 2;
+		return (this.getWidth() - 2) / 2;
 	}
 
 	@Override
