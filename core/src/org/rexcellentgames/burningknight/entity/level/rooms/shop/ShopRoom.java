@@ -1,14 +1,12 @@
-package org.rexcellentgames.burningknight.entity.level.rooms.special;
+package org.rexcellentgames.burningknight.entity.level.rooms.shop;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.LockedRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.entity.pool.item.*;
@@ -18,13 +16,8 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.util.ArrayList;
 
 public class ShopRoom extends LockedRoom {
-	@Override
-	public void paint(Level level) {
-		super.paint(level);
-
-		Painter.fill(level, this, 1, Terrain.randomFloor());
-
-		int c = (this.getWidth() - 2) / 2;
+	protected void placeItems() {
+		int c = getItemCount();
 
 		switch (Random.newInt(6)) {
 			case 0: paintArmor(c); break;
@@ -43,6 +36,10 @@ public class ShopRoom extends LockedRoom {
 
 		LevelSave.add(npc);
 		Dungeon.area.add(npc);
+	}
+
+	protected int getItemCount() {
+		return (this.getWidth() - 2) / 2;
 	}
 
 	@Override
@@ -136,39 +133,42 @@ public class ShopRoom extends LockedRoom {
 		placeItems(items);
 	}
 
-	private void placeItems(ArrayList<Item> items) {
+	protected void placeItems(ArrayList<Item> items) {
 		int i = 0;
 
 		for (int x = 2; x < items.size() * 2; x += 2) {
-			Slab slab = new Slab();
-
-			slab.x = (this.left + x) * 16 + 1;
-			slab.y = (this.top + 3) * 16 - 4;
-
-			LevelSave.add(slab);
-			Dungeon.area.add(slab);
-
-			ItemHolder holder = new ItemHolder();
-
-			holder.setItem(items.get(i));
-			holder.x = (this.left + x) * 16 + (16 - holder.w) / 2;
-			holder.y = (this.top + 3) * 16 + (16 - holder.h) / 2;
-			holder.getItem().shop = true;
-
-			int cn = (int) Player.instance.getStat("sale");
-
-			if (cn == 0 && Random.chance(33)) {
-				cn ++;
-			}
-
-			for (int j = 0; j < cn; j++) {
-				holder.sale();
-			}
-
-			LevelSave.add(holder);
-			Dungeon.area.add(holder);
-
+			placeItem(items.get(i), (this.left + x) * 16 + 1, (this.top + 3) * 16 - 4);
 			i++;
 		}
+	}
+
+	protected void placeItem(Item item, int x, int y) {
+		Slab slab = new Slab();
+
+		slab.x = x + 1;
+		slab.y = y - 4;
+
+		LevelSave.add(slab);
+		Dungeon.area.add(slab);
+
+		ItemHolder holder = new ItemHolder();
+
+		holder.setItem(item);
+		holder.x = x + (16 - holder.w) / 2;
+		holder.y = y + (16 - holder.h) / 2;
+		holder.getItem().shop = true;
+
+		int cn = (int) Player.instance.getStat("sale");
+
+		if (cn == 0 && Random.chance(33)) {
+			cn ++;
+		}
+
+		for (int j = 0; j < cn; j++) {
+			holder.sale();
+		}
+
+		LevelSave.add(holder);
+		Dungeon.area.add(holder);
 	}
 }

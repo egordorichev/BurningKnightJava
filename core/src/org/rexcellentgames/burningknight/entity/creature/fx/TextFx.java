@@ -16,6 +16,7 @@ public class TextFx extends Entity {
 
 		Graphics.layout.setText(Graphics.medium, this.text);
 
+		this.w = Graphics.layout.width;
 		this.x = x - Graphics.layout.width / 2;
 		this.y = yv;
 

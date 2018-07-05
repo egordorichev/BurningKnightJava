@@ -103,7 +103,7 @@ public class ItemHolder extends SaveableEntity {
 			ItemPrice price = new ItemPrice();
 
 			price.x = this.x + this.w / 2;
-			price.y = this.y - 16 - (16 - this.h) / 2;
+			price.y = this.y - 6 - (16 - this.h) / 2;
 			price.price = this.getItem().price;
 			price.sale = this.getItem().sale;
 

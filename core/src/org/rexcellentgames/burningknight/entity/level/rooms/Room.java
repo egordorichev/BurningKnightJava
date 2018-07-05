@@ -245,11 +245,22 @@ public abstract class Room extends Rect implements GraphNode {
 
 			return false;
 		} else {
-			this.resize(Random.newInt(minW, maxW) - 1,
-				Random.newInt(minH, maxH) - 1);
+			if (quad()) {
+				int v = Math.min(Random.newInt(minW, maxW) - 1,
+					Random.newInt(minH, maxH) - 1);
+
+				this.resize(v, v);
+			} else {
+				this.resize(Random.newInt(minW, maxW) - 1,
+					Random.newInt(minH, maxH) - 1);
+			}
 
 			return true;
 		}
+	}
+
+	protected boolean quad() {
+		return false;
 	}
 
 	public boolean setSizeWithLimit(int w, int h) {

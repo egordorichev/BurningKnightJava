@@ -50,5 +50,7 @@
 	"mouse_left" : [ "Numpad 4" ],
 	"mouse_right" : [ "Numpad 6" ],
 	"mouse_up" : [ "Numpad 8" ],
-	"mouse_down" : [ "Numpad 2", "Numpad 5" ]
+	"mouse_down" : [ "Numpad 2", "Numpad 5" ],
+
+	"to_shop" : [ "F7" ]
 }

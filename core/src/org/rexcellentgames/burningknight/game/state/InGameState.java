@@ -14,6 +14,8 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -27,6 +29,7 @@ import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class InGameState extends State {
 	private UiInventory inventory;
@@ -113,6 +116,18 @@ public class InGameState extends State {
 
 		if (Input.instance.wasPressed("reset")) {
 			Dungeon.newGame();
+		}
+
+		if (Input.instance.wasPressed("to_shop")) {
+			for (Room room : Dungeon.level.getRooms()) {
+				if (room instanceof ShopRoom) {
+					Point point = room.getRandomFreeCell();
+
+					Player.instance.tp(point.x * 16, point.y * 16);
+
+					break;
+				}
+			}
 		}
 		
 		if (Input.instance.wasPressed("show_fps")) {

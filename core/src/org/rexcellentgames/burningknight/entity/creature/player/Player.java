@@ -454,6 +454,12 @@ public class Player extends Creature {
 	}
 
 	@Override
+	public void tp(float x, float y) {
+		super.tp(x, y);
+		Camera.instance.follow(this, true);
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 

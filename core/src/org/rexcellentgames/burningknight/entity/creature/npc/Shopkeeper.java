@@ -397,6 +397,7 @@ public class Shopkeeper extends Npc {
 			return;
 		}
 
+		enranged = true;
 		this.become("hana");
 
 		for (ItemHolder holder : ItemHolder.all) {
@@ -407,7 +408,6 @@ public class Shopkeeper extends Npc {
 			}
 		}
 
-		enranged = true;
 		shotgun = new BronzeShotgun();
 		shotgun.setOwner(this);
 	}
