@@ -107,7 +107,7 @@ object ItemRegistry {
     "lamp" to Lamp::class.java,
     "mana_spell" to ManaSpell::class.java,
     "key_a" to KeyA::class.java,
-    "key_b" to KeyB::class.java,
+    "key" to KeyB::class.java,
     "key_c" to KeyC::class.java,
     "compass" to Compass::class.java,
     "ushanka_hat" to UshankaHat::class.java,

@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -37,6 +36,8 @@ public class Shopkeeper extends Npc {
 	{
 		w = 15;
 		h = 15;
+		speed = 20;
+		maxSpeed = 200;
 	}
 
 	/*
@@ -77,10 +78,6 @@ public class Shopkeeper extends Npc {
 		super.load(reader);
 
 		enranged = reader.readBoolean();
-
-		if (enranged) {
-			this.become("alerted");
-		}
 	}
 
 	@Override
@@ -99,18 +96,16 @@ public class Shopkeeper extends Npc {
 	}
 
 	@Override
-	public void destroy() {
-		super.destroy();
-		instance = null;
+	public void initStats() {
+		super.initStats();
+		modifyStat("gun_use_time", 1);
+		modifyStat("reload_time", 1);
 	}
 
 	@Override
-	public void die() {
-		super.die();
-
-		for (ItemHolder holder : ItemHolder.all) {
-			holder.getItem().shop = false;
-		}
+	public void destroy() {
+		super.destroy();
+		instance = null;
 	}
 
 	@Override
@@ -156,6 +151,7 @@ public class Shopkeeper extends Npc {
 
 		if (this.shotgun != null) {
 			this.shotgun.update(dt * speedMod);
+			this.shotgun.updateInHands(dt * speedMod);
 		}
 	}
 
@@ -194,7 +190,7 @@ public class Shopkeeper extends Npc {
 			super.update(dt);
 
 			if (Player.instance.room == self.room) {
-				self.become("hi");
+				self.become(self.enranged ? "hana" : "hi");
 			}
 		}
 	}
@@ -399,9 +395,7 @@ public class Shopkeeper extends Npc {
 
 					to.x = target.x + (self.w - target.w) / 2;
 					to.y = target.y + 24;
-					Log.info("found");
 				} else {
-					Log.error("not found");
 					self.become("stand");
 					return;
 				}
@@ -418,6 +412,14 @@ public class Shopkeeper extends Npc {
 		public void onEnter() {
 			super.onEnter();
 
+			for (ItemHolder holder : ItemHolder.all) {
+				holder.getItem().shop = false;
+				if (holder.price != null) {
+					holder.price.remove();
+					holder.price = null;
+				}
+			}
+
 			self.enranged = true;
 			self.shotgun = new BronzeShotgun();
 			self.shotgun.setOwner(self);
@@ -429,19 +431,20 @@ public class Shopkeeper extends Npc {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 2f) {
-				if (this.t >= 2.3f) {
+			if (this.t >= 3f) {
+				if (this.t >= 3.3f) {
 					this.t = 0f;
 					self.shotgun.use();
+					self.shotgun.setAmmoLeft(20);
 				}
-			} else {
+			} else if (Player.instance != null && Player.instance.room != null) {
 				if (to == null) {
 					to = Player.instance.room.getRandomFreeCell();
 					to.x *= 16;
 					to.y *= 16;
 				}
 
-				if (this.moveTo(to, 6f, 16f)) {
+				if (this.moveTo(to, 12f, 32f)) {
 					to = null;
 				}
 			}
@@ -452,10 +455,6 @@ public class Shopkeeper extends Npc {
 
 	@Override
 	protected State getAi(String state) {
-		if (enranged) {
-			return new HanaState();
-		}
-
 		switch (state) {
 			case "alerted": case "chase": case "idle": case "roam": return new IdleState();
 			case "help": return new HelpState();

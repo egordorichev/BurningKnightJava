@@ -76,7 +76,7 @@ public class Door extends SaveableEntity {
 	private boolean did;
 
 	private void setPas() {
-		Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), false);
+		// Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), false);
 	}
 
 	@Override

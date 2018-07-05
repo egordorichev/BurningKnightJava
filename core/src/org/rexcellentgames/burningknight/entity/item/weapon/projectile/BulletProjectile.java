@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
@@ -134,7 +135,7 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		return this.canBeRemoved && (entity == null || (entity instanceof SolidProp && !(entity instanceof Turret)) || entity instanceof Door);
+		return this.canBeRemoved && (entity == null || (entity instanceof SolidProp && !(entity instanceof Turret || entity instanceof Slab)) || entity instanceof Door);
 	}
 
 	@Override

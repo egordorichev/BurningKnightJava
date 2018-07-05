@@ -274,7 +274,7 @@ public class UiInventory extends UiEntity {
 				this.forceT = 1f;
 			}
 
-			if (Input.instance.wasPressed("drop_item") && Dialog.active == null) {
+			if (!Input.instance.blocked && Input.instance.wasPressed("drop_item") && Dialog.active == null) {
 				Item slot = this.inventory.getSlot(this.active);
 
 				if (slot == null) {

@@ -9,6 +9,7 @@ open class Shotgun : Gun() {
     useTime = 3f
     damage = 3
     sprite = "item-gun_a"
+	  vel = 3f
   }
 
   override fun sendBullets() {
