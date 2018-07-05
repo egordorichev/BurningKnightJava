@@ -501,7 +501,11 @@ public abstract class Level extends SaveableEntity {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
 				float v = this.light[i];
-				
+
+				if (v == 1) {
+					continue;
+				}
+
 				float r = this.lightR[i];
 				float g = this.lightG[i];
 				float b = this.lightB[i];
@@ -586,7 +590,7 @@ public abstract class Level extends SaveableEntity {
 						if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 							byte variant = this.walls[i];
 
-							if (variant == 0) {
+							if (variant == 0 && this.data[i] > 0) {
 								continue;
 							}
 						}
