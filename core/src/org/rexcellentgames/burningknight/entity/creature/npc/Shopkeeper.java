@@ -423,13 +423,27 @@ public class Shopkeeper extends Npc {
 			self.shotgun.setOwner(self);
 		}
 
+		private Point to;
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 1f) {
-				this.t = 0f;
-				self.shotgun.use();
+			if (this.t >= 2f) {
+				if (this.t >= 2.3f) {
+					this.t = 0f;
+					self.shotgun.use();
+				}
+			} else {
+				if (to == null) {
+					to = Player.instance.room.getRandomFreeCell();
+					to.x *= 16;
+					to.y *= 16;
+				}
+
+				if (this.moveTo(to, 6f, 16f)) {
+					to = null;
+				}
 			}
 		}
 	}

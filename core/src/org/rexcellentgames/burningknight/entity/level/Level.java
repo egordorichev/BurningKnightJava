@@ -1297,7 +1297,7 @@ public abstract class Level extends SaveableEntity {
 					for (Vector2 vec : NEIGHBOURS8V) {
 						Vector2 v = new Vector2(x + vec.x, y + vec.y);
 
-						if (this.isValid((int) v.x, (int) v.y) && this.checkFor((int) v.x, (int) v.y, Terrain.SOLID)) {
+						if (this.isValid((int) v.x, (int) v.y) && (this.checkFor((int) v.x, (int) v.y, Terrain.SOLID))) {
 							total++;
 						}
 					}
@@ -1308,19 +1308,19 @@ public abstract class Level extends SaveableEntity {
 						int yy = y * 16;
 
 
-						if (this.checkFor(x, y + 1, Terrain.SOLID)) {
+						if (this.checkFor(x, y + 1, Terrain.SOLID) || this.checkFor(x, y + 1, Terrain.HOLE)) {
 							ArrayList<Vector2> array = new ArrayList<>();
 
-							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID));
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID) || this.checkFor(x, y - 1, Terrain.HOLE));
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID) || this.checkFor(x - 1, y, Terrain.HOLE)) {
 								array.add(new Vector2(xx, yy));
 							} else {
 								array.add(new Vector2(xx, yy + 6));
 								array.add(new Vector2(xx + 6, yy));
 							}
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID) || this.checkFor(x + 1, y, Terrain.HOLE)) {
 								array.add(new Vector2(xx + 16, yy));
 							} else {
 								array.add(new Vector2(xx + 16, yy + 6));
@@ -1334,30 +1334,30 @@ public abstract class Level extends SaveableEntity {
 						} else {
 							ArrayList<Vector2> array = new ArrayList<>();
 
-							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID));
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.SOLID) || this.checkFor(x, y - 1, Terrain.HOLE));
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.SOLID) || this.checkFor(x - 1, y, Terrain.HOLE)) {
 								array.add(new Vector2(xx, yy));
 							} else {
 								array.add(new Vector2(xx, yy + 6));
 								array.add(new Vector2(xx + 6, yy));
 							}
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.SOLID) || this.checkFor(x + 1, y, Terrain.HOLE)) {
 								array.add(new Vector2(xx + 16, yy));
 							} else {
 								array.add(new Vector2(xx + 16, yy + 6));
 								array.add(new Vector2(xx + 10, yy));
 							}
 
-							if (this.checkFor(x - 1, y, Terrain.SOLID)) {
+							if (this.checkFor(x - 1, y, Terrain.SOLID) || this.checkFor(x - 1, y, Terrain.HOLE)) {
 								array.add(new Vector2(xx, yy + 12));
 							} else {
 								array.add(new Vector2(xx, yy + 6));
 								array.add(new Vector2(xx + 6, yy + 12));
 							}
 
-							if (this.checkFor(x + 1, y, Terrain.SOLID)) {
+							if (this.checkFor(x + 1, y, Terrain.SOLID) || this.checkFor(x + 1, y, Terrain.HOLE)) {
 								array.add(new Vector2(xx + 16, yy + 12));
 							} else {
 								array.add(new Vector2(xx + 10, yy + 12));
@@ -1382,7 +1382,7 @@ public abstract class Level extends SaveableEntity {
 					for (Vector2 vec : NEIGHBOURS8V) {
 						Vector2 v = new Vector2(x + vec.x, y + vec.y);
 
-						if (this.isValid((int) v.x, (int) v.y) && this.checkFor((int) v.x, (int) v.y, Terrain.HOLE)) {
+						if (this.isValid((int) v.x, (int) v.y) && (this.checkFor((int) v.x, (int) v.y, Terrain.HOLE) || this.checkFor((int) v.x, (int) v.y, Terrain.SOLID))) {
 							total++;
 						}
 					}
@@ -1393,19 +1393,19 @@ public abstract class Level extends SaveableEntity {
 						int yy = y * 16;
 
 
-						if (this.checkFor(x, y + 1, Terrain.HOLE)) {
+						if (this.checkFor(x, y + 1, Terrain.HOLE) || this.checkFor(x, y + 1, Terrain.SOLID)) {
 							ArrayList<Vector2> array = new ArrayList<>();
 
-							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.HOLE));
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.HOLE) || this.checkFor(x, y - 1, Terrain.SOLID));
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.HOLE)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.HOLE) || this.checkFor(x - 1, y, Terrain.SOLID)) {
 								array.add(new Vector2(xx, yy));
 							} else {
 								array.add(new Vector2(xx, yy + 6));
 								array.add(new Vector2(xx + 6, yy));
 							}
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.HOLE)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.HOLE) || this.checkFor(x + 1, y, Terrain.SOLID)) {
 								array.add(new Vector2(xx + 16, yy));
 							} else {
 								array.add(new Vector2(xx + 16, yy + 4));
@@ -1419,30 +1419,30 @@ public abstract class Level extends SaveableEntity {
 						} else {
 							ArrayList<Vector2> array = new ArrayList<>();
 
-							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.HOLE));
+							boolean bb = (!this.isValid(x, y - 1) || this.checkFor(x, y - 1, Terrain.HOLE) || this.checkFor(x, y - 1, Terrain.SOLID));
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.HOLE)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x - 1, y, Terrain.HOLE) || this.checkFor(x - 1, y, Terrain.SOLID)) {
 								array.add(new Vector2(xx, yy));
 							} else {
 								array.add(new Vector2(xx, yy + 4));
 								array.add(new Vector2(xx + 4, yy));
 							}
 
-							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.HOLE)) {
+							if (bb || !this.isValid(x - 1, y) || this.checkFor(x + 1, y, Terrain.HOLE) || this.checkFor(x + 1, y, Terrain.SOLID)) {
 								array.add(new Vector2(xx + 16, yy));
 							} else {
 								array.add(new Vector2(xx + 16, yy + 4));
 								array.add(new Vector2(xx + 12, yy));
 							}
 
-							if (this.checkFor(x - 1, y, Terrain.HOLE)) {
+							if (this.checkFor(x - 1, y, Terrain.HOLE) || this.checkFor(x - 1, y, Terrain.SOLID)) {
 								array.add(new Vector2(xx, yy + 8));
 							} else {
 								array.add(new Vector2(xx, yy + 4));
 								array.add(new Vector2(xx + 4, yy + 8));
 							}
 
-							if (this.checkFor(x + 1, y, Terrain.HOLE)) {
+							if (this.checkFor(x + 1, y, Terrain.HOLE) || this.checkFor(x + 1, y, Terrain.SOLID)) {
 								array.add(new Vector2(xx + 16, yy + 8));
 							} else {
 								array.add(new Vector2(xx + 12, yy + 8));
