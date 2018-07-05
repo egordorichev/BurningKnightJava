@@ -4,10 +4,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class NpcDialog extends Entity {
 	private Npc npc;
@@ -129,7 +125,11 @@ public class NpcDialog extends Entity {
 					if (message.length() != full.length()) {
 						message = full.substring(0, message.length() + 1);
 
-						if (message.length() != full.length()) {
+						if ((message.length() == full.length() && !did) || message.length() < full.length()) {
+							if (message.length() == full.length()) {
+								did = true;
+							}
+
 							open();
 						}
 					}
@@ -137,6 +137,8 @@ public class NpcDialog extends Entity {
 			});
 		}
 	}
+
+	private boolean did;
 
 	private boolean toRemove;
 
