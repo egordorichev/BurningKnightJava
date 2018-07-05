@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.player.fx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.fx.TextFx;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -63,6 +64,7 @@ public class ItemPickupFx extends Entity {
 
 				if (g < this.item.getItem().price) {
 					this.remove();
+					Dungeon.area.add(new TextFx("Not enough money", this).setColor(Dungeon.RED));
 					return;
 				} else {
 					this.player.getInventory().removeGold(this.item.getItem().price);
