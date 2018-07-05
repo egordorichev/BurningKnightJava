@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -70,7 +71,7 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 
-			if (room instanceof SecretRoom) {
+			if (room.hidden) {
 				for (int x = room.left; x <= room.right; x++) {
 					for (int y = room.top; y <= room.bottom; y++) {
 						level.hide(x, y);

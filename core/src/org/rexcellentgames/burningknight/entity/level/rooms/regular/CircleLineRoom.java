@@ -52,14 +52,14 @@ public class CircleLineRoom extends RegularRoom {
 		}
 
 		if (Random.chance(50)) {
-			Painter.fillEllipse(level, this, 4, fl);
+			Painter.fillEllipse(level, this, 5, fl);
 		} else if (Random.chance(50)) {
 			f = Terrain.randomFloor();
 			if (fl == Terrain.LAVA) {
 				f = Terrain.DIRT;
 			}
 
-			Painter.fillEllipse(level, this, 4, f);
+			Painter.fillEllipse(level, this, 5, f);
 		}
 
 		if (Random.chance(50)) {
