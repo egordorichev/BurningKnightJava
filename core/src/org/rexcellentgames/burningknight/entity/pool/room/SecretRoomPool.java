@@ -11,6 +11,6 @@ public class SecretRoomPool extends Pool<SecretRoom> {
 		add(ChestRoom.class, 1f);
 		add(GoldSecretRoom.class, 1f);
 		add(HeartRoom.class, 1f);
-		add(MixedSecretRoom.class, 10000f);
+		add(MixedSecretRoom.class, 1f);
 	}
 }

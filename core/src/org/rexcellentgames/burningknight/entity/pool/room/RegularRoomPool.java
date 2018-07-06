@@ -7,7 +7,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 	public static RegularRoomPool instance = new RegularRoomPool();
 
 	public RegularRoomPool() {
-		this.add(CircleRoom.class, 3);
+		add(CircleRoom.class, 3);
 		add(GardenRoom.class, 1f);
 		add(FloodedRoom.class, 0.3f);
 		add(SpikedRoom.class, 1f);
@@ -52,5 +52,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(VerticalMazeRoom.class, 2f);
 		add(RectMazeRoom.class, 2f);
 		add(CornerRoom.class, 1f);
+		add(MissingCornerRoom.class, 1000000f);
 	}
 }
