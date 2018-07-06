@@ -16,11 +16,16 @@ public class VerticalMazeRoom extends RegularRoom {
 				if (Random.chance(30)) {
 					Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y), Terrain.randomFloor());
 					Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y), Terrain.LAVA);
-					Painter.set(level, new Point(Random.newInt(this.left + 1, this.right), y), Random.chance(50) ? Terrain.WATER : Terrain.DIRT);
+
+					for (int i = 0; i < (Random.chance(20) ? 2 : 1); i++) {
+						Painter.set(level, new Point(Random.newInt(this.left + 1, this.right), y), Random.chance(50) ? Terrain.WATER : Terrain.DIRT);
+					}
 				} else {
 					Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y), Random.chance(25) ? Terrain.WALL : Terrain.CHASM);
-					Painter.set(level, new Point(Random.newInt(this.left + 1, this.right), y), Terrain.randomFloor());
 
+					for (int i = 0; i < (Random.chance(20) ? 2 : 1); i++) {
+						Painter.set(level, new Point(Random.newInt(this.left + 1, this.right), y), Terrain.randomFloor());
+					}
 				}
 			} else {
 				Painter.drawLine(level, new Point(this.left + 1, y), new Point(this.right - 1, y), Terrain.randomFloor());
