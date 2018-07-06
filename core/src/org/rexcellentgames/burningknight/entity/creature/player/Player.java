@@ -42,6 +42,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
@@ -525,19 +526,17 @@ public class Player extends Creature {
 							Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
 						}
 
-						// if (y == this.room.top) {
+						if (y != this.room.top) {
 							Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
-						// }
+						} else {
+							Dungeon.level.explored[Level.toIndex(x, y)] = true;
+						}
 
 						// fixme!
 					}
 				}
 			}
 		}
-
-		/*if (l < this.mana && Float.compare(this.mana, this.manaMax) == 0) {
-			Dungeon.area.add(new TextFx("Full Mana", this).setColor(Dungeon.BLUE));
-		}*/
 
 		this.watery = Math.max(0, this.watery - dt);
 

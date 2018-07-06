@@ -583,7 +583,7 @@ public abstract class Level extends SaveableEntity {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
 
-				if (!this.low[i] && this.light[i] > 0) {
+				if (!this.low[i] && (this.light[i] > 0 || this.light[i + getWidth()] > 0)) {
 					byte tile = this.get(i);
 
 					if (tile > 0 && Terrain.patterns[tile] != null) {
