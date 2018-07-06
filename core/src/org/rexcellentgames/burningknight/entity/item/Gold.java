@@ -13,7 +13,7 @@ public class Gold extends Item {
 	private static Animation gold = Animation.make("coin", "-gold");
 	private static Animation iron = Animation.make("coin", "-iron");
 	private static Animation bronze = Animation.make("coin", "-bronze");
-	private AnimationData animation = gold.get("idle");
+	private AnimationData animation = bronze.get("idle");
 
 	{
 		name = Locale.get("gold");
@@ -51,9 +51,9 @@ public class Gold extends Item {
 	public Item setCount(int count) {
 		if (count == 1) {
 			this.animation = bronze.get("idle");
-		} else if (count == 5) {
+		} else if (count >= 5 && count <= 9) {
 			this.animation = iron.get("idle");
-		} else if (count == 10) {
+		} else if (count >= 10) {
 			this.animation = gold.get("idle");
 		}
 

@@ -20,6 +20,10 @@ public class CornerRoom extends RegularRoom {
 
 		Painter.fill(level, this, 2, Terrain.randomFloor());
 		Painter.fillEllipse(level, this, Random.newInt(2, 4), Terrain.randomFloor());
+
+		if (Random.chance(50)) {
+			paintTunnel(level, Random.chance(50) ? Terrain.FLOOR_D : Terrain.randomFloor());
+		}
 	}
 
 	@Override

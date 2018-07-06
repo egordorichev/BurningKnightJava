@@ -31,7 +31,7 @@ public class HeartFx extends SaveableEntity {
 		this.h = 9;
 
 		this.t = Random.newFloat(128);
-		this.body = World.createSimpleBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createCircleBody(this, 0, 0, this.w / 2, BodyDef.BodyType.DynamicBody, false, 0.8f);
 
 		MassData data = new MassData();
 		data.mass = 0.1f;

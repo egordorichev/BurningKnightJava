@@ -23,7 +23,6 @@ public class CrossRoom extends RegularRoom {
 			}
 		}
 
-
 		byte f = Terrain.randomFloor();
 
 		Painter.fill(level, new Rect(this.left + 1, this.top + this.getHeight() / 2 - 1, this.right, this.top + this.getHeight() / 2 + 1), f);
