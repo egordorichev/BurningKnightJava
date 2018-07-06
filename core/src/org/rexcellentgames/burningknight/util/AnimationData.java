@@ -20,6 +20,10 @@ public class AnimationData {
 		}
 	}
 
+	public boolean isGoingBack() {
+		return back;
+	}
+
 	public void setListener(Listener listener) {
 		this.listener = listener;
 	}

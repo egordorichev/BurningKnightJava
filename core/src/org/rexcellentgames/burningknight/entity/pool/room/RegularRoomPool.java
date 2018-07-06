@@ -55,7 +55,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(CornerRoom.class, 1f);
 		add(MissingCornerRoom.class, 3f);
 		add(DoubleCornerRoom.class, 3f);
-
 		add(CRoom.class, 2f);
 	}
 }

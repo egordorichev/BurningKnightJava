@@ -53,5 +53,6 @@
 	"mouse_down" : [ "Numpad 2", "Numpad 5" ],
 
 	"to_shop" : [ "F7" ],
-	"to_secret" : [ "F8" ]
+	"to_secret" : [ "F8" ],
+	"to_treasure" : [ "F9" ]
 }

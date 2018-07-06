@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -124,6 +125,18 @@ public class InGameState extends State {
 		if (Input.instance.wasPressed("to_shop")) {
 			for (Room room : Dungeon.level.getRooms()) {
 				if (room instanceof ShopRoom) {
+					Point point = room.getRandomFreeCell();
+
+					Player.instance.tp(point.x * 16, point.y * 16);
+
+					break;
+				}
+			}
+		}
+
+		if (Input.instance.wasPressed("to_treasure")) {
+			for (Room room : Dungeon.level.getRooms()) {
+				if (room instanceof TreasureRoom) {
 					Point point = room.getRandomFreeCell();
 
 					Player.instance.tp(point.x * 16, point.y * 16);

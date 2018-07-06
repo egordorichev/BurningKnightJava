@@ -27,6 +27,10 @@ public class Chest extends SaveableEntity {
 	protected Item item;
 	protected boolean create;
 
+	{
+		h = 13;
+	}
+
 	@Override
 	public void init() {
 		super.init();

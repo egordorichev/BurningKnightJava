@@ -3,7 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.rooms.special;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Random;
@@ -32,11 +32,11 @@ public class TreasureRoom extends LockedRoom {
 		}
 
 		Point center = this.getCenter();
-		Chest chest = Chest.random();
+		Mimic chest = new Mimic();
 
 		chest.x = center.x * 16;
 		chest.y = center.y * 16;
-		chest.setItem(chest.generate());
+		// chest.setItem(chest.generate());
 
 		Dungeon.area.add(chest);
 		LevelSave.add(chest);
