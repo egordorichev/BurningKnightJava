@@ -9,7 +9,7 @@ public class SecretRoomPool extends Pool<SecretRoom> {
 	public SecretRoomPool() {
 		add(BombRoom.class, 1f);
 		add(ChestRoom.class, 1f);
-		add(GoldSecretRoom.class, 100000f);
+		add(GoldSecretRoom.class, 1f);
 		add(HeartRoom.class, 1f);
 	}
 }
