@@ -22,7 +22,6 @@ public class Mimic extends Mob {
 	private static AnimationData closed = animations.get("idle");
 	private static AnimationData open = animations.get("opening_mimic");
 	private static AnimationData hurt = animations.get("hurt");
-	private static AnimationData killed = animations.get("open");
 	private AnimationData animation = closed;
 	private boolean found;
 
@@ -99,7 +98,7 @@ public class Mimic extends Mob {
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.renderWithOutline(this.animation);
+		this.renderWithOutline(this.invt > 0 ? hurt : this.animation);
 
 		Graphics.print(this.state, Graphics.small, this.x, this.y - 16);
 	}

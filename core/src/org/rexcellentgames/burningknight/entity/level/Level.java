@@ -780,7 +780,7 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.end();
 		Graphics.batch.setShader(maskShader);
 		Graphics.batch.begin();
-		
+
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
@@ -817,6 +817,7 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					maskShader.begin();
 					t.bind(1);
+					maskShader.setUniformf("world", new Vector2(x, y));
 					maskShader.setUniformf("water", 1);
 					maskShader.setUniformf("activated", 1);
 					maskShader.setUniformi("u_texture2", 1);
@@ -865,6 +866,7 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					maskShader.begin();
 					t.bind(1);
+					maskShader.setUniformf("world", new Vector2(x, y));
 					maskShader.setUniformf("activated", 1);
 					maskShader.setUniformf("water", 1);
 					maskShader.setUniformi("u_texture2", 1);
