@@ -15,7 +15,12 @@ public class BombRoom extends SecretRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, 1, Terrain.CHASM);
+		if (Random.chance(50)) {
+			Painter.fill(level, this, 1, Random.chance(50) ? Terrain.FLOOR_D : Terrain.randomFloor());
+			Painter.fill(level, this, 2, Terrain.CHASM);
+		} else {
+			Painter.fill(level, this, 1, Terrain.CHASM);
+		}
 
 		if (Random.chance(50)) {
 			Painter.fill(level, this, 3, Terrain.randomFloor());

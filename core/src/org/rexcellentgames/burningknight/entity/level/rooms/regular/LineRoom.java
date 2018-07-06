@@ -21,16 +21,28 @@ public class LineRoom extends RegularRoom {
 
 		Painter.fill(level, this, 1, Terrain.randomFloor());
 
-		Painter.fill(level, this, 2, fl);
-		Painter.fill(level, this, 3, f);
+		int m = 2 + Random.newInt(3);
+
+		Painter.fill(level, this, m, fl);
+		Painter.fill(level, this, m + 1, f);
+
+		if (Random.chance(50)) {
+			fl = Random.chance(30) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
+
+			if (Random.chance(50)) {
+				Painter.fill(level, this, m + 2 + Random.newInt(2), fl);
+			} else {
+				Painter.fillEllipse(level, this, m + 2 + Random.newInt(2), fl);
+			}
+		}
 
 		Point point;
 
 		switch (Random.newInt(4)) {
-			case 0: default: point = new Point(this.getWidth() / 2 + this.left, this.top + 2); break;
-			case 1: point = new Point(this.getWidth() / 2 + this.left, this.bottom - 2); break;
-			case 2: point = new Point(this.left + 2, this.getHeight() / 2 + this.top); break;
-			case 3: point = new Point(this.right - 2, this.getHeight() / 2 + this.top); break;
+			case 0: default: point = new Point(this.getWidth() / 2 + this.left, this.top + m); break;
+			case 1: point = new Point(this.getWidth() / 2 + this.left, this.bottom - m); break;
+			case 2: point = new Point(this.left + m, this.getHeight() / 2 + this.top); break;
+			case 3: point = new Point(this.right - m, this.getHeight() / 2 + this.top); break;
 		}
 
 		Painter.set(level, point, f);

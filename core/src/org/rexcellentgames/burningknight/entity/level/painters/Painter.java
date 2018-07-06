@@ -196,7 +196,7 @@ public class Painter {
 							if (Math.abs(xx) + Math.abs(yy) == 1) {
 								byte tl = level.get((int) d.x + xx, (int) d.y + yy);
 
-								if (tl != Terrain.WALL && tl != Terrain.CRACK) {
+								if (tl != Terrain.WALL && tl != Terrain.CRACK && tl != Terrain.CHASM) {
 									f = tl;
 									break;
 								}

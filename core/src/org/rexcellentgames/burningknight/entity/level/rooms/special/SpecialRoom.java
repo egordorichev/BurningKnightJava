@@ -6,20 +6,20 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 public class SpecialRoom extends Room {
 	@Override
 	public int getMinWidth() {
-		return 5;
+		return 8;
 	}
 
 	public int getMaxWidth() {
-		return 10;
+		return 14;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 5;
+		return 8;
 	}
 
 	public int getMaxHeight() {
-		return 10;
+		return 14;
 	}
 
 	@Override
