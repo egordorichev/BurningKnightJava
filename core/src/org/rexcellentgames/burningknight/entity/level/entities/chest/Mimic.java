@@ -1,11 +1,14 @@
 package org.rexcellentgames.burningknight.entity.level.entities.chest;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -48,6 +51,27 @@ public class Mimic extends Mob {
 		super.die(force);
 		this.playSfx("death_clown");
 		this.done = true;
+
+		Chest chest = new WoodenChest();
+
+		chest.x = this.x;
+		chest.y = this.y;
+
+		chest.setItem(chest.generate());
+
+		Dungeon.area.add(chest);
+		LevelSave.add(chest);
+
+		chest.open();
+
+		for (int i = 0; i < 10; i++) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.x + this.w / 2;
+			fx.y = this.y + this.h / 2;
+
+			Dungeon.area.add(fx);
+		}
 	}
 
 	@Override

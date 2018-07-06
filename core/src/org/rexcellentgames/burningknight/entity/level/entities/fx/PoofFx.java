@@ -16,6 +16,10 @@ public class PoofFx extends Entity {
 	public float speed = 1f;
 	public boolean shadow = true;
 
+	{
+		depth = 1;
+	}
+
 	@Override
 	public void init() {
 		this.alwaysActive = true;

@@ -131,18 +131,7 @@ public class Chest extends SaveableEntity {
 		this.t += dt;
 
 		if (this.item != null && this.create) {
-			ItemHolder holder = new ItemHolder();
-
-			holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;
-			holder.y = this.y - 3;
-
-			holder.setItem(this.item);
-
-			Dungeon.area.add(holder);
-			LevelSave.add(holder);
-
-			this.item = null;
-			this.create = false;
+			this.open();
 		}
 
 		if (this.data != null && this.data.update(dt)) {
@@ -150,6 +139,24 @@ public class Chest extends SaveableEntity {
 				this.data = this.getOpenedAnim();
 			}
 		}
+	}
+
+	public void open() {
+		ItemHolder holder = new ItemHolder();
+
+		holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;
+		holder.y = this.y - 3;
+
+		holder.setItem(this.item);
+
+		Dungeon.area.add(holder);
+		LevelSave.add(holder);
+
+		this.item = null;
+		this.create = false;
+
+		this.data = this.getOpenedAnim();
+		this.open = true;
 	}
 
 	public static Chest random() {

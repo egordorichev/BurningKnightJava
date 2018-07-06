@@ -666,14 +666,6 @@ public class Player extends Creature {
 			this.animation.update(dt);
 		}
 
-		if (Random.chance(10)) {
-			PoofFx fx = new PoofFx();
-
-			fx.x = this.x + this.w / 2;
-			fx.y = this.y + this.h / 2;
-
-			Dungeon.area.add(fx);
-		}
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
