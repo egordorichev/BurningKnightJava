@@ -14,7 +14,7 @@ public class RectMazeRoom extends RegularRoom {
 		int max = Math.min(this.getWidth(), this.getHeight()) / 2 + 1;
 
 		for (int m = 2; m < max; m++) {
-			if (m % 2 == 0) {
+			if (m % 2 == 0 && !Random.chance(50)) {
 				Painter.fill(level, this, m, Random.chance(30) ? Terrain.WALL : Terrain.CHASM);
 
 				if (m < max - 1) {

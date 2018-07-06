@@ -50,7 +50,6 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(FilledRombRoom.class, 3f);
 		add(LineMazeRoom.class, 2f);
 		add(VerticalMazeRoom.class, 2f);
-
 		add(RectMazeRoom.class, 2f);
 	}
 }

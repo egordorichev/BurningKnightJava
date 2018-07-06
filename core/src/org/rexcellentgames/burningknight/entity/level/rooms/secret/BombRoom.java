@@ -15,16 +15,20 @@ public class BombRoom extends SecretRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		if (Random.chance(70)) {
-			if (Random.chance(50)) {
-				Painter.fill(level, this, 2, Terrain.randomFloor());
-			} else {
-				Painter.fillEllipse(level, this, 2, Terrain.randomFloor());
-			}
+		Painter.fill(level, this, 1, Terrain.CHASM);
+
+		if (Random.chance(50)) {
+			Painter.fill(level, this, 3, Terrain.randomFloor());
+			Painter.fill(level, this, 4, Terrain.randomFloor());
+		} else {
+			Painter.fillEllipse(level, this, 3, Terrain.randomFloor());
+			Painter.fillEllipse(level, this, 4, Terrain.randomFloor());
 		}
 
+		paintTunnel(level, Terrain.FLOOR_D);
+
 		for (int i = 0; i < Random.newInt(3, 5); i++) {
-			Point point = this.getRandomCell();
+			Point point = this.getCenter();
 			ItemHolder holder = new ItemHolder();
 			holder.setItem(new Bomb());
 			holder.x = point.x * 16 + 3;
@@ -33,5 +37,10 @@ public class BombRoom extends SecretRoom {
 			Dungeon.area.add(holder);
 			LevelSave.add(holder);
 		}
+	}
+
+	@Override
+	protected Point getDoorCenter() {
+		return getCenter();
 	}
 }
