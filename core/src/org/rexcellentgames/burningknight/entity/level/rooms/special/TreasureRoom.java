@@ -44,11 +44,11 @@ public class TreasureRoom extends LockedRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		if (p.x == this.left && (p.y == this.top + 1 || p.y == this.bottom - 1)) {
+		if (p.x == this.left + 1 && (p.y == this.top + 1 || p.y == this.bottom - 1)) {
 			return false;
 		}
 
-		if (p.x == this.right && (p.y == this.top + 1 || p.y == this.bottom - 1)) {
+		if (p.x == this.right - 1 && (p.y == this.top + 1 || p.y == this.bottom - 1)) {
 			return false;
 		}
 

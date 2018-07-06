@@ -42,7 +42,7 @@ public class SecretRoom extends Room {
 
 	@Override
 	public int getMaxConnections(Connection side) {
-		return side == Connection.ALL ? 16 : 4;
+		return 1;
 	}
 
 	@Override

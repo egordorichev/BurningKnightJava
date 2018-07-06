@@ -48,7 +48,13 @@ public class MissingCornerRoom extends RegularRoom {
 				break;
 		}
 
-		Painter.fill(level, rect, Random.chance(50) ? Terrain.WALL : Terrain.CHASM);
+		boolean wall = Random.chance(50);
+
+		Painter.fill(level, rect, wall ? Terrain.WALL : Terrain.CHASM);
+
+		if (Random.chance(50)) {
+			Painter.fill(level, rect, 1 + Random.newInt(3), !wall ? Terrain.WALL : Terrain.CHASM);
+		}
 	}
 
 	@Override

@@ -9,6 +9,8 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
+import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.LockedRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
@@ -19,6 +21,12 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.util.ArrayList;
 
 public class ShopRoom extends LockedRoom {
+	private boolean hd;
+
+	public ShopRoom() {
+		hd = Random.chance(30);
+	}
+
 	protected void placeItems() {
 		int c = getItemCount();
 
@@ -64,7 +72,7 @@ public class ShopRoom extends LockedRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		if (Random.chance(0)) {
+		if (hd) {
 			for (Door door : this.connected.values()) {
 				door.setType(Door.Type.SECRET);
 			}
@@ -72,6 +80,16 @@ public class ShopRoom extends LockedRoom {
 			hidden = true;
 		}
 	}
+
+	@Override
+	public boolean canConnect(Room r) {
+		if ((this.hd && r instanceof ConnectionRoom)) {
+			return false;
+		}
+
+		return super.canConnect(r);
+	}
+
 
 	protected int getItemCount() {
 		return (this.getWidth() - 2) / 2;
