@@ -7,13 +7,6 @@ import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.pool.room.SecretRoomPool;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.pool.room.SecretRoomPool;
 
 public class SecretRoom extends Room {
 	@Override
@@ -46,9 +39,10 @@ public class SecretRoom extends Room {
 		return 10;
 	}
 
+
 	@Override
 	public int getMaxConnections(Connection side) {
-		return 1;
+		return side == Connection.ALL ? 16 : 4;
 	}
 
 	@Override

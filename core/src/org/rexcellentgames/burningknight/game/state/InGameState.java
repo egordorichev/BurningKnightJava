@@ -13,8 +13,11 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -121,6 +124,34 @@ public class InGameState extends State {
 		if (Input.instance.wasPressed("to_shop")) {
 			for (Room room : Dungeon.level.getRooms()) {
 				if (room instanceof ShopRoom) {
+					Point point = room.getRandomFreeCell();
+
+					Player.instance.tp(point.x * 16, point.y * 16);
+
+					break;
+				}
+			}
+		}
+
+		if (Input.instance.wasPressed("to_secret")) {
+			for (Room room : Dungeon.level.getRooms()) {
+				if (room instanceof SecretRoom && room != Player.instance.room) {
+					if (room.hidden) {
+						for (int x = room.left; x <= room.right; x++) {
+							for (int y = room.top; y <= room.bottom; y++) {
+								if (Dungeon.level.get(x, y) == Terrain.CRACK) {
+									Dungeon.level.set(x, y, Terrain.FLOOR_A);
+								}
+							}
+						}
+
+
+						BombEntity.make(room);
+						room.hidden = false;
+						Dungeon.level.loadPassable();
+						Dungeon.level.addPhysics();
+					}
+
 					Point point = room.getRandomFreeCell();
 
 					Player.instance.tp(point.x * 16, point.y * 16);
