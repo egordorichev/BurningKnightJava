@@ -44,6 +44,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.Butche
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -663,6 +664,15 @@ public class Player extends Creature {
 
 		if (this.animation != null && !this.freezed) {
 			this.animation.update(dt);
+		}
+
+		if (Random.chance(10)) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.x + this.w / 2;
+			fx.y = this.y + this.h / 2;
+
+			Dungeon.area.add(fx);
 		}
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
