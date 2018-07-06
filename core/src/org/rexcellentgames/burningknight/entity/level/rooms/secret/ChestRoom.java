@@ -23,9 +23,7 @@ public class ChestRoom extends SecretRoom {
 			f = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
 		}
 
-		Painter.fill(level, this, 1, Terrain.randomFloor());
-
-		Painter.fill(level, this, 1, f);
+		Painter.fill(level, this, 1, Terrain.FLOOR_D);
 		Painter.fill(level, this, 2, fl);
 
 		boolean el = Random.chance(50);

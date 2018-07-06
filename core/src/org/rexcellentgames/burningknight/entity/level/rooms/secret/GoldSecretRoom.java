@@ -23,6 +23,24 @@ public class GoldSecretRoom extends SecretRoom {
 			}
 		}
 
+		if (Random.chance(70)) {
+			boolean wall = Random.chance(50);
+
+			if (Random.chance(50)) {
+				Painter.fillEllipse(level, this, 3, wall ? Terrain.WALL : Terrain.CHASM);
+			} else {
+				Painter.fill(level, this, 3, wall ? Terrain.WALL : Terrain.CHASM);
+			}
+
+			if (Random.chance(70)) {
+				if (Random.chance(50)) {
+					Painter.fillEllipse(level, this, 4, !wall ? Terrain.WALL : Terrain.CHASM);
+				} else {
+					Painter.fill(level, this, 4, !wall ? Terrain.WALL : Terrain.CHASM);
+				}
+			}
+		}
+
 		for (int i = 0; i < Random.newInt(3, 10); i++) {
 			Point point = this.getRandomFreeCell();
 			ItemHolder holder = new ItemHolder();

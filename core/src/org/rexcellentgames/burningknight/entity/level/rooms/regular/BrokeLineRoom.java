@@ -21,8 +21,6 @@ public class BrokeLineRoom extends RegularRoom {
 			f = Random.chance(40) ? Terrain.WATER : Terrain.DIRT;
 		}
 
-		Painter.fill(level, this, 1, Terrain.randomFloor());
-
 		Painter.fill(level, this, 1, f);
 		Painter.fill(level, this, 2, fl);
 
@@ -62,6 +60,16 @@ public class BrokeLineRoom extends RegularRoom {
 				Painter.fillEllipse(level, this, 4, fl);
 			} else {
 				Painter.fill(level, this, 4, fl);
+			}
+
+			if (Random.chance(50)) {
+				fl = Random.chance(30) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
+
+				if (el) {
+					Painter.fillEllipse(level, this, 5, fl);
+				} else {
+					Painter.fill(level, this, 5, fl);
+				}
 			}
 		} else if (Random.chance(50)) {
 			f = Terrain.randomFloor();

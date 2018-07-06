@@ -23,20 +23,20 @@ public class SecretRoom extends Room {
 
 	@Override
 	public int getMinWidth() {
-		return 5;
+		return 8;
 	}
 
 	public int getMaxWidth() {
-		return 10;
+		return 12;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 5;
+		return 8;
 	}
 
 	public int getMaxHeight() {
-		return 10;
+		return 12;
 	}
 
 
