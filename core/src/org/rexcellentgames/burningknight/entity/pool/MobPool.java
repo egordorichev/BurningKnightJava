@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.desert.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.*;
 import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
@@ -56,6 +57,11 @@ public class MobPool extends Pool<Mob> {
 
 		if (Dungeon.level instanceof CreepLevel) {
 			add(Skeleton.class, 1f);
+			// tmp
+		}
+
+		if (Dungeon.level instanceof ForestLevel) {
+			add(Mummy.class, 1f);
 			// tmp
 		}
 	}

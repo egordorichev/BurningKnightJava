@@ -1,13 +1,9 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -35,6 +31,7 @@ public class Mummy extends Mob {
 		this.playSfx("death_clown");
 
 		this.done = true;
+		deathEffect(killed);
 	}
 
 	{

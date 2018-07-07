@@ -89,21 +89,21 @@ public class IronChestPool extends Pool<Item> {
 	private static void addWarrior() {
 		// Weapons
 
-	  items.add(SwordB.class, 1f);
-	  items.add(ButcherB.class, 1f);
-	  items.add(MorningStarB.class, 1f);
-	  items.add(LightsaberB.class, 1f);
-	  items.add(ChickenSword.class, 1f);
-	  items.add(Shovel.class, 1f);
-	  items.add(YoyoB.class, 1f);
-	  items.add(ThrowingDaggerB.class, 1f);
-	  items.add(DaggerB.class, 1f);
-	  items.add(ThrowingDaggerB.class, 1f);
-	  items.add(PickaxeB.class, 1f);
-	  items.add(ShovelB.class, 1f);
-	  items.add(AxeB.class, 1f);
-	  items.add(MeetboyAxe.class, 1);
-	  items.add(DiamondSword.class, 0.6f);
+	  weapons.add(SwordB.class, 1f);
+	  weapons.add(ButcherB.class, 1f);
+	  weapons.add(MorningStarB.class, 1f);
+	  weapons.add(LightsaberB.class, 1f);
+	  weapons.add(ChickenSword.class, 1f);
+	  weapons.add(Shovel.class, 1f);
+	  weapons.add(YoyoB.class, 1f);
+	  weapons.add(ThrowingDaggerB.class, 1f);
+	  weapons.add(DaggerB.class, 1f);
+	  weapons.add(ThrowingDaggerB.class, 1f);
+	  weapons.add(PickaxeB.class, 1f);
+	  weapons.add(ShovelB.class, 1f);
+	  weapons.add(AxeB.class, 1f);
+	  weapons.add(MeetboyAxe.class, 1);
+	  weapons.add(DiamondSword.class, 0.6f);
 		
 		// Items
 		
@@ -113,16 +113,16 @@ public class IronChestPool extends Pool<Item> {
 	private static void addMage() {
 		// Weapons
 
-	  items.add(HomingBook.class, 1f);
-	  items.add(Firebolt.class, 1f);
-	  items.add(Waterbolt.class, 1f);
-	  items.add(FireWand.class, 1f);
-	  items.add(IceWand.class, 1f);
-	  items.add(MagicMissileWand.class, 1f);
-	  items.add(TripleShotBook.class, 1f);
-	  items.add(MagicWallBook.class, 1f);
-	  items.add(SlowBook.class, 1f);
-	  items.add(CrazyBook.class, 0.5f);
+	  weapons.add(HomingBook.class, 1f);
+	  weapons.add(Firebolt.class, 1f);
+	  weapons.add(Waterbolt.class, 1f);
+	  weapons.add(FireWand.class, 1f);
+	  weapons.add(IceWand.class, 1f);
+	  weapons.add(MagicMissileWand.class, 1f);
+	  weapons.add(TripleShotBook.class, 1f);
+	  weapons.add(MagicWallBook.class, 1f);
+	  weapons.add(SlowBook.class, 1f);
+	  weapons.add(CrazyBook.class, 0.5f);
 
 		// Items
 
@@ -139,16 +139,16 @@ public class IronChestPool extends Pool<Item> {
 	private static void addRanger() {
 		// Weapons
 
-	  items.add(BowB.class, 1f);
-	  items.add(AxeB.class, 1f);
-	  items.add(MeetboyAxe.class, 1f);
-	  items.add(MachineGun.class, 1f);
-	  items.add(ThrowingDaggerB.class, 1f);
-	  items.add(SnowGun.class, 1f);
-	  items.add(KotlingGun.class, 0.1f);
-	  items.add(Pistol.class, 1f);
-	  items.add(Chopper.class, 1f);
-	  items.add(Hammer.class, 1f);
+	  weapons.add(BowB.class, 1f);
+	  weapons.add(AxeB.class, 1f);
+	  weapons.add(MeetboyAxe.class, 1f);
+	  weapons.add(MachineGun.class, 1f);
+	  weapons.add(ThrowingDaggerB.class, 1f);
+	  weapons.add(SnowGun.class, 1f);
+		weapons.add(KotlingGun.class, 0.1f);
+		weapons.add(Pistol.class, 1f);
+		weapons.add(Chopper.class, 1f);
+	  weapons.add(Hammer.class, 1f);
 		
 		// Items
 		

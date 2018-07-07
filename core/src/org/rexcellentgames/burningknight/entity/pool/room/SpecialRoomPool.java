@@ -10,9 +10,9 @@ public class SpecialRoomPool extends ClosingPool<SpecialRoom> {
 
 	public SpecialRoomPool() {
 		add(TreasureRoom.class, 1f);
-		//add(WellRoom.class, 1f);
+		add(WellRoom.class, 1f);
 		add(ShopRoom.class, 1f);
-		//add(WeaponAltarRoom.class, 100f);
+		add(WeaponAltarRoom.class, 100f);
 	}
 
 	@Override

@@ -22,9 +22,9 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
-import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryBossLevel;
@@ -55,7 +55,8 @@ public abstract class Level extends SaveableEntity {
 		Color.valueOf("#391f21"),
 		Color.valueOf("#5d2c28"),
 		Color.valueOf("#1a1932"),
-		Color.valueOf("#272727")
+		Color.valueOf("#272727"),
+		Color.valueOf("#1a1932")
 	};
 
 	public Room entrance;
@@ -165,8 +166,8 @@ public abstract class Level extends SaveableEntity {
 						case 0: default: return new HallLevel();
 						case 1: return new DesertLevel();
 						case 2: return new LibraryLevel();
-						case 3: return new TechLevel();
-						case 4: return new CreepLevel();
+						case 3: return new ForestLevel();
+						case 4: return new TechLevel();
 					}
 				}
 			}
@@ -527,7 +528,7 @@ public abstract class Level extends SaveableEntity {
 				int i = x + y * getWidth();
 				float v = this.light[i];
 
-				if (v > 0 && v < s) {
+				if (v < s) {
 					int t = (int) Math.floor((v * (md)) * 10);
 
 					if (t < 10) {
@@ -1007,6 +1008,11 @@ public abstract class Level extends SaveableEntity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
+
+				if (i >= getSize()) {
+					continue;
+				}
+
 				byte tile = this.get(i);
 
 				if (this.light[i] > 0 && i >= getWidth()) {

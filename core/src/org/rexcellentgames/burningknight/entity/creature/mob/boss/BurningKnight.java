@@ -282,7 +282,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void renderShadow() {
-		// Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f);
+		Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f);
 	}
 
 	public class BKState extends State<BurningKnight> {

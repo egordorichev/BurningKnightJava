@@ -153,7 +153,7 @@ public class GameSave {
 
 		System.arraycopy(bosses, 0, Level.boss, 0, areas * 4 + 1);
 
-		int[] levels = new int[] { 0, 1, 2, 4, 5 };
+		int[] levels = new int[] { 0, 1, 2, 3, 4 };
 		// shuffleArray(levels);
 
 		for (int i = 0; i < 5; i++) {
