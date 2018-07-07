@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.fx.PoisonFx;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
@@ -66,12 +67,19 @@ public class TFFx extends Entity {
 			PoofFx fx = new PoofFx();
 
 			fx.x = this.x;
-			fx.y = this.y;
+			fx.y = this.y + this.z;
 
 			Dungeon.area.add(fx);
 		}
 
 		this.depth = 0;
+
+		PoisonFx fx = new PoisonFx();
+
+		fx.x = this.x - 16;
+		fx.y = this.y + this.z - 16;
+
+		Dungeon.area.add(fx);
 	}
 
 	@Override
