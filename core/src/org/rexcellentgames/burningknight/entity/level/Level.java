@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
@@ -29,7 +30,6 @@ import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
-import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
 import org.rexcellentgames.burningknight.physics.World;
@@ -56,7 +56,8 @@ public abstract class Level extends SaveableEntity {
 		Color.valueOf("#5d2c28"),
 		Color.valueOf("#1a1932"),
 		Color.valueOf("#272727"),
-		Color.valueOf("#1a1932")
+		Color.valueOf("#1a1932"),
+		Color.valueOf("#571c27")
 	};
 
 	public Room entrance;
@@ -167,7 +168,7 @@ public abstract class Level extends SaveableEntity {
 						case 1: return new DesertLevel();
 						case 2: return new LibraryLevel();
 						case 3: return new ForestLevel();
-						case 4: return new TechLevel();
+						case 4: return new BloodLevel();
 					}
 				}
 			}
@@ -947,7 +948,7 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+		/*for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
@@ -962,7 +963,7 @@ public abstract class Level extends SaveableEntity {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	private void renderShadows() {

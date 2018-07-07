@@ -8,8 +8,11 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -95,6 +98,9 @@ public class LoadState extends State {
 
 		Player.all.clear();
 		Mob.all.clear();
+		ItemHolder.all.clear();
+		Chest.all.clear();
+		Mimic.all.clear();
 
 		new Thread(new Runnable() {
 			@Override
