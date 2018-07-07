@@ -136,7 +136,6 @@ public class WoodenChestPool extends Pool<Item> {
 		items.add(ManaBoots.class, 1f);
 		items.add(ArcaneBattery.class, 1f);
 		items.add(BlueCoin.class, 1f);
-		items.add(ManaInABottle.class, 2f);
 	}
 
 	private static void addRanger() {
