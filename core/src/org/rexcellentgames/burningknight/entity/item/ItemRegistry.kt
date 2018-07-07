@@ -61,10 +61,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.Light
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberD
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.*
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ConfettiGrenade
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.*
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC
@@ -291,7 +288,8 @@ object ItemRegistry {
 	  "confetti_grenade" to ConfettiGrenade::class.java,
 	  "red_balloon" to RedBalloon::class.java,
 	  "tada_gun" to TadaGun::class.java,
-	  "sale" to ShopSale::class.java
+	  "sale" to ShopSale::class.java,
+	  "toxic_flask" to ToxicFlask::class.java
   )
 
   val modItems = mutableMapOf<String, Item>()

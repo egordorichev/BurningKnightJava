@@ -557,5 +557,7 @@
 	"great" : "Great!",
 	"$$$" : "$$$",
 	"shop_sale" : "Shop sale",
-	"shop_sale_desc" : "50% off!"
+	"shop_sale_desc" : "50% off!",
+	"toxic_flask" : "Toxic flask",
+	"toxic_flask_desc" : "Don't be like it"
 }

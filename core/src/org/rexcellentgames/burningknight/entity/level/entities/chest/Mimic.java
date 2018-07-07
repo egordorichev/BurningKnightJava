@@ -100,7 +100,7 @@ public class Mimic extends Mob {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.renderWithOutline(this.invt > 0 ? hurt : this.animation);
 
-		Graphics.print(this.state, Graphics.small, this.x, this.y - 16);
+		// Graphics.print(this.state, Graphics.small, this.x, this.y - 16);
 	}
 
 	@Override
