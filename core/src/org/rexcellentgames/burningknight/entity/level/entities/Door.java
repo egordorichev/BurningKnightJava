@@ -83,10 +83,8 @@ public class Door extends SaveableEntity {
 		this.animation.setPaused(true);
 	}
 
-	private boolean did;
-
-	private void setPas() {
-		// Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), false);
+	private void setPas(boolean pas) {
+		Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), pas);
 	}
 
 	@Override
@@ -97,11 +95,6 @@ public class Door extends SaveableEntity {
 			locked = animation.get("idle");
 			unlock = animation.get("open");
 			lk = animation.get("close");
-		}
-
-		if (!did) {
-			did = true;
-			this.setPas();
 		}
 
 		if (this.numCollisions == 0 && this.animation.isPaused() && this.animation.getFrame() == 3) {
@@ -213,7 +206,8 @@ public class Door extends SaveableEntity {
 	@Override
 	public void render() {
 		if (this.lock && this.lockAnim == null) {
-			this.lockAnim = this.lk;
+			this.lockAnim = this.locked;
+			this.setPas(false);
 		}
 
 		boolean last = this.lock;
@@ -246,10 +240,12 @@ public class Door extends SaveableEntity {
 			this.lockAnim = this.lk;
 			this.animation.setBack(true);
 			this.animation.setPaused(false);
+			this.setPas(false);
 		} else if (!this.lock && last) {
 			//this.animation.setBack(false);
 			//this.animation.setPaused(false);
 			this.lockAnim = this.unlock;
+			this.setPas(true);
 		}
 
 		this.animation.render(this.x, this.y, false, false);
