@@ -5,17 +5,25 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Gold;
+import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.TFFx;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Mimic extends Mob {
 	private static Animation animations = Animation.make("chest", "-wooden");
@@ -159,9 +167,9 @@ public class Mimic extends Mob {
 
 	/*
 	 * AI plan (todo):
-	 * + Stands still till you hit it or touch it, then does following:
+	 *o + Stands still till you hit it or touch it, then does following:
 	 *  - Opens, then throws a bottle with poison creep, looks at you for a bit
-	 *  - Closes, becomes unhittable
+	 *o  - Closes, becomes unhittable
 	 *
 	 * + On death becomes pure chest with open state, generates drop and drops it, as well as some money
 	 */
@@ -194,16 +202,59 @@ public class Mimic extends Mob {
 		}
 	}
 
+	@Override
+	protected boolean canHaveBuff(Buff buff) {
+		return !(buff instanceof PoisonBuff) && super.canHaveBuff(buff);
+	}
+
 	public class AttackState extends MimicState {
+		private boolean did;
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
+			if (this.t >= 1f && !did && self.target != null) {
+				did = true;
+
+				for (int i = 0; i < 10; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = self.x + self.w / 2;
+					fx.y = self.y + self.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
+				TFFx fx = new TFFx();
+
+				fx.x = self.x + self.w / 2;
+				fx.y = self.y + self.h / 2;
+
+				fx.to(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+
+				Dungeon.area.add(fx);
+			}
+
 			if (this.t >= 5f) {
-				// todo: attack
 				self.become("close");
 			}
 		}
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> drops = super.getDrops();
+
+		for (int i = 0; i < Random.newInt(3, 8); i++) {
+			ItemHolder item = new ItemHolder();
+			item.setItem(new Gold()).getItem().generate();
+
+			Dungeon.area.add(item);
+			LevelSave.add(item);
+		}
+
+		return drops;
 	}
 
 	public class CloseState extends MimicState {

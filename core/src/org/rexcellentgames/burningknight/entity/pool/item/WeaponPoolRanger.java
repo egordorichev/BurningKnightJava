@@ -12,10 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ConfettiGrenade;
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA;
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB;
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.*;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class WeaponPoolRanger extends Pool<Item> {
@@ -51,5 +48,6 @@ public class WeaponPoolRanger extends Pool<Item> {
 		add(ConfettiGun.class, 0.1f);
 		add(ConfettiGrenade.class, 0.1f);
 		add(TadaGun.class, 0.1f);
+		add(ToxicFlask.class, 0.5f);
 	}
 }
