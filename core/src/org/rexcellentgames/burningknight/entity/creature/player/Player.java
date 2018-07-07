@@ -47,6 +47,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -227,6 +228,8 @@ public class Player extends Creature {
 					break;
 			}
 		}
+
+		WoodenChestPool.init();
 	}
 
 	private void generateWarrior() {

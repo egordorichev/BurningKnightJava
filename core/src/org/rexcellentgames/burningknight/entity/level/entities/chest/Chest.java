@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -28,6 +29,7 @@ public class Chest extends SaveableEntity {
 	protected Item item;
 	protected boolean create;
 	public static ArrayList<Chest> all = new ArrayList<>();
+	public boolean weapon;
 
 	{
 		h = 13;
@@ -36,6 +38,8 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void init() {
 		super.init();
+
+		weapon = Random.chance(50);
 
 		this.data = this.getClosedAnim();
 		this.data.setAutoPause(true);

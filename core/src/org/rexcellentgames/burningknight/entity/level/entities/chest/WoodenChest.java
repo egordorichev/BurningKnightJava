@@ -13,7 +13,7 @@ public class WoodenChest extends Chest {
 
 	@Override
 	public Item generate() {
-		return WoodenChestPool.instance.generate();
+		return weapon ? WoodenChestPool.items.generate() : WoodenChestPool.weapons.generate();
 	}
 
 	@Override
