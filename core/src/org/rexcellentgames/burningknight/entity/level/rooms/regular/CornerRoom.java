@@ -28,11 +28,19 @@ public class CornerRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		if (p.x == this.left + 1 && (p.y == this.top + 1 || p.y == this.bottom - 1)) {
+		if (p.x == this.left + 1 && (p.y == this.top || p.y == this.bottom)) {
 			return false;
 		}
 
-		if (p.x == this.right - 1 && (p.y == this.top + 1 || p.y == this.bottom - 1)) {
+		if (p.x == this.right - 1 && (p.y == this.top || p.y == this.bottom)) {
+			return false;
+		}
+
+		if (p.y == this.top + 1 && (p.x == this.left || p.x == this.right)) {
+			return false;
+		}
+
+		if (p.y == this.bottom - 1 && (p.x == this.left || p.x == this.right)) {
 			return false;
 		}
 

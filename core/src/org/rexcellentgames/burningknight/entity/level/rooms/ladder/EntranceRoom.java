@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -52,6 +53,10 @@ public class EntranceRoom extends LadderRoom {
 
 		  LevelSave.add(entrance);
 			Dungeon.area.add(entrance);
+		}
+
+		for (Door door : connected.values()) {
+			door.setType(Door.Type.ENEMY);
 		}
 	}
 }

@@ -59,10 +59,6 @@ public class InGameState extends State {
 
 		this.console = new Console();
 
-		if (BurningKnight.instance != null && Dungeon.depth > 0) {
-			BurningKnight.instance.findStartPoint();
-		}
-
 		Dungeon.darkR = 0;
 
 		Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f) {

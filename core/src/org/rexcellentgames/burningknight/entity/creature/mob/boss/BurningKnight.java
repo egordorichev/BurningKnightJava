@@ -81,10 +81,6 @@ public class BurningKnight extends Boss {
 	}
 
 	public void findStartPoint() {
-		if (this.state.equals("unactive")) {
-			return;
-		}
-
 		if (this.attackTp) {
 			float a = Random.newFloat(0, (float) (Math.PI * 2));
 			this.tp((float) Math.cos(a) * 64 + Player.instance.x - Player.instance.w / 2 + this.w / 2,
