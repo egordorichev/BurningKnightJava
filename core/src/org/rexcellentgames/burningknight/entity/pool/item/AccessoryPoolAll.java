@@ -77,5 +77,7 @@ public class AccessoryPoolAll extends Pool<Item> {
 		add(Apple.class, 1f);
 		add(Bread.class, 1f);
 		add(RedBalloon.class, 1f);
+		add(MimicTotem.class, 1f);
+		add(MimicSummoner.class, 1f);
 	}
 }

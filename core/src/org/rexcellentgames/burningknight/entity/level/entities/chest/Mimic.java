@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mimic extends Mob {
+	public static float chance = 20;
+	public static ArrayList<Mimic> all = new ArrayList<>();
 	private static Animation animations = Animation.make("chest", "-wooden");
 	private static AnimationData closed = animations.get("idle");
 	private static AnimationData open = animations.get("opening_mimic");
@@ -49,6 +51,9 @@ public class Mimic extends Mob {
 	@Override
 	public void init() {
 		super.init();
+
+		all.add(this);
+
 		this.body = World.createSimpleBody(this, 1, 0, 14, 13, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 	}
@@ -81,9 +86,25 @@ public class Mimic extends Mob {
 		}
 	}
 
+	public void toChest() {
+		Chest chest = new WoodenChest();
+
+		chest.x = this.x;
+		chest.y = this.y;
+
+		chest.setItem(chest.generate());
+
+		Dungeon.area.add(chest);
+		LevelSave.add(chest);
+
+		this.done = true;
+	}
+
 	@Override
 	public void destroy() {
 		super.destroy();
+
+		all.remove(this);
 		this.body = World.removeBody(this.body);
 	}
 

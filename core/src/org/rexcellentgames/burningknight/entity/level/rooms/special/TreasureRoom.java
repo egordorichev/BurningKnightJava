@@ -34,7 +34,7 @@ public class TreasureRoom extends LockedRoom {
 
 		Point center = this.getCenter();
 
-		if (Random.chance(20)) {
+		if (Random.chance(Mimic.chance)) {
 			Mimic chest = new Mimic();
 
 			chest.x = center.x * 16;

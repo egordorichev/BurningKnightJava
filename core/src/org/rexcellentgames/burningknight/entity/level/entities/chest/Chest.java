@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 public class Chest extends SaveableEntity {
 	private AnimationData data;
@@ -26,6 +27,7 @@ public class Chest extends SaveableEntity {
 	protected boolean open;
 	protected Item item;
 	protected boolean create;
+	public static ArrayList<Chest> all = new ArrayList<>();
 
 	{
 		h = 13;
@@ -42,6 +44,8 @@ public class Chest extends SaveableEntity {
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, 0);
 		}
+
+		all.add(this);
 	}
 
 	public Item generate() {
@@ -72,6 +76,19 @@ public class Chest extends SaveableEntity {
 	public void destroy() {
 		super.destroy();
 		this.body = World.removeBody(this.body);
+		all.remove(this);
+	}
+
+	public void toMimic() {
+		Mimic chest = new Mimic();
+
+		chest.x = this.x;
+		chest.y = this.y;
+
+		Dungeon.area.add(chest);
+		LevelSave.add(chest);
+
+		this.done = true;
 	}
 
 	@Override
