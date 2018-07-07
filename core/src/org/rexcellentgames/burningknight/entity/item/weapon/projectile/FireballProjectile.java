@@ -77,8 +77,8 @@ public class FireballProjectile extends Projectile {
 			float dy = this.target.y + this.target.h / 2 - this.y - 5;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			this.vel.x = dx / d * 3;
-			this.vel.y = dy / d * 3;
+			this.vel.x = dx / d * 120;
+			this.vel.y = dy / d * 120;
 
 			this.body.setLinearVelocity(this.vel);
 		}
@@ -100,10 +100,5 @@ public class FireballProjectile extends Projectile {
 
 		Graphics.render(texture, this.x, this.y,
 			0, texture.getRegionWidth() / 2, texture.getRegionHeight() / 2, false, false, sx, sy);
-	}
-
-	@Override
-	public void renderShadow() {
-		Graphics.shadow(this.x - 8, this.y, this.w, this.h, 5);
 	}
 }

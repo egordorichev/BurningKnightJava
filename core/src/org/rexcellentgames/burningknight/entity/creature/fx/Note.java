@@ -119,6 +119,7 @@ public class Note extends Entity {
 
 	@Override
 	public void render() {
+		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.render(region, this.x, this.y, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
 			false, false, scale, scale);
 	}

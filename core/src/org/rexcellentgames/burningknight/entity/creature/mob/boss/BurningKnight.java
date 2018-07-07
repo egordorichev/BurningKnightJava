@@ -31,11 +31,8 @@ import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
-import org.rexcellentgames.burningknight.util.file.FileReader;
-import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class BurningKnight extends Boss {
@@ -43,7 +40,6 @@ public class BurningKnight extends Boss {
 	public static float LIGHT_SIZE = 12f;
 	private static Animation animations = Animation.make("actor-burning-knight");
 	private Room last;
-	public static Point throne;
 	private AnimationData idle;
 	private AnimationData hurt;
 	private AnimationData killed;
@@ -55,8 +51,8 @@ public class BurningKnight extends Boss {
 		texture = "ui-bkbar-skull";
 		hpMax = 430;
 		damage = 10;
-		w = 36;
-		h = 35;
+		w = 42;
+		h = 38;
 		ignoreRooms = true;
 		depth = 6;
 		alwaysActive = true;
@@ -85,6 +81,10 @@ public class BurningKnight extends Boss {
 	}
 
 	public void findStartPoint() {
+		if (this.state.equals("unactive")) {
+			return;
+		}
+
 		if (this.attackTp) {
 			float a = Random.newFloat(0, (float) (Math.PI * 2));
 			this.tp((float) Math.cos(a) * 64 + Player.instance.x - Player.instance.w / 2 + this.w / 2,
@@ -113,19 +113,6 @@ public class BurningKnight extends Boss {
 		if (!this.state.equals("unactive")) {
 			this.become("idle");
 		}
-	}
-
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-		throne = new Point(reader.readInt16(), reader.readInt16());
-	}
-
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-		writer.writeInt16((short) (throne != null ? throne.x : 0));
-		writer.writeInt16((short) (throne != null ? throne.y : 0));
 	}
 
 	@Override
@@ -299,7 +286,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f);
+		// Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f);
 	}
 
 	public class BKState extends State<BurningKnight> {
@@ -519,16 +506,6 @@ public class BurningKnight extends Boss {
 		}
 	}
 
-	public enum AttackType {
-		AREA,
-		MISSILE,
-		DIAGONAL,
-		VERTICAL,
-		NULL
-	}
-
-	public AttackType nextAttack = AttackType.NULL;
-
 	public class AttackState extends BKState {
 		public boolean attacked;
 
@@ -539,111 +516,18 @@ public class BurningKnight extends Boss {
 				return;
 			}
 
-			if (self.nextAttack == AttackType.NULL && !this.attacked) {
-				float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
+			if (!this.attacked) {
+					FireballProjectile ball = new FireballProjectile();
 
-				if (d <= 24f) {
-					self.nextAttack = AttackType.AREA;
-				} else {
-					float a = (float) Math.toDegrees(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+					ball.owner = self;
+					ball.bad = true;
+					ball.target = self.target;
+					ball.x = self.x + (self.w) / 2;
+					ball.y = self.y + (self.h) / 2;
 
-					if (a < 0) {
-						a += 360;
-					}
-
-					float a2 = (a % 90);
-
-					if (a2 <= 5 || a2 >= 85) {
-						self.nextAttack = AttackType.VERTICAL;
-					} else {
-						float a3 = ((a - 45) % 90);
-
-						if (a3 <= 5 || a3 >= 85) {
-							self.nextAttack = AttackType.DIAGONAL;
-						} else {
-							self.nextAttack = AttackType.MISSILE;
-						}
-					}
-				}
-			}
-
-			if (self.nextAttack != AttackType.NULL && !this.attacked) {
-				if (Dialog.active == null) {
-					FireballProjectile ball;
-
-					switch (self.nextAttack) {
-						case MISSILE:
-							ball = new FireballProjectile();
-
-							ball.owner = self;
-							ball.bad = true;
-							ball.target = self.target;
-							ball.x = self.x + (self.w - 16) / 2;
-							ball.y = self.y + (self.h - 10) / 2;
-
-							Dungeon.area.add(ball);
-							break;
-
-						case AREA:
-							for (int i = 0; i < Random.newInt(10, 20); i++) {
-								ball = new FireballProjectile();
-
-								// ball.ignoreWalls = true;
-
-								float d = Random.newFloat(16f, 64f);
-								float a = Random.newFloat((float) (Math.PI * 2));
-
-								ball.x = (float) (self.target.x + 8 + Math.cos(a) * d);
-								ball.y = (float) (self.target.y + 8 + Math.sin(a) * d);
-								/// ball.noMove = true;
-								ball.owner = self;
-								ball.bad = true;
-
-								Dungeon.area.add(ball);
-							}
-
-							break;
-						case DIAGONAL:
-							for (int i = 0; i < 4; i++) {
-								ball = new FireballProjectile();
-
-
-							//	ball.ignoreWalls = true;
-								float a = (float) ((i * Math.PI / 2) + Math.PI / 4);
-								// ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
-
-								ball.x = self.x + (self.w - 16) / 2;
-								ball.y = self.y + (self.h - 10) / 2;
-
-								ball.owner = self;
-								ball.bad = true;
-								Dungeon.area.add(ball);
-							}
-							break;
-						case VERTICAL:
-							for (int i = 0; i < 4; i++) {
-								ball = new FireballProjectile();
-
-
-								float a = (float) (i * Math.PI / 2);
-
-								// ball.vel = new Vector2((float) Math.cos(a) * 12f * shotSpeedMod, (float) Math.sin(a) * 12f * shotSpeedMod);
-
-								ball.x = self.x + (self.w - 16) / 2;
-								ball.y = self.y + (self.h - 10) / 2;
-								ball.owner = self;
-								ball.bad = true;
-
-								Dungeon.area.add(ball);
-							}
-							break;
-					}
-				}
+					Dungeon.area.add(ball);
 
 				this.attacked = true;
-				self.nextAttack = AttackType.NULL;
-			} if (!this.attacked && this.t >= 1f) {
-				self.nextAttack = AttackType.MISSILE;
 			} else if (this.t >= 2f) {
 				self.become("chase");
 			}
