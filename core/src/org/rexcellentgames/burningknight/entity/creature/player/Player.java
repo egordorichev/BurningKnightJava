@@ -44,7 +44,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.Butche
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -329,15 +328,25 @@ public class Player extends Creature {
 			Mob.frozen.setUniformf("time", Dungeon.time);
 			Mob.frozen.setUniformf("f", this.fa);
 			Mob.frozen.setUniformf("a", this.a);
+			Mob.frozen.setUniformf("freezed", this.wasFreezed ? 1f : 0f);
+			Mob.frozen.setUniformf("poisoned", this.wasPoisoned ? 1f : 0f);
 			Mob.frozen.end();
 			Graphics.batch.setShader(Mob.frozen);
 			Graphics.batch.begin();
 		}
 
-		if (this.freezed) {
+		if (this.freezed || this.poisoned) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+
+			this.wasFreezed = this.freezed;
+			this.wasPoisoned = this.poisoned;
 		} else {
 			this.fa += (0 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+
+			if (this.fa <= 0) {
+				this.wasFreezed = false;
+				this.wasPoisoned = false;
+			}
 		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
@@ -357,6 +366,9 @@ public class Player extends Creature {
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
 	}
+
+	private boolean wasFreezed;
+	private boolean wasPoisoned;
 
 	@Override
 	public void onCollision(Entity entity) {

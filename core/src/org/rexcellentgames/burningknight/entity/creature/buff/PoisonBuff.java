@@ -12,6 +12,18 @@ public class PoisonBuff extends Buff {
 	private float last;
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		this.owner.poisoned = true;
+	}
+
+	@Override
+	public void onEnd() {
+		super.onEnd();
+		this.owner.poisoned = false;
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 		this.last += dt;

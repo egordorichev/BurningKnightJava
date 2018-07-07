@@ -150,6 +150,8 @@ public class Mob extends Creature {
 			frozen.setUniformf("time", Dungeon.time);
 			frozen.setUniformf("f", this.fa);
 			frozen.setUniformf("a", this.a);
+			frozen.setUniformf("freezed", this.wasFreezed ? 1f : 0f);
+			frozen.setUniformf("poisoned", this.wasPoisoned ? 1f : 0f);
 			frozen.end();
 			Graphics.batch.setShader(frozen);
 			Graphics.batch.begin();
@@ -158,10 +160,18 @@ public class Mob extends Creature {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		data.render(this.x, this.y + z, this.flipped);
 
-		if (this.freezed) {
+		if (this.freezed || this.poisoned) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+
+			this.wasFreezed = this.freezed;
+			this.wasPoisoned = this.poisoned;
 		} else {
 			this.fa += (0 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+
+			if (this.fa <= 0) {
+				this.wasFreezed = false;
+				this.wasPoisoned = false;
+			}
 		}
 
 		if (this.fa > 0) {
@@ -172,6 +182,8 @@ public class Mob extends Creature {
 	}
 
 	private float fa;
+	private boolean wasFreezed;
+	private boolean wasPoisoned;
 
 	@Override
 	public void load(FileReader reader) throws IOException {

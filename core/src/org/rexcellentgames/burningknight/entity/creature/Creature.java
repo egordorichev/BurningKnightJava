@@ -52,6 +52,7 @@ public class Creature extends SaveableEntity {
 	public boolean penetrates;
 	public boolean explosionBlock;
 	public boolean freezed;
+	public boolean poisoned;
 	public float speed = 10f;
 	public float maxSpeed = 90f;
 	protected int hp;

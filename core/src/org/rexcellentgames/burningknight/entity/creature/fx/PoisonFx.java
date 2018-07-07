@@ -32,10 +32,10 @@ public class PoisonFx extends Entity {
 	public void init() {
 		super.init();
 
-		this.r = Random.newFloat(0f, 0.1f);
+		this.r = Random.newFloat(0f, 0.05f);
 		this.a = Random.newFloat(360);
-		this.g = Random.newFloat(0.6f, 1f);
-		this.b = Random.newFloat(0, 0.1f);
+		this.g = Random.newFloat(0.4f, 0.8f);
+		this.b = Random.newFloat(0, 0.05f);
 		this.region = animations.get(Random.newInt(animations.size())).frame;
 
 		this.body = World.createCircleCentredBody(this, 0, 0, 12, BodyDef.BodyType.StaticBody, true);
