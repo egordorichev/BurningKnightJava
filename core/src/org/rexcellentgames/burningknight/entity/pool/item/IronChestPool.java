@@ -10,6 +10,24 @@ import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABott
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo;
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*;
 import org.rexcellentgames.burningknight.entity.item.reference.*;
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeB;
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.MeetboyAxe;
+import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB;
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.*;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.*;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.ChickenSword;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.DiamondSword;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Shovel;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordB;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherB;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarB;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.PickaxeB;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.ShovelB;
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB;
+import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class IronChestPool extends Pool<Item> {
@@ -71,29 +89,73 @@ public class IronChestPool extends Pool<Item> {
 	private static void addWarrior() {
 		// Weapons
 
+	  items.add(SwordB.class, 1f);
+	  items.add(ButcherB.class, 1f);
+	  items.add(MorningStarB.class, 1f);
+	  items.add(LightsaberB.class, 1f);
+	  items.add(ChickenSword.class, 1f);
+	  items.add(Shovel.class, 1f);
+	  items.add(YoyoB.class, 1f);
+	  items.add(ThrowingDaggerB.class, 1f);
+	  items.add(DaggerB.class, 1f);
+	  items.add(ThrowingDaggerB.class, 1f);
+	  items.add(PickaxeB.class, 1f);
+	  items.add(ShovelB.class, 1f);
+	  items.add(AxeB.class, 1f);
+	  items.add(MeetboyAxe.class, 1);
+	  items.add(DiamondSword.class, 0.6f);
+		
 		// Items
-
-	  items.add(ManaBottle.class, 1f);
-	  items.add(ManaHeart.class, 1f);
-	  items.add(BlueBook.class, 1f);
-	  items.add(GreenBook.class, 1f);
-	  items.add(ArcaneBattery.class, 1f);
-	  items.add(BlueCoin.class, 1f);
-	  items.add(BlueHeart.class, 1f);
-	  items.add(ManaInABottle.class, 1f);
+		
+		items.add(StopAndPlay.class, 1f);
 	}
 
 	private static void addMage() {
 		// Weapons
 
+	  items.add(HomingBook.class, 1f);
+	  items.add(Firebolt.class, 1f);
+	  items.add(Waterbolt.class, 1f);
+	  items.add(FireWand.class, 1f);
+	  items.add(IceWand.class, 1f);
+	  items.add(MagicMissileWand.class, 1f);
+	  items.add(TripleShotBook.class, 1f);
+	  items.add(MagicWallBook.class, 1f);
+	  items.add(SlowBook.class, 1f);
+	  items.add(CrazyBook.class, 0.5f);
+
 		// Items
 
+		items.add(ManaBottle.class, 1f);
+		items.add(ManaHeart.class, 1f);
+		items.add(BlueBook.class, 1f);
+		items.add(GreenBook.class, 1f);
+		items.add(ArcaneBattery.class, 1f);
+		items.add(BlueCoin.class, 1f);
+		items.add(BlueHeart.class, 1f);
+		items.add(ManaInABottle.class, 1f);
 	}
 
 	private static void addRanger() {
 		// Weapons
 
+	  items.add(BowB.class, 1f);
+	  items.add(AxeB.class, 1f);
+	  items.add(MeetboyAxe.class, 1f);
+	  items.add(MachineGun.class, 1f);
+	  items.add(ThrowingDaggerB.class, 1f);
+	  items.add(SnowGun.class, 1f);
+	  items.add(KotlingGun.class, 0.1f);
+	  items.add(Pistol.class, 1f);
+	  items.add(Chopper.class, 1f);
+	  items.add(Hammer.class, 1f);
+		
 		// Items
-
+		
+	  items.add(LaserAim.class, 1f);
+	  items.add(Aim.class, 1f);
+	  items.add(CursedAim.class, 1f);
+	  items.add(Zoom.class, 1f);
+	  items.add(OldManual.class, 1f);
 	}
 }
