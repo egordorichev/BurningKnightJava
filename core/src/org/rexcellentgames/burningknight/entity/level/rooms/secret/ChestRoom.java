@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Random;
@@ -71,14 +72,26 @@ public class ChestRoom extends SecretRoom {
 			}
 		}
 
-		Chest chest = Chest.random();
+		Point center = this.getCenter();
 
-		chest.x = this.left * 16 + (this.getWidth() * 16 - chest.w) / 2;
-		chest.y = this.top * 16 + (this.getHeight() * 16 - chest.h) / 2;
-		chest.setItem(chest.generate());
+		if (Random.chance(20)) {
+			Mimic chest = new Mimic();
 
-		Dungeon.area.add(chest);
-		LevelSave.add(chest);
+			chest.x = center.x * 16;
+			chest.y = center.y * 16;
+
+			Dungeon.area.add(chest);
+			LevelSave.add(chest);
+		} else {
+			Chest chest = Chest.random();
+
+			chest.x = center.x * 16;
+			chest.y = center.y * 16;
+			chest.setItem(chest.generate());
+
+			Dungeon.area.add(chest);
+			LevelSave.add(chest);
+		}
 	}
 
 	@Override
