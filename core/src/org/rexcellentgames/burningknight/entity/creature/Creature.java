@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocke
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -194,6 +195,15 @@ public class Creature extends SaveableEntity {
 
 				Dungeon.area.add(fx);
 			}
+		}
+
+		for (int i = 0; i < 10; i++) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.x + this.w / 2;
+			fx.y = this.y + this.h / 2;
+
+			Dungeon.area.add(fx);
 		}
 
 		BloodFx.add(this, 20);

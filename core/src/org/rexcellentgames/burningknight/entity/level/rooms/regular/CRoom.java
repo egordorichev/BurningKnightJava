@@ -1,9 +1,8 @@
-package org.rexcellentgames.burningknight.entity.level.rooms;
+package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;

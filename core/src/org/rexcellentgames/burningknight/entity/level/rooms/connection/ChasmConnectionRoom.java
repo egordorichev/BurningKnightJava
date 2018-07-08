@@ -15,8 +15,43 @@ public class ChasmConnectionRoom extends ConnectionRoom {
 
 		if (Random.chance(50)) {
 			Painter.fill(level, this, 2, Random.chance(50) ? Terrain.WALL : Terrain.CHASM);
+
+			if (Random.chance(50)) {
+				if (Random.chance(50)) {
+					Painter.fill(level, this, 3, Random.chance(50) ? Terrain.randomFloor()
+						: (Random.chance(50) ? Terrain.WALL : Terrain.CHASM));
+				} else {
+					Painter.fillEllipse(level, this, 3, Random.chance(50) ? Terrain.randomFloor()
+						: (Random.chance(50) ? Terrain.WALL : Terrain.CHASM));
+				}
+
+				if (Random.chance(50)) {
+					Painter.fillEllipse(level, this, 4, Random.chance(50) ? Terrain.randomFloor()
+						: (Random.chance(50) ? Terrain.WALL : Terrain.CHASM));
+				}
+			}
 		} else {
 			Painter.fillEllipse(level, this, 2, Random.chance(50) ? Terrain.WALL : Terrain.CHASM);
+
+			if (Random.chance(50)) {
+				Painter.fill(level, this, 3, Random.chance(50) ? Terrain.randomFloor()
+					: (Random.chance(50) ? Terrain.WALL : Terrain.CHASM));
+			}
+
+			if (Random.chance(50)) {
+				Painter.fillEllipse(level, this, 4, Random.chance(50) ? Terrain.randomFloor()
+					: (Random.chance(50) ? Terrain.WALL : Terrain.CHASM));
+			}
 		}
+	}
+
+	@Override
+	public int getMinWidth() {
+		return 5;
+	}
+
+	@Override
+	public int getMinHeight() {
+		return 5;
 	}
 }

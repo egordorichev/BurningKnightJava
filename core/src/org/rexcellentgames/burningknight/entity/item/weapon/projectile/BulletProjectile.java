@@ -79,6 +79,10 @@ public class BulletProjectile extends Projectile {
 			this.body.setBullet(true);
 		}
 
+		if (this.letter.equals("bone")) {
+			this.depth = 16;
+		}
+
 		penetrates = !canBeRemoved;
 	}
 

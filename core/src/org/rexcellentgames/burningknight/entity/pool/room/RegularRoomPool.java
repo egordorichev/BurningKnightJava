@@ -1,6 +1,6 @@
 package org.rexcellentgames.burningknight.entity.pool.room;
 
-import org.rexcellentgames.burningknight.entity.level.rooms.CRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.regular.CRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.*;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 

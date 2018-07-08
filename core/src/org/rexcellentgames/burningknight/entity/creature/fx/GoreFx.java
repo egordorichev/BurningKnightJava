@@ -31,7 +31,7 @@ public class GoreFx extends Entity {
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-20f, 20f);
 
-		this.vel = new Point(Random.newFloat(-3f, 3f), 2f);
+		this.vel = new Point((Random.chance(50) ? -1 : 1) * Random.newFloat(0.5f, 0.7f), 2f);
 
 		if (!this.menu) {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
@@ -72,12 +72,11 @@ public class GoreFx extends Entity {
 			this.vel.y = this.body.getLinearVelocity().y;
 		}
 
-		this.vel.x *= (this.z == 0 ? 0.5f : 0.98f);
 		this.va *= (this.z == 0 ? 0.5f : 0.98f);
 		this.a += this.va;
 
 		this.x += this.vel.x;
-		this.vel.y -= 0.1f;
+		this.vel.y -= dt * 8f;
 
 		if (!menu) {
 			this.z = Math.max(0, this.z + this.vel.y);
@@ -88,14 +87,10 @@ public class GoreFx extends Entity {
 			}
 		}
 
-		this.vel.y -= 0.05;
-
 		this.a += this.va;
 		this.va *= 0.95f;
 
-		this.vel.x *= 0.97f;
-
-		if (this.vel.x <= 0.1f && this.z == 0) {
+		if (this.vel.x <= 0.1f || this.z == 0) {
 			this.vel.x = 0;
 
 			if (this.body != null) {

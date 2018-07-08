@@ -27,6 +27,7 @@ public class DeathShotPrefix extends Prefix {
 			ball.x = (float) (mob.x + mob.w / 2 + Math.cos(a) * 8);
 			ball.y = (float) (mob.y + Math.sin(a) * 8 + 6);
 			ball.damage = 2;
+			ball.bad = true;
 
 			ball.letter = "bad";
 			Dungeon.area.add(ball);

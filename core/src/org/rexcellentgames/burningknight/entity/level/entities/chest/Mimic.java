@@ -29,9 +29,9 @@ public class Mimic extends Mob {
 	public static float chance = 20;
 	public static ArrayList<Mimic> all = new ArrayList<>();
 	private static Animation animations = Animation.make("chest", "-wooden");
-	private static AnimationData closed = animations.get("idle");
-	private static AnimationData open = animations.get("opening_mimic");
-	private static AnimationData hurt = animations.get("hurt");
+	private AnimationData closed = animations.get("idle");
+	private AnimationData open = animations.get("opening_mimic");
+	private AnimationData hurt = animations.get("hurt");
 	private AnimationData animation = closed;
 	private boolean found;
 
@@ -75,15 +75,6 @@ public class Mimic extends Mob {
 		LevelSave.add(chest);
 
 		chest.open();
-
-		for (int i = 0; i < 10; i++) {
-			PoofFx fx = new PoofFx();
-
-			fx.x = this.x + this.w / 2;
-			fx.y = this.y + this.h / 2;
-
-			Dungeon.area.add(fx);
-		}
 	}
 
 	public void toChest() {
@@ -151,6 +142,8 @@ public class Mimic extends Mob {
 				}
 			}
 		}
+
+		hurt.update(dt);
 
 		if (this.dead) {
 			super.common();

@@ -54,7 +54,7 @@ public class BurningKnight extends Boss {
 		w = 42;
 		h = 38;
 		ignoreRooms = true;
-		depth = 6;
+		depth = 16;
 		alwaysActive = true;
 		speed = 2;
 		maxSpeed = 100;
@@ -162,7 +162,7 @@ public class BurningKnight extends Boss {
 		}
 
 		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
+			// Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
 		}
 
 		if (this.onScreen) {
