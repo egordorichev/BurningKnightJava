@@ -103,6 +103,9 @@ public class SaveManager {
 	}
 
 	public static void delete() {
+		LevelSave.all.clear();
+		PlayerSave.all.clear();
+
 		File file = Gdx.files.external(getDir()).file();
 
 		if (file == null) {

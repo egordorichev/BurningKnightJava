@@ -502,6 +502,11 @@ public abstract class Level extends SaveableEntity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
+
+				if (i >= data.length) {
+					continue;
+				}
+
 				float v = this.light[i];
 
 				if (v == 1) {
@@ -527,6 +532,11 @@ public abstract class Level extends SaveableEntity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
+
+				if (i >= data.length) {
+					continue;
+				}
+
 				float v = this.light[i];
 
 				if (v < s) {
@@ -1010,7 +1020,7 @@ public abstract class Level extends SaveableEntity {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
 
-				if (i >= getSize()) {
+				if (i >= data.length) {
 					continue;
 				}
 
@@ -1062,6 +1072,10 @@ public abstract class Level extends SaveableEntity {
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
+				if (i >= data.length) {
+					continue;
+				}
+
 				byte tile = this.get(i);
 
 				if (this.light[i] > 0 && i >= getWidth()) {

@@ -30,6 +30,10 @@ public class BombEntity extends Entity {
 	private boolean flip = Random.chance(50);
 	public ArrayList<Buff> toApply = new ArrayList<>();
 
+	{
+		alwaysActive = true;
+	}
+
 	public BombEntity(float x, float y) {
 		this.x = x;
 		this.y = y;
