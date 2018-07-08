@@ -11,5 +11,6 @@ public class ConnectionRoomPool extends Pool<ConnectionRoom> {
 		this.add(ChasmTunnelRoom.class, 3);
 		this.add(RingConnectionRoom.class, 3);
 		this.add(SpikedTunnelRoom.class, 2);
+		this.add(BigRingConnectionRoom.class, 10000);
 	}
 }
