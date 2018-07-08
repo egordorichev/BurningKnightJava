@@ -598,11 +598,11 @@ public abstract class Level extends SaveableEntity {
 				if (!this.low[i] && (this.light[i] > 0 || this.light[i + getWidth()] > 0)) {
 					byte tile = this.get(i);
 
-					if (tile > 0 && Terrain.patterns[tile] != null) {
+					if (Terrain.patterns[tile] != null) {
 						if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 							byte variant = this.walls[i];
 
-							if (variant == 0 && this.data[i] > 0) {
+							if (variant == 0) {
 								continue;
 							}
 						}

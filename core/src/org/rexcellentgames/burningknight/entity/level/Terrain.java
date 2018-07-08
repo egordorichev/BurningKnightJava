@@ -8,12 +8,12 @@ import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class Terrain {
-	public static byte CHASM = 0;
+	public static byte WALL = 0;
 	public static byte DIRT = 1;
 	public static byte FLOOR_A = 2;
 	public static byte WATER = 3;
 	public static byte WALL_SIDE = 4;
-	public static byte WALL = 5;
+	public static byte CHASM = 5;
 	public static byte FLOOR_B = 6;
 	public static byte LAVA = 7;
 	public static byte GRASS = 9;
