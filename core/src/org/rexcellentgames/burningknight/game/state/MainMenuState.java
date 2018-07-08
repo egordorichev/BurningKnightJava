@@ -19,6 +19,7 @@ public class MainMenuState extends State {
 	private Beat[] beats;
 	public static MainMenuState instance;
 	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
+	private static TextureRegion bg = Graphics.getTexture("menu-bk");
 	private ArrayList<UiButton> buttons = new ArrayList<>();
 	private float logoX = 0;
 	private float logoY = Display.GAME_HEIGHT;
@@ -27,6 +28,7 @@ public class MainMenuState extends State {
 	public static float cameraX = Display.GAME_WIDTH / 2;
 	public static float cameraY = Display.GAME_HEIGHT / 2;
 	public static float MOVE_T = 0.2f;
+	private float bgX = -180;
 
 	@Override
 	public void init() {
@@ -40,6 +42,9 @@ public class MainMenuState extends State {
 		Audio.play("Burning Knight");
 
 		Dungeon.buildDiscordBadge();
+
+		float v = 64;
+		logoX = v;
 
 		instance = this;
 		Dungeon.area.add(Camera.instance);
@@ -74,7 +79,7 @@ public class MainMenuState extends State {
 			}
 		}.setSparks(true)));
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("settings", Display.GAME_WIDTH + 128, (int) (128 - 24 * 2.5f)) {
+		buttons.add((UiButton) Dungeon.area.add(new UiButton("settings", (int) (Display.GAME_WIDTH + 128 + v), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -124,7 +129,7 @@ public class MainMenuState extends State {
 				super.onEnd();
 
 				for (final UiButton button : buttons) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.6f, Tween.Type.BACK_OUT) {
+					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2 + v, 0.6f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {
 							return button.x;
@@ -150,6 +155,20 @@ public class MainMenuState extends State {
 				versionY = value;
 			}
 		}).delay(0.7f);
+
+
+
+		Tween.to(new Tween.Task(0, 0.3f) {
+			@Override
+			public float getValue() {
+				return bgX;
+			}
+
+			@Override
+			public void setValue(float value) {
+				bgX = value;
+			}
+		});
 	}
 
 	@Override
@@ -160,15 +179,14 @@ public class MainMenuState extends State {
 		Camera.ui.update();
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
+		Graphics.render(bg, bgX, 0);
+
 		float sx = (float) (0.8f + Math.sin(Dungeon.time / 1.5f) / 40);
 		float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
 		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
 
 		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
 		Graphics.print(Version.string, Graphics.small, 2 + versionX, versionY + 2);
-
-		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
 		Ui.ui.renderCursor();
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 	}
 }

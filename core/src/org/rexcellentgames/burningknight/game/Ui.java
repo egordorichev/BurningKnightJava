@@ -128,7 +128,6 @@ public class Ui {
 
 	public void renderCursor() {
 		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		//float dx = Math.abs(Input.instance.target.x - Input.instance.mouse.x);
 		//float dy = Math.abs(Input.instance.target.y - Input.instance.mouse.y);

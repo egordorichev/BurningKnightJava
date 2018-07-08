@@ -641,7 +641,7 @@ public class Creature extends SaveableEntity {
 		modifyStat("speed", 1f);
 		modifyStat("knockback", 1f);
 		modifyStat("block_chance", 0.1f);
-		modifyStat("inv_max", 0.4f);
+		modifyStat("inv_time", 0.4f);
 		modifyStat("crit_chance", 0.04f);
 	}
 

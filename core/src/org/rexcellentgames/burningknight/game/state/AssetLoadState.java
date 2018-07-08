@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
 	public static final boolean START_TO_MENU = false;
+	public static final boolean QUICK = false;
 	public static boolean done = false;
 	private static Texture region;
 	private float a;
@@ -34,7 +35,7 @@ public class AssetLoadState extends State {
 	public void init() {
 		super.init();
 
-		if (!START_TO_MENU) {
+		if (QUICK || !START_TO_MENU) {
 			Assets.finishLoading();
 			finish();
 			tweened = true;
@@ -82,7 +83,7 @@ public class AssetLoadState extends State {
 
 			@Override
 			public void onEnd() {
-				Color color = Color.valueOf("#323c39");
+				Color color = Color.valueOf("#1a1932");
 				float t = 0.5f;
 
 				Tween.to(new Tween.Task(color.r, t) {
@@ -160,6 +161,10 @@ public class AssetLoadState extends State {
 	@Override
 	public void render() {
 		super.render();
+
+		if (QUICK) {
+			return;
+		}
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		Graphics.batch.draw(region, (Display.GAME_WIDTH - region.getWidth()) / 2, (Display.GAME_HEIGHT - region.getHeight()) / 2);
