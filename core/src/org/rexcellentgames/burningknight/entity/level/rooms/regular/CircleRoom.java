@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class CircleRoom extends RegularRoom {
 	@Override
@@ -30,5 +31,10 @@ public class CircleRoom extends RegularRoom {
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);
 		}
+	}
+
+	@Override
+	protected Point getDoorCenter() {
+		return getCenter();
 	}
 }
