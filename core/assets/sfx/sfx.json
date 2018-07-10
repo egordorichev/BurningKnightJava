@@ -47,5 +47,13 @@
 	"CK_call",
 	"CK_jump",
 	"health_up",
-	"pickup_item"
+	"pickup_item",
+	"item_purchase",
+	"item_nocash",
+	"BK_hurt_1",
+	"BK_hurt_2",
+	"BK_hurt_3",
+	"BK_hurt_4",
+	"BK_hurt_5",
+	"heart"
 ]
