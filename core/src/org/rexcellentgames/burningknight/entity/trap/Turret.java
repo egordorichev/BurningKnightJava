@@ -18,8 +18,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class Turret extends SolidProp {
-	public static Animation animations = Animation.make("actor-turret", "-fire");
-	private AnimationData single = animations.get("turret_1_directions");
+	private AnimationData single;
 
 	{
 		alwaysActive = true;
@@ -66,8 +65,21 @@ public class Turret extends SolidProp {
 
 	private byte type;
 
+	protected Animation getAnimation() {
+		switch (this.type) {
+			case 1: return Animation.make("actor-turret", "-poison");
+			case 2: return Animation.make("actor-turret", "-ice");
+		}
+
+		return Animation.make("actor-turret", "-fire");
+	}
+
 	@Override
 	public void render() {
+		if (single == null) {
+			single = getAnimation().get("turret_1_directions");
+		}
+
 		single.render(this.x, this.y, false, false, 8, 0, 0, sx, sy);
 	}
 
@@ -154,7 +166,7 @@ public class Turret extends SolidProp {
 	protected void send() {
 		BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet-bad");
-		bullet.anim = animations.get("projectile");
+		bullet.anim = getAnimation().get("projectile");
 
 		float x = this.x + 8;
 		float y = this.y + 8;

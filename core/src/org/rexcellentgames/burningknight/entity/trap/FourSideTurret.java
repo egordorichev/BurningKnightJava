@@ -12,7 +12,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class FourSideTurret extends Turret {
-	private AnimationData four = animations.get("turret_4_directions");
+	private AnimationData four;
 	boolean str = true;
 
 	{
@@ -35,6 +35,10 @@ public class FourSideTurret extends Turret {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (four == null) {
+			four = getAnimation().get("turret_4_directions");
+		}
+
 		this.four.setFrame(str ? 0 : 1);
 	}
 
@@ -48,7 +52,7 @@ public class FourSideTurret extends Turret {
 		for (int i = 0; i < 4; i++) {
 			BulletProjectile bullet = new BulletProjectile();
 			bullet.sprite = Graphics.getTexture("bullet-bad");
-			bullet.anim = animations.get("projectile");
+			bullet.anim = getAnimation().get("projectile");
 
 			float x = this.x + 8;
 			float y = this.y + 8;
