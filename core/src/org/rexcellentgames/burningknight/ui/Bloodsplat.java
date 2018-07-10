@@ -22,6 +22,7 @@ public class Bloodsplat extends Entity {
 	private float c;
 	private TextureRegion texture;
 	private float al;
+	private float alm;
 
 	@Override
 	public void init() {
@@ -29,8 +30,9 @@ public class Bloodsplat extends Entity {
 		this.c = Random.newFloat(0.1f, 0.5f);
 		texture = blood.get(Random.newInt(blood.size())).frame;
 		a = Random.newFloat(360);
+		alm = Random.newFloat(0.5f, 0.8f);
 
-		Tween.to(new Tween.Task(1, 0.05f) {
+		Tween.to(new Tween.Task(this.alm, 0.05f) {
 			@Override
 			public float getValue() {
 				return al;

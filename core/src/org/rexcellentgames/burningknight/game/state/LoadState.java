@@ -132,6 +132,15 @@ public class LoadState extends State {
 						Dungeon.level = null;
 					}
 
+					Player.all.clear();
+					Mob.all.clear();
+					ItemHolder.all.clear();
+					Chest.all.clear();
+					Mimic.all.clear();
+					Player.ladder = null;
+					Level.GENERATED = false;
+					Shopkeeper.instance = null;
+
 					SaveManager.generate(SaveManager.Type.LEVEL);
 					SaveManager.save(SaveManager.Type.LEVEL, false);
 				} catch (RuntimeException e) {

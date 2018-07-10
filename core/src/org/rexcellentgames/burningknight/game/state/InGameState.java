@@ -216,10 +216,16 @@ public class InGameState extends State {
 
 					if (splat.x < 32 || splat.x > Display.GAME_WIDTH - 32) {
 						splat.y = Random.newFloat(Display.GAME_HEIGHT);
+
+						if (splat.x < 32) {
+							splat.x -= 16;
+						} else {
+							splat.x += 16;
+						}
 					} else if (Random.chance(50)) {
-						splat.y = Random.newFloat(32);
+						splat.y = Random.newFloat(32) - 32;
 					} else {
-						splat.y = Display.GAME_HEIGHT - Random.newFloat(32);
+						splat.y = Display.GAME_HEIGHT - Random.newFloat(32) + 32;
 					}
 
 					Dungeon.ui.add(splat);
