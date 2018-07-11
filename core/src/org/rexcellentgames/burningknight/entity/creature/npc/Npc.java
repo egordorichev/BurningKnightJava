@@ -25,11 +25,11 @@ public class Npc extends Mob {
 		super.update(dt);
 
 		/*
-		if (Player.instance != null && Dialog.active == null) {
+		if (Player.instance != null && Dialog.activeController == null) {
 			float d = Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2);
 
-			if (d < 32f && !this.active) {
-				this.active = true;
+			if (d < 32f && !this.activeController) {
+				this.activeController = true;
 				String s = "Hi!\nHow are you doing?\nWanna something?";
 
 				if (this.dialog == null || this.dialog.done) {
@@ -39,8 +39,8 @@ public class Npc extends Mob {
 					this.dialog.setMessage(s);
 					this.dialog.open();
 				}
-			} else if (d >= 48f && this.active) {
-				this.active = false;
+			} else if (d >= 48f && this.activeController) {
+				this.activeController = false;
 				this.dialog.remove();
 			}
 		}*/
