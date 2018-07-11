@@ -44,7 +44,6 @@ import org.rexcellentgames.burningknight.game.state.State;
 import org.rexcellentgames.burningknight.mod.ModManager;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -426,7 +425,7 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private Point inputVel = new Point();
-	private Vector2 angle = new Vector2();
+	private Vector2 angle = new Vector2(1, 0);
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);
@@ -437,7 +436,7 @@ public class Dungeon extends ApplicationAdapter {
 			float ix = Input.instance.getAxis("mouseX") * s;
 			float iy = -Input.instance.getAxis("mouseY") * s;
 
-			if (ix != 0 || iy != 0) {
+			if (Math.sqrt(ix * ix + iy * iy) > 0.2) {
 				float a = (float) Math.atan2(iy, ix);
 				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
 			}

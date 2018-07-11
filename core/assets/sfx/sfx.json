@@ -56,5 +56,7 @@
 	"BK_hurt_3",
 	"BK_hurt_4",
 	"BK_hurt_5",
-	"heart"
+	"heart",
+	"door_lock",
+	"door_unlock"
 ]
