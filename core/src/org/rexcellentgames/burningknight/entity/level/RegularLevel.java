@@ -1,8 +1,8 @@
 package org.rexcellentgames.burningknight.entity.level;
 
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
@@ -13,6 +13,8 @@ import org.rexcellentgames.burningknight.entity.level.builders.CastleBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.LoopBuilder;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
@@ -38,6 +40,18 @@ public abstract class RegularLevel extends Level {
 
 	@Override
 	public void generate() {
+		Player.all.clear();
+		Mob.all.clear();
+		ItemHolder.all.clear();
+		Chest.all.clear();
+		Mimic.all.clear();
+
+		PlayerSave.all.clear();
+		LevelSave.all.clear();
+
+		Dungeon.area.destroy();
+		Dungeon.area.add(Dungeon.level);
+
 		Level.GENERATED = true;
 
 		this.itemsToSpawn.clear();

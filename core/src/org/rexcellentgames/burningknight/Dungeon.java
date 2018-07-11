@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.codedisaster.steamworks.SteamAPI;
@@ -425,58 +426,38 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private Point inputVel = new Point();
+	private Vector2 angle = new Vector2();
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);
 
 		float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
 
-		if (Input.instance.wasPressed("circle")) {
-			Input.instance.circle = !Input.instance.circle;
-		}
-
 		if (Input.instance.wasPressed("mouse_left")) {
 			Log.info("left");
 		}
-//
-//		if (Player.instance != null && Input.instance.circle) {
-//			float ix = Input.instance.getAxis("mouseX") * s;
-//			float iy = -Input.instance.getAxis("mouseY") * s;
-//
-//			// fixme; doesnt work
-//			if (Input.instance.isDown("mouse_left")) {
-//				ix = Math.max(-1, ix - 1);
-//			}
-//
-//			if (Input.instance.isDown("mouse_right")) {
-//				ix = Math.min(1, ix + 1);
-//			}
-//
-//			if (Input.instance.isDown("mouse_down")) {
-//				iy = Math.max(-1, iy - 1);
-//			}
-//
-//			if (Input.instance.isDown("mouse_up")) {
-//				iy = Math.min(1, iy + 1);
-//			}
-//
-//			if (ix != 0 || iy != 0) {
-//				float a = (float) Math.atan2(iy, ix);
-//				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
-//			}
-//
-//			float d = 64f;
-//
-//			Vector3 input = Camera.game.project(new Vector3(
-//				Player.instance.x + Player.instance.w / 2 + angle.x * d,
-//				Player.instance.y + Player.instance.h / 2 + angle.y * d, 0
-//			));
-//
-//			Input.instance.mouse.x = input.x;
-//			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
-//
-//			return;
-//		}
+
+		if (Player.instance != null) {
+			float ix = Input.instance.getAxis("mouseX") * s;
+			float iy = -Input.instance.getAxis("mouseY") * s;
+
+			if (ix != 0 || iy != 0) {
+				float a = (float) Math.atan2(iy, ix);
+				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
+			}
+
+			float d = 64f;
+
+			Vector3 input = Camera.game.project(new Vector3(
+				Player.instance.x + Player.instance.w / 2 + angle.x * d,
+				Player.instance.y + Player.instance.h / 2 + angle.y * d, 0
+			));
+
+			Input.instance.mouse.x = input.x;
+			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
+
+			return;
+		}
 
 		inputVel.x += Input.instance.getAxis("mouseX") * s;
 		inputVel.y += Input.instance.getAxis("mouseY") * s;
@@ -486,10 +467,6 @@ public class Dungeon extends ApplicationAdapter {
 
 		Input.instance.mouse.x = MathUtils.clamp(0, Gdx.graphics.getWidth(), Input.instance.mouse.x);
 		Input.instance.mouse.y = MathUtils.clamp(0, Gdx.graphics.getHeight(), Input.instance.mouse.y);
-
-		if (Input.instance.wasPressed("catch")) {
-			Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
-		}
 	}
 
 	@Override

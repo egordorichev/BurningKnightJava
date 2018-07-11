@@ -122,6 +122,7 @@ public class Door extends SaveableEntity {
 			}
 		}
 
+		this.body.setTransform(this.x, this.y, 0);
 		super.update(dt);
 
 		if (this.animation.update(dt)) {

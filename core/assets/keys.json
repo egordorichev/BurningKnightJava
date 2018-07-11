@@ -4,29 +4,24 @@
 	"up" : [ "W", "Up" ],
 	"down" : [ "S", "Down" ],
 
-	"pickup" : [ "Space", "Controller2" ],
-	"drop_item" : [ "L-Shift", "Controller1", "Q" ],
+	"pickup" : [ "Space", "ControllerB" ],
+	"drop_item" : [ "L-Shift", "ControllerY", "Q" ],
 	"block" : [ "Mouse2" ],
 
-	"mouse0" : [ "Mouse0", "Controller3", "Controller5" ],
+	"mouse0" : [ "Mouse0", "ControllerR2" ],
 	"mouse1" : [ "Mouse1" ],
 	"mouse2" : [ "Mouse2" ],
 	"scroll" : [ "MouseWheel" ],
 
-	"action" : [ "Space", "Controller2" ],
+	"action" : [ "Space", "ControllerX", "ControllerL3" ],
 
-	"prev" : [ "Controller6", "Numpad 7" ],
-	"next" : [ "Controller7", "Numpad 9" ],
+	"prev" : [ "ControllerL1", "Numpad 7" ],
+	"next" : [ "ControllerR1", "Numpad 9" ],
 
-	"catch" : [ "F2" ],
 	"reset" : [ "F4" ],
 	"show_fps" : [ "F3" ],
 	"switch_colorblind" : [ "F5" ],
 	"toggle_correction" : [ "F6" ],
-	
-	"inventory" : [ "E", "Controller 6" ],
-
-	"circle" : [ "Controller0" ],
 
 	"1" : [ "1" ],
 	"2" : [ "2" ],
@@ -40,11 +35,11 @@
 
 	"pause" : [ "Escape" ],
 
-	"mouseX" : [ "Axis2" ],
-	"mouseY" : [ "Axis3" ],
+	"mouseX" : [ "ControllerRX" ],
+	"mouseY" : [ "ControllerRY" ],
 
-	"moveX" : [ "Axis0" ],
-	"moveY" : [ "Axis1" ],
+	"moveX" : [ "ControllerLX" ],
+	"moveY" : [ "ControllerLY" ],
 	"map" : [ "M" ],
 
 	"mouse_left" : [ "Numpad 4" ],

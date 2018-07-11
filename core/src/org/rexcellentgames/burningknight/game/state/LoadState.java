@@ -94,20 +94,18 @@ public class LoadState extends State {
 
 		World.init();
 
-		Dungeon.area.add(new Camera());
-
 		Player.all.clear();
 		Mob.all.clear();
 		ItemHolder.all.clear();
 		Chest.all.clear();
 		Mimic.all.clear();
 
+		PlayerSave.all.clear();
+		LevelSave.all.clear();
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				PlayerSave.all.clear();
-				LevelSave.all.clear();
-
 				try {
 					SaveManager.load(SaveManager.Type.GAME);
 				} catch (IOException e) {
@@ -124,7 +122,6 @@ public class LoadState extends State {
 					SaveManager.load(SaveManager.Type.LEVEL);
 				} catch (IOException e) {
 					Log.error("Failed to load level, generating new...");
-					LevelSave.all.clear();
 
 					if (Dungeon.level != null) {
 						Log.error("Removing old level");
@@ -139,6 +136,7 @@ public class LoadState extends State {
 					Thread.currentThread().interrupt();
 					return;
 				}
+				Dungeon.area.add(new Camera());
 
 				try {
 					SaveManager.load(SaveManager.Type.PLAYER);
