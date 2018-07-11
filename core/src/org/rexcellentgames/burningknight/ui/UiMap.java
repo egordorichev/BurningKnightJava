@@ -63,6 +63,15 @@ public class UiMap extends UiEntity {
 			if (Input.instance.isDown("down")) {
 				yc += s * dt;
 			}
+
+			float ix = -Input.instance.getAxis("mouseX") * s;
+			float iy = Input.instance.getAxis("mouseY") * s;
+
+			if (Math.sqrt(ix * ix + iy * iy) > 0.2) {
+				xc += ix * dt;
+				yc += iy * dt;
+			}
+
 		}
 
 		if (Input.instance.wasPressed("map")) {
