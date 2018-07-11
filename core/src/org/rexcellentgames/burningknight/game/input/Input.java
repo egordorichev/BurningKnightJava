@@ -38,7 +38,7 @@ public class Input implements InputProcessor, ControllerListener {
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 
-	private GamepadMap map;
+	private GamepadMap map = new GamepadMap(GamepadMap.Model.Xbox);
 
 	@Override
 	public void connected(Controller controller) {
@@ -86,10 +86,10 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
-		if (controller != active) {
+		if (active == null || controller != active) {
 			return false;
 		}
-
+		
 		this.keys.put("Controller" + buttonCode, State.DOWN);
 		Log.info(buttonCode + "");
 		return false;
@@ -97,7 +97,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
-		if (controller != active) {
+		if (active == null || controller != active) {
 			return false;
 		}
 
@@ -107,7 +107,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		if (controller != active) {
+		if (active == null || controller != active) {
 			return false;
 		}
 
@@ -133,6 +133,10 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
+		if (active == null || controller != active) {
+			return false;
+		}
+
 		this.keys.put("Controller" + map.getId("ControllerDPadRight"), value == PovDirection.east || value == PovDirection.northEast || value == PovDirection.southEast ? State.DOWN : State.UP);
 		this.keys.put("Controller" + map.getId("ControllerDPadLeft"), value == PovDirection.west || value == PovDirection.northWest || value == PovDirection.southWest ? State.DOWN : State.UP);
 		this.keys.put("Controller" + map.getId("ControllerDPadUp"), value == PovDirection.north || value == PovDirection.northEast || value == PovDirection.northWest ? State.DOWN : State.UP);
@@ -198,6 +202,10 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 
 	public float getAxis(String name) {
+		if (active == null) {
+			return 0;
+		}
+
 		ArrayList<String> keys = this.bindings.get(name);
 
 		if (keys == null || keys.size() == 0) {
