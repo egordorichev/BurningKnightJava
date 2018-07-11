@@ -103,6 +103,7 @@ public class Door extends SaveableEntity {
 			if (this.clearT > 0.5f) {
 				this.animation.setBack(true);
 				this.animation.setPaused(false);
+				this.playSfx("door");
 			}
 		}
 
@@ -177,6 +178,10 @@ public class Door extends SaveableEntity {
 
 			if (this.lock) {
 				return;
+			}
+
+			if (this.numCollisions == 0) {
+				this.playSfx("door");
 			}
 
 			this.numCollisions += 1;

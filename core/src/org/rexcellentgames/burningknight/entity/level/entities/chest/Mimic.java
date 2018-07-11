@@ -28,18 +28,15 @@ import java.util.ArrayList;
 public class Mimic extends Mob {
 	public static float chance = 20;
 	public static ArrayList<Mimic> all = new ArrayList<>();
-	private static Animation animations = Animation.make("chest", "-wooden");
-	private AnimationData closed = animations.get("idle");
-	private AnimationData open = animations.get("opening_mimic");
-	private AnimationData hurt = animations.get("hurt");
-	private AnimationData animation = closed;
+	private AnimationData closed;
+	private AnimationData open;
+	private AnimationData hurt;
+	private AnimationData animation;
 	private boolean found;
 
 	{
 		hpMax = 30;
 		h = 13;
-
-		open.setAutoPause(true);
 	}
 
 	@Override
@@ -47,6 +44,8 @@ public class Mimic extends Mob {
 		super.initStats();
 		setStat("knockback", 0);
 	}
+
+	private int type = -1;
 
 	@Override
 	public void init() {
@@ -64,7 +63,15 @@ public class Mimic extends Mob {
 		this.playSfx("death_clown");
 		this.done = true;
 
-		Chest chest = new WoodenChest();
+		Chest chest = null;
+
+		if (this.type == 1) {
+			chest = new IronChest();
+		} else if (type == 2) {
+			chest = new GoldenChest();
+		} else {
+			chest = new WoodenChest();
+		}
 
 		chest.x = this.x;
 		chest.y = this.y;
@@ -78,7 +85,15 @@ public class Mimic extends Mob {
 	}
 
 	public void toChest() {
-		Chest chest = new WoodenChest();
+		Chest chest = null;
+
+		if (this.type == 1) {
+			chest = new IronChest();
+		} else if (type == 2) {
+			chest = new GoldenChest();
+		} else {
+			chest = new WoodenChest();
+		}
 
 		chest.x = this.x;
 		chest.y = this.y;
@@ -103,6 +118,7 @@ public class Mimic extends Mob {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		found = reader.readBoolean();
+		this.type = reader.readByte();
 
 		if (found) {
 			this.become("found");
@@ -113,10 +129,42 @@ public class Mimic extends Mob {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeBoolean(found);
+		writer.writeByte((byte) this.type);
 	}
 
 	@Override
 	public void render() {
+		if (this.animation == null) {
+			Animation animations = WoodenChest.animation;
+
+			if (this.type == -1) {
+				Chest chest = Chest.random();
+
+				if (chest instanceof IronChest) {
+					this.type = 1;
+				} else if (chest instanceof GoldenChest) {
+					this.type = 2;
+				} else if (chest instanceof WoodenChest) {
+					this.type = 0;
+				}
+			}
+
+			if (this.type == 1) {
+				animations = IronChest.animation;
+			} else if (type == 2) {
+				animations = GoldenChest.animation;
+			}
+
+			closed = animations.get("idle");
+			open = animations.get("opening_mimic");
+			open.setAutoPause(true);
+
+			hurt = animations.get("hurt");
+
+			this.animation = this.closed;
+		}
+
+
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.renderWithOutline(this.invt > 0 ? hurt : this.animation);
 
@@ -143,7 +191,9 @@ public class Mimic extends Mob {
 			}
 		}
 
-		hurt.update(dt);
+		if (this.hurt != null) {
+			hurt.update(dt);
+		}
 
 		if (this.dead) {
 			super.common();

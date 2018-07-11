@@ -87,7 +87,7 @@ public class Input implements InputProcessor, ControllerListener {
 		if (active == null || controller != active) {
 			return false;
 		}
-		
+
 		this.keys.put("Controller" + buttonCode, State.DOWN);
 		return false;
 	}

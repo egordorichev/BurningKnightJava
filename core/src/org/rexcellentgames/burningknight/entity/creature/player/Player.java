@@ -119,7 +119,7 @@ public class Player extends Creature {
 	protected float mana;
 	protected int manaMax;
 	protected int level;
-	private ItemPickupFx pickupFx;
+	public ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private String name;
 	private float watery;

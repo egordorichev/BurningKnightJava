@@ -33,8 +33,8 @@ public class Settings {
 		}
 
 		if (!AssetLoadState.START_TO_MENU) {
-			music = 0f;
-			sfx = 0f;
+			music = 0.5f;
+			sfx = 0.5f;
 		}
 	}
 
