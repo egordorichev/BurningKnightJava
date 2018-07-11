@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 
 public class WoodenChest extends Chest {
-	private static Animation animation = Animation.make("chest", "-wooden");
+	public static Animation animation = Animation.make("chest", "-wooden");
 	private static AnimationData closed = animation.get("idle");
 	private static AnimationData open = animation.get("opening");
 	private static AnimationData openend = animation.get("open");

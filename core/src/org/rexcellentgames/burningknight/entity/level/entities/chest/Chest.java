@@ -42,6 +42,7 @@ public class Chest extends SaveableEntity {
 		weapon = Random.chance(50);
 
 		this.data = this.getClosedAnim();
+
 		this.data.setAutoPause(true);
 		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		
