@@ -425,7 +425,7 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private Point inputVel = new Point();
-	private Vector2 angle = new Vector2(1, 0);
+	private Vector2 angle = new Vector2(0.0001f, 1.0f);
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);
@@ -436,8 +436,8 @@ public class Dungeon extends ApplicationAdapter {
 			float ix = Input.instance.getAxis("mouseX") * s;
 			float iy = -Input.instance.getAxis("mouseY") * s;
 
-			if (Math.sqrt(ix * ix + iy * iy) > 0.2) {
-				float a = (float) Math.atan2(iy, ix);
+			if (Math.sqrt(ix * ix + iy * iy) > 0.1) {
+        float a = (float) Math.atan2(iy, ix);
 				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
 			}
 
