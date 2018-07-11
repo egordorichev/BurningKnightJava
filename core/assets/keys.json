@@ -33,7 +33,7 @@
 	"c" : [ "C" ],
 	"z" : [ "Z" ],
 
-	"pause" : [ "Escape", "ControllerBack", "ControllerMenu" ],
+	"pause" : [ "Escape", "ControllerStart" ],
 
 	"mouseX" : [ "ControllerRX" ],
 	"mouseY" : [ "ControllerRY" ],

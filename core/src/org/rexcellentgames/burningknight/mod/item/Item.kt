@@ -31,14 +31,15 @@ class Item(private val modId: String) {
   private fun register(name: String, args: LuaTable, type: ItemType) {
     var item: org.rexcellentgames.burningknight.entity.item.Item? = null
 
-	  when (type) {
-			ItemType.ITEM -> item = org.rexcellentgames.burningknight.entity.item.Item()
-			ItemType.EQUIPABLE -> item = Equipable()
-			ItemType.WEAPON -> item = Weapon()
-		  ItemType.CONSUMABLE -> item = Consumable()
+		item = when (type) {
+			ItemType.ITEM -> org.rexcellentgames.burningknight.entity.item.Item()
+			ItemType.EQUIPABLE -> Equipable()
+			ItemType.WEAPON -> Weapon()
+			ItemType.CONSUMABLE -> Consumable()
 		}
 
     item.initFromMod(modId, name, args)
+		
     ItemRegistry.modItems["$modId:$name"] = item
 
 	  val pool = args.get("pool")

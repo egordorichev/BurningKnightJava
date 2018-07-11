@@ -38,7 +38,7 @@ public class Input implements InputProcessor, ControllerListener {
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 
-	private GamepadMap map = new GamepadMap(GamepadMap.Model.Xbox);
+	private GamepadMap map = new GamepadMap(GamepadMap.Type.Xbox);
 
 	@Override
 	public void connected(Controller controller) {
@@ -64,19 +64,17 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		if (active.getName().toLowerCase().contains("xbox")) {
-			map = new GamepadMap(GamepadMap.Model.Xbox);
-		} else if (active.getName().toLowerCase().contains("ouya")) {
-			map = new GamepadMap(GamepadMap.Model.Ouya);
-		} else if (active.getName().toLowerCase().contains("nes")) {
-			map = new GamepadMap(GamepadMap.Model.SNES);
-		} else {
-			map = new GamepadMap(GamepadMap.Model.Unknown);
+			map = new GamepadMap(GamepadMap.Type.Xbox);
+		} else if (active.getName().equalsIgnoreCase("wireless controller")) {
+		  map = new GamepadMap(GamepadMap.Type.PlayStation4);
+    } else {
+			map = new GamepadMap(GamepadMap.Type.Unknown);
 		}
 	}
 
 	@Override
 	public void disconnected(Controller controller) {
-		Log.info("Controller " + controller.getName() + " diconnected!");
+		Log.info("Controller " + controller.getName() + " disconnected!");
 		controllerChanged = true;
 
 		if (active == controller) {
@@ -91,7 +89,6 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 		
 		this.keys.put("Controller" + buttonCode, State.DOWN);
-		Log.info(buttonCode + "");
 		return false;
 	}
 
@@ -137,10 +134,10 @@ public class Input implements InputProcessor, ControllerListener {
 			return false;
 		}
 
-		this.keys.put("Controller" + map.getId("ControllerDPadRight"), value == PovDirection.east || value == PovDirection.northEast || value == PovDirection.southEast ? State.DOWN : State.UP);
-		this.keys.put("Controller" + map.getId("ControllerDPadLeft"), value == PovDirection.west || value == PovDirection.northWest || value == PovDirection.southWest ? State.DOWN : State.UP);
-		this.keys.put("Controller" + map.getId("ControllerDPadUp"), value == PovDirection.north || value == PovDirection.northEast || value == PovDirection.northWest ? State.DOWN : State.UP);
-		this.keys.put("Controller" + map.getId("ControllerDPadDown"), value == PovDirection.south || value == PovDirection.southEast || value == PovDirection.southWest ? State.DOWN : State.UP);
+		this.keys.put("ControllerDPadRight", value == PovDirection.east || value == PovDirection.northEast || value == PovDirection.southEast ? State.DOWN : State.UP);
+		this.keys.put("ControllerDPadLeft", value == PovDirection.west || value == PovDirection.northWest || value == PovDirection.southWest ? State.DOWN : State.UP);
+		this.keys.put("ControllerDPadUp", value == PovDirection.north || value == PovDirection.northEast || value == PovDirection.northWest ? State.DOWN : State.UP);
+		this.keys.put("ControllerDPadDown", value == PovDirection.south || value == PovDirection.southEast || value == PovDirection.southWest ? State.DOWN : State.UP);
 
 		return false;
 	}
@@ -175,7 +172,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	private HashMap<String, State> keys = new HashMap<>();
 	private HashMap<String, ArrayList<String>> bindings = new HashMap<>();
-	private Float axes[] = new Float[4];
+	private float axes[] = new float[8];
 	private int amount;
 
 	public HashMap<String, State> getKeys() {
@@ -286,11 +283,7 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
-			if (id.startsWith("Controller")) {
-				id = "Controller" + map.getId(id);
-			}
-
-			State state = this.keys.get(id);
+			State state = this.keys.get(toButtonWithId(id));
 
 			if (state == State.DOWN || state == State.HELD) {
 				return true;
@@ -306,11 +299,7 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
-			if (id.startsWith("Controller")) {
-				id = "Controller" + map.getId(id);
-			}
-
-			if (this.keys.get(id) == State.DOWN) {
+		  if (this.keys.get(toButtonWithId(id)) == State.DOWN) {
 				return true;
 			}
 		}
@@ -324,11 +313,7 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
-			if (id.startsWith("Controller")) {
-				id = "Controller" + map.getId(id);
-			}
-
-			if (this.keys.get(id) == State.UP) {
+		  if (this.keys.get(toButtonWithId(id)) == State.UP) {
 				return true;
 			}
 		}
@@ -402,4 +387,12 @@ public class Input implements InputProcessor, ControllerListener {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	
+	private String toButtonWithId(String id) {
+    if (id.toLowerCase().startsWith("controller") && !id.toLowerCase().contains("dpad")) {
+      return "Controller" + map.getId(id);
+    }
+    
+    return id;
+  }
 }
