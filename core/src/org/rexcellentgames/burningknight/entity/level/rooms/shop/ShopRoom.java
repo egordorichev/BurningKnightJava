@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.shop;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.npc.BlueShopkeeper;
+import org.rexcellentgames.burningknight.entity.creature.npc.OrangeShopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
@@ -27,8 +29,18 @@ public class ShopRoom extends LockedRoom {
 		hd = Random.chance(30);
 	}
 
+	private boolean doublePrice;
+
 	protected void placeItems() {
 		int c = getItemCount();
+
+		Shopkeeper npc = null;
+
+		switch (Random.newInt(4)) {
+			case 0: case 1: npc = new Shopkeeper();
+			case 2: npc = new BlueShopkeeper();
+			case 3: npc = new OrangeShopkeeper(); doublePrice = true;
+		}
 
 		switch (Random.newInt(6)) {
 			case 0: paintArmor(c); break;
@@ -39,7 +51,6 @@ public class ShopRoom extends LockedRoom {
 
 		Point point = getSpawn();
 
-		Shopkeeper npc = new Shopkeeper();
 
 		npc.x = point.x * 16;
 		npc.generate();
@@ -215,6 +226,10 @@ public class ShopRoom extends LockedRoom {
 		holder.x = x + (16 - holder.w) / 2;
 		holder.y = y + (16 - holder.h) / 2;
 		holder.getItem().shop = true;
+
+		if (this.doublePrice) {
+			holder.getItem().price *= 2;
+		}
 
 		int cn = (int) Player.instance.getStat("sale");
 

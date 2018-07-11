@@ -2,8 +2,6 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -104,7 +102,7 @@ public class Entrance extends SaveableEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity instanceof Player && this.fx == null) {
+		if (entity instanceof Player && this.fx == null && Dungeon.depth > 0) {
 			this.fx = new LadderFx(this, "ascend");
 			this.area.add(this.fx);
 		}

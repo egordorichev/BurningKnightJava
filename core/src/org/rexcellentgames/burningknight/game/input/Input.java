@@ -11,9 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -34,13 +31,14 @@ public class Input implements InputProcessor, ControllerListener {
 	public Controller active;
 	public Vector2 mouse = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 	public Vector2 target = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
-	public boolean circle = true;
 
 	private boolean controllerChanged;
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
 	}
+
+	private GamepadMap map = new GamepadMap(GamepadMap.Model.Xbox);
 
 	@Override
 	public void connected(Controller controller) {
@@ -56,6 +54,23 @@ public class Input implements InputProcessor, ControllerListener {
 
 		if (active == null) {
 			active = controller;
+			onControllerChange();
+		}
+	}
+
+	public void onControllerChange() {
+		if (active == null) {
+			return;
+		}
+
+		if (active.getName().toLowerCase().contains("xbox")) {
+			map = new GamepadMap(GamepadMap.Model.Xbox);
+		} else if (active.getName().toLowerCase().contains("ouya")) {
+			map = new GamepadMap(GamepadMap.Model.Ouya);
+		} else if (active.getName().toLowerCase().contains("nes")) {
+			map = new GamepadMap(GamepadMap.Model.SNES);
+		} else {
+			map = new GamepadMap(GamepadMap.Model.Unknown);
 		}
 	}
 
@@ -71,7 +86,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
-		if (controller != active) {
+		if (active == null || controller != active) {
 			return false;
 		}
 
@@ -82,7 +97,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
-		if (controller != active) {
+		if (active == null || controller != active) {
 			return false;
 		}
 
@@ -92,7 +107,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		if (controller != active) {
+		if (active == null || controller != active) {
 			return false;
 		}
 
@@ -106,11 +121,11 @@ public class Input implements InputProcessor, ControllerListener {
 		float d = (float) Math.sqrt(dx * dx + value * value);
 
 		if (d >= 0.3f) {
-			axes.put("Axis" + second, dx);
-			axes.put("Axis" + axisCode, value);
+			axes[second] = dx;
+			axes[axisCode] = value;
 		} else {
-			axes.put("Axis" + second, 0f);
-			axes.put("Axis" + axisCode, 0f);
+			axes[second] = 0f;
+			axes[axisCode] = 0f;
 		}
 
 		return false;
@@ -118,6 +133,15 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
+		if (active == null || controller != active) {
+			return false;
+		}
+
+		this.keys.put("Controller" + map.getId("ControllerDPadRight"), value == PovDirection.east || value == PovDirection.northEast || value == PovDirection.southEast ? State.DOWN : State.UP);
+		this.keys.put("Controller" + map.getId("ControllerDPadLeft"), value == PovDirection.west || value == PovDirection.northWest || value == PovDirection.southWest ? State.DOWN : State.UP);
+		this.keys.put("Controller" + map.getId("ControllerDPadUp"), value == PovDirection.north || value == PovDirection.northEast || value == PovDirection.northWest ? State.DOWN : State.UP);
+		this.keys.put("Controller" + map.getId("ControllerDPadDown"), value == PovDirection.south || value == PovDirection.southEast || value == PovDirection.southWest ? State.DOWN : State.UP);
+
 		return false;
 	}
 
@@ -151,7 +175,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	private HashMap<String, State> keys = new HashMap<>();
 	private HashMap<String, ArrayList<String>> bindings = new HashMap<>();
-	private HashMap<String, Float> axes = new HashMap<>();
+	private float axes[] = new float[8];
 	private int amount;
 
 	public HashMap<String, State> getKeys() {
@@ -178,19 +202,24 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 
 	public float getAxis(String name) {
+		if (active == null) {
+			return 0;
+		}
+
 		ArrayList<String> keys = this.bindings.get(name);
 
 		if (keys == null || keys.size() == 0) {
 			return 0;
 		}
 
-		String n = keys.get(0);
+		String na = keys.get(0);
+		int n = map.getId(na);
 
-		if (!axes.containsKey(n)) {
+		if (axes.length <= n || n < 0) {
 			return 0;
 		}
 
-		return axes.get(n);
+		return axes[n];
 	}
 
 	public void updateMousePosition() {
@@ -252,12 +281,15 @@ public class Input implements InputProcessor, ControllerListener {
 			return false;
 		}
 
-
 		if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
 			return false;
 		}
 
 		for (String id : this.bindings.get(key)) {
+			if (id.startsWith("Controller")) {
+				id = "Controller" + map.getId(id);
+			}
+
 			State state = this.keys.get(id);
 
 			if (state == State.DOWN || state == State.HELD) {
@@ -274,6 +306,10 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
+			if (id.startsWith("Controller")) {
+				id = "Controller" + map.getId(id);
+			}
+
 			if (this.keys.get(id) == State.DOWN) {
 				return true;
 			}
@@ -288,6 +324,10 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
+			if (id.startsWith("Controller")) {
+				id = "Controller" + map.getId(id);
+			}
+
 			if (this.keys.get(id) == State.UP) {
 				return true;
 			}

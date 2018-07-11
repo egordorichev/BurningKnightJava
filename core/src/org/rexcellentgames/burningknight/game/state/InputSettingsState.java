@@ -58,6 +58,7 @@ public class InputSettingsState extends State {
 				for (Controller controller : Controllers.getControllers()) {
 					if (label.endsWith(controller.getName().replaceAll("\\s+"," "))) {
 						Input.instance.active = controller;
+						Input.instance.onControllerChange();
 						break;
 					}
 				}

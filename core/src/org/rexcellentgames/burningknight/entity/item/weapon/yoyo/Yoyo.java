@@ -10,11 +10,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -24,6 +19,8 @@ public class Yoyo extends Weapon {
 		penetrates = true;
 		useTime = 10f;
 	}
+
+	protected TextureRegion projectile;
 
 	@Override
 	public void use() {
@@ -80,12 +77,11 @@ public class Yoyo extends Weapon {
 		if (this.delay > 0) {
 			float dt = Gdx.graphics.getDeltaTime();
 			Point aim = this.owner.getAim();
-			TextureRegion region = this.getSprite();
 
 			this.vel.mul(0.5f);
 
-			float ox = ((float) region.getRegionWidth()) / 2f;
-			float oy = ((float) region.getRegionHeight()) / 2f;
+			float ox = ((float) projectile.getRegionWidth()) / 2f;
+			float oy = ((float) projectile.getRegionHeight()) / 2f;
 
 			Vector2 self = new Vector2(this.owner.x + this.owner.w / 2, this.owner.y + this.owner.h / 6);
 			Vector2 cur = new Vector2(this.x + ox, this.y + oy);
@@ -97,16 +93,16 @@ public class Yoyo extends Weapon {
 					endUse();
 					delay = 0;
 				} else {
-					this.vel.x += (this.owner.x + this.owner.w / 2 - this.x - region.getRegionWidth() / 2) * dt * 120;
-					this.vel.y += (this.owner.y + this.owner.h / 2 - this.y - region.getRegionHeight() / 2) * dt * 120;
+					this.vel.x += (this.owner.x + this.owner.w / 2 - this.x - projectile.getRegionWidth() / 2) * dt * 120;
+					this.vel.y += (this.owner.y + this.owner.h / 2 - this.y - projectile.getRegionHeight() / 2) * dt * 120;
 				}
 			} else if (d < this.max) {
-				this.vel.x += (aim.x - this.x - region.getRegionWidth() / 2) * 20;
-				this.vel.y += (aim.y - this.y - region.getRegionHeight() / 2) * 20;
+				this.vel.x += (aim.x - this.x - projectile.getRegionWidth() / 2) * 20;
+				this.vel.y += (aim.y - this.y - projectile.getRegionHeight() / 2) * 20;
 			} else {
 				double a = Math.atan2(dst.y, dst.x);
-				this.vel.x += ((float) Math.cos(a) * (this.max) + self.x - this.x - region.getRegionWidth() / 2) * 20;
-				this.vel.y += ((float) Math.sin(a) * (this.max) + self.y - this.y - region.getRegionHeight() / 2) * 20;
+				this.vel.x += ((float) Math.cos(a) * (this.max) + self.x - this.x - projectile.getRegionWidth() / 2) * 20;
+				this.vel.y += ((float) Math.sin(a) * (this.max) + self.y - this.y - projectile.getRegionHeight() / 2) * 20;
 			}
 
 			line.set(new Vector2[] {

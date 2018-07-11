@@ -28,6 +28,11 @@ public class Note extends Entity {
 	private float scale = 1f;
 	public Creature owner;
 
+	{
+		alwaysActive = true;
+		alwaysRender = true;
+	}
+
 	@Override
 	public void init() {
 		this.playSfx("ukulele_" + Random.newInt(1, 5));

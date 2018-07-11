@@ -47,6 +47,8 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.entity.pool.item.GoldChestPool;
+import org.rexcellentgames.burningknight.entity.pool.item.IronChestPool;
 import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.*;
@@ -117,7 +119,7 @@ public class Player extends Creature {
 	protected float mana;
 	protected int manaMax;
 	protected int level;
-	private ItemPickupFx pickupFx;
+	public ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private String name;
 	private float watery;
@@ -230,6 +232,8 @@ public class Player extends Creature {
 		}
 
 		WoodenChestPool.init();
+		GoldChestPool.init();
+		IronChestPool.init();
 	}
 
 	private void generateWarrior() {

@@ -25,13 +25,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Shopkeeper extends Npc {
-	private static Animation animations = Animation.make("actor-trader", "-green");
-	private AnimationData idle = animations.get("idle");
-	private AnimationData run = animations.get("run");
-	private AnimationData hurt = animations.get("hurt");
-	private AnimationData death = animations.get("death");
+	private AnimationData idle = getAnimation().get("idle");
+	private AnimationData run = getAnimation().get("run");
+	private AnimationData hurt = getAnimation().get("hurt");
+	private AnimationData death = getAnimation().get("death");
 	private AnimationData animation = idle;
 	public static Shopkeeper instance;
+
+	private static Animation animations = Animation.make("actor-trader", "-green");
+
+	public Animation getAnimation() {
+		return animations;
+	}
 
 	{
 		w = 15;
