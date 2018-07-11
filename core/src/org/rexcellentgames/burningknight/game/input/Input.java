@@ -89,7 +89,7 @@ public class Input implements InputProcessor, ControllerListener {
 		if (active == null || controller != active) {
 			return false;
 		}
-		
+
 		this.keys.put("Controller" + buttonCode, State.DOWN);
 		Log.info(buttonCode + "");
 		return false;
@@ -175,7 +175,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	private HashMap<String, State> keys = new HashMap<>();
 	private HashMap<String, ArrayList<String>> bindings = new HashMap<>();
-	private Float axes[] = new Float[4];
+	private float axes[] = new float[8];
 	private int amount;
 
 	public HashMap<String, State> getKeys() {
