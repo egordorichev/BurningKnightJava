@@ -33,19 +33,14 @@
 	"c" : [ "C" ],
 	"z" : [ "Z" ],
 
-	"pause" : [ "Escape" ],
+	"pause" : [ "Escape", "ControllerBack", "ControllerMenu" ],
 
 	"mouseX" : [ "ControllerRX" ],
 	"mouseY" : [ "ControllerRY" ],
 
 	"moveX" : [ "ControllerLX" ],
 	"moveY" : [ "ControllerLY" ],
-	"map" : [ "M" ],
-
-	"mouse_left" : [ "Numpad 4" ],
-	"mouse_right" : [ "Numpad 6" ],
-	"mouse_up" : [ "Numpad 8" ],
-	"mouse_down" : [ "Numpad 2", "Numpad 5" ],
+	"map" : [ "M", "ControllerA" ],
 
 	"to_shop" : [ "F7" ],
 	"to_secret" : [ "F8" ],
