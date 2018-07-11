@@ -45,14 +45,14 @@ class Mod(val name: String, val id: String, val description: String, val author:
     globals.load(apiCode).call()
 
     if (this.itemsDirectory != null) {
-      this.parseDir(itemsDirectory.list())
+      this.parseDirectory(itemsDirectory.list())
     }
   }
 
-  private fun parseDir(dir: Array<FileHandle>) {
+  private fun parseDirectory(dir: Array<FileHandle>) {
     for (entry in dir) {
       if (entry.isDirectory) {
-        parseDir(entry.list())
+        parseDirectory(entry.list())
       } else if (entry.extension() == "lua") {
         try {
           globals.load(entry.readString()).call()
