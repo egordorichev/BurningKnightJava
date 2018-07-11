@@ -78,6 +78,8 @@ public class BurningKnight extends Boss {
 		Dungeon.shockTime = 0;
 		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
 		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+
+		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
 
 	public void findStartPoint() {
