@@ -433,10 +433,6 @@ public class Dungeon extends ApplicationAdapter {
 
 		float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
 
-		if (Input.instance.wasPressed("mouse_left")) {
-			Log.info("left");
-		}
-
 		if (Player.instance != null) {
 			float ix = Input.instance.getAxis("mouseX") * s;
 			float iy = -Input.instance.getAxis("mouseY") * s;

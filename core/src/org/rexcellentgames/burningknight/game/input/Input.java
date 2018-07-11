@@ -133,6 +133,11 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
+		this.keys.put("Controller" + map.getId("ControllerDPadRight"), value == PovDirection.east || value == PovDirection.northEast || value == PovDirection.southEast ? State.DOWN : State.UP);
+		this.keys.put("Controller" + map.getId("ControllerDPadLeft"), value == PovDirection.west || value == PovDirection.northWest || value == PovDirection.southWest ? State.DOWN : State.UP);
+		this.keys.put("Controller" + map.getId("ControllerDPadUp"), value == PovDirection.north || value == PovDirection.northEast || value == PovDirection.northWest ? State.DOWN : State.UP);
+		this.keys.put("Controller" + map.getId("ControllerDPadDown"), value == PovDirection.south || value == PovDirection.southEast || value == PovDirection.southWest ? State.DOWN : State.UP);
+
 		return false;
 	}
 
@@ -273,10 +278,11 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
-			State state = this.keys.get(id);
 			if (id.startsWith("Controller")) {
 				id = "Controller" + map.getId(id);
 			}
+
+			State state = this.keys.get(id);
 
 			if (state == State.DOWN || state == State.HELD) {
 				return true;

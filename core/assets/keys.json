@@ -15,8 +15,8 @@
 
 	"action" : [ "Space", "ControllerX", "ControllerL3" ],
 
-	"prev" : [ "ControllerL1", "Numpad 7" ],
-	"next" : [ "ControllerR1", "Numpad 9" ],
+	"prev" : [ "ControllerL1", "Numpad 7", "ControllerDPadLeft" ],
+	"next" : [ "ControllerR1", "Numpad 9", "ControllerDPadRight" ],
 
 	"reset" : [ "F4" ],
 	"show_fps" : [ "F3" ],
