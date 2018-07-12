@@ -281,6 +281,7 @@ public class InGameState extends State {
 
 	private void setupUi() {
 		this.inventory = new UiInventory(Player.instance.getInventory());
+		
 		Dungeon.ui.add(this.inventory);
 
 		Dungeon.ui.add(new UiMap());
@@ -289,6 +290,7 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
+				
 				setPaused(false);
 
 				Camera.shake(3);
@@ -299,12 +301,9 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new SettingsState());
-					}
-				});
+				
+				transition(() -> Dungeon.game.setState(new SettingsState()));
+				
 				Camera.shake(3);
 			}
 		}.setSparks(true));
@@ -313,13 +312,10 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
+				
 				Camera.shake(3);
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Dungeon.game.setState(new MainMenuState());
-					}
-				});
+				
+				transition(() -> Dungeon.game.setState(new MainMenuState()));
 			}
 		});
 
@@ -332,17 +328,13 @@ public class InGameState extends State {
 	public void onPause() {
 		super.onPause();
 
-		for (Entity entity : this.pauseMenuUi.getEntities()) {
-			entity.setActive(true);
-		}
+    this.pauseMenuUi.show();
 	}
 
 	@Override
 	public void onUnpause() {
 		super.onUnpause();
 
-		for (Entity entity : this.pauseMenuUi.getEntities()) {
-			entity.setActive(false);
-		}
+		this.pauseMenuUi.hide();
 	}
 }

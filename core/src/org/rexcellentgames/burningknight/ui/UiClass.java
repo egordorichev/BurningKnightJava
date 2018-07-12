@@ -38,7 +38,7 @@ public class UiClass extends UiButton {
 		this.nw = Graphics.layout.width;
 
 		if (this.id == 0) {
-			ClassSelectState.selected = this;
+			ClassSelectState.selectedClass = this;
 		}
 
 		this.region = Graphics.getTexture(textures[this.id]);
@@ -73,7 +73,7 @@ public class UiClass extends UiButton {
 			}
 		});
 
-		ClassSelectState.selected = this;
+		ClassSelectState.selectedClass = this;
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class UiClass extends UiButton {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.render(region, this.x, this.y, 0, 16, 16, false, false, scale * mod, scale * mod);
 
-		if (ClassSelectState.selected == this) {
+		if (ClassSelectState.selectedClass == this) {
 			Graphics.print(this.name, Graphics.medium, Display.GAME_WIDTH / 2 + this.nw / 2,
 				(int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2 + 64 + 8);
 		}

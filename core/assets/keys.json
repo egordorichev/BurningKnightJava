@@ -18,6 +18,10 @@
 	"prev" : [ "ControllerL1", "Numpad 7", "ControllerDPadLeft" ],
 	"next" : [ "ControllerR1", "Numpad 9", "ControllerDPadRight" ],
 
+	"uiUp": [ "Up", "ControllerDPadUp" ],
+	"uiDown": [ "Down", "ControllerDPadDown" ],
+	"uiAccept": [ "Mouse0", "Enter", "ControllerA" ],
+
 	"reset" : [ "F4" ],
 	"show_fps" : [ "F3" ],
 	"switch_colorblind" : [ "F5" ],

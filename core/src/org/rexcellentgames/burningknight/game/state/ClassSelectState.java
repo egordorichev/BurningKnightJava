@@ -14,7 +14,7 @@ public class ClassSelectState extends State {
 	public static boolean added;
 	public static ArrayList<UiClass> classes = new ArrayList<>();
 	public static float add;
-	public static UiClass selected;
+	public static UiClass selectedClass;
 
 	public static void add() {
 		if (added) {
@@ -33,7 +33,7 @@ public class ClassSelectState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Player.toSet = selected.type;
+				Player.toSet = selectedClass.type;
 
 				transition(new Runnable() {
 					@Override

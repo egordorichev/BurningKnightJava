@@ -4,125 +4,212 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class Area {
-	private ArrayList<Entity> entities = new ArrayList<>();
-	private Comparator<Entity> comparator;
-	private boolean showWhenPaused;
+  private ArrayList<Entity> entities = new ArrayList<>();
+  private Comparator<Entity> comparator;
+  private boolean showWhenPaused;
+  private boolean hasSelectableEntity;
 
-	public Area() {
-		this.comparator = new Comparator<Entity>() {
-			@Override
-			public int compare(Entity a, Entity b) {
-				// -1 - less than, 1 - greater than, 0 - equal
-				float ad = b.getDepth();
-				float bd = a.getDepth();
+  public Area() {
+    this.comparator = (a, b) -> {
+      // -1 - less than, 1 - greater than, 0 - equal
+      float ad = b.getDepth();
+      float bd = a.getDepth();
 
-				if (ad == bd) {
-					ad = a.y;
-					bd = b.y;
-				}
+      if (ad == bd) {
+        ad = a.y;
+        bd = b.y;
+      }
 
-				return Float.compare(bd, ad);
-			}
-		};
-	}
-	
-	public Area(boolean showWhenPaused) {
-		this();
-		
-		this.showWhenPaused = showWhenPaused;
-	}
-	
-	public Entity add(Entity entity) {
-		this.entities.add(entity);
+      return Float.compare(bd, ad);
+    };
+  }
 
-		entity.setArea(this);
-		entity.init();
+  public Area(boolean showWhenPaused) {
+    this();
 
-		return entity;
-	}
+    this.showWhenPaused = showWhenPaused;
+  }
 
-	public void remove(Entity entity) {
-		this.entities.remove(entity);
-	}
+  public Entity add(Entity entity) {
+    this.entities.add(entity);
 
-	public void update(float dt) {
-		for (int i = this.entities.size() - 1; i >= 0; i--) {
-			Entity entity = this.entities.get(i);
+    entity.setArea(this);
+    entity.init();
 
-			if (!entity.isActive()) {
-				continue;
-			}
+    if (entity instanceof UiEntity && ((UiEntity) entity).isSelectable()) {
+      if (selectedUiEntity == -1) {
+        selectedUiEntity = this.entities.size() - 1;
+      }
+      
+      this.hasSelectableEntity = true;
+    }
 
-			entity.onScreen = entity.isOnScreen();
+    return entity;
+  }
 
-			if (entity.onScreen || entity.alwaysActive) {
-				entity.update(dt);
-			}
+  public void remove(Entity entity) {
+    this.entities.remove(entity);
+  }
 
-			if (entity.done) {
-				if (entity instanceof SaveableEntity) {
-					SaveableEntity saveableEntity = (SaveableEntity) entity;
-					LevelSave.remove(saveableEntity);
-				}
+  private int selectedUiEntity = -1;
 
-				entity.destroy();
-				this.entities.remove(i);
-			}
-		}
-	}
+  public void update(float dt) {
+    if (this.hasSelectableEntity) {
+      if (Input.instance.wasPressed("uiUp")) {
+        if (this.selectedUiEntity >= 0) {
+          ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+        }
 
-	public void render() {
-		if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
-			return;
-		}
+        if (this.selectedUiEntity == 0) {
+          this.selectedUiEntity = findLastSelectableUiEntity();
+        } else {
+          this.selectedUiEntity = findLastSelectableUiEntity(this.selectedUiEntity - 1);
+        }
 
-		Collections.sort(this.entities, this.comparator);
+        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+      } else if (Input.instance.wasPressed("uiDown")) {
+        if (this.selectedUiEntity >= 0) {
+          ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+        }
 
-		for (int i = 0; i < this.entities.size(); i++) {
-			Entity entity = this.entities.get(i);
-			
-			if (!entity.isActive()) {
-				continue;
-			}
+        if (this.selectedUiEntity >= this.entities.size() - 1) {
+          this.selectedUiEntity = 0;
+        } else {
+          this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
+        }
 
-			if (entity.onScreen || entity.alwaysRender) {
-				entity.render();
-			}
-		}
-	}
+        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+      }
 
-	public Entity getRandomEntity(Class<? extends Entity> type) {
-		ArrayList<Entity> list = new ArrayList<>();
+      for (int i = this.entities.size() - 1; i >= 0; i--) {
+        Entity entity = this.entities.get(i);
 
-		for (Entity entity : this.entities) {
-			if (type.isInstance(entity)) {
-				list.add(entity);
-			}
-		}
+        if (!entity.isActive()) {
+          continue;
+        }
 
-		if (list.size() == 0) {
-			return null;
-		}
+        entity.onScreen = entity.isOnScreen();
 
-		return list.get(Random.newInt(list.size()));
-	}
+        if (entity.onScreen || entity.alwaysActive) {
+          entity.update(dt);
+        }
 
-	public void destroy() {
-		for (int i = this.entities.size() - 1; i >= 0; i--) {
-			this.entities.get(i).destroy();
-		}
+        if (entity.done) {
+          if (entity instanceof SaveableEntity) {
+            SaveableEntity saveableEntity = (SaveableEntity) entity;
+            LevelSave.remove(saveableEntity);
+          }
 
-		this.entities.clear();
-	}
+          entity.destroy();
+          this.entities.remove(i);
+        }
+      }
+    }
+  }
 
-	public ArrayList<Entity> getEntities() {
-		return this.entities;
-	}
+  public void render() {
+    if (Dungeon.game.getState().isPaused() && !this.showWhenPaused) {
+      return;
+    }
+
+    this.entities.sort(this.comparator);
+
+    for (int i = 0; i < this.entities.size(); i++) {
+      Entity entity = this.entities.get(i);
+
+      if (!entity.isActive()) {
+        continue;
+      }
+
+      if (entity.onScreen || entity.alwaysRender) {
+        entity.render();
+      }
+    }
+  }
+
+  public void hide() {
+    if (hasSelectableEntity) {
+      ((UiEntity) this.entities.get(selectedUiEntity)).unselect();
+    }
+    
+    for (Entity entity: this.entities) {
+      entity.setActive(false);
+    }
+  }
+
+  public void show() {
+    if (hasSelectableEntity) {
+      this.selectedUiEntity = findFirstSelectableUiEntity();
+
+      ((UiEntity) this.entities.get(selectedUiEntity)).select();
+    }
+    
+    for (Entity entity: this.entities) {
+      entity.setActive(true);
+    }
+  }
+
+  public Entity getRandomEntity(Class<? extends Entity> type) {
+    ArrayList<Entity> list = new ArrayList<>();
+
+    for (Entity entity: this.entities) {
+      if (type.isInstance(entity)) {
+        list.add(entity);
+      }
+    }
+
+    if (list.size() == 0) {
+      return null;
+    }
+
+    return list.get(Random.newInt(list.size()));
+  }
+
+  public void destroy() {
+    for (int i = this.entities.size() - 1; i >= 0; i--) {
+      this.entities.get(i).destroy();
+    }
+
+    this.entities.clear();
+  }
+
+  private int findFirstSelectableUiEntity() {
+    return findFirstSelectableUiEntity(0);
+  }
+
+  private int findFirstSelectableUiEntity(int offset) {
+    for (int i = offset; i < this.entities.size(); i++) {
+      if (entities.get(i) instanceof UiEntity && ((UiEntity) entities.get(i)).isSelectable()) {
+        return i;
+      }
+    }
+
+    return 0;
+  }
+
+  private int findLastSelectableUiEntity() {
+    return findLastSelectableUiEntity(this.entities.size() - 1);
+  }
+
+  private int findLastSelectableUiEntity(int offset) {
+    for (int i = offset; i >= 0; i--) {
+      if (entities.get(i) instanceof UiEntity && ((UiEntity) entities.get(i)).isSelectable()) {
+        return i;
+      }
+    }
+
+    return 0;
+  }
+
+  public ArrayList<Entity> getEntities() {
+    return this.entities;
+  }
 }

@@ -5,10 +5,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiBar extends UiEntity {
 	protected float max;
@@ -18,6 +14,10 @@ public class UiBar extends UiEntity {
 	public boolean hovered;
 	public TextureRegion r;
 
+	{
+		isSelectable = false;
+	}
+	
 	@Override
 	public void update(float dt) {
 		this.hovered = (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, (int) this.x, (int) this.y,
