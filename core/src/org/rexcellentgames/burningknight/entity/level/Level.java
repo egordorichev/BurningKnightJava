@@ -977,6 +977,8 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	private void renderShadows() {
+		Log.info("Shadows");
+
 		if (SHADOWS) {
 			float zoom = Camera.game.zoom;
 
@@ -1311,6 +1313,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	private Body chasms;
+
+	public boolean same(Level level) {
+		return this.getClass().isInstance(level);
+	}
 
 	public void addPhysics() {
 		Log.physics("Creating level body");

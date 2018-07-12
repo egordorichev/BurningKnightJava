@@ -99,7 +99,9 @@ public class Turret extends SolidProp {
 			}
 		}
 
-		this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
+		if (this.single != null) {
+			this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
+		}
 
 		this.last += dt;
 

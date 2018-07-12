@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.level.levels.hall;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
@@ -13,6 +14,11 @@ public class HallLevel extends RegularLevel {
 
 		this.addLight = Dungeon.depth == 0;
 		this.uid = 0;
+	}
+
+	@Override
+	public boolean same(Level level) {
+		return super.same(level) || level instanceof HallBossLevel;
 	}
 
 	@Override
