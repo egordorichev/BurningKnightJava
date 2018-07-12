@@ -16,6 +16,8 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
+import org.rexcellentgames.burningknight.util.MathUtils;
+import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiMap extends UiEntity {
 	{
@@ -26,14 +28,117 @@ public class UiMap extends UiEntity {
 	private float xc;
 	private float yc;
 	private static TextureRegion frame = Graphics.getTexture("ui-minimap");
+	private float my;
+	private UiButton plus;
+	private UiButton minus;
+	private UiButton hide;
+	private UiButton show;
+
+	protected void hide() {
+		Tween.to(new Tween.Task(96, 0.4f) {
+			@Override
+			public float getValue() {
+				return my;
+			}
+
+			@Override
+			public void setValue(float value) {
+				my = value;
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+
+				did = false;
+			}
+		});
+
+		did = true;
+	}
+
+	protected void show() {
+		Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return my;
+			}
+
+			@Override
+			public void setValue(float value) {
+				my = value;
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+
+				did = false;
+			}
+		});
+
+		did = true;
+	}
+
+	private boolean did;
 
 	@Override
 	public void init() {
 		super.init();
 		setSize();
 
+		final UiMap self = this;
 
-		UiButton plus = new UiImageButton("ui-plus", (int) x + 41, (int) y - 3) {
+		hide = new UiImageButton("ui-hide_button", (int) x + 4, (int) y - 3) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				hide();
+			}
+
+			@Override
+			public void render() {
+				if (!large) {
+					this.y = self.y + my - 3;
+					super.render();
+				}
+			}
+		};
+
+		Dungeon.ui.add(hide);
+
+		show = new UiImageButton("ui-show", Display.GAME_WIDTH - 4 - 9, (int) y - 3) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				show();
+			}
+
+			private float vl;
+
+			@Override
+			public void render() {
+				if (!large) {
+					float dx = Input.instance.uiMouse.x - this.x - 4;
+					float dy = Input.instance.uiMouse.y - this.y - 4;
+					float d = (float) Math.sqrt(dx * dx + dy * dy);
+					float dt = Gdx.graphics.getDeltaTime() * 8;
+
+					if (d > 100f) {
+						vl += (1 - vl) * dt;
+					} else {
+						vl += (-vl) * dt;
+					}
+
+					this.y = 96 - my + Display.GAME_HEIGHT - MathUtils.clamp(0, 8, 8 - vl * 8);
+					super.render();
+				}
+			}
+		};
+
+		Dungeon.ui.add(show);
+
+		this.plus = new UiImageButton("ui-plus", (int) x + 41, (int) y - 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -44,6 +149,7 @@ public class UiMap extends UiEntity {
 			@Override
 			public void render() {
 				if (!large) {
+					this.y = self.y + my - 3;
 					super.render();
 				}
 			}
@@ -51,7 +157,7 @@ public class UiMap extends UiEntity {
 
 		Dungeon.ui.add(plus);
 
-		UiButton minus = new UiImageButton("ui-minus", (int) x + 51, (int) y - 3) {
+		this.minus = new UiImageButton("ui-minus", (int) x + 51, (int) y - 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -62,6 +168,7 @@ public class UiMap extends UiEntity {
 			@Override
 			public void render() {
 				if (!large) {
+					this.y = self.y + my - 3;
 					super.render();
 				}
 			}
@@ -98,6 +205,14 @@ public class UiMap extends UiEntity {
 
 		if (Input.instance.wasPressed("plus")) {
 			plus();
+		}
+
+		if (!did && Input.instance.wasPressed("toggle_minimap")) {
+			if (my == 0) {
+				hide();
+			} else {
+				show();
+			}
 		}
 
 		InGameState.map = large;
@@ -146,6 +261,10 @@ public class UiMap extends UiEntity {
 
 	@Override
 	public void render() {
+		if (my == 96 && !large) {
+			return;
+		}
+
 		Graphics.batch.end();
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
@@ -157,7 +276,7 @@ public class UiMap extends UiEntity {
 
 		if (!large) {
 			Rectangle scissors = new Rectangle();
-			Rectangle clipBounds = new Rectangle(x + 2, y + 2, w - 4, h - 4); // Frame
+			Rectangle clipBounds = new Rectangle(x + 2, y + 2 + my, w - 4, h - 4); // Frame
 			ScissorStack.calculateScissors(Camera.ui,
 				0, 0, Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight(),
 				Graphics.shape.getTransformMatrix(), clipBounds, scissors);
@@ -171,7 +290,7 @@ public class UiMap extends UiEntity {
 			Graphics.shape.setColor(bg);
 		}
 
-		Graphics.shape.rect(this.x, this.y, this.w, this.h);
+		Graphics.shape.rect(this.x, this.y + my, this.w, this.h);
 
 		float px = Player.instance.x + Player.instance.w / 2f;
 		float py = Player.instance.y + Player.instance.h / 2f;
@@ -179,7 +298,7 @@ public class UiMap extends UiEntity {
 		float s = (int) (large ? 6 : 4 * zoom);
 
 		float mx = -px / (16f / s) + this.x + this.w / 2 + xc;
-		float my = -py / (16f / s) + this.y + this.h / 2 + yc;
+		float my = -py / (16f / s) + this.y + this.my + this.h / 2 + yc;
 
 		float o = large ? 1 : 1f * zoom;
 
@@ -249,7 +368,7 @@ public class UiMap extends UiEntity {
 		Graphics.batch.begin();
 
 		if (!large) {
-			Graphics.render(frame, x, y);
+			Graphics.render(frame, x, y+ this.my);
 		}
 	}
 }

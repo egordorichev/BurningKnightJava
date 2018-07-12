@@ -47,5 +47,6 @@
 	"to_treasure" : [ "F9" ],
 
 	"minus" : [ "-" ],
-	"plus" : [ "+", "=" ]
+	"plus" : [ "+", "=" ],
+	"toggle_minimap" : [ "T" ]
 }
