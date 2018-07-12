@@ -307,10 +307,22 @@ public class UiMap extends UiEntity {
 
 		Graphics.shape.setColor(border);
 
-		for (int x = 0; x < Level.getWidth(); x++) {
-			yy = 0;
+		float cx = px - w * 2 / zoom;
+		float cy = py - h * 2 / zoom;
 
-			for (int y = 0; y < Level.getHeight(); y++) {
+		int sx = (int) (Math.floor(cx / 16) - 1);
+		int sy = (int) (Math.floor(cy / 16) - 1);
+
+		int fx = (int) (Math.ceil((cx + w * 4 / zoom) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + h * 4 / zoom) / 16) + 1);
+
+		xx = Math.max(0, sx);
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, Level.getWidth()); x++) {
+			yy = Math.max(0, sy);
+
+			for (int y = Math.max(0, sy); y < Math.min(fy, Level.getHeight()); y++) {
+
 				if (Dungeon.level.explored(x, y)) {
 					Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
 				}
@@ -321,12 +333,12 @@ public class UiMap extends UiEntity {
 			xx ++;
 		}
 
-		xx = 0;
+		xx = Math.max(0, sx);
 
-		for (int x = 0; x < Level.getWidth(); x++) {
-			yy = 0;
+		for (int x = Math.max(0, sx); x < Math.min(fx, Level.getWidth()); x++) {
+			yy = Math.max(0, sy);
 
-			for (int y = 0; y < Level.getHeight(); y++) {
+			for (int y = Math.max(0, sy); y < Math.min(fy, Level.getHeight()); y++) {
 				if (Dungeon.level.explored(x, y)) {
 					int i = Level.toIndex(x, y);
 					byte t = Dungeon.level.liquidData[i];
