@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -55,6 +56,7 @@ public class UiMap extends UiEntity {
 		});
 
 		did = true;
+		GlobalSave.put("hide_minimap", true);
 	}
 
 	protected void show() {
@@ -78,6 +80,7 @@ public class UiMap extends UiEntity {
 		});
 
 		did = true;
+		GlobalSave.put("hide_minimap", false);
 	}
 
 	private boolean did;
@@ -86,6 +89,10 @@ public class UiMap extends UiEntity {
 	public void init() {
 		super.init();
 		setSize();
+
+		if (GlobalSave.isTrue("hide_minimap")) {
+			this.my = 96;
+		}
 
 		final UiMap self = this;
 
@@ -181,10 +188,12 @@ public class UiMap extends UiEntity {
 
 	protected void plus() {
 		zoom = Math.min(2f, zoom + speed);
+		GlobalSave.put("minimap_zoom", zoom);
 	}
 
 	protected void minus() {
 		zoom = Math.max(0.25f, zoom - speed);
+		GlobalSave.put("minimap_zoom", zoom);
 	}
 
 	public void setSize() {
@@ -255,7 +264,7 @@ public class UiMap extends UiEntity {
 		}
 	}
 
-	private float zoom = 1f;
+	private float zoom = GlobalSave.getFloat("minimap_zoom") == 0 ? 1f : GlobalSave.getFloat("minimap_zoom");
 	private Color bg = Color.valueOf("#2a2f4e");
 	private Color border = Color.valueOf("#1a1932");
 
