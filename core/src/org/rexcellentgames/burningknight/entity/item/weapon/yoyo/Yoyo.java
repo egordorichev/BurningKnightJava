@@ -133,7 +133,7 @@ public class Yoyo extends Weapon {
 			Gdx.gl.glDisable(GL20.GL_BLEND);
 			Graphics.batch.begin();
 
-			Graphics.render(region, this.x + ox, this.y + oy, this.t * 512,
+			Graphics.render(projectile, this.x + ox, this.y + oy, this.t * 512,
 				ox, oy, false, false);
 		}
 	}

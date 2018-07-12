@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -88,18 +87,18 @@ public class Graphics {
 		Assets.manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		Assets.manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-		generateFont("fonts/small.ttf", 16);
-		generateFont("fonts/large.ttf", 16);
+		small = new BitmapFont(Gdx.files.internal("fonts/small.fnt"), Gdx.files.internal("fonts/small.png"), false);
+		medium = new BitmapFont(Gdx.files.internal("fonts/large.fnt"), Gdx.files.internal("fonts/large.png"), false);
 	}
 
 	public static void loadAssets() {
-		small = Assets.manager.get("fonts/small.ttf");
+		//small = Assets.manager.get("fonts/small.ttf");
 		atlas = Assets.manager.get("atlas/atlas.atlas");
 
 		small.getData().markupEnabled = true;
 		small.getData().setLineHeight(10);
 
-		medium = Assets.manager.get("fonts/large.ttf");
+		//medium = Assets.manager.get("fonts/large.ttf");
 		medium.getData().markupEnabled = true;
 
 		new Ui();
@@ -147,17 +146,18 @@ public class Graphics {
   }
 
 	private static void generateFont(String path, int size) {
-		FreetypeFontLoader.FreeTypeFontLoaderParameter font = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		/*FreetypeFontLoader.FreeTypeFontLoaderParameter font = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
 
 		font.fontFileName = path;
 		font.fontParameters.size = size;
 		font.fontParameters.hinting = FreeTypeFontGenerator.Hinting.AutoFull;
-		font.fontParameters.borderGamma = 1f;
-		font.fontParameters.borderColor = Color.BLACK;
+		font.fontParameters.borderGamma = 0f;
+		font.fontParameters.borderStraight = true;
+		font.fontParameters.borderColor = Color.valueOf("#0e071b");
 		font.fontParameters.borderWidth = 1f;
 		font.fontParameters.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#\"'&()[]|`/\\@°+=*%€$£¢<>©®ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØŒÙÚÛÜÝÞàáâãäåæçèéêëìíîïðñòóôõöøœùúûüýþßÿ¿¡АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
-		Assets.manager.load(path, BitmapFont.class, font);
+		Assets.manager.load(path, BitmapFont.class, font);*/
 	}
 
 	public static void write(String s, BitmapFont font, float x, float y) {
