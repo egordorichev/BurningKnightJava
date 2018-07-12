@@ -44,6 +44,10 @@ public class FourSideTurret extends Turret {
 
 	@Override
 	public void render() {
+		if (four == null) {
+			four = getAnimation().get("turret_4_directions");
+		}
+
 		four.render(this.x, this.y, false, false, 8, 0, 0, sx, sy);
 	}
 

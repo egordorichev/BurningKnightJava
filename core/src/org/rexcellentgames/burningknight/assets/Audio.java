@@ -105,6 +105,13 @@ public class Audio {
 		important = true;
 	}
 
+	public static void reset() {
+		if (current != null) {
+			current.stop();
+			current.play();
+		}
+	}
+
 	public static void play(String name) {
 		if (name == null || last.equals(name)) {
 			return;

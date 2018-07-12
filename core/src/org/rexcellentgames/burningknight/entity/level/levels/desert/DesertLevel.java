@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.level.levels.desert;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.HallPainter;
@@ -11,6 +12,11 @@ public class DesertLevel extends RegularLevel {
 	public DesertLevel() {
 		Terrain.loadTextures(1);
 		this.uid = 1;
+	}
+
+	@Override
+	public boolean same(Level level) {
+		return super.same(level) || level instanceof DesertBossLevel;
 	}
 
 	@Override

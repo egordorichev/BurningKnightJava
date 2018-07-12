@@ -334,6 +334,8 @@ public class Input implements InputProcessor, ControllerListener {
 		String id = com.badlogic.gdx.Input.Keys.toString(keycode);
 		this.keys.put(id, State.DOWN);
 
+		// Log.info(id);
+
 		return false;
 	}
 

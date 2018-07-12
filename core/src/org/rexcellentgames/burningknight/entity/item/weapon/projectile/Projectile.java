@@ -1,12 +1,14 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.NetworkedEntity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 
 public class Projectile extends NetworkedEntity {
@@ -93,9 +95,9 @@ public class Projectile extends NetworkedEntity {
 			if (this.crit) {
 				fx.crit = true;
 			}
-
-			this.onHit(entity);
 		}
+
+		this.onHit(entity);
 	}
 
 	protected void logic(float dt) {
@@ -109,6 +111,20 @@ public class Projectile extends NetworkedEntity {
 	protected void death() {
 		this.done = true;
 		this.onDeath();
+
+		for (int i = 0; i < 3; i++) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.x;
+			fx.y = this.y;
+			fx.t += 0.5f;
+
+			Dungeon.area.add(fx);
+		}
+
+		if (this.isOnScreen()) {
+			Camera.shake(4);
+		}
 	}
 
 	protected void onDeath() {

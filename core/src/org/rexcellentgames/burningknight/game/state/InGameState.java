@@ -120,9 +120,8 @@ public class InGameState extends State {
 
 		if (Input.instance.wasPressed("to_shop")) {
 			for (Room room : Dungeon.level.getRooms()) {
-				if (room instanceof ShopRoom) {
+				if (room instanceof ShopRoom && !room.hidden) {
 					Point point = room.getRandomFreeCell();
-
 					Player.instance.tp(point.x * 16, point.y * 16);
 
 					break;
@@ -266,7 +265,6 @@ public class InGameState extends State {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
-		Ui.ui.render();
 
 		if (Dialog.active != null) {
 			Dialog.active.render();

@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.trap;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -38,9 +39,9 @@ public class Turret extends SolidProp {
 
 		float r = Random.newFloat();
 
-		if (r < 0.1f) {
+		if (r < 0.3f) {
 			this.type = 1;
-		} else if (r < 0.2f) {
+		} else if (r < 0.6f) {
 			this.type = 2;
 		}
 	}
@@ -99,7 +100,9 @@ public class Turret extends SolidProp {
 			}
 		}
 
-		this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
+		if (this.single != null) {
+			this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
+		}
 
 		this.last += dt;
 
@@ -170,6 +173,10 @@ public class Turret extends SolidProp {
 
 		float x = this.x + 8;
 		float y = this.y + 8;
+
+		if (this.isOnScreen()) {
+			Camera.shake(4);
+		}
 
 		bullet.x = x;
 		bullet.y = y;

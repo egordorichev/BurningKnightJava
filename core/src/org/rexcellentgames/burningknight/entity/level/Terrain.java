@@ -26,7 +26,7 @@ public class Terrain {
 	public static byte SIZE = 15;
 
 	public static int[] flags = new int[SIZE];
-	public static Color[] colors = new Color[SIZE];
+	public static Color[][] colors = new Color[10][SIZE];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
@@ -50,17 +50,29 @@ public class Terrain {
 		flags[TABLE] = SOLID | HIGH;
 		flags[EXIT] = 0;
 
-		colors[CHASM] = Color.valueOf("#000000");
-		colors[DIRT] = Color.valueOf("#8a4836");
-		colors[GRASS] = Color.valueOf("#33984b");
-		colors[FLOOR_A] = Color.valueOf("#657392");
-		colors[FLOOR_B] = Color.valueOf("#bf6f4a");
-		colors[FLOOR_C] = Color.valueOf("#92a1b9");
-		colors[FLOOR_D] = Color.valueOf("#ffa214");
-		colors[WATER] = Color.valueOf("#0098dc");
-		colors[LAVA] = Color.valueOf("#ff5000");
-		colors[EXIT] = Color.valueOf("#424c6e");
-		colors[TABLE] = Color.valueOf("#f6ca9f");
+		colors[0][CHASM] = Color.valueOf("#000000");
+		colors[0][DIRT] = Color.valueOf("#8a4836");
+		colors[0][GRASS] = Color.valueOf("#33984b");
+		colors[0][FLOOR_A] = Color.valueOf("#657392");
+		colors[0][FLOOR_B] = Color.valueOf("#bf6f4a");
+		colors[0][FLOOR_C] = Color.valueOf("#92a1b9");
+		colors[0][FLOOR_D] = Color.valueOf("#ffa214");
+		colors[0][WATER] = Color.valueOf("#0098dc");
+		colors[0][LAVA] = Color.valueOf("#ff5000");
+		colors[0][EXIT] = Color.valueOf("#424c6e");
+		colors[0][TABLE] = Color.valueOf("#f6ca9f");
+
+		colors[1][CHASM] = Color.valueOf("#000000");
+		colors[1][DIRT] = Color.valueOf("#8a4836");
+		colors[1][GRASS] = Color.valueOf("#33984b");
+		colors[1][FLOOR_A] = Color.valueOf("#bf6f4a");
+		colors[1][FLOOR_B] = Color.valueOf("#f5555d");
+		colors[1][FLOOR_C] = Color.valueOf("#5d2c28");
+		colors[1][FLOOR_D] = Color.valueOf("#f6ca9f");
+		colors[1][WATER] = Color.valueOf("#0098dc");
+		colors[1][LAVA] = Color.valueOf("#ff5000");
+		colors[1][EXIT] = Color.valueOf("#424c6e");
+		colors[1][TABLE] = Color.valueOf("#858585");
 	}
 
 	public static Color getColor(byte t) {
@@ -68,7 +80,7 @@ public class Terrain {
 			return Level.colors[Dungeon.level.uid];
 		}
 
-		Color color = colors[t];
+		Color color = colors[lastt][t];
 
 		if (color != null) {
 			return color;

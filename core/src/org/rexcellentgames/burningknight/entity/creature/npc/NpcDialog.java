@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
+import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -29,14 +30,24 @@ public class NpcDialog extends Entity {
 		this.open();
 	}
 
+	private static Color color = Color.valueOf("#0e071b");
+
 	@Override
 	public void render() {
 		Graphics.startShape();
 		Graphics.shape.setProjectionMatrix(Camera.game.combined);
+		Graphics.shape.setColor(color);
+
+		float x = Math.round(this.npc.x + this.npc.w / 2 + this.x);
+		float y = Math.round(this.npc.y + this.npc.h + 8);
+
+		Graphics.shape.rect(x - this.w / 2 - 1,
+			y - 1, this.w + 2, this.h + 2);
+
+		Graphics.shape.triangle(x - 3, y, x + 3, y, x, y - Math.min(this.h / 4f, 4) - 1);
+
 		Graphics.shape.setColor(1, 1, 1, 1);
 
-		float x = this.npc.x + this.npc.w / 2 + this.x;
-		float y = this.npc.y + this.npc.h + 8;
 		Graphics.shape.rect(x - this.w / 2,
 			y, this.w, this.h);
 
@@ -45,8 +56,8 @@ public class NpcDialog extends Entity {
 
 		if (this.a > 0) {
 			Graphics.small.setColor(1, 1, 1, this.a);
-			Graphics.small.draw(Graphics.batch, this.message, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 6,
-				this.npc.y + this.npc.h + 8 + this.h - 8);
+			Graphics.write(this.message, Graphics.small, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 6,
+				this.npc.y + this.npc.h + this.h - 8);
 			Graphics.small.setColor(1, 1, 1, 1);
 		}
 	}
