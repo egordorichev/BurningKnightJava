@@ -37,8 +37,8 @@ public class ShopRoom extends LockedRoom {
 		Shopkeeper npc = null;
 
 		switch (Random.newInt(4)) {
-			case 0: case 1: npc = new Shopkeeper();
-			case 2: npc = new BlueShopkeeper();
+			case 0: case 1: npc = new Shopkeeper(); break;
+			case 2: npc = new BlueShopkeeper(); break;
 			case 3: npc = new OrangeShopkeeper(); doublePrice = true;
 		}
 
