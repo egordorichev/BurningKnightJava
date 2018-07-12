@@ -22,7 +22,7 @@ public class UiMap extends UiEntity {
 		depth = 16;
 	}
 
-	private boolean large;
+	public static boolean large;
 	private float xc;
 	private float yc;
 	private static TextureRegion frame = Graphics.getTexture("ui-minimap");
@@ -40,6 +40,13 @@ public class UiMap extends UiEntity {
 
 				plus();
 			}
+
+			@Override
+			public void render() {
+				if (!large) {
+					super.render();
+				}
+			}
 		};
 
 		Dungeon.ui.add(plus);
@@ -50,6 +57,13 @@ public class UiMap extends UiEntity {
 				super.onClick();
 
 				minus();
+			}
+
+			@Override
+			public void render() {
+				if (!large) {
+					super.render();
+				}
 			}
 		};
 
@@ -233,6 +247,9 @@ public class UiMap extends UiEntity {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
 		Graphics.batch.begin();
-		Graphics.render(frame, x, y);
+
+		if (!large) {
+			Graphics.render(frame, x, y);
+		}
 	}
 }
