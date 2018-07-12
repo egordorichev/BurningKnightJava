@@ -958,7 +958,7 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
 
-		/*for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
@@ -973,12 +973,10 @@ public abstract class Level extends SaveableEntity {
 					}
 				}
 			}
-		}*/
+		}
 	}
 
 	private void renderShadows() {
-		Log.info("Shadows");
-
 		if (SHADOWS) {
 			float zoom = Camera.game.zoom;
 
