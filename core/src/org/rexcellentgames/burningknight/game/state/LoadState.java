@@ -2,10 +2,12 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -16,14 +18,15 @@ import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.entity.pool.item.GoldChestPool;
+import org.rexcellentgames.burningknight.entity.pool.item.IronChestPool;
+import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Audio;
-import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.ui.UiBanner;
 
 import java.io.IOException;
 
@@ -152,6 +155,10 @@ public class LoadState extends State {
 
 				try {
 					SaveManager.load(SaveManager.Type.PLAYER);
+
+					WoodenChestPool.init();
+					GoldChestPool.init();
+					IronChestPool.init();
 				} catch (IOException e) {
 					Log.error("Failed to load player!");
 					Dungeon.newGame();
