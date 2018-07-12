@@ -32,14 +32,13 @@ public class UiMap extends UiEntity {
 		super.init();
 		setSize();
 
-		final float speed = 0.5f;
 
 		UiButton plus = new UiImageButton("ui-plus", (int) x + 41, (int) y - 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
 
-				zoom = Math.min(2f, zoom + speed);
+				plus();
 			}
 		};
 
@@ -50,11 +49,21 @@ public class UiMap extends UiEntity {
 			public void onClick() {
 				super.onClick();
 
-				zoom = Math.max(0.25f, zoom - speed);
+				minus();
 			}
 		};
 
 		Dungeon.ui.add(minus);
+	}
+
+	private float speed = 0.5f;
+
+	protected void plus() {
+		zoom = Math.min(2f, zoom + speed);
+	}
+
+	protected void minus() {
+		zoom = Math.max(0.25f, zoom - speed);
 	}
 
 	public void setSize() {
@@ -68,6 +77,14 @@ public class UiMap extends UiEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (Input.instance.wasPressed("minus")) {
+			minus();
+		}
+
+		if (Input.instance.wasPressed("plus")) {
+			plus();
+		}
 
 		InGameState.map = large;
 
@@ -150,7 +167,7 @@ public class UiMap extends UiEntity {
 		float mx = -px / (16f / s) + this.x + this.w / 2 + xc;
 		float my = -py / (16f / s) + this.y + this.h / 2 + yc;
 
-		float o = 1f * zoom;
+		float o = large ? 1 : 1f * zoom;
 
 		int xx = 0;
 		int yy;

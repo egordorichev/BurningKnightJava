@@ -44,5 +44,8 @@
 
 	"to_shop" : [ "F7" ],
 	"to_secret" : [ "F8" ],
-	"to_treasure" : [ "F9" ]
+	"to_treasure" : [ "F9" ],
+
+	"minus" : [ "-" ],
+	"plus" : [ "+", "=" ]
 }
