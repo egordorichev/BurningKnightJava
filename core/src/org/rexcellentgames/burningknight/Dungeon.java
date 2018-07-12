@@ -100,7 +100,9 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void resume() {
 		super.resume();
-		game.getState().setPaused(wasPaused);
+		if (game.getState() instanceof InGameState) {
+			game.getState().setPaused(wasPaused);
+		}
 	}
 
 	private boolean wasPaused;

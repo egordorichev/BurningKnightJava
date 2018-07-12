@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.NetworkedEntity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.physics.World;
@@ -93,9 +92,9 @@ public class Projectile extends NetworkedEntity {
 			if (this.crit) {
 				fx.crit = true;
 			}
-
-			this.onHit(entity);
 		}
+
+		this.onHit(entity);
 	}
 
 	protected void logic(float dt) {

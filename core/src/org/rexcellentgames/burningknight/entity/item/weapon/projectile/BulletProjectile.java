@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -35,7 +36,7 @@ public class BulletProjectile extends Projectile {
 	public boolean rotates;
 	public static Animation animation = Animation.make("fx-badbullet");
 	public Class<? extends Buff> toApply;
-	public float duration = 1f;
+	public float duration = 2f;
 	public boolean parts;
 	public int dir;
 	public Point ivel;
@@ -168,6 +169,8 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	protected void onHit(Entity entity) {
+		Log.info("Hit!");
+
 		if (toApply != null) {
 			try {
 				((Creature) entity).addBuff(toApply.newInstance().setDuration(this.duration));

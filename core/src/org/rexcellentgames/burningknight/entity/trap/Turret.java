@@ -7,10 +7,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -38,9 +35,9 @@ public class Turret extends SolidProp {
 
 		float r = Random.newFloat();
 
-		if (r < 0.1f) {
+		if (r < 0.3f) {
 			this.type = 1;
-		} else if (r < 0.2f) {
+		} else if (r < 0.6f) {
 			this.type = 2;
 		}
 	}
