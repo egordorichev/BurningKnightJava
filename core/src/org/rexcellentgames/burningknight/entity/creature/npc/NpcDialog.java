@@ -1,8 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -30,16 +29,42 @@ public class NpcDialog extends Entity {
 		this.open();
 	}
 
-	private static Color color = Color.valueOf("#0e071b");
+	// private static Color color = Color.valueOf("#0e071b");
+
+	private TextureRegion top = Graphics.getTexture("bubble-top");
+	private TextureRegion topLeft = Graphics.getTexture("bubble-top_left");
+	private TextureRegion topRight = Graphics.getTexture("bubble-top_right");
+	private TextureRegion center = Graphics.getTexture("bubble-center");
+	private TextureRegion left = Graphics.getTexture("bubble-left");
+	private TextureRegion right = Graphics.getTexture("bubble-right");
+	private TextureRegion bottom = Graphics.getTexture("bubble-bottom");
+	private TextureRegion bottomLeft = Graphics.getTexture("bubble-bottom_left");
+	private TextureRegion bottomRight = Graphics.getTexture("bubble-bottom_right");
 
 	@Override
 	public void render() {
-		Graphics.startShape();
-		Graphics.shape.setProjectionMatrix(Camera.game.combined);
-		Graphics.shape.setColor(color);
-
 		float x = Math.round(this.npc.x + this.npc.w / 2 + this.x);
 		float y = Math.round(this.npc.y + this.npc.h + 8);
+
+		float sx = (this.w - topLeft.getRegionWidth() * 2) / ((float) top.getRegionWidth());
+		float sy = (this.h - left.getRegionHeight()) / ((float) left.getRegionHeight());
+
+		Graphics.render(top, x - this.w / 2 + topLeft.getRegionWidth(), y + this.h / 2 - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topLeft, x - this.w / 2, y + this.h / 2 - topLeft.getRegionHeight());
+		Graphics.render(topRight, x + this.w / 2 - topRight.getRegionWidth(), y + this.h / 2 - topRight.getRegionHeight());
+
+		Graphics.render(left, x - this.w / 2, y - this.h / 2 + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(right, x + this.w / 2 - right.getRegionWidth(), y - this.h / 2 + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+
+		Graphics.render(center, x - this.w / 2 + left.getRegionWidth(), y - this.h / 2 + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
+
+		Graphics.render(bottom, x - this.w / 2 + bottomLeft.getRegionWidth(), y - this.h / 2, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomLeft, x - this.w / 2, y - this.h / 2);
+		Graphics.render(bottomRight, x + this.w / 2 - topRight.getRegionWidth(), y - this.h / 2);
+
+		/*Graphics.startShape();
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
+		Graphics.shape.setColor(color);
 
 		Graphics.shape.rect(x - this.w / 2 - 1,
 			y - 1, this.w + 2, this.h + 2);
@@ -59,7 +84,7 @@ public class NpcDialog extends Entity {
 			Graphics.write(this.message, Graphics.small, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 6,
 				this.npc.y + this.npc.h + this.h - 8);
 			Graphics.small.setColor(1, 1, 1, 1);
-		}
+		}*/
 	}
 
 	private Tween.Task last;
