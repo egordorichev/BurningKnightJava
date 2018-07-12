@@ -96,7 +96,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void exploreAll() {
 		for (int i = 0; i < getSize(); i++) {
-			if (data[i] > 0 || ((data[i] == Terrain.WALL || data[i] == Terrain.CRACK) && walls[i] != 0)) {
+			if (data[i] > 0 && data[i] != Terrain.CRACK) {
 				explored[i] = true;
 			}
 		}
@@ -104,7 +104,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void exploreRandom() {
 		for (int i = 0; i < getSize(); i++) {
-			if ((data[i] > 0 || ((data[i] == Terrain.WALL || data[i] == Terrain.CRACK) && walls[i] != 0)) && Random.chance(50)) {
+			if ((data[i] > 0 && data[i] != Terrain.CRACK) && Random.chance(50)) {
 				explored[i] = true;
 			}
 		}
@@ -1155,7 +1155,7 @@ public abstract class Level extends SaveableEntity {
 			this.lightB[i] = Math.min(1, this.lightB[i] + b * dt);
 		}
 
-		if (this.light[i] > 0.7f && (data[i] != Terrain.WALL || walls[i] != 0)) {
+		if (this.light[i] > 0.2f && (data[i] > 0 && data[i] != Terrain.CRACK)) {
 			this.explored[i] = true;
 		}
 	}

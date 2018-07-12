@@ -266,7 +266,6 @@ public class InGameState extends State {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
-		Ui.ui.render();
 
 		if (Dialog.active != null) {
 			Dialog.active.render();

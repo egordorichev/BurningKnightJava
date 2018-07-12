@@ -174,6 +174,10 @@ public class Turret extends SolidProp {
 		float x = this.x + 8;
 		float y = this.y + 8;
 
+		if (this.isOnScreen()) {
+			Camera.shake(4);
+		}
+
 		bullet.x = x;
 		bullet.y = y;
 		bullet.damage = 2;

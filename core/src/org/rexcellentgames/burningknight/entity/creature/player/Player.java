@@ -548,11 +548,9 @@ public class Player extends Creature {
 
 						if (y != this.room.top) {
 							Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
-						} else {
+						}/* else {
 							Dungeon.level.explored[Level.toIndex(x, y)] = true;
-						}
-
-						// fixme!
+						}*/
 					}
 				}
 			}

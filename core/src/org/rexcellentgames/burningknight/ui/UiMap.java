@@ -1,9 +1,12 @@
 package org.rexcellentgames.burningknight.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -107,29 +110,37 @@ public class UiMap extends UiEntity {
 	}
 
 	private float zoom = 1f;
+	private Color bg = Color.valueOf("#2a2f4e");
+	private Color border = Color.valueOf("#1a1932");
 
 	@Override
 	public void render() {
+		Graphics.batch.end();
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		Graphics.batch.end();
-
-		if (!large) {
-			/*Rectangle scissors = new Rectangle();
-			Rectangle clipBounds = new Rectangle(x + 2, y + 2, w - 4, h - 4); // Frame
-			ScissorStack.calculateScissors(Camera.ui, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
-			ScissorStack.pushScissors(scissors);*/
-		}
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
+		if (!large) {
+			Rectangle scissors = new Rectangle();
+			Rectangle clipBounds = new Rectangle(x + 2, y + 2, w - 4, h - 4); // Frame
+			ScissorStack.calculateScissors(Camera.ui,
+				0, 0, Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight(),
+				Graphics.shape.getTransformMatrix(), clipBounds, scissors);
+
+			ScissorStack.pushScissors(scissors);
+		}
+
 		if (large) {
 			Graphics.shape.setColor(Dungeon.GRAY);
-			Graphics.shape.rect(this.x, this.y, this.w, this.h);
+		} else {
+			Graphics.shape.setColor(bg);
 		}
+
+		Graphics.shape.rect(this.x, this.y, this.w, this.h);
 
 		float px = Player.instance.x + Player.instance.w / 2f;
 		float py = Player.instance.y + Player.instance.h / 2f;
@@ -144,7 +155,7 @@ public class UiMap extends UiEntity {
 		int xx = 0;
 		int yy;
 
-		Graphics.shape.setColor(0, 0, 0, 1);
+		Graphics.shape.setColor(border);
 
 		for (int x = 0; x < Level.getWidth(); x++) {
 			yy = 0;
@@ -191,17 +202,18 @@ public class UiMap extends UiEntity {
 		Graphics.shape.rect(plx * s + s / 4f - o + mx, ply * s + s / 4f - o + my, s / 2f + o * 2, s / 2f + o * 2);
 		Graphics.shape.setColor(0, 1, 0, 1);
 		Graphics.shape.rect(plx * s + s / 4f + mx, ply * s + s / 4f + my, s / 2f, s / 2f);
-
-		Graphics.shape.end();
-		Gdx.gl.glDisable(GL20.GL_BLEND);
+		Graphics.shape.flush();
 
 		if (!large) {
 			try {
-				// ScissorStack.popScissors();
+				ScissorStack.popScissors();
 			} catch(IllegalStateException ignored) {
 
 			}
 		}
+
+		Graphics.shape.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 
 		Graphics.batch.begin();
 		Graphics.render(frame, x, y);

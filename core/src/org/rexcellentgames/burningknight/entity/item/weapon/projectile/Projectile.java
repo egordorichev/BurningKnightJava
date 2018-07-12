@@ -122,7 +122,9 @@ public class Projectile extends NetworkedEntity {
 			Dungeon.area.add(fx);
 		}
 
-		Camera.shake(4);
+		if (this.isOnScreen()) {
+			Camera.shake(4);
+		}
 	}
 
 	protected void onDeath() {
