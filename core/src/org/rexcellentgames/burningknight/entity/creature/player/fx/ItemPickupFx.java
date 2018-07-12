@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
@@ -69,6 +70,7 @@ public class ItemPickupFx extends Entity {
 					this.player.getInventory().removeGold(this.item.getItem().price);
 					this.item.getItem().shop = false;
 					this.item.price.remove();
+					this.erase();
 					Player.instance.playSfx("item_purchase");
 
 					if (Shopkeeper.instance != null && !Shopkeeper.instance.enranged) {
@@ -112,6 +114,15 @@ public class ItemPickupFx extends Entity {
 	}
 
 	public void erase() {
+		for (int i = 0; i < 3; i++) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.item.x + this.item.w / 2;
+			fx.y = this.item.y + this.item.h / 2;
+
+			Dungeon.area.add(fx);
+		}
+
 		this.go = true;
 
 		this.text = "+" + this.text;
