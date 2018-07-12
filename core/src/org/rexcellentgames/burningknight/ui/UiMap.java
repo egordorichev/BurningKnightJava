@@ -2,9 +2,8 @@ package org.rexcellentgames.burningknight.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -23,17 +22,41 @@ public class UiMap extends UiEntity {
 	private boolean large;
 	private float xc;
 	private float yc;
+	private static TextureRegion frame = Graphics.getTexture("ui-minimap");
 
 	@Override
 	public void init() {
 		super.init();
-
 		setSize();
+
+		final float speed = 0.5f;
+
+		UiButton plus = new UiImageButton("ui-plus", (int) x + 41, (int) y - 3) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				zoom = Math.min(2f, zoom + speed);
+			}
+		};
+
+		Dungeon.ui.add(plus);
+
+		UiButton minus = new UiImageButton("ui-minus", (int) x + 51, (int) y - 3) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				zoom = Math.max(0.25f, zoom - speed);
+			}
+		};
+
+		Dungeon.ui.add(minus);
 	}
 
 	public void setSize() {
 		this.w = large ? Display.GAME_WIDTH : 64;
-		this.h = Math.min(this.w / 4f * 3f, Display.GAME_HEIGHT);
+		this.h = Math.min(this.w, Display.GAME_HEIGHT);
 
 		this.x = Display.GAME_WIDTH - this.w - (large ? 0 : 4);
 		this.y = Display.GAME_HEIGHT - this.h - (large ? 0 : 4);
@@ -83,16 +106,19 @@ public class UiMap extends UiEntity {
 		}
 	}
 
+	private float zoom = 1f;
+
 	@Override
 	public void render() {
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.end();
 
 		if (!large) {
-			Rectangle scissors = new Rectangle();
-			Rectangle clipBounds = new Rectangle(x, y, w, h);
+			/*Rectangle scissors = new Rectangle();
+			Rectangle clipBounds = new Rectangle(x + 2, y + 2, w - 4, h - 4); // Frame
 			ScissorStack.calculateScissors(Camera.ui, Graphics.batch.getTransformMatrix(), clipBounds, scissors);
-			ScissorStack.pushScissors(scissors);
+			ScissorStack.pushScissors(scissors);*/
 		}
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -102,36 +128,29 @@ public class UiMap extends UiEntity {
 
 		if (large) {
 			Graphics.shape.setColor(Dungeon.GRAY);
-		} else {
-			Graphics.shape.setColor(0.5f, 0.5f, 0.5f, 0.3f);
+			Graphics.shape.rect(this.x, this.y, this.w, this.h);
 		}
-
-		Graphics.shape.rect(this.x, this.y, this.w, this.h);
-
-		float zoom = Camera.game.zoom;
 
 		float px = Player.instance.x + Player.instance.w / 2f;
 		float py = Player.instance.y + Player.instance.h / 2f;
 
-		int s = (int) (large ? 6 : 4 * zoom);
+		float s = (int) (large ? 6 : 4 * zoom);
 
 		float mx = -px / (16f / s) + this.x + this.w / 2 + xc;
 		float my = -py / (16f / s) + this.y + this.h / 2 + yc;
 
-		float o = 1f;
+		float o = 1f * zoom;
 
 		int xx = 0;
 		int yy;
 
+		Graphics.shape.setColor(0, 0, 0, 1);
 
 		for (int x = 0; x < Level.getWidth(); x++) {
 			yy = 0;
 
 			for (int y = 0; y < Level.getHeight(); y++) {
 				if (Dungeon.level.explored(x, y)) {
-
-					byte t = Dungeon.level.get(x, y);
-					Graphics.shape.setColor(0, 0, 0, 1);
 					Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
 				}
 
@@ -178,12 +197,13 @@ public class UiMap extends UiEntity {
 
 		if (!large) {
 			try {
-				ScissorStack.popScissors();
+				// ScissorStack.popScissors();
 			} catch(IllegalStateException ignored) {
 
 			}
 		}
 
 		Graphics.batch.begin();
+		Graphics.render(frame, x, y);
 	}
 }

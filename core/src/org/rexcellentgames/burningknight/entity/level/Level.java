@@ -95,12 +95,16 @@ public abstract class Level extends SaveableEntity {
 	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
 
 	public void exploreAll() {
-		Arrays.fill(explored, true);
+		for (int i = 0; i < getSize(); i++) {
+			if (data[i] > 0 || ((data[i] == Terrain.WALL || data[i] == Terrain.CRACK) && walls[i] != 0)) {
+				explored[i] = true;
+			}
+		}
 	}
 
 	public void exploreRandom() {
 		for (int i = 0; i < getSize(); i++) {
-			if (Random.chance(50)) {
+			if ((data[i] > 0 || ((data[i] == Terrain.WALL || data[i] == Terrain.CRACK) && walls[i] != 0)) && Random.chance(50)) {
 				explored[i] = true;
 			}
 		}
@@ -1151,7 +1155,7 @@ public abstract class Level extends SaveableEntity {
 			this.lightB[i] = Math.min(1, this.lightB[i] + b * dt);
 		}
 
-		if (this.light[i] > 0.7f) {
+		if (this.light[i] > 0.7f && (data[i] != Terrain.WALL || walls[i] != 0)) {
 			this.explored[i] = true;
 		}
 	}

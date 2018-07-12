@@ -228,7 +228,7 @@ public class ShopRoom extends LockedRoom {
 		holder.getItem().shop = true;
 
 		if (this.doublePrice) {
-			holder.getItem().price *= 2;
+			holder.getItem().price += 5;
 		}
 
 		int cn = (int) Player.instance.getStat("sale");
