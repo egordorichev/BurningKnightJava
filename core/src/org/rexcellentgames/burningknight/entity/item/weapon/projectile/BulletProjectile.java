@@ -169,8 +169,6 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	protected void onHit(Entity entity) {
-		Log.info("Hit!");
-
 		if (toApply != null) {
 			try {
 				((Creature) entity).addBuff(toApply.newInstance().setDuration(this.duration));

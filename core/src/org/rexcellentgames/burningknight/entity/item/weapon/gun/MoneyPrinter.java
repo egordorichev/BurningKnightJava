@@ -10,6 +10,7 @@ public class MoneyPrinter extends Gun {
 		origin.x = 6;
 		origin.y = 4;
 		vel = 0.7f;
+		damage = 3;
 		ammo = Money.class;
 	}
 }

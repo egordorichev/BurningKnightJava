@@ -58,7 +58,7 @@ public class PoofFx extends Entity {
 		}
 	}
 
-	private float t;
+	public float t;
 	private float a;
 	private float va;
 	private float max;
