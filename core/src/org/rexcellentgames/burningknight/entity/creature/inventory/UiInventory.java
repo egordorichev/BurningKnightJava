@@ -24,6 +24,10 @@ public class UiInventory extends UiEntity {
 	public boolean handled;
 	public int hoveredSlot = -1;
 
+	{
+		isSelectable = false;
+	}
+	
 	public UiInventory(Inventory inventory) {
 		this.inventory = inventory;
 

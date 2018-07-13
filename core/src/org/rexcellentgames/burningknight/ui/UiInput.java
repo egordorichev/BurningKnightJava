@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.util.CollisionHelper;
 
 import java.awt.event.KeyEvent;
 

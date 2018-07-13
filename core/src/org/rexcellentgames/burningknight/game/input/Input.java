@@ -28,7 +28,7 @@ public class Input implements InputProcessor, ControllerListener {
 	public Point uiMouse = new Point();
 	public Point worldMouse = new Point();
 	public boolean blocked = false;
-	public Controller active;
+	public Controller activeController;
 	public Vector2 mouse = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 	public Vector2 target = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 
@@ -52,20 +52,20 @@ public class Input implements InputProcessor, ControllerListener {
 		Log.info("Controller " + controller.getName() + " connected!");
 		controllerChanged = true;
 
-		if (active == null) {
-			active = controller;
+		if (activeController == null) {
+			activeController = controller;
 			onControllerChange();
 		}
 	}
 
 	public void onControllerChange() {
-		if (active == null) {
+		if (activeController == null) {
 			return;
 		}
 
-		if (active.getName().toLowerCase().contains("xbox")) {
+		if (activeController.getName().toLowerCase().contains("xbox")) {
 			map = new GamepadMap(GamepadMap.Type.Xbox);
-		} else if (active.getName().equalsIgnoreCase("wireless controller")) {
+		} else if (activeController.getName().equalsIgnoreCase("wireless controller")) {
 		  map = new GamepadMap(GamepadMap.Type.PlayStation4);
     } else {
 			map = new GamepadMap(GamepadMap.Type.Unknown);
@@ -77,14 +77,14 @@ public class Input implements InputProcessor, ControllerListener {
 		Log.info("Controller " + controller.getName() + " disconnected!");
 		controllerChanged = true;
 
-		if (active == controller) {
-			active = null;
+		if (activeController == controller) {
+			activeController = null;
 		}
 	}
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
-		if (active == null || controller != active) {
+		if (activeController == null || controller != activeController) {
 			return false;
 		}
 
@@ -94,7 +94,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonCode) {
-		if (active == null || controller != active) {
+		if (activeController == null || controller != activeController) {
 			return false;
 		}
 
@@ -104,7 +104,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		if (active == null || controller != active) {
+		if (activeController == null || controller != activeController) {
 			return false;
 		}
 
@@ -130,7 +130,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
-		if (active == null || controller != active) {
+		if (activeController == null || controller != activeController) {
 			return false;
 		}
 
@@ -193,13 +193,13 @@ public class Input implements InputProcessor, ControllerListener {
 			}
 		}
 
-		if (active == null && Controllers.getControllers().size > 0) {
+		if (activeController == null && Controllers.getControllers().size > 0) {
 			this.connected(Controllers.getControllers().get(0));
 		}
 	}
 
 	public float getAxis(String name) {
-		if (active == null) {
+		if (activeController == null) {
 			return 0;
 		}
 
@@ -216,6 +216,10 @@ public class Input implements InputProcessor, ControllerListener {
 			return 0;
 		}
 
+		if (Math.abs(axes[n]) < 0.01f) {
+		  return 0;
+    }
+		
 		return axes[n];
 	}
 

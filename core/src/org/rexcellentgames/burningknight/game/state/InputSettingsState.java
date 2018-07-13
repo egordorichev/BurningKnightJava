@@ -51,13 +51,13 @@ public class InputSettingsState extends State {
 				super.onUpdate();
 
 				if (label.endsWith("None")) {
-					Input.instance.active = null;
+					Input.instance.activeController = null;
 					return;
 				}
 
 				for (Controller controller : Controllers.getControllers()) {
 					if (label.endsWith(controller.getName().replaceAll("\\s+"," "))) {
-						Input.instance.active = controller;
+						Input.instance.activeController = controller;
 						Input.instance.onControllerChange();
 						break;
 					}
@@ -108,9 +108,9 @@ public class InputSettingsState extends State {
 		for (Controller controller : Controllers.getControllers()) {
 			options.add(controller.getName().replaceAll("\\s+"," "));
 
-			if (controller == Input.instance.active || Input.instance.active == null) {
+			if (controller == Input.instance.activeController || Input.instance.activeController == null) {
 				s = i;
-				Input.instance.active = controller;
+				Input.instance.activeController = controller;
 
 				Log.info("set to " + controller.getName());
 			}

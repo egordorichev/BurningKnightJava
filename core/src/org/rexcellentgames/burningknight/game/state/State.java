@@ -88,6 +88,11 @@ public class State {
 					}
 				});
 			}
+
+			@Override
+			public boolean runWhenPaused() {
+				return true;
+			}
 		});
 	}
 }

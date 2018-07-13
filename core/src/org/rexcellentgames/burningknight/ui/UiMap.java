@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 public class UiMap extends UiEntity {
 	{
 		depth = 16;
+		isSelectable = false;
 	}
 
 	public static boolean large;
@@ -252,10 +253,9 @@ public class UiMap extends UiEntity {
 				xc += ix * dt;
 				yc += iy * dt;
 			}
-
 		}
 
-		if (Input.instance.wasPressed("map")) {
+		if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused()) {
 			large = !large;
 			xc = 0;
 			yc = 0;

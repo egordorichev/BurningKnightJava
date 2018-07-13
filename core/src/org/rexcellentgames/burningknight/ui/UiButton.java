@@ -113,8 +113,8 @@ public class UiButton extends UiEntity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Input.instance.wasPressed("mouse0") && !disableClick) {
-			if (this.hover) {
+		if (Input.instance.wasPressed("uiAccept") && !disableClick) {
+			if ((this.hover && !Input.instance.wasPressed("mouse0") && this.isSelected) || (checkHover() && Input.instance.wasPressed("mouse0"))) {
 				if (this.last != null) {
 					Tween.remove(this.last);
 				}
@@ -186,10 +186,7 @@ public class UiButton extends UiEntity {
 		this.rb += (this.b - this.rb) * dt * 10;
 
 		boolean h = this.hover;
-		this.hover = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
-			(int) (this.x - this.w / 2 * 1.2f),
-			(int) (this.y - this.h / 2),
-			(int) (this.w * 1.2f), this.h);
+		this.hover = checkHover() || isSelected;
 
 		if (h && !this.hover) {
 			if (this.last != null) {
@@ -240,7 +237,7 @@ public class UiButton extends UiEntity {
 				}
 			});
 
-		} else if (!h && this.hover) {
+		} else if ((!h && this.hover)) {
 			if (this.last != null) {
 				Tween.remove(this.last);
 			}
@@ -297,5 +294,12 @@ public class UiButton extends UiEntity {
 		if (this.playSfx) {
 			Audio.playSfx("menu/select");
 		}
+	}
+	
+	private boolean checkHover() {
+		return CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
+			(int) (this.x - this.w / 2 * 1.2f),
+			(int) (this.y - this.h / 2),
+			(int) (this.w * 1.2f), this.h);
 	}
 }

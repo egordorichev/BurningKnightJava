@@ -127,6 +127,10 @@ public class Ui {
 	}
 
 	public void renderCursor() {
+		if (Input.instance.activeController != null && (!(Dungeon.game.getState() instanceof InGameState) || Dungeon.game.getState().isPaused() || InGameState.map)) {
+			return;
+		}
+		
 		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
 
 		//float dx = Math.abs(Input.instance.target.x - Input.instance.mouse.x);
@@ -138,8 +142,7 @@ public class Ui {
 		float sy = 1; //MathUtils.clamp(1f, 2f, dy / 30);
 
 		Graphics.batch.setColor(1, 1, 1, this.ca);
-		Graphics.render(this.cursor, Input.instance.uiMouse.x,
-			Input.instance.uiMouse.y, a, 8, 8, false, false, sx * s, sy * s);
+		Graphics.render(this.cursor, Input.instance.uiMouse.x, Input.instance.uiMouse.y, a, 8, 8, false, false, sx * s, sy * s);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 

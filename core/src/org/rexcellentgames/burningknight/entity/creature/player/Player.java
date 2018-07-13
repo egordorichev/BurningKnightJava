@@ -302,7 +302,7 @@ public class Player extends Creature {
 		}
 
 		boolean before = false;
-		/*Item item = this.inventory.getSlot(this.inventory.active);
+		/*Item item = this.inventory.getSlot(this.inventory.activeController);
 
 		if (item instanceof WeaponBase) {
 			Point aim = this.getAim();
