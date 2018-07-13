@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Patch;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -17,9 +15,17 @@ public class ChasmRoom extends RegularRoom {
 
 		if (Random.chance(50)) {
 			if (Random.chance(50)) {
-
+				Painter.fill(level, this, Random.newInt(1, 5), Terrain.randomFloor());
 			} else {
-				
+				Painter.fillEllipse(level, this, Random.newInt(1, 5), Terrain.randomFloor());
+			}
+
+			if (Random.chance(50)) {
+				if (Random.chance(50)) {
+					Painter.fill(level, this, Random.newInt(5, 10), Terrain.randomFloor());
+				} else {
+					Painter.fillEllipse(level, this, Random.newInt(5, 10), Terrain.randomFloor());
+				}
 			}
 		}
 
