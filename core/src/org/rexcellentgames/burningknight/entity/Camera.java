@@ -56,6 +56,9 @@ public class Camera extends Entity {
 	public Camera() {
 		instance = this;
 
+		// https://code-disaster.com/2016/02/subpixel-perfect-smooth-scrolling.html
+		// gotta apply this
+
 		/*int w = Gdx.graphics.getWidth();
 		int h = Gdx.graphics.getHeight();*/
 
