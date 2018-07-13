@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -31,7 +32,6 @@ import org.rexcellentgames.burningknight.ui.Bloodsplat;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -40,7 +40,7 @@ public class InGameState extends State {
 	private UiInventory inventory;
 	private Console console;
 	private Area pauseMenuUi;
-	private boolean showFps;
+	private static boolean showFps;
 	public static boolean map = false;
 
 	@Override
@@ -81,6 +81,59 @@ public class InGameState extends State {
 			}
 		});
 	}
+
+	@Override
+	public void setPaused(boolean paused) {
+		super.setPaused(paused);
+
+		if (this.isPaused()) {
+			Dungeon.area.setShowWhenPaused(true);
+			this.alp = 0;
+
+			Tween.to(new Tween.Task(1, 0.1f) {
+				@Override
+				public float getValue() {
+					return alp;
+				}
+
+				@Override
+				public void setValue(float value) {
+					alp = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Dungeon.area.setShowWhenPaused(false);
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
+		} else {
+			Dungeon.area.setShowWhenPaused(false);
+
+			Tween.to(new Tween.Task(0, 0.1f) {
+				@Override
+				public float getValue() {
+					return alp;
+				}
+
+				@Override
+				public void setValue(float value) {
+					alp = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
+		}
+	}
+
+	private float alp;
 
 	@Override
 	public void destroy() {
@@ -239,32 +292,28 @@ public class InGameState extends State {
 	}
 
 	private boolean setFrames;
-
-	@Override
-	public void render() {
-		super.render();
-
-		if (isPaused()) {
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-			pauseMenuUi.render();
-		}
-	}
+	private Color bg = Color.valueOf("#1a1932");
 
 	@Override
 	public void renderUi() {
-		Ui.ui.renderUi();
-
 		Dungeon.ui.render();
 
-		if (this.isPaused()) {
-			return;
+		if (alp != 0) {
+			Graphics.shape.setProjectionMatrix(Camera.nil.combined);
+			Graphics.startAlphaShape();
+			Graphics.shape.setColor(bg.r, bg.g, bg.b, this.alp);
+			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+			Graphics.endAlphaShape();
+
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+			pauseMenuUi.render();
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		World.render();
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		this.console.render();
@@ -273,11 +322,11 @@ public class InGameState extends State {
 			Dialog.active.render();
 		}
 
-		Ui.ui.renderCursor();
-
-		if (this.showFps && !this.isPaused()) {
-			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 20);
+		if (showFps) {
+			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 18);
 		}
+
+		Ui.ui.renderCursor();
 	}
 
 	private void setupUi() {

@@ -193,10 +193,6 @@ public class UiButton extends UiEntity {
 				Tween.remove(this.last);
 			}
 
-			this.r = 1f;
-			this.g = 1f;
-			this.b = 1f;
-
 			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
 				@Override
 				public float getValue() {
@@ -289,12 +285,20 @@ public class UiButton extends UiEntity {
 			});
 		}
 
+		this.t += dt;
 
 		if (this.hover) {
+			float v = this.t % 0.5f > 0.25f ? 1f : 0.7f;
+
+			this.r = v;
+			this.g = v;
+			this.b = v;
+
 			this.area.select(this);
 		}
-
 	}
+
+	private float t;
 
 	public void onClick() {
 		if (this.playSfx) {

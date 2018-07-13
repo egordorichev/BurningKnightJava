@@ -76,7 +76,7 @@ public class Graphics {
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight(), false);
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.viewport.getScreenWidth() * Settings.quality, Camera.viewport.getScreenHeight() * Settings.quality, false);
+		surface = new FrameBuffer(Pixmap.Format.RGB888, Camera.viewport.getScreenWidth() * Settings.quality, Camera.viewport.getScreenHeight() * Settings.quality, false);
 
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 

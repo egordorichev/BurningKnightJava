@@ -14,8 +14,12 @@ import java.util.Comparator;
 public class Area {
   private ArrayList<Entity> entities = new ArrayList<>();
   private Comparator<Entity> comparator;
-  private boolean showWhenPaused;
+  private boolean showWhenPaused = false;
   private boolean hasSelectableEntity;
+
+  public void setShowWhenPaused(boolean showWhenPaused) {
+    this.showWhenPaused = showWhenPaused;
+  }
 
   public Area() {
     this.comparator = (a, b) -> {
@@ -82,7 +86,7 @@ public class Area {
         ((UiEntity) this.entities.get(selectedUiEntity)).select();
       } else if (Input.instance.wasPressed("uiDown")) {
         if (this.selectedUiEntity >= 0) {
-          if (selectedUiEntity <= this.entities.size()) {
+          if (selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
             ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
           }
         }
@@ -96,7 +100,6 @@ public class Area {
         ((UiEntity) this.entities.get(selectedUiEntity)).select();
       }
     }
-
 
     for (int i = this.entities.size() - 1; i >= 0; i--) {
       Entity entity = this.entities.get(i);

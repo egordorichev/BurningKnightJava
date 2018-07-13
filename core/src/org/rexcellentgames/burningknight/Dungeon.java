@@ -389,6 +389,7 @@ public class Dungeon extends ApplicationAdapter {
 		if (org.rexcellentgames.burningknight.entity.Camera.instance != null) {
 			org.rexcellentgames.burningknight.entity.Camera.removeShake();
 		}
+
 		game.renderUi();
 		ModManager.INSTANCE.draw();
 
