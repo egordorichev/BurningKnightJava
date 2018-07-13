@@ -28,8 +28,12 @@ public class Graphics {
 	public static ShapeRenderer shape;
 	public static GlyphLayout layout;
 	public static TextureAtlas atlas;
+
 	public static BitmapFont small;
 	public static BitmapFont medium;
+	public static BitmapFont smallSimple;
+	public static BitmapFont mediumSimple;
+
 	public static FrameBuffer shadows;
 	public static FrameBuffer surface;
 	public static FrameBuffer text;
@@ -89,17 +93,24 @@ public class Graphics {
 
 		small = new BitmapFont(Gdx.files.internal("fonts/small.fnt"), Gdx.files.internal("fonts/small.png"), false);
 		medium = new BitmapFont(Gdx.files.internal("fonts/large.fnt"), Gdx.files.internal("fonts/large.png"), false);
+
+		smallSimple = new BitmapFont(Gdx.files.internal("fonts/small_simple.fnt"), Gdx.files.internal("fonts/small_simple.png"), false);
+		mediumSimple = new BitmapFont(Gdx.files.internal("fonts/large_simple.fnt"), Gdx.files.internal("fonts/large_simple.png"), false);
+
 	}
 
 	public static void loadAssets() {
-		//small = Assets.manager.get("fonts/small.ttf");
 		atlas = Assets.manager.get("atlas/atlas.atlas");
 
 		small.getData().markupEnabled = true;
 		small.getData().setLineHeight(10);
 
-		//medium = Assets.manager.get("fonts/large.ttf");
 		medium.getData().markupEnabled = true;
+
+		smallSimple.getData().markupEnabled = true;
+		smallSimple.getData().setLineHeight(10);
+
+		mediumSimple.getData().markupEnabled = true;
 
 		new Ui();
 	}
@@ -192,7 +203,7 @@ public class Graphics {
 	}
 
 	public static void print(String s, BitmapFont font, float x, float y) {
-		font.draw(batch, s, x, y + (font == medium ? 16 : 8));
+		font.draw(batch, s, x, y + (font == medium || font == mediumSimple ? 16 : 8));
 	}
 
 	public static void printCenter(String s, BitmapFont font, float x, float y) {

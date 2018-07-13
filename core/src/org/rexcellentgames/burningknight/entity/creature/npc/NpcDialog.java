@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -41,13 +42,18 @@ public class NpcDialog extends Entity {
 	private TextureRegion bottomLeft = Graphics.getTexture("bubble-bottom_left");
 	private TextureRegion bottomRight = Graphics.getTexture("bubble-bottom_right");
 	private TextureRegion overlay = Graphics.getTexture("bubble-overlay");
+
+	private Color color = Color.valueOf("0e071b");
+
 	@Override
 	public void render() {
-		float x = this.npc.x + this.npc.w / 2 + this.x;
+		float x = this.npc.x + this.npc.w / 2 + this.x + this.w / 2 - topLeft.getRegionWidth();
 		float y = this.npc.y + this.npc.h + 8;
 
 		float sx = (this.w - topLeft.getRegionWidth() * 2) / ((float) top.getRegionWidth());
 		float sy = (this.h - left.getRegionHeight()) / ((float) left.getRegionHeight());
+
+		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		Graphics.render(top, x - this.w / 2 + topLeft.getRegionWidth(), y + this.h / 2 - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
 		Graphics.render(topLeft, x - this.w / 2, y + this.h / 2 - topLeft.getRegionHeight());
@@ -64,10 +70,13 @@ public class NpcDialog extends Entity {
 
 		Graphics.render(overlay, x - this.w / 2 + bottomLeft.getRegionWidth(), y - this.h / 2 - 5);
 
-		Graphics.small.setColor(1, 1, 1, 1);
+		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
 
-		Graphics.print(this.full, Graphics.small, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 5,
+		Graphics.print(this.full, Graphics.smallSimple, x + 4 - this.w / 2,
 			this.npc.y + this.npc.h + this.h - 16);
+
+		Graphics.smallSimple.setColor(1, 1, 1, 1);
 	}
 
 	private Tween.Task last;
