@@ -299,7 +299,7 @@ public class UiMap extends UiEntity {
 			Graphics.shape.setColor(bg);
 		}
 
-		Graphics.shape.rect(this.x, this.y + my, this.w, this.h);
+		Graphics.shape.rect(this.x, this.y + (large ? 0 : my), this.w, this.h);
 
 		float px = Player.instance.x + Player.instance.w / 2f;
 		float py = Player.instance.y + Player.instance.h / 2f;
@@ -307,7 +307,7 @@ public class UiMap extends UiEntity {
 		float s = (int) (large ? 6 : 4 * zoom);
 
 		float mx = -px / (16f / s) + this.x + this.w / 2 + xc;
-		float my = -py / (16f / s) + this.y + this.my + this.h / 2 + yc;
+		float my = -py / (16f / s) + this.y + (large ? 0 : this.my) + this.h / 2 + yc;
 
 		float o = large ? 1 : 1f * zoom;
 
