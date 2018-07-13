@@ -111,10 +111,52 @@ public class InGameState extends State {
 					return true;
 				}
 			});
+
+			this.mv = -256;
+
+			Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return mv;
+				}
+
+				@Override
+				public void setValue(float value) {
+					mv = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
 		} else {
 			Dungeon.area.setShowWhenPaused(false);
 
-			Tween.to(new Tween.Task(0, 0.1f) {
+			Tween.to(new Tween.Task(-256, 0.2f) {
+				@Override
+				public float getValue() {
+					return mv;
+				}
+
+				@Override
+				public void setValue(float value) {
+					mv = value;
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+					pauseMenuUi.hide();
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
+
+			Tween.to(new Tween.Task(0, 0.3f) {
 				@Override
 				public float getValue() {
 					return alp;
@@ -293,21 +335,28 @@ public class InGameState extends State {
 
 	private boolean setFrames;
 	private Color bg = Color.valueOf("#1a1932");
+	private float mv;
 
 	@Override
 	public void renderUi() {
 		Dungeon.ui.render();
 
-		if (alp != 0) {
+		if (alp > 0) {
 			Graphics.shape.setProjectionMatrix(Camera.nil.combined);
 			Graphics.startAlphaShape();
 			Graphics.shape.setColor(bg.r, bg.g, bg.b, this.alp);
 			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
 			Graphics.endAlphaShape();
 
+			Camera.ui.translate(0, this.mv);
+			Camera.ui.update();
+
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 			pauseMenuUi.render();
+
+			Camera.ui.translate(0, -this.mv);
+			Camera.ui.update();
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
@@ -377,14 +426,6 @@ public class InGameState extends State {
 	@Override
 	public void onPause() {
 		super.onPause();
-
     this.pauseMenuUi.show();
-	}
-
-	@Override
-	public void onUnpause() {
-		super.onUnpause();
-
-		this.pauseMenuUi.hide();
 	}
 }
