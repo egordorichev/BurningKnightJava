@@ -40,7 +40,7 @@ public class NpcDialog extends Entity {
 	private TextureRegion bottom = Graphics.getTexture("bubble-bottom");
 	private TextureRegion bottomLeft = Graphics.getTexture("bubble-bottom_left");
 	private TextureRegion bottomRight = Graphics.getTexture("bubble-bottom_right");
-
+	private TextureRegion overlay = Graphics.getTexture("bubble-overlay");
 	@Override
 	public void render() {
 		float x = Math.round(this.npc.x + this.npc.w / 2 + this.x);
@@ -62,36 +62,18 @@ public class NpcDialog extends Entity {
 		Graphics.render(bottomLeft, x - this.w / 2, y - this.h / 2);
 		Graphics.render(bottomRight, x + this.w / 2 - topRight.getRegionWidth(), y - this.h / 2);
 
-		/*Graphics.startShape();
-		Graphics.shape.setProjectionMatrix(Camera.game.combined);
-		Graphics.shape.setColor(color);
+		Graphics.render(overlay, x - this.w / 2 + bottomLeft.getRegionWidth(), y - this.h / 2 - 5);
 
-		Graphics.shape.rect(x - this.w / 2 - 1,
-			y - 1, this.w + 2, this.h + 2);
+		Graphics.small.setColor(1, 1, 1, 1);
 
-		Graphics.shape.triangle(x - 3, y, x + 3, y, x, y - Math.min(this.h / 4f, 4) - 1);
-
-		Graphics.shape.setColor(1, 1, 1, 1);
-
-		Graphics.shape.rect(x - this.w / 2,
-			y, this.w, this.h);
-
-		Graphics.shape.triangle(x - 2, y, x + 2, y, x, y - Math.min(this.h / 4f, 4));
-		Graphics.endShape();
-
-		if (this.a > 0) {
-			Graphics.small.setColor(1, 1, 1, this.a);
-			Graphics.write(this.message, Graphics.small, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 6,
-				this.npc.y + this.npc.h + this.h - 8);
-			Graphics.small.setColor(1, 1, 1, 1);
-		}*/
+		Graphics.write(this.full, Graphics.small, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 6,
+			this.npc.y + this.npc.h + this.h - 8);
 	}
 
 	private Tween.Task last;
 	private float a;
 
 	public void open() {
-		a = 1;
 		toRemove = false;
 
 		if (this.last != null) {
@@ -99,82 +81,23 @@ public class NpcDialog extends Entity {
 			this.last = null;
 		}
 
-		if (this.h < 16) {
-			Tween.to(new Tween.Task(Graphics.small.getLineHeight() + 12, 0.2f) {
-				@Override
-				public float getValue() {
-					return h;
-				}
+		this.h = Graphics.layout.height + 8;
+		this.w = Graphics.layout.width + 8;
+		this.message = this.full;
+		this.a = 1;
 
-				@Override
-				public void setValue(float value) {
-					h = value;
-				}
-
-				@Override
-				public void onEnd() {
-					if (toRemove) {
-						return;
-					}
-
-					open();
-				}
-			});
-		} else {
-			if (toRemove) {
-				return;
+		this.last = Tween.to(new Tween.Task(1, 0.3f) {
+			@Override
+			public float getValue() {
+				return a;
 			}
 
-			Graphics.layout.setText(Graphics.small, this.message);
-
-			if (Graphics.layout.height > this.h - 16) {
-				Tween.to(new Tween.Task(Graphics.layout.height + 16, 0.1f) {
-					@Override
-					public float getValue() {
-						return h;
-					}
-
-					@Override
-					public void setValue(float value) {
-						h = value;
-					}
-				});
+			@Override
+			public void setValue(float value) {
+				a = value;
 			}
-
-			Tween.to(new Tween.Task(Graphics.layout.width + 16, 0.05f, Tween.Type.LINEAR) {
-				@Override
-				public float getValue() {
-					return w;
-				}
-
-				@Override
-				public void setValue(float value) {
-					w = value;
-				}
-
-				@Override
-				public void onEnd() {
-					if (toRemove) {
-						return;
-					}
-
-					if (message.length() != full.length()) {
-						message = full.substring(0, message.length() + 1);
-
-						if ((message.length() == full.length() && !did) || message.length() < full.length()) {
-							if (message.length() == full.length()) {
-								did = true;
-							}
-
-							open();
-						}
-					}
-				}
-			});
-		}
+		});
 	}
-
-	private boolean did;
 
 	private boolean toRemove;
 
@@ -186,7 +109,7 @@ public class NpcDialog extends Entity {
 			this.last = null;
 		}
 
-		this.last = Tween.to(new Tween.Task(0, 0.2f) {
+		this.last = Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
 			public float getValue() {
 				return a;
@@ -195,41 +118,6 @@ public class NpcDialog extends Entity {
 			@Override
 			public void setValue(float value) {
 				a = value;
-			}
-
-			@Override
-			public void onEnd() {
-				last = Tween.to(new Tween.Task(4f, 0.4f) {
-					@Override
-					public float getValue() {
-						return w;
-					}
-
-					@Override
-					public void setValue(float value) {
-						w = value;
-					}
-
-					@Override
-					public void onEnd() {
-						last = Tween.to(new Tween.Task(0, 0.2f) {
-							@Override
-							public float getValue() {
-								return h;
-							}
-
-							@Override
-							public void setValue(float value) {
-								h = value;
-							}
-
-							@Override
-							public void onEnd() {
-								setDone(true);
-							}
-						});
-					}
-				});
 			}
 		});
 	}
