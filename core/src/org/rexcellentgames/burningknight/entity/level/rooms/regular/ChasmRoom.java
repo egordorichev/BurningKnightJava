@@ -7,12 +7,21 @@ import org.rexcellentgames.burningknight.entity.level.Patch;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.util.Random;
 
 public class ChasmRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		Painter.fill(level, this, 1, Terrain.FLOOR_A);
+		Painter.fill(level, this, 1, Terrain.randomFloor());
+
+		if (Random.chance(50)) {
+			if (Random.chance(50)) {
+
+			} else {
+				
+			}
+		}
 
 		int w = this.getWidth() - 2;
 

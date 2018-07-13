@@ -9,6 +9,7 @@ public class UiImageButton extends UiButton {
 
 	{
 		depth = 19;
+		isSelectable = false;
 		alwaysActive = true;
 		alwaysRender = true;
 	}

@@ -95,29 +95,30 @@ public class Area {
 
         ((UiEntity) this.entities.get(selectedUiEntity)).select();
       }
+    }
 
-      for (int i = this.entities.size() - 1; i >= 0; i--) {
-        Entity entity = this.entities.get(i);
 
-        if (!entity.isActive()) {
-          continue;
+    for (int i = this.entities.size() - 1; i >= 0; i--) {
+      Entity entity = this.entities.get(i);
+
+      if (!entity.isActive()) {
+        continue;
+      }
+
+      entity.onScreen = entity.isOnScreen();
+
+      if (entity.onScreen || entity.alwaysActive) {
+        entity.update(dt);
+      }
+
+      if (entity.done) {
+        if (entity instanceof SaveableEntity) {
+          SaveableEntity saveableEntity = (SaveableEntity) entity;
+          LevelSave.remove(saveableEntity);
         }
 
-        entity.onScreen = entity.isOnScreen();
-
-        if (entity.onScreen || entity.alwaysActive) {
-          entity.update(dt);
-        }
-
-        if (entity.done) {
-          if (entity instanceof SaveableEntity) {
-            SaveableEntity saveableEntity = (SaveableEntity) entity;
-            LevelSave.remove(saveableEntity);
-          }
-
-          entity.destroy();
-          this.entities.remove(i);
-        }
+        entity.destroy();
+        this.entities.remove(i);
       }
     }
   }

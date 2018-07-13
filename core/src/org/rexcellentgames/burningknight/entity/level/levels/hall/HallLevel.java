@@ -11,8 +11,6 @@ import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 public class HallLevel extends RegularLevel {
 	public HallLevel() {
 		Terrain.loadTextures(0);
-
-		this.addLight = Dungeon.depth == 0;
 		this.uid = 0;
 	}
 

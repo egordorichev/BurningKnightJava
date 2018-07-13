@@ -314,11 +314,10 @@ public class Dungeon extends ApplicationAdapter {
 			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
 		}
 
-		boolean paused = game.getState().isPaused() || (game.getState() instanceof InGameState && InGameState.map);
-
 		if (Input.instance.wasPressed("pause")) {
 			game.getState().setPaused(!game.getState().isPaused());
 		}
+		boolean paused = game.getState().isPaused() || (game.getState() instanceof InGameState && InGameState.map);
 
 		if (!(game.getState() instanceof LoadState) && !paused) {
 			area.update(dt);
