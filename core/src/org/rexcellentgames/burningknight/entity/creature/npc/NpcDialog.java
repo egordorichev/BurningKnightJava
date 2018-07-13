@@ -73,7 +73,7 @@ public class NpcDialog extends Entity {
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
 
-		Graphics.print(this.full, Graphics.smallSimple, x + 4 - this.w / 2,
+		Graphics.print(this.message, Graphics.smallSimple, x + 4 - this.w / 2,
 			this.npc.y + this.npc.h + this.h - 16);
 
 		Graphics.smallSimple.setColor(1, 1, 1, 1);
@@ -93,7 +93,7 @@ public class NpcDialog extends Entity {
 		Graphics.layout.setText(Graphics.small, this.full);
 		this.h = Graphics.layout.height + 12;
 		this.w = Graphics.layout.width + 8;
-		this.message = this.full;
+		this.message = "";
 		this.a = 1;
 
 		this.last = Tween.to(new Tween.Task(1, 0.3f) {
@@ -107,6 +107,22 @@ public class NpcDialog extends Entity {
 				a = value;
 			}
 		});
+	}
+
+	private float lastLt;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (this.message.length() != this.full.length()) {
+			this.lastLt = Math.max(0, lastLt - dt);
+
+			if (this.lastLt == 0) {
+				lastLt = 0.05f;
+				this.message = this.full.substring(0, this.message.length() + 1);
+			}
+		}
 	}
 
 	private boolean toRemove;
