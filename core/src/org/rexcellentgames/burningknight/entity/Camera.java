@@ -56,21 +56,26 @@ public class Camera extends Entity {
 	public Camera() {
 		instance = this;
 
-		ui = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		/*int w = Gdx.graphics.getWidth();
+		int h = Gdx.graphics.getHeight();*/
+
+		int w = Display.GAME_WIDTH;
+		int h = Display.GAME_HEIGHT;
+
+		ui = new OrthographicCamera(w, h);
 		ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
 		ui.update();
 
-		nil = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		nil = new OrthographicCamera(w, h);
 		nil.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
 		nil.update();
 
 		alwaysActive = true;
-		game = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		game = new OrthographicCamera(w, h);
 		game.position.set(game.viewportWidth / 2, game.viewportHeight / 2, 0);
-		game.zoom = 0.8f;
 		game.update();
 
-		this.camPosition = new Vector2(game.position.x, game.position.y);
+		camPosition = new Vector2(game.position.x, game.position.y);
 
 		viewport = new ScalingViewport(Scaling.fit, Display.GAME_WIDTH, Display.GAME_HEIGHT, game);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -117,12 +122,10 @@ public class Camera extends Entity {
 				camPosition.lerp(new Vector2(x + 8, y + 8), dt * 1f);
 			}
 
-			float s = 4;
-
 			game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
-				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, (float) (Math.round(camPosition.x * s) / s));
+				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, (float) (Math.round(camPosition.x)));
 			game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
-				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, (float) (Math.round(camPosition.y * s) / s));
+				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, (float) (Math.round(camPosition.y)));
 
 			game.update();
 		}

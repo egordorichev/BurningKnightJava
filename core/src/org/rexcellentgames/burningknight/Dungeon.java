@@ -418,7 +418,8 @@ public class Dungeon extends ApplicationAdapter {
 		org.rexcellentgames.burningknight.entity.Camera.viewport.apply();
 		Graphics.batch.begin();
 
-		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT, 1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, !flip);
+		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT,
+			1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, !flip);
 
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
