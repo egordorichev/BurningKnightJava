@@ -174,6 +174,10 @@ public class UiButton extends UiEntity {
 					}
 				});
 			}
+
+			if (this.hover) {
+				this.area.select(this);
+			}
 		}
 
 		if (this.sparks) {

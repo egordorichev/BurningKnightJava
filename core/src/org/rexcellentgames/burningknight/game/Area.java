@@ -63,6 +63,11 @@ public class Area {
 
   public void update(float dt) {
     if (this.hasSelectableEntity) {
+      if (this.selectedUiEntity >= this.entities.size()) {
+        this.selectedUiEntity = 0;
+        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+      }
+
       if (Input.instance.wasPressed("uiUp")) {
         if (this.selectedUiEntity >= 0) {
           ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
@@ -77,7 +82,9 @@ public class Area {
         ((UiEntity) this.entities.get(selectedUiEntity)).select();
       } else if (Input.instance.wasPressed("uiDown")) {
         if (this.selectedUiEntity >= 0) {
-          ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+          if (selectedUiEntity <= this.entities.size()) {
+            ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+          }
         }
 
         if (this.selectedUiEntity >= this.entities.size() - 1) {
@@ -148,7 +155,6 @@ public class Area {
   public void show() {
     if (hasSelectableEntity) {
       this.selectedUiEntity = findFirstSelectableUiEntity();
-
       ((UiEntity) this.entities.get(selectedUiEntity)).select();
     }
     
@@ -179,6 +185,8 @@ public class Area {
     }
 
     this.entities.clear();
+    this.selectedUiEntity = 0;
+    this.hasSelectableEntity = false;
   }
 
   private int findFirstSelectableUiEntity() {
@@ -193,6 +201,21 @@ public class Area {
     }
 
     return 0;
+  }
+
+  public void select(UiEntity entity) {
+    if (!entity.isSelectable()) {
+      return;
+    }
+
+    for (Entity e : this.entities) {
+      if (e instanceof UiEntity && ((UiEntity) e).isSelected()) {
+        ((UiEntity) e).unselect();
+      }
+    }
+
+    entity.select();
+    this.selectedUiEntity = this.entities.indexOf(entity);
   }
 
   private int findLastSelectableUiEntity() {

@@ -11,6 +11,11 @@ public class UiEntity extends Entity {
 		alwaysActive = true;
 	}
 
+
+	public boolean isSelected() {
+		return isSelected;
+	}
+
 	public void select() {
 		isSelected = true;
 	}

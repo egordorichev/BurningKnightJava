@@ -43,8 +43,8 @@ public class NpcDialog extends Entity {
 	private TextureRegion overlay = Graphics.getTexture("bubble-overlay");
 	@Override
 	public void render() {
-		float x = Math.round(this.npc.x + this.npc.w / 2 + this.x);
-		float y = Math.round(this.npc.y + this.npc.h + 8);
+		float x = this.npc.x + this.npc.w / 2 + this.x;
+		float y = this.npc.y + this.npc.h + 8;
 
 		float sx = (this.w - topLeft.getRegionWidth() * 2) / ((float) top.getRegionWidth());
 		float sy = (this.h - left.getRegionHeight()) / ((float) left.getRegionHeight());
@@ -66,8 +66,8 @@ public class NpcDialog extends Entity {
 
 		Graphics.small.setColor(1, 1, 1, 1);
 
-		Graphics.write(this.full, Graphics.small, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 6,
-			this.npc.y + this.npc.h + this.h - 8);
+		Graphics.print(this.full, Graphics.small, this.npc.x + this.npc.w / 2 + this.x - this.w / 2 + 5,
+			this.npc.y + this.npc.h + this.h - 16);
 	}
 
 	private Tween.Task last;
@@ -81,7 +81,8 @@ public class NpcDialog extends Entity {
 			this.last = null;
 		}
 
-		this.h = Graphics.layout.height + 8;
+		Graphics.layout.setText(Graphics.small, this.full);
+		this.h = Graphics.layout.height + 12;
 		this.w = Graphics.layout.width + 8;
 		this.message = this.full;
 		this.a = 1;

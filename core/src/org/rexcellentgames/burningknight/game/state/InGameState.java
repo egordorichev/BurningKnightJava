@@ -100,6 +100,8 @@ public class InGameState extends State {
 		if (Dungeon.area != null) {
 			Dungeon.area.destroy();
 		}
+
+		pauseMenuUi.destroy();
 	}
 
 	private boolean set;
