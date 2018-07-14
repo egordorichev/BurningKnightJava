@@ -248,7 +248,7 @@ public class UiMap extends UiEntity {
 			float ix = -Input.instance.getAxis("mouseX") * s;
 			float iy = Input.instance.getAxis("mouseY") * s;
 
-			if (Math.sqrt(ix * ix + iy * iy) > 0.2) {
+			if (Math.sqrt(ix * ix + iy * iy) > 0.8) {
 				xc += ix * dt;
 				yc += iy * dt;
 			}

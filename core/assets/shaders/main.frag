@@ -98,8 +98,8 @@ vec4 get(vec2 pos) {
     if (heat > 0.0) {
         float xx = pos.x + cam.x;
         float yy = pos.y + cam.y;
-        float v = sin(-time * 8.0 + yy * 128.0 + xx * 64.0) * 0.0006;
-        float u = cos(time * 8.0 + xx * 128.0 + yy * 32.0) * 0.0006;
+        float v = sin(-time * 2.0 + yy * 128.0 + xx * 32.0) * 0.0006;
+        float u = cos(time * 2.0 + xx * 128.0 + yy * 16.0) * 0.0006;
 
         x = clamp(x + v, 0.0, 1.0);
         y = clamp(y + u, 0.0, 1.0);
@@ -164,7 +164,7 @@ vec4 get(vec2 pos) {
 void main() {
     vec2 uv = v_texCoord;
 
-    uv.x = round(uv.x * u_textureSizes.x) / u_textureSizes.x; // + u_sampleProperties.z;
+    /*uv.x = round(uv.x * u_textureSizes.x) / u_textureSizes.x; // + u_sampleProperties.z;
     uv.y = round(uv.y * u_textureSizes.y) / u_textureSizes.y; // + u_sampleProperties.w;
 
     vec2 uvSize = u_textureSizes.xy;
@@ -190,5 +190,6 @@ void main() {
     vec4 bilinear = c0 * w0 * w2 + c1 * w1 * w2 + c2 * w0 * w3 + c3 * w1 * w3;
 
 
-    gl_FragColor = daltonize(bilinear); // get(uv)
+    gl_FragColor = daltonize(bilinear); */
+    gl_FragColor = daltonize(get(uv));
 }
