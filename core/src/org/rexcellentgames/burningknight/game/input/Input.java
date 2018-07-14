@@ -11,12 +11,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -185,9 +190,15 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("MouseWheel", State.RELEASED);
 
 		JsonReader reader = new JsonReader();
-		JsonValue root = reader.parse(Gdx.files.internal("keys.json"));
+    JsonValue root = null;
+    
+    try {
+      root = reader.parse(new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir"), "settings/keys.json"))));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
-		for (JsonValue value : root) {
+    for (JsonValue value : root) {
 			for (String name : value.asStringArray()) {
 				bind(value.name, name);
 			}
@@ -222,8 +233,70 @@ public class Input implements InputProcessor, ControllerListener {
 		
 		return axes[n];
 	}
+	
+	public void addBinding(String name, String key) {
+    this.bindings.get(name).add(key);
 
-	public void updateMousePosition() {
+    saveBindings();
+  }
+  
+  public void removeBinding(String name, String key) {
+    this.bindings.get(name).remove(key);
+    
+    saveBindings();
+  }
+	
+	public void rebind(String name, String oldKey, String newKey) {
+    this.bindings.get(name).remove(oldKey);
+    this.bindings.get(name).add(newKey);
+    
+    saveBindings();
+	}
+	
+	public void resetBindings() {
+	  this.bindings.clear();
+	  
+    JsonReader reader = new JsonReader();
+    JsonValue root = reader.parse(Gdx.files.internal("keys.json"));
+
+    for (JsonValue value : root) {
+      for (String name : value.asStringArray()) {
+        bind(value.name, name);
+      }
+    }
+    
+    saveBindings();
+  }
+	
+	private void saveBindings() {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    File settingsDirectory = new File(Paths.get(System.getProperty("user.dir"), "settings/").toString());
+
+    if (!settingsDirectory.exists()) {
+        settingsDirectory.mkdir();
+    }
+    
+    File file = new File(Paths.get(System.getProperty("user.dir"), "settings/keys.json").toString());
+    
+    if (!file.exists()) {
+      try {
+        file.createNewFile();
+      } catch (IOException ignore) {
+      }
+    }
+    
+    try {
+      PrintWriter writer = new PrintWriter(file);
+
+      writer.write(gson.toJson(this.bindings));
+      
+      writer.close();
+    } catch(FileNotFoundException ignored) {
+    }
+  }
+	
+	public void updateMousePosition() { 
 		Vector3 m = Camera.ui.unproject(new Vector3(mouse.x, mouse.y, 0),
 			Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
 			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
