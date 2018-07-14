@@ -3,6 +3,10 @@ precision mediump float;
 precision mediump int;
 #endif
 
+
+uniform vec4 u_textureSizes;
+uniform vec4 u_sampleProperties;
+
 uniform float heat;
 uniform float time;
 uniform vec2 shockPos;
@@ -10,12 +14,14 @@ uniform float shockTime;
 uniform float glitchT;
 uniform vec2 transPos;
 uniform float transR;
-uniform sampler2D u_texture;
 uniform vec2 cam;
 uniform float colorBlind;
 uniform float correct;
+
+uniform sampler2D u_texture;
 varying vec2 v_texCoord;
 varying vec4 v_color;
+
 
 float rand(vec2 co){
     return fract(cos(dot(co.xy ,vec2(12.9898, 78.233))) * 43758.5453);
@@ -72,9 +78,9 @@ vec4 daltonize(vec4 inp) {
 	}
 }
 
-void main() {
-    float x = v_texCoord.x;
-    float y = v_texCoord.y;
+vec4 get(vec2 pos) {
+    float x = pos.x;
+    float y = pos.y;
 
     if (shockTime >= 0.0 && shockTime < 0.9) {
         float dx = (shockPos.x - x) * 1.5;
@@ -84,13 +90,13 @@ void main() {
         float v = max(0.0, (cos(d) / 2.0 - 0.46));
         float a = atan(dy, dx);
 
-        x = clamp(v_texCoord.x + v * cos(a), 0.0, 1.0);
-        y = clamp(v_texCoord.y + v * sin(a), 0.0, 1.0);
+        x = clamp(pos.x + v * cos(a), 0.0, 1.0);
+        y = clamp(pos.y + v * sin(a), 0.0, 1.0);
     }
 
     if (heat > 0.0) {
-        float xx = v_texCoord.x + cam.x;
-        float yy = v_texCoord.y + cam.y;
+        float xx = pos.x + cam.x;
+        float yy = pos.y + cam.y;
         float v = sin(-time * 8.0 + yy * 128.0 + xx * 64.0) * 0.0006;
         float u = cos(time * 8.0 + xx * 128.0 + yy * 32.0) * 0.0006;
 
@@ -115,13 +121,13 @@ void main() {
         float r = rand(tm * 0.001);
         float r2 = rand(tm * 0.1);
 
-        if (v_texCoord.y > rand(vec2(r2)) && v_texCoord.y < r2 + rand(tm * 0.05)){
+        if (pos.y > rand(vec2(r2)) && pos.y < r2 + rand(tm * 0.05)){
             if (r < rand(vec2(tm * 0.01))){
                 if ((texColor.b + texColor.g + texColor.b) / 3.0 < r * rand(vec2(0.4, 0.5)) * 2.0){
-                    uv.r -= sin(v_texCoord.x * r * 0.1 * tm.x) * r * 700.0;
-                    uv.g += sin(v_texCoord.y * v_texCoord.x / 2.0 * 0.006 * tm.x) * r * 10.0 * rand(tm * 0.1);
-                    uv.b -= sin(v_texCoord.y * v_texCoord.x * 0.5 * tm.x) * sin(v_texCoord.y * v_texCoord.x * 0.1) * r * 20.0;
-                    uv2 += vec2(sin(v_texCoord.x * r * 0.1 * tm.x) * r);
+                    uv.r -= sin(pos.x * r * 0.1 * tm.x) * r * 700.0;
+                    uv.g += sin(pos.y * pos.x / 2.0 * 0.006 * tm.x) * r * 10.0 * rand(tm * 0.1);
+                    uv.b -= sin(pos.y * pos.x * 0.5 * tm.x) * sin(pos.y * pos.x * 0.1) * r * 20.0;
+                    uv2 += vec2(sin(pos.x * r * 0.1 * tm.x) * r);
                 }
             }
         }
@@ -134,7 +140,7 @@ void main() {
         realColor = texture2D(u_texture, vec2(x, y));
     }
 
-    vec2 position = v_texCoord - vec2(0.5);
+    vec2 position = pos - vec2(0.5);
     float len = length(position);
     float vignette = smoothstep(0.75, 0.3, len);
     realColor.rgb = mix(realColor.rgb, realColor.rgb * vignette, 0.5);
@@ -145,11 +151,38 @@ void main() {
         float d = sqrt(dx * dx + dy * dy);
 
         if (d < transR) {
-            gl_FragColor = daltonize(realColor);
+            return realColor;
         } else {
-           gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+           return vec4(0.0, 0.0, 0.0, 1.0);
         }
     } else {
-        gl_FragColor = daltonize(realColor);
+        return realColor;
     }
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 uvSize = u_textureSizes.xy;
+
+    float upscale = u_textureSizes.z;
+
+    float dU = (1.0 / upscale) / uvSize.x;
+    float dV = (1.0 / upscale) / uvSize.y;
+
+    vec4 c0 = get(uv);
+    vec4 c1 = get(uv + vec2(dU, 0));
+    vec4 c2 = get(uv + vec2(0, dV));
+    vec4 c3 = get(uv + vec2(dU, dV));
+
+    float subU = u_sampleProperties.x;
+    float subV = u_sampleProperties.y;
+
+    float w0 = 1.0 - subU;
+    float w1 = subU;
+    float w2 = 1.0 - subV;
+    float w3 = subV;
+
+    vec4 bilinear = c0 * w0 * w2 + c1 * w1 * w2 + c2 * w0 * w3 + c3 * w1 * w3;
+
+    gl_FragColor = daltonize(bilinear);
 }

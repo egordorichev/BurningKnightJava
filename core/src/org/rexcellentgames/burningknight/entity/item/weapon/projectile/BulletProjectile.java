@@ -21,7 +21,6 @@ import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -80,7 +79,7 @@ public class BulletProjectile extends Projectile {
 			this.body.setBullet(true);
 		}
 
-		if (this.letter.equals("bone")) {
+		if (this.letter != null && this.letter.equals("bone")) {
 			this.depth = 16;
 		}
 

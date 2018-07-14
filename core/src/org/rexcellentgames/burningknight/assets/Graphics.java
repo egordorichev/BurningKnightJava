@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.game.Ui;
@@ -79,9 +78,9 @@ public class Graphics {
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight(), false);
-		surface = new FrameBuffer(Pixmap.Format.RGB888, Camera.viewport.getScreenWidth() * Settings.quality, Camera.viewport.getScreenHeight() * Settings.quality, false);
 
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
+		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 
 		Assets.manager.load("atlas/atlas.atlas", TextureAtlas.class);
@@ -128,16 +127,7 @@ public class Graphics {
   }
 
 	public static void resize(int w, int h) {
-		shadows.dispose();
-		surface.dispose();
 
-		float z = Math.max(1, Camera.game.zoom);
-
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.viewport.getScreenWidth() * z)),
-			(int) Math.max(1, Math.ceil(Camera.viewport.getScreenHeight() * z)), false);
-
-		surface = new FrameBuffer(Pixmap.Format.RGBA8888, (int) Math.max(1, Math.ceil(Camera.viewport.getScreenWidth() * z * Settings.quality)),
-			(int) Math.max(1, Math.ceil(Camera.viewport.getScreenHeight() * z * Settings.quality)), false);
 	}
 
 	public static TextureRegion getTexture(String name) {

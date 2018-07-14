@@ -92,7 +92,7 @@ public class Area {
         }
 
         if (this.selectedUiEntity >= this.entities.size() - 1) {
-          this.selectedUiEntity = 0;
+          this.selectedUiEntity = findFirstSelectableUiEntity();
         } else {
           this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
         }

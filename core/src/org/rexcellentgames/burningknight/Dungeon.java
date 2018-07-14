@@ -4,8 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -84,7 +86,7 @@ public class Dungeon extends ApplicationAdapter {
 	private static int to = -3;
 	public static Color background = Color.BLACK;
 	public static Color background2 = Color.BLACK;
-	public static float shockTime = 10;
+	public static float shockTime = 0; // 10;
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
 	public static boolean flip;
@@ -299,7 +301,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Tween.update(dt);
-		shockTime += dt;
+		shockTime += dt / 10;
 		glitchTime = Math.max(0, glitchTime - dt);
 
 		if (Ui.ui != null) {
@@ -334,35 +336,48 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		renderGame();
-		
+		renderUi();
+
 		if (Input.instance != null) {
 			Input.instance.update();
 		}
 	}
 
 	private void renderGame() {
-		Graphics.surface.begin();
-		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Camera.applyShake();
 
-		Graphics.batch.begin();
+		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT);
 
-		if (org.rexcellentgames.burningknight.entity.Camera.instance != null) {
-			org.rexcellentgames.burningknight.entity.Camera.applyShake();
-			Graphics.batch.setProjectionMatrix(org.rexcellentgames.burningknight.entity.Camera.game.combined);
-			Graphics.shape.setProjectionMatrix(org.rexcellentgames.burningknight.entity.Camera.game.combined);
-		}
+		float sceneX = Camera.game.position.x;
+		float sceneY = Camera.game.position.y;
+
+		float sceneIX = MathUtils.floor(sceneX);
+		float sceneIY = MathUtils.floor(sceneY);
+
+		float upscaleOffsetX = (sceneX - sceneIX) * upscale;
+		float upscaleOffsetY = (sceneY - sceneIY) * upscale;
+
+		float subpixelX = 0;
+		float subpixelY = 0;
+
+		upscaleOffsetX -= subpixelX;
+		upscaleOffsetY -= subpixelY;
+
+		Camera.game.position.set(sceneIX, sceneIY, 0);
+		Camera.game.update();
+
+		Graphics.batch.setProjectionMatrix(Camera.game.combined);
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
 
 		if (Level.SHADOWS) {
 			// Clear shadows
 
-			Graphics.startShadows();
+			Graphics.shadows.begin();
 
 			Gdx.gl.glClearColor(0, 0, 0, 0);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-			Graphics.batch.end();
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.setProjectionMatrix(org.rexcellentgames.burningknight.entity.Camera.game.combined);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 			Graphics.shape.setColor(1, 1, 1, 1);
 
 			for (int i = 0; i < area.getEntities().size(); i++) {
@@ -378,31 +393,36 @@ public class Dungeon extends ApplicationAdapter {
 			}
 
 			Graphics.shape.end();
-			Graphics.batch.begin();
 
-			Graphics.endShadows();
+			Graphics.shadows.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+				Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 		}
+
+		Graphics.surface.begin();
+
+		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		Graphics.batch.begin();
 
 		area.render();
 		game.render(false);
 
-		if (org.rexcellentgames.burningknight.entity.Camera.instance != null) {
-			org.rexcellentgames.burningknight.entity.Camera.removeShake();
-		}
-
-		game.renderUi();
-		ModManager.INSTANCE.draw();
-
 		Graphics.batch.end();
 		Graphics.surface.end();
+		Camera.removeShake();
+
+		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
+		HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
+
 		Texture texture = Graphics.surface.getColorBufferTexture();
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-		Graphics.batch.setProjectionMatrix(org.rexcellentgames.burningknight.entity.Camera.nil.combined);
 		Graphics.batch.begin();
+		Graphics.batch.setShader(shader);
 
-		Graphics.batch.end();
-		shader.begin();
-
+		shader.setUniformf("u_textureSizes", Display.GAME_WIDTH, Display.GAME_HEIGHT, upscale, 0.0f);
+		shader.setUniformf("u_sampleProperties", subpixelX, subpixelY, upscaleOffsetX, upscaleOffsetY);
 		shader.setUniformf("shockTime", shockTime);
 		shader.setUniformf("glitchT", glitchTime);
 		shader.setUniformf("shockPos", shockPos);
@@ -412,19 +432,60 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("transR", darkR / MAX_R);
 		shader.setUniformf("transPos", new Vector2(darkX / Display.GAME_WIDTH, darkY / Display.GAME_HEIGHT));
-		shader.setUniformf("cam", new Vector2(org.rexcellentgames.burningknight.entity.Camera.game.position.x / 1024f, org.rexcellentgames.burningknight.entity.Camera.game.position.y / 1024f));
-		shader.end();
-		Graphics.batch.setShader(shader);
-		org.rexcellentgames.burningknight.entity.Camera.viewport.apply();
-		Graphics.batch.begin();
+		shader.setUniformf("cam", new Vector2(Camera.game.position.x / 1024f, Camera.game.position.y / 1024f));
 
-		Graphics.batch.draw(texture, 0, 0, 0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT,
-			1, 1, 0, 0, 0, texture.getWidth(), texture.getHeight(),false, !flip);
+		Graphics.batch.setColor(1, 1, 1, 1);
 
+		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, Display.GAME_WIDTH * upscale,
+			-Display.GAME_HEIGHT * upscale);
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
+
+		Gdx.gl20.glDisable(GL20.GL_SCISSOR_TEST);
+	}
+
+	public void renderUi() {
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+
+		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT);
+
+		Graphics.surface.begin();
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Graphics.batch.begin();
+		game.renderUi();
+		ModManager.INSTANCE.draw();
 		Graphics.batch.end();
+		Graphics.surface.end();
+
+		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
+		HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
+
+		Texture texture = Graphics.surface.getColorBufferTexture();
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Graphics.batch.begin();
+		Graphics.batch.setShader(shader);
+
+		shader.setUniformf("u_textureSizes", Display.GAME_WIDTH, Display.GAME_HEIGHT, upscale, 0.0f);
+		shader.setUniformf("u_sampleProperties", 0, 0, 0, 0);
+		shader.setUniformf("shockTime", 10);
+		shader.setUniformf("glitchT", 0);
+		shader.setUniformf("shockPos", shockPos);
+		shader.setUniformf("colorBlind", colorBlind);
+		shader.setUniformf("correct", colorBlindFix);
+		shader.setUniformf("heat", 0);
+		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("transR", darkR / MAX_R);
+		shader.setUniformf("transPos", new Vector2(darkX / Display.GAME_WIDTH, darkY / Display.GAME_HEIGHT));
+		shader.setUniformf("cam", new Vector2(Camera.game.position.x / 1024f, Camera.game.position.y / 1024f));
+
+		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, Display.GAME_WIDTH * upscale,
+			-Display.GAME_HEIGHT * upscale);
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
 	}
 
 	private Point inputVel = new Point();

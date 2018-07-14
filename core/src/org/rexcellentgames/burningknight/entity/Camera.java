@@ -3,8 +3,7 @@ package org.rexcellentgames.burningknight.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Settings;
@@ -20,6 +19,7 @@ public class Camera extends Entity {
 	public static OrthographicCamera ui;
 	public static OrthographicCamera nil;
 	public static OrthographicCamera game;
+	public static OrthographicCamera viewportCamera;
 	public static Viewport viewport;
 	public static Entity target;
 	private static float shake;
@@ -59,9 +59,6 @@ public class Camera extends Entity {
 		// https://code-disaster.com/2016/02/subpixel-perfect-smooth-scrolling.html
 		// gotta apply this
 
-		/*int w = Gdx.graphics.getWidth();
-		int h = Gdx.graphics.getHeight();*/
-
 		int w = Display.GAME_WIDTH;
 		int h = Display.GAME_HEIGHT;
 
@@ -80,7 +77,15 @@ public class Camera extends Entity {
 
 		camPosition = new Vector2(game.position.x, game.position.y);
 
-		viewport = new ScalingViewport(Scaling.fit, Display.GAME_WIDTH, Display.GAME_HEIGHT, game);
+		w = Gdx.graphics.getWidth();
+		h = Gdx.graphics.getHeight();
+
+		viewportCamera = new OrthographicCamera(Display.GAME_WIDTH, Display.GAME_HEIGHT);
+
+		// viewportCamera.position.set(w, h, 0);
+		viewportCamera.update();
+
+		viewport = new ScreenViewport(viewportCamera);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
@@ -126,9 +131,9 @@ public class Camera extends Entity {
 			}
 
 			game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
-				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, (float) (Math.round(camPosition.x)));
+				Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, camPosition.x);
 			game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
-				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, (float) (Math.round(camPosition.y)));
+				Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, camPosition.y);
 
 			game.update();
 		}
