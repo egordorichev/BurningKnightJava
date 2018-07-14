@@ -3,10 +3,9 @@ package org.rexcellentgames.burningknight.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -201,8 +200,8 @@ public class UiMap extends UiEntity {
 		this.w = large ? Display.GAME_WIDTH : 64;
 		this.h = Math.min(this.w, Display.GAME_HEIGHT);
 
-		this.x = Display.GAME_WIDTH - this.w - (large ? 0 : 4);
-		this.y = Display.GAME_HEIGHT - this.h - (large ? 0 : 4);
+		this.x = Math.round(Display.GAME_WIDTH - this.w - (large ? 0 : 4));
+		this.y = Math.round(Display.GAME_HEIGHT - this.h - (large ? 0 : 4));
 	}
 
 	@Override
@@ -278,40 +277,45 @@ public class UiMap extends UiEntity {
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+		if (large) {
+			Graphics.shape.setColor(Dungeon.GRAY);
+			Graphics.shape.rect(0, 0, this.w, this.h);
+		} else {
+			Graphics.shape.setColor(bg);
+			Graphics.shape.rect(this.x + 1, this.y + this.my + 1, this.w - 2, this.h - 2);
+		}
+
+		Graphics.shape.end();
+
+		if (!large) {
+			Graphics.surface.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+				Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
+
+			Graphics.text.begin();
+
+			Gdx.gl.glClearColor(0, 0, 0, 0);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+		}
+
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-
-		if (!large) {
-			Rectangle scissors = new Rectangle();
-			Rectangle clipBounds = new Rectangle(x + 2, y + 2 + my, w - 4, h - 4); // Frame
-			ScissorStack.calculateScissors(Camera.ui,
-				0, 0, Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight(),
-				Graphics.shape.getTransformMatrix(), clipBounds, scissors);
-
-			ScissorStack.pushScissors(scissors);
-		}
-
-		if (large) {
-			Graphics.shape.setColor(Dungeon.GRAY);
-		} else {
-			Graphics.shape.setColor(bg);
-		}
-
-		Graphics.shape.rect(this.x, this.y + (large ? 0 : my), this.w, this.h);
 
 		float px = Player.instance.x + Player.instance.w / 2f;
 		float py = Player.instance.y + Player.instance.h / 2f;
 
 		float s = (int) (large ? 6 : 4 * zoom);
 
-		float mx = -px / (16f / s) + this.x + this.w / 2 + xc;
-		float my = -py / (16f / s) + this.y + (large ? 0 : this.my) + this.h / 2 + yc;
+		float mx = -px / (16f / s) + this.w / 2 + xc;
+		float my = -py / (16f / s) + (large ? 0 : this.my) + this.h / 2 + yc;
 
 		float o = large ? 1 : 1f * zoom;
 
-		int xx = 0;
+		int xx;
 		int yy;
 
 		Graphics.shape.setColor(border);
@@ -369,27 +373,33 @@ public class UiMap extends UiEntity {
 		float plx = Player.instance.x / 16f;
 		float ply = Player.instance.y / 16f;
 
-		Graphics.shape.setColor(0, 0, 0, 1);
-		Graphics.shape.rect(plx * s + s / 4f - o + mx, ply * s + s / 4f - o + my, s / 2f + o * 2, s / 2f + o * 2);
+		/*Graphics.shape.setColor(0, 0, 0, 1);
+		Graphics.shape.rect(plx * s + s / 4f - o + mx, ply * s + s / 4f - o + my, s / 2f + o * 2, s / 2f + o * 2);*/
 		Graphics.shape.setColor(0, 1, 0, 1);
 		Graphics.shape.rect(plx * s + s / 4f + mx, ply * s + s / 4f + my, s / 2f, s / 2f);
-		Graphics.shape.flush();
-
-		if (!large) {
-			try {
-				ScissorStack.popScissors();
-			} catch(IllegalStateException ignored) {
-
-			}
-		}
+		Graphics.shape.setColor(1, 1, 1, 1);
 
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
-		Graphics.batch.begin();
+		if (!large) {
+			Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+				Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
+
+			Graphics.surface.begin();
+
+			Texture texture = Graphics.text.getColorBufferTexture();
+			texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+			Graphics.batch.begin();
+			Graphics.batch.draw(texture, this.x + 1, this.y + 1, this.w - 2, this.h - 2,
+				0, 0, (int) this.w - 2, (int) this.h - 2, false, true);
+		} else {
+			Graphics.batch.begin();
+		}
 
 		if (!large) {
-			Graphics.render(frame, x, y+ this.my);
+			Graphics.render(frame, x, y + this.my);
 		}
 	}
 }

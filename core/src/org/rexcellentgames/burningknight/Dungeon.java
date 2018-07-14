@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.glutils.HdpiUtils;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -413,7 +412,7 @@ public class Dungeon extends ApplicationAdapter {
 		Camera.removeShake();
 
 		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
-		HdpiUtils.glScissor((int) (upscale / 2), (int) (upscale / 2), (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
+		//HdpiUtils.glScissor((int) (upscale / 2), (int) (upscale / 2), (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
 
 		Texture texture = Graphics.surface.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -460,7 +459,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.surface.end();
 
 		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
-		HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
+		//HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
 
 		Texture texture = Graphics.surface.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

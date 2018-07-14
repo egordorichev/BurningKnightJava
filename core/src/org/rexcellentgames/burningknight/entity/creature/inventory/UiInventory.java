@@ -110,7 +110,7 @@ public class UiInventory extends UiEntity {
 			float h = this.inventory.getSize() / 3 * 29;
 			boolean nd = Dialog.active != null;
 
-			if (!nd && !this.open && dx < 75f && dy < 15) {
+			if (!nd && !this.open && dx < 90f && dy < 15) {
 				this.open = true;
 				this.dn = false;
 
@@ -177,7 +177,7 @@ public class UiInventory extends UiEntity {
 						}
 					});
 				}
-			} else if (this.open && (nd || dx > 80f || dy > h + 5)) {
+			} else if (this.open && (nd || dx > 100f || dy > h + 5)) {
 				if (this.lastA != null) {
 					Tween.remove(this.lastA);
 					this.lastA = null;

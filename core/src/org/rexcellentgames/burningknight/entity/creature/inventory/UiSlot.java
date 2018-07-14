@@ -47,9 +47,9 @@ public class UiSlot {
 	public void update(float dt) {
 		Item item = this.inventory.getInventory().getSlot(this.id);
 
-		this.r += (this.rr - this.r) * dt * 10;
-		this.g += (this.rg - this.g) * dt * 10;
-		this.b += (this.rb - this.b) * dt * 10;
+		this.r += (this.rr - this.r) * dt * 20;
+		this.g += (this.rg - this.g) * dt * 20;
+		this.b += (this.rb - this.b) * dt * 20;
 
 		if (item != null) {
 			item.update(dt);
@@ -253,20 +253,26 @@ public class UiSlot {
 		boolean h = this.inventory.getActive() == this.id;
 
 		if (h) {
-			this.rr = 0.7f;
-			this.rg = 0.7f;
-			this.rb = 0.7f;
+			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
+				this.rr = 1f;
+				this.rg = 1f;
+				this.rb = 1f;
+			} else {
+				this.rr = 0.6f;
+				this.rg = 0.6f;
+				this.rb = 0.6f;
+			}
 
 			reg = slotBig;
 		} else if (this.hovered) {
 			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
-				this.rr = 0.4f;
-				this.rg = 0.4f;
-				this.rb = 0.4f;
+				this.rr = 0.3f;
+				this.rg = 0.3f;
+				this.rb = 0.3f;
 			} else {
-				this.rr = 0.9f;
-				this.rg = 0.9f;
-				this.rb = 0.9f;
+				this.rr = 0.5f;
+				this.rg = 0.5f;
+				this.rb = 0.5f;
 			}
 		} else {
 			this.rr = 1f;
@@ -278,8 +284,8 @@ public class UiSlot {
 
 		Graphics.batch.setColor(this.r, this.g, this.b, a);
 
-		Graphics.render(reg, this.x + reg.getRegionWidth() / 2,
-			this.y + reg.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);
+		Graphics.render(reg, this.x + slot.getRegionWidth() / 2,
+			this.y + slot.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		if (item == null) {
 			if (this.id == 6) {
@@ -302,8 +308,8 @@ public class UiSlot {
 			Graphics.batch.setColor(0.3f, 0.3f, 0.3f, a);
 			TextureRegion region = new TextureRegion(reg);
 			region.setRegionWidth(w);
-			Graphics.render(region, this.x + reg.getRegionWidth() / 2,
-				this.y + region.getRegionHeight() / 2, an, reg.getRegionWidth() / 2,
+			Graphics.render(region, this.x + slot.getRegionWidth() / 2,
+				this.y + slot.getRegionHeight() / 2, an, reg.getRegionWidth() / 2,
 				region.getRegionHeight() / 2, false, false, this.scale, this.scale);
 			Graphics.batch.setColor(1, 1, 1, a);
 
