@@ -184,7 +184,7 @@ public class UiInventory extends UiEntity {
 				}
 				this.dn = false;
 
-				this.lastA = Tween.to(new Tween.Task(0.5f, 0.5f, Tween.Type.QUAD_IN) {
+				this.lastA = Tween.to(new Tween.Task(0.7f, 0.5f, Tween.Type.QUAD_IN) {
 					@Override
 					public float getValue() {
 						return slots[0].a;
@@ -450,13 +450,13 @@ public class UiInventory extends UiEntity {
 			float s = 1f;
 			float yy = (float) ((hp <= 4 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 20) * 2.5f : 0) + y;
 
-			if (hp - 2 == i * 2 || hp - 2 == i * 2 - 1) {
-				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 3.5f));
-			}
+			/*if (hp - 2 == i * 2 || hp - 2 == i * 2 - 1) {
+				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));
+			}*/
 
-			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, x + i * 11 + heart.getRegionWidth() / 2,
-				yy + 8 + heart.getRegionHeight() / 2, 0,
-				heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
+			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, x + i * 11 + 1 + heart.getRegionWidth() / 2,
+				yy + 9 + heart.getRegionHeight() / 2, 0,
+				heart_bg.getRegionWidth() / 2, heart_bg.getRegionHeight() / 2, false, false, s, s);
 
 			if (hp - 2 >= i * 2) {
 				Graphics.render(heart, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9

@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 public class MazeEntranceRoom extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
-		byte wall = Terrain.WALL;
+		byte wall = Random.chance(50) ? Terrain.CHASM : Terrain.WALL;
 		boolean[][] maze = Maze.generate(this);
 
 		Painter.fill(level, this, Terrain.WALL);

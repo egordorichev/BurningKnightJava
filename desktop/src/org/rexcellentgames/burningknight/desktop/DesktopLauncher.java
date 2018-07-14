@@ -101,7 +101,7 @@ public class DesktopLauncher {
 
 		config.setTitle(Dungeon.title);
 		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
-		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 4);
+		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 2);
 		config.setWindowSizeLimits(Display.GAME_WIDTH, Display.GAME_HEIGHT, 1000000000, 10000000);
 		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
 

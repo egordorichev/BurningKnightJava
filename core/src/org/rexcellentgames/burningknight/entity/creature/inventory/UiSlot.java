@@ -14,10 +14,11 @@ import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiSlot {
-	private static TextureRegion slot;
+	private static TextureRegion slot = Graphics.getTexture("ui-inventory_slot");
+	private static TextureRegion slotBig = Graphics.getTexture("ui-inventory_slot_large");
+
 	private static TextureRegion armorBg = Graphics.getTexture("ui-hat_bg");
 	private static TextureRegion coinBg = Graphics.getTexture("ui-coin_bg");
 	private static TextureRegion equipBg = Graphics.getTexture("ui-ring_bg");
@@ -41,10 +42,6 @@ public class UiSlot {
 		this.y = y;
 		this.id = id;
 		this.inventory = inventory;
-
-		if (slot == null) {
-			slot = Graphics.getTexture("ui-inventory_slot");
-		}
 	}
 
 	public void update(float dt) {
@@ -69,7 +66,7 @@ public class UiSlot {
 		if (this.inventory.getActive() == this.id && !this.active) {
 			this.active = true;
 
-			Tween.to(new Tween.Task(1.2f, 0.1f) {
+			/*Tween.to(new Tween.Task(1.2f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -79,13 +76,13 @@ public class UiSlot {
 				public void setValue(float value) {
 					scale = value;
 				}
-			});
+			});*/
 
 			Audio.playSfx("menu/moving");
 		} else if (this.inventory.getActive() != this.id && this.active) {
 			this.active = false;
 
-			Tween.to(new Tween.Task(1f, 0.1f) {
+			/*Tween.to(new Tween.Task(1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -95,14 +92,14 @@ public class UiSlot {
 				public void setValue(float value) {
 					scale = value;
 				}
-			});
+			});*/
 		}
 
 		boolean h = this.hovered;
 		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, (int) this.y, 24, 24);
 
 		if (this.hovered && !h) {
-			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
+			/*Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -112,11 +109,11 @@ public class UiSlot {
 				public void setValue(float value) {
 					scale = value;
 				}
-			});
+			});*/
 
 			Audio.playSfx("menu/moving");
 		} else if (!this.hovered && h) {
-			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
+			/*Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -126,7 +123,7 @@ public class UiSlot {
 				public void setValue(float value) {
 					scale = value;
 				}
-			});
+			});*/
 		}
 
 		if (this.hovered) {
@@ -136,7 +133,7 @@ public class UiSlot {
 			if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
 				Audio.playSfx("menu/select");
 
-				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+				/*Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -163,7 +160,7 @@ public class UiSlot {
 							}
 						});
 					}
-				});
+				});*/
 			}
 
 			if (Input.instance.wasPressed("mouse0")) {
@@ -249,13 +246,18 @@ public class UiSlot {
 	}
 
 	private boolean acted;
-	public float a = 0.5f;
+	public float a = 0.7f;
 
 	public void render(Item item) {
-		if (this.inventory.getActive() == this.id) {
+		TextureRegion reg = this.slot;
+		boolean h = this.inventory.getActive() == this.id;
+
+		if (h) {
 			this.rr = 0.7f;
 			this.rg = 0.7f;
 			this.rb = 0.7f;
+
+			reg = slotBig;
 		} else if (this.hovered) {
 			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
 				this.rr = 0.4f;
@@ -276,7 +278,8 @@ public class UiSlot {
 
 		Graphics.batch.setColor(this.r, this.g, this.b, a);
 
-		Graphics.render(slot, this.x + slot.getRegionWidth() / 2, this.y + slot.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, slot.getRegionHeight() / 2, false, false, this.scale, this.scale);
+		Graphics.render(reg, this.x + reg.getRegionWidth() / 2,
+			this.y + reg.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		if (item == null) {
 			if (this.id == 6) {
@@ -296,14 +299,16 @@ public class UiSlot {
 			float maxDelay = item.getUseTime();
 
 			int w = (int) (Math.min(1, (delay / maxDelay)) * 24);
-			Graphics.batch.setColor(0.1f, 0.1f, 0.1f, a);
-			TextureRegion region = new TextureRegion(slot);
+			Graphics.batch.setColor(0.3f, 0.3f, 0.3f, a);
+			TextureRegion region = new TextureRegion(reg);
 			region.setRegionWidth(w);
-			Graphics.render(region, this.x + slot.getRegionWidth() / 2, this.y + region.getRegionHeight() / 2, an, slot.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale, this.scale);
+			Graphics.render(region, this.x + reg.getRegionWidth() / 2,
+				this.y + region.getRegionHeight() / 2, an, reg.getRegionWidth() / 2,
+				region.getRegionHeight() / 2, false, false, this.scale, this.scale);
 			Graphics.batch.setColor(1, 1, 1, a);
 
 			if (!this.acted) {
-				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+				/*Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -330,7 +335,7 @@ public class UiSlot {
 							}
 						});
 					}
-				});
+				});*/
 
 				this.acted = true;
 			}
