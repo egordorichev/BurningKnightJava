@@ -190,7 +190,7 @@ public class LoadState extends State {
 
 				UiBanner banner = new UiBanner();
 				banner.text = Dungeon.level.formatDepth();
-				Dungeon.area.add(banner);
+				Dungeon.ui.add(banner);
 
 				if (BurningKnight.instance != null) {
 					BurningKnight.instance.become("unactive");

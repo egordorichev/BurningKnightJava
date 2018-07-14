@@ -86,7 +86,7 @@ public class Dungeon extends ApplicationAdapter {
 	private static int to = -3;
 	public static Color background = Color.BLACK;
 	public static Color background2 = Color.BLACK;
-	public static float shockTime = 0; // 10;
+	public static float shockTime = 10;
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
 	public static boolean flip;
@@ -301,7 +301,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Tween.update(dt);
-		shockTime += dt / 10;
+		shockTime += dt;
 		glitchTime = Math.max(0, glitchTime - dt);
 
 		if (Ui.ui != null) {
@@ -413,7 +413,7 @@ public class Dungeon extends ApplicationAdapter {
 		Camera.removeShake();
 
 		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
-		HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
+		HdpiUtils.glScissor((int) (upscale / 2), (int) (upscale / 2), (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
 
 		Texture texture = Graphics.surface.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

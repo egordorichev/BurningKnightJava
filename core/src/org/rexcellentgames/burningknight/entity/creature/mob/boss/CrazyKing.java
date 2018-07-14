@@ -294,7 +294,7 @@ public class CrazyKing extends Boss {
 
 							UiBanner banner = new UiBanner();
 							banner.text = Locale.get("crazy_king");
-							Dungeon.area.add(banner);
+							Dungeon.ui.add(banner);
 						}
 					});
 				}

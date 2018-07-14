@@ -16,6 +16,6 @@ public class Autouse extends Consumable {
 		UiBanner banner = new UiBanner();
 		banner.text = this.name;
 		banner.extra = this.description;
-		Dungeon.area.add(banner);
+		Dungeon.ui.add(banner);
 	}
 }

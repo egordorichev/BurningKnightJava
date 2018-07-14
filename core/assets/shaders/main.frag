@@ -83,15 +83,16 @@ vec4 get(vec2 pos) {
     float y = pos.y;
 
     if (shockTime >= 0.0 && shockTime < 0.9) {
-        float dx = (shockPos.x - x) * 1.5;
+        float dx = (shockPos.x - x) * (u_textureSizes.x / u_textureSizes.y);
         float dy = shockPos.y - y;
+
         float d = sqrt(dx * dx + dy * dy) * 5.0 - shockTime * 6.0;
 
         float v = max(0.0, (cos(d) / 2.0 - 0.46));
         float a = atan(dy, dx);
 
-        x = clamp(pos.x + v * cos(a), 0.0, 1.0);
-        y = clamp(pos.y + v * sin(a), 0.0, 1.0);
+        x = clamp(x + v * cos(a), 0.0, 1.0);
+        y = clamp(y + v * sin(a), 0.0, 1.0);
     }
 
     if (heat > 0.0) {
@@ -146,9 +147,9 @@ vec4 get(vec2 pos) {
     realColor.rgb = mix(realColor.rgb, realColor.rgb * vignette, 0.5);
 
     if (transR < 1.0) {
-        float dx = (transPos.x - x) * 1.5;
+        float dx = (transPos.x - x) * (u_textureSizes.x / u_textureSizes.y);
         float dy = transPos.y - y;
-        float d = sqrt(dx * dx + dy * dy);
+        float d = (sqrt(dx * dx + dy * dy) * u_textureSizes.x) / u_textureSizes.x;
 
         if (d < transR) {
             return realColor;
@@ -162,6 +163,10 @@ vec4 get(vec2 pos) {
 
 void main() {
     vec2 uv = v_texCoord;
+
+    uv.x = round(uv.x * u_textureSizes.x) / u_textureSizes.x; // + u_sampleProperties.z;
+    uv.y = round(uv.y * u_textureSizes.y) / u_textureSizes.y; // + u_sampleProperties.w;
+
     vec2 uvSize = u_textureSizes.xy;
 
     float upscale = u_textureSizes.z;
@@ -184,5 +189,6 @@ void main() {
 
     vec4 bilinear = c0 * w0 * w2 + c1 * w1 * w2 + c2 * w0 * w3 + c3 * w1 * w3;
 
-    gl_FragColor = daltonize(bilinear);
+
+    gl_FragColor = daltonize(bilinear); // get(uv)
 }

@@ -684,7 +684,7 @@ public class BurningKnight extends Boss {
 
 			UiBanner banner = new UiBanner();
 			banner.text = Locale.get("burning_knight");
-			Dungeon.area.add(banner);
+			Dungeon.ui.add(banner);
 		}
 	}
 
