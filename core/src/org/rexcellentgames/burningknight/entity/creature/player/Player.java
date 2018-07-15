@@ -851,6 +851,7 @@ public class Player extends Creature {
 			return;
 		}
 
+		this.done = false;
 		GlobalSave.put("deaths", GlobalSave.getInt("deaths") + 1);
 
 		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));

@@ -162,7 +162,7 @@ public class RocketLauncher extends WeaponBase {
 
 		Rocket b = (Rocket) this.owner.getAmmo("rocket");
 
-		bullet.sprite = Graphics.getTexture("bullet-rocket " + b.rocketName);
+		bullet.sprite = Graphics.getTexture("bullet-" + b.rocketName);
 
 		float x = this.owner.x + this.owner.w / 2;
 		float y = this.owner.y + (this.owner.h - sprite.getRegionHeight()) / 2;

@@ -13789,9 +13789,9 @@ bubble-left
   index: -1
 bubble-overlay
   rotate: false
-  xy: 214, 747
-  size: 7, 7
-  orig: 7, 7
+  xy: 624, 945
+  size: 5, 5
+  orig: 5, 5
   offset: 0, 0
   index: -1
 bubble-right
@@ -14230,126 +14230,126 @@ chest-wooden-opening_mimic-04
   index: -1
 coin-bronze-idle-00
   rotate: false
-  xy: 424, 1
+  xy: 214, 747
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-bronze-idle-01
   rotate: false
-  xy: 433, 1
+  xy: 424, 1
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-bronze-idle-02
   rotate: false
-  xy: 442, 1
+  xy: 433, 1
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-bronze-idle-03
   rotate: false
-  xy: 451, 1
+  xy: 442, 1
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-bronze-idle-04
   rotate: false
-  xy: 460, 1
+  xy: 451, 1
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-bronze-idle-05
   rotate: false
-  xy: 694, 29
+  xy: 460, 1
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-gold-idle-00
   rotate: false
-  xy: 695, 1
+  xy: 694, 29
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-gold-idle-01
   rotate: false
-  xy: 704, 1
+  xy: 695, 1
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-gold-idle-02
   rotate: false
-  xy: 826, 528
+  xy: 704, 1
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-gold-idle-03
   rotate: false
-  xy: 826, 519
+  xy: 826, 528
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-gold-idle-04
   rotate: false
-  xy: 836, 359
+  xy: 826, 519
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-gold-idle-05
   rotate: false
-  xy: 836, 350
+  xy: 836, 359
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-iron-idle-00
   rotate: false
-  xy: 837, 333
+  xy: 836, 350
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-iron-idle-01
   rotate: false
-  xy: 837, 324
+  xy: 837, 333
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-iron-idle-02
   rotate: false
-  xy: 837, 315
+  xy: 837, 324
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-iron-idle-03
   rotate: false
-  xy: 837, 306
+  xy: 837, 315
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-iron-idle-04
   rotate: false
-  xy: 838, 297
+  xy: 837, 306
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 coin-iron-idle-05
   rotate: false
-  xy: 838, 288
+  xy: 838, 297
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -15091,35 +15091,35 @@ fx-badbullet-idle-06
   index: -1
 fx-blood-idle-00
   rotate: false
-  xy: 624, 945
+  xy: 549, 738
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-blood-idle-01
   rotate: false
-  xy: 549, 738
+  xy: 732, 153
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-blood-idle-02
   rotate: false
-  xy: 732, 153
+  xy: 898, 696
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-blood-idle-03
   rotate: false
-  xy: 898, 696
+  xy: 898, 689
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-blood-idle-04
   rotate: false
-  xy: 898, 689
+  xy: 996, 707
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -15497,35 +15497,35 @@ fx-heart-iron-idle-02
   index: -1
 fx-part-idle-00
   rotate: false
-  xy: 996, 707
+  xy: 805, 283
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-01
   rotate: false
-  xy: 805, 283
+  xy: 819, 607
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-02
   rotate: false
-  xy: 819, 607
+  xy: 826, 607
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-03
   rotate: false
-  xy: 826, 607
+  xy: 865, 690
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-part-idle-04
   rotate: false
-  xy: 865, 690
+  xy: 996, 700
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -15574,28 +15574,28 @@ plant-fx-idle-02
   index: -1
 fx-plant-idle-03
   rotate: false
-  xy: 843, 235
+  xy: 843, 244
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 plant-fx-idle-03
   rotate: false
-  xy: 843, 235
+  xy: 843, 244
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fx-plant-idle-04
   rotate: false
-  xy: 843, 227
+  xy: 843, 236
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 plant-fx-idle-04
   rotate: false
-  xy: 843, 227
+  xy: 843, 236
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -15679,56 +15679,56 @@ fx-shell-idle-03
   index: -1
 fx-shell-idle-04
   rotate: false
-  xy: 996, 700
+  xy: 852, 273
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fx-spark-idle-00
   rotate: false
-  xy: 846, 333
+  xy: 838, 288
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-01
   rotate: false
-  xy: 846, 324
+  xy: 846, 333
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-02
   rotate: false
-  xy: 846, 315
+  xy: 846, 324
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-03
   rotate: false
-  xy: 846, 306
+  xy: 846, 315
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-04
   rotate: false
-  xy: 847, 297
+  xy: 846, 306
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-05
   rotate: false
-  xy: 847, 288
+  xy: 847, 297
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 fx-spark-idle-06
   rotate: false
-  xy: 843, 279
+  xy: 847, 288
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -15805,7 +15805,7 @@ io (poison buff)
   index: -1
 io (slider_handle)
   rotate: false
-  xy: 843, 270
+  xy: 843, 279
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -17422,7 +17422,7 @@ item-red_button
   index: -1
 item-ring_a
   rotate: false
-  xy: 843, 261
+  xy: 843, 270
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -18003,7 +18003,7 @@ note-idle-03
   index: -1
 particle-big
   rotate: false
-  xy: 843, 219
+  xy: 843, 228
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -18024,14 +18024,14 @@ particle-circle
   index: -1
 particle-cool
   rotate: false
-  xy: 852, 280
+  xy: 843, 220
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 particle-empty
   rotate: false
-  xy: 852, 272
+  xy: 852, 280
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -18647,7 +18647,7 @@ ui-burning
   index: -1
 ui-coin_bg
   rotate: false
-  xy: 843, 252
+  xy: 843, 261
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -18794,7 +18794,7 @@ ui-slider
   index: -1
 ui-slider_handle
   rotate: false
-  xy: 843, 243
+  xy: 843, 252
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
