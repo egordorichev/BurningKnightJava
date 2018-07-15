@@ -10,7 +10,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
@@ -27,6 +27,7 @@ public class Note extends Entity {
 	private float t;
 	private float scale = 1f;
 	public Creature owner;
+	private boolean flip;
 
 	{
 		alwaysActive = true;
@@ -38,6 +39,8 @@ public class Note extends Entity {
 		this.playSfx("ukulele_" + Random.newInt(1, 5));
 
 		super.init();
+
+		this.flip = Random.chance(50);
 
 		this.vel = new Vector2();
 
@@ -59,11 +62,11 @@ public class Note extends Entity {
 	}
 
 	private void parts() {
-		for (int i = 0; i < 20; i++) {
-			Part part = new Part();
+		for (int i = 0; i < 3; i++) {
+			PoofFx part = new PoofFx();
 
-			part.x = this.x - this.vel.x;
-			part.y = this.y - this.vel.y;
+			part.x = this.x;
+			part.y = this.y;
 
 			Dungeon.area.add(part);
 		}
@@ -126,11 +129,11 @@ public class Note extends Entity {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.render(region, this.x, this.y, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
-			false, false, scale, scale);
+			false, false, flip ? -scale : scale, scale);
 	}
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x - w / 2 + 4, this.y - this.h / 2 + 5, w - 4, this.h, 5);
+		Graphics.shadow(this.x - w / 2 + (flip ? 0 : 4), this.y - this.h / 2 + 7, w - 4, this.h, 6);
 	}
 }
