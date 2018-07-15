@@ -449,19 +449,19 @@ public class Dungeon extends ApplicationAdapter {
 
 		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT);
 
-		Graphics.surface.begin();
+		Graphics.shadows.begin();
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Graphics.batch.begin();
 		game.renderUi();
 		ModManager.INSTANCE.draw();
 		Graphics.batch.end();
-		Graphics.surface.end();
+		Graphics.shadows.end();
 
 		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
 		//HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
 
-		Texture texture = Graphics.surface.getColorBufferTexture();
+		Texture texture = Graphics.shadows.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.begin();

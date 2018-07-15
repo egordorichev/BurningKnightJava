@@ -145,7 +145,7 @@ public class UiMap extends UiEntity {
 
 		Dungeon.ui.add(show);
 
-		this.plus = new UiImageButton("ui-plus", (int) x + 41, (int) y - 3) {
+		this.plus = new UiImageButton("ui-plus", (int) x + 39, (int) y - 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -290,7 +290,7 @@ public class UiMap extends UiEntity {
 		Graphics.shape.end();
 
 		if (!large) {
-			Graphics.surface.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+			Graphics.shadows.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
 				Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
 			Graphics.text.begin();
@@ -386,7 +386,7 @@ public class UiMap extends UiEntity {
 			Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
 				Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
-			Graphics.surface.begin();
+			Graphics.shadows.begin();
 
 			Texture texture = Graphics.text.getColorBufferTexture();
 			texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

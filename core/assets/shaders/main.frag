@@ -162,8 +162,6 @@ vec4 get(vec2 pos) {
 }
 
 void main() {
-    vec2 uv = v_texCoord;
-
     /*uv.x = round(uv.x * u_textureSizes.x) / u_textureSizes.x; // + u_sampleProperties.z;
     uv.y = round(uv.y * u_textureSizes.y) / u_textureSizes.y; // + u_sampleProperties.w;
 
@@ -191,5 +189,5 @@ void main() {
 
 
     gl_FragColor = daltonize(bilinear); */
-    gl_FragColor = daltonize(get(uv));
+    gl_FragColor = daltonize(get(v_texCoord));
 }

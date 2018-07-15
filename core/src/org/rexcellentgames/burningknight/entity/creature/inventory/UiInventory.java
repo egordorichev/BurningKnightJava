@@ -450,9 +450,9 @@ public class UiInventory extends UiEntity {
 			float s = 1f;
 			float yy = (float) ((hp <= 4 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 20) * 2.5f : 0) + y;
 
-			/*if (hp - 2 == i * 2 || hp - 2 == i * 2 - 1) {
+			if (hp - 2 == i * 2 || hp - 2 == i * 2 - 1) {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));
-			}*/
+			}
 
 			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, x + i * 11 + 1 + heart.getRegionWidth() / 2,
 				yy + 9 + heart.getRegionHeight() / 2, 0,
