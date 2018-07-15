@@ -63,6 +63,7 @@ public class CenterStructRoom extends RegularRoom {
 		el = el || Random.chance(50);
 
 		if (el) {
+			m ++;
 			Painter.fillEllipse(level, this, m, f);
 		} else {
 			Painter.fill(level, this, m, f);

@@ -543,7 +543,7 @@ public abstract class Level extends SaveableEntity {
 
 				float v = this.light[i];
 
-				if (v < s) {
+				if (v < s && v != 0) {
 					int t = (int) Math.floor((v * (md)) * 10);
 
 					if (t < 10) {
