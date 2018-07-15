@@ -48,7 +48,7 @@ public class NpcDialog extends Entity {
 	@Override
 	public void render() {
 		float x = Math.round(this.npc.x + this.npc.w / 2 + this.x - topLeft.getRegionWidth());
-		float y = Math.round(this.npc.y + this.npc.h + 8 - this.h / 2);
+		float y = Math.round(this.npc.y + this.npc.h + 10 - this.h / 2);
 
 		float sx = (this.w - topLeft.getRegionWidth() * 2) / ((float) top.getRegionWidth());
 		float sy = (this.h - left.getRegionHeight()) / ((float) left.getRegionHeight());
@@ -90,7 +90,7 @@ public class NpcDialog extends Entity {
 			this.last = null;
 		}
 
-		Graphics.layout.setText(Graphics.small, this.full);
+		Graphics.layout.setText(Graphics.smallSimple, this.full);
 		this.h = Graphics.layout.height + 12;
 		this.w = Graphics.layout.width + 8;
 		this.message = "";
