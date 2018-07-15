@@ -2,6 +2,8 @@ package org.rexcellentgames.burningknight.game;
 
 import com.codedisaster.steamworks.*;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.ui.UiAchievement;
 import org.rexcellentgames.burningknight.util.Log;
@@ -10,7 +12,7 @@ public class Achievements {
 	public static final String TEST = "TEST_ACHIEVEMENT";
 
 	public static boolean unlocked(String id) {
-		return false; // GlobalSave.isTrue(modId);
+		return false; // GlobalSave.isTrue(id);
 	}
 
 	public static void unlock(String id) {
@@ -21,8 +23,9 @@ public class Achievements {
 
 			UiAchievement achievement = new UiAchievement();
 
-			achievement.text = "Test achievement unlocked!";
-			achievement.extra = "Idk how to unlock it";
+			achievement.text = Locale.get(id.toLowerCase());
+			achievement.extra = Locale.get(id.toLowerCase() + "_desc");
+			achievement.icon = Graphics.getTexture("achievements-" + (id.toLowerCase().replace("_achievement", "")));
 
 			Dungeon.ui.add(achievement);
 		}

@@ -565,5 +565,7 @@
 	"mimic_summoner" : "Mimic summoner",
 	"mimic_summoner_desc" : "Be careful",
 	"forest_ruins" : "Forest ruins",
-	"womb_ruins" : "Womb ruins"
+	"womb_ruins" : "Womb ruins",
+	"test_achievement" : "Test",
+	"test_achievement_desc" : "Press F3"
 }
