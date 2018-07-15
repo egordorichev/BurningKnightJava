@@ -1,8 +1,8 @@
 package org.rexcellentgames.burningknight.ui;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -19,6 +19,10 @@ public class UiAchievement extends Entity {
 	private float w1;
 	private float w2;
 
+	private static TextureRegion left = Graphics.getTexture("ui-achievement_left");
+	private static TextureRegion center = Graphics.getTexture("ui-achievement_center");
+	private static TextureRegion right = Graphics.getTexture("ui-achievement_right");
+	
 	@Override
 	public void init() {
 		super.init();
@@ -33,7 +37,7 @@ public class UiAchievement extends Entity {
 			this.h += Graphics.layout.height + 4;
 		}
 
-		this.w = Math.max(this.w2, this.w1) + 16;
+		this.w = Math.max(this.w2, this.w1) + 32 + 9;
 		this.y = -this.h;
 		this.x = Display.GAME_WIDTH - 2 - this.w;
 
@@ -65,7 +69,7 @@ public class UiAchievement extends Entity {
 					public void onEnd() {
 						setDone(true);
 					}
-				}).delay(3);
+				}).delay(10);
 			}
 		});
 	}
@@ -74,15 +78,11 @@ public class UiAchievement extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShape();
-		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		Graphics.shape.setColor(1, 1, 1, 1);
-		Graphics.shape.rect(this.x, this.y, this.w, this.h);
-		Graphics.endShape();
+		Graphics.render(left, this.x, this.y);
+		Graphics.render(center, this.x + 38, this.y, 0, 0, 0, false, false, (this.w - 57), 1);
+		Graphics.render(right, this.x + this.w - 19, this.y);
 
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
-		if (this.a > 0) {
+		/*if (this.a > 0) {
 			Graphics.small.setColor(1, 1, 1, this.a);
 			Graphics.small.draw(Graphics.batch, this.text, this.x + (this.w - this.w1) / 2, this.y + this.h - 4);
 
@@ -91,6 +91,6 @@ public class UiAchievement extends Entity {
 			}
 
 			Graphics.small.setColor(1, 1, 1, 1);
-		}
+		}*/
 	}
 }

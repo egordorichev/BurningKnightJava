@@ -141,10 +141,10 @@ vec4 get(vec2 pos) {
         realColor = texture2D(u_texture, vec2(x, y));
     }
 
-    vec2 position = pos - vec2(0.5);
-    float len = length(position);
+    /*vec2 position = pos - vec2(0.5);
+    float len = round(length(position));
     float vignette = smoothstep(0.75, 0.3, len);
-    realColor.rgb = mix(realColor.rgb, realColor.rgb * vignette, 0.5);
+    realColor.rgb = mix(realColor.rgb, realColor.rgb * vignette, 0.5);*/
 
     if (transR < 1.0) {
         float dx = (transPos.x - x) * (u_textureSizes.x / u_textureSizes.y);

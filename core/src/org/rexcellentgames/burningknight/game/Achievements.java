@@ -24,7 +24,7 @@ public class Achievements {
 			achievement.text = "Test achievement unlocked!";
 			achievement.extra = "Idk how to unlock it";
 
-			Dungeon.area.add(achievement);
+			Dungeon.ui.add(achievement);
 		}
 	}
 
