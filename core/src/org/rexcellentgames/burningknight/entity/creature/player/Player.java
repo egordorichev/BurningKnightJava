@@ -36,13 +36,13 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShi
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
@@ -237,7 +237,7 @@ public class Player extends Creature {
 	}
 
 	private void generateWarrior() {
-		switch (Random.newInt(3)) {
+		switch (Random.newInt(4)) {
 			case 0:
 			default:
 				this.give(new SwordA());
@@ -247,6 +247,9 @@ public class Player extends Creature {
 				break;
 			case 2:
 				this.give(new MorningStarA());
+				break;
+			case 3:
+				this.give(new DaggerA());
 				break;
 		}
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
@@ -22,22 +23,26 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.util.ArrayList;
 
 public class BombEntity extends Entity {
-	public static Animation animations = Animation.make("actor-bomb");
+	public static Animation animations = Animation.make("actor-bomb", "-normal");
 	private AnimationData animation = animations.get("idle");
 	private Body body;
 	private Point vel;
 	public Creature owner;
-	private boolean flip = Random.chance(50);
 	public ArrayList<Buff> toApply = new ArrayList<>();
 
 	{
 		alwaysActive = true;
+		w = 10;
+		h = 14;
 	}
 
 	public BombEntity(float x, float y) {
 		this.x = x;
 		this.y = y;
+		this.fliped = Random.chance(50);
 	}
+
+	private boolean fliped;
 
 	@Override
 	public void init() {
@@ -58,6 +63,8 @@ public class BombEntity extends Entity {
 			Shopkeeper.instance.enrage();
 		}
 	}
+
+	private float t;
 
 	@Override
 	public void destroy() {
@@ -91,6 +98,8 @@ public class BombEntity extends Entity {
 
 	@Override
 	public void update(float dt) {
+		this.t += dt;
+
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
 
@@ -191,7 +200,17 @@ public class BombEntity extends Entity {
 	}
 
 	@Override
+	public void renderShadow() {
+		Graphics.shadow(this.x, this.y, this.w, this.h, (float) (Math.cos(this.t * 16 + Math.PI)) * 3);
+	}
+
+	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, this.flip);
+		// (float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, float sx, float sy)
+
+		float sx = (float) (Math.cos(this.t * 16) / 4) + 1;
+		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 5) + 1;
+
+		this.animation.render(this.x, this.y, false, false, 5, 0, 0, this.fliped ? -sx : sx, sy);
 	}
 }

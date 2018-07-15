@@ -7,9 +7,9 @@ import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
@@ -113,9 +113,9 @@ public class Collisions implements ContactListener, ContactFilter {
 		} else if (b instanceof Slab && a instanceof ItemHolder) {
 			contact.setEnabled(false);
 			((ItemHolder) a).depth = 1;
-		} else if ((a instanceof Bomb) && b != null) {
+		} else if ((a instanceof BombEntity) && b != null && !(b instanceof Player)) {
 			contact.setEnabled(false);
-		} else if ((b instanceof Bomb) && a != null) {
+		} else if ((b instanceof BombEntity) && a != null && !(a instanceof Player)) {
 			contact.setEnabled(false);
 		} else if (a instanceof PetEntity && (b instanceof Creature || b instanceof Door || b instanceof SolidProp || (b instanceof ItemHolder && !(((ItemHolder) b).getItem() instanceof Gold)))) {
 			contact.setEnabled(false);

@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -148,7 +147,7 @@ public class Sword extends Weapon {
 		float yy = y + h / 4;//(this.ox == 0 ? h / 4 : h / 2);
 
 		if (!this.animation.isPaused() && !this.owner.isDead()) {
-			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, 1, this.owner.isFlipped() ? -1 : 1, false);
+			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, 1, this.owner.isFlipped() ? -1 : 1);
 		}
 
 		if (this.tail && this.frames.size() > 0) {

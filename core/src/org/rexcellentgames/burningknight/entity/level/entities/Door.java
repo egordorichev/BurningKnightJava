@@ -258,10 +258,10 @@ public class Door extends SaveableEntity {
 			this.setPas(true);
 		}
 
-		this.animation.render(this.x, this.y, false, false);
+		this.animation.render(this.x, this.y, false);
 
 		if (this.lockAnim != null) {
-			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false, false);
+			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false);
 		}
 	}
 
@@ -269,7 +269,7 @@ public class Door extends SaveableEntity {
 	public void renderShadow() {
 		Graphics.shape.end();
 		Graphics.batch.begin();
-		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame(), false);
+		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame());
 		Graphics.batch.end();
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 	}

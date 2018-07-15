@@ -48,6 +48,6 @@ public class Part extends Entity {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, false, false);
+		this.animation.render(this.x, this.y, false);
 	}
 }

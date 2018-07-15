@@ -106,39 +106,22 @@ public class AnimationData {
 		return this.index;
 	}
 
-
 	public void render(float x, float y, boolean flip) {
-		render(x, y, flip, true);
-	}
-
-	public void render(float x, float y, boolean flip, boolean s) {
 		Graphics.render(this.current.frame, x, y, 0, 0, 0, flip, false);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a) {
-		render(x, y, flip, flipY, ox, oy, a, true);
-	}
-
-	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, boolean s) {
 		Graphics.render(this.current.frame, x + ox, y + oy, a, ox, oy, flip, flipY);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
-	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, float sx, float sy, boolean s) {
+	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, float sx, float sy) {
 		Graphics.render(this.current.frame, x + ox, y + oy, a, ox, oy, flip, flipY, sx, sy);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
-	public void render(float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, float sx, float sy) {
-		render(x, y, flip, flipY, ox, oy, a, sx, sy, true);
-	}
-
 	public void render(float x, float y, boolean flip, boolean flipY, int f) {
-		render(x, y, flip, flipY, f, true);
-	}
-
-	public void render(float x, float y, boolean flip, boolean flipY, int f, boolean s) {
 		Graphics.render(this.frames.get(f).frame, x, y, 0, 0, 0, flip, flipY);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}

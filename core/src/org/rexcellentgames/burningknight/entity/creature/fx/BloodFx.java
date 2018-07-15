@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -61,6 +60,6 @@ public class BloodFx extends Entity {
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, false, false);
+		this.animation.render(this.x, this.y, false);
 	}
 }
