@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
+import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -75,7 +76,7 @@ public class Area {
         }
       }
 
-      if (Input.instance.wasPressed("uiUp")) {
+      if (Input.instance.wasPressed("uiUp") && !UiMap.large) {
         if (this.selectedUiEntity != -1) {
           ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
         }
@@ -89,9 +90,9 @@ public class Area {
         if (this.selectedUiEntity != -1) {
           ((UiEntity) this.entities.get(selectedUiEntity)).select();
         }          
-      } else if (Input.instance.wasPressed("uiDown")) {
+      } else if (Input.instance.wasPressed("uiDown") && !UiMap.large) {
         if (this.selectedUiEntity >= 0) {
-          if (this.selectedUiEntity < this.entities.size() && this.selectedUiEntity != -1 && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
+          if (this.selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
             ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
           }
         }

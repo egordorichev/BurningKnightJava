@@ -21,11 +21,7 @@ public class CenterStructRoom extends RegularRoom {
 
 		int m = Random.newInt(2, 4);
 
-		if (el) {
-			Painter.fillEllipse(level, this, m, Terrain.randomFloor());
-		} else {
-			Painter.fill(level, this, m, Terrain.randomFloor());
-		}
+		Painter.fill(level, this, m, Terrain.randomFloor());
 
 		m += Random.newInt(1, 3);
 
@@ -59,7 +55,6 @@ public class CenterStructRoom extends RegularRoom {
 			Painter.set(level, new Point(this.right - m, this.getHeight() / 2 + this.top), f);
 		}
 
-		m += 1f;
 		el = el || Random.chance(50);
 
 		if (el) {
