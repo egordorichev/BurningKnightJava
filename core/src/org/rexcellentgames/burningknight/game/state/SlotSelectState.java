@@ -26,19 +26,19 @@ public class SlotSelectState extends State {
 
 		added = true;
 
-		Dungeon.area.add(new UiCard(0, Display.GAME_WIDTH / 2 - 96 - 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiCard(0, Display.GAME_WIDTH / 2 - 96 - 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
 
 		});
 
-		Dungeon.area.add(new UiCard(1, Display.GAME_WIDTH / 2, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiCard(1, Display.GAME_WIDTH / 2, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
 
 		});
 
-		Dungeon.area.add(new UiCard(2, Display.GAME_WIDTH / 2 + 96 + 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiCard(2, Display.GAME_WIDTH / 2 + 96 + 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
 
 		});
 
-		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

@@ -485,7 +485,7 @@ public class Player extends Creature {
 	@Override
 	public void tp(float x, float y) {
 		super.tp(x, y);
-		Camera.instance.follow(this, true);
+		Camera.follow(this, true);
 	}
 
 	@Override
@@ -847,6 +847,8 @@ public class Player extends Creature {
 
 	@Override
 	protected void die(boolean force) {
+		Log.error("Die");
+
 		if (this.toDeath) {
 			return;
 		}

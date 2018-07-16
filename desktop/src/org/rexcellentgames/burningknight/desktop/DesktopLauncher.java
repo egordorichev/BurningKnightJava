@@ -122,6 +122,10 @@ public class DesktopLauncher {
 		"It burns burns burns",
 		"Not for children under -1",
 		"Unhandled fire",
+		"Chilly music",
+		"Fire trap",
+		"On-fire",
+		"Hot potatoo",
 
 		"This title will never appear, strange?"
 	};

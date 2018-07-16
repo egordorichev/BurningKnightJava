@@ -753,6 +753,10 @@ public abstract class Level extends SaveableEntity {
 
 	// TODO: Too complex
 	private void renderFloor(int sx, int sy, int fx, int fy) {
+		if (this.low == null || this.light == null) {
+			this.loadPassable();
+		}
+
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();

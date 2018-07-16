@@ -120,10 +120,6 @@ public class Ui {
 				}
 			}
 		}
-
-		for (Healthbar healthbar : this.healthbars.values()) {
-			healthbar.render();
-		}
 	}
 
 	public void renderCursor() {

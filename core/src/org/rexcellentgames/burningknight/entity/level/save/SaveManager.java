@@ -18,7 +18,7 @@ public class SaveManager {
 		GLOBAL
 	}
 
-	public static final String SAVE_DIR = ".bk/";
+	public static final String SAVE_DIR = ".burningknight/";
 	public static int slot = 0;
 
 	public static String getDir() {

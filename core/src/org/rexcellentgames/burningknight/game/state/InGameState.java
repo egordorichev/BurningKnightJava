@@ -340,6 +340,7 @@ public class InGameState extends State {
 	@Override
 	public void renderUi() {
 		Dungeon.ui.render();
+		Ui.ui.render();
 
 		if (alp > 0) {
 			Graphics.shape.setProjectionMatrix(Camera.nil.combined);

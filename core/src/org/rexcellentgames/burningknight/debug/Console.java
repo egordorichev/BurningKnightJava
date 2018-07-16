@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.debug;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.ui.UiInput;
 
@@ -50,7 +51,7 @@ public class Console implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Input.Keys.F1) {
+		if (keycode == Input.Keys.F1 && Version.debug) {
 			this.open = !this.open;
 			org.rexcellentgames.burningknight.game.input.Input.instance.blocked = this.open;
 		} else if (keycode == Input.Keys.ENTER && this.open) {

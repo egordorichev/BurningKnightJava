@@ -19,8 +19,10 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -190,13 +192,9 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("MouseWheel", State.RELEASED);
 
 		JsonReader reader = new JsonReader();
-    JsonValue root = null;
-    
-    try {
-      root = reader.parse(new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir"), "settings/keys.json"))));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    JsonValue root = reader.parse(Gdx.files.internal("keys.json"));
+
+    // new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir"), "settings/keys.json")))
 
     for (JsonValue value : root) {
 			for (String name : value.asStringArray()) {
