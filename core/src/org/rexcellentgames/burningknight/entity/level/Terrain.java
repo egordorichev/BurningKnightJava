@@ -134,7 +134,7 @@ public class Terrain {
 	public static TextureRegion[] floorVariants = new TextureRegion[16];
 	public static TextureRegion[] tableVariants = new TextureRegion[16];
 	public static TextureRegion[] topVariants = new TextureRegion[12];
-	public static TextureRegion[] wallTop = new TextureRegion[12];
+	public static TextureRegion[][] wallTop = new TextureRegion[3][12];
 	public static TextureRegion[] sides = new TextureRegion[3];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
@@ -180,8 +180,10 @@ public class Terrain {
 			Graphics.getTexture("prop (walldeco C)")
 		};
 
-		for (int i = 0; i < 12; i++) {
-			wallTop[i] = Graphics.getTexture(bm + "-top " + i);
+		for (int j = 0; j < 3; j++) {
+			for (int i = 0; i < 12; i++) {
+				wallTop[j][i] = Graphics.getTexture(bm + "-" + j + " top " + i);
+			}
 		}
 
 		for (int i = 0; i < 3; i++) {

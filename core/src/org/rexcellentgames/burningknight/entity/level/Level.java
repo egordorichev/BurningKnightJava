@@ -264,6 +264,7 @@ public abstract class Level extends SaveableEntity {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 			this.tileUp(x, y, tile, false);
+			this.decor[toIndex(x, y)] = (byte) Random.newInt(3);
 		} else if (tile == Terrain.TABLE) {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.GRASS) {
@@ -680,7 +681,7 @@ public abstract class Level extends SaveableEntity {
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
-											Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+											Graphics.render(Terrain.wallTop[this.decor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
 										}
 									}
 								} else {
@@ -691,7 +692,7 @@ public abstract class Level extends SaveableEntity {
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
-											Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+											Graphics.render(Terrain.wallTop[this.decor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
 										}
 									}
 								}
