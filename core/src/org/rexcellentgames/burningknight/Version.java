@@ -1,7 +1,7 @@
 package org.rexcellentgames.burningknight;
 
 public class Version {
-	public static boolean debug = false;
+	public static boolean debug = true;
 	public static double major = 0.0;
 	public static double minor = 16.2;
 

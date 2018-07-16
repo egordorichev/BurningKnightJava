@@ -14,7 +14,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(SpikedRoom.class, 1f);
 		add(MazeRoom.class, 0.1f);
 		add(MazeFloorRoom.class, 0.3f);
-		add(StatueRoom.class, 1);
+		add(StatueRoom.class, 1000);
 		add(TableRoom.class, 0.2f);
 		add(CenterTableRoom.class, 0.4f);
 		add(CaveRoom.class, 1f);
