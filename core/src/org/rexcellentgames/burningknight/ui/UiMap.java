@@ -482,7 +482,7 @@ public class UiMap extends UiEntity {
 		float s = (int) (large ? 6 * zoom : 4 * zoom);
 
 		float mx = -px / (16f / s) + this.w / 2 + xc;
-		float my = -py / (16f / s) + (large ? 0 : this.my) + this.h / 2 + yc;
+		float my = -py / (16f / s) + this.h / 2 + yc;
 
 		float o = 1f;// * zoom;
 
@@ -562,7 +562,7 @@ public class UiMap extends UiEntity {
 		Graphics.batch.begin();
 
 		if (!large) {
-			Graphics.batch.draw(texture, this.x + 1, this.y + 1, this.w - 2, this.h - 2,
+			Graphics.batch.draw(texture, this.x + 1, this.y + 1 + this.my, this.w - 2, this.h - 2,
 				0, 0, (int) this.w - 2, (int) this.h - 2, false, true);
 
 			Graphics.render(frame, x, y + this.my);
