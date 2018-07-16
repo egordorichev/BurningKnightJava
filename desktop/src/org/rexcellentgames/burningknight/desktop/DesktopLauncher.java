@@ -122,7 +122,7 @@ public class DesktopLauncher {
 		"It burns burns burns",
 		"Not for children under -1",
 		"Unhandled fire",
-		"Chilly music",
+		"Chili music",
 		"Fire trap",
 		"On-fire",
 		"Hot potatoo",

@@ -1,3 +1,4 @@
+
 package org.rexcellentgames.burningknight.assets;
 
 import com.badlogic.gdx.Gdx;

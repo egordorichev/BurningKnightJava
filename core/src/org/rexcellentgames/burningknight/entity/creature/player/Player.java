@@ -51,6 +51,7 @@ import org.rexcellentgames.burningknight.entity.pool.item.GoldChestPool;
 import org.rexcellentgames.burningknight.entity.pool.item.IronChestPool;
 import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -574,7 +575,7 @@ public class Player extends Creature {
 
 		this.heat = Math.max(0, this.heat - dt / 3);
 
-		if (Dialog.active == null && !this.freezed) {
+		if (Dialog.active == null && !this.freezed && !UiMap.large) {
 			if (Input.instance.isDown("mouse2")) {
 				float dx = Input.instance.worldMouse.x - this.x - 8;
 				float dy = Input.instance.worldMouse.y - this.y - 8;
@@ -847,8 +848,6 @@ public class Player extends Creature {
 
 	@Override
 	protected void die(boolean force) {
-		Log.error("Die");
-
 		if (this.toDeath) {
 			return;
 		}
