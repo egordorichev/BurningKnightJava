@@ -1,3 +1,4 @@
+
 #ifdef GL_ES
 precision mediump float;
 precision mediump int;
@@ -9,7 +10,6 @@ uniform vec2 size;
 uniform vec2 tpos;
 uniform float water;
 uniform float activated;
-uniform vec2 world;
 uniform sampler2D u_texture;
 uniform sampler2D u_texture2;
 varying vec2 v_texCoord;
@@ -23,16 +23,16 @@ void main() {
 
     if (water > 0.5) {
         vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
-        float x = (pos.x - v_texCoord.x) * cof.x + world.x;
-        float y = (pos.y - v_texCoord.y) * cof.y + world.y;
-        float v = sin(time * 4.0 + y * 8.0) / (cof.x * 16.0);
+        // float x = (pos.x - v_texCoord.x) * cof.x;
+        float y = (pos.y - v_texCoord.y) * cof.y;
+        float v = sin(time * 4.0 + y * 16.0) / (cof.x * 16.0) * 0.0001;
         float m = (time / (cof.x * 2.0));
 
-        m -= floor(m / (size.x * 4.0)) * size.x * 4.0;
+        m -= floor(m / (size.x * 4.0)) * (size.x * 4.0);
 
         vec4 color = texture2D(u_texture,
             vec2(
-                v_texCoord.x + v + m,
+                clamp(v_texCoord.x + v, pos.x, pos.x + size.x) + m,
                 v_texCoord.y
             )
         );

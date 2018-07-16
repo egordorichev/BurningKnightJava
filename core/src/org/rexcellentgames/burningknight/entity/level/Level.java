@@ -817,8 +817,8 @@ public abstract class Level extends SaveableEntity {
 
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
 
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					r.setRegionX(r.getRegionX() + (x % 4) * 16);
+					r.setRegionY(r.getRegionY() + (y % 2) * 16);
 
 					int rx = r.getRegionX();
 					int ry = r.getRegionY();
@@ -837,7 +837,6 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					maskShader.begin();
 					t.bind(1);
-					maskShader.setUniformf("world", new Vector2(x, y));
 					maskShader.setUniformf("water", 1);
 					maskShader.setUniformf("activated", 1);
 					maskShader.setUniformi("u_texture2", 1);
@@ -886,7 +885,6 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					maskShader.begin();
 					t.bind(1);
-					maskShader.setUniformf("world", new Vector2(x, y));
 					maskShader.setUniformf("activated", 1);
 					maskShader.setUniformf("water", 1);
 					maskShader.setUniformi("u_texture2", 1);
