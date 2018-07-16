@@ -74,7 +74,7 @@ public class NpcDialog extends Entity {
 		Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
 
 		Graphics.print(this.message, Graphics.smallSimple, x + 4,
-			this.npc.y + this.npc.h + this.h - 16);
+			y + 4);
 
 		Graphics.smallSimple.setColor(1, 1, 1, 1);
 	}

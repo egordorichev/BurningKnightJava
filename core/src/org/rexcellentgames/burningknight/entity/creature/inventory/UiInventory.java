@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipab
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
+import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -253,7 +254,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (true) {
+		if (!UiMap.large) {
 			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
 				this.active = (this.active + Input.instance.getAmount()) % 6;
 
