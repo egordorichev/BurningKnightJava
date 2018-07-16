@@ -28,6 +28,8 @@ public class UiBanner extends Entity {
 		Graphics.layout.setText(Graphics.smallSimple, this.text);
 		this.w1 = Graphics.layout.width;
 
+		this.h = 24;
+
 		if (this.extra != null) {
 			Graphics.layout.setText(Graphics.smallSimple, this.extra);
 			this.w2 = Graphics.layout.width;
@@ -132,33 +134,44 @@ public class UiBanner extends Entity {
 	private Color color = Color.valueOf("#1a1932");
 
 	private float a;
+	private static TextureRegion topLeft = Graphics.getTexture("ui-banner_top_left");
+	private static TextureRegion top = Graphics.getTexture("ui-banner_top");
+	private static TextureRegion topRight = Graphics.getTexture("ui-banner_top_right");
+
 	private static TextureRegion left = Graphics.getTexture("ui-banner_left");
 	private static TextureRegion center = Graphics.getTexture("ui-banner_center");
 	private static TextureRegion right = Graphics.getTexture("ui-banner_right");
 
+	private static TextureRegion bottomLeft = Graphics.getTexture("ui-banner_bottom_left");
+	private static TextureRegion bottom = Graphics.getTexture("ui-banner_bottom");
+	private static TextureRegion bottomRight = Graphics.getTexture("ui-banner_bottom_right");
+
 	@Override
 	public void render() {
-		/*Graphics.startShape();
-		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		Graphics.shape.setColor(1, 1, 1, 1);
-		Graphics.shape.rect(Display.GAME_WIDTH / 2 - this.w / 2, this.y + 48, this.w, this.h);
-		Graphics.endShape();*/
-
-		// Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
 		float x = Display.GAME_WIDTH / 2 - this.w / 2;
 		float y = this.y + 48;
 
-		Graphics.render(left, x, y);
-		Graphics.render(center, x + 9, y + 4, 0, 0, 0, false, false, (this.w - 18), 1);
-		Graphics.render(right, x + this.w - 9, y);
+		float sx = (this.w - 18);
+		float sy = (this.h - 13);
+
+		Graphics.render(bottomLeft, x, y);
+		Graphics.render(bottom, x + bottomLeft.getRegionWidth(), y + 4, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomRight, x + this.w - bottomRight.getRegionWidth(), y);
+
+		Graphics.render(left, x, y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+		Graphics.render(center, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, sx, sy);
+		Graphics.render(right, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+
+		Graphics.render(topLeft, x, y + h - topLeft.getRegionHeight());
+		Graphics.render(top, x + topLeft.getRegionWidth(), y + h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topRight, x + this.w - topRight.getRegionWidth(), y + h - topLeft.getRegionHeight());
 
 		if (this.a > 0) {
 			Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
-			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.GAME_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h);
+			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.GAME_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 8);
 
 			if (this.extra != null) {
-				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.GAME_WIDTH / 2 - (this.w2) / 2, this.y + 48 + 12);
+				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.GAME_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 8 - 12);
 			}
 
 			Graphics.smallSimple.setColor(1, 1, 1, 1);

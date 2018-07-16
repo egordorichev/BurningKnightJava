@@ -123,7 +123,7 @@ public class Ui {
 	}
 
 	public void renderCursor() {
-		if (Input.instance.activeController != null && (!(Dungeon.game.getState() instanceof InGameState) || Dungeon.game.getState().isPaused() || InGameState.map)) {
+		if (Input.instance.activeController != null) {
 			return;
 		}
 		

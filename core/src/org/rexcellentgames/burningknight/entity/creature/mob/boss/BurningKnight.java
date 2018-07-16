@@ -240,7 +240,7 @@ public class BurningKnight extends Boss {
 		for (Frame point : this.frames) {
 			float s = point.s;
 
-			if (!Dungeon.game.getState().isPaused() && !InGameState.map) {
+			if (!Dungeon.game.getState().isPaused()) {
 				point.s -= dt * 0.8f;
 			}
 

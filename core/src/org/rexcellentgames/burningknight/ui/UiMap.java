@@ -15,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -197,11 +196,11 @@ public class UiMap extends UiEntity {
 	}
 
 	public void setSize() {
-		this.w = large ? Display.GAME_WIDTH : 64;
-		this.h = Math.min(this.w, Display.GAME_HEIGHT);
+		this.w = large ? Display.GAME_WIDTH - 20 : 64;
+		this.h = large ? Display.GAME_HEIGHT - 20 : Math.min(this.w, Display.GAME_HEIGHT);
 
-		this.x = Math.round(Display.GAME_WIDTH - this.w - (large ? 0 : 4));
-		this.y = Math.round(Display.GAME_HEIGHT - this.h - (large ? 0 : 4));
+		this.x = Math.round(Display.GAME_WIDTH - this.w - (large ? 10 : 4));
+		this.y = Math.round(Display.GAME_HEIGHT - this.h - (large ? 10 : 4));
 	}
 
 	@Override
@@ -223,8 +222,6 @@ public class UiMap extends UiEntity {
 				show();
 			}
 		}
-
-		InGameState.map = large;
 
 		if (large) {
 			float s = 120f;
@@ -266,6 +263,18 @@ public class UiMap extends UiEntity {
 	private float zoom = GlobalSave.getFloat("minimap_zoom") == 0 ? 1f : GlobalSave.getFloat("minimap_zoom");
 	private Color bg = Color.valueOf("#2a2f4e");
 	private Color border = Color.valueOf("#1a1932");
+
+	private static TextureRegion topLeft = Graphics.getTexture("ui-map_top_left");
+	private static TextureRegion top = Graphics.getTexture("ui-map_top");
+	private static TextureRegion topRight = Graphics.getTexture("ui-map_top_right");
+
+	private static TextureRegion left = Graphics.getTexture("ui-map_left");
+	private static TextureRegion center = Graphics.getTexture("ui-map_center");
+	private static TextureRegion right = Graphics.getTexture("ui-map_right");
+
+	private static TextureRegion bottomLeft = Graphics.getTexture("ui-map_bottom_left");
+	private static TextureRegion bottom = Graphics.getTexture("ui-map_bottom");
+	private static TextureRegion bottomRight = Graphics.getTexture("ui-map_bottom_right");
 
 	@Override
 	public void render() {
@@ -400,6 +409,25 @@ public class UiMap extends UiEntity {
 
 		if (!large) {
 			Graphics.render(frame, x, y + this.my);
+		} else {
+			renderLarge();
 		}
+	}
+
+	private void renderLarge() {
+		float sx = (this.w - 18);
+		float sy = (this.h - 13);
+
+		Graphics.render(bottomLeft, x, y);
+		Graphics.render(bottom, x + bottomLeft.getRegionWidth(), y + 4, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomRight, x + this.w - bottomRight.getRegionWidth(), y);
+
+		Graphics.render(left, x, y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+		Graphics.render(center, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, sx, sy);
+		Graphics.render(right, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+
+		Graphics.render(topLeft, x, y + h - topLeft.getRegionHeight());
+		Graphics.render(top, x + topLeft.getRegionWidth(), y + h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topRight, x + this.w - topRight.getRegionWidth(), y + h - topLeft.getRegionHeight());
 	}
 }

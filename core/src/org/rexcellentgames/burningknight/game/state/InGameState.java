@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.debug.Console;
@@ -41,7 +42,6 @@ public class InGameState extends State {
 	private Console console;
 	private Area pauseMenuUi;
 	private static boolean showFps;
-	public static boolean map = false;
 
 	@Override
 	public void init() {
@@ -206,69 +206,67 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
-		if (map) {
-			return;
-		}
+		if (Version.debug) {
+			this.console.update(dt);
 
-		this.console.update(dt);
+			if (Input.instance.wasPressed("reset")) {
+				Dungeon.newGame();
+			}
 
-		if (Input.instance.wasPressed("reset")) {
-			Dungeon.newGame();
-		}
+			if (Input.instance.wasPressed("to_shop")) {
+				for (Room room : Dungeon.level.getRooms()) {
+					if (room instanceof ShopRoom && !room.hidden) {
+						Point point = room.getRandomFreeCell();
+						Player.instance.tp(point.x * 16, point.y * 16);
 
-		if (Input.instance.wasPressed("to_shop")) {
-			for (Room room : Dungeon.level.getRooms()) {
-				if (room instanceof ShopRoom && !room.hidden) {
-					Point point = room.getRandomFreeCell();
-					Player.instance.tp(point.x * 16, point.y * 16);
-
-					break;
+						break;
+					}
 				}
 			}
-		}
 
-		if (Input.instance.wasPressed("to_treasure")) {
-			for (Room room : Dungeon.level.getRooms()) {
-				if (room instanceof TreasureRoom) {
-					Point point = room.getRandomFreeCell();
+			if (Input.instance.wasPressed("to_treasure")) {
+				for (Room room : Dungeon.level.getRooms()) {
+					if (room instanceof TreasureRoom) {
+						Point point = room.getRandomFreeCell();
 
-					Player.instance.tp(point.x * 16, point.y * 16);
+						Player.instance.tp(point.x * 16, point.y * 16);
 
-					break;
+						break;
+					}
 				}
 			}
-		}
 
-		if (Input.instance.wasPressed("to_secret")) {
-			for (Room room : Dungeon.level.getRooms()) {
-				if (room instanceof SecretRoom && room != Player.instance.room) {
-					if (room.hidden) {
-						for (int x = room.left; x <= room.right; x++) {
-							for (int y = room.top; y <= room.bottom; y++) {
-								if (Dungeon.level.get(x, y) == Terrain.CRACK) {
-									Dungeon.level.set(x, y, Terrain.FLOOR_A);
+			if (Input.instance.wasPressed("to_secret")) {
+				for (Room room : Dungeon.level.getRooms()) {
+					if (room instanceof SecretRoom && room != Player.instance.room) {
+						if (room.hidden) {
+							for (int x = room.left; x <= room.right; x++) {
+								for (int y = room.top; y <= room.bottom; y++) {
+									if (Dungeon.level.get(x, y) == Terrain.CRACK) {
+										Dungeon.level.set(x, y, Terrain.FLOOR_A);
+									}
 								}
 							}
+
+
+							BombEntity.make(room);
+							room.hidden = false;
+							Dungeon.level.loadPassable();
+							Dungeon.level.addPhysics();
 						}
 
+						Point point = room.getRandomFreeCell();
 
-						BombEntity.make(room);
-						room.hidden = false;
-						Dungeon.level.loadPassable();
-						Dungeon.level.addPhysics();
+						Player.instance.tp(point.x * 16, point.y * 16);
+
+						break;
 					}
-
-					Point point = room.getRandomFreeCell();
-
-					Player.instance.tp(point.x * 16, point.y * 16);
-
-					break;
 				}
 			}
 		}
-		
+
 		if (Input.instance.wasPressed("show_fps")) {
-			this.showFps = !this.showFps;
+			showFps = !showFps;
 			Achievements.unlock(Achievements.TEST);
 		}
 
