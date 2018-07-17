@@ -24,6 +24,8 @@ public class UiMap extends UiEntity {
 		isSelectable = false;
 	}
 
+	public static UiMap instance;
+
 	public static boolean large;
 	private float xc;
 	private float yc;
@@ -41,7 +43,11 @@ public class UiMap extends UiEntity {
 
 	private boolean hadOpen;
 
-	protected void hide() {
+	public boolean isOpen() {
+		return large || my == 0;
+	}
+
+	public void hide() {
 		Tween.to(new Tween.Task(96, 0.4f) {
 			@Override
 			public float getValue() {
@@ -65,7 +71,7 @@ public class UiMap extends UiEntity {
 		GlobalSave.put("hide_minimap", true);
 	}
 
-	protected void show() {
+	public void show() {
 		Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
@@ -92,8 +98,16 @@ public class UiMap extends UiEntity {
 	private boolean did;
 
 	@Override
+	public void destroy() {
+		super.destroy();
+		instance = null;
+	}
+
+	@Override
 	public void init() {
 		super.init();
+
+		instance = this;
 		setSize();
 
 		if (GlobalSave.isTrue("hide_minimap")) {
@@ -337,11 +351,81 @@ public class UiMap extends UiEntity {
 		}
 
 		if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused() && !did) {
-			xc = 0;
-			yc = 0;
+			if (!large) {
+				openHuge();
+			} else if (large) {
+				hideHuge();
+			}
+		}
+	}
 
-			if (!large && my != 96) {
-				Tween.to(new Tween.Task(96, 0.1f) {
+	public void openHuge() {
+		xc = 0;
+		yc = 0;
+
+		if (!large && my != 96) {
+			Tween.to(new Tween.Task(96, 0.1f) {
+				@Override
+				public float getValue() {
+					return my;
+				}
+
+				@Override
+				public void setValue(float value) {
+					my = value;
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+
+					large = true;
+					setSize();
+
+					ly = -Display.GAME_HEIGHT;
+
+					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return ly;
+						}
+
+						@Override
+						public void setValue(float value) {
+							ly = value;
+						}
+
+						@Override
+						public void onEnd() {
+							did = false;
+						}
+					});
+				}
+			});
+
+			hadOpen = true;
+			did = true;
+		}
+	}
+
+	public void hideHuge() {
+		Tween.to(new Tween.Task(-Display.GAME_HEIGHT, 0.1f) {
+			@Override
+			public float getValue() {
+				return ly;
+			}
+
+			@Override
+			public void setValue(float value) {
+				ly = value;
+			}
+
+			@Override
+			public void onEnd() {
+				large = false;
+				setSize();
+
+				Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
 						return my;
@@ -354,74 +438,14 @@ public class UiMap extends UiEntity {
 
 					@Override
 					public void onEnd() {
-						super.onEnd();
-
-						large = true;
-						setSize();
-
-						ly = -Display.GAME_HEIGHT;
-
-						Tween.to(new Tween.Task(0, 0.3f, Tween.Type.BACK_OUT) {
-							@Override
-							public float getValue() {
-								return ly;
-							}
-
-							@Override
-							public void setValue(float value) {
-								ly = value;
-							}
-
-							@Override
-							public void onEnd() {
-								did = false;
-							}
-						});
+						did = false;
 					}
 				});
-
-				hadOpen = true;
-				did = true;
-			} else if (large && my == 96 && hadOpen) {
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT, 0.1f) {
-					@Override
-					public float getValue() {
-						return ly;
-					}
-
-					@Override
-					public void setValue(float value) {
-						ly = value;
-					}
-
-					@Override
-					public void onEnd() {
-						large = false;
-						setSize();
-
-						Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
-							@Override
-							public float getValue() {
-								return my;
-							}
-
-							@Override
-							public void setValue(float value) {
-								my = value;
-							}
-
-							@Override
-							public void onEnd() {
-								did = false;
-							}
-						});
-					}
-				});
-
-				hadOpen = false;
-				did = true;
 			}
-		}
+		});
+
+		hadOpen = false;
+		did = true;
 	}
 
 	private float zoom = GlobalSave.getFloat("minimap_zoom") == 0 ? 1f : GlobalSave.getFloat("minimap_zoom");
