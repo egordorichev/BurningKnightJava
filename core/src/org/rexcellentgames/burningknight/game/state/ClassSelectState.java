@@ -24,12 +24,12 @@ public class ClassSelectState extends State {
 		added = true;
 
 		for (Player.Type type : Player.Type.values()) {
-			classes.add(((UiClass) Dungeon.area.add(new UiClass(type, Display.GAME_WIDTH / 4, (int) -(Display.GAME_HEIGHT * 1.5f)) {
+			classes.add(((UiClass) Dungeon.ui.add(new UiClass(type, Display.GAME_WIDTH / 4, (int) -(Display.GAME_HEIGHT * 1.5f)) {
 
 			})));
 		}
 
-		Dungeon.area.add(new UiButton("play", Display.GAME_WIDTH / 2 + 128, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2) {
+		Dungeon.ui.add(new UiButton("play", Display.GAME_WIDTH / 2 + 128, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -44,7 +44,7 @@ public class ClassSelectState extends State {
 			}
 		});
 
-		Dungeon.area.add(new UiButton("back", Display.GAME_WIDTH / 2 + 64, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2) {
+		Dungeon.ui.add(new UiButton("back", Display.GAME_WIDTH / 2 + 64, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

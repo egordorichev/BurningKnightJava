@@ -55,10 +55,21 @@ public class FireballProjectile extends Projectile {
 
 	@Override
 	public void update(float dt) {
-		this.animation.update(dt);
+		if (this.animation.update(dt)) {
+			if (this.animation == born) {
+				this.animation = idle;
+			} else if (this.animation == dead) {
+				this.done = true;
+			}
+		}
+
 		super.update(dt);
 
 		Dungeon.level.addLightInRadius(this.x, this.y, 0.5f, 0.3f, 0, 2f, 2f, false);
+
+		if (this.t >= 5f) {
+			this.animation = dead;
+		}
 	}
 
 	@Override

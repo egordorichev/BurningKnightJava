@@ -315,10 +315,10 @@ public class Dungeon extends ApplicationAdapter {
 			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
 		}
 
-		if (Input.instance.wasPressed("pause")) {
+		if (Input.instance.wasPressed("pause") && game.getState() instanceof InGameState) {
 			game.getState().setPaused(!game.getState().isPaused());
 		}
-		boolean paused = game.getState().isPaused() || (game.getState() instanceof InGameState && InGameState.map);
+		boolean paused = game.getState().isPaused();
 
 		if (!(game.getState() instanceof LoadState) && !paused) {
 			area.update(dt);
@@ -449,19 +449,19 @@ public class Dungeon extends ApplicationAdapter {
 
 		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT);
 
-		Graphics.surface.begin();
+		Graphics.shadows.begin();
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Graphics.batch.begin();
 		game.renderUi();
 		ModManager.INSTANCE.draw();
 		Graphics.batch.end();
-		Graphics.surface.end();
+		Graphics.shadows.end();
 
 		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
 		//HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
 
-		Texture texture = Graphics.surface.getColorBufferTexture();
+		Texture texture = Graphics.shadows.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.begin();
@@ -529,9 +529,10 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		if (org.rexcellentgames.burningknight.entity.Camera.instance != null) {
-			Camera.resize(width, height);
-		}
+		Camera.resize(width, height);
+
+		Input.instance.mouse.x = Gdx.input.getX();
+		Input.instance.mouse.y = Gdx.input.getY();
 
 		State state = game.getState();
 
@@ -597,7 +598,7 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private void setupCursor() {
-		Pixmap pm = new Pixmap(8, 8, Pixmap.Format.RGBA8888);
+		Pixmap pm = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
 		pm.setBlending(null);
 		pm.setColor(0, 0, 0, 0);
 		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));

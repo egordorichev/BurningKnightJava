@@ -118,10 +118,10 @@ public class Item extends Entity {
   }
 
   public void render(float x, float y, float w, float h, boolean flipped) {
-    getSprite();
+    /*getSprite();
     
     Graphics.render(this.region, x + (w - this.region.getRegionWidth()) / 2 + (flipped ? -w / 2 : w / 2),
-      y + (h - this.region.getRegionHeight()) / 2, 0, this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, flipped, false);
+      y + (h - this.region.getRegionHeight()) / 2, 0, this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, flipped, false);*/
   }
 
   public void beforeRender(float x, float y, float w, float h, boolean flipped) {

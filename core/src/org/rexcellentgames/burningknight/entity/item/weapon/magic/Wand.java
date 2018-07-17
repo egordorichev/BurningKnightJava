@@ -13,7 +13,10 @@ public class Wand extends WeaponBase {
 
 	public void setOwner(Creature owner) {
 		super.setOwner(owner);
-		this.owner = (Player) owner;
+
+		if (owner instanceof Player) {
+			this.owner = (Player) owner;
+		}
 	}
 
 	protected float lastAngle;

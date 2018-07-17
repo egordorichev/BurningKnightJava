@@ -1,8 +1,9 @@
 package org.rexcellentgames.burningknight.ui;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -23,43 +24,47 @@ public class UiBanner extends Entity {
 	public void init() {
 		super.init();
 
-		this.w = 0;
-		Graphics.layout.setText(Graphics.small, this.text);
+		this.w = 18;
+		Graphics.layout.setText(Graphics.smallSimple, this.text);
 		this.w1 = Graphics.layout.width;
 
+		this.h = 24;
+
 		if (this.extra != null) {
-			Graphics.layout.setText(Graphics.small, this.extra);
+			Graphics.layout.setText(Graphics.smallSimple, this.extra);
 			this.w2 = Graphics.layout.width;
 			this.h += Graphics.layout.height + 4;
 		}
 
-		Tween.to(new Tween.Task(Math.max(this.w2, this.w1) + 16, 0.5f) {
+		this.y = -128;
+
+		Tween.to(new Tween.Task(0, 0.6f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
-				return w;
+				return y;
 			}
 
 			@Override
 			public void setValue(float value) {
-				w = value;
+				y = value;
 			}
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(1, 0.2f) {
+				Tween.to(new Tween.Task(Math.max(w2, w1) + 18 + 4, 0.5f) {
 					@Override
 					public float getValue() {
-						return a;
+						return w;
 					}
 
 					@Override
 					public void setValue(float value) {
-						a = value;
+						w = value;
 					}
 
 					@Override
 					public void onEnd() {
-						Tween.to(new Tween.Task(0, 0.2f) {
+						Tween.to(new Tween.Task(1, 0.2f) {
 							@Override
 							public float getValue() {
 								return a;
@@ -72,51 +77,104 @@ public class UiBanner extends Entity {
 
 							@Override
 							public void onEnd() {
-								Tween.to(new Tween.Task(0, 0.5f) {
+								Tween.to(new Tween.Task(0, 0.2f) {
 									@Override
 									public float getValue() {
-										return w;
+										return a;
 									}
 
 									@Override
 									public void setValue(float value) {
-										w = value;
+										a = value;
 									}
 
 									@Override
 									public void onEnd() {
-										setDone(true);
+										Tween.to(new Tween.Task(18, 0.5f) {
+											@Override
+											public float getValue() {
+												return w;
+											}
+
+											@Override
+											public void setValue(float value) {
+												w = value;
+											}
+
+											@Override
+											public void onEnd() {
+												Tween.to(new Tween.Task(-68, 0.5f, Tween.Type.BACK_IN) {
+													@Override
+													public float getValue() {
+														return y;
+													}
+
+													@Override
+													public void setValue(float value) {
+														y = value;
+													}
+
+													@Override
+													public void onEnd() {
+														setDone(true);
+													}
+												});
+											}
+										});
 									}
-								});
+								}).delay(3f);
 							}
-						}).delay(2f);
+						});
 					}
 				});
 			}
 		});
 	}
 
+	private Color color = Color.valueOf("#1a1932");
+
 	private float a;
+	private static TextureRegion topLeft = Graphics.getTexture("ui-banner_top_left");
+	private static TextureRegion top = Graphics.getTexture("ui-banner_top");
+	private static TextureRegion topRight = Graphics.getTexture("ui-banner_top_right");
+
+	private static TextureRegion left = Graphics.getTexture("ui-banner_left");
+	private static TextureRegion center = Graphics.getTexture("ui-banner_center");
+	private static TextureRegion right = Graphics.getTexture("ui-banner_right");
+
+	private static TextureRegion bottomLeft = Graphics.getTexture("ui-banner_bottom_left");
+	private static TextureRegion bottom = Graphics.getTexture("ui-banner_bottom");
+	private static TextureRegion bottomRight = Graphics.getTexture("ui-banner_bottom_right");
 
 	@Override
 	public void render() {
-		Graphics.startShape();
-		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		Graphics.shape.setColor(1, 1, 1, 1);
-		Graphics.shape.rect(Display.GAME_WIDTH / 2 - this.w / 2, 48, this.w, this.h);
-		Graphics.endShape();
+		float x = Display.GAME_WIDTH / 2 - this.w / 2;
+		float y = this.y + 48;
 
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		float sx = (this.w - 18);
+		float sy = (this.h - 13);
+
+		Graphics.render(bottomLeft, x, y);
+		Graphics.render(bottom, x + bottomLeft.getRegionWidth(), y + 4, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomRight, x + this.w - bottomRight.getRegionWidth(), y);
+
+		Graphics.render(left, x, y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+		Graphics.render(center, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, sx, sy);
+		Graphics.render(right, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+
+		Graphics.render(topLeft, x, y + h - topLeft.getRegionHeight());
+		Graphics.render(top, x + topLeft.getRegionWidth(), y + h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topRight, x + this.w - topRight.getRegionWidth(), y + h - topLeft.getRegionHeight());
 
 		if (this.a > 0) {
-			Graphics.small.setColor(1, 1, 1, this.a);
-			Graphics.small.draw(Graphics.batch, this.text, Display.GAME_WIDTH / 2 - (this.w1) / 2, 48 + this.h - 4);
+			Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
+			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.GAME_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 8);
 
 			if (this.extra != null) {
-				Graphics.small.draw(Graphics.batch, this.extra, Display.GAME_WIDTH / 2 - (this.w2) / 2, 48 + 12);
+				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.GAME_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 8 - 12);
 			}
 
-			Graphics.small.setColor(1, 1, 1, 1);
+			Graphics.smallSimple.setColor(1, 1, 1, 1);
 		}
 	}
 }

@@ -2,10 +2,6 @@ package org.rexcellentgames.burningknight.game.state;
 
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -20,7 +16,7 @@ public class SettingsState extends State {
 
 		added = true;
 
-		Dungeon.area.add(new UiButton("graphics", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24) {
+		Dungeon.ui.add(new UiButton("graphics", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -40,7 +36,7 @@ public class SettingsState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.area.add(new UiButton("audio", (int) (Display.GAME_WIDTH * 1.5f), 128) {
+		Dungeon.ui.add(new UiButton("audio", (int) (Display.GAME_WIDTH * 1.5f), 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -60,7 +56,7 @@ public class SettingsState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.area.add(new UiButton("input", (int) (Display.GAME_WIDTH * 1.5f), 128 - 24) {
+		Dungeon.ui.add(new UiButton("input", (int) (Display.GAME_WIDTH * 1.5f), 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -80,7 +76,7 @@ public class SettingsState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.area.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 2.5f)) {
+		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

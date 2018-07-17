@@ -15,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -25,6 +24,8 @@ public class UiMap extends UiEntity {
 		isSelectable = false;
 	}
 
+	public static UiMap instance;
+
 	public static boolean large;
 	private float xc;
 	private float yc;
@@ -32,10 +33,21 @@ public class UiMap extends UiEntity {
 	private float my;
 	private UiButton plus;
 	private UiButton minus;
+
+	private UiButton plusLarge;
+	private UiButton minusLarge;
+
 	private UiButton hide;
 	private UiButton show;
+	private float ly;
 
-	protected void hide() {
+	private boolean hadOpen;
+
+	public boolean isOpen() {
+		return large || my == 0;
+	}
+
+	public void hide() {
 		Tween.to(new Tween.Task(96, 0.4f) {
 			@Override
 			public float getValue() {
@@ -59,7 +71,7 @@ public class UiMap extends UiEntity {
 		GlobalSave.put("hide_minimap", true);
 	}
 
-	protected void show() {
+	public void show() {
 		Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
@@ -86,8 +98,16 @@ public class UiMap extends UiEntity {
 	private boolean did;
 
 	@Override
+	public void destroy() {
+		super.destroy();
+		instance = null;
+	}
+
+	@Override
 	public void init() {
 		super.init();
+
+		instance = this;
 		setSize();
 
 		if (GlobalSave.isTrue("hide_minimap")) {
@@ -110,6 +130,13 @@ public class UiMap extends UiEntity {
 					super.render();
 				}
 			}
+
+			@Override
+			public void update(float dt) {
+				if (!large) {
+					super.update(dt);
+				}
+			}
 		};
 
 		Dungeon.ui.add(hide);
@@ -122,6 +149,13 @@ public class UiMap extends UiEntity {
 			}
 
 			private float vl;
+
+			@Override
+			public void update(float dt) {
+				if (!large) {
+					super.update(dt);
+				}
+			}
 
 			@Override
 			public void render() {
@@ -145,12 +179,19 @@ public class UiMap extends UiEntity {
 
 		Dungeon.ui.add(show);
 
-		this.plus = new UiImageButton("ui-plus", (int) x + 41, (int) y - 3) {
+		this.plus = new UiImageButton("ui-plus", (int) x + 39, (int) y - 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
 
 				plus();
+			}
+
+			@Override
+			public void update(float dt) {
+				if (!large) {
+					super.update(dt);
+				}
 			}
 
 			@Override
@@ -173,6 +214,13 @@ public class UiMap extends UiEntity {
 			}
 
 			@Override
+			public void update(float dt) {
+				if (!large) {
+					super.update(dt);
+				}
+			}
+
+			@Override
 			public void render() {
 				if (!large) {
 					this.y = self.y + my - 3;
@@ -182,6 +230,56 @@ public class UiMap extends UiEntity {
 		};
 
 		Dungeon.ui.add(minus);
+
+		this.plusLarge = new UiImageButton("ui-plus", (int) (x + w - 30), (int) y) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				plus();
+			}
+
+			@Override
+			public void update(float dt) {
+				if (large) {
+					super.update(dt);
+				}
+			}
+
+			public void render() {
+				if (large) {
+					y = self.y + ly - 2;
+					super.render();
+				}
+			}
+		};
+
+		Dungeon.ui.add(plusLarge);
+
+		this.minusLarge = new UiImageButton("ui-minus", (int) (x + w - 20), (int) y) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				minus();
+			}
+
+			@Override
+			public void update(float dt) {
+				if (large) {
+					super.update(dt);
+				}
+			}
+
+			public void render() {
+				if (large) {
+					super.render();
+					y = self.y + ly - 2;
+				}
+			}
+		};
+
+		Dungeon.ui.add(minusLarge);
 	}
 
 	private float speed = 0.5f;
@@ -197,11 +295,11 @@ public class UiMap extends UiEntity {
 	}
 
 	public void setSize() {
-		this.w = large ? Display.GAME_WIDTH : 64;
-		this.h = Math.min(this.w, Display.GAME_HEIGHT);
+		this.w = large ? Display.GAME_WIDTH - 20 : 64;
+		this.h = large ? Display.GAME_HEIGHT - 20 : Math.min(this.w, Display.GAME_HEIGHT);
 
-		this.x = Math.round(Display.GAME_WIDTH - this.w - (large ? 0 : 4));
-		this.y = Math.round(Display.GAME_HEIGHT - this.h - (large ? 0 : 4));
+		this.x = Math.round(Display.GAME_WIDTH - this.w - (large ? 10 : 4));
+		this.y = Math.round(Display.GAME_HEIGHT - this.h - (large ? 10 : 4));
 	}
 
 	@Override
@@ -216,7 +314,7 @@ public class UiMap extends UiEntity {
 			plus();
 		}
 
-		if (!did && Input.instance.wasPressed("toggle_minimap")) {
+		if (!did && Input.instance.wasPressed("toggle_minimap") && !large) {
 			if (my == 0) {
 				hide();
 			} else {
@@ -224,10 +322,8 @@ public class UiMap extends UiEntity {
 			}
 		}
 
-		InGameState.map = large;
-
 		if (large) {
-			float s = 120f;
+			float s = 30f * (1 / zoom);
 
 			if (Input.instance.isDown("left")) {
 				xc += s * dt;
@@ -254,18 +350,120 @@ public class UiMap extends UiEntity {
 			}
 		}
 
-		if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused()) {
-			large = !large;
-			xc = 0;
-			yc = 0;
-
-			setSize();
+		if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused() && !did) {
+			if (!large) {
+				openHuge();
+			} else if (large) {
+				hideHuge();
+			}
 		}
+	}
+
+	public void openHuge() {
+		xc = 0;
+		yc = 0;
+
+		if (!large && my != 96) {
+			Tween.to(new Tween.Task(96, 0.1f) {
+				@Override
+				public float getValue() {
+					return my;
+				}
+
+				@Override
+				public void setValue(float value) {
+					my = value;
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+
+					large = true;
+					setSize();
+
+					ly = -Display.GAME_HEIGHT;
+
+					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return ly;
+						}
+
+						@Override
+						public void setValue(float value) {
+							ly = value;
+						}
+
+						@Override
+						public void onEnd() {
+							did = false;
+						}
+					});
+				}
+			});
+
+			hadOpen = true;
+			did = true;
+		}
+	}
+
+	public void hideHuge() {
+		Tween.to(new Tween.Task(-Display.GAME_HEIGHT, 0.1f) {
+			@Override
+			public float getValue() {
+				return ly;
+			}
+
+			@Override
+			public void setValue(float value) {
+				ly = value;
+			}
+
+			@Override
+			public void onEnd() {
+				large = false;
+				setSize();
+
+				Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return my;
+					}
+
+					@Override
+					public void setValue(float value) {
+						my = value;
+					}
+
+					@Override
+					public void onEnd() {
+						did = false;
+					}
+				});
+			}
+		});
+
+		hadOpen = false;
+		did = true;
 	}
 
 	private float zoom = GlobalSave.getFloat("minimap_zoom") == 0 ? 1f : GlobalSave.getFloat("minimap_zoom");
 	private Color bg = Color.valueOf("#2a2f4e");
-	private Color border = Color.valueOf("#1a1932");
+	private Color border = Color.valueOf("#0e071b");
+
+	private static TextureRegion topLeft = Graphics.getTexture("ui-map_top_left");
+	private static TextureRegion top = Graphics.getTexture("ui-map_top");
+	private static TextureRegion topRight = Graphics.getTexture("ui-map_top_right");
+
+	private static TextureRegion left = Graphics.getTexture("ui-map_left");
+	private static TextureRegion right = Graphics.getTexture("ui-map_right");
+
+	private static TextureRegion bottomLeft = Graphics.getTexture("ui-map_bottom_left");
+	private static TextureRegion bottom = Graphics.getTexture("ui-map_bottom");
+	private static TextureRegion bottomRight = Graphics.getTexture("ui-map_bottom_right");
+
+	private static Color color = Color.valueOf("#424c6e");
 
 	@Override
 	public void render() {
@@ -273,47 +471,43 @@ public class UiMap extends UiEntity {
 			return;
 		}
 
-		Graphics.batch.end();
+		Graphics.startAlphaShape();
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-
 		if (large) {
-			Graphics.shape.setColor(Dungeon.GRAY);
-			Graphics.shape.rect(0, 0, this.w, this.h);
+			Graphics.shape.setColor(color.r, color.g, color.b, 0.8f);
+			Graphics.shape.rect(this.x + 1, this.y + 1 + ly, this.w - 1, this.h - 1);
 		} else {
 			Graphics.shape.setColor(bg);
 			Graphics.shape.rect(this.x + 1, this.y + this.my + 1, this.w - 2, this.h - 2);
 		}
 
-		Graphics.shape.end();
+		Graphics.endAlphaShape();
+		Graphics.batch.end();
 
-		if (!large) {
-			Graphics.surface.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
-				Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
+		Graphics.shadows.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
-			Graphics.text.begin();
+		Graphics.text.begin();
 
-			Gdx.gl.glClearColor(0, 0, 0, 0);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		}
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+		float s = Math.round((large ? 6 : 4) * zoom);
 
-		float px = Player.instance.x + Player.instance.w / 2f;
-		float py = Player.instance.y + Player.instance.h / 2f;
-
-		float s = (int) (large ? 6 : 4 * zoom);
+		float px = Player.instance.x + Player.instance.w / 2f - xc * s;
+		float py = Player.instance.y + Player.instance.h / 2f - yc * s;
 
 		float mx = -px / (16f / s) + this.w / 2 + xc;
-		float my = -py / (16f / s) + (large ? 0 : this.my) + this.h / 2 + yc;
+		float my = -py / (16f / s) + this.h / 2 + yc;
 
-		float o = large ? 1 : 1f * zoom;
+		float o = 1f;// * zoom;
 
 		int xx;
 		int yy;
@@ -373,8 +567,6 @@ public class UiMap extends UiEntity {
 		float plx = Player.instance.x / 16f;
 		float ply = Player.instance.y / 16f;
 
-		/*Graphics.shape.setColor(0, 0, 0, 1);
-		Graphics.shape.rect(plx * s + s / 4f - o + mx, ply * s + s / 4f - o + my, s / 2f + o * 2, s / 2f + o * 2);*/
 		Graphics.shape.setColor(0, 1, 0, 1);
 		Graphics.shape.rect(plx * s + s / 4f + mx, ply * s + s / 4f + my, s / 2f, s / 2f);
 		Graphics.shape.setColor(1, 1, 1, 1);
@@ -382,24 +574,42 @@ public class UiMap extends UiEntity {
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
+		Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
+
+		Graphics.shadows.begin();
+
+		Texture texture = Graphics.text.getColorBufferTexture();
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Graphics.batch.begin();
+
 		if (!large) {
-			Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
-				Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
-
-			Graphics.surface.begin();
-
-			Texture texture = Graphics.text.getColorBufferTexture();
-			texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
-			Graphics.batch.begin();
-			Graphics.batch.draw(texture, this.x + 1, this.y + 1, this.w - 2, this.h - 2,
+			Graphics.batch.draw(texture, this.x + 1, this.y + 1 + this.my, this.w - 2, this.h - 2,
 				0, 0, (int) this.w - 2, (int) this.h - 2, false, true);
-		} else {
-			Graphics.batch.begin();
-		}
 
-		if (!large) {
 			Graphics.render(frame, x, y + this.my);
+		} else {
+			Graphics.batch.draw(texture, this.x + 1, this.y + 1 + ly, this.w - 2, this.h - 2,
+				0, 0, (int) this.w - 2, (int) this.h - 2, false, true);
+
+			renderLarge();
 		}
+	}
+
+	private void renderLarge() {
+		float sx = (this.w - 10);
+		float sy = (this.h - 10);
+
+		Graphics.render(bottomLeft, x, y + ly);
+		Graphics.render(bottom, x + bottomLeft.getRegionWidth(), y + ly, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomRight, x + this.w - bottomRight.getRegionWidth(), y + ly);
+
+		Graphics.render(left, x, y + ly + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+		Graphics.render(right, x + this.w - right.getRegionWidth(), y + ly + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
+
+		Graphics.render(topLeft, x, y + ly + h - topLeft.getRegionHeight());
+		Graphics.render(top, x + topLeft.getRegionWidth(), y + ly + h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topRight, x + this.w - topRight.getRegionWidth(), y + ly + h - topLeft.getRegionHeight());
 	}
 }

@@ -18,7 +18,8 @@ import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
@@ -26,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
+import org.rexcellentgames.burningknight.entity.pool.room.BossRoomPool;
 import org.rexcellentgames.burningknight.entity.pool.room.EntranceRoomPool;
 import org.rexcellentgames.burningknight.entity.pool.room.SecretRoomPool;
 import org.rexcellentgames.burningknight.util.Log;
@@ -37,6 +39,12 @@ import java.util.Collections;
 
 public abstract class RegularLevel extends Level {
 	public static Entrance ladder;
+	protected boolean isBoss;
+
+	public RegularLevel setBoss(boolean boss) {
+		isBoss = boss;
+		return this;
+	}
 
 	@Override
 	public void generate() {
@@ -95,11 +103,11 @@ public abstract class RegularLevel extends Level {
 	protected void spawnLevelEntities() {
 		this.free = new boolean[getSize()];
 
-		if (Dungeon.depth > 0 && !Level.boss[Dungeon.depth]) {
+		if (Dungeon.depth > 0) {
 			MobPool.instance.initForFloor();
 
 			for (Room room : this.rooms) {
-				if (room instanceof RegularRoom) {
+				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom)) {
 					float weight = (Random.newFloat(1f, 2f) + Dungeon.depth % 5 / 2) * Player.mobSpawnModifier;
 
 					while (weight > 0) {
@@ -196,11 +204,15 @@ public abstract class RegularLevel extends Level {
 		ArrayList<Room> rooms = new ArrayList<>();
 
 		this.entrance = EntranceRoomPool.instance.generate();
-		this.exit = EntranceRoomPool.instance.generate();
+		this.exit = this.isBoss ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
 		((EntranceRoom) this.exit).exit = true;
 
 		rooms.add(this.entrance);
 		rooms.add(this.exit);
+
+		if (this.isBoss) {
+			rooms.add(new BossEntranceRoom());
+		}
 
 		if (Dungeon.depth == 0) {
 			rooms.add(new LampRoom());
@@ -251,18 +263,16 @@ public abstract class RegularLevel extends Level {
 		if (Dungeon.depth == 0) {
 			return new LineBuilder();
 		} else {
-			switch (Random.newInt(5)) {
+			switch (Random.newInt(4)) {
 				case 0:
-				case 3:
-				case 5:
+				case 1: // fixme: tmp
 				default:
 					return new CastleBuilder();
-				// case 1: return new LineBuilder();
-				case 2:
-				case 4:
+				case 12:
+				case 13:
 					return new LoopBuilder().setShape(2,
 						Random.newFloat(0.4f, 0.7f),
-						Random.newFloat(0f, 0.5f)).setPathLength(0.3f, new float[]{1, 1, 1});
+						Random.newFloat(0f, 0.5f)).setPathLength(Random.newFloat(0.3f, 0.8f), new float[]{1, 1, 1});
 			}
 		}
 	}

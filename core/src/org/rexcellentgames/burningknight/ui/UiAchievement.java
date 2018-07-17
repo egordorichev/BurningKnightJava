@@ -16,7 +16,6 @@ public class UiAchievement extends Entity {
 	public String text;
 	public String extra;
 
-	private float w1;
 	private float w2;
 
 	private static TextureRegion left = Graphics.getTexture("ui-achievement_left");
@@ -30,7 +29,7 @@ public class UiAchievement extends Entity {
 
 		this.w = 0;
 		Graphics.layout.setText(Graphics.small, this.text);
-		this.w1 = Graphics.layout.width;
+		float w1 = Graphics.layout.width;
 
 		if (this.extra != null) {
 			Graphics.layout.setText(Graphics.small, this.extra);
@@ -38,7 +37,7 @@ public class UiAchievement extends Entity {
 		}
 
 		this.h = 38;
-		this.w = Math.max(this.w2, this.w1) + 32 + 9 + 5;
+		this.w = Math.max(this.w2, w1) + 32 + 9 + 5;
 		this.y = -this.h * 3;
 		this.x = Display.GAME_WIDTH - 2 - this.w;
 
@@ -87,16 +86,5 @@ public class UiAchievement extends Entity {
 
 		Graphics.small.draw(Graphics.batch, this.text, this.x + 38 + 3, this.y + this.h - 4 - 4 - 2);
 		Graphics.small.draw(Graphics.batch, this.extra, this.x + 38 + 3, this.y + this.h - 3 - 16 - 2);
-
-		/*if (this.a > 0) {
-			Graphics.small.setColor(1, 1, 1, this.a);
-			Graphics.small.draw(Graphics.batch, this.text, this.x + (this.w - this.w1) / 2, this.y + this.h - 4);
-
-			if (this.extra != null) {
-				Graphics.small.draw(Graphics.batch, this.extra, this.x + (this.w - this.w2) / 2, this.y + 12);
-			}
-
-			Graphics.small.setColor(1, 1, 1, 1);
-		}*/
 	}
 }

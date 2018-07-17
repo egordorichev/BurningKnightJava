@@ -25,10 +25,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
-import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -240,15 +239,13 @@ public class BurningKnight extends Boss {
 		for (Frame point : this.frames) {
 			float s = point.s;
 
-			if (!Dungeon.game.getState().isPaused() && !InGameState.map) {
-				point.s -= dt * 0.8f;
+			if (!Dungeon.game.getState().isPaused()) {
+				point.s = Math.max(0, point.s - dt * 0.8f);
 			}
 
 			TextureRegion r = this.idle.getFrames().get(Math.min(1, point.frame)).frame;
 			Graphics.render(r, point.x + this.w / 2, point.y + this.h / 2, 0, r.getRegionWidth() / 2, r.getRegionHeight() / 2, false, false, point.flipped ? -s : s, s);
 		}
-
-		// todo: fix
 
 		Graphics.batch.end();
 		shader.begin();

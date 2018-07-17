@@ -110,6 +110,10 @@ public class Ui {
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
+		for (Healthbar healthbar : healthbars.values()) {
+			healthbar.render();
+		}
+
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Player.instance != null && Player.instance.isDead()) {
 				Graphics.print("Game over!", Graphics.medium, 128);
@@ -120,14 +124,10 @@ public class Ui {
 				}
 			}
 		}
-
-		for (Healthbar healthbar : this.healthbars.values()) {
-			healthbar.render();
-		}
 	}
 
 	public void renderCursor() {
-		if (Input.instance.activeController != null && (!(Dungeon.game.getState() instanceof InGameState) || Dungeon.game.getState().isPaused() || InGameState.map)) {
+		if (Input.instance.activeController != null) {
 			return;
 		}
 		

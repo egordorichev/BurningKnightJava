@@ -5,7 +5,6 @@ import org.rexcellentgames.burningknight.entity.item.Compass;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart;
-import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle;
 import org.rexcellentgames.burningknight.entity.item.pet.LibGDX;
 import org.rexcellentgames.burningknight.entity.item.pet.Pico8;
 import org.rexcellentgames.burningknight.entity.item.pet.StrawberryPet;
@@ -49,7 +48,13 @@ public class WoodenChestPool extends Pool<Item> {
 		weapons.clear();
 		items.clear();
 
-		switch (Player.instance.type) {
+		Player.Type type = Player.Type.WARRIOR;
+
+		if (Player.instance != null) {
+			type = Player.instance.type;
+		}
+
+		switch (type) {
 			case WARRIOR: addWarrior(); break;
 			case WIZARD: addMage(); break;
 			case RANGER: addRanger(); break;

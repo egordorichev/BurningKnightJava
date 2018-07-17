@@ -44,7 +44,7 @@
 
 	"moveX" : [ "ControllerLX" ],
 	"moveY" : [ "ControllerLY" ],
-	"map" : [ "M", "ControllerA" ],
+	"map" : [ "M", "Tab", "ControllerA" ],
 
 	"to_shop" : [ "F7" ],
 	"to_secret" : [ "F8" ],

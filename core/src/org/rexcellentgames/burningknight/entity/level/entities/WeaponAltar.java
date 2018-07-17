@@ -6,12 +6,6 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
-import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.WellFx;
 import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
 
@@ -38,6 +32,10 @@ public class WeaponAltar extends UsableProp {
 	@Override
 	public boolean use() {
 		Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
+
+		if (!(item instanceof WeaponBase)) {
+			return false;
+		}
 
 		((WeaponBase) item).setModifier(ModifierPool.instance.generate());
 

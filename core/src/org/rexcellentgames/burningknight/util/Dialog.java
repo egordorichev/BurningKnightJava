@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.assets.Locale;
 
 import java.util.HashMap;
 
@@ -34,13 +33,13 @@ public class Dialog {
 				if (options != null) {
 					if (options.isArray()) {
 						String[] array = options.asStringArray();
-						phrase.options = new String[array.length];
+						phrase.options = new Option[array.length];
 
 						for (int i = 0; i < array.length; i++) {
-							phrase.options[i] = Locale.get(array[i]);
+							phrase.options[i] = new Option(Locale.get(array[i]));
 						}
 					} else {
-						phrase.options = new String[] { Locale.get(options.asString()) };
+						phrase.options = new Option[] { new Option(Locale.get(options.asString())) };
 					}
 				}
 
@@ -71,7 +70,17 @@ public class Dialog {
 		public String name;
 		public String string;
 		public TextureRegion region;
-		public String[] options;
+		public Option[] options;
 		public String[] next;
+	}
+
+	public static class Option {
+		public float x;
+		public float c = 1f;
+		public String string;
+
+		public Option(String string) {
+			this.string = string;
+		}
 	}
 }

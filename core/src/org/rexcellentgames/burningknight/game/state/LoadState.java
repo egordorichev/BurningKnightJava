@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -212,8 +211,6 @@ public class LoadState extends State {
 
 	@Override
 	public void renderUi() {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
 		Graphics.medium.setColor(1, 1, 1, this.a);
 		Graphics.print(this.s, Graphics.medium, 120);
 		Graphics.medium.setColor(1, 1, 1, 1);

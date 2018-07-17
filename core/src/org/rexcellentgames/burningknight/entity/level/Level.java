@@ -23,15 +23,12 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
-import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
-import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
-import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Line;
 import org.rexcellentgames.burningknight.util.Log;
@@ -162,9 +159,9 @@ public abstract class Level extends SaveableEntity {
 			if (depth < weight) {
 				if (depth > 0 && boss[depth]) {
 					switch (orders[i]) {
-						case 0: default: return new HallBossLevel();
-						case 1: return new DesertBossLevel();
-						case 2: return new LibraryBossLevel();
+						case 0: default: return new HallLevel().setBoss(true);
+						case 1: return new DesertLevel().setBoss(true);
+						case 2: return new LibraryLevel().setBoss(true);
 					}
 				} else {
 					switch (orders[i]) {
@@ -264,6 +261,7 @@ public abstract class Level extends SaveableEntity {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 			this.tileUp(x, y, tile, false);
+			this.decor[toIndex(x, y)] = (byte) Random.newInt(3);
 		} else if (tile == Terrain.TABLE) {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.GRASS) {
@@ -680,7 +678,7 @@ public abstract class Level extends SaveableEntity {
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
-											Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+											Graphics.render(Terrain.wallTop[this.decor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
 										}
 									}
 								} else {
@@ -691,7 +689,7 @@ public abstract class Level extends SaveableEntity {
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
-											Graphics.render(Terrain.wallTop[vl], x * 16 + xx * 8, y * 16 + yy * 8);
+											Graphics.render(Terrain.wallTop[this.decor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
 										}
 									}
 								}
@@ -753,6 +751,10 @@ public abstract class Level extends SaveableEntity {
 
 	// TODO: Too complex
 	private void renderFloor(int sx, int sy, int fx, int fy) {
+		if (this.low == null || this.light == null) {
+			this.loadPassable();
+		}
+
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 				int i = x + y * getWidth();
@@ -813,8 +815,8 @@ public abstract class Level extends SaveableEntity {
 
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
 
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					r.setRegionX(r.getRegionX() + (x % 4) * 16);
+					r.setRegionY(r.getRegionY() + (y % 2) * 16);
 
 					int rx = r.getRegionX();
 					int ry = r.getRegionY();
@@ -833,7 +835,6 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					maskShader.begin();
 					t.bind(1);
-					maskShader.setUniformf("world", new Vector2(x, y));
 					maskShader.setUniformf("water", 1);
 					maskShader.setUniformf("activated", 1);
 					maskShader.setUniformi("u_texture2", 1);
@@ -882,7 +883,6 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.end();
 					maskShader.begin();
 					t.bind(1);
-					maskShader.setUniformf("world", new Vector2(x, y));
 					maskShader.setUniformf("activated", 1);
 					maskShader.setUniformf("water", 1);
 					maskShader.setUniformi("u_texture2", 1);
@@ -1199,13 +1199,17 @@ public abstract class Level extends SaveableEntity {
 					float v = 1;
 
 					if (!see) {
-						byte vl = this.canSee(fx, fy, fx + xx, fy + yy);
+						if (this.isValid(fx + xx, fy + yy) && this.isValid(fx, fy)) {
+							byte vl = this.canSee(fx, fy, fx + xx, fy + yy);
 
-						if (vl == 1 && yy >= 0) {
-							v = 0.5f;
-							see = true;
-						} else { //(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
-							see = vl == 0;
+							if (vl == 1 && yy >= 0) {
+								v = 0.5f;
+								see = true;
+							} else { //(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
+								see = vl == 0;
+							}
+						} else {
+							see = false;
 						}
 					}
 

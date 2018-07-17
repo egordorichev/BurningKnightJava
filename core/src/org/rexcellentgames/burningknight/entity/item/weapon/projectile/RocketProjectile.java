@@ -47,7 +47,7 @@ public class RocketProjectile extends Projectile {
 	private void explode() {
 		this.playSfx("explosion");
 		this.done = true;
-		Dungeon.area.add(new Explosion(this.x + 8, this.y + 8));
+		Dungeon.area.add(new Explosion(this.x, this.y));
 
 		for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 			Entity e = Dungeon.area.getEntities().get(i);
@@ -55,7 +55,7 @@ public class RocketProjectile extends Projectile {
 			if (e instanceof Creature) {
 				Creature c = (Creature) e;
 
-				if (c.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+				if (c.getDistanceTo(this.x, this.y) < 24f) {
 					if (!c.explosionBlock) {
 
 						HpFx fx = c.modifyHp(-this.damage, this.owner, true);

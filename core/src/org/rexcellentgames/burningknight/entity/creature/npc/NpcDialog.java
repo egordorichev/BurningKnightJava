@@ -47,34 +47,34 @@ public class NpcDialog extends Entity {
 
 	@Override
 	public void render() {
-		float x = this.npc.x + this.npc.w / 2 + this.x + this.w / 2 - topLeft.getRegionWidth();
-		float y = this.npc.y + this.npc.h + 8;
+		float x = Math.round(this.npc.x + this.npc.w / 2 + this.x - topLeft.getRegionWidth());
+		float y = Math.round(this.npc.y + this.npc.h + 10 - this.h / 2);
 
 		float sx = (this.w - topLeft.getRegionWidth() * 2) / ((float) top.getRegionWidth());
 		float sy = (this.h - left.getRegionHeight()) / ((float) left.getRegionHeight());
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		Graphics.render(top, x - this.w / 2 + topLeft.getRegionWidth(), y + this.h / 2 - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
-		Graphics.render(topLeft, x - this.w / 2, y + this.h / 2 - topLeft.getRegionHeight());
-		Graphics.render(topRight, x + this.w / 2 - topRight.getRegionWidth(), y + this.h / 2 - topRight.getRegionHeight());
+		Graphics.render(top, x + topLeft.getRegionWidth(), y + this.h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topLeft, x, y + this.h - topLeft.getRegionHeight());
+		Graphics.render(topRight, x + this.w - topRight.getRegionWidth(), y + this.h - topRight.getRegionHeight());
 
-		Graphics.render(left, x - this.w / 2, y - this.h / 2 + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
-		Graphics.render(right, x + this.w / 2 - right.getRegionWidth(), y - this.h / 2 + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(left, x, y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(right, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(center, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
 
-		Graphics.render(center, x - this.w / 2 + left.getRegionWidth(), y - this.h / 2 + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
+		Graphics.render(bottom, x+ bottomLeft.getRegionWidth(),
+			y, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomLeft, x, y);
+		Graphics.render(bottomRight, x + this.w - topRight.getRegionWidth(), y);
 
-		Graphics.render(bottom, x - this.w / 2 + bottomLeft.getRegionWidth(), y - this.h / 2, 0, 0, 0, false, false, sx, 1);
-		Graphics.render(bottomLeft, x - this.w / 2, y - this.h / 2);
-		Graphics.render(bottomRight, x + this.w / 2 - topRight.getRegionWidth(), y - this.h / 2);
-
-		Graphics.render(overlay, x - this.w / 2 + bottomLeft.getRegionWidth(), y - this.h / 2 - 5);
+		Graphics.render(overlay, x + bottomLeft.getRegionWidth(), y - 4);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
 
-		Graphics.print(this.message, Graphics.smallSimple, x + 4 - this.w / 2,
-			this.npc.y + this.npc.h + this.h - 16);
+		Graphics.print(this.message, Graphics.smallSimple, x + 4,
+			y + 4);
 
 		Graphics.smallSimple.setColor(1, 1, 1, 1);
 	}
@@ -90,7 +90,7 @@ public class NpcDialog extends Entity {
 			this.last = null;
 		}
 
-		Graphics.layout.setText(Graphics.small, this.full);
+		Graphics.layout.setText(Graphics.smallSimple, this.full);
 		this.h = Graphics.layout.height + 12;
 		this.w = Graphics.layout.width + 8;
 		this.message = "";

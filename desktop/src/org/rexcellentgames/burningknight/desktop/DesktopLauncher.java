@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
+import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.*;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -104,6 +105,8 @@ public class DesktopLauncher {
 		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 2);
 		config.setWindowSizeLimits(Display.GAME_WIDTH, Display.GAME_HEIGHT, 1000000000, 10000000);
 		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
+		config.setIdleFPS(0);
+		config.setInitialBackgroundColor(Color.BLACK);
 
 		Dungeon.arg = arg;
 
@@ -122,6 +125,10 @@ public class DesktopLauncher {
 		"It burns burns burns",
 		"Not for children under -1",
 		"Unhandled fire",
+		"Chili music",
+		"Fire trap",
+		"On-fire",
+		"Hot potatoo",
 
 		"This title will never appear, strange?"
 	};

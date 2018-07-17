@@ -141,11 +141,6 @@ vec4 get(vec2 pos) {
         realColor = texture2D(u_texture, vec2(x, y));
     }
 
-    /*vec2 position = pos - vec2(0.5);
-    float len = round(length(position));
-    float vignette = smoothstep(0.75, 0.3, len);
-    realColor.rgb = mix(realColor.rgb, realColor.rgb * vignette, 0.5);*/
-
     if (transR < 1.0) {
         float dx = (transPos.x - x) * (u_textureSizes.x / u_textureSizes.y);
         float dy = transPos.y - y;
@@ -162,34 +157,5 @@ vec4 get(vec2 pos) {
 }
 
 void main() {
-    vec2 uv = v_texCoord;
-
-    /*uv.x = round(uv.x * u_textureSizes.x) / u_textureSizes.x; // + u_sampleProperties.z;
-    uv.y = round(uv.y * u_textureSizes.y) / u_textureSizes.y; // + u_sampleProperties.w;
-
-    vec2 uvSize = u_textureSizes.xy;
-
-    float upscale = u_textureSizes.z;
-
-    float dU = (1.0 / upscale) / uvSize.x;
-    float dV = (1.0 / upscale) / uvSize.y;
-
-    vec4 c0 = get(uv);
-    vec4 c1 = get(uv + vec2(dU, 0));
-    vec4 c2 = get(uv + vec2(0, dV));
-    vec4 c3 = get(uv + vec2(dU, dV));
-
-    float subU = u_sampleProperties.x;
-    float subV = u_sampleProperties.y;
-
-    float w0 = 1.0 - subU;
-    float w1 = subU;
-    float w2 = 1.0 - subV;
-    float w3 = subV;
-
-    vec4 bilinear = c0 * w0 * w2 + c1 * w1 * w2 + c2 * w0 * w3 + c3 * w1 * w3;
-
-
-    gl_FragColor = daltonize(bilinear); */
-    gl_FragColor = daltonize(get(uv));
+    gl_FragColor = daltonize(get(v_texCoord));
 }

@@ -1,10 +1,5 @@
 package org.rexcellentgames.burningknight.game.state;
 
-import org.rexcellentgames.burningknight.Settings;
-import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.ui.UiCheckbox;
-import org.rexcellentgames.burningknight.ui.UiSlider;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
@@ -25,7 +20,7 @@ public class AudioSettingsState extends State {
 
 		added = true;
 
-		Dungeon.area.add(new UiSlider("music", (int) (Display.GAME_WIDTH * 2.5f), 128 + 24) {
+		Dungeon.ui.add(new UiSlider("music", (int) (Display.GAME_WIDTH * 2.5f), 128 + 24) {
 			@Override
 			public void onClick() {
 				Camera.shake(3);
@@ -39,7 +34,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setValue(Settings.music));
 
-		Dungeon.area.add(new UiSlider("sfx", (int) (Display.GAME_WIDTH * 2.5f), 128) {
+		Dungeon.ui.add(new UiSlider("sfx", (int) (Display.GAME_WIDTH * 2.5f), 128) {
 			@Override
 			public void onClick() {
 				Camera.shake(3);
@@ -52,7 +47,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setValue(Settings.sfx));
 
-		Dungeon.area.add(new UiCheckbox("uisfx", (int) (Display.GAME_WIDTH * 2.5f), 128 - 24) {
+		Dungeon.ui.add(new UiCheckbox("uisfx", (int) (Display.GAME_WIDTH * 2.5f), 128 - 24) {
 			@Override
 			public void onClick() {
 				Camera.shake(3);
@@ -61,7 +56,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setOn(Settings.uisfx));
 
-		Dungeon.area.add(new UiButton("back", (int) (Display.GAME_WIDTH * 2.5f), (int) (128 - 24 * 2.5f)) {
+		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 2.5f), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

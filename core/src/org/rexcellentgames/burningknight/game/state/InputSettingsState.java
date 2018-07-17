@@ -25,7 +25,7 @@ public class InputSettingsState extends State {
 
 		added = true;
 
-		Dungeon.area.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -67,9 +67,9 @@ public class InputSettingsState extends State {
 
 		updateChoices();
 
-		Dungeon.area.add(c);
+		Dungeon.ui.add(c);
 
-		Dungeon.area.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

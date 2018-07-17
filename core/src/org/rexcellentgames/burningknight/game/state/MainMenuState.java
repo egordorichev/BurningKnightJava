@@ -59,7 +59,7 @@ public class MainMenuState extends State {
 			e.printStackTrace();
 		}*/
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("play", -128, 128 - 24) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("play", -128, 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -79,7 +79,7 @@ public class MainMenuState extends State {
 			}
 		}.setSparks(true)));
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("settings", (int) (Display.GAME_WIDTH + 128 + v), (int) (128 - 24 * 2.5f)) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.GAME_WIDTH + 128 + v), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -99,7 +99,7 @@ public class MainMenuState extends State {
 			}
 		}));
 
-		buttons.add((UiButton) Dungeon.area.add(new UiButton("exit", -128, (int) (128 - 24 * 3.5f)) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("exit", -128, (int) (128 - 24 * 3.5f)) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
@@ -172,7 +172,7 @@ public class MainMenuState extends State {
 	}
 
 	@Override
-	public void render() {
+	public void renderUi() {
 		super.render();
 
 		Camera.ui.position.set(cameraX, cameraY, 0);
@@ -187,6 +187,7 @@ public class MainMenuState extends State {
 
 		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
 		Graphics.print(Version.string, Graphics.small, 2 + versionX, versionY + 2);
+		Dungeon.ui.render();
 		Ui.ui.renderCursor();
 	}
 }

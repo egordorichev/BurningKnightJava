@@ -37,8 +37,13 @@ public class IronChestPool extends Pool<Item> {
 	public static void init() {
 		weapons.clear();
 		items.clear();
+		Player.Type type = Player.Type.WARRIOR;
 
-		switch (Player.instance.type) {
+		if (Player.instance != null) {
+			type = Player.instance.type;
+		}
+
+		switch (type) {
 			case WARRIOR: addWarrior(); break;
 			case WIZARD: addMage(); break;
 			case RANGER: addRanger(); break;

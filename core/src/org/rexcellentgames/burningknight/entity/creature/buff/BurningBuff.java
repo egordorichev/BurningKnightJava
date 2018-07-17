@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 
 public class BurningBuff extends Buff {
 	{
-		duration = 5.0f;
+		duration = 2.0f;
 		name = "Burning";
 		description = "You are on fire!";
 		sprite = "ui-burning";

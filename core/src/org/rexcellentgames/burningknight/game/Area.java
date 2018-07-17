@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
+import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -68,12 +69,15 @@ public class Area {
   public void update(float dt) {
     if (this.hasSelectableEntity) {
       if (this.selectedUiEntity >= this.entities.size()) {
-        this.selectedUiEntity = 0;
-        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        this.selectedUiEntity = findFirstSelectableUiEntity();
+        
+        if (this.selectedUiEntity != -1) {
+          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        }
       }
 
-      if (Input.instance.wasPressed("uiUp")) {
-        if (this.selectedUiEntity >= 0) {
+      if (Input.instance.wasPressed("uiUp") && !UiMap.large) {
+        if (this.selectedUiEntity != -1) {
           ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
         }
 
@@ -82,11 +86,13 @@ public class Area {
         } else {
           this.selectedUiEntity = findLastSelectableUiEntity(this.selectedUiEntity - 1);
         }
-
-        ((UiEntity) this.entities.get(selectedUiEntity)).select();
-      } else if (Input.instance.wasPressed("uiDown")) {
+        
+        if (this.selectedUiEntity != -1) {
+          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        }          
+      } else if (Input.instance.wasPressed("uiDown") && !UiMap.large) {
         if (this.selectedUiEntity >= 0) {
-          if (selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
+          if (this.selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
             ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
           }
         }
@@ -97,7 +103,9 @@ public class Area {
           this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
         }
 
-        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        if (this.selectedUiEntity != -1) {
+          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        }
       }
     }
 
@@ -183,6 +191,22 @@ public class Area {
     return list.get(Random.newInt(list.size()));
   }
 
+  public void select(UiEntity entity) {
+    if (!entity.isSelectable()) {
+      return;
+    }
+
+    for (Entity e : this.entities) {
+      if (e instanceof UiEntity && ((UiEntity) e).isSelected()) {
+        ((UiEntity) e).unselect();
+      }
+    }
+
+    entity.select();
+
+    this.selectedUiEntity = this.entities.indexOf(entity);
+  }
+
   public void destroy() {
     for (int i = this.entities.size() - 1; i >= 0; i--) {
       this.entities.get(i).destroy();
@@ -204,22 +228,7 @@ public class Area {
       }
     }
 
-    return 0;
-  }
-
-  public void select(UiEntity entity) {
-    if (!entity.isSelectable()) {
-      return;
-    }
-
-    for (Entity e : this.entities) {
-      if (e instanceof UiEntity && ((UiEntity) e).isSelected()) {
-        ((UiEntity) e).unselect();
-      }
-    }
-
-    entity.select();
-    this.selectedUiEntity = this.entities.indexOf(entity);
+    return -1;
   }
 
   private int findLastSelectableUiEntity() {
@@ -233,7 +242,7 @@ public class Area {
       }
     }
 
-    return 0;
+    return -1;
   }
 
   public ArrayList<Entity> getEntities() {

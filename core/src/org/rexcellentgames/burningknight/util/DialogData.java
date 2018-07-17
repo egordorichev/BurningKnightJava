@@ -1,7 +1,7 @@
 package org.rexcellentgames.burningknight.util;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.rafaskoberg.gdx.typinglabel.TypingLabel;
 import com.rafaskoberg.gdx.typinglabel.TypingListener;
@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.ui.UiMap;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,7 @@ public class DialogData {
 
 	private float size;
 	private float w;
+	private float h = 48;
 
 	public void onEnd(Runnable onEnd) {
 		this.fin = onEnd;
@@ -55,62 +57,122 @@ public class DialogData {
 		this.start = onStart;
 	}
 
-	private static Color color = Color.valueOf("#2a2f4e");
+
+	private TextureRegion top = Graphics.getTexture("ui-dialog_top");
+	private TextureRegion topLeft = Graphics.getTexture("ui-dialog_top_left");
+	private TextureRegion topRight = Graphics.getTexture("ui-dialog_top_right");
+	private TextureRegion center = Graphics.getTexture("ui-dialog_center");
+	private TextureRegion left = Graphics.getTexture("ui-dialog_left");
+	private TextureRegion right = Graphics.getTexture("ui-dialog_right");
+	private TextureRegion bottom = Graphics.getTexture("ui-dialog_bottom");
+	private TextureRegion bottomLeft = Graphics.getTexture("ui-dialog_bottom_left");
+	private TextureRegion bottomRight = Graphics.getTexture("ui-dialog_bottom_right");
+
+	private TextureRegion optionsCenter = Graphics.getTexture("ui-option_center");
+	private TextureRegion optionsLeft = Graphics.getTexture("ui-option_left");
+	private TextureRegion optionsRight = Graphics.getTexture("ui-option_right");
+	private TextureRegion optionsBottom = Graphics.getTexture("ui-option_bottom");
+	private TextureRegion optionsBottomLeft = Graphics.getTexture("ui-option_bottom_left");
+	private TextureRegion optionsBottomRight = Graphics.getTexture("ui-option_bottom_right");
 
 	public void render() {
-		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		Graphics.startShape();
-
 		if (size > 0) {
+			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+			Graphics.startShape();
 			Graphics.shape.setColor(0, 0, 0, 1);
 			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, size);
 			Graphics.shape.rect(0, Display.GAME_HEIGHT - size, Display.GAME_WIDTH, size);
+			Graphics.endShape();
 		}
 
-		int y = Display.GAME_HEIGHT - 52 - 16 - 48;
 		int x = (int) ((Display.GAME_WIDTH - this.w) / 2);
 
-		Graphics.shape.setColor(color.r, color.g, color.b, 1);
-		Graphics.shape.rect(x, y, this.w, 48);
-		Graphics.endShape();
+		float sx = (this.w - 8);
 
 		if (this.label != null) {
-			this.label.draw(Graphics.batch, this.a);
-
 			if (this.optionsH > 0) {
 				Dialog.Phrase phrase = this.phrases.get(this.current);
 
 				if (phrase.options != null && this.label.hasEnded()) {
-					Graphics.startShape();
-					Graphics.shape.setColor(color.r * 0.6f, color.g * 0.6f, color.b * 0.6f, 1);
-					Graphics.shape.rect(x, y - this.optionsH, this.w, this.optionsH);
-					Graphics.shape.setColor(1, 1, 1, 1);
-					Graphics.endShape();
+					float sy = (this.optionsH - 4);
+					int y = (int) (Display.GAME_HEIGHT - 52 - 16 - this.h - optionsH);
+
+
+					Graphics.render(optionsLeft, x, y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+					Graphics.render(optionsRight, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+					Graphics.render(optionsCenter, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
+
+					Graphics.render(optionsBottom, x+ bottomLeft.getRegionWidth(),
+						y, 0, 0, 0, false, false, sx, 1);
+					Graphics.render(optionsBottomLeft, x, y);
+					Graphics.render(optionsBottomRight, x + this.w - topRight.getRegionWidth(), y);
 
 					if (this.optionsA > 0) {
 						for (int i = 0; i < phrase.options.length; i++) {
-							String option = phrase.options[i];
+							Dialog.Option option = phrase.options[i];
+							String str = option.string;
 							boolean sl = i == selected;
 
+							float tar = 1;
+
 							if (sl) {
-								option += " <";
+								str += " <";
 								float c = (float) (0.6f + Math.cos(Dungeon.time * 4) / 3f);
 
-								Graphics.small.setColor(c * 0.8f, c * 0.8f, c, this.optionsA);
-							} else {
-								Graphics.small.setColor(1, 1, 1, this.optionsA);
+								tar = c * 0.8f;
 							}
 
-							Graphics.small.draw(Graphics.batch, option, x + (sl ? 20 : 16), y - (i + 1) * 16);
+							float dt = Gdx.graphics.getDeltaTime();
+							option.c += (tar - option.c) * dt * 20;
+							option.x += ((sl ? 4 : 0) - option.x) * dt * 20;
+
+							Graphics.small.setColor(option.c, option.c, option.c, this.optionsA);
+
+							Graphics.small.draw(Graphics.batch, str, x + option.x + 10, y - (i + 1) * 10 + optionsH + 4);
 							Graphics.small.setColor(1, 1, 1, 1);
 						}
 					}
 				}
 			}
 		}
+
+		float sy = (this.h - 9);
+		int y = (int) (Display.GAME_HEIGHT - 52 - 16 - this.h);
+
+		Graphics.render(top, x + topLeft.getRegionWidth(), y + this.h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topLeft, x, y + this.h - topLeft.getRegionHeight());
+		Graphics.render(topRight, x + this.w - topRight.getRegionWidth(), y + this.h - topRight.getRegionHeight());
+
+		Graphics.render(left, x, y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(right, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(center, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
+
+		Graphics.render(bottom, x+ bottomLeft.getRegionWidth(),
+			y, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomLeft, x, y);
+		Graphics.render(bottomRight, x + this.w - topRight.getRegionWidth(), y);
+
+		if (this.label != null) {
+			this.label.draw(Graphics.batch, this.a);
+		}
 	}
 
+	private boolean mapWasOpen;
+	private boolean mapWasLarge;
+
+
 	public void start() {
+		mapWasOpen = UiMap.instance.isOpen();
+		mapWasLarge = UiMap.large;
+
+		if (mapWasOpen) {
+			if (mapWasLarge) {
+				UiMap.instance.hideHuge();
+			} else {
+				UiMap.instance.hide();
+			}
+		}
+
 		this.label = null;
 		this.current = 0;
 		this.a = 1;
@@ -134,7 +196,7 @@ public class DialogData {
 			}
 		});
 
-		Tween.to(new Tween.Task(52, 0.4f) {
+		Tween.to(new Tween.Task(52, 0.1f) {
 			@Override
 			public float getValue() {
 				return size;
@@ -221,7 +283,7 @@ public class DialogData {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 
 		if (phrase != null && phrase.options != null) {
-			Tween.to(new Tween.Task((phrase.options.length + 1) * 16 + 8, 0.3f) {
+			Tween.to(new Tween.Task((phrase.options.length + 1) * 10 + 4, 0.3f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
 					return optionsH;
@@ -234,7 +296,7 @@ public class DialogData {
 
 				@Override
 				public void onEnd() {
-					Tween.to(new Tween.Task(1, 0.2f) {
+					Tween.to(new Tween.Task(1, 0.1f) {
 						@Override
 						public float getValue() {
 							return optionsA;
@@ -312,7 +374,7 @@ public class DialogData {
 			return;
 		}
 
-		Tween.to(new Tween.Task(0, 0.2f) {
+		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override
 			public float getValue() {
 				return optionsA;
@@ -325,7 +387,7 @@ public class DialogData {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0, 0.3f) {
+				Tween.to(new Tween.Task(0, 0.1f) {
 					@Override
 					public float getValue() {
 						return optionsH;
@@ -382,7 +444,7 @@ public class DialogData {
 	public void end() {
 		stop.run();
 
-		Tween.to(new Tween.Task(0, 0.4f) {
+		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {
 				return size;
@@ -426,6 +488,14 @@ public class DialogData {
 						if (label != null) {
 							label.remove();
 							label = null;
+						}
+
+						if (mapWasOpen) {
+							if (mapWasLarge) {
+								UiMap.instance.openHuge();
+							} else {
+								UiMap.instance.show();
+							}
 						}
 
 						if (fin != null) {

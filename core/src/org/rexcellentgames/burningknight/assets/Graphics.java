@@ -1,3 +1,4 @@
+
 package org.rexcellentgames.burningknight.assets;
 
 import com.badlogic.gdx.Gdx;
@@ -36,7 +37,7 @@ public class Graphics {
 	public static FrameBuffer shadows;
 	public static FrameBuffer surface;
 	public static FrameBuffer text;
-	
+
 	private static HashMap<String, HashMap<String, TextureRegion>> modSprites = new HashMap<>();
 
 	public static void delay() {
@@ -79,7 +80,7 @@ public class Graphics {
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
 
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2, false);
 		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 

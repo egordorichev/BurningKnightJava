@@ -10,9 +10,9 @@ public class LampRoomPool extends Pool<RegularRoom> {
 		add(GardenRoom.class, 1f);
 		add(SpikedRoom.class, 1f);
 		add(MazeFloorRoom.class, 0.3f);
-		add(StatueRoom.class, 1);
 		add(RectFloorRoom.class, 0.3f);
 
+		// add(StatueRoom.class, 1);
 		// add(LineRoom.class, 1);
 		// add(CircleLineRoom.class, 1);
 		// add(BrokeLineRoom.class, 1);
