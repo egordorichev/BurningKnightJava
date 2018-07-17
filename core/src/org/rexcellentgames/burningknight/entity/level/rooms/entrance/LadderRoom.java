@@ -1,6 +1,5 @@
-package org.rexcellentgames.burningknight.entity.level.rooms.ladder;
+package org.rexcellentgames.burningknight.entity.level.rooms.entrance;
 
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 
 public class LadderRoom extends Room {
@@ -16,7 +15,7 @@ public class LadderRoom extends Room {
 	@Override
 	public int getMinConnections(Connection side) {
 		if (side == Connection.ALL) {
-			return 2;
+			return 1;
 		}
 
 		return 0;

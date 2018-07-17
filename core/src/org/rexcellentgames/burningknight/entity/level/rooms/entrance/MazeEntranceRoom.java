@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity.level.rooms.ladder;
+package org.rexcellentgames.burningknight.entity.level.rooms.entrance;
 
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;

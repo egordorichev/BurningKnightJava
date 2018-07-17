@@ -3,7 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.levels.library;
 import org.rexcellentgames.burningknight.entity.level.builders.Builder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.boss.LibraryBossRoom;
 
 import java.util.ArrayList;

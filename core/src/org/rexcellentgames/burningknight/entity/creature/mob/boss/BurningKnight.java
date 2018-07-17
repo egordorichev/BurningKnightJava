@@ -25,7 +25,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.ui.UiBanner;

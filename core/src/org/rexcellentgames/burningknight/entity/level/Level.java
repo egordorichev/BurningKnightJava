@@ -23,15 +23,12 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
-import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
-import org.rexcellentgames.burningknight.entity.level.levels.hall.HallBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
-import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryBossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Line;
 import org.rexcellentgames.burningknight.util.Log;
@@ -162,9 +159,9 @@ public abstract class Level extends SaveableEntity {
 			if (depth < weight) {
 				if (depth > 0 && boss[depth]) {
 					switch (orders[i]) {
-						case 0: default: return new HallBossLevel();
-						case 1: return new DesertBossLevel();
-						case 2: return new LibraryBossLevel();
+						case 0: default: return new HallLevel().setBoss(true);
+						case 1: return new DesertLevel().setBoss(true);
+						case 2: return new LibraryLevel().setBoss(true);
 					}
 				} else {
 					switch (orders[i]) {

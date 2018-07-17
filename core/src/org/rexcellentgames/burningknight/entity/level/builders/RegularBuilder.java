@@ -2,10 +2,13 @@ package org.rexcellentgames.burningknight.entity.level.builders;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -15,6 +18,8 @@ import java.util.LinkedHashSet;
 public class RegularBuilder extends Builder {
 	protected EntranceRoom entrance;
 	protected EntranceRoom exit;
+	protected BossRoom boss;
+	protected BossEntranceRoom bossExit;
 	protected LampRoom lamp;
 	protected float pathVariance = 45f;
 	protected float pathLength = 0.5f;
@@ -38,10 +43,15 @@ public class RegularBuilder extends Builder {
 		}
 
 		for (Room room : rooms) {
-			if (room instanceof EntranceRoom && ((EntranceRoom) room).exit) {
+			if (room instanceof BossRoom) {
+				this.boss = (BossRoom) room;
+				this.exit = (EntranceRoom) room;
+			} else if (room instanceof EntranceRoom && ((EntranceRoom) room).exit) {
 				this.exit = (EntranceRoom) room;
 			} else if (room instanceof EntranceRoom) {
 				this.entrance = (EntranceRoom) room;
+			} else if (room instanceof BossEntranceRoom) {
+				this.bossExit = (BossEntranceRoom) room;
 			} else if (room.getMaxConnections(Room.Connection.ALL) == 1) {
 				this.singleConnection.add(room);
 			} else if (room.getMaxConnections(Room.Connection.ALL) > 1) {

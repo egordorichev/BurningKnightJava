@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.builders.Builder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.boss.HallBossRoom;
 
 import java.util.ArrayList;

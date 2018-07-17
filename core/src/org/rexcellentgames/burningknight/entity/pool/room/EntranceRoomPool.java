@@ -1,6 +1,6 @@
 package org.rexcellentgames.burningknight.entity.pool.room;
 
-import org.rexcellentgames.burningknight.entity.level.rooms.ladder.*;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.*;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
 public class EntranceRoomPool extends Pool<EntranceRoom> {
