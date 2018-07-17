@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
 
 public class WeaponAltar extends UsableProp {
 	{
-		sprite = "prop (slab C)";
+		sprite = "prop_slab_c";
 		collider = new Rectangle(1, 10, 26, 6);
 	}
 

@@ -465,26 +465,11 @@ public class Dungeon extends ApplicationAdapter {
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.begin();
-		Graphics.batch.setShader(shader);
-
-		shader.setUniformf("u_textureSizes", Display.GAME_WIDTH, Display.GAME_HEIGHT, upscale, 0.0f);
-		shader.setUniformf("u_sampleProperties", 0, 0, 0, 0);
-		shader.setUniformf("shockTime", 10);
-		shader.setUniformf("glitchT", 0);
-		shader.setUniformf("shockPos", shockPos);
-		shader.setUniformf("colorBlind", colorBlind);
-		shader.setUniformf("correct", colorBlindFix);
-		shader.setUniformf("heat", 0);
-		shader.setUniformf("time", Dungeon.time);
-		shader.setUniformf("transR", darkR / MAX_R);
-		shader.setUniformf("transPos", new Vector2(darkX / Display.GAME_WIDTH, darkY / Display.GAME_HEIGHT));
-		shader.setUniformf("cam", new Vector2(Camera.game.position.x / 1024f, Camera.game.position.y / 1024f));
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, Display.GAME_WIDTH * upscale,
 			-Display.GAME_HEIGHT * upscale);
 		Graphics.batch.end();
-		Graphics.batch.setShader(null);
 	}
 
 	private Point inputVel = new Point();

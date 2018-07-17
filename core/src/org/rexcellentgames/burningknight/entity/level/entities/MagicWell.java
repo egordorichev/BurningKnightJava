@@ -11,14 +11,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.WellFx;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class MagicWell extends UsableProp {
@@ -34,12 +27,11 @@ public class MagicWell extends UsableProp {
 	}
 
 	private static TextureRegion[] water = new TextureRegion[] {
-		Graphics.getTexture("prop (water_none)"),
 		Graphics.getTexture("prop (water_heal)")
 	};
 
 	{
-		sprite = "prop (tub)";
+		sprite = "props-tub";
 		collider = new Rectangle(4, 5, 30 - 8, 12);
 	}
 
@@ -55,7 +47,6 @@ public class MagicWell extends UsableProp {
 		switch (r) {
 			case 0: default:
 				Player.instance.modifyHp(Player.instance.getHpMax() - Player.instance.getHp(), null);
-				Log.info("[green]You take a sip and feel refreshed!");
 				break;
 			/*case 1:
 
@@ -101,23 +92,26 @@ public class MagicWell extends UsableProp {
 	public void render() {
 		super.render();
 
-		Graphics.batch.end();
-		shader.begin();
+		if (!this.used) {
+			Graphics.batch.end();
+			shader.begin();
 
-		TextureRegion r = water[this.used ? 0 : 1];
-		Texture t = r.getTexture();
+			TextureRegion r = water[0];
+			Texture t = r.getTexture();
 
-		shader.setUniformf("time", Dungeon.time);
-		shader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
-		shader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
-		shader.end();
-		Graphics.batch.setShader(shader);
-		Graphics.batch.begin();
+			shader.setUniformf("time", Dungeon.time);
+			shader.setUniformf("pos", new Vector2(((float) r.getRegionX()) / t.getWidth(), ((float) r.getRegionY()) / t.getHeight()));
+			shader.setUniformf("size", new Vector2(((float) r.getRegionWidth()) / t.getWidth(), ((float) r.getRegionHeight()) / t.getHeight()));
+			shader.end();
 
-		Graphics.render(r, this.x + 5, this.y + 8);
+			Graphics.batch.setShader(shader);
+			Graphics.batch.begin();
 
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
+			Graphics.render(r, this.x + 5, this.y + 8);
+
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
 	}
 }

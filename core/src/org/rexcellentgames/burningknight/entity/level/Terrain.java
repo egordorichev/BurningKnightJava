@@ -162,8 +162,8 @@ public class Terrain {
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
 		crackPattern = Graphics.getTexture(bm + "-crack");
 
-		entrance = Graphics.getTexture("prop (stairs U)");
-		exit = Graphics.getTexture("prop (stairs D)");
+		entrance = Graphics.getTexture("props-entance");
+		exit = Graphics.getTexture("props-exit");
 
 		patterns[DIRT] = dirtPattern;
 		patterns[GRASS] = grassPattern;
@@ -173,11 +173,11 @@ public class Terrain {
 		patterns[CRACK] = crackPattern;
 
 		decor = new TextureRegion[] {
-			Graphics.getTexture("prop (torch A)"),
-			Graphics.getTexture("prop (torch B)"),
-			Graphics.getTexture("prop (walldeco A)"),
-			Graphics.getTexture("prop (walldeco B)"),
-			Graphics.getTexture("prop (walldeco C)")
+			Graphics.getTexture("props-decor_a"),
+			Graphics.getTexture("props-decor_b"),
+			Graphics.getTexture("props-decor_c"),
+			Graphics.getTexture("props-decor_d"),
+			Graphics.getTexture("props-decor_e")
 		};
 
 		for (int j = 0; j < 3; j++) {

@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 
 public class Statue extends SolidProp {
 	{
-		sprite = "prop (statue A)";
+		sprite = "props-statue";
 		collider = new Rectangle(4, 10, 7, 10);
 	}
 

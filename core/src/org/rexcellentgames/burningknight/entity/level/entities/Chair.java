@@ -3,9 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.util.file.FileReader;
-import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
 
@@ -14,7 +11,7 @@ public class Chair extends Prop {
 
 	@Override
 	public void init() {
-		this.sprite = flipped ? "prop (chair A)" : "prop (chair B)";
+		this.sprite = flipped ? "props-chair_a" : "props-chair_b";
 		super.init();
 	}
 
@@ -22,9 +19,9 @@ public class Chair extends Prop {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.sprite = flipped ? "prop (chair A)" : "prop (chair B)";
 		region = Graphics.getTexture(this.sprite);
 		flipped = reader.readBoolean();
+		this.sprite = flipped ? "props-chair_a" : "props-chair_b";
 	}
 
 	@Override
