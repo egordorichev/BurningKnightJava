@@ -68,11 +68,6 @@ public class StatueRoom extends RegularRoom {
 
 	@Override
 	protected int validateWidth(int w) {
-		return w - w % 2 + 1;
-	}
-
-	@Override
-	protected int validateHeight(int h) {
-		return h - h % 2 + 1;
+		return w - w % 2;
 	}
 }

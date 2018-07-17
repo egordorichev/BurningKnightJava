@@ -42,22 +42,22 @@ public class BossEntranceRoom extends RegularRoom {
 
 	@Override
 	public int getMinWidth() {
-		return 7;
+		return 8;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 7;
+		return 8;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 10;
+		return 12;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 10;
+		return 12;
 	}
 
 	@Override

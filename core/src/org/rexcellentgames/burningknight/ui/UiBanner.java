@@ -128,7 +128,7 @@ public class UiBanner extends Entity {
 					}
 				});
 			}
-		}).delay(1f);
+		});
 	}
 
 	private Color color = Color.valueOf("#1a1932");

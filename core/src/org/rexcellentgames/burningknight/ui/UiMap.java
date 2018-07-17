@@ -309,7 +309,7 @@ public class UiMap extends UiEntity {
 		}
 
 		if (large) {
-			float s = 120f;
+			float s = 30f * (1 / zoom);
 
 			if (Input.instance.isDown("left")) {
 				xc += s * dt;
@@ -475,11 +475,10 @@ public class UiMap extends UiEntity {
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+		float s = Math.round((large ? 6 : 4) * zoom);
 
-		float px = Player.instance.x + Player.instance.w / 2f;
-		float py = Player.instance.y + Player.instance.h / 2f;
-
-		float s = (int) (large ? 6 * zoom : 4 * zoom);
+		float px = Player.instance.x + Player.instance.w / 2f - xc * s;
+		float py = Player.instance.y + Player.instance.h / 2f - yc * s;
 
 		float mx = -px / (16f / s) + this.w / 2 + xc;
 		float my = -py / (16f / s) + this.h / 2 + yc;
