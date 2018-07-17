@@ -107,7 +107,7 @@ public abstract class RegularLevel extends Level {
 			MobPool.instance.initForFloor();
 
 			for (Room room : this.rooms) {
-				if (room instanceof RegularRoom) {
+				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom)) {
 					float weight = (Random.newFloat(1f, 2f) + Dungeon.depth % 5 / 2) * Player.mobSpawnModifier;
 
 					while (weight > 0) {
