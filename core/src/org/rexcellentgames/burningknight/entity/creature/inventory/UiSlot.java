@@ -31,9 +31,9 @@ public class UiSlot {
 	private UiInventory inventory;
 	private float scale = 1f;
 	private boolean active;
-	private float r = 1f;
-	private float g = 1f;
-	private float b = 1f;
+	protected float r = 1f;
+	protected float g = 1f;
+	protected float b = 1f;
 	private float rr = 1f;
 	private float rg = 1f;
 	private float rb = 1f;
@@ -50,9 +50,9 @@ public class UiSlot {
 	public void update(float dt) {
 		Item item = this.inventory.getInventory().getSlot(this.id);
 
-		this.r += (this.rr - this.r) * dt * 20;
-		this.g += (this.rg - this.g) * dt * 20;
-		this.b += (this.rb - this.b) * dt * 20;
+		this.r += (this.rr - this.r) * dt * 10;
+		this.g += (this.rg - this.g) * dt * 10;
+		this.b += (this.rb - this.b) * dt * 10;
 
 		if (item != null) {
 			item.update(dt);
@@ -136,10 +136,33 @@ public class UiSlot {
 			this.inventory.hoveredSlot = this.id;
 			this.inventory.handled = true;
 
-			if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
-				Audio.playSfx("menu/select");
+			if (Input.instance.wasPressed("mouse0")) {
+				leftClick();
+			} else if (Input.instance.wasPressed("mouse1")) {
+				rightClick();
+			}
+		}
+	}
 
-				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+	public void tweenClick() {
+		Audio.playSfx("menu/select");
+
+		Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+			@Override
+			public float getValue() {
+				return scale;
+			}
+
+			@Override
+			public void setValue(float value) {
+				scale = value;
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+
+				Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -149,32 +172,9 @@ public class UiSlot {
 					public void setValue(float value) {
 						scale = value;
 					}
-
-					@Override
-					public void onEnd() {
-						super.onEnd();
-
-						Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
-							@Override
-							public float getValue() {
-								return scale;
-							}
-
-							@Override
-							public void setValue(float value) {
-								scale = value;
-							}
-						});
-					}
 				});
 			}
-
-			if (Input.instance.wasPressed("mouse0")) {
-				leftClick();
-			} else if (Input.instance.wasPressed("mouse1")) {
-				rightClick();
-			}
-		}
+		});
 	}
 
 	public void leftClick() {
@@ -209,7 +209,13 @@ public class UiSlot {
 					((Accessory) current).onEquip();
 				}
 			}
+		} else {
+			this.r = 1f;
+			this.g = 0;
+			this.b = 0;
 		}
+
+		tweenClick();
 	}
 
 	public void rightClick() {
@@ -245,6 +251,8 @@ public class UiSlot {
 		current.setCount(current.getCount() + 1);
 		current.setOwner(Player.instance);
 		self.setCount(self.getCount() - 1);
+
+		tweenClick();
 	}
 
 	public static boolean canAccept(int id, Item item) {
