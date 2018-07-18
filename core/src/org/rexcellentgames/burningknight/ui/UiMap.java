@@ -486,9 +486,6 @@ public class UiMap extends UiEntity {
 		Graphics.endAlphaShape();
 		Graphics.batch.end();
 
-		Graphics.shadows.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
-			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
-
 		Graphics.text.begin();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -574,10 +571,8 @@ public class UiMap extends UiEntity {
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
-		Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
-			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
-
-		Graphics.shadows.begin();
+		Graphics.text.end(Camera.perfectViewport.getScreenX(), Camera.perfectViewport.getScreenY(),
+			Camera.perfectViewport.getScreenWidth(), Camera.perfectViewport.getScreenHeight());
 
 		Texture texture = Graphics.text.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

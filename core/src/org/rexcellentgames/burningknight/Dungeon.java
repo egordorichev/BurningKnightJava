@@ -444,31 +444,15 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	public void renderUi() {
+		Camera.perfectViewport.apply();
+
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
-		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT);
-
-		Graphics.shadows.begin();
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Graphics.batch.begin();
+
 		game.renderUi();
 		ModManager.INSTANCE.draw();
-		Graphics.batch.end();
-		Graphics.shadows.end();
-
-		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
-		//HdpiUtils.glScissor((int) upscale / 2, (int) upscale / 2, (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
-
-		Texture texture = Graphics.shadows.getColorBufferTexture();
-		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
-		Graphics.batch.begin();
-
-		Graphics.batch.setColor(1, 1, 1, 1);
-		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, Display.GAME_WIDTH * upscale,
-			-Display.GAME_HEIGHT * upscale);
 		Graphics.batch.end();
 	}
 

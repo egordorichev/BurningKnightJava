@@ -4,10 +4,6 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
-import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 
 public class Hat extends Accessory {
 	protected int defense = 1;
@@ -41,7 +37,7 @@ public class Hat extends Accessory {
 		this.owner.modifyDefense(this.defense);
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).setSkin(this.skin);
+			((Player) this.owner).setHat(this.skin);
 		}
 	}
 
@@ -52,7 +48,7 @@ public class Hat extends Accessory {
 		this.owner.modifyDefense(-this.defense);
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).setSkin("");
+			((Player) this.owner).setHat("");
 		}
 	}
 

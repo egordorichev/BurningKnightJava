@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class KnightHat extends Hat {
 	{
-		skin = "-towelknight";
+		skin = "towelknight";
 		sprite = "item-hat_m";
 		name = Locale.get("knight_hat");
 		description = Locale.get("knight_hat_desc");

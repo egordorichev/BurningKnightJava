@@ -77,7 +77,6 @@ public class UiButton extends UiEntity {
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.batch.end();
-		Graphics.shadows.end();
 		Graphics.text.begin();
 		Graphics.batch.begin();
 
@@ -88,7 +87,6 @@ public class UiButton extends UiEntity {
 
 		Graphics.batch.end();
 		Graphics.text.end();
-		Graphics.shadows.begin();
 		Graphics.batch.begin();
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 

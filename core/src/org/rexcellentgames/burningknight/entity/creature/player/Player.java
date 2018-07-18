@@ -194,6 +194,11 @@ public class Player extends Creature {
 	private TextureRegion hat;
 
 	public void setHat(String name) {
+		if (name.isEmpty()) {
+			hat = null;
+			return;
+		}
+
 		this.hat = Graphics.getTexture("hat-" + name + "-idle-00");
 	}
 
@@ -387,7 +392,7 @@ public class Player extends Creature {
 				id += 8;
 			}
 
-			Graphics.render(this.hat, this.x + (this.flipped ? 1 : 3) + hat.getRegionWidth() / 2, this.y + 7 + offsets[id],
+			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + 7 + offsets[id],
 				0, hat.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 		} else {
 			AnimationData anim = headIdle;
@@ -398,8 +403,7 @@ public class Player extends Creature {
 				anim = headRun;
 			}
 
-			anim.update(Gdx.graphics.getDeltaTime() * Dungeon.speed);
-
+			anim.setFrame(this.animation.getFrame());
 			region = anim.getCurrent().frame;
 
 			anim.render(this.x - region.getRegionWidth() / 2 + 8,

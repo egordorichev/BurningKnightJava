@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class CoboiHat extends Hat {
 	{
-		skin = "-coboi";
+		skin = "coboi";
 		sprite = "item-hat_j";
 		name = Locale.get("coboi_hat");
 		description = Locale.get("coboi_hat_desc");

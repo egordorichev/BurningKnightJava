@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 
 public class RubyHat extends Hat {
 	{
-		skin = "-ruby";
+		skin = "ruby";
 		sprite = "item-hat_f";
 		name = Locale.get("ruby_hat");
 		description = Locale.get("ruby_hat_desc");
