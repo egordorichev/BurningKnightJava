@@ -125,7 +125,10 @@ public class ItemPickupFx extends Entity {
 
 		this.go = true;
 
-		this.text = "+" + this.text;
+		if (!text.startsWith("+")) {
+			this.text = "+" + this.text;
+		}
+
 		Graphics.layout.setText(Graphics.medium, this.text);
 		this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
 		this.y = item.y + item.h + 4;

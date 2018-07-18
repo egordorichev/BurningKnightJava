@@ -1,7 +1,7 @@
 {
 	"on_notice" : {
 		"dialog_why_are_you_killing_my_lieges" : {
-			"texture": "ck-dialog-frame",
+			"name" : "crazy_king",
 
 			"next" : [
 				"dialog_ck_well_i_want_to_kill_you",
@@ -17,15 +17,15 @@
 		},
 
 		"dialog_ck_well_i_want_to_kill_you" : {
-			"texture": "ck-dialog-frame"
+			"name" : "crazy_king"
 		},
 
 		"dialog_ck_you_will_never_get_it" : {
-			"texture": "ck-dialog-frame"
+			"name" : "crazy_king"
 		},
 
 		"dialog_ck_everything_that_you_can_own_is_a_tomb_stone" : {
-			"texture": "ck-dialog-frame"
+			"name" : "crazy_king"
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.util;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -27,6 +26,7 @@ public class Dialog {
 				phrase.string = Locale.get(value.name);
 				phrase.name = value.name;
 				// phrase.region = Graphics.getTexture(value.getString("texture"));
+				phrase.owner = Locale.get(value.getString("name"));
 
 				JsonValue options = value.get("options");
 
@@ -69,7 +69,7 @@ public class Dialog {
 	public static class Phrase {
 		public String name;
 		public String string;
-		public TextureRegion region;
+		public String owner;
 		public Option[] options;
 		public String[] next;
 	}

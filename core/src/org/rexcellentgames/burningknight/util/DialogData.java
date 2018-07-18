@@ -154,6 +154,8 @@ public class DialogData {
 
 		if (this.label != null) {
 			this.label.draw(Graphics.batch, this.a);
+
+			Graphics.print(this.phrases.get(this.current).owner, Graphics.small, x + 4, y + this.h + 3);
 		}
 	}
 
@@ -179,7 +181,7 @@ public class DialogData {
 		this.w = 0;
 		this.selected = 0;
 
-		Tween.to(new Tween.Task(Display.GAME_WIDTH - 32,  1f) {
+		Tween.to(new Tween.Task(Display.GAME_WIDTH - 32,  0.4f) {
 			@Override
 			public float getValue() {
 				return w;
@@ -193,6 +195,7 @@ public class DialogData {
 			@Override
 			public void onEnd() {
 				next();
+				busy = false;
 			}
 		});
 
@@ -210,7 +213,6 @@ public class DialogData {
 			@Override
 			public void onEnd() {
 				super.onEnd();
-				busy = false;
 			}
 		});
 
@@ -468,12 +470,6 @@ public class DialogData {
 			public void setValue(float value) {
 				size = value;
 			}
-
-			@Override
-			public void onEnd() {
-				super.onEnd();
-				busy = false;
-			}
 		});
 
 		busy = true;
@@ -504,6 +500,7 @@ public class DialogData {
 
 					@Override
 					public void onEnd() {
+						busy = false;
 						Dialog.active = null;
 
 						if (label != null) {

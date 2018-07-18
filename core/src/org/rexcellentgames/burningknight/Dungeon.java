@@ -101,7 +101,7 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void resume() {
 		super.resume();
-		if (game.getState() instanceof InGameState) {
+		if (game.getState() instanceof InGameState && !Version.debug) {
 			game.getState().setPaused(wasPaused);
 		}
 	}
@@ -112,7 +112,7 @@ public class Dungeon extends ApplicationAdapter {
 	public void pause() {
 		super.pause();
 
-		if (game.getState() instanceof InGameState) {
+		if (game.getState() instanceof InGameState && !Version.debug) {
 			this.wasPaused = game.getState().isPaused();
 			game.getState().setPaused(true);
 		}
@@ -412,7 +412,6 @@ public class Dungeon extends ApplicationAdapter {
 		Camera.removeShake();
 
 		Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
-		//HdpiUtils.glScissor((int) (upscale / 2), (int) (upscale / 2), (int) (Display.GAME_WIDTH * upscale - upscale), (int) (Display.GAME_HEIGHT * upscale - upscale));
 
 		Texture texture = Graphics.surface.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -435,8 +434,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 
-		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, Display.GAME_WIDTH * upscale,
-			-Display.GAME_HEIGHT * upscale);
+		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, (Display.GAME_WIDTH) * upscale,
+			-(Display.GAME_HEIGHT) * upscale);
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 
