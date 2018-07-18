@@ -147,6 +147,7 @@ public class Player extends Creature {
 		alwaysActive = true;
 
 		setSkin("-gobbo");
+		setHat("gobbo_head");
 	}
 
 	@Override
@@ -189,6 +190,12 @@ public class Player extends Creature {
 
 	public Type getType() {
 		return this.type;
+	}
+
+	private TextureRegion hat;
+
+	public void setHat(String name) {
+		this.hat = Graphics.getTexture("hat-" + name + "-idle-00");
 	}
 
 	public void setSkin(String add) {
@@ -362,6 +369,8 @@ public class Player extends Creature {
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+
+		Graphics.render(this.hat, this.x, this.y);
 
 		if (shade || this.fa > 0) {
 			Graphics.batch.end();

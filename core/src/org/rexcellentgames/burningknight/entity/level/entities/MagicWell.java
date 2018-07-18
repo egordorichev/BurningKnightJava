@@ -27,11 +27,11 @@ public class MagicWell extends UsableProp {
 	}
 
 	private static TextureRegion[] water = new TextureRegion[] {
-		Graphics.getTexture("prop (water_heal)")
+		Graphics.getTexture("props-heal")
 	};
 
 	{
-		sprite = "props-tub";
+		sprite = "props-well";
 		collider = new Rectangle(4, 5, 30 - 8, 12);
 	}
 
