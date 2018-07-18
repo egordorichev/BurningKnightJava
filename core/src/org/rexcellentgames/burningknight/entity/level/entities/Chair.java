@@ -11,7 +11,7 @@ public class Chair extends Prop {
 
 	@Override
 	public void init() {
-		this.sprite = flipped ? "props-chair_a" : "props-chair_b";
+		this.sprite = flipped ? "props-chair_a" : "props-char_b";
 		super.init();
 	}
 

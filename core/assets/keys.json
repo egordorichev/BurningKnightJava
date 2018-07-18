@@ -5,7 +5,7 @@
 	"down" : [ "S", "Down" ],
 
 	"pickup" : [ "Space", "ControllerB" ],
-	"drop_item" : [ "L-Shift", "ControllerY", "Q" ],
+	"drop_item" : [ "ControllerY", "Q" ],
 	"block" : [ "Mouse2" ],
 
 	"mouse0" : [ "Mouse0", "ControllerR2" ],
@@ -13,7 +13,7 @@
 	"mouse2" : [ "Mouse2" ],
 	"scroll" : [ "MouseWheel" ],
 
-	"action" : [ "Space", "ControllerX", "ControllerL3" ],
+	"action" : [ "L-Shift", "ControllerX", "ControllerL3" ],
 
 	"prev" : [ "ControllerL1", "Numpad 7", "ControllerDPadLeft" ],
 	"next" : [ "ControllerR1", "Numpad 9", "ControllerDPadRight" ],

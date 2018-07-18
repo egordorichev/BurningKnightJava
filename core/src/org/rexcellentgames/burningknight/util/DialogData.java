@@ -206,8 +206,18 @@ public class DialogData {
 			public void setValue(float value) {
 				size = value;
 			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				busy = false;
+			}
 		});
+
+		busy = true;
 	}
+
+	private boolean busy;
 
 	private void readPhrase() {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
@@ -264,6 +274,10 @@ public class DialogData {
 	}
 
 	public void skip() {
+		if (busy) {
+			return;
+		}
+
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 
 		if (phrase.options == null) {
@@ -454,8 +468,15 @@ public class DialogData {
 			public void setValue(float value) {
 				size = value;
 			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				busy = false;
+			}
 		});
 
+		busy = true;
 
 		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
