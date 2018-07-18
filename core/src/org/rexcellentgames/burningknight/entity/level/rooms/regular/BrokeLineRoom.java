@@ -81,8 +81,10 @@ public class BrokeLineRoom extends RegularRoom {
 			}
 
 			if (el) {
+				Painter.fillEllipse(level, this, 4, Terrain.randomFloor());
 				Painter.fillEllipse(level, this, 4, f);
 			} else {
+				Painter.fillEllipse(level, this, 4, Terrain.randomFloor());
 				Painter.fill(level, this, 4, f);
 			}
 		}

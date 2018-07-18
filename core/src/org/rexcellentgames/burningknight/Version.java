@@ -6,7 +6,7 @@ public class Version {
 	public static double minor = 16.2;
 
 	public static String asString() {
-		return "v" + major + "." + minor;
+		return "v" + major + "." + minor + (debug ? " dev" : "");
 	}
 
 	public static String string = asString();

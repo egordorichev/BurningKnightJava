@@ -103,15 +103,8 @@ public class UiInventory extends UiEntity {
 		this.active = this.inventory.active;
 		// this.forceT = 1f; // Math.max(this.forceT - dt, 0);
 
-		if (this.dn) {
-			float dx = Math.abs(Input.instance.uiMouse.x - 88);
-			float dy = Math.abs(Input.instance.uiMouse.y - 18);
-			// float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-			float h = this.inventory.getSize() / 3 * 29;
-			boolean nd = Dialog.active != null;
-
-			if (!nd && !this.open && dx < 90f && dy < 15) {
+		if (Dialog.active == null && this.dn && Input.instance.wasPressed("inventory")) {
+			if (!this.open) {
 				this.open = true;
 				this.dn = false;
 
@@ -178,7 +171,7 @@ public class UiInventory extends UiEntity {
 						}
 					});
 				}
-			} else if (this.open && (nd || dx > 100f || dy > h + 5)) {
+			} else {
 				if (this.lastA != null) {
 					Tween.remove(this.lastA);
 					this.lastA = null;

@@ -21,6 +21,7 @@
 	"uiUp": [ "Up", "ControllerDPadUp" ],
 	"uiDown": [ "Down", "ControllerDPadDown" ],
 	"uiAccept": [ "Mouse0", "Enter", "ControllerA" ],
+	"inventory" : [ "E", "ControllerL2" ],
 
 	"reset" : [ "F4" ],
 	"show_fps" : [ "F3" ],
