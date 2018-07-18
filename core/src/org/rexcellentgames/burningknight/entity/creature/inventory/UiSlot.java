@@ -26,7 +26,7 @@ public class UiSlot {
 
 	public int x;
 	public float y;
-	private int id;
+	protected int id;
 	private boolean hovered = false;
 	private UiInventory inventory;
 	private float scale = 1f;
@@ -170,73 +170,81 @@ public class UiSlot {
 			}
 
 			if (Input.instance.wasPressed("mouse0")) {
-				Item current = this.inventory.getCurrentSlot();
-				Item self = this.inventory.getInventory().getSlot(this.id);
-
-				if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
-					current.setCount(current.getCount() + self.getCount());
-					this.inventory.getInventory().setSlot(this.id, current);
-					this.inventory.setCurrentSlot(null);
-				} else if (canAccept(this.id, current) || current == null) {
-					if (this.id > 5 && current != null) {
-						for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
-							Item sl = this.inventory.getInventory().getSlot(i);
-
-							if (sl != null && sl.getClass().isInstance(current)) {
-								return;
-							}
-						}
-					}
-
-					this.inventory.setCurrentSlot(self);
-					this.inventory.getInventory().setSlot(this.id, current);
-
-					if (this.id > 5) {
-						if (self instanceof Accessory) {
-							((Accessory) self).onUnequip();
-						}
-
-						if (current instanceof Accessory) {
-							current.setOwner(Player.instance);
-							((Accessory) current).onEquip();
-						}
-					}
-				}
+				leftClick();
 			} else if (Input.instance.wasPressed("mouse1")) {
-				Item self = this.inventory.getInventory().getSlot(this.id);
-				Item current = this.inventory.getCurrentSlot();
+				rightClick();
+			}
+		}
+	}
 
-				if (self == null || !self.isStackable()) {
-					return;
-				}
+	public void leftClick() {
+		Item current = this.inventory.getCurrentSlot();
+		Item self = this.inventory.getInventory().getSlot(this.id);
 
-				if (current != null && self.getClass() != current.getClass()) {
-					return;
-				}
+		if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
+			current.setCount(current.getCount() + self.getCount());
+			this.inventory.getInventory().setSlot(this.id, current);
+			this.inventory.setCurrentSlot(null);
+		} else if (canAccept(this.id, current) || current == null) {
+			if (this.id > 5 && current != null) {
+				for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
+					Item sl = this.inventory.getInventory().getSlot(i);
 
-				if (current == null) {
-					try {
-						current = self.getClass().newInstance();
-						current.setCount(0);
-						current.setOwner(Player.instance);
-
-						this.inventory.setCurrentSlot(current);
-					} catch (Exception e) {
-						Dungeon.reportException(e);
-						
+					if (sl != null && sl.getClass().isInstance(current)) {
 						return;
 					}
 				}
+			}
 
-				if (self.getCount() == 1) {
-					this.inventory.getInventory().setSlot(this.id, null);
+			this.inventory.setCurrentSlot(self);
+			this.inventory.getInventory().setSlot(this.id, current);
+
+			if (this.id > 5) {
+				if (self instanceof Accessory) {
+					((Accessory) self).onUnequip();
 				}
 
-				current.setCount(current.getCount() + 1);
-				current.setOwner(Player.instance);
-				self.setCount(self.getCount() - 1);
+				if (current instanceof Accessory) {
+					current.setOwner(Player.instance);
+					((Accessory) current).onEquip();
+				}
 			}
 		}
+	}
+
+	public void rightClick() {
+		Item self = this.inventory.getInventory().getSlot(this.id);
+		Item current = this.inventory.getCurrentSlot();
+
+		if (self == null || !self.isStackable()) {
+			return;
+		}
+
+		if (current != null && self.getClass() != current.getClass()) {
+			return;
+		}
+
+		if (current == null) {
+			try {
+				current = self.getClass().newInstance();
+				current.setCount(0);
+				current.setOwner(Player.instance);
+
+				this.inventory.setCurrentSlot(current);
+			} catch (Exception e) {
+				Dungeon.reportException(e);
+
+				return;
+			}
+		}
+
+		if (self.getCount() == 1) {
+			this.inventory.getInventory().setSlot(this.id, null);
+		}
+
+		current.setCount(current.getCount() + 1);
+		current.setOwner(Player.instance);
+		self.setCount(self.getCount() - 1);
 	}
 
 	public static boolean canAccept(int id, Item item) {

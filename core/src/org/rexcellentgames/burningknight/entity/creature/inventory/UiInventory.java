@@ -307,6 +307,10 @@ public class UiInventory extends UiEntity {
 				this.drop(slot);
 			}
 
+			if (Input.instance.wasPressed("inventory_select")) {
+				UiSlot slot = this.slots[this.active];
+				slot.leftClick();
+			}
 
 			if (Input.instance.wasPressed("1")) {
 				this.active = 0;
@@ -514,17 +518,27 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		if (this.currentSlot != null) {
+			float x = Input.instance.uiMouse.x;
+			float y = Input.instance.uiMouse.y;
+
+			if (Input.instance.activeController != null) {
+				UiSlot slot = this.slots[this.active];
+
+				x = slot.x + 24;
+				y = slot.y + 24;
+			}
+
 			int count = this.currentSlot.getCount();
 
 			if (count > 0) {
 				TextureRegion sprite = this.currentSlot.getSprite();
 				Graphics.render(sprite,
-					Input.instance.uiMouse.x + 12 - sprite.getRegionWidth() / 2,
-					Input.instance.uiMouse.y - 8);
+					 x + 12 - sprite.getRegionWidth() / 2,
+					y - 8);
 
 
 				if (count > 1) {
-					Graphics.small.draw(Graphics.batch, String.valueOf(count), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 4);
+					Graphics.small.draw(Graphics.batch, String.valueOf(count), x + 12, y - 4);
 				}
 			}
 		} else if (this.hoveredSlot != -1) {
