@@ -72,13 +72,21 @@ public class Area {
         this.selectedUiEntity = findFirstSelectableUiEntity();
         
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).select();
+          }
         }
       }
 
       if (Input.instance.wasPressed("uiUp") && !UiMap.large) {
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).unselect();
+          }
         }
 
         if (this.selectedUiEntity == 0) {
@@ -88,12 +96,21 @@ public class Area {
         }
         
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).select();
+          }
         }          
       } else if (Input.instance.wasPressed("uiDown") && !UiMap.large) {
         if (this.selectedUiEntity >= 0) {
           if (this.selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
-            ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+
+            Entity e = this.entities.get(selectedUiEntity);
+
+            if (e instanceof UiEntity) {
+              ((UiEntity) e).unselect();
+            }
           }
         }
 
@@ -104,7 +121,11 @@ public class Area {
         }
 
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).select();
+          }
         }
       }
     }

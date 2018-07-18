@@ -45,6 +45,8 @@ public class UiSlot {
 		this.inventory = inventory;
 	}
 
+	private Tween.Task last;
+
 	public void update(float dt) {
 		Item item = this.inventory.getInventory().getSlot(this.id);
 
@@ -67,7 +69,8 @@ public class UiSlot {
 		if (this.inventory.getActive() == this.id && !this.active) {
 			this.active = true;
 
-			Tween.to(new Tween.Task(1.2f, 0.1f) {
+			Tween.remove(this.last);
+			this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -83,7 +86,9 @@ public class UiSlot {
 		} else if (this.inventory.getActive() != this.id && this.active) {
 			this.active = false;
 
-			Tween.to(new Tween.Task(1f, 0.1f) {
+
+			Tween.remove(this.last);
+			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;

@@ -93,6 +93,75 @@ public class UiInventory extends UiEntity {
 	private Tween.Task lastA;
 	public float forceT;
 
+	private void open() {
+		this.open = true;
+		this.dn = false;
+
+		if (this.lastA != null) {
+			Tween.remove(this.lastA);
+			this.lastA = null;
+		}
+
+		this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
+			@Override
+			public float getValue() {
+				return slots[0].a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				for (int i = 0; i < inventory.getSize(); i++) {
+					UiSlot slot = slots[i];
+					slot.a = value;
+				}
+			}
+		});
+
+		Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return slots[6].y;
+			}
+
+			@Override
+			public void setValue(float value) {
+				for (int i = 6; i < 12; i++) {
+					UiSlot slot = slots[i];
+					slot.y = value;
+				}
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				dn = true;
+			}
+		});
+
+		if (this.inventory.getSize() > 12) {
+			Tween.to(new Tween.Task(29 + 29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return slots[12].y;
+				}
+
+				@Override
+				public void setValue(float value) {
+					for (int i = 12; i < inventory.getSize(); i++) {
+						UiSlot slot = slots[i];
+						slot.y = value;
+					}
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+					dn = true;
+				}
+			});
+		}
+	}
+
 	@Override
 	public void update(float dt) {
 		if (Dungeon.game.getState().isPaused() || Dialog.active != null) {
@@ -105,73 +174,12 @@ public class UiInventory extends UiEntity {
 
 		if (Dialog.active == null && this.dn && Input.instance.wasPressed("inventory")) {
 			if (!this.open) {
-				this.open = true;
-				this.dn = false;
-
-				if (this.lastA != null) {
-					Tween.remove(this.lastA);
-					this.lastA = null;
-				}
-
-				this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
-					@Override
-					public float getValue() {
-						return slots[0].a;
-					}
-
-					@Override
-					public void setValue(float value) {
-						for (int i = 0; i < inventory.getSize(); i++) {
-							UiSlot slot = slots[i];
-							slot.a = value;
-						}
-					}
-				});
-
-				Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
-					@Override
-					public float getValue() {
-						return slots[6].y;
-					}
-
-					@Override
-					public void setValue(float value) {
-						for (int i = 6; i < 12; i++) {
-							UiSlot slot = slots[i];
-							slot.y = value;
-						}
-					}
-
-					@Override
-					public void onEnd() {
-						super.onEnd();
-						dn = true;
-					}
-				});
-
-				if (this.inventory.getSize() > 12) {
-					Tween.to(new Tween.Task(29 + 29 + 4, 0.3f, Tween.Type.BACK_OUT) {
-						@Override
-						public float getValue() {
-							return slots[12].y;
-						}
-
-						@Override
-						public void setValue(float value) {
-							for (int i = 12; i < inventory.getSize(); i++) {
-								UiSlot slot = slots[i];
-								slot.y = value;
-							}
-						}
-
-						@Override
-						public void onEnd() {
-							super.onEnd();
-							dn = true;
-						}
-					});
-				}
+				open();
 			} else {
+				if (this.active > 5) {
+					this.active -= Math.floor(this.active / 6) * 6;
+				}
+
 				if (this.lastA != null) {
 					Tween.remove(this.lastA);
 					this.lastA = null;
@@ -248,11 +256,28 @@ public class UiInventory extends UiEntity {
 		}
 
 		if (!UiMap.large) {
-			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
-				this.active = (this.active + Input.instance.getAmount()) % this.slots.length;
+			if (Input.instance.wasPressed("inventory_up") && this.active + 6 < this.slots.length) {
+				if (!open) {
+					open();
+				}
 
-				if (this.active == -1) {
-					this.active = this.slots.length - 1;
+				this.active += 6;
+			}
+
+			if (Input.instance.wasPressed("inventory_down") && this.active > 5) {
+				this.active -= 6;
+			}
+
+			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
+				int m = (int) ((Math.floor(this.active / 6) + 1) * 6);
+				int max = Math.min(m, this.slots.length);
+
+				this.active = (this.active + Input.instance.getAmount());
+
+				if (this.active <= m - 7) {
+					this.active = max - 1;
+				} else if (this.active >= max) {
+					this.active = (int) Math.max(0, Math.floor(max / 6) * 6);
 				}
 
 				this.forceT = 1f;
