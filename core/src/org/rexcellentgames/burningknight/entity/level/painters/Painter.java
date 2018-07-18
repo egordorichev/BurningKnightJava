@@ -6,10 +6,10 @@ import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Patch;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -142,6 +142,51 @@ public class Painter {
 
 	protected void decorate(Level level, ArrayList<Room> rooms) {
 		for (Room room : rooms) {
+
+			for (int y = room.top; y <= room.bottom; y++) {
+				for (int x = room.left; x <= room.right; x++) {
+					if (level.get(x, y) == Terrain.WALL) {
+						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(30)) {
+							Cobweb web = new Cobweb();
+
+							web.x = x * 16;
+							web.y = y * 16 - 16;
+							web.side = 0;
+
+							Dungeon.area.add(web);
+							LevelSave.add(web);
+						} else if (y > room.top && x < room.right && level.get(x + 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(30)) {
+							Cobweb web = new Cobweb();
+
+							web.x = x * 16;
+							web.y = y * 16 - 16;
+							web.side = 1;
+
+							Dungeon.area.add(web);
+							LevelSave.add(web);
+						} else if (y < room.bottom - 1 && x > room.left && level.get(x - 1, y + 1) == Terrain.WALL && level.get(x, y + 1) != Terrain.WALL && Random.chance(30)) {
+							Cobweb web = new Cobweb();
+
+							web.x = x * 16;
+							web.y = y * 16 + 16;
+							web.side = 2;
+
+							Dungeon.area.add(web);
+							LevelSave.add(web);
+						} else if (y < room.bottom - 1 && x < room.right && level.get(x + 1, y + 1) == Terrain.WALL && level.get(x, y + 1) != Terrain.WALL && Random.chance(30)) {
+							Cobweb web = new Cobweb();
+
+							web.x = x * 16;
+							web.y = y * 16 + 16;
+							web.side = 3;
+
+							Dungeon.area.add(web);
+							LevelSave.add(web);
+						}
+					}
+				}
+			}
+
 			int y = room.bottom;
 
 			for (int x = room.left; x < room.right; x++) {
