@@ -254,15 +254,15 @@ public class UiSlot {
 		boolean h = this.inventory.getActive() == this.id;
 
 		if (h) {
-			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
+			/*if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
 				this.rr = 1f;
 				this.rg = 1f;
 				this.rb = 1f;
-			} else {
+			} else {*/
 				this.rr = 0.6f;
 				this.rg = 0.6f;
 				this.rb = 0.6f;
-			}
+			// }
 		} else if (this.hovered) {
 			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
 				this.rr = 0.3f;
