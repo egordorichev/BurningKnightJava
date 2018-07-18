@@ -1046,7 +1046,7 @@ public abstract class Level extends SaveableEntity {
 
 							if (v != 0) {
 								TextureRegion s = Terrain.decor[v - 1];
-								Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 10);
+								Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 8);
 							}
 
 							if (!lg || !rg) {

@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexcellentgames.burningknight.Display;
@@ -22,7 +21,6 @@ public class Camera extends Entity {
 	public static OrthographicCamera game;
 	public static OrthographicCamera viewportCamera;
 	public static Viewport viewport;
-	public static Viewport perfectViewport;
 	public static Entity target;
 	private static float shake;
 	private static float pushA;
@@ -84,14 +82,10 @@ public class Camera extends Entity {
 
 		viewport = new ScreenViewport(viewportCamera);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-		perfectViewport = new FitViewport(Display.GAME_WIDTH, Display.GAME_HEIGHT); // Scaling.fit, viewportCamera);
-		perfectViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
 
 	public static void resize(int width, int height) {
 		viewport.update(width, height);
-		perfectViewport.update(width, height);
 	}
 
 	@Override

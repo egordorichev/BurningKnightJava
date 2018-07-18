@@ -486,6 +486,9 @@ public class UiMap extends UiEntity {
 		Graphics.endAlphaShape();
 		Graphics.batch.end();
 
+		Graphics.shadows.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
+
 		Graphics.text.begin();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -498,11 +501,11 @@ public class UiMap extends UiEntity {
 		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 		float s = Math.round((large ? 6 : 4) * zoom);
 
-		float px = Player.instance.x + Player.instance.w / 2f - xc * s;
-		float py = Player.instance.y + Player.instance.h / 2f - yc * s;
+		float px = Player.instance.x + Player.instance.w / 2f - (large ? xc * s : 0);
+		float py = Player.instance.y + Player.instance.h / 2f - (large ? yc * s : 0);
 
-		float mx = -px / (16f / s) + this.w / 2 + xc;
-		float my = -py / (16f / s) + this.h / 2 + yc;
+		float mx = -px / (16f / s) + this.w / 2 + (large ? xc : 0);
+		float my = -py / (16f / s) + this.h / 2 + (large ? yc : 0);
 
 		float o = 1f;// * zoom;
 
@@ -571,8 +574,10 @@ public class UiMap extends UiEntity {
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
-		Graphics.text.end(Camera.perfectViewport.getScreenX(), Camera.perfectViewport.getScreenY(),
-			Camera.perfectViewport.getScreenWidth(), Camera.perfectViewport.getScreenHeight());
+		Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
+
+		Graphics.shadows.begin();
 
 		Texture texture = Graphics.text.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

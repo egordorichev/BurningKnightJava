@@ -1,6 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
-import com.badlogic.gdx.Gdx;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -58,7 +58,9 @@ public class LoadState extends State {
 			case READING: this.s = "Writing the story...";
 		}
 
-		Tween.to(new Tween.Task(1f, 0.3f) {
+		final float t = 0.3f;
+
+		Tween.to(new Tween.Task(1f, t) {
 			@Override
 			public float getValue() {
 				return a;
@@ -70,23 +72,8 @@ public class LoadState extends State {
 			}
 
 			@Override
-			public void onEnd() {
-				Tween.to(new Tween.Task(0f, 0.3f) {
-					@Override
-					public float getValue() {
-						return a;
-					}
-
-					@Override
-					public void setValue(float value) {
-						a = value;
-					}
-
-					@Override
-					public void onEnd() {
-						ready = true;
-					}
-				});
+			public boolean runWhenPaused() {
+				return true;
 			}
 		});
 
@@ -196,23 +183,48 @@ public class LoadState extends State {
 				}
 
 				Dungeon.buildDiscordBadge();
-				ready = true;
+
+				Tween.to(new Tween.Task(0f, t) {
+					@Override
+					public float getValue() {
+						return a;
+					}
+
+					@Override
+					public void setValue(float value) {
+						a = value;
+					}
+
+					@Override
+					public void onEnd() {
+						ready = true;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
 			}
 		}).run();
 	}
 
 	@Override
 	public void update(float dt) {
-		if (this.ready && (QUICK || this.a == 0)) {
+		if (this.ready && (this.ready)) {
 			Dungeon.game.setState(new InGameState());
-			Camera.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		}
 	}
 
 	@Override
 	public void renderUi() {
+		Graphics.startShape();
+		Graphics.shape.setColor(0, 0, 0, 1);
+		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		Graphics.endShape();
+
 		Graphics.medium.setColor(1, 1, 1, this.a);
-		Graphics.print(this.s, Graphics.medium, 120);
+		Graphics.print(this.s, Graphics.medium, 120 - 16);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }

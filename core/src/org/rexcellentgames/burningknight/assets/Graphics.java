@@ -80,7 +80,7 @@ public class Graphics {
 		shape = new ShapeRenderer();
 		layout = new GlyphLayout();
 
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2, false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 
@@ -96,7 +96,6 @@ public class Graphics {
 
 		smallSimple = new BitmapFont(Gdx.files.internal("fonts/small_simple.fnt"), Gdx.files.internal("fonts/small_simple.png"), false);
 		mediumSimple = new BitmapFont(Gdx.files.internal("fonts/large_simple.fnt"), Gdx.files.internal("fonts/large_simple.png"), false);
-
 	}
 
 	public static void loadAssets() {
@@ -128,7 +127,8 @@ public class Graphics {
   }
 
 	public static void resize(int w, int h) {
-
+		shadows.dispose();
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, w, h, false);
 	}
 
 	public static TextureRegion getTexture(String name) {
@@ -146,21 +146,6 @@ public class Graphics {
 	public static TextureRegion getModTexture(String modId, String name) {
 		return modSprites.get(modId).get(name);
   }
-
-	private static void generateFont(String path, int size) {
-		/*FreetypeFontLoader.FreeTypeFontLoaderParameter font = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-
-		font.fontFileName = path;
-		font.fontParameters.size = size;
-		font.fontParameters.hinting = FreeTypeFontGenerator.Hinting.AutoFull;
-		font.fontParameters.borderGamma = 0f;
-		font.fontParameters.borderStraight = true;
-		font.fontParameters.borderColor = Color.valueOf("#0e071b");
-		font.fontParameters.borderWidth = 1f;
-		font.fontParameters.characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#\"'&()[]|`/\\@°+=*%€$£¢<>©®ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØŒÙÚÛÜÝÞàáâãäåæçèéêëìíîïðñòóôõöøœùúûüýþßÿ¿¡АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-
-		Assets.manager.load(path, BitmapFont.class, font);*/
-	}
 
 	public static void write(String s, BitmapFont font, float x, float y) {
 		write(s, font, x, y, 0, 1, 1);
