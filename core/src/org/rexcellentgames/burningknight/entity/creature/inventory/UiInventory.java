@@ -249,10 +249,10 @@ public class UiInventory extends UiEntity {
 
 		if (!UiMap.large) {
 			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
-				this.active = (this.active + Input.instance.getAmount()) % 6;
+				this.active = (this.active + Input.instance.getAmount()) % this.slots.length;
 
 				if (this.active == -1) {
-					this.active = 5;
+					this.active = this.slots.length - 1;
 				}
 
 				this.forceT = 1f;
