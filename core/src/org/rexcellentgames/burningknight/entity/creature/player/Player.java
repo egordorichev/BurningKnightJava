@@ -146,8 +146,7 @@ public class Player extends Creature {
 		speed = 25;
 		alwaysActive = true;
 
-		setSkin("-gobbo");
-		setHat("gobbo_head");
+		setSkin("body");
 	}
 
 	@Override
@@ -198,8 +197,17 @@ public class Player extends Creature {
 		this.hat = Graphics.getTexture("hat-" + name + "-idle-00");
 	}
 
+	private static Animation headAnimations = Animation.make("actor-gobbo", "-gobbo");
+	private static AnimationData headIdle = headAnimations.get("idle");
+	private static AnimationData headRun = headAnimations.get("run");
+	private static AnimationData headHurt = headAnimations.get("hurt");
+
 	public void setSkin(String add) {
 		Animation animations;
+
+		if (!add.isEmpty()) {
+			add = "-" + add;
+		}
 
 		if (skins.containsKey(add)) {
 			animations = skins.get(add);
@@ -370,7 +378,34 @@ public class Player extends Creature {
 			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
 			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
-		Graphics.render(this.hat, this.x, this.y);
+		if (this.hat != null) {
+			int id = this.animation.getFrame();
+
+			if (this.invt > 0) {
+				id += 16;
+			} else if (this.state.equals("run")) {
+				id += 8;
+			}
+
+			Graphics.render(this.hat, this.x + (this.flipped ? 1 : 3) + hat.getRegionWidth() / 2, this.y + 7 + offsets[id],
+				0, hat.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
+		} else {
+			AnimationData anim = headIdle;
+
+			if (this.invt > 0) {
+				anim = headHurt;
+			} else if (this.state.equals("run")) {
+				anim = headRun;
+			}
+
+			anim.update(Gdx.graphics.getDeltaTime() * Dungeon.speed);
+
+			region = anim.getCurrent().frame;
+
+			anim.render(this.x - region.getRegionWidth() / 2 + 8,
+				this.y - region.getRegionHeight() / 2 + 9, false, false, region.getRegionWidth() / 2,
+				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+		}
 
 		if (shade || this.fa > 0) {
 			Graphics.batch.end();
@@ -385,6 +420,10 @@ public class Player extends Creature {
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
 	}
+
+	private static int offsets[] = new int[] {
+		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0
+	};
 
 	private boolean wasFreezed;
 	private boolean wasPoisoned;
