@@ -116,6 +116,12 @@ public class UiCard extends UiButton {
 				case "Warrior": default:
 					Graphics.render(warrior, this.x, yy, 0, warrior.getRegionWidth() / 2, warrior.getRegionHeight() / 2, false, false);
 					break;
+				case "Ranger":
+					Graphics.render(ranger, this.x, yy, 0, warrior.getRegionWidth() / 2, warrior.getRegionHeight() / 2, false, false);
+					break;
+				case "Wizard":
+					Graphics.render(mage, this.x, yy, 0, warrior.getRegionWidth() / 2, warrior.getRegionHeight() / 2, false, false);
+					break;
 			}
 
 			// Graphics.print(this.info.first, Graphics.medium, this.x - this.info.firstW / 2, this.y + h / 2- 32);

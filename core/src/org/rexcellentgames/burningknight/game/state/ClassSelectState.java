@@ -9,13 +9,9 @@ import org.rexcellentgames.burningknight.ui.UiClass;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Tween;
 
-import java.util.ArrayList;
-
 public class ClassSelectState extends State {
 	public static boolean added;
-	public static ArrayList<UiClass> classes = new ArrayList<>();
 	public static float add;
-	public static UiClass selectedClass;
 	public static UiEntity first;
 
 	public static void add() {
@@ -25,20 +21,11 @@ public class ClassSelectState extends State {
 
 		added = true;
 
-		for (Player.Type type : Player.Type.values()) {
-			classes.add(((UiClass) Dungeon.ui.add(new UiClass(type, Display.GAME_WIDTH / 4, (int) -(Display.GAME_HEIGHT * 1.5f)) {
-				@Override
-				public boolean isSelectable() {
-					return false;
-				}
-			})));
-		}
-
-		first = (UiEntity) Dungeon.ui.add(new UiButton("play", Display.GAME_WIDTH / 2 + 128, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2) {
+		first = (UiEntity) Dungeon.ui.add(new UiClass(Player.Type.WARRIOR, Display.GAME_WIDTH / 2 - 96 - 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT * 2) {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Player.toSet = selectedClass.type;
+				Player.toSet = type;
 
 				transition(new Runnable() {
 					@Override
@@ -49,13 +36,43 @@ public class ClassSelectState extends State {
 			}
 		});
 
-		Dungeon.ui.add(new UiButton("back", Display.GAME_WIDTH / 2 + 64, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2) {
+		Dungeon.ui.add(new UiClass(Player.Type.WIZARD, Display.GAME_WIDTH / 2, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT * 2) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				Player.toSet = type;
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.goToLevel(0);
+					}
+				});
+			}
+		});
+
+		Dungeon.ui.add(new UiClass(Player.Type.RANGER, Display.GAME_WIDTH / 2 + 96 + 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT * 2) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				Player.toSet = type;
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.goToLevel(0);
+					}
+				});
+			}
+		});
+
+		Dungeon.ui.add(new UiButton("back", Display.GAME_WIDTH / 2, (int) (128 - 24 * 3.5f) - Display.GAME_HEIGHT * 2) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
 				Dungeon.ui.select(SlotSelectState.first);
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;

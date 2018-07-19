@@ -58,7 +58,7 @@ public class AmmoOrbital extends Pet {
 							ball.damage = 4;
 							ball.y = (float) (this.y + Math.sin(a) * 8 + 6);
 
-							ball.letter = "A";
+							ball.letter = "a";
 							Dungeon.area.add(ball);
 							break;
 						}
