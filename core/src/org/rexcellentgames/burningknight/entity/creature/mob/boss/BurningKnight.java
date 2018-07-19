@@ -132,7 +132,7 @@ public class BurningKnight extends Boss {
 		super.onCollision(entity);
 
 		if (entity instanceof Player && !this.isDead()) {
-			((Player) entity).addBuff(new BurningBuff().setDuration(10));
+			((Player) entity).addBuff(new BurningBuff().setDuration(2));
 		}
 	}
 

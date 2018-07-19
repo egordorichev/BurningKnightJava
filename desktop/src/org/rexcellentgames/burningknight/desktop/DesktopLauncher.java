@@ -5,10 +5,15 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.*;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileLock;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,6 +23,11 @@ public class DesktopLauncher {
 	private static final int SCALE = 2;
 
 	public static void main(String[] arg) {
+		if (!lockInstance(System.getProperty("user.home") + File.separator + ".burningknight_lock")) {
+			Log.error("Another instance of Burning Knight is already running, exiting");
+			return;
+		}
+
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 			@Override
 			public void uncaughtException(Thread thread, Throwable throwable) {
@@ -113,7 +123,37 @@ public class DesktopLauncher {
 		new Lwjgl3Application(new Client(), config);
 	}
 
-	private static String[] titles = new String[] {
+	private static boolean lockInstance(final String lockFile) {
+		try {
+			final File file = new File(lockFile);
+			final RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
+			final FileLock fileLock = randomAccessFile.getChannel().tryLock();
+
+			if (fileLock != null) {
+				Runtime.getRuntime().addShutdownHook(new Thread() {
+					public void run() {
+						try {
+							fileLock.release();
+							randomAccessFile.close();
+							file.delete();
+						} catch (Exception e) {
+							e.printStackTrace();
+							Log.error("Unable to remove lock file: " + lockFile);
+						}
+					}
+				});
+
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.error("Unable to create and/or lock file: " + lockFile);
+		}
+
+		return false;
+	}
+
+	private static String[] titles = new String[]{
 		"Fireproof",
 		"Might burn",
 		"'Friendly' fire",
@@ -129,11 +169,12 @@ public class DesktopLauncher {
 		"Fire trap",
 		"On-fire",
 		"Hot potatoo",
+		"Is this loss?",
 
 		"This title will never appear, strange?"
 	};
 
-	private static String[] birthdayTitles = new String[] {
+	private static String[] birthdayTitles = new String[]{
 		"Happy burning!",
 		"It's a good day to die hard",
 		"Someone is not burning today",
@@ -141,7 +182,7 @@ public class DesktopLauncher {
 		"Fire hard!"
 	};
 
-	private static String[] birthdays = new String[] {
+	private static String[] birthdays = new String[]{
 		"06-29", // Egor
 		"09-25", // Mate
 		"06-10", // Nufflee
