@@ -1,10 +1,9 @@
 package org.rexcellentgames.burningknight.ui;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.state.ClassSelectState;
@@ -15,7 +14,6 @@ import org.rexcellentgames.burningknight.util.Tween;
 public class UiCard extends UiButton {
 	public int id;
 	public GameSave.Info info;
-	private static Color color = Color.valueOf("#5d5d5d");
 
 	public UiCard(int id, int x, int y) {
 		super(null, x, y);
@@ -68,35 +66,60 @@ public class UiCard extends UiButton {
 		}
 	}
 
+	private TextureRegion top = Graphics.getTexture("ui-cart_top");
+	private TextureRegion topLeft = Graphics.getTexture("ui-card_top_left");
+	private TextureRegion topRight = Graphics.getTexture("ui-cart_top_right");
+	private TextureRegion center = Graphics.getTexture("ui-card_center");
+	private TextureRegion left = Graphics.getTexture("ui-card_left");
+	private TextureRegion right = Graphics.getTexture("ui-card_right");
+	private TextureRegion bottom = Graphics.getTexture("ui-card_bottom");
+	private TextureRegion bottomLeft = Graphics.getTexture("ui-card_bottom_left");
+	private TextureRegion bottomRight = Graphics.getTexture("ui-card_bottom_right");
+	private TextureRegion cross = Graphics.getTexture("ui-new");
+
+	private TextureRegion warrior = Graphics.getTexture("ui-warrior");
+	private TextureRegion ranger = Graphics.getTexture("ui-archer");
+	private TextureRegion mage = Graphics.getTexture("ui-wizard");
+
 	@Override
 	public void render() {
-		Graphics.startShape();
-		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-
-		if (this.info.error) {
-			Graphics.shape.setColor(color.r, color.g * 0.7f, color.b * 0.7f, 1);
-		} else if (this.info.free) {
-			Graphics.shape.setColor(color.r * 0.8f, color.g * 0.8f, color.b * 0.8f, 1);
-		} else {
-			Graphics.shape.setColor(color.r, color.g, color.b, 1);
-		}
-
 		float w = this.w * scale;
 		float h = this.h * scale;
 
-		Graphics.shape.rect(this.x - w / 2, this.y - h / 2, w, h);
-		Graphics.shape.setColor(1, 1, 1, 1);
+		float x = this.x - w / 2;
+		float y = this.y - h / 2;
+
+		float sx = (w - 10);
+		float sy = (h - 11);
+
+		Graphics.render(top, x + topLeft.getRegionWidth(), y + h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
+		Graphics.render(topLeft, x, y + h - topLeft.getRegionHeight());
+		Graphics.render(topRight, x + w - topRight.getRegionWidth(), y + h - topRight.getRegionHeight());
+
+		Graphics.render(left, x, y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(right, x + w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
+		Graphics.render(center, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
+
+		Graphics.render(bottom, x+ bottomLeft.getRegionWidth(),
+			y, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottomLeft, x, y);
+		Graphics.render(bottomRight, x + w - topRight.getRegionWidth(), y);
 
 		if (this.info.free && !this.info.error) {
-			Graphics.shape.rect(this.x - w / 4, this.y - w / 16, w / 2, w / 8);
-			Graphics.shape.rect(this.x - w / 16, this.y - w / 4, w / 8, w / 2);
+			Graphics.render(cross, this.x, this.y, 0, cross.getRegionWidth() / 2, cross.getRegionHeight() / 2, false, false, scale, scale);
 		}
 
-		Graphics.endShape();
-
 		if (!this.info.free && !this.info.error) {
-			Graphics.print(this.info.first, Graphics.medium, this.x - this.info.firstW / 2, this.y + h / 2- 32);
-			Graphics.print(this.info.second, Graphics.small, this.x - this.info.secondW / 2, this.y + h / 2 - 32 - 12);
+			float yy = this.y + h / 2 - (w - warrior.getRegionWidth() / 2) / 2 - 5;
+
+			switch (this.info.first) {
+				case "Warrior": default:
+					Graphics.render(warrior, this.x, yy, 0, warrior.getRegionWidth() / 2, warrior.getRegionHeight() / 2, false, false);
+					break;
+			}
+
+			// Graphics.print(this.info.first, Graphics.medium, this.x - this.info.firstW / 2, this.y + h / 2- 32);
+			Graphics.print(this.info.second, Graphics.small, this.x - this.info.secondW / 2, y + 16);
 		}
 	}
 }

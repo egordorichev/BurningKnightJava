@@ -164,8 +164,6 @@ public class MainMenuState extends State {
 			}
 		}).delay(0.7f);
 
-
-
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
 			public float getValue() {
@@ -183,11 +181,17 @@ public class MainMenuState extends State {
 	public void renderUi() {
 		super.render();
 
-		Camera.ui.position.set(cameraX, cameraY, 0);
+		Camera.ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
 		Camera.ui.update();
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Graphics.render(bg, bgX, 0);
+
+		Camera.ui.position.set(cameraX, cameraY, 0);
+		Camera.ui.update();
+
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
 
 		float sx = (float) (0.8f + Math.sin(Dungeon.time / 1.5f) / 40);
 		float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
