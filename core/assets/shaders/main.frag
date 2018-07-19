@@ -17,6 +17,7 @@ uniform float transR;
 uniform vec2 cam;
 uniform float colorBlind;
 uniform float correct;
+uniform float grayscale;
 
 uniform sampler2D u_texture;
 varying vec2 v_texCoord;
@@ -28,6 +29,16 @@ float rand(vec2 co){
 }
 
 vec4 daltonize(vec4 inp) {
+    if (grayscale > 0.0) {
+        if (grayscale == 1.0) {
+            float v = (inp.r + inp.g + inp.b) / 3.0;
+            inp.r = v;
+            inp.g = v;
+            inp.b = v;
+            inp.a = 1.0;
+        }
+    }
+
     if (colorBlind < 0.5) {
         return inp;
     }

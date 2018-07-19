@@ -107,6 +107,9 @@ public class Ui {
 		}
 	}
 
+	private float al;
+	private float val;
+
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
@@ -115,12 +118,19 @@ public class Ui {
 		}
 
 		if (Dungeon.game.getState() instanceof InGameState) {
-			if (Player.instance != null && Player.instance.isDead()) {
-				//Graphics.print("Game over!", Graphics.medium, 128);
-				//Graphics.print("Press action to restart", Graphics.medium, (float) (108 + Math.sin(Dungeon.time * 3) * 4));
+			if (this.al > 0) {
+				Graphics.startAlphaShape();
 
-				if (Input.instance.wasPressed("action")) {
-					Dungeon.newGame();
+				Graphics.endAlphaShape();
+
+
+				if (Player.instance != null && Player.instance.isDead()) {
+					//Graphics.print("Game over!", Graphics.medium, 128);
+					//Graphics.print("Press action to restart", Graphics.medium, (float) (108 + Math.sin(Dungeon.time * 3) * 4));
+
+					if (Input.instance.wasPressed("action")) {
+						Dungeon.newGame();
+					}
 				}
 			}
 		}

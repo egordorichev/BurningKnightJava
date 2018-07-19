@@ -83,7 +83,7 @@ public class AssetLoadState extends State {
 
 			@Override
 			public void onEnd() {
-				Color color = Color.valueOf("#1a1932");
+				Color color = Color.valueOf("#000000");
 				float t = 0.5f;
 
 				Tween.to(new Tween.Task(color.r, t) {

@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
@@ -56,7 +55,7 @@ public class InGameState extends State {
 
 		this.setupUi();
 
-		Dungeon.background = Level.colors[Dungeon.level.uid];
+		// Dungeon.background = Level.colors[Dungeon.level.uid];
 
 		this.console = new Console();
 
