@@ -6,9 +6,11 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.ClassSelectState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.game.state.SlotSelectState;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiCard extends UiButton {
@@ -45,7 +47,17 @@ public class UiCard extends UiButton {
 	public void onClick() {
 		super.onClick();
 
+		float x = Input.instance.uiMouse.x + MainMenuState.cameraX - this.x - Display.GAME_WIDTH / 2 + 50;
+		float y = Input.instance.uiMouse.y + MainMenuState.cameraX - this.y;
 		SaveManager.slot = this.id;
+
+
+		if (x <= 15 && y >= this.h - 15) {
+			Log.info("Deleting slot " + this.id);
+			SaveManager.delete();
+			this.info.free = true;
+			return;
+		}
 
 		if (this.info.free) {
 			ClassSelectState.add();
@@ -76,6 +88,7 @@ public class UiCard extends UiButton {
 	private TextureRegion bottomLeft = Graphics.getTexture("ui-card_bottom_left");
 	private TextureRegion bottomRight = Graphics.getTexture("ui-card_bottom_right");
 	private TextureRegion cross = Graphics.getTexture("ui-new");
+	private TextureRegion trash = Graphics.getTexture("ui-trash");
 
 	private TextureRegion warrior = Graphics.getTexture("ui-warrior");
 	private TextureRegion ranger = Graphics.getTexture("ui-archer");
@@ -104,6 +117,12 @@ public class UiCard extends UiButton {
 			y, 0, 0, 0, false, false, sx, 1);
 		Graphics.render(bottomLeft, x, y);
 		Graphics.render(bottomRight, x + w - topRight.getRegionWidth(), y);
+
+		if (scale > 1 && !this.info.free && !this.info.error) {
+			Graphics.batch.setColor(1, 1, 1, (this.scale - 1f) * 16f);
+			Graphics.render(trash, x + 5, y + h - trash.getRegionHeight() - 5);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
 
 		if (this.info.free && !this.info.error) {
 			Graphics.render(cross, this.x, this.y, 0, cross.getRegionWidth() / 2, cross.getRegionHeight() / 2, false, false, scale, scale);
