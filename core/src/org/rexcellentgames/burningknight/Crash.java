@@ -1,9 +1,11 @@
 package org.rexcellentgames.burningknight;
 
-import org.rexcellentgames.burningknight.util.Log;
+import com.badlogic.gdx.Gdx;
 import org.rexcellentgames.burningknight.util.Log;
 
 import javax.swing.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.management.ManagementFactory;
@@ -42,7 +44,32 @@ public class Crash {
 		text.setText(builder.toString());
 		text.setEditable(false);
 
-		JOptionPane.showMessageDialog(null, new JScrollPane(text), "Burning Knight crash report", JOptionPane.ERROR_MESSAGE);
+		JScrollPane pane = new JScrollPane(text);
+
+		pane.addComponentListener(new ComponentListener() {
+			@Override
+			public void componentResized(ComponentEvent componentEvent) {
+
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent componentEvent) {
+
+			}
+
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent componentEvent) {
+				Log.info("Exit from crash report");
+				Gdx.app.exit();
+			}
+		});
+
+		JOptionPane.showMessageDialog(null, pane, "Burning Knight crash report", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private static String getMemoryUsage() {
