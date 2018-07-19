@@ -58,5 +58,9 @@
 	"BK_hurt_5",
 	"heart",
 	"door_lock",
-	"door_unlock"
+	"door_unlock",
+	"block",
+	"death_mummy",
+	"damage_mummy",
+	"enemy_alert"
 ]

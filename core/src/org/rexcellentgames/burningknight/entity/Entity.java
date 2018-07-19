@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -116,10 +115,12 @@ public class Entity extends Point {
 
 		float d = this.getDistanceTo(Player.instance.x + 8, Player.instance.y + 8);
 
-		if (d >= 256f) {
+		if (d >= DISTANCE) {
 			return -1;
 		}
 
-		return Audio.playSfx(sound, (256f - d) / 256f, 0.9f + Random.newFloat(0.3f));
+		return Audio.playSfx(sound, (DISTANCE - d) / DISTANCE, 0.9f + Random.newFloat(0.3f));
 	}
+
+	private static final float DISTANCE = 512f;
 }

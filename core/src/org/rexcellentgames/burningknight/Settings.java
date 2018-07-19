@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight;
 
 import com.badlogic.gdx.Gdx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
-import org.rexcellentgames.burningknight.game.state.AssetLoadState;
 
 public class Settings {
 	public static boolean fullscreen;
@@ -32,10 +31,10 @@ public class Settings {
 			Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2);
 		}
 
-		if (!AssetLoadState.START_TO_MENU) {
-			music = 0;
-			sfx = 0;
-		}
+		//if (!AssetLoadState.START_TO_MENU) {
+			music = 0.5f;
+			sfx = 0.5f;
+		//}
 	}
 
 	public static void save() {

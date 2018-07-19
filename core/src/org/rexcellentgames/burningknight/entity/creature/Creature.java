@@ -347,6 +347,7 @@ public class Creature extends SaveableEntity {
 			HpFx fx = new HpFx(this, 0);
 			fx.block = true;
 			Dungeon.area.add(fx);
+			this.playSfx("block");
 			this.invt = this.getStat("inv_time");
 			return fx;
 		}

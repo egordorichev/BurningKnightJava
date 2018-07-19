@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.HashMap;
@@ -179,10 +180,10 @@ public class Audio {
 	}
 
 	public static long playSfx(String name) {
-		return playSfx(name, 1f, 1f);
+		return playSfx(name, 1f, 0.95f + Random.newFloat(0.1f));
 	}
 
 	public static long playSfx(String name, float volume) {
-		return playSfx(name, volume, 1f);
+		return playSfx(name, volume, 0.95f + Random.newFloat(0.1f));
 	}
 }

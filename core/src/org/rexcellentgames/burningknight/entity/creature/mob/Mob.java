@@ -724,6 +724,7 @@ public class Mob extends Creature {
 			if (self.target != null) {
 				if (!self.saw && Player.instance.room == self.room && self.canSee(self.target)) {
 					self.saw = true;
+					self.playSfx("enemy_alert");
 
 					if (self.noticeSignT <= 0) {
 						self.hideSignT = 0f;
