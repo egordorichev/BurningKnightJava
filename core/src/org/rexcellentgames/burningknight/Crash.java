@@ -35,14 +35,14 @@ public class Crash {
 		builder.append("\nJava VM version: ").append(System.getProperty("java.vm.name")).append(" (").append(System.getProperty("java.vm.info")).append("), ").append(System.getProperty("java.vm.vendor"));
 		builder.append("\nJava VM flags: ").append(getJavaVMFlags());
 		builder.append("\nMemory: ").append(getMemoryUsage());
-		builder.append("\n--- Exception cause: ---\n");
+		builder.append("\n--- Exception cause: ---\n```\n");
 
 		StringWriter writer = new StringWriter();
 		throwable.printStackTrace(new PrintWriter(writer));
 		throwable.printStackTrace();
 
 		builder.append(writer.toString());
-		builder.append("\n--- END CRASH REPORT ---\n");
+		builder.append("\n```\n--- END CRASH REPORT ---\n");
 
 		Trello trelloApi = new TrelloImpl("7e84b78076780d10a2c6a1905c69c6e9", "2695b451bd169f26fc16319500d3bf08eb479ae76794954aff4d90a204814419");
 
