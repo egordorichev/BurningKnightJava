@@ -15,6 +15,8 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileLock;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -81,7 +83,17 @@ public class DesktopLauncher {
 		});
 
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
-		String extra = titles[Random.newInt(titles.length - (Random.chance(0.001f) ? 0 : 1))];
+
+		if (Random.chance(0.001f)) {
+			titles.add("This title will never appear, strange?");
+		}
+
+		if (Random.chance(0.01f)) {
+			titles.add("You feel lucky");
+		}
+
+		String extra = titles.get(Random.newInt(titles.size()));
+
 		Date now = new Date();
 		Calendar current = Calendar.getInstance();
 
@@ -152,7 +164,7 @@ public class DesktopLauncher {
 		return false;
 	}
 
-	private static String[] titles = new String[]{
+	private static ArrayList<String> titles = new ArrayList<>(Arrays.asList(
 		"Fireproof",
 		"Might burn",
 		"'Friendly' fire",
@@ -168,10 +180,8 @@ public class DesktopLauncher {
 		"Fire trap",
 		"On-fire",
 		"Hot potatoo",
-		"Is this loss?",
-
-		"This title will never appear, strange?"
-	};
+		"Is this loss?"
+	));
 
 	private static String[] birthdayTitles = new String[]{
 		"Happy burning!",
