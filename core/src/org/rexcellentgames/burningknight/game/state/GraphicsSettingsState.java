@@ -11,10 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.CrazyKing;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.ui.UiCheckbox;
-import org.rexcellentgames.burningknight.ui.UiChoice;
-import org.rexcellentgames.burningknight.ui.UiSlider;
+import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -23,6 +20,7 @@ import java.util.ArrayList;
 
 public class GraphicsSettingsState extends State {	
 	public static boolean added;
+	public static UiEntity first;
 
 	public static void add() {
 		if (added) {
@@ -126,7 +124,7 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.gore));
 
-		Dungeon.ui.add(new UiCheckbox("vsync", (int) (Display.GAME_WIDTH * 1.5f), 138 + 20 * 3 + Display.GAME_HEIGHT) {
+		first = (UiEntity) Dungeon.ui.add(new UiCheckbox("vsync", (int) (Display.GAME_WIDTH * 1.5f), 138 + 20 * 3 + Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -141,6 +139,7 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				Dungeon.ui.select(SettingsState.first);
 
 				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
 					@Override

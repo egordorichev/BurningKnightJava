@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Tween;
 import v4lk.lwbd.util.Beat;
 
@@ -29,6 +30,8 @@ public class MainMenuState extends State {
 	public static float cameraY = Display.GAME_HEIGHT / 2;
 	public static float MOVE_T = 0.2f;
 	private float bgX = -180;
+
+	public static UiEntity first;
 
 	@Override
 	public void init() {
@@ -64,6 +67,7 @@ public class MainMenuState extends State {
 			public void onClick() {
 				super.onClick();
 				SlotSelectState.add();
+				Dungeon.ui.select(SlotSelectState.first);
 
 				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T) {
 					@Override
@@ -79,11 +83,15 @@ public class MainMenuState extends State {
 			}
 		}.setSparks(true)));
 
+		first = buttons.get(0);
+		Dungeon.ui.select(first);
+
 		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.GAME_WIDTH + 128 + v), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void onClick() {
 				super.onClick();
 				SettingsState.add();
+				Dungeon.ui.select(SettingsState.first);
 
 				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T) {
 					@Override

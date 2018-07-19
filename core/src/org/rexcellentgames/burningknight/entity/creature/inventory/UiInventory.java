@@ -305,7 +305,7 @@ public class UiInventory extends UiEntity {
 			if (!Input.instance.blocked && Input.instance.wasPressed("drop_item") && Dialog.active == null) {
 				Item slot = this.inventory.getSlot(this.active);
 				UiSlot ui = this.slots[this.active];
-				
+
 				ui.tweenClick();
 
 				if (slot == null || slot.isCursed()) {

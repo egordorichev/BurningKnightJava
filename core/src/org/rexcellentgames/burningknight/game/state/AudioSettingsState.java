@@ -7,11 +7,13 @@ import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiCheckbox;
+import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiSlider;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class AudioSettingsState extends State {
 	public static boolean added;
+	public static UiEntity first;
 
 	public static void add() {
 		if (added) {
@@ -20,7 +22,7 @@ public class AudioSettingsState extends State {
 
 		added = true;
 
-		Dungeon.ui.add(new UiSlider("music", (int) (Display.GAME_WIDTH * 2.5f), 128 + 24) {
+		first = (UiEntity) Dungeon.ui.add(new UiSlider("music", (int) (Display.GAME_WIDTH * 2.5f), 128 + 24) {
 			@Override
 			public void onClick() {
 				Camera.shake(3);
@@ -60,6 +62,7 @@ public class AudioSettingsState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				Dungeon.ui.select(SettingsState.first);
 
 				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T) {
 					@Override

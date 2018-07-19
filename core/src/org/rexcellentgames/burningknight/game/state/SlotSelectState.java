@@ -5,10 +5,12 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiCard;
+import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class SlotSelectState extends State {
 	public static boolean added;
+	public static UiEntity first;
 
 	public static void trans(final int l) {
 		transition(new Runnable() {
@@ -26,7 +28,7 @@ public class SlotSelectState extends State {
 
 		added = true;
 
-		Dungeon.ui.add(new UiCard(0, Display.GAME_WIDTH / 2 - 96 - 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
+		first = (UiEntity) Dungeon.ui.add(new UiCard(0, Display.GAME_WIDTH / 2 - 96 - 16, (int) (128+ 24 * 0.5f) - Display.GAME_HEIGHT) {
 
 		});
 
@@ -42,6 +44,7 @@ public class SlotSelectState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				Dungeon.ui.select(MainMenuState.first);
 
 				Tween.to(new Tween.Task(Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T) {
 					@Override
