@@ -1,10 +1,13 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
@@ -12,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -90,8 +94,35 @@ public class Entrance extends SaveableEntity {
 		writer.writeByte(this.type);
 	}
 
+	private float al;
+
 	@Override
 	public void render() {
+		float dt = Gdx.graphics.getDeltaTime();
+		this.al = MathUtils.clamp(0, 1, this.al + ((this.fx != null ? 1 : 0) - this.al) * dt * 10);
+
+		if (this.al > 0) {
+			Graphics.batch.end();
+			Mob.shader.begin();
+			Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+			Mob.shader.setUniformf("u_a", this.al);
+			Mob.shader.end();
+			Graphics.batch.setShader(Mob.shader);
+			Graphics.batch.begin();
+
+			for (int xx = -1; xx < 2; xx++) {
+				for (int yy = -1; yy < 2; yy++) {
+					if (Math.abs(xx) + Math.abs(yy) == 1) {
+						Graphics.render(Terrain.entrance, this.x + xx, this.y + yy);
+					}
+				}
+			}
+
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
+
 		Graphics.render(Terrain.entrance, this.x, this.y);
 	}
 

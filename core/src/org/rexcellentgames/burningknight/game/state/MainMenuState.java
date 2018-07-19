@@ -42,6 +42,9 @@ public class MainMenuState extends State {
 		AudioSettingsState.added = false;
 		ClassSelectState.added = false;
 
+		cameraX = Display.GAME_WIDTH / 2;
+		cameraY = Display.GAME_HEIGHT / 2;
+
 		Audio.play("Burning Knight");
 
 		Dungeon.buildDiscordBadge();
