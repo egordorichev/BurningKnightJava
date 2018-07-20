@@ -4,10 +4,11 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 
 public class Butcher extends Sword {
 	{
-		maxAngle = 240;
-		timeA = 0.15f;
-		timeB = 0.25f;
-		useTime = 0.4f;
+		maxAngle = 90;
+		timeA = 0.05f;
+		timeB = 0.15f;
+		useTime = 0.3f;
+		timeDelay = useTime - timeA - timeB;
 		penetrates = true;
 	}
 }

@@ -23,6 +23,7 @@ public class WeaponBase extends Item {
 	public int damage = 2;
 	protected int minDamage = -1;
 	public float timeA = 0.1f;
+	public float timeDelay = 0f;
 	protected float timeB = 0.1f;
 	protected float knockback = 10f;
 	public float critChance = 4f;

@@ -39,6 +39,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
+import org.rexcellentgames.burningknight.entity.item.weapon.spear.SpearA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
@@ -259,7 +260,7 @@ public class Player extends Creature {
 	}
 
 	private void generateWarrior() {
-		switch (Random.newInt(4)) {
+		switch (Random.newInt(5)) {
 			case 0:
 			default:
 				this.give(new SwordA());
@@ -272,6 +273,8 @@ public class Player extends Creature {
 				break;
 			case 3:
 				this.give(new DaggerA());
+			case 4:
+				this.give(new SpearA());
 				break;
 		}
 

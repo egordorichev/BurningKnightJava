@@ -296,7 +296,7 @@ public class Sword extends Weapon {
 						public void onEnd() {
 							endUse();
 						}
-					});
+					}).delay(timeDelay);
 				}
 			}
 		});
