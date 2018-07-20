@@ -74,9 +74,11 @@ public class Painter {
 			if (Dungeon.depth < 5) {
 				for (int x = room.left; x <= room.right; x++) {
 					for (int y = room.top; y <= room.bottom; y++) {
-						if (level.get(x, y) == Terrain.LAVA) {
-							level.liquidData[Level.toIndex(x, y)] = 0;
-							level.set(x, y, Terrain.CHASM);
+						int i = Level.toIndex(x, y);
+
+						if (level.liquidData[i] == Terrain.LAVA) {
+							level.liquidData[i] = 0;
+							level.set(i, Terrain.CHASM);
 						}
 					}
 				}
