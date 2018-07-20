@@ -147,6 +147,11 @@ public class Knight extends Mob {
 
 	}
 
+	@Override
+	public void renderShadow() {
+		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
+	}
+
 	public class IdleState extends KnightState {
 		public float delay;
 
@@ -299,7 +304,7 @@ public class Knight extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t > 0.5f) {
+			if (this.t > 1f) {
 				self.become("attack");
 			}
 		}
@@ -322,8 +327,8 @@ public class Knight extends Mob {
 
 			this.vel = new Vector2();
 			self.modifySpeed(100);
-			this.vel.x = dx / d * 300;
-			this.vel.y = dy / d * 300;
+			this.vel.x = dx / (d + Random.newFloat(-d / 3, d / 3)) * 300;
+			this.vel.y = dy / (d + Random.newFloat(-d / 3, d / 3)) * 300;
 
 			//self.sword.setAdded(a);
 			self.sword.use();

@@ -273,6 +273,7 @@ public class Player extends Creature {
 				break;
 			case 3:
 				this.give(new DaggerA());
+				break;
 			case 4:
 				this.give(new SpearA());
 				break;

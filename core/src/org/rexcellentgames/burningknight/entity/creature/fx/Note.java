@@ -134,6 +134,6 @@ public class Note extends Entity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x - w / 2 + (flip ? 0 : 4), this.y - this.h / 2 + 7, w - 4, this.h, 6);
+		Graphics.shadow(this.x - w / 2 + (flip ? 0 : 4), this.y - this.h / 2 + 3, w - 4, this.h, 8);
 	}
 }

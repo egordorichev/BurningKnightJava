@@ -179,7 +179,7 @@ public class Creature extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h, this.z / 5);
+		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
 	}
 
 	public void deathEffect(AnimationData killed) {

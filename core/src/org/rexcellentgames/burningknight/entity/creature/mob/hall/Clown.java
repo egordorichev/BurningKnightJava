@@ -177,7 +177,7 @@ public class Clown extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 0.5f) {
+			if (this.t >= 1f) {
 				self.become("attack");
 			}
 		}
@@ -215,7 +215,7 @@ public class Clown extends Mob {
 			this.lastAttack += dt;
 			this.checkForPlayer();
 
-			if (self.target != null && this.lastAttack >= 0.5f && Random.chance(75)) {
+			if (self.target != null && this.lastAttack >= 1f && Random.chance(75)) {
 				Note note = new Note();
 				this.lastAttack = 0;
 
@@ -312,7 +312,7 @@ public class Clown extends Mob {
 
 		@Override
 		public void update(float dt) {
-			if (self.guitar.getDelay() == 0) {
+			if (this.t > 1f) {
 				self.become("chase");
 			}
 		}

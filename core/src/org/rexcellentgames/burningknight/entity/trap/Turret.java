@@ -166,6 +166,11 @@ public class Turret extends SolidProp {
 		}
 	}
 
+	@Override
+	public void renderShadow() {
+		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
+	}
+
 	protected void send() {
 		BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet-bad");

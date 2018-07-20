@@ -28,6 +28,7 @@ public class MobPool extends Pool<Mob> {
 			add(FreezingClown.class, 0.5f);
 		}
 
+
 		if (Dungeon.level instanceof HallLevel || Dungeon.level instanceof DesertLevel) {
 			add(Thief.class, 1f);
 			add(InvisThief.class, 0.7f);

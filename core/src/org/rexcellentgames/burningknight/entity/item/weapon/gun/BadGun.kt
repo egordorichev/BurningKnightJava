@@ -7,6 +7,7 @@ class BadGun : Gun() {
     useTime = 1.5f
     sprite = "item-gun_a"
 	  ammoMax = 1000000
+    accuracy = 20f
   }
 
   override fun use() {

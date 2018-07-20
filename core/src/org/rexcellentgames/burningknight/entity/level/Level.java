@@ -601,13 +601,13 @@ public abstract class Level extends SaveableEntity {
 					byte tile = this.get(i);
 
 					if (Terrain.patterns[tile] != null) {
-						if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+						/*if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 							byte variant = this.walls[i];
 
 							if (variant == 0) {
 								continue;
 							}
-						}
+						}*/
 
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 

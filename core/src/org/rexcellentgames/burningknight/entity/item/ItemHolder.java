@@ -246,7 +246,7 @@ public class ItemHolder extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.hw, this.hh, this.z);
+		Graphics.shadow(this.x, this.y, this.w, this.h, this.z);
 	}
 
 	private float sz = 1f;

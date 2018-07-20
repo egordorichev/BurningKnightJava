@@ -445,10 +445,10 @@ public class Gun extends WeaponBase {
 			bullet.sprite = Graphics.getTexture("bullet-" + b.bulletName);
 
 			float x = this.owner.x + this.owner.w / 2;
-			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+			float y = this.owner.y + this.owner.h / 4 - 2;
 
-			bullet.x = x + this.getAimX(bullet.sprite.getRegionWidth() / 2, -bullet.sprite.getRegionHeight() / 2);
-			bullet.y = y + this.getAimY(bullet.sprite.getRegionWidth() / 2, -bullet.sprite.getRegionHeight() / 2);
+			bullet.x = x + this.getAimX(bullet.sprite.getRegionWidth() / 2, bullet.sprite.getRegionHeight() / 2);
+			bullet.y = y + this.getAimY(bullet.sprite.getRegionWidth() / 2, bullet.sprite.getRegionHeight() / 2);
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;

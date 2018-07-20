@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
@@ -12,7 +13,7 @@ public class RangedKnight extends Knight {
 	}
 
 	{
-		hpMax = 5;
+		hpMax = 2;
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class RangedKnight extends Knight {
 
 		float d = this.getDistanceTo(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
 
-		if (d < 64f) {
+		if (d < 72f) {
 			this.become("runaway");
 		}
 	}
@@ -111,7 +112,7 @@ public class RangedKnight extends Knight {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t > 0.5f) {
+			if (this.t > 2f) {
 				self.become("attack");
 			}
 

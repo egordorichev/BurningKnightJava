@@ -230,6 +230,14 @@ public class Graphics {
 		Graphics.shape.ellipse(x - 1, y - h / 4, w + 2, h / 2);
 	}
 
+	public static void shadowSized(float x, float y, float w, float h, float s) {
+		w -= s;
+		h -= s;
+		x += s / 2;
+
+		Graphics.shape.ellipse(x - 1, y - h / 4, w + 2, h / 2);
+	}
+
 	public static void shadow(float x, float y, float w, float h, float z, float a) {
 		w -= z;
 		h -= z;

@@ -247,7 +247,7 @@ public class Thief extends Mob {
 			if (this.t >= delay) {
 				self.become("wait");
 			} else if (self.lastSeen != null) {
-				this.moveFrom(self.lastSeen, 8f, 10f);
+				this.moveFrom(self.lastSeen, 7f, 10f);
 			}
 		}
 	}
@@ -311,7 +311,7 @@ public class Thief extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 0.7f) {
+			if (this.t >= 1.3f) {
 				self.become("attack");
 			}
 		}
