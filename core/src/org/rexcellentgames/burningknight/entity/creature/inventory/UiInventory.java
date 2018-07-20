@@ -252,7 +252,8 @@ public class UiInventory extends UiEntity {
 				this.active = (this.active + Input.instance.getAmount()) % this.slots.length;
 
 				if (this.active == -1) {
-					this.active = this.slots.length - 1;
+					this.active = this.slots.length - 1va4ever
+					;
 				}
 
 				this.forceT = 1f;
