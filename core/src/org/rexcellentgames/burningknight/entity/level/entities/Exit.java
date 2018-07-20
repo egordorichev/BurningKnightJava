@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -68,15 +66,6 @@ public class Exit extends SaveableEntity {
 
 		if (this.type == Entrance.NORMAL) {
 			instance = this;
-		}
-	}
-
-	@Override
-	public void update(float dt) {
-		super.update(dt);
-
-		if (Dungeon.level != null) {
-			Dungeon.level.addLightInRadius(this.x + 8, this.y + 8, 0, 0, 0.0f, 0.5f, 3f, false);
 		}
 	}
 

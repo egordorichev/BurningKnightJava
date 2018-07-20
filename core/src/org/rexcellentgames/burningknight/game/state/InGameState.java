@@ -2,10 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import org.rexcellentgames.burningknight.Collisions;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Version;
+import org.rexcellentgames.burningknight.*;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.debug.Console;
@@ -88,30 +85,6 @@ public class InGameState extends State {
 		super.setPaused(paused);
 
 		if (this.isPaused()) {
-			Dungeon.area.setShowWhenPaused(true);
-			this.alp = 0;
-
-			Tween.to(new Tween.Task(1, 0.1f) {
-				@Override
-				public float getValue() {
-					return alp;
-				}
-
-				@Override
-				public void setValue(float value) {
-					alp = value;
-				}
-
-				@Override
-				public void onEnd() {
-					Dungeon.area.setShowWhenPaused(false);
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
 
 			this.mv = -256;
 
@@ -131,8 +104,40 @@ public class InGameState extends State {
 					return true;
 				}
 			});
+
+			Tween.to(new Tween.Task(52, 0.2f) {
+				@Override
+				public float getValue() {
+					return size;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+
+				@Override
+				public void setValue(float value) {
+					size = value;
+				}
+			});
 		} else {
-			Dungeon.area.setShowWhenPaused(false);
+			Tween.to(new Tween.Task(0, 0.2f) {
+				@Override
+				public float getValue() {
+					return size;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+
+				@Override
+				public void setValue(float value) {
+					size = value;
+				}
+			});
 
 			Tween.to(new Tween.Task(-256, 0.2f) {
 				@Override
@@ -156,27 +161,8 @@ public class InGameState extends State {
 					return true;
 				}
 			});
-
-			Tween.to(new Tween.Task(0, 0.3f) {
-				@Override
-				public float getValue() {
-					return alp;
-				}
-
-				@Override
-				public void setValue(float value) {
-					alp = value;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
 		}
 	}
-
-	private float alp;
 
 	@Override
 	public void destroy() {
@@ -364,19 +350,28 @@ public class InGameState extends State {
 
 	private boolean setFrames;
 	private Color bg = Color.valueOf("#1a1932");
-	private float mv;
+	private float mv = - 256;
+	private float size;
 
 	@Override
 	public void renderUi() {
 		Dungeon.ui.render();
 		Ui.ui.render();
 
-		if (alp > 0) {
-			Graphics.shape.setProjectionMatrix(Camera.nil.combined);
+		if (this.size > 0) {
+			Graphics.startShape();
+			Graphics.shape.setColor(0, 0, 0, 1);
+			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, size);
+			Graphics.shape.rect(0, Display.GAME_HEIGHT - size, Display.GAME_WIDTH, size);
+			Graphics.endShape();
+		}
+
+		if (this.mv > -256) {
+			/*Graphics.shape.setProjectionMatrix(Camera.nil.combined);
 			Graphics.startAlphaShape();
 			Graphics.shape.setColor(bg.r, bg.g, bg.b, this.alp);
 			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
-			Graphics.endAlphaShape();
+			Graphics.endAlphaShape();*/
 
 			Camera.ui.translate(0, this.mv);
 			Camera.ui.update();
@@ -424,7 +419,7 @@ public class InGameState extends State {
 
 		Dungeon.ui.add(new UiMap());
 
-		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128) {
+		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128+ 32) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -435,18 +430,22 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 - 24) {
+		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128+ 32 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
 				
-				transition(() -> Dungeon.game.setState(new SettingsState()));
+				transition(() -> {
+					Dungeon.game.setState(new MainMenuState());
+					SettingsState.add();
+					MainMenuState.cameraX = Display.GAME_WIDTH * 1.5f;
+				});
 				
 				Camera.shake(3);
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 - 24 * 3) {
+		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 + 32 - 24 * 3) {
 			@Override
 			public void onClick() {
 				super.onClick();

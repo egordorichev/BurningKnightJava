@@ -124,7 +124,7 @@ public class Ui {
 	public void onDeath() {
 		kills = GameSave.killCount + " kills";
 
-		time = String.format("%02d", (int) Math.floor(GameSave.time / 360)) + ":" +
+		time = String.format("%02d", (int) Math.floor(GameSave.time / 3600)) + ":" +
 			String.format("%02d", (int) Math.floor(GameSave.time / 60)) + ":" +
 			String.format("%02d", (int) Math.floor(GameSave.time % 60)) + ":" +
 			String.format("%02d", (int) Math.floor(GameSave.time % 1 * 100));

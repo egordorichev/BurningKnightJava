@@ -152,12 +152,6 @@ public class ItemHolder extends SaveableEntity {
 			this.body.setTransform(this.x, this.y + this.z, 0);
 		}
 
-		if (this.item instanceof Lamp) {
-			Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 3f, false);
-
-			// Camera.follow(this, false);
-		}
-
 		this.item.update(dt);
 		this.body.setLinearVelocity(this.vel);
 	}

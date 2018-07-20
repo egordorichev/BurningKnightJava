@@ -160,7 +160,7 @@ public class Gun extends WeaponBase {
 	}
 
 	public static float angleLerp(float a0, float a1, float t) {
-		return a0 + shortAngleDist(a0,a1) * t;
+		return Dungeon.game.getState().isPaused() ? a0 : a0 + shortAngleDist(a0,a1) * (t * 60 * Gdx.graphics.getDeltaTime());
 	}
 
 	protected float getAimX(float ex, float ey) {

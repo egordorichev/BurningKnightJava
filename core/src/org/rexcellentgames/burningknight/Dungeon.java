@@ -258,8 +258,8 @@ public class Dungeon extends ApplicationAdapter {
 		this.initColors();
 		this.initInput();
 
-		ui = new Area();
-		area = new Area();
+		ui = new Area(true);
+		area = new Area(true);
 
 		game = new Game();
 		game.setState(new AssetLoadState());

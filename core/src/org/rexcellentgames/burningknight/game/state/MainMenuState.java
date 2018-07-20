@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -35,6 +36,8 @@ public class MainMenuState extends State {
 
 	@Override
 	public void init() {
+		Dungeon.background2 = Color.valueOf("#1a1932");
+
 		SettingsState.added = false;
 		InputSettingsState.added = false;
 		SlotSelectState.added = false;
