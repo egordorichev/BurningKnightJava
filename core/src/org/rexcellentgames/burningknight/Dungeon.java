@@ -91,6 +91,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean flip;
 	public static float colorBlind = 0f;
 	public static float colorBlindFix = 1f;
+	public static float grayscale = 0f;
 
 	public static String title;
 
@@ -399,7 +400,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.surface.begin();
 
-		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
+		Gdx.gl.glClearColor(background2.r, background2.g, background2.b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Graphics.batch.begin();
@@ -426,6 +427,8 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("shockPos", shockPos);
 		shader.setUniformf("colorBlind", colorBlind);
 		shader.setUniformf("correct", colorBlindFix);
+		shader.setUniformf("grayscale", grayscale);
+		shader.setUniformf("ui", 0);
 		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("transR", darkR / MAX_R);
@@ -470,6 +473,8 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("shockTime", 10);
 		shader.setUniformf("glitchT", 0);
 		shader.setUniformf("heat", 0);
+		shader.setUniformf("ui", 1);
+		shader.setUniformf("grayscale", 0);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, Display.GAME_WIDTH * upscale,

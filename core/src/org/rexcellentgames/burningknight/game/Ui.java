@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.Log;
@@ -107,6 +106,52 @@ public class Ui {
 		}
 	}
 
+	private float al;
+	private float val;
+
+	public void onDeath() {
+		Tween.to(new Tween.Task(1, 0.3f) {
+			@Override
+			public float getValue() {
+				return Dungeon.grayscale;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.grayscale = value;
+			}
+		}).delay(0.15f);
+
+		val = 1;
+
+		Tween.to(new Tween.Task(1, 0.05f) {
+			@Override
+			public float getValue() {
+				return al;
+			}
+
+			@Override
+			public void setValue(float value) {
+				al = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return al;
+					}
+
+					@Override
+					public void setValue(float value) {
+						al = value;
+					}
+				});
+			}
+		});
+	}
+
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
@@ -115,9 +160,16 @@ public class Ui {
 		}
 
 		if (Dungeon.game.getState() instanceof InGameState) {
-			if (Player.instance != null && Player.instance.isDead()) {
+			if (this.al > 0) {
+				Graphics.startAlphaShape();
+				Graphics.shape.setColor(this.val, this.val, this.val, this.al);
+				Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+				Graphics.endAlphaShape();
+			}
+
+			if (dead) {
 				Graphics.print("Game over!", Graphics.medium, 128);
-				Graphics.print("Press space to restart", Graphics.medium, (float) (108 + Math.sin(Dungeon.time * 3) * 4));
+				Graphics.print("Press action to restart", Graphics.medium, 108);
 
 				if (Input.instance.wasPressed("action")) {
 					Dungeon.newGame();
@@ -126,11 +178,9 @@ public class Ui {
 		}
 	}
 
+	public boolean dead;
+
 	public void renderCursor() {
-		if (Input.instance.activeController != null) {
-			return;
-		}
-		
 		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
 
 		//float dx = Math.abs(Input.instance.target.x - Input.instance.mouse.x);

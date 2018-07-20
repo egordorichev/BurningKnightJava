@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Random;
@@ -66,19 +67,31 @@ public class Area {
 
   private int selectedUiEntity = -1;
 
+  public void selectFirst() {
+  	this.selectedUiEntity = this.findFirstSelectableUiEntity();
+  }
+
   public void update(float dt) {
     if (this.hasSelectableEntity) {
       if (this.selectedUiEntity >= this.entities.size()) {
         this.selectedUiEntity = findFirstSelectableUiEntity();
         
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).select();
+          }
         }
       }
 
-      if (Input.instance.wasPressed("uiUp") && !UiMap.large) {
+      if (Input.instance.wasPressed("uiUp") && !UiMap.large && !(Dungeon.game.getState() instanceof InGameState)) {
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).unselect();
+          }
         }
 
         if (this.selectedUiEntity == 0) {
@@ -88,23 +101,36 @@ public class Area {
         }
         
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).select();
+          }
         }          
-      } else if (Input.instance.wasPressed("uiDown") && !UiMap.large) {
+      } else if (Input.instance.wasPressed("uiDown") && !UiMap.large && !(Dungeon.game.getState() instanceof InGameState)) {
         if (this.selectedUiEntity >= 0) {
           if (this.selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
-            ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+
+            Entity e = this.entities.get(selectedUiEntity);
+
+            if (e instanceof UiEntity) {
+              ((UiEntity) e).unselect();
+            }
           }
         }
 
-        if (this.selectedUiEntity >= this.entities.size() - 1) {
-          this.selectedUiEntity = findFirstSelectableUiEntity();
-        } else {
-          this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
+        this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
+
+        if (this.selectedUiEntity == -1) {
+	        this.selectedUiEntity = findFirstSelectableUiEntity();
         }
 
         if (this.selectedUiEntity != -1) {
-          ((UiEntity) this.entities.get(selectedUiEntity)).select();
+          Entity e = this.entities.get(selectedUiEntity);
+
+          if (e instanceof UiEntity) {
+            ((UiEntity) e).select();
+          }
         }
       }
     }
@@ -223,7 +249,9 @@ public class Area {
 
   private int findFirstSelectableUiEntity(int offset) {
     for (int i = offset; i < this.entities.size(); i++) {
-      if (entities.get(i) instanceof UiEntity && ((UiEntity) entities.get(i)).isSelectable()) {
+      Entity e = entities.get(i);
+
+      if (e instanceof UiEntity && e.isOnScreen() && ((UiEntity) e).isSelectable()) {
         return i;
       }
     }
@@ -237,7 +265,9 @@ public class Area {
 
   private int findLastSelectableUiEntity(int offset) {
     for (int i = offset; i >= 0; i--) {
-      if (entities.get(i) instanceof UiEntity && ((UiEntity) entities.get(i)).isSelectable()) {
+	    Entity e = entities.get(i);
+
+	    if (e instanceof UiEntity && e.isOnScreen() && ((UiEntity) e).isSelectable()) {
         return i;
       }
     }

@@ -14,6 +14,8 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiInventory extends UiEntity {
@@ -38,6 +40,32 @@ public class UiInventory extends UiEntity {
 	@Override
 	public void init() {
 		createSlots();
+	}
+
+	private boolean toRemove;
+
+	public void remove() {
+		if (toRemove) {
+			return;
+		}
+
+		toRemove = true;
+		Tween.remove(this.lastA);
+
+		Tween.to(new Tween.Task(-64, 0.05f) {
+			@Override
+			public float getValue() {
+				return slots[0].y;
+			}
+
+			@Override
+			public void setValue(float value) {
+				for (int i = 0; i < inventory.getSize(); i++) {
+					UiSlot slot = slots[i];
+					slot.y = value;
+				}
+			}
+		});
 	}
 
 	private void createSlots() {
@@ -65,6 +93,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void destroy() {
+		Log.info("Destroy");
 		super.destroy();
 		this.done = true;
 
@@ -93,9 +122,91 @@ public class UiInventory extends UiEntity {
 	private Tween.Task lastA;
 	public float forceT;
 
+	private void open() {
+		this.open = true;
+		this.dn = false;
+
+		if (this.lastA != null) {
+			Tween.remove(this.lastA);
+			this.lastA = null;
+		}
+
+		this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
+			@Override
+			public float getValue() {
+				return slots[0].a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				for (int i = 0; i < inventory.getSize(); i++) {
+					UiSlot slot = slots[i];
+					slot.a = value;
+				}
+			}
+		});
+
+		Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return slots[6].y;
+			}
+
+			@Override
+			public void setValue(float value) {
+				for (int i = 6; i < 12; i++) {
+					UiSlot slot = slots[i];
+					slot.y = value;
+				}
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				dn = true;
+			}
+		});
+
+		if (this.inventory.getSize() > 12) {
+			Tween.to(new Tween.Task(29 + 29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return slots[12].y;
+				}
+
+				@Override
+				public void setValue(float value) {
+					for (int i = 12; i < inventory.getSize(); i++) {
+						UiSlot slot = slots[i];
+						slot.y = value;
+					}
+				}
+
+				@Override
+				public void onEnd() {
+					super.onEnd();
+					dn = true;
+				}
+			});
+		}
+	}
+
+	private void validate(int a) {
+		int m = (int) ((Math.floor((this.active - a) / 6) + 1) * 6);
+		int max = Math.min(m, this.slots.length);
+
+		if (this.active <= m - 7) {
+			this.active = max - 1;
+		} else if (this.active >= max) {
+			this.active = (int) ((Math.floor(max / 6)) * 6 - 6);
+		}
+
+		this.active = (int) MathUtils.clamp(0, this.slots.length - 1, this.active);
+	}
+
 	@Override
 	public void update(float dt) {
-		if (Dungeon.game.getState().isPaused() || Dialog.active != null) {
+		if (Dungeon.game.getState().isPaused() || Dialog.active != null || toRemove) {
 			return;
 		}
 
@@ -105,73 +216,12 @@ public class UiInventory extends UiEntity {
 
 		if (Dialog.active == null && this.dn && Input.instance.wasPressed("inventory")) {
 			if (!this.open) {
-				this.open = true;
-				this.dn = false;
-
-				if (this.lastA != null) {
-					Tween.remove(this.lastA);
-					this.lastA = null;
-				}
-
-				this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
-					@Override
-					public float getValue() {
-						return slots[0].a;
-					}
-
-					@Override
-					public void setValue(float value) {
-						for (int i = 0; i < inventory.getSize(); i++) {
-							UiSlot slot = slots[i];
-							slot.a = value;
-						}
-					}
-				});
-
-				Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
-					@Override
-					public float getValue() {
-						return slots[6].y;
-					}
-
-					@Override
-					public void setValue(float value) {
-						for (int i = 6; i < 12; i++) {
-							UiSlot slot = slots[i];
-							slot.y = value;
-						}
-					}
-
-					@Override
-					public void onEnd() {
-						super.onEnd();
-						dn = true;
-					}
-				});
-
-				if (this.inventory.getSize() > 12) {
-					Tween.to(new Tween.Task(29 + 29 + 4, 0.3f, Tween.Type.BACK_OUT) {
-						@Override
-						public float getValue() {
-							return slots[12].y;
-						}
-
-						@Override
-						public void setValue(float value) {
-							for (int i = 12; i < inventory.getSize(); i++) {
-								UiSlot slot = slots[i];
-								slot.y = value;
-							}
-						}
-
-						@Override
-						public void onEnd() {
-							super.onEnd();
-							dn = true;
-						}
-					});
-				}
+				open();
 			} else {
+				if (this.active > 5) {
+					this.active -= Math.floor(this.active / 6) * 6;
+				}
+
 				if (this.lastA != null) {
 					Tween.remove(this.lastA);
 					this.lastA = null;
@@ -248,41 +298,60 @@ public class UiInventory extends UiEntity {
 		}
 
 		if (!UiMap.large) {
-			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
-				this.active = (this.active + Input.instance.getAmount()) % this.slots.length;
-
-				if (this.active == -1) {
-					this.active = this.slots.length - 1va4ever
-					;
+			if (Input.instance.wasPressed("inventory_up") && this.active + 6 < this.slots.length) {
+				if (!open) {
+					open();
 				}
 
+				this.active += 6;
+			}
+
+			if (Input.instance.wasPressed("inventory_down") && this.active > 5) {
+				this.active -= 6;
+			}
+
+			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
+				this.active = (this.active + Input.instance.getAmount());
+
+				this.validate(Input.instance.getAmount());
 				this.forceT = 1f;
 			}
 
 			if (Input.instance.wasPressed("prev") && Dialog.active == null) {
 				this.active -= 1;
 				this.forceT = 1f;
-
-				if (this.active == -1) {
-					this.active = 5;
-				}
+				this.validate(-1);
 			}
 
 			if (Input.instance.wasPressed("next") && Dialog.active == null) {
-				this.active = (this.active + 1) % 6;
+				this.active = this.active + 1;
 				this.forceT = 1f;
+				this.validate(1);
 			}
 
 			if (!Input.instance.blocked && Input.instance.wasPressed("drop_item") && Dialog.active == null) {
 				Item slot = this.inventory.getSlot(this.active);
+				UiSlot ui = this.slots[this.active];
+
+				ui.tweenClick();
 
 				if (slot == null || slot.isCursed()) {
+					if (slot != null) {
+						ui.r = 1;
+						ui.g = 0;
+						ui.b = 0;
+					}
+
 					return;
 				}
 
 				this.drop(slot);
 			}
 
+			if (Input.instance.wasPressed("inventory_select")) {
+				UiSlot slot = this.slots[this.active];
+				slot.leftClick();
+			}
 
 			if (Input.instance.wasPressed("1")) {
 				this.active = 0;
@@ -490,17 +559,27 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		if (this.currentSlot != null) {
+			float x = Input.instance.uiMouse.x;
+			float y = Input.instance.uiMouse.y;
+
+			if (Input.instance.activeController != null) {
+				UiSlot slot = this.slots[this.active];
+
+				x = slot.x + 24;
+				y = slot.y + 24;
+			}
+
 			int count = this.currentSlot.getCount();
 
 			if (count > 0) {
 				TextureRegion sprite = this.currentSlot.getSprite();
 				Graphics.render(sprite,
-					Input.instance.uiMouse.x + 12 - sprite.getRegionWidth() / 2,
-					Input.instance.uiMouse.y - 8);
+					 x + 12 - sprite.getRegionWidth() / 2,
+					y - 8);
 
 
 				if (count > 1) {
-					Graphics.small.draw(Graphics.batch, String.valueOf(count), Input.instance.uiMouse.x + 12, Input.instance.uiMouse.y - 4);
+					Graphics.small.draw(Graphics.batch, String.valueOf(count), x + 12, y - 4);
 				}
 			}
 		} else if (this.hoveredSlot != -1) {

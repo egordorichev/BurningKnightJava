@@ -26,14 +26,14 @@ public class UiSlot {
 
 	public int x;
 	public float y;
-	private int id;
+	protected int id;
 	private boolean hovered = false;
 	private UiInventory inventory;
 	private float scale = 1f;
 	private boolean active;
-	private float r = 1f;
-	private float g = 1f;
-	private float b = 1f;
+	protected float r = 1f;
+	protected float g = 1f;
+	protected float b = 1f;
 	private float rr = 1f;
 	private float rg = 1f;
 	private float rb = 1f;
@@ -45,12 +45,14 @@ public class UiSlot {
 		this.inventory = inventory;
 	}
 
+	private Tween.Task last;
+
 	public void update(float dt) {
 		Item item = this.inventory.getInventory().getSlot(this.id);
 
-		this.r += (this.rr - this.r) * dt * 20;
-		this.g += (this.rg - this.g) * dt * 20;
-		this.b += (this.rb - this.b) * dt * 20;
+		this.r += (this.rr - this.r) * dt * 10;
+		this.g += (this.rg - this.g) * dt * 10;
+		this.b += (this.rb - this.b) * dt * 10;
 
 		if (item != null) {
 			item.update(dt);
@@ -67,7 +69,8 @@ public class UiSlot {
 		if (this.inventory.getActive() == this.id && !this.active) {
 			this.active = true;
 
-			Tween.to(new Tween.Task(1.2f, 0.1f) {
+			Tween.remove(this.last);
+			this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -83,7 +86,9 @@ public class UiSlot {
 		} else if (this.inventory.getActive() != this.id && this.active) {
 			this.active = false;
 
-			Tween.to(new Tween.Task(1f, 0.1f) {
+
+			Tween.remove(this.last);
+			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -131,10 +136,33 @@ public class UiSlot {
 			this.inventory.hoveredSlot = this.id;
 			this.inventory.handled = true;
 
-			if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1")) {
-				Audio.playSfx("menu/select");
+			if (Input.instance.wasPressed("mouse0")) {
+				leftClick();
+			} else if (Input.instance.wasPressed("mouse1")) {
+				rightClick();
+			}
+		}
+	}
 
-				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+	public void tweenClick() {
+		Audio.playSfx("menu/select");
+
+		Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+			@Override
+			public float getValue() {
+				return scale;
+			}
+
+			@Override
+			public void setValue(float value) {
+				scale = value;
+			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+
+				Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -144,94 +172,87 @@ public class UiSlot {
 					public void setValue(float value) {
 						scale = value;
 					}
-
-					@Override
-					public void onEnd() {
-						super.onEnd();
-
-						Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
-							@Override
-							public float getValue() {
-								return scale;
-							}
-
-							@Override
-							public void setValue(float value) {
-								scale = value;
-							}
-						});
-					}
 				});
 			}
+		});
+	}
 
-			if (Input.instance.wasPressed("mouse0")) {
-				Item current = this.inventory.getCurrentSlot();
-				Item self = this.inventory.getInventory().getSlot(this.id);
+	public void leftClick() {
+		Item current = this.inventory.getCurrentSlot();
+		Item self = this.inventory.getInventory().getSlot(this.id);
 
-				if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
-					current.setCount(current.getCount() + self.getCount());
-					this.inventory.getInventory().setSlot(this.id, current);
-					this.inventory.setCurrentSlot(null);
-				} else if (canAccept(this.id, current) || current == null) {
-					if (this.id > 5 && current != null) {
-						for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
-							Item sl = this.inventory.getInventory().getSlot(i);
+		if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
+			current.setCount(current.getCount() + self.getCount());
+			this.inventory.getInventory().setSlot(this.id, current);
+			this.inventory.setCurrentSlot(null);
+		} else if (canAccept(this.id, current) || current == null) {
+			if (this.id > 5 && current != null) {
+				for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
+					Item sl = this.inventory.getInventory().getSlot(i);
 
-							if (sl != null && sl.getClass().isInstance(current)) {
-								return;
-							}
-						}
-					}
-
-					this.inventory.setCurrentSlot(self);
-					this.inventory.getInventory().setSlot(this.id, current);
-
-					if (this.id > 5) {
-						if (self instanceof Accessory) {
-							((Accessory) self).onUnequip();
-						}
-
-						if (current instanceof Accessory) {
-							current.setOwner(Player.instance);
-							((Accessory) current).onEquip();
-						}
-					}
-				}
-			} else if (Input.instance.wasPressed("mouse1")) {
-				Item self = this.inventory.getInventory().getSlot(this.id);
-				Item current = this.inventory.getCurrentSlot();
-
-				if (self == null || !self.isStackable()) {
-					return;
-				}
-
-				if (current != null && self.getClass() != current.getClass()) {
-					return;
-				}
-
-				if (current == null) {
-					try {
-						current = self.getClass().newInstance();
-						current.setCount(0);
-						current.setOwner(Player.instance);
-
-						this.inventory.setCurrentSlot(current);
-					} catch (Exception e) {
-						Dungeon.reportException(e);
-						
+					if (sl != null && sl.getClass().isInstance(current)) {
 						return;
 					}
 				}
+			}
 
-				if (self.getCount() == 1) {
-					this.inventory.getInventory().setSlot(this.id, null);
+			this.inventory.setCurrentSlot(self);
+			this.inventory.getInventory().setSlot(this.id, current);
+
+			if (this.id > 5) {
+				if (self instanceof Accessory) {
+					((Accessory) self).onUnequip();
 				}
 
-				current.setCount(current.getCount() + 1);
+				if (current instanceof Accessory) {
+					current.setOwner(Player.instance);
+					((Accessory) current).onEquip();
+				}
+			}
+		} else {
+			this.r = 1f;
+			this.g = 0;
+			this.b = 0;
+		}
+
+		tweenClick();
+	}
+
+	public void rightClick() {
+		Item self = this.inventory.getInventory().getSlot(this.id);
+		Item current = this.inventory.getCurrentSlot();
+
+		if (self == null || !self.isStackable()) {
+			return;
+		}
+
+		if (current != null && self.getClass() != current.getClass()) {
+			return;
+		}
+
+		if (current == null) {
+			try {
+				current = self.getClass().newInstance();
+				current.setCount(0);
 				current.setOwner(Player.instance);
-				self.setCount(self.getCount() - 1);
+
+				this.inventory.setCurrentSlot(current);
+			} catch (Exception e) {
+				Dungeon.reportException(e);
+
+				return;
 			}
 		}
+
+		if (self.getCount() == 1) {
+			this.inventory.getInventory().setSlot(this.id, null);
+		}
+
+		current.setCount(current.getCount() + 1);
+		current.setOwner(Player.instance);
+		self.setCount(self.getCount() - 1);
+
+		tweenClick();
 	}
 
 	public static boolean canAccept(int id, Item item) {

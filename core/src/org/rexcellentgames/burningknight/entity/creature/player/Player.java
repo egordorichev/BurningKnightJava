@@ -49,6 +49,7 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.entity.pool.item.GoldChestPool;
 import org.rexcellentgames.burningknight.entity.pool.item.IronChestPool;
 import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.*;
@@ -177,6 +178,7 @@ public class Player extends Creature {
 				}
 			}
 		});
+		Ui.ui.dead = false;
 	}
 
 	protected void playStepSfx() {
@@ -507,9 +509,13 @@ public class Player extends Creature {
 		super.destroy();
 
 		if (this.ui != null && !this.ui.done) {
-			this.ui.destroy();
-			this.ui = null;
+			this.ui.remove();
 		}
+
+		if (UiMap.instance != null) {
+			UiMap.instance.remove();
+		}
+
 		Player.all.remove(this);
 	}
 
@@ -549,6 +555,7 @@ public class Player extends Creature {
 			this.animation.update(dt);
 
 			if (this.t >= 1f) {
+				Ui.ui.dead = true;
 				super.die(false);
 
 				this.dead = true;
@@ -589,25 +596,6 @@ public class Player extends Creature {
 				}
 
 				this.lastRegen = 0;
-			}
-		}
-
-		if (Dungeon.level != null) {
-			if (room != null) {
-				for (int x = this.room.left; x <= this.room.right; x++) {
-					for (int y = this.room.top; y <= this.room.bottom; y++) {
-						if ((x == this.room.left || x == this.room.right || y == this.room.top || y == this.room.bottom
-							) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
-							Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
-						}
-
-						if (y != this.room.top) {
-							Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
-						}/* else {
-							Dungeon.level.explored[Level.toIndex(x, y)] = true;
-						}*/
-					}
-				}
 			}
 		}
 
@@ -902,6 +890,8 @@ public class Player extends Creature {
 		if (this.toDeath) {
 			return;
 		}
+
+		Ui.ui.onDeath();
 
 		this.done = false;
 		GlobalSave.put("deaths", GlobalSave.getInt("deaths") + 1);

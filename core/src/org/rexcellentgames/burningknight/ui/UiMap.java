@@ -71,6 +71,21 @@ public class UiMap extends UiEntity {
 		GlobalSave.put("hide_minimap", true);
 	}
 
+	public void remove() {
+		if (!this.did) {
+			toRemove = true;
+
+			if (this.my == 0) {
+				this.hide();
+				GlobalSave.put("hide_minimap", false);
+			}
+
+			if (large) {
+				this.hideHuge();
+			}
+		}
+	}
+
 	public void show() {
 		Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
 			@Override
@@ -159,7 +174,7 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void render() {
-				if (!large) {
+				if (!large && !Player.instance.isDead()) {
 					float dx = Input.instance.uiMouse.x - this.x - 4;
 					float dy = Input.instance.uiMouse.y - this.y - 4;
 					float d = (float) Math.sqrt(dx * dx + dy * dy);
@@ -425,28 +440,32 @@ public class UiMap extends UiEntity {
 				large = false;
 				setSize();
 
-				Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
-					@Override
-					public float getValue() {
-						return my;
-					}
+				if (!toRemove) {
+					Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return my;
+						}
 
-					@Override
-					public void setValue(float value) {
-						my = value;
-					}
+						@Override
+						public void setValue(float value) {
+							my = value;
+						}
 
-					@Override
-					public void onEnd() {
-						did = false;
-					}
-				});
+						@Override
+						public void onEnd() {
+							did = false;
+						}
+					});
+				}
 			}
 		});
 
 		hadOpen = false;
 		did = true;
 	}
+
+	private boolean toRemove;
 
 	private float zoom = GlobalSave.getFloat("minimap_zoom") == 0 ? 1f : GlobalSave.getFloat("minimap_zoom");
 	private Color bg = Color.valueOf("#2a2f4e");

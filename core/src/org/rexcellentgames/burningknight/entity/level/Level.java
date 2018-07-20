@@ -511,7 +511,7 @@ public abstract class Level extends SaveableEntity {
 
 				float v = this.light[i];
 
-				if (v == 1) {
+				if (v == 1 || v == 0) {
 					continue;
 				}
 
@@ -541,7 +541,7 @@ public abstract class Level extends SaveableEntity {
 
 				float v = this.light[i];
 
-				if (v < s && v != 0) {
+				if (v < s) {
 					int t = (int) Math.floor((v * (md)) * 10);
 
 					if (t < 10) {

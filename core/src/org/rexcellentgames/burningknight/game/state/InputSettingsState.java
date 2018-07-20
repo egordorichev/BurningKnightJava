@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiChoice;
+import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 public class InputSettingsState extends State {
 	private static UiChoice c;
 	public static boolean added;
+	public static UiEntity first;
 
 	public static void add() {
 		if (added) {
@@ -25,7 +27,7 @@ public class InputSettingsState extends State {
 
 		added = true;
 
-		Dungeon.ui.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
+		first = (UiEntity) Dungeon.ui.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -73,7 +75,8 @@ public class InputSettingsState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
-				
+				Dungeon.ui.select(SettingsState.first);
+
 				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
 					@Override
 					public float getValue() {

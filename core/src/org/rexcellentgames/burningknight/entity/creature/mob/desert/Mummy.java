@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -28,10 +29,16 @@ public class Mummy extends Mob {
 	protected void die(boolean force) {
 		super.die(force);
 
-		this.playSfx("death_clown");
+		this.playSfx("death_mummy");
 
 		this.done = true;
 		deathEffect(killed);
+	}
+
+	@Override
+	protected void onHurt(float a, Creature from) {
+		super.onHurt(a, from);
+		this.playSfx("damage_mummy");
 	}
 
 	{

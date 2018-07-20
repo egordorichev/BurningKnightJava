@@ -56,7 +56,7 @@ public class InGameState extends State {
 
 		this.setupUi();
 
-		Dungeon.background = Level.colors[Dungeon.level.uid];
+		Dungeon.background2 = Level.colors[Dungeon.level.uid];
 
 		this.console = new Console();
 
@@ -206,6 +206,21 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		if (Player.instance.room != null) {
+			for (int x = Player.instance.room.left; x <= Player.instance.room.right; x++) {
+				for (int y = Player.instance.room.top; y <= Player.instance.room.bottom; y++) {
+					if ((x == Player.instance.room.left || x == Player.instance.room.right || y == Player.instance.room.top || y == Player.instance.room.bottom
+					) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
+						Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 2f, false);
+					}
+
+					if (y != Player.instance.room.top) {
+						Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 2f, 2f);
+					}
+				}
+			}
+		}
+		
 		if (Version.debug) {
 			this.console.update(dt);
 

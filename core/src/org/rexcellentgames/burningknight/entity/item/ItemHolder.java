@@ -1,12 +1,16 @@
 package org.rexcellentgames.burningknight.entity.item;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -196,23 +200,48 @@ public class ItemHolder extends SaveableEntity {
 		all.remove(this);
 	}
 
+	private float al;
+
 	@Override
 	public void render() {
 		TextureRegion sprite = this.item.getSprite();
-
-		int w = sprite.getRegionWidth();
-		int h = sprite.getRegionHeight();
 
 		float a = (float) Math.cos(this.t * 3f) * 8f * sz;
 		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 
 		Graphics.batch.end();
+
+		float dt = Gdx.graphics.getDeltaTime();
+		this.al = MathUtils.clamp(0, 1, this.al + (((Player.instance.pickupFx != null && Player.instance.pickupFx.item == this) ? 1 : 0) - this.al) * dt * 10);
+
+		if (this.al > 0) {
+			Mob.shader.begin();
+			Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+			Mob.shader.setUniformf("u_a", this.al);
+			Mob.shader.end();
+			Graphics.batch.setShader(Mob.shader);
+			Graphics.batch.begin();
+
+			for (int xx = -1; xx < 2; xx++) {
+				for (int yy = -1; yy < 2; yy++) {
+					if (Math.abs(xx) + Math.abs(yy) == 1) {
+						Graphics.render(sprite, this.x + w / 2 + xx, this.y + this.z + h / 2 + yy, a,
+							w / 2, h / 2, false, false, 1f, sy);
+					}
+				}
+			}
+
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+		}
+
 		WeaponBase.shader.begin();
 		WeaponBase.shader.setUniformf("a", 1);
 		WeaponBase.shader.setUniformf("time", Dungeon.time + this.t);
 		WeaponBase.shader.end();
 		Graphics.batch.setShader(WeaponBase.shader);
 		Graphics.batch.begin();
+
 		Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a,
 			w / 2, h / 2, false, false, 1f, sy);
 
@@ -293,7 +322,7 @@ public class ItemHolder extends SaveableEntity {
 		}
 
 		// This might be bad!
-		this.body = this.createSimpleBody(0, 0, item.getSprite().getRegionWidth(), item.getSprite().getRegionHeight(),
+		this.body = this.createSimpleBody(-2, -2, item.getSprite().getRegionWidth() + 2, item.getSprite().getRegionHeight() + 2,
 			BodyDef.BodyType.DynamicBody, false);
 
 		this.w = item.getSprite().getRegionWidth();

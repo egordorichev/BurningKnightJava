@@ -53,6 +53,7 @@ public class AssetLoadState extends State {
 			Gdx.graphics.setTitle(Dungeon.title);
 			GameSave.Info info = GameSave.peek(0);
 			Dungeon.goToLevel(info.depth);
+			return;
 		}
 
 		Tween.to(new Tween.Task(0, 0.1f) {

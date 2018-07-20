@@ -17,17 +17,37 @@ uniform float transR;
 uniform vec2 cam;
 uniform float colorBlind;
 uniform float correct;
-
+uniform float grayscale;
+uniform float ui;
 uniform sampler2D u_texture;
 varying vec2 v_texCoord;
 varying vec4 v_color;
-
 
 float rand(vec2 co){
     return fract(cos(dot(co.xy ,vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 vec4 daltonize(vec4 inp) {
+    if (ui < 0.5) {
+        inp.a = 1.0;
+    }
+
+    if (grayscale > 0.0) {
+        float v = (inp.r + inp.g + inp.b) / 3.0;
+
+        if (grayscale == 1.0) {
+            inp.r = v;
+            inp.g = v;
+            inp.b = v;
+        } else {
+            float mn = (1.0 - grayscale);
+
+            inp.r = inp.r * mn + v * grayscale;
+            inp.g = inp.g * mn + v * grayscale;
+            inp.b = inp.b * mn + v * grayscale;
+        }
+    }
+
     if (colorBlind < 0.5) {
         return inp;
     }

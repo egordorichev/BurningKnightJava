@@ -4,7 +4,7 @@
 	"up" : [ "W", "Up" ],
 	"down" : [ "S", "Down" ],
 
-	"pickup" : [ "L-Shift", "ControllerB" ],
+	"pickup" : [ "L-Shift", "ControllerX" ],
 	"drop_item" : [ "ControllerY", "Q" ],
 	"block" : [ "Mouse2" ],
 
@@ -19,6 +19,7 @@
 	"next" : [ "ControllerR1", "Numpad 9", "ControllerDPadRight" ],
 	"inventory_down" : [ "ControllerDPadDown" ],
 	"inventory_up" : [ "ControllerDPadUp" ],
+	"inventory_select" : [ "ControllerB" ],
 
 	"uiUp": [ "Up", "ControllerDPadUp" ],
 	"uiDown": [ "Down", "ControllerDPadDown" ],
