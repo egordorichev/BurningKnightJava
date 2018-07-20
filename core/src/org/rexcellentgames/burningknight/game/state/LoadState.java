@@ -218,11 +218,6 @@ public class LoadState extends State {
 
 	@Override
 	public void renderUi() {
-		Graphics.startShape();
-		Graphics.shape.setColor(0, 0, 0, 1);
-		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
-		Graphics.endShape();
-
 		Graphics.medium.setColor(1, 1, 1, this.a);
 		Graphics.print(this.s, Graphics.medium, 120 - 16);
 		Graphics.medium.setColor(1, 1, 1, 1);

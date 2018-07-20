@@ -30,13 +30,21 @@ float rand(vec2 co){
 
 vec4 daltonize(vec4 inp) {
     if (grayscale > 0.0) {
+        float v = (inp.r + inp.g + inp.b) / 3.0;
+
         if (grayscale == 1.0) {
-            float v = (inp.r + inp.g + inp.b) / 3.0;
             inp.r = v;
             inp.g = v;
             inp.b = v;
-            inp.a = 1.0;
+        } else {
+            float mn = (1.0 - grayscale);
+
+            inp.r = inp.r * mn + v * grayscale;
+            inp.g = inp.g * mn + v * grayscale;
+            inp.b = inp.b * mn + v * grayscale;
         }
+
+        inp.a = 1.0;
     }
 
     if (colorBlind < 0.5) {

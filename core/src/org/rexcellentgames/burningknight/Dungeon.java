@@ -426,7 +426,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("shockPos", shockPos);
 		shader.setUniformf("colorBlind", colorBlind);
 		shader.setUniformf("correct", colorBlindFix);
-		shader.setUniformf("grayscale", 1f);
+		shader.setUniformf("grayscale", 0); //  (float) (Math.cos(time / 10f) / 2 + 0.5f)
 		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("transR", darkR / MAX_R);
