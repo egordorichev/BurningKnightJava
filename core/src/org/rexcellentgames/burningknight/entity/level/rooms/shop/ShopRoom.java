@@ -8,6 +8,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
+import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
@@ -16,7 +19,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.connection.Connectio
 import org.rexcellentgames.burningknight.entity.level.rooms.special.LockedRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
-import org.rexcellentgames.burningknight.entity.pool.item.*;
+import org.rexcellentgames.burningknight.entity.pool.item.ShopHatPool;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -144,10 +147,10 @@ public class ShopRoom extends LockedRoom {
 	private void paintWeapon(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 
-		Pool pool = getWeaponPool();
+		Pool<Item> pool = getWeaponPool();
 
 		for (int i = 0; i < c; i++) {
-			items.add((Item) pool.generate());
+			items.add(pool.generate());
 		}
 
 		placeItems(items);
@@ -156,33 +159,47 @@ public class ShopRoom extends LockedRoom {
 	private void paintAccessory(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 
-		Pool all = new Pool<Item>();
 		Pool pool = getAccessoryPool();
 
-		all.addFrom(pool);
-		all.addFrom(AccessoryPoolAll.instance);
-
 		for (int i = 0; i < c; i++) {
-			items.add((Item) all.generate());
+			items.add((Item) pool.generate());
 		}
 
 		placeItems(items);
 	}
 
-	private Pool getAccessoryPool() {
-		switch (Player.instance.getType()) {
-			case WARRIOR: default: return AccessoryPoolWarrior.instance;
-			case WIZARD: return AccessoryPoolMage.instance;
-			case RANGER: return AccessoryPoolRanger.instance;
+	private Pool<Item> getAccessoryPool() {
+		Pool<Item> pool = new Pool<>();
+
+		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
+			if (item.getType().isAssignableFrom(Accessory.class)) {
+
+				pool.add(item.getType(), item.getChance() * (
+					item.getWarrior() * Player.instance.getWarrior() +
+						item.getMage() * Player.instance.getManaMax() +
+						item.getRanged() * Player.instance.getRanger()
+				));
+			}
 		}
+
+		return pool;
 	}
 
-	private Pool getWeaponPool() {
-		switch (Player.instance.getType()) {
-			case WARRIOR: default: return WeaponPoolWarrior.instance;
-			case WIZARD: return WeaponPoolMage.instance;
-			case RANGER: return WeaponPoolRanger.instance;
+	private Pool<Item> getWeaponPool() {
+		Pool<Item> pool = new Pool<>();
+
+		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
+			if (item.getType().isAssignableFrom(WeaponBase.class)) {
+
+				pool.add(item.getType(), item.getChance() * (
+					item.getWarrior() * Player.instance.getWarrior() +
+						item.getMage() * Player.instance.getManaMax() +
+						item.getRanged() * Player.instance.getRanger()
+				));
+			}
 		}
+
+		return pool;
 	}
 
 	private void paintMixed(int c) {

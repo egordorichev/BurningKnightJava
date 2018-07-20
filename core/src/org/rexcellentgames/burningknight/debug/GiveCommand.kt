@@ -25,12 +25,12 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
           val clazz = ItemRegistry.items[name]
 
           if (clazz == null) {
-            Log.error("Unknown item " + name)
+            Log.error("Unknown item $name")
 
             return
           }
 
-          clazz.newInstance()
+          clazz.type.newInstance()
         }
         
         val itemHolder = ItemHolder()

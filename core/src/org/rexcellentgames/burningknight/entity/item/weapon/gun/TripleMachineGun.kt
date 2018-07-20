@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.game.input.Input
 class TripleMachineGun : Gun() {
   init {
     useTime = 0.15f
+    sprite = "item-gun_c"
   }
 
   override fun sendBullets() {

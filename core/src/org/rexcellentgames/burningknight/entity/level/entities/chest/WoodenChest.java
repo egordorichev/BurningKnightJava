@@ -1,7 +1,11 @@
 package org.rexcellentgames.burningknight.entity.level.entities.chest;
 
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
+import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
+import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
+import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 
@@ -13,7 +17,20 @@ public class WoodenChest extends Chest {
 
 	@Override
 	public Item generate() {
-		return weapon ? WoodenChestPool.items.generate() : WoodenChestPool.weapons.generate();
+		Pool<Item> pool = new Pool<>();
+
+		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
+			if (item.getQuality() == ItemRegistry.Quality.WOODEN && item.getType().isAssignableFrom(weapon ? WeaponBase.class : Accessory.class)) {
+
+				pool.add(item.getType(), item.getChance() * (
+					item.getWarrior() * Player.instance.getWarrior() +
+						item.getMage() * Player.instance.getManaMax() +
+						item.getRanged() * Player.instance.getRanger()
+				));
+			}
+		}
+
+		return pool.generate();
 	}
 
 	@Override

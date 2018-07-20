@@ -47,9 +47,6 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.entity.pool.item.GoldChestPool;
-import org.rexcellentgames.burningknight.entity.pool.item.IronChestPool;
-import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiMap;
@@ -149,6 +146,18 @@ public class Player extends Creature {
 		alwaysActive = true;
 
 		setSkin("body");
+	}
+
+	public float getMage() {
+		return this.type == Type.WIZARD ? 1f : 0f;
+	}
+
+	public float getWarrior() {
+		return this.type == Type.WARRIOR ? 1f : 0f;
+	}
+
+	public float getRanger() {
+		return this.type == Type.RANGER ? 1f : 0f;
 	}
 
 	@Override

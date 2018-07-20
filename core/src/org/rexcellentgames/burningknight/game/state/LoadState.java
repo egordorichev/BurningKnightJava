@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.game.state;
 
-import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -17,9 +16,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.entity.pool.item.GoldChestPool;
-import org.rexcellentgames.burningknight.entity.pool.item.IronChestPool;
-import org.rexcellentgames.burningknight.entity.pool.item.WoodenChestPool;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
