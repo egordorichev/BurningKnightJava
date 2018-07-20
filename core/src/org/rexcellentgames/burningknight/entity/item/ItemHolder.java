@@ -322,7 +322,7 @@ public class ItemHolder extends SaveableEntity {
 		}
 
 		// This might be bad!
-		this.body = this.createSimpleBody(-2, -2, item.getSprite().getRegionWidth() + 2, item.getSprite().getRegionHeight() + 2,
+		this.body = this.createSimpleBody(-2, -2, item.getSprite().getRegionWidth() + 4, item.getSprite().getRegionHeight() + 4,
 			BodyDef.BodyType.DynamicBody, false);
 
 		this.w = item.getSprite().getRegionWidth();

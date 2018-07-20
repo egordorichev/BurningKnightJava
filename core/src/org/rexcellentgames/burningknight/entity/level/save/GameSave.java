@@ -102,6 +102,10 @@ public class GameSave {
 	}
 
 	public static void generate() {
+		killCount = 0;
+		time = 0;
+		defeatedBK = false;
+
 		generateDepths();
 		ChangableRegistry.generate();
 	}

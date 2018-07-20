@@ -379,6 +379,9 @@ public class UiMap extends UiEntity {
 		yc = 0;
 
 		if (!large && my != 96) {
+			hadOpen = true;
+			did = true;
+
 			Tween.to(new Tween.Task(96, 0.1f) {
 				@Override
 				public float getValue() {
@@ -397,10 +400,8 @@ public class UiMap extends UiEntity {
 					doLarge();
 				}
 			});
-
-			hadOpen = true;
-			did = true;
 		} else {
+			hadOpen = false;
 			doLarge();
 		}
 	}

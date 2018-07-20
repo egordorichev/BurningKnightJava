@@ -118,9 +118,19 @@ public class Ui {
 	private String kills;
 	private float killX = -128;
 	private float mainY = -128;
+	private String time;
+	private float timeW;
 
 	public void onDeath() {
-		kills = String.format("%03d", GameSave.killCount);
+		kills = GameSave.killCount + " kills";
+
+		time = String.format("%02d", (int) Math.floor(GameSave.time / 360)) + ":" +
+			String.format("%02d", (int) Math.floor(GameSave.time / 60)) + ":" +
+			String.format("%02d", (int) Math.floor(GameSave.time % 60)) + ":" +
+			String.format("%02d", (int) Math.floor(GameSave.time % 1 * 100));
+
+		Graphics.layout.setText(Graphics.small, time);
+		this.timeW = Graphics.layout.width;
 
 		Tween.to(new Tween.Task(1, 0.3f) {
 			@Override
@@ -212,6 +222,7 @@ public class Ui {
 				Camera.shake(3);
 			}
 		});
+		Dungeon.ui.select(button);
 
 		UiButton finalButton = button;
 		Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
@@ -282,7 +293,10 @@ public class Ui {
 				Graphics.endShape();
 
 				if (this.killX != -128) {
-					Graphics.medium.draw(Graphics.batch, this.kills, this.killX + 32, y);
+					float yy = y - 32;
+
+					Graphics.small.draw(Graphics.batch, this.kills, this.killX + 32, yy);
+					Graphics.small.draw(Graphics.batch, this.time, Display.GAME_WIDTH - 32 - this.killX - this.timeW, yy);
 				}
 			}
 

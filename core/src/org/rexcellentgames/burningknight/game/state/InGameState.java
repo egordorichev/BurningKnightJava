@@ -207,7 +207,9 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
-		GameSave.time += dt;
+		if (!Player.instance.isDead()) {
+			GameSave.time += Gdx.graphics.getDeltaTime();
+		}
 
 		if (Player.instance.room != null) {
 			for (int x = Player.instance.room.left; x <= Player.instance.room.right; x++) {
