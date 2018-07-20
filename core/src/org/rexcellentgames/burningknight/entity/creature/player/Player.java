@@ -262,10 +262,6 @@ public class Player extends Creature {
 					break;
 			}
 		}
-
-		WoodenChestPool.init();
-		GoldChestPool.init();
-		IronChestPool.init();
 	}
 
 	private void generateWarrior() {

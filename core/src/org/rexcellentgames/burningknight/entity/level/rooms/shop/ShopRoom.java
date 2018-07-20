@@ -172,11 +172,11 @@ public class ShopRoom extends LockedRoom {
 		Pool<Item> pool = new Pool<>();
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (item.getType().isAssignableFrom(Accessory.class)) {
+			if (Accessory.class.isAssignableFrom(item.getType())) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
-						item.getMage() * Player.instance.getManaMax() +
+						item.getMage() * Player.instance.getMage() +
 						item.getRanged() * Player.instance.getRanger()
 				));
 			}
@@ -189,11 +189,11 @@ public class ShopRoom extends LockedRoom {
 		Pool<Item> pool = new Pool<>();
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (item.getType().isAssignableFrom(WeaponBase.class)) {
+			if (WeaponBase.class.isAssignableFrom(item.getType())) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
-						item.getMage() * Player.instance.getManaMax() +
+						item.getMage() * Player.instance.getMage() +
 						item.getRanged() * Player.instance.getRanger()
 				));
 			}

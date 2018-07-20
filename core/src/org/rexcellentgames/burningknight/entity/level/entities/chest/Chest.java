@@ -39,8 +39,6 @@ public class Chest extends SaveableEntity {
 	public void init() {
 		super.init();
 
-		weapon = Random.chance(50);
-
 		this.data = this.getClosedAnim();
 
 		this.data.setAutoPause(true);

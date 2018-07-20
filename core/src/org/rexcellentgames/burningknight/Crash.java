@@ -44,28 +44,30 @@ public class Crash {
 		builder.append(writer.toString());
 		builder.append("\n--- END CRASH REPORT ---\n");
 
-		Trello trelloApi = new TrelloImpl("7e84b78076780d10a2c6a1905c69c6e9", "2695b451bd169f26fc16319500d3bf08eb479ae76794954aff4d90a204814419");
+		if (!Version.debug) {
+			Trello trelloApi = new TrelloImpl("7e84b78076780d10a2c6a1905c69c6e9", "2695b451bd169f26fc16319500d3bf08eb479ae76794954aff4d90a204814419");
 
-		Board board = trelloApi.getBoard("ve32nwEC");
-		List<TList> lists = board.fetchLists();
-		TList reports = null;
+			Board board = trelloApi.getBoard("ve32nwEC");
+			List<TList> lists = board.fetchLists();
+			TList reports = null;
 
-		for (TList list : lists) {
-			if (list.getName().equals("Crash reports")) {
-				reports = list;
-				break;
+			for (TList list : lists) {
+				if (list.getName().equals("Crash reports")) {
+					reports = list;
+					break;
+				}
 			}
-		}
 
-		if (reports == null) {
-			Log.error("Reports is null");
-		} else {
-			Card card = new Card();
+			if (reports == null) {
+				Log.error("Reports is null");
+			} else {
+				Card card = new Card();
 
-			card.setName("Crash on " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version"));
-			card.setDesc(builder.toString());
+				card.setName("Crash on " + System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ") version " + System.getProperty("os.version"));
+				card.setDesc(builder.toString());
 
-			reports.createCard(card);
+				reports.createCard(card);
+			}
 		}
 
 		JTextArea text = new JTextArea();

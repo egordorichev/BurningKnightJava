@@ -138,10 +138,6 @@ public class LoadState extends State {
 
 				try {
 					SaveManager.load(SaveManager.Type.PLAYER);
-
-					WoodenChestPool.init();
-					GoldChestPool.init();
-					IronChestPool.init();
 				} catch (IOException e) {
 					Log.error("Failed to load player!");
 					Dungeon.newGame();

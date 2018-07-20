@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
 
 public class IronChest extends Chest {
 	public static Animation animation = Animation.make("chest", "-iron");
@@ -18,13 +19,14 @@ public class IronChest extends Chest {
 	@Override
 	public Item generate() {
 		Pool<Item> pool = new Pool<>();
+		weapon = Random.chance(50);
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (item.getQuality() == ItemRegistry.Quality.IRON && item.getType().isAssignableFrom(weapon ? WeaponBase.class : Accessory.class)) {
+			if (item.getQuality() == ItemRegistry.Quality.IRON && (weapon ? WeaponBase.class : Accessory.class).isAssignableFrom(item.getType())) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
-						item.getMage() * Player.instance.getManaMax() +
+						item.getMage() * Player.instance.getMage() +
 						item.getRanged() * Player.instance.getRanger()
 				));
 			}

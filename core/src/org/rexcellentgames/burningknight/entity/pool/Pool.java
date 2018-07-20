@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.pool;
 
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -9,7 +10,14 @@ public class Pool<T> {
 	protected ArrayList<Float> chances = new ArrayList<>();
 
 	public T generate() {
-		Class<? extends T> type = classes.get(Random.chances(chances.toArray(new Float[0])));
+		int i = Random.chances(chances.toArray(new Float[0]));
+
+		if (i == -1) {
+			Log.error("-1 as pool result!");
+			return null;
+		}
+
+		Class<? extends T> type = classes.get(i);
 
 		try {
 			return type.newInstance();
