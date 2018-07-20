@@ -20,7 +20,7 @@ public class Spell extends Consumable {
 
 	@Override
 	public void onPickup() {
-		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
+		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName().replace("org.rexcellentgames.burningknight.", ""));
 		this.sprite = this.type.getSprite();
 		this.identified = ChangableRegistry.identified.get(this.type);
 	}

@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.save;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -27,7 +25,7 @@ public class PlayerSave {
 			writer.writeInt32(all.size());
 
 			for (SaveableEntity entity : all) {
-				writer.writeString(entity.getClass().getName());
+				writer.writeString(entity.getClass().getName().replace("org.rexcellentgames.burningknight.", ""));
 				entity.save(writer);
 			}
 		} catch (Exception e) {
@@ -42,7 +40,7 @@ public class PlayerSave {
 
 			for (int i = 0; i < count; i++) {
 				String t = reader.readString();
-				Class<?> clazz = Class.forName(t);
+				Class<?> clazz = Class.forName("org.rexcellentgames.burningknight." + t);
 				SaveableEntity entity = (SaveableEntity) clazz.newInstance();
 
 				Dungeon.area.add(entity);

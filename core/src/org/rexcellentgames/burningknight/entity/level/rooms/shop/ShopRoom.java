@@ -46,11 +46,13 @@ public class ShopRoom extends LockedRoom {
 		}
 
 		switch (Random.newInt(6)) {
-			case 0: paintArmor(c); break;
-			case 1: paintWeapon(c); break;
-			case 2: paintAccessory(c); break;
-			case 3: case 4: case 5: paintMixed(c); break;
+			// case 0: paintArmor(c); break;
+			// case 1: paintWeapon(c); break;
+			// case 2: paintAccessory(c); break;
+			// case 3: case 4: case 5: paintMixed(c); break;
 		}
+
+		paintMixed(c);
 
 		Point point = getSpawn();
 
@@ -209,10 +211,11 @@ public class ShopRoom extends LockedRoom {
 		Pool accessory = getAccessoryPool();
 
 		for (int i = 0; i < c; i++) {
-			switch (Random.newInt(3)) {
+			switch (Random.newInt(2)) {
 				case 0: items.add((Item) weapon.generate()); break;
-				case 1: items.add(ShopHatPool.instance.generate()); break;
-				case 2: items.add((Item) accessory.generate()); break;
+				case 1: items.add((Item) accessory.generate()); break;
+
+				// case 2: items.add(ShopHatPool.instance.generate()); break;
 			}
 		}
 

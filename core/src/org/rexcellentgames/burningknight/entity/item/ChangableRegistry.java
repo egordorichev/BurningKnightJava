@@ -84,7 +84,7 @@ public class ChangableRegistry {
 
 		for (Type type : potionTypes) {
 			int i = Random.newInt(potions.size());
-			types.put(potions.get(i).getSimpleName(), type);
+			types.put(potions.get(i).getSimpleName().replace("org.rexcellentgames.burningknight.", ""), type);
 			identified.put(type, false);
 			potions.remove(i);
 		}
@@ -102,7 +102,7 @@ public class ChangableRegistry {
 
 		for (Type type : spellTypes) {
 			int i = Random.newInt(spells.size());
-			types.put(spells.get(i).getSimpleName(), type);
+			types.put(spells.get(i).getSimpleName().replace("org.rexcellentgames.burningknight.", ""), type);
 			identified.put(type, false);
 			spells.remove(i);
 		}

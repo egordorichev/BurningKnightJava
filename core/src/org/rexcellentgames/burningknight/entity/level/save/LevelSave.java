@@ -27,7 +27,7 @@ public class LevelSave {
 			writer.writeInt32(all.size());
 
 			for (SaveableEntity entity : all) {
-				writer.writeString(entity.getClass().getName());
+				writer.writeString(entity.getClass().getName().replace("org.rexcellentgames.burningknight.", ""));
 				entity.save(writer);
 			}
 		} catch (Exception e) {
@@ -48,7 +48,7 @@ public class LevelSave {
 			Class<?> clazz = null;
 
 			try {
-				clazz = Class.forName(t);
+				clazz = Class.forName("org.rexcellentgames.burningknight." + t);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

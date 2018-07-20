@@ -24,7 +24,7 @@ public class Potion extends Consumable {
 	public void onPickup() {
 		super.onPickup();
 
-		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName());
+		this.type = ChangableRegistry.types.get(this.getClass().getSimpleName().replace("org.rexcellentgames.burningknight.", ""));
 		this.sprite = this.type.getSprite();
 		this.identified = ChangableRegistry.identified.get(this.type);
 	}
