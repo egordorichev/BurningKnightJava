@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.TreasureRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -41,7 +42,7 @@ public class InGameState extends State {
 	private UiInventory inventory;
 	private Console console;
 	private Area pauseMenuUi;
-	private static boolean showFps;
+	private static float fpsY;
 
 	@Override
 	public void init() {
@@ -206,6 +207,8 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		GameSave.time += dt;
+
 		if (Player.instance.room != null) {
 			for (int x = Player.instance.room.left; x <= Player.instance.room.right; x++) {
 				for (int y = Player.instance.room.top; y <= Player.instance.room.bottom; y++) {
@@ -281,7 +284,18 @@ public class InGameState extends State {
 		}
 
 		if (Input.instance.wasPressed("show_fps")) {
-			showFps = !showFps;
+			Tween.to(new Tween.Task(fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return fpsY;
+				}
+
+				@Override
+				public void setValue(float value) {
+					fpsY = value;
+				}
+			});
+
 			Achievements.unlock(Achievements.TEST);
 		}
 
@@ -385,8 +399,17 @@ public class InGameState extends State {
 			Dialog.active.render();
 		}
 
-		if (showFps) {
-			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond()), Graphics.medium, 3, Display.GAME_HEIGHT - 18);
+		if (fpsY > 0) {
+			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond())
+
+//					+ " " +
+//					String.format("%03d", GameSave.killCount) + " " +
+//					String.format("%02d", (int) Math.floor(GameSave.time / 360)) + ":" +
+//					String.format("%02d", (int) Math.floor(GameSave.time / 60)) + ":" +
+//					String.format("%02d", (int) Math.floor(GameSave.time % 60)) + ":" +
+//					String.format("%02d", (int) Math.floor(GameSave.time % 1 * 100))
+
+				, Graphics.medium, 3, Display.GAME_HEIGHT - fpsY);
 		}
 
 		Ui.ui.renderCursor();

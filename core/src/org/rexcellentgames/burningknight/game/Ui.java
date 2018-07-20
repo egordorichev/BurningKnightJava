@@ -6,8 +6,12 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
+import org.rexcellentgames.burningknight.game.state.MainMenuState;
+import org.rexcellentgames.burningknight.game.state.State;
+import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -27,13 +31,15 @@ public class Ui {
 	public void update(float dt) {
 		this.ca = Math.min(this.ca + dt, 1);
 
-		for (Boss boss : Boss.all) {
-			if (boss.talked && !boss.getState().equals("unactive") && !healthbars.containsKey(boss.getClass())) {
-				Healthbar healthbar = new Healthbar();
-				healthbar.boss = boss;
-				healthbar.targetValue = healthbars.size() * 19 + 16;
+		if (!dead) {
+			for (Boss boss : Boss.all) {
+				if (boss.talked && !boss.getState().equals("unactive") && !healthbars.containsKey(boss.getClass())) {
+					Healthbar healthbar = new Healthbar();
+					healthbar.boss = boss;
+					healthbar.targetValue = healthbars.size() * 19 + 16;
 
-				healthbars.put(boss.getClass(), healthbar);
+					healthbars.put(boss.getClass(), healthbar);
+				}
 			}
 		}
 
@@ -42,7 +48,7 @@ public class Ui {
 		for (int i = bars.length - 1; i >= 0; i--) {
 			bars[i].update(dt);
 
-			if (bars[i].done) {
+			if (bars[i].done || dead) {
 				Log.info(bars[i].boss.getHp() + " dead");
 				healthbars.remove(bars[i].boss.getClass());
 
@@ -108,8 +114,14 @@ public class Ui {
 
 	private float al;
 	private float val;
+	private float size;
+	private String kills;
+	private float killX = -128;
+	private float mainY = -128;
 
 	public void onDeath() {
+		kills = String.format("%03d", GameSave.killCount);
+
 		Tween.to(new Tween.Task(1, 0.3f) {
 			@Override
 			public float getValue() {
@@ -137,6 +149,45 @@ public class Ui {
 
 			@Override
 			public void onEnd() {
+				Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return mainY;
+					}
+
+					@Override
+					public void setValue(float value) {
+						mainY = value;
+					}
+				});
+
+				Tween.to(new Tween.Task(52, 0.2f) {
+					@Override
+					public float getValue() {
+						return size;
+					}
+
+					@Override
+					public void setValue(float value) {
+						size = value;
+					}
+
+					@Override
+					public void onEnd() {
+						Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return killX;
+							}
+
+							@Override
+							public void setValue(float value) {
+								killX = value;
+							}
+						});
+					}
+				});
+
 				Tween.to(new Tween.Task(0, 0.1f) {
 					@Override
 					public float getValue() {
@@ -150,6 +201,60 @@ public class Ui {
 				});
 			}
 		});
+
+		UiButton button = (UiButton) Dungeon.ui.add(new UiButton("Restart", Display.GAME_WIDTH / 2 - 256, 107) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				rst();
+				Dungeon.newGame();
+				Camera.shake(3);
+			}
+		});
+
+		UiButton finalButton = button;
+		Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return finalButton.x;
+			}
+
+			@Override
+			public void setValue(float value) {
+				finalButton.x = value;
+			}
+		}).delay(0.3f);
+
+		button = (UiButton) Dungeon.ui.add(new UiButton("Menu", Display.GAME_WIDTH / 2 + 256, 83) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				rst();
+				State.transition(() -> Dungeon.game.setState(new MainMenuState()));
+				Camera.shake(3);
+			}
+		});
+
+		UiButton finalButton1 = button;
+		Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return finalButton1.x;
+			}
+
+			@Override
+			public void setValue(float value) {
+				finalButton1.x = value;
+			}
+		}).delay(0.3f);
+	}
+
+	private void rst() {
+		mainY = -128;
+		killX = -128;
+		size = 0;
 	}
 
 	public void render() {
@@ -167,13 +272,22 @@ public class Ui {
 				Graphics.endAlphaShape();
 			}
 
-			if (dead) {
-				Graphics.print("Game over!", Graphics.medium, 128);
-				Graphics.print("Press action to restart", Graphics.medium, 108);
+			float y = Display.GAME_HEIGHT - 52 - 32;
 
-				if (Input.instance.wasPressed("action")) {
-					Dungeon.newGame();
+			if (this.size > 0) {
+				Graphics.startShape();
+				Graphics.shape.setColor(0, 0, 0, 1);
+				Graphics.shape.rect(0, 0, Display.GAME_WIDTH, size);
+				Graphics.shape.rect(0, Display.GAME_HEIGHT - size, Display.GAME_WIDTH, size);
+				Graphics.endShape();
+
+				if (this.killX != -128) {
+					Graphics.medium.draw(Graphics.batch, this.kills, this.killX + 32, y);
 				}
+			}
+
+			if (this.mainY != -128) {
+				Graphics.print("You did not kill the Burning Knight", Graphics.medium, y - 16 + this.mainY);
 			}
 		}
 	}
@@ -197,9 +311,4 @@ public class Ui {
 	}
 
 	private float ca;
-
-	public void renderUi() {
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		renderCursor();
-	}
 }

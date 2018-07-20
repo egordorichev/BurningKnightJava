@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.physics.World;
@@ -463,6 +464,8 @@ public class Mob extends Creature {
 	protected void die(boolean force) {
 		if (!this.dead && !force) {
 			this.drop = true;
+			GameSave.killCount ++;
+			// todo: place for your achievements :P
 		}
 
 		if (!Player.instance.isDead() && !force && Random.chance(30)) {

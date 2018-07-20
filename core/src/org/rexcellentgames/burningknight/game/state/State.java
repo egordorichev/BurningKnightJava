@@ -57,7 +57,7 @@ public class State {
 
 	}
 
-	protected static void transition(final Runnable runnable) {
+	public static void transition(final Runnable runnable) {
 		Dungeon.darkX = Input.instance.uiMouse.x;
 		Dungeon.darkY = Input.instance.uiMouse.y;
 

@@ -368,7 +368,7 @@ public class UiMap extends UiEntity {
 		if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused() && !did) {
 			if (!large) {
 				openHuge();
-			} else if (large) {
+			} else {
 				hideHuge();
 			}
 		}
@@ -394,33 +394,39 @@ public class UiMap extends UiEntity {
 				public void onEnd() {
 					super.onEnd();
 
-					large = true;
-					setSize();
-
-					ly = -Display.GAME_HEIGHT;
-
-					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.BACK_OUT) {
-						@Override
-						public float getValue() {
-							return ly;
-						}
-
-						@Override
-						public void setValue(float value) {
-							ly = value;
-						}
-
-						@Override
-						public void onEnd() {
-							did = false;
-						}
-					});
+					doLarge();
 				}
 			});
 
 			hadOpen = true;
 			did = true;
+		} else {
+			doLarge();
 		}
+	}
+
+	private void doLarge() {
+		large = true;
+		setSize();
+
+		ly = -Display.GAME_HEIGHT;
+
+		Tween.to(new Tween.Task(0, 0.3f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return ly;
+			}
+
+			@Override
+			public void setValue(float value) {
+				ly = value;
+			}
+
+			@Override
+			public void onEnd() {
+				did = false;
+			}
+		});
 	}
 
 	public void hideHuge() {
@@ -439,8 +445,9 @@ public class UiMap extends UiEntity {
 			public void onEnd() {
 				large = false;
 				setSize();
+				did = false;
 
-				if (!toRemove) {
+				if (!toRemove && hadOpen) {
 					Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {
@@ -457,6 +464,8 @@ public class UiMap extends UiEntity {
 							did = false;
 						}
 					});
+
+					did = true;
 				}
 			}
 		});
