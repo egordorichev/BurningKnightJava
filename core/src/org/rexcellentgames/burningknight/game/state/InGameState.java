@@ -2,12 +2,14 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.*;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.debug.Console;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.Obstacle;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
@@ -78,6 +80,25 @@ public class InGameState extends State {
 				Camera.follow(Player.instance);
 			}
 		});
+	}
+
+	@Override
+	public void render() {
+		super.render();
+
+		if (Obstacle.RENDER_DEBUG) {
+			Graphics.batch.end();
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
+			Graphics.shape.setColor(1, 1, 1, 1);
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+
+			for (Obstacle obstacle : Obstacle.all) {
+				// not optimized
+				obstacle.render();
+			}
+
+			Graphics.endShape();
+		}
 	}
 
 	@Override

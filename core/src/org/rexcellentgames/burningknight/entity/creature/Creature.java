@@ -10,7 +10,9 @@ import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.CircleObstacle;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.Obstacle;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
@@ -76,6 +78,8 @@ public class Creature extends SaveableEntity {
 	private boolean shouldDie = false;
 	private boolean remove;
 
+	protected CircleObstacle obstacle;
+
 	public int registerCallback(String name, LuaFunction runnable) {
 		ArrayList<LuaFunction> e = events.computeIfAbsent(name, k -> new ArrayList<>());
 		e.add(runnable);
@@ -106,6 +110,8 @@ public class Creature extends SaveableEntity {
 		this.hy = y;
 		this.hw = w;
 		this.hh = h;
+
+		this.obstacle = CircleObstacle.make(Math.max(x * 2 + w, y * 2 + h) / 2);
 
 		return World.createSimpleBody(this, x, y, w, h, type, sensor);
 	}
@@ -168,9 +174,10 @@ public class Creature extends SaveableEntity {
 	public void destroy() {
 		super.destroy();
 
-		if (this.body != null) {
-			this.body = World.removeBody(this.body);
-		}
+		Obstacle.remove(this.obstacle);
+		this.obstacle = null;
+
+		this.body = World.removeBody(this.body);
 	}
 
 	protected void onRoomChange() {
@@ -259,6 +266,13 @@ public class Creature extends SaveableEntity {
 		if (this.body != null) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
+		}
+
+		if (this.obstacle != null) {
+			this.obstacle.x = this.x + this.w / 2;
+			this.obstacle.y = this.y + this.h / 2;
+
+			// Log.info("Set obstacle for " + this.getClass().getSimpleName() + " " + this.x + ":" + this.y + " " + this.obstacle.r);
 		}
 
 		if (Dungeon.level != null) {

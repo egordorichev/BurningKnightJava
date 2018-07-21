@@ -11,7 +11,9 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.CircleObstacle;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.Obstacle;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
@@ -35,10 +37,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.PathFinder;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -254,7 +253,7 @@ public class Mob extends Creature {
 	}
 
 	public Point getCloser(Point target) {
-		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
+		/*int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
 		if (!Dungeon.level.checkFor(to, Terrain.PASSABLE)) {
@@ -276,7 +275,9 @@ public class Mob extends Creature {
 			return p;
 		}
 
-		return null;
+		return null;*/
+
+		return target;
 	}
 
 	public Point getFar(Point target) {
@@ -486,17 +487,79 @@ public class Mob extends Creature {
 		return super.getDt() * speedMod;
 	}
 
+	private static final float MAX_SEE_AHEAD = 32f;
+	private static final float AVOIDANCE_FORCE = 4f;
+
 	protected float moveToPoint(float x, float y, float speed) {
 		speed *= 0.75f;
 
 		float dx = x - this.x - this.w / 2;
 		float dy = y - this.y - this.h / 2;
+
+		/*
+		// - auto line up with player
+		if (Math.abs(dy) > 2) {
+			dy *= 2;
+			dx /= 2;
+		}
+		*/
+
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		this.vel.x += dx / d * speed;
-		this.vel.y += dy / d * speed;
+		Vector2 change = new Vector2(dx / d * speed, dy / d * speed);
+		Vector2 nor = this.vel.cpy().nor();
+		float dynamicLength = MathUtils.clamp(0, 1, this.vel.len2() / this.maxSpeed);
+
+		this.ahead = new Vector2(nor.x * MAX_SEE_AHEAD * dynamicLength, nor.y * MAX_SEE_AHEAD * dynamicLength).add(this);
+		this.ahead2 =new Vector2(nor.x * MAX_SEE_AHEAD * dynamicLength * 0.5f, nor.y * MAX_SEE_AHEAD * dynamicLength * 0.5f).add(this);
+
+		Obstacle mostThreatening = findMostThreateningObstacle();
+
+		if (mostThreatening != null) {
+			this.avoidance = new Vector2(ahead.x - mostThreatening.x, ahead.y - mostThreatening.y);
+			avoidance.nor();
+			avoidance.x *= AVOIDANCE_FORCE;
+			avoidance.y *= AVOIDANCE_FORCE;
+
+			change.add(avoidance);
+		}
+
+		this.vel.add(change.limit2(this.maxSpeed));
 
 		return d;
+	}
+
+	protected Vector2 avoidance;
+	protected Vector2 ahead;
+	protected Vector2 ahead2;
+
+	private Obstacle findMostThreateningObstacle() {
+		Obstacle mostThreatening = null;
+
+		for (int i = 0; i < Obstacle.all.size(); i++) {
+			Obstacle obstacle = Obstacle.all.get(i);
+
+			if (obstacle != this.obstacle && obstacle instanceof CircleObstacle) {
+				boolean collision = lineIntersectsCircle(ahead, ahead2, (CircleObstacle) obstacle);
+
+				if (collision && (mostThreatening == null || distance(this.x, this.y, obstacle.x, obstacle.y) < distance(this.x, this.y, mostThreatening.x, mostThreatening.y))) {
+					mostThreatening = obstacle;
+				}
+			}
+		}
+
+		return mostThreatening;
+	}
+
+	private boolean lineIntersectsCircle(Vector2 ahead, Vector2 ahead2, CircleObstacle obstacle) {
+		return distance(obstacle.x, obstacle.y, ahead.x, ahead.y) <= obstacle.r || distance(obstacle.x, obstacle.y, ahead2.x, ahead2.y) <= obstacle.r;
+	}
+
+	private float distance(float x1, float y1, float x2, float y2) {
+		float dx = x2 - x1;
+		float dy = y2 - y2;
+
+		return (float) Math.sqrt(dx * dx + dy * dy);
 	}
 
 	@Override
@@ -658,16 +721,16 @@ public class Mob extends Creature {
 		}
 
 		public boolean moveTo(Point point, float s, float d) {
-			if (this.nextPathPoint == null) {
+			/*if (this.nextPathPoint == null) {
 				this.nextPathPoint = self.getCloser(point);
 
 				if (this.nextPathPoint == null) {
 					return false;
 				}
-			}
+			}*/
 
 			// tile offset
-			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y , s);
+			float ds = self.moveToPoint(point.x + 8, point.y + 8 , s);
 			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
 
 			if (ds < 4f || dd < d) {

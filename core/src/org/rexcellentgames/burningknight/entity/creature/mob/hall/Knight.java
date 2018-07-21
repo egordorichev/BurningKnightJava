@@ -1,8 +1,10 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -85,6 +87,8 @@ public class Knight extends Mob {
 		super.common();
 	}
 
+	// fixme: get dash back
+
 	@Override
 	public void render() {
 		if (Math.abs(this.vel.x) > 1f) {
@@ -108,6 +112,30 @@ public class Knight extends Mob {
 
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.batch.end();
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
+
+		float x = this.x + this.w / 2;
+		float y = this.y + this.h / 2;
+
+		if (avoidance != null) {
+			Graphics.shape.setColor(1, 0, 0, 1);
+			Graphics.shape.line(x, y, x + avoidance.x, y + avoidance.y);
+
+			avoidance = null;
+		}
+
+		if (this.ahead != null) {
+			Graphics.shape.setColor(0, 1, 0, 1);
+			Graphics.shape.line(x, y,  ahead.x,  ahead.y);
+			Graphics.shape.setColor(0, 0, 1, 1);
+			Graphics.shape.line(x, y, ahead2.x,  ahead2.y);
+
+			this.ahead = null;
+		}
+
+		Graphics.endShape();
 	}
 
 	@Override
@@ -261,10 +289,10 @@ public class Knight extends Mob {
 						float d = self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 							(int) (self.target.y + self.target.h / 2));
 
-						if (d >= DASH_DIST) {
+						/*if (d >= DASH_DIST) {
 							self.become("dash");
 							return;
-						}
+						}*/
 					}
 				}
 			}

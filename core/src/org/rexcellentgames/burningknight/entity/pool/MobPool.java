@@ -20,20 +20,19 @@ public class MobPool extends Pool<Mob> {
 
 		if (Dungeon.level instanceof HallLevel) {
 			add(Knight.class, 1f);
-			add(RangedKnight.class, 0.5f);
+			/*add(RangedKnight.class, 0.5f);
 			add(StabbingKnight.class, 0.5f);
 
 			add(Clown.class, 1f);
 			add(BurningClown.class, 0.7f);
-			add(FreezingClown.class, 0.5f);
+			add(FreezingClown.class, 0.5f);*/
 		}
 
-
-		if (Dungeon.level instanceof HallLevel || Dungeon.level instanceof DesertLevel) {
+		/*if (Dungeon.level instanceof HallLevel || Dungeon.level instanceof DesertLevel) {
 			add(Thief.class, 1f);
 			add(InvisThief.class, 0.7f);
 			add(BossThief.class, 0.1f);
-		}
+		}*/
 
 		if (Dungeon.level instanceof DesertLevel) {
 			add(Skeleton.class, 1f);
