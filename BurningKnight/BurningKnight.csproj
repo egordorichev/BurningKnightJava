@@ -50,7 +50,14 @@
   <ItemGroup>
     <Compile Include="assets\AssetManager.cs" />
     <Compile Include="assets\Assets.cs" />
+    <Compile Include="assets\Audio.cs" />
     <Compile Include="assets\Graphics.cs" />
+    <Compile Include="assets\Mods.cs" />
+    <Compile Include="entity\Entity.cs" />
+    <Compile Include="entity\item\Item.cs" />
+    <Compile Include="entity\item\ItemHolder.cs" />
+    <Compile Include="entity\physics\PhysicEntity.cs" />
+    <Compile Include="entity\physics\PhysicWorld.cs" />
     <Compile Include="game\InGameState.cs" />
     <Compile Include="game\State.cs" />
     <Compile Include="BurningKnight.cs" />
@@ -62,6 +69,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Downloads\Farseer Physics Engine 3.5 Testbed\Farseer Physics Engine 3.5\Farseer Physics.csproj">
+      <Project>{a4610e4c-dd34-428b-babb-779ca0b5993a}</Project>
+      <Name>Farseer Physics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="entity\creature" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MonoGame.Framework.DesktopGL.Core.3.7.0.7\build\MonoGame.Framework.DesktopGL.Core.targets" Condition="Exists('..\packages\MonoGame.Framework.DesktopGL.Core.3.7.0.7\build\MonoGame.Framework.DesktopGL.Core.targets')" />

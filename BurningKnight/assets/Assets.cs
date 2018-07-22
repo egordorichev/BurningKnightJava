@@ -2,15 +2,17 @@
 
 namespace BurningKnight.assets
 {
-	public class Assets
+	public static class Assets
 	{		
-		private static List<AssetManager> managers = new List<AssetManager>();
+		private static List<AssetManager> _managers = new List<AssetManager>();
 		
 		public static void Load()
 		{
-			managers.Add(new Graphics());
+			_managers.Add(new Graphics());
+			_managers.Add(new Audio());
+			_managers.Add(new Mods());
 			
-			foreach (var manager in managers)
+			foreach (var manager in _managers)
 			{
 				// Todo: might need TargetAssets()
 				
@@ -21,7 +23,7 @@ namespace BurningKnight.assets
 
 		public static void Destroy()
 		{
-			foreach (var manager in managers)
+			foreach (var manager in _managers)
 			{
 				manager.Destroy();
 			}

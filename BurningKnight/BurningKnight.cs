@@ -7,12 +7,12 @@ namespace BurningKnight
 {
 	public class BurningKnight : Game
 	{
-		public static GraphicsDeviceManager manager;
-		private State state;
+		public static GraphicsDeviceManager Manager;
+		private State _state;
 		
 		public BurningKnight()
 		{
-			manager = new GraphicsDeviceManager(this)
+			Manager = new GraphicsDeviceManager(this)
 			{
 				PreferMultiSampling = false
 			};
@@ -27,33 +27,33 @@ namespace BurningKnight
 		
 		protected override void LoadContent()
 		{
-			Graphics.batch = new SpriteBatch(GraphicsDevice);
+			Graphics.Batch = new SpriteBatch(GraphicsDevice);
 			Assets.Load();
 			SetState(State.INGAME);
 		}
 		
 		protected override void UnloadContent()
 		{
-			state?.Destroy();
+			_state?.Destroy();
 			Assets.Destroy();
 		}
 
 		public void SetState(State newState)
 		{
-			state?.Destroy();
-			state = newState;
-			state?.Init();
+			_state?.Destroy();
+			_state = newState;
+			_state?.Init();
 		}
 				
 		protected override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			state?.Update(gameTime);
+			_state?.Update(gameTime.ElapsedGameTime.Milliseconds * 1000f);
 		}
 		
 		protected override void Draw(GameTime gameTime)
 		{
-			state?.Draw();
+			_state?.Draw();
 			base.Draw(gameTime);
 		}
 	}

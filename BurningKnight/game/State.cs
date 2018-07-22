@@ -16,7 +16,7 @@ namespace BurningKnight.game
 			
 		}
 
-		public virtual void Update(GameTime time)
+		public virtual void Update(float dt)
 		{
 			
 		}
