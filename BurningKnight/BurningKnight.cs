@@ -13,23 +13,22 @@ namespace BurningKnight
 		
 		public BurningKnight()
 		{
-			Manager = new GraphicsDeviceManager(this)
-			{
-				PreferMultiSampling = false
-			};
+			Manager = new GraphicsDeviceManager(this);
 
 			int scale = 2;
-			
+
+			Manager.PreferMultiSampling = true;
 			Manager.PreferredBackBufferWidth = Display.Width * scale;
 			Manager.PreferredBackBufferHeight = Display.Height * scale;
-
+			
 			Window.AllowUserResizing = true;
-			Window.Title = Version.GenerateTitle();
 		}
 		
 		protected override void Initialize()
 		{
 			base.Initialize();
+			
+			Window.Title = Version.GenerateTitle();
 			Log.info("Starting Burning Knight " + Version.String);
 		}
 		
