@@ -1,5 +1,6 @@
 ﻿using BurningKnight.assets;
 using BurningKnight.game;
+using BurningKnight.util.files;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -17,12 +18,19 @@ namespace BurningKnight
 				PreferMultiSampling = false
 			};
 
+			int scale = 2;
+			
+			Manager.PreferredBackBufferWidth = Display.Width * scale;
+			Manager.PreferredBackBufferHeight = Display.Height * scale;
+
 			Window.AllowUserResizing = true;
+			Window.Title = Version.GenerateTitle();
 		}
 		
 		protected override void Initialize()
 		{
 			base.Initialize();
+			Log.info("Starting Burning Knight " + Version.String);
 		}
 		
 		protected override void LoadContent()

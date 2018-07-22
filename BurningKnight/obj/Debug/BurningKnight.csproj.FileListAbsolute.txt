@@ -10,3 +10,5 @@
 /home/egor/BurningKnight/BurningKnight/obj/Debug/BurningKnight.csproj.CoreCompileInputs.cache
 /home/egor/BurningKnight/BurningKnight/obj/Debug/BurningKnight.exe
 /home/egor/BurningKnight/BurningKnight/obj/Debug/BurningKnight.pdb
+/home/egor/BurningKnight/BurningKnight/bin/Debug/FarseerPhysics.dll
+/home/egor/BurningKnight/BurningKnight/bin/Debug/FarseerPhysics.pdb
