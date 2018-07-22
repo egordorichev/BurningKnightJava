@@ -4059,30 +4059,6 @@
             This class is used for the game window's TextInput event as EventArgs.
             </summary>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Threading.IsOnUIThread">
-            <summary>
-            Checks if the code is currently running on the UI thread.
-            </summary>
-            <returns>true if the code is currently running on the UI thread.</returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Threading.EnsureUIThread">
-            <summary>
-            Throws an exception if the code is not currently running on the UI thread.
-            </summary>
-            <exception cref="T:System.InvalidOperationException">Thrown if the code is not currently running on the UI thread.</exception>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Threading.BlockOnUIThread(System.Action)">
-            <summary>
-            Runs the given action on the UI thread and blocks the current thread while the action is running.
-            If the current thread is the UI thread, the action will run immediately.
-            </summary>
-            <param name="action">The action to be run on the UI thread</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Threading.Run">
-            <summary>
-            Runs all pending actions.  Must be called from the UI thread.
-            </summary>
-        </member>
         <member name="M:Microsoft.Xna.Framework.TitleContainer.OpenStream(System.String)">
             <summary>
             Returns an open stream to an exsiting file in the title storage area.
@@ -6285,23 +6261,6 @@
             no managed objects should be touched because we do not know if they are still valid or
             not at that time.  Unmanaged resources should always be released.</remarks>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.SoundEffectInstance.PlatformInitialize(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Creates a standalone SoundEffectInstance from given wavedata.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.SoundEffectInstance.InitializeSound">
-            <summary>
-            Gets the OpenAL sound controller, constructs the sound buffer, and sets up the event delegates for
-            the reserved and recycled events.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.SoundEffectInstance.XnaPitchToAlPitch(System.Single)">
-            <summary>
-            Converts the XNA [-1, 1] pitch range to OpenAL pitch (0, INF) or Android SoundPool playback rate [0.5, 2].
-            <param name="xnaPitch">The pitch of the sound in the Microsoft XNA range.</param>
-            </summary>
-        </member>
         <member name="P:Microsoft.Xna.Framework.Audio.SoundEffectInstance.IsLooped">
             <summary>Enables or Disables whether the SoundEffectInstance should repeat after playback.</summary>
             <remarks>This value has no effect on an already playing sound.</remarks>
@@ -6438,33 +6397,6 @@
             Most platforms have a hard limit on how many sounds can be played simultaneously. This exception is thrown when that limit is exceeded.
             </remarks>
         </member>
-        <member name="F:Microsoft.Xna.Framework.Audio.MSADPCMToPCM.AdaptionTable">
-            A bunch of magical numbers that predict the sample data from the
-            MSADPCM wavedata. Do not attempt to understand at all costs!
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.MSADPCMToPCM.getNibbleBlock(System.Byte,System.Byte[])">
-            Splits the MSADPCM samples from each byte block.
-            @param block An MSADPCM sample byte
-            @param nibbleBlock we copy the parsed shorts into here
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.MSADPCMToPCM.calculateSample(System.Byte,System.Byte,System.Int16@,System.Int16@,System.Int16@)">
-            Calculates PCM samples based on previous samples and a nibble input.
-            @param nibble A parsed MSADPCM sample we got from getNibbleBlock
-            @param predictor The predictor we get from the MSADPCM block's preamble
-            @param sample_1 The first sample we use to predict the next sample
-            @param sample_2 The second sample we use to predict the next sample
-            @param delta Used to calculate the final sample
-            @return The calculated PCM sample
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.MSADPCMToPCM.MSADPCM_TO_PCM(System.IO.BinaryReader,System.Int16,System.Int16)">
-             Decodes MSADPCM data to signed 16-bit PCM data.
-             @param Source A BinaryReader containing the headerless MSADPCM data
-             @param numChannels The number of channels (WAVEFORMATEX nChannels)
-             @param blockAlign The ADPCM block size (WAVEFORMATEX nBlockAlign)
-             @return A byte array containing the raw 16-bit PCM wavedata
-            
-             NOTE: The original MSADPCMToPCM class returns as a short[] array!
-        </member>
         <member name="T:Microsoft.Xna.Framework.Audio.NoAudioHardwareException">
             <summary>
             The exception thrown when no audio hardware is present, or driver issues are detected.
@@ -6476,60 +6408,6 @@
         <member name="M:Microsoft.Xna.Framework.Audio.NoAudioHardwareException.#ctor(System.String,System.Exception)">
             <param name="msg">A message describing the error.</param>
             <param name="innerException">The exception that is the underlying cause of the current exception. If not null, the current exception is raised in a try/catch block that handled the innerException.</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.#ctor">
-            <summary>
-            Sets up the hardware resources used by the controller.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.OpenSoundController">
-            <summary>
-            Open the sound device, sets up an audio context, and makes the new context
-            the current context. Note that this method will stop the playback of
-            music that was running prior to the game start. If any error occurs, then
-            the state of the controller is reset.
-            </summary>
-            <returns>True if the sound controller was setup, and false if not.</returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.CheckALError(System.String)">
-            <summary>
-            Checks the error state of the OpenAL driver. If a value that is not AlcError.NoError
-            is returned, then the operation message and the error code is output to the console.
-            </summary>
-            <param name="operation">the operation message</param>
-            <returns>true if an error occurs, and false if not.</returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.CleanUpOpenAL">
-            <summary>
-            Destroys the AL context and closes the device, when they exist.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.Dispose">
-            <summary>
-            Dispose of the OpenALSoundCOntroller.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.Dispose(System.Boolean)">
-            <summary>
-            Dispose of the OpenALSoundCOntroller.
-            </summary>
-            <param name="disposing">If true, the managed resources are to be disposed.</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.ReserveSource">
-            <summary>
-            Reserves a sound buffer and return its identifier. If there are no available sources
-            or the controller was not able to setup the hardware then an
-            <see cref="T:Microsoft.Xna.Framework.Audio.InstancePlayLimitException"/> is thrown.
-            </summary>
-            <returns>The source number of the reserved sound buffer.</returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Audio.OpenALSoundController.CheckInitState">
-            <summary>
-            Checks if the AL controller was initialized properly. If there was an
-            exception thrown during the OpenAL init, then that exception is thrown
-            inside of NoAudioHardwareException.
-            </summary>
-            <returns>True if the controller was initialized, false if not.</returns>
         </member>
         <member name="T:Microsoft.Xna.Framework.Audio.SoundEffect">
             <summary>Represents a loaded sound resource.</summary>
@@ -6639,6 +6517,11 @@
             required.  If the disposing parameter is false, Dispose was called by the finalizer and
             no managed objects should be touched because we do not know if they are still valid or
             not at that time.  Unmanaged resources should always be released.</remarks>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Audio.SoundEffect.InitializeSoundEffect">
+            <summary>
+            Initializes XAudio.
+            </summary>
         </member>
         <member name="P:Microsoft.Xna.Framework.Audio.SoundEffect.Duration">
             <summary>Gets the duration of the SoundEffect.</summary>
@@ -8376,11 +8259,11 @@
         </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.GraphicsAdapter.IsWideScreen">
             <summary>
-            Gets a <see cref="T:System.Boolean"/> indicating whether
-            <see cref="P:Microsoft.Xna.Framework.Graphics.GraphicsAdapter.CurrentDisplayMode"/> has a
-            Width:Height ratio corresponding to a widescreen <see cref="T:Microsoft.Xna.Framework.Graphics.DisplayMode"/>.
-            Common widescreen modes include 16:9, 16:10 and 2:1.
+            Returns true if the <see cref="P:Microsoft.Xna.Framework.Graphics.GraphicsAdapter.CurrentDisplayMode"/> is widescreen.
             </summary>
+            <remarks>
+            Common widescreen modes include 16:9, 16:10 and 2:1.
+            </remarks>
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.GraphicsAdapter.DriverType">
             <summary>
@@ -8450,23 +8333,6 @@
             True, if sRGB is supported. On Direct3D platforms, this is always <code>true</code>.
             On OpenGL platforms, it is <code>true</code> if both framebuffer sRGB
             and texture sRGB are supported.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.Graphics.GraphicsCapabilities.SupportsFramebufferObjectARB">
-            <summary>
-            True, if GL_ARB_framebuffer_object is supported; false otherwise.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.Graphics.GraphicsCapabilities.SupportsFramebufferObjectEXT">
-            <summary>
-            True, if GL_EXT_framebuffer_object is supported; false otherwise.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.Graphics.GraphicsCapabilities.MaxTextureAnisotropy">
-            <summary>
-            Gets the max texture anisotropy. This value typically lies
-            between 0 and 16, where 0 means anisotropic filtering is not
-            supported.
             </summary>
         </member>
         <member name="F:Microsoft.Xna.Framework.Graphics.GraphicsDevice._vertexShader">
@@ -8653,16 +8519,14 @@
             <param name="instanceCount">The number of instances to render.</param>
             <remarks>Draw geometry with data from multiple bound vertex streams at different frequencies.</remarks>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.GraphicsDevice.AddDisposeAction(System.Action)">
+        <member name="M:Microsoft.Xna.Framework.Graphics.GraphicsDevice.CreateDeviceResources">
             <summary>
-            Adds a dispose action to the list of pending dispose actions. These are executed at the end of each call to Present().
-            This allows GL resources to be disposed from other threads, such as the finalizer.
+            Create graphics device specific resources.
             </summary>
-            <param name="disposeAction">The action to execute for the dispose.</param>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.GraphicsDevice.ActivateShaderProgram">
+        <member name="M:Microsoft.Xna.Framework.Graphics.GraphicsDevice.Flush">
             <summary>
-            Activates the Current Vertex/Pixel shader pair into a program.         
+            Sends queued-up commands in the command buffer to the graphics processing unit (GPU).
             </summary>
         </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.GraphicsDevice.Metrics">
@@ -8679,6 +8543,12 @@
             When only changing BlendFactor, use this rather than <see cref="P:Microsoft.Xna.Framework.Graphics.BlendState.BlendFactor"/> to
             only update BlendFactor so the whole BlendState does not have to be updated.
             </remarks>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Graphics.GraphicsDevice.Handle">
+            <summary>
+            Returns a handle to internal device object. Valid only on DirectX platforms.
+            For usage, convert this to SharpDX.Direct3D11.Device.
+            </summary>
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.GraphicsDeviceStatus">
             <summary>
@@ -8700,21 +8570,6 @@
             The device has not been reset.
             </summary>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.GraphicsExtensions.GetColorFormat(Microsoft.Xna.Framework.Graphics.SurfaceFormat)">
-            <summary>
-            Convert a <see cref="T:Microsoft.Xna.Framework.Graphics.SurfaceFormat"/> to an OpenTK.Graphics.ColorFormat.
-            This is used for setting up the backbuffer format of the OpenGL context.
-            </summary>
-            <returns>An OpenTK.Graphics.ColorFormat instance.</returns>
-            <param name="format">The <see cref="T:Microsoft.Xna.Framework.Graphics.SurfaceFormat"/> to convert.</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.GraphicsExtensions.GetSwapInterval(Microsoft.Xna.Framework.Graphics.PresentInterval)">
-            <summary>
-            Converts <see cref="T:Microsoft.Xna.Framework.Graphics.PresentInterval"/> to OpenGL swap interval.
-            </summary>
-            <returns>A value according to EXT_swap_control</returns>
-            <param name="interval">The <see cref="T:Microsoft.Xna.Framework.Graphics.PresentInterval"/> to convert.</param>
-        </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.GraphicsProfile">
             <summary>
             Defines a set of graphic capabilities.
@@ -8734,6 +8589,22 @@
             <summary>
             Represents a render target.
             </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.IRenderTarget.GetRenderTargetView(System.Int32)">
+            <summary>
+            Gets the <see cref="T:SharpDX.Direct3D11.RenderTargetView"/> for the specified array slice.
+            </summary>
+            <param name="arraySlice">The array slice.</param>
+            <returns>The <see cref="T:SharpDX.Direct3D11.RenderTargetView"/>.</returns>
+            <remarks>
+            For texture cubes: The array slice is the index of the cube map face.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.IRenderTarget.GetDepthStencilView">
+            <summary>
+            Gets the <see cref="T:SharpDX.Direct3D11.DepthStencilView"/>.
+            </summary>
+            <returns>The <see cref="T:SharpDX.Direct3D11.DepthStencilView"/>. Can be <see langword="null"/>.</returns>
         </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.IRenderTarget.Width">
             <summary>
@@ -9724,6 +9595,15 @@
             The driver updates the window client area immediately. Present operations might be affected immediately. There is no limit for framerate.
             </summary>
         </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.Texture.GetSharedHandle">
+            <summary>
+            Gets the handle to a shared resource.
+            </summary>
+            <returns>
+            The handle of the shared resource, or <see cref="F:System.IntPtr.Zero"/> if the texture was not
+            created as a shared resource.
+            </returns>
+        </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.Texture.SortingKey">
             <summary>
             Gets a unique identifier of this texture for sorting purposes.
@@ -9898,6 +9778,38 @@
             Allows child class to specify the surface type, eg: a swap chain.
             </summary>        
         </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.Texture3D.GetData``1(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,``0[],System.Int32,System.Int32)">
+            <summary>
+            Gets a copy of 3D texture data, specifying a mipmap level, source box, start index, and number of elements.
+            </summary>
+            <typeparam name="T">The type of the elements in the array.</typeparam>
+            <param name="level">Mipmap level.</param>
+            <param name="left">Position of the left side of the box on the x-axis.</param>
+            <param name="top">Position of the top of the box on the y-axis.</param>
+            <param name="right">Position of the right side of the box on the x-axis.</param>
+            <param name="bottom">Position of the bottom of the box on the y-axis.</param>
+            <param name="front">Position of the front of the box on the z-axis.</param>
+            <param name="back">Position of the back of the box on the z-axis.</param>
+            <param name="data">Array of data.</param>
+            <param name="startIndex">Index of the first element to get.</param>
+            <param name="elementCount">Number of elements to get.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.Texture3D.GetData``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Gets a copy of 3D texture data, specifying a start index and number of elements.
+            </summary>
+            <typeparam name="T">The type of the elements in the array.</typeparam>
+            <param name="data">Array of data.</param>
+            <param name="startIndex">Index of the first element to get.</param>
+            <param name="elementCount">Number of elements to get.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.Texture3D.GetData``1(``0[])">
+            <summary>
+            Gets a copy of 3D texture data.
+            </summary>
+            <typeparam name="T">The type of the elements in the array.</typeparam>
+            <param name="data">Array of data.</param>
+        </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.RenderTargetCube">
             <summary>
             Represents a texture cube that can be used as a render target.
@@ -9938,6 +9850,12 @@
             <param name="preferredDepthFormat">The preferred format of the depth-stencil buffer.</param>
             <param name="preferredMultiSampleCount">The preferred number of multisample locations.</param>
             <param name="usage">The usage mode of the render target.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.RenderTargetCube.GetRenderTargetView(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.RenderTargetCube.GetDepthStencilView">
+            <inheritdoc/>
         </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.RenderTargetCube.DepthStencilFormat">
             <summary>
@@ -10023,11 +9941,6 @@
             The SetData operation will not overwrite existing data. This allows the driver to return immediately from a SetData operation and continue rendering.
             </summary>
         </member>
-        <member name="P:Microsoft.Xna.Framework.Graphics.ConstantBuffer.HashKey">
-            <summary>
-            A hash value which can be used to compare constant buffers.
-            </summary>
-        </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.Shader.Profile">
             <summary>
             Returns the platform specific shader profile identifier.
@@ -10036,18 +9949,6 @@
         <member name="P:Microsoft.Xna.Framework.Graphics.Shader.HashKey">
             <summary>
             A hash value which can be used to compare shaders.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Xna.Framework.Graphics.ShaderProgramCache">
-            <summary>
-            This class is used to Cache the links between Vertex/Pixel Shaders and Constant Buffers.
-            It will be responsible for linking the programs under OpenGL if they have not been linked
-            before. If an existing link exists it will be resused.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.ShaderProgramCache.Clear">
-            <summary>
-            Clear the program cache releasing all shader programs.
             </summary>
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.SpriteBatch">
@@ -11022,37 +10923,19 @@
             ATC/ATITC compression (Android)
             </summary>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.Texture3D.GetData``1(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,``0[],System.Int32,System.Int32)">
+        <member name="T:Microsoft.Xna.Framework.Graphics.SwapChainRenderTarget">
             <summary>
-            Gets a copy of 3D texture data, specifying a mipmap level, source box, start index, and number of elements.
+            A swap chain used for rendering to a secondary GameWindow.
             </summary>
-            <typeparam name="T">The type of the elements in the array.</typeparam>
-            <param name="level">Mipmap level.</param>
-            <param name="left">Position of the left side of the box on the x-axis.</param>
-            <param name="top">Position of the top of the box on the y-axis.</param>
-            <param name="right">Position of the right side of the box on the x-axis.</param>
-            <param name="bottom">Position of the bottom of the box on the y-axis.</param>
-            <param name="front">Position of the front of the box on the z-axis.</param>
-            <param name="back">Position of the back of the box on the z-axis.</param>
-            <param name="data">Array of data.</param>
-            <param name="startIndex">Index of the first element to get.</param>
-            <param name="elementCount">Number of elements to get.</param>
+            <remarks>
+            This is an extension and not part of stock XNA.
+            It is currently implemented for Windows and DirectX only.
+            </remarks>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.Texture3D.GetData``1(``0[],System.Int32,System.Int32)">
+        <member name="M:Microsoft.Xna.Framework.Graphics.SwapChainRenderTarget.Present">
             <summary>
-            Gets a copy of 3D texture data, specifying a start index and number of elements.
+            Displays the contents of the active back buffer to the screen.
             </summary>
-            <typeparam name="T">The type of the elements in the array.</typeparam>
-            <param name="data">Array of data.</param>
-            <param name="startIndex">Index of the first element to get.</param>
-            <param name="elementCount">Number of elements to get.</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.Texture3D.GetData``1(``0[])">
-            <summary>
-            Gets a copy of 3D texture data.
-            </summary>
-            <typeparam name="T">The type of the elements in the array.</typeparam>
-            <param name="data">Array of data.</param>
         </member>
         <member name="M:Microsoft.Xna.Framework.Graphics.TextureCollection.Dirty">
             <summary>
@@ -11085,11 +10968,6 @@
         <member name="M:Microsoft.Xna.Framework.Graphics.IndexBuffer.GraphicsDeviceResetting">
             <summary>
             The GraphicsDevice is resetting, so GPU resources must be recreated.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.IndexBuffer.GenerateIfRequired">
-            <summary>
-            If the IBO does not exist, create it.
             </summary>
         </member>
         <member name="F:Microsoft.Xna.Framework.Graphics.DynamicIndexBuffer.UserOffset">
@@ -11171,15 +11049,120 @@
             <typeparam name="T">Type of elements in the data array.</typeparam>
             <param name="data">Data array.</param>
         </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexBuffer.GenerateIfRequired">
-            <summary>
-            If the VBO does not exist, create it.
-            </summary>
-        </member>
         <member name="F:Microsoft.Xna.Framework.Graphics.DynamicVertexBuffer.UserOffset">
             <summary>
             Special offset used internally by GraphicsDevice.DrawUserXXX() methods.
             </summary>
+        </member>
+        <member name="T:Microsoft.Xna.Framework.Graphics.ImmutableVertexInputLayout">
+            <summary>
+            Immutable version of <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/>. Can be used as a key in the
+            <see cref="T:Microsoft.Xna.Framework.Graphics.InputLayoutCache"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout">
+            <summary>
+            Stores the vertex layout (input elements) for the input assembler stage.
+            </summary>
+            <remarks>
+            In the DirectX version the input layouts are cached in a dictionary. The
+            <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> is used as the key in the dictionary and therefore needs to
+            implement <see cref="T:System.IEquatable`1"/>. Two <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> instance are
+            considered equal if the vertex layouts are structurally identical.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> class.
+            </summary>
+            <param name="maxVertexBufferSlots">The maximum number of vertex buffer slots.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.#ctor(Microsoft.Xna.Framework.Graphics.VertexDeclaration[],System.Int32[],System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> class.
+            </summary>
+            <param name="vertexDeclarations">The array for storing vertex declarations.</param>
+            <param name="instanceFrequencies">The array for storing instance frequencies.</param>
+            <param name="count">The number of used slots.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The object to compare with the current object.</param>
+            <returns>
+            <see langword="true"/> if the specified <see cref="T:System.Object"/> is equal to this instance;
+            otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.Equals(Microsoft.Xna.Framework.Graphics.VertexInputLayout)">
+            <summary>
+            Determines whether the specified <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> is equal to this
+            instance.
+            </summary>
+            <param name="other">The object to compare with the current object.</param>
+            <returns>
+            <see langword="true"/> if the specified <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> is equal to this
+            instance; otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data
+            structures like a hash table.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.op_Equality(Microsoft.Xna.Framework.Graphics.VertexInputLayout,Microsoft.Xna.Framework.Graphics.VertexInputLayout)">
+            <summary>
+            Compares two <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> instances to determine whether they are the
+            same.
+            </summary>
+            <param name="left">The first instance.</param>
+            <param name="right">The second instance.</param>
+            <returns>
+            <see langword="true"/> if the <paramref name="left"/> and <paramref name="right"/> are
+            the same; otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.op_Inequality(Microsoft.Xna.Framework.Graphics.VertexInputLayout,Microsoft.Xna.Framework.Graphics.VertexInputLayout)">
+            <summary>
+            Compares two <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> instances to determine whether they are
+            different.
+            </summary>
+            <param name="left">The first instance.</param>
+            <param name="right">The second instance.</param>
+            <returns>
+            <see langword="true"/> if the <paramref name="left"/> and <paramref name="right"/> are
+            the different; otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Graphics.VertexInputLayout.Count">
+            <summary>
+            Gets or sets the number of used input slots.
+            </summary>
+            <value>The number of used input slots.</value>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.ImmutableVertexInputLayout.#ctor(Microsoft.Xna.Framework.Graphics.VertexDeclaration[],System.Int32[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.ImmutableVertexInputLayout"/> class.
+            </summary>
+            <param name="vertexDeclarations">The vertex declarations per resource slot.</param>
+            <param name="instanceFrequencies">The instance frequencies per resource slot.</param>
+            <remarks>
+            The specified arrays are stored internally - the arrays are not copied.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.ImmutableVertexInputLayout.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data
+            structures like a hash table.
+            </returns>
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.IndexElementSize">
             <summary>
@@ -11195,6 +11178,51 @@
             <summary>
             32-bit int/uint value been used.
             </summary>
+        </member>
+        <member name="T:Microsoft.Xna.Framework.Graphics.InputLayoutCache">
+            <summary>
+            Caches DirectX input layouts for the input assembler stage.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.InputLayoutCache.#ctor(Microsoft.Xna.Framework.Graphics.GraphicsDevice,System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.InputLayoutCache"/> class.
+            </summary>
+            <param name="graphicsDevice">The graphics device.</param>
+            <param name="shaderByteCode">The byte code of the vertex shader.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.InputLayoutCache.Dispose">
+            <summary>
+            Releases all resources used by an instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.InputLayoutCache"/> class.
+            </summary>
+            <remarks>
+            This method calls the virtual <see cref="M:Microsoft.Xna.Framework.Graphics.InputLayoutCache.Dispose(System.Boolean)"/> method, passing in
+            <see langword="true"/>, and then suppresses finalization of the instance.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.InputLayoutCache.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by an instance of the
+            <see cref="T:Microsoft.Xna.Framework.Graphics.InputLayoutCache"/> class and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">
+            <see langword="true"/> to release both managed and unmanaged resources;
+            <see langword="false"/> to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.InputLayoutCache.GetOrCreate(Microsoft.Xna.Framework.Graphics.VertexBufferBindings)">
+            <summary>
+            Gets or create the DirectX input layout for the specified vertex buffers.
+            </summary>
+            <param name="vertexBuffers">The vertex buffers.</param>
+            <returns>The DirectX input layout.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.InputLayoutCache.GetInvalidArgMessage(SharpDX.Direct3D11.InputElement[])">
+            <summary>
+            Gets a more helpful message for the SharpDX invalid arg error.
+            </summary>
+            <param name="inputElements">The input elements.</param>
+            <returns>The exception message.</returns>
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.PrimitiveType">
             <summary>
@@ -11289,91 +11317,6 @@
             Stores the vertex buffers to be bound to the input assembler stage.
             </summary>
         </member>
-        <member name="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout">
-            <summary>
-            Stores the vertex layout (input elements) for the input assembler stage.
-            </summary>
-            <remarks>
-            In the DirectX version the input layouts are cached in a dictionary. The
-            <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> is used as the key in the dictionary and therefore needs to
-            implement <see cref="T:System.IEquatable`1"/>. Two <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> instance are
-            considered equal if the vertex layouts are structurally identical.
-            </remarks>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.#ctor(System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> class.
-            </summary>
-            <param name="maxVertexBufferSlots">The maximum number of vertex buffer slots.</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.#ctor(Microsoft.Xna.Framework.Graphics.VertexDeclaration[],System.Int32[],System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> class.
-            </summary>
-            <param name="vertexDeclarations">The array for storing vertex declarations.</param>
-            <param name="instanceFrequencies">The array for storing instance frequencies.</param>
-            <param name="count">The number of used slots.</param>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.Equals(System.Object)">
-            <summary>
-            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-            </summary>
-            <param name="obj">The object to compare with the current object.</param>
-            <returns>
-            <see langword="true"/> if the specified <see cref="T:System.Object"/> is equal to this instance;
-            otherwise, <see langword="false"/>.
-            </returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.Equals(Microsoft.Xna.Framework.Graphics.VertexInputLayout)">
-            <summary>
-            Determines whether the specified <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> is equal to this
-            instance.
-            </summary>
-            <param name="other">The object to compare with the current object.</param>
-            <returns>
-            <see langword="true"/> if the specified <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> is equal to this
-            instance; otherwise, <see langword="false"/>.
-            </returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.GetHashCode">
-            <summary>
-            Returns a hash code for this instance.
-            </summary>
-            <returns>
-            A hash code for this instance, suitable for use in hashing algorithms and data
-            structures like a hash table.
-            </returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.op_Equality(Microsoft.Xna.Framework.Graphics.VertexInputLayout,Microsoft.Xna.Framework.Graphics.VertexInputLayout)">
-            <summary>
-            Compares two <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> instances to determine whether they are the
-            same.
-            </summary>
-            <param name="left">The first instance.</param>
-            <param name="right">The second instance.</param>
-            <returns>
-            <see langword="true"/> if the <paramref name="left"/> and <paramref name="right"/> are
-            the same; otherwise, <see langword="false"/>.
-            </returns>
-        </member>
-        <member name="M:Microsoft.Xna.Framework.Graphics.VertexInputLayout.op_Inequality(Microsoft.Xna.Framework.Graphics.VertexInputLayout,Microsoft.Xna.Framework.Graphics.VertexInputLayout)">
-            <summary>
-            Compares two <see cref="T:Microsoft.Xna.Framework.Graphics.VertexInputLayout"/> instances to determine whether they are
-            different.
-            </summary>
-            <param name="left">The first instance.</param>
-            <param name="right">The second instance.</param>
-            <returns>
-            <see langword="true"/> if the <paramref name="left"/> and <paramref name="right"/> are
-            the different; otherwise, <see langword="false"/>.
-            </returns>
-        </member>
-        <member name="P:Microsoft.Xna.Framework.Graphics.VertexInputLayout.Count">
-            <summary>
-            Gets or sets the number of used input slots.
-            </summary>
-            <value>The number of used input slots.</value>
-        </member>
         <member name="M:Microsoft.Xna.Framework.Graphics.VertexBufferBindings.#ctor(System.Int32)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Xna.Framework.Graphics.VertexBufferBindings"/> class.
@@ -11424,6 +11367,13 @@
             Gets vertex buffers bound to the input slots.
             </summary>
             <returns>The vertex buffer bindings.</returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexBufferBindings.ToImmutable">
+            <summary>
+            Creates an <see cref="T:Microsoft.Xna.Framework.Graphics.ImmutableVertexInputLayout"/> that can be used as a key in the
+            <see cref="T:Microsoft.Xna.Framework.Graphics.InputLayoutCache"/>.
+            </summary>
+            <returns>The <see cref="T:Microsoft.Xna.Framework.Graphics.ImmutableVertexInputLayout"/>.</returns>
         </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.VertexDeclarationCache`1">
             <summary>
@@ -11546,11 +11496,6 @@
             </summary>
             <value>The size of a vertex (including padding) in bytes.</value>
         </member>
-        <member name="T:Microsoft.Xna.Framework.Graphics.VertexDeclaration.VertexDeclarationAttributeInfo">
-            <summary>
-            Vertex attribute information for a particular shader/vertex declaration combination.
-            </summary>
-        </member>
         <member name="T:Microsoft.Xna.Framework.Graphics.VertexElement">
             <summary>
             Defines a single element in a vertex.
@@ -11624,6 +11569,21 @@
             <see langword="true"/> if the <paramref name="left"/> and <paramref name="right"/> are
             the different; otherwise, <see langword="false"/>.
             </returns>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Graphics.VertexElement.GetInputElement(System.Int32,System.Int32)">
+            <summary>
+            Gets the DirectX <see cref="T:SharpDX.Direct3D11.InputElement"/>.
+            </summary>
+            <param name="slot">The input resource slot.</param>
+            <param name="instanceFrequency">
+            The number of instances to draw using the same per-instance data before advancing in the
+            buffer by one element. This value must be 0 for an element that contains per-vertex
+            data.
+            </param>
+            <returns><see cref="T:SharpDX.Direct3D11.InputElement"/>.</returns>
+            <exception cref="T:System.NotSupportedException">
+            Unknown vertex element format or usage!
+            </exception>
         </member>
         <member name="P:Microsoft.Xna.Framework.Graphics.VertexElement.Offset">
             <summary>
@@ -14152,6 +14112,22 @@
             </summary>
             <param name="progressCallback">Callback that reports back the progress of the music library loading in percents (0-100).</param>
         </member>
+        <member name="T:Microsoft.Xna.Framework.Media.MediaManagerState">
+            <summary>
+            This class provides a way for the MediaManager to be initialised exactly once, 
+            regardless of how many different places need it, and which is called first.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.MediaManagerState.CheckStartup">
+            <summary>
+            Ensures that the MediaManager has been initialised. Must be called from UI thread.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.MediaManagerState.CheckShutdown">
+            <summary>
+            Ensures that the MediaManager has been shutdown. Must be called from UI thread.
+            </summary>
+        </member>
         <member name="M:Microsoft.Xna.Framework.Media.MediaPlayer.Play(Microsoft.Xna.Framework.Media.Song)">
             <summary>
             Play clears the current playback queue, and then queues up the specified song for playback. 
@@ -14199,13 +14175,109 @@
             This video contains music and dialog.
             </summary>
         </member>
-        <member name="F:MonoGame.Utilities.PlatformParameters.DetectWindowsArchitecture">
+        <member name="T:Microsoft.Xna.Framework.Media.Video">
             <summary>
-            If true, MonoGame will detect the CPU architecture (x86 or x86-64) and add the "./x86" or "./x64" folder to the
-            native DLL resolution paths. This allows MonoGame to work with Any CPU by loading the correct dependencies at runtime.
-            If false, MonoGame will look for native DLLs in the executing folder, which typically is the .exe home.
-            
-            This parameter only works on Windows and doesn't affect other platforms.
+            Represents a video.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.Video.FileName">
+            <summary>
+            I actually think this is a file PATH...
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.Video.Duration">
+            <summary>
+            Gets the duration of the Video.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.Video.FramesPerSecond">
+            <summary>
+            Gets the frame rate of this video.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.Video.Height">
+            <summary>
+            Gets the height of this video, in pixels.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.Video.VideoSoundtrackType">
+            <summary>
+            Gets the VideoSoundtrackType for this video.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.Video.Width">
+            <summary>
+            Gets the width of this video, in pixels.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.VideoPlayer.GetTexture">
+            <summary>
+            Retrieves a Texture2D containing the current frame of video being played.
+            </summary>
+            <returns>The current frame of video.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if no video is set on the player</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown if the platform was unable to get a texture in a reasonable amount of time. Often the platform specific media code is running
+            in a different thread or process. Note: This may be a change from XNA behaviour</exception>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.VideoPlayer.Pause">
+            <summary>
+            Pauses the currently playing video.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.VideoPlayer.Play(Microsoft.Xna.Framework.Media.Video)">
+            <summary>
+            Plays a Video.
+            </summary>
+            <param name="video">Video to play.</param>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.VideoPlayer.Resume">
+            <summary>
+            Resumes a paused video.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.VideoPlayer.Stop">
+            <summary>
+            Stops playing a video.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Xna.Framework.Media.VideoPlayer.Dispose">
+            <summary>
+            Immediately releases the unmanaged resources used by this object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.VideoPlayer.IsDisposed">
+            <summary>
+            Gets a value that indicates whether the object is disposed.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.VideoPlayer.IsLooped">
+            <summary>
+            Gets a value that indicates whether the player is playing video in a loop.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.VideoPlayer.IsMuted">
+            <summary>
+            Gets or sets the muted setting for the video player.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.VideoPlayer.PlayPosition">
+            <summary>
+            Gets the play position within the currently playing video.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.VideoPlayer.State">
+            <summary>
+            Gets the media playback state, MediaState.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.VideoPlayer.Video">
+            <summary>
+            Gets the Video that is currently playing.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Xna.Framework.Media.VideoPlayer.Volume">
+            <summary>
+            Video player volume, from 0.0f (silence) to 1.0f (full volume relative to the current device volume).
             </summary>
         </member>
         <member name="M:MonoGame.Utilities.Hash.ComputeHash(System.Byte[])">
@@ -16711,670 +16783,6 @@
             Return the given buffer to the pool.
             </summary>
             <param name="buffer"></param>
-        </member>
-        <member name="T:NVorbis.BufferedReadStream">
-            <summary>
-            A thread-safe, read-only, buffering stream wrapper.
-            </summary>
-        </member>
-        <member name="T:NVorbis.DataPacket">
-            <summary>
-            A single data packet from a logical Vorbis stream.
-            </summary>
-        </member>
-        <member name="M:NVorbis.DataPacket.GetFlag(NVorbis.DataPacket.PacketFlags)">
-            <summary>
-            Gets the value of the specified flag.
-            </summary>
-        </member>
-        <member name="M:NVorbis.DataPacket.SetFlag(NVorbis.DataPacket.PacketFlags,System.Boolean)">
-            <summary>
-            Sets the value of the specified flag.
-            </summary>
-        </member>
-        <member name="M:NVorbis.DataPacket.#ctor(System.Int32)">
-            <summary>
-            Creates a new instance with the specified length.
-            </summary>
-            <param name="length">The length of the packet.</param>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadNextByte">
-            <summary>
-            Reads the next byte of the packet.
-            </summary>
-            <returns>The next byte if available, otherwise -1.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.Done">
-            <summary>
-            Indicates that the packet has been read and its data is no longer needed.
-            </summary>
-        </member>
-        <member name="M:NVorbis.DataPacket.TryPeekBits(System.Int32,System.Int32@)">
-            <summary>
-            Attempts to read the specified number of bits from the packet, but may return fewer.  Does not advance the position counter.
-            </summary>
-            <param name="count">The number of bits to attempt to read.</param>
-            <param name="bitsRead">The number of bits actually read.</param>
-            <returns>The value of the bits read.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="count"/> is not between 0 and 64.</exception>
-        </member>
-        <member name="M:NVorbis.DataPacket.SkipBits(System.Int32)">
-            <summary>
-            Advances the position counter by the specified number of bits.
-            </summary>
-            <param name="count">The number of bits to advance.</param>
-        </member>
-        <member name="M:NVorbis.DataPacket.ResetBitReader">
-            <summary>
-            Resets the bit reader.
-            </summary>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadBits(System.Int32)">
-            <summary>
-            Reads the specified number of bits from the packet and advances the position counter.
-            </summary>
-            <param name="count">The number of bits to read.</param>
-            <returns>The value of the bits read.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException">The number of bits specified is not between 0 and 64.</exception>
-        </member>
-        <member name="M:NVorbis.DataPacket.PeekByte">
-            <summary>
-            Reads the next byte from the packet.  Does not advance the position counter.
-            </summary>
-            <returns>The byte read from the packet.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadByte">
-            <summary>
-            Reads the next byte from the packet and advances the position counter.
-            </summary>
-            <returns>The byte read from the packet.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadBytes(System.Int32)">
-            <summary>
-            Reads the specified number of bytes from the packet and advances the position counter.
-            </summary>
-            <param name="count">The number of bytes to read.</param>
-            <returns>A byte array holding the data read.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Reads the specified number of bytes from the packet into the buffer specified and advances the position counter.
-            </summary>
-            <param name="buffer">The buffer to read into.</param>
-            <param name="index">The index into the buffer to start placing the read data.</param>
-            <param name="count">The number of bytes to read.</param>
-            <returns>The number of bytes read.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or <paramref name="index"/> + <paramref name="count"/> is past the end of <paramref name="buffer"/>.</exception>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadBit">
-            <summary>
-            Reads the next bit from the packet and advances the position counter.
-            </summary>
-            <returns>The value of the bit read.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadInt16">
-            <summary>
-            Retrieves the next 16 bits from the packet as a <see cref="T:System.Int16"/> and advances the position counter.
-            </summary>
-            <returns>The value of the next 16 bits.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadInt32">
-            <summary>
-            Retrieves the next 32 bits from the packet as a <see cref="T:System.Int32"/> and advances the position counter.
-            </summary>
-            <returns>The value of the next 32 bits.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadInt64">
-            <summary>
-            Retrieves the next 64 bits from the packet as a <see cref="T:System.Int64"/> and advances the position counter.
-            </summary>
-            <returns>The value of the next 64 bits.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadUInt16">
-            <summary>
-            Retrieves the next 16 bits from the packet as a <see cref="T:System.UInt16"/> and advances the position counter.
-            </summary>
-            <returns>The value of the next 16 bits.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadUInt32">
-            <summary>
-            Retrieves the next 32 bits from the packet as a <see cref="T:System.UInt32"/> and advances the position counter.
-            </summary>
-            <returns>The value of the next 32 bits.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.ReadUInt64">
-            <summary>
-            Retrieves the next 64 bits from the packet as a <see cref="T:System.UInt64"/> and advances the position counter.
-            </summary>
-            <returns>The value of the next 64 bits.</returns>
-        </member>
-        <member name="M:NVorbis.DataPacket.SkipBytes(System.Int32)">
-            <summary>
-            Advances the position counter by the specified number of bytes.
-            </summary>
-            <param name="count">The number of bytes to advance.</param>
-        </member>
-        <member name="P:NVorbis.DataPacket.IsResync">
-            <summary>
-            Gets whether the packet was found after a stream resync.
-            </summary>
-        </member>
-        <member name="P:NVorbis.DataPacket.GranulePosition">
-            <summary>
-            Gets the position of the last granule in the packet.
-            </summary>
-        </member>
-        <member name="P:NVorbis.DataPacket.PageGranulePosition">
-            <summary>
-            Gets the position of the last granule in the page the packet is in.
-            </summary>
-        </member>
-        <member name="P:NVorbis.DataPacket.Length">
-            <summary>
-            Gets the length of the packet.
-            </summary>
-        </member>
-        <member name="P:NVorbis.DataPacket.IsEndOfStream">
-            <summary>
-            Gets whether the packet is the last one in the logical stream.
-            </summary>
-        </member>
-        <member name="P:NVorbis.DataPacket.BitsRead">
-            <summary>
-            Gets the number of bits read from the packet.
-            </summary>
-        </member>
-        <member name="P:NVorbis.DataPacket.GranuleCount">
-            <summary>
-            Gets the number of granules in the packet.  If <c>null</c>, the packet has not been decoded yet.
-            </summary>
-        </member>
-        <member name="T:NVorbis.DataPacket.PacketFlags">
-            <summary>
-            Defines flags to apply to the current packet
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.IsResync">
-            <summary>
-            Packet is first since reader had to resync with stream.
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.IsEndOfStream">
-            <summary>
-            Packet is the last in the logical stream.
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.IsShort">
-            <summary>
-            Packet does not have all its data available.
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.HasGranuleCount">
-            <summary>
-            Packet has a granule count defined.
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.User1">
-            <summary>
-            Flag for use by inheritors.
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.User2">
-            <summary>
-            Flag for use by inheritors.
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.User3">
-            <summary>
-            Flag for use by inheritors.
-            </summary>
-        </member>
-        <member name="F:NVorbis.DataPacket.PacketFlags.User4">
-            <summary>
-            Flag for use by inheritors.
-            </summary>
-        </member>
-        <member name="T:NVorbis.IContainerReader">
-            <summary>
-            Provides a interface for a Vorbis logical stream container.
-            </summary>
-        </member>
-        <member name="M:NVorbis.IContainerReader.Init">
-            <summary>
-            Initializes the container and finds the first stream.
-            </summary>
-            <returns><c>True</c> if a valid logical stream is found, otherwise <c>False</c>.</returns>
-        </member>
-        <member name="M:NVorbis.IContainerReader.FindNextStream">
-            <summary>
-            Finds the next new stream in the container.
-            </summary>
-            <returns><c>True</c> if a new stream was found, otherwise <c>False</c>.</returns>
-            <exception cref="T:System.InvalidOperationException"><see cref="P:NVorbis.IContainerReader.CanSeek"/> is <c>False</c>.</exception>
-        </member>
-        <member name="M:NVorbis.IContainerReader.GetTotalPageCount">
-            <summary>
-            Retrieves the total number of pages in the container.
-            </summary>
-            <returns>The total number of pages.</returns>
-            <exception cref="T:System.InvalidOperationException"><see cref="P:NVorbis.IContainerReader.CanSeek"/> is <c>False</c>.</exception>
-        </member>
-        <member name="P:NVorbis.IContainerReader.StreamSerials">
-            <summary>
-            Gets the list of stream serials found in the container so far.
-            </summary>
-        </member>
-        <member name="P:NVorbis.IContainerReader.CanSeek">
-            <summary>
-            Gets whether the container supports seeking.
-            </summary>
-        </member>
-        <member name="P:NVorbis.IContainerReader.WasteBits">
-            <summary>
-            Gets the number of bits in the container that are not associated with a logical stream.
-            </summary>
-        </member>
-        <member name="P:NVorbis.IContainerReader.PagesRead">
-            <summary>
-            Gets the number of pages that have been read in the container.
-            </summary>
-        </member>
-        <member name="E:NVorbis.IContainerReader.NewStream">
-            <summary>
-            Event raised when a new logical stream is found in the container.
-            </summary>
-        </member>
-        <member name="T:NVorbis.IPacketProvider">
-            <summary>
-            Provides packets on-demand for the Vorbis stream decoder.
-            </summary>
-        </member>
-        <member name="M:NVorbis.IPacketProvider.GetTotalPageCount">
-            <summary>
-            Retrieves the total number of pages (or frames) this stream uses.
-            </summary>
-            <returns>The page count.</returns>
-            <exception cref="T:System.InvalidOperationException"><see cref="P:NVorbis.IPacketProvider.CanSeek"/> is <c>False</c>.</exception>
-        </member>
-        <member name="M:NVorbis.IPacketProvider.GetNextPacket">
-            <summary>
-            Retrieves the next packet in the stream.
-            </summary>
-            <returns>The next packet in the stream or <c>null</c> if no more packets.</returns>
-        </member>
-        <member name="M:NVorbis.IPacketProvider.PeekNextPacket">
-            <summary>
-            Retrieves the next packet in the stream but does not advance to the following packet.
-            </summary>
-            <returns>The next packet in the stream or <c>null</c> if no more packets.</returns>
-        </member>
-        <member name="M:NVorbis.IPacketProvider.GetPacket(System.Int32)">
-            <summary>
-            Retrieves the packet specified from the stream.
-            </summary>
-            <param name="packetIndex">The index of the packet to retrieve.</param>
-            <returns>The specified packet.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="packetIndex"/> is less than 0 or past the end of the stream.</exception>
-            <exception cref="T:System.InvalidOperationException"><see cref="P:NVorbis.IPacketProvider.CanSeek"/> is <c>False</c>.</exception>
-        </member>
-        <member name="M:NVorbis.IPacketProvider.GetGranuleCount">
-            <summary>
-            Retrieves the total number of granules in this Vorbis stream.
-            </summary>
-            <returns>The number of samples</returns>
-            <exception cref="T:System.InvalidOperationException"><see cref="P:NVorbis.IPacketProvider.CanSeek"/> is <c>False</c>.</exception>
-        </member>
-        <member name="M:NVorbis.IPacketProvider.FindPacket(System.Int64,System.Func{NVorbis.DataPacket,NVorbis.DataPacket,System.Int32})">
-            <summary>
-            Finds the packet index to the granule position specified in the current stream.
-            </summary>
-            <param name="granulePos">The granule position to seek to.</param>
-            <param name="packetGranuleCountCallback">A callback method that takes the current and previous packets and returns the number of granules in the current packet.</param>
-            <returns>The index of the packet that includes the specified granule position or -1 if none found.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="granulePos"/> is less than 0 or is after the last granule.</exception>
-        </member>
-        <member name="M:NVorbis.IPacketProvider.SeekToPacket(NVorbis.DataPacket,System.Int32)">
-            <summary>
-            Sets the next packet to be returned, applying a pre-roll as necessary.
-            </summary>
-            <param name="packet">The packet to key from.</param>
-            <param name="preRoll">The number of packets to return before the indicated packet.</param>
-        </member>
-        <member name="P:NVorbis.IPacketProvider.StreamSerial">
-            <summary>
-            Gets the serial number associated with this stream.
-            </summary>
-        </member>
-        <member name="P:NVorbis.IPacketProvider.CanSeek">
-            <summary>
-            Gets whether seeking is supported on this stream.
-            </summary>
-        </member>
-        <member name="P:NVorbis.IPacketProvider.ContainerBits">
-            <summary>
-            Gets the number of bits of overhead in this stream's container.
-            </summary>
-        </member>
-        <member name="E:NVorbis.IPacketProvider.ParameterChange">
-            <summary>
-            Occurs when the stream is about to change parameters.
-            </summary>
-        </member>
-        <member name="M:NVorbis.IVorbisStreamStatus.ResetStats">
-            <summary>
-            Gets the counters for latency and bitrate calculations, as well as overall bit counts
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.EffectiveBitRate">
-            <summary>
-            Gets the calculated bit rate of audio stream data for the everything decoded so far
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.InstantBitRate">
-            <summary>
-            Gets the calculated bit rate for the last ~1 second of audio
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.PageLatency">
-            <summary>
-            Gets the calculated latency per page
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.PacketLatency">
-            <summary>
-            Gets the calculated latency per packet
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.SecondLatency">
-            <summary>
-            Gets the calculated latency per second of output
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.OverheadBits">
-            <summary>
-            Gets the number of bits read that do not contribute to the output audio
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.AudioBits">
-            <summary>
-            Gets the number of bits read that contribute to the output audio
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.PagesRead">
-            <summary>
-            Gets the number of pages read so far in the current stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.TotalPages">
-            <summary>
-            Gets the total number of pages in the current stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.IVorbisStreamStatus.Clipped">
-            <summary>
-            Gets whether the stream has been clipped since the last reset
-            </summary>
-        </member>
-        <member name="T:NVorbis.NewStreamEventArgs">
-            <summary>
-            Event data for when a new logical stream is found in a container.
-            </summary>
-        </member>
-        <member name="M:NVorbis.NewStreamEventArgs.#ctor(NVorbis.IPacketProvider)">
-            <summary>
-            Creates a new instance of <see cref="T:NVorbis.NewStreamEventArgs"/> with the specified <see cref="T:NVorbis.IPacketProvider"/>.
-            </summary>
-            <param name="packetProvider">An <see cref="T:NVorbis.IPacketProvider"/> instance.</param>
-        </member>
-        <member name="P:NVorbis.NewStreamEventArgs.PacketProvider">
-            <summary>
-            Gets new the <see cref="T:NVorbis.IPacketProvider"/> instance.
-            </summary>
-        </member>
-        <member name="P:NVorbis.NewStreamEventArgs.IgnoreStream">
-            <summary>
-            Gets or sets whether to ignore the logical stream associated with the packet provider.
-            </summary>
-        </member>
-        <member name="T:NVorbis.ParameterChangeEventArgs">
-            <summary>
-            Event data for when a logical stream has a parameter change.
-            </summary>
-        </member>
-        <member name="M:NVorbis.ParameterChangeEventArgs.#ctor(NVorbis.DataPacket)">
-            <summary>
-            Creates a new instance of <see cref="T:NVorbis.ParameterChangeEventArgs"/>.
-            </summary>
-            <param name="firstPacket">The first packet after the parameter change.</param>
-        </member>
-        <member name="P:NVorbis.ParameterChangeEventArgs.FirstPacket">
-            <summary>
-            Gets the first packet after the parameter change.  This would typically be the parameters packet.
-            </summary>
-        </member>
-        <member name="M:NVorbis.StreamReadBuffer.Read(System.Int64,System.Byte[],System.Int32,System.Int32)">
-            <summary>
-            Reads the number of bytes specified into the buffer given, starting with the offset indicated.
-            </summary>
-            <param name="offset">The offset into the stream to start reading.</param>
-            <param name="buffer">The buffer to read to.</param>
-            <param name="index">The index into the buffer to start writing to.</param>
-            <param name="count">The number of bytes to read.</param>
-            <returns>The number of bytes read.</returns>
-        </member>
-        <member name="M:NVorbis.StreamReadBuffer.DiscardThrough(System.Int64)">
-            <summary>
-            Tells the buffer that it no longer needs to maintain any bytes before the indicated offset.
-            </summary>
-            <param name="offset">The offset to discard through.</param>
-        </member>
-        <member name="P:NVorbis.StreamReadBuffer.MinimalRead">
-            <summary>
-            Gets or Sets whether to limit reads to the smallest size possible.
-            </summary>
-        </member>
-        <member name="P:NVorbis.StreamReadBuffer.MaxSize">
-            <summary>
-            Gets or Sets the maximum size of the buffer.  This is not a hard limit.
-            </summary>
-        </member>
-        <member name="P:NVorbis.StreamReadBuffer.BaseOffset">
-            <summary>
-            Gets the offset of the start of the buffered data.  Reads to offsets before this are likely to require a seek.
-            </summary>
-        </member>
-        <member name="P:NVorbis.StreamReadBuffer.BytesFilled">
-            <summary>
-            Gets the number of bytes currently buffered.
-            </summary>
-        </member>
-        <member name="P:NVorbis.StreamReadBuffer.Length">
-            <summary>
-            Gets the number of bytes the buffer can hold.
-            </summary>
-        </member>
-        <member name="M:NVorbis.VorbisReader.ReadSamples(System.Single[],System.Int32,System.Int32)">
-            <summary>
-            Reads decoded samples from the current logical stream
-            </summary>
-            <param name="buffer">The buffer to write the samples to</param>
-            <param name="offset">The offset into the buffer to write the samples to</param>
-            <param name="count">The number of samples to write</param>
-            <returns>The number of samples written</returns>
-        </member>
-        <member name="M:NVorbis.VorbisReader.ClearParameterChange">
-            <summary>
-            Clears the parameter change flag so further samples can be requested.
-            </summary>
-        </member>
-        <member name="M:NVorbis.VorbisReader.FindNextStream">
-            <summary>
-            Searches for the next stream in a concatenated file
-            </summary>
-            <returns><c>True</c> if a new stream was found, otherwise <c>false</c>.</returns>
-        </member>
-        <member name="M:NVorbis.VorbisReader.SwitchStreams(System.Int32)">
-            <summary>
-            Switches to an alternate logical stream.
-            </summary>
-            <param name="index">The logical stream index to switch to</param>
-            <returns><c>True</c> if the properties of the logical stream differ from those of the one previously being decoded. Otherwise, <c>False</c>.</returns>
-        </member>
-        <member name="P:NVorbis.VorbisReader.Channels">
-            <summary>
-            Gets the number of channels in the current selected Vorbis stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.SampleRate">
-            <summary>
-            Gets the sample rate of the current selected Vorbis stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.UpperBitrate">
-            <summary>
-            Gets the encoder's upper bitrate of the current selected Vorbis stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.NominalBitrate">
-            <summary>
-            Gets the encoder's nominal bitrate of the current selected Vorbis stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.LowerBitrate">
-            <summary>
-            Gets the encoder's lower bitrate of the current selected Vorbis stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.Vendor">
-            <summary>
-            Gets the encoder's vendor string for the current selected Vorbis stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.Comments">
-            <summary>
-            Gets the comments in the current selected Vorbis stream
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.IsParameterChange">
-            <summary>
-            Gets whether the previous short sample count was due to a parameter change in the stream.
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.ContainerOverheadBits">
-            <summary>
-            Gets the number of bits read that are related to framing and transport alone
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.ClipSamples">
-            <summary>
-            Gets or sets whether to automatically apply clipping to samples returned by <see cref="M:NVorbis.VorbisReader.ReadSamples(System.Single[],System.Int32,System.Int32)"/>.
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.Stats">
-            <summary>
-            Gets stats from each decoder stream available
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.StreamIndex">
-            <summary>
-            Gets the currently-selected stream's index
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.StreamCount">
-            <summary>
-            Returns the number of logical streams found so far in the physical container
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.DecodedTime">
-            <summary>
-            Gets or Sets the current timestamp of the decoder.  Is the timestamp before the next sample to be decoded
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.DecodedPosition">
-            <summary>
-            Gets or Sets the current position of the next sample to be decoded.
-            </summary>
-        </member>
-        <member name="P:NVorbis.VorbisReader.TotalTime">
-            <summary>
-            Gets the total length of the current logical stream
-            </summary>
-        </member>
-        <member name="T:NVorbis.Ogg.ContainerReader">
-            <summary>
-            Provides an <see cref="T:NVorbis.IContainerReader"/> implementation for basic Ogg files.
-            </summary>
-        </member>
-        <member name="M:NVorbis.Ogg.ContainerReader.#ctor(System.String)">
-            <summary>
-            Creates a new instance with the specified file.
-            </summary>
-            <param name="path">The full path to the file.</param>
-        </member>
-        <member name="M:NVorbis.Ogg.ContainerReader.#ctor(System.IO.Stream,System.Boolean)">
-            <summary>
-            Creates a new instance with the specified stream.  Optionally sets to close the stream when disposed.
-            </summary>
-            <param name="stream">The stream to read.</param>
-            <param name="closeOnDispose"><c>True</c> to close the stream when <see cref="M:NVorbis.Ogg.ContainerReader.Dispose"/> is called, otherwise <c>False</c>.</param>
-        </member>
-        <member name="M:NVorbis.Ogg.ContainerReader.Init">
-            <summary>
-            Initializes the container and finds the first stream.
-            </summary>
-            <returns><c>True</c> if a valid logical stream is found, otherwise <c>False</c>.</returns>
-        </member>
-        <member name="M:NVorbis.Ogg.ContainerReader.Dispose">
-            <summary>
-            Disposes this instance.
-            </summary>
-        </member>
-        <member name="M:NVorbis.Ogg.ContainerReader.GetStream(System.Int32)">
-            <summary>
-            Gets the <see cref="T:NVorbis.IPacketProvider"/> instance for the specified stream serial.
-            </summary>
-            <param name="streamSerial">The stream serial to look for.</param>
-            <returns>An <see cref="T:NVorbis.IPacketProvider"/> instance.</returns>
-            <exception cref="T:System.ArgumentOutOfRangeException">The specified stream serial was not found.</exception>
-        </member>
-        <member name="M:NVorbis.Ogg.ContainerReader.FindNextStream">
-            <summary>
-            Finds the next new stream in the container.
-            </summary>
-            <returns><c>True</c> if a new stream was found, otherwise <c>False</c>.</returns>
-            <exception cref="T:System.InvalidOperationException"><see cref="P:NVorbis.Ogg.ContainerReader.CanSeek"/> is <c>False</c>.</exception>
-        </member>
-        <member name="M:NVorbis.Ogg.ContainerReader.GetTotalPageCount">
-            <summary>
-            Retrieves the total number of pages in the container.
-            </summary>
-            <returns>The total number of pages.</returns>
-            <exception cref="T:System.InvalidOperationException"><see cref="P:NVorbis.Ogg.ContainerReader.CanSeek"/> is <c>False</c>.</exception>
-        </member>
-        <member name="P:NVorbis.Ogg.ContainerReader.StreamSerials">
-            <summary>
-            Gets the list of stream serials found in the container so far.
-            </summary>
-        </member>
-        <member name="E:NVorbis.Ogg.ContainerReader.NewStream">
-            <summary>
-            Event raised when a new logical stream is found in the container.
-            </summary>
-        </member>
-        <member name="P:NVorbis.Ogg.ContainerReader.PagesRead">
-            <summary>
-            Gets the number of pages that have been read in the container.
-            </summary>
-        </member>
-        <member name="P:NVorbis.Ogg.ContainerReader.CanSeek">
-            <summary>
-            Gets whether the container supports seeking.
-            </summary>
-        </member>
-        <member name="P:NVorbis.Ogg.ContainerReader.WasteBits">
-            <summary>
-            Gets the number of bits in the container that are not associated with a logical stream.
-            </summary>
         </member>
     </members>
 </doc>

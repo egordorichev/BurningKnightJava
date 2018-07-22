@@ -1,16 +1,14 @@
 ﻿using System;
 
-namespace Core
+namespace BurningKnight
 {
-    public static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            using (var game = new BurningKnight())
-            {
-                game.Run();
-            }
-        }
-    }
+	public static class Program
+	{
+		[STAThread]
+		static void Main()
+		{
+			using (var game = new BurningKnight())
+				game.Run();
+		}
+	}
 }

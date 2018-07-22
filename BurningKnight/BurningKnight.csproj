@@ -48,6 +48,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="assets\AssetManager.cs" />
+    <Compile Include="assets\Assets.cs" />
+    <Compile Include="assets\Graphics.cs" />
+    <Compile Include="game\InGameState.cs" />
+    <Compile Include="game\State.cs" />
     <Compile Include="BurningKnight.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
