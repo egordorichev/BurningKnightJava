@@ -1,0 +1,90 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+    }
+
+    ext.kotlin_version = '1.2.41'
+
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    apply plugin: "eclipse"
+    apply plugin: "idea"
+
+    version = '1.0'
+
+    ext {
+        appName = "dungeon"
+        gdxVersion = '1.9.8'
+        roboVMVersion = '2.3.3'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    }
+}
+
+project(":desktop") {
+    apply plugin: "kotlin"
+
+    dependencies {
+        compile project(":core")
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    }
+}
+
+project(":core") {
+    apply plugin: "kotlin"
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+        compile 'com.rafaskoberg.gdx:typing-label:1.0.4'
+        compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+        compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
+        compile 'com.code-disaster.steamworks4j:steamworks4j:1.7.0'
+        compile 'com.code-disaster.steamworks4j:steamworks4j-server:1.7.0'
+        compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
+        compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+        compile group: 'commons-io', name: 'commons-io', version: '2.4'
+        compile group: 'org.luaj', name: 'luaj-jse', version: '3.0.1'
+        compile 'com.taskadapter:trello-java-wrapper:0.7'
+    }
+}
+
+project(":packer") {
+    apply plugin: "kotlin"
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-controllers-lwjgl3:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        compile 'com.badlogicgames.gdx:gdx-tools:1.9.8'
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}
+
+tasks.eclipse.doLast {
+    delete ".project"
+}

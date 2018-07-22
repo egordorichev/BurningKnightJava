@@ -1,0 +1,146 @@
+{
+  "next": [
+    "ControllerR1",
+    "Numpad 9",
+    "ControllerDPadRight"
+  ],
+  "mouseX": [
+    "ControllerRX"
+  ],
+  "minus": [
+    "-"
+  ],
+  "drop_item": [
+    "L-Shift",
+    "ControllerY",
+    "Q"
+  ],
+  "prev": [
+    "ControllerL1",
+    "Numpad 7",
+    "ControllerDPadLeft"
+  ],
+  "mouseY": [
+    "ControllerRY"
+  ],
+  "down": [
+    "S",
+    "Down"
+  ],
+  "moveX": [
+    "ControllerLX"
+  ],
+  "to_shop": [
+    "F7"
+  ],
+  "uiAccept": [
+    "Mouse0",
+    "Enter",
+    "ControllerA"
+  ],
+  "action": [
+    "Space",
+    "ControllerX",
+    "ControllerL3"
+  ],
+  "uiDown": [
+    "Down",
+    "ControllerDPadDown"
+  ],
+  "block": [
+    "Mouse2"
+  ],
+  "up": [
+    "W",
+    "Up"
+  ],
+  "moveY": [
+    "ControllerLY"
+  ],
+  "map": [
+    "ControllerA",
+    "Tab"
+  ],
+  "to_treasure": [
+    "F9"
+  ],
+  "c": [
+    "C"
+  ],
+  "to_secret": [
+    "F8"
+  ],
+  "scroll": [
+    "MouseWheel"
+  ],
+  "switch_colorblind": [
+    "F5"
+  ],
+  "pickup": [
+    "L-Shift",
+    "ControllerB"
+  ],
+  "right": [
+    "D",
+    "Right"
+  ],
+  "pause": [
+    "Escape",
+    "ControllerStart"
+  ],
+  "plus": [
+    "+",
+    "\u003d"
+  ],
+  "toggle_correction": [
+    "F6"
+  ],
+  "1": [
+    "1"
+  ],
+  "toggle_minimap": [
+    "T"
+  ],
+  "2": [
+    "2"
+  ],
+  "3": [
+    "3"
+  ],
+  "4": [
+    "4"
+  ],
+  "left": [
+    "A",
+    "Left"
+  ],
+  "show_fps": [
+    "F3"
+  ],
+  "5": [
+    "5"
+  ],
+  "6": [
+    "6"
+  ],
+  "mouse0": [
+    "Mouse0",
+    "ControllerR2"
+  ],
+  "uiUp": [
+    "Up",
+    "ControllerDPadUp"
+  ],
+  "reset": [
+    "F4"
+  ],
+  "z": [
+    "Z"
+  ],
+  "mouse2": [
+    "Mouse2"
+  ],
+  "mouse1": [
+    "Mouse1"
+  ]
+}

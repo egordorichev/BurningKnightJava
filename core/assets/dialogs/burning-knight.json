@@ -1,0 +1,60 @@
+{
+	"on_lamp_take" : {
+		"dialog_bk_who_took_my_lamp": {
+			"name" : "burning_knight",
+
+			"next" : [
+				"dialog_bk_you_will",
+				"dialog_bk_i_do_not_care"
+			],
+
+			"options" : [
+				"dialog_bk_i_will_not",
+				"dialog_bk_im_sorry"
+			]
+		},
+
+		"dialog_bk_you_will" : {
+			"name" : "burning_knight"
+		},
+
+		"dialog_bk_i_do_not_care" : {
+			"name" : "burning_knight"
+		}
+	},
+
+	"you_seem_new" : {
+		"dialog_bk_who_are_you" : {
+			"name" : "burning_knight",
+			"options" : [ "treasure_1", "treasure_2" ],
+			"next" : [ "dialog_bk_you_know_cant_even_try", "dialog_bk_you_know_cant_even_try" ]
+		},
+
+		"dialog_bk_you_know_cant_even_try" : {
+			"name" : "burning_knight"
+		}
+	},
+
+	"its_you_again" : {
+		"dialog_bk_its_you_again" : {
+			"name" : "burning_knight",
+			"next" : "dialog_bk_you_already_died"
+		},
+
+		"dialog_bk_you_already_died" : {
+			"name" : "burning_knight"
+		}
+	},
+
+	"just_die" : {
+		"dialog_bk_just_die" : {
+			"name" : "burning_knight"
+		}
+	},
+
+	"it_is_pointless" : {
+		"dialog_bk_it_is_pointless" : {
+			"name" : "burning_knight"
+		}
+	}
+}

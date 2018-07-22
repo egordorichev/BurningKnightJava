@@ -1,0 +1,168 @@
+{ "frames": {
+   "actor_clown_v2 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 1.aseprite": {
+    "frame": { "x": 15, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 2.aseprite": {
+    "frame": { "x": 30, "y": 0, "w": 15, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 2, "w": 15, "h": 14 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 3.aseprite": {
+    "frame": { "x": 45, "y": 0, "w": 15, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 2, "w": 15, "h": 14 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 4.aseprite": {
+    "frame": { "x": 60, "y": 0, "w": 15, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 2, "w": 15, "h": 14 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 5.aseprite": {
+    "frame": { "x": 75, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 6.aseprite": {
+    "frame": { "x": 90, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 7.aseprite": {
+    "frame": { "x": 105, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 0, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 8.aseprite": {
+    "frame": { "x": 120, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 9.aseprite": {
+    "frame": { "x": 135, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 10.aseprite": {
+    "frame": { "x": 150, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 11.aseprite": {
+    "frame": { "x": 165, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 0, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 12.aseprite": {
+    "frame": { "x": 180, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 13.aseprite": {
+    "frame": { "x": 195, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 15, "h": 15 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 14.aseprite": {
+    "frame": { "x": 210, "y": 0, "w": 14, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 2, "w": 14, "h": 14 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 15.aseprite": {
+    "frame": { "x": 224, "y": 0, "w": 14, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 2, "w": 14, "h": 14 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 16.aseprite": {
+    "frame": { "x": 238, "y": 0, "w": 15, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 3, "w": 15, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 17.aseprite": {
+    "frame": { "x": 253, "y": 0, "w": 6, "h": 6 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 5, "y": 6, "w": 6, "h": 6 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_clown_v2 18.aseprite": {
+    "frame": { "x": 259, "y": 0, "w": 4, "h": 6 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 6, "w": 4, "h": 6 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "RGBA8888",
+  "size": { "w": 263, "h": 15 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 5, "direction": "forward" },
+   { "name": "run", "from": 6, "to": 13, "direction": "forward" },
+   { "name": "hurt", "from": 14, "to": 15, "direction": "forward" },
+   { "name": "death", "from": 16, "to": 18, "direction": "forward" }
+  ]
+ }
+}
