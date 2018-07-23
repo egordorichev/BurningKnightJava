@@ -9,6 +9,8 @@ namespace BurningKnight.entity
 		public float Y;
 		public float W = 16;
 		public float H = 16;
+		public int Depth;
+		public bool Done;
 
 		public float Cx => X + W / 2;
 		public float Cy => Y + H / 2;
@@ -54,6 +56,23 @@ namespace BurningKnight.entity
 			float dy = getDy(other);
 
 			return (float) Math.Sqrt(dx * dx + dy * dy);
+		}
+		
+		/*
+		 * On screen logic
+		 */
+
+		protected bool AlwaysDraw = false;
+		protected bool AlwaysUpdate = false;
+		
+		public bool ShouldDraw()
+		{
+			return AlwaysDraw || true; // todo: on screen logic
+		}
+
+		public bool ShouldUpdate()
+		{
+			return AlwaysUpdate || true;
 		}
 	}
 }

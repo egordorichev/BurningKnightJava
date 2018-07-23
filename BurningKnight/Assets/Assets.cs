@@ -7,12 +7,13 @@ namespace BurningKnight.assets
 	{		
 		private static List<AssetManager> _managers = new List<AssetManager>();
 		public static ContentManager Content;
+		public static Mods Mods;
 		
 		public static void Load()
 		{
 			_managers.Add(new Graphics());
 			_managers.Add(new Audio());
-			_managers.Add(new Mods());
+			_managers.Add(Mods = new Mods());
 			
 			foreach (var manager in _managers)
 			{

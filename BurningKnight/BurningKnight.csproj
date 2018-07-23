@@ -36,6 +36,10 @@
     <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\MonoGame.Framework.DesktopGL.3.6.0.1625\lib\net40\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8">
+      <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -54,14 +58,20 @@
     <Compile Include="Assets\Graphics.cs" />
     <Compile Include="Assets\Locale.cs" />
     <Compile Include="Assets\Locales.cs" />
+    <Compile Include="Assets\Mod\Api.cs" />
     <Compile Include="Assets\Mod\Mod.cs" />
     <Compile Include="Assets\Mod\Mods.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Entity\Creature\Creature.cs" />
     <Compile Include="Entity\Creature\StatedCreature.cs" />
     <Compile Include="Entity\Entity.cs" />
+    <Compile Include="Entity\Level\Generation\Painter.cs" />
+    <Compile Include="Entity\Level\Generation\Rooms\Room.cs" />
+    <Compile Include="Entity\Level\Level.cs" />
+    <Compile Include="Entity\Level\Terrain.cs" />
     <Compile Include="Entity\Physics\PhysicEntity.cs" />
     <Compile Include="Entity\Physics\PhysicWorld.cs" />
+    <Compile Include="Game\Area.cs" />
     <Compile Include="Game\InGameState.cs" />
     <Compile Include="Game\State.cs" />
     <Compile Include="BurningKnight.cs" />
@@ -88,6 +98,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content" />
+    <Folder Include="Entity\Level\Generation\Rooms\Connection" />
+    <Folder Include="Entity\Level\Generation\Rooms\Entrance" />
+    <Folder Include="Entity\Level\Generation\Rooms\Regular" />
+    <Folder Include="Entity\Level\Generation\Rooms\Special" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bin\**\*">

@@ -60,13 +60,18 @@ namespace BurningKnight
 		protected override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			_state?.Update(gameTime.ElapsedGameTime.Milliseconds * 1000f);
+
+			float dt = gameTime.ElapsedGameTime.Milliseconds * 1000f;
+			
+			_state?.Update(dt);
+			Assets.Mods.Update(dt);
 		}
 		
 		protected override void Draw(GameTime gameTime)
 		{
 			_state?.Draw();
-
+			Assets.Mods.Draw();
+			
 			base.Draw(gameTime);
 		}
 	}
