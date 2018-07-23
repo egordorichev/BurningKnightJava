@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
 
 namespace BurningKnight.assets
 {
 	public static class Assets
 	{		
 		private static List<AssetManager> _managers = new List<AssetManager>();
+		public static ContentManager Content;
 		
 		public static void Load()
 		{
@@ -14,9 +16,6 @@ namespace BurningKnight.assets
 			
 			foreach (var manager in _managers)
 			{
-				// Todo: might need TargetAssets()
-				
-				manager.TargetAssets();
 				manager.LoadAssets();
 			}
 		}

@@ -22,6 +22,8 @@ namespace BurningKnight
 			Manager.PreferredBackBufferHeight = Display.Height * scale;
 			
 			Window.AllowUserResizing = true;
+			
+			Content.RootDirectory = "Content\\bin";
 		}
 		
 		protected override void Initialize()
@@ -35,6 +37,8 @@ namespace BurningKnight
 		protected override void LoadContent()
 		{
 			Graphics.Batch = new SpriteBatch(GraphicsDevice);
+			Assets.Content = Content;
+			
 			Assets.Load();
 			SetState(State.INGAME);
 		}
@@ -43,6 +47,7 @@ namespace BurningKnight
 		{
 			_state?.Destroy();
 			Assets.Destroy();
+			Content.Unload();
 		}
 
 		public void SetState(State newState)
@@ -61,6 +66,7 @@ namespace BurningKnight
 		protected override void Draw(GameTime gameTime)
 		{
 			_state?.Draw();
+
 			base.Draw(gameTime);
 		}
 	}

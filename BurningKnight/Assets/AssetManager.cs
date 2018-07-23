@@ -2,11 +2,6 @@
 {
 	public class AssetManager
 	{
-		public virtual void TargetAssets()
-		{
-			
-		}
-
 		public virtual void LoadAssets()
 		{
 			

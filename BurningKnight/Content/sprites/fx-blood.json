@@ -1,0 +1,53 @@
+{ "frames": {
+   "fx_blood 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 5, "h": 5 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 5, "h": 5 },
+    "sourceSize": { "w": 5, "h": 5 },
+    "duration": 100
+   },
+   "fx_blood 1.ase": {
+    "frame": { "x": 5, "y": 0, "w": 4, "h": 4 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 4, "h": 4 },
+    "sourceSize": { "w": 5, "h": 5 },
+    "duration": 100
+   },
+   "fx_blood 2.ase": {
+    "frame": { "x": 9, "y": 0, "w": 2, "h": 2 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 2, "h": 2 },
+    "sourceSize": { "w": 5, "h": 5 },
+    "duration": 100
+   },
+   "fx_blood 3.ase": {
+    "frame": { "x": 11, "y": 0, "w": 2, "h": 2 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 2, "h": 2 },
+    "sourceSize": { "w": 5, "h": 5 },
+    "duration": 100
+   },
+   "fx_blood 4.ase": {
+    "frame": { "x": 13, "y": 0, "w": 1, "h": 1 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 1, "y": 1, "w": 1, "h": 1 },
+    "sourceSize": { "w": 5, "h": 5 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.9-beta2-x64",
+  "format": "I8",
+  "size": { "w": 14, "h": 5 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 4, "direction": "forward" }
+  ]
+ }
+}

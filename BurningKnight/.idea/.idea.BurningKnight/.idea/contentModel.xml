@@ -1,0 +1,2808 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.Rider2018.1/system/resharper-host/local/Transient/ReSharperHost/v12/SolutionCaches/_BurningKnight.-411267437.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Assets" t="Include">
+        <e p="AssetManager.cs" t="Include" />
+        <e p="Assets.cs" t="Include" />
+        <e p="Audio.cs" t="Include" />
+        <e p="Graphics.cs" t="Include" />
+        <e p="Locale.cs" t="Include" />
+        <e p="Locales.cs" t="Include" />
+        <e p="Mod" t="Include">
+          <e p="Mod.cs" t="Include" />
+          <e p="Mods.cs" t="Include" />
+        </e>
+      </e>
+      <e p="BurningKnight.cs" t="Include" />
+      <e p="BurningKnight.csproj" t="IncludeRecursive" />
+      <e p="BurningKnight.sln" t="IncludeFlat" />
+      <e p="Content" t="Include">
+        <e p="bin" t="Include">
+          <e p="icon.xnb" t="Include" />
+          <e p="icon128x128.xnb" t="Include" />
+          <e p="icon32x32.xnb" t="Include" />
+          <e p="music" t="Include">
+            <e p="Believer.ogg" t="Include" />
+            <e p="Believer.xnb" t="Include" />
+            <e p="Born to do rogueries.ogg" t="Include" />
+            <e p="Born to do rogueries.xnb" t="Include" />
+            <e p="Burning Knight.ogg" t="Include" />
+            <e p="Burning Knight.xnb" t="Include" />
+            <e p="Cursed legend.ogg" t="Include" />
+            <e p="Cursed legend.xnb" t="Include" />
+            <e p="Fatiga.ogg" t="Include" />
+            <e p="Fatiga.xnb" t="Include" />
+            <e p="Gobbeon.ogg" t="Include" />
+            <e p="Gobbeon.xnb" t="Include" />
+            <e p="Pirate bay.ogg" t="Include" />
+            <e p="Pirate bay.xnb" t="Include" />
+            <e p="Reckless.ogg" t="Include" />
+            <e p="Reckless.xnb" t="Include" />
+            <e p="Rogue.ogg" t="Include" />
+            <e p="Rogue.xnb" t="Include" />
+          </e>
+          <e p="sfx" t="Include">
+            <e p="BK_hurt_1.ogg" t="Include" />
+            <e p="BK_hurt_1.xnb" t="Include" />
+            <e p="BK_hurt_2.ogg" t="Include" />
+            <e p="BK_hurt_2.xnb" t="Include" />
+            <e p="BK_hurt_3.ogg" t="Include" />
+            <e p="BK_hurt_3.xnb" t="Include" />
+            <e p="BK_hurt_4.ogg" t="Include" />
+            <e p="BK_hurt_4.xnb" t="Include" />
+            <e p="BK_hurt_5.ogg" t="Include" />
+            <e p="BK_hurt_5.xnb" t="Include" />
+            <e p="CK_attack.ogg" t="Include" />
+            <e p="CK_attack.xnb" t="Include" />
+            <e p="CK_call.ogg" t="Include" />
+            <e p="CK_call.xnb" t="Include" />
+            <e p="CK_jump.ogg" t="Include" />
+            <e p="CK_jump.xnb" t="Include" />
+            <e p="attack_skeleton.ogg" t="Include" />
+            <e p="attack_skeleton.xnb" t="Include" />
+            <e p="bk.ogg" t="Include" />
+            <e p="bk.xnb" t="Include" />
+            <e p="bk_voice.ogg" t="Include" />
+            <e p="bk_voice.xnb" t="Include" />
+            <e p="block.ogg" t="Include" />
+            <e p="block.xnb" t="Include" />
+            <e p="bomb_placed.ogg" t="Include" />
+            <e p="bomb_placed.xnb" t="Include" />
+            <e p="bow.ogg" t="Include" />
+            <e p="bow.xnb" t="Include" />
+            <e p="coin.ogg" t="Include" />
+            <e p="coin.xnb" t="Include" />
+            <e p="curse_lamp_1.ogg" t="Include" />
+            <e p="curse_lamp_1.xnb" t="Include" />
+            <e p="curse_lamp_2.ogg" t="Include" />
+            <e p="curse_lamp_2.xnb" t="Include" />
+            <e p="curse_lamp_3.ogg" t="Include" />
+            <e p="curse_lamp_3.xnb" t="Include" />
+            <e p="curse_lamp_4.ogg" t="Include" />
+            <e p="curse_lamp_4.xnb" t="Include" />
+            <e p="damage_clown.ogg" t="Include" />
+            <e p="damage_clown.xnb" t="Include" />
+            <e p="damage_mummy.ogg" t="Include" />
+            <e p="damage_mummy.xnb" t="Include" />
+            <e p="damage_skeleton.ogg" t="Include" />
+            <e p="damage_skeleton.xnb" t="Include" />
+            <e p="damage_towelknight.ogg" t="Include" />
+            <e p="damage_towelknight.xnb" t="Include" />
+            <e p="death_clown.ogg" t="Include" />
+            <e p="death_clown.xnb" t="Include" />
+            <e p="death_mummy.ogg" t="Include" />
+            <e p="death_mummy.xnb" t="Include" />
+            <e p="death_skeleton.ogg" t="Include" />
+            <e p="death_skeleton.xnb" t="Include" />
+            <e p="death_towelknight.ogg" t="Include" />
+            <e p="death_towelknight.xnb" t="Include" />
+            <e p="door.ogg" t="Include" />
+            <e p="door.xnb" t="Include" />
+            <e p="door_lock.ogg" t="Include" />
+            <e p="door_lock.xnb" t="Include" />
+            <e p="door_unlock.ogg" t="Include" />
+            <e p="door_unlock.xnb" t="Include" />
+            <e p="drop_item.ogg" t="Include" />
+            <e p="drop_item.xnb" t="Include" />
+            <e p="enemy_alert.ogg" t="Include" />
+            <e p="enemy_alert.xnb" t="Include" />
+            <e p="explosion.ogg" t="Include" />
+            <e p="explosion.xnb" t="Include" />
+            <e p="fireball_cast.ogg" t="Include" />
+            <e p="fireball_cast.xnb" t="Include" />
+            <e p="fireball_death.ogg" t="Include" />
+            <e p="fireball_death.xnb" t="Include" />
+            <e p="gobbo_death.ogg" t="Include" />
+            <e p="gobbo_death.xnb" t="Include" />
+            <e p="gun_machinegun.ogg" t="Include" />
+            <e p="gun_machinegun.xnb" t="Include" />
+            <e p="health_up.ogg" t="Include" />
+            <e p="health_up.xnb" t="Include" />
+            <e p="heart.ogg" t="Include" />
+            <e p="heart.xnb" t="Include" />
+            <e p="heart_sfx.ogg" t="Include" />
+            <e p="heart_sfx.xnb" t="Include" />
+            <e p="item_nocash.ogg" t="Include" />
+            <e p="item_nocash.xnb" t="Include" />
+            <e p="item_purchase.ogg" t="Include" />
+            <e p="item_purchase.xnb" t="Include" />
+            <e p="key.ogg" t="Include" />
+            <e p="key.xnb" t="Include" />
+            <e p="menu" t="Include">
+              <e p="change_parameter.ogg" t="Include" />
+              <e p="change_parameter.wav.ogg" t="Include" />
+              <e p="change_parameter.wav.xnb" t="Include" />
+              <e p="change_parameter.xnb" t="Include" />
+              <e p="exit.ogg" t="Include" />
+              <e p="exit.wav.ogg" t="Include" />
+              <e p="exit.wav.xnb" t="Include" />
+              <e p="exit.xnb" t="Include" />
+              <e p="goback.ogg" t="Include" />
+              <e p="goback.wav.ogg" t="Include" />
+              <e p="goback.wav.xnb" t="Include" />
+              <e p="goback.xnb" t="Include" />
+              <e p="moving.ogg" t="Include" />
+              <e p="moving.wav.ogg" t="Include" />
+              <e p="moving.wav.xnb" t="Include" />
+              <e p="moving.xnb" t="Include" />
+              <e p="select.ogg" t="Include" />
+              <e p="select.wav.ogg" t="Include" />
+              <e p="select.wav.xnb" t="Include" />
+              <e p="select.xnb" t="Include" />
+            </e>
+            <e p="pickup_item.ogg" t="Include" />
+            <e p="pickup_item.xnb" t="Include" />
+            <e p="potion.ogg" t="Include" />
+            <e p="potion.xnb" t="Include" />
+            <e p="scroll.ogg" t="Include" />
+            <e p="scroll.xnb" t="Include" />
+            <e p="step_gobbo_1.ogg" t="Include" />
+            <e p="step_gobbo_1.xnb" t="Include" />
+            <e p="step_gobbo_2.ogg" t="Include" />
+            <e p="step_gobbo_2.xnb" t="Include" />
+            <e p="step_gobbo_3.ogg" t="Include" />
+            <e p="step_gobbo_3.xnb" t="Include" />
+            <e p="step_gobbo_4.ogg" t="Include" />
+            <e p="step_gobbo_4.xnb" t="Include" />
+            <e p="step_gobbo_5.ogg" t="Include" />
+            <e p="step_gobbo_5.xnb" t="Include" />
+            <e p="step_gobbo_water_1.ogg" t="Include" />
+            <e p="step_gobbo_water_1.xnb" t="Include" />
+            <e p="step_gobbo_water_2.ogg" t="Include" />
+            <e p="step_gobbo_water_2.xnb" t="Include" />
+            <e p="step_gobbo_water_3.ogg" t="Include" />
+            <e p="step_gobbo_water_3.xnb" t="Include" />
+            <e p="step_gobbo_water_4.ogg" t="Include" />
+            <e p="step_gobbo_water_4.xnb" t="Include" />
+            <e p="step_gobbo_water_5.ogg" t="Include" />
+            <e p="step_gobbo_water_5.xnb" t="Include" />
+            <e p="sword_1.ogg" t="Include" />
+            <e p="sword_1.xnb" t="Include" />
+            <e p="sword_2.ogg" t="Include" />
+            <e p="sword_2.xnb" t="Include" />
+            <e p="turret_laser.ogg" t="Include" />
+            <e p="turret_laser.xnb" t="Include" />
+            <e p="ukulele_1.ogg" t="Include" />
+            <e p="ukulele_1.xnb" t="Include" />
+            <e p="ukulele_2.ogg" t="Include" />
+            <e p="ukulele_2.xnb" t="Include" />
+            <e p="ukulele_3.ogg" t="Include" />
+            <e p="ukulele_3.xnb" t="Include" />
+            <e p="ukulele_4.ogg" t="Include" />
+            <e p="ukulele_4.xnb" t="Include" />
+            <e p="ukulele_5.ogg" t="Include" />
+            <e p="ukulele_5.xnb" t="Include" />
+            <e p="voice_gobbo_1.ogg" t="Include" />
+            <e p="voice_gobbo_1.xnb" t="Include" />
+            <e p="voice_gobbo_2.ogg" t="Include" />
+            <e p="voice_gobbo_2.xnb" t="Include" />
+            <e p="voice_gobbo_3.ogg" t="Include" />
+            <e p="voice_gobbo_3.xnb" t="Include" />
+          </e>
+          <e p="sprites" t="Include">
+            <e p="achievements-test.xnb" t="Include" />
+            <e p="actor-archeologist-blue-death-00.xnb" t="Include" />
+            <e p="actor-archeologist-blue-death-01.xnb" t="Include" />
+            <e p="actor-archeologist-blue-death-02.xnb" t="Include" />
+            <e p="actor-archeologist-blue-death-03.xnb" t="Include" />
+            <e p="actor-archeologist-blue-hurt-00.xnb" t="Include" />
+            <e p="actor-archeologist-blue-hurt-01.xnb" t="Include" />
+            <e p="actor-archeologist-blue-idle-00.xnb" t="Include" />
+            <e p="actor-archeologist-blue-idle-01.xnb" t="Include" />
+            <e p="actor-archeologist-blue-idle-02.xnb" t="Include" />
+            <e p="actor-archeologist-blue-idle-03.xnb" t="Include" />
+            <e p="actor-archeologist-blue-idle-04.xnb" t="Include" />
+            <e p="actor-archeologist-blue-idle-05.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-00.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-01.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-02.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-03.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-04.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-05.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-06.xnb" t="Include" />
+            <e p="actor-archeologist-blue-run-07.xnb" t="Include" />
+            <e p="actor-archeologist-green-death-00.xnb" t="Include" />
+            <e p="actor-archeologist-green-death-01.xnb" t="Include" />
+            <e p="actor-archeologist-green-death-02.xnb" t="Include" />
+            <e p="actor-archeologist-green-death-03.xnb" t="Include" />
+            <e p="actor-archeologist-green-hurt-00.xnb" t="Include" />
+            <e p="actor-archeologist-green-hurt-01.xnb" t="Include" />
+            <e p="actor-archeologist-green-idle-00.xnb" t="Include" />
+            <e p="actor-archeologist-green-idle-01.xnb" t="Include" />
+            <e p="actor-archeologist-green-idle-02.xnb" t="Include" />
+            <e p="actor-archeologist-green-idle-03.xnb" t="Include" />
+            <e p="actor-archeologist-green-idle-04.xnb" t="Include" />
+            <e p="actor-archeologist-green-idle-05.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-00.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-01.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-02.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-03.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-04.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-05.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-06.xnb" t="Include" />
+            <e p="actor-archeologist-green-run-07.xnb" t="Include" />
+            <e p="actor-archeologist-red-death-00.xnb" t="Include" />
+            <e p="actor-archeologist-red-death-01.xnb" t="Include" />
+            <e p="actor-archeologist-red-death-02.xnb" t="Include" />
+            <e p="actor-archeologist-red-death-03.xnb" t="Include" />
+            <e p="actor-archeologist-red-hurt-00.xnb" t="Include" />
+            <e p="actor-archeologist-red-hurt-01.xnb" t="Include" />
+            <e p="actor-archeologist-red-idle-00.xnb" t="Include" />
+            <e p="actor-archeologist-red-idle-01.xnb" t="Include" />
+            <e p="actor-archeologist-red-idle-02.xnb" t="Include" />
+            <e p="actor-archeologist-red-idle-03.xnb" t="Include" />
+            <e p="actor-archeologist-red-idle-04.xnb" t="Include" />
+            <e p="actor-archeologist-red-idle-05.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-00.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-01.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-02.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-03.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-04.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-05.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-06.xnb" t="Include" />
+            <e p="actor-archeologist-red-run-07.xnb" t="Include" />
+            <e p="actor-bomb-fire_bomb-idle-00.xnb" t="Include" />
+            <e p="actor-bomb-fire_bomb-idle-01.xnb" t="Include" />
+            <e p="actor-bomb-fire_bomb-idle-02.xnb" t="Include" />
+            <e p="actor-bomb-fire_bomb-idle-03.xnb" t="Include" />
+            <e p="actor-bomb-fire_bomb-idle-04.xnb" t="Include" />
+            <e p="actor-bomb-ice_bomb-idle-00.xnb" t="Include" />
+            <e p="actor-bomb-ice_bomb-idle-01.xnb" t="Include" />
+            <e p="actor-bomb-ice_bomb-idle-02.xnb" t="Include" />
+            <e p="actor-bomb-ice_bomb-idle-03.xnb" t="Include" />
+            <e p="actor-bomb-ice_bomb-idle-04.xnb" t="Include" />
+            <e p="actor-bomb-idle-00.xnb" t="Include" />
+            <e p="actor-bomb-idle-01.xnb" t="Include" />
+            <e p="actor-bomb-idle-02.xnb" t="Include" />
+            <e p="actor-bomb-idle-03.xnb" t="Include" />
+            <e p="actor-bomb-idle-04.xnb" t="Include" />
+            <e p="actor-bomb-normal-idle-00.xnb" t="Include" />
+            <e p="actor-bomb-normal-idle-01.xnb" t="Include" />
+            <e p="actor-bomb-normal-idle-02.xnb" t="Include" />
+            <e p="actor-bomb-normal-idle-03.xnb" t="Include" />
+            <e p="actor-bomb-normal-idle-04.xnb" t="Include" />
+            <e p="actor-bomb-poison-idle-00.xnb" t="Include" />
+            <e p="actor-bomb-poison-idle-01.xnb" t="Include" />
+            <e p="actor-bomb-poison-idle-02.xnb" t="Include" />
+            <e p="actor-bomb-poison-idle-03.xnb" t="Include" />
+            <e p="actor-bomb-poison-idle-04.xnb" t="Include" />
+            <e p="actor-bomb-small-idle-00.xnb" t="Include" />
+            <e p="actor-bomb-small-idle-01.xnb" t="Include" />
+            <e p="actor-bomb-small-idle-02.xnb" t="Include" />
+            <e p="actor-bomb-small-idle-03.xnb" t="Include" />
+            <e p="actor-bomb-small-idle-04.xnb" t="Include" />
+            <e p="actor-burning-knight-dead-00.xnb" t="Include" />
+            <e p="actor-burning-knight-dead-01.xnb" t="Include" />
+            <e p="actor-burning-knight-dead-02.xnb" t="Include" />
+            <e p="actor-burning-knight-dead-03.xnb" t="Include" />
+            <e p="actor-burning-knight-hurt-00.xnb" t="Include" />
+            <e p="actor-burning-knight-hurt-01.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-00.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-01.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-02.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-03.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-04.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-05.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-06.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-07.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-08.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-09.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-10.xnb" t="Include" />
+            <e p="actor-burning-knight-idle-11.xnb" t="Include" />
+            <e p="actor-clown-dead-00.xnb" t="Include" />
+            <e p="actor-clown-dead-01.xnb" t="Include" />
+            <e p="actor-clown-dead-02.xnb" t="Include" />
+            <e p="actor-clown-hurt-00.xnb" t="Include" />
+            <e p="actor-clown-hurt-01.xnb" t="Include" />
+            <e p="actor-clown-idle-00.xnb" t="Include" />
+            <e p="actor-clown-idle-01.xnb" t="Include" />
+            <e p="actor-clown-idle-02.xnb" t="Include" />
+            <e p="actor-clown-idle-03.xnb" t="Include" />
+            <e p="actor-clown-idle-04.xnb" t="Include" />
+            <e p="actor-clown-idle-05.xnb" t="Include" />
+            <e p="actor-clown-idle-06.xnb" t="Include" />
+            <e p="actor-clown-idle-07.xnb" t="Include" />
+            <e p="actor-clown-laugh-00.xnb" t="Include" />
+            <e p="actor-clown-laugh-01.xnb" t="Include" />
+            <e p="actor-clown-laugh-02.xnb" t="Include" />
+            <e p="actor-clown-laugh-03.xnb" t="Include" />
+            <e p="actor-clown-run-00.xnb" t="Include" />
+            <e p="actor-clown-run-01.xnb" t="Include" />
+            <e p="actor-clown-run-02.xnb" t="Include" />
+            <e p="actor-clown-run-03.xnb" t="Include" />
+            <e p="actor-clown-run-04.xnb" t="Include" />
+            <e p="actor-clown-run-05.xnb" t="Include" />
+            <e p="actor-clown-run-06.xnb" t="Include" />
+            <e p="actor-clown-run-07.xnb" t="Include" />
+            <e p="actor-clown-v2-black-death-00.xnb" t="Include" />
+            <e p="actor-clown-v2-black-death-01.xnb" t="Include" />
+            <e p="actor-clown-v2-black-death-02.xnb" t="Include" />
+            <e p="actor-clown-v2-black-hurt-00.xnb" t="Include" />
+            <e p="actor-clown-v2-black-hurt-01.xnb" t="Include" />
+            <e p="actor-clown-v2-black-idle-00.xnb" t="Include" />
+            <e p="actor-clown-v2-black-idle-01.xnb" t="Include" />
+            <e p="actor-clown-v2-black-idle-02.xnb" t="Include" />
+            <e p="actor-clown-v2-black-idle-03.xnb" t="Include" />
+            <e p="actor-clown-v2-black-idle-04.xnb" t="Include" />
+            <e p="actor-clown-v2-black-idle-05.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-00.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-01.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-02.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-03.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-04.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-05.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-06.xnb" t="Include" />
+            <e p="actor-clown-v2-black-run-07.xnb" t="Include" />
+            <e p="actor-clown-v2-green-death-00.xnb" t="Include" />
+            <e p="actor-clown-v2-green-death-01.xnb" t="Include" />
+            <e p="actor-clown-v2-green-death-02.xnb" t="Include" />
+            <e p="actor-clown-v2-green-hurt-00.xnb" t="Include" />
+            <e p="actor-clown-v2-green-hurt-01.xnb" t="Include" />
+            <e p="actor-clown-v2-green-idle-00.xnb" t="Include" />
+            <e p="actor-clown-v2-green-idle-01.xnb" t="Include" />
+            <e p="actor-clown-v2-green-idle-02.xnb" t="Include" />
+            <e p="actor-clown-v2-green-idle-03.xnb" t="Include" />
+            <e p="actor-clown-v2-green-idle-04.xnb" t="Include" />
+            <e p="actor-clown-v2-green-idle-05.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-00.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-01.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-02.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-03.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-04.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-05.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-06.xnb" t="Include" />
+            <e p="actor-clown-v2-green-run-07.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-death-00.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-death-01.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-death-02.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-hurt-00.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-hurt-01.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-idle-00.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-idle-01.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-idle-02.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-idle-03.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-idle-04.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-idle-05.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-00.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-01.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-02.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-03.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-04.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-05.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-06.xnb" t="Include" />
+            <e p="actor-clown-v2-purple-run-07.xnb" t="Include" />
+            <e p="actor-door-horizontal-iron-idle-00.xnb" t="Include" />
+            <e p="actor-door-horizontal-iron-idle-01.xnb" t="Include" />
+            <e p="actor-door-horizontal-iron-idle-02.xnb" t="Include" />
+            <e p="actor-door-horizontal-iron-idle-03.xnb" t="Include" />
+            <e p="actor-door-horizontal-wooden-idle-00.xnb" t="Include" />
+            <e p="actor-door-horizontal-wooden-idle-01.xnb" t="Include" />
+            <e p="actor-door-horizontal-wooden-idle-02.xnb" t="Include" />
+            <e p="actor-door-horizontal-wooden-idle-03.xnb" t="Include" />
+            <e p="actor-door-vertical-iron-idle-00.xnb" t="Include" />
+            <e p="actor-door-vertical-iron-idle-01.xnb" t="Include" />
+            <e p="actor-door-vertical-iron-idle-02.xnb" t="Include" />
+            <e p="actor-door-vertical-iron-idle-03.xnb" t="Include" />
+            <e p="actor-door-vertical-wooden-idle-00.xnb" t="Include" />
+            <e p="actor-door-vertical-wooden-idle-01.xnb" t="Include" />
+            <e p="actor-door-vertical-wooden-idle-02.xnb" t="Include" />
+            <e p="actor-door-vertical-wooden-idle-03.xnb" t="Include" />
+            <e p="actor-gobbo-body-dead-00.xnb" t="Include" />
+            <e p="actor-gobbo-body-dead-01.xnb" t="Include" />
+            <e p="actor-gobbo-body-dead-02.xnb" t="Include" />
+            <e p="actor-gobbo-body-hurt-00.xnb" t="Include" />
+            <e p="actor-gobbo-body-hurt-01.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-00.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-01.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-02.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-03.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-04.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-05.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-06.xnb" t="Include" />
+            <e p="actor-gobbo-body-idle-07.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-00.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-01.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-02.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-03.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-04.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-05.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-06.xnb" t="Include" />
+            <e p="actor-gobbo-body-run-07.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-dead-00.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-dead-01.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-dead-02.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-hurt-00.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-hurt-01.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-00.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-01.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-02.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-03.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-04.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-05.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-06.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-idle-07.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-00.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-01.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-02.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-03.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-04.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-05.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-06.xnb" t="Include" />
+            <e p="actor-gobbo-gobbo-run-07.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-death-00.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-death-01.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-death-02.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-hurt-00.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-hurt-01.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-idle-00.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-idle-01.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-idle-02.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-idle-03.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-idle-04.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-idle-05.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-00.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-01.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-02.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-03.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-04.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-05.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-06.xnb" t="Include" />
+            <e p="actor-knight-v2-blue-run-07.xnb" t="Include" />
+            <e p="actor-knight-v2-death-00-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-death-00-green.xnb" t="Include" />
+            <e p="actor-knight-v2-death-00-red.xnb" t="Include" />
+            <e p="actor-knight-v2-death-01-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-death-01-green.xnb" t="Include" />
+            <e p="actor-knight-v2-death-01-red.xnb" t="Include" />
+            <e p="actor-knight-v2-death-02-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-death-02-green.xnb" t="Include" />
+            <e p="actor-knight-v2-death-02-red.xnb" t="Include" />
+            <e p="actor-knight-v2-green-death-00.xnb" t="Include" />
+            <e p="actor-knight-v2-green-death-01.xnb" t="Include" />
+            <e p="actor-knight-v2-green-death-02.xnb" t="Include" />
+            <e p="actor-knight-v2-green-hurt-00.xnb" t="Include" />
+            <e p="actor-knight-v2-green-hurt-01.xnb" t="Include" />
+            <e p="actor-knight-v2-green-idle-00.xnb" t="Include" />
+            <e p="actor-knight-v2-green-idle-01.xnb" t="Include" />
+            <e p="actor-knight-v2-green-idle-02.xnb" t="Include" />
+            <e p="actor-knight-v2-green-idle-03.xnb" t="Include" />
+            <e p="actor-knight-v2-green-idle-04.xnb" t="Include" />
+            <e p="actor-knight-v2-green-idle-05.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-00.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-01.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-02.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-03.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-04.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-05.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-06.xnb" t="Include" />
+            <e p="actor-knight-v2-green-run-07.xnb" t="Include" />
+            <e p="actor-knight-v2-hurt-00-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-hurt-00-green.xnb" t="Include" />
+            <e p="actor-knight-v2-hurt-00-red.xnb" t="Include" />
+            <e p="actor-knight-v2-hurt-01-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-hurt-01-green.xnb" t="Include" />
+            <e p="actor-knight-v2-hurt-01-red.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-00-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-00-green.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-00-red.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-01-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-01-green.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-01-red.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-02-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-02-green.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-02-red.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-03-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-03-green.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-03-red.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-04-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-04-green.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-04-red.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-05-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-05-green.xnb" t="Include" />
+            <e p="actor-knight-v2-idle-05-red.xnb" t="Include" />
+            <e p="actor-knight-v2-red-death-00.xnb" t="Include" />
+            <e p="actor-knight-v2-red-death-01.xnb" t="Include" />
+            <e p="actor-knight-v2-red-death-02.xnb" t="Include" />
+            <e p="actor-knight-v2-red-hurt-00.xnb" t="Include" />
+            <e p="actor-knight-v2-red-hurt-01.xnb" t="Include" />
+            <e p="actor-knight-v2-red-idle-00.xnb" t="Include" />
+            <e p="actor-knight-v2-red-idle-01.xnb" t="Include" />
+            <e p="actor-knight-v2-red-idle-02.xnb" t="Include" />
+            <e p="actor-knight-v2-red-idle-03.xnb" t="Include" />
+            <e p="actor-knight-v2-red-idle-04.xnb" t="Include" />
+            <e p="actor-knight-v2-red-idle-05.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-00.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-01.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-02.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-03.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-04.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-05.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-06.xnb" t="Include" />
+            <e p="actor-knight-v2-red-run-07.xnb" t="Include" />
+            <e p="actor-knight-v2-run-00-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-00-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-00-red.xnb" t="Include" />
+            <e p="actor-knight-v2-run-01-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-01-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-01-red.xnb" t="Include" />
+            <e p="actor-knight-v2-run-02-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-02-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-02-red.xnb" t="Include" />
+            <e p="actor-knight-v2-run-03-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-03-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-03-red.xnb" t="Include" />
+            <e p="actor-knight-v2-run-04-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-04-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-04-red.xnb" t="Include" />
+            <e p="actor-knight-v2-run-05-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-05-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-05-red.xnb" t="Include" />
+            <e p="actor-knight-v2-run-06-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-06-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-06-red.xnb" t="Include" />
+            <e p="actor-knight-v2-run-07-blue.xnb" t="Include" />
+            <e p="actor-knight-v2-run-07-green.xnb" t="Include" />
+            <e p="actor-knight-v2-run-07-red.xnb" t="Include" />
+            <e p="actor-mummy-brown-death-00.xnb" t="Include" />
+            <e p="actor-mummy-brown-death-01.xnb" t="Include" />
+            <e p="actor-mummy-brown-death-02.xnb" t="Include" />
+            <e p="actor-mummy-brown-hurt-00.xnb" t="Include" />
+            <e p="actor-mummy-brown-hurt-01.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-00.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-01.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-02.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-03.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-04.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-05.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-06.xnb" t="Include" />
+            <e p="actor-mummy-brown-idle-07.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-00.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-01.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-02.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-03.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-04.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-05.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-06.xnb" t="Include" />
+            <e p="actor-mummy-brown-run-07.xnb" t="Include" />
+            <e p="actor-mummy-gray-death-00.xnb" t="Include" />
+            <e p="actor-mummy-gray-death-01.xnb" t="Include" />
+            <e p="actor-mummy-gray-death-02.xnb" t="Include" />
+            <e p="actor-mummy-gray-hurt-00.xnb" t="Include" />
+            <e p="actor-mummy-gray-hurt-01.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-00.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-01.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-02.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-03.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-04.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-05.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-06.xnb" t="Include" />
+            <e p="actor-mummy-gray-idle-07.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-00.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-01.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-02.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-03.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-04.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-05.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-06.xnb" t="Include" />
+            <e p="actor-mummy-gray-run-07.xnb" t="Include" />
+            <e p="actor-mummy-white-death-00.xnb" t="Include" />
+            <e p="actor-mummy-white-death-01.xnb" t="Include" />
+            <e p="actor-mummy-white-death-02.xnb" t="Include" />
+            <e p="actor-mummy-white-hurt-00.xnb" t="Include" />
+            <e p="actor-mummy-white-hurt-01.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-00.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-01.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-02.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-03.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-04.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-05.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-06.xnb" t="Include" />
+            <e p="actor-mummy-white-idle-07.xnb" t="Include" />
+            <e p="actor-mummy-white-run-00.xnb" t="Include" />
+            <e p="actor-mummy-white-run-01.xnb" t="Include" />
+            <e p="actor-mummy-white-run-02.xnb" t="Include" />
+            <e p="actor-mummy-white-run-03.xnb" t="Include" />
+            <e p="actor-mummy-white-run-04.xnb" t="Include" />
+            <e p="actor-mummy-white-run-05.xnb" t="Include" />
+            <e p="actor-mummy-white-run-06.xnb" t="Include" />
+            <e p="actor-mummy-white-run-07.xnb" t="Include" />
+            <e p="actor-rolling-spike-idle-00.xnb" t="Include" />
+            <e p="actor-rolling-spike-idle-01.xnb" t="Include" />
+            <e p="actor-rolling-spike-idle-02.xnb" t="Include" />
+            <e p="actor-skeleton-black-death-00.xnb" t="Include" />
+            <e p="actor-skeleton-black-death-01.xnb" t="Include" />
+            <e p="actor-skeleton-black-death-02.xnb" t="Include" />
+            <e p="actor-skeleton-black-death-03.xnb" t="Include" />
+            <e p="actor-skeleton-black-death-04.xnb" t="Include" />
+            <e p="actor-skeleton-black-death-05.xnb" t="Include" />
+            <e p="actor-skeleton-black-death-06.xnb" t="Include" />
+            <e p="actor-skeleton-black-hurt-00.xnb" t="Include" />
+            <e p="actor-skeleton-black-hurt-01.xnb" t="Include" />
+            <e p="actor-skeleton-black-idle-00.xnb" t="Include" />
+            <e p="actor-skeleton-black-idle-01.xnb" t="Include" />
+            <e p="actor-skeleton-black-idle-02.xnb" t="Include" />
+            <e p="actor-skeleton-black-idle-03.xnb" t="Include" />
+            <e p="actor-skeleton-black-idle-04.xnb" t="Include" />
+            <e p="actor-skeleton-black-idle-05.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-00.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-01.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-02.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-03.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-04.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-05.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-06.xnb" t="Include" />
+            <e p="actor-skeleton-black-revive-07.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-00.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-01.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-02.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-03.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-04.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-05.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-06.xnb" t="Include" />
+            <e p="actor-skeleton-black-run-07.xnb" t="Include" />
+            <e p="actor-skeleton-brown-death-00.xnb" t="Include" />
+            <e p="actor-skeleton-brown-death-01.xnb" t="Include" />
+            <e p="actor-skeleton-brown-death-02.xnb" t="Include" />
+            <e p="actor-skeleton-brown-death-03.xnb" t="Include" />
+            <e p="actor-skeleton-brown-death-04.xnb" t="Include" />
+            <e p="actor-skeleton-brown-death-05.xnb" t="Include" />
+            <e p="actor-skeleton-brown-death-06.xnb" t="Include" />
+            <e p="actor-skeleton-brown-hurt-00.xnb" t="Include" />
+            <e p="actor-skeleton-brown-hurt-01.xnb" t="Include" />
+            <e p="actor-skeleton-brown-idle-00.xnb" t="Include" />
+            <e p="actor-skeleton-brown-idle-01.xnb" t="Include" />
+            <e p="actor-skeleton-brown-idle-02.xnb" t="Include" />
+            <e p="actor-skeleton-brown-idle-03.xnb" t="Include" />
+            <e p="actor-skeleton-brown-idle-04.xnb" t="Include" />
+            <e p="actor-skeleton-brown-idle-05.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-00.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-01.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-02.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-03.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-04.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-05.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-06.xnb" t="Include" />
+            <e p="actor-skeleton-brown-revive-07.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-00.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-01.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-02.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-03.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-04.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-05.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-06.xnb" t="Include" />
+            <e p="actor-skeleton-brown-run-07.xnb" t="Include" />
+            <e p="actor-skeleton-white-death-00.xnb" t="Include" />
+            <e p="actor-skeleton-white-death-01.xnb" t="Include" />
+            <e p="actor-skeleton-white-death-02.xnb" t="Include" />
+            <e p="actor-skeleton-white-death-03.xnb" t="Include" />
+            <e p="actor-skeleton-white-death-04.xnb" t="Include" />
+            <e p="actor-skeleton-white-death-05.xnb" t="Include" />
+            <e p="actor-skeleton-white-death-06.xnb" t="Include" />
+            <e p="actor-skeleton-white-hurt-00.xnb" t="Include" />
+            <e p="actor-skeleton-white-hurt-01.xnb" t="Include" />
+            <e p="actor-skeleton-white-idle-00.xnb" t="Include" />
+            <e p="actor-skeleton-white-idle-01.xnb" t="Include" />
+            <e p="actor-skeleton-white-idle-02.xnb" t="Include" />
+            <e p="actor-skeleton-white-idle-03.xnb" t="Include" />
+            <e p="actor-skeleton-white-idle-04.xnb" t="Include" />
+            <e p="actor-skeleton-white-idle-05.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-00.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-01.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-02.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-03.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-04.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-05.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-06.xnb" t="Include" />
+            <e p="actor-skeleton-white-revive-07.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-00.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-01.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-02.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-03.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-04.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-05.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-06.xnb" t="Include" />
+            <e p="actor-skeleton-white-run-07.xnb" t="Include" />
+            <e p="actor-thief-black-death-00.xnb" t="Include" />
+            <e p="actor-thief-black-death-01.xnb" t="Include" />
+            <e p="actor-thief-black-death-02.xnb" t="Include" />
+            <e p="actor-thief-black-hurt-00.xnb" t="Include" />
+            <e p="actor-thief-black-hurt-01.xnb" t="Include" />
+            <e p="actor-thief-black-idle-00.xnb" t="Include" />
+            <e p="actor-thief-black-idle-01.xnb" t="Include" />
+            <e p="actor-thief-black-idle-02.xnb" t="Include" />
+            <e p="actor-thief-black-idle-03.xnb" t="Include" />
+            <e p="actor-thief-black-idle-04.xnb" t="Include" />
+            <e p="actor-thief-black-idle-05.xnb" t="Include" />
+            <e p="actor-thief-black-run-00.xnb" t="Include" />
+            <e p="actor-thief-black-run-01.xnb" t="Include" />
+            <e p="actor-thief-black-run-02.xnb" t="Include" />
+            <e p="actor-thief-black-run-03.xnb" t="Include" />
+            <e p="actor-thief-black-run-04.xnb" t="Include" />
+            <e p="actor-thief-black-run-05.xnb" t="Include" />
+            <e p="actor-thief-black-run-06.xnb" t="Include" />
+            <e p="actor-thief-black-run-07.xnb" t="Include" />
+            <e p="actor-thief-green-death-00.xnb" t="Include" />
+            <e p="actor-thief-green-death-01.xnb" t="Include" />
+            <e p="actor-thief-green-death-02.xnb" t="Include" />
+            <e p="actor-thief-green-hurt-00.xnb" t="Include" />
+            <e p="actor-thief-green-hurt-01.xnb" t="Include" />
+            <e p="actor-thief-green-idle-00.xnb" t="Include" />
+            <e p="actor-thief-green-idle-01.xnb" t="Include" />
+            <e p="actor-thief-green-idle-02.xnb" t="Include" />
+            <e p="actor-thief-green-idle-03.xnb" t="Include" />
+            <e p="actor-thief-green-idle-04.xnb" t="Include" />
+            <e p="actor-thief-green-idle-05.xnb" t="Include" />
+            <e p="actor-thief-green-run-00.xnb" t="Include" />
+            <e p="actor-thief-green-run-01.xnb" t="Include" />
+            <e p="actor-thief-green-run-02.xnb" t="Include" />
+            <e p="actor-thief-green-run-03.xnb" t="Include" />
+            <e p="actor-thief-green-run-04.xnb" t="Include" />
+            <e p="actor-thief-green-run-05.xnb" t="Include" />
+            <e p="actor-thief-green-run-06.xnb" t="Include" />
+            <e p="actor-thief-green-run-07.xnb" t="Include" />
+            <e p="actor-thief-purple-death-00.xnb" t="Include" />
+            <e p="actor-thief-purple-death-01.xnb" t="Include" />
+            <e p="actor-thief-purple-death-02.xnb" t="Include" />
+            <e p="actor-thief-purple-hurt-00.xnb" t="Include" />
+            <e p="actor-thief-purple-hurt-01.xnb" t="Include" />
+            <e p="actor-thief-purple-idle-00.xnb" t="Include" />
+            <e p="actor-thief-purple-idle-01.xnb" t="Include" />
+            <e p="actor-thief-purple-idle-02.xnb" t="Include" />
+            <e p="actor-thief-purple-idle-03.xnb" t="Include" />
+            <e p="actor-thief-purple-idle-04.xnb" t="Include" />
+            <e p="actor-thief-purple-idle-05.xnb" t="Include" />
+            <e p="actor-thief-purple-run-00.xnb" t="Include" />
+            <e p="actor-thief-purple-run-01.xnb" t="Include" />
+            <e p="actor-thief-purple-run-02.xnb" t="Include" />
+            <e p="actor-thief-purple-run-03.xnb" t="Include" />
+            <e p="actor-thief-purple-run-04.xnb" t="Include" />
+            <e p="actor-thief-purple-run-05.xnb" t="Include" />
+            <e p="actor-thief-purple-run-06.xnb" t="Include" />
+            <e p="actor-thief-purple-run-07.xnb" t="Include" />
+            <e p="actor-towelking-dead-00.xnb" t="Include" />
+            <e p="actor-towelking-dead-01.xnb" t="Include" />
+            <e p="actor-towelking-dead-02.xnb" t="Include" />
+            <e p="actor-towelking-dead-03.xnb" t="Include" />
+            <e p="actor-towelking-hurt-00.xnb" t="Include" />
+            <e p="actor-towelking-hurt-01.xnb" t="Include" />
+            <e p="actor-towelking-idle-00.xnb" t="Include" />
+            <e p="actor-towelking-idle-01.xnb" t="Include" />
+            <e p="actor-towelking-idle-02.xnb" t="Include" />
+            <e p="actor-towelking-idle-03.xnb" t="Include" />
+            <e p="actor-towelking-idle-04.xnb" t="Include" />
+            <e p="actor-towelking-idle-05.xnb" t="Include" />
+            <e p="actor-towelking-idle-06.xnb" t="Include" />
+            <e p="actor-towelking-jump-00.xnb" t="Include" />
+            <e p="actor-towelking-jump-01.xnb" t="Include" />
+            <e p="actor-towelking-jump-02.xnb" t="Include" />
+            <e p="actor-towelking-jump-03.xnb" t="Include" />
+            <e p="actor-towelking-jump-04.xnb" t="Include" />
+            <e p="actor-towelking-jump-05.xnb" t="Include" />
+            <e p="actor-towelking-jump-06.xnb" t="Include" />
+            <e p="actor-towelking-jump-07.xnb" t="Include" />
+            <e p="actor-towelking-jump-08.xnb" t="Include" />
+            <e p="actor-towelking-jump-09.xnb" t="Include" />
+            <e p="actor-towelking-land-00.xnb" t="Include" />
+            <e p="actor-towelking-land-01.xnb" t="Include" />
+            <e p="actor-towelking-land-02.xnb" t="Include" />
+            <e p="actor-towelking-land-03.xnb" t="Include" />
+            <e p="actor-towelking-land-04.xnb" t="Include" />
+            <e p="actor-towelking-run-00.xnb" t="Include" />
+            <e p="actor-towelking-run-01.xnb" t="Include" />
+            <e p="actor-towelking-run-02.xnb" t="Include" />
+            <e p="actor-towelking-run-03.xnb" t="Include" />
+            <e p="actor-trader-blue-death-00.xnb" t="Include" />
+            <e p="actor-trader-blue-death-01.xnb" t="Include" />
+            <e p="actor-trader-blue-death-02.xnb" t="Include" />
+            <e p="actor-trader-blue-hurt-00.xnb" t="Include" />
+            <e p="actor-trader-blue-hurt-01.xnb" t="Include" />
+            <e p="actor-trader-blue-idle-00.xnb" t="Include" />
+            <e p="actor-trader-blue-idle-01.xnb" t="Include" />
+            <e p="actor-trader-blue-idle-02.xnb" t="Include" />
+            <e p="actor-trader-blue-idle-03.xnb" t="Include" />
+            <e p="actor-trader-blue-idle-04.xnb" t="Include" />
+            <e p="actor-trader-blue-idle-05.xnb" t="Include" />
+            <e p="actor-trader-blue-run-00.xnb" t="Include" />
+            <e p="actor-trader-blue-run-01.xnb" t="Include" />
+            <e p="actor-trader-blue-run-02.xnb" t="Include" />
+            <e p="actor-trader-blue-run-03.xnb" t="Include" />
+            <e p="actor-trader-blue-run-04.xnb" t="Include" />
+            <e p="actor-trader-blue-run-05.xnb" t="Include" />
+            <e p="actor-trader-blue-run-06.xnb" t="Include" />
+            <e p="actor-trader-blue-run-07.xnb" t="Include" />
+            <e p="actor-trader-green-death-00.xnb" t="Include" />
+            <e p="actor-trader-green-death-01.xnb" t="Include" />
+            <e p="actor-trader-green-death-02.xnb" t="Include" />
+            <e p="actor-trader-green-hurt-00.xnb" t="Include" />
+            <e p="actor-trader-green-hurt-01.xnb" t="Include" />
+            <e p="actor-trader-green-idle-00.xnb" t="Include" />
+            <e p="actor-trader-green-idle-01.xnb" t="Include" />
+            <e p="actor-trader-green-idle-02.xnb" t="Include" />
+            <e p="actor-trader-green-idle-03.xnb" t="Include" />
+            <e p="actor-trader-green-idle-04.xnb" t="Include" />
+            <e p="actor-trader-green-idle-05.xnb" t="Include" />
+            <e p="actor-trader-green-run-00.xnb" t="Include" />
+            <e p="actor-trader-green-run-01.xnb" t="Include" />
+            <e p="actor-trader-green-run-02.xnb" t="Include" />
+            <e p="actor-trader-green-run-03.xnb" t="Include" />
+            <e p="actor-trader-green-run-04.xnb" t="Include" />
+            <e p="actor-trader-green-run-05.xnb" t="Include" />
+            <e p="actor-trader-green-run-06.xnb" t="Include" />
+            <e p="actor-trader-green-run-07.xnb" t="Include" />
+            <e p="actor-trader-orange-death-00.xnb" t="Include" />
+            <e p="actor-trader-orange-death-01.xnb" t="Include" />
+            <e p="actor-trader-orange-death-02.xnb" t="Include" />
+            <e p="actor-trader-orange-hurt-00.xnb" t="Include" />
+            <e p="actor-trader-orange-hurt-01.xnb" t="Include" />
+            <e p="actor-trader-orange-idle-00.xnb" t="Include" />
+            <e p="actor-trader-orange-idle-01.xnb" t="Include" />
+            <e p="actor-trader-orange-idle-02.xnb" t="Include" />
+            <e p="actor-trader-orange-idle-03.xnb" t="Include" />
+            <e p="actor-trader-orange-idle-04.xnb" t="Include" />
+            <e p="actor-trader-orange-idle-05.xnb" t="Include" />
+            <e p="actor-trader-orange-run-00.xnb" t="Include" />
+            <e p="actor-trader-orange-run-01.xnb" t="Include" />
+            <e p="actor-trader-orange-run-02.xnb" t="Include" />
+            <e p="actor-trader-orange-run-03.xnb" t="Include" />
+            <e p="actor-trader-orange-run-04.xnb" t="Include" />
+            <e p="actor-trader-orange-run-05.xnb" t="Include" />
+            <e p="actor-trader-orange-run-06.xnb" t="Include" />
+            <e p="actor-trader-orange-run-07.xnb" t="Include" />
+            <e p="actor-turret-fire-projectile-00.xnb" t="Include" />
+            <e p="actor-turret-fire-projectile-01.xnb" t="Include" />
+            <e p="actor-turret-fire-projectile-02.xnb" t="Include" />
+            <e p="actor-turret-fire-projectile-03.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-00.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-01.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-02.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-03.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-04.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-05.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-06.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_1_directions-07.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_4_directions-00.xnb" t="Include" />
+            <e p="actor-turret-fire-turret_4_directions-01.xnb" t="Include" />
+            <e p="actor-turret-ice-projectile-00.xnb" t="Include" />
+            <e p="actor-turret-ice-projectile-01.xnb" t="Include" />
+            <e p="actor-turret-ice-projectile-02.xnb" t="Include" />
+            <e p="actor-turret-ice-projectile-03.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-00.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-01.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-02.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-03.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-04.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-05.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-06.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_1_directions-07.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_4_directions-00.xnb" t="Include" />
+            <e p="actor-turret-ice-turret_4_directions-01.xnb" t="Include" />
+            <e p="actor-turret-poison-projectile-00.xnb" t="Include" />
+            <e p="actor-turret-poison-projectile-01.xnb" t="Include" />
+            <e p="actor-turret-poison-projectile-02.xnb" t="Include" />
+            <e p="actor-turret-poison-projectile-03.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-00.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-01.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-02.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-03.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-04.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-05.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-06.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_1_directions-07.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_4_directions-00.xnb" t="Include" />
+            <e p="actor-turret-poison-turret_4_directions-01.xnb" t="Include" />
+            <e p="artwork_logo (logo).xnb" t="Include" />
+            <e p="artwork_logo (sticker).xnb" t="Include" />
+            <e p="biome-0-0 top 0.xnb" t="Include" />
+            <e p="biome-0-0 top 1.xnb" t="Include" />
+            <e p="biome-0-0 top 10.xnb" t="Include" />
+            <e p="biome-0-0 top 11.xnb" t="Include" />
+            <e p="biome-0-0 top 2.xnb" t="Include" />
+            <e p="biome-0-0 top 3.xnb" t="Include" />
+            <e p="biome-0-0 top 4.xnb" t="Include" />
+            <e p="biome-0-0 top 5.xnb" t="Include" />
+            <e p="biome-0-0 top 6.xnb" t="Include" />
+            <e p="biome-0-0 top 7.xnb" t="Include" />
+            <e p="biome-0-0 top 8.xnb" t="Include" />
+            <e p="biome-0-0 top 9.xnb" t="Include" />
+            <e p="biome-0-1 top 0.xnb" t="Include" />
+            <e p="biome-0-1 top 1.xnb" t="Include" />
+            <e p="biome-0-1 top 10.xnb" t="Include" />
+            <e p="biome-0-1 top 11.xnb" t="Include" />
+            <e p="biome-0-1 top 2.xnb" t="Include" />
+            <e p="biome-0-1 top 3.xnb" t="Include" />
+            <e p="biome-0-1 top 4.xnb" t="Include" />
+            <e p="biome-0-1 top 5.xnb" t="Include" />
+            <e p="biome-0-1 top 6.xnb" t="Include" />
+            <e p="biome-0-1 top 7.xnb" t="Include" />
+            <e p="biome-0-1 top 8.xnb" t="Include" />
+            <e p="biome-0-1 top 9.xnb" t="Include" />
+            <e p="biome-0-2 top 0.xnb" t="Include" />
+            <e p="biome-0-2 top 1.xnb" t="Include" />
+            <e p="biome-0-2 top 10.xnb" t="Include" />
+            <e p="biome-0-2 top 11.xnb" t="Include" />
+            <e p="biome-0-2 top 2.xnb" t="Include" />
+            <e p="biome-0-2 top 3.xnb" t="Include" />
+            <e p="biome-0-2 top 4.xnb" t="Include" />
+            <e p="biome-0-2 top 5.xnb" t="Include" />
+            <e p="biome-0-2 top 6.xnb" t="Include" />
+            <e p="biome-0-2 top 7.xnb" t="Include" />
+            <e p="biome-0-2 top 8.xnb" t="Include" />
+            <e p="biome-0-2 top 9.xnb" t="Include" />
+            <e p="biome-0-Slice.xnb" t="Include" />
+            <e p="biome-0-crack.xnb" t="Include" />
+            <e p="biome-0-floor A 01.xnb" t="Include" />
+            <e p="biome-0-floor A 02.xnb" t="Include" />
+            <e p="biome-0-floor A 03.xnb" t="Include" />
+            <e p="biome-0-floor A 04.xnb" t="Include" />
+            <e p="biome-0-floor A 05.xnb" t="Include" />
+            <e p="biome-0-floor A 06.xnb" t="Include" />
+            <e p="biome-0-floor A 07.xnb" t="Include" />
+            <e p="biome-0-floor A 08.xnb" t="Include" />
+            <e p="biome-0-floor A 09.xnb" t="Include" />
+            <e p="biome-0-floor A 10.xnb" t="Include" />
+            <e p="biome-0-floor A 11.xnb" t="Include" />
+            <e p="biome-0-floor A 12.xnb" t="Include" />
+            <e p="biome-0-floor A 13.xnb" t="Include" />
+            <e p="biome-0-floor A 14.xnb" t="Include" />
+            <e p="biome-0-floor A 15.xnb" t="Include" />
+            <e p="biome-0-floor A 16.xnb" t="Include" />
+            <e p="biome-0-floor B 01.xnb" t="Include" />
+            <e p="biome-0-floor B 02.xnb" t="Include" />
+            <e p="biome-0-floor B 03.xnb" t="Include" />
+            <e p="biome-0-floor B 04.xnb" t="Include" />
+            <e p="biome-0-floor B 05.xnb" t="Include" />
+            <e p="biome-0-floor B 06.xnb" t="Include" />
+            <e p="biome-0-floor B 07.xnb" t="Include" />
+            <e p="biome-0-floor B 08.xnb" t="Include" />
+            <e p="biome-0-floor B 09.xnb" t="Include" />
+            <e p="biome-0-floor B 10.xnb" t="Include" />
+            <e p="biome-0-floor B 11.xnb" t="Include" />
+            <e p="biome-0-floor B 12.xnb" t="Include" />
+            <e p="biome-0-floor B 13.xnb" t="Include" />
+            <e p="biome-0-floor B 14.xnb" t="Include" />
+            <e p="biome-0-floor B 15.xnb" t="Include" />
+            <e p="biome-0-floor B 16.xnb" t="Include" />
+            <e p="biome-0-floor C 01.xnb" t="Include" />
+            <e p="biome-0-floor C 02.xnb" t="Include" />
+            <e p="biome-0-floor C 03.xnb" t="Include" />
+            <e p="biome-0-floor C 04.xnb" t="Include" />
+            <e p="biome-0-floor C 05.xnb" t="Include" />
+            <e p="biome-0-floor C 06.xnb" t="Include" />
+            <e p="biome-0-floor C 07.xnb" t="Include" />
+            <e p="biome-0-floor C 08.xnb" t="Include" />
+            <e p="biome-0-floor C 09.xnb" t="Include" />
+            <e p="biome-0-floor C 10.xnb" t="Include" />
+            <e p="biome-0-floor C 11.xnb" t="Include" />
+            <e p="biome-0-floor C 12.xnb" t="Include" />
+            <e p="biome-0-floor C 13.xnb" t="Include" />
+            <e p="biome-0-floor C 14.xnb" t="Include" />
+            <e p="biome-0-floor C 15.xnb" t="Include" />
+            <e p="biome-0-floor C 16.xnb" t="Include" />
+            <e p="biome-0-floor D 01.xnb" t="Include" />
+            <e p="biome-0-floor D 02.xnb" t="Include" />
+            <e p="biome-0-floor D 03.xnb" t="Include" />
+            <e p="biome-0-floor D 04.xnb" t="Include" />
+            <e p="biome-0-floor D 05.xnb" t="Include" />
+            <e p="biome-0-floor D 06.xnb" t="Include" />
+            <e p="biome-0-floor D 07.xnb" t="Include" />
+            <e p="biome-0-floor D 08.xnb" t="Include" />
+            <e p="biome-0-floor D 09.xnb" t="Include" />
+            <e p="biome-0-floor D 10.xnb" t="Include" />
+            <e p="biome-0-floor D 11.xnb" t="Include" />
+            <e p="biome-0-floor D 12.xnb" t="Include" />
+            <e p="biome-0-floor D 13.xnb" t="Include" />
+            <e p="biome-0-floor D 14.xnb" t="Include" />
+            <e p="biome-0-floor D 15.xnb" t="Include" />
+            <e p="biome-0-floor D 16.xnb" t="Include" />
+            <e p="biome-0-platform A E.xnb" t="Include" />
+            <e p="biome-0-platform A ES.xnb" t="Include" />
+            <e p="biome-0-platform A ESW.xnb" t="Include" />
+            <e p="biome-0-platform A EW.xnb" t="Include" />
+            <e p="biome-0-platform A N.xnb" t="Include" />
+            <e p="biome-0-platform A NE.xnb" t="Include" />
+            <e p="biome-0-platform A NES.xnb" t="Include" />
+            <e p="biome-0-platform A NESW.xnb" t="Include" />
+            <e p="biome-0-platform A NEW.xnb" t="Include" />
+            <e p="biome-0-platform A NS.xnb" t="Include" />
+            <e p="biome-0-platform A NSW.xnb" t="Include" />
+            <e p="biome-0-platform A NW.xnb" t="Include" />
+            <e p="biome-0-platform A S.xnb" t="Include" />
+            <e p="biome-0-platform A SW.xnb" t="Include" />
+            <e p="biome-0-platform A W.xnb" t="Include" />
+            <e p="biome-0-platform A.xnb" t="Include" />
+            <e p="biome-0-platform B E.xnb" t="Include" />
+            <e p="biome-0-platform B ES.xnb" t="Include" />
+            <e p="biome-0-platform B ESW.xnb" t="Include" />
+            <e p="biome-0-platform B EW.xnb" t="Include" />
+            <e p="biome-0-platform B N.xnb" t="Include" />
+            <e p="biome-0-platform B NE.xnb" t="Include" />
+            <e p="biome-0-platform B NES.xnb" t="Include" />
+            <e p="biome-0-platform B NESW.xnb" t="Include" />
+            <e p="biome-0-platform B NEW.xnb" t="Include" />
+            <e p="biome-0-platform B NS.xnb" t="Include" />
+            <e p="biome-0-platform B NSW.xnb" t="Include" />
+            <e p="biome-0-platform B NW.xnb" t="Include" />
+            <e p="biome-0-platform B S.xnb" t="Include" />
+            <e p="biome-0-platform B SW.xnb" t="Include" />
+            <e p="biome-0-platform B W.xnb" t="Include" />
+            <e p="biome-0-platform B.xnb" t="Include" />
+            <e p="biome-0-side 0.xnb" t="Include" />
+            <e p="biome-0-side 1.xnb" t="Include" />
+            <e p="biome-0-side 2.xnb" t="Include" />
+            <e p="biome-0-top 0.xnb" t="Include" />
+            <e p="biome-0-top 1.xnb" t="Include" />
+            <e p="biome-0-top 10.xnb" t="Include" />
+            <e p="biome-0-top 11.xnb" t="Include" />
+            <e p="biome-0-top 2.xnb" t="Include" />
+            <e p="biome-0-top 3.xnb" t="Include" />
+            <e p="biome-0-top 4.xnb" t="Include" />
+            <e p="biome-0-top 5.xnb" t="Include" />
+            <e p="biome-0-top 6.xnb" t="Include" />
+            <e p="biome-0-top 7.xnb" t="Include" />
+            <e p="biome-0-top 8.xnb" t="Include" />
+            <e p="biome-0-top 9.xnb" t="Include" />
+            <e p="biome-0-wall A 01.xnb" t="Include" />
+            <e p="biome-0-wall A 02.xnb" t="Include" />
+            <e p="biome-0-wall A 03.xnb" t="Include" />
+            <e p="biome-0-wall A 04.xnb" t="Include" />
+            <e p="biome-0-wall B 01.xnb" t="Include" />
+            <e p="biome-0-wall B 02.xnb" t="Include" />
+            <e p="biome-0-wall B 03.xnb" t="Include" />
+            <e p="biome-0-wall B 04.xnb" t="Include" />
+            <e p="biome-0-wall C 01.xnb" t="Include" />
+            <e p="biome-0-wall C 02.xnb" t="Include" />
+            <e p="biome-0-wall C 03.xnb" t="Include" />
+            <e p="biome-0-wall C 04.xnb" t="Include" />
+            <e p="biome-0-wall pattern.xnb" t="Include" />
+            <e p="biome-1-Slice.xnb" t="Include" />
+            <e p="biome-1-crack.xnb" t="Include" />
+            <e p="biome-1-floor A 01.xnb" t="Include" />
+            <e p="biome-1-floor A 02.xnb" t="Include" />
+            <e p="biome-1-floor A 03.xnb" t="Include" />
+            <e p="biome-1-floor A 04.xnb" t="Include" />
+            <e p="biome-1-floor A 05.xnb" t="Include" />
+            <e p="biome-1-floor A 06.xnb" t="Include" />
+            <e p="biome-1-floor A 07.xnb" t="Include" />
+            <e p="biome-1-floor A 08.xnb" t="Include" />
+            <e p="biome-1-floor A 09.xnb" t="Include" />
+            <e p="biome-1-floor A 10.xnb" t="Include" />
+            <e p="biome-1-floor A 11.xnb" t="Include" />
+            <e p="biome-1-floor A 12.xnb" t="Include" />
+            <e p="biome-1-floor A 13.xnb" t="Include" />
+            <e p="biome-1-floor A 14.xnb" t="Include" />
+            <e p="biome-1-floor A 15.xnb" t="Include" />
+            <e p="biome-1-floor A 16.xnb" t="Include" />
+            <e p="biome-1-floor B 01.xnb" t="Include" />
+            <e p="biome-1-floor B 02.xnb" t="Include" />
+            <e p="biome-1-floor B 03.xnb" t="Include" />
+            <e p="biome-1-floor B 04.xnb" t="Include" />
+            <e p="biome-1-floor B 05.xnb" t="Include" />
+            <e p="biome-1-floor B 06.xnb" t="Include" />
+            <e p="biome-1-floor B 07.xnb" t="Include" />
+            <e p="biome-1-floor B 08.xnb" t="Include" />
+            <e p="biome-1-floor B 09.xnb" t="Include" />
+            <e p="biome-1-floor B 10.xnb" t="Include" />
+            <e p="biome-1-floor B 11.xnb" t="Include" />
+            <e p="biome-1-floor B 12.xnb" t="Include" />
+            <e p="biome-1-floor B 13.xnb" t="Include" />
+            <e p="biome-1-floor B 14.xnb" t="Include" />
+            <e p="biome-1-floor B 15.xnb" t="Include" />
+            <e p="biome-1-floor B 16.xnb" t="Include" />
+            <e p="biome-1-floor C 01.xnb" t="Include" />
+            <e p="biome-1-floor C 02.xnb" t="Include" />
+            <e p="biome-1-floor C 03.xnb" t="Include" />
+            <e p="biome-1-floor C 04.xnb" t="Include" />
+            <e p="biome-1-floor C 05.xnb" t="Include" />
+            <e p="biome-1-floor C 06.xnb" t="Include" />
+            <e p="biome-1-floor C 07.xnb" t="Include" />
+            <e p="biome-1-floor C 08.xnb" t="Include" />
+            <e p="biome-1-floor C 09.xnb" t="Include" />
+            <e p="biome-1-floor C 10.xnb" t="Include" />
+            <e p="biome-1-floor C 11.xnb" t="Include" />
+            <e p="biome-1-floor C 12.xnb" t="Include" />
+            <e p="biome-1-floor C 13.xnb" t="Include" />
+            <e p="biome-1-floor C 14.xnb" t="Include" />
+            <e p="biome-1-floor C 15.xnb" t="Include" />
+            <e p="biome-1-floor C 16.xnb" t="Include" />
+            <e p="biome-1-floor D 01.xnb" t="Include" />
+            <e p="biome-1-floor D 02.xnb" t="Include" />
+            <e p="biome-1-floor D 03.xnb" t="Include" />
+            <e p="biome-1-floor D 04.xnb" t="Include" />
+            <e p="biome-1-floor D 05.xnb" t="Include" />
+            <e p="biome-1-floor D 06.xnb" t="Include" />
+            <e p="biome-1-floor D 07.xnb" t="Include" />
+            <e p="biome-1-floor D 08.xnb" t="Include" />
+            <e p="biome-1-floor D 09.xnb" t="Include" />
+            <e p="biome-1-floor D 10.xnb" t="Include" />
+            <e p="biome-1-floor D 11.xnb" t="Include" />
+            <e p="biome-1-floor D 12.xnb" t="Include" />
+            <e p="biome-1-floor D 13.xnb" t="Include" />
+            <e p="biome-1-floor D 14.xnb" t="Include" />
+            <e p="biome-1-floor D 15.xnb" t="Include" />
+            <e p="biome-1-floor D 16.xnb" t="Include" />
+            <e p="biome-1-platform A E.xnb" t="Include" />
+            <e p="biome-1-platform A ES.xnb" t="Include" />
+            <e p="biome-1-platform A ESW.xnb" t="Include" />
+            <e p="biome-1-platform A EW.xnb" t="Include" />
+            <e p="biome-1-platform A N.xnb" t="Include" />
+            <e p="biome-1-platform A NE.xnb" t="Include" />
+            <e p="biome-1-platform A NES.xnb" t="Include" />
+            <e p="biome-1-platform A NESW.xnb" t="Include" />
+            <e p="biome-1-platform A NEW.xnb" t="Include" />
+            <e p="biome-1-platform A NS.xnb" t="Include" />
+            <e p="biome-1-platform A NSW.xnb" t="Include" />
+            <e p="biome-1-platform A NW.xnb" t="Include" />
+            <e p="biome-1-platform A S.xnb" t="Include" />
+            <e p="biome-1-platform A SW.xnb" t="Include" />
+            <e p="biome-1-platform A W.xnb" t="Include" />
+            <e p="biome-1-platform A.xnb" t="Include" />
+            <e p="biome-1-platform B E.xnb" t="Include" />
+            <e p="biome-1-platform B ES.xnb" t="Include" />
+            <e p="biome-1-platform B ESW.xnb" t="Include" />
+            <e p="biome-1-platform B EW.xnb" t="Include" />
+            <e p="biome-1-platform B N.xnb" t="Include" />
+            <e p="biome-1-platform B NE.xnb" t="Include" />
+            <e p="biome-1-platform B NES.xnb" t="Include" />
+            <e p="biome-1-platform B NESW.xnb" t="Include" />
+            <e p="biome-1-platform B NEW.xnb" t="Include" />
+            <e p="biome-1-platform B NS.xnb" t="Include" />
+            <e p="biome-1-platform B NSW.xnb" t="Include" />
+            <e p="biome-1-platform B NW.xnb" t="Include" />
+            <e p="biome-1-platform B S.xnb" t="Include" />
+            <e p="biome-1-platform B SW.xnb" t="Include" />
+            <e p="biome-1-platform B W.xnb" t="Include" />
+            <e p="biome-1-platform B.xnb" t="Include" />
+            <e p="biome-1-side 0.xnb" t="Include" />
+            <e p="biome-1-side 1.xnb" t="Include" />
+            <e p="biome-1-side 2.xnb" t="Include" />
+            <e p="biome-1-top 0.xnb" t="Include" />
+            <e p="biome-1-top 1.xnb" t="Include" />
+            <e p="biome-1-top 10.xnb" t="Include" />
+            <e p="biome-1-top 11.xnb" t="Include" />
+            <e p="biome-1-top 2.xnb" t="Include" />
+            <e p="biome-1-top 3.xnb" t="Include" />
+            <e p="biome-1-top 4.xnb" t="Include" />
+            <e p="biome-1-top 5.xnb" t="Include" />
+            <e p="biome-1-top 6.xnb" t="Include" />
+            <e p="biome-1-top 7.xnb" t="Include" />
+            <e p="biome-1-top 8.xnb" t="Include" />
+            <e p="biome-1-top 9.xnb" t="Include" />
+            <e p="biome-1-wall A 01.xnb" t="Include" />
+            <e p="biome-1-wall A 02.xnb" t="Include" />
+            <e p="biome-1-wall A 03.xnb" t="Include" />
+            <e p="biome-1-wall A 04.xnb" t="Include" />
+            <e p="biome-1-wall B 01.xnb" t="Include" />
+            <e p="biome-1-wall B 02.xnb" t="Include" />
+            <e p="biome-1-wall B 03.xnb" t="Include" />
+            <e p="biome-1-wall B 04.xnb" t="Include" />
+            <e p="biome-1-wall C 01.xnb" t="Include" />
+            <e p="biome-1-wall C 02.xnb" t="Include" />
+            <e p="biome-1-wall C 03.xnb" t="Include" />
+            <e p="biome-1-wall C 04.xnb" t="Include" />
+            <e p="biome-1-wall pattern.xnb" t="Include" />
+            <e p="biome-2-Slice.xnb" t="Include" />
+            <e p="biome-2-crack.xnb" t="Include" />
+            <e p="biome-2-floor A 01.xnb" t="Include" />
+            <e p="biome-2-floor A 02.xnb" t="Include" />
+            <e p="biome-2-floor A 03.xnb" t="Include" />
+            <e p="biome-2-floor A 04.xnb" t="Include" />
+            <e p="biome-2-floor A 05.xnb" t="Include" />
+            <e p="biome-2-floor A 06.xnb" t="Include" />
+            <e p="biome-2-floor A 07.xnb" t="Include" />
+            <e p="biome-2-floor A 08.xnb" t="Include" />
+            <e p="biome-2-floor A 09.xnb" t="Include" />
+            <e p="biome-2-floor A 10.xnb" t="Include" />
+            <e p="biome-2-floor A 11.xnb" t="Include" />
+            <e p="biome-2-floor A 12.xnb" t="Include" />
+            <e p="biome-2-floor A 13.xnb" t="Include" />
+            <e p="biome-2-floor A 14.xnb" t="Include" />
+            <e p="biome-2-floor A 15.xnb" t="Include" />
+            <e p="biome-2-floor A 16.xnb" t="Include" />
+            <e p="biome-2-floor B 01.xnb" t="Include" />
+            <e p="biome-2-floor B 02.xnb" t="Include" />
+            <e p="biome-2-floor B 03.xnb" t="Include" />
+            <e p="biome-2-floor B 04.xnb" t="Include" />
+            <e p="biome-2-floor B 05.xnb" t="Include" />
+            <e p="biome-2-floor B 06.xnb" t="Include" />
+            <e p="biome-2-floor B 07.xnb" t="Include" />
+            <e p="biome-2-floor B 08.xnb" t="Include" />
+            <e p="biome-2-floor B 09.xnb" t="Include" />
+            <e p="biome-2-floor B 10.xnb" t="Include" />
+            <e p="biome-2-floor B 11.xnb" t="Include" />
+            <e p="biome-2-floor B 12.xnb" t="Include" />
+            <e p="biome-2-floor B 13.xnb" t="Include" />
+            <e p="biome-2-floor B 14.xnb" t="Include" />
+            <e p="biome-2-floor B 15.xnb" t="Include" />
+            <e p="biome-2-floor B 16.xnb" t="Include" />
+            <e p="biome-2-floor C 01.xnb" t="Include" />
+            <e p="biome-2-floor C 02.xnb" t="Include" />
+            <e p="biome-2-floor C 03.xnb" t="Include" />
+            <e p="biome-2-floor C 04.xnb" t="Include" />
+            <e p="biome-2-floor C 05.xnb" t="Include" />
+            <e p="biome-2-floor C 06.xnb" t="Include" />
+            <e p="biome-2-floor C 07.xnb" t="Include" />
+            <e p="biome-2-floor C 08.xnb" t="Include" />
+            <e p="biome-2-floor C 09.xnb" t="Include" />
+            <e p="biome-2-floor C 10.xnb" t="Include" />
+            <e p="biome-2-floor C 11.xnb" t="Include" />
+            <e p="biome-2-floor C 12.xnb" t="Include" />
+            <e p="biome-2-floor C 13.xnb" t="Include" />
+            <e p="biome-2-floor C 14.xnb" t="Include" />
+            <e p="biome-2-floor C 15.xnb" t="Include" />
+            <e p="biome-2-floor C 16.xnb" t="Include" />
+            <e p="biome-2-floor D 01.xnb" t="Include" />
+            <e p="biome-2-floor D 02.xnb" t="Include" />
+            <e p="biome-2-floor D 03.xnb" t="Include" />
+            <e p="biome-2-floor D 04.xnb" t="Include" />
+            <e p="biome-2-floor D 05.xnb" t="Include" />
+            <e p="biome-2-floor D 06.xnb" t="Include" />
+            <e p="biome-2-floor D 07.xnb" t="Include" />
+            <e p="biome-2-floor D 08.xnb" t="Include" />
+            <e p="biome-2-floor D 09.xnb" t="Include" />
+            <e p="biome-2-floor D 10.xnb" t="Include" />
+            <e p="biome-2-floor D 11.xnb" t="Include" />
+            <e p="biome-2-floor D 12.xnb" t="Include" />
+            <e p="biome-2-floor D 13.xnb" t="Include" />
+            <e p="biome-2-floor D 14.xnb" t="Include" />
+            <e p="biome-2-floor D 15.xnb" t="Include" />
+            <e p="biome-2-floor D 16.xnb" t="Include" />
+            <e p="biome-2-platform A E.xnb" t="Include" />
+            <e p="biome-2-platform A ES.xnb" t="Include" />
+            <e p="biome-2-platform A ESW.xnb" t="Include" />
+            <e p="biome-2-platform A EW.xnb" t="Include" />
+            <e p="biome-2-platform A N.xnb" t="Include" />
+            <e p="biome-2-platform A NE.xnb" t="Include" />
+            <e p="biome-2-platform A NES.xnb" t="Include" />
+            <e p="biome-2-platform A NESW.xnb" t="Include" />
+            <e p="biome-2-platform A NEW.xnb" t="Include" />
+            <e p="biome-2-platform A NS.xnb" t="Include" />
+            <e p="biome-2-platform A NSW.xnb" t="Include" />
+            <e p="biome-2-platform A NW.xnb" t="Include" />
+            <e p="biome-2-platform A S.xnb" t="Include" />
+            <e p="biome-2-platform A SW.xnb" t="Include" />
+            <e p="biome-2-platform A W.xnb" t="Include" />
+            <e p="biome-2-platform A.xnb" t="Include" />
+            <e p="biome-2-platform B E.xnb" t="Include" />
+            <e p="biome-2-platform B ES.xnb" t="Include" />
+            <e p="biome-2-platform B ESW.xnb" t="Include" />
+            <e p="biome-2-platform B EW.xnb" t="Include" />
+            <e p="biome-2-platform B N.xnb" t="Include" />
+            <e p="biome-2-platform B NE.xnb" t="Include" />
+            <e p="biome-2-platform B NES.xnb" t="Include" />
+            <e p="biome-2-platform B NESW.xnb" t="Include" />
+            <e p="biome-2-platform B NEW.xnb" t="Include" />
+            <e p="biome-2-platform B NS.xnb" t="Include" />
+            <e p="biome-2-platform B NSW.xnb" t="Include" />
+            <e p="biome-2-platform B NW.xnb" t="Include" />
+            <e p="biome-2-platform B S.xnb" t="Include" />
+            <e p="biome-2-platform B SW.xnb" t="Include" />
+            <e p="biome-2-platform B W.xnb" t="Include" />
+            <e p="biome-2-platform B.xnb" t="Include" />
+            <e p="biome-2-side 0.xnb" t="Include" />
+            <e p="biome-2-side 1.xnb" t="Include" />
+            <e p="biome-2-side 2.xnb" t="Include" />
+            <e p="biome-2-top 0.xnb" t="Include" />
+            <e p="biome-2-top 1.xnb" t="Include" />
+            <e p="biome-2-top 10.xnb" t="Include" />
+            <e p="biome-2-top 11.xnb" t="Include" />
+            <e p="biome-2-top 2.xnb" t="Include" />
+            <e p="biome-2-top 3.xnb" t="Include" />
+            <e p="biome-2-top 4.xnb" t="Include" />
+            <e p="biome-2-top 5.xnb" t="Include" />
+            <e p="biome-2-top 6.xnb" t="Include" />
+            <e p="biome-2-top 7.xnb" t="Include" />
+            <e p="biome-2-top 8.xnb" t="Include" />
+            <e p="biome-2-top 9.xnb" t="Include" />
+            <e p="biome-2-wall A 01.xnb" t="Include" />
+            <e p="biome-2-wall A 02.xnb" t="Include" />
+            <e p="biome-2-wall A 03.xnb" t="Include" />
+            <e p="biome-2-wall A 04.xnb" t="Include" />
+            <e p="biome-2-wall B 01.xnb" t="Include" />
+            <e p="biome-2-wall B 02.xnb" t="Include" />
+            <e p="biome-2-wall B 03.xnb" t="Include" />
+            <e p="biome-2-wall B 04.xnb" t="Include" />
+            <e p="biome-2-wall C 01.xnb" t="Include" />
+            <e p="biome-2-wall C 02.xnb" t="Include" />
+            <e p="biome-2-wall C 03.xnb" t="Include" />
+            <e p="biome-2-wall C 04.xnb" t="Include" />
+            <e p="biome-2-wall pattern.xnb" t="Include" />
+            <e p="biome-3-Slice.xnb" t="Include" />
+            <e p="biome-3-crack.xnb" t="Include" />
+            <e p="biome-3-floor A 01.xnb" t="Include" />
+            <e p="biome-3-floor A 02.xnb" t="Include" />
+            <e p="biome-3-floor A 03.xnb" t="Include" />
+            <e p="biome-3-floor A 04.xnb" t="Include" />
+            <e p="biome-3-floor A 05.xnb" t="Include" />
+            <e p="biome-3-floor A 06.xnb" t="Include" />
+            <e p="biome-3-floor A 07.xnb" t="Include" />
+            <e p="biome-3-floor A 08.xnb" t="Include" />
+            <e p="biome-3-floor A 09.xnb" t="Include" />
+            <e p="biome-3-floor A 10.xnb" t="Include" />
+            <e p="biome-3-floor A 11.xnb" t="Include" />
+            <e p="biome-3-floor A 12.xnb" t="Include" />
+            <e p="biome-3-floor A 13.xnb" t="Include" />
+            <e p="biome-3-floor A 14.xnb" t="Include" />
+            <e p="biome-3-floor A 15.xnb" t="Include" />
+            <e p="biome-3-floor A 16.xnb" t="Include" />
+            <e p="biome-3-floor B 01.xnb" t="Include" />
+            <e p="biome-3-floor B 02.xnb" t="Include" />
+            <e p="biome-3-floor B 03.xnb" t="Include" />
+            <e p="biome-3-floor B 04.xnb" t="Include" />
+            <e p="biome-3-floor B 05.xnb" t="Include" />
+            <e p="biome-3-floor B 06.xnb" t="Include" />
+            <e p="biome-3-floor B 07.xnb" t="Include" />
+            <e p="biome-3-floor B 08.xnb" t="Include" />
+            <e p="biome-3-floor B 09.xnb" t="Include" />
+            <e p="biome-3-floor B 10.xnb" t="Include" />
+            <e p="biome-3-floor B 11.xnb" t="Include" />
+            <e p="biome-3-floor B 12.xnb" t="Include" />
+            <e p="biome-3-floor B 13.xnb" t="Include" />
+            <e p="biome-3-floor B 14.xnb" t="Include" />
+            <e p="biome-3-floor B 15.xnb" t="Include" />
+            <e p="biome-3-floor B 16.xnb" t="Include" />
+            <e p="biome-3-floor C 01.xnb" t="Include" />
+            <e p="biome-3-floor C 02.xnb" t="Include" />
+            <e p="biome-3-floor C 03.xnb" t="Include" />
+            <e p="biome-3-floor C 04.xnb" t="Include" />
+            <e p="biome-3-floor C 05.xnb" t="Include" />
+            <e p="biome-3-floor C 06.xnb" t="Include" />
+            <e p="biome-3-floor C 07.xnb" t="Include" />
+            <e p="biome-3-floor C 08.xnb" t="Include" />
+            <e p="biome-3-floor C 09.xnb" t="Include" />
+            <e p="biome-3-floor C 10.xnb" t="Include" />
+            <e p="biome-3-floor C 11.xnb" t="Include" />
+            <e p="biome-3-floor C 12.xnb" t="Include" />
+            <e p="biome-3-floor C 13.xnb" t="Include" />
+            <e p="biome-3-floor C 14.xnb" t="Include" />
+            <e p="biome-3-floor C 15.xnb" t="Include" />
+            <e p="biome-3-floor C 16.xnb" t="Include" />
+            <e p="biome-3-floor D 01.xnb" t="Include" />
+            <e p="biome-3-floor D 02.xnb" t="Include" />
+            <e p="biome-3-floor D 03.xnb" t="Include" />
+            <e p="biome-3-floor D 04.xnb" t="Include" />
+            <e p="biome-3-floor D 05.xnb" t="Include" />
+            <e p="biome-3-floor D 06.xnb" t="Include" />
+            <e p="biome-3-floor D 07.xnb" t="Include" />
+            <e p="biome-3-floor D 08.xnb" t="Include" />
+            <e p="biome-3-floor D 09.xnb" t="Include" />
+            <e p="biome-3-floor D 10.xnb" t="Include" />
+            <e p="biome-3-floor D 11.xnb" t="Include" />
+            <e p="biome-3-floor D 12.xnb" t="Include" />
+            <e p="biome-3-floor D 13.xnb" t="Include" />
+            <e p="biome-3-floor D 14.xnb" t="Include" />
+            <e p="biome-3-floor D 15.xnb" t="Include" />
+            <e p="biome-3-floor D 16.xnb" t="Include" />
+            <e p="biome-3-platform A E.xnb" t="Include" />
+            <e p="biome-3-platform A ES.xnb" t="Include" />
+            <e p="biome-3-platform A ESW.xnb" t="Include" />
+            <e p="biome-3-platform A EW.xnb" t="Include" />
+            <e p="biome-3-platform A N.xnb" t="Include" />
+            <e p="biome-3-platform A NE.xnb" t="Include" />
+            <e p="biome-3-platform A NES.xnb" t="Include" />
+            <e p="biome-3-platform A NESW.xnb" t="Include" />
+            <e p="biome-3-platform A NEW.xnb" t="Include" />
+            <e p="biome-3-platform A NS.xnb" t="Include" />
+            <e p="biome-3-platform A NSW.xnb" t="Include" />
+            <e p="biome-3-platform A NW.xnb" t="Include" />
+            <e p="biome-3-platform A S.xnb" t="Include" />
+            <e p="biome-3-platform A SW.xnb" t="Include" />
+            <e p="biome-3-platform A W.xnb" t="Include" />
+            <e p="biome-3-platform A.xnb" t="Include" />
+            <e p="biome-3-platform B E.xnb" t="Include" />
+            <e p="biome-3-platform B ES.xnb" t="Include" />
+            <e p="biome-3-platform B ESW.xnb" t="Include" />
+            <e p="biome-3-platform B EW.xnb" t="Include" />
+            <e p="biome-3-platform B N.xnb" t="Include" />
+            <e p="biome-3-platform B NE.xnb" t="Include" />
+            <e p="biome-3-platform B NES.xnb" t="Include" />
+            <e p="biome-3-platform B NESW.xnb" t="Include" />
+            <e p="biome-3-platform B NEW.xnb" t="Include" />
+            <e p="biome-3-platform B NS.xnb" t="Include" />
+            <e p="biome-3-platform B NSW.xnb" t="Include" />
+            <e p="biome-3-platform B NW.xnb" t="Include" />
+            <e p="biome-3-platform B S.xnb" t="Include" />
+            <e p="biome-3-platform B SW.xnb" t="Include" />
+            <e p="biome-3-platform B W.xnb" t="Include" />
+            <e p="biome-3-platform B.xnb" t="Include" />
+            <e p="biome-3-side 0.xnb" t="Include" />
+            <e p="biome-3-side 1.xnb" t="Include" />
+            <e p="biome-3-side 2.xnb" t="Include" />
+            <e p="biome-3-top 0.xnb" t="Include" />
+            <e p="biome-3-top 1.xnb" t="Include" />
+            <e p="biome-3-top 10.xnb" t="Include" />
+            <e p="biome-3-top 11.xnb" t="Include" />
+            <e p="biome-3-top 2.xnb" t="Include" />
+            <e p="biome-3-top 3.xnb" t="Include" />
+            <e p="biome-3-top 4.xnb" t="Include" />
+            <e p="biome-3-top 5.xnb" t="Include" />
+            <e p="biome-3-top 6.xnb" t="Include" />
+            <e p="biome-3-top 7.xnb" t="Include" />
+            <e p="biome-3-top 8.xnb" t="Include" />
+            <e p="biome-3-top 9.xnb" t="Include" />
+            <e p="biome-3-wall A 01.xnb" t="Include" />
+            <e p="biome-3-wall A 02.xnb" t="Include" />
+            <e p="biome-3-wall A 03.xnb" t="Include" />
+            <e p="biome-3-wall A 04.xnb" t="Include" />
+            <e p="biome-3-wall B 01.xnb" t="Include" />
+            <e p="biome-3-wall B 02.xnb" t="Include" />
+            <e p="biome-3-wall B 03.xnb" t="Include" />
+            <e p="biome-3-wall B 04.xnb" t="Include" />
+            <e p="biome-3-wall C 01.xnb" t="Include" />
+            <e p="biome-3-wall C 02.xnb" t="Include" />
+            <e p="biome-3-wall C 03.xnb" t="Include" />
+            <e p="biome-3-wall C 04.xnb" t="Include" />
+            <e p="biome-3-wall pattern.xnb" t="Include" />
+            <e p="biome-4-Slice.xnb" t="Include" />
+            <e p="biome-4-crack.xnb" t="Include" />
+            <e p="biome-4-floor A 01.xnb" t="Include" />
+            <e p="biome-4-floor A 02.xnb" t="Include" />
+            <e p="biome-4-floor A 03.xnb" t="Include" />
+            <e p="biome-4-floor A 04.xnb" t="Include" />
+            <e p="biome-4-floor A 05.xnb" t="Include" />
+            <e p="biome-4-floor A 06.xnb" t="Include" />
+            <e p="biome-4-floor A 07.xnb" t="Include" />
+            <e p="biome-4-floor A 08.xnb" t="Include" />
+            <e p="biome-4-floor A 09.xnb" t="Include" />
+            <e p="biome-4-floor A 10.xnb" t="Include" />
+            <e p="biome-4-floor A 11.xnb" t="Include" />
+            <e p="biome-4-floor A 12.xnb" t="Include" />
+            <e p="biome-4-floor A 13.xnb" t="Include" />
+            <e p="biome-4-floor A 14.xnb" t="Include" />
+            <e p="biome-4-floor A 15.xnb" t="Include" />
+            <e p="biome-4-floor A 16.xnb" t="Include" />
+            <e p="biome-4-floor B 01.xnb" t="Include" />
+            <e p="biome-4-floor B 02.xnb" t="Include" />
+            <e p="biome-4-floor B 03.xnb" t="Include" />
+            <e p="biome-4-floor B 04.xnb" t="Include" />
+            <e p="biome-4-floor B 05.xnb" t="Include" />
+            <e p="biome-4-floor B 06.xnb" t="Include" />
+            <e p="biome-4-floor B 07.xnb" t="Include" />
+            <e p="biome-4-floor B 08.xnb" t="Include" />
+            <e p="biome-4-floor B 09.xnb" t="Include" />
+            <e p="biome-4-floor B 10.xnb" t="Include" />
+            <e p="biome-4-floor B 11.xnb" t="Include" />
+            <e p="biome-4-floor B 12.xnb" t="Include" />
+            <e p="biome-4-floor B 13.xnb" t="Include" />
+            <e p="biome-4-floor B 14.xnb" t="Include" />
+            <e p="biome-4-floor B 15.xnb" t="Include" />
+            <e p="biome-4-floor B 16.xnb" t="Include" />
+            <e p="biome-4-floor C 01.xnb" t="Include" />
+            <e p="biome-4-floor C 02.xnb" t="Include" />
+            <e p="biome-4-floor C 03.xnb" t="Include" />
+            <e p="biome-4-floor C 04.xnb" t="Include" />
+            <e p="biome-4-floor C 05.xnb" t="Include" />
+            <e p="biome-4-floor C 06.xnb" t="Include" />
+            <e p="biome-4-floor C 07.xnb" t="Include" />
+            <e p="biome-4-floor C 08.xnb" t="Include" />
+            <e p="biome-4-floor C 09.xnb" t="Include" />
+            <e p="biome-4-floor C 10.xnb" t="Include" />
+            <e p="biome-4-floor C 11.xnb" t="Include" />
+            <e p="biome-4-floor C 12.xnb" t="Include" />
+            <e p="biome-4-floor C 13.xnb" t="Include" />
+            <e p="biome-4-floor C 14.xnb" t="Include" />
+            <e p="biome-4-floor C 15.xnb" t="Include" />
+            <e p="biome-4-floor C 16.xnb" t="Include" />
+            <e p="biome-4-floor D 01.xnb" t="Include" />
+            <e p="biome-4-floor D 02.xnb" t="Include" />
+            <e p="biome-4-floor D 03.xnb" t="Include" />
+            <e p="biome-4-floor D 04.xnb" t="Include" />
+            <e p="biome-4-floor D 05.xnb" t="Include" />
+            <e p="biome-4-floor D 06.xnb" t="Include" />
+            <e p="biome-4-floor D 07.xnb" t="Include" />
+            <e p="biome-4-floor D 08.xnb" t="Include" />
+            <e p="biome-4-floor D 09.xnb" t="Include" />
+            <e p="biome-4-floor D 10.xnb" t="Include" />
+            <e p="biome-4-floor D 11.xnb" t="Include" />
+            <e p="biome-4-floor D 12.xnb" t="Include" />
+            <e p="biome-4-floor D 13.xnb" t="Include" />
+            <e p="biome-4-floor D 14.xnb" t="Include" />
+            <e p="biome-4-floor D 15.xnb" t="Include" />
+            <e p="biome-4-floor D 16.xnb" t="Include" />
+            <e p="biome-4-platform A E.xnb" t="Include" />
+            <e p="biome-4-platform A ES.xnb" t="Include" />
+            <e p="biome-4-platform A ESW.xnb" t="Include" />
+            <e p="biome-4-platform A EW.xnb" t="Include" />
+            <e p="biome-4-platform A N.xnb" t="Include" />
+            <e p="biome-4-platform A NE.xnb" t="Include" />
+            <e p="biome-4-platform A NES.xnb" t="Include" />
+            <e p="biome-4-platform A NESW.xnb" t="Include" />
+            <e p="biome-4-platform A NEW.xnb" t="Include" />
+            <e p="biome-4-platform A NS.xnb" t="Include" />
+            <e p="biome-4-platform A NSW.xnb" t="Include" />
+            <e p="biome-4-platform A NW.xnb" t="Include" />
+            <e p="biome-4-platform A S.xnb" t="Include" />
+            <e p="biome-4-platform A SW.xnb" t="Include" />
+            <e p="biome-4-platform A W.xnb" t="Include" />
+            <e p="biome-4-platform A.xnb" t="Include" />
+            <e p="biome-4-platform B E.xnb" t="Include" />
+            <e p="biome-4-platform B ES.xnb" t="Include" />
+            <e p="biome-4-platform B ESW.xnb" t="Include" />
+            <e p="biome-4-platform B EW.xnb" t="Include" />
+            <e p="biome-4-platform B N.xnb" t="Include" />
+            <e p="biome-4-platform B NE.xnb" t="Include" />
+            <e p="biome-4-platform B NES.xnb" t="Include" />
+            <e p="biome-4-platform B NESW.xnb" t="Include" />
+            <e p="biome-4-platform B NEW.xnb" t="Include" />
+            <e p="biome-4-platform B NS.xnb" t="Include" />
+            <e p="biome-4-platform B NSW.xnb" t="Include" />
+            <e p="biome-4-platform B NW.xnb" t="Include" />
+            <e p="biome-4-platform B S.xnb" t="Include" />
+            <e p="biome-4-platform B SW.xnb" t="Include" />
+            <e p="biome-4-platform B W.xnb" t="Include" />
+            <e p="biome-4-platform B.xnb" t="Include" />
+            <e p="biome-4-side 0.xnb" t="Include" />
+            <e p="biome-4-side 1.xnb" t="Include" />
+            <e p="biome-4-side 2.xnb" t="Include" />
+            <e p="biome-4-top 0.xnb" t="Include" />
+            <e p="biome-4-top 1.xnb" t="Include" />
+            <e p="biome-4-top 10.xnb" t="Include" />
+            <e p="biome-4-top 11.xnb" t="Include" />
+            <e p="biome-4-top 2.xnb" t="Include" />
+            <e p="biome-4-top 3.xnb" t="Include" />
+            <e p="biome-4-top 4.xnb" t="Include" />
+            <e p="biome-4-top 5.xnb" t="Include" />
+            <e p="biome-4-top 6.xnb" t="Include" />
+            <e p="biome-4-top 7.xnb" t="Include" />
+            <e p="biome-4-top 8.xnb" t="Include" />
+            <e p="biome-4-top 9.xnb" t="Include" />
+            <e p="biome-4-wall A 01.xnb" t="Include" />
+            <e p="biome-4-wall A 02.xnb" t="Include" />
+            <e p="biome-4-wall A 03.xnb" t="Include" />
+            <e p="biome-4-wall A 04.xnb" t="Include" />
+            <e p="biome-4-wall B 01.xnb" t="Include" />
+            <e p="biome-4-wall B 02.xnb" t="Include" />
+            <e p="biome-4-wall B 03.xnb" t="Include" />
+            <e p="biome-4-wall B 04.xnb" t="Include" />
+            <e p="biome-4-wall C 01.xnb" t="Include" />
+            <e p="biome-4-wall C 02.xnb" t="Include" />
+            <e p="biome-4-wall C 03.xnb" t="Include" />
+            <e p="biome-4-wall C 04.xnb" t="Include" />
+            <e p="biome-4-wall pattern.xnb" t="Include" />
+            <e p="biome-5-Slice.xnb" t="Include" />
+            <e p="biome-5-crack.xnb" t="Include" />
+            <e p="biome-5-floor A 01.xnb" t="Include" />
+            <e p="biome-5-floor A 02.xnb" t="Include" />
+            <e p="biome-5-floor A 03.xnb" t="Include" />
+            <e p="biome-5-floor A 04.xnb" t="Include" />
+            <e p="biome-5-floor A 05.xnb" t="Include" />
+            <e p="biome-5-floor A 06.xnb" t="Include" />
+            <e p="biome-5-floor A 07.xnb" t="Include" />
+            <e p="biome-5-floor A 08.xnb" t="Include" />
+            <e p="biome-5-floor A 09.xnb" t="Include" />
+            <e p="biome-5-floor A 10.xnb" t="Include" />
+            <e p="biome-5-floor A 11.xnb" t="Include" />
+            <e p="biome-5-floor A 12.xnb" t="Include" />
+            <e p="biome-5-floor A 13.xnb" t="Include" />
+            <e p="biome-5-floor A 14.xnb" t="Include" />
+            <e p="biome-5-floor A 15.xnb" t="Include" />
+            <e p="biome-5-floor A 16.xnb" t="Include" />
+            <e p="biome-5-floor B 01.xnb" t="Include" />
+            <e p="biome-5-floor B 02.xnb" t="Include" />
+            <e p="biome-5-floor B 03.xnb" t="Include" />
+            <e p="biome-5-floor B 04.xnb" t="Include" />
+            <e p="biome-5-floor B 05.xnb" t="Include" />
+            <e p="biome-5-floor B 06.xnb" t="Include" />
+            <e p="biome-5-floor B 07.xnb" t="Include" />
+            <e p="biome-5-floor B 08.xnb" t="Include" />
+            <e p="biome-5-floor B 09.xnb" t="Include" />
+            <e p="biome-5-floor B 10.xnb" t="Include" />
+            <e p="biome-5-floor B 11.xnb" t="Include" />
+            <e p="biome-5-floor B 12.xnb" t="Include" />
+            <e p="biome-5-floor B 13.xnb" t="Include" />
+            <e p="biome-5-floor B 14.xnb" t="Include" />
+            <e p="biome-5-floor B 15.xnb" t="Include" />
+            <e p="biome-5-floor B 16.xnb" t="Include" />
+            <e p="biome-5-floor C 01.xnb" t="Include" />
+            <e p="biome-5-floor C 02.xnb" t="Include" />
+            <e p="biome-5-floor C 03.xnb" t="Include" />
+            <e p="biome-5-floor C 04.xnb" t="Include" />
+            <e p="biome-5-floor C 05.xnb" t="Include" />
+            <e p="biome-5-floor C 06.xnb" t="Include" />
+            <e p="biome-5-floor C 07.xnb" t="Include" />
+            <e p="biome-5-floor C 08.xnb" t="Include" />
+            <e p="biome-5-floor C 09.xnb" t="Include" />
+            <e p="biome-5-floor C 10.xnb" t="Include" />
+            <e p="biome-5-floor C 11.xnb" t="Include" />
+            <e p="biome-5-floor C 12.xnb" t="Include" />
+            <e p="biome-5-floor C 13.xnb" t="Include" />
+            <e p="biome-5-floor C 14.xnb" t="Include" />
+            <e p="biome-5-floor C 15.xnb" t="Include" />
+            <e p="biome-5-floor C 16.xnb" t="Include" />
+            <e p="biome-5-floor D 01.xnb" t="Include" />
+            <e p="biome-5-floor D 02.xnb" t="Include" />
+            <e p="biome-5-floor D 03.xnb" t="Include" />
+            <e p="biome-5-floor D 04.xnb" t="Include" />
+            <e p="biome-5-floor D 05.xnb" t="Include" />
+            <e p="biome-5-floor D 06.xnb" t="Include" />
+            <e p="biome-5-floor D 07.xnb" t="Include" />
+            <e p="biome-5-floor D 08.xnb" t="Include" />
+            <e p="biome-5-floor D 09.xnb" t="Include" />
+            <e p="biome-5-floor D 10.xnb" t="Include" />
+            <e p="biome-5-floor D 11.xnb" t="Include" />
+            <e p="biome-5-floor D 12.xnb" t="Include" />
+            <e p="biome-5-floor D 13.xnb" t="Include" />
+            <e p="biome-5-floor D 14.xnb" t="Include" />
+            <e p="biome-5-floor D 15.xnb" t="Include" />
+            <e p="biome-5-floor D 16.xnb" t="Include" />
+            <e p="biome-5-platform A E.xnb" t="Include" />
+            <e p="biome-5-platform A ES.xnb" t="Include" />
+            <e p="biome-5-platform A ESW.xnb" t="Include" />
+            <e p="biome-5-platform A EW.xnb" t="Include" />
+            <e p="biome-5-platform A N.xnb" t="Include" />
+            <e p="biome-5-platform A NE.xnb" t="Include" />
+            <e p="biome-5-platform A NES.xnb" t="Include" />
+            <e p="biome-5-platform A NESW.xnb" t="Include" />
+            <e p="biome-5-platform A NEW.xnb" t="Include" />
+            <e p="biome-5-platform A NS.xnb" t="Include" />
+            <e p="biome-5-platform A NSW.xnb" t="Include" />
+            <e p="biome-5-platform A NW.xnb" t="Include" />
+            <e p="biome-5-platform A S.xnb" t="Include" />
+            <e p="biome-5-platform A SW.xnb" t="Include" />
+            <e p="biome-5-platform A W.xnb" t="Include" />
+            <e p="biome-5-platform A.xnb" t="Include" />
+            <e p="biome-5-platform B E.xnb" t="Include" />
+            <e p="biome-5-platform B ES.xnb" t="Include" />
+            <e p="biome-5-platform B ESW.xnb" t="Include" />
+            <e p="biome-5-platform B EW.xnb" t="Include" />
+            <e p="biome-5-platform B N.xnb" t="Include" />
+            <e p="biome-5-platform B NE.xnb" t="Include" />
+            <e p="biome-5-platform B NES.xnb" t="Include" />
+            <e p="biome-5-platform B NESW.xnb" t="Include" />
+            <e p="biome-5-platform B NEW.xnb" t="Include" />
+            <e p="biome-5-platform B NS.xnb" t="Include" />
+            <e p="biome-5-platform B NSW.xnb" t="Include" />
+            <e p="biome-5-platform B NW.xnb" t="Include" />
+            <e p="biome-5-platform B S.xnb" t="Include" />
+            <e p="biome-5-platform B SW.xnb" t="Include" />
+            <e p="biome-5-platform B W.xnb" t="Include" />
+            <e p="biome-5-platform B.xnb" t="Include" />
+            <e p="biome-5-side 0.xnb" t="Include" />
+            <e p="biome-5-side 1.xnb" t="Include" />
+            <e p="biome-5-side 2.xnb" t="Include" />
+            <e p="biome-5-top 0.xnb" t="Include" />
+            <e p="biome-5-top 1.xnb" t="Include" />
+            <e p="biome-5-top 10.xnb" t="Include" />
+            <e p="biome-5-top 11.xnb" t="Include" />
+            <e p="biome-5-top 2.xnb" t="Include" />
+            <e p="biome-5-top 3.xnb" t="Include" />
+            <e p="biome-5-top 4.xnb" t="Include" />
+            <e p="biome-5-top 5.xnb" t="Include" />
+            <e p="biome-5-top 6.xnb" t="Include" />
+            <e p="biome-5-top 7.xnb" t="Include" />
+            <e p="biome-5-top 8.xnb" t="Include" />
+            <e p="biome-5-top 9.xnb" t="Include" />
+            <e p="biome-5-wall A 01.xnb" t="Include" />
+            <e p="biome-5-wall A 02.xnb" t="Include" />
+            <e p="biome-5-wall A 03.xnb" t="Include" />
+            <e p="biome-5-wall A 04.xnb" t="Include" />
+            <e p="biome-5-wall B 01.xnb" t="Include" />
+            <e p="biome-5-wall B 02.xnb" t="Include" />
+            <e p="biome-5-wall B 03.xnb" t="Include" />
+            <e p="biome-5-wall B 04.xnb" t="Include" />
+            <e p="biome-5-wall C 01.xnb" t="Include" />
+            <e p="biome-5-wall C 02.xnb" t="Include" />
+            <e p="biome-5-wall C 03.xnb" t="Include" />
+            <e p="biome-5-wall C 04.xnb" t="Include" />
+            <e p="biome-5-wall pattern.xnb" t="Include" />
+            <e p="biome-6-Slice.xnb" t="Include" />
+            <e p="biome-6-crack.xnb" t="Include" />
+            <e p="biome-6-floor A 01.xnb" t="Include" />
+            <e p="biome-6-floor A 02.xnb" t="Include" />
+            <e p="biome-6-floor A 03.xnb" t="Include" />
+            <e p="biome-6-floor A 04.xnb" t="Include" />
+            <e p="biome-6-floor A 05.xnb" t="Include" />
+            <e p="biome-6-floor A 06.xnb" t="Include" />
+            <e p="biome-6-floor A 07.xnb" t="Include" />
+            <e p="biome-6-floor A 08.xnb" t="Include" />
+            <e p="biome-6-floor A 09.xnb" t="Include" />
+            <e p="biome-6-floor A 10.xnb" t="Include" />
+            <e p="biome-6-floor A 11.xnb" t="Include" />
+            <e p="biome-6-floor A 12.xnb" t="Include" />
+            <e p="biome-6-floor A 13.xnb" t="Include" />
+            <e p="biome-6-floor A 14.xnb" t="Include" />
+            <e p="biome-6-floor A 15.xnb" t="Include" />
+            <e p="biome-6-floor A 16.xnb" t="Include" />
+            <e p="biome-6-floor B 01.xnb" t="Include" />
+            <e p="biome-6-floor B 02.xnb" t="Include" />
+            <e p="biome-6-floor B 03.xnb" t="Include" />
+            <e p="biome-6-floor B 04.xnb" t="Include" />
+            <e p="biome-6-floor B 05.xnb" t="Include" />
+            <e p="biome-6-floor B 06.xnb" t="Include" />
+            <e p="biome-6-floor B 07.xnb" t="Include" />
+            <e p="biome-6-floor B 08.xnb" t="Include" />
+            <e p="biome-6-floor B 09.xnb" t="Include" />
+            <e p="biome-6-floor B 10.xnb" t="Include" />
+            <e p="biome-6-floor B 11.xnb" t="Include" />
+            <e p="biome-6-floor B 12.xnb" t="Include" />
+            <e p="biome-6-floor B 13.xnb" t="Include" />
+            <e p="biome-6-floor B 14.xnb" t="Include" />
+            <e p="biome-6-floor B 15.xnb" t="Include" />
+            <e p="biome-6-floor B 16.xnb" t="Include" />
+            <e p="biome-6-floor C 01.xnb" t="Include" />
+            <e p="biome-6-floor C 02.xnb" t="Include" />
+            <e p="biome-6-floor C 03.xnb" t="Include" />
+            <e p="biome-6-floor C 04.xnb" t="Include" />
+            <e p="biome-6-floor C 05.xnb" t="Include" />
+            <e p="biome-6-floor C 06.xnb" t="Include" />
+            <e p="biome-6-floor C 07.xnb" t="Include" />
+            <e p="biome-6-floor C 08.xnb" t="Include" />
+            <e p="biome-6-floor C 09.xnb" t="Include" />
+            <e p="biome-6-floor C 10.xnb" t="Include" />
+            <e p="biome-6-floor C 11.xnb" t="Include" />
+            <e p="biome-6-floor C 12.xnb" t="Include" />
+            <e p="biome-6-floor C 13.xnb" t="Include" />
+            <e p="biome-6-floor C 14.xnb" t="Include" />
+            <e p="biome-6-floor C 15.xnb" t="Include" />
+            <e p="biome-6-floor C 16.xnb" t="Include" />
+            <e p="biome-6-floor D 01.xnb" t="Include" />
+            <e p="biome-6-floor D 02.xnb" t="Include" />
+            <e p="biome-6-floor D 03.xnb" t="Include" />
+            <e p="biome-6-floor D 04.xnb" t="Include" />
+            <e p="biome-6-floor D 05.xnb" t="Include" />
+            <e p="biome-6-floor D 06.xnb" t="Include" />
+            <e p="biome-6-floor D 07.xnb" t="Include" />
+            <e p="biome-6-floor D 08.xnb" t="Include" />
+            <e p="biome-6-floor D 09.xnb" t="Include" />
+            <e p="biome-6-floor D 10.xnb" t="Include" />
+            <e p="biome-6-floor D 11.xnb" t="Include" />
+            <e p="biome-6-floor D 12.xnb" t="Include" />
+            <e p="biome-6-floor D 13.xnb" t="Include" />
+            <e p="biome-6-floor D 14.xnb" t="Include" />
+            <e p="biome-6-floor D 15.xnb" t="Include" />
+            <e p="biome-6-floor D 16.xnb" t="Include" />
+            <e p="biome-6-platform A E.xnb" t="Include" />
+            <e p="biome-6-platform A ES.xnb" t="Include" />
+            <e p="biome-6-platform A ESW.xnb" t="Include" />
+            <e p="biome-6-platform A EW.xnb" t="Include" />
+            <e p="biome-6-platform A N.xnb" t="Include" />
+            <e p="biome-6-platform A NE.xnb" t="Include" />
+            <e p="biome-6-platform A NES.xnb" t="Include" />
+            <e p="biome-6-platform A NESW.xnb" t="Include" />
+            <e p="biome-6-platform A NEW.xnb" t="Include" />
+            <e p="biome-6-platform A NS.xnb" t="Include" />
+            <e p="biome-6-platform A NSW.xnb" t="Include" />
+            <e p="biome-6-platform A NW.xnb" t="Include" />
+            <e p="biome-6-platform A S.xnb" t="Include" />
+            <e p="biome-6-platform A SW.xnb" t="Include" />
+            <e p="biome-6-platform A W.xnb" t="Include" />
+            <e p="biome-6-platform A.xnb" t="Include" />
+            <e p="biome-6-platform B E.xnb" t="Include" />
+            <e p="biome-6-platform B ES.xnb" t="Include" />
+            <e p="biome-6-platform B ESW.xnb" t="Include" />
+            <e p="biome-6-platform B EW.xnb" t="Include" />
+            <e p="biome-6-platform B N.xnb" t="Include" />
+            <e p="biome-6-platform B NE.xnb" t="Include" />
+            <e p="biome-6-platform B NES.xnb" t="Include" />
+            <e p="biome-6-platform B NESW.xnb" t="Include" />
+            <e p="biome-6-platform B NEW.xnb" t="Include" />
+            <e p="biome-6-platform B NS.xnb" t="Include" />
+            <e p="biome-6-platform B NSW.xnb" t="Include" />
+            <e p="biome-6-platform B NW.xnb" t="Include" />
+            <e p="biome-6-platform B S.xnb" t="Include" />
+            <e p="biome-6-platform B SW.xnb" t="Include" />
+            <e p="biome-6-platform B W.xnb" t="Include" />
+            <e p="biome-6-platform B.xnb" t="Include" />
+            <e p="biome-6-side 0.xnb" t="Include" />
+            <e p="biome-6-side 1.xnb" t="Include" />
+            <e p="biome-6-side 2.xnb" t="Include" />
+            <e p="biome-6-top 0.xnb" t="Include" />
+            <e p="biome-6-top 1.xnb" t="Include" />
+            <e p="biome-6-top 10.xnb" t="Include" />
+            <e p="biome-6-top 11.xnb" t="Include" />
+            <e p="biome-6-top 2.xnb" t="Include" />
+            <e p="biome-6-top 3.xnb" t="Include" />
+            <e p="biome-6-top 4.xnb" t="Include" />
+            <e p="biome-6-top 5.xnb" t="Include" />
+            <e p="biome-6-top 6.xnb" t="Include" />
+            <e p="biome-6-top 7.xnb" t="Include" />
+            <e p="biome-6-top 8.xnb" t="Include" />
+            <e p="biome-6-top 9.xnb" t="Include" />
+            <e p="biome-6-wall A 01.xnb" t="Include" />
+            <e p="biome-6-wall A 02.xnb" t="Include" />
+            <e p="biome-6-wall A 03.xnb" t="Include" />
+            <e p="biome-6-wall A 04.xnb" t="Include" />
+            <e p="biome-6-wall B 01.xnb" t="Include" />
+            <e p="biome-6-wall B 02.xnb" t="Include" />
+            <e p="biome-6-wall B 03.xnb" t="Include" />
+            <e p="biome-6-wall B 04.xnb" t="Include" />
+            <e p="biome-6-wall C 01.xnb" t="Include" />
+            <e p="biome-6-wall C 02.xnb" t="Include" />
+            <e p="biome-6-wall C 03.xnb" t="Include" />
+            <e p="biome-6-wall C 04.xnb" t="Include" />
+            <e p="biome-6-wall pattern.xnb" t="Include" />
+            <e p="biome-gen-chasm_bg.xnb" t="Include" />
+            <e p="biome-gen-dirt pattern.xnb" t="Include" />
+            <e p="biome-gen-dirtedge E.xnb" t="Include" />
+            <e p="biome-gen-dirtedge ES.xnb" t="Include" />
+            <e p="biome-gen-dirtedge ESW.xnb" t="Include" />
+            <e p="biome-gen-dirtedge EW.xnb" t="Include" />
+            <e p="biome-gen-dirtedge N.xnb" t="Include" />
+            <e p="biome-gen-dirtedge NE.xnb" t="Include" />
+            <e p="biome-gen-dirtedge NES.xnb" t="Include" />
+            <e p="biome-gen-dirtedge NESW.xnb" t="Include" />
+            <e p="biome-gen-dirtedge NEW.xnb" t="Include" />
+            <e p="biome-gen-dirtedge NS.xnb" t="Include" />
+            <e p="biome-gen-dirtedge NSW.xnb" t="Include" />
+            <e p="biome-gen-dirtedge NW.xnb" t="Include" />
+            <e p="biome-gen-dirtedge S.xnb" t="Include" />
+            <e p="biome-gen-dirtedge SW.xnb" t="Include" />
+            <e p="biome-gen-dirtedge W.xnb" t="Include" />
+            <e p="biome-gen-dirtedge.xnb" t="Include" />
+            <e p="biome-gen-grass pattern.xnb" t="Include" />
+            <e p="biome-gen-lava E.xnb" t="Include" />
+            <e p="biome-gen-lava ES.xnb" t="Include" />
+            <e p="biome-gen-lava ESW.xnb" t="Include" />
+            <e p="biome-gen-lava EW.xnb" t="Include" />
+            <e p="biome-gen-lava N.xnb" t="Include" />
+            <e p="biome-gen-lava NE.xnb" t="Include" />
+            <e p="biome-gen-lava NES.xnb" t="Include" />
+            <e p="biome-gen-lava NESW.xnb" t="Include" />
+            <e p="biome-gen-lava NEW.xnb" t="Include" />
+            <e p="biome-gen-lava NS.xnb" t="Include" />
+            <e p="biome-gen-lava NSW.xnb" t="Include" />
+            <e p="biome-gen-lava NW.xnb" t="Include" />
+            <e p="biome-gen-lava S.xnb" t="Include" />
+            <e p="biome-gen-lava SW.xnb" t="Include" />
+            <e p="biome-gen-lava W.xnb" t="Include" />
+            <e p="biome-gen-lava pattern.xnb" t="Include" />
+            <e p="biome-gen-lava.xnb" t="Include" />
+            <e p="biome-gen-lavaedge E.xnb" t="Include" />
+            <e p="biome-gen-lavaedge ES.xnb" t="Include" />
+            <e p="biome-gen-lavaedge ESW.xnb" t="Include" />
+            <e p="biome-gen-lavaedge EW.xnb" t="Include" />
+            <e p="biome-gen-lavaedge N.xnb" t="Include" />
+            <e p="biome-gen-lavaedge NE.xnb" t="Include" />
+            <e p="biome-gen-lavaedge NES.xnb" t="Include" />
+            <e p="biome-gen-lavaedge NESW.xnb" t="Include" />
+            <e p="biome-gen-lavaedge NEW.xnb" t="Include" />
+            <e p="biome-gen-lavaedge NS.xnb" t="Include" />
+            <e p="biome-gen-lavaedge NSW.xnb" t="Include" />
+            <e p="biome-gen-lavaedge NW.xnb" t="Include" />
+            <e p="biome-gen-lavaedge S.xnb" t="Include" />
+            <e p="biome-gen-lavaedge SW.xnb" t="Include" />
+            <e p="biome-gen-lavaedge W.xnb" t="Include" />
+            <e p="biome-gen-lavaedge.xnb" t="Include" />
+            <e p="biome-gen-pool E.xnb" t="Include" />
+            <e p="biome-gen-pool ES.xnb" t="Include" />
+            <e p="biome-gen-pool ESW.xnb" t="Include" />
+            <e p="biome-gen-pool EW.xnb" t="Include" />
+            <e p="biome-gen-pool N.xnb" t="Include" />
+            <e p="biome-gen-pool NE.xnb" t="Include" />
+            <e p="biome-gen-pool NES.xnb" t="Include" />
+            <e p="biome-gen-pool NESW.xnb" t="Include" />
+            <e p="biome-gen-pool NEW.xnb" t="Include" />
+            <e p="biome-gen-pool NS.xnb" t="Include" />
+            <e p="biome-gen-pool NSW.xnb" t="Include" />
+            <e p="biome-gen-pool NW.xnb" t="Include" />
+            <e p="biome-gen-pool S.xnb" t="Include" />
+            <e p="biome-gen-pool SW.xnb" t="Include" />
+            <e p="biome-gen-pool W.xnb" t="Include" />
+            <e p="biome-gen-pool pattern.xnb" t="Include" />
+            <e p="biome-gen-pool.xnb" t="Include" />
+            <e p="biome-gen-pooledge E.xnb" t="Include" />
+            <e p="biome-gen-pooledge ES.xnb" t="Include" />
+            <e p="biome-gen-pooledge ESW.xnb" t="Include" />
+            <e p="biome-gen-pooledge EW.xnb" t="Include" />
+            <e p="biome-gen-pooledge N.xnb" t="Include" />
+            <e p="biome-gen-pooledge NE.xnb" t="Include" />
+            <e p="biome-gen-pooledge NES.xnb" t="Include" />
+            <e p="biome-gen-pooledge NESW.xnb" t="Include" />
+            <e p="biome-gen-pooledge NEW.xnb" t="Include" />
+            <e p="biome-gen-pooledge NS.xnb" t="Include" />
+            <e p="biome-gen-pooledge NSW.xnb" t="Include" />
+            <e p="biome-gen-pooledge NW.xnb" t="Include" />
+            <e p="biome-gen-pooledge S.xnb" t="Include" />
+            <e p="biome-gen-pooledge SW.xnb" t="Include" />
+            <e p="biome-gen-pooledge W.xnb" t="Include" />
+            <e p="biome-gen-pooledge.xnb" t="Include" />
+            <e p="biome-gen-wall E.xnb" t="Include" />
+            <e p="biome-gen-wall ES.xnb" t="Include" />
+            <e p="biome-gen-wall ESW.xnb" t="Include" />
+            <e p="biome-gen-wall EW.xnb" t="Include" />
+            <e p="biome-gen-wall N.xnb" t="Include" />
+            <e p="biome-gen-wall NE.xnb" t="Include" />
+            <e p="biome-gen-wall NES.xnb" t="Include" />
+            <e p="biome-gen-wall NESW.xnb" t="Include" />
+            <e p="biome-gen-wall NEW.xnb" t="Include" />
+            <e p="biome-gen-wall NS.xnb" t="Include" />
+            <e p="biome-gen-wall NSW.xnb" t="Include" />
+            <e p="biome-gen-wall NW.xnb" t="Include" />
+            <e p="biome-gen-wall S.xnb" t="Include" />
+            <e p="biome-gen-wall SW.xnb" t="Include" />
+            <e p="biome-gen-wall W.xnb" t="Include" />
+            <e p="blood-idle-00.xnb" t="Include" />
+            <e p="blood-idle-01.xnb" t="Include" />
+            <e p="blood-idle-02.xnb" t="Include" />
+            <e p="blood-idle-03.xnb" t="Include" />
+            <e p="blood-idle-04.xnb" t="Include" />
+            <e p="blood-idle-05.xnb" t="Include" />
+            <e p="blood-idle-06.xnb" t="Include" />
+            <e p="blood-idle-07.xnb" t="Include" />
+            <e p="breakable-barrel-broken-00.xnb" t="Include" />
+            <e p="breakable-barrel-broken-01.xnb" t="Include" />
+            <e p="breakable-barrel-broken-02.xnb" t="Include" />
+            <e p="breakable-barrel-broken-03.xnb" t="Include" />
+            <e p="breakable-barrel-idle-00.xnb" t="Include" />
+            <e p="breakable-crate-broken-00.xnb" t="Include" />
+            <e p="breakable-crate-broken-01.xnb" t="Include" />
+            <e p="breakable-crate-broken-02.xnb" t="Include" />
+            <e p="breakable-crate-broken-03.xnb" t="Include" />
+            <e p="breakable-crate-idle-00.xnb" t="Include" />
+            <e p="breakable-vase_a-broken-00.xnb" t="Include" />
+            <e p="breakable-vase_a-broken-01.xnb" t="Include" />
+            <e p="breakable-vase_a-broken-02.xnb" t="Include" />
+            <e p="breakable-vase_a-broken-03.xnb" t="Include" />
+            <e p="breakable-vase_a-idle-00.xnb" t="Include" />
+            <e p="breakable-vase_b-broken-00.xnb" t="Include" />
+            <e p="breakable-vase_b-broken-01.xnb" t="Include" />
+            <e p="breakable-vase_b-broken-02.xnb" t="Include" />
+            <e p="breakable-vase_b-broken-03.xnb" t="Include" />
+            <e p="breakable-vase_b-idle-00.xnb" t="Include" />
+            <e p="breakable-vase_c-broken-00.xnb" t="Include" />
+            <e p="breakable-vase_c-broken-01.xnb" t="Include" />
+            <e p="breakable-vase_c-broken-02.xnb" t="Include" />
+            <e p="breakable-vase_c-broken-03.xnb" t="Include" />
+            <e p="breakable-vase_c-idle-00.xnb" t="Include" />
+            <e p="bubble-bottom.xnb" t="Include" />
+            <e p="bubble-bottom_left.xnb" t="Include" />
+            <e p="bubble-bottom_right.xnb" t="Include" />
+            <e p="bubble-center.xnb" t="Include" />
+            <e p="bubble-left.xnb" t="Include" />
+            <e p="bubble-overlay.xnb" t="Include" />
+            <e p="bubble-right.xnb" t="Include" />
+            <e p="bubble-top.xnb" t="Include" />
+            <e p="bubble-top_left.xnb" t="Include" />
+            <e p="bubble-top_right.xnb" t="Include" />
+            <e p="bullet-a.xnb" t="Include" />
+            <e p="bullet-b.xnb" t="Include" />
+            <e p="bullet-bad.xnb" t="Include" />
+            <e p="bullet-big.xnb" t="Include" />
+            <e p="bullet-bill.xnb" t="Include" />
+            <e p="bullet-bolt.xnb" t="Include" />
+            <e p="bullet-bone.xnb" t="Include" />
+            <e p="bullet-c.xnb" t="Include" />
+            <e p="bullet-cube.xnb" t="Include" />
+            <e p="bullet-kotlin.xnb" t="Include" />
+            <e p="bullet-pine.xnb" t="Include" />
+            <e p="bullet-rocket.xnb" t="Include" />
+            <e p="bullet-snow.xnb" t="Include" />
+            <e p="bullet-star.xnb" t="Include" />
+            <e p="bullet-tear.xnb" t="Include" />
+            <e p="bullet-thrust.xnb" t="Include" />
+            <e p="bullet-trhust_small.xnb" t="Include" />
+            <e p="chest-golden-hurt-00.xnb" t="Include" />
+            <e p="chest-golden-hurt-01.xnb" t="Include" />
+            <e p="chest-golden-idle-00.xnb" t="Include" />
+            <e p="chest-golden-open-00.xnb" t="Include" />
+            <e p="chest-golden-opening-00.xnb" t="Include" />
+            <e p="chest-golden-opening-01.xnb" t="Include" />
+            <e p="chest-golden-opening-02.xnb" t="Include" />
+            <e p="chest-golden-opening-03.xnb" t="Include" />
+            <e p="chest-golden-opening_mimic-00.xnb" t="Include" />
+            <e p="chest-golden-opening_mimic-01.xnb" t="Include" />
+            <e p="chest-golden-opening_mimic-02.xnb" t="Include" />
+            <e p="chest-golden-opening_mimic-03.xnb" t="Include" />
+            <e p="chest-golden-opening_mimic-04.xnb" t="Include" />
+            <e p="chest-iron-hurt-00.xnb" t="Include" />
+            <e p="chest-iron-hurt-01.xnb" t="Include" />
+            <e p="chest-iron-idle-00.xnb" t="Include" />
+            <e p="chest-iron-open-00.xnb" t="Include" />
+            <e p="chest-iron-opening-00.xnb" t="Include" />
+            <e p="chest-iron-opening-01.xnb" t="Include" />
+            <e p="chest-iron-opening-02.xnb" t="Include" />
+            <e p="chest-iron-opening-03.xnb" t="Include" />
+            <e p="chest-iron-opening_mimic-00.xnb" t="Include" />
+            <e p="chest-iron-opening_mimic-01.xnb" t="Include" />
+            <e p="chest-iron-opening_mimic-02.xnb" t="Include" />
+            <e p="chest-iron-opening_mimic-03.xnb" t="Include" />
+            <e p="chest-iron-opening_mimic-04.xnb" t="Include" />
+            <e p="chest-wooden-hurt-00.xnb" t="Include" />
+            <e p="chest-wooden-hurt-01.xnb" t="Include" />
+            <e p="chest-wooden-idle-00.xnb" t="Include" />
+            <e p="chest-wooden-open-00.xnb" t="Include" />
+            <e p="chest-wooden-opening-00.xnb" t="Include" />
+            <e p="chest-wooden-opening-01.xnb" t="Include" />
+            <e p="chest-wooden-opening-02.xnb" t="Include" />
+            <e p="chest-wooden-opening-03.xnb" t="Include" />
+            <e p="chest-wooden-opening_mimic-00.xnb" t="Include" />
+            <e p="chest-wooden-opening_mimic-01.xnb" t="Include" />
+            <e p="chest-wooden-opening_mimic-02.xnb" t="Include" />
+            <e p="chest-wooden-opening_mimic-03.xnb" t="Include" />
+            <e p="chest-wooden-opening_mimic-04.xnb" t="Include" />
+            <e p="coin-bronze-idle-00.xnb" t="Include" />
+            <e p="coin-bronze-idle-01.xnb" t="Include" />
+            <e p="coin-bronze-idle-02.xnb" t="Include" />
+            <e p="coin-bronze-idle-03.xnb" t="Include" />
+            <e p="coin-bronze-idle-04.xnb" t="Include" />
+            <e p="coin-bronze-idle-05.xnb" t="Include" />
+            <e p="coin-gold-idle-00.xnb" t="Include" />
+            <e p="coin-gold-idle-01.xnb" t="Include" />
+            <e p="coin-gold-idle-02.xnb" t="Include" />
+            <e p="coin-gold-idle-03.xnb" t="Include" />
+            <e p="coin-gold-idle-04.xnb" t="Include" />
+            <e p="coin-gold-idle-05.xnb" t="Include" />
+            <e p="coin-iron-idle-00.xnb" t="Include" />
+            <e p="coin-iron-idle-01.xnb" t="Include" />
+            <e p="coin-iron-idle-02.xnb" t="Include" />
+            <e p="coin-iron-idle-03.xnb" t="Include" />
+            <e p="coin-iron-idle-04.xnb" t="Include" />
+            <e p="coin-iron-idle-05.xnb" t="Include" />
+            <e p="door-lock-bronze-close-00.xnb" t="Include" />
+            <e p="door-lock-bronze-close-01.xnb" t="Include" />
+            <e p="door-lock-bronze-close-02.xnb" t="Include" />
+            <e p="door-lock-bronze-close-03.xnb" t="Include" />
+            <e p="door-lock-bronze-close-04.xnb" t="Include" />
+            <e p="door-lock-bronze-idle-00.xnb" t="Include" />
+            <e p="door-lock-bronze-open-00.xnb" t="Include" />
+            <e p="door-lock-bronze-open-01.xnb" t="Include" />
+            <e p="door-lock-bronze-open-02.xnb" t="Include" />
+            <e p="door-lock-bronze-open-03.xnb" t="Include" />
+            <e p="door-lock-bronze-open-04.xnb" t="Include" />
+            <e p="door-lock-bronze-open-05.xnb" t="Include" />
+            <e p="door-lock-bronze-open-06.xnb" t="Include" />
+            <e p="door-lock-gold-close-00.xnb" t="Include" />
+            <e p="door-lock-gold-close-01.xnb" t="Include" />
+            <e p="door-lock-gold-close-02.xnb" t="Include" />
+            <e p="door-lock-gold-close-03.xnb" t="Include" />
+            <e p="door-lock-gold-close-04.xnb" t="Include" />
+            <e p="door-lock-gold-idle-00.xnb" t="Include" />
+            <e p="door-lock-gold-open-00.xnb" t="Include" />
+            <e p="door-lock-gold-open-01.xnb" t="Include" />
+            <e p="door-lock-gold-open-02.xnb" t="Include" />
+            <e p="door-lock-gold-open-03.xnb" t="Include" />
+            <e p="door-lock-gold-open-04.xnb" t="Include" />
+            <e p="door-lock-gold-open-05.xnb" t="Include" />
+            <e p="door-lock-gold-open-06.xnb" t="Include" />
+            <e p="door-lock-iron-close-00.xnb" t="Include" />
+            <e p="door-lock-iron-close-01.xnb" t="Include" />
+            <e p="door-lock-iron-close-02.xnb" t="Include" />
+            <e p="door-lock-iron-close-03.xnb" t="Include" />
+            <e p="door-lock-iron-close-04.xnb" t="Include" />
+            <e p="door-lock-iron-idle-00.xnb" t="Include" />
+            <e p="door-lock-iron-open-00.xnb" t="Include" />
+            <e p="door-lock-iron-open-01.xnb" t="Include" />
+            <e p="door-lock-iron-open-02.xnb" t="Include" />
+            <e p="door-lock-iron-open-03.xnb" t="Include" />
+            <e p="door-lock-iron-open-04.xnb" t="Include" />
+            <e p="door-lock-iron-open-05.xnb" t="Include" />
+            <e p="door-lock-iron-open-06.xnb" t="Include" />
+            <e p="explosion-explosion-00.xnb" t="Include" />
+            <e p="explosion-explosion-01.xnb" t="Include" />
+            <e p="explosion-explosion-02.xnb" t="Include" />
+            <e p="explosion-explosion-03.xnb" t="Include" />
+            <e p="explosion-explosion-04.xnb" t="Include" />
+            <e p="explosion-explosion-05.xnb" t="Include" />
+            <e p="explosion-explosion-06.xnb" t="Include" />
+            <e p="explosion-explosion-explosion-00.xnb" t="Include" />
+            <e p="explosion-explosion-explosion-01.xnb" t="Include" />
+            <e p="explosion-explosion-explosion-02.xnb" t="Include" />
+            <e p="explosion-explosion-explosion-03.xnb" t="Include" />
+            <e p="explosion-explosion-explosion-04.xnb" t="Include" />
+            <e p="explosion-explosion-explosion-05.xnb" t="Include" />
+            <e p="explosion-explosion-explosion-06.xnb" t="Include" />
+            <e p="explosion-explosion-particle-00.xnb" t="Include" />
+            <e p="explosion-explosion-particle-01.xnb" t="Include" />
+            <e p="explosion-explosion-particle-02.xnb" t="Include" />
+            <e p="explosion-explosion-particle-03.xnb" t="Include" />
+            <e p="explosion-explosion-particle-04.xnb" t="Include" />
+            <e p="explosion-explosion-particle-05.xnb" t="Include" />
+            <e p="explosion-explosion-particle-06.xnb" t="Include" />
+            <e p="explosion-explosion-particle-07.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-00.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-01.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-02.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-03.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-04.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-05.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-06.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-07.xnb" t="Include" />
+            <e p="explosion-explosion-smoke-08.xnb" t="Include" />
+            <e p="explosion-particle-00.xnb" t="Include" />
+            <e p="explosion-particle-01.xnb" t="Include" />
+            <e p="explosion-particle-02.xnb" t="Include" />
+            <e p="explosion-particle-03.xnb" t="Include" />
+            <e p="explosion-particle-04.xnb" t="Include" />
+            <e p="explosion-particle-05.xnb" t="Include" />
+            <e p="explosion-particle-06.xnb" t="Include" />
+            <e p="explosion-particle-07.xnb" t="Include" />
+            <e p="explosion-smoke-00.xnb" t="Include" />
+            <e p="explosion-smoke-01.xnb" t="Include" />
+            <e p="explosion-smoke-02.xnb" t="Include" />
+            <e p="explosion-smoke-03.xnb" t="Include" />
+            <e p="explosion-smoke-04.xnb" t="Include" />
+            <e p="explosion-smoke-05.xnb" t="Include" />
+            <e p="explosion-smoke-06.xnb" t="Include" />
+            <e p="explosion-smoke-07.xnb" t="Include" />
+            <e p="explosion-smoke-08.xnb" t="Include" />
+            <e p="fireball-appear-00.xnb" t="Include" />
+            <e p="fireball-appear-01.xnb" t="Include" />
+            <e p="fireball-appear-02.xnb" t="Include" />
+            <e p="fireball-appear-03.xnb" t="Include" />
+            <e p="fireball-dead-00.xnb" t="Include" />
+            <e p="fireball-dead-01.xnb" t="Include" />
+            <e p="fireball-dead-02.xnb" t="Include" />
+            <e p="fireball-dead-03.xnb" t="Include" />
+            <e p="fireball-idle-00.xnb" t="Include" />
+            <e p="fireball-idle-01.xnb" t="Include" />
+            <e p="fireball-idle-02.xnb" t="Include" />
+            <e p="fx-badbullet-idle-00.xnb" t="Include" />
+            <e p="fx-badbullet-idle-01.xnb" t="Include" />
+            <e p="fx-badbullet-idle-02.xnb" t="Include" />
+            <e p="fx-badbullet-idle-03.xnb" t="Include" />
+            <e p="fx-badbullet-idle-04.xnb" t="Include" />
+            <e p="fx-badbullet-idle-05.xnb" t="Include" />
+            <e p="fx-badbullet-idle-06.xnb" t="Include" />
+            <e p="fx-blood-idle-00.xnb" t="Include" />
+            <e p="fx-blood-idle-01.xnb" t="Include" />
+            <e p="fx-blood-idle-02.xnb" t="Include" />
+            <e p="fx-blood-idle-03.xnb" t="Include" />
+            <e p="fx-blood-idle-04.xnb" t="Include" />
+            <e p="fx-bloodsplat-idle-00.xnb" t="Include" />
+            <e p="fx-bloodsplat-idle-01.xnb" t="Include" />
+            <e p="fx-bloodsplat-idle-02.xnb" t="Include" />
+            <e p="fx-bloodsplat-idle-03.xnb" t="Include" />
+            <e p="fx-bloodsplat-idle-04.xnb" t="Include" />
+            <e p="fx-bloodsplat-idle-05.xnb" t="Include" />
+            <e p="fx-bloodsplat-idle-06.xnb" t="Include" />
+            <e p="fx-charge-idle-00.xnb" t="Include" />
+            <e p="fx-charge-idle-01.xnb" t="Include" />
+            <e p="fx-charge-idle-02.xnb" t="Include" />
+            <e p="fx-dither-idle-00.xnb" t="Include" />
+            <e p="fx-dither-idle-01.xnb" t="Include" />
+            <e p="fx-dither-idle-02.xnb" t="Include" />
+            <e p="fx-dither-idle-03.xnb" t="Include" />
+            <e p="fx-dither-idle-04.xnb" t="Include" />
+            <e p="fx-dither-idle-05.xnb" t="Include" />
+            <e p="fx-dither-idle-06.xnb" t="Include" />
+            <e p="fx-dither-idle-07.xnb" t="Include" />
+            <e p="fx-dither-idle-08.xnb" t="Include" />
+            <e p="fx-dither-idle-09.xnb" t="Include" />
+            <e p="fx-exp-idle-00.xnb" t="Include" />
+            <e p="fx-exp-idle-01.xnb" t="Include" />
+            <e p="fx-exp-idle-02.xnb" t="Include" />
+            <e p="fx-fireball-appear-00.xnb" t="Include" />
+            <e p="fx-fireball-appear-01.xnb" t="Include" />
+            <e p="fx-fireball-appear-02.xnb" t="Include" />
+            <e p="fx-fireball-appear-03.xnb" t="Include" />
+            <e p="fx-fireball-dead-00.xnb" t="Include" />
+            <e p="fx-fireball-dead-01.xnb" t="Include" />
+            <e p="fx-fireball-dead-02.xnb" t="Include" />
+            <e p="fx-fireball-dead-03.xnb" t="Include" />
+            <e p="fx-fireball-idle-00.xnb" t="Include" />
+            <e p="fx-fireball-idle-01.xnb" t="Include" />
+            <e p="fx-fireball-idle-02.xnb" t="Include" />
+            <e p="fx-fireball-idle-03.xnb" t="Include" />
+            <e p="fx-fireball-idle-04.xnb" t="Include" />
+            <e p="fx-fireball-idle-05.xnb" t="Include" />
+            <e p="fx-fireball-idle-06.xnb" t="Include" />
+            <e p="fx-heart-full-idle-00.xnb" t="Include" />
+            <e p="fx-heart-full-idle-01.xnb" t="Include" />
+            <e p="fx-heart-full-idle-02.xnb" t="Include" />
+            <e p="fx-heart-full-idle-03.xnb" t="Include" />
+            <e p="fx-heart-golden-idle-00.xnb" t="Include" />
+            <e p="fx-heart-golden-idle-01.xnb" t="Include" />
+            <e p="fx-heart-golden-idle-02.xnb" t="Include" />
+            <e p="fx-heart-golden-idle-03.xnb" t="Include" />
+            <e p="fx-heart-half-idle-00.xnb" t="Include" />
+            <e p="fx-heart-half-idle-01.xnb" t="Include" />
+            <e p="fx-heart-half-idle-02.xnb" t="Include" />
+            <e p="fx-heart-half-idle-03.xnb" t="Include" />
+            <e p="fx-heart-iron-idle-00.xnb" t="Include" />
+            <e p="fx-heart-iron-idle-01.xnb" t="Include" />
+            <e p="fx-heart-iron-idle-02.xnb" t="Include" />
+            <e p="fx-heart-iron-idle-03.xnb" t="Include" />
+            <e p="fx-part-idle-00.xnb" t="Include" />
+            <e p="fx-part-idle-01.xnb" t="Include" />
+            <e p="fx-part-idle-02.xnb" t="Include" />
+            <e p="fx-part-idle-03.xnb" t="Include" />
+            <e p="fx-part-idle-04.xnb" t="Include" />
+            <e p="fx-plant-idle-00.xnb" t="Include" />
+            <e p="fx-plant-idle-01.xnb" t="Include" />
+            <e p="fx-plant-idle-02.xnb" t="Include" />
+            <e p="fx-plant-idle-03.xnb" t="Include" />
+            <e p="fx-plant-idle-04.xnb" t="Include" />
+            <e p="fx-run-idle-00.xnb" t="Include" />
+            <e p="fx-run-idle-01.xnb" t="Include" />
+            <e p="fx-run-idle-02.xnb" t="Include" />
+            <e p="fx-run-idle-03.xnb" t="Include" />
+            <e p="fx-shell-idle-00.xnb" t="Include" />
+            <e p="fx-shell-idle-01.xnb" t="Include" />
+            <e p="fx-shell-idle-02.xnb" t="Include" />
+            <e p="fx-shell-idle-03.xnb" t="Include" />
+            <e p="fx-shell-idle-04.xnb" t="Include" />
+            <e p="fx-spark-idle-00.xnb" t="Include" />
+            <e p="fx-spark-idle-01.xnb" t="Include" />
+            <e p="fx-spark-idle-02.xnb" t="Include" />
+            <e p="fx-spark-idle-03.xnb" t="Include" />
+            <e p="fx-spark-idle-04.xnb" t="Include" />
+            <e p="fx-spark-idle-05.xnb" t="Include" />
+            <e p="fx-spark-idle-06.xnb" t="Include" />
+            <e p="hat-brown_mushroom-idle-00.xnb" t="Include" />
+            <e p="hat-cowboy-idle-00.xnb" t="Include" />
+            <e p="hat-dunce-idle-00.xnb" t="Include" />
+            <e p="hat-gold-idle-00.xnb" t="Include" />
+            <e p="hat-knight-idle-00.xnb" t="Include" />
+            <e p="hat-ravi-idle-00.xnb" t="Include" />
+            <e p="hat-red_mushroom-idle-00.xnb" t="Include" />
+            <e p="hat-ruby-idle-00.xnb" t="Include" />
+            <e p="hat-skull-idle-00.xnb" t="Include" />
+            <e p="hat-stone-idle-00.xnb" t="Include" />
+            <e p="hat-ushanka-idle-00.xnb" t="Include" />
+            <e p="hat-viking-idle-00.xnb" t="Include" />
+            <e p="hat-wings-idle-00.xnb" t="Include" />
+            <e p="ichor-idle-00.xnb" t="Include" />
+            <e p="io (burning buff).xnb" t="Include" />
+            <e p="io (defense buff).xnb" t="Include" />
+            <e p="io (hide sign).xnb" t="Include" />
+            <e p="io (hungry buff).xnb" t="Include" />
+            <e p="io (inventory slot).xnb" t="Include" />
+            <e p="io (invisible buff).xnb" t="Include" />
+            <e p="io (notice sign).xnb" t="Include" />
+            <e p="io (plant cursor).xnb" t="Include" />
+            <e p="io (poison buff).xnb" t="Include" />
+            <e p="io (slider_handle).xnb" t="Include" />
+            <e p="io (starving buff).xnb" t="Include" />
+            <e p="item-a_sign.xnb" t="Include" />
+            <e p="item-aim.xnb" t="Include" />
+            <e p="item-ammo_holder.xnb" t="Include" />
+            <e p="item-ammo_orbital.xnb" t="Include" />
+            <e p="item-antidote.xnb" t="Include" />
+            <e p="item-apple.xnb" t="Include" />
+            <e p="item-arrow_a.xnb" t="Include" />
+            <e p="item-arrow_b.xnb" t="Include" />
+            <e p="item-arrow_c.xnb" t="Include" />
+            <e p="item-arrow_d.xnb" t="Include" />
+            <e p="item-arrow_e.xnb" t="Include" />
+            <e p="item-arrow_f.xnb" t="Include" />
+            <e p="item-axe_a.xnb" t="Include" />
+            <e p="item-axe_b.xnb" t="Include" />
+            <e p="item-axe_c.xnb" t="Include" />
+            <e p="item-axe_d.xnb" t="Include" />
+            <e p="item-back_gun.xnb" t="Include" />
+            <e p="item-backpack.xnb" t="Include" />
+            <e p="item-balance.xnb" t="Include" />
+            <e p="item-birthday_hat.xnb" t="Include" />
+            <e p="item-black_belt.xnb" t="Include" />
+            <e p="item-blank_card.xnb" t="Include" />
+            <e p="item-blood_chailice.xnb" t="Include" />
+            <e p="item-blood_crown.xnb" t="Include" />
+            <e p="item-blue_present.xnb" t="Include" />
+            <e p="item-bomb.xnb" t="Include" />
+            <e p="item-bomb_orbital.xnb" t="Include" />
+            <e p="item-book_a.xnb" t="Include" />
+            <e p="item-book_b.xnb" t="Include" />
+            <e p="item-book_c.xnb" t="Include" />
+            <e p="item-book_d.xnb" t="Include" />
+            <e p="item-book_e.xnb" t="Include" />
+            <e p="item-book_f.xnb" t="Include" />
+            <e p="item-book_g.xnb" t="Include" />
+            <e p="item-book_h.xnb" t="Include" />
+            <e p="item-bottle_a.xnb" t="Include" />
+            <e p="item-bottle_b.xnb" t="Include" />
+            <e p="item-bottle_c.xnb" t="Include" />
+            <e p="item-bottle_d.xnb" t="Include" />
+            <e p="item-bottle_e.xnb" t="Include" />
+            <e p="item-bottle_f.xnb" t="Include" />
+            <e p="item-bottle_h.xnb" t="Include" />
+            <e p="item-bottle_i.xnb" t="Include" />
+            <e p="item-bottle_j.xnb" t="Include" />
+            <e p="item-bottle_k.xnb" t="Include" />
+            <e p="item-bow_a.xnb" t="Include" />
+            <e p="item-bow_b.xnb" t="Include" />
+            <e p="item-bow_c.xnb" t="Include" />
+            <e p="item-bow_d.xnb" t="Include" />
+            <e p="item-bow_e.xnb" t="Include" />
+            <e p="item-bow_f.xnb" t="Include" />
+            <e p="item-bread.xnb" t="Include" />
+            <e p="item-broken_orbital.xnb" t="Include" />
+            <e p="item-bronze_pickaxe.xnb" t="Include" />
+            <e p="item-bronze_shovel.xnb" t="Include" />
+            <e p="item-bullet_a.xnb" t="Include" />
+            <e p="item-bullet_b.xnb" t="Include" />
+            <e p="item-bullet_c.xnb" t="Include" />
+            <e p="item-bullet_d.xnb" t="Include" />
+            <e p="item-bullet_e.xnb" t="Include" />
+            <e p="item-bullet_f.xnb" t="Include" />
+            <e p="item-bullet_shield.xnb" t="Include" />
+            <e p="item-bullet_split.xnb" t="Include" />
+            <e p="item-bumbo.xnb" t="Include" />
+            <e p="item-butcher_a.xnb" t="Include" />
+            <e p="item-butcher_b.xnb" t="Include" />
+            <e p="item-butcher_c.xnb" t="Include" />
+            <e p="item-campfire_in_a_bottle.xnb" t="Include" />
+            <e p="item-cannon_a.xnb" t="Include" />
+            <e p="item-cannon_b.xnb" t="Include" />
+            <e p="item-cannon_c.xnb" t="Include" />
+            <e p="item-chance_to_block_dmg_and_use_mana.xnb" t="Include" />
+            <e p="item-cherry.xnb" t="Include" />
+            <e p="item-chicken_sword.xnb" t="Include" />
+            <e p="item-clapper.xnb" t="Include" />
+            <e p="item-claymore_a.xnb" t="Include" />
+            <e p="item-claymore_b.xnb" t="Include" />
+            <e p="item-claymore_c.xnb" t="Include" />
+            <e p="item-coin.xnb" t="Include" />
+            <e p="item-compass.xnb" t="Include" />
+            <e p="item-confetti_grenade.xnb" t="Include" />
+            <e p="item-confetti_gun.xnb" t="Include" />
+            <e p="item-cookie.xnb" t="Include" />
+            <e p="item-cross.xnb" t="Include" />
+            <e p="item-crossbow.xnb" t="Include" />
+            <e p="item-crown.xnb" t="Include" />
+            <e p="item-cup.xnb" t="Include" />
+            <e p="item-cursed_aim.xnb" t="Include" />
+            <e p="item-dagger_a.xnb" t="Include" />
+            <e p="item-dagger_b.xnb" t="Include" />
+            <e p="item-dagger_c.xnb" t="Include" />
+            <e p="item-damage_roll.xnb" t="Include" />
+            <e p="item-deathsycle.xnb" t="Include" />
+            <e p="item-defense_roll.xnb" t="Include" />
+            <e p="item-dendy.xnb" t="Include" />
+            <e p="item-dew_vial.xnb" t="Include" />
+            <e p="item-diamond.xnb" t="Include" />
+            <e p="item-diamond_pickaxe.xnb" t="Include" />
+            <e p="item-diamond_sword.xnb" t="Include" />
+            <e p="item-egg.xnb" t="Include" />
+            <e p="item-fire_bomb.xnb" t="Include" />
+            <e p="item-fire_extinguisher.xnb" t="Include" />
+            <e p="item-getting_damaged_damages_everyone.xnb" t="Include" />
+            <e p="item-getting_damaged_gives_damage_boost.xnb" t="Include" />
+            <e p="item-getting_damaged_slows_down_time.xnb" t="Include" />
+            <e p="item-ghost.xnb" t="Include" />
+            <e p="item-glitched_bullet.xnb" t="Include" />
+            <e p="item-gold_pickaxe.xnb" t="Include" />
+            <e p="item-gold_shovel.xnb" t="Include" />
+            <e p="item-goo.xnb" t="Include" />
+            <e p="item-green_present.xnb" t="Include" />
+            <e p="item-greenprint.xnb" t="Include" />
+            <e p="item-grenade.xnb" t="Include" />
+            <e p="item-guitar_a.xnb" t="Include" />
+            <e p="item-guitar_b.xnb" t="Include" />
+            <e p="item-guitar_c.xnb" t="Include" />
+            <e p="item-gun_a.xnb" t="Include" />
+            <e p="item-gun_b.xnb" t="Include" />
+            <e p="item-gun_c.xnb" t="Include" />
+            <e p="item-gun_d.xnb" t="Include" />
+            <e p="item-gun_e.xnb" t="Include" />
+            <e p="item-gun_f.xnb" t="Include" />
+            <e p="item-gun_g.xnb" t="Include" />
+            <e p="item-gun_h.xnb" t="Include" />
+            <e p="item-gun_i.xnb" t="Include" />
+            <e p="item-gun_j.xnb" t="Include" />
+            <e p="item-gun_k.xnb" t="Include" />
+            <e p="item-gun_l.xnb" t="Include" />
+            <e p="item-gun_m.xnb" t="Include" />
+            <e p="item-gun_n.xnb" t="Include" />
+            <e p="item-halo.xnb" t="Include" />
+            <e p="item-happy_cat.xnb" t="Include" />
+            <e p="item-hat_a.xnb" t="Include" />
+            <e p="item-hat_b.xnb" t="Include" />
+            <e p="item-hat_c.xnb" t="Include" />
+            <e p="item-hat_d.xnb" t="Include" />
+            <e p="item-hat_e.xnb" t="Include" />
+            <e p="item-hat_f.xnb" t="Include" />
+            <e p="item-hat_g.xnb" t="Include" />
+            <e p="item-hat_h.xnb" t="Include" />
+            <e p="item-hat_i.xnb" t="Include" />
+            <e p="item-hat_j.xnb" t="Include" />
+            <e p="item-hat_k.xnb" t="Include" />
+            <e p="item-hat_l.xnb" t="Include" />
+            <e p="item-hat_m.xnb" t="Include" />
+            <e p="item-heal_heals_mana_too.xnb" t="Include" />
+            <e p="item-heart_in_box.xnb" t="Include" />
+            <e p="item-homing_bullets.xnb" t="Include" />
+            <e p="item-hp_up.xnb" t="Include" />
+            <e p="item-ice_bomb.xnb" t="Include" />
+            <e p="item-icecream.xnb" t="Include" />
+            <e p="item-iron_pickaxe.xnb" t="Include" />
+            <e p="item-iron_shovel.xnb" t="Include" />
+            <e p="item-isaac.xnb" t="Include" />
+            <e p="item-jelly.xnb" t="Include" />
+            <e p="item-jerasword.xnb" t="Include" />
+            <e p="item-key A.xnb" t="Include" />
+            <e p="item-key_b.xnb" t="Include" />
+            <e p="item-key_c.xnb" t="Include" />
+            <e p="item-kotlin.xnb" t="Include" />
+            <e p="item-lamp.xnb" t="Include" />
+            <e p="item-large_bullet.xnb" t="Include" />
+            <e p="item-laser_pointer.xnb" t="Include" />
+            <e p="item-less_mana_more_damage.xnb" t="Include" />
+            <e p="item-less_mana_used_but_minus_hp_percent.xnb" t="Include" />
+            <e p="item-libgdx.xnb" t="Include" />
+            <e p="item-libgdx_big.xnb" t="Include" />
+            <e p="item-life_regen_becomes_mana_regen.xnb" t="Include" />
+            <e p="item-lightsaber A.xnb" t="Include" />
+            <e p="item-lightsaber B.xnb" t="Include" />
+            <e p="item-lightsaber C.xnb" t="Include" />
+            <e p="item-lightsaber D.xnb" t="Include" />
+            <e p="item-lootpick.xnb" t="Include" />
+            <e p="item-lower_health_more_mana_regen.xnb" t="Include" />
+            <e p="item-lucky_block.xnb" t="Include" />
+            <e p="item-lucky_bullet.xnb" t="Include" />
+            <e p="item-magic_ball.xnb" t="Include" />
+            <e p="item-mana_bombs.xnb" t="Include" />
+            <e p="item-mana_bottle.xnb" t="Include" />
+            <e p="item-mana_heart.xnb" t="Include" />
+            <e p="item-mana_in_bottle.xnb" t="Include" />
+            <e p="item-mana_knife.xnb" t="Include" />
+            <e p="item-mana_orbital.xnb" t="Include" />
+            <e p="item-mana_ring.xnb" t="Include" />
+            <e p="item-mana_shield.xnb" t="Include" />
+            <e p="item-mana_up.xnb" t="Include" />
+            <e p="item-map.xnb" t="Include" />
+            <e p="item-maze.xnb" t="Include" />
+            <e p="item-meetboy.xnb" t="Include" />
+            <e p="item-meetboy_hp.xnb" t="Include" />
+            <e p="item-mind.xnb" t="Include" />
+            <e p="item-mine.xnb" t="Include" />
+            <e p="item-mine_detector.xnb" t="Include" />
+            <e p="item-mini_orbital.xnb" t="Include" />
+            <e p="item-missing.xnb" t="Include" />
+            <e p="item-more_damage.xnb" t="Include" />
+            <e p="item-more_defense.xnb" t="Include" />
+            <e p="item-more_defense_and_damage.xnb" t="Include" />
+            <e p="item-more_mana_less_damage.xnb" t="Include" />
+            <e p="item-morning_a.xnb" t="Include" />
+            <e p="item-morning_b.xnb" t="Include" />
+            <e p="item-morning_c.xnb" t="Include" />
+            <e p="item-muffin.xnb" t="Include" />
+            <e p="item-multi_bomb.xnb" t="Include" />
+            <e p="item-obsidian_boots.xnb" t="Include" />
+            <e p="item-obsidian_shield.xnb" t="Include" />
+            <e p="item-ohno.xnb" t="Include" />
+            <e p="item-old_manual.xnb" t="Include" />
+            <e p="item-owo.xnb" t="Include" />
+            <e p="item-pacman.xnb" t="Include" />
+            <e p="item-pause_and_play.xnb" t="Include" />
+            <e p="item-penetration_stone.xnb" t="Include" />
+            <e p="item-picking_up_coins_gives_mana.xnb" t="Include" />
+            <e p="item-picking_up_hp_restores_mana_if_not_full.xnb" t="Include" />
+            <e p="item-pico8.xnb" t="Include" />
+            <e p="item-pill.xnb" t="Include" />
+            <e p="item-poison_bomb.xnb" t="Include" />
+            <e p="item-potatoo.xnb" t="Include" />
+            <e p="item-potion_a.xnb" t="Include" />
+            <e p="item-potion_b.xnb" t="Include" />
+            <e p="item-potion_c.xnb" t="Include" />
+            <e p="item-potion_d.xnb" t="Include" />
+            <e p="item-potion_e.xnb" t="Include" />
+            <e p="item-potion_f.xnb" t="Include" />
+            <e p="item-potion_g.xnb" t="Include" />
+            <e p="item-potion_h.xnb" t="Include" />
+            <e p="item-prism.xnb" t="Include" />
+            <e p="item-red_balloon.xnb" t="Include" />
+            <e p="item-red_button.xnb" t="Include" />
+            <e p="item-ring_a.xnb" t="Include" />
+            <e p="item-ring_b.xnb" t="Include" />
+            <e p="item-ring_c.xnb" t="Include" />
+            <e p="item-ring_d.xnb" t="Include" />
+            <e p="item-ring_e.xnb" t="Include" />
+            <e p="item-ring_f.xnb" t="Include" />
+            <e p="item-ring_g.xnb" t="Include" />
+            <e p="item-ring_h.xnb" t="Include" />
+            <e p="item-ring_i.xnb" t="Include" />
+            <e p="item-ring_j.xnb" t="Include" />
+            <e p="item-rng_bullet.xnb" t="Include" />
+            <e p="item-rocket_a.xnb" t="Include" />
+            <e p="item-rubiks_cube.xnb" t="Include" />
+            <e p="item-running_boosts_mana_regen.xnb" t="Include" />
+            <e p="item-scarf.xnb" t="Include" />
+            <e p="item-scroll_a.xnb" t="Include" />
+            <e p="item-scroll_b.xnb" t="Include" />
+            <e p="item-scroll_c.xnb" t="Include" />
+            <e p="item-scroll_d.xnb" t="Include" />
+            <e p="item-scroll_e.xnb" t="Include" />
+            <e p="item-scroll_f.xnb" t="Include" />
+            <e p="item-scroll_g.xnb" t="Include" />
+            <e p="item-scroll_h.xnb" t="Include" />
+            <e p="item-shield.xnb" t="Include" />
+            <e p="item-shovel.xnb" t="Include" />
+            <e p="item-smart_bullet.xnb" t="Include" />
+            <e p="item-sonic_ring.xnb" t="Include" />
+            <e p="item-space_invader.xnb" t="Include" />
+            <e p="item-spear A.xnb" t="Include" />
+            <e p="item-spear B.xnb" t="Include" />
+            <e p="item-spear C.xnb" t="Include" />
+            <e p="item-spectacles.xnb" t="Include" />
+            <e p="item-staff_a.xnb" t="Include" />
+            <e p="item-star.xnb" t="Include" />
+            <e p="item-star_cannon.xnb" t="Include" />
+            <e p="item-stop_watch.xnb" t="Include" />
+            <e p="item-strawberry.xnb" t="Include" />
+            <e p="item-switch.xnb" t="Include" />
+            <e p="item-sword_a.xnb" t="Include" />
+            <e p="item-sword_b.xnb" t="Include" />
+            <e p="item-sword_c.xnb" t="Include" />
+            <e p="item-sword_orbital.xnb" t="Include" />
+            <e p="item-tada_gun.xnb" t="Include" />
+            <e p="item-the_eye.xnb" t="Include" />
+            <e p="item-time_bullet.xnb" t="Include" />
+            <e p="item-time_modifier.xnb" t="Include" />
+            <e p="item-tux.xnb" t="Include" />
+            <e p="item-twitter.xnb" t="Include" />
+            <e p="item-vamprite_orbital.xnb" t="Include" />
+            <e p="item-vvvvv.xnb" t="Include" />
+            <e p="item-wand_a.xnb" t="Include" />
+            <e p="item-wand_b.xnb" t="Include" />
+            <e p="item-wand_c.xnb" t="Include" />
+            <e p="item-wand_d.xnb" t="Include" />
+            <e p="item-wand_e.xnb" t="Include" />
+            <e p="item-wand_f.xnb" t="Include" />
+            <e p="item-wand_g.xnb" t="Include" />
+            <e p="item-wand_h.xnb" t="Include" />
+            <e p="item-water_melon.xnb" t="Include" />
+            <e p="item-white_pill.xnb" t="Include" />
+            <e p="item-wings.xnb" t="Include" />
+            <e p="item-you_take_more_damage_but_a_damage_boost.xnb" t="Include" />
+            <e p="item-yoyo A.xnb" t="Include" />
+            <e p="item-yoyo B.xnb" t="Include" />
+            <e p="item-yoyo C.xnb" t="Include" />
+            <e p="item-yoyo D.xnb" t="Include" />
+            <e p="item-yoyo_icon A.xnb" t="Include" />
+            <e p="item-yoyo_icon B.xnb" t="Include" />
+            <e p="item-yoyo_icon C.xnb" t="Include" />
+            <e p="item-yoyo_icon D.xnb" t="Include" />
+            <e p="item-zoom.xnb" t="Include" />
+            <e p="its-over-Slice.xnb" t="Include" />
+            <e p="laser (circ).xnb" t="Include" />
+            <e p="laser (circ_over).xnb" t="Include" />
+            <e p="laser (end).xnb" t="Include" />
+            <e p="laser (end_over).xnb" t="Include" />
+            <e p="laser (mid).xnb" t="Include" />
+            <e p="laser (mid_over).xnb" t="Include" />
+            <e p="laser (start).xnb" t="Include" />
+            <e p="laser (start_over).xnb" t="Include" />
+            <e p="menu-bk.xnb" t="Include" />
+            <e p="note-idle-00.xnb" t="Include" />
+            <e p="note-idle-01.xnb" t="Include" />
+            <e p="note-idle-02.xnb" t="Include" />
+            <e p="note-idle-03.xnb" t="Include" />
+            <e p="particle-big.xnb" t="Include" />
+            <e p="particle-circ_empty.xnb" t="Include" />
+            <e p="particle-circle.xnb" t="Include" />
+            <e p="particle-cool.xnb" t="Include" />
+            <e p="particle-empty.xnb" t="Include" />
+            <e p="particle-giant.xnb" t="Include" />
+            <e p="particle-hallow.xnb" t="Include" />
+            <e p="particle-large.xnb" t="Include" />
+            <e p="particle-long.xnb" t="Include" />
+            <e p="particle-rect.xnb" t="Include" />
+            <e p="particle-thick.xnb" t="Include" />
+            <e p="particle-triangle.xnb" t="Include" />
+            <e p="plant-fx-idle-00.xnb" t="Include" />
+            <e p="plant-fx-idle-01.xnb" t="Include" />
+            <e p="plant-fx-idle-02.xnb" t="Include" />
+            <e p="plant-fx-idle-03.xnb" t="Include" />
+            <e p="plant-fx-idle-04.xnb" t="Include" />
+            <e p="poison-idle-00.xnb" t="Include" />
+            <e p="poison-idle-01.xnb" t="Include" />
+            <e p="poison-idle-02.xnb" t="Include" />
+            <e p="poison-idle-03.xnb" t="Include" />
+            <e p="poison-idle-04.xnb" t="Include" />
+            <e p="poof-particles-particles-idle-00.xnb" t="Include" />
+            <e p="poof-particles-particles-idle-01.xnb" t="Include" />
+            <e p="poof-particles-particles-idle-02.xnb" t="Include" />
+            <e p="poof-particles-particles-idle-03.xnb" t="Include" />
+            <e p="poof-particles-particles-idle-04.xnb" t="Include" />
+            <e p="props-Slice.xnb" t="Include" />
+            <e p="props-candle.xnb" t="Include" />
+            <e p="props-capboard_a.xnb" t="Include" />
+            <e p="props-capboard_b.xnb" t="Include" />
+            <e p="props-capboard_c.xnb" t="Include" />
+            <e p="props-capboard_d.xnb" t="Include" />
+            <e p="props-chair_a.xnb" t="Include" />
+            <e p="props-char_b.xnb" t="Include" />
+            <e p="props-cobweb_bottom_left.xnb" t="Include" />
+            <e p="props-cobweb_bottom_right.xnb" t="Include" />
+            <e p="props-cobweb_top_left.xnb" t="Include" />
+            <e p="props-cobweb_top_right.xnb" t="Include" />
+            <e p="props-decor_a.xnb" t="Include" />
+            <e p="props-decor_b.xnb" t="Include" />
+            <e p="props-decor_c.xnb" t="Include" />
+            <e p="props-decor_d.xnb" t="Include" />
+            <e p="props-decor_e.xnb" t="Include" />
+            <e p="props-entance.xnb" t="Include" />
+            <e p="props-exit.xnb" t="Include" />
+            <e p="props-heal.xnb" t="Include" />
+            <e p="props-rock_a.xnb" t="Include" />
+            <e p="props-rock_b.xnb" t="Include" />
+            <e p="props-rock_c.xnb" t="Include" />
+            <e p="props-slab_a.xnb" t="Include" />
+            <e p="props-slab_b.xnb" t="Include" />
+            <e p="props-slab_c.xnb" t="Include" />
+            <e p="props-slab_d.xnb" t="Include" />
+            <e p="props-statue.xnb" t="Include" />
+            <e p="props-table.xnb" t="Include" />
+            <e p="props-toilet.xnb" t="Include" />
+            <e p="props-water.xnb" t="Include" />
+            <e p="props-well.xnb" t="Include" />
+            <e p="props-wood_a.xnb" t="Include" />
+            <e p="props-wood_b.xnb" t="Include" />
+            <e p="rexcellent_games.xnb" t="Include" />
+            <e p="sword-fx-idle-00.xnb" t="Include" />
+            <e p="sword-fx-idle-01.xnb" t="Include" />
+            <e p="sword-fx-idle-02.xnb" t="Include" />
+            <e p="sword-fx-idle-03.xnb" t="Include" />
+            <e p="sword-fx-idle-04.xnb" t="Include" />
+            <e p="sword-fx-idle-05.xnb" t="Include" />
+            <e p="ui-achievement_center.xnb" t="Include" />
+            <e p="ui-achievement_left.xnb" t="Include" />
+            <e p="ui-achievement_right.xnb" t="Include" />
+            <e p="ui-archer.xnb" t="Include" />
+            <e p="ui-banner_bottom.xnb" t="Include" />
+            <e p="ui-banner_bottom_left.xnb" t="Include" />
+            <e p="ui-banner_bottom_right.xnb" t="Include" />
+            <e p="ui-banner_center.xnb" t="Include" />
+            <e p="ui-banner_left.xnb" t="Include" />
+            <e p="ui-banner_right.xnb" t="Include" />
+            <e p="ui-banner_top.xnb" t="Include" />
+            <e p="ui-banner_top_left.xnb" t="Include" />
+            <e p="ui-banner_top_right.xnb" t="Include" />
+            <e p="ui-bkbar-ck_head.xnb" t="Include" />
+            <e p="ui-bkbar-fill.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-00.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-01.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-02.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-03.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-04.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-05.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-06.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-07.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-08.xnb" t="Include" />
+            <e p="ui-bkbar-flame-idle-09.xnb" t="Include" />
+            <e p="ui-bkbar-frame.xnb" t="Include" />
+            <e p="ui-bkbar-lock.xnb" t="Include" />
+            <e p="ui-bkbar-skull.xnb" t="Include" />
+            <e p="ui-block.xnb" t="Include" />
+            <e p="ui-burning.xnb" t="Include" />
+            <e p="ui-card_bottom.xnb" t="Include" />
+            <e p="ui-card_bottom_left.xnb" t="Include" />
+            <e p="ui-card_bottom_right.xnb" t="Include" />
+            <e p="ui-card_center.xnb" t="Include" />
+            <e p="ui-card_left.xnb" t="Include" />
+            <e p="ui-card_right.xnb" t="Include" />
+            <e p="ui-card_top_left.xnb" t="Include" />
+            <e p="ui-cart_top.xnb" t="Include" />
+            <e p="ui-cart_top_right.xnb" t="Include" />
+            <e p="ui-coin_bg.xnb" t="Include" />
+            <e p="ui-cursor.xnb" t="Include" />
+            <e p="ui-dialog_bottom.xnb" t="Include" />
+            <e p="ui-dialog_bottom_left.xnb" t="Include" />
+            <e p="ui-dialog_bottom_right.xnb" t="Include" />
+            <e p="ui-dialog_center.xnb" t="Include" />
+            <e p="ui-dialog_left.xnb" t="Include" />
+            <e p="ui-dialog_right.xnb" t="Include" />
+            <e p="ui-dialog_top.xnb" t="Include" />
+            <e p="ui-dialog_top_left.xnb" t="Include" />
+            <e p="ui-dialog_top_right.xnb" t="Include" />
+            <e p="ui-freezed.xnb" t="Include" />
+            <e p="ui-half_heart.xnb" t="Include" />
+            <e p="ui-half_star.xnb" t="Include" />
+            <e p="ui-hat_bg.xnb" t="Include" />
+            <e p="ui-heart.xnb" t="Include" />
+            <e p="ui-heart_bg.xnb" t="Include" />
+            <e p="ui-hide_button.xnb" t="Include" />
+            <e p="ui-hit_heart.xnb" t="Include" />
+            <e p="ui-inventory_slot.xnb" t="Include" />
+            <e p="ui-inventory_slot_large.xnb" t="Include" />
+            <e p="ui-mana_star.xnb" t="Include" />
+            <e p="ui-map_bottom.xnb" t="Include" />
+            <e p="ui-map_bottom_left.xnb" t="Include" />
+            <e p="ui-map_bottom_right.xnb" t="Include" />
+            <e p="ui-map_left.xnb" t="Include" />
+            <e p="ui-map_right.xnb" t="Include" />
+            <e p="ui-map_top.xnb" t="Include" />
+            <e p="ui-map_top_left.xnb" t="Include" />
+            <e p="ui-map_top_right.xnb" t="Include" />
+            <e p="ui-minimap.xnb" t="Include" />
+            <e p="ui-minus.xnb" t="Include" />
+            <e p="ui-new.xnb" t="Include" />
+            <e p="ui-option_bottom.xnb" t="Include" />
+            <e p="ui-option_bottom_left.xnb" t="Include" />
+            <e p="ui-option_bottom_right.xnb" t="Include" />
+            <e p="ui-option_center.xnb" t="Include" />
+            <e p="ui-option_left.xnb" t="Include" />
+            <e p="ui-option_right.xnb" t="Include" />
+            <e p="ui-plus.xnb" t="Include" />
+            <e p="ui-poisoned.xnb" t="Include" />
+            <e p="ui-ring_bg.xnb" t="Include" />
+            <e p="ui-show.xnb" t="Include" />
+            <e p="ui-slider.xnb" t="Include" />
+            <e p="ui-slider_handle.xnb" t="Include" />
+            <e p="ui-slow.xnb" t="Include" />
+            <e p="ui-star_bg.xnb" t="Include" />
+            <e p="ui-trash.xnb" t="Include" />
+            <e p="ui-warrior.xnb" t="Include" />
+            <e p="ui-wizard.xnb" t="Include" />
+            <e p="veggie-cabbage-growth-00.xnb" t="Include" />
+            <e p="veggie-cabbage-growth-01.xnb" t="Include" />
+            <e p="veggie-cabbage-growth-02.xnb" t="Include" />
+            <e p="veggie-cabbage-wilt-00.xnb" t="Include" />
+            <e p="veggie-heartomato-growth-00.xnb" t="Include" />
+            <e p="veggie-heartomato-growth-01.xnb" t="Include" />
+            <e p="veggie-heartomato-growth-02.xnb" t="Include" />
+            <e p="veggie-heartomato-wilt-00.xnb" t="Include" />
+            <e p="veggie-shroom-growth-00.xnb" t="Include" />
+            <e p="veggie-shroom-growth-01.xnb" t="Include" />
+            <e p="veggie-shroom-growth-02.xnb" t="Include" />
+            <e p="veggie-shroom-wilt-00.xnb" t="Include" />
+            <e p="wormhole-idle-00.xnb" t="Include" />
+            <e p="wormhole-idle-01.xnb" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Display.cs" t="Include" />
+      <e p="Entity" t="Include">
+        <e p="Creature" t="Include">
+          <e p="Creature.cs" t="Include" />
+          <e p="StatedCreature.cs" t="Include" />
+        </e>
+        <e p="Entity.cs" t="Include" />
+        <e p="Physics" t="Include">
+          <e p="PhysicEntity.cs" t="Include" />
+          <e p="PhysicWorld.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Game" t="Include">
+        <e p="InGameState.cs" t="Include" />
+        <e p="State.cs" t="Include" />
+      </e>
+      <e p="Item" t="Include">
+        <e p="Item.cs" t="Include" />
+        <e p="ItemHolder.cs" t="Include" />
+      </e>
+      <e p="MonoGame.Framework.dll.config" t="Include" />
+      <e p="Program.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="AssemblyInfo.cs" t="Include" />
+      </e>
+      <e p="Util" t="Include">
+        <e p="Files" t="Include">
+          <e p="Log.cs" t="Include" />
+        </e>
+        <e p="Math" t="Include">
+          <e p="MathUtils.cs" t="Include" />
+          <e p="Random.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Version.cs" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="packages.config" t="Include" />
+    </e>
+    <e p="$PROJECT_DIR$/../LocalePipeline" t="IncludeRecursive">
+      <e p="LocaleImporter.cs" t="Include" />
+      <e p="LocalePipeline.csproj" t="IncludeRecursive" />
+      <e p="LocaleProcessor.cs" t="Include" />
+      <e p="LocaleWriter.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="AssemblyInfo.cs" t="Include" />
+      </e>
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages.config" t="Include" />
+    </e>
+  </component>
+</project>

@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3d79ddd2-f314-442e-9071-a19fb4d077ee" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.BurningKnight/.idea/contentModel.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.BurningKnight/riderModule.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Locale.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Locales.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Mod/Mod.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Entity/Creature/Creature.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Entity/Creature/StatedCreature.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LocalePipeline/LocaleProcessor.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../LocalePipeline/LocaleWriter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AssetManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AssetManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Assets.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Assets.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Mods.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Mod/Mods.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurningKnight.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurningKnight.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurningKnight.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BurningKnight.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Util/Math/MathUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Util/Math/MathUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/BurningKnight.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/BurningKnight.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/BurningKnight.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/BurningKnight.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/InGameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/InGameState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game/State.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/BurningKnight.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/BurningKnight.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/BurningKnight.csprojResolveAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/BurningKnight.csprojResolveAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/BurningKnight.exe" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/BurningKnight.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/BurningKnight.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/BurningKnight.pdb" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="BurningKnight" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="Mod.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Mod/Mod.cs">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>Content</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Locales.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../LocalePipeline/LocaleWriter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/AssetManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Entity/Creature/Creature.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Assets.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Entity/Creature/StatedCreature.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Mod/Mod.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Locale.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../LocalePipeline/LocaleImporter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BurningKnight.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../LocalePipeline/LocaleProcessor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Util/Math/MathUtils.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/AssetManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Assets.cs" />
+        <option value="$PROJECT_DIR$/BurningKnight.csproj" />
+        <option value="$PROJECT_DIR$/BurningKnight.cs" />
+        <option value="$PROJECT_DIR$/../LocalePipeline/Class1.cs" />
+        <option value="$PROJECT_DIR$/Assets/Locales.cs" />
+        <option value="$PROJECT_DIR$/../LocalePipeline/LocaleImporter.cs" />
+        <option value="$PROJECT_DIR$/Assets/Locale.cs" />
+        <option value="$PROJECT_DIR$/../LocalePipeline/LocaleProcessor.cs" />
+        <option value="$PROJECT_DIR$/../LocalePipeline/LocaleWriter.cs" />
+        <option value="$PROJECT_DIR$/Util/Math/MathUtils.cs" />
+        <option value="$PROJECT_DIR$/Entity/Creature/Creature.cs" />
+        <option value="$PROJECT_DIR$/Entity/Creature/StatedCreature.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-1367" />
+    <option name="y" value="-772" />
+    <option name="width" value="1368" />
+    <option name="height" value="773" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="SolutionExplorer" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="SolutionExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="BurningKnight (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="BurningKnight (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="BurningKnight" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="BurningKnight (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="BurningKnight" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+            <path>
+              <item name="" type="13324e5d:SolutionExplorerViewPane$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="BurningKnight (2 projects)" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="BurningKnight" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Assets" type="977d5f41:SolutionExplorerNodeRider" />
+              <item name="Mod" type="977d5f41:SolutionExplorerNodeRider" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
+      <pane id="Scratches" />
+      <pane id="UnityExplorer">
+        <subPane>
+          <expand>
+            <path>
+              <item name="" type="ad4990d8:FileSystemViewPaneBase$ProjectViewPaneTreeStructure$createRoot$1" />
+              <item name="BurningKnight" type="483dac07:UnityExplorerNode$Root" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <option name="show-hidden-items" value="false" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/bin/Debug/BurningKnight.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bin/Debug" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurningKnight.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="Console" />
+      <option name="PROJECT_TFM" value=".NETFramework,Version=v4.5.1" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3d79ddd2-f314-442e-9071-a19fb4d077ee" name="Default" comment="" />
+      <created>1532329614819</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1532329614819</updated>
+      <workItem from="1532329634998" duration="9002000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="9002000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-1367" y="-772" width="1368" height="773" extended-state="6" />
+    <layout>
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Errors In Solution" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Unit Tests" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32991204" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="NuGet" weight="0.32991204" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49853373" visible="true" weight="0.24963397" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Build" />
+      <window_info anchor="right" id="Database" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" sideWeight="0.5014663" side_tool="true" weight="0.24963397" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Assets/Assets.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
+          <folding>
+            <marker date="1532334322160" expanded="true" signature="6:72" ph="..." />
+            <marker date="1532334322160" expanded="true" signature="104:581" ph="{...}" />
+            <marker date="1532334322160" expanded="true" signature="134:579" ph="{...}" />
+            <marker date="1532334322160" expanded="true" signature="284:465" ph="{...}" />
+            <marker date="1532334322160" expanded="true" signature="425:461" ph="{...}" />
+            <marker date="1532334322160" expanded="true" signature="497:576" ph="{...}" />
+            <marker date="1532334322160" expanded="true" signature="539:572" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/AssetManager.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
+          <folding>
+            <marker date="1532334319664" expanded="true" signature="30:159" ph="{...}" />
+            <marker date="1532334319664" expanded="true" signature="59:157" ph="{...}" />
+            <marker date="1532334319664" expanded="true" signature="97:109" ph="{...}" />
+            <marker date="1532334319664" expanded="true" signature="142:154" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BurningKnight.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="33" column="35" lean-forward="true" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+          <folding>
+            <marker date="1532334997766" expanded="true" signature="6:156" ph="..." />
+            <marker date="1532334997766" expanded="true" signature="181:1498" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="218:1496" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="320:644" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="686:821" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="864:1003" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="1048:1120" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="1160:1231" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="1288:1388" ph="{...}" />
+            <marker date="1532334997766" expanded="true" signature="1441:1493" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BurningKnight.csproj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../LocalePipeline/LocaleWriter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <marker date="1532340680003" expanded="true" signature="6:146" ph="..." />
+            <marker date="1532340680003" expanded="true" signature="172:654" ph="{...}" />
+            <marker date="1532340680003" expanded="true" signature="250:540" ph="{...}" />
+            <marker date="1532340680003" expanded="true" signature="326:413" ph="{...}" />
+            <marker date="1532340680003" expanded="true" signature="482:537" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../LocalePipeline/LocaleProcessor.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+          <folding>
+            <marker date="1532340122436" expanded="true" signature="6:75" ph="..." />
+            <marker date="1532340122436" expanded="true" signature="101:335" ph="{...}" />
+            <marker date="1532340122436" expanded="true" signature="222:333" ph="{...}" />
+            <marker date="1532340122436" expanded="true" signature="305:330" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../LocalePipeline/LocaleImporter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="38" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
+          <folding>
+            <marker date="1532336887987" expanded="true" signature="6:115" ph="..." />
+            <marker date="1532336887987" expanded="true" signature="141:608" ph="{...}" />
+            <marker date="1532336887987" expanded="true" signature="145:244" ph="[...]" />
+            <marker date="1532336887987" expanded="true" signature="299:606" ph="{...}" />
+            <marker date="1532336887987" expanded="true" signature="383:603" ph="{...}" />
+            <marker date="1532336887987" expanded="true" signature="513:599" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Locales.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="2" column="37" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Locale.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="70" selection-start-line="6" selection-start-column="70" selection-end-line="6" selection-end-column="70" />
+          <folding>
+            <marker date="1532336949505" expanded="true" signature="65:179" ph="{...}" />
+            <marker date="1532336949505" expanded="true" signature="88:177" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Entity/Creature/StatedCreature.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="944">
+          <caret line="68" column="25" lean-forward="true" selection-start-line="68" selection-start-column="25" selection-end-line="68" selection-end-column="25" />
+          <folding>
+            <marker date="1532341782856" expanded="true" signature="72:1057" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="114:1055" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="165:361" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="229:244" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="285:309" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="342:357" ph="{...}" />
+            <marker date="1532341782856" expanded="false" signature="447:563" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="484:559" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="653:677" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="710:960" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="739:761" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="834:930" ph="{...}" />
+            <marker date="1532341782856" expanded="true" signature="1001:1052" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Entity/Creature/Creature.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+          <folding>
+            <marker date="1532341179202" expanded="true" signature="6:80" ph="..." />
+            <marker date="1532341179202" expanded="true" signature="121:852" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="161:850" ph="{...}" />
+            <marker date="1532341179202" expanded="false" signature="255:384" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="291:380" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="311:336" ph="{...}" />
+            <marker date="1532341179202" expanded="false" signature="404:537" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="441:533" ph="{...}" />
+            <marker date="1532341179202" expanded="false" signature="556:799" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="590:795" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="610:635" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="710:790" ph="{...}" />
+            <marker date="1532341179202" expanded="true" signature="835:847" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Util/Math/MathUtils.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
+          <folding>
+            <marker date="1532341179058" expanded="true" signature="48:203" ph="{...}" />
+            <marker date="1532341179058" expanded="true" signature="81:201" ph="{...}" />
+            <marker date="1532341179058" expanded="true" signature="145:198" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Mod/Mod.cs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+  </component>
+</project>
