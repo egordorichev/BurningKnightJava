@@ -1,25 +1,32 @@
 ﻿using System.Collections.Generic;
-using BurningKnight.entity;
+using BurningKnight.Entities;
 
-namespace BurningKnight.game
+namespace BurningKnight.Game
 {
   public class Area
   {
-    private readonly List<Entity> _entities = new List<Entity>();
+    private readonly List<Entity> entities = new List<Entity>();
 
     public void Add(Entity entity)
     {
+      entities.Add(entity);
     }
 
     public void Update(float dt)
     {
-      for (int i = _entities.Count - 1; i >= 0; i--)
+      for (int i = entities.Count - 1; i >= 0; i--)
       {
-        Entity entity = _entities[i];
+        Entity entity = entities[i];
 
-        if (entity.ShouldUpdate()) entity.Update(dt);
+        if (entity.ShouldUpdate())
+        {
+          entity.Update(dt);
+        }
 
-        if (entity.Done) _entities.Remove(entity);
+        if (entity.shouldRemove)
+        {
+          entities.Remove(entity);
+        }
       }
     }
 
@@ -27,7 +34,10 @@ namespace BurningKnight.game
     {
       // todo: sort
 
-      foreach (Entity entity in _entities) entity.Draw();
+      foreach (Entity entity in entities)
+      {
+        entity.Draw();
+      }
     }
   }
 }

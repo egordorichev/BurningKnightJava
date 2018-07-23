@@ -65,15 +65,15 @@
     <Compile Include="Assets\Mod\Mod.cs" />
     <Compile Include="Assets\Mod\Mods.cs" />
     <Compile Include="Display.cs" />
-    <Compile Include="Entity\Creature\Creature.cs" />
-    <Compile Include="Entity\Creature\StatedCreature.cs" />
-    <Compile Include="Entity\Entity.cs" />
-    <Compile Include="Entity\Level\Generation\Painter.cs" />
-    <Compile Include="Entity\Level\Generation\Rooms\Room.cs" />
-    <Compile Include="Entity\Level\Level.cs" />
-    <Compile Include="Entity\Level\Terrain.cs" />
-    <Compile Include="Entity\Physics\PhysicEntity.cs" />
-    <Compile Include="Entity\Physics\PhysicWorld.cs" />
+    <Compile Include="Entities\Creature\Creature.cs" />
+    <Compile Include="Entities\Creature\StatefulCreature.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Level\Generation\Painter.cs" />
+    <Compile Include="Entities\Level\Generation\Rooms\Room.cs" />
+    <Compile Include="Entities\Level\Level.cs" />
+    <Compile Include="Entities\Level\Terrain.cs" />
+    <Compile Include="Entities\Physics\PhysicsEntity.cs" />
+    <Compile Include="Entities\Physics\PhysicsWorld.cs" />
     <Compile Include="Game\Area.cs" />
     <Compile Include="Game\InGameState.cs" />
     <Compile Include="Game\State.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Files\Log.cs" />
-    <Compile Include="Util\Math\MathUtils.cs" />
+    <Compile Include="Util\Math\Mathf.cs" />
     <Compile Include="Util\Math\Random.cs" />
     <Compile Include="Version.cs" />
   </ItemGroup>
@@ -101,10 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content" />
-    <Folder Include="Entity\Level\Generation\Rooms\Connection" />
-    <Folder Include="Entity\Level\Generation\Rooms\Entrance" />
-    <Folder Include="Entity\Level\Generation\Rooms\Regular" />
-    <Folder Include="Entity\Level\Generation\Rooms\Special" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bin\**\*">

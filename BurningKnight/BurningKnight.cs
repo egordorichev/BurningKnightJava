@@ -1,16 +1,15 @@
 ﻿using BurningKnight.assets;
-using BurningKnight.game;
-using BurningKnight.util.files;
+using BurningKnight.Game;
+using BurningKnight.Util.Files;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace BurningKnight
 {
-  public class BurningKnight : Game
+  public class BurningKnight : Microsoft.Xna.Framework.Game
   {
-    public static GraphicsDeviceManager Manager;
-    private State _state;
-
+    public static GraphicsDeviceManager Manager { get; private set; }
+    private State state;
+    
     public BurningKnight()
     {
       Manager = new GraphicsDeviceManager(this);
@@ -18,8 +17,8 @@ namespace BurningKnight
       int scale = 2;
 
       Manager.PreferMultiSampling = true;
-      Manager.PreferredBackBufferWidth = Display.Width * scale;
-      Manager.PreferredBackBufferHeight = Display.Height * scale;
+      Manager.PreferredBackBufferWidth = Display.WIDTH * scale;
+      Manager.PreferredBackBufferHeight = Display.HEIGHT * scale;
 
       Window.AllowUserResizing = true;
 
@@ -31,30 +30,35 @@ namespace BurningKnight
       base.Initialize();
 
       Window.Title = Version.GenerateTitle();
-      Log.info("Starting Burning Knight " + Version.String);
+      
+      Log.Info("Starting Burning Knight " + Version.String);
     }
 
     protected override void LoadContent()
     {
-      Graphics.Batch = new SpriteBatch(GraphicsDevice);
-      Assets.Content = Content;
+      Assets.content = Content;
 
       Assets.Load();
-      SetState(State.INGAME);
+      
+      SetState(State.InGame);
     }
 
     protected override void UnloadContent()
     {
-      _state?.Destroy();
+      state.Destroy();
+      
       Assets.Destroy();
+      
       Content.Unload();
     }
 
     public void SetState(State newState)
     {
-      _state?.Destroy();
-      _state = newState;
-      _state?.Init();
+      state?.Destroy();
+      
+      state = newState;
+      
+      state.Init();
     }
 
     protected override void Update(GameTime gameTime)
@@ -63,13 +67,15 @@ namespace BurningKnight
 
       float dt = gameTime.ElapsedGameTime.Milliseconds * 1000f;
 
-      _state?.Update(dt);
+      state.Update(dt);
+      
       Assets.Mods.Update(dt);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-      _state?.Draw();
+      state.Draw();
+      
       Assets.Mods.Draw();
 
       base.Draw(gameTime);

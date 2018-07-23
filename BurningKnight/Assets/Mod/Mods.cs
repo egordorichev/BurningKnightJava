@@ -4,34 +4,43 @@ namespace BurningKnight.assets
 {
   public class Mods : AssetManager
   {
-    private readonly List<Mod> _mods = new List<Mod>();
+    private readonly List<Mod> mods = new List<Mod>();
 
     public Mods()
     {
-      AddMod(new Mod("Test mode", "WIP", "test"));
+      AddMod(new Mod("Test mod", "WIP", "test"));
     }
 
     public void AddMod(Mod mod)
     {
-      _mods.Add(mod);
+      mods.Add(mod);
       mod.Init();
     }
 
     public void Update(float dt)
     {
-      foreach (Mod mod in _mods) mod.Update(dt);
+      foreach (Mod mod in mods)
+      {
+        mod.Update(dt);
+      }
     }
 
     public void Draw()
     {
-      foreach (Mod mod in _mods) mod.Draw();
+      foreach (Mod mod in mods)
+      {
+        mod.Draw();
+      }
     }
 
     public override void Destroy()
     {
       base.Destroy();
 
-      foreach (Mod mod in _mods) mod.Destroy();
+      foreach (Mod mod in mods)
+      {
+        mod.Destroy();
+      }
     }
   }
 }

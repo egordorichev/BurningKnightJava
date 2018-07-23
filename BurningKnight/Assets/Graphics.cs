@@ -5,22 +5,16 @@ namespace BurningKnight.assets
 {
   public class Graphics : AssetManager
   {
-    public static SpriteBatch Batch;
-
-    /*
-     * Asset loading
-     */
+    public static SpriteBatch Batch { get; private set; }
 
     public override void LoadAssets()
     {
       base.LoadAssets();
+      
+      Batch = new SpriteBatch(BurningKnight.Manager.GraphicsDevice);
     }
 
-    /*
-     * Static methods
-     */
-
-    public static void clear(Color color)
+    public static void Clear(Color color)
     {
       Batch.GraphicsDevice.Clear(color);
     }

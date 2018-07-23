@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BurningKnight")]
 [assembly: AssemblyDescription("BurningKnight")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("rexcellentgames")]
+[assembly: AssemblyCompany("rexcellentGames")]
 [assembly: AssemblyProduct("BurningKnight")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]

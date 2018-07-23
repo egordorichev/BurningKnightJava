@@ -1,28 +1,28 @@
-using BurningKnight.util.files;
+using BurningKnight.Util.Files;
 using MoonSharp.Interpreter;
 
 namespace BurningKnight.assets
 {
   public class Mod
   {
-    public readonly string Decription;
-    public readonly string Id;
-    public readonly string Name;
-    private readonly DynValue _drawCallback;
-    private readonly Script _script;
+    public string Description { get; private set; }
+    public string Id { get; private set; }
+    public string Name { get; private set; }
+    private readonly DynValue drawCallback;
+    private readonly Script script;
 
-    private readonly DynValue _updateCallback;
+    private readonly DynValue updateCallback;
 
-    public Mod(string name, string decription, string id)
+    public Mod(string name, string description, string id)
     {
       Name = name;
-      Decription = decription;
+      Description = description;
       Id = id;
 
-      _script = new Script();
-      Api.Add(_script);
+      script = new Script();
+      Api.Add(script);
 
-      _script.DoString(@"
+      script.DoString(@"
 function init()
 	print('Hallo!')
 end		
@@ -40,18 +40,18 @@ function draw()
 end
 ");
 
-      DynValue update = _script.Globals.Get("update");
+      DynValue update = script.Globals.Get("update");
 
-      if (update.Function != null) _updateCallback = update;
+      if (update.Function != null) updateCallback = update;
 
-      DynValue draw = _script.Globals.Get("draw");
+      DynValue draw = script.Globals.Get("draw");
 
-      if (draw.Function != null) _drawCallback = draw;
+      if (draw.Function != null) drawCallback = draw;
     }
 
     public void Init()
     {
-      DynValue init = _script.Globals.Get("init");
+      DynValue init = script.Globals.Get("init");
 
       if (init.Function != null)
         try
@@ -66,10 +66,10 @@ end
 
     public void Update(float dt)
     {
-      if (_updateCallback != null)
+      if (updateCallback != null)
         try
         {
-          _updateCallback.Function.Call();
+          updateCallback.Function.Call();
         }
         catch (ScriptRuntimeException e)
         {
@@ -79,10 +79,10 @@ end
 
     public void Draw()
     {
-      if (_drawCallback != null)
+      if (drawCallback != null)
         try
         {
-          _drawCallback.Function.Call();
+          drawCallback.Function.Call();
         }
         catch (ScriptRuntimeException e)
         {
@@ -92,9 +92,10 @@ end
 
     public void Destroy()
     {
-      DynValue destroy = _script.Globals.Get("destroy");
+      DynValue destroy = script.Globals.Get("destroy");
 
       if (destroy.Function != null)
+      {
         try
         {
           destroy.Function.Call();
@@ -103,11 +104,12 @@ end
         {
           HandleError("destroy()", e);
         }
+      }
     }
 
     private void HandleError(string where, ScriptRuntimeException e)
     {
-      Log.error(Id + " " + where + ": " + e.Message);
+      Log.Error(Id + " " + where + ": " + e.Message);
     }
   }
 }

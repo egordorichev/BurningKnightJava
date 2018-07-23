@@ -1,32 +1,35 @@
 ﻿using BurningKnight.assets;
-using BurningKnight.entity.physics;
+using BurningKnight.Entities.Physics;
 using Microsoft.Xna.Framework;
 
-namespace BurningKnight.game
+namespace BurningKnight.Game
 {
   public class InGameState : State
   {
     public override void Init()
     {
       base.Init();
-      PhysicWorld.Init();
+      
+      PhysicsWorld.Init();
     }
 
     public override void Destroy()
     {
       base.Destroy();
-      PhysicWorld.Destroy();
+      
+      PhysicsWorld.Destroy();
     }
 
     public override void Update(float dt)
     {
       base.Update(dt);
-      PhysicWorld.Update(dt);
+      
+      PhysicsWorld.Update(dt);
     }
 
     public override void Draw()
     {
-      Graphics.clear(Color.Black);
+      Graphics.Clear(Color.Black);
     }
   }
 }

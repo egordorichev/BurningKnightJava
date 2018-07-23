@@ -1,12 +1,14 @@
-﻿namespace BurningKnight.util.math
+﻿using System.Linq;
+
+namespace BurningKnight.Util.Math
 {
-  public class Random
+  public static class Random
   {
-    private static readonly System.Random _random = new System.Random();
+    private static readonly System.Random random = new System.Random();
 
     public static float Float(float min, float max)
     {
-      return (float) (min + _random.NextDouble() * (max - min));
+      return (float) (min + random.NextDouble() * (max - min));
     }
 
     public static float FloatDice(float min, float max)
@@ -16,22 +18,22 @@
 
     public static float Float(float max)
     {
-      return (float) (_random.NextDouble() * max);
+      return (float) (random.NextDouble() * max);
     }
 
     public static float Float()
     {
-      return (float) _random.NextDouble();
+      return (float) random.NextDouble();
     }
 
     public static int Int(int max)
     {
-      return max > 0 ? (int) (_random.NextDouble() * max) : 0;
+      return max > 0 ? (int) (random.NextDouble() * max) : 0;
     }
 
     public static int Int(int min, int max)
     {
-      return min + (int) (_random.NextDouble() * (max - min));
+      return min + (int) (random.NextDouble() * (max - min));
     }
 
     public static bool Chance(float a)
@@ -42,11 +44,9 @@
     public static int Chances(float[] chances)
     {
       int length = chances.Length;
-      float sum = 0;
-
-      foreach (float chance in chances) sum += chance;
-
+      float sum = chances.Sum();
       float value = Float(sum);
+      
       sum = 0;
 
       for (int i = 0; i < length; i++)

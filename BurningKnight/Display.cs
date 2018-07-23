@@ -2,7 +2,7 @@
 {
   public static class Display
   {
-    public const int Width = 384;
-    public const int Height = 256;
+    public const int WIDTH = 384;
+    public const int HEIGHT = 256;
   }
 }

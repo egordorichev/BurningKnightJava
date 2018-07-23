@@ -1,4 +1,4 @@
-﻿namespace BurningKnight.entity.Level
+﻿namespace BurningKnight.Entities.Level
 {
   public static class Terrain
   {

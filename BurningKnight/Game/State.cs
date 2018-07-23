@@ -1,9 +1,9 @@
-﻿namespace BurningKnight.game
+﻿namespace BurningKnight.Game
 {
   public class State
   {
-    public static InGameState INGAME = new InGameState();
-    protected Area Area = new Area();
+    public static InGameState InGame { get; } = new InGameState(); // I hope this works
+    protected Area area = new Area();
 
     public virtual void Init()
     {
