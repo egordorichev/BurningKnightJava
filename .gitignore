@@ -138,3 +138,6 @@ BurningKnight/obj
 BurningKnight/bin
 Farseer Physics Engine 3.5/obj
 Farseer Physics Engine 3.5/bin
+
+.idea/
+!Dependencies/**/*.pdb

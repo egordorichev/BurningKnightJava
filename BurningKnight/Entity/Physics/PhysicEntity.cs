@@ -3,28 +3,28 @@ using Microsoft.Xna.Framework;
 
 namespace BurningKnight.entity.physics
 {
-	public class PhysicEntity : Entity
-	{
-		protected Body Body;
-		protected Vector2 Velocity = new Vector2();
+  public class PhysicEntity : Entity
+  {
+    protected Body Body;
+    protected Vector2 Velocity = new Vector2();
 
-		public override void Update(float dt)
-		{
-			if (Body != null)
-			{
-				X = Body.Position.X;
-				Y = Body.Position.Y;
+    public override void Update(float dt)
+    {
+      if (Body != null)
+      {
+        X = Body.Position.X;
+        Y = Body.Position.Y;
 
-				Body.LinearVelocity = Velocity;
-			}
-			
-			base.Update(dt);
-		}
+        Body.LinearVelocity = Velocity;
+      }
 
-		public override void Destroy()
-		{
-			base.Destroy();
-			Body = PhysicWorld.Remove(Body);
-		}
-	}
+      base.Update(dt);
+    }
+
+    public override void Destroy()
+    {
+      base.Destroy();
+      Body = PhysicWorld.Remove(Body);
+    }
+  }
 }

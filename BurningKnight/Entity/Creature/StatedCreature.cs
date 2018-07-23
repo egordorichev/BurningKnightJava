@@ -2,71 +2,66 @@
 
 namespace BurningKnight.entity.Creature
 {
-	public class StatedCreature : Creature
-	{
-		public class State<T> where T: StatedCreature
-		{
-			protected float _t;
-			
-			public virtual void OnEnter()
-			{
-				
-			}
+  public class StatedCreature : Creature
+  {
+    private string _lastState;
 
-			public virtual void Update(float dt)
-			{
-				_t += dt;
-			}
+    private State<StatedCreature> _state;
 
-			public virtual void OnExit()
-			{
-				
-			}
-		}
+    public State<StatedCreature> CurrentState
+    {
+      get { return _state; }
+      set
+      {
+        _state?.OnExit();
+        _state = value;
+        _state?.OnEnter();
+      }
+    }
 
-		private State<StatedCreature> _state;
+    public virtual State<StatedCreature> GetState(string id)
+    {
+      return null;
+    }
 
-		public State<StatedCreature> CurrentState
-		{
-			get { return _state; }
-			set
-			{
-				_state?.OnExit();
-				_state = value;
-				_state?.OnEnter();
-			}
-		}
+    public void Become(string id)
+    {
+      if (id == _lastState) return;
 
-		private string _lastState;
+      _lastState = id;
+      State<StatedCreature> state = GetState(id);
 
-		public virtual State<StatedCreature> GetState(string id)
-		{
-			return null;
-		}
+      if (state == null)
+      {
+        Log.error("State '" + id + "' is not defined for " + GetType().Name);
+        return;
+      }
 
-		public void Become(string id)
-		{
-			if (id == _lastState)
-			{
-				return;
-			}
+      CurrentState = state;
+    }
 
-			_lastState = id;
-			var state = GetState(id);
+    public override void Update(float dt)
+    {
+      base.Update(dt);
+      _state?.Update(dt);
+    }
 
-			if (state == null)
-			{
-				Log.error("State '" + id + "' is not defined for " + GetType().Name);
-				return;
-			}
+    public class State<T> where T : StatedCreature
+    {
+      protected float _t;
 
-			CurrentState = state;
-		}
+      public virtual void OnEnter()
+      {
+      }
 
-		public override void Update(float dt)
-		{
-			base.Update(dt);
-			_state?.Update(dt);
-		}
-	}
+      public virtual void Update(float dt)
+      {
+        _t += dt;
+      }
+
+      public virtual void OnExit()
+      {
+      }
+    }
+  }
 }

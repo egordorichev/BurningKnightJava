@@ -1,7 +1,6 @@
 ﻿namespace BurningKnight.assets
 {
-	public class Locales : AssetManager
-	{
-		
-	}
+  public class Locales : AssetManager
+  {
+  }
 }

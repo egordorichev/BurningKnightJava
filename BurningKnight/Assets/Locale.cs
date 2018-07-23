@@ -2,8 +2,8 @@
 
 namespace BurningKnight.assets
 {
-	public class Locale
-	{
-		public Dictionary<string, string> Dictionary = new Dictionary<string, string>();
-	}
+  public class Locale
+  {
+    public Dictionary<string, string> Dictionary = new Dictionary<string, string>();
+  }
 }
