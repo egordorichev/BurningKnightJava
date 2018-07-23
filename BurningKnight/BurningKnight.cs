@@ -1,55 +1,67 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BurningKnight.assets;
+using BurningKnight.game;
+using BurningKnight.util.files;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace Core
+namespace BurningKnight
 {
-    public class BurningKnight : Game
-    {
-        public GraphicsDeviceManager graphicsDevice;
-        public SpriteBatch spriteBatch;
-        
-        public BurningKnight()
-        {
-            graphicsDevice = new GraphicsDeviceManager(this)
-            {
-                PreferMultiSampling = true
-            };
-        }
+	public class BurningKnight : Game
+	{
+		public static GraphicsDeviceManager Manager;
+		private State _state;
+		
+		public BurningKnight()
+		{
+			Manager = new GraphicsDeviceManager(this);
 
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
+			int scale = 2;
 
-        protected override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-        }
+			Manager.PreferMultiSampling = true;
+			Manager.PreferredBackBufferWidth = Display.Width * scale;
+			Manager.PreferredBackBufferHeight = Display.Height * scale;
+			
+			Window.AllowUserResizing = true;
+		}
+		
+		protected override void Initialize()
+		{
+			base.Initialize();
+			
+			Window.Title = Version.GenerateTitle();
+			Log.info("Starting Burning Knight " + Version.String);
+		}
+		
+		protected override void LoadContent()
+		{
+			Graphics.Batch = new SpriteBatch(GraphicsDevice);
+			Assets.Load();
+			SetState(State.INGAME);
+		}
+		
+		protected override void UnloadContent()
+		{
+			_state?.Destroy();
+			Assets.Destroy();
+		}
 
-        protected override void UnloadContent()
-        {
-            
-        }
-
-        protected override void Update(GameTime gameTime)
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
-            
-            base.Update(gameTime);
-        }
-
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin();
-            spriteBatch.End();
-
-            base.Draw(gameTime);
-        }
-    }
+		public void SetState(State newState)
+		{
+			_state?.Destroy();
+			_state = newState;
+			_state?.Init();
+		}
+				
+		protected override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+			_state?.Update(gameTime.ElapsedGameTime.Milliseconds * 1000f);
+		}
+		
+		protected override void Draw(GameTime gameTime)
+		{
+			_state?.Draw();
+			base.Draw(gameTime);
+		}
+	}
 }
