@@ -1,0 +1,4 @@
+8:34:14 PM [INFO]: Loading mod Content/mods/bk
+8:34:15 PM [INFO]: Parsing Content/mods/bk/items/gold.lua
+8:34:15 PM [INFO]: 10
+8:34:15 PM [INFO]: Starting Burning Knight 0.1.0.1 dev

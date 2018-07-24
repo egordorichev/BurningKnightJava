@@ -1,0 +1,17 @@
+8:07:13 PM [INFO]: Loading mod Content/mods/bk
+8:07:13 PM [INFO]: function init()
+	print("Hi!")
+end
+
+function destroy()
+	
+end
+
+function update(dt)
+
+end
+
+function draw()
+	
+end
+8:07:13 PM [INFO]: Starting Burning Knight 0.1.0.1 dev
