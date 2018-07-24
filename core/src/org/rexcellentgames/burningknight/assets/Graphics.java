@@ -128,7 +128,7 @@ public class Graphics {
 
 	public static void resize(int w, int h) {
 		shadows.dispose();
-		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, w, h, false);
+		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, Math.max(Display.GAME_WIDTH, w), Math.max(Display.GAME_HEIGHT, h), false);
 	}
 
 	public static TextureRegion getTexture(String name) {
