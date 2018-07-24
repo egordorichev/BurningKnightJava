@@ -1,3 +1,0 @@
-8:14:19 PM [INFO]: Loading mod Content/mods/bk
-8:14:19 PM [INFO]: main.lua
-8:14:19 PM [INFO]: Starting Burning Knight 0.1.0.1 dev

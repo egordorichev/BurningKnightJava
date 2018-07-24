@@ -1,9 +1,0 @@
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/bin/Debug/FarseerPhysics.XML
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/bin/Debug/FarseerPhysics.dll
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/bin/Debug/FarseerPhysics.pdb
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/bin/Debug/MonoGame.Framework.dll
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/bin/Debug/MonoGame.Framework.xml
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/obj/Debug/Farseer Physics.csprojResolveAssemblyReference.cache
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/obj/Debug/Farseer Physics.csproj.CoreCompileInputs.cache
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/obj/Debug/FarseerPhysics.dll
-/home/egor/BurningKnight/Farseer Physics Engine 3.5/obj/Debug/FarseerPhysics.pdb

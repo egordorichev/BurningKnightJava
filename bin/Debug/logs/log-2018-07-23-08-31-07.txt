@@ -1,2 +1,0 @@
-8:31:07 PM [INFO]: Loading mod Content/mods/bk
-8:31:07 PM [INFO]: Parsing Content/mods/bk/items/gold.lua
