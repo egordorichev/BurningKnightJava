@@ -1,0 +1,61 @@
+{ "frames": {
+   "sword_fx 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 13, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 11, "y": 5, "w": 13, "h": 7 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 33
+   },
+   "sword_fx 1.ase": {
+    "frame": { "x": 13, "y": 0, "w": 15, "h": 22 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 11, "y": 5, "w": 15, "h": 22 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 33
+   },
+   "sword_fx 2.ase": {
+    "frame": { "x": 28, "y": 0, "w": 15, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 11, "y": 5, "w": 15, "h": 23 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 33
+   },
+   "sword_fx 3.ase": {
+    "frame": { "x": 43, "y": 0, "w": 15, "h": 22 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 11, "y": 6, "w": 15, "h": 22 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 33
+   },
+   "sword_fx 4.ase": {
+    "frame": { "x": 58, "y": 0, "w": 15, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 11, "y": 15, "w": 15, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 33
+   },
+   "sword_fx 5.ase": {
+    "frame": { "x": 73, "y": 0, "w": 15, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 11, "y": 16, "w": 15, "h": 12 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 33
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "I8",
+  "size": { "w": 88, "h": 23 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 5, "direction": "forward" }
+  ]
+ }
+}

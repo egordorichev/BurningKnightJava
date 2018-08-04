@@ -1,4 +1,5 @@
 ﻿using BurningKnight.Assets;
+using BurningKnight.Assets.Graphics;
 using BurningKnight.Game;
 using BurningKnight.Util.Files;
 using Microsoft.Xna.Framework;
@@ -37,7 +38,7 @@ namespace BurningKnight
 			Window.Title = Version.GenerateTitle();
 			Log.Info("Starting Burning Knight " + Version.String);
 			
-			Graphics.Batch = new SpriteBatch(GraphicsDevice);
+			Graphics.batch = new SpriteBatch(GraphicsDevice);
 			AssetsHelper.Load();
 			SetState(State.InGame);
 		}

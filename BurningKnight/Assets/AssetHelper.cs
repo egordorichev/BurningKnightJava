@@ -14,7 +14,7 @@ namespace BurningKnight.Assets
 		public static void Load()
 		{
 			managers.Add(new LocaleManager());
-			managers.Add(new Graphics());
+			managers.Add(new Graphics.Graphics());
 			managers.Add(new Audio());
 			managers.Add(mods = new ModManager());
 			

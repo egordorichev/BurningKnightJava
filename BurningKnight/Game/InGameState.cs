@@ -1,5 +1,7 @@
 ﻿using BurningKnight.Assets;
+using BurningKnight.Assets.Graphics;
 using BurningKnight.Entities.Physics;
+using BurningKnight.Util.Animations;
 using Microsoft.Xna.Framework;
 
 namespace BurningKnight.Game
@@ -9,7 +11,7 @@ namespace BurningKnight.Game
 		public override void Init()
 		{
 			base.Init();
-			PhysicWorld.Init();
+			PhysicWorld.Init();			
 		}
 
 		public override void Destroy()
@@ -27,7 +29,7 @@ namespace BurningKnight.Game
 
 		public override void Draw()
 		{
-			Graphics.clear(Color.Black);
+			Graphics.Clear(Color.Black);
 			AssetsHelper.mods.Draw();
 		}
 	}

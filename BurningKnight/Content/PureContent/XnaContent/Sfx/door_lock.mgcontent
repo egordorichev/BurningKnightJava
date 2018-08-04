@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>/home/egor/BurningKnight/BurningKnight/Content/../PureContent/XnaContent/Sfx/door_lock.mp3</SourceFile>
+  <SourceTime>2018-07-11T17:57:15.826082+03:00</SourceTime>
+  <DestFile>/home/egor/BurningKnight/BurningKnight/Content/bin/../PureContent/XnaContent/Sfx/door_lock.xnb</DestFile>
+  <DestTime>1601-01-01T03:00:00+03:00</DestTime>
+  <Importer>Mp3Importer</Importer>
+  <ImporterTime>2018-07-22T15:23:59.584089+03:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2018-07-22T15:23:59.584089+03:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>/home/egor/BurningKnight/BurningKnight/Content/bin/../PureContent/XnaContent/Sfx/door_lock.ogg</string>
+  </BuildOutput>
+</PipelineBuildEvent>

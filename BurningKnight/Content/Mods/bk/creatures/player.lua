@@ -6,7 +6,7 @@ defineCreature(player, "player", {
 
 defineState(player, "idle", {
 	onEnter = function(state, self)
-
+		
 	end,
 
 	onExit = function(state, self)

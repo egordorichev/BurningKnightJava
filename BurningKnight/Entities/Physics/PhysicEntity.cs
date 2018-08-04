@@ -12,8 +12,8 @@ namespace BurningKnight.Entities.Physics
 		{
 			if (Body != null)
 			{
-				X = Body.Position.X;
-				Y = Body.Position.Y;
+				x = Body.Position.X;
+				y = Body.Position.Y;
 
 				Body.LinearVelocity = Velocity;
 			}

@@ -4,13 +4,13 @@ namespace BurningKnight.Entities
 {
 	public class Entity
 	{
-		public float X;
-		public float Y;
-		public float W = 16;
-		public float H = 16;
+		public float x;
+		public float y;
+		public float w = 16;
+		public float h = 16;
 
-		public float Cx => X + W / 2;
-		public float Cy => Y + H / 2;
+		public float Cx => x + w / 2;
+		public float Cy => y + h / 2;
 
 		public virtual void Init()
 		{

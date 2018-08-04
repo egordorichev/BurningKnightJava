@@ -59,7 +59,9 @@
     <Compile Include="Assets\AssetManager.cs" />
     <Compile Include="Assets\AssetHelper.cs" />
     <Compile Include="Assets\Audio.cs" />
-    <Compile Include="Assets\Graphics.cs" />
+    <Compile Include="Assets\Graphics\Graphics.cs" />
+    <Compile Include="Assets\Graphics\TextureAtlas.cs" />
+    <Compile Include="Assets\Graphics\TextureRegion.cs" />
     <Compile Include="Assets\Locales\Locale.cs" />
     <Compile Include="Assets\Locales\LocaleManager.cs" />
     <Compile Include="Assets\Mods\Api.cs" />
@@ -85,6 +87,9 @@
     <Compile Include="Items\ScriptedItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Animations\Animation.cs" />
+    <Compile Include="Util\Animations\AnimationData.cs" />
+    <Compile Include="Util\Animations\AnimationHelper.cs" />
     <Compile Include="Util\Files\FileHandle.cs" />
     <Compile Include="Util\Files\Log.cs" />
     <Compile Include="Util\Maths\MathUtils.cs" />
