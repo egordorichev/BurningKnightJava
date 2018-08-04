@@ -69,6 +69,7 @@
     <Compile Include="Display.cs" />
     <Compile Include="Entities\Creatures\Creature.cs" />
     <Compile Include="Entities\Creatures\Enemies\Enemy.cs" />
+    <Compile Include="Entities\Creatures\Enemies\EnemyData.cs" />
     <Compile Include="Entities\Creatures\Enemies\EnemyRegistry.cs" />
     <Compile Include="Entities\Creatures\ScriptedCreature.cs" />
     <Compile Include="Entities\Creatures\StatedCreature.cs" />

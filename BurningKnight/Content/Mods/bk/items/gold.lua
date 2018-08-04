@@ -1,13 +1,5 @@
 gold = extend(item)
 
-function gold:onPickup() 
-	
-end
-
-function gold:onDrop()
-
-end
-
 define_item(gold, "gold")
 
 -- 3rd arg is quality, if nil, wont spawn in chests / shops

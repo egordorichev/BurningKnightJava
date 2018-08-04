@@ -1,4 +1,5 @@
 ﻿using System;
+using BurningKnight.Entities.Creatures.Enemies;
 using BurningKnight.Util.Files;
 using MoonSharp.Interpreter;
 
@@ -90,14 +91,17 @@ namespace BurningKnight.Assets.Mods
 		public void Init()
 		{
 			DynValue initCallback = script.Globals.Get("init");
-
 			initCallback?.Function?.Call();
+
+			Enemy enemy = EnemyRegistry.Create("knight");
+			
+			enemy.Become("idle");
+			enemy.Become("busy");
 		}
 
 		public void Destroy()
 		{
 			DynValue destroyCallback = script.Globals.Get("destroy");
-
 			destroyCallback?.Function?.Call();
 		}
 		

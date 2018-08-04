@@ -6,19 +6,17 @@ namespace BurningKnight.Entities.Creatures
 	[MoonSharpUserData]
 	public class ScriptedCreature : StatedCreature
 	{
-		public Table table;
-		protected Dictionary<string, DynValue[]> states;
+		public Dictionary<string, DynValue[]> states;
 		
 		[MoonSharpUserData]
-		public class ScriptedState<T> : State<T> where T: ScriptedCreature
+		public class ScriptedState : State<StatedCreature>
 		{
-			private DynValue cself;
-			private DynValue[] callbacks;
+			public DynValue[] callbacks;
 
 			public override void OnEnter()
 			{
 				base.OnEnter();
-				callbacks = Self.states[Self.lastState];				
+				callbacks = ((ScriptedCreature) Self).states[Self.lastState];				
 				callbacks[0]?.Function.Call(this, Self);
 			}
 
@@ -32,6 +30,20 @@ namespace BurningKnight.Entities.Creatures
 			{
 				base.OnExit();				
 				callbacks[1]?.Function.Call(this, Self);
+			}
+		}
+
+		protected override void SetupState(string id)
+		{
+			DynValue[] state = states[id];
+
+			if (state != null)
+			{
+				ScriptedState st = new ScriptedState();
+
+				st.callbacks = state;
+				
+				this.state = st;
 			}
 		}
 	}

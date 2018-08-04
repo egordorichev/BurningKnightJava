@@ -16,8 +16,8 @@ namespace BurningKnight.Entities.Creatures
 
 			state?.OnExit();
 			lastState = id;
-			state = GetState(id);
-
+			SetupState(id);
+			
 			if (state == null)
 			{
 				Log.Error(GetType().Name + " doesn't have " + id + " state");
@@ -38,6 +38,11 @@ namespace BurningKnight.Entities.Creatures
 		protected virtual State<StatedCreature> GetState(string id)
 		{
 			return null;
+		}
+
+		protected virtual void SetupState(string id)
+		{
+			state = GetState(id);
 		}
 		
 		public class State<T> where T: StatedCreature

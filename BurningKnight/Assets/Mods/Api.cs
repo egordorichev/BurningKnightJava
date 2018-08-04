@@ -19,7 +19,7 @@ namespace BurningKnight.Assets.Mods
 			script.Globals["print"] = (Func<object, int>) Print;
 			script.Globals["define_item"] = (Func<Table, string, int>) DefineItem;
 			script.Globals["define_enemy"] = (Func<Table, string, int>) DefineEnemy;
-			script.Globals["define_state"] = (Func<Table, Table, int>) DefineState;
+			script.Globals["define_state"] = (Func<Table, string, Table, int>) DefineState;
 			
 			script.Globals["item"] = new Item();
 			script.Globals["enemy"] = new Enemy();
@@ -90,17 +90,46 @@ end
 				return 0;
 			}
 
+			t["id"] = id;
+			
+			EnemyData data = new EnemyData();
+			data.table = t;
+
+			EnemyRegistry.Define(id, data);
 			
 			return 0;
 		}
 
-		private static int DefineState(Table t, Table state)
+		private static int DefineState(Table t, string name, Table state)
 		{
 			if (state == null || t == null)
 			{
 				return 0;
 			}
 
+			DynValue enter = state.Get("onEnter");
+			DynValue exit = state.Get("onExit");
+			DynValue update = state.Get("onUpdate");
+			
+			DynValue[] states = new DynValue[3];
+
+			if (enter?.Function != null)
+			{
+				states[0] = enter;
+			}
+			
+			if (exit?.Function != null)
+			{
+				states[1] = exit;
+			}
+			
+			if (update?.Function != null)
+			{
+				states[2] = update;
+			}
+			
+			EnemyRegistry.AddState(t.Get("id").String, name, states);
+			
 			return 0;
 		}
 	}
