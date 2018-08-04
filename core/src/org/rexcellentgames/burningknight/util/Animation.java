@@ -49,7 +49,7 @@ public class Animation {
 				name = name.replace(' ', '-');
 
 				name = name.substring(0, name.length() - (Character.isDigit(name.charAt(name.length() - 2)) ? 3 : 2));
-				name += add + "-" + state + "-" + String.format("%02d", i - from);
+				name += add + "-" + state + "-" + String.format( "%02d", i - from);
 
 				framesList.add(new Frame(Graphics.getTexture(name), delay * 0.001f));
 			}
