@@ -13,6 +13,8 @@
 x64/
 [Bb]in/
 [Oo]bj/
+BurningKnight/[Bb]in/
+BurningKnight/[Oo]bj/
 .idea/
 # Common IntelliJ Platform excludes
 
