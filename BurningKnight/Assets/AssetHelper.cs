@@ -1,16 +1,22 @@
 ﻿using System.Collections.Generic;
+using BurningKnight.Assets.Locales;
+using BurningKnight.Assets.Mods;
+using Microsoft.Xna.Framework.Content;
 
 namespace BurningKnight.Assets
 {
 	public static class AssetsHelper
 	{		
 		private static List<AssetManager> managers = new List<AssetManager>();
+		public static ContentManager content;
+		public static ModManager mods;
 		
 		public static void Load()
 		{
+			managers.Add(new LocaleManager());
 			managers.Add(new Graphics());
 			managers.Add(new Audio());
-			managers.Add(new Mods());
+			managers.Add(mods = new ModManager());
 			
 			foreach (var manager in managers)
 			{

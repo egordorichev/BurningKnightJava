@@ -13,6 +13,9 @@ namespace BurningKnight
 		
 		public BurningKnight()
 		{
+			Content.RootDirectory = "Content/";
+			AssetsHelper.content = Content;
+			
 			manager = new GraphicsDeviceManager(this);
 
 			int scale = 2;
@@ -27,13 +30,13 @@ namespace BurningKnight
 		protected override void Initialize()
 		{
 			base.Initialize();
-			
-			Window.Title = Version.GenerateTitle();
-			Log.info("Starting Burning Knight " + Version.String);
 		}
 		
 		protected override void LoadContent()
 		{
+			Window.Title = Version.GenerateTitle();
+			Log.Info("Starting Burning Knight " + Version.String);
+			
 			Graphics.Batch = new SpriteBatch(GraphicsDevice);
 			AssetsHelper.Load();
 			SetState(State.InGame);
@@ -55,7 +58,7 @@ namespace BurningKnight
 		protected override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			state?.Update(gameTime.ElapsedGameTime.Milliseconds * 1000f);
+			state?.Update(gameTime.ElapsedGameTime.Milliseconds * 0.001f);
 		}
 		
 		protected override void Draw(GameTime gameTime)

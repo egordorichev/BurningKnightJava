@@ -22,11 +22,13 @@ namespace BurningKnight.Game
 		{
 			base.Update(dt);
 			PhysicWorld.Update(dt);
+			AssetsHelper.mods.Update(dt);
 		}
 
 		public override void Draw()
 		{
 			Graphics.clear(Color.Black);
+			AssetsHelper.mods.Draw();
 		}
 	}
 }

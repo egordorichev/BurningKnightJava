@@ -1,6 +1,6 @@
 ﻿using BurningKnight.Entities.Physics;
 
-namespace BurningKnight.Item
+namespace BurningKnight.Items
 {
 	public class ItemHolder : PhysicEntity
 	{
