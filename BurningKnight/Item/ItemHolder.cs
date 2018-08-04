@@ -1,18 +1,18 @@
-﻿using BurningKnight.entity.physics;
+﻿using BurningKnight.Entities.Physics;
 
-namespace BurningKnight.entity.item
+namespace BurningKnight.Entities.item
 {
-	public class ItemHolder : PhysicEntity
-	{
-		private Item _item;
-		
-		public Item Item
-		{
-			set
-			{
-				// Todo: body, size, texture, etc etc
-				_item = value;
-			}
-		}
-	}
+  public class ItemHolder : PhysicsEntity
+  {
+    private Item item;
+
+    public Item Item
+    {
+      set
+      {
+        // Todo: body, size, texture, etc etc
+        item = value;
+      }
+    }
+  }
 }

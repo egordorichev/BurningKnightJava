@@ -1,4 +1,0 @@
-9:13:09 PM [INFO]: Loading mod Content/mods/bk
-9:13:10 PM [INFO]: Parsing Content/mods/bk/items/gold.lua
-9:13:10 PM [ERROR]: Content/mods run Content/mods/bk/items/gold.lua: attempt to call a table value
-9:13:10 PM [INFO]: Starting Burning Knight 0.1.0.1 dev

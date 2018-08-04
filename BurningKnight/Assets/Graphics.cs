@@ -3,28 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BurningKnight.assets
 {
-	public class Graphics : AssetManager
-	{
-		public static SpriteBatch Batch;
+  public class Graphics : AssetManager
+  {
+    public static SpriteBatch Batch { get; private set; }
 
-		/*
-		 * Asset loading
-		 */
-		
-		public override void LoadAssets()
-		{
-			base.LoadAssets();
+    public override void LoadAssets()
+    {
+      base.LoadAssets();
+      
+      Batch = new SpriteBatch(BurningKnight.Manager.GraphicsDevice);
+    }
 
-			
-		}
-		
-		/*
-		 * Static methods
-		 */
-
-		public static void clear(Color color)
-		{
-			Batch.GraphicsDevice.Clear(color);
-		}
-	}
+    public static void Clear(Color color)
+    {
+      Batch.GraphicsDevice.Clear(color);
+    }
+  }
 }

@@ -1,4 +1,0 @@
-9:18:20 PM [INFO]: Loading mod Content/mods/bk
-9:18:20 PM [INFO]: Parsing Content/mods/bk/items/gold.lua
-9:18:20 PM [ERROR]: Content/mods run Content/mods/bk/items/gold.lua: cannot access field extend of userdata<BurningKnight.Entities.item.Item>
-9:18:20 PM [INFO]: Starting Burning Knight 0.1.0.1 dev

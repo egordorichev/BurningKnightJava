@@ -1,4 +1,0 @@
-8:13:39 PM [INFO]: Loading mod Content/mods/bk
-8:13:40 PM [INFO]: Content/mods/bk/main.lua
-8:13:40 PM [ERROR]: Failed to find main.lua!
-8:13:40 PM [INFO]: Starting Burning Knight 0.1.0.1 dev

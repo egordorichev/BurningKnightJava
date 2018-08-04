@@ -1,57 +1,62 @@
-﻿namespace BurningKnight.util.math
+﻿using System.Linq;
+
+namespace BurningKnight.Util.Math
 {
-	public class Random
-	{
-		private static System.Random _random = new System.Random();
-		
-		public static float Float(float min, float max) {
-			return (float) (min + _random.NextDouble() * (max - min));
-		}
+  public static class Random
+  {
+    private static readonly System.Random random = new System.Random();
 
-		public static float FloatDice(float min, float max) {
-			return (Float(min, max) + Float(min, max)) / 2;
-		}
+    public static float Float(float min, float max)
+    {
+      return (float) (min + random.NextDouble() * (max - min));
+    }
 
-		public static float Float(float max) {
-			return (float) (_random.NextDouble() * max);
-		}
+    public static float FloatDice(float min, float max)
+    {
+      return (Float(min, max) + Float(min, max)) / 2;
+    }
 
-		public static float Float() {
-			return (float) _random.NextDouble();
-		}
+    public static float Float(float max)
+    {
+      return (float) (random.NextDouble() * max);
+    }
 
-		public static int Int(int max) {
-			return max > 0 ? (int) (_random.NextDouble() * max) : 0;
-		}
+    public static float Float()
+    {
+      return (float) random.NextDouble();
+    }
 
-		public static int Int(int min, int max) {
-			return min + (int) (_random.NextDouble() * (max - min));
-		}
+    public static int Int(int max)
+    {
+      return max > 0 ? (int) (random.NextDouble() * max) : 0;
+    }
 
-		public static bool Chance(float a) {
-			return Float(100) <= a;
-		}
+    public static int Int(int min, int max)
+    {
+      return min + (int) (random.NextDouble() * (max - min));
+    }
 
-		public static int Chances(float[] chances) {
-			int length = chances.Length;
-			float sum = 0;
+    public static bool Chance(float a)
+    {
+      return Float(100) <= a;
+    }
 
-			foreach (var chance in chances) {
-				sum += chance;
-			}
+    public static int Chances(float[] chances)
+    {
+      int length = chances.Length;
+      float sum = chances.Sum();
+      float value = Float(sum);
+      
+      sum = 0;
 
-			float value = Float(sum);
-			sum = 0;
+      for (int i = 0; i < length; i++)
+      {
+        sum += chances[i];
 
-			for (int i = 0; i < length; i++) {
-				sum += chances[i];
+        if (value < sum) return i;
+      }
 
-				if (value < sum) {
-					return i;
-				}
-			}
-
-			return -1;
-		}
-	}
+      return -1;
+    }
+  }
 }

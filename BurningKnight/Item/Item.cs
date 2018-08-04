@@ -1,7 +1,6 @@
-﻿namespace BurningKnight.entity.item
+﻿namespace BurningKnight.Entities.item
 {
-	public class Item
-	{
-		
-	}
+  public class Item
+  {
+  }
 }

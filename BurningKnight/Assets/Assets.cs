@@ -1,32 +1,33 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Content;
 
 namespace BurningKnight.assets
 {
-	public static class Assets
-	{		
-		private static List<AssetManager> _managers = new List<AssetManager>();
-		
-		public static void Load()
-		{
-			_managers.Add(new Graphics());
-			_managers.Add(new Audio());
-			_managers.Add(new Mods());
-			
-			foreach (var manager in _managers)
-			{
-				// Todo: might need TargetAssets()
-				
-				manager.TargetAssets();
-				manager.LoadAssets();
-			}
-		}
+  public static class Assets
+  {
+    public static ContentManager content;
+    public static Mods Mods { get; private set; }
 
-		public static void Destroy()
-		{
-			foreach (var manager in _managers)
-			{
-				manager.Destroy();
-			}
-		}
-	}
+    private static readonly List<AssetManager> managers = new List<AssetManager>();
+    
+    public static void Load()
+    {
+      managers.Add(new Graphics());
+      managers.Add(new Audio());
+      managers.Add(Mods = new Mods());
+
+      foreach (AssetManager manager in managers)
+      {
+        manager.LoadAssets();
+      }
+    }
+
+    public static void Destroy()
+    {
+      foreach (AssetManager manager in managers)
+      {
+        manager.Destroy();
+      }
+    }
+  }
 }
