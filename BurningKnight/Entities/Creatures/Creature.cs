@@ -5,6 +5,9 @@ namespace BurningKnight.Entities.Creatures
 {
 	public class Creature : Entity
 	{
+		public string lastState;
+		public string id;
+
 		public int Hp
 		{
 			get { return hp; }

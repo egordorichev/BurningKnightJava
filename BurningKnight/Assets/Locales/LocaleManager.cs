@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BurningKnight.Util.Files;
 
 namespace BurningKnight.Assets.Locales
 {

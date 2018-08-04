@@ -6,9 +6,8 @@ namespace BurningKnight.Entities.Creatures
 	public class StatedCreature : Creature
 	{
 		protected State<StatedCreature> state;
-		protected String lastState;
 
-		public void Become(String id)
+		public void Become(string id)
 		{
 			if (lastState == id)
 			{
@@ -25,6 +24,7 @@ namespace BurningKnight.Entities.Creatures
 			}
 			else
 			{
+				state.Self = this;
 				state.OnEnter();
 			}
 		}
@@ -42,9 +42,10 @@ namespace BurningKnight.Entities.Creatures
 		
 		public class State<T> where T: StatedCreature
 		{
-			protected Creature self;
+			protected T self;
 
-			public Creature Self
+			public float t;
+			public T Self
 			{
 				get { return self; }
 				set { self = value; }
@@ -62,7 +63,7 @@ namespace BurningKnight.Entities.Creatures
 
 			public virtual void Update(float dt)
 			{
-				
+				t += dt;
 			}
 		}
 	}

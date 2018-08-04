@@ -1,15 +1,15 @@
 knight = extend(enemy)
 
 define_state(knight, "idle", {
-	onEnter = function() 
+	onEnter = function(state, self) 
 	
 	end,
 	
-	onExit = function() 
+	onExit = function(state, self) 
 		
 	end,
 	
-	update = function()
+	update = function(state, self, dt)
 		
 	end
 })

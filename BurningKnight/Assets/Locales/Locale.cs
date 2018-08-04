@@ -25,8 +25,6 @@ namespace BurningKnight.Assets.Locales
 			
 			FileHandle dir = FileHandle.FromRoot("Locales/");
 			
-			Log.Info(dir.FullPath);
-
 			if (!dir.Exists())
 			{
 				Log.Warn("No Locales directory found");

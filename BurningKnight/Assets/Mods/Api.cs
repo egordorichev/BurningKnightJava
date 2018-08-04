@@ -1,4 +1,5 @@
 ﻿using System;
+using BurningKnight.Entities.Creatures.Enemies;
 using BurningKnight.Items;
 using BurningKnight.Util.Files;
 using MoonSharp.Interpreter;
@@ -14,10 +15,14 @@ namespace BurningKnight.Assets.Mods
 		
 		public static void Define(Script script)
 		{			
+			script.Globals["os"] = DynValue.Nil;
 			script.Globals["print"] = (Func<object, int>) Print;
-			script.Globals["define_item"] = (Func<string, Table, int>) DefineItem;
+			script.Globals["define_item"] = (Func<Table, string, int>) DefineItem;
+			script.Globals["define_enemy"] = (Func<Table, string, int>) DefineEnemy;
+			script.Globals["define_state"] = (Func<Table, Table, int>) DefineState;
 			
 			script.Globals["item"] = new Item();
+			script.Globals["enemy"] = new Enemy();
 
 			script.DoString(@"
 object={}
@@ -63,7 +68,7 @@ end
 			return 0;
 		}
 
-		private static int DefineItem(string id, Table t)
+		private static int DefineItem(Table t, string id)
 		{
 			if (id == null || t == null)
 			{
@@ -75,6 +80,27 @@ end
 			
 			ItemRegistry.Register(id, item);
 			
+			return 0;
+		}
+
+		private static int DefineEnemy(Table t, string id)
+		{
+			if (id == null || t == null)
+			{
+				return 0;
+			}
+
+			
+			return 0;
+		}
+
+		private static int DefineState(Table t, Table state)
+		{
+			if (state == null || t == null)
+			{
+				return 0;
+			}
+
 			return 0;
 		}
 	}
