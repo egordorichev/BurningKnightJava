@@ -1,4 +1,5 @@
 ﻿using System;
+using BurningKnight.Entities.Creatures;
 using BurningKnight.Entities.Creatures.Enemies;
 using BurningKnight.Items;
 using BurningKnight.Util.Files;
@@ -18,11 +19,12 @@ namespace BurningKnight.Assets.Mods
 			script.Globals["os"] = DynValue.Nil;
 			script.Globals["print"] = (Func<object, int>) Print;
 			script.Globals["defineItem"] = (Func<Table, string, int>) DefineItem;
-			script.Globals["defineEnemy"] = (Func<Table, string, int>) DefineEnemy;
+			script.Globals["defineCreature"] = (Func<Table, string, int>) DefineCreature;
 			script.Globals["defineState"] = (Func<Table, string, Table, int>) DefineState;
 			
 			script.Globals["item"] = new Item();
 			script.Globals["enemy"] = new Enemy();
+			script.Globals["creature"] = new Creature();
 
 			script.DoString(@"
 object={}
@@ -76,14 +78,14 @@ end
 			}
 
 			ScriptedItem item = new ScriptedItem(t);
-			item.LoadNames(id);
+			item.LoadNames(Mod.currentId + ":" + id);
 			
-			ItemRegistry.Register(id, item);
+			ItemRegistry.Register(Mod.currentId + ":" + id, item);
 			
 			return 0;
 		}
 
-		private static int DefineEnemy(Table t, string id)
+		private static int DefineCreature(Table t, string id)
 		{
 			if (id == null || t == null)
 			{
@@ -92,10 +94,10 @@ end
 
 			t["id"] = id;
 			
-			EnemyData data = new EnemyData();
+			CreatureData data = new CreatureData();
 			data.table = t;
 
-			EnemyRegistry.Define(id, data);
+			CreatureRegistry.Define(Mod.currentId + ":" + id, data);
 			
 			return 0;
 		}
@@ -128,7 +130,7 @@ end
 				states[2] = update;
 			}
 			
-			EnemyRegistry.AddState(t.Get("id").String, name, states);
+			CreatureRegistry.AddState(Mod.currentId + ":" + t.Get("id").String, name, states);
 			
 			return 0;
 		}

@@ -68,9 +68,9 @@
     <Compile Include="Assets\Saves\SaveManager.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Entities\Creatures\Creature.cs" />
+    <Compile Include="Entities\Creatures\CreatureData.cs" />
+    <Compile Include="Entities\Creatures\CreatureRegistry.cs" />
     <Compile Include="Entities\Creatures\Enemies\Enemy.cs" />
-    <Compile Include="Entities\Creatures\Enemies\EnemyData.cs" />
-    <Compile Include="Entities\Creatures\Enemies\EnemyRegistry.cs" />
     <Compile Include="Entities\Creatures\ScriptedCreature.cs" />
     <Compile Include="Entities\Creatures\StatedCreature.cs" />
     <Compile Include="Entities\Entity.cs" />

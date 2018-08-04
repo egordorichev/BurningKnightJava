@@ -1,8 +1,10 @@
 ﻿using System;
 using BurningKnight.Util.Maths;
+using MoonSharp.Interpreter;
 
 namespace BurningKnight.Entities.Creatures
 {
+	[MoonSharpUserData]
 	public class Creature : Entity
 	{
 		public string lastState;

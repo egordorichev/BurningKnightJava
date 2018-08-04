@@ -1,6 +1,6 @@
 knight = extend(enemy)
 
-defineEnemy(knight, "knight", {
+defineCreature(knight, "knight", {
 	-- stats
 	hpMax = 10
 }, {

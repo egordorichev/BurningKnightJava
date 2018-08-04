@@ -7,6 +7,8 @@ namespace BurningKnight.Assets.Mods
 {
 	public class Mod
 	{
+		public static string currentId;
+		
 		private string id;
 		private Script script;
 		public string Id => id;
@@ -20,6 +22,8 @@ namespace BurningKnight.Assets.Mods
 			
 			FileHandle main = dir.FindFile("main.lua");
 
+			currentId = id;
+			
 			if (main == null)
 			{
 				Log.Warn("Did not find main.lua!");
