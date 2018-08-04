@@ -1,8 +1,8 @@
-﻿using BurningKnight.assets;
-using BurningKnight.entity.physics;
+﻿using BurningKnight.Assets;
+using BurningKnight.Entities.Physics;
 using Microsoft.Xna.Framework;
 
-namespace BurningKnight.game
+namespace BurningKnight.Game
 {
 	public class InGameState : State
 	{

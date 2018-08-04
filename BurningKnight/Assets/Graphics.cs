@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BurningKnight.assets
+namespace BurningKnight.Assets
 {
 	public class Graphics : AssetManager
 	{

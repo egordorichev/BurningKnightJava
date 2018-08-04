@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 
-namespace BurningKnight.entity.physics
+namespace BurningKnight.Entities.Physics
 {
 	public static class PhysicWorld
 	{

@@ -1,4 +1,4 @@
-﻿namespace BurningKnight.assets
+﻿namespace BurningKnight.Assets
 {
 	public class Audio : AssetManager
 	{

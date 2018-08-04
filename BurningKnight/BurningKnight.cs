@@ -1,25 +1,25 @@
-﻿using BurningKnight.assets;
-using BurningKnight.game;
-using BurningKnight.util.files;
+﻿using BurningKnight.Assets;
+using BurningKnight.Game;
+using BurningKnight.Util.Files;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BurningKnight
 {
-	public class BurningKnight : Game
+	public class BurningKnight : Microsoft.Xna.Framework.Game
 	{
-		public static GraphicsDeviceManager Manager;
-		private State _state;
+		public static GraphicsDeviceManager manager;
+		private State state;
 		
 		public BurningKnight()
 		{
-			Manager = new GraphicsDeviceManager(this);
+			manager = new GraphicsDeviceManager(this);
 
 			int scale = 2;
 
-			Manager.PreferMultiSampling = true;
-			Manager.PreferredBackBufferWidth = Display.Width * scale;
-			Manager.PreferredBackBufferHeight = Display.Height * scale;
+			manager.PreferMultiSampling = true;
+			manager.PreferredBackBufferWidth = Display.Width * scale;
+			manager.PreferredBackBufferHeight = Display.Height * scale;
 			
 			Window.AllowUserResizing = true;
 		}
@@ -35,32 +35,32 @@ namespace BurningKnight
 		protected override void LoadContent()
 		{
 			Graphics.Batch = new SpriteBatch(GraphicsDevice);
-			Assets.Load();
-			SetState(State.INGAME);
+			AssetsHelper.Load();
+			SetState(State.InGame);
 		}
 		
 		protected override void UnloadContent()
 		{
-			_state?.Destroy();
-			Assets.Destroy();
+			state?.Destroy();
+			AssetsHelper.Destroy();
 		}
 
 		public void SetState(State newState)
 		{
-			_state?.Destroy();
-			_state = newState;
-			_state?.Init();
+			state?.Destroy();
+			state = newState;
+			state?.Init();
 		}
 				
 		protected override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
-			_state?.Update(gameTime.ElapsedGameTime.Milliseconds * 1000f);
+			state?.Update(gameTime.ElapsedGameTime.Milliseconds * 1000f);
 		}
 		
 		protected override void Draw(GameTime gameTime)
 		{
-			_state?.Draw();
+			state?.Draw();
 			base.Draw(gameTime);
 		}
 	}

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Random = BurningKnight.util.math.Random;
+using Random = BurningKnight.Util.Maths.Random;
 
 namespace BurningKnight
 {

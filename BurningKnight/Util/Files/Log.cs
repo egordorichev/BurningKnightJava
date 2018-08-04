@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BurningKnight.util.files
+namespace BurningKnight.Util.Files
 {
 	public static class Log
 	{

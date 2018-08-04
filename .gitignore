@@ -13,6 +13,9 @@
 x64/
 [Bb]in/
 [Oo]bj/
+.idea/
+BurningKnight/obj/*
+BurningKnight/bin/*
 
 # MSTest test Results
 [Tt]est[Rr]esult*/

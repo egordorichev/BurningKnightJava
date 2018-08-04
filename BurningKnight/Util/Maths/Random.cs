@@ -1,11 +1,11 @@
-﻿namespace BurningKnight.util.math
+﻿namespace BurningKnight.Util.Maths
 {
 	public class Random
 	{
-		private static System.Random _random = new System.Random();
+		private static System.Random random = new System.Random();
 		
 		public static float Float(float min, float max) {
-			return (float) (min + _random.NextDouble() * (max - min));
+			return (float) (min + random.NextDouble() * (max - min));
 		}
 
 		public static float FloatDice(float min, float max) {
@@ -13,19 +13,19 @@
 		}
 
 		public static float Float(float max) {
-			return (float) (_random.NextDouble() * max);
+			return (float) (random.NextDouble() * max);
 		}
 
 		public static float Float() {
-			return (float) _random.NextDouble();
+			return (float) random.NextDouble();
 		}
 
 		public static int Int(int max) {
-			return max > 0 ? (int) (_random.NextDouble() * max) : 0;
+			return max > 0 ? (int) (random.NextDouble() * max) : 0;
 		}
 
 		public static int Int(int min, int max) {
-			return min + (int) (_random.NextDouble() * (max - min));
+			return min + (int) (random.NextDouble() * (max - min));
 		}
 
 		public static bool Chance(float a) {

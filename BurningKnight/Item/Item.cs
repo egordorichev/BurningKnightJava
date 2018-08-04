@@ -1,4 +1,4 @@
-﻿namespace BurningKnight.entity.item
+﻿namespace BurningKnight.Item
 {
 	public class Item
 	{

@@ -1,7 +1,6 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 
-namespace BurningKnight.entity
+namespace BurningKnight.Entities
 {
 	public class Entity
 	{

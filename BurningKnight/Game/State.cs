@@ -1,10 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace BurningKnight.game
+﻿namespace BurningKnight.Game
 {
 	public class State
 	{
-		public static InGameState INGAME = new InGameState();
+		public static InGameState InGame = new InGameState();
 		
 		public virtual void Init()
 		{
