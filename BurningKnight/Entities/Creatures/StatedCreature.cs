@@ -1,5 +1,4 @@
-﻿using System;
-using BurningKnight.Util.Files;
+﻿using BurningKnight.Util.Files;
 
 namespace BurningKnight.Entities.Creatures
 {
@@ -32,7 +31,16 @@ namespace BurningKnight.Entities.Creatures
 		public override void Update(float dt)
 		{
 			base.Update(dt);
-			state?.Update(dt);
+
+			if (state == null)
+			{
+				lastState = "idle";
+				SetupState(lastState);
+			}
+			else
+			{
+				state.Update(dt);
+			}
 		}
 
 		protected virtual State<StatedCreature> GetState(string id)

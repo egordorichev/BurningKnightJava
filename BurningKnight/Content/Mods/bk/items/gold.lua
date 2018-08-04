@@ -1,6 +1,6 @@
 gold = extend(item)
 
-define_item(gold, "gold")
+defineItem(gold, "gold")
 
 -- 3rd arg is quality, if nil, wont spawn in chests / shops
 -- 4th is warrior percent, from 0 to 1 or nil

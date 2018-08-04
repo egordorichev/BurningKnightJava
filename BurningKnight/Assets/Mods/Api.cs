@@ -17,9 +17,9 @@ namespace BurningKnight.Assets.Mods
 		{			
 			script.Globals["os"] = DynValue.Nil;
 			script.Globals["print"] = (Func<object, int>) Print;
-			script.Globals["define_item"] = (Func<Table, string, int>) DefineItem;
-			script.Globals["define_enemy"] = (Func<Table, string, int>) DefineEnemy;
-			script.Globals["define_state"] = (Func<Table, string, Table, int>) DefineState;
+			script.Globals["defineItem"] = (Func<Table, string, int>) DefineItem;
+			script.Globals["defineEnemy"] = (Func<Table, string, int>) DefineEnemy;
+			script.Globals["defineState"] = (Func<Table, string, Table, int>) DefineState;
 			
 			script.Globals["item"] = new Item();
 			script.Globals["enemy"] = new Enemy();

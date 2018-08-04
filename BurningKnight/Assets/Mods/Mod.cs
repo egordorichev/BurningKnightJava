@@ -92,11 +92,6 @@ namespace BurningKnight.Assets.Mods
 		{
 			DynValue initCallback = script.Globals.Get("init");
 			initCallback?.Function?.Call();
-
-			Enemy enemy = EnemyRegistry.Create("knight");
-			
-			enemy.Become("idle");
-			enemy.Become("busy");
 		}
 
 		public void Destroy()
