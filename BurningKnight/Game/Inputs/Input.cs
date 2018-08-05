@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace BurningKnight.Game.Inputs
@@ -34,7 +35,12 @@ namespace BurningKnight.Game.Inputs
 		public static void Update(float dt)
 		{
 			KeyboardState state = Keyboard.GetState();
+			/*MouseState mouse = Mouse.GetState();
 
+			GamePadState gamepad = GamePad.GetState(PlayerIndex.One, 
+				GamePadDeadZone.Circular);*/	
+			
+			
 			next.Clear();
 			
 			foreach (var pair in states)
