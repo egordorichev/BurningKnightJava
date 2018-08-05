@@ -16,6 +16,14 @@ namespace BurningKnight.Entities
 		public float Right => x + Display.Width / 2 * camera.Zoom;
 		public float Bottom => y + Display.Height / 2 * camera.Zoom;
 
+		private float speed = 10;
+
+		public float Speed
+		{
+			get => speed;
+			set => speed = value * 60;
+		}
+
 		public Camera()
 		{
 			alwaysUpdate = true;
@@ -35,7 +43,14 @@ namespace BurningKnight.Entities
 
 		public override void Update(float dt)
 		{
-			base.Update(dt);			
+			base.Update(dt);
+
+			if (target != null)
+			{
+				x += (target.Cx - x) * dt * speed;
+				y += (target.Cy - y) * dt * speed;
+			}
+
 			camera.Position = new Vector2(x, y);
 		}
 

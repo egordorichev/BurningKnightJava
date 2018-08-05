@@ -52,18 +52,20 @@ namespace BurningKnight
 
 		private void CalculateSizes()
 		{
-			ww = GraphicsDevice.PresentationParameters.BackBufferWidth;
-			wh = GraphicsDevice.PresentationParameters.BackBufferHeight;
+			int ww = GraphicsDevice.PresentationParameters.BackBufferWidth;
+			int wh = GraphicsDevice.PresentationParameters.BackBufferHeight;
 
-			scale = Math.Min((float) ww / Display.Width, (float) wh / Display.Height);
+			float scale = Math.Min((float) ww / Display.Width, (float) wh / Display.Height);
 
 			if (Display.PixelPerfect)
 			{
 				scale = (float) Math.Floor(scale);
 			}
 
-			tw = (int) Math.Ceiling(scale * Display.Width);
-			th = (int) Math.Ceiling(scale * Display.Height);
+			int tw = (int) Math.Ceiling(scale * Display.Width);
+			int th = (int) Math.Ceiling(scale * Display.Height);
+
+			displayRectangle = new Rectangle((ww - tw) / 2, (wh - th) / 2, tw, th);
 		}
 		
 		protected override void LoadContent()
@@ -108,35 +110,32 @@ namespace BurningKnight
 			base.Draw(gameTime);
 		}
 
-		private float scale;
-		private int tw;
-		private int th;
-		private int ww;
-		private int wh;
+		private Rectangle displayRectangle;
 		
 		private void RenderGame()
 		{
+			Graphics.Clear(Color.Black);
+			
 			// Render to the texture
 			FBOManager.Apply(FBOManager.surface);
 			state?.Draw();
 			FBOManager.Apply(null);
-			
-			// Render the texture
-			Graphics.Clear(Color.Black);
-			
-			Graphics.batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, 
-				SamplerState.PointClamp, DepthStencilState.Default, 
-				RasterizerState.CullNone);
-						
-			Graphics.batch.Draw(FBOManager.surface, new Rectangle((ww - tw) / 2, (wh - th) / 2, tw, th), Color.White);
-			Graphics.batch.End();
 		}
 
 		private void RenderUi()
 		{
 			// Render to the texture
 			FBOManager.Apply(FBOManager.shadows);
-			state?.Draw();
+
+			// Render the game into that buffer
+			Graphics.batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, 
+				SamplerState.PointClamp, DepthStencilState.Default, 
+				RasterizerState.CullNone);
+						
+			Graphics.batch.Draw(FBOManager.surface, FBOManager.shadows.Bounds, Color.White);
+			Graphics.batch.End();
+			
+			state?.DrawUi();
 			FBOManager.Apply(null);
 
 			// Render the texture
@@ -144,7 +143,7 @@ namespace BurningKnight
 				SamplerState.PointClamp, DepthStencilState.Default,
 				RasterizerState.CullNone);
 
-			Graphics.batch.Draw(FBOManager.surface, new Rectangle((ww - tw) / 2, (wh - th) / 2, tw, th), Color.White);
+			Graphics.batch.Draw(FBOManager.shadows, displayRectangle, Color.White);
 			Graphics.batch.End();
 		}
 	}

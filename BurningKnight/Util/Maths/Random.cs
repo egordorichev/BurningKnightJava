@@ -1,4 +1,5 @@
-﻿using BurningKnight.Util.Files;
+﻿using System;
+using BurningKnight.Util.Files;
 
 namespace BurningKnight.Util.Maths
 {
@@ -8,8 +9,8 @@ namespace BurningKnight.Util.Maths
 
 		static Random()
 		{
-			var seed = 1; // Guid.NewGuid().GetHashCode();
-			random = new System.Random();
+			var seed = Guid.NewGuid().GetHashCode();
+			random = new System.Random(seed);
 			
 			Log.Info("Setting random seed to " + seed);
 		}

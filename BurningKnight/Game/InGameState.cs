@@ -4,6 +4,7 @@ using BurningKnight.Entities;
 using BurningKnight.Entities.Physics;
 using BurningKnight.Util.Animations;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BurningKnight.Game
 {
@@ -40,7 +41,6 @@ namespace BurningKnight.Game
 
 		public override void Draw()
 		{
-			Graphics.Clear(Color.Black);
 			Camera.BeginBatch();
 			
 			area.Draw();
@@ -55,10 +55,10 @@ namespace BurningKnight.Game
 		{
 			base.DrawUi();
 			
-			Graphics.Clear(Color.Transparent);
 			Graphics.batch.Begin();
 			
 			ui.Draw();
+			anim.Draw(new Vector2(8, 8));
 			
 			Graphics.batch.End();
 		}
