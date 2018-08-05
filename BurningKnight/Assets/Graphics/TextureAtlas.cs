@@ -63,7 +63,14 @@ namespace BurningKnight.Assets.Graphics
 
 		public TextureRegion Get(string id)
 		{
-			return regions.ContainsKey(id) ? regions[id] : null;
+			if (regions.ContainsKey(id))
+			{
+				return regions[id];
+			}
+
+			Log.Error("Texture '" + id + "' is missing!");
+			
+			return null; // todo: return tmp texture
 		}
 	}
 }

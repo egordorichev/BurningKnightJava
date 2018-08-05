@@ -28,13 +28,17 @@ namespace BurningKnight.Assets.Graphics
 			
 			atlas = new TextureAtlas();
 			atlas.Load(FileHandle.FromRoot("Atlas/atlas.atlas"));
-			region = atlas.Get("actor-mummy-gray-run-00");
-			Animation animation = new Animation("actor-gobbo");
+
+			Animation animation = new Animation("actor-mummy", "-gray");
 			anim = animation.Get("idle");
 		}
 
+		public static TextureRegion GetTexture(string id)
+		{
+			return atlas.Get(id);
+		}
+		
 		private static AnimationData anim;
-		private static TextureRegion region;
 		
 		/*
 		 * Static methods
@@ -44,7 +48,8 @@ namespace BurningKnight.Assets.Graphics
 		{
 			batch.GraphicsDevice.Clear(color);
 			batch.Begin();
-			Draw(region, Vector2.Zero);
+			anim.Update(0.01f);
+			anim.Draw(Vector2.Zero);
 			batch.End();
 		}
 

@@ -18,6 +18,7 @@ namespace BurningKnight.Util.Animations
 		public AnimationData(List<Animation.Frame> frames)
 		{
 			this.frames = frames;
+			current = frames[0];
 		}
 		
 		public bool Update(float dt) {
