@@ -1,4 +1,5 @@
-﻿using BurningKnight.Assets;
+﻿using System;
+using BurningKnight.Assets;
 using BurningKnight.Assets.Graphics;
 using BurningKnight.Game;
 using BurningKnight.Util.Files;
@@ -26,6 +27,8 @@ namespace BurningKnight
 			manager.PreferredBackBufferHeight = Display.Height * scale;
 			
 			Window.AllowUserResizing = true;
+			
+			// Todo: min window size
 		}
 		
 		protected override void Initialize()
@@ -39,6 +42,9 @@ namespace BurningKnight
 			Log.Info("Starting Burning Knight " + Version.String);
 			
 			Graphics.batch = new SpriteBatch(GraphicsDevice);
+			
+			GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
+
 			AssetsHelper.Load();
 			SetState(State.InGame);
 		}
@@ -64,7 +70,35 @@ namespace BurningKnight
 		
 		protected override void Draw(GameTime gameTime)
 		{
+			// Render to the texture
+			FBOManager.Apply(FBOManager.surface);
 			state?.Draw();
+			FBOManager.Apply(null);
+			
+			// Render the texture
+			Graphics.Clear(Color.Black);
+			
+			int w = GraphicsDevice.PresentationParameters.BackBufferWidth;
+			int h = GraphicsDevice.PresentationParameters.BackBufferHeight;
+
+			float scale = Math.Min((float) w / Display.Width, (float) h / Display.Height);
+
+			if (Display.PixelPerfect)
+			{
+				scale = (float) Math.Floor(scale);
+			}
+
+			int tw = (int) Math.Ceiling(scale * Display.Width);
+			int th = (int) Math.Ceiling(scale * Display.Height);
+			
+			Graphics.batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, 
+				SamplerState.PointClamp, DepthStencilState.Default, 
+				RasterizerState.CullNone);
+			
+			Graphics.batch.Draw(FBOManager.surface, new Rectangle((w - tw) / 2, (h - th) / 2, tw, th), Color.White);
+			Graphics.batch.End();
+			
+			// Whatever
 			base.Draw(gameTime);
 		}
 	}

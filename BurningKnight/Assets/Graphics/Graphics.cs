@@ -26,31 +26,32 @@ namespace BurningKnight.Assets.Graphics
 		{
 			base.LoadAssets();
 			
+			FBOManager.Init();
+			
 			atlas = new TextureAtlas();
 			atlas.Load(FileHandle.FromRoot("Atlas/atlas.atlas"));
+		}
 
-			Animation animation = new Animation("actor-mummy", "-gray");
-			anim = animation.Get("idle");
+		public override void Destroy()
+		{
+			base.Destroy();
+			
+			FBOManager.Destroy();
+			atlas.Destroy();
 		}
 
 		public static TextureRegion GetTexture(string id)
 		{
 			return atlas.Get(id);
 		}
-		
-		private static AnimationData anim;
-		
+				
 		/*
 		 * Static methods
 		 */
-
+		
 		public static void Clear(Color color)
 		{
 			batch.GraphicsDevice.Clear(color);
-			batch.Begin();
-			anim.Update(0.01f);
-			anim.Draw(Vector2.Zero);
-			batch.End();
 		}
 
 		public static void Draw(TextureRegion region, Vector2 position)

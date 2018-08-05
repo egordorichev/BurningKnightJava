@@ -59,6 +59,7 @@
     <Compile Include="Assets\AssetManager.cs" />
     <Compile Include="Assets\AssetHelper.cs" />
     <Compile Include="Assets\Audio.cs" />
+    <Compile Include="Assets\Graphics\FBOManager.cs" />
     <Compile Include="Assets\Graphics\Graphics.cs" />
     <Compile Include="Assets\Graphics\TextureAtlas.cs" />
     <Compile Include="Assets\Graphics\TextureRegion.cs" />

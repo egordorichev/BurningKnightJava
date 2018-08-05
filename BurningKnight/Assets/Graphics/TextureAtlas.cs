@@ -72,5 +72,10 @@ namespace BurningKnight.Assets.Graphics
 			
 			return null; // todo: return tmp texture
 		}
+
+		public void Destroy()
+		{
+			texture.Dispose();
+		}
 	}
 }

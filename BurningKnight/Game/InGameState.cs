@@ -8,10 +8,15 @@ namespace BurningKnight.Game
 {
 	public class InGameState : State
 	{
+		private static AnimationData anim;
+		
 		public override void Init()
 		{
 			base.Init();
-			PhysicWorld.Init();			
+			PhysicWorld.Init();
+
+			Animation animation = new Animation("actor-mummy", "-gray");
+			anim = animation.Get("idle");			
 		}
 
 		public override void Destroy()
@@ -30,7 +35,13 @@ namespace BurningKnight.Game
 		public override void Draw()
 		{
 			Graphics.Clear(Color.Black);
+			
+			Graphics.batch.Begin();
+			anim.Update(0.1f);
+			anim.Draw(Vector2.Zero);
+			
 			AssetsHelper.mods.Draw();
+			Graphics.batch.End();
 		}
 	}
 }
