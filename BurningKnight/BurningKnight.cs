@@ -2,6 +2,7 @@
 using BurningKnight.Assets;
 using BurningKnight.Assets.Graphics;
 using BurningKnight.Game;
+using BurningKnight.Game.Inputs;
 using BurningKnight.Util.Files;
 using BurningKnight.Util.Maths;
 using Microsoft.Xna.Framework;
@@ -77,6 +78,7 @@ namespace BurningKnight
 			Graphics.batch = new SpriteBatch(GraphicsDevice);
 			GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
+			Input.Init();
 			AssetsHelper.Load();
 			SetState(State.InGame);
 		}
@@ -104,6 +106,9 @@ namespace BurningKnight
 			
 			Tween.Update(t);
 			state?.Update(t);
+			
+			// It's important to update it last
+			Input.Update(t);
 		}
 		
 		protected override void Draw(GameTime gameTime)

@@ -2,6 +2,7 @@
 using BurningKnight.Assets.Graphics;
 using BurningKnight.Entities;
 using BurningKnight.Entities.Physics;
+using BurningKnight.Game.Inputs;
 using BurningKnight.Util.Animations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,11 +43,16 @@ namespace BurningKnight.Game
 		public override void Draw()
 		{
 			Camera.BeginBatch();
-			
+
 			area.Draw();
-			anim.Update(0.03f);
-			anim.Draw(Vector2.Zero);
-			AssetsHelper.mods.Draw();
+
+			if (Input.IsDown("move_left"))
+			{
+				anim.Update(0.03f);
+				anim.Draw(Vector2.Zero);
+			}
+
+		AssetsHelper.mods.Draw();
 			
 			Graphics.batch.End();
 		}
