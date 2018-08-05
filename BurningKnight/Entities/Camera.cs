@@ -11,10 +11,10 @@ namespace BurningKnight.Entities
 		private Entity target;
 		public Comora.Camera camera;
 
-		public float Left => x - Display.Width / 2;
-		public float Top => y - Display.Height / 2;
-		public float Right => x + Display.Width / 2;
-		public float Bottom => y + Display.Height / 2;
+		public float Left => x - Display.Width / 2 * camera.Zoom;
+		public float Top => y - Display.Height / 2 * camera.Zoom;
+		public float Right => x + Display.Width / 2 * camera.Zoom;
+		public float Bottom => y + Display.Height / 2 * camera.Zoom;
 
 		public Camera()
 		{

@@ -1,4 +1,5 @@
 ﻿using System;
+using BurningKnight.Util;
 
 namespace BurningKnight.Entities
 {
@@ -27,8 +28,13 @@ namespace BurningKnight.Entities
 
 		public void CheckIfOnScreen()
 		{
-			// todo
-			// OnScreen = ;
+			if (Camera.instance == null)
+			{
+				onScreen = true;
+				return;
+			}
+			
+			onScreen = CollisionHelper.Check(x, y, x + w, y + h, Camera.instance.Left, Camera.instance.Top, Camera.instance.Right, Camera.instance.Bottom);
 		}
 		
 		public virtual void Init()

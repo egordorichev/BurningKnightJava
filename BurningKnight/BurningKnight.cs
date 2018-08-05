@@ -5,6 +5,7 @@ using BurningKnight.Game;
 using BurningKnight.Util.Files;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Random = BurningKnight.Util.Maths.Random;
 
 namespace BurningKnight
 {
@@ -67,11 +68,10 @@ namespace BurningKnight
 		
 		protected override void LoadContent()
 		{
-			Window.Title = Version.GenerateTitle();
 			Log.Info("Starting Burning Knight " + Version.String);
+			Window.Title = Version.GenerateTitle();
 			
 			Graphics.batch = new SpriteBatch(GraphicsDevice);
-			
 			GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
 			AssetsHelper.Load();

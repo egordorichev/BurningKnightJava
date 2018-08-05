@@ -1,8 +1,18 @@
-﻿namespace BurningKnight.Util.Maths
+﻿using BurningKnight.Util.Files;
+
+namespace BurningKnight.Util.Maths
 {
 	public class Random
 	{
-		private static System.Random random = new System.Random();
+		private static System.Random random;
+
+		static Random()
+		{
+			var seed = 1; // Guid.NewGuid().GetHashCode();
+			random = new System.Random();
+			
+			Log.Info("Setting random seed to " + seed);
+		}
 		
 		public static float Float(float min, float max) {
 			return (float) (min + random.NextDouble() * (max - min));

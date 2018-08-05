@@ -93,6 +93,7 @@
     <Compile Include="Util\Animations\Animation.cs" />
     <Compile Include="Util\Animations\AnimationData.cs" />
     <Compile Include="Util\Animations\AnimationHelper.cs" />
+    <Compile Include="Util\CollisionHelper.cs" />
     <Compile Include="Util\Files\FileHandle.cs" />
     <Compile Include="Util\Files\Log.cs" />
     <Compile Include="Util\Maths\MathUtils.cs" />
