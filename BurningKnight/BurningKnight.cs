@@ -10,8 +10,13 @@ namespace BurningKnight
 {
 	public class BurningKnight : Microsoft.Xna.Framework.Game
 	{
+		public static GameTime gameTime;
 		public static GraphicsDeviceManager manager;
-		private State state;
+		private static State state;
+
+		public static Area Area => state.area;
+		public static Area Ui => state.area;
+		public static State State => state;
 		
 		public BurningKnight()
 		{
@@ -25,15 +30,39 @@ namespace BurningKnight
 			manager.PreferMultiSampling = true;
 			manager.PreferredBackBufferWidth = Display.Width * scale;
 			manager.PreferredBackBufferHeight = Display.Height * scale;
+			manager.ApplyChanges();
 			
 			Window.AllowUserResizing = true;
-			
+			Window.ClientSizeChanged += ClientSizeChanged;
+
+			void ClientSizeChanged(object sender, EventArgs e)
+			{
+				CalculateSizes();
+			}
+
 			// Todo: min window size
 		}
 		
 		protected override void Initialize()
 		{
 			base.Initialize();
+			CalculateSizes();
+		}
+
+		private void CalculateSizes()
+		{
+			ww = GraphicsDevice.PresentationParameters.BackBufferWidth;
+			wh = GraphicsDevice.PresentationParameters.BackBufferHeight;
+
+			scale = Math.Min((float) ww / Display.Width, (float) wh / Display.Height);
+
+			if (Display.PixelPerfect)
+			{
+				scale = (float) Math.Floor(scale);
+			}
+
+			tw = (int) Math.Ceiling(scale * Display.Width);
+			th = (int) Math.Ceiling(scale * Display.Height);
 		}
 		
 		protected override void LoadContent()
@@ -64,11 +93,28 @@ namespace BurningKnight
 				
 		protected override void Update(GameTime gameTime)
 		{
+			BurningKnight.gameTime = gameTime;
+			
 			base.Update(gameTime);
 			state?.Update(gameTime.ElapsedGameTime.Milliseconds * 0.001f);
 		}
 		
 		protected override void Draw(GameTime gameTime)
+		{
+			RenderGame();
+			RenderUi();
+			
+			// Whatever
+			base.Draw(gameTime);
+		}
+
+		private float scale;
+		private int tw;
+		private int th;
+		private int ww;
+		private int wh;
+		
+		private void RenderGame()
 		{
 			// Render to the texture
 			FBOManager.Apply(FBOManager.surface);
@@ -78,28 +124,28 @@ namespace BurningKnight
 			// Render the texture
 			Graphics.Clear(Color.Black);
 			
-			int w = GraphicsDevice.PresentationParameters.BackBufferWidth;
-			int h = GraphicsDevice.PresentationParameters.BackBufferHeight;
-
-			float scale = Math.Min((float) w / Display.Width, (float) h / Display.Height);
-
-			if (Display.PixelPerfect)
-			{
-				scale = (float) Math.Floor(scale);
-			}
-
-			int tw = (int) Math.Ceiling(scale * Display.Width);
-			int th = (int) Math.Ceiling(scale * Display.Height);
-			
 			Graphics.batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, 
 				SamplerState.PointClamp, DepthStencilState.Default, 
 				RasterizerState.CullNone);
-			
-			Graphics.batch.Draw(FBOManager.surface, new Rectangle((w - tw) / 2, (h - th) / 2, tw, th), Color.White);
+						
+			Graphics.batch.Draw(FBOManager.surface, new Rectangle((ww - tw) / 2, (wh - th) / 2, tw, th), Color.White);
 			Graphics.batch.End();
-			
-			// Whatever
-			base.Draw(gameTime);
+		}
+
+		private void RenderUi()
+		{
+			// Render to the texture
+			FBOManager.Apply(FBOManager.shadows);
+			state?.Draw();
+			FBOManager.Apply(null);
+
+			// Render the texture
+			Graphics.batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+				SamplerState.PointClamp, DepthStencilState.Default,
+				RasterizerState.CullNone);
+
+			Graphics.batch.Draw(FBOManager.surface, new Rectangle((ww - tw) / 2, (wh - th) / 2, tw, th), Color.White);
+			Graphics.batch.End();
 		}
 	}
 }

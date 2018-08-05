@@ -1,5 +1,6 @@
 ﻿using BurningKnight.Assets;
 using BurningKnight.Assets.Graphics;
+using BurningKnight.Entities;
 using BurningKnight.Entities.Physics;
 using BurningKnight.Util.Animations;
 using Microsoft.Xna.Framework;
@@ -14,6 +15,8 @@ namespace BurningKnight.Game
 		{
 			base.Init();
 			PhysicWorld.Init();
+			
+			area.Add(new Camera());
 
 			Animation animation = new Animation("actor-mummy", "-gray");
 			anim = animation.Get("idle");			
@@ -30,17 +33,33 @@ namespace BurningKnight.Game
 			base.Update(dt);
 			PhysicWorld.Update(dt);
 			AssetsHelper.mods.Update(dt);
+			
+			area.Update(dt);
+			ui.Update(dt);
 		}
 
 		public override void Draw()
 		{
 			Graphics.Clear(Color.Black);
+			Camera.BeginBatch();
 			
-			Graphics.batch.Begin();
-			anim.Update(0.1f);
+			area.Draw();
+			anim.Update(0.03f);
 			anim.Draw(Vector2.Zero);
-			
 			AssetsHelper.mods.Draw();
+			
+			Graphics.batch.End();
+		}
+
+		public override void DrawUi()
+		{
+			base.DrawUi();
+			
+			Graphics.Clear(Color.Transparent);
+			Graphics.batch.Begin();
+			
+			ui.Draw();
+			
 			Graphics.batch.End();
 		}
 	}

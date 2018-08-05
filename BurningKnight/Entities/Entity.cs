@@ -8,10 +8,29 @@ namespace BurningKnight.Entities
 		public float y;
 		public float w = 16;
 		public float h = 16;
+		public bool done;
+		
+		protected int depth;
+		public int Depth => depth;
 
 		public float Cx => x + w / 2;
 		public float Cy => y + h / 2;
 
+		protected bool alwaysDraw;
+		protected bool alwaysUpdate;
+
+		public bool AlwaysDraw => alwaysDraw;
+		public bool AlwaysUpdate => alwaysUpdate;
+
+		private bool onScreen;
+		public bool OnScreen => onScreen;
+
+		public void CheckIfOnScreen()
+		{
+			// todo
+			// OnScreen = ;
+		}
+		
 		public virtual void Init()
 		{
 			

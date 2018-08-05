@@ -16,11 +16,25 @@ namespace BurningKnight.Assets.Graphics
 				false,
 				Graphics.batch.GraphicsDevice.PresentationParameters.BackBufferFormat,
 				DepthFormat.Depth24);
+			
+			shadows = new RenderTarget2D(
+				Graphics.batch.GraphicsDevice,
+				Display.Width,
+				Display.Height,
+				false,
+				Graphics.batch.GraphicsDevice.PresentationParameters.BackBufferFormat,
+				DepthFormat.Depth24);
+		}
+
+		public static void Resize(int w, int h)
+		{
+			
 		}
 
 		public static void Destroy()
 		{
 			surface.Dispose();
+			shadows.Dispose();
 		}
 
 		public static void Apply(RenderTarget2D target)
