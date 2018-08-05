@@ -3,6 +3,7 @@ using BurningKnight.Assets;
 using BurningKnight.Assets.Graphics;
 using BurningKnight.Game;
 using BurningKnight.Util.Files;
+using BurningKnight.Util.Maths;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Random = BurningKnight.Util.Maths.Random;
@@ -98,7 +99,11 @@ namespace BurningKnight
 			BurningKnight.gameTime = gameTime;
 			
 			base.Update(gameTime);
-			state?.Update(gameTime.ElapsedGameTime.Milliseconds * 0.001f);
+
+			float t = gameTime.ElapsedGameTime.Milliseconds * 0.001f;
+			
+			Tween.Update(t);
+			state?.Update(t);
 		}
 		
 		protected override void Draw(GameTime gameTime)
