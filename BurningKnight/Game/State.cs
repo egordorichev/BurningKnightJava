@@ -2,6 +2,7 @@
 {
 	public class State
 	{
+		public bool paused;
 		public Area area;
 		public Area ui;
 		public static InGameState InGame = new InGameState();
@@ -20,8 +21,7 @@
 
 		public virtual void Update(float dt)
 		{
-			area.Update(dt);
-			ui.Update(dt);
+			
 		}
 
 		public virtual void Draw()

@@ -98,6 +98,7 @@
     <Compile Include="Util\Files\Log.cs" />
     <Compile Include="Util\Maths\MathUtils.cs" />
     <Compile Include="Util\Maths\Random.cs" />
+    <Compile Include="Util\Maths\Tween.cs" />
     <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>

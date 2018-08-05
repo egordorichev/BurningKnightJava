@@ -135,6 +135,7 @@ namespace BurningKnight
 			Graphics.batch.Draw(FBOManager.surface, FBOManager.shadows.Bounds, Color.White);
 			Graphics.batch.End();
 			
+			// Render the ui
 			state?.DrawUi();
 			FBOManager.Apply(null);
 
