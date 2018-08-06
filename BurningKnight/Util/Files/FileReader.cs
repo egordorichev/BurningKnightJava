@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace BurningKnight.Util.Files
@@ -10,6 +11,21 @@ namespace BurningKnight.Util.Files
 		public FileReader(string path)
 		{
 			stream = File.OpenRead(path);
+
+			if (stream == null)
+			{
+				throw new Exception("File not found");
+			}
+		}
+		
+		public FileReader(FileHandle file)
+		{
+			stream = File.OpenRead(file.FullPath);
+
+			if (stream == null)
+			{
+				throw new Exception("File not found");
+			}
 		}
 
 		public void Close()

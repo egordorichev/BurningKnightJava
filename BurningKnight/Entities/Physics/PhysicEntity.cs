@@ -3,19 +3,19 @@ using Microsoft.Xna.Framework;
 
 namespace BurningKnight.Entities.Physics
 {
-	public class PhysicEntity : Entity
+	public class PhysicEntity : SaveableEntity
 	{
-		protected Body Body;
-		protected Vector2 Velocity = new Vector2();
+		protected Body body;
+		protected Vector2 velocity = new Vector2();
 
 		public override void Update(float dt)
 		{
-			if (Body != null)
+			if (body != null)
 			{
-				x = Body.Position.X;
-				y = Body.Position.Y;
+				x = body.Position.X;
+				y = body.Position.Y;
 
-				Body.LinearVelocity = Velocity;
+				body.LinearVelocity = velocity;
 			}
 			
 			base.Update(dt);
@@ -24,7 +24,7 @@ namespace BurningKnight.Entities.Physics
 		public override void Destroy()
 		{
 			base.Destroy();
-			Body = PhysicWorld.Remove(Body);
+			body = PhysicWorld.Remove(body);
 		}
 	}
 }

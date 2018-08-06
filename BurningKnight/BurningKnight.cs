@@ -23,7 +23,7 @@ namespace BurningKnight
 		
 		public BurningKnight()
 		{
-			Content.RootDirectory = "Content/";
+			Content.RootDirectory = AssetsHelper.ContentRoot;
 			AssetsHelper.content = Content;
 			
 			manager = new GraphicsDeviceManager(this);

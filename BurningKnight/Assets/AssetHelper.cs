@@ -6,7 +6,9 @@ using Microsoft.Xna.Framework.Content;
 namespace BurningKnight.Assets
 {
 	public static class AssetsHelper
-	{		
+	{
+		public const string ContentRoot = "Content/";
+		
 		private static List<AssetManager> managers = new List<AssetManager>();
 		public static ContentManager content;
 		public static ModManager mods;

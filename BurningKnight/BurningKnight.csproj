@@ -68,7 +68,9 @@
     <Compile Include="Assets\Mods\Api.cs" />
     <Compile Include="Assets\Mods\Mod.cs" />
     <Compile Include="Assets\Mods\ModManager.cs" />
+    <Compile Include="Assets\Saves\GlobalSave.cs" />
     <Compile Include="Assets\Saves\LevelSave.cs" />
+    <Compile Include="Assets\Saves\PlayerSave.cs" />
     <Compile Include="Assets\Saves\SaveManager.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Entities\Camera.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Physics\PhysicEntity.cs" />
     <Compile Include="Entities\Physics\PhysicWorld.cs" />
+    <Compile Include="Entities\SaveableEntity.cs" />
     <Compile Include="Game\Area.cs" />
     <Compile Include="Game\InGameState.cs" />
     <Compile Include="Game\Inputs\Input.cs" />

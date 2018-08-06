@@ -10,7 +10,6 @@ namespace BurningKnight.Entities.Creatures
 	{
 		public string lastState;
 		public string id;
-		public Vector2 velocity = new Vector2();
 
 		public int Hp
 		{

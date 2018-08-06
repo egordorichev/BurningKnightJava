@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace BurningKnight.Util.Files
 {
@@ -9,6 +10,21 @@ namespace BurningKnight.Util.Files
 		public FileWriter(string path)
 		{
 			stream = File.Open(path, FileMode.Truncate);
+
+			if (stream == null)
+			{
+				throw new Exception("File not found");
+			}
+		}
+		
+		public FileWriter(FileHandle file)
+		{
+			stream = File.Open(file.FullPath, FileMode.Truncate);
+
+			if (stream == null)
+			{
+				throw new Exception("File not found");
+			}
 		}
 
 		public void Close()
@@ -16,6 +32,16 @@ namespace BurningKnight.Util.Files
 			stream.Close();
 		}
 
+		public void WriteString(string val)
+		{
+			WriteByte((byte) val.Length);
+
+			for (int i = 0; i < val.Length; i++)
+			{
+				WriteByte((byte) val[i]);
+			}
+		}
+		
 		public void WriteByte(byte val)
 		{
 			stream.WriteByte(val);
