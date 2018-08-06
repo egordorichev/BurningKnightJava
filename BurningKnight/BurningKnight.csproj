@@ -83,6 +83,7 @@
     <Compile Include="Game\Area.cs" />
     <Compile Include="Game\InGameState.cs" />
     <Compile Include="Game\Inputs\Input.cs" />
+    <Compile Include="Game\Inputs\InputHelper.cs" />
     <Compile Include="Game\Inputs\InputNames.cs" />
     <Compile Include="Game\State.cs" />
     <Compile Include="BurningKnight.cs" />

@@ -46,7 +46,7 @@ namespace BurningKnight.Game
 
 			area.Draw();
 
-			if (Input.IsDown("move_left"))
+			if (Input.IsDown("left"))
 			{
 				anim.Update(0.03f);
 				anim.Draw(Vector2.Zero);

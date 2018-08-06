@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using BurningKnight.Util.Animations;
+using BurningKnight.Util.Files;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
 
 namespace BurningKnight.Game.Inputs
 {
@@ -8,7 +11,7 @@ namespace BurningKnight.Game.Inputs
 	{
 		public enum State
 		{
-			HELD, RELEASED, PRESSED, UP
+			Held, Released, Pressed, Up
 		}
 		
 		private static Dictionary<string, List<InputNames>> bindings = new Dictionary<string, List<InputNames>>();
@@ -17,7 +20,26 @@ namespace BurningKnight.Game.Inputs
 
 		public static void Init()
 		{
-			Bind("move_left", InputNames.ControllerX);
+			FileHandle handle = FileHandle.FromRoot("keys.json");
+
+			if (!handle.Exists())
+			{
+				Log.Error("keys.json does not exist!");
+				return;
+			}
+
+			InputHelper root = JsonConvert.DeserializeObject<InputHelper>(handle.ReadAll());
+
+			foreach (var entry in root)
+			{
+				foreach (var key in entry.Value)
+				{
+					if (InputNames.TryParse(key, false, out InputNames res))
+					{
+						Bind(entry.Key, res);						
+					}
+				}
+			}
 		}
 
 		public static void Bind(string id, InputNames key)
@@ -28,7 +50,7 @@ namespace BurningKnight.Game.Inputs
 			}
 			
 			bindings[id].Add(key);
-			states[key] = State.RELEASED;
+			states[key] = State.Released;
 		}
 
 		private static int mouseWheelValue;
@@ -137,22 +159,22 @@ namespace BurningKnight.Game.Inputs
 
 				if (down)
 				{
-					if (pair.Value == State.PRESSED)
+					if (pair.Value == State.Pressed)
 					{
-						next[pair.Key] = State.HELD;
-					} else if (pair.Value != State.HELD)
+						next[pair.Key] = State.Held;
+					} else if (pair.Value != State.Held)
 					{
-						next[pair.Key] = State.PRESSED;
+						next[pair.Key] = State.Pressed;
 					}
 				}
 				else
 				{
-					if (pair.Value == State.RELEASED)
+					if (pair.Value == State.Released)
 					{
-						next[pair.Key] = State.UP;
-					} else if (pair.Value != State.UP)
+						next[pair.Key] = State.Up;
+					} else if (pair.Value != State.Up)
 					{
-						next[pair.Key] = State.RELEASED;
+						next[pair.Key] = State.Released;
 					}
 				}
 			}
@@ -165,17 +187,17 @@ namespace BurningKnight.Game.Inputs
 
 		public static bool WasReleased(string id)
 		{
-			return CheckState(id, State.RELEASED);
+			return CheckState(id, State.Released);
 		}
 
 		public static bool WasPressed(string id)
 		{
-			return CheckState(id, State.PRESSED);
+			return CheckState(id, State.Pressed);
 		}
 
 		public static bool IsDown(string id)
 		{
-			return CheckState(id, State.HELD);
+			return CheckState(id, State.Held);
 		}
 
 		public static bool CheckState(string id, State state)
