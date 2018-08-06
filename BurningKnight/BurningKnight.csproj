@@ -68,6 +68,7 @@
     <Compile Include="Assets\Mods\Api.cs" />
     <Compile Include="Assets\Mods\Mod.cs" />
     <Compile Include="Assets\Mods\ModManager.cs" />
+    <Compile Include="Assets\Saves\LevelSave.cs" />
     <Compile Include="Assets\Saves\SaveManager.cs" />
     <Compile Include="Display.cs" />
     <Compile Include="Entities\Camera.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="Util\Animations\AnimationHelper.cs" />
     <Compile Include="Util\CollisionHelper.cs" />
     <Compile Include="Util\Files\FileHandle.cs" />
+    <Compile Include="Util\Files\FileReader.cs" />
+    <Compile Include="Util\Files\FileWriter.cs" />
     <Compile Include="Util\Files\Log.cs" />
     <Compile Include="Util\Maths\MathUtils.cs" />
     <Compile Include="Util\Maths\Random.cs" />

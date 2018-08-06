@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BurningKnight.Util.Animations;
 using BurningKnight.Util.Files;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -135,6 +134,7 @@ namespace BurningKnight.Game.Inputs
 						down = gamepad.IsConnected && gamepad.DPad.Down == ButtonState.Pressed;
 						break;
 					case InputNames.ControllerLeftTrigger:
+						// TODO: FIXME: implement those two
 						// down = gamepad.IsConnected && gamepad.Triggers.Left ???? float ????;
 						break;
 					case InputNames.ControllerRightTrigger:

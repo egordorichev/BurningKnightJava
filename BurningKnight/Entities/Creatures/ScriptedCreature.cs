@@ -24,7 +24,7 @@ namespace BurningKnight.Entities.Creatures
 					return;
 				}
 				
-				callbacks = ((ScriptedCreature) Self).states[Self.lastState];				
+				callbacks = ((ScriptedCreature) Self).states[Self.lastState];
 				callbacks?[0]?.Function.Call(this, Self);
 			}
 

@@ -2,6 +2,7 @@
 using BurningKnight.Entities.Creatures;
 using BurningKnight.Entities.Creatures.Enemies;
 using BurningKnight.Items;
+using BurningKnight.Util.Animations;
 using BurningKnight.Util.Files;
 using MoonSharp.Interpreter;
 
@@ -19,9 +20,10 @@ namespace BurningKnight.Assets.Mods
 			script.Globals["os"] = DynValue.Nil;
 			script.Globals["print"] = (Func<object, int>) Print;
 			script.Globals["defineItem"] = (Func<Table, string, int>) DefineItem;
-			script.Globals["defineCreature"] = (Func<Table, string, int>) DefineCreature;
+			script.Globals["defineCreature"] = (Func<Table, string, Table, int>) DefineCreature;
 			script.Globals["defineState"] = (Func<Table, string, Table, int>) DefineState;
-			
+			script.Globals["loadAnimation"] = (Func<string, string, Animation>) LoadAnimation;
+
 			script.Globals["item"] = new Item();
 			script.Globals["enemy"] = new Enemy();
 			script.Globals["creature"] = new Creature();
@@ -85,7 +87,7 @@ end
 			return 0;
 		}
 
-		private static int DefineCreature(Table t, string id)
+		private static int DefineCreature(Table t, string id, Table dt)
 		{
 			if (id == null || t == null)
 			{
@@ -96,6 +98,7 @@ end
 			
 			CreatureData data = new CreatureData();
 			data.table = t;
+			data.data = dt;
 
 			CreatureRegistry.Define(Mod.currentId + ":" + id, data);
 			
@@ -133,6 +136,11 @@ end
 			CreatureRegistry.AddState(Mod.currentId + ":" + t.Get("id").String, name, states);
 			
 			return 0;
+		}
+
+		private static Animation LoadAnimation(string name, string add)
+		{
+			return new Animation( name, add);
 		}
 	}
 }

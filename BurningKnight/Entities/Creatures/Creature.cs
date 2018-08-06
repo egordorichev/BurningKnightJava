@@ -1,5 +1,6 @@
 ﻿using System;
 using BurningKnight.Util.Maths;
+using Microsoft.Xna.Framework;
 using MoonSharp.Interpreter;
 
 namespace BurningKnight.Entities.Creatures
@@ -9,6 +10,7 @@ namespace BurningKnight.Entities.Creatures
 	{
 		public string lastState;
 		public string id;
+		public Vector2 velocity = new Vector2();
 
 		public int Hp
 		{

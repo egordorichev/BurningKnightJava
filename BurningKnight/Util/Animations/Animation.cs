@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using BurningKnight.Assets.Graphics;
 using BurningKnight.Util.Files;
+using MoonSharp.Interpreter;
 using Newtonsoft.Json;
 
 namespace BurningKnight.Util.Animations
 {
+	[MoonSharpUserData]
 	public class Animation
 	{
 		private Dictionary<string, List<Frame>> frames = new Dictionary<string, List<Frame>>();
 
 		public Animation(string aname, string add = "")
 		{
+			if (add == null)
+			{
+				add = "";
+			}
+			
 			FileHandle handle = FileHandle.FromRoot("Animations/" + aname + ".json");
 
 			if (!handle.Exists())

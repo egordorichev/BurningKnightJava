@@ -1,5 +1,6 @@
 ﻿using System;
 using BurningKnight.Util;
+using Microsoft.Xna.Framework;
 
 namespace BurningKnight.Entities
 {
@@ -16,6 +17,7 @@ namespace BurningKnight.Entities
 
 		public float Cx => x + w / 2;
 		public float Cy => y + h / 2;
+		public Vector2 Pos => new Vector2(x, y);
 
 		protected bool alwaysDraw;
 		protected bool alwaysUpdate;

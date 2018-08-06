@@ -1,6 +1,7 @@
 ﻿using BurningKnight.Assets;
 using BurningKnight.Assets.Graphics;
 using BurningKnight.Entities;
+using BurningKnight.Entities.Creatures;
 using BurningKnight.Entities.Physics;
 using BurningKnight.Game.Inputs;
 using BurningKnight.Util.Animations;
@@ -20,8 +21,8 @@ namespace BurningKnight.Game
 			
 			area.Add(new Camera());
 
-			Animation animation = new Animation("actor-mummy", "-gray");
-			anim = animation.Get("idle");			
+			Creature player = CreatureRegistry.Create("bk:player");
+			area.Add(player);
 		}
 
 		public override void Destroy()
@@ -43,17 +44,7 @@ namespace BurningKnight.Game
 		public override void Draw()
 		{
 			Camera.BeginBatch();
-
 			area.Draw();
-
-			if (Input.IsDown("left"))
-			{
-				anim.Update(0.03f);
-				anim.Draw(Vector2.Zero);
-			}
-
-		AssetsHelper.mods.Draw();
-			
 			Graphics.batch.End();
 		}
 
@@ -62,10 +53,8 @@ namespace BurningKnight.Game
 			base.DrawUi();
 			
 			Graphics.batch.Begin();
-			
+			AssetsHelper.mods.Draw();
 			ui.Draw();
-			anim.Draw(new Vector2(8, 8));
-			
 			Graphics.batch.End();
 		}
 	}

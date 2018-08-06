@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BurningKnight.Entities.Creatures.Enemies;
+using BurningKnight.Util.Files;
 using MoonSharp.Interpreter;
 
 namespace BurningKnight.Entities.Creatures
@@ -8,12 +9,13 @@ namespace BurningKnight.Entities.Creatures
 	{
 		private static Dictionary<string, CreatureData> enemies = new Dictionary<string, CreatureData>();
 
-		public static Creature Create(string id)
+		public static ScriptedCreature Create(string id)
 		{
 			CreatureData data = enemies[id];
 
 			if (data == null)
 			{
+				Log.Warn("Creature " + id + " is not defined");
 				return null;
 			}
 			
@@ -23,7 +25,7 @@ namespace BurningKnight.Entities.Creatures
 			c.id = id;
 			
 			// todo: parse
-			Table table = data.table;
+			Table table = data.data;
 
 			return c;
 		}
@@ -39,6 +41,7 @@ namespace BurningKnight.Entities.Creatures
 
 			if (data == null)
 			{
+				Log.Warn("Creature " + id + " is not defined, failed to add state " + state);
 				return;
 			}
 

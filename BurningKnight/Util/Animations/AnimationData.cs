@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using BurningKnight.Assets.Graphics;
 using Microsoft.Xna.Framework;
+using MoonSharp.Interpreter;
 
 namespace BurningKnight.Util.Animations
 {
+	[MoonSharpUserData]
 	public class AnimationData
 	{
 		public List<Animation.Frame> frames;
