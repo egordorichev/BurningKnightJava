@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -13,9 +15,11 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ShopSale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -114,6 +118,14 @@ public class Shopkeeper extends Npc {
 
 		super.update(dt);
 
+		lastWhite = (!this.talking && Player.instance.pickupFx != null && Player.instance.room == this.room);
+
+		if (lastWhite && Input.instance.wasPressed("action")) {
+			talking = true;
+
+
+		}
+
 		if (this.invt > 0) {
 			this.animation = hurt;
 		} else if (this.vel.len2() >= 20f) {
@@ -154,8 +166,37 @@ public class Shopkeeper extends Npc {
 		deathEffect(death);
 	}
 
+	private float al;
+	private boolean talking;
+	private boolean lastWhite;
+
 	@Override
 	public void render() {
+		if (!this.enranged) {
+			float dt = Gdx.graphics.getDeltaTime();
+			this.al = MathUtils.clamp(0, 1, this.al + ((lastWhite ? 1 : 0) - this.al) * dt * 10);
+
+			if (this.al > 0) {
+				Mob.shader.begin();
+				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+				Mob.shader.setUniformf("u_a", this.al);
+				Mob.shader.end();
+				Graphics.batch.setShader(Mob.shader);
+				Graphics.batch.begin();
+
+				for (int xx = -1; xx < 2; xx++) {
+					for (int yy = -1; yy < 2; yy++) {
+						if (Math.abs(xx) + Math.abs(yy) == 1) {
+							animation.render(this.x + xx, this.y + yy, this.flipped);
+						}
+					}
+				}
+
+				Graphics.batch.end();
+				Graphics.batch.setShader(null);
+			}
+		}
+
 		animation.render(this.x, this.y, this.flipped);
 
 		if (this.shotgun != null) {
