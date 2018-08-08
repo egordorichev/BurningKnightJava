@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.PickaxeA;
@@ -174,14 +175,28 @@ public class Archeologist extends Mob {
 
 			if (!this.did && this.t > ((Weapon) self.weapon).timeA) {
 				if (Random.chance(skeletonChance)) {
-					Mummy skeleton = Mummy.random();
+					if (self.bombs) {
+						BombEntity e = new BombEntity(self.x + (self.w - 16) / 2, self.y + (self.h - 16) / 2);
+						e.owner = self;
 
-					skeleton.x = self.x;
-					skeleton.y = self.y;
-					skeleton.generate();
+						Dungeon.area.add(e);
 
-					Dungeon.area.add(skeleton);
-					LevelSave.add(skeleton);
+						for (Mob mob : Mob.all) {
+							if (mob.room == self.room) {
+								mob.become("getout");
+							}
+						}
+					} else {
+						Mummy skeleton = Mummy.random();
+
+
+						skeleton.x = self.x;
+						skeleton.y = self.y;
+						skeleton.generate();
+
+						Dungeon.area.add(skeleton);
+						LevelSave.add(skeleton);
+					}
 				} else {
 					Point aim = self.getAim();
 					float a = (float) (self.getAngleTo(aim.x, aim.y) - Math.PI * 2);
@@ -203,6 +218,8 @@ public class Archeologist extends Mob {
 			}
 		}
 	}
+
+	public boolean bombs;
 
 	@Override
 	public void init() {
