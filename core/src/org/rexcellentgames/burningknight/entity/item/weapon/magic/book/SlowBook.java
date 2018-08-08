@@ -14,8 +14,8 @@ public class SlowBook extends Book {
 	public static TextureRegion particle = Graphics.getTexture("particle-giant");
 
 	{
-		name = Locale.get("book_of_magic_missile");
-		description = Locale.get("book_of_magic_missile_desc");
+		name = Locale.get("slow_book");
+		description = Locale.get("slow_book_desc");
 		sprite = "item-book_d";
 		mana = 6;
 		damage = 10; // GG WP EZ

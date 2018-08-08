@@ -14,6 +14,8 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DialogData {
 	public ArrayList<Dialog.Phrase> phrases = new ArrayList<>();
@@ -41,6 +43,12 @@ public class DialogData {
 		}
 	};
 
+	private Runnable onSelect = new Runnable() {
+		@Override
+		public void run() {
+		}
+	};
+
 	private float size;
 	private float w;
 	private float h = 48;
@@ -57,6 +65,9 @@ public class DialogData {
 		this.start = onStart;
 	}
 
+	public void onSelect(Runnable onStart) {
+		this.onSelect = onStart;
+	}
 
 	private TextureRegion top = Graphics.getTexture("ui-dialog_top");
 	private TextureRegion topLeft = Graphics.getTexture("ui-dialog_top_left");
@@ -224,14 +235,25 @@ public class DialogData {
 	private void readPhrase() {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 		this.label = new TypingLabel("{COLOR=#FFFFFF}" + phrase.string, skin);
-		this.label.setSize(Display.GAME_WIDTH - 96 - 16, 32);
+		this.label.setSize(Display.GAME_WIDTH - 64, 32);
 		this.label.setPosition(32, Display.GAME_HEIGHT - 52 - 16 - 48 + 8);
 		this.label.setWrap(true);
 
 		int deaths = GlobalSave.getInt("deaths");
 
 		this.label.setVariable("deaths", deaths == 1 ? "1 time" : deaths + " times");
+
+		for (Map.Entry<String, String> pair : vars.entrySet()) {
+			this.label.setVariable(pair.getKey(), pair.getValue());
+		}
+
 		this.start.run();
+	}
+
+	private HashMap<String, String> vars = new HashMap<>();
+
+	public void setVariable(String var, String val) {
+		vars.put(var, val);
 	}
 
 	public void next() {
@@ -299,7 +321,7 @@ public class DialogData {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 
 		if (phrase != null && phrase.options != null) {
-			Tween.to(new Tween.Task((phrase.options.length + 1) * 10 + 4, 0.3f, Tween.Type.BACK_OUT) {
+			Tween.to(new Tween.Task((phrase.options.length + 1) * 10 + 4, 0.3f) {
 				@Override
 				public float getValue() {
 					return optionsH;
@@ -326,10 +348,6 @@ public class DialogData {
 				}
 			});
 		}
-	}
-
-	private void hideOptions() {
-
 	}
 
 	public void update(float dt) {
@@ -416,6 +434,8 @@ public class DialogData {
 
 					@Override
 					public void onEnd() {
+						onSelect.run();
+
 						final Dialog.Phrase phrase = phrases.get(current);
 
 						if (oa != 1f && phrase.options != null) {
@@ -455,6 +475,10 @@ public class DialogData {
 				});
 			}
 		});
+	}
+
+	public int getSelected() {
+		return selected;
 	}
 
 	public void end() {

@@ -9,6 +9,11 @@ public class Accessory extends Item {
 		useable = false;
 	}
 
+	@Override
+	public int getPrice() {
+		return 10;
+	}
+
 	private boolean equiped;
 
 	public void onEquip() {

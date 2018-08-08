@@ -11,8 +11,10 @@ object Locale {
     private set
 
   private fun loadRaw(json: String, modId: String = "", fl: Boolean = false) {
+    var js = json.replace("(\"\\{\")", "\\{\"").replace("(\"\\}\")","\"\\}")
+
     val reader = JsonReader()
-    val root = reader.parse(json)
+    val root = reader.parse(js)
 
     for (value in root) {
       if (!modId.isBlank()) {

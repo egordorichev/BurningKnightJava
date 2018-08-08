@@ -224,18 +224,26 @@ public class Gun extends WeaponBase {
 		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
 			float d = Display.GAME_WIDTH * 10;
 			closestFraction = 1f;
-			World.world.rayCast(callback, xx, yy, xx + (float) Math.cos(an) * d, yy + (float) Math.sin(an) * d);
 
-			Graphics.batch.end();
-			Graphics.shape.setProjectionMatrix(Camera.game.combined);
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.setColor(1, 0, 0, 0.7f);
+			float x2 = xx + (float) Math.cos(an) * d;
+			float y2 = yy + (float) Math.sin(an) * d;
 
-			Graphics.shape.line(xx, yy, last.x, last.y);
-			Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
+			if (xx != x2 || yy != y2) {
+				World.world.rayCast(callback, xx, yy, x2, y2);
+			}
 
-			Graphics.shape.end();
-			Graphics.batch.begin();
+			if (last != null) {
+				Graphics.batch.end();
+				Graphics.shape.setProjectionMatrix(Camera.game.combined);
+				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+				Graphics.shape.setColor(1, 0, 0, 0.7f);
+
+				Graphics.shape.line(xx, yy, last.x, last.y);
+				Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
+
+				Graphics.shape.end();
+				Graphics.batch.begin();
+			}
 		}
 
 		y += this.owner.h;

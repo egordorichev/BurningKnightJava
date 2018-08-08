@@ -1,0 +1,37 @@
+{
+	"wanna-buy" : {
+		"dialog_wanna_sell_something" : {
+			"name" : "shop_keeper"
+		}
+	},
+
+	"stupid" : {
+		"dialog_i_dont_trade_gold" : {
+			"name" : "shop_keeper"
+		}
+	},
+
+	"buy" : {
+		"dialog_wanna_sell_item" : {
+			"name" : "shop_keeper",
+
+			"next" : [
+				"dialog_sk_thanks",
+				"dialog_sk_cheers"
+			],
+
+			"options" : [
+				"dialog_sure",
+				"dialog_nope"
+			]
+		},
+
+		"dialog_sk_thanks" : {
+			"name" : "shop_keeper"
+		},
+
+		"dialog_sk_cheers" : {
+			"name" : "shop_keeper"
+		}
+	}
+}

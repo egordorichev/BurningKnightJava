@@ -17,10 +17,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeSh
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.MathUtils;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -102,6 +99,11 @@ public class Shopkeeper extends Npc {
 		instance = null;
 	}
 
+	public static Dialog dialogs = Dialog.make("shop-keeper");
+	public static DialogData wannaBuy = dialogs.get("wanna-buy");
+	public static DialogData buy = dialogs.get("buy");
+	public static DialogData stupid = dialogs.get("stupid");
+
 	@Override
 	public void update(float dt) {
 		/*if (!(this.state.equals("idle") || this.state.equals("roam")) && Player.instance.room != this.room) {
@@ -118,12 +120,48 @@ public class Shopkeeper extends Npc {
 
 		super.update(dt);
 
-		lastWhite = (!this.talking && Player.instance.pickupFx != null && Player.instance.room == this.room);
+		lastWhite = (!this.talking && Player.instance.pickupFx == null && Player.instance.room == this.room && Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2) < 10);
 
 		if (lastWhite && Input.instance.wasPressed("action")) {
 			talking = true;
+			this.become("talk_dialog");
+			int id = Player.instance.ui.getActive();
 
+			Item item = Player.instance == null ? null : Player.instance.getInventory().getSlot(id);
 
+			int price = item == null ? 0 : item.getPrice() * item.getCount();
+
+			Dialog.active = item == null ? wannaBuy : (item instanceof Gold ? stupid : buy);
+			Dialog.active.start();
+
+			if (item != null) {
+				Dialog.active.setVariable("item", item.getName());
+				Dialog.active.setVariable("gold", price + "");
+			}
+
+			Dialog.active.onEnd(new Runnable() {
+				@Override
+				public void run() {
+					talking = false;
+					become("idle");
+				}
+			});
+
+			if (item != null) {
+				Dialog.active.onSelect(new Runnable() {
+					@Override
+					public void run() {
+						if (Dialog.active.getSelected() == 0) {
+							Player.instance.getInventory().setSlot(id, null);
+							ItemHolder gold = new ItemHolder();
+							gold.setItem(new Gold());
+							gold.getItem().setCount(price);
+
+							Player.instance.tryToPickup(gold);
+						}
+					}
+				});
+			}
 		}
 
 		if (this.invt > 0) {
@@ -177,6 +215,7 @@ public class Shopkeeper extends Npc {
 			this.al = MathUtils.clamp(0, 1, this.al + ((lastWhite ? 1 : 0) - this.al) * dt * 10);
 
 			if (this.al > 0) {
+				Graphics.batch.end();
 				Mob.shader.begin();
 				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
 				Mob.shader.setUniformf("u_a", this.al);
@@ -194,6 +233,7 @@ public class Shopkeeper extends Npc {
 
 				Graphics.batch.end();
 				Graphics.batch.setShader(null);
+				Graphics.batch.begin();
 			}
 		}
 
@@ -510,9 +550,14 @@ public class Shopkeeper extends Npc {
 			case "sell": return new SellState();
 			case "talk": return new TalkState();
 			case "thanks": return new ThanksState();
+			case "talk_dialog": return new TalkDialogState();
 		}
 
 		return super.getAi(state);
+	}
+
+	public class TalkDialogState extends SKState {
+
 	}
 
 	@Override

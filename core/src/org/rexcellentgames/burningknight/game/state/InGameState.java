@@ -85,8 +85,24 @@ public class InGameState extends State {
 		super.setPaused(paused);
 
 		if (this.isPaused()) {
-
 			this.mv = -256;
+
+			Tween.to(new Tween.Task(1, 0.3f) {
+				@Override
+				public float getValue() {
+					return Dungeon.grayscale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Dungeon.grayscale = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
 
 			Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
 				@Override
@@ -122,6 +138,23 @@ public class InGameState extends State {
 				}
 			});
 		} else {
+			Tween.to(new Tween.Task(0, 0.3f) {
+				@Override
+				public float getValue() {
+					return Dungeon.grayscale;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Dungeon.grayscale = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
+
 			Tween.to(new Tween.Task(0, 0.2f) {
 				@Override
 				public float getValue() {
@@ -366,6 +399,18 @@ public class InGameState extends State {
 			Graphics.endShape();
 		}
 
+		Graphics.batch.setProjectionMatrix(Camera.game.combined);
+		World.render();
+
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+		this.console.render();
+
+		if (Dialog.active != null) {
+			Dialog.active.render();
+		}
+
 		if (this.mv > -256) {
 			/*Graphics.shape.setProjectionMatrix(Camera.nil.combined);
 			Graphics.startAlphaShape();
@@ -382,18 +427,6 @@ public class InGameState extends State {
 
 			Camera.ui.translate(0, -this.mv);
 			Camera.ui.update();
-		}
-
-		Graphics.batch.setProjectionMatrix(Camera.game.combined);
-		World.render();
-
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
-		this.console.render();
-
-		if (Dialog.active != null) {
-			Dialog.active.render();
 		}
 
 		if (fpsY > 0) {

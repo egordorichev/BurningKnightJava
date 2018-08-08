@@ -48,7 +48,11 @@ public class Item extends Entity {
   public Item() {
 		initStats();
   }
-  
+
+  public int getPrice() {
+  	return 5;
+  }
+
   protected Item(String name, String description, String sprite) {
     this.name = name;
     this.description = description;

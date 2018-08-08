@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -147,10 +148,13 @@ public class Clown extends Mob {
 			this.animation = idle;
 		}
 
+
 		this.renderWithOutline(this.animation);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
+
+		Graphics.print(this.state, Graphics.small, this.x, this.y);
 	}
 
 	@Override
@@ -256,6 +260,7 @@ public class Clown extends Mob {
 			this.checkForPlayer();
 
 			if (self.lastSeen == null) {
+				self.become("idle");
 				return;
 			} else {
 				float d = 32f;

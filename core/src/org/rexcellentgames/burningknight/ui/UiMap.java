@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -321,55 +322,57 @@ public class UiMap extends UiEntity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Input.instance.wasPressed("minus")) {
-			minus();
-		}
-
-		if (Input.instance.wasPressed("plus")) {
-			plus();
-		}
-
-		if (!did && Input.instance.wasPressed("toggle_minimap") && !large) {
-			if (my == 0) {
-				hide();
-			} else {
-				show();
-			}
-		}
-
-		if (large) {
-			float s = 30f * (1 / zoom);
-
-			if (Input.instance.isDown("left")) {
-				xc += s * dt;
+		if (Dialog.active == null) {
+			if (Input.instance.wasPressed("minus")) {
+				minus();
 			}
 
-			if (Input.instance.isDown("right")) {
-				xc -= s * dt;
+			if (Input.instance.wasPressed("plus")) {
+				plus();
 			}
 
-			if (Input.instance.isDown("up")) {
-				yc -= s * dt;
+			if (!did && Input.instance.wasPressed("toggle_minimap") && !large) {
+				if (my == 0) {
+					hide();
+				} else {
+					show();
+				}
 			}
 
-			if (Input.instance.isDown("down")) {
-				yc += s * dt;
+			if (large) {
+				float s = 30f * (1 / zoom);
+
+				if (Input.instance.isDown("left")) {
+					xc += s * dt;
+				}
+
+				if (Input.instance.isDown("right")) {
+					xc -= s * dt;
+				}
+
+				if (Input.instance.isDown("up")) {
+					yc -= s * dt;
+				}
+
+				if (Input.instance.isDown("down")) {
+					yc += s * dt;
+				}
+
+				float ix = -Input.instance.getAxis("mouseX") * s;
+				float iy = Input.instance.getAxis("mouseY") * s;
+
+				if (Math.sqrt(ix * ix + iy * iy) > 0.8) {
+					xc += ix * dt;
+					yc += iy * dt;
+				}
 			}
 
-			float ix = -Input.instance.getAxis("mouseX") * s;
-			float iy = Input.instance.getAxis("mouseY") * s;
-
-			if (Math.sqrt(ix * ix + iy * iy) > 0.8) {
-				xc += ix * dt;
-				yc += iy * dt;
-			}
-		}
-
-		if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused() && !did) {
-			if (!large) {
-				openHuge();
-			} else {
-				hideHuge();
+			if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused() && !did) {
+				if (!large) {
+					openHuge();
+				} else {
+					hideHuge();
+				}
 			}
 		}
 	}

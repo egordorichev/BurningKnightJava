@@ -240,7 +240,14 @@ public class Mob extends Creature {
 		float x = this.x + this.w / 2;
 		float y = this.y + 4;
 
-		World.world.rayCast(callback, x, y, player.x + player.w / 2, player.y + 4);
+		float x2 = player.x + player.w / 2;
+		float y2 = player.y + 4;
+
+		if (x != x2 || y != y2) {
+			World.world.rayCast(callback, x, y, x2, y2);
+		} else {
+			return true;
+		}
 
 		return last == player;
 	}

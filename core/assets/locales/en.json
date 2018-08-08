@@ -475,7 +475,9 @@
 	"book_of_magic_wall" : "Book of magic wall",
 	"book_of_magic_wall_desc" : "I want MOAR WALLS",
 	"book_of_magic_missile" : "Book of magic missile",
-	"book_of_magic_missile_desc" : "Come on, why is it SO SLOW?",
+	"book_of_magic_missile_desc" : "Magic!",
+	"slow_book" : "Book of FREAKING LARGE RECTANGLE",
+	"slow_book_desc" : "Come on, why is it SO SLOW?",
 	"book_of_crazy_particles" : "Book of crazy particles",
 	"book_of_crazy_particles_desc" : "Use with care",
 	"book_of_green_energy" : "Book of green energy",
@@ -567,5 +569,13 @@
 	"forest_ruins" : "Forest ruins",
 	"womb_ruins" : "Womb ruins",
 	"test_achievement" : "Test",
-	"test_achievement_desc" : "Press F3"
+	"test_achievement_desc" : "Press F3",
+	"dialog_sk_thanks" : "Thanks!",
+	"dialog_sure" : "Sure",
+	"dialog_nope" : "Nope",
+	"shop_keeper" : "Shop keeper",
+	"dialog_wanna_sell_something" : "Wanna sell something? Then select it in your hot bar and talk to me again",
+	"dialog_sk_cheers" : "Cheers",
+	"dialog_wanna_sell_item" : "Do you want to sell {VAR=item} for {VAR=gold} gold?",
+	"dialog_i_dont_trade_gold" : "Emm... I don't trade gold for gold!"
 }

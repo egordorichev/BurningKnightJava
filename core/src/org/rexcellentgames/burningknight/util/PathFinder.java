@@ -59,21 +59,21 @@ public class PathFinder {
 	}
 
 	public static boolean goodMove(int from, int i, boolean[] passable) {
-		for (int j = 0; j < check[i].length; j++) {
+		/*for (int j = 0; j < check[i].length; j++) {
 			if (!passable[from + check[i][j]]) {
 				return false;
 			}
-		}
+		}*/
 
 		return true;
 	}
 
 	public static boolean goodMoveLR(int from, int i, boolean[] passable) {
-		for (int j = 0; j < checkLR[i].length; j++) {
+		/*for (int j = 0; j < checkLR[i].length; j++) {
 			if (!passable[from + checkLR[i][j]]) {
 				return false;
 			}
-		}
+		}*/
 
 		return true;
 	}

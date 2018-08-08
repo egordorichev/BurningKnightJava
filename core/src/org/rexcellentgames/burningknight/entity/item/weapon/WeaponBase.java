@@ -32,6 +32,11 @@ public class WeaponBase extends Item {
 	public int initialDamageMin;
 	public float initialCrit;
 
+	@Override
+	public int getPrice() {
+		return 15;
+	}
+
 	public void modifyUseTime(float am) {
 		this.useTime += am;
 
