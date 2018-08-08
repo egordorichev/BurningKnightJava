@@ -14,7 +14,7 @@ public class RectFx extends Entity {
 	public float r = 1;
 	public float g = 1;
 	public float b = 1;
-	public float a = 0.8f;
+	public float a = 1;
 	public float scale = 1;
 	public float angle;
 	public static TextureRegion region = Graphics.getTexture("particle-rect");
@@ -41,7 +41,6 @@ public class RectFx extends Entity {
 		this.r += Random.newFloat(-0.2f, 0.2f);
 		this.g += Random.newFloat(-0.2f, 0.2f);
 		this.b += Random.newFloat(-0.2f, 0.2f);
-		this.a = 1;
 	}
 
 	@Override

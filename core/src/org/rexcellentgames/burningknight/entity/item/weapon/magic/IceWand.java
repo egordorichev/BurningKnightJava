@@ -33,7 +33,7 @@ public class IceWand extends Wand {
 				RectFx.shader.setUniformf("r", 0.3f);
 				RectFx.shader.setUniformf("g", 0.3f);
 				RectFx.shader.setUniformf("b", 1f);
-				RectFx.shader.setUniformf("a", 0.8f);
+				RectFx.shader.setUniformf("a", 0.9f);
 				Texture texture = region.getTexture();
 
 				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
@@ -57,12 +57,12 @@ public class IceWand extends Wand {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
-					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
+					fx.x = this.x + Random.newFloat(this.w) / 1.2f - this.w / 2.4f + this.w / 2;
+					fx.y = this.y + Random.newFloat(this.h) / 1.2f - this.h / 2.4f + this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
 					fx.r = 0.3f;
-					fx.g = 0.3f;
+					fx.g = 0.3f + Random.newFloat(0.6f);
 
 					Dungeon.area.add(fx);
 				}
@@ -86,7 +86,10 @@ public class IceWand extends Wand {
 		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
-missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
+		missile.y = y - 3;
+		missile.rectShape = true;
+		missile.w = 6;
+		missile.h = 6;
 		missile.rotates = true;
 
 		double ra = Math.toRadians(a);

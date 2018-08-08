@@ -14,6 +14,7 @@ public class Spark extends Entity {
 	private AnimationData animation = animations.get("idle");
 	public float a;
 	public boolean inUi;
+	private float val;
 
 	public static void randomOn(Entity entity) {
 		randomOn(entity.x, entity.y, entity.w, entity.h);
@@ -52,6 +53,8 @@ public class Spark extends Entity {
 				a = value;
 			}
 		});
+
+		val = Random.newFloat(0.6f, 1f);
 	}
 
 	@Override
@@ -69,6 +72,7 @@ public class Spark extends Entity {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		}
 
+		Graphics.batch.setColor(val, val, val, 1);
 		this.animation.render(this.x, this.y, false, false, 3.5f, 3.5f, this.a);
 
 		if (inUi) {

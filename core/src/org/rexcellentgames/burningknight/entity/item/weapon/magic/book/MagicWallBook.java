@@ -68,13 +68,13 @@ public class MagicWallBook extends Book {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
-					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
+					fx.x = this.x + Random.newFloat(this.w) * 2 - this.w + this.w / 2;
+					fx.y = this.y + Random.newFloat(this.h) * 2 - this.h + this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
-					fx.g = 0;
 					fx.r = (float) Math.abs(Math.sin(this.t * 2.5f));
 					fx.b = (float) Math.abs(Math.cos(this.t * 3f));
+					fx.g = (float) Math.abs(Math.cos(this.t * 1.7f));
 
 					Dungeon.area.add(fx);
 				}

@@ -13,7 +13,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.util.Random;
 
 public class Waterbolt extends Wand {
 	{
@@ -63,8 +62,8 @@ public class Waterbolt extends Wand {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
-					fx.y = this.y + Random.newFloat(this.w) - this.h / 2;
+					fx.x = this.x + this.h / 2;
+					fx.y = this.y + this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
 					fx.r = 0.3f;
@@ -85,12 +84,8 @@ public class Waterbolt extends Wand {
 			public void onCollision(Entity entity) {
 				super.onCollision(entity);
 
-				if (entity instanceof Door) {
-					broke = true;
-					return;
-				}
 
-				if (entity == null || entity instanceof SolidProp) {
+				if (entity == null || entity instanceof SolidProp || entity instanceof Door) {
 					num ++;
 
 					if (num >= 5) {

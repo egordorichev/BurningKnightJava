@@ -57,11 +57,11 @@ public class FireWand extends Wand {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
-					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
+					fx.x = this.x + Random.newFloat(this.w) / 1.5f - this.w / 3 + this.w / 2;
+					fx.y = this.y + Random.newFloat(this.h) / 1.5f - this.h / 3 + this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
-					fx.g = 0.3f;
+					fx.g = 0.3f + Random.newFloat(0.5f);
 					fx.b = 0.3f;
 
 					Dungeon.area.add(fx);

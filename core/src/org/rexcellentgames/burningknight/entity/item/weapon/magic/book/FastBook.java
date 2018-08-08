@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -8,6 +9,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FastBook extends Book {
@@ -32,9 +34,12 @@ public class FastBook extends Book {
 			public void render() {
 				Graphics.batch.end();
 				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", 0f);
-				RectFx.shader.setUniformf("g", 1f - (float) Math.abs(Math.sin(this.t * 3f) / 2));
-				RectFx.shader.setUniformf("b", 0f);
+
+				Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 1, 1);
+
+				RectFx.shader.setUniformf("r", color.r);
+				RectFx.shader.setUniformf("g", color.g);
+				RectFx.shader.setUniformf("b", color.b);
 				RectFx.shader.setUniformf("a", 0.8f);
 				Texture texture = region.getTexture();
 
@@ -54,18 +59,22 @@ public class FastBook extends Book {
 			public void logic(float dt) {
 				super.logic(dt);
 
-				if (this.last > 0.03f) {
+				if (this.last > 0.01f) {
 					this.last = 0;
 					RectFx fx = new RectFx();
 
+
+					Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 1, 1);
+
+
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
-					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
+					fx.x = this.x + Random.newFloat(this.w) / 2 - this.w / 4 + this.w / 2;
+					fx.y = this.y + Random.newFloat(this.h) / 2 - this.h / 4 + this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
-					fx.b = 0f;
-					fx.r = 0;
-					fx.g = 1f - (float) Math.abs(Math.sin(this.t * 3f) / 2);
+					fx.b = color.b;
+					fx.r = color.r;
+					fx.g = color.g;
 
 					Dungeon.area.add(fx);
 				}

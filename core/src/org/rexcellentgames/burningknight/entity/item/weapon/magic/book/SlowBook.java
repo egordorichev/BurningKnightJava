@@ -25,6 +25,12 @@ public class SlowBook extends Book {
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
+			public void init() {
+				super.init();
+				penetrates = true; // LOL GG WP
+			}
+
+			@Override
 			public void render() {
 				Graphics.batch.end();
 				RectFx.shader.begin();
@@ -76,7 +82,7 @@ public class SlowBook extends Book {
 		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
-		missile.y = y - 8;
+		missile.y = y;
 		missile.rectShape = true;
 		missile.w = 16;
 		missile.h = 16;
