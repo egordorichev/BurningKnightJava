@@ -12,6 +12,6 @@ public class BlueArcheologist extends Archeologist {
 
 	{
 		triple = true;
-		skeletonChance = 15f;
+		skeletonChance = 10f;
 	}
 }

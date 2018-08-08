@@ -41,6 +41,14 @@ public class Mummy extends Mob {
 		this.playSfx("damage_mummy");
 	}
 
+	public static Mummy random() {
+		switch (Random.newInt(3)) {
+			case 0: return new Mummy();
+			case 1: return new GrayMummy();
+			default: return new BrownMummy();
+		}
+	}
+
 	{
 		w = 12;
 		hpMax = 10;

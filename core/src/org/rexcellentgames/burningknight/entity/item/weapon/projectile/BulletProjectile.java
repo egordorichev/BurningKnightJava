@@ -11,12 +11,14 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -136,6 +138,30 @@ public class BulletProjectile extends Projectile {
 	}
 
 	protected float last;
+
+	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
+
+		if (this.bad && entity instanceof WeaponBase && ((WeaponBase) entity).getOwner() instanceof Player) {
+			this.vel.x *= -1;
+			this.vel.y *= -1;
+			this.bad = false;
+
+			if (this.body != null) {
+				this.body.setLinearVelocity(this.vel);
+			}
+
+			for (int i = 0; i < 10; i++) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = this.x;
+				fx.y = this.y;
+
+				Dungeon.area.add(fx);
+			}
+		}
+	}
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {

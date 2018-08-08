@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 
@@ -47,7 +46,7 @@ public class GoreFx extends Entity {
 
 		this.t += dt;
 
-		if (this.t > 5f && !this.tweened) {
+		/*if (this.t > 5f && !this.tweened) {
 			this.tweened = true;
 			Tween.to(new Tween.Task(0, 1f, Tween.Type.QUAD_IN) {
 				@Override
@@ -65,7 +64,7 @@ public class GoreFx extends Entity {
 					done = true;
 				}
 			});
-		}
+		}*/
 
 		if (this.body != null) {
 			this.vel.x = this.body.getLinearVelocity().x;

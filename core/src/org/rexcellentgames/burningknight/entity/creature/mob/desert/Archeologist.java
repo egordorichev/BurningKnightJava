@@ -46,6 +46,7 @@ public class Archeologist extends Mob {
 			case "alerted": return new AlertedState();
 			case "move": case "chase": return new MoveState();
 			case "dig": return new DigState();
+			case "predig": return new PredigState();
 		}
 
 		return super.getAi(state);
@@ -114,13 +115,24 @@ public class Archeologist extends Mob {
 			this.checkForPlayer();
 
 			if (this.moveTo(this.to, 8, 16f)) {
-				self.become("dig");
+				self.become("predig");
 			}
 		}
 	}
 
 	protected boolean triple;
-	protected float skeletonChance = 10;
+	protected float skeletonChance = 5;
+
+	public class PredigState extends ArcheologistState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 2f) {
+				self.become("dig");
+			}
+		}
+	}
 
 	public class DigState extends ArcheologistState {
 		@Override
@@ -155,9 +167,14 @@ public class Archeologist extends Mob {
 			super.update(dt);
 			this.checkForPlayer();
 
+			if (self.target == null) {
+				self.become("idle");
+				return;
+			}
+
 			if (!this.did && this.t > ((Weapon) self.weapon).timeA) {
 				if (Random.chance(skeletonChance)) {
-					Skeleton skeleton = Skeleton.random();
+					Mummy skeleton = Mummy.random();
 
 					skeleton.x = self.x;
 					skeleton.y = self.y;
@@ -181,7 +198,7 @@ public class Archeologist extends Mob {
 				this.did = true;
 			}
 
-			if (this.t >= 2f) {
+			if (this.t >= 5f) {
 				self.become("move");
 			}
 		}
