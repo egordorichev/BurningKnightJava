@@ -91,12 +91,12 @@ public class Collisions implements ContactListener, ContactFilter {
 			if (weapon.getOwner() == b) {
 				contact.setEnabled(false);
 			}
-		} else if (a instanceof Door) {
-			if (!((Door) a).lock) {
+		} else if (a instanceof Door && (b instanceof Creature || b instanceof PetEntity)) {
+			if (!((Door) a).lock || b instanceof PetEntity) {
 				contact.setEnabled(false);
 			}
-		} else if (b instanceof Door) {
-			if (!((Door) b).lock) {
+		} else if (b instanceof Door && (a instanceof Creature || a instanceof PetEntity)) {
+			if (!((Door) b).lock || a instanceof PetEntity) {
 				contact.setEnabled(false);
 			}
 		} else if ((a instanceof BulletProjectile || a instanceof Shell) && b != null) {

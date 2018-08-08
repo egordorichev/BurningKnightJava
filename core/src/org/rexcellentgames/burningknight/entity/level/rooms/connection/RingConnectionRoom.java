@@ -22,7 +22,6 @@ public class RingConnectionRoom extends TunnelRoom {
 
 	@Override
 	public void paint(Level level) {
-
 		Painter.fill(level, this, Terrain.WALL);
 
 		if (Random.chance(50)) {
@@ -49,6 +48,7 @@ public class RingConnectionRoom extends TunnelRoom {
 		Rect ring = getConnectionSpace();
 		byte floor = Terrain.randomFloor();
 
+		Painter.fill(level, ring.left, ring.top, 3, 3, Terrain.randomFloor());
 		Painter.fill(level, ring.left, ring.top, 3, 3, fl == Terrain.LAVA ? (Random.chance(50) ? Terrain.WATER : Terrain.DIRT) : floor);
 		Painter.fill(level, ring.left + 1, ring.top + 1, 1, 1, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
 	}

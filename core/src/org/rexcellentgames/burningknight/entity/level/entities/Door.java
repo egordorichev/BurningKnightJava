@@ -109,7 +109,7 @@ public class Door extends SaveableEntity {
 
 		if (this.body == null) {
 			this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
-				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, !(this.autoLock || this.lockable));
+				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, false);
 			
 			if (this.body != null) {
 				this.body.setTransform(this.x, this.y, 0);
