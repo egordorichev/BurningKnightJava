@@ -32,7 +32,6 @@ public class Bomb extends Item {
 
 		Dungeon.area.add(e);
 
-
 		if (this.owner instanceof Player) {
 			Player player = (Player) this.owner;
 

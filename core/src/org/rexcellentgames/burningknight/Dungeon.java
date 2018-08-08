@@ -31,7 +31,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
-import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -429,7 +428,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("correct", colorBlindFix);
 		shader.setUniformf("grayscale", grayscale);
 		shader.setUniformf("ui", 0);
-		shader.setUniformf("heat", level instanceof DesertLevel ? 1 : 0);
+		shader.setUniformf("heat", 0); // level instanceof DesertLevel ? 1 :
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("transR", darkR / MAX_R);
 		shader.setUniformf("transPos", new Vector2(darkX / Display.GAME_WIDTH, darkY / Display.GAME_HEIGHT));

@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -26,7 +27,7 @@ public class BombEntity extends Entity {
 	public static Animation animations = Animation.make("actor-bomb", "-normal");
 	private AnimationData animation = animations.get("idle");
 	private Body body;
-	private Point vel;
+	private Point vel = new Point();
 	public Creature owner;
 	public ArrayList<Buff> toApply = new ArrayList<>();
 
@@ -119,7 +120,11 @@ public class BombEntity extends Entity {
 
 					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
 						if (!creature.explosionBlock) {
-							creature.modifyHp(-Math.round(Random.newFloatDice(20 / 3 * 2, 20)), this.owner, true);
+							if (creature instanceof Player) {
+								creature.modifyHp(-1000, this.owner, true);
+							} else {
+								creature.modifyHp(-Math.round(Random.newFloatDice(20 / 3 * 2, 20)), this.owner, true);
+							}
 						}
 
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);

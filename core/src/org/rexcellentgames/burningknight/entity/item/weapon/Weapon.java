@@ -98,7 +98,7 @@ public class Weapon extends WeaponBase {
 
 			Creature creature = (Creature) entity;
 
-			if (creature.isDead()) {
+			if (creature.isDead() || creature.isUnhittable()) {
 				return;
 			}
 

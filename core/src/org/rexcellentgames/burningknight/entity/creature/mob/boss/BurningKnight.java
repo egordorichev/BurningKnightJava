@@ -427,7 +427,7 @@ public class BurningKnight extends Boss {
 			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || (self.target != null && d > (LIGHT_SIZE) * 16)) || (self.target != null && self.target.invisible)) {
+			} else if (!self.onScreen) {
 				self.target = null;
 				self.become("idle");
 				self.noticeSignT = 0f;
@@ -465,10 +465,10 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (this.flyTo(self.lastSeen, self.speed * 3f, 32f)) {
+			if (this.flyTo(self.lastSeen, self.speed * 5f, 32f)) {
 				self.become("preattack");
 				return;
-			} else if ((self.lastSeen == null || d > (LIGHT_SIZE) * 16)) {
+			} else if (!self.onScreen) {
 				self.target = null;
 				self.become("idle");
 				return;

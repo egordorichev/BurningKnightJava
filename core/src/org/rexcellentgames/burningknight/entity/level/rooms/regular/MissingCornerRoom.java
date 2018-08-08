@@ -59,7 +59,7 @@ public class MissingCornerRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		if ((this.type == Type.TOP_LEFT || this.type == Type.TOP_RIGHT) && p.y > this.top + this.getHeight() / 2) {
+		if ((this.type == Type.TOP_LEFT || this.type == Type.TOP_RIGHT) && p.y >= this.top + this.getHeight() / 2) {
 			return false;
 		}
 
@@ -71,7 +71,7 @@ public class MissingCornerRoom extends RegularRoom {
 			return false;
 		}
 
-		if ((this.type == Type.BOTTOM_RIGHT || this.type == Type.TOP_RIGHT) && p.x > this.left + getWidth() / 2) {
+		if ((this.type == Type.BOTTOM_RIGHT || this.type == Type.TOP_RIGHT) && p.x >= this.left + getWidth() / 2) {
 			return false;
 		}
 

@@ -118,8 +118,8 @@ vec4 get(vec2 pos) {
     if (heat > 0.0) {
         float xx = pos.x + cam.x;
         float yy = pos.y + cam.y;
-        float v = sin(-time * 2.0 + yy * 128.0 + xx * 32.0) * 0.0006;
-        float u = cos(time * 2.0 + xx * 128.0 + yy * 16.0) * 0.0006;
+        float v = floor(sin(-time * 2.0 + yy * 128.0 + xx * 32.0) * 0.0012 * 384.0) / 384.0;
+        float u = floor(cos(time * 2.0 + xx * 128.0 + yy * 16.0) * 0.0012 * 256.0) / 256.0;
 
         x = clamp(x + v, 0.0, 1.0);
         y = clamp(y + u, 0.0, 1.0);

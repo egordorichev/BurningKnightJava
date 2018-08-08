@@ -48,6 +48,12 @@ public class Skeleton extends Mob {
 	}
 
 	@Override
+	public void initStats() {
+		super.initStats();
+		setStat("knockback", 0);
+	}
+
+	@Override
 	public void init() {
 		super.init();
 
@@ -122,46 +128,64 @@ public class Skeleton extends Mob {
 	public int bonesMissing;
 
 	public class AttackState extends SkeletonState {
+		private boolean attacked;
+
 		@Override
 		public void onEnter() {
 			super.onEnter();
 			side = Random.chance(50) ? -1 : 1;
+		}
 
-			final float t = 0.3f;
+		@Override
+		public void update(float dt) {
+			super.update(dt);
 
-			Tween.to(new Tween.Task(32, t, Tween.Type.SINE_OUT) {
-				@Override
-				public float getValue() {
-					return self.z;
-				}
+			if (!this.attacked && this.t >= 2f) {
+				final float t = 0.3f;
 
-				@Override
-				public void setValue(float value) {
-					self.z = value;
-					self.depth = (int) value;
-				}
+				Tween.to(new Tween.Task(32, t, Tween.Type.SINE_OUT) {
+					@Override
+					public float getValue() {
+						return self.z;
+					}
 
-				@Override
-				public void onEnd() {
-					Tween.to(new Tween.Task(0, t, Tween.Type.SINE_IN) {
-						@Override
-						public float getValue() {
-							return self.z;
-						}
+					@Override
+					public void setValue(float value) {
+						self.z = value;
+						self.depth = (int) value;
+					}
 
-						@Override
-						public void setValue(float value) {
-							self.z = value;
-							self.depth = (int) value;
-						}
+					@Override
+					public void onEnd() {
+						Tween.to(new Tween.Task(0, t, Tween.Type.SINE_IN) {
+							@Override
+							public float getValue() {
+								return self.z;
+							}
 
-						@Override
-						public void onEnd() {
-							attack();
-						}
-					});
-				}
-			});
+							@Override
+							public void setValue(float value) {
+								self.z = value;
+								self.depth = (int) value;
+							}
+
+							@Override
+							public void onEnd() {
+								attack();
+							}
+						});
+					}
+				});
+
+				attacked = true;
+				self.unhittable = true;
+			}
+		}
+
+		@Override
+		public void onExit() {
+			self.unhittable = false;
+			super.onExit();
 		}
 
 		public void attack() {
@@ -193,7 +217,7 @@ public class Skeleton extends Mob {
 				};
 
 				float a = (float) (i * Math.PI / (eight ? 4 : 2)) + add;
-				ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod);
+				ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod * 0.5f);
 
 				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 				ball.damage = 2;
@@ -240,6 +264,7 @@ public class Skeleton extends Mob {
 			self.setStat("knockback", 0);
 			delay = Random.newFloat(40f, 60f);
 			self.setUnhittable(true);
+			depth = -1;
 		}
 
 		@Override
@@ -248,6 +273,7 @@ public class Skeleton extends Mob {
 			self.setStat("knockback", self.okm);
 			self.ignoreRooms = false;
 			self.setUnhittable(false);
+			depth = 0;
 		}
 
 		@Override
@@ -269,6 +295,8 @@ public class Skeleton extends Mob {
 			self.okm = self.getStat("knockback");
 			self.setStat("knockback", 0);
 			self.setUnhittable(true);
+
+			depth = -1;
 		}
 
 		@Override
@@ -276,6 +304,7 @@ public class Skeleton extends Mob {
 			super.onExit();
 			self.setStat("knockback", self.okm);
 			self.setUnhittable(false);
+			depth = 0;
 		}
 
 		@Override
