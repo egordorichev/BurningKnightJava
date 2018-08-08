@@ -34,7 +34,7 @@ public class BrokenOrbital extends Pet {
 		protected void onHit(Entity entity) {
 			super.onHit(entity);
 
-			if (entity instanceof BulletProjectile || entity instanceof ArrowProjectile || entity instanceof FireballProjectile) {
+			if ((entity instanceof BulletProjectile || entity instanceof ArrowProjectile || entity instanceof FireballProjectile) && Random.chance(20)) {
 				this.done = true;
 
 				for (int i = 0; i < 20; i++) {

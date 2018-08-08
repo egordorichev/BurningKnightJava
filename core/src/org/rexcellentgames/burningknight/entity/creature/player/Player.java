@@ -553,11 +553,17 @@ public class Player extends Creature {
 	public void tp(float x, float y) {
 		super.tp(x, y);
 		Camera.follow(this, true);
+		orbitalRing.x = this.x + this.w / 2;
+		orbitalRing.y = this.y + this.h / 2;
 	}
+
+	public Vector2 orbitalRing = new Vector2();
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		orbitalRing.lerp(new Vector2(this.x + this.w / 2, this.y + this.h / 2), 4 * dt);
 
 		if (this.toDeath) {
 			this.t += dt;

@@ -24,11 +24,11 @@ public class Orbital extends PetEntity {
 	}
 
 	private void setPos() {
-		this.a = (float) (((float) id) / (count) * Math.PI * 2 + Dungeon.time / 2f * speed);
-		float d = 28f + (float) Math.cos(Dungeon.time * 2f) * 4f;
+		this.a = (float) (((float) id) / (count) * Math.PI * 2 + Dungeon.time * speed);
+		float d = 28f; //  + (float) Math.cos(Dungeon.time * 2f) * 4f;
 
-		this.x = this.owner.x + this.owner.w / 2 + (float) Math.cos(a) * d;
-		this.y = this.owner.y + this.owner.h / 2 + (float) Math.sin(a) * d;
+		this.x = this.owner.orbitalRing.x + (float) Math.cos(a) * d;
+		this.y = this.owner.orbitalRing.y + (float) Math.sin(a) * d;
 
 		this.body.setTransform(this.x, this.y, a);
 	}
