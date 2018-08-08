@@ -19,7 +19,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProj
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -40,7 +39,7 @@ public class Bow extends WeaponBase {
 		super.use();
 
 		beingUsed = true;
-		charge = 0;
+		// charge = 0;
 	}
 
 	@Override
@@ -56,7 +55,7 @@ public class Bow extends WeaponBase {
 
 		sx = Math.min(1.4f, sx + dt / 2);
 		sy = Math.max(0.6f, sy - dt / 2);
-		charge = Math.min(1, charge + dt * 2.5f);
+		charge = Math.min(1, charge + dt * 1.5f);
 
 		if (Input.instance.wasReleased("mouse0")) {
 			beingUsed = false;
@@ -70,8 +69,6 @@ public class Bow extends WeaponBase {
 
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
 		float s = 60f;
-
-		Log.info(charge + "");
 
 		float knockbackMod = owner.getStat("knockback");
 
@@ -96,6 +93,8 @@ public class Bow extends WeaponBase {
 		arrow.charge = charge;
 
 		Dungeon.area.add(arrow);
+
+		charge = 0;
 	}
 
 	private float lastAngle;

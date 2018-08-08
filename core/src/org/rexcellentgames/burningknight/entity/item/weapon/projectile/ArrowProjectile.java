@@ -47,7 +47,7 @@ public class ArrowProjectile extends Projectile {
 		this.body.setBullet(true);
 		this.body.setTransform(this.x, this.y, this.a);
 
-		float s = Math.max(30f, 14f * 60f * charge);
+		float s = Math.max(10f, 14f * 60f * charge);
 		this.vel = new Point((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
 	}
 
