@@ -767,9 +767,7 @@ public abstract class Level extends SaveableEntity {
 				if (this.low[i] && this.light[i] > 0) {
 					byte tile = this.get(i);
 
-					if (tile == Terrain.EXIT) {
-						Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
-					} else if (Terrain.patterns[tile] != null) {
+					if (Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						int w = region.getRegionWidth() / 16;
@@ -923,54 +921,6 @@ public abstract class Level extends SaveableEntity {
 
 					if (variant != 15) {
 						Graphics.render(Terrain.lavaedge[variant], x * 16, y * 16 - 8);
-					}
-				} else if (tile == Terrain.DIRT) {
-					byte variant = this.liquidVariants[i];
-
-					TextureRegion r = new TextureRegion(Terrain.dirtPattern);
-
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
-
-					int rx = r.getRegionX();
-					int ry = r.getRegionY();
-
-					r.setRegionHeight(16);
-					r.setRegionWidth(16);
-
-					Texture texture = r.getTexture();
-
-					int rw = texture.getWidth();
-					int rh = texture.getHeight();
-
-					TextureRegion rr = Terrain.lavaVariants[variant];
-					Texture t = rr.getTexture();
-
-					Graphics.batch.end();
-					maskShader.begin();
-					t.bind(1);
-					maskShader.setUniformf("activated", 1);
-					maskShader.setUniformf("water", 0);
-					maskShader.setUniformi("u_texture2", 1);
-					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-					texture.bind(0);
-					maskShader.setUniformi("u_texture", 1);
-					maskShader.setUniformf("time", Dungeon.time);
-					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
-					maskShader.end();
-					Graphics.batch.begin();
-
-					Graphics.render(r, x * 16, y * 16 - 8);
-
-					Graphics.batch.end();
-					maskShader.begin();
-					maskShader.setUniformf("activated", 0);
-					maskShader.end();
-					Graphics.batch.begin();
-
-					if (variant != 15) {
-						Graphics.render(Terrain.dirtedge[variant], x * 16, y * 16 - 8);
 					}
 				}
 			}
@@ -1147,6 +1097,77 @@ public abstract class Level extends SaveableEntity {
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
 		renderFloor(sx, sy, fx, fy);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(maskShader);
+		Graphics.batch.begin();
+
+		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
+			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+				int i = x + y * getWidth();
+				if (this.light[i] == 0) {
+					continue;
+				}
+
+				byte tile = this.liquidData[i];
+
+				if (tile == Terrain.EXIT) {
+					Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
+				} else if (tile == Terrain.DIRT) {
+					byte variant = this.liquidVariants[i];
+
+					TextureRegion r = new TextureRegion(Terrain.dirtPattern);
+
+					r.setRegionX(r.getRegionX() + x % 4 * 16);
+					r.setRegionY(r.getRegionY() + y % 4 * 16);
+
+					int rx = r.getRegionX();
+					int ry = r.getRegionY();
+
+					r.setRegionHeight(16);
+					r.setRegionWidth(16);
+
+					Texture texture = r.getTexture();
+
+					int rw = texture.getWidth();
+					int rh = texture.getHeight();
+
+					TextureRegion rr = Terrain.lavaVariants[variant];
+					Texture t = rr.getTexture();
+
+					Graphics.batch.end();
+					maskShader.begin();
+					t.bind(1);
+					maskShader.setUniformf("activated", 1);
+					maskShader.setUniformf("water", 0);
+					maskShader.setUniformi("u_texture2", 1);
+					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
+					texture.bind(0);
+					maskShader.setUniformi("u_texture", 1);
+					maskShader.setUniformf("time", Dungeon.time);
+					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+					maskShader.end();
+					Graphics.batch.begin();
+
+					Graphics.render(r, x * 16, y * 16 - 8);
+
+					Graphics.batch.end();
+					maskShader.begin();
+					maskShader.setUniformf("activated", 0);
+					maskShader.end();
+					Graphics.batch.begin();
+
+					if (variant != 15) {
+						Graphics.render(Terrain.dirtedge[variant], x * 16, y * 16 - 8);
+					}
+				}
+			}
+		}
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 	}
 
 	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
