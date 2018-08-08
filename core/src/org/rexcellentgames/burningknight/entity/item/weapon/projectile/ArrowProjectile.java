@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -11,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -45,9 +47,11 @@ public class ArrowProjectile extends Projectile {
 		this.body.setBullet(true);
 		this.body.setTransform(this.x, this.y, this.a);
 
-		float s = 14f * 60f;
+		float s = Math.max(30f, 14f * 60f * charge);
 		this.vel = new Point((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
 	}
+
+	public float charge;
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
@@ -55,6 +59,15 @@ public class ArrowProjectile extends Projectile {
 			this.did = true;
 			this.vel.mul(0);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+
+			for (int i = 0; i < 3; i++) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = this.x;
+				fx.y = this.y;
+
+				Dungeon.area.add(fx);
+			}
 		}
 
 		return false;

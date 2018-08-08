@@ -17,8 +17,10 @@ import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Bow extends WeaponBase {
@@ -30,15 +32,46 @@ public class Bow extends WeaponBase {
 		identified = true;
 	}
 
+	private float charge;
+	private boolean beingUsed;
+
 	@Override
 	public void use() {
+		super.use();
+
+		beingUsed = true;
+		charge = 0;
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (!beingUsed) {
+			sx += (1 - sx) * dt * 10;
+			sy += (1 - sy) * dt * 10;
+
+			return;
+		}
+
+		sx = Math.min(1.4f, sx + dt / 2);
+		sy = Math.max(0.6f, sy - dt / 2);
+		charge = Math.min(1, charge + dt * 2.5f);
+
+		if (Input.instance.wasReleased("mouse0")) {
+			beingUsed = false;
+			sendArrow();
+		}
+	}
+
+	private void sendArrow() {
 		Arrow ar = (Arrow) this.owner.getAmmo("arrow");
 		Point aim = this.owner.getAim();
 
-		super.use();
-
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
 		float s = 60f;
+
+		Log.info(charge + "");
 
 		float knockbackMod = owner.getStat("knockback");
 
@@ -54,68 +87,15 @@ public class Bow extends WeaponBase {
 
 		arrow.type = ar.getClass();
 		arrow.sprite = ar.getSprite();
-		arrow.a = (float) Math.atan2(dy, dx);
+		arrow.a = (float) (Math.atan2(dy, dx) + Math.toRadians(Random.newFloat(-20, 20) * (1 - charge)));
 		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
 		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
 		arrow.damage = rollDamage() + ar.damage;
 		arrow.crit = lastCrit;
 		arrow.bad = this.owner instanceof Mob;
+		arrow.charge = charge;
 
 		Dungeon.area.add(arrow);
-
-		Tween.to(new Tween.Task(1.5f, 0.1f) {
-			@Override
-			public float getValue() {
-				return sx;
-			}
-
-			@Override
-			public void setValue(float value) {
-				sx = value;
-			}
-
-			@Override
-			public void onEnd() {
-				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
-					@Override
-					public float getValue() {
-						return sx;
-					}
-
-					@Override
-					public void setValue(float value) {
-						sx = value;
-					}
-				});
-			}
-		});
-
-		Tween.to(new Tween.Task(0.4f, 0.1f) {
-			@Override
-			public float getValue() {
-				return sy;
-			}
-
-			@Override
-			public void setValue(float value) {
-				sy = value;
-			}
-
-			@Override
-			public void onEnd() {
-				Tween.to(new Tween.Task(1f, 0.2f, Tween.Type.BACK_OUT) {
-					@Override
-					public float getValue() {
-						return sy;
-					}
-
-					@Override
-					public void setValue(float value) {
-						sy = value;
-					}
-				});
-			}
-		});
 	}
 
 	private float lastAngle;
@@ -145,7 +125,6 @@ public class Bow extends WeaponBase {
 			if (xx != x2 || yy != y2) {
 				World.world.rayCast(callback, xx, yy, x2, y2);
 			}
-
 
 			if (last != null) {
 				Graphics.batch.end();
