@@ -127,6 +127,7 @@ public class BurningKnight extends Boss {
 		this.become("unactive");
 	}
 
+	/*
 	@Override
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
@@ -134,7 +135,7 @@ public class BurningKnight extends Boss {
 		if (entity instanceof Player && !this.isDead()) {
 			((Player) entity).addBuff(new BurningBuff().setDuration(2));
 		}
-	}
+	}*.
 
 	@Override
 	public void update(float dt) {

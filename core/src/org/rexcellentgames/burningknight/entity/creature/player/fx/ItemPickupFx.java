@@ -168,7 +168,7 @@ public class ItemPickupFx extends Entity {
 		float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 		Graphics.medium.setColor(c, c, c, this.a);
-		Graphics.write(this.text, Graphics.medium, this.x, this.y);
+		Graphics.print(this.text, Graphics.medium, this.x, this.y);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }
