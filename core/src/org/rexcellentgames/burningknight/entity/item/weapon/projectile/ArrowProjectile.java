@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
@@ -22,7 +21,6 @@ public class ArrowProjectile extends Projectile {
 	public float a;
 	public Class<? extends Arrow> type;
 	public TextureRegion sprite;
-	private Creature stuck;
 	private ArrayList<Point> positions = new ArrayList<>();
 
 	{
@@ -104,31 +102,18 @@ public class ArrowProjectile extends Projectile {
 			return;
 		}
 
-		if (this.stuck != null) {
-			this.x = (float) (this.stuck.x + this.stuck.w / 2 - Math.cos(this.a) * (this.stuck.w - this.w / 2) / 2);
-			this.y = (float) (this.stuck.y + this.stuck.h / 2 - Math.sin(this.a) * (this.stuck.h - this.h / 2) / 2);
+		this.positions.add(new Point(this.x, this.y));
 
-			if (this.stuck.isDead()) {
-				this.broke = true;
-			}
+		if (this.positions.size() > 10) {
+			this.positions.remove(0);
+		}
 
-			if (this.positions.size() > 0) {
-				this.positions.remove(0);
-			}
-		} else {
-			this.positions.add(new Point(this.x, this.y));
+		this.x += this.vel.x * dt;
+		this.y += this.vel.y * dt;
 
-			if (this.positions.size() > 10) {
-				this.positions.remove(0);
-			}
-
-			this.x += this.vel.x * dt;
-			this.y += this.vel.y * dt;
-
-			if (this.body != null) {
-				this.body.setTransform(this.x, this.y, this.a);
-				this.body.setLinearVelocity(this.vel.x, this.vel.y);
-			}
+		if (this.body != null) {
+			this.body.setTransform(this.x, this.y, this.a);
+			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		}
 	}
 
@@ -160,7 +145,7 @@ public class ArrowProjectile extends Projectile {
 
 	@Override
 	public void renderShadow() {
-		if (this.stuck == null && !this.did) {
+		if (!this.did) {
 			Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2 - 5, this.w, this.h, 2f);
 		}
 	}
