@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
@@ -135,7 +134,7 @@ public class BurningKnight extends Boss {
 		if (entity instanceof Player && !this.isDead()) {
 			((Player) entity).addBuff(new BurningBuff().setDuration(2));
 		}
-	}*.
+	}*/
 
 	@Override
 	public void update(float dt) {
@@ -255,6 +254,7 @@ public class BurningKnight extends Boss {
 
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("a", this.a);
+		shader.setUniformf("white", this.invt > 0.2f ? 1f : 0f);
 		shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
 		shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
 		shader.end();

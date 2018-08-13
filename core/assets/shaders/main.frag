@@ -161,6 +161,10 @@ vec4 get(vec2 pos) {
         realColor = texture2D(u_texture, vec2(x, y));
     }
 
+    if (ui < 0.5) {
+    	realColor.rgb = mix(realColor.rgb, realColor.rgb * smoothstep(0.75, 0.3, length(pos.xy - vec2(0.5))), 0.5);
+    }
+
     if (transR < 1.0) {
         float dx = (transPos.x - x) * (u_textureSizes.x / u_textureSizes.y);
         float dy = transPos.y - y;

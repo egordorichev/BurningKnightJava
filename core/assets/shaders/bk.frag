@@ -5,6 +5,7 @@ precision mediump int;
 
 uniform float time;
 uniform float a;
+uniform float white;
 uniform vec2 pos;
 uniform vec2 size;
 uniform sampler2D u_texture;
@@ -38,5 +39,13 @@ void main() {
     color.g = min(1.0, sum + color.g);
     color.b = min(1.0, sum + color.b);
 
-    gl_FragColor = vec4(1.0, abs(cos(time * 2.0) / 2.5) + color.g, color.b * 0.5, color.a);
+    color = vec4(1.0, (abs(cos(time * 2.0) / 2.5)) + color.g, color.b * 0.5, color.a);
+
+    if (white > 0.5) {
+        color.r += 0.7;
+        color.g += 0.4;
+        color.b += 0.4;
+    }
+
+    gl_FragColor = color;
 }
