@@ -29,8 +29,10 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BurningKnight extends Boss {
@@ -128,6 +130,15 @@ public class BurningKnight extends Boss {
 
 		sword = new BKSword();
 		sword.setOwner(this);
+		sword.modifyDamage(-10);
+
+		this.tp(0, 0);
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		this.tp(0, 0);
 	}
 
 	@Override

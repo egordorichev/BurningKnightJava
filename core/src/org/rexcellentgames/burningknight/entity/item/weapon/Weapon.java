@@ -56,7 +56,7 @@ public class Weapon extends WeaponBase {
 
 		fixture.shape = poly;
 		fixture.friction = 0;
-		fixture.isSensor = true;
+		fixture.isSensor = false;
 
 		body.createFixture(fixture);
 		body.setUserData(this);

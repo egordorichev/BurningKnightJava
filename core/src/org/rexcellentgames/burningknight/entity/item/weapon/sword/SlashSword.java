@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -30,8 +29,8 @@ public class SlashSword extends Weapon {
 	protected float moveY;
 
 	{
-		moveXA = 10 * 2;
-		moveXB = -8 * 2;
+		moveXA = 5 * 2;
+		moveXB = -16 * 2;
 		moveYA = 8 * 2;
 		moveYB = -4 * 2;
 		timeA = 0.3f;
@@ -82,7 +81,7 @@ public class SlashSword extends Weapon {
 
 		TextureRegion sprite = this.getSprite();
 
-		float xx = x + w / 2 + (flipped ? move : w / 4 - move);
+		float xx = x + w / 2 + (flipped ? 0 : w / 4) + move;
 		float yy = y + h / 4 + moveY;
 
 		if (!this.animation.isPaused() && !this.owner.isDead()) {
@@ -104,9 +103,29 @@ public class SlashSword extends Weapon {
 		}
 
 		super.use();
-		float a = owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+		Point aim = this.owner.getAim();
+		float an = owner.getAngleTo(aim.x, aim.y);
 
-		Tween.to(new Tween.Task(moveXA, this.timeA, Tween.Type.QUAD_OUT) {
+		float ya = moveYA;
+		float yb = moveYB;
+		float xa = -moveXA;
+		float xb = -moveXB;
+
+		if (this.owner.isFlipped()) {
+			ya *= -1;
+			yb *= -1;
+		}
+
+		double c = Math.cos(an);
+		double s = Math.sin(an);
+
+		float mxb = (float) (xb * c - yb * s);
+		float myb = (float) (xb * s + yb * c);
+
+		float mxa = (float) (xa * c - ya * s);
+		float mya = (float) (xa * s + ya * c);
+
+		Tween.to(new Tween.Task(mxa, this.timeA, Tween.Type.QUAD_OUT) {
 			@Override
 			public float getValue() {
 				return move;
@@ -118,7 +137,7 @@ public class SlashSword extends Weapon {
 			}
 		});
 
-		Tween.to(new Tween.Task(moveYA * (float) -Math.sin(a), this.timeA, Tween.Type.QUAD_OUT) {
+		Tween.to(new Tween.Task(mya, this.timeA, Tween.Type.QUAD_OUT) {
 			@Override
 			public float getValue() {
 				return moveY;
@@ -130,6 +149,8 @@ public class SlashSword extends Weapon {
 			}
 		});
 
+		float finalMyb = myb;
+		float finalMxb = mxb;
 		Tween.to(new Tween.Task(this.backAngle, this.timeA, Tween.Type.QUAD_OUT) {
 			@Override
 			public float getValue() {
@@ -148,18 +169,13 @@ public class SlashSword extends Weapon {
 					public void onStart() {
 						super.onStart();
 
-						/*float a = owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
-
-						owner.vel.x += -Math.cos(a) * 30f;
-						owner.vel.y += -Math.sin(a) * 30f;*/
-
 						owner.playSfx("sword_1");
 
 						if (animation != null) {
 							animation.setPaused(false);
 						}
 
-						Tween.to(new Tween.Task(moveXB, timeB) {
+						Tween.to(new Tween.Task(finalMxb, timeB) {
 							@Override
 							public float getValue() {
 								return move;
@@ -171,7 +187,7 @@ public class SlashSword extends Weapon {
 							}
 						});
 
-						Tween.to(new Tween.Task(moveYB * (float) -Math.sin(a), timeB) {
+						Tween.to(new Tween.Task(finalMyb, timeB) {
 							@Override
 							public float getValue() {
 								return moveY;
