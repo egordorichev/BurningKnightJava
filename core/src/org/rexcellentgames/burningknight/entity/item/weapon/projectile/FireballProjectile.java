@@ -29,7 +29,7 @@ public class FireballProjectile extends Projectile {
 
 	{
 		alwaysActive = true;
-		depth = 11;
+		depth = 12;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class FireballProjectile extends Projectile {
 
 			BKSFx fx = new BKSFx();
 
-			fx.depth = this.depth;
+			fx.depth = this.depth - 1;
 			fx.x = this.x;
 			fx.y = this.y;
 			fx.color = new Vector3(1, 0.1f + Random.newFloat(0.4f), 0.1f + Random.newFloat(0.2f));
@@ -104,8 +104,8 @@ public class FireballProjectile extends Projectile {
 		}
 
 		if (this.tar != null) {
-			this.vel.x += (this.tar.x - this.vel.x) * dt * 0.5f;
-			this.vel.y += (this.tar.y - this.vel.y) * dt * 0.5f;
+			this.vel.x += (this.tar.x - this.vel.x) * dt;
+			this.vel.y += (this.tar.y - this.vel.y) * dt;
 		}
 	}
 

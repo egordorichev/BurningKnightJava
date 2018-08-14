@@ -88,15 +88,6 @@ public abstract class RegularLevel extends Level {
 		this.spawnLevelEntities();
 		this.spawnEntities();
 
-		if (Dungeon.type == Dungeon.Type.REGULAR && BurningKnight.instance == null && Dungeon.depth > 0 && !GameSave.defeatedBK) {
-			Log.info("Adding BK...");
-
-			BurningKnight knight = new BurningKnight();
-
-			Dungeon.area.add(knight);
-			PlayerSave.add(knight);
-		}
-
 		Log.info("Done!");
 	}
 

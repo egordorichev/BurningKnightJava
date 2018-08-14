@@ -437,11 +437,15 @@ public class BurningKnight extends Boss {
 
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (d < RANGED_ATTACK_DISTANCE) {
+			if (this.flyTo(self.lastSeen, self.speed * 1.2f, ATTACK_DISTANCE)) {
+				self.become("preattack");
+				return;
+			} else if (d < RANGED_ATTACK_DISTANCE && this.t >= 1f && Random.chance(1f)) {
 				self.become("rangedAttack");
 				return;
-			} else if (this.flyTo(self.lastSeen, self.speed * 1.2f, ATTACK_DISTANCE)) {
-				self.become("preattack");
+			} else if (self.onScreen && d < TP_DISTANCE && Random.chance(0.5f)) {
+				self.attackTp = true;
+				self.become("fadeOut");
 				return;
 			} else if (!self.onScreen) {
 				self.target = null;
@@ -460,8 +464,9 @@ public class BurningKnight extends Boss {
 		}
 	}
 
-	private static final float ATTACK_DISTANCE = 36;
+	private static final float ATTACK_DISTANCE = 32;
 	private static final float RANGED_ATTACK_DISTANCE = 128;
+	private static final float TP_DISTANCE = 140;
 
 	@Override
 	public void destroy() {
@@ -483,12 +488,23 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
+			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
+
 			if (this.flyTo(self.lastSeen, self.speed * 5f, ATTACK_DISTANCE)) {
 				self.become("preattack");
+				return;
+			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(1f)) {
+				self.become("rangedAttack");
+				return;
+			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
+				self.attackTp = true;
+				self.become("fadeOut");
 				return;
 			} else if (!self.onScreen) {
 				self.target = null;
 				self.become("idle");
+				self.noticeSignT = 0f;
+				self.hideSignT = 2f;
 				return;
 			}
 
@@ -790,17 +806,21 @@ public class BurningKnight extends Boss {
 			count = Random.newInt(2, 8);
 		}
 
-		// Fixme: fireballs die
+		private float speed = 1;
+		private float tt;
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
+			speed = Math.min(speed + dt * 10, 10);
+			tt += speed * dt;
+
 			float r = 24;
 
 			for (int i = 0; i < balls.size(); i++) {
 				FireballProjectile ball = balls.get(i);
-				double a = ((float) i) / count * Math.PI * 2 + Dungeon.time * 10;
+				double a = ((float) i) / count * Math.PI * 2 + tt;
 
 				ball.setPos(
 					self.x + self.w / 2 + (float) Math.cos(a) * r,
@@ -827,7 +847,6 @@ public class BurningKnight extends Boss {
 					}
 
 					self.become("chase");
-					return;
 				} else {
 					if (this.balls.size() == 0) {
 						self.become("chase");

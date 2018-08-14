@@ -13,7 +13,7 @@ import org.rexcellentgames.burningknight.physics.World;
 
 public class Projectile extends NetworkedEntity {
 	public Creature owner;
-	public int damage;
+	public int damage = 1;
 	public boolean bad;
 	public boolean crit;
 	public float knockback = 200f;

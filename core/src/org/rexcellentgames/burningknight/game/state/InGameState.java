@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -85,6 +86,7 @@ public class InGameState extends State {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
+			PlayerSave.add(knight);
 			knight.attackTp = true;
 		}
 	}
