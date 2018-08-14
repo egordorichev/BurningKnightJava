@@ -123,7 +123,7 @@ public class BurningKnight extends Boss {
 		super.init();
 
 		this.t = 0;
-		this.body = this.createSimpleBody(0, 0, 21, 18, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createSimpleBody(0, 3, 23, 20, BodyDef.BodyType.DynamicBody, true);
 		this.become("unactive");
 
 		sword = new BKSword();
