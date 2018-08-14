@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
@@ -582,6 +583,10 @@ public class Creature extends SaveableEntity {
 
 				buff.setOwner(this);
 				buff.onStart();
+			}
+
+			if (buff instanceof PoisonBuff) {
+				this.removeBuff(BurningBuff.class);
 			}
 
 			this.triggerEvent("buff_added");

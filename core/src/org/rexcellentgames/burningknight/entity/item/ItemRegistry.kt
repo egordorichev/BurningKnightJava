@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
+import org.rexcellentgames.burningknight.entity.item.consumable.potion.PoisonPotion
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
 import org.rexcellentgames.burningknight.entity.item.key.KeyC
@@ -99,6 +100,7 @@ object ItemRegistry {
     "launcher_c" to Pair(RocketLauncherC::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
 	  "meetboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "dendy" to Pair(Dendy::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
+	  "poison_potion" to Pair(PoisonPotion::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
     "poison_ring" to Pair(PoisonRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "metal_ring" to Pair(MetalRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "fire_ring" to Pair(FireRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
