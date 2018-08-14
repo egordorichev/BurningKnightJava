@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -8,9 +9,11 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.BKSFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class FireballProjectile extends Projectile {
@@ -53,9 +56,36 @@ public class FireballProjectile extends Projectile {
 		this.animation = dead;
 	}
 
+	private float last;
+
 	@Override
 	public void update(float dt) {
 		this.tt += dt;
+		last += dt;
+
+		if (last >= 0.2f) {
+			last = 0;
+
+			TextureRegion texture = this.animation.getCurrent().frame;
+
+			float sx = (float) (1f + Math.cos(this.t * 7) / 6f);
+			float sy = (float) (1f + Math.sin(this.t * 6f) / 6f);
+
+			BKSFx fx = new BKSFx();
+
+			fx.depth = this.depth;
+			fx.x = this.x;
+			fx.y = this.y;
+			fx.color = new Vector3(1, 0.1f + Random.newFloat(0.4f), 0.1f + Random.newFloat(0.2f));
+			fx.region = texture;
+			fx.ox = texture.getRegionWidth() / 2;
+			fx.oy = texture.getRegionWidth() / 2;
+			fx.sx = sx;
+			fx.sy = sy;
+			fx.speed = 2;
+
+			Dungeon.area.add(fx);
+		}
 
 		if (this.animation.update(dt)) {
 			if (this.animation == born) {

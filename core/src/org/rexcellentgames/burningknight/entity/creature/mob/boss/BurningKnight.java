@@ -786,7 +786,7 @@ public class BurningKnight extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			fast = Random.chance(100);
+			fast = Random.chance(40);
 			count = Random.newInt(2, 8);
 		}
 
