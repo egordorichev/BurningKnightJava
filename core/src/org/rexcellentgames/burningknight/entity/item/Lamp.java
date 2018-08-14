@@ -73,19 +73,7 @@ public class Lamp extends Item {
 		if (!this.added  && Dungeon.type != Dungeon.Type.INTRO) {
 			this.added = true;
 
-			if (BurningKnight.instance == null) {
-				BurningKnight knight = new BurningKnight();
-
-				Dungeon.area.add(knight);
-				knight.attackTp = true;
-				knight.findStartPoint();
-			}
-
-			BurningKnight.instance.become("fadeIn");
-
-			Camera.shake(10);
-
-			BurningKnight.instance.dialog = GlobalSave.isTrue("not_first_time") ? randomDialog() : BurningKnight.onLampTake;
+			// BurningKnight.instance.dialog = GlobalSave.isTrue("not_first_time") ? randomDialog() : BurningKnight.onLampTake;
 			GlobalSave.put("not_first_time", true);
 
 			PlayerSave.add(BurningKnight.instance);

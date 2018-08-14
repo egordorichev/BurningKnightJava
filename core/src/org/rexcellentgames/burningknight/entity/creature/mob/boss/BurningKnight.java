@@ -21,8 +21,8 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.BKSword;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -44,13 +44,14 @@ public class BurningKnight extends Boss {
 	private AnimationData animation;
 	private long sid;
 	private static Sound sfx;
+	private BKSword sword;
 
 	{
 		texture = "ui-bkbar-skull";
 		hpMax = 430;
 		damage = 10;
-		w = 42;
-		h = 38;
+		w = 23;
+		h = 30;
 		ignoreRooms = true;
 		depth = 16;
 		alwaysActive = true;
@@ -122,19 +123,12 @@ public class BurningKnight extends Boss {
 		super.init();
 
 		this.t = 0;
-		this.body = this.createSimpleBody(7, 10, 21, 18, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createSimpleBody(0, 0, 21, 18, BodyDef.BodyType.DynamicBody, true);
 		this.become("unactive");
+
+		sword = new BKSword();
+		sword.setOwner(this);
 	}
-
-	/*
-	@Override
-	public void onCollision(Entity entity) {
-		super.onCollision(entity);
-
-		if (entity instanceof Player && !this.isDead()) {
-			((Player) entity).addBuff(new BurningBuff().setDuration(2));
-		}
-	}*/
 
 	@Override
 	public void update(float dt) {
@@ -162,9 +156,7 @@ public class BurningKnight extends Boss {
 			return;
 		}
 
-		if (Dungeon.level != null) {
-			// Dungeon.level.addLightInRadius(this.x + 16, this.y + 16, 0, 0, 0, 3f * this.a, LIGHT_SIZE, true);
-		}
+		this.sword.update(dt * speedMod);
 
 		if (this.onScreen) {
 			float dx = this.x + 8 - Player.instance.x;
@@ -268,6 +260,8 @@ public class BurningKnight extends Boss {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+
+		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 	}
 
 	private float lastFrame;
@@ -425,7 +419,7 @@ public class BurningKnight extends Boss {
 
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (this.flyTo(self.lastSeen, self.speed * 1.2f, 64f)) {
+			if (this.flyTo(self.lastSeen, self.speed * 1.2f, ATTACK_DISTANCE)) {
 				self.become("preattack");
 				return;
 			} else if (!self.onScreen) {
@@ -445,11 +439,14 @@ public class BurningKnight extends Boss {
 		}
 	}
 
+	private static final float ATTACK_DISTANCE = 32f;
+
 	@Override
 	public void destroy() {
 		super.destroy();
 
 		sfx.stop(this.sid);
+		sword.destroy();
 	}
 
 	public class DashState extends BKState {
@@ -464,9 +461,7 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
-			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
-
-			if (this.flyTo(self.lastSeen, self.speed * 5f, 32f)) {
+			if (this.flyTo(self.lastSeen, self.speed * 5f, ATTACK_DISTANCE)) {
 				self.become("preattack");
 				return;
 			} else if (!self.onScreen) {
@@ -513,18 +508,9 @@ public class BurningKnight extends Boss {
 			}
 
 			if (!this.attacked) {
-					FireballProjectile ball = new FireballProjectile();
-
-					ball.owner = self;
-					ball.bad = true;
-					ball.target = self.target;
-					ball.x = self.x + (self.w) / 2;
-					ball.y = self.y + (self.h) / 2;
-
-					Dungeon.area.add(ball);
-
+				sword.use();
 				this.attacked = true;
-			} else if (this.t >= 2f) {
+			} else if (sword.getDelay() == 0) {
 				self.become("chase");
 			}
 
@@ -550,7 +536,7 @@ public class BurningKnight extends Boss {
 
 				@Override
 				public void onEnd() {
-					self.become(self.dialog == null ? "chase" : "dialog");
+					self.become("chase");
 					self.attackTp = false;
 				}
 			});

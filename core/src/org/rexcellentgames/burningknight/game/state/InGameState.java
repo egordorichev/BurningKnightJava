@@ -80,6 +80,13 @@ public class InGameState extends State {
 				Camera.follow(Player.instance);
 			}
 		});
+
+		if (BurningKnight.instance == null) {
+			BurningKnight knight = new BurningKnight();
+
+			Dungeon.area.add(knight);
+			knight.attackTp = true;
+		}
 	}
 
 	@Override

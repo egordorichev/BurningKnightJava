@@ -7,7 +7,8 @@ public class BKSword extends SlashSword {
 	{
 		name = Locale.get("bk_sword");
 		description = Locale.get("bk_sword_desc");
-		sprite = "item-claymore_a";
+		sprite = "item-bk_sword";
 		damage = 15;
+		penetrates = true;
 	}
 }

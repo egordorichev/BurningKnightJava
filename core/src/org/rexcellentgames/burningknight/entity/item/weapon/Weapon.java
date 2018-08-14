@@ -21,11 +21,6 @@ public class Weapon extends WeaponBase {
 	{
 		identified = true;
 	}
-
-	public boolean isBlocking() {
-		return false;
-	}
-
 	@Override
 	public void use() {
 		super.use();
@@ -110,10 +105,6 @@ public class Weapon extends WeaponBase {
 			creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
 			creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
 
-			if (this.isBlocking()) {
-				return;
-			}
-
 			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
 				return;
 			}
@@ -135,22 +126,6 @@ public class Weapon extends WeaponBase {
 
 			if (this.modifier != null) {
 				this.modifier.onHit((Player) this.owner, creature, damage);
-			}
-		} else if (entity instanceof Weapon) {
-			if (this.isBlocking()) {
-				Weapon weapon = ((Weapon) entity);
-
-				weapon.used = true;
-
-				Creature creature = this.owner;
-
-				float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
-				float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
-				double a = Math.atan2(dy, dx);
-				float knockbackMod = creature.getStat("knockback");
-
-				creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
-				creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
 			}
 		}
 	}

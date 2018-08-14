@@ -58,7 +58,6 @@ public class Knight extends Mob {
 
 		this.sword = new Sword();
 		this.sword.setOwner(this);
-		((Sword) this.sword).modifyDamage(2);
 
 		this.body = this.createSimpleBody(2, 1,12, 12, BodyDef.BodyType.DynamicBody, false);
 		this.body.setTransform(this.x, this.y, 0);
@@ -291,6 +290,10 @@ public class Knight extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			if (self.target != null) {
+				self.flipped = self.target.x + self.target.w / 2 < self.x + self.w / 2;
+			}
 
 			if (self.sword.getDelay() == 0) {
 				self.become("chase");

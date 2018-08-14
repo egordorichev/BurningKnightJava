@@ -1,16 +1,8 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.regular;
 
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.room.LampRoomPool;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class LampRoom extends RegularRoom {
 	@Override
@@ -26,39 +18,6 @@ public class LampRoom extends RegularRoom {
 		room.connected = this.connected;
 
 		room.paint(level);
-
-		Point center = this.getCenter();
-
-		byte f = Terrain.randomFloor();
-
-		Painter.set(level, center, f);
-		Painter.set(level, new Point(center.x - 1, center.y), f);
-		Painter.set(level, new Point(center.x + 1, center.y), f);
-		Painter.set(level, new Point(center.x - 1, center.y - 1), f);
-		Painter.set(level, new Point(center.x + 1, center.y - 1), f);
-		Painter.set(level, new Point(center.x, center.y - 1), f);
-		Painter.set(level, new Point(center.x - 1, center.y + 1), f);
-		Painter.set(level, new Point(center.x + 1, center.y + 1), f);
-		Painter.set(level, new Point(center.x, center.y + 1), f);
-
-		ItemHolder holder = new ItemHolder();
-
-		Slab slab = new Slab();
-
-		slab.x = center.x * 16 + 1;
-		slab.y = center.y * 16 - 4;
-
-		LevelSave.add(slab);
-		Dungeon.area.add(slab);
-
-		holder.x = center.x * 16 + 4;
-		holder.y = center.y * 16;
-		holder.depth = 1;
-
-		holder.setItem(new Lamp());
-
-		LevelSave.add(holder);
-		Dungeon.area.add(holder);
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.ENEMY);

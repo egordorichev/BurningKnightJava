@@ -30,10 +30,10 @@ public class SlashSword extends Weapon {
 	protected float moveY;
 
 	{
-		moveXA = 10;
-		moveXB = -8;
-		moveYA = 8;
-		moveYB = -4;
+		moveXA = 10 * 2;
+		moveXB = -8 * 2;
+		moveYA = 8 * 2;
+		moveYB = -4 * 2;
 		timeA = 0.3f;
 		delayA = 0.15f;
 		timeB = 0.2f;
@@ -148,12 +148,10 @@ public class SlashSword extends Weapon {
 					public void onStart() {
 						super.onStart();
 
-
-						float a = owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+						/*float a = owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
 
 						owner.vel.x += -Math.cos(a) * 30f;
-						owner.vel.y += -Math.sin(a) * 30f;
-
+						owner.vel.y += -Math.sin(a) * 30f;*/
 
 						owner.playSfx("sword_1");
 
