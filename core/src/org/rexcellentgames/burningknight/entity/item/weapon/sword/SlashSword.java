@@ -1,6 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.fx.BKSFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.physics.World;
@@ -45,8 +48,6 @@ public class SlashSword extends Weapon {
 
 
 	protected float lastAngle;
-	private float pure;
-
 
 	@Override
 	public void update(float dt) {
@@ -55,7 +56,14 @@ public class SlashSword extends Weapon {
 		if (this.animation != null && this.animation.update(dt)) {
 			this.animation.setPaused(true);
 		}
+
+		if (fx != null) {
+			Dungeon.area.add(fx);
+			fx = null;
+		}
 	}
+
+	private float last;
 
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.animation == null) {
@@ -63,8 +71,14 @@ public class SlashSword extends Weapon {
 			this.animation.setPaused(true);
 		}
 
+		if (this.delay > 0) {
+			last += Gdx.graphics.getDeltaTime();
+		} else {
+			last = 0;
+		}
+
 		float angle = added;
-		this.pure = 0;
+		float pure = 0;
 
 		if (this.owner != null) {
 			Point aim = this.owner.getAim();
@@ -89,14 +103,30 @@ public class SlashSword extends Weapon {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, 1, this.owner.isFlipped() ? -1 : 1);
 		}
 
+		if (last >= 0.03f) {
+			last = 0;
+
+			 fx = new BKSFx();
+
+			fx.x = xx - (flipped ? sprite.getRegionWidth() / 2 : 0);
+			fx.y = yy;
+			fx.a = angle;
+			fx.region = sprite;
+			fx.ox = sprite.getRegionWidth() / 2 + this.ox;
+			fx.oy = oy;
+			fx.flipped = flipped;
+		}
+
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
-			angle, sprite.getRegionWidth() / 2 + this.ox, this.oy, false, false, flipped ? -1 : 1, 1);
+		angle, sprite.getRegionWidth() / 2 + this.ox, this.oy, false, false, flipped ? -1 : 1, 1);
 
 		if (this.body != null) {
 			float a = (float) Math.toRadians(angle);
 			this.body.setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
 		}
 	}
+
+	private BKSFx fx;
 
 	public void use() {
 		if (this.delay > 0) {

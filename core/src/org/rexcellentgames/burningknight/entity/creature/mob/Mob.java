@@ -405,7 +405,7 @@ public class Mob extends Creature {
 		this.invt = Math.max(0, this.invt - dt);
 		this.invtt = Math.max(0, this.invtt - dt);
 
-		if (!this.dead) {
+		if (!this.dead && !(this instanceof Boss)) {
 			if (this.vel.x < 0) {
 				this.flipped = true;
 			} else if (this.vel.x > 0) {

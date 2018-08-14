@@ -143,6 +143,12 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void update(float dt) {
+		if (this.vel.x < 0) {
+			this.flipped = true;
+		} else if (this.vel.x > 0) {
+			this.flipped = false;
+		}
+
 		super.update(dt);
 
 		this.lastFrame += dt;
@@ -450,7 +456,7 @@ public class BurningKnight extends Boss {
 		}
 	}
 
-	private static final float ATTACK_DISTANCE = 32f;
+	private static final float ATTACK_DISTANCE = 36;
 
 	@Override
 	public void destroy() {
