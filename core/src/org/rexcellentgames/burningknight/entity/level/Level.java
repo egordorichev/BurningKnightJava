@@ -832,7 +832,7 @@ public abstract class Level extends SaveableEntity {
 					TextureRegion r = new TextureRegion(Terrain.waterPattern);
 
 					r.setRegionX(r.getRegionX() + (x % 4) * 16);
-					r.setRegionY(r.getRegionY() + (y % 4) * 16);
+					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
 
 					int rx = r.getRegionX();
 					int ry = r.getRegionY();
@@ -880,7 +880,7 @@ public abstract class Level extends SaveableEntity {
 					TextureRegion r = new TextureRegion(Terrain.lavaPattern);
 
 					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
 
 					int rx = r.getRegionX();
 					int ry = r.getRegionY();

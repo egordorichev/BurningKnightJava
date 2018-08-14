@@ -23,16 +23,13 @@ void main() {
 
     if (water > 0.5) {
         vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
-        // float x = (pos.x - v_texCoord.x) * cof.x;
-        float y = (pos.y - v_texCoord.y) * cof.y;
-        float v = sin(time * 4.0 + y * 16.0) / (cof.x * 16.0) * 0.0001;
         float m = (time / (cof.x * 2.0));
 
         m -= floor(m / (size.x * 4.0)) * (size.x * 4.0);
 
         vec4 color = texture2D(u_texture,
             vec2(
-                clamp(v_texCoord.x + v, pos.x, pos.x + size.x) + m,
+                v_texCoord.x + m,
                 v_texCoord.y
             )
         );

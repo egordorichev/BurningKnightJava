@@ -291,7 +291,7 @@ public class Creature extends SaveableEntity {
 		if (t == Terrain.WATER && !this.flying) {
 			this.removeBuff(BurningBuff.class);
 		} else if (t == Terrain.LAVA && !this.flying) {
-			this.modifyHp(-1, null,true);
+			this.addBuff(new BurningBuff());
 		}
 	}
 
