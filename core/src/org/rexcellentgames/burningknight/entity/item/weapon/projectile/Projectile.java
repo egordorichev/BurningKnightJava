@@ -61,6 +61,12 @@ public class Projectile extends NetworkedEntity {
 		}
 	}
 
+	public void setPos(float x, float y) {
+		if (this.body != null) {
+			this.body.setTransform(x, y, this.body.getAngle());
+		}
+	}
+
 	protected boolean ignoreVel;
 
 	@Override

@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.BKSword;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -436,7 +437,10 @@ public class BurningKnight extends Boss {
 
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (this.flyTo(self.lastSeen, self.speed * 1.2f, ATTACK_DISTANCE)) {
+			if (d < RANGED_ATTACK_DISTANCE) {
+				self.become("rangedAttack");
+				return;
+			} else if (this.flyTo(self.lastSeen, self.speed * 1.2f, ATTACK_DISTANCE)) {
 				self.become("preattack");
 				return;
 			} else if (!self.onScreen) {
@@ -457,6 +461,7 @@ public class BurningKnight extends Boss {
 	}
 
 	private static final float ATTACK_DISTANCE = 36;
+	private static final float RANGED_ATTACK_DISTANCE = 128;
 
 	@Override
 	public void destroy() {
@@ -765,9 +770,105 @@ public class BurningKnight extends Boss {
 				return new WaitState();
 			case "unactive":
 				return new UnactiveState();
+			case "rangedAttack":
+				return new RangedAttackState();
 		}
 
 		return super.getAi(state);
+	}
+
+	public class RangedAttackState extends BKState {
+		private int count;
+		private ArrayList<FireballProjectile> balls = new ArrayList<>();
+		private boolean fast;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			fast = Random.chance(100);
+			count = Random.newInt(2, 8);
+		}
+
+		// Fixme: fireballs die
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			float r = 24;
+
+			for (int i = 0; i < balls.size(); i++) {
+				FireballProjectile ball = balls.get(i);
+				double a = ((float) i) / count * Math.PI * 2 + Dungeon.time * 10;
+
+				ball.setPos(
+					self.x + self.w / 2 + (float) Math.cos(a) * r,
+					self.y + self.h / 2 + (float) Math.sin(a) * r
+				);
+			}
+
+			if (sec) {
+				if (this.wait > 0) {
+					this.wait -= dt;
+					return;
+				}
+
+				if (fast) {
+					for (FireballProjectile ball : balls) {
+						float a = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+						float s = 100;
+
+						ball.tar = new Point();
+						ball.tar.x = (float) (s * Math.cos(a));
+						ball.tar.y = (float) (s * Math.sin(a));
+
+						Dungeon.area.add(ball);
+					}
+
+					self.become("chase");
+					return;
+				} else {
+					if (this.balls.size() == 0) {
+						self.become("chase");
+						return;
+					}
+
+					float t = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+					float an = (float) ((((float) (this.balls.size() - 1)) / count * Math.PI * 2 + Dungeon.time * 10) % (Math.PI * 2));
+
+					if (Math.abs(t - an) % (Math.PI * 2) < Math.PI / 2) {
+						FireballProjectile ball = this.balls.get(this.balls.size() - 1);
+						this.balls.remove(this.balls.size() - 1);
+
+						float a = (float) (t + Math.toRadians(Random.newFloat(-5, 5)));
+						float s = 100;
+
+						ball.tar = new Point();
+						ball.tar.x = (float) (s * Math.cos(a));
+						ball.tar.y = (float) (s * Math.sin(a));
+
+						Dungeon.area.add(ball);
+					}
+				}
+			} else if (this.t >= balls.size() * 0.5f + 1f) {
+				FireballProjectile ball = new FireballProjectile();
+
+				ball.owner = self;
+
+				Dungeon.area.add(ball);
+				balls.add(ball);
+
+				if (balls.size() == count) {
+					this.t = 0;
+					this.wait = 1.5f;
+					this.sec = true;
+				}
+			}
+		}
+
+		private float wait;
+		private boolean sec;
 	}
 
 	private void checkForTarget() {

@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class FireballProjectile extends Projectile {
 	private static Animation animations = Animation.make("fx-fireball");
@@ -20,7 +20,9 @@ public class FireballProjectile extends Projectile {
 	private AnimationData dead = animations.get("dead");
 	private AnimationData animation = born;
 
+	public Point tar;
 	public Creature target;
+	private float tt;
 
 	{
 		alwaysActive = true;
@@ -29,6 +31,10 @@ public class FireballProjectile extends Projectile {
 
 	@Override
 	protected boolean hit(Entity entity) {
+		if (this.animation != idle) {
+			return false;
+		}
+
 		if (this.bad) {
 			if (entity instanceof Player) {
 				this.doHit(entity);
@@ -45,16 +51,12 @@ public class FireballProjectile extends Projectile {
 	@Override
 	protected void death() {
 		this.animation = dead;
-		this.dead.setListener(new AnimationData.Listener() {
-			@Override
-			public void onEnd() {
-				setDone(true);
-			}
-		});
 	}
 
 	@Override
 	public void update(float dt) {
+		this.tt += dt;
+
 		if (this.animation.update(dt)) {
 			if (this.animation == born) {
 				this.animation = idle;
@@ -65,10 +67,15 @@ public class FireballProjectile extends Projectile {
 
 		super.update(dt);
 
-		Dungeon.level.addLightInRadius(this.x, this.y, 0.5f, 0.3f, 0, 2f, 2f, false);
+		Dungeon.level.addLightInRadius(this.x, this.y, 0.5f, 0.3f, 0, 2f, 3f, true);
 
-		if (this.t >= 5f) {
+		if (this.tt >= 10f) {
 			this.animation = dead;
+		}
+
+		if (this.tar != null) {
+			this.vel.x += (this.tar.x - this.vel.x) * dt * 0.5f;
+			this.vel.y += (this.tar.y - this.vel.y) * dt * 0.5f;
 		}
 	}
 
@@ -76,8 +83,6 @@ public class FireballProjectile extends Projectile {
 	public void init() {
 		super.init();
 		this.playSfx("fireball_cast");
-
-		this.t = Random.newFloat(32f);
 
 		this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
@@ -93,13 +98,6 @@ public class FireballProjectile extends Projectile {
 
 			this.body.setLinearVelocity(this.vel);
 		}
-
-		this.born.setListener(new AnimationData.Listener() {
-			@Override
-			public void onEnd() {
-				animation = idle;
-			}
-		});
 	}
 
 	@Override

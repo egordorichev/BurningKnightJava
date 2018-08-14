@@ -103,7 +103,7 @@ public class SlashSword extends Weapon {
 			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, 1, this.owner.isFlipped() ? -1 : 1);
 		}
 
-		if (last >= 0.03f) {
+		if (last >= 0.01f) {
 			last = 0;
 
 			 fx = new BKSFx();
