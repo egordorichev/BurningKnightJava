@@ -247,8 +247,6 @@ public class Door extends SaveableEntity {
 		} else if (!this.lock && last) {
 			this.playSfx("door_unlock");
 
-			//this.animation.setBack(false);
-			//this.animation.setPaused(false);
 			this.lockAnim = this.unlock;
 			this.setPas(true);
 		}

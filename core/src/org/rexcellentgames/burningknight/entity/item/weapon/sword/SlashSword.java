@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -32,7 +33,7 @@ public class SlashSword extends Weapon {
 		moveXA = 5 * 2;
 		moveXB = -16 * 2;
 		moveYA = 8 * 2;
-		moveYB = -4 * 2;
+		moveYB = 0;
 		timeA = 0.3f;
 		delayA = 0.15f;
 		timeB = 0.2f;
@@ -102,7 +103,7 @@ public class SlashSword extends Weapon {
 			return;
 		}
 
-		super.use();
+		this.delay = this.useTime;
 		Point aim = this.owner.getAim();
 		float an = owner.getAngleTo(aim.x, aim.y);
 
@@ -168,6 +169,14 @@ public class SlashSword extends Weapon {
 					@Override
 					public void onStart() {
 						super.onStart();
+
+
+
+						if (body != null) {
+							body = World.removeBody(body);
+						}
+
+						createHitbox();
 
 						owner.playSfx("sword_1");
 
