@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class HpFx extends Entity {
@@ -92,11 +91,11 @@ public class HpFx extends Entity {
 			Graphics.render(blockTexture, this.x - blockTexture.getRegionWidth() / 2, this.y - blockTexture.getRegionHeight() / 2);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		} else {
-			Color color = this.low ? (this.crit ? FlameFx.orange : bad) : good;
+			/*Color color = this.low ? (this.crit ? FlameFx.orange : bad) : good;
 
 			Graphics.medium.setColor(color.r * c, color.g * c, color.b * c, this.a);
 			Graphics.write(this.text, Graphics.medium, this.x, this.y - 16);
-			Graphics.medium.setColor(1, 1, 1, 1);
+			Graphics.medium.setColor(1, 1, 1, 1);*/
 		}
 	}
 }

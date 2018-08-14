@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BKSFx;
@@ -49,6 +50,15 @@ public class FireballProjectile extends Projectile {
 		}
 
 		return false;
+	}
+
+	@Override
+	protected void doHit(Entity entity) {
+		super.doHit(entity);
+
+		if (entity instanceof Creature) {
+			((Creature) entity).addBuff(new BurningBuff());
+		}
 	}
 
 	@Override

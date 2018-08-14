@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.buff.fx;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -11,11 +10,7 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class FlameFx extends Entity {
-	public static Color red = Color.valueOf("#ac3232");
-	public static Color orange = Color.valueOf("#df7126");
-
 	{
-		color = Random.newFloat() < 0.7 ? orange : red;
 		t = Random.newFloat(1024);
 		tt = 0;
 		s = Random.newFloat(3, 6);
@@ -24,7 +19,7 @@ public class FlameFx extends Entity {
 		alwaysRender = true;
 	}
 
-	private Color color;
+	private float g;
 	private float t;
 	private float tt;
 	private float size = 1f;
@@ -37,6 +32,7 @@ public class FlameFx extends Entity {
 		this.owner = owner;
 		x = owner.x;
 		y = owner.y;
+		g = Random.newFloat(1);
 
 		Tween.to(new Tween.Task(4, 0.05f) {
 			@Override
@@ -95,7 +91,7 @@ public class FlameFx extends Entity {
 
 		float s = this.size / 2;
 
-		Graphics.shape.setColor(this.color.r, this.color.g, this.color.b, 0.8f);
+		Graphics.shape.setColor(1, g, 0, 0.9f);
 		Graphics.shape.rect(this.x + this.owner.w / 2, this.y, s, s, this.size,
 			this.size, 1, 1, this.angle);
 
