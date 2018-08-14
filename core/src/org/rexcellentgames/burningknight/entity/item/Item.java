@@ -49,6 +49,8 @@ public class Item extends Entity {
 		initStats();
   }
 
+
+  // todo: depend on quality
   public int getPrice() {
   	return 5;
   }

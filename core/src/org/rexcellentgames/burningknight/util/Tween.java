@@ -133,6 +133,11 @@ public class Tween {
 				continue;
 			}
 
+			if (!task.started) {
+				task.onStart();
+				task.started = true;
+			}
+
 			task.progress += dt * task.rate;
 
 			float x = (task.progress >= 1 ? task.function(1) : task.function(task.progress));
@@ -156,6 +161,8 @@ public class Tween {
 		public float delay;
 		public Type type;
 		public boolean done;
+		public boolean started;
+
 
 		public Task(float end, float t) {
 			this(end, t, Type.QUAD_IN);
@@ -179,6 +186,10 @@ public class Tween {
 		}
 
 		public void setValue(float value) {
+
+		}
+
+		public void onStart() {
 
 		}
 

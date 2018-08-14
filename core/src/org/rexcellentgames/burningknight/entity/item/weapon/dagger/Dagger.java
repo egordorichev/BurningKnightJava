@@ -45,9 +45,7 @@ public class Dagger extends Sword {
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() : 0), yy,
 			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 
-		if (this.blockbox != null) {
-			this.blockbox.setTransform(xx + (float) Math.cos(a) * (flipped ? 0 : ox * 2), yy + (float) Math.sin(a) * (flipped ? 0 : ox * 2), a);
-		} else if (this.body != null) {
+		if (this.body != null) {
 			this.body.setTransform(xx, yy, a);
 		}
 	}

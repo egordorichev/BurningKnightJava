@@ -62,8 +62,13 @@ object ItemRegistry {
 	enum class Quality {
 		WOODEN, IRON, GOLDEN
 	}
+
+
+	// todo: depend price on quality
 	
   val items = mapOf(
+	  "bk_sword" to Pair(BKSword::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+
     "dagger_a" to Pair(DaggerA::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "dagger_b" to Pair(DaggerB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),
     "dagger_c" to Pair(DaggerC::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
@@ -146,8 +151,6 @@ object ItemRegistry {
     "spear_a" to Pair(SpearA::class.java, 0.3f, 1f, 0.1f, 0.3f, Quality.WOODEN),
     "spear_b" to Pair(SpearB::class.java, 0.3f, 1f, 0.1f, 0.3f, Quality.IRON),
     "spear_c" to Pair(SpearC::class.java, 0.3f, 1f, 0.1f, 0.3f, Quality.GOLDEN),
-
-
     "yoyo_a" to Pair(YoyoA::class.java, 1f, 1f, 0.1f, 0.8f, Quality.WOODEN),
     "yoyo_b" to Pair(YoyoB::class.java, 1f, 1f, 0.1f, 0.8f, Quality.IRON),
     "yoyo_c" to Pair(YoyoC::class.java, 1f, 1f, 0.1f, 0.8f, Quality.GOLDEN),

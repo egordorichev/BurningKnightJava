@@ -4,40 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.util.ArrayList;
 
 public class Sword extends Weapon {
-	protected boolean blocking;
 	protected float oy;
 	protected float ox;
-	protected float blockT;
 	protected static Animation animations = Animation.make("sword-fx");
 	protected AnimationData animation;
 
-	protected Body blockbox;
 	protected int maxAngle = 200;
-	@Override
-	public boolean isBlocking() {
-		return this.blocking;
-	}
 
 	{
 		name = "Sword";
@@ -62,29 +48,6 @@ public class Sword extends Weapon {
 
 		if (this.animation != null && this.animation.update(dt)) {
 			this.animation.setPaused(true);
-		}
-
-		this.blockT = Math.max(0, this.blockT - dt);
-
-		if (this.blocking && (Input.instance.wasReleased("mouse1") || Input.instance.wasReleased("scroll") || this.blockT <= 0)) {
-			this.blocking = false;
-			this.blockbox = World.removeBody(this.blockbox);
-			this.blockT = 3f;
-
-			this.blockbox = null;
-
-			Tween.to(new Tween.Task(0, 0.1f) {
-				@Override
-				public float getValue() {
-					return oy;
-				}
-
-				@Override
-				public void setValue(float value) {
-					oy = value;
-					ox = value;
-				}
-			});
 		}
 
 		this.lastFrame += dt;
@@ -189,10 +152,7 @@ public class Sword extends Weapon {
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
 			angle, sprite.getRegionWidth() / 2 + this.ox, this.oy, false, false, flipped ? -1 : 1, 1);
 
-		if (this.blockbox != null) {
-			float a = (float) Math.toRadians(angle);
-			this.blockbox.setTransform(xx + (float) Math.cos(a) * (flipped ? 0 : ox * 2), yy + (float) Math.sin(a) * (flipped ? 0 : ox * 2), a);
-		} else if (this.body != null) {
+	  if (this.body != null) {
 			float a = (float) Math.toRadians(angle);
 			this.body.setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
 		}
@@ -211,44 +171,9 @@ public class Sword extends Weapon {
 		this.owner.vel.y += -Math.sin(a) * 120f;
 	}
 
-	protected void createBlockbox() {
-		BodyDef def = new BodyDef();
-		def.type = BodyDef.BodyType.DynamicBody;
-
-		Log.physics("Creating centred body for " + this.getClass().getSimpleName());
-
-		this.blockbox = World.world.createBody(def);
-		PolygonShape poly = new PolygonShape();
-
-		int w = this.region.getRegionWidth();
-		int h = this.region.getRegionHeight();
-
-		float o = this.getSprite().getRegionHeight() / 2;
-
-		poly.set(new Vector2[]{
-			new Vector2((float) Math.floor((double) -w / 2) - o, -h / 2), new Vector2((float) Math.ceil((double) w / 2) - o, -h / 2),
-			new Vector2((float) Math.floor((double) -w / 2) - o, h / 2), new Vector2((float) Math.ceil((double) w / 2) - o, h / 2)
-		});
-
-		FixtureDef fixture = new FixtureDef();
-
-		fixture.shape = poly;
-		fixture.friction = 0;
-
-		this.blockbox.createFixture(fixture);
-		this.blockbox.setUserData(this);
-		poly.dispose();
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		this.blockbox = World.removeBody(this.blockbox);
-	}
-
 	@Override
 	public void use() {
-		if (this.blocking || this.delay > 0) {
+		if (this.delay > 0) {
 			return;
 		}
 
@@ -300,33 +225,5 @@ public class Sword extends Weapon {
 				}
 			}
 		});
-	}
-
-	@Override
-	public void secondUse() {
-		/*
-		if (this.body != null || this.blockT > 0 || this.delay > 0) {
-			return;
-		}
-
-		this.blockT = 2f;
-
-		super.secondUse();
-
-		this.createBlockbox();
-		this.blocking = true;
-
-		Tween.to(new Tween.Task(this.getSprite().getRegionHeight() / 2, 0.1f) {
-			@Override
-			public float getValue() {
-				return oy;
-			}
-
-			@Override
-			public void setValue(float value) {
-				oy = value;
-				ox = value;
-			}
-		});*/
 	}
 }

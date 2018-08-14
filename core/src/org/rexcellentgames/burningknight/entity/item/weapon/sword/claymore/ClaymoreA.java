@@ -16,7 +16,7 @@ public class ClaymoreA extends Sword {
 
 	@Override
 	public void use() {
-		if (this.blocking || this.delay > 0) {
+		if (this.delay > 0) {
 			return;
 		}
 
