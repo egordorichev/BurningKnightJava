@@ -17,9 +17,10 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.CKGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
@@ -66,7 +67,7 @@ public class CrazyKing extends Boss {
 	public void init() {
 		super.init();
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		this.body.setTransform(this.x, this.y + this.z, 0);
 		this.shouldBeInTheSameRoom = !this.talked;
 
 		this.gun = new CKGun();
@@ -124,6 +125,7 @@ public class CrazyKing extends Boss {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
 
 		if (this.freezed) {
 			return;
@@ -577,6 +579,15 @@ public class CrazyKing extends Boss {
 						player.modifyHp(-4, self);
 					}
 
+					for (int i = 0; i < 4; i++) {
+						PoofFx fx = new PoofFx();
+
+						fx.x = x + w / 2;
+						fx.y = y + h / 2;
+
+						Dungeon.area.add(fx);
+					}
+
 					for (int i = 0; i < 8; i++) {
 						BulletProjectile ball = new BulletProjectile();
 
@@ -707,6 +718,15 @@ public class CrazyKing extends Boss {
 				@Override
 				public void onFrame(int frame) {
 					if (frame == 5 && !set) {
+						for (int i = 0; i < 4; i++) {
+							PoofFx fx = new PoofFx();
+
+							fx.x = x + w / 2;
+							fx.y = y + h / 2;
+
+							Dungeon.area.add(fx);
+						}
+
 						self.playSfx("CK_jump");
 
 						Tween.to(new Tween.Task(0, 1f) {

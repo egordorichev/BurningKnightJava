@@ -606,7 +606,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void knockBackFrom(Entity from, float force) {
-		if (from == null) {
+		if (from == null || this.unhittable) {
 			return;
 		}
 

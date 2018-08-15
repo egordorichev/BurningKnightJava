@@ -102,6 +102,7 @@ public class FireballProjectile extends Projectile {
 				this.animation = idle;
 			} else if (this.animation == dead) {
 				this.done = true;
+				this.onDeath();
 			}
 		}
 
@@ -124,7 +125,10 @@ public class FireballProjectile extends Projectile {
 		super.init();
 		this.playSfx("fireball_cast");
 
-		this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
+		if (this.body == null) {
+			this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
+		}
+
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 

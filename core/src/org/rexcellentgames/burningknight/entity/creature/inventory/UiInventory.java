@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -511,7 +510,7 @@ public class UiInventory extends UiEntity {
 
 		for (int i = 0; i < Player.instance.getHpMax() / 2; i++) {
 			float s = 1f;
-			float yy = (float) ((hp <= 4 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 20) * 2.5f : 0) + y;
+			float yy = (float) ((hp <= 2 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 15) * 2.5f : 0) + y;
 
 			if (hp - 2 == i * 2 || hp - 2 == i * 2 - 1) {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));

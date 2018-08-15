@@ -35,12 +35,14 @@ public class ExplosiveDeathPrefix extends Prefix {
 				if (creature.getDistanceTo(xx, yy) < 32f) {
 					creature.modifyHp(-Math.round(Random.newFloatDice(2, 4)), mob, true);
 
-					float a = (float) Math.atan2(creature.y + creature.h / 2 - yy, creature.x + creature.w / 2 - xx);
+					if (!creature.isUnhittable()) {
+						float a = (float) Math.atan2(creature.y + creature.h / 2 - yy, creature.x + creature.w / 2 - xx);
 
-					float knockbackMod = creature.getStat("knockback");
+						float knockbackMod = creature.getStat("knockback");
 
-					creature.vel.x += Math.cos(a) * 5000f * knockbackMod;
-					creature.vel.y += Math.sin(a) * 5000f * knockbackMod;
+						creature.vel.x += Math.cos(a) * 5000f * knockbackMod;
+						creature.vel.y += Math.sin(a) * 5000f * knockbackMod;
+					}
 				}
 			}
 		}

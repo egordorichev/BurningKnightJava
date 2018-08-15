@@ -225,8 +225,8 @@ public class BulletProjectile extends Projectile {
 				Part part = new Part();
 				part.vel = new Point();
 
-				part.x = this.x + Random.newFloat(this.sprite.getRegionWidth()) - this.sprite.getRegionWidth()/ 2 - 4;
-				part.y = this.y + Random.newFloat(this.sprite.getRegionHeight()) - this.sprite.getRegionHeight() / 2 - 4;
+				part.x = this.x + Random.newFloat(this.sprite.getRegionWidth() / 2) - this.sprite.getRegionWidth() / 4 - 4;
+				part.y = this.y + Random.newFloat(this.sprite.getRegionHeight() / 2) - this.sprite.getRegionHeight() / 4 - 4;
 				part.depth = -1;
 				part.animation = animation.get("idle");
 

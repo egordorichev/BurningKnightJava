@@ -117,6 +117,8 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void init() {
+		talked = true;
+
 		sfx = Audio.getSound("bk");
 		this.sid = sfx.loop(Audio.playSfx("bk", 0f));
 
@@ -185,6 +187,8 @@ public class BurningKnight extends Boss {
 		} else {
 			sfx.setVolume(sid, 0);
 		}
+
+		this.t += dt * speedMod;
 
 		if (this.target == null) {
 			this.assignTarget();
@@ -262,7 +266,7 @@ public class BurningKnight extends Boss {
 
 		Texture texture = region.getTexture();
 
-		shader.setUniformf("time", Dungeon.time);
+		shader.setUniformf("time", this.time);
 		shader.setUniformf("a", this.a);
 		shader.setUniformf("white", this.invt > 0.2f ? 1f : 0f);
 		shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
@@ -282,6 +286,7 @@ public class BurningKnight extends Boss {
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 	}
 
+	private float time;
 	private float lastFrame;
 
 	private ArrayList<Frame> frames = new ArrayList<>();
@@ -437,13 +442,13 @@ public class BurningKnight extends Boss {
 
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (this.flyTo(self.lastSeen, self.speed * 1.2f, ATTACK_DISTANCE)) {
+			if (this.flyTo(self.lastSeen, self.speed * 5f, ATTACK_DISTANCE)) {
 				self.become("preattack");
 				return;
-			} else if (d < RANGED_ATTACK_DISTANCE && this.t >= 1f && Random.chance(1f)) {
+			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(1f)) {
 				self.become("rangedAttack");
 				return;
-			} else if (self.onScreen && d < TP_DISTANCE && Random.chance(0.5f)) {
+			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
 				self.attackTp = true;
 				self.become("fadeOut");
 				return;
@@ -836,14 +841,18 @@ public class BurningKnight extends Boss {
 
 				if (fast) {
 					for (FireballProjectile ball : balls) {
-						float a = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
-						float s = 100;
+						if (ball.done) {
+							ball.destroy();
+						} else {
+							float a = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+							float s = 100;
 
-						ball.tar = new Point();
-						ball.tar.x = (float) (s * Math.cos(a));
-						ball.tar.y = (float) (s * Math.sin(a));
+							ball.tar = new Point();
+							ball.tar.x = (float) (s * Math.cos(a));
+							ball.tar.y = (float) (s * Math.sin(a));
 
-						Dungeon.area.add(ball);
+							Dungeon.area.add(ball);
+						}
 					}
 
 					self.become("chase");
@@ -860,14 +869,18 @@ public class BurningKnight extends Boss {
 						FireballProjectile ball = this.balls.get(this.balls.size() - 1);
 						this.balls.remove(this.balls.size() - 1);
 
-						float a = (float) (t + Math.toRadians(Random.newFloat(-5, 5)));
-						float s = 100;
+						if (ball.done) {
+							ball.destroy();
+						} else {
+							float a = (float) (t + Math.toRadians(Random.newFloat(-5, 5)));
+							float s = 100;
 
-						ball.tar = new Point();
-						ball.tar.x = (float) (s * Math.cos(a));
-						ball.tar.y = (float) (s * Math.sin(a));
+							ball.tar = new Point();
+							ball.tar.x = (float) (s * Math.cos(a));
+							ball.tar.y = (float) (s * Math.sin(a));
 
-						Dungeon.area.add(ball);
+							Dungeon.area.add(ball);
+						}
 					}
 				}
 			} else if (this.t >= balls.size() * 0.5f + 1f) {
