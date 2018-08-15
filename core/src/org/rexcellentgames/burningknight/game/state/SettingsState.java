@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 public class SettingsState extends State {
 	public static boolean added;
 	public static UiEntity first;
+	public static boolean toGame;
 
 	public static void add() {
 		if (added) {
@@ -85,19 +86,26 @@ public class SettingsState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
-				Dungeon.ui.select(MainMenuState.first);
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
-					@Override
-					public float getValue() {
-						return MainMenuState.cameraX;
-					}
+				if (toGame) {
+					toGame = false;
 
-					@Override
-					public void setValue(float value) {
-						MainMenuState.cameraX = value;
-					}
-				});
+					Dungeon.goToLevel(Dungeon.depth);
+				} else {
+					Dungeon.ui.select(MainMenuState.first);
+
+					Tween.to(new Tween.Task(Display.GAME_WIDTH * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+						@Override
+						public float getValue() {
+							return MainMenuState.cameraX;
+						}
+
+						@Override
+						public void setValue(float value) {
+							MainMenuState.cameraX = value;
+						}
+					});
+				}
 			}
 		});
 	}
