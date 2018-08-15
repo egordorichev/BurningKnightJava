@@ -122,7 +122,7 @@ public class Camera extends Entity {
 			float dy = camPosition.y - this.y + 8;
 
 			if (Math.sqrt(dx * dx + dy * dy) > 2f) {
-				camPosition.lerp(new Vector2(x + 8, y + 8), dt * 1f);
+				camPosition.lerp(new Vector2(x + 8, y + 8), dt * speed);
 			}
 
 			game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
@@ -165,8 +165,11 @@ public class Camera extends Entity {
 		follow(entity, true);
 	}
 
+	private static float speed;
+
 	public static void follow(Entity entity, boolean jump) {
 		target = entity;
+		speed = entity instanceof Player ? 1 : 4;
 
 		if (target == null) {
 			return;
