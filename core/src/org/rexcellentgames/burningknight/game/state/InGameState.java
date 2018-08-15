@@ -480,7 +480,9 @@ public class InGameState extends State {
 				super.onClick();
 				
 				transition(() -> {
+					Dungeon.background2 = Color.valueOf("#1a1932");
 					Dungeon.game.setState(new MainMenuState());
+					MainMenuState.skip = true;
 					SettingsState.add();
 					MainMenuState.cameraX = Display.GAME_WIDTH * 1.5f;
 				});

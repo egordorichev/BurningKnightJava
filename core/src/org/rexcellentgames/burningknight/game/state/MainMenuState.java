@@ -13,19 +13,16 @@ import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Tween;
-import v4lk.lwbd.util.Beat;
 
 import java.util.ArrayList;
 
 public class MainMenuState extends State {
-	private Beat[] beats;
 	public static MainMenuState instance;
 	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
 	private static TextureRegion bg = Graphics.getTexture("menu-bk");
 	private ArrayList<UiButton> buttons = new ArrayList<>();
 	private float logoX = 0;
 	private float logoY = Display.GAME_HEIGHT;
-	private float versionX;
 	private float versionY = -32;
 	public static float cameraX = Display.GAME_WIDTH / 2;
 	public static float cameraY = Display.GAME_HEIGHT / 2;
@@ -33,6 +30,12 @@ public class MainMenuState extends State {
 	private float bgX = -180;
 
 	public static UiEntity first;
+
+	public static boolean skip;
+
+	public MainMenuState() {
+		skip = false;
+	}
 
 	@Override
 	public void init() {
@@ -127,7 +130,7 @@ public class MainMenuState extends State {
 			}
 		}));
 
-		Tween.to(new Tween.Task(0, 1f, Tween.Type.BACK_OUT) {
+		Tween.to(new Tween.Task(0, skip ? 0.001f : 1f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
 				return logoY;
@@ -143,7 +146,7 @@ public class MainMenuState extends State {
 				super.onEnd();
 
 				for (final UiButton button : buttons) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2 + v, 0.6f, Tween.Type.BACK_OUT) {
+					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2 + v, skip ? 0.001f : 0.6f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {
 							return button.x;
@@ -204,7 +207,7 @@ public class MainMenuState extends State {
 		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
 
 		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
-		Graphics.print(Version.string, Graphics.small, 2 + versionX, versionY + 2);
+		Graphics.print(Version.string, Graphics.small, 2, versionY + 2);
 		Dungeon.ui.render();
 		Ui.ui.renderCursor();
 	}
