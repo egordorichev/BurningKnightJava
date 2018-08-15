@@ -416,7 +416,7 @@ public class Painter {
 		//radii
 		double radH = h / 2f;
 		double radW = w / 2f;
-		boolean liquid = (value == Terrain.DIRT || value == Terrain.LAVA || value == Terrain.WATER);
+		boolean liquid = (value == Terrain.DIRT || value == Terrain.LAVA || value == Terrain.WATER || value == Terrain.GRASS);
 
 		//fills each row of the ellipse from top to bottom
 		for (int i = 0; i < h; i++) {

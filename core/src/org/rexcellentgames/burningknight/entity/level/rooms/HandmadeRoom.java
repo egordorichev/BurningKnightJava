@@ -112,7 +112,7 @@ public class HandmadeRoom extends RegularRoom {
 
 		byte t = this.data.data[i];
 
-		if (t == 6 || t >= 8) {
+		if (t == 6 || t == 8 || t == 9) {
 			return false;
 		}
 		return super.canConnect(p);
@@ -129,13 +129,14 @@ public class HandmadeRoom extends RegularRoom {
 
 				switch (t) {
 					case 2: tt = Terrain.FLOOR_B; break;
-					case 3: tt = Terrain.FLOOR_C; break;
-					case 4: tt = Terrain.FLOOR_D; break;
+					case 3: tt = Terrain.FLOOR_D; break;
+					case 4: tt = Terrain.FLOOR_C; break;
 					case 5: tt = Terrain.DIRT; break;
 					case 6: tt = Terrain.LAVA; break;
 					case 7: tt = Terrain.WATER; break;
 					case 8: tt = Terrain.WALL; break;
 					case 9: tt = Terrain.CHASM; break;
+					case 10: tt = Terrain.GRASS; break;
 				}
 
 				level.set(this.left + 1 + x, this.top + 1 + y, tt);

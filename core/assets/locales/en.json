@@ -580,5 +580,6 @@
 	"dialog_i_dont_trade_gold" : "Emm... I don't trade gold for gold!",
 	"ascending" : "Ascending...",
 	"descending" : "Descending...",
-	"loading" : "Loading..."
+	"loading" : "Loading...",
+	"castle" : "The Castle"
 }

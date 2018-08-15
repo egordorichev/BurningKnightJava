@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
@@ -206,6 +207,8 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth == 0) {
 			rooms.add(new LampRoom());
+		} else if (Dungeon.depth == -1) {
+			rooms.add(new HandmadeRoom("hub"));
 		}
 
 		int regular = this.getNumRegularRooms();
@@ -250,8 +253,11 @@ public abstract class RegularLevel extends Level {
 	protected abstract Painter getPainter();
 
 	protected Builder getBuilder() {
-		if (Dungeon.depth == 0) {
-			return new LineBuilder();
+		if (Dungeon.depth <= 0) {
+			LineBuilder b = new LineBuilder();
+
+			b.setAngle(180);
+			return b;
 		} else {
 			switch (Random.newInt(4)) {
 				case 0:
@@ -268,15 +274,15 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumRegularRooms() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt((int) (Dungeon.depth % 5 * 1.4f + 2f), (int) (Dungeon.depth % 5 * 2.5f + 3));
+		return Dungeon.depth <= 0 ? 0 : Random.newInt((int) (Dungeon.depth % 5 * 1.4f + 2f), (int) (Dungeon.depth % 5 * 2.5f + 3));
 	}
 
 	protected int getNumSpecialRooms() {
-		return Dungeon.depth == 0 ? 0 : 3;
+		return Dungeon.depth <= 0 ? 0 : 3;
 	}
 
 	protected int getNumSecretRooms() {
-		return Dungeon.depth == 0 ? 0 : Random.newInt(1, 3);
+		return Dungeon.depth <= 0 ? 0 : Random.newInt(1, 3);
 	}
 
 	protected int getNumConnectionRooms() {
