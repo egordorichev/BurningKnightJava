@@ -220,8 +220,6 @@ public class InGameState extends State {
 		} else {
 			boolean old = (Dungeon.game.getState() instanceof LoadState);
 
-			Log.info("Old " + old);
-
 			SaveManager.save(SaveManager.Type.GAME, old);
 			SaveManager.save(SaveManager.Type.LEVEL, old);
 			SaveManager.save(SaveManager.Type.PLAYER, old);

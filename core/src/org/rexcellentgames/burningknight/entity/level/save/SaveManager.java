@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -127,6 +128,8 @@ public class SaveManager {
 	}
 
 	public static void generate(Type type) {
+		Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+
 		Log.info("Generating " + type + " " + Dungeon.depth);
 		Dungeon.lastDepth = Dungeon.depth;
 
