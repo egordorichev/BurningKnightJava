@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.game.state;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
@@ -10,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
@@ -46,9 +48,9 @@ public class LoadState extends State {
 		Exit.instance = null;
 
 		switch (Dungeon.loadType) {
-			case GO_UP: this.s = "Ascending..."; break;
-			case GO_DOWN: this.s = "Descending..."; break;
-			case LOADING: this.s = "Loading..."; break;
+			case GO_UP: this.s = Locale.get("ascending"); break;
+			case GO_DOWN: this.s = Locale.get("descending"); break;
+			case LOADING: this.s = Locale.get("loading"); break;
 		}
 
 		final float t = 0.3f;
@@ -121,6 +123,8 @@ public class LoadState extends State {
 					Player.ladder = null;
 					Level.GENERATED = false;
 					Shopkeeper.instance = null;
+
+					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 
 					SaveManager.generate(SaveManager.Type.LEVEL);
 					SaveManager.save(SaveManager.Type.LEVEL, false);

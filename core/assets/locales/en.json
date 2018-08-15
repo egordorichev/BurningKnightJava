@@ -577,5 +577,8 @@
 	"dialog_wanna_sell_something" : "Wanna sell something? Then select it in your hot bar and talk to me again",
 	"dialog_sk_cheers" : "Cheers",
 	"dialog_wanna_sell_item" : "Do you want to sell {VAR=item} for {VAR=gold} gold?",
-	"dialog_i_dont_trade_gold" : "Emm... I don't trade gold for gold!"
+	"dialog_i_dont_trade_gold" : "Emm... I don't trade gold for gold!",
+	"ascending" : "Ascending...",
+	"descending" : "Descending...",
+	"loading" : "Loading..."
 }

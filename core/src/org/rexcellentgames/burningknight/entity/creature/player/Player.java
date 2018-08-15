@@ -546,7 +546,6 @@ public class Player extends Creature {
 		Camera.follow(this, true);
 
 		if (ladder != null && Dungeon.loadType != Entrance.LoadType.LOADING) {
-			Log.info("tp");
 			this.tp(ladder.x, ladder.y - 2);
 		}
 	}

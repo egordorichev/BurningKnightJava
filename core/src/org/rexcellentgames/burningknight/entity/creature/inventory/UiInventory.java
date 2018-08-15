@@ -93,7 +93,6 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void destroy() {
-		Log.info("Destroy");
 		super.destroy();
 		this.done = true;
 
