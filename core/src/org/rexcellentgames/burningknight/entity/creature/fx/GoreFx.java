@@ -18,8 +18,6 @@ public class GoreFx extends Entity {
 	private Point vel;
 	private float z = 8;
 	private Body body;
-	private float t;
-	private boolean tweened;
 	private float al = 1f;
 
 	@Override
@@ -43,8 +41,6 @@ public class GoreFx extends Entity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-
-		this.t += dt;
 
 		/*if (this.t > 5f && !this.tweened) {
 			this.tweened = true;
