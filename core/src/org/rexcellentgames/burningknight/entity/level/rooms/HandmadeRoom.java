@@ -93,16 +93,28 @@ public class HandmadeRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Point p) {
-		int i = (int) ((p.x - this.left - 1) + (p.y - this.top - 1) * this.data.w);
+		float y = p.y;
+		float x = p.x;
 
-		if (i >= 0 && i < this.data.data.length) {
-			byte t = this.data.data[i];
-
-			if (t == 6 || t >= 8) {
-				return false;
-			}
+		if (y == this.top) {
+			y += 1;
+		} else if (y == this.bottom) {
+			y -= 1;
 		}
 
+		if (x == this.left) {
+			x += 1;
+		} else if (x == this.right) {
+			x -= 1;
+		}
+
+		int i = (int) ((x - this.left - 1) + (y - this.top - 1) * this.data.w);
+
+		byte t = this.data.data[i];
+
+		if (t == 6 || t >= 8) {
+			return false;
+		}
 		return super.canConnect(p);
 	}
 
