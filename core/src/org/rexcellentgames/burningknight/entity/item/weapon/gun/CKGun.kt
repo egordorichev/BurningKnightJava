@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun
 
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BigBulletProjectile
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile
 
 class CKGun : Gun() {
   init {
@@ -39,4 +40,10 @@ class CKGun : Gun() {
     sendBullet(a, Math.cos(a + Math.PI / 2).toFloat() * d, Math.sin(a + Math.PI / 2).toFloat() * d)
     sendBullet(a, Math.cos(a - Math.PI / 2).toFloat() * d, Math.sin(a - Math.PI / 2).toFloat() * d)
   }
+
+	override fun modifyBullet(bullet: BulletProjectile?) {
+		super.modifyBullet(bullet)
+
+		bullet?.parts = true
+	}
 }

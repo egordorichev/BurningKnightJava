@@ -53,7 +53,6 @@ import java.io.IOException;
 /*
  * TODO:
  * fade out burning / poison bars / fade in
- * screenshake is broken when paused
  */
 
 public class Dungeon extends ApplicationAdapter {
