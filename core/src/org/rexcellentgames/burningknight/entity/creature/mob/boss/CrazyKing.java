@@ -66,8 +66,11 @@ public class CrazyKing extends Boss {
 	@Override
 	public void init() {
 		super.init();
+
+		ignorePos = true;
+
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y + this.z, 0);
+		this.body.setTransform(this.x, this.y, 0);
 		this.shouldBeInTheSameRoom = !this.talked;
 
 		this.gun = new CKGun();
@@ -119,13 +122,17 @@ public class CrazyKing extends Boss {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + 1, this.y, 16, 16, this.z / 2);
+		Graphics.shadow(this.x + 1, this.y, 16, 16, this.z / 4);
 	}
 
 	@Override
 	public void update(float dt) {
-		super.update(dt);
+		if (this.body != null) {
+			this.x = this.body.getPosition().x;
+			this.y = this.body.getPosition().y - this.lz;
+		}
 
+		super.update(dt);
 
 		if (this.freezed) {
 			return;
@@ -138,11 +145,12 @@ public class CrazyKing extends Boss {
 		this.secondForm = (this.hp < this.hpMax / 2);
 
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			this.lz = this.z;
+			this.body.setTransform(this.x, this.y + this.z, 0);
 		}
-
-		Dungeon.level.addLightInRadius(this.x + this.w / 2, this.y + this.h / 2, 0, 0, 0, 2f, 4f, false);
 	}
+
+	private float lz;
 
 	@Override
 	protected State getAi(String state) {
@@ -757,7 +765,8 @@ public class CrazyKing extends Boss {
 							@Override
 							public void onEnd() {
 								if (self.target != null) {
-									self.tp(self.target.x + (self.target.w - self.w) / 2, self.target.y);
+									// todo: transition state here
+									self.tp(self.target.x + (self.target.w - self.w) / 2, self.target.y + self.z);
 								}
 
 								self.become("fadeIn");

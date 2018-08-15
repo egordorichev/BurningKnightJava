@@ -158,7 +158,7 @@ public class WeaponBase extends Item {
 		Graphics.batch.end();
 		shader.begin();
 		shader.setUniformf("a", al == 1 ? (this.owner == null ? 1 : this.owner.a) : al);
-		shader.setUniformf("time", Dungeon.time + this.t);
+		shader.setUniformf("time", this.t);
 		shader.end();
 		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();

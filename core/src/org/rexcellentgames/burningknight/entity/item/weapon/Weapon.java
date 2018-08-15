@@ -96,7 +96,6 @@ public class Weapon extends WeaponBase {
 			if (creature.isDead() || creature.isUnhittable()) {
 				return;
 			}
-
 			float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
 			float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
 			double a = Math.atan2(dy, dx);

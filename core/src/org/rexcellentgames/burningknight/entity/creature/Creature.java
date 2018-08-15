@@ -210,6 +210,8 @@ public class Creature extends SaveableEntity {
 		BloodFx.add(this, 20);
 	}
 
+	protected boolean ignorePos;
+
 	@Override
 	public void update(float dt) {
 		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
@@ -257,7 +259,7 @@ public class Creature extends SaveableEntity {
 
 		this.vel.mul(this.mul);
 
-		if (this.body != null) {
+		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
 		}
