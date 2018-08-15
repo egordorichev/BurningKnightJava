@@ -754,11 +754,12 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	// TODO: Too complex
 	private void renderFloor(int sx, int sy, int fx, int fy) {
 		if (this.low == null || this.light == null) {
 			this.loadPassable();
 		}
+
+		boolean pause = Dungeon.game.getState().isPaused();
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
@@ -789,7 +790,7 @@ public abstract class Level extends SaveableEntity {
 						}
 					}
 
-					if (tile == Terrain.CHASM && Random.chance(0.4f)) {
+					if (tile == Terrain.CHASM && Random.chance(0.4f) && !pause) {
 						Dungeon.area.add(new ChasmFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 					}
 				}

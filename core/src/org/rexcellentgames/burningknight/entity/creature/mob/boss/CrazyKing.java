@@ -122,7 +122,7 @@ public class CrazyKing extends Boss {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + 1, this.y, 16, 16, this.z / 4);
+		Graphics.shadow(this.x + 1, this.y, 16, 16, this.z / 2);
 	}
 
 	@Override
@@ -548,7 +548,18 @@ public class CrazyKing extends Boss {
 
 	public class FadeInState extends CKState {
 		@Override
-		public void onEnter() {
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 1f && !this.did) {
+				doStuff();
+				did = true;
+			}
+		}
+
+		private boolean did;
+
+		public void doStuff() {
 			land.setPaused(true);
 			land.setFrame(0);
 
@@ -765,7 +776,6 @@ public class CrazyKing extends Boss {
 							@Override
 							public void onEnd() {
 								if (self.target != null) {
-									// todo: transition state here
 									self.tp(self.target.x + (self.target.w - self.w) / 2, self.target.y + self.z);
 								}
 

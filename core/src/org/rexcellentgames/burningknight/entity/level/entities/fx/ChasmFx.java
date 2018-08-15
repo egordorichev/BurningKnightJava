@@ -7,72 +7,47 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class ChasmFx extends Entity {
-	private static Color color = Color.valueOf("#696a6a");
-
 	private float size;
 	private float a;
 	private float vx;
 	private float vy;
+	private float rate;
+	private float v;
 
 	public ChasmFx(float x, float y) {
 		this.x = x;
 		this.y = y;
+		this.v = Random.newFloat(0.7f, 1f);
 		this.vx = Random.newFloat(-3f, 3f);
 		this.vy = Random.newFloat(2.5f, 3f);
 
 		this.size = Random.newFloat(2f, 4f);
-
-		Tween.to(new Tween.Task(1, 0.5f) {
-			@Override
-			public float getValue() {
-				return a;
-			}
-
-			@Override
-			public void setValue(float value) {
-				a = value;
-			}
-
-			@Override
-			public void onEnd() {
-				Tween.to(new Tween.Task(0, 3f) {
-					@Override
-					public float getValue() {
-						return a;
-					}
-
-					@Override
-					public void setValue(float value) {
-						a = value;
-					}
-
-					@Override
-					public void onEnd() {
-						setDone(true);
-					}
-				});
-
-				Tween.to(new Tween.Task(1, 3f) {
-					@Override
-					public float getValue() {
-						return size;
-					}
-
-					@Override
-					public void setValue(float value) {
-						size = value;
-					}
-				});
-			}
-		});
+		this.rate = 1 / this.size;
 	}
+
+	private boolean grow = true;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (grow) {
+			this.a += dt * 2;
+
+			if (this.a >= 1f) {
+				this.a = 1f;
+				this.grow = false;
+			}
+		} else {
+			this.size -= dt / 3f * this.rate;
+			this.a -= dt / 3f;
+
+			if (this.a <= 0 || this.size <= 0) {
+				return;
+			}
+		}
 
 		this.y += dt * this.vy;
 		this.x -= dt * this.vx;
@@ -88,7 +63,7 @@ public class ChasmFx extends Entity {
 
 		float s = this.size / 2;
 
-		Graphics.shape.setColor(color.r, color.g, color.b, this.a);
+		Graphics.shape.setColor(v, v, v, this.a);
 		Graphics.shape.rect(this.x, this.y, s, s, this.size,
 			this.size, 1, 1, 0);
 
