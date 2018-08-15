@@ -44,6 +44,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -544,7 +545,8 @@ public class Player extends Creature {
 
 		Camera.follow(this, true);
 
-		if (ladder != null) {
+		if (ladder != null && Dungeon.loadType != Entrance.LoadType.LOADING) {
+			Log.info("tp");
 			this.tp(ladder.x, ladder.y - 2);
 		}
 	}

@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.game.state;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiCard;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -16,6 +17,7 @@ public class SlotSelectState extends State {
 		transition(new Runnable() {
 			@Override
 			public void run() {
+				Dungeon.loadType = Entrance.LoadType.LOADING;
 				Dungeon.goToLevel(l);
 			}
 		});

@@ -497,7 +497,10 @@ public class InGameState extends State {
 				
 				Camera.shake(3);
 				
-				transition(() -> Dungeon.game.setState(new MainMenuState()));
+				transition(() -> {
+					Dungeon.grayscale = 0;
+					Dungeon.game.setState(new MainMenuState());
+				});
 			}
 		});
 

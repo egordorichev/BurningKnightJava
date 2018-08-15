@@ -26,8 +26,6 @@ import org.rexcellentgames.burningknight.util.Tween;
 import java.io.IOException;
 
 public class LoadState extends State {
-	public static boolean QUICK = !AssetLoadState.START_TO_MENU;
-
 	private boolean ready = false;
 	private float a;
 	private String s;
@@ -50,9 +48,7 @@ public class LoadState extends State {
 		switch (Dungeon.loadType) {
 			case GO_UP: this.s = "Ascending..."; break;
 			case GO_DOWN: this.s = "Descending..."; break;
-			case FALL_DOWN: this.s = "Falling..."; break;
-			case RUNNING: this.s = "Running..."; break;
-			case READING: this.s = "Writing the story...";
+			case LOADING: this.s = "Loading..."; break;
 		}
 
 		final float t = 0.3f;

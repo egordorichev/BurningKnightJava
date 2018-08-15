@@ -64,7 +64,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean reset;
 	public static byte ladderId;
 	public static long longTime;
-	public static Entrance.LoadType loadType = Entrance.LoadType.GO_DOWN;
+	public static Entrance.LoadType loadType = Entrance.LoadType.LOADING;
 	public static Type type = Type.REGULAR;
 	public static float MAX_R = (float) (Math.sqrt(Display.GAME_WIDTH * Display.GAME_WIDTH + Display.GAME_HEIGHT * Display.GAME_HEIGHT) / 2);
 	public static float darkR = MAX_R;
