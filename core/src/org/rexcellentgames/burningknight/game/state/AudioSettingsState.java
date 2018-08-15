@@ -64,7 +64,7 @@ public class AudioSettingsState extends State {
 				Audio.playSfx("menu/exit");
 				Dungeon.ui.select(SettingsState.first);
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraX;

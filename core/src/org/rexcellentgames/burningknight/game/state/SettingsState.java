@@ -25,7 +25,7 @@ public class SettingsState extends State {
 				GraphicsSettingsState.add();
 				Dungeon.ui.select(GraphicsSettingsState.first);
 
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;
@@ -46,7 +46,7 @@ public class SettingsState extends State {
 				AudioSettingsState.add();
 				Dungeon.ui.select(AudioSettingsState.first);
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 2.5f, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 2.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraX;
@@ -67,7 +67,7 @@ public class SettingsState extends State {
 				InputSettingsState.add();
 				Dungeon.ui.select(InputSettingsState.first);
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;
@@ -87,7 +87,7 @@ public class SettingsState extends State {
 				Audio.playSfx("menu/exit");
 				Dungeon.ui.select(MainMenuState.first);
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 0.5f, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraX;

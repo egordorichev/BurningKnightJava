@@ -79,7 +79,7 @@ public class AssetLoadState extends State {
 
 			@Override
 			public void setValue(float value) {
-				Dungeon.background2.r = value;
+				Dungeon.getBackground2().r = value;
 			}
 
 			@Override
@@ -90,12 +90,12 @@ public class AssetLoadState extends State {
 				Tween.to(new Tween.Task(color.r, t) {
 					@Override
 					public float getValue() {
-						return Dungeon.background2.r;
+						return Dungeon.getBackground2().r;
 					}
 
 					@Override
 					public void setValue(float value) {
-						Dungeon.background2.r = value;
+						Dungeon.getBackground2().r = value;
 					}
 
 					@Override
@@ -111,24 +111,24 @@ public class AssetLoadState extends State {
 				Tween.to(new Tween.Task(color.g, t) {
 					@Override
 					public float getValue() {
-						return Dungeon.background2.g;
+						return Dungeon.getBackground2().g;
 					}
 
 					@Override
 					public void setValue(float value) {
-						Dungeon.background2.g = value;
+						Dungeon.getBackground2().g = value;
 					}
 				});
 
 				Tween.to(new Tween.Task(color.b, t) {
 					@Override
 					public float getValue() {
-						return Dungeon.background2.b;
+						return Dungeon.getBackground2().b;
 					}
 
 					@Override
 					public void setValue(float value) {
-						Dungeon.background2.b = value;
+						Dungeon.getBackground2().b = value;
 					}
 				});
 			}
@@ -142,7 +142,7 @@ public class AssetLoadState extends State {
 
 			@Override
 			public void setValue(float value) {
-				Dungeon.background2.g = value;
+				Dungeon.getBackground2().g = value;
 			}
 		});
 
@@ -154,7 +154,7 @@ public class AssetLoadState extends State {
 
 			@Override
 			public void setValue(float value) {
-				Dungeon.background2.b = value;
+				Dungeon.getBackground2().b = value;
 			}
 		});
 	}

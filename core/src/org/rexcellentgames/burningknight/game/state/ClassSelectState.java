@@ -72,7 +72,7 @@ public class ClassSelectState extends State {
 				Audio.playSfx("menu/exit");
 				Dungeon.ui.select(SlotSelectState.first);
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;

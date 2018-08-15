@@ -37,9 +37,13 @@ public class MainMenuState extends State {
 		skip = false;
 	}
 
+	public MainMenuState(boolean skip) {
+		MainMenuState.skip = skip;
+	}
+
 	@Override
 	public void init() {
-		Dungeon.background2 = Color.valueOf("#1a1932");
+		Dungeon.setBackground2(Color.valueOf("#1a1932"));
 
 		SettingsState.added = false;
 		InputSettingsState.added = false;
@@ -78,7 +82,7 @@ public class MainMenuState extends State {
 				SlotSelectState.add();
 				Dungeon.ui.select(SlotSelectState.first);
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return cameraY;
@@ -102,7 +106,7 @@ public class MainMenuState extends State {
 				SettingsState.add();
 				Dungeon.ui.select(SettingsState.first);
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T) {
+				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return cameraX;
@@ -161,7 +165,7 @@ public class MainMenuState extends State {
 			}
 		});
 
-		Tween.to(new Tween.Task(0, MainMenuState.MOVE_T) {
+		Tween.to(new Tween.Task(0, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 			@Override
 			public float getValue() {
 				return versionY;

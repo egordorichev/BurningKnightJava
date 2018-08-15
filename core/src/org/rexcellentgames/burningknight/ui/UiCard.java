@@ -62,7 +62,7 @@ public class UiCard extends UiButton {
 		if (this.info.free) {
 			ClassSelectState.add();
 
-			Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T) {
+			Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 				@Override
 				public float getValue() {
 					return MainMenuState.cameraY;

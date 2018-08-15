@@ -57,7 +57,7 @@ public class InGameState extends State {
 
 		this.setupUi();
 
-		Dungeon.background2 = Level.colors[Dungeon.level.uid];
+		Dungeon.setBackground2(Level.colors[Dungeon.level.uid]);
 
 		this.console = new Console();
 
@@ -480,9 +480,8 @@ public class InGameState extends State {
 				super.onClick();
 				
 				transition(() -> {
-					Dungeon.background2 = Color.valueOf("#1a1932");
-					Dungeon.game.setState(new MainMenuState());
-					MainMenuState.skip = true;
+					Dungeon.grayscale = 0;
+					Dungeon.game.setState(new MainMenuState(true));
 					SettingsState.add();
 					MainMenuState.cameraX = Display.GAME_WIDTH * 1.5f;
 				});

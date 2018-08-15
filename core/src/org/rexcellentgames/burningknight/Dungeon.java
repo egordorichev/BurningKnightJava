@@ -82,8 +82,8 @@ public class Dungeon extends ApplicationAdapter {
 	public static Color YELLOW = Color.valueOf("#fbf236");
 	public static Color BROWN = Color.valueOf("#8f563b");
 	private static int to = -3;
-	public static Color background = Color.BLACK;
-	public static Color background2 = Color.BLACK;
+	private static Color background = Color.BLACK;
+	private static Color background2 = Color.BLACK;
 	public static float shockTime = 10;
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
@@ -96,6 +96,22 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static void reportException(Exception e) {
 		Log.report(e);
+	}
+
+	public static Color getBackground() {
+		return background;
+	}
+
+	public static void setBackground(Color background) {
+		Dungeon.background = background;
+	}
+
+	public static Color getBackground2() {
+		return background2;
+	}
+
+	public static void setBackground2(Color background2) {
+		Dungeon.background2 = background2;
 	}
 
 	@Override
@@ -318,6 +334,7 @@ public class Dungeon extends ApplicationAdapter {
 		if (Input.instance.wasPressed("pause") && game.getState() instanceof InGameState) {
 			game.getState().setPaused(!game.getState().isPaused());
 		}
+
 		boolean paused = game.getState().isPaused();
 
 		if (!(game.getState() instanceof LoadState) && !paused) {
@@ -331,7 +348,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		updateMouse(dt);
 
-		Gdx.gl.glClearColor(background.r, background.g, background.b, 1);
+		Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 		renderGame();
@@ -399,7 +416,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.surface.begin();
 
-		Gdx.gl.glClearColor(background2.r, background2.g, background2.b, 1);
+		Gdx.gl.glClearColor(getBackground2().r, getBackground2().g, getBackground2().b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		Graphics.batch.begin();
