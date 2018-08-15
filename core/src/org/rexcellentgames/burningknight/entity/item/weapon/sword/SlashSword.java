@@ -106,8 +106,9 @@ public class SlashSword extends Weapon {
 		if (last >= 0.01f) {
 			last = 0;
 
-			 fx = new BKSFx();
+			fx = new BKSFx();
 
+			fx.depth = this.owner.depth - 1;
 			fx.x = xx - (flipped ? sprite.getRegionWidth() / 2 : 0);
 			fx.y = yy;
 			fx.a = angle;

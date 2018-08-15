@@ -759,6 +759,7 @@ public class BurningKnight extends Boss {
 				self.become("fadeIn");
 				self.a = 0;
 
+				Camera.shake(10);
 				Lamp.play();
 			}
 		}

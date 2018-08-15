@@ -463,11 +463,10 @@ public class CrazyKing extends Boss {
 										depth = (int) value;
 									}
 
-									private boolean nset;
-
 									@Override
 									public void onEnd() {
 										self.playSfx("CK_attack");
+										Camera.shake(8);
 										land.setPaused(false);
 										land.setFrame(2);
 										land.setAutoPause(true);
@@ -522,7 +521,7 @@ public class CrazyKing extends Boss {
 										land.setListener(new AnimationData.Listener() {
 											@Override
 											public void onFrame(int frame) {
-												if (frame == 4 && !nset) {
+												if (frame == 4) {
 													self.become("chase");
 												}
 											}
@@ -608,6 +607,7 @@ public class CrazyKing extends Boss {
 					}
 
 					for (int i = 0; i < 8; i++) {
+						Camera.shake(8);
 						BulletProjectile ball = new BulletProjectile();
 
 						float a = (float) (i * Math.PI / 4);

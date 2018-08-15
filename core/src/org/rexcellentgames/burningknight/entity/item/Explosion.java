@@ -87,6 +87,6 @@ public class Explosion extends Entity {
 		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
 		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
 
-		Camera.shake(10f);
+		Camera.shake(30f);
 	}
 }

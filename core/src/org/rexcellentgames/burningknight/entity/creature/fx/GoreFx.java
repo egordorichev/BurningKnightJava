@@ -30,7 +30,7 @@ public class GoreFx extends Entity {
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-20f, 20f);
 
-		this.vel = new Point((Random.chance(50) ? -1 : 1) * Random.newFloat(0.5f, 0.7f), 2f);
+		this.vel = new Point((Random.chance(50) ? -1 : 1) * Random.newFloat(0.5f, 0.7f) * 2, 2f);
 
 		if (!this.menu) {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
