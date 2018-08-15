@@ -53,7 +53,7 @@ public class SaveManager {
 
 	public static void save(Type type, boolean old) {
 		FileHandle save = Gdx.files.external(getSavePath(type, old));
-		Log.info("Saving " + type + " " + Dungeon.lastDepth);
+		Log.info("Saving " + type + " " + (old ? Dungeon.lastDepth : Dungeon.depth));
 
 		try {
 			FileWriter stream = new FileWriter(save.file().getAbsolutePath());

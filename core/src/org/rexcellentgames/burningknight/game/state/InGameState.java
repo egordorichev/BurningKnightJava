@@ -34,6 +34,7 @@ import org.rexcellentgames.burningknight.ui.Bloodsplat;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -218,6 +219,8 @@ public class InGameState extends State {
 			Dungeon.reset = false;
 		} else {
 			boolean old = (Dungeon.game.getState() instanceof LoadState);
+
+			Log.info("Old " + old);
 
 			SaveManager.save(SaveManager.Type.GAME, old);
 			SaveManager.save(SaveManager.Type.LEVEL, old);
