@@ -7,10 +7,7 @@ import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.level.builders.Builder;
-import org.rexcellentgames.burningknight.entity.level.builders.CastleBuilder;
-import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
-import org.rexcellentgames.burningknight.entity.level.builders.LoopBuilder;
+import org.rexcellentgames.burningknight.entity.level.builders.*;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
@@ -194,12 +191,14 @@ public abstract class RegularLevel extends Level {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<>();
 
-		this.entrance = EntranceRoomPool.instance.generate();
-		this.exit = this.isBoss ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
-		((EntranceRoom) this.exit).exit = true;
+		if (Dungeon.depth != -1) {
+			this.entrance = EntranceRoomPool.instance.generate();
+			this.exit = this.isBoss ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
+			((EntranceRoom) this.exit).exit = true;
 
-		rooms.add(this.entrance);
-		rooms.add(this.exit);
+			rooms.add(this.entrance);
+			rooms.add(this.exit);
+		}
 
 		if (this.isBoss) {
 			rooms.add(new BossEntranceRoom());
@@ -253,19 +252,16 @@ public abstract class RegularLevel extends Level {
 	protected abstract Painter getPainter();
 
 	protected Builder getBuilder() {
-		if (Dungeon.depth <= 0) {
-			LineBuilder b = new LineBuilder();
-
-			b.setAngle(180);
-			return b;
+		if (Dungeon.depth == -1) {
+			return new SingleRoomBuilder();
+		} else if (Dungeon.depth == 0) {
+			return new LineBuilder();
 		} else {
 			switch (Random.newInt(4)) {
 				case 0:
-				case 1: // fixme: tmp
-				default:
-					return new CastleBuilder();
-				case 12:
-				case 13:
+				case 1: return new CastleBuilder();
+				case 2:
+				case 3: default:
 					return new LoopBuilder().setShape(2,
 						Random.newFloat(0.4f, 0.7f),
 						Random.newFloat(0f, 0.5f)).setPathLength(Random.newFloat(0.3f, 0.8f), new float[]{1, 1, 1});

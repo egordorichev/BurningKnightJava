@@ -204,6 +204,10 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void update(float dt) {
+		if (Dungeon.depth < 0) {
+			return;
+		}
+
 		if (Dungeon.game.getState().isPaused() || Dialog.active != null || toRemove) {
 			return;
 		}
@@ -473,6 +477,10 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
+		if (Dungeon.depth < 0) {
+			return;
+		}
+
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 

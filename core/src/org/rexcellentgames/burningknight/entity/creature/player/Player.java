@@ -345,7 +345,7 @@ public class Player extends Creature {
 			before = (a > 0 && a < Math.PI);
 		}*/
 
-		if (this.ui != null && before) {
+		if (this.ui != null && before && Dungeon.depth >= 0) {
 			this.ui.renderOnPlayer(this);
 		}
 
@@ -429,7 +429,7 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (this.ui != null && !before) {
+		if (this.ui != null && !before && Dungeon.depth >= 0) {
 			this.ui.renderOnPlayer(this);
 		}
 
