@@ -59,18 +59,15 @@ public class HandmadeRoom extends RegularRoom {
 				data.h = (byte) (rect.height / 16);
 				data.data = new byte[data.w * data.h];
 
-				int rx = (int) (rect.x / 16) + 1;
+				int rx = (int) (rect.x / 16);
 				int ry = (int) (rect.y / 16);
 
 				Log.info(rx + ":" + ry);
 
 				for (int x = 0; x < data.w; x++) {
 					for (int y = 0; y < data.h; y++) {
-						TiledMapTileLayer.Cell tile = tiles.getCell(rx + x, ry + y);
-
-						if (tile != null) {
-							data.data[x + y * data.w] = (byte) tile.getTile().getId();
-						}
+						TiledMapTileLayer.Cell cell = tiles.getCell(rx + x, ry + y);
+						data.data[x + y * data.w] = cell == null ? 9 : (byte) cell.getTile().getId();
 					}
 				}
 
