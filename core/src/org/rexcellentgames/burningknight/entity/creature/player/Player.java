@@ -547,10 +547,6 @@ public class Player extends Creature {
 
 		if (ladder != null && Dungeon.loadType != Entrance.LoadType.LOADING) {
 			this.tp(ladder.x, ladder.y - 2);
-		} else if (Dungeon.depth == -1) {
-			Room room = Dungeon.level.getRooms().get(0);
-
-			this.tp((room.left + room.getWidth() / 2) * 16 + 8, room.top * 16 + 16);
 		}
 	}
 
@@ -970,8 +966,14 @@ public class Player extends Creature {
 		this.speed = reader.readFloat();
 
 		this.maxSpeed += (this.speed - last) * 7f;
-		
-		if (ladder != null) {
+
+		if (Dungeon.depth == -1) {
+			Log.info("tp");
+			Room room = Dungeon.level.getRooms().get(0);
+			Log.info(room + " " + room.getWidth() + " " + room.getHeight());
+
+			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 16);
+		} else if (ladder != null) {
 			this.tp(ladder.x, ladder.y - 2);
 		}
 	}

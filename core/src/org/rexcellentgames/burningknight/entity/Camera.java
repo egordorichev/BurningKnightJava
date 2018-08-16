@@ -135,7 +135,7 @@ public class Camera extends Entity {
 				game.position.y = MathUtils.clamp(room.top * 16 + Display.GAME_HEIGHT / 2 + 16,
 					room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 
-				if (Player.instance.y > room.bottom * 16 - 16) {
+				if (Player.instance.y > room.bottom * 16 - 24) {
 					Dungeon.goToLevel(0);
 				}
 			} else {
