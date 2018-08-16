@@ -9,7 +9,7 @@ class Izu : Gun() {
     hole.x = 10f
     hole.y = 8f
 	  accuracy = 1f
-	  ammoMax = 18
+	  ammoMax = 20
   }
 
 	override fun getUseTimeGun() : Float {

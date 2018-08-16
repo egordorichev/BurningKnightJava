@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.SimplePart;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
@@ -21,7 +22,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -35,7 +35,6 @@ public class BulletProjectile extends Projectile {
 	public String letter;
 	public boolean circleShape;
 	public boolean rotates;
-	public static Animation animation = Animation.make("fx-badbullet");
 	public Class<? extends Buff> toApply;
 	public float duration = 2f;
 	public boolean parts;
@@ -222,13 +221,12 @@ public class BulletProjectile extends Projectile {
 		if (this.parts) {
 			if (this.last > 0.08f) {
 				this.last = 0;
-				Part part = new Part();
+				SimplePart part = new SimplePart();
 				part.vel = new Point();
 
-				part.x = this.x + Random.newFloat(this.sprite.getRegionWidth() / 2) - this.sprite.getRegionWidth() / 4 - 4;
-				part.y = this.y + Random.newFloat(this.sprite.getRegionHeight() / 2) - this.sprite.getRegionHeight() / 4 - 4;
+				part.x = this.x + Random.newFloat(this.sprite.getRegionWidth() / 2) - this.sprite.getRegionWidth() / 4;
+				part.y = this.y + Random.newFloat(this.sprite.getRegionHeight() / 2) - this.sprite.getRegionHeight() / 4;
 				part.depth = -1;
-				part.animation = animation.get("idle");
 
 				Dungeon.area.add(part);
 			}

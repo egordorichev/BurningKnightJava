@@ -431,6 +431,7 @@ public class CrazyKing extends Boss {
 					if (frame == 5 && !set) {
 						set = true;
 						self.playSfx("CK_jump");
+						Camera.shake(10);
 
 						Tween.to(new Tween.Task(32f, 0.4f, Tween.Type.SINE_OUT) {
 							@Override
@@ -446,7 +447,7 @@ public class CrazyKing extends Boss {
 
 							@Override
 							public void onEnd() {
-								Camera.shake(5);
+								Camera.shake(10);
 								up = false;
 								land.setPaused(true);
 								land.setFrame(0);
@@ -591,7 +592,7 @@ public class CrazyKing extends Boss {
 
 				@Override
 				public void onEnd() {
-					Camera.shake(5);
+					Camera.shake(10);
 					self.playSfx("CK_attack");
 
 					for (Player player : self.colliding) {
