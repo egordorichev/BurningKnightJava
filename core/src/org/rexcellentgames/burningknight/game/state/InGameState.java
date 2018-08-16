@@ -241,6 +241,10 @@ public class InGameState extends State {
 			GameSave.time += Gdx.graphics.getDeltaTime();
 		}
 
+		if (isPaused()) {
+			Camera.instance.update(dt);
+		}
+
 		if (Player.instance.room != null) {
 			for (int x = Player.instance.room.left; x <= Player.instance.room.right; x++) {
 				for (int y = Player.instance.room.top; y <= Player.instance.room.bottom; y++) {
@@ -482,6 +486,7 @@ public class InGameState extends State {
 				transition(() -> {
 					Dungeon.grayscale = 0;
 					Dungeon.game.setState(new MainMenuState(true));
+					SettingsState.toGame = true;
 					SettingsState.add();
 					MainMenuState.cameraX = Display.GAME_WIDTH * 1.5f;
 				});

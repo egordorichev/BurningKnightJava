@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
+import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -53,7 +54,6 @@ import java.io.IOException;
 /*
  * TODO:
  * fade out burning / poison bars / fade in
- * screenshake is broken when paused
  */
 
 public class Dungeon extends ApplicationAdapter {
@@ -571,6 +571,8 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void dispose() {
+		HandmadeRoom.destroy();
+
 		ModManager.INSTANCE.destroy();
 
 		if (area != null) {

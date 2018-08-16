@@ -37,7 +37,7 @@ public class RegularRoom extends Room {
 		Painter.fill(level, this, 1, f);
 
 		for (Door door : this.connected.values()) {
-			door.setType(Door.Type.REGULAR);
+			door.setType(Door.Type.ENEMY);
 		}
 	}
 

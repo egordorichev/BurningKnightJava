@@ -193,7 +193,9 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public String formatDepth() {
-		if (Dungeon.depth == 0) {
+		if (Dungeon.depth == -1) {
+			return Locale.get("castle");
+		} else if (Dungeon.depth == 0) {
 			return Locale.get("beginning");
 		} else {
 			return getName() + " " + getDepthAsCoolNum();
@@ -277,6 +279,8 @@ public abstract class Level extends SaveableEntity {
 		} else if (t == Terrain.WATER) {
 			this.tileUpLiquid(x, y, t, false);
 		} else if (t == Terrain.DIRT) {
+			this.tileUpLiquid(x, y, t, false);
+		} else if (t == Terrain.GRASS) {
 			this.tileUpLiquid(x, y, t, false);
 		}
 
@@ -1120,7 +1124,55 @@ public abstract class Level extends SaveableEntity {
 					TextureRegion r = new TextureRegion(Terrain.dirtPattern);
 
 					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + y % 4 * 16);
+					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
+
+					int rx = r.getRegionX();
+					int ry = r.getRegionY();
+
+					r.setRegionHeight(16);
+					r.setRegionWidth(16);
+
+					Texture texture = r.getTexture();
+
+					int rw = texture.getWidth();
+					int rh = texture.getHeight();
+
+					TextureRegion rr = Terrain.lavaVariants[variant];
+					Texture t = rr.getTexture();
+
+					Graphics.batch.end();
+					maskShader.begin();
+					t.bind(1);
+					maskShader.setUniformf("activated", 1);
+					maskShader.setUniformf("water", 0);
+					maskShader.setUniformi("u_texture2", 1);
+					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
+					texture.bind(0);
+					maskShader.setUniformi("u_texture", 1);
+					maskShader.setUniformf("time", Dungeon.time);
+					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+					maskShader.end();
+					Graphics.batch.begin();
+
+					Graphics.render(r, x * 16, y * 16 - 8);
+
+					Graphics.batch.end();
+					maskShader.begin();
+					maskShader.setUniformf("activated", 0);
+					maskShader.end();
+					Graphics.batch.begin();
+
+					if (variant != 15) {
+						Graphics.render(Terrain.dirtedge[variant], x * 16, y * 16 - 8);
+					}
+				} else if (tile == Terrain.GRASS) {
+					byte variant = this.liquidVariants[i];
+
+					TextureRegion r = new TextureRegion(Terrain.grassPattern);
+
+					r.setRegionX(r.getRegionX() + x % 4 * 16);
+					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
 
 					int rx = r.getRegionX();
 					int ry = r.getRegionY();
@@ -1313,7 +1365,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void set(int i, byte v) {
-		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT) {
+		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT || v == Terrain.GRASS) {
 			this.liquidData[i] = v;
 
 			if (this.get(i) == Terrain.CHASM) {
@@ -1329,7 +1381,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void set(int x, int y, byte v) {
-		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT) {
+		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT || v == Terrain.GRASS) {
 			this.liquidData[toIndex(x, y)] = v;
 		} else {
 			this.data[toIndex(x, y)] = v;

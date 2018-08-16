@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
+import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -34,6 +35,8 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
+		HandmadeRoom.init();
+
 		this.s = "Doing secret stuff...";
 		Dungeon.grayscale = 0;
 

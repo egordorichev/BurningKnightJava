@@ -141,7 +141,7 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void render() {
-				if (!large) {
+				if (!large && Dungeon.depth >= 0) {
 					this.y = self.y + my - 3;
 					super.render();
 				}
@@ -149,7 +149,7 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void update(float dt) {
-				if (!large) {
+				if (!large && Dungeon.depth >= 0) {
 					super.update(dt);
 				}
 			}
@@ -168,14 +168,14 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void update(float dt) {
-				if (!large) {
+				if (!large && Dungeon.depth >= 0) {
 					super.update(dt);
 				}
 			}
 
 			@Override
 			public void render() {
-				if (!large && !Player.instance.isDead()) {
+				if (!large && !Player.instance.isDead() && Dungeon.depth >= 0) {
 					float dx = Input.instance.uiMouse.x - this.x - 4;
 					float dy = Input.instance.uiMouse.y - this.y - 4;
 					float d = (float) Math.sqrt(dx * dx + dy * dy);
@@ -205,14 +205,14 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void update(float dt) {
-				if (!large) {
+				if (!large && Dungeon.depth >= 0) {
 					super.update(dt);
 				}
 			}
 
 			@Override
 			public void render() {
-				if (!large) {
+				if (!large && Dungeon.depth >= 0) {
 					this.y = self.y + my - 3;
 					super.render();
 				}
@@ -231,14 +231,14 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void update(float dt) {
-				if (!large) {
+				if (!large && Dungeon.depth >= 0) {
 					super.update(dt);
 				}
 			}
 
 			@Override
 			public void render() {
-				if (!large) {
+				if (!large && Dungeon.depth >= 0) {
 					this.y = self.y + my - 3;
 					super.render();
 				}
@@ -257,13 +257,13 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void update(float dt) {
-				if (large) {
+				if (large && Dungeon.depth >= 0) {
 					super.update(dt);
 				}
 			}
 
 			public void render() {
-				if (large) {
+				if (large && Dungeon.depth >= 0) {
 					y = self.y + ly - 2;
 					super.render();
 				}
@@ -282,13 +282,13 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void update(float dt) {
-				if (large) {
+				if (large && Dungeon.depth >= 0) {
 					super.update(dt);
 				}
 			}
 
 			public void render() {
-				if (large) {
+				if (large && Dungeon.depth >= 0) {
 					super.render();
 					y = self.y + ly - 2;
 				}
@@ -320,6 +320,10 @@ public class UiMap extends UiEntity {
 
 	@Override
 	public void update(float dt) {
+		if (Dungeon.depth < 0) {
+			return;
+		}
+
 		super.update(dt);
 
 		if (Dialog.active == null) {
@@ -499,7 +503,7 @@ public class UiMap extends UiEntity {
 
 	@Override
 	public void render() {
-		if (my == 96 && !large) {
+		if ((my == 96 && !large) || Dungeon.depth < 0) {
 			return;
 		}
 
