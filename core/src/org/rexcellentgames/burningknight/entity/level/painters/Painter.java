@@ -159,7 +159,7 @@ public class Painter {
 			for (int y = room.top; y <= room.bottom; y++) {
 				for (int x = room.left; x <= room.right; x++) {
 					if (level.get(x, y) == Terrain.WALL) {
-						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(30)) {
+						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 
 							web.x = x * 16;
@@ -168,7 +168,7 @@ public class Painter {
 
 							Dungeon.area.add(web);
 							LevelSave.add(web);
-						} else if (y > room.top && x < room.right && level.get(x + 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(30)) {
+						} else if (y > room.top && x < room.right && level.get(x + 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 
 							web.x = x * 16;
@@ -177,7 +177,7 @@ public class Painter {
 
 							Dungeon.area.add(web);
 							LevelSave.add(web);
-						} else if (y < room.bottom - 1 && x > room.left && level.get(x - 1, y + 1) == Terrain.WALL && level.get(x, y + 1) != Terrain.WALL && Random.chance(30)) {
+						} else if (y < room.bottom - 1 && x > room.left && level.get(x - 1, y + 1) == Terrain.WALL && level.get(x, y + 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 
 							web.x = x * 16;
@@ -186,7 +186,7 @@ public class Painter {
 
 							Dungeon.area.add(web);
 							LevelSave.add(web);
-						} else if (y < room.bottom - 1 && x < room.right && level.get(x + 1, y + 1) == Terrain.WALL && level.get(x, y + 1) != Terrain.WALL && Random.chance(30)) {
+						} else if (y < room.bottom - 1 && x < room.right && level.get(x + 1, y + 1) == Terrain.WALL && level.get(x, y + 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 
 							web.x = x * 16;
