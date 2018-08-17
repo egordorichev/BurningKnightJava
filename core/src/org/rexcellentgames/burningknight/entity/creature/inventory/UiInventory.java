@@ -619,7 +619,7 @@ public class UiInventory extends UiEntity {
 		}*/
 	}
 
-	public void renderOnPlayer(Player player) {
+	public void renderOnPlayer(Player player, float of) {
 		if (player == null || player.isDead()) {
 			return;
 		}
@@ -627,15 +627,15 @@ public class UiInventory extends UiEntity {
 		Item slot = this.inventory.getSlot(this.active);
 
 		if (slot != null) {
-			slot.render(player.x, player.y, player.w, player.h, player.isFlipped());
+			slot.render(player.x, player.y + of, player.w, player.h, player.isFlipped());
 		}
 	}
 
-	public void renderBeforePlayer(Player player) {
+	public void renderBeforePlayer(Player player, float of) {
 		Item slot = this.inventory.getSlot(this.active);
 
 		if (slot != null) {
-			slot.beforeRender(player.x, player.y, player.w, player.h, player.isFlipped());
+			slot.beforeRender(player.x, player.y + of, player.w, player.h, player.isFlipped());
 		}
 	}
 

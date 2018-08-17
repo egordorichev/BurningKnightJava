@@ -332,11 +332,21 @@ public class Player extends Creature {
 			this.drawInvt = false;
 		}
 
+		int id = this.animation.getFrame();
+		float of = offsets[id] - 2;
+
+		if (this.invt > 0) {
+			id += 16;
+		} else if (this.state.equals("run")) {
+			id += 8;
+		}
+
 		if (this.ui != null) {
-			this.ui.renderBeforePlayer(this);
+			this.ui.renderBeforePlayer(this, of);
 		}
 
 		boolean before = false;
+
 		/*Item item = this.inventory.getSlot(this.inventory.activeController);
 
 		if (item instanceof WeaponBase) {
@@ -346,7 +356,7 @@ public class Player extends Creature {
 		}*/
 
 		if (this.ui != null && before && Dungeon.depth >= 0) {
-			this.ui.renderOnPlayer(this);
+			this.ui.renderOnPlayer(this, of);
 		}
 
 		boolean shade = this.drawInvt && this.invtt > 0;
@@ -392,20 +402,12 @@ public class Player extends Creature {
 		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
-			this.y - region.getRegionHeight() / 2 + 8, false, false, region.getRegionWidth() / 2,
-			(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+			this.y, false, false, region.getRegionWidth() / 2,
+			0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
 		if (this.hat != null) {
-			int id = this.animation.getFrame();
-
-			if (this.invt > 0) {
-				id += 16;
-			} else if (this.state.equals("run")) {
-				id += 8;
-			}
-
-			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + 7 + offsets[id],
-				0, hat.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
+			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + offsets[id],
+				0, 0, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 		} else {
 			AnimationData anim = headIdle;
 
@@ -419,8 +421,8 @@ public class Player extends Creature {
 			region = anim.getCurrent().frame;
 
 			anim.render(this.x - region.getRegionWidth() / 2 + 8,
-				this.y - region.getRegionHeight() / 2 + 9, false, false, region.getRegionWidth() / 2,
-				(int) Math.ceil(((float) region.getRegionHeight()) / 2), 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+				this.y, false, false, region.getRegionWidth() / 2,
+				0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 		}
 
 		if (shade || this.fa > 0) {
@@ -430,7 +432,7 @@ public class Player extends Creature {
 		}
 
 		if (this.ui != null && !before && Dungeon.depth >= 0) {
-			this.ui.renderOnPlayer(this);
+			this.ui.renderOnPlayer(this, of);
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
@@ -511,7 +513,7 @@ public class Player extends Creature {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.hx, this.y + this.hy, this.hw, this.hh);
+		Graphics.shadow(this.x + this.hx, this.y, this.hw, this.hh);
 	}
 
 	@Override

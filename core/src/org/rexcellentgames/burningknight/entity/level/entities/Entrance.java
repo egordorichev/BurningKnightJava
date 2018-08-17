@@ -111,7 +111,7 @@ public class Entrance extends SaveableEntity {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(Terrain.entrance, this.x + xx, this.y + yy + 4);
+						Graphics.render(Terrain.entrance, this.x + xx, this.y + yy);
 					}
 				}
 			}
@@ -121,7 +121,7 @@ public class Entrance extends SaveableEntity {
 			Graphics.batch.begin();
 		}
 
-		Graphics.render(Terrain.entrance, this.x, this.y + 4);
+		Graphics.render(Terrain.entrance, this.x, this.y);
 	}
 
 	@Override
