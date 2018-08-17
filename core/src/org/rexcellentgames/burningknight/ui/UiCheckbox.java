@@ -1,5 +1,9 @@
 package org.rexcellentgames.burningknight.ui;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
+
 public class UiCheckbox extends UiButton {
 	public UiCheckbox(String label, int x, int y) {
 		super(label, x, y);
@@ -7,6 +11,13 @@ public class UiCheckbox extends UiButton {
 	}
 
 	protected boolean on;
+
+	@Override
+	public void setLabel(String label) {
+		super.setLabel(label);
+
+		// this.w += 15;
+	}
 
 	public UiCheckbox setOn(boolean on) {
 		this.on = on;
@@ -34,7 +45,19 @@ public class UiCheckbox extends UiButton {
 	public void render() {
 		this.setColor();
 		super.render();
+
+		float a = (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / 26 * 20));
+
+		float y = this.y - 6;
+		Graphics.render(box, this.x + this.w - 13 + 7.5f, y + 7.5f, a, 7.5f, 7.5f, false, false, scale, scale);
+
+		if (this.on) {
+			Graphics.render(mark, this.x + this.w - 11 + 4f, y + 3 + 6f, a, 4f, 6f, false, false, scale, scale);
+		}
 	}
+
+	public static TextureRegion box = Graphics.getTexture("ui-checkbox");
+	public static TextureRegion mark = Graphics.getTexture("ui-mark");
 
 	@Override
 	public void onClick() {

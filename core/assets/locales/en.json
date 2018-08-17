@@ -581,5 +581,7 @@
 	"ascending" : "Ascending...",
 	"descending" : "Descending...",
 	"loading" : "Loading...",
-	"castle" : "The Castle"
+	"castle" : "The Castle",
+	"bk_sword" : "The Burning Sword",
+	"bk_sword_desc" : "Only the strongest get this awesome sword!"
 }
