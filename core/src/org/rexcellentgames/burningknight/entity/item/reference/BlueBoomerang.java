@@ -14,14 +14,12 @@ public class BlueBoomerang extends Axe {
 		damage = 10;
 		speed = 1000;
 		penetrates = true;
+		sprite = "item-blue_boomerang";
 	}
 
 	@Override
 	public void onHit(Creature creature) {
 		super.onHit(creature);
-
-		Log.info("Hit " + creature);
-
 		creature.addBuff(new FreezeBuff().setDuration(2));
 	}
 }

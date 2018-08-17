@@ -16,7 +16,6 @@ public class UiSlider extends UiButton {
 	protected float val;
 	private float sw;
 	private static TextureRegion slider = Graphics.getTexture("ui-slider");
-	private static TextureRegion handle = Graphics.getTexture("ui-slider_handle");
 
 	public UiSlider(String label, int x, int y) {
 		super(label, x, y, true);
@@ -46,7 +45,7 @@ public class UiSlider extends UiButton {
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.batch.end();
-		Graphics.surface.end();
+		Graphics.shadows.end();
 		Graphics.text.begin();
 		Graphics.batch.begin();
 
@@ -57,7 +56,7 @@ public class UiSlider extends UiButton {
 
 		Graphics.batch.end();
 		Graphics.text.end();
-		Graphics.surface.begin();
+		Graphics.shadows.begin();
 		Graphics.batch.begin();
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
@@ -72,7 +71,6 @@ public class UiSlider extends UiButton {
 		float v = MathUtils.map(this.val, this.min, this.max, 0, this.sw - 8);
 
 		Graphics.render(slider, this.x + this.w / 2 - this.sw, this.y, 0, -8, 1.5f, false, false, this.scale, this.scale);
-		Graphics.render(handle, this.x + v + this.w / 2 - this.sw - 3.5f, this.y - 2f, 0, -8, 1.5f, false, false, this.scale, this.scale);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}

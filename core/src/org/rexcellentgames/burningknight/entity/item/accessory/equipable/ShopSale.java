@@ -3,6 +3,10 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 
 public class ShopSale extends Equipable {
+	{
+		sprite = "item-shop_sale";
+	}
+
 	@Override
 	public void onEquip() {
 		super.onEquip();

@@ -3,6 +3,10 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 
 public class MimicTotem extends Equipable {
+	{
+		sprite = "item-mimic_totem";
+	}
+
 	@Override
 	public void onEquip() {
 		super.onEquip();

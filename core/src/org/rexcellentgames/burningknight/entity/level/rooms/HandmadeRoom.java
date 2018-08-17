@@ -62,8 +62,6 @@ public class HandmadeRoom extends RegularRoom {
 				int rx = (int) (rect.x / 16);
 				int ry = (int) (rect.y / 16);
 
-				Log.info(rx + ":" + ry);
-
 				for (int x = 0; x < data.w; x++) {
 					for (int y = 0; y < data.h; y++) {
 						TiledMapTileLayer.Cell cell = tiles.getCell(rx + x, ry + y);

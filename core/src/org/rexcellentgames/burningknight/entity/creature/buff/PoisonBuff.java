@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.buff;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class PoisonBuff extends Buff {
 	public static TextureRegion poison = Graphics.getTexture("ui-debuff_poison");
@@ -24,7 +25,6 @@ public class PoisonBuff extends Buff {
 	}
 
 	private float progress;
-	private float last;
 
 	@Override
 	public void onStart() {
@@ -41,17 +41,11 @@ public class PoisonBuff extends Buff {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		this.last += dt;
 		progress += dt * rate;
-
-		if (this.last >= 0.5f) {
-			this.last = 0;
-			this.owner.modifyHp(-1, null, true);
-		}
 
 		if (this.progress >= 1) {
 			setDuration(0);
-			this.owner.modifyHp(-1, null, false);
+			this.owner.modifyHp(this.owner instanceof Player ? -1 : -4, null, false);
 		}
 	}
 

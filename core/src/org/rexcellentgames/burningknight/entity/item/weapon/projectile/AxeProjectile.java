@@ -65,7 +65,6 @@ public class AxeProjectile extends Projectile {
 		} else if (entity instanceof Mob) {
 			this.doHit(entity);
 			this.did = true;
-			return true;
 		} else if (entity instanceof Player && this.t > 0.2f) {
 			this.done = true;
 		}

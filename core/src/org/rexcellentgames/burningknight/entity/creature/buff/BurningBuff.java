@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class BurningBuff extends Buff {
 	public static TextureRegion frame = Graphics.getTexture("ui-debuff_frame");
@@ -48,7 +49,7 @@ public class BurningBuff extends Buff {
 		}
 
 		if (progress >= 1f) {
-			this.owner.modifyHp(-1, null, true);
+			this.owner.modifyHp(this.owner instanceof Player ? -1 : -4, null, true);
 			setDuration(0);
 		}
 	}

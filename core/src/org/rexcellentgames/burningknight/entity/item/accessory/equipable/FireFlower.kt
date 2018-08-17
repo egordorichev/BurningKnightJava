@@ -7,6 +7,7 @@ class FireFlower : Equipable() {
 	init {
 		super.init()
 
+		sprite = "item-fire_flower"
 		name = Locale.get("fire_flower")
 		description = Locale.get("fire_flower_desc")
 	}
