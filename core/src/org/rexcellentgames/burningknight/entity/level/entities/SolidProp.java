@@ -5,8 +5,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.file.FileReader;
-import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.file.FileReader;
 
 import java.io.IOException;
 

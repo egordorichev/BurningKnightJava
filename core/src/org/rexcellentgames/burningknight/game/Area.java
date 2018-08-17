@@ -72,66 +72,68 @@ public class Area {
 
   public void update(float dt) {
     if (this.hasSelectableEntity) {
-      if (this.selectedUiEntity >= this.entities.size()) {
-        this.selectedUiEntity = findFirstSelectableUiEntity();
-        
-        if (this.selectedUiEntity != -1) {
-          Entity e = this.entities.get(selectedUiEntity);
+	    if (this.selectedUiEntity >= this.entities.size()) {
+		    this.selectedUiEntity = findFirstSelectableUiEntity();
 
-          if (e instanceof UiEntity) {
-            ((UiEntity) e).select();
-          }
-        }
-      }
+		    if (this.selectedUiEntity != -1) {
+			    Entity e = this.entities.get(selectedUiEntity);
 
-      if (Input.instance.wasPressed("uiUp") && !UiMap.large) {
-        if (this.selectedUiEntity != -1) {
-          Entity e = this.entities.get(selectedUiEntity);
+			    if (e instanceof UiEntity) {
+				    ((UiEntity) e).select();
+			    }
+		    }
+	    }
 
-          if (e instanceof UiEntity) {
-            ((UiEntity) e).unselect();
-          }
-        }
+	    if (Input.instance.activeController != null) {
+		    if (Input.instance.wasPressed("uiUp") && !UiMap.large) {
+			    if (this.selectedUiEntity != -1) {
+				    Entity e = this.entities.get(selectedUiEntity);
 
-        if (this.selectedUiEntity == 0) {
-          this.selectedUiEntity = findLastSelectableUiEntity();
-        } else {
-          this.selectedUiEntity = findLastSelectableUiEntity(this.selectedUiEntity - 1);
-        }
-        
-        if (this.selectedUiEntity != -1) {
-          Entity e = this.entities.get(selectedUiEntity);
+				    if (e instanceof UiEntity) {
+					    ((UiEntity) e).unselect();
+				    }
+			    }
 
-          if (e instanceof UiEntity) {
-            ((UiEntity) e).select();
-          }
-        }          
-      } else if (Input.instance.wasPressed("uiDown") && !UiMap.large) {
-        if (this.selectedUiEntity >= 0) {
-          if (this.selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
+			    if (this.selectedUiEntity == 0) {
+				    this.selectedUiEntity = findLastSelectableUiEntity();
+			    } else {
+				    this.selectedUiEntity = findLastSelectableUiEntity(this.selectedUiEntity - 1);
+			    }
 
-            Entity e = this.entities.get(selectedUiEntity);
+			    if (this.selectedUiEntity != -1) {
+				    Entity e = this.entities.get(selectedUiEntity);
 
-            if (e instanceof UiEntity) {
-              ((UiEntity) e).unselect();
-            }
-          }
-        }
+				    if (e instanceof UiEntity) {
+					    ((UiEntity) e).select();
+				    }
+			    }
+		    } else if (Input.instance.wasPressed("uiDown") && !UiMap.large) {
+			    if (this.selectedUiEntity >= 0) {
+				    if (this.selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
 
-        this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
+					    Entity e = this.entities.get(selectedUiEntity);
 
-        if (this.selectedUiEntity == -1) {
-	        this.selectedUiEntity = findFirstSelectableUiEntity();
-        }
+					    if (e instanceof UiEntity) {
+						    ((UiEntity) e).unselect();
+					    }
+				    }
+			    }
 
-        if (this.selectedUiEntity != -1) {
-          Entity e = this.entities.get(selectedUiEntity);
+			    this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
 
-          if (e instanceof UiEntity) {
-            ((UiEntity) e).select();
-          }
-        }
-      }
+			    if (this.selectedUiEntity == -1) {
+				    this.selectedUiEntity = findFirstSelectableUiEntity();
+			    }
+
+			    if (this.selectedUiEntity != -1) {
+				    Entity e = this.entities.get(selectedUiEntity);
+
+				    if (e instanceof UiEntity) {
+					    ((UiEntity) e).select();
+				    }
+			    }
+		    }
+	    }
     }
 
     for (int i = this.entities.size() - 1; i >= 0; i--) {
@@ -217,17 +219,19 @@ public class Area {
   }
 
   public void select(UiEntity entity) {
-    if (!entity.isSelectable()) {
-      return;
-    }
+	  if (!entity.isSelectable()) {
+		  return;
+	  }
 
-    for (Entity e : this.entities) {
-      if (e instanceof UiEntity && ((UiEntity) e).isSelected()) {
-        ((UiEntity) e).unselect();
-      }
-    }
+	  for (Entity e : this.entities) {
+		  if (e instanceof UiEntity && ((UiEntity) e).isSelected()) {
+			  ((UiEntity) e).unselect();
+		  }
+	  }
 
-    entity.select();
+		if (Input.instance.activeController != null) {
+	    entity.select();
+    }
 
     this.selectedUiEntity = this.entities.indexOf(entity);
   }

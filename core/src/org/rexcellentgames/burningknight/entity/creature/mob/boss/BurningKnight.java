@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.BKSword;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -467,6 +468,15 @@ public class BurningKnight extends Boss {
 
 			super.update(dt);
 		}
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = super.getDrops();
+
+		items.add(new BKSword());
+
+		return items;
 	}
 
 	private static final float ATTACK_DISTANCE = 32;

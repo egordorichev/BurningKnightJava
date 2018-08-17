@@ -23,6 +23,8 @@
 
 	"uiUp": [ "Up", "ControllerDPadUp" ],
 	"uiDown": [ "Down", "ControllerDPadDown" ],
+	"uiLeft": [ "Left", "ControllerDPadLeft", "ControllerL1" ],
+	"uiRight": [ "Right", "ControllerDPadRight", "ControllerR1" ],
 	"uiAccept": [ "Mouse0", "Enter", "ControllerA" ],
 	"inventory" : [ "E", "ControllerL2" ],
 

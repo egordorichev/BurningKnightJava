@@ -10,12 +10,10 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -156,7 +154,7 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity instanceof Creature) {
+		if (entity instanceof Creature && !((Creature) entity).flying) {
 			if (this.lock && this.lockable && entity instanceof Player) {
 				Player player = (Player) entity;
 
@@ -193,7 +191,7 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void onCollisionEnd(Entity entity) {
-		if (entity instanceof Creature) {
+		if (entity instanceof Creature && !((Creature) entity).flying) {
 			if (this.lock) {
 				return;
 			}

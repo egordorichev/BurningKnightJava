@@ -18,10 +18,12 @@ public class UiSlider extends UiButton {
 	private float sw;
 	private static TextureRegion slider = Graphics.getTexture("ui-slider");
 	private static TextureRegion fill = Graphics.getTexture("ui-slider_fill");
+	private float ox;
 
 	public UiSlider(String label, int x, int y) {
 		super(label, x, y, true);
 
+		this.ox = x;
 		this.min = 0;
 		this.max = 1;
 		this.val = 1;
@@ -65,44 +67,66 @@ public class UiSlider extends UiButton {
 		Texture texture = Graphics.text.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-		Graphics.batch.draw(texture, this.x - this.w / 2 + 2, this.y - this.h / 2, this.w / 2 + 4, this.h / 2,
+		Graphics.batch.draw(texture, this.ox - 4 - (this.w - this.sw), this.y - this.h / 2, this.w / 2 + 4, this.h / 2,
 			this.w, this.h, 1, 1, 0,
 			0, 0, this.w + 4, this.h, false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		float w = slider.getRegionWidth() - 2;
-		float v = MathUtils.map(this.val, this.min, this.max, 0, w / 3);
+		float w = slider.getRegionWidth() - 4;
+		float v = MathUtils.map(this.val, this.min, this.max, 0, w / 4);
 
-		Graphics.render(fill, this.x + this.w / 2 - this.sw + 9, this.y - 3, 0, 0, 0, false, false, v, 1);
-		Graphics.render(slider, this.x + this.w / 2 - this.sw + 8, this.y - 4, 0, 0, 0, false, false);
 
+
+		Graphics.render(fill, this.ox + 6, this.y - 2, 0, 0, 0, false, false, v, 1);
+		Graphics.render(slider, this.ox + 4, this.y - 4, 0, 0, 0, false, false);
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-		if (this.hover && (Input.instance.isDown("mouse1") || Input.instance.isDown("mouse0"))) {
-			if (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
-				(int) (this.x + this.w / 2 - this.sw + 9), (int) this.y - 4, (int) (this.sw - 10), 6)) {
-				float prev = this.val;
-
-				this.val = MathUtils.clamp(this.min, this.max,
-					MathUtils.map(Input.instance.uiMouse.x - (this.x + this.w / 2 - this.sw + 9), 0, this.sw - 10, this.min, this.max)
-				);
-
-				this.val = (float) (Math.floor(this.val * 17) / 17);
-
-				if (Float.compare(prev, this.val) != 0) {
-					Audio.playSfx("menu/moving");
-				}
-
+		if ((this.isSelected || this.hover)) {
+			if (Input.instance.wasPressed("uiLeft")) {
+				this.val = MathUtils.clamp(this.min, this.max, this.val - (this.max - this.min) / 16);
+				Audio.playSfx("menu/moving");
 				this.onUpdate();
+			} else if (Input.instance.wasPressed("uiRight")) {
+				this.val = MathUtils.clamp(this.min, this.max, this.val + (this.max - this.min) / 16);
+				Audio.playSfx("menu/moving");
+				this.onUpdate();
+			}
+
+			if ((Input.instance.isDown("mouse1") || Input.instance.isDown("mouse0"))){
+				if (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
+					(int) (this.ox + 6), (int) this.y - 4, (int) (this.sw - 12), 9)) {
+
+					float prev = this.val;
+
+					this.val = MathUtils.clamp(this.min, this.max,
+						MathUtils.map(Input.instance.uiMouse.x - (this.ox + 6), 0, this.sw - 12, this.min, this.max)
+					);
+
+					this.val = (float) (Math.floor(this.val * 16) / 16);
+
+					if (Float.compare(prev, this.val) != 0) {
+						Audio.playSfx("menu/moving");
+					}
+
+					this.onUpdate();
+				}
 			}
 		}
 	}
 
 	public void onUpdate() {
 
+	}
+
+	@Override
+	protected boolean checkHover() {
+		return CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
+			(int) (this.ox - (this.w - this.sw) - 2),
+			(int) (this.y - this.h / 2),
+			this.w, this.h);
 	}
 }

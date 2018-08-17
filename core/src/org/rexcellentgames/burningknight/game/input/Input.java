@@ -192,7 +192,7 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("MouseWheel", State.RELEASED);
 
 		JsonReader reader = new JsonReader();
-    JsonValue root = reader.parse(Gdx.files.internal("keys.json"));
+    JsonValue root = reader.parse(Gdx.files.internal("settings/keys.json"));
 
     // new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir"), "settings/keys.json")))
 
@@ -234,21 +234,15 @@ public class Input implements InputProcessor, ControllerListener {
 	
 	public void addBinding(String name, String key) {
     this.bindings.get(name).add(key);
-
-    saveBindings();
   }
   
   public void removeBinding(String name, String key) {
     this.bindings.get(name).remove(key);
-    
-    saveBindings();
   }
 	
 	public void rebind(String name, String oldKey, String newKey) {
     this.bindings.get(name).remove(oldKey);
     this.bindings.get(name).add(newKey);
-    
-    saveBindings();
 	}
 	
 	public void resetBindings() {
@@ -266,13 +260,13 @@ public class Input implements InputProcessor, ControllerListener {
     saveBindings();
   }
 	
-	private void saveBindings() {
+	public void saveBindings() {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     File settingsDirectory = new File(Paths.get(System.getProperty("user.dir"), "settings/").toString());
 
     if (!settingsDirectory.exists()) {
-        settingsDirectory.mkdir();
+    	settingsDirectory.mkdir();
     }
     
     File file = new File(Paths.get(System.getProperty("user.dir"), "settings/keys.json").toString());
@@ -286,9 +280,7 @@ public class Input implements InputProcessor, ControllerListener {
     
     try {
       PrintWriter writer = new PrintWriter(file);
-
       writer.write(gson.toJson(this.bindings));
-      
       writer.close();
     } catch(FileNotFoundException ignored) {
     }

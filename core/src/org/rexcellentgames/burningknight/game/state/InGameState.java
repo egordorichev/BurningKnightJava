@@ -82,7 +82,7 @@ public class InGameState extends State {
 			}
 		});
 
-		if (BurningKnight.instance == null) {
+		if (BurningKnight.instance == null && !GameSave.defeatedBK) {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);

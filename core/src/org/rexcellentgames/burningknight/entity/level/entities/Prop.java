@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 
 public class Prop extends SaveableEntity {
 	protected String sprite;
