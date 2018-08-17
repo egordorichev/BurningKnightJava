@@ -213,6 +213,10 @@ public class MainMenuState extends State {
 		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
 		Graphics.print(Version.string, Graphics.small, 2, versionY + 2);
 		Dungeon.ui.render();
+
+		Camera.ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		Camera.ui.update();
+
 		Ui.ui.renderCursor();
 	}
 }
