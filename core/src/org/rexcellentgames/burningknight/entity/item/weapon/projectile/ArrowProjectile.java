@@ -129,7 +129,7 @@ public class ArrowProjectile extends Projectile {
 					: this.positions.get(i + 1));
 				Point pos = this.positions.get(i);
 
-				Graphics.shape.line(next.x, next.y, pos.x, pos.y);
+				Graphics.shape.rectLine(next.x, next.y, pos.x, pos.y, 2);
 			}
 
 			Graphics.shape.end();

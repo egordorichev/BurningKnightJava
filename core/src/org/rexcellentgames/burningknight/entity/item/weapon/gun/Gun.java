@@ -174,6 +174,7 @@ public class Gun extends WeaponBase {
 	}
 	
 	protected boolean flipped;
+	protected boolean lastFlip;
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
@@ -185,8 +186,9 @@ public class Gun extends WeaponBase {
 		}
 
 		Point aim = this.owner.getAim();
-		flipped = aim.x < this.owner.x + this.owner.w / 2;
-		
+		flipped = Dungeon.game.getState().isPaused() ? this.lastFlip : aim.x < this.owner.x + this.owner.w / 2;
+		this.lastFlip = this.flipped;
+
 		this.flipped = flipped;
 		float an = this.owner.getAngleTo(aim.x, aim.y);
 
@@ -249,6 +251,9 @@ public class Gun extends WeaponBase {
 		y += this.owner.h;
 		x = this.owner.x + this.owner.w / 2;
 
+		y = Math.round(y);
+		x = Math.round(x);
+
 		float dt = Gdx.graphics.getDeltaTime();
 
 		if (this.chargeProgress > 0 && this.chargeProgress < 1f && this.chargeA < 1) {
@@ -270,15 +275,18 @@ public class Gun extends WeaponBase {
 
 		if (this.chargeA > 0) {
 			Graphics.startAlphaShape();
-			Graphics.shape.setColor(1, 1, 1, this.chargeA);
-			Graphics.shape.line(x - 8, y, x + 8, y);
+
+			Graphics.shape.setColor(0, 0, 0, chargeA);
+			Graphics.shape.rect(x - 9, y - 1, 18, 3);
+			Graphics.shape.setColor(1, 1, 1, chargeA);
+			Graphics.shape.rect(x - 8, y, 16, 1);
 
 			xx = (back ? 16 : this.chargeProgress * 16) - 8 + x;
 
 			Graphics.shape.setColor(0, 0, 0, this.chargeA);
-			Graphics.shape.rect(xx - 2, y - 2, 4, 4);
+			Graphics.shape.rect(xx - 2, y - 2, 5, 5);
 			Graphics.shape.setColor(1, 1, 1, this.chargeA);
-			Graphics.shape.rect(xx - 1, y - 1, 2, 2);
+			Graphics.shape.rect(xx - 1, y - 1, 3, 3);
 
 			Graphics.endAlphaShape();
 		}

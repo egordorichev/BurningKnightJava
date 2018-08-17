@@ -29,6 +29,7 @@ public class Shell extends Entity {
 	public void init() {
 		super.init();
 
+		this.depth = -1;
 		this.va = Random.newFloat(this.vel.x * 10);
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
@@ -55,7 +56,7 @@ public class Shell extends Entity {
 		} else {
 			this.t += dt;
 
-			if (this.t >= 10f && !this.tweened) {
+			if (this.t >= 30f && !this.tweened) {
 				this.tweened = true;
 				Tween.to(new Tween.Task(0, 3f, Tween.Type.QUAD_IN) {
 					@Override
@@ -84,7 +85,7 @@ public class Shell extends Entity {
 		}
 
 		this.x += this.vel.x;
-		this.z = Math.max(0, this.z + this.vel.y);
+		this.z = Math.max(0, this.z / 4 + this.vel.y);
 		this.vel.y -= 0.1f;
 
 		if (this.body != null) {
