@@ -205,7 +205,6 @@ public class MainMenuState extends State {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-
 		float sx = (float) (0.8f + Math.sin(Dungeon.time / 1.5f) / 40);
 		float sy = (float) (0.8f + Math.cos(Dungeon.time) / 40);
 		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
@@ -213,9 +212,6 @@ public class MainMenuState extends State {
 		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
 		Graphics.print(Version.string, Graphics.small, 2, versionY + 2);
 		Dungeon.ui.render();
-
-		Camera.ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
-		Camera.ui.update();
 
 		Ui.ui.renderCursor();
 	}

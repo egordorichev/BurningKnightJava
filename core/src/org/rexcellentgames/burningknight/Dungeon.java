@@ -525,18 +525,7 @@ public class Dungeon extends ApplicationAdapter {
 
 			Input.instance.mouse.x = input.x;
 			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
-
-			return;
 		}
-
-		/*inputVel.x += Input.instance.getAxis("mouseX") * s;
-		inputVel.y += Input.instance.getAxis("mouseY") * s;
-
-		Input.instance.mouse.x += inputVel.x;
-		Input.instance.mouse.y += inputVel.y;
-
-		Input.instance.mouse.x = MathUtils.clamp(0, Gdx.graphics.getWidth(), Input.instance.mouse.x);
-		Input.instance.mouse.y = MathUtils.clamp(0, Gdx.graphics.getHeight(), Input.instance.mouse.y);*/
 	}
 
 	@Override

@@ -140,9 +140,9 @@ public class UiButton extends UiEntity {
 						last = null;
 						onClick();
 
-						r = 0.5f;
-						g = 0.5f;
-						b = 0.5f;
+						r = 0.7f;
+						g = 0.7f;
+						b = 0.7f;
 
 						last = Tween.to(new Tween.Task(1 + 0.2f * scaleMod, 0.05f) {
 							@Override
@@ -238,9 +238,9 @@ public class UiButton extends UiEntity {
 				Tween.remove(this.last);
 			}
 
-			this.r = 0.5f;
-			this.g = 0.5f;
-			this.b = 0.5f;
+			this.r = 0.7f;
+			this.g = 0.7f;
+			this.b = 0.7f;
 
 			Audio.playSfx("menu/moving");
 
@@ -296,9 +296,9 @@ public class UiButton extends UiEntity {
 
 			this.area.select(this);
 		} else {
-			r = 0.5f;
-			g = 0.5f;
-			b = 0.5f;
+			r = 0.7f;
+			g = 0.7f;
+			b = 0.7f;
 		}
 	}
 

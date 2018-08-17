@@ -406,8 +406,8 @@ public class Player extends Creature {
 			0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
 		if (this.hat != null) {
-			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + offsets[id],
-				0, 0, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
+			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + offsets[id] + region.getRegionHeight() / 2 - 2,
+				0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 		} else {
 			AnimationData anim = headIdle;
 

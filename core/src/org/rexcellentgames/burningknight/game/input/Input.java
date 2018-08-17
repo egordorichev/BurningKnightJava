@@ -286,7 +286,7 @@ public class Input implements InputProcessor, ControllerListener {
     }
   }
 	
-	public void updateMousePosition() { 
+	public void updateMousePosition() {
 		Vector3 m = Camera.ui.unproject(new Vector3(mouse.x, mouse.y, 0),
 			Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
 			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
