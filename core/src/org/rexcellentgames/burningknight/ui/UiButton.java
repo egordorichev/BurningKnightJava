@@ -288,13 +288,17 @@ public class UiButton extends UiEntity {
 		this.t += dt;
 
 		if (this.hover) {
-			float v = this.t % 0.5f > 0.25f ? 1f : 0.7f;
+			float v = this.t % 1f > 0.5f ? 1f : 0.7f;
 
 			this.r = v;
 			this.g = v;
 			this.b = v;
 
 			this.area.select(this);
+		} else {
+			r = 0.7f;
+			g = 0.7f;
+			b = 0.7f;
 		}
 	}
 

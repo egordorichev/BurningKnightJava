@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -16,6 +17,7 @@ public class UiSlider extends UiButton {
 	protected float val;
 	private float sw;
 	private static TextureRegion slider = Graphics.getTexture("ui-slider");
+	private static TextureRegion fill = Graphics.getTexture("ui-slider_fill");
 
 	public UiSlider(String label, int x, int y) {
 		super(label, x, y, true);
@@ -64,15 +66,16 @@ public class UiSlider extends UiButton {
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.draw(texture, this.x - this.w / 2 + 2, this.y - this.h / 2, this.w / 2 + 4, this.h / 2,
-			this.w, this.h, this.scale, this.scale, 0,
+			this.w, this.h, 1, 1, 0,
 			0, 0, this.w + 4, this.h, false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		float v = MathUtils.map(this.val, this.min, this.max, 0, this.sw - 8);
+		float w = slider.getRegionWidth() - 2;
+		float v = MathUtils.map(this.val, this.min, this.max, 0, w / 3);
 
-		Graphics.render(slider, this.x + this.w / 2 - this.sw, this.y, 0, -8, 1.5f, false, false, this.scale, this.scale);
+		Graphics.render(fill, this.x + this.w / 2 - this.sw + 9, this.y - 3, 0, 0, 0, false, false, v, 1);
+		Graphics.render(slider, this.x + this.w / 2 - this.sw + 8, this.y - 4, 0, 0, 0, false, false);
 
-		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	@Override
@@ -81,11 +84,18 @@ public class UiSlider extends UiButton {
 
 		if (this.hover && (Input.instance.isDown("mouse1") || Input.instance.isDown("mouse0"))) {
 			if (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
-				(int) (this.x + this.w / 2 - this.sw + 8), (int) this.y - this.h / 2, (int) (this.sw), this.h)) {
+				(int) (this.x + this.w / 2 - this.sw + 9), (int) this.y - 4, (int) (this.sw - 10), 6)) {
+				float prev = this.val;
 
 				this.val = MathUtils.clamp(this.min, this.max,
-					MathUtils.map(Input.instance.uiMouse.x - this.x - this.w / 2 + this.sw - 8, 0, this.sw, this.min, this.max)
+					MathUtils.map(Input.instance.uiMouse.x - (this.x + this.w / 2 - this.sw + 9), 0, this.sw - 10, this.min, this.max)
 				);
+
+				this.val = (float) (Math.floor(this.val * 17) / 17);
+
+				if (Float.compare(prev, this.val) != 0) {
+					Audio.playSfx("menu/moving");
+				}
 
 				this.onUpdate();
 			}

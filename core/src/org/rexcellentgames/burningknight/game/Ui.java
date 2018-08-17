@@ -309,7 +309,7 @@ public class Ui {
 	public boolean dead;
 
 	public void renderCursor() {
-		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
 

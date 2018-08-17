@@ -59,7 +59,6 @@ public class Camera extends Entity {
 		instance = this;
 
 		// https://code-disaster.com/2016/02/subpixel-perfect-smooth-scrolling.html
-		// gotta apply this
 
 		int w = Display.GAME_WIDTH;
 		int h = Display.GAME_HEIGHT;
