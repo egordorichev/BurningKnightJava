@@ -33,16 +33,12 @@ public class ItemHolder extends SaveableEntity {
 	public static ArrayList<ItemHolder> all = new ArrayList<>();
 
 	public boolean falling;
-	private int hx;
-	private int hy;
 	public int hw;
 	public int hh;
 	public boolean auto;
 	private float z = 0;
 
 	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
-		this.hx = x;
-		this.hy = y;
 		this.hw = w;
 		this.hh = h;
 

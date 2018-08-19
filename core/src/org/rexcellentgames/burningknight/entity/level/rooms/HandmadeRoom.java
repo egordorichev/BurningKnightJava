@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -130,8 +129,7 @@ public class HandmadeRoom extends RegularRoom {
 				c.x = x + rect.x + (rect.width - c.w) / 2 + 16;
 				c.y = y + rect.y + (rect.height - c.h) / 2;
 
-				Dungeon.area.add(c);
-				LevelSave.add(c);
+				Dungeon.area.add(c.add());
 			} else if (name.startsWith("control_")) {
 				Control c = new Control();
 
@@ -139,8 +137,7 @@ public class HandmadeRoom extends RegularRoom {
 				c.x = x + rect.x;
 				c.y = y + rect.y;
 
-				Dungeon.area.add(c);
-				LevelSave.add(c);
+				Dungeon.area.add(c.add());
 			}
 		}
 	}

@@ -22,7 +22,6 @@ public class ClassSelector extends ItemHolder {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.id = reader.readString();
-		this.parseId();
 	}
 
 	@Override
