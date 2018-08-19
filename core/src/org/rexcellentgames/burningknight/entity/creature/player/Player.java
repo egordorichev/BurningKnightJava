@@ -144,8 +144,8 @@ public class Player extends Creature {
 		hpMax = 8;
 		manaMax = 6;
 		level = 1;
-		mul = 0.85f;
-		speed = 25;
+		mul = 0.8f;
+		speed = 20;
 		alwaysActive = true;
 
 		setSkin("body");

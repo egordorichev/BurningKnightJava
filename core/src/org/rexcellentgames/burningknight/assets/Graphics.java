@@ -127,6 +127,9 @@ public class Graphics {
   }
 
 	public static void resize(int w, int h) {
+		w = Math.max(w, Display.GAME_WIDTH);
+		h = Math.max(h, Display.GAME_HEIGHT);
+
 		shadows.dispose();
 		shadows = new FrameBuffer(Pixmap.Format.RGBA8888, w, h, false);
 	}
