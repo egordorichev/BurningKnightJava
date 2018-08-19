@@ -80,7 +80,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float speed = 1f;
 	public static Color ORANGE = Color.valueOf("#df7126");
 	public static Color YELLOW = Color.valueOf("#fbf236");
-	private static int to = -3;
+	public static int to = -3;
 	private static Color background = Color.BLACK;
 	private static Color background2 = Color.BLACK;
 	public static float shockTime = 10;
@@ -290,6 +290,9 @@ public class Dungeon extends ApplicationAdapter {
 			Dungeon.depth = to;
 
 			game.setState(new LoadState());
+
+			Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 			to = -2;
 			return;

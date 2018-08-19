@@ -201,11 +201,6 @@ public class LoadState extends State {
 					}
 
 					@Override
-					public void onStart() {
-						Log.info("Run " + alp);
-					}
-
-					@Override
 					public boolean runWhenPaused() {
 						return true;
 					}

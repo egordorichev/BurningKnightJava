@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -134,8 +135,24 @@ public class Camera extends Entity {
 				game.position.y = MathUtils.clamp(room.top * 16 + Display.GAME_HEIGHT / 2 + 16,
 					room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 
-				if (Player.instance.y > room.bottom * 16 - 24) {
-					Dungeon.goToLevel(0);
+				if (Player.instance.y > room.bottom * 16 - 24 && Dungeon.dark == 1 && Dungeon.game.getState() instanceof InGameState && Dungeon.to == -2) {
+					Tween.to(new Tween.Task(0, 0.2f) {
+						@Override
+						public float getValue() {
+							return Dungeon.dark;
+						}
+
+						@Override
+						public void setValue(float value) {
+							Dungeon.dark = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Dungeon.dark = 1;
+							Dungeon.goToLevel(0);
+						}
+					});
 				}
 			} else {
 				game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,

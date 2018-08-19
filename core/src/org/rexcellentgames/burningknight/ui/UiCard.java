@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.ClassSelectState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.game.state.SlotSelectState;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiCard extends UiButton {
@@ -51,13 +50,13 @@ public class UiCard extends UiButton {
 		float y = Input.instance.uiMouse.y + MainMenuState.cameraX - this.y;
 		SaveManager.slot = this.id;
 
-
+		/*
 		if (x <= 15 && y >= this.h - 15) {
 			Log.info("Deleting slot " + this.id);
 			SaveManager.delete();
 			this.info.free = true;
 			return;
-		}
+		}*/
 
 		if (this.info.free) {
 			ClassSelectState.add();
