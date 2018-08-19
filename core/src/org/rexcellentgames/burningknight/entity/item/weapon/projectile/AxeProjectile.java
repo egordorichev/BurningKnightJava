@@ -27,7 +27,7 @@ public class AxeProjectile extends Projectile {
 
 	{
 		alwaysActive = true;
-		depth = 9;
+		depth = 17;
 	}
 
 	@Override
@@ -36,12 +36,14 @@ public class AxeProjectile extends Projectile {
 		float dy = Input.instance.worldMouse.y - this.y - 8;
 		float a = (float) Math.atan2(dy, dx);
 
+		float s = this.speed * 0.5f;
+
 		this.vel = new Point(
-			(float) Math.cos(a) * this.speed,
-			(float) Math.sin(a) * this.speed
+			(float) Math.cos(a) * s,
+			(float) Math.sin(a) * s
 		);
 
-		this.body = World.createSimpleCentredBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleCentredBody(this, 0, 0, this.region.getRegionWidth(), this.region.getRegionHeight(), BodyDef.BodyType.DynamicBody, true);
 		this.body.setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 
@@ -74,7 +76,7 @@ public class AxeProjectile extends Projectile {
 
 	@Override
 	public void logic(float dt) {
-		this.vel.mul(0.95f);
+		this.vel.mul(0.97f);
 
 		this.t += dt;
 		this.x += this.vel.x * dt;
@@ -89,7 +91,7 @@ public class AxeProjectile extends Projectile {
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 		if (d > 8) {
-			float f = 10;
+			float f = 6;
 
 			if (d < 64 && this.t > 1) {
 				f = MathUtils.clamp(1f, 10f, 64 - d);
@@ -99,12 +101,13 @@ public class AxeProjectile extends Projectile {
 			this.vel.y += dy / d * f;
 		}
 
+		this.body.setTransform(this.body.getPosition(), (float) Math.toRadians(this.a));
 		this.body.setLinearVelocity(this.vel);
 	}
 
 	@Override
 	public void render() {
-		Graphics.render(this.region, this.x, this.y, this.a, 8, 8, false, false);
+		Graphics.render(this.region, this.x, this.y, this.a, this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, false, false);
 	}
 
 	@Override

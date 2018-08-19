@@ -34,6 +34,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHe
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
@@ -297,9 +298,10 @@ public class Player extends Creature {
 	}
 
 	private void generateRanger() {
-		switch (Random.newInt(2)) {
+		switch (Random.newInt(3)) {
 			case 0: default: this.give(new BowA()); break;
 			case 1: this.give(new Revolver()); break;
+			case 2: this.give(new AxeA().setCount(10)); break;
 		}
 	}
 
@@ -556,7 +558,7 @@ public class Player extends Creature {
 
 		this.mana = this.manaMax;
 		this.inventory = new Inventory(this, inventorySize);
-		this.body = this.createSimpleBody(3, 2, 10, 11, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(3, 0, 10, 11, BodyDef.BodyType.DynamicBody, false);
 
 		Camera.follow(this, true);
 
