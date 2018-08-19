@@ -13,12 +13,13 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class Camera extends Entity {
+	public static boolean did = false;
+
 	public static Camera instance;
 	public static OrthographicCamera ui;
 	public static OrthographicCamera nil;
@@ -136,7 +137,9 @@ public class Camera extends Entity {
 				game.position.y = MathUtils.clamp(room.top * 16 + Display.GAME_HEIGHT / 2 + 16,
 					room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 
-				if (Player.instance.y > room.bottom * 16 - 24 && Dungeon.dark == 1 && Dungeon.game.getState() instanceof InGameState && Dungeon.to == -2) {
+				if (Player.instance.y > room.bottom * 16 - 24 && !did) {
+					did = true;
+
 					Tween.to(new Tween.Task(0, 0.2f) {
 						@Override
 						public float getValue() {
@@ -150,7 +153,6 @@ public class Camera extends Entity {
 
 						@Override
 						public void onEnd() {
-							Dungeon.dark = 1;
 							Player.instance.generate();
 							GlobalSave.put("last_class", Player.instance.getType().id);
 							Dungeon.goToLevel(0);

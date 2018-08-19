@@ -10,7 +10,9 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -98,12 +100,13 @@ public class MainMenuState extends State {
 				});*/
 
 				Player.toSet = Player.Type.values()[GlobalSave.getInt("last_class")];
+				GameSave.Info info = GameSave.peek(SaveManager.slot);
 
 				transition(new Runnable() {
 					@Override
 					public void run() {
 						Dungeon.loadType = Entrance.LoadType.LOADING;
-						Dungeon.goToLevel(-1);
+						Dungeon.goToLevel(info.depth);
 					}
 				});
 			}

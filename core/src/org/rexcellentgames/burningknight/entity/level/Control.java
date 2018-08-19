@@ -42,8 +42,6 @@ public class Control extends SaveableEntity {
 
 		Graphics.layout.setText(Graphics.mediumSimple, this.key);
 		this.mod = (16 - Graphics.layout.width) / 2;
-
-		Log.info(this.key);
 	}
 
 	@Override

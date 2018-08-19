@@ -48,6 +48,8 @@ public class InGameState extends State {
 	public void init() {
 		// ModManager.INSTANCE.load();
 
+		Camera.did = false;
+
 		pauseMenuUi = new Area(true);
 
 		Collisions collisions = new Collisions();

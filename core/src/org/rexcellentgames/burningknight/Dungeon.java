@@ -317,7 +317,9 @@ public class Dungeon extends ApplicationAdapter {
 			this.lastUpdate = 0;
 		}
 
-		Input.instance.updateMousePosition();
+		if (AssetLoadState.done) {
+			Input.instance.updateMousePosition();
+		}
 
 		Tween.update(dt);
 		shockTime += dt;
@@ -350,7 +352,9 @@ public class Dungeon extends ApplicationAdapter {
 		game.update(dt);
 		ModManager.INSTANCE.update(dt);
 
-		updateMouse(dt);
+		if (AssetLoadState.done) {
+			updateMouse(dt);
+		}
 
 		Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));

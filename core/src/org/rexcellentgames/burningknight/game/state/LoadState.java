@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -26,7 +27,6 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
-import org.rexcellentgames.burningknight.util.Tween;
 
 import java.io.IOException;
 
@@ -57,25 +57,6 @@ public class LoadState extends State {
 			case GO_DOWN: this.s = Locale.get("descending"); break;
 			case LOADING: this.s = Locale.get("loading"); break;
 		}
-
-		final float t = 0.3f;
-
-		Tween.to(new Tween.Task(1f, t) {
-			@Override
-			public float getValue() {
-				return alp;
-			}
-
-			@Override
-			public void setValue(float value) {
-				alp = value;
-			}
-
-			@Override
-			public boolean runWhenPaused() {
-				return true;
-			}
-		});
 
 		Player.ladder = null;
 		Level.GENERATED = false;
@@ -183,41 +164,35 @@ public class LoadState extends State {
 				}
 
 				Dungeon.buildDiscordBadge();
-
-				Tween.to(new Tween.Task(0f, t) {
-					@Override
-					public float getValue() {
-						return 1f;
-					}
-
-					@Override
-					public void setValue(float value) {
-						alp = value;
-					}
-
-					@Override
-					public void onEnd() {
-						ready = true;
-					}
-
-					@Override
-					public boolean runWhenPaused() {
-						return true;
-					}
-				}).delay(0.5f);
 			}
 		}).run();
+
+		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.dark = 1;
 	}
+
+	private boolean second;
 
 	@Override
 	public void update(float dt) {
 		if (this.ready) {
+			Dungeon.darkR = 0;
 			Dungeon.game.setState(new InGameState());
 		}
 	}
 
 	@Override
 	public void renderUi() {
+		this.alp += ((this.second ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 5;
+
+		if (this.alp >= 0.95f) {
+			this.second = true;
+		}
+
+		if (this.alp <= 0.05f && this.second) {
+			this.ready = true;
+		}
+
 		Graphics.startShape();
 		Graphics.shape.setColor(0, 0, 0, 1);
 		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
