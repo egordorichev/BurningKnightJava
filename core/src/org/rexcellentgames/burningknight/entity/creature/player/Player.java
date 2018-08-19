@@ -562,15 +562,19 @@ public class Player extends Creature {
 
 		Camera.follow(this, true);
 
-		doTp();
+		doTp(true);
 	}
 
-	private void doTp() {
+	private void doTp(boolean fromInit) {
+		int x = Math.round((this.x + 8) / 16);
+		int y = Math.round((this.y) / 16);
+
 		if (Dungeon.depth == -1) {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 16);
 		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
-			// || !Dungeon.level.checkFor(Math.round((this.x + 8) / 16), Math.round((this.y + 8) / 16), Terrain.PASSABLE)
+			 || (!fromInit && Dungeon.level.isValid(x, y) &&
+			!Dungeon.level.checkFor(x, y, Terrain.PASSABLE))
 		)) {
 			this.tp(ladder.x, ladder.y - 2);
 		}
@@ -935,7 +939,7 @@ public class Player extends Creature {
 
 		this.maxSpeed += (this.speed - last) * 7f;
 
-		doTp();
+		doTp(false);
 	}
 
 	@Override

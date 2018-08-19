@@ -41,7 +41,6 @@ public class HeartFx extends SaveableEntity {
 		super.load(reader);
 
 		this.half = reader.readBoolean();
-		this.body.setTransform(this.x, this.y, 0);
 
 		if (this.half) {
 			this.w /= 2;
