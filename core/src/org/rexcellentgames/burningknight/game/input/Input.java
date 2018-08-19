@@ -7,6 +7,7 @@ import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
@@ -16,6 +17,8 @@ import com.google.gson.GsonBuilder;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.ui.UiKey;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -23,9 +26,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Input implements InputProcessor, ControllerListener {
@@ -40,6 +43,8 @@ public class Input implements InputProcessor, ControllerListener {
 	public Vector2 target = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 
 	private boolean controllerChanged;
+
+	public static UiKey listener;
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
@@ -92,6 +97,11 @@ public class Input implements InputProcessor, ControllerListener {
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		if (activeController == null || controller != activeController) {
+			return false;
+		}
+
+		if (listener != null) {
+			listener.set("Controller" + buttonCode);
 			return false;
 		}
 
@@ -192,18 +202,24 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("MouseWheel", State.RELEASED);
 
 		JsonReader reader = new JsonReader();
-    JsonValue root = reader.parse(Gdx.files.internal("settings/keys.json"));
 
-    // new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir"), "settings/keys.json")))
+		FileHandle handle = Gdx.files.external(SaveManager.SAVE_DIR + "keys.json");
+
+		if (!handle.exists()) {
+			resetBindings();
+			return;
+		}
+
+		if (activeController == null && Controllers.getControllers().size > 0) {
+			this.connected(Controllers.getControllers().get(0));
+		}
+
+    JsonValue root = reader.parse(handle);
 
     for (JsonValue value : root) {
 			for (String name : value.asStringArray()) {
 				bind(value.name, name);
 			}
-		}
-
-		if (activeController == null && Controllers.getControllers().size > 0) {
-			this.connected(Controllers.getControllers().get(0));
 		}
 	}
 
@@ -242,10 +258,22 @@ public class Input implements InputProcessor, ControllerListener {
 	
 	public void rebind(String name, String oldKey, String newKey) {
     this.bindings.get(name).remove(oldKey);
-    this.bindings.get(name).add(newKey);
+    this.bindings.get(name).add(0, newKey);
 	}
-	
+
+	public String getBinding(String id) {
+		List<String> list = this.bindings.get(id);
+
+		if (list != null) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
 	public void resetBindings() {
+		Log.info("Resetting bindings");
+
 	  this.bindings.clear();
 	  
     JsonReader reader = new JsonReader();
@@ -261,15 +289,11 @@ public class Input implements InputProcessor, ControllerListener {
   }
 	
 	public void saveBindings() {
+		Log.info("Saving key bindings");
+
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    File settingsDirectory = new File(Paths.get(System.getProperty("user.dir"), "settings/").toString());
-
-    if (!settingsDirectory.exists()) {
-    	settingsDirectory.mkdir();
-    }
-    
-    File file = new File(Paths.get(System.getProperty("user.dir"), "settings/keys.json").toString());
+    File file = Gdx.files.external(SaveManager.SAVE_DIR + "keys.json").file();
     
     if (!file.exists()) {
       try {
@@ -395,6 +419,12 @@ public class Input implements InputProcessor, ControllerListener {
 	@Override
 	public boolean keyDown(int keycode) {
 		String id = com.badlogic.gdx.Input.Keys.toString(keycode);
+
+		if (listener != null) {
+			listener.set(id);
+			return false;
+		}
+
 		this.keys.put(id, State.DOWN);
 
 		// Log.info(id);

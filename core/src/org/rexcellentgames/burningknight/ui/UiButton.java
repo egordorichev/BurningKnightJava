@@ -58,16 +58,23 @@ public class UiButton extends UiEntity {
 			return;
 		}
 
+		String old = label;
+
 		if (Locale.has(label)) {
 			label = Locale.get(label);
 		}
 
 		this.label = label;
+		this.modLabel(old);
 
 		Graphics.layout.setText(Graphics.medium, this.label);
 
 		this.w = (int) Graphics.layout.width;
 		this.h = (int) Graphics.layout.height * 2;
+	}
+
+	protected void modLabel(String old) {
+
 	}
 
 	protected float scaleMod = 1;
@@ -114,7 +121,7 @@ public class UiButton extends UiEntity {
 		super.update(dt);
 
 		if (Input.instance.wasPressed("uiAccept") && !disableClick) {
-			if ((this.hover && !Input.instance.wasPressed("mouse0") && this.isSelected) || (checkHover() && Input.instance.wasPressed("mouse0"))) {
+			if ((this.hover && !Input.instance.wasPressed("use") && this.isSelected) || (checkHover() && Input.instance.wasPressed("use"))) {
 				if (this.last != null) {
 					Tween.remove(this.last);
 				}

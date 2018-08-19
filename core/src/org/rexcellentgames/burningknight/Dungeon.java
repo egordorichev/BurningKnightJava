@@ -310,9 +310,7 @@ public class Dungeon extends ApplicationAdapter {
 			this.lastUpdate = 0;
 		}
 
-		if (Input.instance != null) {
-			Input.instance.updateMousePosition();
-		}
+		Input.instance.updateMousePosition();
 
 		Tween.update(dt);
 		shockTime += dt;

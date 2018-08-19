@@ -48,7 +48,7 @@ public class EntranceRoom extends LadderRoom {
 		} else {
 			Entrance entrance = new Entrance();
 
-			entrance.x = point.x * 16;
+			entrance.x = point.x * 16 + 1;
 			entrance.y = point.y * 16 - 8;
 
 		  LevelSave.add(entrance);

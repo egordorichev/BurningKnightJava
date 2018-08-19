@@ -31,7 +31,7 @@ public class UiChoice extends UiButton {
 	@Override
 	public void onClick() {
 		super.onClick();
-		this.setCurrent((this.current + (Input.instance.isDown("mouse1") ? -1 : 1)) % this.choices.length);
+		this.setCurrent((this.current + (Input.instance.isDown("second_use") ? -1 : 1)) % this.choices.length);
 	}
 
 	public UiChoice setCurrent(int current) {

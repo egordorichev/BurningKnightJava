@@ -61,6 +61,8 @@ public class State {
 		Dungeon.darkX = Input.instance.uiMouse.x;
 		Dungeon.darkY = Input.instance.uiMouse.y;
 
+		// todo: project with camera?
+
 		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {

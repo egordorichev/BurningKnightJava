@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -26,7 +25,7 @@ public class MainMenuState extends State {
 	private float versionY = -32;
 	public static float cameraX = Display.GAME_WIDTH / 2;
 	public static float cameraY = Display.GAME_HEIGHT / 2;
-	public static float MOVE_T = 0.2f;
+	public static final float MOVE_T = 0.2f;
 	private float bgX = -180;
 
 	public static UiEntity first;
@@ -51,6 +50,7 @@ public class MainMenuState extends State {
 		GraphicsSettingsState.added = false;
 		AudioSettingsState.added = false;
 		ClassSelectState.added = false;
+		KeyConfigState.added = false;
 
 		cameraX = Display.GAME_WIDTH / 2;
 		cameraY = Display.GAME_HEIGHT / 2;
@@ -134,7 +134,7 @@ public class MainMenuState extends State {
 			}
 		}));
 
-		Tween.to(new Tween.Task(0, skip ? 0.001f : 1f, Tween.Type.BACK_OUT) {
+		Tween.to(new Tween.Task(0, skip ? 0.001f : 0.6f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
 				return logoY;
@@ -150,7 +150,7 @@ public class MainMenuState extends State {
 				super.onEnd();
 
 				for (final UiButton button : buttons) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2 + v, skip ? 0.001f : 0.6f, Tween.Type.BACK_OUT) {
+					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2 + v, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {
 							return button.x;
@@ -165,6 +165,7 @@ public class MainMenuState extends State {
 			}
 		});
 
+		/*
 		Tween.to(new Tween.Task(0, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 			@Override
 			public float getValue() {
@@ -175,9 +176,9 @@ public class MainMenuState extends State {
 			public void setValue(float value) {
 				versionY = value;
 			}
-		}).delay(0.7f);
+		}).delay(0.7f);*/
 
-		Tween.to(new Tween.Task(0, 0.3f) {
+		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {
 				return bgX;
@@ -210,7 +211,7 @@ public class MainMenuState extends State {
 		float a = (float) (Math.cos(Dungeon.time * 0.7f) * 3f);
 
 		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY, a, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sx, sy);
-		Graphics.print(Version.string, Graphics.small, 2, versionY + 2);
+		// Graphics.print(Version.string, Graphics.small, 2, versionY + 2);
 		Dungeon.ui.render();
 
 		Ui.ui.renderCursor();

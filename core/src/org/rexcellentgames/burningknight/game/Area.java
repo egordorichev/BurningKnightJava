@@ -231,9 +231,8 @@ public class Area {
 
 		if (Input.instance.activeController != null) {
 	    entity.select();
-    }
-
-    this.selectedUiEntity = this.entities.indexOf(entity);
+			this.selectedUiEntity = this.entities.indexOf(entity);
+		}
   }
 
   public void destroy() {

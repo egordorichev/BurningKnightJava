@@ -25,7 +25,6 @@ public class AudioSettingsState extends State {
 		first = (UiEntity) Dungeon.ui.add(new UiSlider("music", (int) (Display.GAME_WIDTH * 2.5f), 128 + 24) {
 			@Override
 			public void onClick() {
-				Camera.shake(3);
 				Audio.playSfx("menu/select");
 			}
 
@@ -39,7 +38,6 @@ public class AudioSettingsState extends State {
 		Dungeon.ui.add(new UiSlider("sfx", (int) (Display.GAME_WIDTH * 2.5f), 128) {
 			@Override
 			public void onClick() {
-				Camera.shake(3);
 				Audio.playSfx("menu/select");
 			}
 
@@ -52,7 +50,6 @@ public class AudioSettingsState extends State {
 		Dungeon.ui.add(new UiCheckbox("uisfx", (int) (Display.GAME_WIDTH * 2.5f), 128 - 24) {
 			@Override
 			public void onClick() {
-				Camera.shake(3);
 				Settings.uisfx = !Settings.uisfx;
 				super.onClick();
 			}

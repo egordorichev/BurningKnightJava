@@ -75,7 +75,7 @@ public class Ui {
 			}
 		}
 
-		if (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1") || Input.instance.wasPressed("mouse2")) {
+		if (Input.instance.wasPressed("use") || Input.instance.wasPressed("second_use")) {
 			Tween.to(new Tween.Task(1.2f, 0.1f) {
 				@Override
 				public float getValue() {

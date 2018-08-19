@@ -327,11 +327,11 @@ public class UiMap extends UiEntity {
 		super.update(dt);
 
 		if (Dialog.active == null) {
-			if (Input.instance.wasPressed("minus")) {
+			if (Input.instance.wasPressed("zoom_out")) {
 				minus();
 			}
 
-			if (Input.instance.wasPressed("plus")) {
+			if (Input.instance.wasPressed("zoom_in")) {
 				plus();
 			}
 

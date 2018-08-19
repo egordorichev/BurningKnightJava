@@ -35,7 +35,7 @@ public class FastBook extends Book {
 				Graphics.batch.end();
 				RectFx.shader.begin();
 
-				Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 1, 1);
+				Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 100, 100);
 
 				RectFx.shader.setUniformf("r", color.r);
 				RectFx.shader.setUniformf("g", color.g);
@@ -64,8 +64,7 @@ public class FastBook extends Book {
 					RectFx fx = new RectFx();
 
 
-					Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 1, 1);
-
+					Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 100, 100);
 
 					fx.depth = this.depth;
 					fx.x = this.x + Random.newFloat(this.w) / 2 - this.w / 4 + this.w / 2;

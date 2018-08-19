@@ -57,7 +57,7 @@ public class Bow extends WeaponBase {
 		sy = Math.max(0.6f, sy - dt / 2);
 		charge = Math.min(1, charge + dt * 1.5f);
 
-		if (Input.instance.wasReleased("mouse0")) {
+		if (Input.instance.wasReleased("use")) {
 			beingUsed = false;
 			sendArrow();
 		}

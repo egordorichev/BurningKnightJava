@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
-	public static final boolean START_TO_MENU = false;
+	public static final boolean START_TO_MENU = true;
 	public static final boolean QUICK = true;
 	public static boolean done = false;
 	private static Texture region;
@@ -85,7 +85,7 @@ public class AssetLoadState extends State {
 			@Override
 			public void onEnd() {
 				Color color = Color.valueOf("#1a1932");
-				float t = 0.5f;
+				float t = 0.2f;
 
 				Tween.to(new Tween.Task(color.r, t) {
 					@Override

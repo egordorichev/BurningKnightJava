@@ -58,7 +58,7 @@ public class LadderFx extends UiEntity {
 		Graphics.print(this.text, Graphics.medium, this.x, this.y);
 		Graphics.medium.setColor(1, 1, 1, 1);
 
-		if (Input.instance.wasPressed("action") && Dialog.active == null && Player.instance.pickupFx == null) {
+		if (Input.instance.wasPressed("interact") && Dialog.active == null && Player.instance.pickupFx == null) {
 			this.remove();
 
 			if (this.ladder instanceof Entrance) {

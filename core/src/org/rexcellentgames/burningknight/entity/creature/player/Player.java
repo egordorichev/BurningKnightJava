@@ -633,89 +633,31 @@ public class Player extends Creature {
 		this.heat = Math.max(0, this.heat - dt / 3);
 
 		if (Dialog.active == null && !this.freezed && !UiMap.large) {
-			if (Input.instance.isDown("mouse2")) {
-				float dx = Input.instance.worldMouse.x - this.x - 8;
-				float dy = Input.instance.worldMouse.y - this.y - 8;
-				float a = (float) Math.atan2(dy, dx);
+			if (Input.instance.isDown("left")) {
+				this.vel.x -= this.speed;
+			}
 
-				this.vel.x += (float) (this.speed * Math.cos(a));
-				this.vel.y += (float) (this.speed * Math.sin(a));
-			} else {
-				if (Input.instance.isDown("left")) {
-					this.vel.x -= this.speed;
-				}
+			if (Input.instance.isDown("right")) {
+				this.vel.x += this.speed;
+			}
 
-				if (Input.instance.isDown("right")) {
-					this.vel.x += this.speed;
-				}
+			if (Input.instance.isDown("up")) {
+				this.vel.y += this.speed;
+			}
 
-				if (Input.instance.isDown("up")) {
-					this.vel.y += this.speed;
-				}
+			if (Input.instance.isDown("down")) {
+				this.vel.y -= this.speed;
+			}
 
-				if (Input.instance.isDown("down")) {
-					this.vel.y -= this.speed;
-				}
+			float mx = Input.instance.getAxis("moveX");
+			float my = Input.instance.getAxis("moveY");
 
-				float mx = Input.instance.getAxis("moveX");
-				float my = Input.instance.getAxis("moveY");
-
-				if (mx != 0 || my != 0) {
-					this.vel.x += mx * this.speed;
-					this.vel.y -= my * this.speed; // Inverted!
-				}
-
-				/*if (Input.instance.wasPressed("dash") && this.dashTimeout == 0 && this.dashT == 0f) {
-					float dx = Input.instance.worldMouse.x - this.x - 8;
-					float dy = Input.instance.worldMouse.y - this.y - 8;
-					float a = (float) Math.atan2(dy, dx);
-
-					for (int i = 0; i < 20; i++) {
-						Part part = new Part();
-
-						part.x = this.x + Random.newFloat(this.w);
-						part.y = this.y - Random.newFloat(this.h);
-
-						Dungeon.area.add(part);
-					}
-
-					this.vel.x += (float) (this.speed * 200 * Math.cos(a));
-					this.vel.y += (float) (this.speed * 200 * Math.sin(a));
-
-					this.dashT = 0.3f;
-
-					Tween.to(new Tween.Task(1.5f, 0.05f) {
-						@Override
-						public float getValue() {
-							return sx;
-						}
-
-						@Override
-						public void setValue(float value) {
-							sx = value;
-						}
-
-						@Override
-						public void onEnd() {
-							super.onEnd();
-
-							Tween.to(new Tween.Task(1f, 0.05f) {
-								@Override
-								public float getValue() {
-									return sx;
-								}
-
-								@Override
-								public void setValue(float value) {
-									sx = value;
-								}
-							});
-						}
-					});
-				}*/
+			if (mx != 0 || my != 0) {
+				this.vel.x += mx * this.speed;
+				this.vel.y -= my * this.speed; // Inverted!
 			}
 		} else if (Dialog.active != null) {
-			if (Input.instance.wasPressed("action")) {
+			if (Input.instance.wasPressed("interact")) {
 				Dialog.active.skip();
 			}
 		}

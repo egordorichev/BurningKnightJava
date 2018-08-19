@@ -331,7 +331,7 @@ public class UiInventory extends UiEntity {
 				this.validate(1);
 			}
 
-			if (!Input.instance.blocked && Input.instance.wasPressed("drop_item") && Dialog.active == null) {
+			if (!Input.instance.blocked && Input.instance.wasPressed("drop") && Dialog.active == null) {
 				Item slot = this.inventory.getSlot(this.active);
 				UiSlot ui = this.slots[this.active];
 
@@ -393,7 +393,7 @@ public class UiInventory extends UiEntity {
 		}
 
 		if (Player.instance != null && !Player.instance.freezed && !this.handled && !Player.instance.isDead()) {
-			if (this.currentSlot != null && (Input.instance.wasPressed("mouse0") || Input.instance.wasPressed("mouse1"))) {
+			if (this.currentSlot != null && (Input.instance.wasPressed("use") || Input.instance.wasPressed("second_use"))) {
 				Item slot = this.currentSlot;
 
 				if (!slot.isCursed()) {
@@ -404,21 +404,21 @@ public class UiInventory extends UiEntity {
 				Item slot = this.inventory.getSlot(this.active);
 
 				if (slot != null) {
-					if (Input.instance.wasPressed("mouse0")) {
+					if (Input.instance.wasPressed("use")) {
 						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0) {
 							slot.setOwner(Player.instance);
 							slot.use();
 						}
-					} else if (Input.instance.wasPressed("mouse1")) {
+					} else if (Input.instance.wasPressed("second_use")) {
 						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0) {
 							slot.setOwner(Player.instance);
 							slot.secondUse();
 						}
 					} else {
-						if (Input.instance.isDown("mouse0") && slot.isAuto() && slot.getDelay() == 0) {
+						if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0) {
 							slot.setOwner(Player.instance);
 							slot.use();
-						} else if (Input.instance.isDown("mouse1") && slot.isAuto() && slot.getDelay() == 0) {
+						} else if (Input.instance.isDown("second_use") && slot.isAuto() && slot.getDelay() == 0) {
 							slot.setOwner(Player.instance);
 							slot.secondUse();
 						}

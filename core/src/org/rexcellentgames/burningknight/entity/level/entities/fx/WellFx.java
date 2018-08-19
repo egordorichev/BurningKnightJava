@@ -51,7 +51,7 @@ public class WellFx extends Entity {
 		Graphics.print(this.text, Graphics.medium, this.x, this.y);
 		Graphics.medium.setColor(1, 1, 1, 1);
 
-		if (Input.instance.wasPressed("action") && Dialog.active == null) {
+		if (Input.instance.wasPressed("interact") && Dialog.active == null) {
 			if (this.well.use()) {
 				this.remove();
 			}

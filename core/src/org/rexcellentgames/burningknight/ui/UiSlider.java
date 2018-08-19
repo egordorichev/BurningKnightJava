@@ -68,7 +68,7 @@ public class UiSlider extends UiButton {
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.draw(texture, this.ox - 4 - (this.w - this.sw), this.y - this.h / 2, this.w / 2 + 4, this.h / 2,
-			this.w, this.h, 1, 1, 0,
+			this.w, this.h, scale, scale, 0,
 			0, 0, this.w + 4, this.h, false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
@@ -77,8 +77,8 @@ public class UiSlider extends UiButton {
 
 
 
-		Graphics.render(fill, this.ox + 6, this.y - 2, 0, 0, 0, false, false, v, 1);
-		Graphics.render(slider, this.ox + 4, this.y - 4, 0, 0, 0, false, false);
+		Graphics.render(fill, this.ox + 6, this.y - 2, 0, 0, 0, false, false, v * scale, scale);
+		Graphics.render(slider, this.ox + 4, this.y - 4, 0, 0, 0, false, false, scale, scale);
 	}
 
 	@Override
@@ -96,14 +96,14 @@ public class UiSlider extends UiButton {
 				this.onUpdate();
 			}
 
-			if ((Input.instance.isDown("mouse1") || Input.instance.isDown("mouse0"))){
+			if ((Input.instance.isDown("second_use") || Input.instance.isDown("use"))){
 				if (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
-					(int) (this.ox + 6), (int) this.y - 4, (int) (this.sw - 12), 9)) {
+					(int) (this.ox + 6), (int) this.y - 4, (int) ((int) (this.sw - 12) * scale), 9)) {
 
 					float prev = this.val;
 
 					this.val = MathUtils.clamp(this.min, this.max,
-						MathUtils.map(Input.instance.uiMouse.x - (this.ox + 6), 0, this.sw - 12, this.min, this.max)
+						MathUtils.map(Input.instance.uiMouse.x - (this.ox + 6), 0, (this.sw - 12) * scale, this.min, this.max)
 					);
 
 					this.val = (float) (Math.floor(this.val * 16) / 16);
@@ -127,6 +127,6 @@ public class UiSlider extends UiButton {
 		return CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
 			(int) (this.ox - (this.w - this.sw) - 2),
 			(int) (this.y - this.h / 2),
-			this.w, this.h);
+			(int) (this.w * scale), this.h);
 	}
 }

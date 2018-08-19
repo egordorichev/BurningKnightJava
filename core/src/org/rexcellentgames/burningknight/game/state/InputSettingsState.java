@@ -5,7 +5,6 @@ import com.badlogic.gdx.controllers.Controllers;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiChoice;
@@ -31,23 +30,25 @@ public class InputSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				transition(new Runnable() {
+
+				KeyConfigState.add();
+				Dungeon.ui.select(KeyConfigState.first);
+
+				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
-					public void run() {
-						Dungeon.game.setState(new KeyConfigState());
-						Camera.shake(3);
+					public float getValue() {
+						return MainMenuState.cameraY;
+					}
+
+					@Override
+					public void setValue(float value) {
+						MainMenuState.cameraY = value;
 					}
 				});
 			}
 		});
 
 		c = new UiChoice("joystick", (int) (Display.GAME_WIDTH * 1.5f), 128 - Display.GAME_HEIGHT) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				Camera.shake(3);
-			}
-
 			@Override
 			public void onUpdate() {
 				super.onUpdate();
@@ -76,6 +77,7 @@ public class InputSettingsState extends State {
 			public void onClick() {
 				Audio.playSfx("menu/exit");
 				Dungeon.ui.select(SettingsState.first);
+				Input.listener = null;
 
 				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
@@ -109,6 +111,13 @@ public class InputSettingsState extends State {
 		int s = -1;
 
 		for (Controller controller : Controllers.getControllers()) {
+			String name = controller.getName();
+
+			if ((!name.contains("gamepad") && !name.contains("joy") && !name.contains("stick") && !name.contains("controller")) || name.contains("wacom")) {
+				Log.info("Controller " + controller.getName() + " was ignored");
+				continue;
+			}
+
 			options.add(controller.getName().replaceAll("\\s+"," "));
 
 			if (controller == Input.instance.activeController || Input.instance.activeController == null) {

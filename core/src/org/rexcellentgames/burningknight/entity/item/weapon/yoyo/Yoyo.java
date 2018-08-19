@@ -50,7 +50,7 @@ public class Yoyo extends Weapon {
 			this.y = this.body.getPosition().y;
 		}
 
-		if (this.delay > 1 && !Input.instance.isDown("mouse0") && !Input.instance.isDown("mouse1")) {
+		if (this.delay > 1 && !Input.instance.isDown("use") && !Input.instance.isDown("second_use")) {
 			this.delay = 0.8f;
 		}
 	}

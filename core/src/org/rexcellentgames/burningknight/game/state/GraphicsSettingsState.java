@@ -6,17 +6,10 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.CrazyKing;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.*;
-import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
-
-import java.util.ArrayList;
 
 public class GraphicsSettingsState extends State {	
 	public static boolean added;
@@ -33,8 +26,6 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-
-				Camera.shake(3);
 
 				switch (this.getCurrent()) {
 					case 0: default: Settings.quality = 2; break;
@@ -56,7 +47,6 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/select");
-				Camera.shake(3);
 			}
 
 			@Override
@@ -69,7 +59,6 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Camera.shake(3);
 
 				Settings.fullscreen = !Settings.fullscreen;
 
@@ -88,11 +77,11 @@ public class GraphicsSettingsState extends State {
 				super.onClick();
 
 				Settings.blood = !Settings.blood;
-				Camera.shake(3);
 
+				/*
 				if (Settings.blood) {
 					Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4));
-				}
+				}*/
 			}
 		}.setOn(Settings.blood));
 
@@ -103,11 +92,10 @@ public class GraphicsSettingsState extends State {
 				super.onClick();
 
 				Settings.gore = !Settings.gore;
-				Camera.shake(3);
 
 				if (Settings.gore) {
 					Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4));
-					ArrayList<Animation.Frame> frames = Random.newFloat() > 0.3 ?
+					/*ArrayList<Animation.Frame> frames = Random.newFloat() > 0.3 ?
 						(Random.newFloat() > 0.5 ? CrazyKing.animations.getFrames("dead") : Knight.animations.getFrames("death")) : Clown.animations.getFrames("death");
 
 					for (Animation.Frame frame : frames) {
@@ -119,7 +107,7 @@ public class GraphicsSettingsState extends State {
 						fx.menu = true;
 
 						Dungeon.ui.add(fx);
-					}
+					}*/
 				}
 			}
 		}.setOn(Settings.gore));
@@ -128,7 +116,6 @@ public class GraphicsSettingsState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Camera.shake(3);
 
 				Settings.vsync = !Settings.vsync;
 				Gdx.graphics.setVSync(Settings.vsync);

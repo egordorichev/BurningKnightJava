@@ -136,9 +136,9 @@ public class UiSlot {
 			this.inventory.hoveredSlot = this.id;
 			this.inventory.handled = true;
 
-			if (Input.instance.wasPressed("mouse0")) {
+			if (Input.instance.wasPressed("use")) {
 				leftClick();
-			} else if (Input.instance.wasPressed("mouse1")) {
+			} else if (Input.instance.wasPressed("second_use")) {
 				rightClick();
 			}
 		}
@@ -275,7 +275,7 @@ public class UiSlot {
 		boolean h = this.inventory.getActive() == this.id;
 
 		if (h) {
-			/*if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
+			/*if (Input.instance.isDown("use") || Input.instance.isDown("second_use")) {
 				this.rr = 1f;
 				this.rg = 1f;
 				this.rb = 1f;
@@ -285,7 +285,7 @@ public class UiSlot {
 				this.rb = 0.6f;
 			// }
 		} else if (this.hovered) {
-			if (Input.instance.isDown("mouse0") || Input.instance.isDown("mouse1")) {
+			if (Input.instance.isDown("use") || Input.instance.isDown("second_use")) {
 				this.rr = 0.3f;
 				this.rg = 0.3f;
 				this.rb = 0.3f;
