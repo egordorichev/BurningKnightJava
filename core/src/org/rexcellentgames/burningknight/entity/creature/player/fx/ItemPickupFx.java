@@ -2,10 +2,13 @@ package org.rexcellentgames.burningknight.entity.creature.player.fx;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -25,10 +28,14 @@ public class ItemPickupFx extends Entity {
 	}
 
 	public ItemPickupFx(ItemHolder item, Player player) {
-		this.text = item.getItem().getName();
+		if (item instanceof ClassSelector) {
+			this.text = Locale.get(((ClassSelector) item).id);
+		} else {
+			this.text = item.getItem().getName();
 
-		if (this.text == null) {
-			this.text = "Missing item name";
+			if (this.text == null) {
+				this.text = "Missing item name";
+			}
 		}
 
 		this.item = item;
@@ -59,29 +66,47 @@ public class ItemPickupFx extends Entity {
 		}
 
 		if (Input.instance.wasPressed("pickup") && Dialog.active == null) {
-			if (this.item.getItem().shop) {
-				int g = this.player.getInventory().getGold();
+			if (this.item instanceof ClassSelector) {
+				ClassSelector s = (ClassSelector) this.item;
 
-				if (g < this.item.getItem().price) {
-					this.remove();
-					Player.instance.playSfx("item_nocash");
-					return;
-				} else {
-					this.player.getInventory().removeGold(this.item.getItem().price);
-					this.item.getItem().shop = false;
-					this.item.price.remove();
-					this.erase();
-					Player.instance.playSfx("item_purchase");
+				// Item item = Player.instance.getInventory().getSlot(0);
+				Item old = this.item.getItem();
 
-					if (Shopkeeper.instance != null && !Shopkeeper.instance.enranged) {
-						Shopkeeper.instance.become("thanks");
+				old.setOwner(Player.instance);
+				Player.instance.getInventory().setSlot(0, old);
+
+				switch (s.id) {
+					case "warrior": Player.instance.setType(Player.Type.WARRIOR); break;
+					case "wizard": Player.instance.setType(Player.Type.WIZARD); break;
+					case "ranger": Player.instance.setType(Player.Type.RANGER); break;
+				}
+
+				this.erase();
+			} else {
+				if (this.item.getItem().shop) {
+					int g = this.player.getInventory().getGold();
+
+					if (g < this.item.getItem().price) {
+						this.remove();
+						Player.instance.playSfx("item_nocash");
+						return;
+					} else {
+						this.player.getInventory().removeGold(this.item.getItem().price);
+						this.item.getItem().shop = false;
+						this.item.price.remove();
+						this.erase();
+						Player.instance.playSfx("item_purchase");
+
+						if (Shopkeeper.instance != null && !Shopkeeper.instance.enranged) {
+							Shopkeeper.instance.become("thanks");
+						}
 					}
 				}
-			}
 
-			if (this.player.tryToPickup(this.item)) {
-				this.erase();
-				LevelSave.remove(item);
+				if (this.player.tryToPickup(this.item)) {
+					this.erase();
+					LevelSave.remove(item);
+				}
 			}
 		} else if (this.item.done) {
 			LevelSave.remove(item);
@@ -125,27 +150,30 @@ public class ItemPickupFx extends Entity {
 
 		this.go = true;
 
-		if (!text.startsWith("+")) {
+		if (!(this.item instanceof ClassSelector) && !text.startsWith("+")) {
 			this.text = "+" + this.text;
+
+			Graphics.layout.setText(Graphics.medium, this.text);
+			this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
+			this.y = item.y + item.h + 4;
 		}
 
-		Graphics.layout.setText(Graphics.medium, this.text);
-		this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
-		this.y = item.y + item.h + 4;
 
-		Tween.to(new Tween.Task(this.y + 10, 2f, Tween.Type.QUAD_OUT) {
-			@Override
-			public float getValue() {
-				return y;
-			}
+		if (!(this.item instanceof ClassSelector)) {
+			Tween.to(new Tween.Task(this.y + 10, 2f, Tween.Type.QUAD_OUT) {
+				@Override
+				public float getValue() {
+					return y;
+				}
 
-			@Override
-			public void setValue(float value) {
-				y = value;
-			}
-		});
+				@Override
+				public void setValue(float value) {
+					y = value;
+				}
+			});
+		}
 
-		Tween.to(new Tween.Task(0, 2f) {
+		Tween.to(new Tween.Task(0, (this.item instanceof ClassSelector) ? 0.4f : 2f) {
 			@Override
 			public float getValue() {
 				return a;

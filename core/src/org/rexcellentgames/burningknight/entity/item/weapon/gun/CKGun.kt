@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 class CKGun : Gun() {
   init {
     useTime = 0.2f
+    damage = 8
     sprite = "item-gun_a"
   }
 

@@ -392,6 +392,12 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
+		checkUse();
+
+		this.inventory.active = this.active;
+	}
+
+	private void checkUse() {
 		if (Player.instance != null && !Player.instance.freezed && !this.handled && !Player.instance.isDead()) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("use") || Input.instance.wasPressed("second_use"))) {
 				Item slot = this.currentSlot;
@@ -426,8 +432,6 @@ public class UiInventory extends UiEntity {
 				}
 			}
 		}
-
-		this.inventory.active = this.active;
 	}
 
 	private void drop(final Item slot) {

@@ -28,6 +28,10 @@ public class Inventory {
 		this.slots = new Item[size];
 	}
 
+	public void clear() {
+		this.slots = new Item[this.slots.length];
+	}
+
 	public void resize(int size) {
 		Item[] old = this.slots;
 		this.slots = new Item[size];

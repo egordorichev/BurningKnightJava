@@ -44,6 +44,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
@@ -250,18 +251,18 @@ public class Player extends Creature {
 	}
 
 	public void generate() {
-		if (Dungeon.type != Dungeon.Type.INTRO) {
-			switch (this.type) {
-				case WARRIOR:
-					generateWarrior();
-					break;
-				case WIZARD:
-					generateMage();
-					break;
-				case RANGER:
-					generateRanger();
-					break;
-			}
+		this.inventory.clear();
+
+		switch (this.type) {
+			case WARRIOR:
+				generateWarrior();
+				break;
+			case WIZARD:
+				generateMage();
+				break;
+			case RANGER:
+				generateRanger();
+				break;
 		}
 	}
 
@@ -302,7 +303,7 @@ public class Player extends Creature {
 		}
 	}
 
-	private void give(Item item) {
+	public void give(Item item) {
 		item.generate();
 		this.inventory.add(new ItemHolder().setItem(item));
 	}
@@ -355,7 +356,7 @@ public class Player extends Creature {
 			before = (a > 0 && a < Math.PI);
 		}*/
 
-		if (this.ui != null && before && Dungeon.depth >= 0) {
+		if (this.ui != null && before) {
 			this.ui.renderOnPlayer(this, of);
 		}
 
@@ -431,12 +432,14 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (this.ui != null && !before && Dungeon.depth >= 0) {
+		if (this.ui != null && !before) {
 			this.ui.renderOnPlayer(this, of);
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		this.renderBuffs();
+
+		// Graphics.print((int) Math.floor(this.x) + " " + (int) Math.floor(this.y), Graphics.small, this.x, this.y);
 	}
 
 	private static int offsets[] = new int[] {
@@ -460,6 +463,12 @@ public class Player extends Creature {
 					item.remove();
 				}
 			} else if (!item.falling) {
+				if (item instanceof ClassSelector) {
+					if (((ClassSelector) item).same(this.type)) {
+						return;
+					}
+				}
+
 				this.holders.add(item);
 
 				if (this.pickupFx == null) {
@@ -529,6 +538,10 @@ public class Player extends Creature {
 		}
 
 		Player.all.remove(this);
+	}
+
+	public void setType(Type type) {
+		this.type = type;
 	}
 
 	@Override

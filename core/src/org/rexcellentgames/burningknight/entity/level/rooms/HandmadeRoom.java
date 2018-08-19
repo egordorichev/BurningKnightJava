@@ -8,19 +8,25 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HandmadeRoom extends RegularRoom {
 	public static TiledMap map;
 	public static MapLayer rooms;
+	public static MapLayer objects;
 	public static TiledMapTileLayer tiles;
 	public static HashMap<String, RoomData> datas = new HashMap<>();
+	public static HashMap<String, ArrayList<MapObject>> sorted = new HashMap<>();
 
 	public static class RoomData {
 		byte data[];
@@ -47,6 +53,8 @@ public class HandmadeRoom extends RegularRoom {
 				tiles = (TiledMapTileLayer) layer;
 			} else if (layer.getName().equals("rooms")) {
 				rooms = layer;
+			} else if (layer.getName().equals("objects")) {
+				objects = layer;
 			}
 		}
 
@@ -70,6 +78,23 @@ public class HandmadeRoom extends RegularRoom {
 				}
 
 				datas.put(object.getName(), data);
+
+				ArrayList<MapObject> list = new ArrayList<>();
+				sorted.put(object.getName(), list);
+
+				for (MapObject o : objects.getObjects()) {
+					if (o instanceof RectangleMapObject) {
+						RectangleMapObject r = (RectangleMapObject) o;
+						Rectangle rc = r.getRectangle();
+
+						if (rect.contains(rc)) {
+							rc.setX(rc.getX() - rect.getX());
+							rc.setY(rc.getY() - rect.getY());
+
+							list.add(o);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -83,9 +108,33 @@ public class HandmadeRoom extends RegularRoom {
 	}
 
 	public RoomData data;
+	private String id;
 
 	public HandmadeRoom(String id) {
 		this.data = datas.get(id);
+		this.id = id;
+	}
+
+	protected void parse(ArrayList<MapObject> list) {
+		float x = this.left * 16;
+		float y = this.top * 16 - 8;
+
+		for (MapObject o : list) {
+			String name = o.getName();
+			Rectangle rect = ((RectangleMapObject) o).getRectangle();
+
+			if (name.startsWith("class_")) {
+				ClassSelector c = new ClassSelector(name.replace("class_", ""));
+
+				c.x = x + rect.x + (rect.width - c.w) / 2 + 16;
+				c.y = y + rect.y + (rect.height - c.h) / 2;
+
+				Log.info(c.x + " " + c.y);
+
+				Dungeon.area.add(c);
+				LevelSave.add(c);
+			}
+		}
 	}
 
 	public HandmadeRoom() {
@@ -143,6 +192,8 @@ public class HandmadeRoom extends RegularRoom {
 				level.set(this.left + 1 + x, this.top + 1 + y, tt);
 			}
 		}
+
+		this.parse(sorted.get(id));
 	}
 
 	@Override

@@ -53,13 +53,18 @@ import java.io.IOException;
 
 /*
  * TODO:
- * fade out burning / poison bars / fade in
+ * introduce controls
+ * area 1 boss
+ * story
+ *
+ * rework bows, they feel bad
+ * rebinding gamepad controls
+ *
+ *
  */
 
 public class Dungeon extends ApplicationAdapter {
 	public static ShaderProgram shader;
-
-	public static boolean notLoaded = true;
 	public static Game game;
 	public static int depth;
 	public static float time;

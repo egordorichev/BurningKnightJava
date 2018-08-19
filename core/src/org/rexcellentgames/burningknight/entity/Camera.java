@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -150,6 +151,8 @@ public class Camera extends Entity {
 						@Override
 						public void onEnd() {
 							Dungeon.dark = 1;
+							Player.instance.generate();
+							GlobalSave.put("last_class", Player.instance.getType().id);
 							Dungeon.goToLevel(0);
 						}
 					});

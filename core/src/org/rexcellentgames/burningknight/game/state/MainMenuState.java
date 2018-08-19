@@ -8,6 +8,9 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -79,7 +82,7 @@ public class MainMenuState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				SlotSelectState.add();
+				/*SlotSelectState.add();
 				Dungeon.ui.select(SlotSelectState.first);
 
 				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
@@ -91,6 +94,16 @@ public class MainMenuState extends State {
 					@Override
 					public void setValue(float value) {
 						cameraY = value;
+					}
+				});*/
+
+				Player.toSet = Player.Type.values()[GlobalSave.getInt("last_class")];
+
+				transition(new Runnable() {
+					@Override
+					public void run() {
+						Dungeon.loadType = Entrance.LoadType.LOADING;
+						Dungeon.goToLevel(-1);
 					}
 				});
 			}
