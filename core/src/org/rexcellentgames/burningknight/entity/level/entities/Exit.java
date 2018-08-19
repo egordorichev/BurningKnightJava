@@ -19,7 +19,8 @@ public class Exit extends SaveableEntity {
 	private Body body;
 	private LadderFx fx;
 	private static TextureRegion region;
-
+	public static LadderFx exitFx;
+	public static float al;
 
 	public static Exit instance;
 	private byte type;
@@ -96,6 +97,7 @@ public class Exit extends SaveableEntity {
 		if (entity instanceof Player && this.fx == null) {
 			this.fx = new LadderFx(this, this.type == Entrance.ENTRANCE_TUTORIAL ? "tutorial" : "descend");
 			this.area.add(this.fx);
+			exitFx = fx;
 		}
 	}
 
@@ -104,6 +106,7 @@ public class Exit extends SaveableEntity {
 		if (entity instanceof Player && this.fx != null) {
 			this.fx.remove();
 			this.fx = null;
+			exitFx = null;
 		}
 	}
 }

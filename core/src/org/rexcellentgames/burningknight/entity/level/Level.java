@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -19,9 +20,11 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
+import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
@@ -830,6 +833,31 @@ public abstract class Level extends SaveableEntity {
 				byte tile = this.liquidData[i];
 
 				if (tile == Terrain.EXIT) {
+					float dt = Gdx.graphics.getDeltaTime();
+					Exit.al = MathUtils.clamp(0, 1, Exit.al + ((Exit.exitFx != null ? 1 : 0) - Exit.al) * dt * 10);
+
+					if (Exit.al > 0) {
+						Graphics.batch.end();
+						Mob.shader.begin();
+						Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+						Mob.shader.setUniformf("u_a", Exit.al);
+						Mob.shader.end();
+						Graphics.batch.setShader(Mob.shader);
+						Graphics.batch.begin();
+
+						for (int xx = -1; xx < 2; xx++) {
+							for (int yy = -1; yy < 2; yy++) {
+								if (Math.abs(xx) + Math.abs(yy) == 1) {
+									Graphics.render(Terrain.exit, x * 16 + xx, y * 16 - 8 + yy);
+								}
+							}
+						}
+
+						Graphics.batch.end();
+						Graphics.batch.setShader(maskShader);
+						Graphics.batch.begin();
+					}
+
 					Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
 				} else if (tile == Terrain.WATER) {
 					byte variant = this.liquidVariants[i];
