@@ -14,36 +14,44 @@ import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
+import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
 
 public class HeartFx extends SaveableEntity {
 	private static Animation animations = Animation.make("fx-heart", "-full");
-	private AnimationData animation = animations.get("idle");
+	private static Animation halfAnim = Animation.make("fx-heart", "-half");
+
+	private AnimationData animation;
 	private Body body;
 	private float t;
+	private boolean half;
 
 	@Override
 	public void init() {
 		super.init();
 
+		this.half = Random.chance(50);
 		this.w = 12;
 		this.h = 9;
-
-		this.t = Random.newFloat(128);
-		this.body = World.createCircleBody(this, 0, 0, this.w / 2, BodyDef.BodyType.DynamicBody, false, 0.8f);
-
-		MassData data = new MassData();
-		data.mass = 0.1f;
-		this.body.setMassData(data);
-		this.body.setTransform(this.x, this.y, 0);
 	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
+		this.half = reader.readBoolean();
 		this.body.setTransform(this.x, this.y, 0);
+
+		if (this.half) {
+			this.w /= 2;
+		}
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		writer.writeBoolean(this.half);
 	}
 
 	@Override
@@ -69,10 +77,20 @@ public class HeartFx extends SaveableEntity {
 		this.body = World.removeBody(this.body);
 	}
 
-	float last;
+	private float last;
 
 	@Override
 	public void update(float dt) {
+		if (this.body == null) {
+			this.t = Random.newFloat(128);
+			this.body = World.createCircleBody(this, 0, 0, Math.max(this.h / 2, this.w / 2), BodyDef.BodyType.DynamicBody, false, 0.8f);
+
+			MassData data = new MassData();
+			data.mass = 0.1f;
+			this.body.setMassData(data);
+			this.body.setTransform(this.x, this.y, 0);
+		}
+
 		super.update(dt);
 
 		this.t += dt;
@@ -94,6 +112,10 @@ public class HeartFx extends SaveableEntity {
 
 		this.body.setLinearVelocity(this.vel);
 
+		if (this.animation == null) {
+			this.animation = this.half ? halfAnim.get("idle") : animations.get("idle");
+		}
+
 		this.animation.update(dt);
 	}
 
@@ -103,7 +125,9 @@ public class HeartFx extends SaveableEntity {
 		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
 		float sx = 1f;
 
-		this.animation.render(this.x, this.y, false, false, this.w / 2, this.h / 2, a, sx, sy);
+		if (this.animation != null) {
+			this.animation.render(this.x, this.y, false, false, this.w / 2, this.h / 2, a, sx, sy);
+		}
 	}
 
 	@Override

@@ -183,7 +183,7 @@ public class LoadState extends State {
 
 	@Override
 	public void renderUi() {
-		this.alp += ((this.second ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 5;
+		this.alp += ((this.second ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 8;
 
 		if (this.alp >= 0.95f) {
 			this.second = true;

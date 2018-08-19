@@ -61,7 +61,7 @@ public class Spark extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (this.animation.update(dt)) {
+		if (this.animation.update(dt * 0.7f)) {
 			this.done = true;
 		}
 	}
