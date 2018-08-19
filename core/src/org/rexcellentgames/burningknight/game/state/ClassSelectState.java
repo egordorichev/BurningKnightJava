@@ -30,7 +30,7 @@ public class ClassSelectState extends State {
 				transition(new Runnable() {
 					@Override
 					public void run() {
-						Dungeon.goToLevel(0);
+						Dungeon.goToLevel(-1);
 					}
 				});
 			}
@@ -45,7 +45,7 @@ public class ClassSelectState extends State {
 				transition(new Runnable() {
 					@Override
 					public void run() {
-						Dungeon.goToLevel(0);
+						Dungeon.goToLevel(-1);
 					}
 				});
 			}
@@ -60,7 +60,7 @@ public class ClassSelectState extends State {
 				transition(new Runnable() {
 					@Override
 					public void run() {
-						Dungeon.goToLevel(0);
+						Dungeon.goToLevel(-1);
 					}
 				});
 			}

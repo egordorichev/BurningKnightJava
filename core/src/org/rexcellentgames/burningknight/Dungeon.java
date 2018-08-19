@@ -136,9 +136,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static void newGame() {
 		reset = true;
-
 		SaveManager.delete();
-
 		loadType = Entrance.LoadType.GO_DOWN;
 
 		if (to != -3) {
@@ -152,7 +150,7 @@ public class Dungeon extends ApplicationAdapter {
 			area.destroy();
 		}
 
-		Dungeon.depth = 0;
+		Dungeon.depth = -1;
 
 		if (game != null) {
 			game.setState(new LoadState());
