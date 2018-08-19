@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
@@ -117,7 +118,7 @@ public class HandmadeRoom extends RegularRoom {
 
 	protected void parse(ArrayList<MapObject> list) {
 		float x = this.left * 16;
-		float y = this.top * 16 - 8;
+		float y = this.top * 16;
 
 		for (MapObject o : list) {
 			String name = o.getName();
@@ -129,7 +130,14 @@ public class HandmadeRoom extends RegularRoom {
 				c.x = x + rect.x + (rect.width - c.w) / 2 + 16;
 				c.y = y + rect.y + (rect.height - c.h) / 2;
 
-				Log.info(c.x + " " + c.y);
+				Dungeon.area.add(c);
+				LevelSave.add(c);
+			} else if (name.startsWith("control_")) {
+				Control c = new Control();
+
+				c.id = name.replace("control_", "");
+				c.x = x + rect.x;
+				c.y = y + rect.y;
 
 				Dungeon.area.add(c);
 				LevelSave.add(c);
