@@ -264,7 +264,6 @@ public class Skeleton extends Mob {
 			self.setStat("knockback", 0);
 			delay = Random.newFloat(40f, 60f);
 			self.setUnhittable(true);
-			depth = -1;
 		}
 
 		@Override
@@ -295,8 +294,6 @@ public class Skeleton extends Mob {
 			self.okm = self.getStat("knockback");
 			self.setStat("knockback", 0);
 			self.setUnhittable(true);
-
-			depth = -1;
 		}
 
 		@Override

@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.game.state;
 
+import com.badlogic.gdx.graphics.Color;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -30,7 +32,7 @@ import java.io.IOException;
 
 public class LoadState extends State {
 	private boolean ready = false;
-	private float a;
+	private float alp;
 	private String s;
 
 	@Override
@@ -61,12 +63,12 @@ public class LoadState extends State {
 		Tween.to(new Tween.Task(1f, t) {
 			@Override
 			public float getValue() {
-				return a;
+				return alp;
 			}
 
 			@Override
 			public void setValue(float value) {
-				a = value;
+				alp = value;
 			}
 
 			@Override
@@ -89,6 +91,8 @@ public class LoadState extends State {
 
 		PlayerSave.all.clear();
 		LevelSave.all.clear();
+
+		Dungeon.setBackground(new Color(0, 0, 0, 1));
 
 		new Thread(new Runnable() {
 			@Override
@@ -183,12 +187,12 @@ public class LoadState extends State {
 				Tween.to(new Tween.Task(0f, t) {
 					@Override
 					public float getValue() {
-						return a;
+						return 1f;
 					}
 
 					@Override
 					public void setValue(float value) {
-						a = value;
+						alp = value;
 					}
 
 					@Override
@@ -197,25 +201,35 @@ public class LoadState extends State {
 					}
 
 					@Override
+					public void onStart() {
+						Log.info("Run " + alp);
+					}
+
+					@Override
 					public boolean runWhenPaused() {
 						return true;
 					}
-				});
+				}).delay(0.5f);
 			}
 		}).run();
 	}
 
 	@Override
 	public void update(float dt) {
-		if (this.ready && (this.ready)) {
+		if (this.ready) {
 			Dungeon.game.setState(new InGameState());
 		}
 	}
 
 	@Override
 	public void renderUi() {
-		Graphics.medium.setColor(1, 1, 1, this.a);
-		Graphics.print(this.s, Graphics.medium, 120 - 16);
+		Graphics.startShape();
+		Graphics.shape.setColor(0, 0, 0, 1);
+		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		Graphics.endShape();
+
+		Graphics.medium.setColor(1, 1, 1, this.alp);
+		Graphics.print(this.s, Graphics.medium, (Display.GAME_HEIGHT - 16) / 2 - 8);
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }

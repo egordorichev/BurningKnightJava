@@ -7,6 +7,8 @@ precision mediump int;
 uniform vec4 u_textureSizes;
 uniform vec4 u_sampleProperties;
 
+
+uniform float dark;
 uniform float heat;
 uniform float time;
 uniform vec2 shockPos;
@@ -170,11 +172,13 @@ vec4 get(vec2 pos) {
         float dy = transPos.y - y;
         float d = (sqrt(dx * dx + dy * dy) * u_textureSizes.x) / u_textureSizes.x;
 
-        if (d < transR) {
-            return realColor;
-        } else {
-           return vec4(0.0, 0.0, 0.0, 1.0);
+        if (d >= transR) {
+           realColor = vec4(0.0, 0.0, 0.0, 1.0);
         }
+    }
+
+    if (dark < 1.0) {
+        return realColor * dark;
     } else {
         return realColor;
     }

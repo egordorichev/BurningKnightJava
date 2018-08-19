@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class State {
@@ -58,35 +57,30 @@ public class State {
 	}
 
 	public static void transition(final Runnable runnable) {
-		Dungeon.darkX = Input.instance.uiMouse.x;
-		Dungeon.darkY = Input.instance.uiMouse.y;
-
-		// todo: project with camera?
-
 		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {
-				return Dungeon.darkR;
+				return Dungeon.dark;
 			}
 
 			@Override
 			public void setValue(float value) {
-				Dungeon.darkR = value;
+				Dungeon.dark = value;
 			}
 
 			@Override
 			public void onEnd() {
 				runnable.run();
 
-				Tween.to(new Tween.Task(Dungeon.MAX_R, 0.2f) {
+				Tween.to(new Tween.Task(1, 0.2f) {
 					@Override
 					public float getValue() {
-						return Dungeon.darkR;
+						return Dungeon.dark;
 					}
 
 					@Override
 					public void setValue(float value) {
-						Dungeon.darkR = value;
+						Dungeon.dark = value;
 					}
 				});
 			}

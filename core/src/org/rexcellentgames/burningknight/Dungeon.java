@@ -90,6 +90,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float colorBlind = 0f;
 	public static float colorBlindFix = 1f;
 	public static float grayscale = 0f;
+	public static float dark = 1f;
 
 	public static String title;
 
@@ -328,7 +329,7 @@ public class Dungeon extends ApplicationAdapter {
 			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
 		}
 
-		if (Input.instance.wasPressed("pause") && game.getState() instanceof InGameState) {
+		if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState) {
 			game.getState().setPaused(!game.getState().isPaused());
 		}
 
@@ -445,6 +446,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("heat", 0); // level instanceof DesertLevel ? 1 :
 		shader.setUniformf("time", Dungeon.time);
 		shader.setUniformf("transR", darkR / MAX_R);
+		shader.setUniformf("dark", dark);
 		shader.setUniformf("transPos", new Vector2(darkX / Display.GAME_WIDTH, darkY / Display.GAME_HEIGHT));
 		shader.setUniformf("cam", new Vector2(Camera.game.position.x / 1024f, Camera.game.position.y / 1024f));
 

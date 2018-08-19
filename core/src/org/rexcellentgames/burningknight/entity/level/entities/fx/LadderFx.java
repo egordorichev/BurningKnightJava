@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.entities.fx;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector3;
 import org.rexcellentgames.burningknight.Display;
@@ -14,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class LadderFx extends UiEntity {
@@ -84,7 +84,7 @@ public class LadderFx extends UiEntity {
 		Dungeon.darkX = vec.x;
 		Dungeon.darkY = vec.y;
 
-		Tween.to(new Tween.Task(0, 0.3f) {
+		Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
 			@Override
 			public float getValue() {
 				return Dungeon.darkR;
@@ -103,24 +103,12 @@ public class LadderFx extends UiEntity {
 
 					Dungeon.goToLevel(Dungeon.depth - 1);
 				} else {
-					if (Dungeon.type == Dungeon.Type.INTRO) {
-						Log.info("Tutorial finished");
-
-						Dungeon.type = Dungeon.Type.REGULAR;
-						Dungeon.newGame();
-					} else {
-						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-						Dungeon.ladderId = ((Exit) ladder).getType();
-
-						if (((Exit) ladder).getType() == Entrance.ENTRANCE_TUTORIAL) {
-							Log.info("Entering tutorial");
-
-							Dungeon.type = Dungeon.Type.INTRO;
-						}
-
-						Dungeon.goToLevel(Dungeon.depth + 1);
-					}
+					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+					Dungeon.ladderId = ((Exit) ladder).getType();
+					Dungeon.goToLevel(Dungeon.depth + 1);
 				}
+
+				Dungeon.setBackground2(new Color(0, 0, 0, 1));
 			}
 		});
 	}

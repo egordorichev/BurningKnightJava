@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.game.state;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -89,8 +90,14 @@ public class SettingsState extends State {
 
 				if (toGame) {
 					toGame = false;
+					Dungeon.loadType = Entrance.LoadType.LOADING;
 
-					Dungeon.goToLevel(Dungeon.depth);
+					transition(new Runnable() {
+						@Override
+						public void run() {
+							Dungeon.goToLevel(Dungeon.depth);
+						}
+					});
 				} else {
 					Dungeon.ui.select(MainMenuState.first);
 
