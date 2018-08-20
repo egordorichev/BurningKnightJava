@@ -178,6 +178,10 @@ public class Item extends Entity {
     this.sale = reader.readBoolean();
   }
 
+  public boolean disableBlink() {
+  	return false;
+  }
+
   public TextureRegion getSprite() {
   	if (this.region == null) {
       if (this.modId != null) {

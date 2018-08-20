@@ -40,6 +40,7 @@ public class Shopkeeper extends Npc {
 	}
 
 	{
+		ignoreRooms = true;
 		w = 15;
 		h = 15;
 		speed = 7;
