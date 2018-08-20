@@ -33,6 +33,7 @@ public class Console implements InputProcessor {
 		this.commands.add(new PassableCommand());
 		this.commands.add(new RoomDebugCommand());
 		this.commands.add(new ZoomCommand());
+		this.commands.add(new HurtCommand());
 	}
 
 	public void destroy() {

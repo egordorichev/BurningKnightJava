@@ -561,7 +561,7 @@ public class Shopkeeper extends Npc {
 	}
 
 	@Override
-	protected void onHurt(float a, Creature from) {
+	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
 		if (from instanceof Player) {

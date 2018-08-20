@@ -24,7 +24,7 @@ public class GhostPlayer extends Player {
 	}
 
 	@Override
-	public void onHurt(float a, Creature creature) {
+	public void onHurt(int a, Creature creature) {
 		super.onHurt(a, creature);
 
 		// FIXME: doesnt remove it

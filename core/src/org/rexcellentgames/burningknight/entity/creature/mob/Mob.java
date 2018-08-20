@@ -587,7 +587,7 @@ public class Mob extends Creature {
 	}
 
 	@Override
-	protected void onHurt(float a, Creature from) {
+	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
 		if (this.ai != null && !(this instanceof Boss)) {

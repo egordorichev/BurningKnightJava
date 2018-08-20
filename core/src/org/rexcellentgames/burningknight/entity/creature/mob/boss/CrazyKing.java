@@ -232,7 +232,7 @@ public class CrazyKing extends Boss {
 	}
 
 	@Override
-	protected void onHurt(float a, Creature creature) {
+	protected void onHurt(int a, Creature creature) {
 		super.onHurt(a, creature);
 
 		if (this.hp == 0) {

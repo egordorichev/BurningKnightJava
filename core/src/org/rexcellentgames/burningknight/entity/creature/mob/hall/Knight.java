@@ -46,7 +46,7 @@ public class Knight extends Mob {
 	}
 
 	@Override
-	protected void onHurt(float a, Creature creature) {
+	protected void onHurt(int a, Creature creature) {
 		super.onHurt(a, creature);
 
 		this.playSfx("damage_towelknight");

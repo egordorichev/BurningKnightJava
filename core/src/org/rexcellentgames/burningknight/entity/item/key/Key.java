@@ -9,7 +9,7 @@ public class Key extends Item {
 		useable = false;
 		fly = true;
 		identified = true;
-		// autoPickup = true;
+		autoPickup = true;
 	}
 
 	@Override

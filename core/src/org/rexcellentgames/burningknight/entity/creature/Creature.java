@@ -437,7 +437,7 @@ public class Creature extends SaveableEntity {
 		this.triggerEvent("on_hit");
 	}
 
-	protected void onHurt(float a, Creature from) {
+	protected void onHurt(int a, Creature from) {
 		Graphics.delay(20);
 	}
 
@@ -532,7 +532,8 @@ public class Creature extends SaveableEntity {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 
-		writer.writeInt32(this.hp);
+		writer.writeByte((byte) this.hp);
+		writer.writeByte((byte) this.hpMax);
 		writer.writeInt32(this.buffs.size());
 
 		for (Buff buff : this.buffs.values()) {
@@ -545,7 +546,8 @@ public class Creature extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.hp = reader.readInt32();
+		this.hp = reader.readByte();
+		this.hpMax = reader.readByte();
 		int count = reader.readInt32();
 
 		for (int i = 0; i < count; i++) {

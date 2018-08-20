@@ -70,7 +70,7 @@ public class BurningKnight extends Boss {
 	}
 
 	@Override
-	protected void onHurt(float a, Creature from) {
+	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
 		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));

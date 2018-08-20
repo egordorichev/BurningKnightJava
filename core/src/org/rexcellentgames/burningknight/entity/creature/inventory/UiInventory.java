@@ -129,7 +129,7 @@ public class UiInventory extends UiEntity {
 			this.lastA = null;
 		}
 
-		this.lastA = Tween.to(new Tween.Task(1, 0.1f) {
+		this.lastA = Tween.to(new Tween.Task(0.7f, 0.1f) {
 			@Override
 			public float getValue() {
 				return slots[0].a;
@@ -399,7 +399,7 @@ public class UiInventory extends UiEntity {
 
 	private void checkUse() {
 		if (Player.instance != null && !Player.instance.freezed && !this.handled && !Player.instance.isDead()) {
-			if (this.currentSlot != null && (Input.instance.wasPressed("use") || Input.instance.wasPressed("second_use"))) {
+			if (this.currentSlot != null && (Input.instance.wasPressed("use"))) {
 				Item slot = this.currentSlot;
 
 				if (!slot.isCursed()) {
@@ -414,11 +414,6 @@ public class UiInventory extends UiEntity {
 						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0) {
 							slot.setOwner(Player.instance);
 							slot.use();
-						}
-					} else if (Input.instance.wasPressed("second_use")) {
-						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0) {
-							slot.setOwner(Player.instance);
-							slot.secondUse();
 						}
 					} else {
 						if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0) {
@@ -471,9 +466,14 @@ public class UiInventory extends UiEntity {
 	}
 
 	private static TextureRegion heart = Graphics.getTexture("ui-heart");
+	private static TextureRegion half = Graphics.getTexture("ui-half_heart");
+	private static TextureRegion heartIron = Graphics.getTexture("ui-heart_iron");
+	private static TextureRegion halfIron = Graphics.getTexture("ui-half_heart_iron");
+	private static TextureRegion heartGolden = Graphics.getTexture("ui-heart_golden");
+	private static TextureRegion halfGolden = Graphics.getTexture("ui-half_heart_golden");
+
 	private static TextureRegion heart_bg = Graphics.getTexture("ui-heart_bg");
 	private static TextureRegion hurt = Graphics.getTexture("ui-hit_heart");
-	private static TextureRegion half = Graphics.getTexture("ui-half_heart");
 
 	private static TextureRegion star = Graphics.getTexture("ui-mana_star");
 	private static TextureRegion star_bg = Graphics.getTexture("ui-star_bg");
@@ -519,8 +519,11 @@ public class UiInventory extends UiEntity {
 
 		int hp = Player.instance.getHp();
 		float invt = Player.instance.getInvt();
+		int iron = Player.instance.getIronHearts();
+		int golden = Player.instance.getGoldenHearts();
+		int max = Player.instance.getHpMax();
 
-		for (int i = 0; i < Player.instance.getHpMax() / 2; i++) {
+		for (int i = 0; i < max / 2; i++) {
 			float s = 1f;
 			float yy = (float) ((hp <= 2 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 15) * 2.5f : 0) + y;
 
@@ -533,10 +536,18 @@ public class UiInventory extends UiEntity {
 				heart_bg.getRegionWidth() / 2, heart_bg.getRegionHeight() / 2, false, false, s, s);
 
 			if (hp - 2 >= i * 2) {
-				Graphics.render(heart, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
+				Graphics.render(
+					(max - i * 2) <= golden * 2 ? heartGolden :
+					((max - i * 2) <= (golden + iron) * 2 ? heartIron : heart)
+
+					, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
 					+ heart.getRegionHeight() / 2, 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			} else if (hp - 2 >= i * 2 - 1) {
-				Graphics.render(half, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
+				Graphics.render(
+					(max - i * 2) <= golden * 2 ? halfGolden :
+					((max - i * 2) <= (golden + iron) * 2 ? halfIron : half)
+
+					, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			}
 		}

@@ -291,13 +291,29 @@ public class Player extends Creature {
 	}
 
 	private void generateMage() {
+		this.hpMax = 6;
+		this.hp = 6;
+
 		switch (Random.newInt(2)) {
 			case 0: default: this.give(new MagicMissileWand()); break;
 			case 1: this.give(new FastBook()); break;
 		}
 	}
 
+	private int numIronHearts;
+	private int numGoldenHearts;
+
+	public int getIronHearts() {
+		return numIronHearts;
+	}
+
+	public int getGoldenHearts() {
+		return numGoldenHearts;
+	}
+
 	private void generateRanger() {
+		this.numIronHearts = 1;
+
 		switch (Random.newInt(3)) {
 			case 0: default: this.give(new BowA()); break;
 			case 1: this.give(new Revolver()); break;
@@ -623,7 +639,7 @@ public class Player extends Creature {
 				(this.flipRegenFormula ? 1f : 0.5f) :
 				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
 					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 2 : 1
-				);
+				) * (this.type == Type.WIZARD ? 1 : 0.5f);
 
 			if (this.lastMana > 1f) {
 				this.lastMana = 0;
@@ -848,8 +864,15 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void onHurt(float a, Creature from) {
+	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
+
+		int regular = (int) Math.ceil((float) this.hpMax / 2) - this.numIronHearts;
+
+		if (this.hpMax > this.hp && this.numIronHearts > 0) {
+			this.numIronHearts = (int) Math.max(0, Math.ceil((float) (this.hp - regular * 2)));
+			this.hpMax = (int) Math.max(0, Math.ceil((float) (this.hp - regular) + 1)) + regular;
+		}
 
 		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
@@ -863,7 +886,7 @@ public class Player extends Creature {
 				Mob mob = Mob.all.get(i);
 
 				if (mob.getRoom() == this.room) {
-					mob.modifyHp(-1, this, true);
+					mob.modifyHp(-3, this, true);
 				}
 			}
 		}
@@ -920,6 +943,9 @@ public class Player extends Creature {
 		writer.writeInt32(this.manaMax);
 		writer.writeInt32(this.level);
 		writer.writeFloat(this.speed);
+
+		writer.writeByte((byte) numIronHearts);
+		writer.writeByte((byte) numGoldenHearts);
 	}
 
 	@Override
@@ -936,6 +962,9 @@ public class Player extends Creature {
 
 		float last = this.speed;
 		this.speed = reader.readFloat();
+
+		this.numIronHearts = reader.readByte();
+		this.numGoldenHearts = reader.readByte();
 
 		this.maxSpeed += (this.speed - last) * 7f;
 

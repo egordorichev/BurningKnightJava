@@ -24,7 +24,7 @@ class Item(private val modId: String) {
   }
   
   private fun register(name: String, args: LuaTable, type: ItemType) {
-    var item: org.rexcellentgames.burningknight.entity.item.Item? = null
+    var item: org.rexcellentgames.burningknight.entity.item.Item?
 
 		item = when (type) {
 			ItemType.ITEM -> org.rexcellentgames.burningknight.entity.item.Item()
