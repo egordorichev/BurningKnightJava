@@ -1,14 +1,13 @@
 package org.rexcellentgames.burningknight.util;
 
-import com.badlogic.gdx.Gdx;
 import org.rexcellentgames.burningknight.Display;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.debug.Console;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class Log {
 	public static final boolean ENABLE_PHYSICS_MESSAGES = false;
@@ -92,7 +91,15 @@ public class Log {
 			frame.getContentPane().validate();
 		}
 
-		System.out.println("\u001B[31m" + string + "\u001B[0m");
+		if (!Version.debug) {
+			return;
+		}
+
+		try {
+			System.out.println("\u001B[31m" + string + "\u001B[0m");
+		} catch (Exception e) {
+
+		}
 	}
 
 	public static void info(String string) {
@@ -101,11 +108,15 @@ public class Log {
 			frame.getContentPane().validate();
 		}
 
-		System.out.println("\u001B[32m" + string + "\u001B[0m");
+		try {
+			System.out.println("\u001B[32m" + string + "\u001B[0m");
+		} catch (Exception e) {
+
+		}
 	}
 
 	public static void physics(String string) {
-		if (!ENABLE_PHYSICS_MESSAGES) {
+		if (!ENABLE_PHYSICS_MESSAGES || !Version.debug) {
 			return;
 		}
 
@@ -114,6 +125,10 @@ public class Log {
 			frame.getContentPane().validate();
 		}
 
-		System.out.println("\u001B[34m" + string + "\u001B[0m");
+		try {
+			System.out.println("\u001B[34m" + string + "\u001B[0m");
+		} catch (Exception e) {
+
+		}
 	}
 }

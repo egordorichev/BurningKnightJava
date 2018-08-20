@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
+import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -601,8 +602,8 @@ public class Player extends Creature {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 16);
 		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
-			 || (!fromInit && Dungeon.level.isValid(x, y) &&
-			!Dungeon.level.checkFor(x, y, Terrain.PASSABLE))
+			 || (!fromInit && (Dungeon.level.isValid(x, y) ||
+			!Dungeon.level.checkFor(x, y, Terrain.PASSABLE)))
 		)) {
 			this.tp(ladder.x, ladder.y - 2);
 		}
@@ -619,6 +620,7 @@ public class Player extends Creature {
 	public Vector2 orbitalRing = new Vector2();
 
 	private float last;
+	private float lastBlood;
 
 	@Override
 	public void update(float dt) {
@@ -684,8 +686,19 @@ public class Player extends Creature {
 
 		if (this.hp <= 2) {
 			this.last += dt;
+			this.lastBlood += dt;
 
-			if (this.last >= 0.4f) {
+			if (this.lastBlood > 0.1f) {
+				this.lastBlood = 0;
+
+				BloodDropFx fx = new BloodDropFx();
+
+				fx.owner = this;
+
+				Dungeon.area.add(fx);
+			}
+
+			if (this.last >= 1f) {
 				this.last = 0;
 				BloodSplatFx fxx = new BloodSplatFx();
 
@@ -804,13 +817,19 @@ public class Player extends Creature {
 			}
 		}
 
-
 		if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
 			this.modifyHp(2, null);
 		}
 
 		if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
 			this.modifyMana(this.getManaMax());
+		}
+	}
+
+	@Override
+	protected void checkDeath() {
+		if (this.hp == 0 && this.numIronHearts == 0 && this.numGoldenHearts == 0) {
+			this.shouldDie = true;
 		}
 	}
 
@@ -961,6 +980,9 @@ public class Player extends Creature {
 		if (this.toDeath) {
 			return;
 		}
+
+		ui.hide();
+		UiMap.instance.hide();
 
 		Ui.ui.onDeath();
 

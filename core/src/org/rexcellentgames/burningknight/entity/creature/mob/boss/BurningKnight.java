@@ -88,8 +88,9 @@ public class BurningKnight extends Boss {
 	public void findStartPoint() {
 		if (this.attackTp) {
 			float a = Random.newFloat(0, (float) (Math.PI * 2));
-			this.tp((float) Math.cos(a) * 64 + Player.instance.x - Player.instance.w / 2 + this.w / 2,
-				(float) Math.sin(a) * 64 + Player.instance.y - Player.instance.h / 2 + this.h / 2);
+			float d = isActiveState() ? 64 : 96;
+			this.tp((float) Math.cos(a) * d + Player.instance.x - Player.instance.w / 2 + this.w / 2,
+				(float) Math.sin(a) * d + Player.instance.y - Player.instance.h / 2 + this.h / 2);
 
 			return;
 		}
@@ -141,14 +142,14 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void load(FileReader reader) throws IOException {
-		Log.error("Load");
-
 		super.load(reader);
 		this.tp(0, 0);
 	}
 
 	@Override
 	public void update(float dt) {
+		this.activityTimer += dt;
+
 		if (this.vel.x < 0) {
 			this.flipped = true;
 		} else if (this.vel.x > 0) {
@@ -302,6 +303,12 @@ public class BurningKnight extends Boss {
 		public int frame;
 	}
 
+	private float activityTimer;
+
+	public boolean isActiveState() {
+		return this.activityTimer % 90 <= 30;
+	}
+
 	@Override
 	public void renderShadow() {
 		Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f);
@@ -315,6 +322,38 @@ public class BurningKnight extends Boss {
 			}
 
 			super.update(dt);
+		}
+
+		protected void doAttack() {
+			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
+
+			if (self.isActiveState()) {
+				if (this.flyTo(self.lastSeen, self.speed * 5f, ATTACK_DISTANCE)) {
+					self.become("preattack");
+				} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(1f)) {
+					self.become("rangedAttack");
+				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
+					self.attackTp = true;
+					self.become("fadeOut");
+				} else if (!self.onScreen) {
+					self.target = null;
+					self.become("idle");
+					self.noticeSignT = 0f;
+					self.hideSignT = 2f;
+				}
+			} else {
+				if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f) {
+					self.become("rangedAttack");
+				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
+					self.attackTp = true;
+					self.become("fadeOut");
+				} else if (!self.onScreen) {
+					self.target = null;
+					self.become("idle");
+					self.noticeSignT = 0f;
+					self.hideSignT = 2f;
+				}
+			}
 		}
 	}
 
@@ -445,25 +484,8 @@ public class BurningKnight extends Boss {
 				return;
 			}
 
+			doAttack();
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
-
-			if (this.flyTo(self.lastSeen, self.speed * 5f, ATTACK_DISTANCE)) {
-				self.become("preattack");
-				return;
-			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(1f)) {
-				self.become("rangedAttack");
-				return;
-			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
-				self.attackTp = true;
-				self.become("fadeOut");
-				return;
-			} else if (!self.onScreen) {
-				self.target = null;
-				self.become("idle");
-				self.noticeSignT = 0f;
-				self.hideSignT = 2f;
-				return;
-			}
 
 			if (d > 40f && self.t >= this.delay) {
 				self.become("dash");
@@ -507,25 +529,8 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
+			doAttack();
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
-
-			if (this.flyTo(self.lastSeen, self.speed * 5f, ATTACK_DISTANCE)) {
-				self.become("preattack");
-				return;
-			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(1f)) {
-				self.become("rangedAttack");
-				return;
-			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
-				self.attackTp = true;
-				self.become("fadeOut");
-				return;
-			} else if (!self.onScreen) {
-				self.target = null;
-				self.become("idle");
-				self.noticeSignT = 0f;
-				self.hideSignT = 2f;
-				return;
-			}
 
 			if (self.t >= this.delay) {
 				self.become("chase");

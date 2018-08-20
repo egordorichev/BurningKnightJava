@@ -66,6 +66,11 @@ public class UiMap extends UiEntity {
 
 				did = false;
 			}
+
+			@Override
+			public boolean runWhenPaused() {
+				return true;
+			}
 		});
 
 		did = true;

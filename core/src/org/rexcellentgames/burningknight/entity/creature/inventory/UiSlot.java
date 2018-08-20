@@ -374,24 +374,35 @@ public class UiSlot {
 		if (item != null) {
 			TextureRegion sprite = item.getSprite();
 			int count = item.getValue();
+			boolean enable = !item.disableBlink();
 
 			if (item instanceof WeaponBase) {
-				((WeaponBase) item).renderAt(this.x + slot.getRegionWidth() / 2,
-					this.y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
+				((WeaponBase) item).renderAt(x + slot.getRegionWidth() / 2,
+					y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
 			} else {
-				Graphics.batch.end();
-				WeaponBase.shader.begin();
-				WeaponBase.shader.setUniformf("a", item.a);
-				WeaponBase.shader.setUniformf("time", Dungeon.time);
-				WeaponBase.shader.end();
-				Graphics.batch.setShader(WeaponBase.shader);
-				Graphics.batch.begin();
-				Graphics.render(sprite, this.x + slot.getRegionWidth() / 2,
-					this.y + slot.getRegionHeight() / 2, an, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+				if (enable) {
+					Graphics.batch.end();
+					WeaponBase.shader.begin();
+					WeaponBase.shader.setUniformf("a", this.a);
+					WeaponBase.shader.setUniformf("time", Dungeon.time);
+					WeaponBase.shader.end();
+					Graphics.batch.setShader(WeaponBase.shader);
+					Graphics.batch.begin();
+				} else {
+					Graphics.batch.setColor(1, 1, 1, this.a);
+				}
 
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.render(sprite, x + slot.getRegionWidth() / 2,
+					y + slot.getRegionHeight() / 2, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+
+				if (enable) {
+					Graphics.batch.end();
+					Graphics.batch.setShader(null);
+					Graphics.batch.begin();
+				} else {
+					Graphics.batch.setColor(1, 1, 1, 1);
+				}
+
 			}
 
 			if (count != 1 || item instanceof Gun) {
@@ -408,24 +419,34 @@ public class UiSlot {
 		if (item != null) {
 			TextureRegion sprite = item.getSprite();
 			int count = item.getValue();
+			boolean enable = !item.disableBlink();
 
 			if (item instanceof WeaponBase) {
 				((WeaponBase) item).renderAt(x + slot.getRegionWidth() / 2,
 					y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
 			} else {
-				Graphics.batch.end();
-				WeaponBase.shader.begin();
-				WeaponBase.shader.setUniformf("a", a);
-				WeaponBase.shader.setUniformf("time", Dungeon.time);
-				WeaponBase.shader.end();
-				Graphics.batch.setShader(WeaponBase.shader);
-				Graphics.batch.begin();
+				if (enable) {
+					Graphics.batch.end();
+					WeaponBase.shader.begin();
+					WeaponBase.shader.setUniformf("a", a);
+					WeaponBase.shader.setUniformf("time", Dungeon.time);
+					WeaponBase.shader.end();
+					Graphics.batch.setShader(WeaponBase.shader);
+					Graphics.batch.begin();
+				} else {
+					Graphics.batch.setColor(1, 1, 1, a);
+				}
+
 				Graphics.render(sprite, x + slot.getRegionWidth() / 2,
 					y + slot.getRegionHeight() / 2, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				if (enable) {
+					Graphics.batch.end();
+					Graphics.batch.setShader(null);
+					Graphics.batch.begin();
+				} else {
+					Graphics.batch.setColor(1, 1, 1, 1);
+				}
 			}
 
 			if (count != 1 || item instanceof Gun) {

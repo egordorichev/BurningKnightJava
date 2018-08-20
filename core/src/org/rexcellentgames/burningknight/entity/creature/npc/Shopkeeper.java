@@ -40,6 +40,7 @@ public class Shopkeeper extends Npc {
 	}
 
 	{
+		ignoreRooms = true;
 		w = 15;
 		h = 15;
 		speed = 7;
@@ -513,9 +514,15 @@ public class Shopkeeper extends Npc {
 
 			this.tt += dt;
 
+			if (self.shotgun == null) {
+				shotgun = new BronzeShotgun();
+				shotgun.setOwner(self);
+			}
+
 			if (this.t >= 3f) {
 				if (this.t >= 3.3f) {
 					this.t = 0f;
+
 					self.shotgun.use();
 					self.shotgun.setAmmoLeft(20);
 				}

@@ -25,7 +25,6 @@ import org.rexcellentgames.burningknight.entity.level.rooms.special.TreasureRoom
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -42,7 +41,6 @@ public class InGameState extends State {
 	private UiInventory inventory;
 	private Console console;
 	private Area pauseMenuUi;
-	private static float fpsY;
 
 	@Override
 	public void init() {
@@ -93,12 +91,23 @@ public class InGameState extends State {
 		}
 	}
 
+	private boolean wasHidden;
+
 	@Override
 	public void setPaused(boolean paused) {
 		super.setPaused(paused);
 
 		if (this.isPaused()) {
 			this.mv = -256;
+			this.wasHidden = !UiMap.instance.isOpen();
+
+			if (Player.instance.ui != null && Player.instance.ui.isOpen()) {
+				Player.instance.ui.hide();
+			}
+
+			if (!wasHidden) {
+				UiMap.instance.hide();
+			}
 
 			Tween.to(new Tween.Task(1, 0.3f) {
 				@Override
@@ -151,6 +160,10 @@ public class InGameState extends State {
 				}
 			});
 		} else {
+			if (!wasHidden) {
+				UiMap.instance.show();
+			}
+
 			Tween.to(new Tween.Task(0, 0.3f) {
 				@Override
 				public float getValue() {
@@ -320,23 +333,6 @@ public class InGameState extends State {
 				}
 			}
 		}
-
-		if (Input.instance.wasPressed("show_fps")) {
-			Tween.to(new Tween.Task(fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
-				@Override
-				public float getValue() {
-					return fpsY;
-				}
-
-				@Override
-				public void setValue(float value) {
-					fpsY = value;
-				}
-			});
-
-			Achievements.unlock(Achievements.TEST);
-		}
-
 		last += dt;
 
 		if (last >= 1f) {
@@ -444,19 +440,6 @@ public class InGameState extends State {
 
 			Camera.ui.translate(0, -this.mv);
 			Camera.ui.update();
-		}
-
-		if (fpsY > 0) {
-			Graphics.print(Integer.toString(Gdx.graphics.getFramesPerSecond())
-
-//					+ " " +
-//					String.format("%03d", GameSave.killCount) + " " +
-//					String.format("%02d", (int) Math.floor(GameSave.time / 360)) + ":" +
-//					String.format("%02d", (int) Math.floor(GameSave.time / 60)) + ":" +
-//					String.format("%02d", (int) Math.floor(GameSave.time % 60)) + ":" +
-//					String.format("%02d", (int) Math.floor(GameSave.time % 1 * 100))
-
-				, Graphics.medium, 3, Display.GAME_HEIGHT - fpsY);
 		}
 
 		Ui.ui.renderCursor();

@@ -43,6 +43,11 @@ public class Gold extends Item {
 	}
 
 	@Override
+	public boolean disableBlink() {
+		return true;
+	}
+
+	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 
 	}
