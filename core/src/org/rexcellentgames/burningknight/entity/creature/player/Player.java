@@ -293,6 +293,7 @@ public class Player extends Creature {
 	private void generateMage() {
 		this.hpMax = 6;
 		this.hp = 6;
+		this.numIronHearts = 2;
 
 		switch (Random.newInt(2)) {
 			case 0: default: this.give(new MagicMissileWand()); break;
@@ -312,9 +313,8 @@ public class Player extends Creature {
 	}
 
 	private void generateRanger() {
-		this.numIronHearts = 2;
-		this.numGoldenHearts = 2;
-		this.hpMax = 4;
+		this.hpMax = 6;
+		this.hp = 6;
 
 		switch (Random.newInt(3)) {
 			case 0: default: this.give(new BowA()); break;
@@ -882,6 +882,8 @@ public class Player extends Creature {
 		if (a < 0) {
 			this.hp = Math.max(0, this.hp + a);
 		}
+
+		Log.info(a + " " + this.hp);
 	}
 
 	@Override
