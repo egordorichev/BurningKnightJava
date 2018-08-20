@@ -975,6 +975,9 @@ public class Player extends Creature {
 			return;
 		}
 
+		ui.hide();
+		UiMap.instance.hide();
+
 		Ui.ui.onDeath();
 
 		this.done = false;

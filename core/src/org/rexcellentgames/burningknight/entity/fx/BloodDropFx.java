@@ -30,8 +30,8 @@ public class BloodDropFx extends Entity {
 		super.init();
 
 		this.r = Random.newFloat(0.7f, 1f);
-		this.g = Random.newFloat(0f, 0.3f);
-		this.b = Random.newFloat(0f, 0.3f);
+		this.g = Random.newFloat(0f, 0.15f);
+		this.b = Random.newFloat(0f, 0.15f);
 
 		this.tsz = Random.newFloat(4, 6);
 		this.a = Random.newFloat(360);

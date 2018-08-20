@@ -93,12 +93,23 @@ public class InGameState extends State {
 		}
 	}
 
+	private boolean wasHidden;
+
 	@Override
 	public void setPaused(boolean paused) {
 		super.setPaused(paused);
 
 		if (this.isPaused()) {
 			this.mv = -256;
+			this.wasHidden = !UiMap.instance.isOpen();
+
+			if (Player.instance.ui != null && Player.instance.ui.isOpen()) {
+				Player.instance.ui.hide();
+			}
+
+			if (!wasHidden) {
+				UiMap.instance.hide();
+			}
 
 			Tween.to(new Tween.Task(1, 0.3f) {
 				@Override
@@ -151,6 +162,10 @@ public class InGameState extends State {
 				}
 			});
 		} else {
+			if (!wasHidden) {
+				UiMap.instance.show();
+			}
+
 			Tween.to(new Tween.Task(0, 0.3f) {
 				@Override
 				public float getValue() {
