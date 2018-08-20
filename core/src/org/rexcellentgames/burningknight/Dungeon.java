@@ -347,7 +347,24 @@ public class Dungeon extends ApplicationAdapter {
 			area.update(dt);
 		}
 
+		if (Input.instance.wasPressed("show_fps")) {
+			Tween.to(new Tween.Task(fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
+				@Override
+				public float getValue() {
+					return fpsY;
+				}
+
+				@Override
+				public void setValue(float value) {
+					fpsY = value;
+				}
+			});
+
+			Achievements.unlock(Achievements.TEST);
+		}
+
 		Dungeon.ui.update(dt);
+		Achievements.update(dt);
 
 		game.update(dt);
 		ModManager.INSTANCE.update(dt);
@@ -366,6 +383,8 @@ public class Dungeon extends ApplicationAdapter {
 			Input.instance.update();
 		}
 	}
+
+	private static float fpsY;
 
 	private void renderGame() {
 		Camera.applyShake();
@@ -482,6 +501,25 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Graphics.batch.begin();
 		game.renderUi();
+		Achievements.render();
+
+		if (fpsY > 0) {
+			int f = Gdx.graphics.getFramesPerSecond();
+
+			if (f >= 59) {
+				Graphics.small.setColor(0, 1, 0, 1);
+			} else if (f >= 49) {
+				Graphics.small.setColor(1, 0.5f, 0, 1);
+			} else {
+				Graphics.small.setColor(1, 0, 0, 1);
+			}
+
+			Graphics.print(Integer.toString(f), Graphics.small, 2, Display.GAME_HEIGHT - fpsY + 8);
+
+			Graphics.small.setColor(1, 1, 1, 1);
+		}
+
+
 		ModManager.INSTANCE.draw();
 		Graphics.batch.end();
 		Graphics.shadows.end();
