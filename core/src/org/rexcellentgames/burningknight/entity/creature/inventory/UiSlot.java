@@ -375,22 +375,6 @@ public class UiSlot {
 			TextureRegion sprite = item.getSprite();
 			int count = item.getValue();
 
-			/*if (item instanceof Lamp && ((Lamp) item).getRadius() > 0) {
-				Graphics.batch.end();
-
-				Gdx.gl.glEnable(GL20.GL_BLEND);
-				Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-				Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-
-				Graphics.shape.setColor(1, 0.5f, 0, 0.6f);
-				Graphics.shape.circle(this.x + 12, this.y + 12, (float) (10f + Math.cos(Dungeon.time * 3) * Math.sin(Dungeon.time * 4)) * ((Lamp) item).getRadius());
-
-				Graphics.shape.end();
-				Gdx.gl.glDisable(GL20.GL_BLEND);
-				Graphics.batch.begin();
-			}*/
-
 			if (item instanceof WeaponBase) {
 				((WeaponBase) item).renderAt(this.x + slot.getRegionWidth() / 2,
 					this.y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
@@ -418,5 +402,37 @@ public class UiSlot {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
+	}
+
+	public void renderItem(Item item, float x, float y, float a) {
+		if (item != null) {
+			TextureRegion sprite = item.getSprite();
+			int count = item.getValue();
+
+			if (item instanceof WeaponBase) {
+				((WeaponBase) item).renderAt(x + slot.getRegionWidth() / 2,
+					y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
+			} else {
+				Graphics.batch.end();
+				WeaponBase.shader.begin();
+				WeaponBase.shader.setUniformf("a", a);
+				WeaponBase.shader.setUniformf("time", Dungeon.time);
+				WeaponBase.shader.end();
+				Graphics.batch.setShader(WeaponBase.shader);
+				Graphics.batch.begin();
+				Graphics.render(sprite, x + slot.getRegionWidth() / 2,
+					y + slot.getRegionHeight() / 2, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale);
+
+				Graphics.batch.end();
+				Graphics.batch.setShader(null);
+				Graphics.batch.begin();
+			}
+
+			if (count != 1 || item instanceof Gun) {
+				Graphics.small.setColor(1, 1, 1, a);
+				Graphics.print(String.valueOf(count), Graphics.small, x + 3, y + 3);
+				Graphics.small.setColor(1, 1, 1, 1);
+			}
+		}
 	}
 }

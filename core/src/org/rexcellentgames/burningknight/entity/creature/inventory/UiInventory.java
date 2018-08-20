@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.inventory;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -9,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable;
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -129,7 +131,7 @@ public class UiInventory extends UiEntity {
 			this.lastA = null;
 		}
 
-		this.lastA = Tween.to(new Tween.Task(0.7f, 0.1f) {
+		this.lastA = Tween.to(new Tween.Task(1, 0.01f) {
 			@Override
 			public float getValue() {
 				return slots[0].a;
@@ -139,7 +141,7 @@ public class UiInventory extends UiEntity {
 			public void setValue(float value) {
 				for (int i = 0; i < inventory.getSize(); i++) {
 					UiSlot slot = slots[i];
-					slot.a = value;
+					slot.a = i > 5 ? value * 0.75f : value;
 				}
 			}
 		});
@@ -163,7 +165,7 @@ public class UiInventory extends UiEntity {
 				super.onEnd();
 				dn = true;
 			}
-		});
+		}).delay(0.01f);
 
 		if (this.inventory.getSize() > 12) {
 			Tween.to(new Tween.Task(29 + 29 + 4, 0.3f, Tween.Type.BACK_OUT) {
@@ -230,7 +232,7 @@ public class UiInventory extends UiEntity {
 				}
 				this.dn = false;
 
-				this.lastA = Tween.to(new Tween.Task(0.7f, 0.5f, Tween.Type.QUAD_IN) {
+				this.lastA = Tween.to(new Tween.Task(0.7f, 0.2f, Tween.Type.QUAD_IN) {
 					@Override
 					public float getValue() {
 						return slots[0].a;
@@ -249,9 +251,9 @@ public class UiInventory extends UiEntity {
 						super.onEnd();
 						dn = true;
 					}
-				});
+				}).delay(0.2f);
 
-				Tween.to(new Tween.Task(4, 0.2f, Tween.Type.QUAD_OUT) {
+				Tween.to(new Tween.Task(4, 0.1f, Tween.Type.QUAD_OUT) {
 					@Override
 					public float getValue() {
 						return slots[6].y;
@@ -488,7 +490,7 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
-		for (int i = (this.open ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
+		for (int i = (this.slots[0].a == 1f ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
 			Item item = this.inventory.getSlot(i);
 			this.slots[i].render(item);
 		}
@@ -584,7 +586,15 @@ public class UiInventory extends UiEntity {
 		}*/
 
 		this.renderCurrentSlot();
+
+		this.al += ((Player.instance.room instanceof ShopRoom && !this.open ? 1 : 0) - this.al) * Gdx.graphics.getDeltaTime() * 4;
+
+		if (this.al > 0) {
+			this.slots[11].renderItem(this.inventory.getSlot(11), 6 * 29 + 4, 4, this.al);
+		}
 	}
+
+	private float al;
 
 	public UiBuff hoveredBuff;
 

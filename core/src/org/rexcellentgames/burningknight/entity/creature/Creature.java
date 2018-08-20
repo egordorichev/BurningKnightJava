@@ -540,8 +540,8 @@ public class Creature extends SaveableEntity {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 
-		writer.writeByte((byte) this.hp);
-		writer.writeByte((byte) this.hpMax);
+		writer.writeInt16((short) this.hp);
+		writer.writeInt16((short) this.hpMax);
 		writer.writeInt32(this.buffs.size());
 
 		for (Buff buff : this.buffs.values()) {
@@ -554,8 +554,8 @@ public class Creature extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.hp = reader.readByte();
-		this.hpMax = reader.readByte();
+		this.hp = reader.readInt16();
+		this.hpMax = reader.readInt16();
 		int count = reader.readInt32();
 
 		for (int i = 0; i < count; i++) {
