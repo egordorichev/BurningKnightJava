@@ -518,12 +518,24 @@ public class UiInventory extends UiEntity {
 
 
 		int hp = Player.instance.getHp();
-		float invt = Player.instance.getInvt();
 		int iron = Player.instance.getIronHearts();
 		int golden = Player.instance.getGoldenHearts();
-		int max = Player.instance.getHpMax();
 
-		for (int i = 0; i < max / 2; i++) {
+		float invt = Player.instance.getInvt();
+		int max = Player.instance.getHpMax();
+		int t = (max + golden);
+
+		if (t % 2 == 1) {
+			t += 1;
+		}
+
+		t += iron;
+
+		if (t % 2 == 1) {
+			t += 1;
+		}
+
+		for (int i = 0; i < t / 2; i++) {
 			float s = 1f;
 			float yy = (float) ((hp <= 2 && hp - 2 >= i * 2 - 1) ? Math.cos(((float)i) % 2 / 2 + Dungeon.time * 15) * 2.5f : 0) + y;
 
@@ -535,19 +547,25 @@ public class UiInventory extends UiEntity {
 				yy + 9 + heart.getRegionHeight() / 2, 0,
 				heart_bg.getRegionWidth() / 2, heart_bg.getRegionHeight() / 2, false, false, s, s);
 
-			if (hp - 2 >= i * 2) {
-				Graphics.render(
-					(max - i * 2) <= golden * 2 ? heartGolden :
-					((max - i * 2) <= (golden + iron) * 2 ? heartIron : heart)
-
-					, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
+			if (i * 2 >= max) {
+				if (max + golden + iron - 2 <= i * 2) {
+					Graphics.render(heartGolden, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
+						+ heart.getRegionHeight() / 2, 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
+				} else if (max + golden + iron - 2 <= i * 2 - 1) {
+					Graphics.render(halfGolden, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
+						heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
+				} else if (max + iron - 2 >= i * 2) {
+					Graphics.render(heartIron, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
+						+ heart.getRegionHeight() / 2, 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
+				} else if (max + iron - 2 >= i * 2 - 1) {
+					Graphics.render(halfIron, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
+						heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
+				}
+			} else if (hp - 2 >= i * 2) {
+				Graphics.render(heart, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9
 					+ heart.getRegionHeight() / 2, 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			} else if (hp - 2 >= i * 2 - 1) {
-				Graphics.render(
-					(max - i * 2) <= golden * 2 ? halfGolden :
-					((max - i * 2) <= (golden + iron) * 2 ? halfIron : half)
-
-					, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
+				Graphics.render(half, x + i * 11 + 1 + heart.getRegionWidth() / 2, yy + 9 + heart.getRegionHeight() / 2, 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			}
 		}

@@ -312,8 +312,9 @@ public class Player extends Creature {
 	}
 
 	private void generateRanger() {
-		this.numIronHearts = 1;
-		this.numGoldenHearts = 1;
+		this.numIronHearts = 2;
+		this.numGoldenHearts = 2;
+		this.hpMax = 4;
 
 		switch (Random.newInt(3)) {
 			case 0: default: this.give(new BowA()); break;
@@ -865,22 +866,27 @@ public class Player extends Creature {
 	}
 
 	@Override
+	protected void doHurt(int a) {
+		if (this.numGoldenHearts > 0) {
+			int d = Math.min(this.numGoldenHearts, -a);
+			this.numGoldenHearts -= d;
+			a += d;
+		}
+
+		if (this.numIronHearts > 0) {
+			int d = Math.min(this.numIronHearts, -a);
+			this.numIronHearts -= d;
+			a += d;
+		}
+
+		if (a < 0) {
+			this.hp = Math.max(0, this.hp + a);
+		}
+	}
+
+	@Override
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
-
-		int regular = (int) Math.ceil((float) this.hpMax / 2) - this.numGoldenHearts - this.numIronHearts;
-
-		if (this.hpMax > this.hp && this.numGoldenHearts > 0) {
-			this.numGoldenHearts = (int) Math.max(0, Math.ceil((float) (this.hp - regular * 2)));
-			this.hpMax = (int) Math.max(0, Math.ceil((float) (this.hp - regular) + 1)) + regular;
-		}
-
-		regular = (int) Math.ceil((float) this.hpMax / 2) - this.numIronHearts; 
-
-		if (this.hpMax > this.hp && this.numIronHearts > 0 && this.numGoldenHearts == 0) {
-			this.numIronHearts = (int) Math.max(0, Math.ceil((float) (this.hp - regular * 2)));
-			this.hpMax = (int) Math.max(0, Math.ceil((float) (this.hp - regular) + 1)) + regular;
-		}
 
 		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
