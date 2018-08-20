@@ -603,5 +603,7 @@
 	"reach_library_achievement" : "Ancient library",
 	"reach_library_achievement_desc" : "Knowledge is the power",
 	"kill_bk_achievement" : "He is dead",
-	"kill_bk_achievement_desc" : "Finally"
+	"kill_bk_achievement_desc" : "Finally",
+	"die_achievement" : "Death",
+	"die_achievement_desc" : "It happens some times, don't worry"
 }

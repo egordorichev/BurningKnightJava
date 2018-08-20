@@ -15,6 +15,7 @@ public class Achievements {
 	public static final String REACH_DESERT = "REACH_DESERT_ACHIEVEMENT";
 	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
 	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
+	public static final String DIE = "DIE_ACHIEVEMENT";
 
 	private static ArrayList<UiAchievement> toShow = new ArrayList<UiAchievement>();
 	private static Area top = new Area();

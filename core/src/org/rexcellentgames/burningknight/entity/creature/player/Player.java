@@ -53,6 +53,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiMap;
@@ -1000,6 +1001,8 @@ public class Player extends Creature {
 		this.toDeath = true;
 		this.t = 0;
 		Dungeon.slowDown(0.5f, 1f);
+
+		Achievements.unlock(Achievements.DIE);
 	}
 
 	@Override
