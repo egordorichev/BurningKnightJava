@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
+import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -619,6 +620,7 @@ public class Player extends Creature {
 	public Vector2 orbitalRing = new Vector2();
 
 	private float last;
+	private float lastBlood;
 
 	@Override
 	public void update(float dt) {
@@ -684,8 +686,19 @@ public class Player extends Creature {
 
 		if (this.hp <= 2) {
 			this.last += dt;
+			this.lastBlood += dt;
 
-			if (this.last >= 0.4f) {
+			if (this.lastBlood > 0.1f) {
+				this.lastBlood = 0;
+
+				BloodDropFx fx = new BloodDropFx();
+
+				fx.owner = this;
+
+				Dungeon.area.add(fx);
+			}
+
+			if (this.last >= 1f) {
 				this.last = 0;
 				BloodSplatFx fxx = new BloodSplatFx();
 
