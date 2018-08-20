@@ -74,8 +74,8 @@ public class Creature extends SaveableEntity {
 	protected float invtt;
 	protected HashMap<String, ArrayList<LuaFunction>> events = new HashMap<>();
 	protected boolean falling;
-	private boolean shouldDie = false;
-	private boolean remove;
+	protected boolean shouldDie = false;
+	public boolean remove;
 
 	public int registerCallback(String name, LuaFunction runnable) {
 		ArrayList<LuaFunction> e = events.computeIfAbsent(name, k -> new ArrayList<>());
@@ -418,11 +418,15 @@ public class Creature extends SaveableEntity {
 			this.triggerEvent("on_heal");
 		}
 
+		this.checkDeath();
+
+		return null;
+	}
+
+	protected void checkDeath() {
 		if (this.hp == 0) {
 			this.shouldDie = true;
 		}
-
-		return null;
 	}
 
 	protected void doHurt(int a) {

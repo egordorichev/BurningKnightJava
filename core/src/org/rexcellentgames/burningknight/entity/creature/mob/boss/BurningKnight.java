@@ -141,8 +141,6 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void load(FileReader reader) throws IOException {
-		Log.error("Load");
-
 		super.load(reader);
 		this.tp(0, 0);
 	}

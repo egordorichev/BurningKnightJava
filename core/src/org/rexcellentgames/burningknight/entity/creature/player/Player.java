@@ -817,13 +817,19 @@ public class Player extends Creature {
 			}
 		}
 
-
 		if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
 			this.modifyHp(2, null);
 		}
 
 		if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
 			this.modifyMana(this.getManaMax());
+		}
+	}
+
+	@Override
+	protected void checkDeath() {
+		if (this.hp == 0 && this.numIronHearts == 0 && this.numGoldenHearts == 0) {
+			this.shouldDie = true;
 		}
 	}
 

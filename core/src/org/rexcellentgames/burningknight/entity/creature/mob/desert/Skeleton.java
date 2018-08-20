@@ -4,12 +4,11 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Skeleton extends Mob {
@@ -62,7 +61,35 @@ public class Skeleton extends Mob {
 	}
 
 	@Override
+	protected void onHurt(int a, Creature from) {
+		super.onHurt(a, from);
+
+		if (this.state.equals("dead")) {
+			this.triggerEvent("on_death");
+			this.remove = true;
+			this.dead = true;
+			this.done = true;
+			this.rem = true;
+
+			for (int i = 0; i < 10; i++) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+		}
+	}
+
+	private boolean rem;
+
+	@Override
 	protected void die(boolean force) {
+		if (this.rem) {
+			return;
+		}
+
 		this.hp = this.hpMax;
 		this.done = false;
 		this.become("dead");
@@ -257,13 +284,17 @@ public class Skeleton extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
+
+			if (self.rem) {
+				return;
+			}
+
 			self.ignoreRooms = true;
 			self.killed.setFrame(0);
 			self.killed.setPaused(false);
 			self.okm = self.getStat("knockback");
 			self.setStat("knockback", 0);
 			delay = Random.newFloat(40f, 60f);
-			self.setUnhittable(true);
 		}
 
 		@Override
@@ -271,13 +302,16 @@ public class Skeleton extends Mob {
 			super.onExit();
 			self.setStat("knockback", self.okm);
 			self.ignoreRooms = false;
-			self.setUnhittable(false);
 			depth = 0;
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			if (self.rem) {
+				return;
+			}
 
 			if (t >= delay) {
 				self.become("revive");
