@@ -602,8 +602,8 @@ public class Player extends Creature {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 16);
 		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
-			 || (!fromInit && Dungeon.level.isValid(x, y) &&
-			!Dungeon.level.checkFor(x, y, Terrain.PASSABLE))
+			 || (!fromInit && (Dungeon.level.isValid(x, y) ||
+			!Dungeon.level.checkFor(x, y, Terrain.PASSABLE)))
 		)) {
 			this.tp(ladder.x, ladder.y - 2);
 		}

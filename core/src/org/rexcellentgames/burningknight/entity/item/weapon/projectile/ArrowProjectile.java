@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -15,13 +14,10 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-import java.util.ArrayList;
-
 public class ArrowProjectile extends Projectile {
 	public float a;
 	public Class<? extends Arrow> type;
 	public TextureRegion sprite;
-	private ArrayList<Point> positions = new ArrayList<>();
 
 	{
 		alwaysActive = true;
@@ -45,7 +41,7 @@ public class ArrowProjectile extends Projectile {
 		this.body.setBullet(true);
 		this.body.setTransform(this.x, this.y, this.a);
 
-		float s = Math.max(10f, 14f * 60f * charge);
+		float s = 5f * 60f;
 		this.vel = new Point((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
 	}
 
@@ -53,8 +49,8 @@ public class ArrowProjectile extends Projectile {
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		if (!this.did && (entity == null || entity instanceof SolidProp || entity instanceof Door)) {
-			this.did = true;
+		if (!this.done && (entity == null || entity instanceof SolidProp || entity instanceof Door)) {
+			this.done = true;
 			this.vel.mul(0);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 
@@ -73,10 +69,6 @@ public class ArrowProjectile extends Projectile {
 
 	@Override
 	protected boolean hit(Entity entity) {
-		if (this.did) {
-			return false;
-		}
-
 		if (this.bad) {
 			if (entity instanceof Player) {
 				this.doHit(entity);
@@ -92,22 +84,6 @@ public class ArrowProjectile extends Projectile {
 
 	@Override
 	public void logic(float dt) {
-		if (this.did) {
-			if (this.positions.size() > 0) {
-				this.positions.remove(0);
-			} else {
-				this.done = true;
-			}
-
-			return;
-		}
-
-		this.positions.add(new Point(this.x, this.y));
-
-		if (this.positions.size() > 10) {
-			this.positions.remove(0);
-		}
-
 		this.x += this.vel.x * dt;
 		this.y += this.vel.y * dt;
 
@@ -119,34 +95,11 @@ public class ArrowProjectile extends Projectile {
 
 	@Override
 	public void render() {
-		if (this.positions.size() > 0) {
-			Graphics.batch.end();
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.setColor(1, 1, 1, 1);
-
-			for (int i = 0; i < this.positions.size(); i++) {
-				Point next = (i == positions.size() - 1 ? new Point(this.x + (float) Math.cos(this.a) * this.w / 2, this.y + (float) Math.sin(this.a) * this.h / 2)
-					: this.positions.get(i + 1));
-				Point pos = this.positions.get(i);
-
-				Graphics.shape.rectLine(next.x, next.y, pos.x, pos.y, 2);
-			}
-
-			Graphics.shape.end();
-			Graphics.batch.begin();
-		}
-
-		if (!this.did) {
-			Graphics.render(sprite, this.x, this.y, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
-		}
+		Graphics.render(sprite, this.x, this.y, (float) Math.toDegrees(this.a), sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false);
 	}
-
-	private boolean did;
 
 	@Override
 	public void renderShadow() {
-		if (!this.did) {
-			Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2 - 5, this.w, this.h, 2f);
-		}
+		Graphics.shadow(this.x - this.w / 2, this.y - this.h / 2 - 5, this.w, this.h, 2f);
 	}
 }

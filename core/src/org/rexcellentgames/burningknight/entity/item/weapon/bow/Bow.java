@@ -17,7 +17,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
-import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -28,18 +27,19 @@ public class Bow extends WeaponBase {
 
 	{
 		auto = true;
+		delay = 0.3f;
 		identified = true;
 	}
 
 	private float charge;
 	private boolean beingUsed;
+	protected float accuracity = 10;
 
 	@Override
 	public void use() {
 		super.use();
 
 		beingUsed = true;
-		// charge = 0;
 	}
 
 	@Override
@@ -47,17 +47,17 @@ public class Bow extends WeaponBase {
 		super.update(dt);
 
 		if (!beingUsed) {
-			sx += (1 - sx) * dt * 10;
-			sy += (1 - sy) * dt * 10;
+			sx += (1 - sx) * dt * 20;
+			sy += (1 - sy) * dt * 20;
 
 			return;
 		}
 
-		sx = Math.min(1.4f, sx + dt / 2);
-		sy = Math.max(0.6f, sy - dt / 2);
-		charge = Math.min(1, charge + dt * 1.5f);
+		sx = Math.min(1.4f, sx + dt * 10);
+		sy = Math.max(0.6f, sy - dt * 10);
+		charge = Math.min(1, charge + dt * 10f);
 
-		if (Input.instance.wasReleased("use")) {
+		if (charge == 1) {
 			beingUsed = false;
 			sendArrow();
 		}
@@ -84,7 +84,7 @@ public class Bow extends WeaponBase {
 
 		arrow.type = ar.getClass();
 		arrow.sprite = ar.getSprite();
-		arrow.a = (float) (Math.atan2(dy, dx) + Math.toRadians(Random.newFloat(-20, 20) * (1 - charge)));
+		arrow.a = (float) (Math.atan2(dy, dx) + Math.toRadians(Random.newFloat(-accuracity, accuracity)));
 		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
 		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
 		arrow.damage = rollDamage() + ar.damage;

@@ -17,7 +17,7 @@ public class Achievements {
 	private static UiAchievement lastActive;
 
 	public static boolean unlocked(String id) {
-		return false; // GlobalSave.isTrue(id);
+		return GlobalSave.isTrue(id);
 	}
 
 	public static void unlock(String id) {
