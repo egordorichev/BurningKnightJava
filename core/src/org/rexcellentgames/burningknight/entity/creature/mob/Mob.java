@@ -475,7 +475,7 @@ public class Mob extends Creature {
 			// todo: place for your achievements :P
 		}
 
-		if (!Player.instance.isDead() && !force && Random.chance(100)) {
+		if (!Player.instance.isDead() && !force && Random.chance(20)) {
 			HeartFx fx = new HeartFx();
 
 			fx.x = this.x + this.w / 2 + Random.newFloat(-4, 4);

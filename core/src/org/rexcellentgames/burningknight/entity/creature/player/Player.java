@@ -47,6 +47,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.Mornin
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -879,6 +880,26 @@ public class Player extends Creature {
 			int d = Math.min(this.numGoldenHearts, -a);
 			this.numGoldenHearts -= d;
 			a += d;
+
+			for (int i = 0; i < 10; i++) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
+
+			this.doTp(false);
+
+			for (int i = 0; i < 10; i++) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+
+				Dungeon.area.add(fx);
+			}
 		}
 
 		if (this.numIronHearts > 0) {
@@ -890,8 +911,6 @@ public class Player extends Creature {
 		if (a < 0) {
 			this.hp = Math.max(0, this.hp + a);
 		}
-
-		Log.info(a + " " + this.hp);
 	}
 
 	@Override

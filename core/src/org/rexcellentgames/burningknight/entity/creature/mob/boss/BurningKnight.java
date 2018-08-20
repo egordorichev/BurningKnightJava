@@ -141,6 +141,8 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void load(FileReader reader) throws IOException {
+		Log.error("Load");
+
 		super.load(reader);
 		this.tp(0, 0);
 	}
@@ -285,6 +287,8 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+
+		// Graphics.print(this.hp + " / " + this.hpMax, Graphics.small, this.x, this.y);
 	}
 
 	private float time;

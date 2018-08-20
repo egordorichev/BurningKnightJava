@@ -66,9 +66,8 @@ public class ItemPrice extends Entity {
 	public void render() {
 		super.render();
 
-		// FIXME: red confuses players
 		if (sale) {
-			Graphics.medium.setColor(1, 1f, 0.2f, this.a);
+			Graphics.medium.setColor(1, 0.6f, 0.2f, this.a);
 		} else {
 			Graphics.medium.setColor(1, 1, 1, this.a);
 		}

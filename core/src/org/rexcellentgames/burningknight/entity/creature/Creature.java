@@ -158,7 +158,7 @@ public class Creature extends SaveableEntity {
 		this.t = Random.newFloat(1024);
 
 		if (this instanceof Mob && !(this instanceof BurningKnight)) {
-			this.hp += (Dungeon.depth - 1) * 5;
+			this.hpMax += (Dungeon.depth - 1) * 5;
 		}
 
 		this.hp = this.hpMax;

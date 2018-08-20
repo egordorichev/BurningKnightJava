@@ -84,7 +84,7 @@ public class InGameState extends State {
 			}
 		});
 
-		if (BurningKnight.instance == null && !GameSave.defeatedBK) {
+		if (BurningKnight.instance == null && !GameSave.defeatedBK && Dungeon.depth > -1) {
 			BurningKnight knight = new BurningKnight();
 
 			Dungeon.area.add(knight);
