@@ -489,7 +489,7 @@ public class UiMap extends UiEntity {
 
 	private boolean toRemove;
 
-	private float zoom = GlobalSave.getFloat("minimap_zoom") == 0 ? 1f : GlobalSave.getFloat("minimap_zoom");
+	private float zoom = GlobalSave.getFloat("minimap_zoom") == 0 ? 0.5f : GlobalSave.getFloat("minimap_zoom");
 	private Color bg = Color.valueOf("#2a2f4e");
 	private Color border = Color.valueOf("#0e071b");
 

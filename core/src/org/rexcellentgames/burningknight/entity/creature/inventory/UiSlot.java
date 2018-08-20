@@ -271,7 +271,7 @@ public class UiSlot {
 	public float a = 0.7f;
 
 	public void render(Item item) {
-		TextureRegion reg = this.slot;
+		TextureRegion reg = slot;
 		boolean h = this.inventory.getActive() == this.id;
 
 		if (h) {
@@ -383,13 +383,13 @@ public class UiSlot {
 				if (enable) {
 					Graphics.batch.end();
 					WeaponBase.shader.begin();
-					WeaponBase.shader.setUniformf("a", this.a);
+					WeaponBase.shader.setUniformf("a", item.a);
 					WeaponBase.shader.setUniformf("time", Dungeon.time);
 					WeaponBase.shader.end();
 					Graphics.batch.setShader(WeaponBase.shader);
 					Graphics.batch.begin();
 				} else {
-					Graphics.batch.setColor(1, 1, 1, this.a);
+					Graphics.batch.setColor(1, 1, 1, item.a);
 				}
 
 				Graphics.render(sprite, x + slot.getRegionWidth() / 2,

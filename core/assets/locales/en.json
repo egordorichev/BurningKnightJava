@@ -484,8 +484,8 @@
 	"book_of_green_energy_desc" : "Comes with multiple flavors!",
 	"book_of_crash" : "Book of crash",
 	"book_of_crash_desc" : "Poor GPU...",
-	"demege_emblem" : "Demege emblem",
-	"demege_emblem_desc" : "+20% defense, +20% damage",
+	"demage_emblem" : "Demage emblem",
+	"demage_emblem_desc" : "+20% defense, +20% damage",
 	"apple" : "Apple",
 	"apple_desc" : "An apple a day keeps the doctor away!",
 	"mana_in_a_bottle" : "Mana in a bottle",
@@ -597,5 +597,11 @@
 	"zoom_in" : "Zoom in",
 	"zoom_out" : "Zoom out",
 	"assign_key" : "Assign key",
-	"none" : "None"
+	"none" : "None",
+	"reach_desert_achievement" : "Desert ruins",
+	"reach_desert_achievement_desc" : "Ruined?",
+	"reach_library_achievement" : "Ancient library",
+	"reach_library_achievement_desc" : "Knowledge is the power",
+	"kill_bk_achievement" : "He is dead",
+	"kill_bk_achievement_desc" : "Finally"
 }

@@ -12,6 +12,10 @@ import java.util.ArrayList;
 
 public class Achievements {
 	public static final String TEST = "TEST_ACHIEVEMENT";
+	public static final String REACH_DESERT = "REACH_DESERT_ACHIEVEMENT";
+	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
+	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
+
 	private static ArrayList<UiAchievement> toShow = new ArrayList<UiAchievement>();
 	private static Area top = new Area();
 	private static UiAchievement lastActive;

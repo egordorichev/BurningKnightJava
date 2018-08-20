@@ -17,8 +17,6 @@ import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -156,10 +154,6 @@ public class Creature extends SaveableEntity {
 		super.init();
 
 		this.t = Random.newFloat(1024);
-
-		if (this instanceof Mob && !(this instanceof BurningKnight)) {
-			this.hpMax += (Dungeon.depth - 1) * 5;
-		}
 
 		this.hp = this.hpMax;
 		this.initStats();

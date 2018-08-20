@@ -18,6 +18,8 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
@@ -25,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.special.TreasureRoom
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -88,6 +91,12 @@ public class InGameState extends State {
 			Dungeon.area.add(knight);
 			PlayerSave.add(knight);
 			knight.attackTp = true;
+		}
+
+		if (Dungeon.level instanceof DesertLevel) {
+			Achievements.unlock(Achievements.REACH_DESERT);
+		} else if (Dungeon.level instanceof LibraryLevel) {
+			Achievements.unlock(Achievements.REACH_LIBRARY);
 		}
 	}
 

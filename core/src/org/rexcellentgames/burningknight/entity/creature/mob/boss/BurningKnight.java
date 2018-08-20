@@ -29,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -744,6 +745,8 @@ public class BurningKnight extends Boss {
 
 		deathEffect(killed);
 		PlayerSave.remove(this);
+
+		Achievements.unlock(Achievements.KILL_BK);
 	}
 
 	public class UnactiveState extends BKState {
