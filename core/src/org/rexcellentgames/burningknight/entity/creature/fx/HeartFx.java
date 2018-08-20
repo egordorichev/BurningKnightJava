@@ -3,12 +3,14 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Spark;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlueHeart;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -19,30 +21,61 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 
 public class HeartFx extends SaveableEntity {
-	private static Animation animations = Animation.make("fx-heart", "-full");
-	private static Animation halfAnim = Animation.make("fx-heart", "-half");
+	private static Animation red = Animation.make("fx-heart", "-full");
+	private static Animation redHalf = Animation.make("fx-heart", "-half");
+	private static Animation iron = Animation.make("fx-heart", "-iron");
+	private static Animation golden = Animation.make("fx-heart", "-golden");
 
 	private AnimationData animation;
 	private Body body;
 	private float t;
-	private boolean half;
+	private Type type;
+
+	public enum Type {
+		RED(0, false), RED_HALF(1, true),
+		IRON(2, false),
+		GOLDEN(3, false);
+
+		public byte id;
+		public boolean half;
+
+		Type(int id, boolean half) {
+			this.id = (byte) id;
+			this.half = half;
+		}
+	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		this.half = Random.chance(50);
+		this.generate();
+
 		this.w = 12;
 		this.h = 9;
+	}
+
+	public void generate() {
+		float r = Random.newFloat(1f);
+
+		if (r < 0.45f) {
+			this.type = Type.RED_HALF;
+		} else if (r < 0.8) {
+			this.type = Type.RED;
+		} else if (r < 0.95) {
+			this.type = Type.IRON;
+		} else {
+			this.type = Type.GOLDEN;
+		}
 	}
 
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.half = reader.readBoolean();
+		this.type = Type.values()[reader.readByte()];
 
-		if (this.half) {
+		if (this.type.half) {
 			this.w /= 2;
 		}
 	}
@@ -50,7 +83,7 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
-		writer.writeBoolean(this.half);
+		writer.writeByte(this.type.id);
 	}
 
 	@Override
@@ -58,15 +91,34 @@ public class HeartFx extends SaveableEntity {
 		if (entity instanceof Player) {
 			Player player = ((Player) entity);
 
-			if (player.getHp() < player.getHpMax()) {
+			if ((this.type == Type.RED || this.type == Type.RED_HALF) && player.getHp() < player.getHpMax()) {
 				player.modifyHp(2, null);
-				this.done = true;
-				player.playSfx("health_up");
+				this.end(player);
 
 				if (player.ui.hasEquiped(BlueHeart.class)) {
 					player.modifyMana(2);
 				}
+			} else if (this.type == Type.GOLDEN) {
+				player.addGoldenHearts(2);
+				this.end(player);
+			} else if (this.type == Type.IRON) {
+				player.addIronHearts(2);
+				this.end(player);
 			}
+		}
+	}
+
+	private void end(Player player) {
+		this.done = true;
+		player.playSfx("health_up");
+
+		for (int i = 0; i < 3; i++) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.x + this.w / 2;
+			fx.y = this.y + this.h / 2;
+
+			Dungeon.area.add(fx);
 		}
 	}
 
@@ -112,7 +164,12 @@ public class HeartFx extends SaveableEntity {
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation == null) {
-			this.animation = this.half ? halfAnim.get("idle") : animations.get("idle");
+			switch (this.type) {
+				case RED: this.animation = red.get("idle"); break;
+				case RED_HALF: this.animation = redHalf.get("idle"); break;
+				case IRON: this.animation = iron.get("idle"); break;
+				case GOLDEN: this.animation = golden.get("idle"); break;
+			}
 		}
 
 		this.animation.update(dt);

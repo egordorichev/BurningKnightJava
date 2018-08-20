@@ -304,6 +304,14 @@ public class Player extends Creature {
 	private int numIronHearts;
 	private int numGoldenHearts;
 
+	public void addIronHearts(int a) {
+		numIronHearts += a;
+	}
+
+	public void addGoldenHearts(int a) {
+		numGoldenHearts += a;
+	}
+
 	public int getIronHearts() {
 		return numIronHearts;
 	}
