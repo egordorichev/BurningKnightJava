@@ -192,7 +192,6 @@ public class ShopRoom extends LockedRoom {
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
 			if (WeaponBase.class.isAssignableFrom(item.getType())) {
-
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
 						item.getMage() * Player.instance.getMage() +

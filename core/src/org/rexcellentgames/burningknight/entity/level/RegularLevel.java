@@ -20,12 +20,14 @@ import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoo
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.entity.pool.room.BossRoomPool;
 import org.rexcellentgames.burningknight.entity.pool.room.EntranceRoomPool;
 import org.rexcellentgames.burningknight.entity.pool.room.SecretRoomPool;
+import org.rexcellentgames.burningknight.entity.pool.room.ShopRoomPool;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -238,6 +240,14 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 
+		rooms.add(new TreasureRoom());
+		rooms.add(new TreasureRoom());
+
+		if (Random.chance(75)) {
+			Log.info("Adding shop");
+			rooms.add(ShopRoomPool.instance.generate());
+		}
+
 		for (int i = 0; i < connection; i++) {
 			rooms.add(ConnectionRoom.create());
 		}
@@ -274,7 +284,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumSpecialRooms() {
-		return Dungeon.depth <= 0 ? 0 : 3;
+		return Dungeon.depth <= 0 ? 0 : Random.newInt(1, 4);
 	}
 
 	protected int getNumSecretRooms() {

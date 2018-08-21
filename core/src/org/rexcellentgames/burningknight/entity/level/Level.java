@@ -607,6 +607,7 @@ public abstract class Level extends SaveableEntity {
 
 		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+
 				int i = x + y * getWidth();
 
 				if (!this.low[i] && (this.light[i] > 0 || this.light[i + getWidth()] > 0)) {
