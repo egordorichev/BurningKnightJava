@@ -13,13 +13,17 @@ import org.rexcellentgames.burningknight.util.Log;
 import java.util.ArrayList;
 
 public class Achievements {
+	// Regular achievements
 	public static final String TEST = "TEST_ACHIEVEMENT";
 	public static final String REACH_DESERT = "REACH_DESERT_ACHIEVEMENT";
 	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
 	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
 	public static final String DIE = "DIE_ACHIEVEMENT";
 	public static final String FIND_MIMIC = "FIND_MIMIC_ACHIEVEMENT";
+	// Item unlocks
 	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
+	// Secret
+	// TODO
 
 	private static ArrayList<UiAchievement> toShow = new ArrayList<>();
 	private static Area top = new Area(true);

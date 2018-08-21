@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -79,6 +80,11 @@ public class UiBanner extends Entity {
 							public void onEnd() {
 								Tween.to(new Tween.Task(0, 0.2f) {
 									@Override
+									public void onStart() {
+										tweened = true;
+									}
+
+									@Override
 									public float getValue() {
 										return a;
 									}
@@ -145,6 +151,77 @@ public class UiBanner extends Entity {
 	private static TextureRegion bottomLeft = Graphics.getTexture("ui-banner_bottom_left");
 	private static TextureRegion bottom = Graphics.getTexture("ui-banner_bottom");
 	private static TextureRegion bottomRight = Graphics.getTexture("ui-banner_bottom_right");
+
+	private boolean tweened;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (!tweened && Dungeon.game.getState().isPaused()) {
+			Tween.to(new Tween.Task(0, 0.1f) {
+				@Override
+				public float getValue() {
+					return a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					a = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(18, 0.2f) {
+						@Override
+						public float getValue() {
+							return w;
+						}
+
+						@Override
+						public boolean runWhenPaused() {
+							return true;
+						}
+
+						@Override
+						public void setValue(float value) {
+							w = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(-68, 0.3f, Tween.Type.BACK_IN) {
+								@Override
+								public float getValue() {
+									return y;
+								}
+
+								@Override
+								public boolean runWhenPaused() {
+									return true;
+								}
+
+								@Override
+								public void setValue(float value) {
+									y = value;
+								}
+
+								@Override
+								public void onEnd() {
+									setDone(true);
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	}
 
 	@Override
 	public void render() {
