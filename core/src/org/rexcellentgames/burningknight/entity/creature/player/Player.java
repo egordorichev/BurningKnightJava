@@ -596,16 +596,11 @@ public class Player extends Creature {
 	}
 
 	private void doTp(boolean fromInit) {
-		int x = Math.round((this.x + 8) / 16);
-		int y = Math.round((this.y) / 16);
-
 		if (Dungeon.depth == -1) {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 16);
 		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
-			 || (!fromInit && (Dungeon.level.isValid(x, y) ||
-			!Dungeon.level.checkFor(x, y, Terrain.PASSABLE)))
-		)) {
+			 || (!fromInit && (Dungeon.level.findRoomFor(this.x + this.w / 2, this.y) == null)))) {
 			this.tp(ladder.x, ladder.y - 2);
 		}
 	}

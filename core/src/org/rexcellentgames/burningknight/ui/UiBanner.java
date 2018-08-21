@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiBanner extends Entity {
@@ -158,7 +159,7 @@ public class UiBanner extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (!tweened && Dungeon.game.getState().isPaused()) {
+		if (!tweened && (Dungeon.game.getState().isPaused() || Player.instance.isDead())) {
 			Tween.to(new Tween.Task(0, 0.1f) {
 				@Override
 				public float getValue() {
