@@ -139,8 +139,16 @@ public class Dungeon extends ApplicationAdapter {
 		}
 	}
 
+
 	public static void newGame() {
+		newGame(false);
+	}
+
+	public static boolean quick;
+
+	public static void newGame(boolean quick) {
 		reset = true;
+		Dungeon.quick = quick;
 		SaveManager.delete();
 		loadType = Entrance.LoadType.GO_DOWN;
 
@@ -155,7 +163,7 @@ public class Dungeon extends ApplicationAdapter {
 			area.destroy();
 		}
 
-		Dungeon.depth = -1;
+		Dungeon.depth = quick ? 0 : -1;
 
 		if (game != null) {
 			game.setState(new LoadState());

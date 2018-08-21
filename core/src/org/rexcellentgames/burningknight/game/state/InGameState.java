@@ -474,7 +474,7 @@ public class InGameState extends State {
 
 				transition(() -> {
 					Dungeon.grayscale = 0;
-					Dungeon.newGame();
+					Dungeon.newGame(true);
 				});
 			}
 		}.setSparks(true));

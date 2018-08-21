@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWa
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -73,6 +74,14 @@ public class PlayerSave {
 			case WARRIOR: player.give(new SwordA()); break;
 			case WIZARD: player.give(new MagicMissileWand()); break;
 			case RANGER: player.give(new Revolver()); break;
+		}
+
+		if (Dungeon.quick) {
+			Log.info("Quick restart!");
+
+			Dungeon.quick = false;
+			player.generate();
+			GlobalSave.put("last_class", player.getType().id);
 		}
 	}
 }
