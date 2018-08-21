@@ -6,9 +6,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 
-// fixme: displayed under black bars, or not displayed at all
-// fixme: hide ui banner, when dead or in pause, show depth / time in pause
-
 public class UiAchievement extends Entity {
 	{
 		alwaysActive = true;
@@ -56,6 +53,11 @@ public class UiAchievement extends Entity {
 			}
 
 			@Override
+			public boolean runWhenPaused() {
+				return true;
+			}
+
+			@Override
 			public void onEnd() {
 				Tween.to(new Tween.Task(-h, 0.5f, Tween.Type.BACK_OUT) {
 					@Override
@@ -69,6 +71,11 @@ public class UiAchievement extends Entity {
 					}
 
 					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+
+					@Override
 					public void onEnd() {
 						setDone(true);
 					}
@@ -76,8 +83,6 @@ public class UiAchievement extends Entity {
 			}
 		});
 	}
-
-	private float a = 1;
 
 	@Override
 	public void render() {

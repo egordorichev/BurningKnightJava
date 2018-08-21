@@ -41,7 +41,6 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class InGameState extends State {
-	private UiInventory inventory;
 	private Console console;
 	private Area pauseMenuUi;
 
@@ -455,9 +454,9 @@ public class InGameState extends State {
 	}
 
 	private void setupUi() {
-		this.inventory = new UiInventory(Player.instance.getInventory());
+		UiInventory inventory = new UiInventory(Player.instance.getInventory());
 		
-		Dungeon.ui.add(this.inventory);
+		Dungeon.ui.add(inventory);
 
 		Dungeon.ui.add(new UiMap());
 

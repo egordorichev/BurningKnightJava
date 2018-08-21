@@ -22,7 +22,7 @@ public class Achievements {
 	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
 
 	private static ArrayList<UiAchievement> toShow = new ArrayList<>();
-	private static Area top = new Area();
+	private static Area top = new Area(true);
 	private static UiAchievement lastActive;
 
 	public static boolean unlocked(String id) {
@@ -67,6 +67,10 @@ public class Achievements {
 
 			toShow.add(achievement);
 		}
+	}
+
+	public static void clear() {
+		top.destroy();
 	}
 
 	public static void update(float dt) {
