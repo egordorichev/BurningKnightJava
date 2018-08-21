@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class CrazyBook extends Book {
@@ -20,6 +21,12 @@ public class CrazyBook extends Book {
 		sprite = "item-book_f";
 		mana = 3;
 		damage = 4;
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock(Achievements.UNLOCK_CRASH_BOOK);
 	}
 
 	public void spawnChild(float x, float y) {

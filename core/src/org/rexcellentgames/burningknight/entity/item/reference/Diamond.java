@@ -1,11 +1,11 @@
 package org.rexcellentgames.burningknight.entity.item.reference;
 
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
+import org.rexcellentgames.burningknight.game.Achievements;
 
 public class Diamond extends Autouse {
 	{
@@ -26,5 +26,12 @@ public class Diamond extends Autouse {
 		item.getItem().setCount(99);
 
 		Player.instance.tryToPickup(item);
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+
+		Achievements.unlock(Achievements.UNLOCK_DIAMOND_SWORD);
 	}
 }

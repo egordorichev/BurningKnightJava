@@ -165,6 +165,8 @@ public class Shopkeeper extends Npc {
 							int val = GlobalSave.getInt("num_sold_items") + 1;
 							GlobalSave.put("num_sold_items", val);
 
+							Achievements.unlock(Achievements.UNLOCK_GOLD_RING);
+
 							if (val >= 10) {
 								Achievements.unlock(Achievements.SELL_10_ITEMS);
 							}
@@ -212,6 +214,7 @@ public class Shopkeeper extends Npc {
 		this.done = true;
 
 		deathEffect(death);
+		Achievements.unlock(Achievements.UNLOCK_SALE);
 	}
 
 	private float al;

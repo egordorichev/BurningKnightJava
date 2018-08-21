@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.ui.UiKey;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -67,6 +68,7 @@ public class Input implements InputProcessor, ControllerListener {
 		if (activeController == null) {
 			activeController = controller;
 			onControllerChange();
+			Achievements.unlock(Achievements.UNLOCK_DENDY);
 		}
 	}
 

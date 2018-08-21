@@ -525,6 +525,7 @@ public class UiInventory extends UiEntity {
 
 		if (!empty) {
 			Achievements.unlock(Achievements.FILL_UP_INVENTORY);
+			Achievements.unlock(Achievements.UNLOCK_BACKPACK);
 		}
 
 		float y = this.slots[this.inventory.getSize() - 1].y + 20;

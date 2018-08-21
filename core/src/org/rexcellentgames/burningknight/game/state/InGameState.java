@@ -94,6 +94,7 @@ public class InGameState extends State {
 
 		if (Dungeon.level instanceof DesertLevel) {
 			Achievements.unlock(Achievements.REACH_DESERT);
+			Achievements.unlock(Achievements.UNLOCK_DEW_VIAL);
 		} else if (Dungeon.level instanceof LibraryLevel) {
 			Achievements.unlock(Achievements.REACH_LIBRARY);
 		}

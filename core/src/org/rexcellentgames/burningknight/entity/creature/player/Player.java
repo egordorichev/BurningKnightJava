@@ -508,8 +508,14 @@ public class Player extends Creature {
 				if (this.tryToPickup(item) && !item.auto) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
-					} else if (this.inventory.getGold() >= 300) {
-						Achievements.unlock(Achievements.COLLECT_300_GOLD);
+					} else {
+						if (this.inventory.getGold() >= 100) {
+							Achievements.unlock(Achievements.UNLOCK_MONEY_PRINTER);
+						}
+
+						if (this.inventory.getGold() >= 300) {
+							Achievements.unlock(Achievements.COLLECT_300_GOLD);
+						}
 					}
 
 					item.remove();
@@ -805,22 +811,59 @@ public class Player extends Creature {
 	@Override
 	protected void onTouch(short t, int x, int y) {
 		if (t == Terrain.WATER && !this.flying) {
+			if (this.hasBuff(BurningBuff.class)) {
+				int num = GlobalSave.getInt("num_fire_out") + 1;
+				GlobalSave.put("num_fire_out", num);
+
+				if (num >= 10) {
+					Achievements.unlock(Achievements.UNLOCK_WATER_BOLT);
+				}
+			}
+
 			this.removeBuff(BurningBuff.class);
 			this.watery = 5f;
 		} else if (t == Terrain.LAVA && !this.flying && !this.lavaResist) {
 			this.modifyHp(-1, null,true);
+
+			if (this.isDead()) {
+				Achievements.unlock(Achievements.UNLOCK_WINGS);
+			}
 		}
 	}
+
+	private boolean hadEnemies;
+	public byte numCollectedHearts;
 
 	@Override
 	protected void onRoomChange() {
 		super.onRoomChange();
+
+		if (numCollectedHearts >= 6) {
+			Achievements.unlock(Achievements.UNLOCK_MEETBOY);
+		}
+
+		if (hadEnemies && !gotHit) {
+			Achievements.unlock(Achievements.UNLOCK_HALO);
+		}
+
+		this.resetHit();
 
 		if (this.room == null) {
 			if (ladder != null) {
 				this.tp(ladder.x, ladder.y - 2);
 			} else {
 				Log.error("Null lader!");
+			}
+		} else {
+			hadEnemies = false;
+
+			for (int i = Mob.all.size() - 1; i >= 0; i--) {
+				Mob mob = Mob.all.get(i);
+
+				if (mob.getRoom() == this.room) {
+					hadEnemies = true;
+					break;
+				}
 			}
 		}
 
@@ -1015,7 +1058,8 @@ public class Player extends Creature {
 		Ui.ui.onDeath();
 
 		this.done = false;
-		GlobalSave.put("deaths", GlobalSave.getInt("deaths") + 1);
+		int num = GlobalSave.getInt("deaths") + 1;
+		GlobalSave.put("deaths", num);
 
 		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
@@ -1030,6 +1074,10 @@ public class Player extends Creature {
 		Dungeon.slowDown(0.5f, 1f);
 
 		Achievements.unlock(Achievements.DIE);
+
+		if (num >= 50) {
+			Achievements.unlock(Achievements.UNLOCK_ISAAC_HEAD);
+		}
 	}
 
 	@Override

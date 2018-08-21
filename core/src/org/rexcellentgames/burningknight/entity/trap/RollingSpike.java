@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -92,6 +93,8 @@ public class RollingSpike extends SaveableEntity {
 			if (player.getInvt() == 0) {
 				player.modifyHp(-2, null);
 				player.knockBackFrom(this, 400f);
+
+				Achievements.unlock(Achievements.UNLOCK_MEETBOY_AXE);
 			}
 		}
 	}

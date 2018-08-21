@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SlashSword;
+import org.rexcellentgames.burningknight.game.Achievements;
 
 public class BKSword extends SlashSword {
 	{
@@ -19,5 +20,11 @@ public class BKSword extends SlashSword {
 		super.onHit(creature);
 
 		creature.addBuff(new BurningBuff());
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock(Achievements.UNLOCK_SWORD_ORBITAL);
 	}
 }
