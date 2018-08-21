@@ -478,8 +478,26 @@ public class Player extends Creature {
 		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0
 	};
 
+	@Override
+	public void setHpMax(int hpMax) {
+		super.setHpMax(hpMax);
+
+		if (this.hpMax >= 8) {
+			Achievements.unlock(Achievements.GET_8_HEART_CONTAINERS);
+		}
+	}
+
 	private boolean wasFreezed;
 	private boolean wasPoisoned;
+	private boolean gotHit;
+
+	public void resetHit() {
+		gotHit = false;
+	}
+
+	public boolean didGetHit() {
+		return gotHit;
+	}
 
 	@Override
 	public void onCollision(Entity entity) {
@@ -490,6 +508,8 @@ public class Player extends Creature {
 				if (this.tryToPickup(item) && !item.auto) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
+					} else if (this.inventory.getGold() >= 300) {
+						Achievements.unlock(Achievements.COLLECT_300_GOLD);
 					}
 
 					item.remove();
@@ -959,6 +979,8 @@ public class Player extends Creature {
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
+		this.gotHit = true;
+
 		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 
@@ -1036,6 +1058,7 @@ public class Player extends Creature {
 
 		writer.writeByte((byte) numIronHearts);
 		writer.writeByte((byte) numGoldenHearts);
+		writer.writeBoolean(this.gotHit);
 	}
 
 	@Override
@@ -1055,6 +1078,7 @@ public class Player extends Creature {
 
 		this.numIronHearts = reader.readByte();
 		this.numGoldenHearts = reader.readByte();
+		this.gotHit = reader.readBoolean();
 
 		this.maxSpeed += (this.speed - last) * 7f;
 

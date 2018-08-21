@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipab
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -207,6 +208,7 @@ public class UiSlot {
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
 					((Accessory) current).onEquip();
+					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
 			}
 		} else {

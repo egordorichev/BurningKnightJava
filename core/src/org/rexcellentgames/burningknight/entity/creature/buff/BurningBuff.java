@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.game.Achievements;
 
 public class BurningBuff extends Buff {
 	public static TextureRegion frame = Graphics.getTexture("ui-debuff_frame");
@@ -51,6 +52,10 @@ public class BurningBuff extends Buff {
 		if (progress >= 1f) {
 			this.owner.modifyHp(this.owner instanceof Player ? -1 : -4, null, true);
 			setDuration(0);
+
+			if (this.owner instanceof Player && this.owner.isDead()) {
+				Achievements.unlock(Achievements.BURN_TO_DEATH);
+			}
 		}
 	}
 

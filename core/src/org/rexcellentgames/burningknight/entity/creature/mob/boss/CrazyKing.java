@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -186,6 +187,10 @@ public class CrazyKing extends Boss {
 			super.update(dt);
 
 			if (this.t >= 3f) {
+				if (!Player.instance.didGetHit()) {
+					Achievements.unlock(Achievements.DONT_GET_HIT_IN_BOSS_FIGHT);
+				}
+
 				self.die(false);
 
 				Audio.highPriority("Reckless");
@@ -300,6 +305,7 @@ public class CrazyKing extends Boss {
 							ignoreHealthbar = false;
 							Camera.follow(Player.instance, false);
 							talked = true;
+							Player.instance.resetHit();
 
 
 							UiBanner banner = new UiBanner();

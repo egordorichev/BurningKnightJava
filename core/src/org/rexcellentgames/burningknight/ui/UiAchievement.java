@@ -15,6 +15,7 @@ public class UiAchievement extends Entity {
 
 	public String text;
 	public String extra;
+	public boolean unlock;
 
 	private float w2;
 
@@ -92,7 +93,11 @@ public class UiAchievement extends Entity {
 		Graphics.render(center, this.x + 38, this.y, 0, 0, 0, false, false, (this.w - 57), 1);
 		Graphics.render(right, this.x + this.w - 19, this.y);
 
-		Graphics.small.draw(Graphics.batch, this.text, this.x + 38 + 3, this.y + this.h - 4 - 4 - 2);
-		Graphics.small.draw(Graphics.batch, this.extra, this.x + 38 + 3, this.y + this.h - 3 - 16 - 2);
+		if (this.extra != null) {
+			Graphics.small.draw(Graphics.batch, this.text, this.x + 38 + 3, this.y + this.h - 4 - 4 - 2);
+			Graphics.small.draw(Graphics.batch, this.extra, this.x + 38 + 3, this.y + this.h - 3 - 16 - 2);
+		} else {
+			Graphics.small.draw(Graphics.batch, this.text, this.x + 38 + 3, this.y + this.h - 4 - 4 - 2 - 8);
+		}
 	}
 }

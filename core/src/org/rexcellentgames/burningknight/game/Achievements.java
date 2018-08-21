@@ -15,11 +15,23 @@ import java.util.ArrayList;
 public class Achievements {
 	// Regular achievements
 	public static final String TEST = "TEST_ACHIEVEMENT";
+
 	public static final String REACH_DESERT = "REACH_DESERT_ACHIEVEMENT";
 	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
 	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
 	public static final String DIE = "DIE_ACHIEVEMENT";
+	public static final String BURN_TO_DEATH = "BURN_TO_DEATH_ACHIEVEMENT";
 	public static final String FIND_MIMIC = "FIND_MIMIC_ACHIEVEMENT";
+	public static final String KILL_DM = "KILL_DM_ACHIEVEMENT";
+	public static final String SELL_10_ITEMS = "SELL_10_ITEMS_ACHIEVEMENT";
+	public static final String EQUIP_ACCESSORY = "EQUIP_ACCESSORY_ACHIEVEMENT";
+	public static final String COLLECT_300_GOLD = "COLLECT_300_GOLD_ACHIEVEMENT";
+	public static final String GET_8_HEART_CONTAINERS = "GET_8_HEART_CONTAINERS_ACHIEVEMENT";
+	public static final String DONT_GET_HIT_IN_BOSS_FIGHT = "DONT_GET_HIT_IN_BOSS_FIGHT_ACHIEVEMENT";
+	public static final String FIND_CRASH_BOOK = "FIND_CRASH_BOOK_ACHIEVEMENT";
+	public static final String FILL_UP_INVENTORY = "FILL_UP_INVENTORY_ACHIEVEMENT";
+	public static final String FIND_SECRET_ROOM = "FIND_SECRET_ROOM_ACHIEVEMENT";
+
 	// Item unlocks
 	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
 	// Secret
@@ -59,8 +71,8 @@ public class Achievements {
 					Item item = pair.getType().newInstance();
 
 					achievement.text = item.getName() + " " + Locale.get("was_unlocked");
-					achievement.extra = "";
 					achievement.icon = item.getSprite();
+					achievement.unlock = true;
 				} catch (Exception e) {
 					e.printStackTrace();
 					return;
