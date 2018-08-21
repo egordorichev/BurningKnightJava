@@ -56,9 +56,10 @@ import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ToxicFlask
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC
+import org.rexcellentgames.burningknight.game.Achievements
 
 object ItemRegistry {
-	class Pair(val type: Class<out Item>, val chance: Float, val warrior: Float, val mage: Float, val ranged: Float, val quality: Quality)
+	class Pair(val type: Class<out Item>, val chance: Float, val warrior: Float, val mage: Float, val ranged: Float, val quality: Quality, val unlock: String? = null)
 
 	enum class Quality {
 		WOODEN, IRON, GOLDEN
@@ -210,7 +211,7 @@ object ItemRegistry {
     "arcane_battery" to Pair(ArcaneBattery::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
     "blue_coin" to Pair(BlueCoin::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
     "blue_heart" to Pair(BlueHeart::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
-    "black_heart" to Pair(BlackHeart::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN),
+    "black_heart" to Pair(BlackHeart::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_BLACK_HEART),
     "clock_heart" to Pair(ClockHeart::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "aim_book" to Pair(HomingBook::class.java, 1f, 0.1f, 1f, 0.3f, Quality.IRON),
     "triple_book" to Pair(TripleShotBook::class.java, 1f, 0.1f, 1f, 0.3f, Quality.IRON),
