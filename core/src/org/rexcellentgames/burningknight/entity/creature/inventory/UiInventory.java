@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
@@ -81,6 +82,8 @@ public class UiInventory extends UiEntity {
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
 					((Accessory) current).onEquip();
+
+					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
 			}
 		}
@@ -508,10 +511,21 @@ public class UiInventory extends UiEntity {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+		boolean empty = false;
 
 		for (int i = (this.slots[0].a == 1f ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
 			Item item = this.inventory.getSlot(i);
+
+			if (item == null) {
+				empty = true;
+			}
+
 			this.slots[i].render(item);
+		}
+
+		if (!empty) {
+			Achievements.unlock(Achievements.FILL_UP_INVENTORY);
+			Achievements.unlock(Achievements.UNLOCK_BACKPACK);
 		}
 
 		float y = this.slots[this.inventory.getSize() - 1].y + 20;

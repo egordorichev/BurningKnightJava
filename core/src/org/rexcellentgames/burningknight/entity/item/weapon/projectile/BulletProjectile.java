@@ -20,7 +20,9 @@ import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -146,6 +148,13 @@ public class BulletProjectile extends Projectile {
 			this.vel.x *= -1;
 			this.vel.y *= -1;
 			this.bad = false;
+
+			int num = GlobalSave.getInt("num_bullets_reflected") + 1;
+			GlobalSave.put("num_bullets_reflected", num);
+
+			if (num >= 30) {
+				Achievements.unlock(Achievements.UNLOCK_AMMO_ORBITAL);
+			}
 
 			if (this.body != null) {
 				this.body.setLinearVelocity(this.vel);

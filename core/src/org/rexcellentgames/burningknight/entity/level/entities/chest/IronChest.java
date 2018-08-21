@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -22,7 +23,7 @@ public class IronChest extends Chest {
 		weapon = Random.chance(50);
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (item.getQuality() == ItemRegistry.Quality.IRON && (weapon ? WeaponBase.class : Accessory.class).isAssignableFrom(item.getType())) {
+			if (item.getQuality() == ItemRegistry.Quality.IRON && Achievements.unlocked(item.getUnlock()) && (weapon ? WeaponBase.class : Accessory.class).isAssignableFrom(item.getType())) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +

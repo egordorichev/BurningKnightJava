@@ -15,13 +15,53 @@ import java.util.ArrayList;
 public class Achievements {
 	// Regular achievements
 	public static final String TEST = "TEST_ACHIEVEMENT";
+
 	public static final String REACH_DESERT = "REACH_DESERT_ACHIEVEMENT";
 	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
 	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
 	public static final String DIE = "DIE_ACHIEVEMENT";
+	public static final String BURN_TO_DEATH = "BURN_TO_DEATH_ACHIEVEMENT";
 	public static final String FIND_MIMIC = "FIND_MIMIC_ACHIEVEMENT";
+	public static final String KILL_DM = "KILL_DM_ACHIEVEMENT";
+	public static final String SELL_10_ITEMS = "SELL_10_ITEMS_ACHIEVEMENT";
+	public static final String EQUIP_ACCESSORY = "EQUIP_ACCESSORY_ACHIEVEMENT";
+	public static final String COLLECT_300_GOLD = "COLLECT_300_GOLD_ACHIEVEMENT";
+	public static final String GET_8_HEART_CONTAINERS = "GET_8_HEART_CONTAINERS_ACHIEVEMENT";
+	public static final String DONT_GET_HIT_IN_BOSS_FIGHT = "DONT_GET_HIT_IN_BOSS_FIGHT_ACHIEVEMENT";
+	public static final String FIND_CRASH_BOOK = "FIND_CRASH_BOOK_ACHIEVEMENT";
+	public static final String FILL_UP_INVENTORY = "FILL_UP_INVENTORY_ACHIEVEMENT";
+	public static final String FIND_SECRET_ROOM = "FIND_SECRET_ROOM_ACHIEVEMENT";
 	// Item unlocks
 	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
+	public static final String UNLOCK_MIMIC_TOTEM = "UNLOCK_MIMIC_TOTEM";
+	public static final String UNLOCK_MIMIC_SUMMONER = "UNLOCK_MIMIC_SUMMONER";
+	public static final String UNLOCK_SALE = "UNLOCK_SALE";
+	public static final String UNLOCK_MONEY_PRINTER = "UNLOCK_MONEY_PRINTER";
+	public static final String UNLOCK_CRASH_BOOK = "UNLOCK_CRASH_BOOK";
+	public static final String UNLOCK_BLOOD_CROWN = "UNLOCK_BLOOD_CROWN";
+	public static final String UNLOCK_DIAMOND_SWORD = "UNLOCK_DIAMOND_SWORD";
+	public static final String UNLOCK_DIAMOND = "UNLOCK_DIAMOND";
+	public static final String UNLOCK_HALO = "UNLOCK_HALO";
+	public static final String UNLOCK_WATER_BOLT = "UNLOCK_WATER_BOLT";
+	public static final String UNLOCK_WINGS = "UNLOCK_WINGS";
+	public static final String UNLOCK_DEW_VIAL = "UNLOCK_DEW_VIAL";
+	public static final String UNLOCK_LOOTPICK = "UNLOCK_LOOTPICK";
+	public static final String UNLOCK_SWORD_ORBITAL = "UNLOCK_SWORD_ORBITAL";
+	public static final String UNLOCK_AMMO_ORBITAL = "UNLOCK_AMMO_ORBITAL";
+	public static final String UNLOCK_SPECTACLES = "UNLOCK_SPECTACLES";
+	public static final String UNLOCK_MEETBOY = "UNLOCK_MEETBOY";
+	public static final String UNLOCK_MEETBOY_AXE = "UNLOCK_MEETBOY_AXE";
+	public static final String UNLOCK_GOLD_RING = "UNLOCK_GOLD_RING";
+	public static final String UNLOCK_BACKPACK = "UNLOCK_BACKPACK";
+	public static final String UNLOCK_ISAAC_HEAD = "UNLOCK_ISAAC_HEAD";
+	public static final String UNLOCK_DENDY = "UNLOCK_KOTLING_GUN";
+	// Special room unlocks, TODO
+	public static final String UNLOCK_CLOCK_HEART = "UNLOCK_CLOCK_HEART";
+	public static final String UNLOCK_VVVVV = "UNLOCK_VVVVV";
+	public static final String UNLOCK_STOP_WATCH = "UNLOCK_STOP_WATCH";
+	public static final String UNLOCK_STAR = "UNLOCK_STAR";
+	public static final String UNLOCK_KOTLING_GUN = "UNLOCK_KOTLING_GUN";
+	// todo: unlock for resizing win to min
 	// Secret
 	// TODO
 
@@ -30,7 +70,7 @@ public class Achievements {
 	private static UiAchievement lastActive;
 
 	public static boolean unlocked(String id) {
-		return false; // GlobalSave.isTrue(id);
+		return id == null || GlobalSave.isTrue(id);
 	}
 
 	public static void unlock(String id) {
@@ -59,8 +99,8 @@ public class Achievements {
 					Item item = pair.getType().newInstance();
 
 					achievement.text = item.getName() + " " + Locale.get("was_unlocked");
-					achievement.extra = "";
 					achievement.icon = item.getSprite();
+					achievement.unlock = true;
 				} catch (Exception e) {
 					e.printStackTrace();
 					return;

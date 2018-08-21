@@ -83,6 +83,9 @@ public class Mimic extends Mob {
 		LevelSave.add(chest);
 
 		chest.open();
+
+		Achievements.unlock(Achievements.UNLOCK_MIMIC_TOTEM);
+		Achievements.unlock(Achievements.UNLOCK_MIMIC_SUMMONER);
 	}
 
 	public void toChest() {

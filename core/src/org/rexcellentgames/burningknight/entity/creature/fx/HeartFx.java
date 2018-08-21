@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.item.Spark;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlueHeart;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -98,12 +99,17 @@ public class HeartFx extends SaveableEntity {
 				if (player.ui.hasEquiped(BlueHeart.class)) {
 					player.modifyMana(2);
 				}
+
+				player.numCollectedHearts += this.type == Type.RED ? 2 : 1;
 			} else if (this.type == Type.GOLDEN) {
+				Achievements.unlock(Achievements.UNLOCK_DIAMOND);
 				player.addGoldenHearts(2);
+				player.numCollectedHearts += 2;
 				this.end(player);
 			} else if (this.type == Type.IRON) {
 				player.addIronHearts(2);
 				this.end(player);
+				player.numCollectedHearts += 2;
 			}
 		}
 	}

@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.special.LockedRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.entity.pool.item.ShopHatPool;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -174,8 +175,7 @@ public class ShopRoom extends LockedRoom {
 		Pool<Item> pool = new Pool<>();
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (Accessory.class.isAssignableFrom(item.getType())) {
-
+			if (Accessory.class.isAssignableFrom(item.getType()) && Achievements.unlocked(item.getUnlock())) {
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
 						item.getMage() * Player.instance.getMage() +

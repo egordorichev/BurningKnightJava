@@ -14,6 +14,8 @@ import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -185,6 +187,15 @@ public class BombEntity extends Entity {
 			for (int y = room.top; y <= room.bottom; y++) {
 				if (Dungeon.level.get(x, y) == Terrain.CRACK && this.getDistanceTo(x * 16 + 8, y * 16 + 8) <= 32f) {
 					make(room);
+					Achievements.unlock(Achievements.FIND_SECRET_ROOM);
+
+					int num = GlobalSave.getInt("num_secret_rooms_found") + 1;
+					GlobalSave.put("num_secret_rooms_found", num);
+
+					if (num >= 3) {
+						Achievements.unlock(Achievements.UNLOCK_SPECTACLES);
+					}
+
 					room.hidden = false;
 					Dungeon.level.set(x, y, Terrain.FLOOR_A);
 

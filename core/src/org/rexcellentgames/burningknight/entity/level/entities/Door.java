@@ -14,6 +14,8 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Lootpic
 import org.rexcellentgames.burningknight.entity.item.key.Key;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -166,6 +168,13 @@ public class Door extends SaveableEntity {
 				} else if (player.getInventory().find(this.key)) {
 					Item key = player.getInventory().findItem(this.key);
 					key.setCount(key.getCount() - 1);
+
+					int num = GlobalSave.getInt("num_keys_used");
+					GlobalSave.put("num_keys_used", num);
+
+					if (num >= 10) {
+						Achievements.unlock(Achievements.UNLOCK_LOOTPICK);
+					}
 
 					this.lock = false;
 					this.animation.setBack(false);

@@ -474,8 +474,13 @@ public class Mob extends Creature {
 			this.drop = true;
 			GameSave.killCount ++;
 
-			Achievements.unlock(Achievements.UNLOCK_BLACK_HEART);
-			// todo: place for your achievements :P
+			if (GameSave.killCount >= 10) {
+				Achievements.unlock(Achievements.UNLOCK_BLACK_HEART);
+			}
+
+			if (GameSave.killCount >= 100) {
+				Achievements.unlock(Achievements.UNLOCK_BLOOD_CROWN);
+			}
 		}
 
 		if (!Player.instance.isDead() && !force && Random.chance(20)) {

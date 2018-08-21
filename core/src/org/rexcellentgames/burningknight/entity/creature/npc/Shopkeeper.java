@@ -15,6 +15,8 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ShopSale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
@@ -159,6 +161,15 @@ public class Shopkeeper extends Npc {
 							gold.getItem().setCount(price);
 
 							Player.instance.tryToPickup(gold);
+
+							int val = GlobalSave.getInt("num_sold_items") + 1;
+							GlobalSave.put("num_sold_items", val);
+
+							Achievements.unlock(Achievements.UNLOCK_GOLD_RING);
+
+							if (val >= 10) {
+								Achievements.unlock(Achievements.SELL_10_ITEMS);
+							}
 						}
 					}
 				});
@@ -203,6 +214,7 @@ public class Shopkeeper extends Npc {
 		this.done = true;
 
 		deathEffect(death);
+		Achievements.unlock(Achievements.UNLOCK_SALE);
 	}
 
 	private float al;
