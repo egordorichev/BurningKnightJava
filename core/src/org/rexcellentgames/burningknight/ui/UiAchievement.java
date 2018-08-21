@@ -87,7 +87,16 @@ public class UiAchievement extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.render(icon, this.x + 3, this.y + 3);
+		if (unlock) {
+			Graphics.startShape();
+			Graphics.shape.setColor(0.3f, 0.3f, 0.3f, 1f);
+			Graphics.shape.rect(this.x + 3, this.y + 3, 32, 32);
+			Graphics.endShape();
+
+			Graphics.render(icon, this.x + 3 + (32 - icon.getRegionWidth()) / 2, this.y + 3 + (32 - icon.getRegionHeight()) / 2);
+		} else {
+			Graphics.render(icon, this.x + 3, this.y + 3);
+		}
 
 		Graphics.render(left, this.x, this.y);
 		Graphics.render(center, this.x + 38, this.y, 0, 0, 0, false, false, (this.w - 57), 1);
@@ -97,7 +106,7 @@ public class UiAchievement extends Entity {
 			Graphics.small.draw(Graphics.batch, this.text, this.x + 38 + 3, this.y + this.h - 4 - 4 - 2);
 			Graphics.small.draw(Graphics.batch, this.extra, this.x + 38 + 3, this.y + this.h - 3 - 16 - 2);
 		} else {
-			Graphics.small.draw(Graphics.batch, this.text, this.x + 38 + 3, this.y + this.h - 4 - 4 - 2 - 8);
+			Graphics.small.draw(Graphics.batch, this.text, this.x + 38 + 3, this.y + this.h - 4 - 4 - 2 - 6);
 		}
 	}
 }
