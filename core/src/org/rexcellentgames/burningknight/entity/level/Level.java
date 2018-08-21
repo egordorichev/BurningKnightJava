@@ -252,8 +252,9 @@ public abstract class Level extends SaveableEntity {
 			this.low[i] = !this.checkFor(i, Terrain.HIGH);
 		}
 
-		for (int x = 0; x < WIDTH; x++) {
-			for (int y = 0; y < HEIGHT; y++) {
+
+		for (int y = 0; y < HEIGHT; y++) {
+			for (int x = 0; x < WIDTH; x++) {
 				this.tile(x, y);
 			}
 		}
@@ -325,8 +326,8 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void tileRegion(int x, int y) {
-		for (int xx = x - 1; xx <= x + 1; xx++) {
-			for (int yy = y - 1; yy <= y + 1; yy++) {
+		for (int yy = y - 1; yy <= y + 1; yy++) {
+			for (int xx = x - 1; xx <= x + 1; xx++) {
 				this.tile(xx, yy);
 			}
 		}
@@ -342,8 +343,8 @@ public abstract class Level extends SaveableEntity {
 		byte var = (byte) Random.newInt(0, 11);
 
 		if (var == 9 || var == 10) {
-			for (int xx = x; xx < x + 2; xx++) {
-				for (int yy = y; yy < y + 2; yy++) {
+			for (int yy = y; yy < y + 2; yy++) {
+				for (int xx = x; xx < x + 2; xx++) {
 					if (this.get(xx, yy) != tile || this.variants[toIndex(xx, yy)] != 0) {
 						var = (byte) Random.newInt(0, 9);
 						break;
@@ -513,8 +514,8 @@ public abstract class Level extends SaveableEntity {
 			this.lightB[i] = MathUtils.clamp(color.b, 1f, this.lightB[i] - sp);
 		}
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+		for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 
 				if (i >= data.length) {
@@ -543,8 +544,8 @@ public abstract class Level extends SaveableEntity {
 		float s = 0.5f;
 		float md = 1f / s;
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+		for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 
 				if (i >= data.length) {
@@ -647,6 +648,7 @@ public abstract class Level extends SaveableEntity {
 
 						for (int xx = 0; xx < 2; xx++) {
 							for (int yy = 0; yy < 2; yy++) {
+
 								int lv = 0;
 
 								if (yy == 0 || !isBitSet(v, 0)) {
@@ -769,8 +771,8 @@ public abstract class Level extends SaveableEntity {
 
 		boolean pause = Dungeon.game.getState().isPaused();
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+		for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 
 				if (this.low[i] && this.light[i] > 0) {
@@ -824,8 +826,8 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.setShader(maskShader);
 		Graphics.batch.begin();
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 				if (this.light[i] == 0) {
 					continue;
@@ -846,8 +848,8 @@ public abstract class Level extends SaveableEntity {
 						Graphics.batch.setShader(Mob.shader);
 						Graphics.batch.begin();
 
-						for (int xx = -1; xx < 2; xx++) {
-							for (int yy = -1; yy < 2; yy++) {
+						for (int yy = -1; yy < 2; yy++) {
+							for (int xx = -1; xx < 2; xx++) {
 								if (Math.abs(xx) + Math.abs(yy) == 1) {
 									Graphics.render(Terrain.exit, x * 16 + xx, y * 16 - 8 + yy);
 								}
@@ -964,8 +966,8 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 				byte tile = this.get(i);
 
@@ -1024,8 +1026,8 @@ public abstract class Level extends SaveableEntity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 
 				if (i >= data.length) {
@@ -1077,8 +1079,8 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.setShader(shader);
 		Graphics.batch.begin();
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 				if (i >= data.length) {
 					continue;
@@ -1136,8 +1138,8 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.setShader(maskShader);
 		Graphics.batch.begin();
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 				if (this.light[i] == 0) {
 					continue;
@@ -1307,8 +1309,8 @@ public abstract class Level extends SaveableEntity {
 			return;
 		}
 
-		for (int xx = (int) -rd; xx <= rd; xx++) {
-			for (int yy = (int) -rd; yy <= rd; yy++) {
+		for (int yy = (int) -rd; yy <= rd; yy++) {
+			for (int xx = (int) -rd; xx <= rd; xx++) {
 				if (xx + fx < 0 || yy + fy < 0 || xx + fx >= Level.getWidth() || yy + fy >= Level.getHeight()) {
 					continue;
 				}
@@ -1462,8 +1464,8 @@ public abstract class Level extends SaveableEntity {
 
 		this.chasms = World.world.createBody(cdef);
 
-		for (int x = 0; x < getWidth(); x++) {
-			for (int y = 0; y < getHeight(); y++) {
+		for (int y = 0; y < getHeight(); y++) {
+			for (int x = 0; x < getWidth(); x++) {
 				if (this.checkFor(x, y, Terrain.SOLID)) {
 					int total = 0;
 

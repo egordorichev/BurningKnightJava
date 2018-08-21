@@ -191,7 +191,7 @@ public class ShopRoom extends LockedRoom {
 		Pool<Item> pool = new Pool<>();
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (WeaponBase.class.isAssignableFrom(item.getType())) {
+			if (WeaponBase.class.isAssignableFrom(item.getType()) && Achievements.unlocked(item.getUnlock())) {
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
 						item.getMage() * Player.instance.getMage() +

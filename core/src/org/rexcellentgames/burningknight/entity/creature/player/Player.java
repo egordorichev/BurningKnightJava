@@ -870,8 +870,9 @@ public class Player extends Creature {
 		if (this.seeSecrets) {
 			for (Room r : room.connected.keySet()) {
 				if (r.hidden) {
-					for (int x = r.left; x <= r.right; x++) {
-						for (int y = r.top; y <= r.bottom; y++) {
+					for (int y = r.top; y <= r.bottom; y++) {
+						for (int x = r.left; x <= r.right; x++) {
+
 							if (Dungeon.level.get(x, y) == Terrain.CRACK) {
 								r.hidden = false;
 								BombEntity.make(r);

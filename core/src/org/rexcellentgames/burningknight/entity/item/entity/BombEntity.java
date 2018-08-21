@@ -148,8 +148,8 @@ public class BombEntity extends Entity {
 
 			int s = 2;
 
-			for (int xx = -s; xx <= s; xx++) {
-				for (int yy = -s; yy <= s; yy++) {
+			for (int yy = -s; yy <= s; yy++) {
+				for (int xx = -s; xx <= s; xx++) {
 					int x = (int) ((this.x + this.w / 2) / 16 + xx);
 					int y = (int) ((this.y + this.h / 2) / 16 + yy);
 

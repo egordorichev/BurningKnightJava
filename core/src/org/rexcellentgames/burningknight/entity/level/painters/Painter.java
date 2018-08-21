@@ -72,8 +72,8 @@ public class Painter {
 			room.paint(level);
 
 			if (Dungeon.depth < 5) {
-				for (int x = room.left; x <= room.right; x++) {
-					for (int y = room.top; y <= room.bottom; y++) {
+				for (int y = room.top; y <= room.bottom; y++) {
+					for (int x = room.left; x <= room.right; x++) {
 						int i = Level.toIndex(x, y);
 
 						if (level.liquidData[i] == Terrain.LAVA) {
@@ -85,8 +85,8 @@ public class Painter {
 			}
 
 			if (room.hidden) {
-				for (int x = room.left; x <= room.right; x++) {
-					for (int y = room.top; y <= room.bottom; y++) {
+				for (int y = room.top; y <= room.bottom; y++) {
+					for (int x = room.left; x <= room.right; x++) {
 						level.hide(x, y);
 					}
 				}
@@ -249,8 +249,8 @@ public class Painter {
 				} else {
 					byte f = Terrain.randomFloor();
 
-					for (int xx = -1; xx <= 1; xx++) {
-						for (int yy = -1; yy <= 1; yy++) {
+					for (int yy = -1; yy <= 1; yy++) {
+						for (int xx = -1; xx <= 1; xx++) {
 							if (Math.abs(xx) + Math.abs(yy) == 1) {
 								byte tl = level.get((int) d.x + xx, (int) d.y + yy);
 
@@ -310,8 +310,8 @@ public class Painter {
 	}
 
 	public static void setBold(Level level, int x, int y, byte value) {
-		for (int xx = x - 1; xx < x + 2; xx++) {
-			for (int yy = y - 1; yy < y + 2; yy++) {
+		for (int yy = y - 1; yy < y + 2; yy++) {
+			for (int xx = x - 1; xx < x + 2; xx++) {
 				byte t = level.get(xx, yy);
 				if (t != value) {
 					if (xx != x || yy != y) {
@@ -331,8 +331,8 @@ public class Painter {
 	}
 
 	public static void fill(Level level, int x, int y, int w, int h, byte value) {
-		for (int xx = x; xx < x + w; xx++) {
-			for (int yy = y; yy < y + h; yy++) {
+		for (int yy = y; yy < y + h; yy++) {
+			for (int xx = x; xx < x + w; xx++) {
 				set(level, xx, yy, value);
 			}
 		}
