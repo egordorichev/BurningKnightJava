@@ -240,12 +240,14 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 
-		rooms.add(new TreasureRoom());
-		rooms.add(new TreasureRoom());
+		if (Dungeon.depth > 0) {
+			rooms.add(new TreasureRoom());
+			rooms.add(new TreasureRoom());
 
-		if (Random.chance(75)) {
-			Log.info("Adding shop");
-			rooms.add(ShopRoomPool.instance.generate());
+			if (Random.chance(75)) {
+				Log.info("Adding shop");
+				rooms.add(ShopRoomPool.instance.generate());
+			}
 		}
 
 		for (int i = 0; i < connection; i++) {
