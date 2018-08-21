@@ -602,6 +602,8 @@ public class Player extends Creature {
 		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
 			 || (!fromInit && (Dungeon.level.findRoomFor(this.x + this.w / 2, this.y) == null)))) {
 			this.tp(ladder.x, ladder.y - 2);
+		} else if (ladder == null) {
+			Log.error("Null lader!");
 		}
 	}
 
@@ -793,6 +795,14 @@ public class Player extends Creature {
 	@Override
 	protected void onRoomChange() {
 		super.onRoomChange();
+
+		if (this.room == null) {
+			if (ladder != null) {
+				this.tp(ladder.x, ladder.y - 2);
+			} else {
+				Log.error("Null lader!");
+			}
+		}
 
 		if (this.seeSecrets) {
 			for (Room r : room.connected.keySet()) {

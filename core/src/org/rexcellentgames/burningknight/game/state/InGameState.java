@@ -457,21 +457,29 @@ public class InGameState extends State {
 		UiInventory inventory = new UiInventory(Player.instance.getInventory());
 		
 		Dungeon.ui.add(inventory);
-
 		Dungeon.ui.add(new UiMap());
 
 		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128+ 32) {
 			@Override
 			public void onClick() {
 				super.onClick();
-				
 				setPaused(false);
-
-				Camera.shake(3);
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128+ 32 - 24) {
+		this.pauseMenuUi.add(new UiButton("quick_restart", Display.GAME_WIDTH / 2, 128+ 32 - 24) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				transition(() -> {
+					Dungeon.grayscale = 0;
+					Dungeon.newGame();
+				});
+			}
+		}.setSparks(true));
+
+		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128+ 32 - 24 * 2) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -483,8 +491,6 @@ public class InGameState extends State {
 					SettingsState.add();
 					MainMenuState.cameraX = Display.GAME_WIDTH * 1.5f;
 				});
-				
-				Camera.shake(3);
 			}
 		}.setSparks(true));
 

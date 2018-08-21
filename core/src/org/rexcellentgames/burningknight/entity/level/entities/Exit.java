@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -61,8 +62,11 @@ public class Exit extends SaveableEntity {
 	}
 
 	private void addSelf() {
-		if (Dungeon.loadType == Entrance.LoadType.GO_UP && (Dungeon.ladderId == this.type || Player.ladder == null)) {
+		Log.info("Checking for exit ladder");
+
+		if (Dungeon.loadType != Entrance.LoadType.GO_DOWN && (Dungeon.ladderId == this.type || Player.ladder == null)) {
 			Player.ladder = this;
+			Log.info("Set exit ladder!");
 		}
 
 		if (this.type == Entrance.NORMAL) {

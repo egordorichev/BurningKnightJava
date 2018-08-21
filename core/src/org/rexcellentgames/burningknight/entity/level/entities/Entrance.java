@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -62,8 +63,11 @@ public class Entrance extends SaveableEntity {
 	}
 
 	private void addSelf() {
-		if (Dungeon.loadType == LoadType.GO_DOWN && (Dungeon.ladderId == this.type || Player.ladder == null)) {
+		Log.info("Checking for entrance ladder");
+
+		if (Dungeon.loadType != LoadType.GO_UP && (Dungeon.ladderId == this.type || Player.ladder == null)) {
 			Player.ladder = this;
+			Log.info("Set entrance ladder!");
 		}
 	}
 
