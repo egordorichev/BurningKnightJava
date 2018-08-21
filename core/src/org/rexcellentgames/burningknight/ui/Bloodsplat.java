@@ -1,12 +1,12 @@
 package org.rexcellentgames.burningknight.ui;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
 
@@ -31,38 +31,45 @@ public class Bloodsplat extends Entity {
 		texture = blood.get(Random.newInt(blood.size())).frame;
 		a = Random.newFloat(360);
 		alm = Random.newFloat(0.5f, 0.8f);
+	}
 
-		Tween.to(new Tween.Task(this.alm, 0.05f) {
-			@Override
-			public float getValue() {
-				return al;
+	private boolean second;
+	private float t;
+	private boolean go;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (Dungeon.game.getState().isPaused()) {
+			this.go = true;
+		}
+
+		if (this.go) {
+			this.al -= dt * 10;
+			if (this.al <= 0) {
+				this.done = true;
 			}
+		}
 
-			@Override
-			public void setValue(float value) {
-				al = value;
+		if (this.second) {
+			this.t += dt;
+
+			if (this.t >= 0.5f) {
+				this.al -= dt * 2;
+
+				if (this.al <= 0) {
+					this.done = true;
+				}
 			}
+		} else {
+			this.al += (this.alm - this.al) * dt * 30;
 
-			@Override
-			public void onEnd() {
-				Tween.to(new Tween.Task(0, 0.5f) {
-					@Override
-					public float getValue() {
-						return al;
-					}
-
-					@Override
-					public void setValue(float value) {
-						al = value;
-					}
-
-					@Override
-					public void onEnd() {
-						setDone(true);
-					}
-				}).delay(0.5f);
+			if (this.al >= this.alm - 0.05f) {
+				this.al = 1f;
+				this.second = true;
 			}
-		});
+		}
 	}
 
 	@Override

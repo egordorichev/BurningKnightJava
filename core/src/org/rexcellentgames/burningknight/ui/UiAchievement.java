@@ -6,6 +6,9 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 
+// fixme: displayed under black bars, or not displayed at all
+// fixme: hide ui banner, when dead or in pause, show depth / time in pause
+
 public class UiAchievement extends Entity {
 	{
 		alwaysActive = true;

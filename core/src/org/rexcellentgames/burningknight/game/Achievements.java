@@ -4,6 +4,8 @@ import com.codedisaster.steamworks.*;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.ui.UiAchievement;
 import org.rexcellentgames.burningknight.util.Log;
@@ -16,13 +18,15 @@ public class Achievements {
 	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
 	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
 	public static final String DIE = "DIE_ACHIEVEMENT";
+	public static final String FIND_MIMIC = "FIND_MIMIC_ACHIEVEMENT";
+	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
 
-	private static ArrayList<UiAchievement> toShow = new ArrayList<UiAchievement>();
+	private static ArrayList<UiAchievement> toShow = new ArrayList<>();
 	private static Area top = new Area();
 	private static UiAchievement lastActive;
 
 	public static boolean unlocked(String id) {
-		return GlobalSave.isTrue(id);
+		return false; // GlobalSave.isTrue(id);
 	}
 
 	public static void unlock(String id) {
@@ -33,9 +37,33 @@ public class Achievements {
 
 			UiAchievement achievement = new UiAchievement();
 
-			achievement.text = Locale.get(id.toLowerCase());
-			achievement.extra = Locale.get(id.toLowerCase() + "_desc");
-			achievement.icon = Graphics.getTexture("achievements-" + (id.toLowerCase().replace("_achievement", "")));
+			if (id.contains("ACHIEVEMENT")) {
+				achievement.text = Locale.get(id.toLowerCase());
+				achievement.extra = Locale.get(id.toLowerCase() + "_desc");
+				achievement.icon = Graphics.getTexture("achievements-" + (id.toLowerCase().replace("_achievement", "")));
+			} else {
+				String reg = id.replace("UNLOCK_", "").toLowerCase();
+
+				try {
+					ItemRegistry.Pair pair = ItemRegistry.INSTANCE.getItems().get(reg);
+
+					if (pair == null) {
+						Log.error("Failed to unlock item " + reg);
+						return;
+					}
+
+					Item item = pair.getType().newInstance();
+
+					achievement.text = item.getName() + " " + Locale.get("was_unlocked");
+					achievement.extra = "";
+					achievement.icon = item.getSprite();
+				} catch (Exception e) {
+					e.printStackTrace();
+					return;
+				}
+
+				// todo
+			}
 
 			toShow.add(achievement);
 		}

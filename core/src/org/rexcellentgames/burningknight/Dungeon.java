@@ -358,6 +358,11 @@ public class Dungeon extends ApplicationAdapter {
 				public void setValue(float value) {
 					fpsY = value;
 				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
 			});
 
 			Achievements.unlock(Achievements.TEST);
@@ -500,9 +505,8 @@ public class Dungeon extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Graphics.batch.begin();
-		game.renderUi();
-		Achievements.render();
 
+		game.renderUi();
 		if (fpsY > 0) {
 			int f = Gdx.graphics.getFramesPerSecond();
 
@@ -519,8 +523,9 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.small.setColor(1, 1, 1, 1);
 		}
 
-
 		ModManager.INSTANCE.draw();
+		Achievements.render();
+
 		Graphics.batch.end();
 		Graphics.shadows.end();
 

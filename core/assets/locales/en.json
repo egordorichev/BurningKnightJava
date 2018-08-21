@@ -605,5 +605,8 @@
 	"kill_bk_achievement" : "He is dead",
 	"kill_bk_achievement_desc" : "Finally",
 	"die_achievement" : "Death",
-	"die_achievement_desc" : "It happens some times, don't worry"
+	"die_achievement_desc" : "It happens some times, don't worry",
+	"find_mimic_achievement" : "Where is my treasure",
+	"find_mimic_achievement_desc" : "Surprise",
+	"was_unlocked" : "was unlocked!"
 }

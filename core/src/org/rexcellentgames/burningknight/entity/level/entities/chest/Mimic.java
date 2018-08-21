@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.TFFx;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -209,6 +210,7 @@ public class Mimic extends Mob {
 
 		if (entity instanceof Player) {
 			if (!this.found) {
+				Achievements.unlock(Achievements.FIND_MIMIC);
 				this.found = true;
 				this.become("found");
 			}
@@ -220,6 +222,7 @@ public class Mimic extends Mob {
 		super.onHurt(a, from);
 
 		if (!this.found) {
+			Achievements.unlock(Achievements.FIND_MIMIC);
 			this.found = true;
 			this.become("found");
 		}

@@ -34,6 +34,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Log;
@@ -472,6 +473,8 @@ public class Mob extends Creature {
 		if (!this.dead && !force) {
 			this.drop = true;
 			GameSave.killCount ++;
+
+			Achievements.unlock(Achievements.UNLOCK_BLACK_HEART);
 			// todo: place for your achievements :P
 		}
 
