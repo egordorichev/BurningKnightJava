@@ -1243,7 +1243,7 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.begin();
 
 					if (variant != 15) {
-						Graphics.render(Terrain.dirtedge[variant], x * 16, y * 16 - 8);
+						Graphics.render(Terrain.grassedge[variant], x * 16, y * 16 - 8);
 					}
 				}
 			}

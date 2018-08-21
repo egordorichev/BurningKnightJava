@@ -125,6 +125,7 @@ public class Terrain {
 	public static TextureRegion[] pooledge = new TextureRegion[15];
 	public static TextureRegion[] lavaedge = new TextureRegion[15];
 	public static TextureRegion[] dirtedge = new TextureRegion[15];
+	public static TextureRegion[] grassedge = new TextureRegion[15];
 	public static TextureRegion[] waterVariants = new TextureRegion[16];
 	public static TextureRegion[] lavaVariants = new TextureRegion[16];
 	public static TextureRegion[] wallVariants = new TextureRegion[15];
@@ -200,6 +201,10 @@ public class Terrain {
 
 		for (int i = 0; i < 15; i++) {
 			lavaedge[i] = Graphics.getTexture("biome-gen-lavaedge" + Level.COMPASS[i]);
+		}
+
+		for (int i = 0; i < 15; i++) {
+			grassedge[i] = Graphics.getTexture("biome-gen-grassedge" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {
