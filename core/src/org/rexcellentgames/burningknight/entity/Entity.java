@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.physics.box2d.Contact;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -91,6 +92,10 @@ public class Entity extends Point {
 
 	public void onCollisionEnd(Entity entity) {
 
+	}
+
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		return true;
 	}
 
 	public boolean isOnScreen() {

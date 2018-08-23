@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
@@ -17,9 +18,12 @@ import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA;
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocket.RocketA;
@@ -677,5 +681,22 @@ public class Creature extends SaveableEntity {
 
 	public void setStat(String name, float val) {
 		stats.put(name, val);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (this.flying && entity == null && contact.getFixtureA().getBody().isBullet()) {
+			return false;
+		} else if (entity instanceof Creature) {
+			if (!(this instanceof Player && entity instanceof Mummy)) {
+				return false;
+			}
+		} else if (entity instanceof ItemHolder) {
+			return false;
+		} else if (entity instanceof Weapon && ((Weapon) entity).getOwner() == this) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

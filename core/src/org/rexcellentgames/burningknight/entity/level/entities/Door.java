@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -12,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
+import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
@@ -332,5 +334,16 @@ public class Door extends SaveableEntity {
 
 		writer.writeInt16((short) this.sx);
 		writer.writeInt16((short) this.sy);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (entity instanceof Creature || entity instanceof PetEntity) {
+			if (!this.lock || entity instanceof PetEntity) {
+				return false;
+			}
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

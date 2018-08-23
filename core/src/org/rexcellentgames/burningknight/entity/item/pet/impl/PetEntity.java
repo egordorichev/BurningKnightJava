@@ -1,12 +1,17 @@
 package org.rexcellentgames.burningknight.entity.item.pet.impl;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import com.badlogic.gdx.physics.box2d.Contact;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class PetEntity extends SaveableEntity {
@@ -56,5 +61,14 @@ public class PetEntity extends SaveableEntity {
 	@Override
 	public void render() {
 		Graphics.render(region, this.x, this.y);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if  (entity instanceof Creature || entity instanceof Door || entity instanceof SolidProp || (entity instanceof ItemHolder && !(((ItemHolder) entity).getItem() instanceof Gold))) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

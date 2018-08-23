@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 
 public class PickaxeD extends Sword {
 	{
-		sprite = "diamond-gold_pickaxe";
+		sprite = "item-diamond_pickaxe";
 		name = Locale.get("diamond_pickaxe");
 		description = Locale.get("diamond_pickaxe_desc");
 		damage = 12;

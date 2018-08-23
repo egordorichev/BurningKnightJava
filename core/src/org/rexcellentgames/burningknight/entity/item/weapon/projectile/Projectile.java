@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -135,5 +136,14 @@ public class Projectile extends NetworkedEntity {
 
 	protected void onDeath() {
 
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (entity == null && contact.getFixtureA().getBody().isBullet()) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

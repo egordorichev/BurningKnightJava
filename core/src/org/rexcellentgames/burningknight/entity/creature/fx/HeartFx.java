@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -10,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Spark;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlueHeart;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
@@ -195,5 +197,14 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void renderShadow() {
 		Graphics.shadow(this.x, this.y, this.w, this.h);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (!(entity instanceof HeartFx || entity instanceof SolidProp) && entity != null) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

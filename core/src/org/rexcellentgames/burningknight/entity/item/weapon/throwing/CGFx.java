@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Smoke;
@@ -105,5 +107,14 @@ public class CGFx extends Entity {
 
 		Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false,
 			1f + v, 1f + v);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (entity instanceof Creature) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

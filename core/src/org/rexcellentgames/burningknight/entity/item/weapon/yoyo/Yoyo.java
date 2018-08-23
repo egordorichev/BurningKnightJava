@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
@@ -142,5 +145,14 @@ public class Yoyo extends Weapon {
 	protected void createHitbox() {
 		TextureRegion region = this.getSprite();
 		this.body = World.createCircleBody(this, 0, 0, Math.max(region.getRegionWidth(), region.getRegionHeight()) / 2, BodyDef.BodyType.DynamicBody, false);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (entity instanceof ItemHolder) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

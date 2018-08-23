@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.entity;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -228,5 +229,14 @@ public class BombEntity extends Entity {
 		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 5) + 1;
 
 		this.animation.render(this.x, this.y, false, false, 5, 0, 0, this.fliped ? -sx : sx, sy);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (entity != null && !(entity instanceof Player)) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

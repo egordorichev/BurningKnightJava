@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.physics.World;
@@ -110,5 +111,14 @@ public class GoreFx extends Entity {
 		Graphics.batch.setColor(1, 1, 1, this.al);
 		Graphics.render(this.texture, this.x, this.y + this.z, this.a, this.texture.getRegionWidth() / 2, this.texture.getRegionHeight() / 2, false, false);
 		Graphics.batch.setColor(1, 1, 1, 1);
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (entity != null) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }

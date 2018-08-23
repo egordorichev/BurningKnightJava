@@ -1,10 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
@@ -154,5 +151,14 @@ public class Weapon extends WeaponBase {
 		}
 
 		return builder;
+	}
+
+	@Override
+	public boolean shouldCollide(Entity entity, Contact contact) {
+		if (!(entity instanceof Creature)) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact);
 	}
 }
