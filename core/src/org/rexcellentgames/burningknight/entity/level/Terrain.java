@@ -153,6 +153,8 @@ public class Terrain {
 	public static TextureRegion[] dirtedge = new TextureRegion[16];
 	public static TextureRegion[] drygrassedge = new TextureRegion[16];
 	public static TextureRegion[] grassedge = new TextureRegion[16];
+	public static TextureRegion[] obedge = new TextureRegion[16];
+	public static TextureRegion[] webedge = new TextureRegion[16];
 	public static TextureRegion[] woodVariants = new TextureRegion[16];
 	public static TextureRegion[] badVariants = new TextureRegion[16];
 	public static TextureRegion[] goldVariants = new TextureRegion[16];
@@ -230,6 +232,14 @@ public class Terrain {
 
 		for (int i = 0; i < 16; i++) {
 			lavaedge[i] = Graphics.getTexture("biome-gen-lavaedge" + Level.COMPASS[i]);
+		}
+
+		for (int i = 0; i < 16; i++) {
+			obedge[i] = Graphics.getTexture("biome-gen-ob" + Level.COMPASS[i]);
+		}
+
+		for (int i = 0; i < 16; i++) {
+			webedge[i] = Graphics.getTexture("biome-gen-web" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {

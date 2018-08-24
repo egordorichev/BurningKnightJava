@@ -1116,8 +1116,10 @@ public abstract class Level extends SaveableEntity {
 
 					// todo: high grass overlays
 				} else if (tile == Terrain.OBSIDIAN) {
-					drawWith(Terrain.obsidianPattern, Terrain.dirtedge, i, x, y, false);
-				} else if (tile == Terrain.COBWEB || tile == Terrain.EMBER) {
+					drawWith(Terrain.obsidianPattern, Terrain.obedge, i, x, y, false);
+				} else if (tile == Terrain.COBWEB) {
+					drawWith(Terrain.cobwebPattern, Terrain.webedge, i, x, y, false);
+				} else if (tile == Terrain.EMBER) {
 					Graphics.batch.end();
 					Graphics.batch.setShader(null);
 					Graphics.batch.begin();

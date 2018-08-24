@@ -23,9 +23,15 @@ public class Painter {
 	private float grass = 0f;
 	private float dirt = 0f;
 	private float water = 0f;
+	private float cobweb = 0f;
 
 	public Painter setWater(float v) {
 		this.water = v;
+		return this;
+	}
+
+	public Painter setCobweb(float v) {
+		this.cobweb = v;
 		return this;
 	}
 
@@ -108,6 +114,10 @@ public class Painter {
 			this.paintGrass(level, rooms);
 		}
 
+		if (this.cobweb > 0) {
+			this.paintCobweb(level, rooms);
+		}
+
 		if (this.water > 0) {
 			this.paintWater(level, rooms);
 		}
@@ -124,6 +134,20 @@ public class Painter {
 				byte t = level.data[i];
 				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C) && level.liquidData[i] == 0) {
 					level.set(i, Terrain.WATER);
+				}
+			}
+		}
+	}
+
+	private void paintCobweb(Level level, ArrayList<Room> rooms) {
+		boolean[] lake = Patch.generate(this.water, 3);
+
+		for (Room r : rooms) {
+			for (Point p : r.waterPlaceablePoints()) {
+				int i = Level.toIndex((int) p.x, (int) p.y);
+				byte t = level.data[i];
+				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C) && level.liquidData[i] == 0) {
+					level.set(i, Terrain.COBWEB);
 				}
 			}
 		}

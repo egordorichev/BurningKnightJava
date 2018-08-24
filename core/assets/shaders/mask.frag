@@ -29,7 +29,7 @@ void main() {
             )
         );
 
-        if (edge.r == 1.0) {
+        if (edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
             vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
             float m = (time / (cof.x * 2.0));
 
@@ -47,7 +47,7 @@ void main() {
             )
         );
 
-        if (edge.r == 1.0) {
+        if (edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
             gl_FragColor = texture2D(u_texture, vec2(v_texCoord.x, v_texCoord.y));
         } else {
             gl_FragColor = edge;
