@@ -799,11 +799,6 @@ public class Player extends Creature {
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
-
-		int x = Math.round((this.x + 8) / 16);
-		int y = Math.round((this.y) / 16);
-
-		Dungeon.level.setOnFire(Level.toIndex(x, y), true);
 	}
 
 	public int getManaMax() {
@@ -824,11 +819,17 @@ public class Player extends Creature {
 
 			this.removeBuff(BurningBuff.class);
 			this.watery = 5f;
-		} else if (t == Terrain.LAVA && !this.flying && !this.lavaResist) {
-			this.modifyHp(-1, null,true);
+		} else {
+			if (BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
+				this.addBuff(new BurningBuff());
+			}
 
-			if (this.isDead()) {
-				Achievements.unlock(Achievements.UNLOCK_WINGS);
+			if (t == Terrain.LAVA && !this.flying && !this.lavaResist) {
+				this.modifyHp(-1, null, true);
+
+				if (this.isDead()) {
+					Achievements.unlock(Achievements.UNLOCK_WINGS);
+				}
 			}
 		}
 	}
@@ -851,11 +852,7 @@ public class Player extends Creature {
 		this.resetHit();
 
 		if (this.room == null) {
-			if (ladder != null) {
-				this.tp(ladder.x, ladder.y - 2);
-			} else {
-				Log.error("Null lader!");
-			}
+
 		} else {
 			hadEnemies = false;
 
@@ -998,6 +995,7 @@ public class Player extends Creature {
 				Dungeon.area.add(fx);
 			}
 
+			Log.info("Golden hearts tp");
 			this.doTp(false);
 
 			for (int i = 0; i < 10; i++) {

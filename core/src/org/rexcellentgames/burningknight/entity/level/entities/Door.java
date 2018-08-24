@@ -204,7 +204,11 @@ public class Door extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature && !((Creature) entity).flying) {
-			((Creature) entity).addBuff(new BurningBuff());
+			if (((Creature) entity).hasBuff(BurningBuff.class)) {
+				this.burning = true;
+			} else if (this.burning) {
+				((Creature) entity).addBuff(new BurningBuff());
+			}
 
 			if (this.lock && this.lockable && entity instanceof Player) {
 				Player player = (Player) entity;

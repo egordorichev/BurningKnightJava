@@ -630,7 +630,10 @@ public abstract class Level extends SaveableEntity {
 	private float lastFlame;
 
 	public void setOnFire(int i, boolean fire) {
-		if (this.checkFor(i, Terrain.BURNS) || this.matchesFlag(this.liquidData[i], Terrain.BURNS)) {
+		byte t = this.get(i);
+		boolean li = this.liquidData[i] == 0 || matchesFlag(this.liquidData[i], Terrain.BURNS);
+
+		if ((matchesFlag(t, Terrain.BURNS) && li) || (t != Terrain.WATER && li)) {
 			this.info[i] = BitHelper.setBit(this.info[i], 0, fire);
 		}
 	}
