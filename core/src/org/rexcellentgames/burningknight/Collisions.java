@@ -47,13 +47,18 @@ public class Collisions implements ContactListener, ContactFilter {
 		Object a = contact.getFixtureA().getBody().getUserData();
 		Object b = contact.getFixtureB().getBody().getUserData();
 
-		if (a instanceof Entity && b instanceof Entity) {
-			Entity ae = (Entity) a;
-			Entity be = (Entity) b;
+		boolean should = true;
 
-			if (!ae.shouldCollide(be, contact) || !be.shouldCollide(ae, contact)) {
-				contact.setEnabled(false);
-			}
+		if (a instanceof Entity && !((Entity) a).shouldCollide(b, contact, contact.getFixtureB())) {
+			should = false;
+		}
+
+		if (b instanceof Entity && !((Entity) b).shouldCollide(a, contact, contact.getFixtureA())) {
+			should = false;
+		}
+
+		if (!should) {
+			contact.setEnabled(false);
 		}
 	}
 

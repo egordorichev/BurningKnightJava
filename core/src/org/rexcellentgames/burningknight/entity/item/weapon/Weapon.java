@@ -154,11 +154,11 @@ public class Weapon extends WeaponBase {
 	}
 
 	@Override
-	public boolean shouldCollide(Entity entity, Contact contact) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if (!(entity instanceof Creature)) {
 			return false;
 		}
 
-		return super.shouldCollide(entity, contact);
+		return super.shouldCollide(entity, contact, fixture);
 	}
 }

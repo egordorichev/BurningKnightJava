@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -289,11 +290,11 @@ public class BulletProjectile extends Projectile {
 	}
 
 	@Override
-	public boolean shouldCollide(Entity entity, Contact contact) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if (entity != null) {
 			return false;
 		}
 
-		return super.shouldCollide(entity, contact);
+		return super.shouldCollide(null, contact, fixture);
 	}
 }

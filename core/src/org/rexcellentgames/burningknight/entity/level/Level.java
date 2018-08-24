@@ -33,10 +33,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLeve
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Line;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.MathUtils;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -75,12 +72,12 @@ public abstract class Level extends SaveableEntity {
 	private static int WIDTH = 36;
 	private static int HEIGHT = 36;
 	private static int SIZE = getWidth() * getHeight();
+
 	public byte[] data;
 	public byte[] liquidData;
 	protected byte[] variants;
 	protected byte[] liquidVariants;
 	protected byte[] walls;
-	public static int[] orders = new int[5];
 	protected float[] light;
 	protected float[] lightR;
 	protected float[] lightG;
@@ -90,6 +87,9 @@ public abstract class Level extends SaveableEntity {
 	protected boolean[] free;
 	protected byte[] decor;
 	public boolean[] explored;
+	protected byte[] info;
+
+	public static int[] orders = new int[5];
 	protected Body body;
 	protected ArrayList<Room> rooms;
 	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
@@ -228,6 +228,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void fill() {
 		this.data = new byte[getSize()];
+		this.info = new byte[getSize()];
 		this.liquidData = new byte[getSize()];
 		this.explored = new boolean[getSize()];
 
@@ -455,6 +456,7 @@ public abstract class Level extends SaveableEntity {
 		Dungeon.level = this;
 
 		this.alwaysRender = true;
+		this.alwaysActive = true;
 		this.depth = -10;
 
 		SolidLevel l = new SolidLevel();
@@ -577,14 +579,42 @@ public abstract class Level extends SaveableEntity {
 		return (data & (1 << bit)) != 0;
 	}
 
+	private float lastUpdate;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-
 		if (this != Dungeon.level) {
 			Log.error("Extra level!");
 			setDone(true);
+		}
+
+		this.lastUpdate += dt;
+
+		while (this.lastUpdate >= 1f) {
+			this.lastUpdate = Math.max(0, this.lastUpdate - 1f);
+			this.doLogic();
+		}
+	}
+
+	private void doLogic() {
+		for (Room room : this.rooms) {
+			for (int y = room.top; y < room.bottom; y++) {
+				for (int x = room.left; x < room.right; x++) {
+					int i = toIndex(x, y);
+					byte tile = this.get(i);
+					byte t = this.liquidData[i];
+
+					if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS || t == Terrain.DRY_GRASS || t == Terrain.HIGH_DRY_GRASS) {
+						i += PathFinder.NEIGHBOURS8[Random.newInt(8)];
+
+						if (this.get(i) == Terrain.DIRT) {
+							this.set(i, (t == Terrain.DRY_GRASS || t == Terrain.HIGH_DRY_GRASS) ? Terrain.DRY_GRASS : Terrain.GRASS);
+						}
+					}
+				}
+			}
 		}
 	}
 

@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -11,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Log;
 
 public class Projectile extends NetworkedEntity {
 	public Creature owner;
@@ -139,11 +141,11 @@ public class Projectile extends NetworkedEntity {
 	}
 
 	@Override
-	public boolean shouldCollide(Entity entity, Contact contact) {
-		if (entity == null && contact.getFixtureA().getBody().isBullet()) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity == null && fixture.getBody().isBullet()) {
 			return false;
 		}
 
-		return super.shouldCollide(entity, contact);
+		return super.shouldCollide(entity, contact, fixture);
 	}
 }

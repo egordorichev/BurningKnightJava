@@ -2,8 +2,8 @@ package org.rexcellentgames.burningknight.entity.item.pet.impl;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
@@ -64,11 +64,11 @@ public class PetEntity extends SaveableEntity {
 	}
 
 	@Override
-	public boolean shouldCollide(Entity entity, Contact contact) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if  (entity instanceof Creature || entity instanceof Door || entity instanceof SolidProp || (entity instanceof ItemHolder && !(((ItemHolder) entity).getItem() instanceof Gold))) {
 			return false;
 		}
 
-		return super.shouldCollide(entity, contact);
+		return super.shouldCollide(entity, contact, fixture);
 	}
 }

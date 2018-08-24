@@ -2,8 +2,8 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 
 public class Slab extends SolidProp {
@@ -25,12 +25,12 @@ public class Slab extends SolidProp {
 	}
 
 	@Override
-	public boolean shouldCollide(Entity entity, Contact contact) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if (entity instanceof ItemHolder) {
 			((ItemHolder) entity).depth = 1;
 			return false;
 		}
 
-		return super.shouldCollide(entity, contact);
+		return super.shouldCollide(entity, contact, fixture);
 	}
 }

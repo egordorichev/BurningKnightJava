@@ -1,10 +1,7 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.MassData;
+import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -337,13 +334,13 @@ public class Door extends SaveableEntity {
 	}
 
 	@Override
-	public boolean shouldCollide(Entity entity, Contact contact) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if (entity instanceof Creature || entity instanceof PetEntity) {
 			if (!this.lock || entity instanceof PetEntity) {
 				return false;
 			}
 		}
 
-		return super.shouldCollide(entity, contact);
+		return super.shouldCollide(entity, contact, fixture);
 	}
 }

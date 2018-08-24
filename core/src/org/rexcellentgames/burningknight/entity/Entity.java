@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -94,7 +95,7 @@ public class Entity extends Point {
 
 	}
 
-	public boolean shouldCollide(Entity entity, Contact contact) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		return true;
 	}
 

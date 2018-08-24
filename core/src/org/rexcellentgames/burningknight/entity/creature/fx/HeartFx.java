@@ -1,9 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.fx;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.MassData;
+import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -200,11 +197,11 @@ public class HeartFx extends SaveableEntity {
 	}
 
 	@Override
-	public boolean shouldCollide(Entity entity, Contact contact) {
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if (!(entity instanceof HeartFx || entity instanceof SolidProp) && entity != null) {
 			return false;
 		}
 
-		return super.shouldCollide(entity, contact);
+		return super.shouldCollide(entity, contact, fixture);
 	}
 }
