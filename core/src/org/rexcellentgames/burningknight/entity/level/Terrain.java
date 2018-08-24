@@ -52,7 +52,7 @@ public class Terrain {
 		flags[CRACK] = SOLID | HIGH | BREAKS_LOS;
 		flags[WATER] = PASSABLE | LIQUID_LAYER;
 		flags[WALL_SIDE] = 0;
-		flags[FLOOR_B] = PASSABLE;
+		flags[FLOOR_B] = PASSABLE | BURNS;
 		flags[FLOOR_C] = PASSABLE;
 		flags[FLOOR_D] = PASSABLE;
 		flags[LAVA] = LIQUID_LAYER;

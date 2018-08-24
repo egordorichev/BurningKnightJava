@@ -122,11 +122,13 @@ public class Camera extends Entity {
 				y += target.h;
 			}
 
-			float dx = camPosition.x - this.x + 8;
-			float dy = camPosition.y - this.y + 8;
+			if (!Dungeon.game.getState().isPaused()) {
+				float dx = camPosition.x - this.x + 8;
+				float dy = camPosition.y - this.y + 8;
 
-			if (Math.sqrt(dx * dx + dy * dy) > 2f) {
-				camPosition.lerp(new Vector2(x + 8, y + 8), dt * speed);
+				if (Math.sqrt(dx * dx + dy * dy) > 2f) {
+					camPosition.lerp(new Vector2(x + 8, y + 8), dt * speed);
+				}
 			}
 
 			if (Dungeon.depth == -1) {

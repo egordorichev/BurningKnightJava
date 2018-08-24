@@ -271,11 +271,13 @@ public class Creature extends SaveableEntity {
 						continue;
 					}
 
-					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16 + 4, y * 16 - 4, 8, 8)) {
-						byte t = Dungeon.level.get(x, y);
-						byte tt = Dungeon.level.liquidData[Level.toIndex(x, y)];
-						this.onTouch(t, x, y);
-						this.onTouch(tt, x, y);
+					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16 + 2, y * 16 - 2, 10, 10)) {
+						int i = Level.toIndex(x, y);
+						byte t = Dungeon.level.get(i);
+						byte tt = Dungeon.level.liquidData[i];
+						byte info = Dungeon.level.getInfo(i);
+						this.onTouch(t, x, y, info);
+						this.onTouch(tt, x, y, info);
 					}
 				}
 			}
@@ -289,14 +291,20 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected void onTouch(short t, int x, int y) {
+	protected void onTouch(short t, int x, int y, byte info) {
 		if (t == Terrain.WATER && !this.flying) {
 			this.removeBuff(BurningBuff.class);
-		} else if (t == Terrain.LAVA && !this.flying) {
-			if (this instanceof Mob) {
-				this.die();
-			} else {
+		} else {
+			if (BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
 				this.addBuff(new BurningBuff());
+			}
+
+			if (t == Terrain.LAVA && !this.flying) {
+				if (this instanceof Mob) {
+					this.die();
+				} else {
+					this.addBuff(new BurningBuff());
+				}
 			}
 		}
 	}

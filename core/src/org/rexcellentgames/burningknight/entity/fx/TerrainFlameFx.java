@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity.creature.buff.fx;
+package org.rexcellentgames.burningknight.entity.fx;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,14 +8,12 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class FlameFx extends Entity {
+public class TerrainFlameFx extends Entity {
 	{
 		t = Random.newFloat(1024);
 		tt = 0;
 		s = Random.newFloat(3, 6);
-		depth = 6;
 		alwaysActive = true;
-		alwaysRender = true;
 	}
 
 	private float g;
@@ -25,21 +23,24 @@ public class FlameFx extends Entity {
 	private float range = 1;
 	private float angle;
 	private float s;
-	private Entity owner;
 	private boolean second;
 
-	public FlameFx(Entity owner) {
-		this.owner = owner;
-		x = owner.x;
-		y = owner.y;
+	private float oy;
+	private float ox;
+
+	@Override
+	public void init() {
+		super.init();
 		g = Random.newFloat(1);
+		oy = y;
+		ox = x;
 	}
 
 	@Override
 	public void update(float dt) {
 		this.t += dt;
 		this.tt += dt;
-		this.y = this.owner.y + this.tt * 15;
+		this.y = this.oy + this.tt * 15;
 
 		if (this.second) {
 			this.size -= dt * 4;
@@ -59,10 +60,10 @@ public class FlameFx extends Entity {
 			this.range += dt * 15;
 		}
 
-		this.x = this.owner.x + (float) (Math.cos(this.t) * this.range);
+		this.x = ox + (float) (Math.cos(this.t) * this.range);
 		this.angle = (float) Math.cos(this.t * this.s) * 20;
 
-		if (this.y - this.owner.y > 16) {
+		if (this.y - oy > 16) {
 			this.done = true;
 		}
 	}
@@ -78,8 +79,8 @@ public class FlameFx extends Entity {
 
 		float s = this.size / 2;
 
-		Graphics.shape.setColor(1, g, 0, 0.9f);
-		Graphics.shape.rect(this.x + this.owner.w / 2, this.y, s, s, this.size,
+		Graphics.shape.setColor(1, g, 0, 0.7f);
+		Graphics.shape.rect(this.x, this.y, s, s, this.size,
 			this.size, 1, 1, this.angle);
 
 		Graphics.shape.end();

@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
@@ -150,6 +151,14 @@ public abstract class Level extends SaveableEntity {
 		return x + y * getWidth();
 	}
 
+	public static int toX(int i) {
+		return i % WIDTH;
+	}
+
+	public static int toY(int i) {
+		return (int) Math.floor(i / WIDTH);
+	}
+
 	public static byte[] depths = new byte[21];
 	public static boolean[] boss = new boolean[21];
 
@@ -257,6 +266,14 @@ public abstract class Level extends SaveableEntity {
 		for (int y = 0; y < HEIGHT; y++) {
 			for (int x = 0; x < WIDTH; x++) {
 				this.tile(x, y);
+			}
+		}
+	}
+
+	public void updateTile(int x, int y) {
+		for (int xx = x - 1; xx <= x + 2; xx++) {
+			for (int yy = y - 1; yy <= y + 2; yy++) {
+				this.tile(xx, yy);
 			}
 		}
 	}
@@ -591,11 +608,61 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		this.lastUpdate += dt;
+		this.lastFlame += dt;
 
-		while (this.lastUpdate >= 1f) {
-			this.lastUpdate = Math.max(0, this.lastUpdate - 1f);
-			this.doLogic();
+		if (this.lastFlame >= 0.1f) {
+			this.lastFlame = 0;
 		}
+
+		if (this.lastUpdate < UPDATE_DELAY) {
+			doEffects();
+		} else {
+			while (this.lastUpdate >= UPDATE_DELAY) {
+				this.lastUpdate = Math.max(0, this.lastUpdate - UPDATE_DELAY);
+				this.doLogic();
+				this.updateId += 1;
+			}
+		}
+	}
+
+	private int updateId;
+	private static final float UPDATE_DELAY = 1f;
+	private float lastFlame;
+
+	public void setOnFire(int i, boolean fire) {
+		if (this.checkFor(i, Terrain.BURNS) || this.matchesFlag(this.liquidData[i], Terrain.BURNS)) {
+			this.info[i] = BitHelper.setBit(this.info[i], 0, fire);
+		}
+	}
+
+	private void doEffects() {
+		if (this.lastFlame == 0) {
+			for (Room room : this.rooms) {
+				for (int y = room.top; y < room.bottom; y++) {
+					for (int x = room.left; x < room.right; x++) {
+						int i = toIndex(x, y);
+						byte tile = this.get(i);
+						byte info = this.info[i];
+						byte t = this.liquidData[i];
+
+						if (BitHelper.isBitSet(info, 0)) {
+							// Burning
+
+							TerrainFlameFx fx = new TerrainFlameFx();
+
+							fx.x = x * 16 + Random.newFloat(16);
+							fx.y = y * 16 - 8 + Random.newFloat(16);
+
+							Dungeon.area.add(fx);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public byte getInfo(int i) {
+		return info[i];
 	}
 
 	private void doLogic() {
@@ -604,13 +671,43 @@ public abstract class Level extends SaveableEntity {
 				for (int x = room.left; x < room.right; x++) {
 					int i = toIndex(x, y);
 					byte tile = this.get(i);
+					byte info = this.info[i];
 					byte t = this.liquidData[i];
 
-					if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS || t == Terrain.DRY_GRASS || t == Terrain.HIGH_DRY_GRASS) {
-						i += PathFinder.NEIGHBOURS8[Random.newInt(8)];
+					if (BitHelper.isBitSet(info, 0)) {
+						// Burning
 
-						if (this.get(i) == Terrain.DIRT) {
-							this.set(i, (t == Terrain.DRY_GRASS || t == Terrain.HIGH_DRY_GRASS) ? Terrain.DRY_GRASS : Terrain.GRASS);
+						int damage = BitHelper.getNumber(info, 1, 4) + 1;
+
+						if (damage > 1) {
+							for (int j : PathFinder.NEIGHBOURS8) {
+								this.setOnFire(j + i, true);
+							}
+						}
+
+						if (damage == 3) {
+							this.info[i] = 0;
+
+							if (matchesFlag(this.get(x, y), Terrain.BURNS)) {
+								this.data[i] = Terrain.DIRT;
+							}
+
+							this.liquidData[i] = Terrain.EMBER;
+							this.updateTile(x, y);
+						} else {
+							this.info[i] = (byte) BitHelper.putNumber(info, 1, 4, damage);
+						}
+					}
+
+					if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
+						if ((updateId + x + y) % 10 == 0) {
+
+							i += PathFinder.NEIGHBOURS8[Random.newInt(8)];
+
+							if (this.liquidData[i] == Terrain.DIRT) {
+								this.set(i, Terrain.GRASS);
+								this.updateTile(toX(i), toY(i));
+							}
 						}
 					}
 				}
@@ -1698,6 +1795,7 @@ public abstract class Level extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		setSize(reader.readInt32(), reader.readInt32());
 		this.data = new byte[getSize()];
+		this.info = new byte[getSize()];
 		this.liquidData = new byte[getSize()];
 		this.decor = new byte[getSize()];
 		this.explored = new boolean[getSize()];

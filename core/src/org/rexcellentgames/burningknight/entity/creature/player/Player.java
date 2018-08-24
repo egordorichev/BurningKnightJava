@@ -46,6 +46,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.spear.SpearA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
@@ -798,10 +799,11 @@ public class Player extends Creature {
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
-	}
 
-	public float getLightSize() {
-		return LIGHT_SIZE + this.lightModifier;
+		int x = Math.round((this.x + 8) / 16);
+		int y = Math.round((this.y) / 16);
+
+		Dungeon.level.setOnFire(Level.toIndex(x, y), true);
 	}
 
 	public int getManaMax() {
