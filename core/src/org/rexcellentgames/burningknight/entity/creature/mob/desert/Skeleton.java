@@ -105,7 +105,7 @@ public class Skeleton extends Mob {
 			this.flipped = this.vel.x < 0;
 		}
 
-		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
+		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
 
 		if (this.state.equals("revive")) {
 			this.animation = revive;
@@ -113,7 +113,7 @@ public class Skeleton extends Mob {
 			this.animation = killed;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
-		} else if (v > 9.9) {
+		} else if (v > 1f) {
 			this.animation = run;
 		} else {
 			this.animation = idle;

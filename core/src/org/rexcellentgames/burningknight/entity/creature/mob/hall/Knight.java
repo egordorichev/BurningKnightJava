@@ -90,13 +90,13 @@ public class Knight extends Mob {
 			this.flipped = this.vel.x < 0;
 		}
 
-		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
+		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
 
 		if (this.dead) {
 			this.animation = killed;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
-		} else if (v > 9.9) {
+		} else if (v > 1f) {
 			this.animation = run;
 		} else {
 			this.animation = idle;
@@ -352,8 +352,8 @@ public class Knight extends Mob {
 			this.vel.x *= 0.97;
 			this.vel.y *= 0.97;
 
-			self.vel.x = this.vel.x;
-			self.vel.y = this.vel.y;
+			self.acceleration.x = this.vel.x;
+			self.acceleration.y = this.vel.y;
 
 			if (this.t >= 1f) {
 				self.become("chase");

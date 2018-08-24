@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -136,13 +135,13 @@ public class Clown extends Mob {
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		float v = Math.abs(this.vel.x) + Math.abs(this.vel.y);
+		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
 
 		if (this.dead) {
 			this.animation = killed;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
-		} else if (v > 9.9) {
+		} else if (v > 1f) {
 			this.animation = run;
 		} else {
 			this.animation = idle;

@@ -400,6 +400,7 @@ public class Mob extends Creature {
 	@Override
 	protected void common() {
 		float dt = getDt();
+		doVel();
 
 		this.t += dt;
 		this.timer += dt;
@@ -508,8 +509,8 @@ public class Mob extends Creature {
 		float dy = y - this.y - this.h / 2;
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		this.vel.x += dx / d * speed;
-		this.vel.y += dy / d * speed;
+		this.acceleration.x += dx / d * speed;
+		this.acceleration.y += dy / d * speed;
 
 		return d;
 	}
@@ -666,8 +667,8 @@ public class Mob extends Creature {
 				return true;
 			}
 
-			self.vel.x += dx / d * s;
-			self.vel.y += dy / d * s;
+			self.acceleration.x += dx / d * s;
+			self.acceleration.y += dy / d * s;
 
 			return false;
 		}

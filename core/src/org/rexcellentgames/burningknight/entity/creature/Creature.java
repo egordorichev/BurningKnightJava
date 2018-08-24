@@ -45,6 +45,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Creature extends SaveableEntity {
@@ -211,9 +212,14 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected boolean ignorePos;
+	protected Point acceleration = new Point();
+	protected boolean touches[] = new boolean[Terrain.SIZE];
 
 	@Override
 	public void update(float dt) {
+		this.acceleration.x = 0;
+		this.acceleration.y = 0;
+
 		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
 		int sx = (int) (this.x + this.w / 2);
 		int sy = (int) (this.y + this.h / 2);
@@ -263,7 +269,8 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		this.vel.mul(this.mul);
+
+		this.vel.mul((this.touches[Terrain.ICE] ? 0.95f : this.mul));
 
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
@@ -271,17 +278,25 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (Dungeon.level != null) {
+			Arrays.fill(touches, false);
+
 			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
 				for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
 					if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
 						continue;
 					}
 
-					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16 + 2, y * 16 - 2, 10, 10)) {
+					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
 						int i = Level.toIndex(x, y);
 						byte info = Dungeon.level.getInfo(i);
-						this.onTouch(Dungeon.level.get(i), x, y, info);
-						this.onTouch(Dungeon.level.liquidData[i], x, y, info);
+						byte t = Dungeon.level.get(i);
+						byte l = Dungeon.level.liquidData[i];
+
+						touches[t] = true;
+						touches[l] = true;
+
+						this.onTouch(t, x, y, info);
+						this.onTouch(l, x, y, info);
 					}
 				}
 			}
@@ -313,8 +328,15 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	protected void doVel() {
+		float fr = this.touches[Terrain.ICE] ? 0.2f : 1f;
+		this.vel.x += this.acceleration.x * fr;
+		this.vel.y += this.acceleration.y * fr;
+	}
+
 	protected void common() {
 		float dt = getDt();
+		this.doVel();
 
 		this.t += dt;
 		this.timer += dt;
@@ -338,10 +360,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.body != null) {
-			if (!(this instanceof Player && ((Player) this).dashT > 0)) {
-				this.vel.clamp(0, this.maxSpeed);
-			}
-
+			this.vel.clamp(0, this.maxSpeed);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		}
 	}

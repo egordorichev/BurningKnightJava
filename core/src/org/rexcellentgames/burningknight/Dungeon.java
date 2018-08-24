@@ -345,7 +345,7 @@ public class Dungeon extends ApplicationAdapter {
 			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
 		}
 
-		if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState) {
+		if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead()) {
 			game.getState().setPaused(!game.getState().isPaused());
 		}
 

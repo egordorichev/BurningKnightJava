@@ -460,6 +460,10 @@ public abstract class Level extends SaveableEntity {
 				return true;
 			}
 
+			if ((tile == Terrain.WATER || tile == Terrain.ICE) && (tt == Terrain.WATER || tt == Terrain.ICE)) {
+				return true;
+			}
+
 			return tt == tile || t == Terrain.WALL || t == Terrain.CRACK;
 		}
 	}
@@ -631,10 +635,22 @@ public abstract class Level extends SaveableEntity {
 
 	public void setOnFire(int i, boolean fire) {
 		byte t = this.get(i);
-		boolean li = this.liquidData[i] == 0 || matchesFlag(this.liquidData[i], Terrain.BURNS);
+		byte l = this.liquidData[i];
 
-		if ((matchesFlag(t, Terrain.BURNS) && li) || (t != Terrain.WATER && li)) {
+		boolean ab = matchesFlag(t, Terrain.BURNS);
+		boolean bb = matchesFlag(l, Terrain.BURNS);
+
+		if ((((ab & bb) || bb) && l != Terrain.WATER && l != Terrain.EXIT)) {
 			this.info[i] = BitHelper.setBit(this.info[i], 0, fire);
+		}
+	}
+
+	public void freeze(int i) {
+		byte t = this.get(i);
+		byte l = this.liquidData[i];
+
+		if (l == Terrain.WATER) {
+			this.liquidData[i] = Terrain.ICE;
 		}
 	}
 
@@ -702,7 +718,16 @@ public abstract class Level extends SaveableEntity {
 						}
 					}
 
-					if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
+					if (t == Terrain.ICE) {
+						for (int j : PathFinder.NEIGHBOURS8) {
+							int k = j + i;
+
+							if ((updateId + x + y + i) % 5 == 0 && this.liquidData[k] == Terrain.WATER) {
+								this.set(k, Terrain.ICE);
+								this.updateTile(toX(k), toY(k));
+							}
+						}
+					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
 						if ((updateId + x + y) % 10 == 0) {
 
 							i += PathFinder.NEIGHBOURS8[Random.newInt(8)];

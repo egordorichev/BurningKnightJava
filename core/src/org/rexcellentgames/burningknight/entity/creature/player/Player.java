@@ -94,7 +94,6 @@ public class Player extends Creature {
 	public float defenseModifier = 1f;
 	public UiInventory ui;
 	public boolean moreManaRegenWhenLow;
-	public float dashT;
 	public ArrayList<UiBuff> uiBuffs = new ArrayList<>();
 	public float poisonChance;
 	public float burnChance;
@@ -744,27 +743,27 @@ public class Player extends Creature {
 
 		if (Dialog.active == null && !this.freezed && !UiMap.large) {
 			if (Input.instance.isDown("left")) {
-				this.vel.x -= this.speed;
+				this.acceleration.x -= this.speed;
 			}
 
 			if (Input.instance.isDown("right")) {
-				this.vel.x += this.speed;
+				this.acceleration.x += this.speed;
 			}
 
 			if (Input.instance.isDown("up")) {
-				this.vel.y += this.speed;
+				this.acceleration.y += this.speed;
 			}
 
 			if (Input.instance.isDown("down")) {
-				this.vel.y -= this.speed;
+				this.acceleration.y -= this.speed;
 			}
 
 			float mx = Input.instance.getAxis("moveX");
 			float my = Input.instance.getAxis("moveY");
 
 			if (mx != 0 || my != 0) {
-				this.vel.x += mx * this.speed;
-				this.vel.y -= my * this.speed; // Inverted!
+				this.acceleration.x += mx * this.speed;
+				this.acceleration.y -= my * this.speed; // Inverted!
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("interact")) {
@@ -772,7 +771,7 @@ public class Player extends Creature {
 			}
 		}
 
-		float v = this.vel.len2();
+		float v = this.acceleration.len2();
 		this.lastRun += dt;
 
 		if (v > 20) {
@@ -784,10 +783,6 @@ public class Player extends Creature {
 			}*/
 		} else {
 			this.become("idle");
-
-			this.vel.x = 0;
-			this.vel.y = 0;
-			this.dashT = 0;
 		}
 
 		super.common();
@@ -796,10 +791,21 @@ public class Player extends Creature {
 			this.animation.update(dt);
 		}
 
-
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
+
+		if (this.burnLevel > 0) {
+			Dungeon.level.setOnFire(Level.toIndex(Math.round((this.x) / 16), Math.round((this.y) / 16)), true);
+			// todo: use the level
+		}
+
+		// if (this.frostLevel > 0) {
+			Dungeon.level.freeze(Level.toIndex(Math.round((this.x) / 16), Math.round((this.y + this.h / 2) / 16)));
+			// todo: use the level
+		// }
 	}
+
+	public byte frostLevel;
 
 	public int getManaMax() {
 		return this.manaMax;
@@ -836,6 +842,7 @@ public class Player extends Creature {
 
 	private boolean hadEnemies;
 	public byte numCollectedHearts;
+	public byte burnLevel;
 
 	@Override
 	protected void onRoomChange() {

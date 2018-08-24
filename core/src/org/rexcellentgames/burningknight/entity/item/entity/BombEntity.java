@@ -6,6 +6,8 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
@@ -112,6 +114,28 @@ public class BombEntity extends Entity {
 			this.done = true;
 			Explosion.make(this.x + 8, this.y + 8);
 
+			boolean fire = false;
+			boolean ice = false;
+
+			for (Buff add : toApply) {
+				if (add instanceof BurningBuff) {
+					fire = true;
+				} else if (add instanceof FreezeBuff) {
+					ice = true;
+				}
+			}
+
+			int sx = Math.round((this.x + 8) / 16);
+			int sy = Math.round((this.y + 8) / 16);
+
+			if (fire) {
+				Dungeon.level.setOnFire(Level.toIndex(sx, sy), true);
+			}
+
+			if (ice) {
+				Dungeon.level.freeze(Level.toIndex(sx, sy));
+			}
+
 			for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 				Entity entity = Dungeon.area.getEntities().get(i);
 
@@ -144,20 +168,22 @@ public class BombEntity extends Entity {
 				}
 			}
 
-			int s = 2;
+			if (!fire && !ice) {
+				int s = 2;
 
-			for (int yy = -s; yy <= s; yy++) {
-				for (int xx = -s; xx <= s; xx++) {
-					int x = (int) ((this.x + this.w / 2) / 16 + xx);
-					int y = (int) ((this.y + this.h / 2) / 16 + yy);
+				for (int yy = -s; yy <= s; yy++) {
+					for (int xx = -s; xx <= s; xx++) {
+						int x = (int) ((this.x + this.w / 2) / 16 + xx);
+						int y = (int) ((this.y + this.h / 2) / 16 + yy);
 
-					if (Math.sqrt(xx * xx + yy * yy) <= s) {
+						if (Math.sqrt(xx * xx + yy * yy) <= s) {
 
-						int t = Dungeon.level.get(x, y);
+							int t = Dungeon.level.get(x, y);
 
-						if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
-							Dungeon.level.set(x, y, Terrain.DIRT);
-							Dungeon.level.tileRegion(x, y);
+							if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
+								Dungeon.level.set(x, y, Terrain.DIRT);
+								Dungeon.level.tileRegion(x, y);
+							}
 						}
 					}
 				}

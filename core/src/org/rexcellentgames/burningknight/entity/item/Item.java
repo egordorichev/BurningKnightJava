@@ -23,6 +23,7 @@ import java.util.HashMap;
 public class Item extends Entity {
   public static TextureRegion missing = Graphics.getTexture("item-missing");
 
+
   public boolean useOnPickup;
   public float a = 1;
   public boolean shop;
@@ -41,6 +42,8 @@ public class Item extends Entity {
   protected TextureRegion region;
   protected boolean auto = false;
   protected boolean fly = false;
+  protected byte level = 1;
+  protected boolean canBeUpgraded;
   protected String useSpeedStr;
   public byte price = 15;
   public boolean sale;
@@ -49,8 +52,19 @@ public class Item extends Entity {
 		initStats();
   }
 
+  public void updgrade() {
+  	this.level ++;
+  }
 
-  // todo: depend on quality
+	public byte getLevel() {
+		return level;
+	}
+
+	public boolean canBeUpgraded() {
+		return canBeUpgraded;
+	}
+
+	// todo: depend on quality
   public int getPrice() {
   	return 5;
   }
@@ -169,6 +183,7 @@ public class Item extends Entity {
     writer.writeBoolean(this.shop);
     writer.writeByte(this.price);
     writer.writeBoolean(this.sale);
+    writer.writeByte(this.level);
   }
 
   public void load(FileReader reader) throws IOException {
@@ -176,6 +191,7 @@ public class Item extends Entity {
     this.shop = reader.readBoolean();
     this.price = reader.readByte();
     this.sale = reader.readBoolean();
+    this.level = reader.readByte();
   }
 
   public boolean disableBlink() {

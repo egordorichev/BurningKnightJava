@@ -12,7 +12,6 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Log;
 
 public class Projectile extends NetworkedEntity {
 	public Creature owner;
@@ -85,6 +84,10 @@ public class Projectile extends NetworkedEntity {
 
 		if (this.hit(entity)) {
 			this.broke = !this.penetrates;
+
+			if (this.owner != null && this.owner.penetrates) {
+				this.broke = false;
+			}
 		}
 	}
 

@@ -609,5 +609,21 @@
 	"find_mimic_achievement" : "Where is my treasure",
 	"find_mimic_achievement_desc" : "Surprise",
 	"was_unlocked" : "was unlocked!",
-	"quick_restart" : "Quick restart"
+	"quick_restart" : "Quick restart",
+	"burn_to_death_achievement" : "Burn to death",
+	"burn_to_death_achievement_desc" : "Rest in peace",
+	"sell_10_items_achievement" : "Trader",
+	"sell_10_items_achievement_desc" : "Sell 10 items",
+	"equip_accessory_achievement" : "Looking fancy",
+	"equip_accessory_achievement_desc" : "Equip an accessory",
+	"get_8_heart_containers_achievement" : "Healthy person",
+	"get_8_heart_containers_achievement_desc" : "Get 8 heart containers",
+	"gont_get_hit_in_boss_fight_achievement" : "Hitless fight",
+	"gont_get_hit_in_boss_fight_achievement_desc" : "Don't get hurt in a boss fight",
+	"find_crash_book_achievement" : "Crash it",
+	"find_crash_book_achievement_desc" : "Find a Crash Book",
+	"fill_up_inventory_achievement" : "Full",
+	"fill_up_inventory_achievement_desc" : "Fill up your inventory",
+	"find_secret_room_achievement" : "What a secret",
+	"find_secret_room_achievement_desc" : "Find a secret room"
 }

@@ -22,7 +22,7 @@ public class Terrain {
 	public static byte FLOOR_C = 12;
 	public static byte FLOOR_D = 13;
 	public static byte CRACK = 14;
-	public static byte ICE = 16;
+	public static byte ICE = 15;
 	public static byte DRY_GRASS = 17;
 	public static byte HIGH_GRASS = 16;
 	public static byte HIGH_DRY_GRASS = 18;

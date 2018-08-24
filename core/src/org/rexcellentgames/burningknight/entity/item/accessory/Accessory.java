@@ -7,6 +7,7 @@ public class Accessory extends Item {
 	{
 		identified = true;
 		useable = false;
+		canBeUpgraded = true;
 	}
 
 	@Override
