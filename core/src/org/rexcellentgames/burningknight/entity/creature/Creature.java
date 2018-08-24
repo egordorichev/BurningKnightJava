@@ -215,12 +215,18 @@ public class Creature extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
+		int sx = (int) (this.x + this.w / 2);
+		int sy = (int) (this.y + this.h / 2);
 
 		for (int i = buffs.length - 1; i >= 0; i--) {
+			if (buffs[i] instanceof BurningBuff) {
+				Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true);
+			}
+
 			buffs[i].update(dt);
 		}
 
-		Room room = Dungeon.level.findRoomFor(this.x + this.w / 2, this.y + this.h / 2);
+		Room room = Dungeon.level.findRoomFor(sx, sy);
 
 		if (room != this.room) {
 			this.room = room;
@@ -273,11 +279,9 @@ public class Creature extends SaveableEntity {
 
 					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16 + 2, y * 16 - 2, 10, 10)) {
 						int i = Level.toIndex(x, y);
-						byte t = Dungeon.level.get(i);
-						byte tt = Dungeon.level.liquidData[i];
 						byte info = Dungeon.level.getInfo(i);
-						this.onTouch(t, x, y, info);
-						this.onTouch(tt, x, y, info);
+						this.onTouch(Dungeon.level.get(i), x, y, info);
+						this.onTouch(Dungeon.level.liquidData[i], x, y, info);
 					}
 				}
 			}
@@ -702,6 +706,10 @@ public class Creature extends SaveableEntity {
 		if (this.flying && entity == null && contact.getFixtureA().getBody().isBullet()) {
 			return false;
 		} else if (entity instanceof Creature) {
+			if (this.hasBuff(BurningBuff.class)) {
+				((Creature) entity).addBuff(new BurningBuff());
+			}
+
 			if (!(this instanceof Player && entity instanceof Mummy)) {
 				return false;
 			}
