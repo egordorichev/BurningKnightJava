@@ -22,8 +22,14 @@ public class Terrain {
 	public static byte FLOOR_C = 12;
 	public static byte FLOOR_D = 13;
 	public static byte CRACK = 14;
+	public static byte ICE = 16;
+	public static byte DRY_GRASS = 17;
+	public static byte HIGH_GRASS = 16;
+	public static byte HIGH_DRY_GRASS = 18;
+	public static byte OBSIDIAN = 19;
+	public static byte EMBER = 20;
 
-	public static byte SIZE = 15;
+	public static byte SIZE = 21;
 
 	public static int[] flags = new int[SIZE];
 	public static Color[][] colors = new Color[10][SIZE];
@@ -32,23 +38,31 @@ public class Terrain {
 	public static int SOLID = 0x2;
 	public static int HOLE = 0x4;
 	public static int HIGH = 0x8;
+	public static int BURNS = 0x10;
 	public static int BREAKS_LOS = 0x20;
+	public static int LIQUID_LAYER = 0x40;
 
 	static {
 		flags[CHASM] = HOLE;
-		flags[DIRT] = PASSABLE;
-		flags[GRASS] = PASSABLE;
+		flags[DIRT] = PASSABLE | LIQUID_LAYER;
+		flags[GRASS] = PASSABLE | BURNS | LIQUID_LAYER;
 		flags[FLOOR_A] = PASSABLE;
 		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
 		flags[CRACK] = SOLID | HIGH | BREAKS_LOS;
-		flags[WATER] = PASSABLE;
+		flags[WATER] = PASSABLE | LIQUID_LAYER;
 		flags[WALL_SIDE] = 0;
 		flags[FLOOR_B] = PASSABLE;
 		flags[FLOOR_C] = PASSABLE;
 		flags[FLOOR_D] = PASSABLE;
-		flags[LAVA] = 0;
+		flags[LAVA] = LIQUID_LAYER;
 		flags[TABLE] = SOLID | HIGH;
-		flags[EXIT] = 0;
+		flags[ICE] = PASSABLE | BURNS | LIQUID_LAYER;
+		flags[DRY_GRASS] = PASSABLE | BURNS | LIQUID_LAYER;
+		flags[HIGH_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER;
+		flags[HIGH_DRY_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER;
+		flags[OBSIDIAN] = PASSABLE | LIQUID_LAYER;
+		flags[EMBER] = PASSABLE | LIQUID_LAYER;
+		flags[EXIT] = PASSABLE | LIQUID_LAYER;
 
 		colors[0][CHASM] = Color.valueOf("#000000");
 		colors[0][DIRT] = Color.valueOf("#8a4836");
@@ -115,6 +129,7 @@ public class Terrain {
 
 	public static TextureRegion dirtPattern;
 	public static TextureRegion grassPattern;
+	public static TextureRegion dryGrassPattern;
 	public static TextureRegion waterPattern;
 	public static TextureRegion lavaPattern;
 	public static TextureRegion wallPattern;
@@ -125,6 +140,7 @@ public class Terrain {
 	public static TextureRegion[] pooledge = new TextureRegion[15];
 	public static TextureRegion[] lavaedge = new TextureRegion[15];
 	public static TextureRegion[] dirtedge = new TextureRegion[15];
+	public static TextureRegion[] drygrassedge = new TextureRegion[15];
 	public static TextureRegion[] grassedge = new TextureRegion[15];
 	public static TextureRegion[] waterVariants = new TextureRegion[16];
 	public static TextureRegion[] lavaVariants = new TextureRegion[16];
@@ -158,6 +174,7 @@ public class Terrain {
 
 		dirtPattern = Graphics.getTexture("biome-gen-dirt pattern");
 		grassPattern = Graphics.getTexture("biome-gen-grass pattern");
+		dryGrassPattern = Graphics.getTexture("biome-gen-dry_grass_pattern");
 		waterPattern = Graphics.getTexture("biome-gen-pool pattern");
 		lavaPattern = Graphics.getTexture("biome-gen-lava pattern");
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
@@ -205,6 +222,10 @@ public class Terrain {
 
 		for (int i = 0; i < 15; i++) {
 			grassedge[i] = Graphics.getTexture("biome-gen-grassedge" + Level.COMPASS[i]);
+		}
+
+		for (int i = 0; i < 15; i++) {
+			drygrassedge[i] = Graphics.getTexture("biome-gen-dry_grassedge" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {

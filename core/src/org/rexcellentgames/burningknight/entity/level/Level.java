@@ -270,7 +270,11 @@ public abstract class Level extends SaveableEntity {
 			this.decor[toIndex(x, y)] = (byte) Random.newInt(3);
 		} else if (tile == Terrain.TABLE) {
 			this.tileUp(x, y, tile, false);
-		} else if (tile == Terrain.GRASS) {
+		} else if (tile == Terrain.GRASS || tile == Terrain.HIGH_GRASS || tile == Terrain.HIGH_DRY_GRASS || tile == Terrain.DRY_GRASS) {
+			this.tileUp(x, y, tile, false);
+		} else if (tile == Terrain.ICE) {
+			this.tileUp(x, y, tile, false);
+		} else if (tile == Terrain.OBSIDIAN) {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.FLOOR_A || tile == Terrain.FLOOR_B || tile == Terrain.FLOOR_C || tile == Terrain.FLOOR_D) {
 			this.makeFloor(x, y, tile);
@@ -278,13 +282,7 @@ public abstract class Level extends SaveableEntity {
 
 		byte t = this.liquidData[toIndex(x, y)];
 
-		if (t == Terrain.LAVA) {
-			this.tileUpLiquid(x, y, t, false);
-		} else if (t == Terrain.WATER) {
-			this.tileUpLiquid(x, y, t, false);
-		} else if (t == Terrain.DIRT) {
-			this.tileUpLiquid(x, y, t, false);
-		} else if (t == Terrain.GRASS) {
+		if (matchesFlag(t, Terrain.LIQUID_LAYER)) {
 			this.tileUpLiquid(x, y, t, false);
 		}
 
@@ -437,6 +435,13 @@ public abstract class Level extends SaveableEntity {
 			return this.checkFor(x, y, tile) || t == Terrain.WALL || t == Terrain.CRACK;
 		} else {
 			byte tt = this.liquidData[toIndex(x, y)];
+
+			if ((tile == Terrain.GRASS || tile == Terrain.HIGH_GRASS || tile == Terrain.HIGH_DRY_GRASS || tile == Terrain.DRY_GRASS)
+				&& (tt == Terrain.GRASS || tt == Terrain.HIGH_GRASS || tt == Terrain.HIGH_DRY_GRASS || tt == Terrain.DRY_GRASS)) {
+
+				return true;
+			}
+
 			return tt == tile || t == Terrain.WALL || t == Terrain.CRACK;
 		}
 	}
@@ -1197,10 +1202,11 @@ public abstract class Level extends SaveableEntity {
 					if (variant != 15) {
 						Graphics.render(Terrain.dirtedge[variant], x * 16, y * 16 - 8);
 					}
-				} else if (tile == Terrain.GRASS) {
+				} else if (tile == Terrain.GRASS || tile == Terrain.DRY_GRASS || tile == Terrain.HIGH_GRASS || tile == Terrain.HIGH_DRY_GRASS) {
 					byte variant = this.liquidVariants[i];
+					boolean dry = (tile == Terrain.DRY_GRASS || tile == Terrain.HIGH_DRY_GRASS);
 
-					TextureRegion r = new TextureRegion(Terrain.grassPattern);
+					TextureRegion r = new TextureRegion(dry ? Terrain.dryGrassPattern : Terrain.grassPattern);
 
 					r.setRegionX(r.getRegionX() + x % 4 * 16);
 					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
@@ -1243,7 +1249,7 @@ public abstract class Level extends SaveableEntity {
 					Graphics.batch.begin();
 
 					if (variant != 15) {
-						Graphics.render(Terrain.grassedge[variant], x * 16, y * 16 - 8);
+						// Graphics.render(dry ? Terrain.drygrassedge[variant] : Terrain.grassedge[variant], x * 16, y * 16 - 8);
 					}
 				}
 			}
@@ -1383,12 +1389,16 @@ public abstract class Level extends SaveableEntity {
 		return !(x < 0 || y < 0 || x >= getWidth() || y >= getHeight());
 	}
 
+	public static boolean matchesFlag(byte b, int flag) {
+		return (Terrain.flags[b] & flag) == flag;
+	}
+
 	public boolean checkFor(int i, int flag) {
 		if (flag == Terrain.PASSABLE && this.liquidData[i] == Terrain.LAVA) {
 			return false;
 		}
 
-		return (Terrain.flags[this.get(i)] & flag) == flag;
+		return matchesFlag(this.get(i), flag);
 	}
 
 	public boolean checkFor(int x, int y, int flag) {
@@ -1396,7 +1406,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void set(int i, byte v) {
-		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT || v == Terrain.GRASS) {
+		if (matchesFlag(v, Terrain.LIQUID_LAYER)) {
 			this.liquidData[i] = v;
 
 			if (this.get(i) == Terrain.CHASM) {
@@ -1412,7 +1422,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void set(int x, int y, byte v) {
-		if (v == Terrain.WATER || v == Terrain.LAVA || v == Terrain.DIRT || v == Terrain.EXIT || v == Terrain.GRASS) {
+		if (matchesFlag(v, Terrain.LIQUID_LAYER)) {
 			this.liquidData[toIndex(x, y)] = v;
 		} else {
 			this.data[toIndex(x, y)] = v;

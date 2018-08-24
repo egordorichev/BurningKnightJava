@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
@@ -291,7 +292,11 @@ public class Creature extends SaveableEntity {
 		if (t == Terrain.WATER && !this.flying) {
 			this.removeBuff(BurningBuff.class);
 		} else if (t == Terrain.LAVA && !this.flying) {
-			this.addBuff(new BurningBuff());
+			if (this instanceof Mob) {
+				this.die();
+			} else {
+				this.addBuff(new BurningBuff());
+			}
 		}
 	}
 

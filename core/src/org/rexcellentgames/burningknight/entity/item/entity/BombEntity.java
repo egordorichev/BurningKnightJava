@@ -211,7 +211,9 @@ public class BombEntity extends Entity {
 	public static void make(Room room) {
 		for (int x = room.left; x <= room.right; x++) {
 			for (int y = room.top; y <= room.bottom; y++) {
-				Dungeon.level.set(x, y, (byte) -Dungeon.level.data[Level.toIndex(x, y)]);
+				if (Dungeon.level.isValid(x, y)) {
+					Dungeon.level.set(x, y, (byte) -Dungeon.level.data[Level.toIndex(x, y)]);
+				}
 			}
 		}
 	}

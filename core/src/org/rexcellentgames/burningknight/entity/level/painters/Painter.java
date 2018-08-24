@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.PathFinder;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
@@ -20,10 +21,16 @@ import java.util.Arrays;
 
 public class Painter {
 	private float grass = 0f;
+	private float dirt = 0f;
 	private float water = 0f;
 
 	public Painter setWater(float v) {
 		this.water = v;
+		return this;
+	}
+
+	public Painter setDirt(float v) {
+		this.dirt = v;
 		return this;
 	}
 
@@ -93,6 +100,10 @@ public class Painter {
 			}
 		}
 
+		if (this.dirt > 0) {
+			this.paintDirt(level, rooms);
+		}
+
 		if (this.grass > 0) {
 			this.paintGrass(level, rooms);
 		}
@@ -118,7 +129,7 @@ public class Painter {
 		}
 	}
 
-	private void paintGrass(Level level, ArrayList<Room> rooms) {
+	private void paintDirt(Level level, ArrayList<Room> rooms) {
 		boolean[] grass = Patch.generate(this.grass, 5);
 
 		for (Room r : rooms) {
@@ -127,20 +138,37 @@ public class Painter {
 				byte t = level.data[i];
 				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C) && level.liquidData[i] == 0) {
 					level.set(i, Terrain.DIRT);
-
-					/*if (Random.chance(10)) {
-						Plant plant = Plant.random();
-
-						plant.x = p.x * 16;
-						plant.y = p.y * 16 - 4;
-
-						LevelSave.add(plant);
-						Dungeon.area.add(plant);
-
-						plant.grow();
-					}*/
 				}
 			}
+		}
+	}
+
+	private void paintGrass(Level level, ArrayList<Room> rooms) {
+		boolean[] grass = Patch.generate(this.grass, 5);
+		boolean[] dry = Patch.generate(this.grass, 5);
+		ArrayList<Integer> cells = new ArrayList<>();
+
+		for (Room r : rooms) {
+			for (Point p : r.grassPlaceablePoints()) {
+				int i = Level.toIndex((int) p.x, (int) p.y);
+				byte t = level.data[i];
+				if (grass[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C) && level.liquidData[i] == 0) {
+					cells.add(i);
+				}
+			}
+		}
+
+		for (int i : cells) {
+			int count = 1;
+
+			for (int n : PathFinder.NEIGHBOURS8) {
+				if (grass[i + n]) {
+					count++;
+				}
+			}
+
+			boolean high = (Random.newFloat() < count / 12f);
+			level.set(i, dry[i] ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
 		}
 	}
 
@@ -416,7 +444,7 @@ public class Painter {
 		//radii
 		double radH = h / 2f;
 		double radW = w / 2f;
-		boolean liquid = (value == Terrain.DIRT || value == Terrain.LAVA || value == Terrain.WATER || value == Terrain.GRASS);
+		boolean liquid = Level.matchesFlag(value, Terrain.LIQUID_LAYER);
 
 		//fills each row of the ellipse from top to bottom
 		for (int i = 0; i < h; i++) {
