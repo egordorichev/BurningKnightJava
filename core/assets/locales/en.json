@@ -625,5 +625,9 @@
 	"fill_up_inventory_achievement" : "Full",
 	"fill_up_inventory_achievement_desc" : "Fill up your inventory",
 	"find_secret_room_achievement" : "What a secret",
-	"find_secret_room_achievement_desc" : "Find a secret room"
+	"find_secret_room_achievement_desc" : "Find a secret room",
+	"scroll_of_upgrade" : "Scroll of upgrade",
+	"scroll_of_upgrade_desc" : "Upgrade one of your items!",
+	"upgrade_achievement" : "Time for an upgrade!",
+	"upgrade_achievement_desc" : "Upgrade one of your items!"
 }

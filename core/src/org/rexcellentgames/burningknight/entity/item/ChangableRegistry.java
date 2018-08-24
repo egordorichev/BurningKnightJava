@@ -1,14 +1,16 @@
 package org.rexcellentgames.burningknight.entity.item;
 
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.*;
-import org.rexcellentgames.burningknight.entity.item.consumable.spell.*;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.item.consumable.potion.*;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChangableRegistry {
 	public static HashMap<String, Type> types = new HashMap<>();
@@ -89,7 +91,7 @@ public class ChangableRegistry {
 			potions.remove(i);
 		}
 
-		ArrayList<Class<? extends Spell>> spells = new ArrayList<>(Arrays.asList(
+		/*ArrayList<Class<? extends Scroll>> spells = new ArrayList<>(Arrays.asList(
 			SpellOfTeleportation.class, SpellOfDamage.class,
 			ManaSpell.class
 		));
@@ -105,6 +107,6 @@ public class ChangableRegistry {
 			types.put(spells.get(i).getSimpleName().replace("org.rexcellentgames.burningknight.", ""), type);
 			identified.put(type, false);
 			spells.remove(i);
-		}
+		}*/
 	}
 }
