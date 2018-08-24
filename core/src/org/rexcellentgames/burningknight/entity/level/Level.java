@@ -868,101 +868,9 @@ public abstract class Level extends SaveableEntity {
 
 					Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
 				} else if (tile == Terrain.WATER) {
-					byte variant = this.liquidVariants[i];
-
-					TextureRegion r = new TextureRegion(Terrain.waterPattern);
-
-					r.setRegionX(r.getRegionX() + (x % 4) * 16);
-					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
-
-					int rx = r.getRegionX();
-					int ry = r.getRegionY();
-
-					r.setRegionHeight(16);
-					r.setRegionWidth(16);
-
-					Texture texture = r.getTexture();
-
-					int rw = texture.getWidth();
-					int rh = texture.getHeight();
-
-					TextureRegion rr = Terrain.waterVariants[variant];
-					Texture t = rr.getTexture();
-
-					Graphics.batch.end();
-					maskShader.begin();
-					t.bind(1);
-					maskShader.setUniformf("water", 1);
-					maskShader.setUniformf("activated", 1);
-					maskShader.setUniformi("u_texture2", 1);
-					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-					texture.bind(0);
-					maskShader.setUniformi("u_texture", 1);
-					maskShader.setUniformf("time", Dungeon.time);
-					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
-					maskShader.end();
-					Graphics.batch.begin();
-
-					Graphics.render(r, x * 16, y * 16 - 8);
-
-					Graphics.batch.end();
-					maskShader.begin();
-					maskShader.setUniformf("activated", 0);
-					maskShader.end();
-					Graphics.batch.begin();
-
-					if (variant != 15) {
-						Graphics.render(Terrain.pooledge[variant], x * 16, y * 16 - 8);
-					}
+					drawWith(Terrain.waterPattern, Terrain.pooledge, i, x, y, true);
 				} else if (tile == Terrain.LAVA) {
-					byte variant = this.liquidVariants[i];
-
-					TextureRegion r = new TextureRegion(Terrain.lavaPattern);
-
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
-
-					int rx = r.getRegionX();
-					int ry = r.getRegionY();
-
-					r.setRegionHeight(16);
-					r.setRegionWidth(16);
-
-					Texture texture = r.getTexture();
-
-					int rw = texture.getWidth();
-					int rh = texture.getHeight();
-
-					TextureRegion rr = Terrain.lavaVariants[variant];
-					Texture t = rr.getTexture();
-
-					Graphics.batch.end();
-					maskShader.begin();
-					t.bind(1);
-					maskShader.setUniformf("activated", 1);
-					maskShader.setUniformf("water", 1);
-					maskShader.setUniformi("u_texture2", 1);
-					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-					texture.bind(0);
-					maskShader.setUniformi("u_texture", 1);
-					maskShader.setUniformf("time", Dungeon.time);
-					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
-					maskShader.end();
-					Graphics.batch.begin();
-
-					Graphics.render(r, x * 16, y * 16 - 8);
-
-					Graphics.batch.end();
-					maskShader.begin();
-					maskShader.setUniformf("activated", 0);
-					maskShader.end();
-					Graphics.batch.begin();
-
-					if (variant != 15) {
-						Graphics.render(Terrain.lavaedge[variant], x * 16, y * 16 - 8);
-					}
+					drawWith(Terrain.lavaPattern, Terrain.lavaedge, i, x, y, true);
 				}
 			}
 		}
@@ -989,6 +897,52 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		renderShadows();
+	}
+
+	private void drawWith(TextureRegion pattern, TextureRegion edge[], int i, int x, int y, boolean water) {
+		byte variant = this.liquidVariants[i];
+
+		TextureRegion r = new TextureRegion(pattern);
+
+		r.setRegionX(r.getRegionX() + x % 4 * 16);
+		r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
+
+		int rx = r.getRegionX();
+		int ry = r.getRegionY();
+
+		r.setRegionHeight(16);
+		r.setRegionWidth(16);
+
+		Texture texture = r.getTexture();
+
+		int rw = texture.getWidth();
+		int rh = texture.getHeight();
+
+		TextureRegion rr = edge[variant];
+		Texture t = rr.getTexture();
+
+		Graphics.batch.end();
+		maskShader.begin();
+		t.bind(1);
+		maskShader.setUniformf("activated", 1);
+		maskShader.setUniformf("water", water ? 1 : 0);
+		maskShader.setUniformi("u_texture2", 1);
+		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
+		texture.bind(0);
+		maskShader.setUniformi("u_texture", 1);
+		maskShader.setUniformf("time", Dungeon.time);
+		maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+		maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+		maskShader.end();
+		Graphics.batch.begin();
+
+		Graphics.render(r, x * 16, y * 16 - 8);
+
+		Graphics.batch.end();
+		maskShader.begin();
+		maskShader.setUniformf("activated", 0);
+		maskShader.end();
+		Graphics.batch.begin();
 	}
 
 	private void renderShadows() {
@@ -1155,102 +1109,34 @@ public abstract class Level extends SaveableEntity {
 				if (tile == Terrain.EXIT) {
 					Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
 				} else if (tile == Terrain.DIRT) {
-					byte variant = this.liquidVariants[i];
-
-					TextureRegion r = new TextureRegion(Terrain.dirtPattern);
-
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
-
-					int rx = r.getRegionX();
-					int ry = r.getRegionY();
-
-					r.setRegionHeight(16);
-					r.setRegionWidth(16);
-
-					Texture texture = r.getTexture();
-
-					int rw = texture.getWidth();
-					int rh = texture.getHeight();
-
-					TextureRegion rr = Terrain.lavaVariants[variant];
-					Texture t = rr.getTexture();
-
-					Graphics.batch.end();
-					maskShader.begin();
-					t.bind(1);
-					maskShader.setUniformf("activated", 1);
-					maskShader.setUniformf("water", 0);
-					maskShader.setUniformi("u_texture2", 1);
-					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-					texture.bind(0);
-					maskShader.setUniformi("u_texture", 1);
-					maskShader.setUniformf("time", Dungeon.time);
-					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
-					maskShader.end();
-					Graphics.batch.begin();
-
-					Graphics.render(r, x * 16, y * 16 - 8);
-
-					Graphics.batch.end();
-					maskShader.begin();
-					maskShader.setUniformf("activated", 0);
-					maskShader.end();
-					Graphics.batch.begin();
-
-					if (variant != 15) {
-						Graphics.render(Terrain.dirtedge[variant], x * 16, y * 16 - 8);
-					}
+					drawWith(Terrain.dirtPattern, Terrain.dirtedge, i, x, y, false);
 				} else if (tile == Terrain.GRASS || tile == Terrain.DRY_GRASS || tile == Terrain.HIGH_GRASS || tile == Terrain.HIGH_DRY_GRASS) {
-					byte variant = this.liquidVariants[i];
 					boolean dry = (tile == Terrain.DRY_GRASS || tile == Terrain.HIGH_DRY_GRASS);
+					drawWith(dry ? Terrain.dryGrassPattern : Terrain.grassPattern, dry ? Terrain.drygrassedge : Terrain.grassedge, i, x, y, false);
 
-					TextureRegion r = new TextureRegion(dry ? Terrain.dryGrassPattern : Terrain.grassPattern);
+					// todo: high grass overlays
+				} else if (tile == Terrain.OBSIDIAN) {
+					drawWith(Terrain.obsidianPattern, Terrain.dirtedge, i, x, y, false);
+				} else if (tile == Terrain.COBWEB || tile == Terrain.EMBER) {
+					Graphics.batch.end();
+					Graphics.batch.setShader(null);
+					Graphics.batch.begin();
+
+					TextureRegion r = new TextureRegion(tile == Terrain.EMBER ? Terrain.emberPattern : Terrain.cobwebPattern);
 
 					r.setRegionX(r.getRegionX() + x % 4 * 16);
 					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
 
-					int rx = r.getRegionX();
-					int ry = r.getRegionY();
-
 					r.setRegionHeight(16);
 					r.setRegionWidth(16);
-
-					Texture texture = r.getTexture();
-
-					int rw = texture.getWidth();
-					int rh = texture.getHeight();
-
-					TextureRegion rr = Terrain.lavaVariants[variant];
-					Texture t = rr.getTexture();
-
-					Graphics.batch.end();
-					maskShader.begin();
-					t.bind(1);
-					maskShader.setUniformf("activated", 1);
-					maskShader.setUniformf("water", 0);
-					maskShader.setUniformi("u_texture2", 1);
-					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-					texture.bind(0);
-					maskShader.setUniformi("u_texture", 1);
-					maskShader.setUniformf("time", Dungeon.time);
-					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
-					maskShader.end();
-					Graphics.batch.begin();
 
 					Graphics.render(r, x * 16, y * 16 - 8);
 
 					Graphics.batch.end();
-					maskShader.begin();
-					maskShader.setUniformf("activated", 0);
-					maskShader.end();
+					Graphics.batch.setShader(maskShader);
 					Graphics.batch.begin();
-
-					if (variant != 15) {
-						// Graphics.render(dry ? Terrain.drygrassedge[variant] : Terrain.grassedge[variant], x * 16, y * 16 - 8);
-					}
+				} else if (tile == Terrain.ICE) {
+					drawWith(Terrain.icePattern, Terrain.pooledge, i, x, y, false);
 				}
 			}
 		}

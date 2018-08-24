@@ -28,8 +28,9 @@ public class Terrain {
 	public static byte HIGH_DRY_GRASS = 18;
 	public static byte OBSIDIAN = 19;
 	public static byte EMBER = 20;
+	public static byte COBWEB = 21;
 
-	public static byte SIZE = 21;
+	public static byte SIZE = 22;
 
 	public static int[] flags = new int[SIZE];
 	public static Color[][] colors = new Color[10][SIZE];
@@ -62,6 +63,7 @@ public class Terrain {
 		flags[HIGH_DRY_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER;
 		flags[OBSIDIAN] = PASSABLE | LIQUID_LAYER;
 		flags[EMBER] = PASSABLE | LIQUID_LAYER;
+		flags[COBWEB] = PASSABLE | LIQUID_LAYER | BURNS;
 		flags[EXIT] = PASSABLE | LIQUID_LAYER;
 
 		colors[0][CHASM] = Color.valueOf("#000000");
@@ -79,6 +81,11 @@ public class Terrain {
 		colors[1][CHASM] = Color.valueOf("#000000");
 		colors[1][DIRT] = Color.valueOf("#8a4836");
 		colors[1][GRASS] = Color.valueOf("#33984b");
+		colors[1][HIGH_GRASS] = Color.valueOf("#33984b");
+		colors[1][DRY_GRASS] = Color.valueOf("#e69c69");
+		colors[1][HIGH_DRY_GRASS] = Color.valueOf("#e69c69");
+		colors[1][OBSIDIAN] = Color.valueOf("#2a2f4e");
+		colors[1][EMBER] = Color.valueOf("#000000");
 		colors[1][FLOOR_A] = Color.valueOf("#bf6f4a");
 		colors[1][FLOOR_B] = Color.valueOf("#f5555d");
 		colors[1][FLOOR_C] = Color.valueOf("#5d2c28");
@@ -135,16 +142,17 @@ public class Terrain {
 	public static TextureRegion wallPattern;
 	public static TextureRegion crackPattern;
 	public static TextureRegion chasmPattern;
+	public static TextureRegion cobwebPattern;
+	public static TextureRegion emberPattern;
+	public static TextureRegion obsidianPattern;
+	public static TextureRegion icePattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
 
-	public static TextureRegion[] pooledge = new TextureRegion[15];
-	public static TextureRegion[] lavaedge = new TextureRegion[15];
-	public static TextureRegion[] dirtedge = new TextureRegion[15];
-	public static TextureRegion[] drygrassedge = new TextureRegion[15];
-	public static TextureRegion[] grassedge = new TextureRegion[15];
-	public static TextureRegion[] waterVariants = new TextureRegion[16];
-	public static TextureRegion[] lavaVariants = new TextureRegion[16];
-	public static TextureRegion[] wallVariants = new TextureRegion[15];
+	public static TextureRegion[] pooledge = new TextureRegion[16];
+	public static TextureRegion[] lavaedge = new TextureRegion[16];
+	public static TextureRegion[] dirtedge = new TextureRegion[16];
+	public static TextureRegion[] drygrassedge = new TextureRegion[16];
+	public static TextureRegion[] grassedge = new TextureRegion[16];
 	public static TextureRegion[] woodVariants = new TextureRegion[16];
 	public static TextureRegion[] badVariants = new TextureRegion[16];
 	public static TextureRegion[] goldVariants = new TextureRegion[16];
@@ -179,6 +187,10 @@ public class Terrain {
 		lavaPattern = Graphics.getTexture("biome-gen-lava pattern");
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
 		crackPattern = Graphics.getTexture(bm + "-crack");
+		emberPattern = Graphics.getTexture("biome-gen-coal_pattern");
+		cobwebPattern = Graphics.getTexture("biome-gen-cobweb_pattern");
+		obsidianPattern = Graphics.getTexture("biome-gen-obsidian_pattern");
+		icePattern = Graphics.getTexture("biome-gen-ice_pattern");
 
 		entrance = Graphics.getTexture("props-entance");
 		exit = Graphics.getTexture("props-exit");
@@ -212,41 +224,24 @@ public class Terrain {
 			dither[i] = Graphics.getTexture("fx-dither-idle-" + String.format("%02d", i));
 		}
 
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 16; i++) {
 			pooledge[i] = Graphics.getTexture("biome-gen-pooledge" + Level.COMPASS[i]);
 		}
 
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 16; i++) {
 			lavaedge[i] = Graphics.getTexture("biome-gen-lavaedge" + Level.COMPASS[i]);
 		}
 
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 16; i++) {
 			grassedge[i] = Graphics.getTexture("biome-gen-grassedge" + Level.COMPASS[i]);
 		}
 
-		for (int i = 0; i < 15; i++) {
-			drygrassedge[i] = Graphics.getTexture("biome-gen-dry_grassedge" + Level.COMPASS[i]);
+		for (int i = 0; i < 16; i++) {
+			drygrassedge[i] = Graphics.getTexture("biome-gen-dry" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {
-			waterVariants[i] = Graphics.getTexture("biome-gen-pool" + Level.COMPASS[i]);
-		}
-
-		for (int i = 0; i < 16; i++) {
-			lavaVariants[i] = Graphics.getTexture("biome-gen-lava" + Level.COMPASS[i]);
-		}
-
-		for (int i = 0; i < 15; i++) {
 			dirtedge[i] = Graphics.getTexture("biome-gen-dirtedge" + Level.COMPASS[i]);
-		}
-
-		/*
-		for (int i = 0; i < 15; i++) {
-			chasmVariants[i] = Graphics.getTexture(bm + " (chasm" + Level.COMPASS[i] + ")");
-		}*/
-
-		for (int i = 0; i < 15; i++) {
-			wallVariants[i] = Graphics.getTexture("biome-gen-wall" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {
@@ -274,13 +269,9 @@ public class Terrain {
 		}
 
 		chasmPattern = Graphics.getTexture("biome-gen-chasm_bg");
-		//patterns[CHASM] = chasmPattern;
 
-		// variants[WALL] = wallVariants;
-		// variants[CRACK] = wallVariants;
 		variants[FLOOR_B] = woodVariants;
 		variants[FLOOR_A] = floorVariants;
-		variants[LAVA] = lavaVariants;
 		variants[TABLE] = tableVariants;
 		variants[FLOOR_C] = badVariants;
 		variants[FLOOR_D] = goldVariants;
