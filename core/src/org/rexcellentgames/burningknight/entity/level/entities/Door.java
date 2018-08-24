@@ -189,7 +189,7 @@ public class Door extends SaveableEntity {
 	}
 
 	private float damage;
-	private boolean burning;
+	public boolean burning;
 
 	public boolean isOpen() {
 		return this.animation.getFrame() != 0;

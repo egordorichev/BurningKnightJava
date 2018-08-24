@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 
@@ -72,6 +73,8 @@ public class Firebolt extends Wand {
 					fx.g = 0.6f;
 
 					Dungeon.area.add(fx);
+
+					Dungeon.level.setOnFire(Level.toIndex(Math.round(this.x / 16), Math.round(this.y / 16)), true);
 				}
 
 				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
@@ -85,6 +88,10 @@ public class Firebolt extends Wand {
 			@Override
 			public void onCollision(Entity entity) {
 				super.onCollision(entity);
+
+				if (entity instanceof Door) {
+					((Door) entity).burning = true;
+				}
 
 				if (entity == null || entity instanceof SolidProp || entity instanceof Door) {
 					num++;

@@ -637,6 +637,11 @@ public abstract class Level extends SaveableEntity {
 		byte t = this.get(i);
 		byte l = this.liquidData[i];
 
+		if (l == Terrain.ICE) {
+			this.liquidData[i] = Terrain.WATER;
+			return;
+		}
+
 		boolean ab = matchesFlag(t, Terrain.BURNS);
 		boolean bb = matchesFlag(l, Terrain.BURNS);
 

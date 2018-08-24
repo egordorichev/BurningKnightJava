@@ -11,6 +11,8 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class IceWand extends Wand {
@@ -65,9 +67,23 @@ public class IceWand extends Wand {
 					fx.g = 0.3f + Random.newFloat(0.6f);
 
 					Dungeon.area.add(fx);
+
+					int i = Level.toIndex(Math.round(this.x / 16), Math.round(this.y / 16));
+
+					Dungeon.level.setOnFire(i, false);
+					Dungeon.level.freeze(i);
 				}
 
 				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+			}
+
+			@Override
+			public void onCollision(Entity entity) {
+				super.onCollision(entity);
+
+				if (entity instanceof Door) {
+					((Door) entity).burning = false;
+				}
 			}
 
 			@Override

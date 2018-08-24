@@ -11,6 +11,8 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FireWand extends Wand {
@@ -65,6 +67,7 @@ public class FireWand extends Wand {
 					fx.b = 0.3f;
 
 					Dungeon.area.add(fx);
+					Dungeon.level.setOnFire(Level.toIndex(Math.round(this.x / 16), Math.round(this.y / 16)), true);
 				}
 
 				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
@@ -76,6 +79,15 @@ public class FireWand extends Wand {
 
 				if (entity instanceof Creature) {
 					((Creature) entity).addBuff(new BurningBuff());
+				}
+			}
+
+			@Override
+			public void onCollision(Entity entity) {
+				super.onCollision(entity);
+
+				if (entity instanceof Door) {
+					((Door) entity).burning = true;
 				}
 			}
 		};
