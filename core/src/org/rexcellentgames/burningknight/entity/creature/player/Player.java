@@ -811,13 +811,13 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void onTouch(short t, int x, int y) {
+	protected void onTouch(short t, int x, int y, byte info) {
 		if (t == Terrain.WATER && !this.flying) {
 			if (this.hasBuff(BurningBuff.class)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;
 				GlobalSave.put("num_fire_out", num);
 
-				if (num >= 10) {
+				if (num >= 30) {
 					Achievements.unlock(Achievements.UNLOCK_WATER_BOLT);
 				}
 			}

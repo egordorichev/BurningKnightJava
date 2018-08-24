@@ -6,18 +6,21 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -86,6 +89,8 @@ public class Door extends SaveableEntity {
 		Dungeon.level.setPassable((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16), pas);
 	}
 
+	private float lastFlame;
+
 	@Override
 	public void update(float dt) {
 		if (locked == null) {
@@ -141,7 +146,50 @@ public class Door extends SaveableEntity {
 				}
 			}
 		}
+
+		if (!this.burning) {
+			int i = Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16));
+			byte info = Dungeon.level.getInfo(i);
+
+			if (BitHelper.isBitSet(info, 0)) {
+				// Burning
+				this.damage = 0;
+				this.burning = true;
+
+				for (int j : PathFinder.NEIGHBOURS4) {
+					Dungeon.level.setOnFire(i + j, true);
+				}
+			}
+		} else {
+			lastFlame += dt;
+
+			if (this.lastFlame >= 0.05f) {
+				this.lastFlame = 0;
+				TerrainFlameFx fx = new TerrainFlameFx();
+				fx.x = this.x + Random.newFloat(this.w);
+				fx.y = this.y + Random.newFloat(this.h) - 4;
+				fx.depth = 1;
+				Dungeon.area.add(fx);
+			}
+
+			damage += dt / 5;
+
+			if (damage >= 1f) {
+				this.done = true;
+				for (int i = 0; i < 5; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = this.x + this.w / 2;
+					fx.y = this.y + this.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+			}
+		}
 	}
+
+	private float damage;
+	private boolean burning;
 
 	public boolean isOpen() {
 		return this.animation.getFrame() != 0;
@@ -156,6 +204,8 @@ public class Door extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature && !((Creature) entity).flying) {
+			((Creature) entity).addBuff(new BurningBuff());
+
 			if (this.lock && this.lockable && entity instanceof Player) {
 				Player player = (Player) entity;
 
@@ -277,6 +327,12 @@ public class Door extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
+		this.burning = reader.readBoolean();
+
+		if (this.burning) {
+			this.damage = reader.readFloat();
+		}
+
 		this.vertical = reader.readBoolean();
 
 		if (!this.vertical) {
@@ -312,6 +368,12 @@ public class Door extends SaveableEntity {
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
+
+		writer.writeBoolean(this.burning);
+
+		if (this.burning) {
+			writer.writeFloat(this.damage);
+		}
 
 		writer.writeBoolean(this.vertical);
 		writer.writeBoolean(this.autoLock);
