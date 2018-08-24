@@ -16,7 +16,7 @@ class MetalRing : Equipable() {
 		super.onEquip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).reflectDamageChance += 10f
+			(this.owner as Player).reflectDamageChance += 20f
 		}
 	}
 
@@ -24,7 +24,7 @@ class MetalRing : Equipable() {
 		super.onUnequip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).reflectDamageChance -= 10f
+			(this.owner as Player).reflectDamageChance -= 20f
 		}
 	}
 }

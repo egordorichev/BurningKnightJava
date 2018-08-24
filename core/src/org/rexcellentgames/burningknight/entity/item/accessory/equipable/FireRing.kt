@@ -16,7 +16,7 @@ class FireRing : Equipable() {
 		super.onEquip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).burnChance += 10f
+			(this.owner as Player).burnChance += 30f
 		}
 	}
 
@@ -24,7 +24,7 @@ class FireRing : Equipable() {
 		super.onUnequip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).burnChance -= 10f
+			(this.owner as Player).burnChance -= 30f
 		}
 	}
 }

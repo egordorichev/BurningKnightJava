@@ -12,7 +12,6 @@ import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.game.state.State;
 import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.HashMap;
@@ -49,7 +48,6 @@ public class Ui {
 			bars[i].update(dt);
 
 			if (bars[i].done || dead) {
-				Log.info(bars[i].boss.getHp() + " dead");
 				healthbars.remove(bars[i].boss.getClass());
 
 				int j = 0;

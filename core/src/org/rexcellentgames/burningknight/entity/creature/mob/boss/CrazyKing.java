@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
@@ -57,9 +56,7 @@ public class CrazyKing extends Boss {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		if (buff instanceof BurningBuff) {
-			return false;
-		}
+
 
 		return super.canHaveBuff(buff);
 	}

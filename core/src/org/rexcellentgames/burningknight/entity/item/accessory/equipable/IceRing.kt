@@ -16,7 +16,7 @@ class IceRing : Equipable() {
 		super.onEquip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).freezeChance += 5f
+			(this.owner as Player).freezeChance += 20f
 		}
 	}
 
@@ -24,7 +24,7 @@ class IceRing : Equipable() {
 		super.onUnequip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).freezeChance -= 5f
+			(this.owner as Player).freezeChance -= 20f
 		}
 	}
 }

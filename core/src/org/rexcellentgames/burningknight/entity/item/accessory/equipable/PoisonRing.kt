@@ -16,7 +16,7 @@ class PoisonRing : Equipable() {
 		super.onEquip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).poisonChance += 10f
+			(this.owner as Player).poisonChance += 30f
 		}
 	}
 
@@ -24,7 +24,7 @@ class PoisonRing : Equipable() {
 		super.onUnequip()
 
 		if (this.owner is Player) {
-			(this.owner as Player).poisonChance -= 10f
+			(this.owner as Player).poisonChance -= 30f
 		}
 	}
 }

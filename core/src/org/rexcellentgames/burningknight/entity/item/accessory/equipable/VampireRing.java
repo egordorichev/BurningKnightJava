@@ -15,7 +15,7 @@ public class VampireRing extends Equipable {
 		super.onEquip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).vampire += 5f;
+			((Player) this.owner).vampire += 10f;
 		}
 	}
 
@@ -24,7 +24,7 @@ public class VampireRing extends Equipable {
 		super.onUnequip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).vampire -= 5f;
+			((Player) this.owner).vampire -= 10f;
 		}
 	}
 }

@@ -535,6 +535,14 @@ public class Player extends Creature {
 				}
 			}
 		} else if (entity instanceof Mob) {
+			if (this.frostLevel > 0) {
+				((Mob) entity).addBuff(new FreezeBuff());
+			}
+
+			if (this.burnLevel > 0) {
+				((Mob) entity).addBuff(new BurningBuff());
+			}
+
 			if (Random.chance(this.thornDamageChance)) {
 				((Mob) entity).modifyHp(-4, this);
 			}
@@ -1036,7 +1044,7 @@ public class Player extends Creature {
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 
 		if (from != null && Random.chance(this.reflectDamageChance)) {
-			from.modifyHp((int) Math.ceil(a / 2), this, true);
+			from.modifyHp(4, this, true);
 		}
 
 		if (this.ui.hasEquiped(BlackHeart.class) && this.room != null) {
