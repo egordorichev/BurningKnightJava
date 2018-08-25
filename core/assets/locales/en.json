@@ -629,5 +629,9 @@
 	"scroll_of_upgrade" : "Scroll of upgrade",
 	"scroll_of_upgrade_desc" : "Upgrade one of your items!",
 	"upgrade_achievement" : "Time for an upgrade!",
-	"upgrade_achievement_desc" : "Upgrade one of your items!"
+	"upgrade_achievement_desc" : "Upgrade one of your items!",
+	"ice_skates" : "Ice skates",
+	"ice_skates_desc" : "Slide!",
+	"scissors" : "Scissors",
+	"scissors_desc" : "Cut it!"
 }

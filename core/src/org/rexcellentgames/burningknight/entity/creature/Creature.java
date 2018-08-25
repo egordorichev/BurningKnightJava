@@ -271,7 +271,7 @@ public class Creature extends SaveableEntity {
 
 		this.vel.mul(
 			(this.touches[Terrain.COBWEB] ? 0.3f :
-			(this.touches[Terrain.ICE] ? 0.95f : this.mul))
+			(!iceResitant && this.touches[Terrain.ICE] ? 0.95f : this.mul))
 		);
 
 		if (this.body != null && !ignorePos) {
@@ -331,7 +331,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void doVel() {
-		float fr = this.touches[Terrain.ICE] ? 0.2f : 1f;
+		float fr = (iceResitant && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : 1f);
 		this.vel.x += this.acceleration.x * fr;
 		this.vel.y += this.acceleration.y * fr;
 	}
@@ -384,8 +384,9 @@ public class Creature extends SaveableEntity {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0) {
 			return null;
 		} else if (amount < 0 && !this.touches[Terrain.COBWEB] &&
-			((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) ||
-			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense())) {
+			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) ||
+			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
+
 			if (this.unhittable) {
 				return null;
 			}
@@ -429,8 +430,8 @@ public class Creature extends SaveableEntity {
 			hurt = true;
 		}
 
-		/*HpFx fx = new HpFx(this, amount);
-		Dungeon.area.add(fx);*/
+		HpFx fx = new HpFx(this, amount);
+		Dungeon.area.add(fx);
 
 		if (hurt) {
 			this.doHurt(amount);
@@ -479,6 +480,12 @@ public class Creature extends SaveableEntity {
 	public float rollDamage() {
 		return this.touches[Terrain.ICE] ? 2 : 1;
 	}
+
+	public boolean isTouching(byte t) {
+		return touches[t];
+	}
+
+	public boolean iceResitant;
 
 	public float rollDefense() {
 		return 1;

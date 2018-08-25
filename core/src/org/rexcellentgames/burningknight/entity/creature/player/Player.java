@@ -844,6 +844,9 @@ public class Player extends Creature {
 				if (this.isDead()) {
 					Achievements.unlock(Achievements.UNLOCK_WINGS);
 				}
+			} else if (t == Terrain.COBWEB && this.cutCobweb) {
+				Dungeon.level.liquidData[Level.toIndex(x, y)] = 0;
+				Dungeon.level.updateTile(x, y);
 			}
 		}
 	}
@@ -937,6 +940,8 @@ public class Player extends Creature {
 
 		return ((pauseMore && this.vel.len() < 1f) ? v * 1.5f : v) * damageModifier * this.getStat("damage");
 	}
+
+	public boolean cutCobweb;
 
 	@Override
 	public float rollDefense() {

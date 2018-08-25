@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.modifier.Modifier;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -69,6 +70,11 @@ public class WeaponBase extends Item {
 		}
 
 		lastCrit = Random.chance(this.critChance + this.owner.getStat("crit_chance") * 10);
+
+		if (this.owner.isTouching(Terrain.ICE)) {
+			return this.damage * (lastCrit ? 2 : 1);
+		}
+
 		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
 	}
 

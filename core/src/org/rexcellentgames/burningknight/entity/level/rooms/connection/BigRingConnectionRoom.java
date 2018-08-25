@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.level.rooms.connection;
 
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
@@ -27,8 +28,6 @@ public class BigRingConnectionRoom extends TunnelRoom {
 			Painter.fill(level, this, 1, Terrain.CHASM);
 		}
 
-		super.paint(level);
-
 		Rect ring = getConnectionSpace();
 		byte floor = Terrain.randomFloor();
 
@@ -42,6 +41,15 @@ public class BigRingConnectionRoom extends TunnelRoom {
 			}
 		} else {
 			Painter.fill(level, ring.left, ring.top, 3, 3, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
+		}
+
+		paintTunnel(level, Terrain.randomFloor());
+
+		Painter.fill(level, ring.left, ring.top, 3, 3, Terrain.randomFloor());
+		Painter.fill(level, ring.left + 1, ring.top + 1, 1, 1, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
+
+		for (Door d : connected.values()) {
+			d.setType(Door.Type.TUNNEL);
 		}
 	}
 

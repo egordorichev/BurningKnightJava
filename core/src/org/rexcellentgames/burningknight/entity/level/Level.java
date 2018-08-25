@@ -633,6 +633,10 @@ public abstract class Level extends SaveableEntity {
 	private static final float UPDATE_DELAY = 1f;
 	private float lastFlame;
 
+	public static boolean isValid(int i) {
+		return i >= 0 && i < SIZE;
+	}
+
 	public void setOnFire(int i, boolean fire) {
 		byte t = this.get(i);
 		byte l = this.liquidData[i];

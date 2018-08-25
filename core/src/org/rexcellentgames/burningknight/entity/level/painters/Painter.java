@@ -190,7 +190,9 @@ public class Painter {
 			int count = 1;
 
 			for (int n : PathFinder.NEIGHBOURS8) {
-				if (grass[i + n]) {
+				int k = i + n;
+
+				if (Level.isValid(k) && grass[k]) {
 					count++;
 				}
 			}
