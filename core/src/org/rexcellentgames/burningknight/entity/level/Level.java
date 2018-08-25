@@ -649,7 +649,7 @@ public abstract class Level extends SaveableEntity {
 		boolean ab = matchesFlag(t, Terrain.BURNS);
 		boolean bb = matchesFlag(l, Terrain.BURNS);
 
-		if ((((ab & bb) || bb) && l != Terrain.WATER && l != Terrain.EXIT)) {
+		if ((((ab && bb) || bb || (ab && l == 0)) && l != Terrain.WATER && l != Terrain.EXIT)) {
 			this.info[i] = BitHelper.setBit(this.info[i], 0, fire);
 		}
 	}
@@ -737,7 +737,7 @@ public abstract class Level extends SaveableEntity {
 							}
 						}
 					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
-						if ((updateId + x + y) % 10 == 0) {
+						if ((updateId + x + y) % 20 == 0) {
 
 							i += PathFinder.NEIGHBOURS8[Random.newInt(8)];
 

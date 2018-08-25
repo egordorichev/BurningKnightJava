@@ -327,6 +327,11 @@ public class Mob extends Creature {
 
 	@Override
 	public void update(float dt) {
+		if (this.toDead) {
+			this.die();
+			return;
+		}
+
 		super.update(dt * speedMod);
 
 		if (this.freezed) {
@@ -599,9 +604,16 @@ public class Mob extends Creature {
 		}
 	}
 
+	private boolean toDead;
+
 	@Override
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
+
+		if (!this.saw) {
+			this.toDead = true;
+			return;
+		}
 
 		if (this.ai != null && !(this instanceof Boss)) {
 			this.ai.checkForPlayer(true);
