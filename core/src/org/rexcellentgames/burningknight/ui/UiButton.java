@@ -17,17 +17,17 @@ public class UiButton extends UiEntity {
 	public int w;
 
 	protected boolean hover;
-	protected float scale = 1f;
+	public float scale = 1f;
 	private Tween.Task last;
 	protected String label;
 	protected float mx = 3f;
 	public boolean sparks;
-	protected float r = 1f;
-	protected float g = 1f;
-	protected float b = 1f;
-	protected float rr = 1f;
-	protected float rg = 1f;
-	protected float rb = 1f;
+	public float r = 1f;
+	public float g = 1f;
+	public float b = 1f;
+	public float rr = 1f;
+	public float rg = 1f;
+	public float rb = 1f;
 	protected float ar = 1f;
 	protected float ag = 1f;
 	protected float ab = 1f;
@@ -188,9 +188,9 @@ public class UiButton extends UiEntity {
 			// Spark.random(this.x - this.w / 2, this.y - this.h / 4, this.w, this.h / 2, true);
 		}
 
-		this.rr += (this.r - this.rr) * dt * 10;
-		this.rg += (this.g - this.rg) * dt * 10;
-		this.rb += (this.b - this.rb) * dt * 10;
+		this.rr += (this.r - this.rr) * dt * 2;
+		this.rg += (this.g - this.rg) * dt * 2;
+		this.rb += (this.b - this.rb) * dt * 2;
 
 		boolean h = this.hover;
 		this.hover = checkHover() || isSelected;

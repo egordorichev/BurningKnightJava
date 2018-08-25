@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class Audio {
 	public static HashMap<String, Float> volumes = new HashMap<>();
-	private static Music current;
+	public static Music current;
 	private static boolean important;
 	private static String last = "";
 

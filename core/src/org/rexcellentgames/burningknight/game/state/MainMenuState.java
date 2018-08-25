@@ -60,7 +60,8 @@ public class MainMenuState extends State {
 		cameraX = Display.GAME_WIDTH / 2;
 		cameraY = Display.GAME_HEIGHT / 2;
 
-		Audio.play("Burning Knight");
+		String track = "Believer";
+		Audio.play(track);
 
 		Dungeon.buildDiscordBadge();
 
@@ -70,15 +71,6 @@ public class MainMenuState extends State {
 		instance = this;
 		Dungeon.area.add(Camera.instance);
 		Camera.target = null;
-
-		/*try {
-			File audioFile = Gdx.files.internal("music/Fatiga.mp3").file();
-			FileInputStream stream = new FileInputStream(audioFile);
-			Decoder decoder = new JLayerMp3Decoder(stream);
-			this.beats = BeatDetector.detectBeats(decoder);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 
 		buttons.add((UiButton) Dungeon.ui.add(new UiButton("play", -128, 128 - 24) {
 			@Override
@@ -206,7 +198,7 @@ public class MainMenuState extends State {
 			}
 		});
 	}
-
+	
 	@Override
 	public void renderUi() {
 		super.render();
