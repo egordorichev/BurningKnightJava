@@ -120,6 +120,7 @@ public class Skeleton extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
+		super.renderStats();
 	}
 
 	public class SkeletonState extends Mob.State<Skeleton> {

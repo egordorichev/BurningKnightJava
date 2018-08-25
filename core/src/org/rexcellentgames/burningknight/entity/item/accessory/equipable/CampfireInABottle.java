@@ -2,8 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class CampfireInABottle extends Equipable {
 	{
@@ -17,7 +15,7 @@ public class CampfireInABottle extends Equipable {
 		super.onEquip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).stunResist = true;
+			((Player) this.owner).stunResist += 1;
 		}
 	}
 
@@ -26,7 +24,7 @@ public class CampfireInABottle extends Equipable {
 		super.onUnequip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).stunResist = false;
+			((Player) this.owner).stunResist -= 1;
 		}
 	}
 }

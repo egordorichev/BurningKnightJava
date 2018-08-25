@@ -116,6 +116,8 @@ public class CrazyKing extends Boss {
 		if (this.secondForm) {
 			this.gun.render(this.x, this.y, this.w, this.h, this.flipped);
 		}
+
+		super.renderStats();
 	}
 
 	@Override

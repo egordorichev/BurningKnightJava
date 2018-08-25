@@ -633,5 +633,7 @@
 	"ice_skates" : "Ice skates",
 	"ice_skates_desc" : "Slide!",
 	"scissors" : "Scissors",
-	"scissors_desc" : "Cut it!"
+	"scissors_desc" : "Cut it!",
+	"elemental_ring" : "Elemental ring",
+	"elemental_ring_desc" : "Fire, water, ice and aid!"
 }

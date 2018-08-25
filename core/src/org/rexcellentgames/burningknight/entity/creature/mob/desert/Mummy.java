@@ -161,6 +161,7 @@ public class Mummy extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
+		super.renderStats();
 	}
 
 	private float lastHit;

@@ -75,6 +75,7 @@ public class Player extends Creature {
 	public static Entity ladder;
 	private static HashMap<String, Animation> skins = new HashMap<>();
 	public static ShaderProgram shader;
+	public static boolean showStats = true;
 
 	static {
 		shader = new ShaderProgram(Gdx.files.internal("shaders/rainbow.vert").readString(),  Gdx.files.internal("shaders/rainbow.frag").readString());
@@ -103,10 +104,10 @@ public class Player extends Creature {
 	public float regen;
 	public float goldModifier = 1f;
 	public float vampire;
-	public boolean lavaResist;
-	public boolean fireResist;
-	public boolean poisonResist;
-	public boolean stunResist;
+	public byte lavaResist;
+	public byte fireResist;
+	public byte poisonResist;
+	public byte stunResist;
 	public boolean seeSecrets;
 	public float manaRegenRate = 1f;
 	public float damageModifier = 1f;
@@ -838,7 +839,7 @@ public class Player extends Creature {
 				this.addBuff(new BurningBuff());
 			}
 
-			if (t == Terrain.LAVA && !this.flying && !this.lavaResist) {
+			if (t == Terrain.LAVA && !this.flying && this.lavaResist == 0) {
 				this.modifyHp(-1, null, true);
 
 				if (this.isDead()) {
@@ -1156,11 +1157,11 @@ public class Player extends Creature {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		if (fireResist && buff instanceof BurningBuff) {
+		if (fireResist > 0 && buff instanceof BurningBuff) {
 			return false;
-		} else if (poisonResist && buff instanceof PoisonBuff) {
+		} else if (poisonResist > 0 && buff instanceof PoisonBuff) {
 			return false;
-		} else if (stunResist && buff instanceof FreezeBuff) {
+		} else if (stunResist > 0 && buff instanceof FreezeBuff) {
 			return false;
 		}
 

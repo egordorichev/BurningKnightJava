@@ -256,6 +256,8 @@ public class Shopkeeper extends Npc {
 			this.shotgun.render(this.x, this.y, this.w, this.h, this.flipped);
 		}
 
+		super.renderStats();
+
 		// Graphics.print(this.state, Graphics.small, this.x, this.y);
 	}
 

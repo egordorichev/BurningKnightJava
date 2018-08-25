@@ -103,6 +103,10 @@ public class Mob extends Creature {
 		return this;
 	}
 
+	public void renderStats() {
+		Graphics.print(this.hp + "/" + this.hpMax, Graphics.small, this.x, this.y + this.z);
+	}
+
 	public void generatePrefix() {
 		if (this.prefix == null) {
 			this.prefix = PrefixPool.instance.generate();

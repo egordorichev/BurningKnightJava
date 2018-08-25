@@ -430,8 +430,10 @@ public class Creature extends SaveableEntity {
 			hurt = true;
 		}
 
-		HpFx fx = new HpFx(this, amount);
-		Dungeon.area.add(fx);
+		if (Player.showStats) {
+			HpFx fx = new HpFx(this, amount);
+			Dungeon.area.add(fx);
+		}
 
 		if (hurt) {
 			this.doHurt(amount);

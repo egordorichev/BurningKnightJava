@@ -2,8 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ObsidianBoots extends Equipable {
 	{
@@ -17,7 +15,7 @@ public class ObsidianBoots extends Equipable {
 		super.onEquip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).lavaResist = true;
+			((Player) this.owner).lavaResist += 1;
 		}
 	}
 
@@ -26,7 +24,7 @@ public class ObsidianBoots extends Equipable {
 		super.onUnequip();
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).lavaResist = false;
+			((Player) this.owner).lavaResist -= 1;
 		}
 	}
 }
