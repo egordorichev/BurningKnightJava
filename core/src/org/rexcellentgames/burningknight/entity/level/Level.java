@@ -746,6 +746,19 @@ public abstract class Level extends SaveableEntity {
 								this.updateTile(toX(i), toY(i));
 							}
 						}
+					} else if (t == Terrain.LAVA) {
+						for (int j : PathFinder.NEIGHBOURS8) {
+							int k = j + i;
+							byte l = this.liquidData[k];
+
+							if (l == Terrain.WATER) {
+								this.liquidData[k] = Terrain.OBSIDIAN;
+								this.updateTile(toX(k), toY(k));
+							} else if (l == Terrain.ICE) {
+								this.liquidData[k] = Terrain.WATER;
+								this.updateTile(toX(k), toY(k));
+							}
+						}
 					}
 				}
 			}

@@ -635,5 +635,7 @@
 	"scissors" : "Scissors",
 	"scissors_desc" : "Cut it!",
 	"elemental_ring" : "Elemental ring",
-	"elemental_ring_desc" : "Fire, water, ice and aid!"
+	"elemental_ring_desc" : "Fire, water, ice and aid!",
+	"lava_bucket" : "Lava bucket",
+	"lava_bucket_desc" : "Splash!"
 }
