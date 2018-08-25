@@ -261,7 +261,8 @@ object ItemRegistry {
 	  "ice_skates" to Pair(IceSkates::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 	  "scissors" to Pair(Scissors::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 	  "elemental_ring" to Pair(ElementalRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
-	  "lava_bucket" to Pair(LavaBucket::class.java, 0.2f, 1f, 1f, 1f, Quality.WOODEN)
+	  "lava_bucket" to Pair(LavaBucket::class.java, 0.2f, 1f, 1f, 1f, Quality.WOODEN),
+	  "water_bucket" to Pair(LavaBucket::class.java, 0.2f, 1f, 1f, 1f, Quality.WOODEN)
   )
 
   val modItems = mutableMapOf<String, Item>()
