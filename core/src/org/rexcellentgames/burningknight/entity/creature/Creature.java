@@ -477,7 +477,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	public float rollDamage() {
-		return 1;
+		return this.touches[Terrain.ICE] ? 2 : 1;
 	}
 
 	public float rollDefense() {

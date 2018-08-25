@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 
 public class Hat extends Accessory {
-	protected int defense = 1;
+	protected int defense = 2;
 	protected String skin;
 
 	{

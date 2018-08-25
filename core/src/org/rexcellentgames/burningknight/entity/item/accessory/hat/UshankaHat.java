@@ -8,6 +8,5 @@ public class UshankaHat extends Hat {
 		sprite = "item-hat_e";
 		name = Locale.get("ushanka_hat");
 		description = Locale.get("ushanka_hat_desc");
-		defense = 10;
 	}
 }
