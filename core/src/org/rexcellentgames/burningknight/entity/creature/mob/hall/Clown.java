@@ -78,9 +78,9 @@ public class Clown extends Mob {
 			items.add(new Guitar());
 		}
 
-		if (Random.chance(5)) {
+		//if (Random.chance(5)) {
 			items.add(new UshankaHat());
-		}
+		//}
 
 		if (Random.chance(5)) {
 			items.add(new ProtectiveBand());

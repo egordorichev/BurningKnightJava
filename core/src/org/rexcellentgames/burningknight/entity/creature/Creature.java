@@ -269,8 +269,10 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-
-		this.vel.mul((this.touches[Terrain.ICE] ? 0.95f : this.mul));
+		this.vel.mul(
+			(this.touches[Terrain.COBWEB] ? 0.3f :
+			(this.touches[Terrain.ICE] ? 0.95f : this.mul))
+		);
 
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
@@ -381,7 +383,9 @@ public class Creature extends SaveableEntity {
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0) {
 			return null;
-		} else if (amount < 0 && ((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || (this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense())) {
+		} else if (amount < 0 && !this.touches[Terrain.COBWEB] &&
+			((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) ||
+			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense())) {
 			if (this.unhittable) {
 				return null;
 			}

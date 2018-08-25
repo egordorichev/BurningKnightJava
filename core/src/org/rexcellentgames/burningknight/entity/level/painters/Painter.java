@@ -57,8 +57,8 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		leftMost -= 10;
-		topMost -= 10;
+		//leftMost -= 10;
+		//topMost -= 10;
 
 		int rightMost = 0, bottomMost = 0;
 
@@ -72,8 +72,8 @@ public class Painter {
 		rightMost++;
 		bottomMost++;
 
-		rightMost += 10;
-		bottomMost += 10;
+		//rightMost += 10;
+		//bottomMost += 10;
 
 		//add 1 to account for 0 values
 		Level.setSize(rightMost + 1, bottomMost + 1);
@@ -104,6 +104,10 @@ public class Painter {
 					}
 				}
 			}
+		}
+
+		if (PathFinder.NEIGHBOURS8 == null) {
+			PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 		}
 
 		if (this.dirt > 0) {
