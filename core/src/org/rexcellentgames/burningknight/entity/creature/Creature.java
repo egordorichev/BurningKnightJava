@@ -331,7 +331,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void doVel() {
-		float fr = (iceResitant && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : 1f);
+		float fr = (iceResitant && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA] ? 0.35f : 1f));
 		this.vel.x += this.acceleration.x * fr;
 		this.vel.y += this.acceleration.y * fr;
 	}

@@ -1103,6 +1103,7 @@ public abstract class Level extends SaveableEntity {
 		t.bind(1);
 		maskShader.setUniformf("activated", 1);
 		maskShader.setUniformf("water", water ? 1 : 0);
+		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? -0.3f : 1);
 		maskShader.setUniformi("u_texture2", 1);
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		texture.bind(0);
