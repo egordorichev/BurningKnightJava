@@ -263,6 +263,8 @@ public class InGameState extends State {
 	public void update(float dt) {
 		if (!Player.instance.isDead()) {
 			GameSave.time += Gdx.graphics.getDeltaTime();
+		} else {
+			Dungeon.speed += (1 - Dungeon.speed) * dt * 5;
 		}
 
 		if (isPaused()) {

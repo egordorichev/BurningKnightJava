@@ -1092,8 +1092,10 @@ public class Player extends Creature {
 			}
 		}
 
-		if (this.ui.hasEquipped(ClockHeart.class)) {
-			Dungeon.slowDown(0.5f, 1f);
+		ClockHeart clock = (ClockHeart) this.ui.getEquipped(ClockHeart.class);
+
+		if (clock != null) {
+			Dungeon.slowDown(0.5f - (clock.getLevel() - 1f) * 0.05f, 1f * clock.getLevel());
 		}
 	}
 
