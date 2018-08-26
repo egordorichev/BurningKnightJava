@@ -77,8 +77,8 @@ public class HomingBook extends Book {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) / 1.5f - this.w / 3 + this.w / 2;
-					fx.y = this.y + Random.newFloat(this.h) / 1.5f - this.h / 3 + this.h / 2;
+					fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
+					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
 					fx.a = Random.newFloat(0.6f, 0.9f);
 					fx.w = 4;
 					fx.h = 4;

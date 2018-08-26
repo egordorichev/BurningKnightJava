@@ -1228,7 +1228,7 @@ public class Player extends Creature {
 	}
 
 	public void modifyMana(int a) {
-		this.mana = (int) MathUtils.clamp(0, this.manaMax, this.mana + a * manaModifier);
+		this.mana = (int) MathUtils.clamp(0, this.manaMax, (float) (this.mana + Math.ceil(a * manaModifier)));
 	}
 
 	public Inventory getInventory() {
