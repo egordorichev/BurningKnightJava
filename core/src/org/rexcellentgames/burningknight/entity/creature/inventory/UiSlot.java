@@ -103,6 +103,10 @@ public class UiSlot {
 			});
 		}
 
+		if (this.id > 5 && !this.inventory.isOpen()) {
+			return;
+		}
+
 		boolean h = this.hovered;
 		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, (int) this.y, 24, 24);
 

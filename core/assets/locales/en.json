@@ -288,7 +288,7 @@
 	"cobalt_shield" : "Cobalt shield",
 	"cobalt_shield_desc" : "Gives immunity to knockback",
 	"cross" : "Cross",
-	"cross_desc" : "May the Lord bless you and keep you",
+	"cross_desc" : "May the Lord bless you and keep you\nIncreases your invasiveness time by {TIME} seconds",
 	"spectacles" : "Spectacles",
 	"spectacles_desc" : "I can see forever!",
 	"gold" : "Gold",

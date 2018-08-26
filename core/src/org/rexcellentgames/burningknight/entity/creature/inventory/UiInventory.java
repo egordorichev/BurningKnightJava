@@ -17,7 +17,6 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -150,38 +149,19 @@ public class UiInventory extends UiEntity {
 			}
 		});
 
-		Tween.to(new Tween.Task(29 + 4, 0.3f, Tween.Type.BACK_OUT) {
-			@Override
-			public float getValue() {
-				return slots[6].y;
-			}
-
-			@Override
-			public void setValue(float value) {
-				for (int i = 6; i < 12; i++) {
-					UiSlot slot = slots[i];
-					slot.y = value;
-				}
-			}
-
-			@Override
-			public void onEnd() {
-				super.onEnd();
-				dn = true;
-			}
-		}).delay(0.01f);
-
-		if (this.inventory.getSize() > 12) {
-			Tween.to(new Tween.Task(29 + 29 + 4, 0.3f, Tween.Type.BACK_OUT) {
+		int j = 1;
+		for (int i = 6; i < this.inventory.getSize(); i += 6) {
+			int finalI = i;
+			Tween.to(new Tween.Task(29 * j + 4, 0.3f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
-					return slots[12].y;
+					return slots[finalI].y;
 				}
 
 				@Override
 				public void setValue(float value) {
-					for (int i = 12; i < inventory.getSize(); i++) {
-						UiSlot slot = slots[i];
+					for (int j = finalI; j < Math.min(inventory.getSize(), finalI + 6); j++) {
+						UiSlot slot = slots[j];
 						slot.y = value;
 					}
 				}
@@ -191,7 +171,8 @@ public class UiInventory extends UiEntity {
 					super.onEnd();
 					dn = true;
 				}
-			});
+			}).delay(0.01f);
+			j++;
 		}
 	}
 
@@ -359,6 +340,7 @@ public class UiInventory extends UiEntity {
 			public void onEnd() {
 				super.onEnd();
 				dn = true;
+				open = false;
 			}
 
 			@Override
@@ -367,60 +349,27 @@ public class UiInventory extends UiEntity {
 			}
 		}).delay(0.2f);
 
-		Tween.to(new Tween.Task(4, 0.1f, Tween.Type.QUAD_OUT) {
-			@Override
-			public float getValue() {
-				return slots[6].y;
-			}
-
-			@Override
-			public void setValue(float value) {
-				for (int i = 6; i < 12; i++) {
-					UiSlot slot = slots[i];
-					slot.y = value;
-				}
-			}
-
-			@Override
-			public void onEnd() {
-				super.onEnd();
-
-				open = false;
-			}
-
-			@Override
-			public boolean runWhenPaused() {
-				return true;
-			}
-		});
-
-		if (this.inventory.getSize() > 12) {
-			Tween.to(new Tween.Task(4, 0.2f, Tween.Type.QUAD_OUT) {
+		for (int i = 6; i < this.inventory.getSize(); i += 6) {
+			int finalI = i;
+			Tween.to(new Tween.Task(4, 0.1f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
-					return slots[12].y;
+					return slots[finalI].y;
+				}
+
+				@Override
+				public void setValue(float value) {
+					for (int j = finalI; j < Math.min(inventory.getSize(), finalI + 6); j++) {
+						UiSlot slot = slots[j];
+						slot.y = value;
+					}
 				}
 
 				@Override
 				public boolean runWhenPaused() {
 					return true;
 				}
-
-				@Override
-				public void setValue(float value) {
-					for (int i = 12; i < inventory.getSize(); i++) {
-						UiSlot slot = slots[i];
-						slot.y = value;
-					}
-				}
-
-				@Override
-				public void onEnd() {
-					super.onEnd();
-
-					open = false;
-				}
-			});
+			}).delay(0.01f);
 		}
 	}
 
