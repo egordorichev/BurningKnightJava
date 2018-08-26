@@ -7,10 +7,15 @@ class Izu : Gun() {
     origin.x = 5f
     origin.y = 7f
     hole.x = 10f
-    hole.y = 8f
+    hole.y = 10f
 	  accuracy = 1f
-	  ammoMax = 20
+	  ammoMax = 19
   }
+
+	override fun onAmmoAdded() {
+		super.onAmmoAdded()
+		usedTime = 0
+	}
 
 	override fun getUseTimeGun() : Float {
 		if (this.usedTime >= 3f) {

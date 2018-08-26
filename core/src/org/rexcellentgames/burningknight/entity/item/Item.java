@@ -6,12 +6,14 @@ import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.CoerceJavaToLua;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -123,7 +125,9 @@ public class Item extends Entity {
   }
 
   public void onPickup() {
-    Audio.playSfx("pickup_item");
+  	if (Dungeon.game.getState() instanceof InGameState) {
+		  Audio.playSfx("pickup_item");
+	  }
 
     if (useOnPickup) {
     	this.owner = Player.instance;

@@ -8,7 +8,7 @@ public class SnowGun extends Gun {
 		origin.x = 4;
 		origin.y = 6;
 		hole.x = 6;
-		hole.y = 11;
+		hole.y = 16;
 		damage = 1;
 		ammo = Snowflake.class;
 		damage = 0;

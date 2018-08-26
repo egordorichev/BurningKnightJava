@@ -81,6 +81,7 @@ public class Knight extends Mob {
 		}
 
 		this.sword.update(dt * speedMod);
+		this.sword.updateInHands(dt * speedMod);
 		super.common();
 	}
 

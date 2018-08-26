@@ -27,7 +27,7 @@ class Cross : Equipable() {
 		return 9
 	}
 
-	override fun getDescription(): String {
-		return super.getDescription().replace("{TIME}", getChance().toString().replace(".0", ""))
+	override fun getDescription(): String { // fixme
+		return super.getDescription().replace("{TIME}", getChance().toString().replace(".0", "").replace("000001", ""))
 	}
 }

@@ -52,7 +52,6 @@ public class Gun extends WeaponBase {
 		super.load(reader);
 
 		this.charge = reader.readInt32();
-		this.ammoMax = reader.readInt32();
 		this.ammoLeft = reader.readInt32();
 	}
 
@@ -61,7 +60,6 @@ public class Gun extends WeaponBase {
 		super.save(writer);
 
 		writer.writeInt32(this.charge);
-		writer.writeInt32(this.ammoMax);
 		writer.writeInt32(this.ammoLeft);
 	}
 
@@ -108,7 +106,6 @@ public class Gun extends WeaponBase {
 	@Override
 	public void updateInHands(float dt) {
 		super.updateInHands(dt);
-
 		if (this.ammoLeft == 0) {
 			if (this.chargeProgress == 0 || this.time == 0) {
 				this.time = this.owner.getStat("reload_time");
@@ -119,10 +116,15 @@ public class Gun extends WeaponBase {
 			if (this.chargeProgress >= 1f) {
 				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
 				this.charge -= this.ammoMax;
+				this.onAmmoAdded();
 
 				// todo: what if no left?
 			}
 		}
+	}
+
+	protected void onAmmoAdded() {
+
 	}
 
 	private float time;
@@ -148,6 +150,12 @@ public class Gun extends WeaponBase {
 
 	@Override
 	public void update(float dt) {
+		float cp = this.owner.getStat("ammo_capacity");
+
+		if (this.ammoLeft > this.ammoMax * cp) {
+			this.ammoLeft = (int) (this.ammoMax * cp);
+		}
+
 		if (this.owner != null) {
 			this.delay = Math.max(0, this.delay - dt * this.owner.getStat("gun_use_time"));
 		}
@@ -299,7 +307,7 @@ public class Gun extends WeaponBase {
 
 	@Override
 	public void use() {
-		if (this.ammoLeft <= 0) {
+		if (this.ammoLeft <= 0 && !(this.owner instanceof Mob)) {
 			return;
 		}
 
@@ -463,8 +471,8 @@ public class Gun extends WeaponBase {
 			float x = this.owner.x + this.owner.w / 2;
 			float y = this.owner.y + this.owner.h / 4 - 2;
 
-			bullet.x = x + this.getAimX(bullet.sprite.getRegionWidth() / 2, bullet.sprite.getRegionHeight() / 2);
-			bullet.y = y + this.getAimY(bullet.sprite.getRegionWidth() / 2, bullet.sprite.getRegionHeight() / 2);
+			bullet.x = x + this.getAimX(bullet.sprite.getRegionWidth() / 2, 0);
+			bullet.y = y + this.getAimY(bullet.sprite.getRegionWidth() / 2, 0);
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;

@@ -351,7 +351,7 @@ public class UiInventory extends UiEntity {
 
 		for (int i = 6; i < this.inventory.getSize(); i += 6) {
 			int finalI = i;
-			Tween.to(new Tween.Task(4, 0.1f, Tween.Type.BACK_OUT) {
+			Tween.to(new Tween.Task(4, 0.15f) {
 				@Override
 				public float getValue() {
 					return slots[finalI].y;

@@ -111,12 +111,12 @@ public class ItemHolder extends SaveableEntity {
 			Dungeon.area.add(price);
 		}
 
+		this.t += dt;
+		this.last += dt;
+
 		if (this.done) {
 			return;
 		}
-
-		this.t += dt;
-		this.last += dt;
 
 		if (this.last > 0.5f) {
 			this.last = 0;
