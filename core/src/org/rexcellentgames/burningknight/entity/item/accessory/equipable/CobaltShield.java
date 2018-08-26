@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class CobaltShield extends Equipable {
 	{
@@ -12,14 +10,14 @@ public class CobaltShield extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		this.owner.modifyStat("knockback", -1);
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		this.owner.modifyStat("knockback", 1);
 	}
 }

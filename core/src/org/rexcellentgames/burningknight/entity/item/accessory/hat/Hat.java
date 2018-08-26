@@ -29,15 +29,15 @@ public class Hat extends Accessory {
 		ui.getInventory().setSlot(ui.getActive(), item);
 
 		if (item != null) {
-			((Accessory) item).onUnequip();
+			((Accessory) item).onUnequip(false);
 		}
 
-		((Accessory) ui.getInventory().getSlot(6)).onEquip();
+		((Accessory) ui.getInventory().getSlot(6)).onEquip(false);
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 
 		this.owner.modifyDefense(this.defense + this.level - 1);
 
@@ -47,8 +47,8 @@ public class Hat extends Accessory {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 
 		this.owner.modifyDefense(-this.defense - this.level + 1);
 

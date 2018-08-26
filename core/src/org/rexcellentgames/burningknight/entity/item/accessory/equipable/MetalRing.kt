@@ -11,13 +11,13 @@ class MetalRing : Equipable() {
 		sprite = "item-ring_d"
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 		owner.reflectDamageChance += getChance()
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 		owner.reflectDamageChance -= getChance()
 	}
 

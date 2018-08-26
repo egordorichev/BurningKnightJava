@@ -4,14 +4,14 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class Zoom extends Equipable {
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		Player.seeMore = true;
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		Player.seeMore = false;
 	}
 }

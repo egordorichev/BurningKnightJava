@@ -7,9 +7,9 @@ public class Equipable extends Accessory {
 	public Player owner = Player.instance;
 
 	@Override
-	public void onEquip() {
+	public void onEquip(boolean load) {
 		owner = Player.instance;
-		super.onEquip();
+		super.onEquip(load);
 	}
 
 	public void setOwner(Player owner) {
@@ -19,8 +19,8 @@ public class Equipable extends Accessory {
 
 	@Override
 	public void upgrade() {
-		this.onUnequip();
+		this.onUnequip(false);
 		super.upgrade();
-		this.onEquip();
+		this.onEquip(false);
 	}
 }

@@ -11,8 +11,8 @@ public class StoneHeartRune extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 
 		if (this.owner instanceof Player) {
 			((Player) this.owner).lowHealthDefense = true;
@@ -20,8 +20,8 @@ public class StoneHeartRune extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 
 		if (this.owner instanceof Player) {
 			((Player) this.owner).lowHealthDefense = false;

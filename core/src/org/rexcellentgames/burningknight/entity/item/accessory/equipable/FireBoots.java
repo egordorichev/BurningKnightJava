@@ -22,8 +22,8 @@ public class FireBoots extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		this.owner.burnLevel += this.level;
 
 		if (this.level >= 2) {
@@ -41,8 +41,8 @@ public class FireBoots extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		this.owner.burnLevel -= this.level;
 
 		if (this.level >= 2) {

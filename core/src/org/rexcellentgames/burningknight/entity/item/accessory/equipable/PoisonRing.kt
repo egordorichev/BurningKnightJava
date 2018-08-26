@@ -11,14 +11,14 @@ class PoisonRing : Equipable() {
 		sprite = "item-ring_h"
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 
 		owner.poisonChance += getChance()
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 		owner.poisonChance -= getChance()
 	}
 

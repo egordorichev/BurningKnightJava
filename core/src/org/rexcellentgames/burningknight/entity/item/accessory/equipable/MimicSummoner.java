@@ -9,8 +9,8 @@ public class MimicSummoner extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		Mimic.chance += 100;
 
 		for (Chest chest : Chest.all) {
@@ -19,8 +19,8 @@ public class MimicSummoner extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		Mimic.chance -= 100;
 	}
 }

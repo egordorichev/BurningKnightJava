@@ -36,8 +36,8 @@ public class IceBoots extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		this.owner.frostLevel += this.level;
 
 		if (this.level >= 2) {
@@ -50,8 +50,8 @@ public class IceBoots extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		this.owner.frostLevel -= this.level;
 
 		if (this.level >= 2) {

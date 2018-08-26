@@ -16,8 +16,8 @@ class FireRing : Equipable() {
 		return 9
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 
 		if (this.owner is Player) {
 			(this.owner as Player).burnChance += getChance()
@@ -32,8 +32,8 @@ class FireRing : Equipable() {
 		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 
 		if (this.owner is Player) {
 			(this.owner as Player).burnChance -= getChance()

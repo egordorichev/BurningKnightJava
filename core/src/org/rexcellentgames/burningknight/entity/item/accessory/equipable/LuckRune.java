@@ -13,8 +13,8 @@ public class LuckRune extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		WeaponBase.luck = true;
 
 		for (int i = 0; i < Player.instance.getInventory().getSize(); i++) {
@@ -27,8 +27,8 @@ public class LuckRune extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		WeaponBase.luck = false;
 	}
 }

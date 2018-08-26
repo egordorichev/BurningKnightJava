@@ -21,12 +21,12 @@ public class Accessory extends Item {
 
 	private boolean equiped;
 
-	public void onEquip() {
+	public void onEquip(boolean load) {
 		equiped = true;
 		this.triggerEvent("on_equip");
 	}
 
-	public void onUnequip() {
+	public void onUnequip(boolean load) {
 		equiped = false;
 		this.triggerEvent("on_unequip");
 	}

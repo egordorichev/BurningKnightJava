@@ -1,13 +1,13 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
 class AmmoHolder : Equipable() {
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 		this.owner.modifyStat("ammo_capacity", getChance() / 100f)
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 		this.owner.modifyStat("ammo_capacity", -getChance() / 100f)
 	}
 

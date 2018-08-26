@@ -11,13 +11,13 @@ class IceRing : Equipable() {
 		sprite = "item-ring_e"
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 		owner.freezeChance += getChance()
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 		owner.freezeChance -= getChance()
 	}
 

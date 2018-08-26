@@ -5,14 +5,14 @@ class BigBullet : Equipable() {
 		sprite = "item-large_bullet"
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 		this.owner.modifyStat("gun_use_time", -0.5f)
 		this.owner.modifyStat("damage", getChance() / 100)
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 		this.owner.modifyStat("gun_use_time", 0.5f)
 		this.owner.modifyStat("damage", -getChance() / 100)
 	}

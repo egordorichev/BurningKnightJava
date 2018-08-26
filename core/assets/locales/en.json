@@ -451,7 +451,7 @@
 	"diamond_sword" : "Diamond sword",
 	"diamond_sword_desc" : "Shiny",
 	"blood_crown" : "Blood crown",
-	"blood_crown_desc" : "Please no. Just no/\nDon't die! Nooooo!",
+	"blood_crown_desc" : "Increases enemy spawn rate x{MODIFIER}\nNOOOOOOOOOOOOOOOOOOOOOOOO!",
 	"mana_boots" : "Mana boots",
 	"mana_boots_desc": "Run for your life,\nah wait, for your mana!",
 	"damage_emblem" : "Damage emblem",

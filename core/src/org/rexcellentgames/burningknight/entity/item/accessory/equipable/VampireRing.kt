@@ -9,8 +9,8 @@ class VampireRing : Equipable() {
 		sprite = "item-ring_j"
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 		this.owner.vampire += getChance()
 	}
 
@@ -18,8 +18,8 @@ class VampireRing : Equipable() {
 		return 10
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 		this.owner.vampire -= getChance()
 	}
 

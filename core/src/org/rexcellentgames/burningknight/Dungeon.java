@@ -671,14 +671,15 @@ public class Dungeon extends ApplicationAdapter {
 
 	private void initColors() {
 		Colors.put("black", Color.valueOf("#000000"));
-		Colors.put("gray", Color.valueOf("#696a6a"));
+		Colors.put("gray", Color.valueOf("#b4b4b4"));
 		Colors.put("white", Color.valueOf("#ffffff"));
-		Colors.put("orange", Color.valueOf("#df7126"));
-		Colors.put("red", Color.valueOf("#ac3232"));
-		Colors.put("green", Color.valueOf("#6abe30"));
-		Colors.put("blue", Color.valueOf("#306082"));
-		Colors.put("yellow", Color.valueOf("#fbf236"));
-		Colors.put("brown", Color.valueOf("#8f563b"));
+		Colors.put("orange", Color.valueOf("#ff5000"));
+		Colors.put("red", Color.valueOf("#ff0040"));
+		Colors.put("green", Color.valueOf("#5ac54f"));
+		Colors.put("blue", Color.valueOf("#0069aa"));
+		Colors.put("cyan", Color.valueOf("#00cdf9"));
+		Colors.put("yellow", Color.valueOf("#ffc825"));
+		Colors.put("brown", Color.valueOf("#8a4836"));
 	}
 
 	public enum Type {

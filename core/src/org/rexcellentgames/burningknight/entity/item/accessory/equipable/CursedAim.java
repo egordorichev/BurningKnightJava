@@ -10,15 +10,15 @@ public class CursedAim extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		this.owner.accuracy -= 5;
 		this.owner.damageModifier += 0.5;
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		this.owner.accuracy += 5;
 		this.owner.damageModifier -= 0.5;
 	}

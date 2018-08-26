@@ -211,12 +211,12 @@ public class UiSlot {
 
 			if (this.id > 5) {
 				if (self instanceof Accessory) {
-					((Accessory) self).onUnequip();
+					((Accessory) self).onUnequip(false);
 				}
 
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
-					((Accessory) current).onEquip();
+					((Accessory) current).onEquip(false);
 					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
 			}

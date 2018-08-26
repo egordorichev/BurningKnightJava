@@ -10,16 +10,16 @@ class ManaEmblem : Equipable() {
     sprite = "item-mana-emblem"
   }
 
-  override fun onEquip() {
-    super.onEquip()
+  override fun onEquip(load: Boolean) {
+    super.onEquip(load)
 
     if (this.owner is Player) {
       (this.owner as Player).manaRegenRate += 5.0f
     }
   }
 
-  override fun onUnequip() {
-    super.onUnequip()
+  override fun onUnequip(load: Boolean) {
+    super.onUnequip(load)
 
     if (this.owner is Player) {
       (this.owner as Player).manaRegenRate -= 5.0f

@@ -8,8 +8,8 @@ public class ShopSale extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		this.owner.modifyStat("sale", 1);
 
 		for (ItemHolder item : ItemHolder.all) {
@@ -20,8 +20,8 @@ public class ShopSale extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		this.owner.modifyStat("sale", 1);
 
 		for (ItemHolder item : ItemHolder.all) {

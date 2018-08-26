@@ -11,8 +11,8 @@ public class ChallengeRune extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		Mob.challenge = true;
 
 		for (Mob mob : Mob.all) {
@@ -23,8 +23,8 @@ public class ChallengeRune extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		Mob.challenge = false;
 		this.owner.modifyDefense(-2);
 	}

@@ -81,7 +81,7 @@ public class UiInventory extends UiEntity {
 
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
-					((Accessory) current).onEquip();
+					((Accessory) current).onEquip(true);
 
 					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
@@ -104,7 +104,7 @@ public class UiInventory extends UiEntity {
 			Item current = this.inventory.getSlot(i);
 
 			if (current instanceof Accessory) {
-				((Accessory) current).onUnequip();
+				((Accessory) current).onUnequip(true);
 			}
 		}
 	}

@@ -9,13 +9,13 @@ class FortuneRing : Equipable() {
 		sprite = "item-ring_i"
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 		this.owner.modifyStat("crit_chance", getChance() / 100f)
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
 		this.owner.modifyStat("crit_chance", -getChance() / 100f)
 	}
 
