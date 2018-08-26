@@ -2,25 +2,25 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
 import org.rexcellentgames.burningknight.assets.Locale
 
-class GoldRing : Equipable() {
+class MagicShield : Equipable() {
 	init {
-		description = Locale.get("gold_ring_desc")
-		name = Locale.get("gold_ring")
-		sprite = "item-ring_b"
+		name = Locale.get("magic_shield")
+		description = Locale.get("magic_shield_desc")
+		sprite = "item-shield"
 	}
 
 	override fun onEquip() {
 		super.onEquip()
-		this.owner.goldModifier += getChance() / 100f
+		this.owner.modifyStat("block_chance", getChance() / 10)
 	}
 
 	override fun onUnequip() {
 		super.onUnequip()
-		this.owner.goldModifier -= getChance() / 100f
+		this.owner.modifyStat("block_chance", -getChance() / 10)
 	}
 
 	private fun getChance(): Float {
-		return 20f + this.level * 10
+		return this.level * 10f
 	}
 
 	override fun getDescription(): String {

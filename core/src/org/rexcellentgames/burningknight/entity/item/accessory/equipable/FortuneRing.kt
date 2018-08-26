@@ -11,12 +11,12 @@ class FortuneRing : Equipable() {
 
 	override fun onEquip() {
 		super.onEquip()
-		this.owner.modifyStat("crit_chance", getChance() / 100)
+		this.owner.modifyStat("crit_chance", getChance() / 100f)
 	}
 
 	override fun onUnequip() {
 		super.onUnequip()
-		this.owner.modifyStat("crit_chance", -getChance() / 100)
+		this.owner.modifyStat("crit_chance", -getChance() / 100f)
 	}
 
 	private fun getChance(): Float {
