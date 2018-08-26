@@ -2,32 +2,25 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
 import org.rexcellentgames.burningknight.assets.Locale
 
-class PoisonRing : Equipable() {
+class FortuneRing : Equipable() {
 	init {
-		super.init()
-
-		name = Locale.get("poison_ring")
-		description = Locale.get("poison_ring_desc")
-		sprite = "item-ring_h"
+		description = Locale.get("fortune_ring_desc")
+		name = Locale.get("fortune_ring")
+		sprite = "item-ring_i"
 	}
 
 	override fun onEquip() {
 		super.onEquip()
-
-		owner.poisonChance += getChance()
+		this.owner.modifyStat("crit_chance", getChance() / 100)
 	}
 
 	override fun onUnequip() {
 		super.onUnequip()
-		owner.poisonChance -= getChance()
+		this.owner.modifyStat("crit_chance", -getChance() / 100)
 	}
 
 	private fun getChance(): Float {
-		return 20f + this.level * 10
-	}
-
-	override fun getMaxLevel(): Int {
-		return 8
+		return 30f + this.level * 10
 	}
 
 	override fun getDescription(): String {
