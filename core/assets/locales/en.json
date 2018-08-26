@@ -639,5 +639,7 @@
 	"lava_bucket" : "Lava bucket",
 	"lava_bucket_desc" : "Splash!",
 	"tech_eye" : "Tech eye",
-	"tech_eye_desc" : "I see debug!"
+	"tech_eye_desc" : "I see debug!",
+	"eco_wand" : "Eco wand",
+	"eco_wand_desc" : "Spread the green!"
 }

@@ -159,7 +159,7 @@ public class Painter {
 	}
 
 	private void paintDirt(Level level, ArrayList<Room> rooms) {
-		boolean[] grass = Patch.generate(this.grass, 5);
+		boolean[] grass = Patch.generate(this.dirt, 5);
 
 		for (Room r : rooms) {
 			for (Point p : r.grassPlaceablePoints()) {
@@ -198,14 +198,10 @@ public class Painter {
 				}
 			}
 
-			boolean high = (Random.newFloat() < count / 12f);
+			boolean high = true; // (Random.newFloat() < count / 12f);
 			level.set(i, dry[i] ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
 		}
 	}
-
-	private static byte[] floors = new byte[]{
-		1, 34, 35, 36, 37, 38, 39, 40
-	};
 
 	public void draw(Level level, ArrayList<Room> rooms) {
 		Log.info("Making all pretty...");

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class Firefly extends SaveableEntity {
@@ -35,6 +36,7 @@ public class Firefly extends SaveableEntity {
 		boolean on = this.t % 20 <= 16f;
 
 		rd += ((on ? 6 : 0) - rd) * Gdx.graphics.getDeltaTime() * 3;
+		rd = MathUtils.clamp(0, 6, rd);
 
 		float x = (float) (this.x + Math.cos(this.t / 8) * Math.sin(this.t / 9) * 32);
 		float y = (float) (this.y + Math.sin(this.t / 7) * Math.cos(this.t / 10) * 32);

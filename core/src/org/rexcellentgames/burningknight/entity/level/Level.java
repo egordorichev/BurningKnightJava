@@ -271,19 +271,23 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void updateTile(int x, int y) {
-		for (int xx = x - 1; xx <= x + 2; xx++) {
-			for (int yy = y - 1; yy <= y + 2; yy++) {
-				this.tile(xx, yy);
+		for (int yy = y - 1; yy <= y + 2; yy++) {
+			for (int xx = x - 1; xx <= x + 2; xx++) {
+				this.tile(xx, yy, false);
 			}
 		}
 	}
 
 	public void tile(int x, int y) {
+		tile(x, y, true);
+	}
+
+	public void tile(int x, int y, boolean walls) {
 		byte tile = this.get(x, y);
 
 		if (tile == Terrain.CHASM) {
 			this.tileUp(x, y, tile, false);
-		} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+		} else if (walls && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
 			this.tileUp(x, y, tile, false);
 			this.decor[toIndex(x, y)] = (byte) Random.newInt(3);
 		} else if (tile == Terrain.TABLE) {
@@ -302,6 +306,10 @@ public abstract class Level extends SaveableEntity {
 
 		if (matchesFlag(t, Terrain.LIQUID_LAYER)) {
 			this.tileUpLiquid(x, y, t, false);
+		}
+
+		if (!walls) {
+			return;
 		}
 
 		byte count = 0;
@@ -738,6 +746,9 @@ public abstract class Level extends SaveableEntity {
 						}
 					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
 						if ((updateId + x + y) % 20 == 0) {
+							if (t == Terrain.GRASS && Random.chance(1)) {
+								this.set(i, Terrain.HIGH_GRASS);
+							}
 
 							i += PathFinder.NEIGHBOURS8[Random.newInt(8)];
 
@@ -765,7 +776,6 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	// TODO: Too complex
 	public void renderSolid() {
 		if (Dungeon.level != this) {
 			return;
@@ -788,23 +798,22 @@ public abstract class Level extends SaveableEntity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
-
+		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy); y--) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 
+				byte tile = this.liquidData[i];
+
+				if (tile == Terrain.HIGH_GRASS) {
+					Graphics.render(Terrain.grassHigh, x * 16, y * 16 - 8);
+				} else if (tile == Terrain.HIGH_DRY_GRASS) {
+					Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
+				}
+
 				if (!this.low[i] && (this.light[i] > 0 || this.light[i + getWidth()] > 0)) {
-					byte tile = this.get(i);
+					tile = this.get(i);
 
 					if (Terrain.patterns[tile] != null) {
-						/*if (tile == Terrain.WALL || tile == Terrain.CRACK) {
-							byte variant = this.walls[i];
-
-							if (variant == 0) {
-								continue;
-							}
-						}*/
-
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						int n = region.getRegionHeight() / 16;
@@ -828,8 +837,8 @@ public abstract class Level extends SaveableEntity {
 					if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 						short v = this.walls[i];
 
-						for (int xx = 0; xx < 2; xx++) {
-							for (int yy = 0; yy < 2; yy++) {
+						for (int yy = 0; yy < 2; yy++) {
+							for (int xx = 0; xx < 2; xx++) {
 
 								int lv = 0;
 
@@ -895,6 +904,7 @@ public abstract class Level extends SaveableEntity {
 					}
 
 					Graphics.batch.setColor(1, 1, 1, 1);
+
 				}
 
 				// useful passable debug
@@ -1462,6 +1472,8 @@ public abstract class Level extends SaveableEntity {
 	public boolean checkFor(int i, int flag) {
 		if (flag == Terrain.PASSABLE && this.liquidData[i] == Terrain.LAVA) {
 			return false;
+		} else if (flag == Terrain.BREAKS_LOS && (this.liquidData[i] == Terrain.HIGH_DRY_GRASS || this.liquidData[i] == Terrain.HIGH_GRASS)) {
+			return true;
 		}
 
 		return matchesFlag(this.get(i), flag);

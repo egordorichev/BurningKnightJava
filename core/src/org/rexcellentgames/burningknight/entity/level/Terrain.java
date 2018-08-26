@@ -59,8 +59,8 @@ public class Terrain {
 		flags[TABLE] = SOLID | HIGH;
 		flags[ICE] = PASSABLE | LIQUID_LAYER;
 		flags[DRY_GRASS] = PASSABLE | BURNS | LIQUID_LAYER;
-		flags[HIGH_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER;
-		flags[HIGH_DRY_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER;
+		flags[HIGH_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER | BREAKS_LOS;
+		flags[HIGH_DRY_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER | BREAKS_LOS;
 		flags[OBSIDIAN] = PASSABLE | LIQUID_LAYER;
 		flags[EMBER] = PASSABLE | LIQUID_LAYER;
 		flags[COBWEB] = PASSABLE | LIQUID_LAYER | BURNS;
@@ -174,6 +174,8 @@ public class Terrain {
 
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
+	public static TextureRegion dryGrassHigh;
+	public static TextureRegion grassHigh;
 
 	private static int lastt = -1;
 
@@ -201,6 +203,8 @@ public class Terrain {
 
 		entrance = Graphics.getTexture("props-entance");
 		exit = Graphics.getTexture("props-exit");
+		dryGrassHigh = Graphics.getTexture("biome-gen-dry_grass_high");
+		grassHigh = Graphics.getTexture("biome-gen-grass_high");
 
 		patterns[DIRT] = dirtPattern;
 		patterns[GRASS] = grassPattern;

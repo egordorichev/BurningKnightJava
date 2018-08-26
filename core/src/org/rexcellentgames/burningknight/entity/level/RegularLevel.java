@@ -184,6 +184,8 @@ public abstract class RegularLevel extends Level {
 
 			this.rooms = builder.build((ArrayList<Room>) rooms.clone());
 
+			// fixme: clear the level if failed
+
 			if (this.rooms == null) {
 				Log.error("Failed!");
 			}
