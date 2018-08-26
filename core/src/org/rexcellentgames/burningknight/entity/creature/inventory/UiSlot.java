@@ -407,9 +407,13 @@ public class UiSlot {
 
 			}
 
+			float w = 24 * this.scale;
+			float x = this.x + 12;
+			float y = this.y + 12;
+
 			if (count != 1 || item instanceof Gun) {
 				Graphics.small.setColor(1, 1, 1, item.a);
-				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
+				Graphics.print(String.valueOf(count), Graphics.small, x - w / 2 + 3, y - w / 2 + 3);
 				Graphics.small.setColor(1, 1, 1, 1);
 			}
 
@@ -417,7 +421,11 @@ public class UiSlot {
 
 			if (level != 1) {
 				level -= 1;
-				
+				Graphics.small.setColor(level < 1 ? 1 : 0, level < 0 ? 0 : 1, 0, item.a);
+				String text = level > 0 ? "+" + level : "" + level;
+				Graphics.layout.setText(Graphics.small, text);
+				Graphics.print(text, Graphics.small, x + w / 2 - 3 - Graphics.layout.width, y - w / 2 + 3);
+				Graphics.small.setColor(1, 1, 1, 1);
 			}
 		}
 
