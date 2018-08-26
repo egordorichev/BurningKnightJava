@@ -12,10 +12,14 @@ public class GlobalSave {
 	public static HashMap<String, String> values = new HashMap<>();
 
 	public static boolean isTrue(String key) {
+		return isTrue(key, false);
+	}
+
+	public static boolean isTrue(String key, boolean def) {
 		String value = values.get(key);
 
 		if (value == null) {
-			return false;
+			return def;
 		}
 
 		return value.equals("true");

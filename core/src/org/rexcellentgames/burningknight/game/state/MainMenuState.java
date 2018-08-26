@@ -60,7 +60,7 @@ public class MainMenuState extends State {
 		cameraX = Display.GAME_WIDTH / 2;
 		cameraY = Display.GAME_HEIGHT / 2;
 
-		String track = "Believer";
+		String track = "Burning Knight";
 		Audio.play(track);
 
 		Dungeon.buildDiscordBadge();

@@ -621,20 +621,22 @@ public abstract class Level extends SaveableEntity {
 			setDone(true);
 		}
 
-		this.lastUpdate += dt;
-		this.lastFlame += dt;
+		if (Dungeon.depth > -1) {
+			this.lastUpdate += dt;
+			this.lastFlame += dt;
 
-		if (this.lastFlame >= 0.1f) {
-			this.lastFlame = 0;
-		}
+			if (this.lastFlame >= 0.1f) {
+				this.lastFlame = 0;
+			}
 
-		if (this.lastUpdate < UPDATE_DELAY) {
-			doEffects();
-		} else {
-			while (this.lastUpdate >= UPDATE_DELAY) {
-				this.lastUpdate = Math.max(0, this.lastUpdate - UPDATE_DELAY);
-				this.doLogic();
-				this.updateId += 1;
+			if (this.lastUpdate < UPDATE_DELAY) {
+				doEffects();
+			} else {
+				while (this.lastUpdate >= UPDATE_DELAY) {
+					this.lastUpdate = Math.max(0, this.lastUpdate - UPDATE_DELAY);
+					this.doLogic();
+					this.updateId += 1;
+				}
 			}
 		}
 	}
