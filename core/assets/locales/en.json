@@ -641,5 +641,7 @@
 	"tech_eye" : "Tech eye",
 	"tech_eye_desc" : "I see debug!",
 	"eco_wand" : "Eco wand",
-	"eco_wand_desc" : "Spread the green!"
+	"eco_wand_desc" : "Spread the green!",
+	"grass_seed" : "Grass seed",
+	"grass_seed_desc" : "So tiny, yet so powerful"
 }

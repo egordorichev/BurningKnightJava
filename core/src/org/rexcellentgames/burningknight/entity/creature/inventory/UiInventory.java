@@ -511,16 +511,19 @@ public class UiInventory extends UiEntity {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		boolean empty = false;
 
 		for (int i = (this.slots[0].a == 1f ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
 			Item item = this.inventory.getSlot(i);
-
-			if (item == null) {
-				empty = true;
-			}
-
 			this.slots[i].render(item);
+		}
+
+		boolean empty = false;
+
+		for (int i = this.inventory.getSize() - 1; i >= 0; i--) {
+			if (this.inventory.getSlot(i) == null) {
+				empty = true;
+				break;
+			}
 		}
 
 		if (!empty) {

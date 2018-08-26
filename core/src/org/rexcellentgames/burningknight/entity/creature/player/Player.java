@@ -36,6 +36,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHe
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
@@ -853,6 +854,16 @@ public class Player extends Creature {
 				Dungeon.level.updateTile(x, y);
 			} else if (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS) {
 				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
+
+				if (Random.chance(10)) {
+					ItemHolder holder = new ItemHolder();
+
+					holder.setItem(new GrassSeed());
+					holder.x = x * 16 + (16 - holder.w) / 2;
+					holder.y = y * 16 + (16 - holder.h) / 2;
+
+					Dungeon.area.add(holder.add());
+				}
 			}
 		}
 	}
