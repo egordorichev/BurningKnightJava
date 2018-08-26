@@ -67,7 +67,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Creature {
-	private static final float LIGHT_SIZE = 5f;
 	public static Type toSet = Type.WARRIOR;
 	public static float mobSpawnModifier = 1f;
 	public static ArrayList<Player> all = new ArrayList<>();
@@ -89,7 +88,6 @@ public class Player extends Creature {
 	public boolean fireBombs;
 	public boolean iceBombs;
 	public boolean poisonBombs;
-	public float lightModifier;
 	public float heat;
 	public boolean hasRedLine;
 	public float defenseModifier = 1f;

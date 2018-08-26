@@ -104,7 +104,9 @@ public class Mob extends Creature {
 	}
 
 	public void renderStats() {
-		Graphics.print(this.hp + "/" + this.hpMax, Graphics.small, this.x, this.y + this.z);
+		if (Player.showStats) {
+			Graphics.print(this.hp + "/" + this.hpMax, Graphics.small, this.x, this.y + this.z);
+		}
 	}
 
 	public void generatePrefix() {

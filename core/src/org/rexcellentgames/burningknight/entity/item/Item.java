@@ -23,7 +23,6 @@ import java.util.HashMap;
 public class Item extends Entity {
   public static TextureRegion missing = Graphics.getTexture("item-missing");
 
-
   public boolean useOnPickup;
   public float a = 1;
   public boolean shop;

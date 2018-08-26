@@ -637,5 +637,7 @@
 	"elemental_ring" : "Elemental ring",
 	"elemental_ring_desc" : "Fire, water, ice and aid!",
 	"lava_bucket" : "Lava bucket",
-	"lava_bucket_desc" : "Splash!"
+	"lava_bucket_desc" : "Splash!",
+	"tech_eye" : "Tech eye",
+	"tech_eye_desc" : "I see debug!"
 }
