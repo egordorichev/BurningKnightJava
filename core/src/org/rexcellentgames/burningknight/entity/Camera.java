@@ -155,6 +155,7 @@ public class Camera extends Entity {
 						@Override
 						public void onEnd() {
 							Player.instance.generate();
+							Player.toSet = Player.instance.getType();
 							GlobalSave.put("last_class", Player.instance.getType().id);
 							Dungeon.goToLevel(0);
 						}

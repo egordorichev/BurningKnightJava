@@ -372,7 +372,7 @@ public class InGameState extends State {
 			set = true;
 		}
 
-		if (Player.instance != null && Player.instance.getInvt() > 0) {
+		if (Player.instance != null && Player.instance.getHp() < lastHp) {
 			if (!setFrames) {
 				setFrames = true;
 
@@ -401,8 +401,11 @@ public class InGameState extends State {
 		} else {
 			setFrames = false;
 		}
+
+		lastHp = Player.instance.getHp();
 	}
 
+	private int lastHp;
 	private boolean setFrames;
 	private Color bg = Color.valueOf("#1a1932");
 	private float mv = - 256;

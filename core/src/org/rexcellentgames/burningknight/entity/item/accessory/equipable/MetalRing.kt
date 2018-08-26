@@ -25,6 +25,10 @@ class MetalRing : Equipable() {
 		return 10f + this.level * 10
 	}
 
+	override fun getMaxLevel(): Int {
+		return 9
+	}
+
 	override fun getDescription(): String {
 		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
 	}

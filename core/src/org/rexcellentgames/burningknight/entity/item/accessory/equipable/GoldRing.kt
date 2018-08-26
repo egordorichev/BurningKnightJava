@@ -23,6 +23,10 @@ class GoldRing : Equipable() {
 		return 20f + this.level * 10
 	}
 
+	override fun getMaxLevel(): Int {
+		return 8
+	}
+
 	override fun getDescription(): String {
 		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
 	}

@@ -10,6 +10,11 @@ public class Aim extends Equipable {
 	}
 
 	@Override
+	public boolean canBeUpgraded() {
+		return false;
+	}
+
+	@Override
 	public void onEquip() {
 		super.onEquip();
 		this.owner.accuracy += 5;

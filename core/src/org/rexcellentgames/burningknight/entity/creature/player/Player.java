@@ -632,6 +632,10 @@ public class Player extends Creature {
 		Camera.follow(this, true);
 
 		doTp(true);
+
+		switch (this.type) {
+			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
+		}
 	}
 
 	private void doTp(boolean fromInit) {

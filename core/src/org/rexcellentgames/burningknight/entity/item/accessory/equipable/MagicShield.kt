@@ -11,12 +11,12 @@ class MagicShield : Equipable() {
 
 	override fun onEquip() {
 		super.onEquip()
-		this.owner.modifyStat("block_chance", getChance() / 10)
+		this.owner.modifyStat("block_chance", getChance() / 100)
 	}
 
 	override fun onUnequip() {
 		super.onUnequip()
-		this.owner.modifyStat("block_chance", -getChance() / 10)
+		this.owner.modifyStat("block_chance", -getChance() / 100)
 	}
 
 	private fun getChance(): Float {
@@ -25,5 +25,9 @@ class MagicShield : Equipable() {
 
 	override fun getDescription(): String {
 		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
+	}
+
+	override fun getMaxLevel(): Int {
+		return 8
 	}
 }
