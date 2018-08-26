@@ -271,6 +271,9 @@ public class Player extends Creature {
 	}
 
 	private void generateWarrior() {
+		this.manaMax = 4;
+		this.mana = 4;
+
 		switch (Random.newInt(5)) {
 			case 0:
 			default:
@@ -326,6 +329,8 @@ public class Player extends Creature {
 	private void generateRanger() {
 		this.hpMax = 6;
 		this.hp = 6;
+		this.manaMax = 4;
+		this.mana = 4;
 
 		switch (Random.newInt(3)) {
 			case 0: default: this.give(new BowA()); break;
