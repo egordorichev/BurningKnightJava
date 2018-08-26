@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
 import org.rexcellentgames.burningknight.assets.Locale
-import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class PoisonRing : Equipable() {
 	init {
@@ -12,19 +11,26 @@ class PoisonRing : Equipable() {
 		sprite = "item-ring_h"
 	}
 
-	override fun onEquip() {
-		super.onEquip()
+	override fun onEquip(load: Boolean) {
+		super.onEquip(load)
 
-		if (this.owner is Player) {
-			(this.owner as Player).poisonChance += 30f
-		}
+		owner.poisonChance += getChance()
 	}
 
-	override fun onUnequip() {
-		super.onUnequip()
+	override fun onUnequip(load: Boolean) {
+		super.onUnequip(load)
+		owner.poisonChance -= getChance()
+	}
 
-		if (this.owner is Player) {
-			(this.owner as Player).poisonChance -= 30f
-		}
+	private fun getChance(): Float {
+		return 20f + this.level * 10
+	}
+
+	override fun getMaxLevel(): Int {
+		return 8
+	}
+
+	override fun getDescription(): String {
+		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
 	}
 }

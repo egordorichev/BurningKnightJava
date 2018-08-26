@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class Audio {
 	public static HashMap<String, Float> volumes = new HashMap<>();
-	private static Music current;
+	public static Music current;
 	private static boolean important;
 	private static String last = "";
 
@@ -31,7 +31,8 @@ public class Audio {
 		root = reader.parse(Gdx.files.internal("music/music.json"));
 
 		for (JsonValue name : root) {
-			Assets.manager.load("music/" + name.toString() + ".mp3", Music.class);
+			// todo: read bp
+			Assets.manager.load("music/" + name.name + ".mp3", Music.class);
 		}
 
 		FileHandle file = Gdx.files.external("sfx.json");

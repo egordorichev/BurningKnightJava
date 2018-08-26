@@ -10,14 +10,14 @@ public class Cross extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 		this.owner.modifyStat("inv_time", 0.4f);
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 		this.owner.modifyStat("inv_time", -0.4f);
 	}
 }

@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.modifier.Modifier;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -31,6 +32,11 @@ public class WeaponBase extends Item {
 	public int initialDamage;
 	public int initialDamageMin;
 	public float initialCrit;
+
+	@Override
+	public boolean canBeUpgraded() {
+		return true;
+	}
 
 	@Override
 	public int getPrice() {
@@ -69,7 +75,61 @@ public class WeaponBase extends Item {
 		}
 
 		lastCrit = Random.chance(this.critChance + this.owner.getStat("crit_chance") * 10);
-		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
+
+		if (this.owner.isTouching(Terrain.ICE)) {
+			return this.damage * (lastCrit ? 2 : 1);
+		}
+
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1)) + this.level - 1;
+	}
+
+	protected boolean penetrates;
+
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+
+		if (this.minDamage == -1) {
+			minDamage = Math.round(((float) damage) / 3 * 2);
+		}
+
+		builder.append("\n[orange]");
+
+		float mod = this.owner.getStat("damage");
+
+		if (this.minDamage != this.damage) {
+			builder.append(Math.round((this.minDamage + this.level - 1) * mod));
+			builder.append("-");
+		}
+
+		builder.append(Math.round((this.damage + this.level - 1) * mod));
+		builder.append(" damage[gray]");
+
+		float stat = this.owner.getStat("crit_chance") * 10;
+
+		if (this.critChance + stat != 4f) {
+			builder.append("\n[orange]");
+			builder.append((int) Math.floor(this.critChance + stat));
+			builder.append("% crit chance[gray]");
+		}
+
+		if (this.modifier != null) {
+			this.modifier.apply(builder);
+		}
+
+		if (this.penetrates || this.owner.penetrates) {
+			builder.append("\n[green]Can hit multiple targets[gray]");
+		}
+
+		if (this.useSpeedStr == null) {
+			this.useSpeedStr = this.getUseSpeedAsString();
+		}
+
+		builder.append("\n[brown]");
+		builder.append(this.useSpeedStr);
+		builder.append("[gray]");
+
+		return builder;
 	}
 
 	public void modifyDamage(int am) {
@@ -167,21 +227,6 @@ public class WeaponBase extends Item {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
-	}
-
-	@Override
-	public StringBuilder buildInfo() {
-		StringBuilder builder = super.buildInfo();
-
-		if (this.useSpeedStr == null) {
-			this.useSpeedStr = this.getUseSpeedAsString();
-		}
-
-		builder.append("\n[white]");
-		builder.append(this.useSpeedStr);
-		builder.append("[gray]");
-
-		return builder;
 	}
 
 	private float t;

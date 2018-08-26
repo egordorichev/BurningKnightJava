@@ -18,6 +18,9 @@ class HeadshotGun : Gun() {
 		val aim = this.owner.aim
 		val a = (this.owner.getAngleTo(aim.x, aim.y) + Math.PI).toFloat()
 
+		this.owner.vel.x -= (Math.cos(a.toDouble()) * 80f).toFloat()
+		this.owner.vel.y -= (Math.sin(a.toDouble()) * 80f).toFloat()
+
 		this.sendBullet((a + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy).toDouble())).toFloat())
 	}
 }

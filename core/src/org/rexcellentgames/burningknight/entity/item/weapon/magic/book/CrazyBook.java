@@ -65,8 +65,8 @@ public class CrazyBook extends Book {
 						RectFx fx = new RectFx();
 
 						fx.depth = this.depth;
-						fx.x = this.x + Random.newFloat(this.w) / 2 - this.w / 4 + this.w / 2;
-						fx.y = this.y + Random.newFloat(this.h) / 2 - this.h / 4 + this.h / 2;
+						fx.x = this.x + Random.newFloat(this.w) - this.w / 2;
+						fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
 						fx.w = 4;
 						fx.h = 4;
 						fx.r = (float) Math.abs(Math.cos(this.t * 1.5f));
@@ -142,8 +142,8 @@ public class CrazyBook extends Book {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + Random.newFloat(this.w) / 2 - this.w / 4 + this.w / 2;
-					fx.y = this.y + Random.newFloat(this.h) / 2 - this.h / 4 + this.h / 2;
+					fx.x = this.x + Random.newFloat(this.w)- this.w / 2 ;
+					fx.y = this.y + Random.newFloat(this.h) - this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
 					fx.r = (float) Math.abs(Math.cos(this.t * 1.5f));

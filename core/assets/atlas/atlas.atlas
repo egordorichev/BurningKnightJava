@@ -15791,70 +15791,70 @@ fx-part-idle-04
   index: -1
 fx-plant-idle-00
   rotate: false
-  xy: 492, 916
+  xy: 982, 957
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 plant-fx-idle-00
   rotate: false
-  xy: 492, 916
+  xy: 982, 957
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fx-plant-idle-01
   rotate: false
-  xy: 982, 957
+  xy: 596, 843
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 plant-fx-idle-01
   rotate: false
-  xy: 982, 957
+  xy: 596, 843
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fx-plant-idle-02
   rotate: false
-  xy: 596, 843
+  xy: 778, 418
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 plant-fx-idle-02
   rotate: false
-  xy: 596, 843
+  xy: 778, 418
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fx-plant-idle-03
   rotate: false
-  xy: 778, 418
+  xy: 760, 397
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 plant-fx-idle-03
   rotate: false
-  xy: 778, 418
+  xy: 760, 397
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fx-plant-idle-04
   rotate: false
-  xy: 760, 397
+  xy: 760, 389
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 plant-fx-idle-04
   rotate: false
-  xy: 760, 397
+  xy: 760, 389
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -16148,7 +16148,7 @@ io (invisible buff)
   index: -1
 io (notice sign)
   rotate: false
-  xy: 760, 380
+  xy: 760, 372
   size: 6, 15
   orig: 6, 15
   offset: 0, 0
@@ -16757,7 +16757,7 @@ item-compass
   index: -1
 item-confetti_grenade
   rotate: false
-  xy: 760, 368
+  xy: 760, 360
   size: 6, 10
   orig: 6, 10
   offset: 0, 0
@@ -16820,14 +16820,14 @@ item-dagger_a
   index: -1
 item-dagger_b
   rotate: false
-  xy: 760, 260
+  xy: 760, 252
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
   index: -1
 item-dagger_c
   rotate: false
-  xy: 760, 246
+  xy: 760, 238
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
@@ -16993,6 +16993,13 @@ item-grass_boots
   orig: 14, 14
   offset: 0, 0
   index: -1
+item-grass_seed
+  rotate: false
+  xy: 492, 916
+  size: 8, 6
+  orig: 8, 6
+  offset: 0, 0
+  index: -1
 item-green_present
   rotate: false
   xy: 652, 3
@@ -17009,7 +17016,7 @@ item-greenprint
   index: -1
 item-grenade
   rotate: false
-  xy: 760, 356
+  xy: 760, 348
   size: 6, 10
   orig: 6, 10
   offset: 0, 0
@@ -17387,21 +17394,21 @@ item-lightsaber A
   index: -1
 item-lightsaber B
   rotate: false
-  xy: 768, 327
+  xy: 768, 301
   size: 4, 16
   orig: 4, 16
   offset: 0, 0
   index: -1
 item-lightsaber C
   rotate: false
-  xy: 768, 309
+  xy: 768, 283
   size: 4, 16
   orig: 4, 16
   offset: 0, 0
   index: -1
 item-lightsaber D
   rotate: false
-  xy: 768, 291
+  xy: 768, 265
   size: 4, 16
   orig: 4, 16
   offset: 0, 0
@@ -17429,7 +17436,7 @@ item-lucky_block
   index: -1
 item-lucky_bullet
   rotate: false
-  xy: 760, 344
+  xy: 760, 336
   size: 6, 10
   orig: 6, 10
   offset: 0, 0
@@ -17471,7 +17478,7 @@ item-mana_in_bottle
   index: -1
 item-mana_knife
   rotate: false
-  xy: 760, 229
+  xy: 760, 221
   size: 5, 15
   orig: 5, 15
   offset: 0, 0
@@ -17744,7 +17751,7 @@ item-potatoo
   index: -1
 item-potion_a
   rotate: false
-  xy: 760, 331
+  xy: 760, 323
   size: 6, 11
   orig: 6, 11
   offset: 0, 0
@@ -17779,7 +17786,7 @@ item-potion_e
   index: -1
 item-potion_f
   rotate: false
-  xy: 760, 320
+  xy: 760, 312
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
@@ -18045,7 +18052,7 @@ item-spectacles
   index: -1
 item-staff_a
   rotate: false
-  xy: 760, 211
+  xy: 760, 203
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
@@ -18185,21 +18192,21 @@ item-wand_a
   index: -1
 item-wand_b
   rotate: false
-  xy: 760, 197
+  xy: 760, 189
   size: 5, 12
   orig: 5, 12
   offset: 0, 0
   index: -1
 item-wand_c
   rotate: false
-  xy: 760, 184
+  xy: 760, 176
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 item-wand_d
   rotate: false
-  xy: 760, 168
+  xy: 760, 160
   size: 5, 14
   orig: 5, 14
   offset: 0, 0
@@ -18213,14 +18220,14 @@ item-wand_e
   index: -1
 item-wand_f
   rotate: false
-  xy: 749, 147
+  xy: 738, 118
   size: 5, 13
   orig: 5, 13
   offset: 0, 0
   index: -1
 item-wand_g
   rotate: false
-  xy: 756, 148
+  xy: 708, 88
   size: 5, 13
   orig: 5, 13
   offset: 0, 0
@@ -18437,7 +18444,7 @@ note-idle-03
   index: -1
 particle-big
   rotate: false
-  xy: 760, 312
+  xy: 760, 304
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -18465,14 +18472,14 @@ particle-circle
   index: -1
 particle-cool
   rotate: false
-  xy: 760, 304
+  xy: 760, 296
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 particle-empty
   rotate: false
-  xy: 760, 296
+  xy: 760, 288
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -18668,7 +18675,7 @@ props-cobweb_top_right
   index: -1
 props-decor_a
   rotate: false
-  xy: 738, 121
+  xy: 807, 535
   size: 5, 10
   orig: 5, 10
   offset: 0, 0
@@ -18976,70 +18983,70 @@ ui-bkbar-fill
   index: -1
 ui-bkbar-flame-idle-00
   rotate: false
-  xy: 708, 85
+  xy: 807, 517
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-01
   rotate: false
-  xy: 807, 529
+  xy: 807, 499
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-02
   rotate: false
-  xy: 807, 511
+  xy: 807, 481
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-03
   rotate: false
-  xy: 807, 493
+  xy: 807, 463
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-04
   rotate: false
-  xy: 807, 475
+  xy: 807, 445
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-05
   rotate: false
-  xy: 807, 457
+  xy: 807, 427
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-06
   rotate: false
-  xy: 807, 439
+  xy: 768, 396
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-07
   rotate: false
-  xy: 768, 396
+  xy: 768, 378
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-08
   rotate: false
-  xy: 768, 378
+  xy: 768, 360
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
   index: -1
 ui-bkbar-flame-idle-09
   rotate: false
-  xy: 768, 360
+  xy: 768, 342
   size: 5, 16
   orig: 5, 16
   offset: 0, 0
@@ -19193,7 +19200,7 @@ ui-map_right
   index: -1
 ui-card_top_left
   rotate: false
-  xy: 807, 431
+  xy: 768, 334
   size: 5, 6
   orig: 5, 6
   offset: 0, 0
@@ -19207,7 +19214,7 @@ ui-cart_top
   index: -1
 ui-cart_top_right
   rotate: false
-  xy: 768, 352
+  xy: 768, 326
   size: 5, 6
   orig: 5, 6
   offset: 0, 0
@@ -19298,14 +19305,14 @@ ui-dialog_top
   index: -1
 ui-dialog_top_left
   rotate: false
-  xy: 768, 284
+  xy: 787, 426
   size: 4, 5
   orig: 4, 5
   offset: 0, 0
   index: -1
 ui-dialog_top_right
   rotate: false
-  xy: 768, 277
+  xy: 786, 419
   size: 4, 5
   orig: 4, 5
   offset: 0, 0
@@ -19333,21 +19340,21 @@ ui-half_heart_golden
   index: -1
 ui-half_heart_iron
   rotate: false
-  xy: 787, 424
+  xy: 767, 256
   size: 4, 7
   orig: 4, 7
   offset: 0, 0
   index: -1
 ui-half_star
   rotate: false
-  xy: 760, 285
+  xy: 760, 277
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
   index: -1
 ui-half_star_green
   rotate: false
-  xy: 760, 274
+  xy: 760, 266
   size: 6, 9
   orig: 6, 9
   offset: 0, 0
@@ -19438,7 +19445,7 @@ ui-map_top_left
   index: -1
 ui-map_top_right
   rotate: false
-  xy: 768, 345
+  xy: 768, 319
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -19550,7 +19557,7 @@ ui-slider
   index: -1
 ui-slider_fill
   rotate: false
-  xy: 738, 113
+  xy: 767, 248
   size: 4, 6
   orig: 4, 6
   offset: 0, 0

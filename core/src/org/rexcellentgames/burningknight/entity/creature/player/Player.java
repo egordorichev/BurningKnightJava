@@ -36,6 +36,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHe
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeA;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
@@ -67,7 +68,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Creature {
-	private static final float LIGHT_SIZE = 5f;
 	public static Type toSet = Type.WARRIOR;
 	public static float mobSpawnModifier = 1f;
 	public static ArrayList<Player> all = new ArrayList<>();
@@ -75,6 +75,7 @@ public class Player extends Creature {
 	public static Entity ladder;
 	private static HashMap<String, Animation> skins = new HashMap<>();
 	public static ShaderProgram shader;
+	public static boolean showStats;
 
 	static {
 		shader = new ShaderProgram(Gdx.files.internal("shaders/rainbow.vert").readString(),  Gdx.files.internal("shaders/rainbow.frag").readString());
@@ -88,7 +89,6 @@ public class Player extends Creature {
 	public boolean fireBombs;
 	public boolean iceBombs;
 	public boolean poisonBombs;
-	public float lightModifier;
 	public float heat;
 	public boolean hasRedLine;
 	public float defenseModifier = 1f;
@@ -103,10 +103,10 @@ public class Player extends Creature {
 	public float regen;
 	public float goldModifier = 1f;
 	public float vampire;
-	public boolean lavaResist;
-	public boolean fireResist;
-	public boolean poisonResist;
-	public boolean stunResist;
+	public byte lavaResist;
+	public byte fireResist;
+	public byte poisonResist;
+	public byte stunResist;
 	public boolean seeSecrets;
 	public float manaRegenRate = 1f;
 	public float damageModifier = 1f;
@@ -272,6 +272,9 @@ public class Player extends Creature {
 	}
 
 	private void generateWarrior() {
+		this.manaMax = 4;
+		this.mana = 4;
+
 		switch (Random.newInt(5)) {
 			case 0:
 			default:
@@ -327,6 +330,8 @@ public class Player extends Creature {
 	private void generateRanger() {
 		this.hpMax = 6;
 		this.hp = 6;
+		this.manaMax = 4;
+		this.mana = 4;
 
 		switch (Random.newInt(3)) {
 			case 0: default: this.give(new BowA()); break;
@@ -627,6 +632,10 @@ public class Player extends Creature {
 		Camera.follow(this, true);
 
 		doTp(true);
+
+		switch (this.type) {
+			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
+		}
 	}
 
 	private void doTp(boolean fromInit) {
@@ -802,15 +811,22 @@ public class Player extends Creature {
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
 
+		int i = Level.toIndex(Math.round((this.x) / 16), Math.round((this.y + this.h / 2) / 16));
+
 		if (this.burnLevel > 0) {
-			Dungeon.level.setOnFire(Level.toIndex(Math.round((this.x) / 16), Math.round((this.y) / 16)), true);
-			// todo: use the level
+			Dungeon.level.setOnFire(i, true);
 		}
 
-		// if (this.frostLevel > 0) {
-			Dungeon.level.freeze(Level.toIndex(Math.round((this.x) / 16), Math.round((this.y + this.h / 2) / 16)));
-			// todo: use the level
-		// }
+		if (this.frostLevel > 0) {
+			Dungeon.level.freeze(i);
+
+			if (this.frostLevel >= 4) {
+				if (Dungeon.level.liquidData[i] == Terrain.LAVA) {
+					Dungeon.level.set(i, Terrain.ICE);
+					Dungeon.level.updateTile(Level.toX(i), Level.toY(i));
+				}
+			}
+		}
 	}
 
 	public byte frostLevel;
@@ -838,11 +854,26 @@ public class Player extends Creature {
 				this.addBuff(new BurningBuff());
 			}
 
-			if (t == Terrain.LAVA && !this.flying && !this.lavaResist) {
+			if (t == Terrain.LAVA && !this.flying && this.lavaResist == 0) {
 				this.modifyHp(-1, null, true);
 
 				if (this.isDead()) {
 					Achievements.unlock(Achievements.UNLOCK_WINGS);
+				}
+			} else if (t == Terrain.COBWEB && this.cutCobweb) {
+				Dungeon.level.liquidData[Level.toIndex(x, y)] = 0;
+				Dungeon.level.updateTile(x, y);
+			} else if (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS) {
+				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
+
+				if (Random.chance(10)) {
+					ItemHolder holder = new ItemHolder();
+
+					holder.setItem(new GrassSeed());
+					holder.x = x * 16 + (16 - holder.w) / 2;
+					holder.y = y * 16 + (16 - holder.h) / 2;
+
+					Dungeon.area.add(holder.add());
 				}
 			}
 		}
@@ -938,6 +969,8 @@ public class Player extends Creature {
 		return ((pauseMore && this.vel.len() < 1f) ? v * 1.5f : v) * damageModifier * this.getStat("damage");
 	}
 
+	public boolean cutCobweb;
+
 	@Override
 	public float rollDefense() {
 		float v;
@@ -986,7 +1019,7 @@ public class Player extends Creature {
 
 	@Override
 	public boolean rollBlock() {
-		if (Random.chance(50) && this.ui.hasEquiped(ManaShield.class) && this.mana >= 2) {
+		if (Random.chance(50) && this.ui.hasEquipped(ManaShield.class) && this.mana >= 2) {
 			this.modifyMana(-2);
 			return true;
 		}
@@ -1047,17 +1080,19 @@ public class Player extends Creature {
 			from.modifyHp(4, this, true);
 		}
 
-		if (this.ui.hasEquiped(BlackHeart.class) && this.room != null) {
+		BlackHeart heart = (BlackHeart) this.ui.getEquipped(BlackHeart.class);
+
+		if (heart != null && this.room != null) {
 			for (int i = Mob.all.size() - 1; i >= 0; i--) {
 				Mob mob = Mob.all.get(i);
 
 				if (mob.getRoom() == this.room) {
-					mob.modifyHp(-3, this, true);
+					mob.modifyHp((int) heart.getDamage(), this, true);
 				}
 			}
 		}
 
-		if (this.ui.hasEquiped(ClockHeart.class)) {
+		if (this.ui.hasEquipped(ClockHeart.class)) {
 			Dungeon.slowDown(0.5f, 1f);
 		}
 	}
@@ -1151,11 +1186,11 @@ public class Player extends Creature {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		if (fireResist && buff instanceof BurningBuff) {
+		if (fireResist > 0 && buff instanceof BurningBuff) {
 			return false;
-		} else if (poisonResist && buff instanceof PoisonBuff) {
+		} else if (poisonResist > 0 && buff instanceof PoisonBuff) {
 			return false;
-		} else if (stunResist && buff instanceof FreezeBuff) {
+		} else if (stunResist > 0 && buff instanceof FreezeBuff) {
 			return false;
 		}
 
@@ -1193,7 +1228,7 @@ public class Player extends Creature {
 	}
 
 	public void modifyMana(int a) {
-		this.mana = (int) MathUtils.clamp(0, this.manaMax, this.mana + a * manaModifier);
+		this.mana = (int) MathUtils.clamp(0, this.manaMax, (float) (this.mana + Math.ceil(a * manaModifier)));
 	}
 
 	public Inventory getInventory() {

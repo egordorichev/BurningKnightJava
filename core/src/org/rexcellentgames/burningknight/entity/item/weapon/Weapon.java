@@ -11,7 +11,6 @@ import org.rexcellentgames.burningknight.physics.World;
 
 public class Weapon extends WeaponBase {
 	protected Body body;
-	protected boolean penetrates = false;
 	private boolean used = false;
 	protected float added;
 
@@ -126,32 +125,6 @@ public class Weapon extends WeaponBase {
 		}
 	}
 
-	@Override
-	public StringBuilder buildInfo() {
-		StringBuilder builder = super.buildInfo();
-
-		builder.append("\n[orange]");
-		builder.append(this.damage);
-		builder.append(" damage[gray]");
-
-		float stat = this.owner.getStat("crit_chance") * 10;
-
-		if (this.critChance + stat != 4f) {
-			builder.append("\n[orange]");
-			builder.append((int) Math.floor(this.critChance + stat));
-			builder.append("% crit chance[gray]");
-		}
-
-		if (this.modifier != null) {
-			this.modifier.apply(builder);
-		}
-
-		if (this.penetrates || this.owner.penetrates) {
-			builder.append("\n[green]Can hit multiple targets[gray]");
-		}
-
-		return builder;
-	}
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {

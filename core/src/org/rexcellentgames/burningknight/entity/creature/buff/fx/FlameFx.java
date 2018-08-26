@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FlameFx extends Entity {
@@ -25,10 +26,10 @@ public class FlameFx extends Entity {
 	private float range = 1;
 	private float angle;
 	private float s;
-	private Entity owner;
+	private Creature owner;
 	private boolean second;
 
-	public FlameFx(Entity owner) {
+	public FlameFx(Creature owner) {
 		this.owner = owner;
 		x = owner.x;
 		y = owner.y;
@@ -39,7 +40,7 @@ public class FlameFx extends Entity {
 	public void update(float dt) {
 		this.t += dt;
 		this.tt += dt;
-		this.y = this.owner.y + this.tt * 15;
+		this.y = this.owner.y + this.owner.z + this.tt * 15;
 
 		if (this.second) {
 			this.size -= dt * 4;

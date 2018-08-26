@@ -7,7 +7,6 @@ public class Accessory extends Item {
 	{
 		identified = true;
 		useable = false;
-		canBeUpgraded = true;
 	}
 
 	@Override
@@ -15,14 +14,19 @@ public class Accessory extends Item {
 		return 10;
 	}
 
+	@Override
+	public boolean canBeUpgraded() {
+		return true;
+	}
+
 	private boolean equiped;
 
-	public void onEquip() {
+	public void onEquip(boolean load) {
 		equiped = true;
 		this.triggerEvent("on_equip");
 	}
 
-	public void onUnequip() {
+	public void onUnequip(boolean load) {
 		equiped = false;
 		this.triggerEvent("on_unequip");
 	}

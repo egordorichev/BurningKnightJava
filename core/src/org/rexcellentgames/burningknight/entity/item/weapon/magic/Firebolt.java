@@ -65,8 +65,8 @@ public class Firebolt extends Wand {
 					RectFx fx = new RectFx();
 
 					fx.depth = this.depth;
-					fx.x = this.x + this.h / 2;
-					fx.y = this.y + this.h / 2;
+					fx.x = this.x - this.h / 2;
+					fx.y = this.y - this.h / 2;
 					fx.w = 4;
 					fx.h = 4;
 					fx.b = 0.3f;

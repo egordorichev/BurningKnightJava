@@ -271,19 +271,23 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void updateTile(int x, int y) {
-		for (int xx = x - 1; xx <= x + 2; xx++) {
-			for (int yy = y - 1; yy <= y + 2; yy++) {
-				this.tile(xx, yy);
+		for (int yy = y - 1; yy <= y + 2; yy++) {
+			for (int xx = x - 1; xx <= x + 2; xx++) {
+				this.tile(xx, yy, false);
 			}
 		}
 	}
 
 	public void tile(int x, int y) {
+		tile(x, y, true);
+	}
+
+	public void tile(int x, int y, boolean walls) {
 		byte tile = this.get(x, y);
 
 		if (tile == Terrain.CHASM) {
 			this.tileUp(x, y, tile, false);
-		} else if (tile == Terrain.WALL || tile == Terrain.CRACK) {
+		} else if (walls && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
 			this.tileUp(x, y, tile, false);
 			this.decor[toIndex(x, y)] = (byte) Random.newInt(3);
 		} else if (tile == Terrain.TABLE) {
@@ -302,6 +306,10 @@ public abstract class Level extends SaveableEntity {
 
 		if (matchesFlag(t, Terrain.LIQUID_LAYER)) {
 			this.tileUpLiquid(x, y, t, false);
+		}
+
+		if (!walls) {
+			return;
 		}
 
 		byte count = 0;
@@ -606,6 +614,8 @@ public abstract class Level extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.t += dt;
+
 		if (this != Dungeon.level) {
 			Log.error("Extra level!");
 			setDone(true);
@@ -633,6 +643,10 @@ public abstract class Level extends SaveableEntity {
 	private static final float UPDATE_DELAY = 1f;
 	private float lastFlame;
 
+	public static boolean isValid(int i) {
+		return i >= 0 && i < SIZE;
+	}
+
 	public void setOnFire(int i, boolean fire) {
 		byte t = this.get(i);
 		byte l = this.liquidData[i];
@@ -645,7 +659,7 @@ public abstract class Level extends SaveableEntity {
 		boolean ab = matchesFlag(t, Terrain.BURNS);
 		boolean bb = matchesFlag(l, Terrain.BURNS);
 
-		if ((((ab & bb) || bb) && l != Terrain.WATER && l != Terrain.EXIT)) {
+		if ((((ab && bb) || bb || (ab && l == 0)) && l != Terrain.WATER && l != Terrain.EXIT)) {
 			this.info[i] = BitHelper.setBit(this.info[i], 0, fire);
 		}
 	}
@@ -694,13 +708,12 @@ public abstract class Level extends SaveableEntity {
 			for (int y = room.top; y < room.bottom; y++) {
 				for (int x = room.left; x < room.right; x++) {
 					int i = toIndex(x, y);
-					byte tile = this.get(i);
+					// byte tile = this.get(i);
 					byte info = this.info[i];
 					byte t = this.liquidData[i];
+					boolean burning = BitHelper.isBitSet(info, 0);
 
-					if (BitHelper.isBitSet(info, 0)) {
-						// Burning
-
+					if (burning) {
 						int damage = BitHelper.getNumber(info, 1, 4) + 1;
 
 						if (damage > 1) {
@@ -724,16 +737,29 @@ public abstract class Level extends SaveableEntity {
 					}
 
 					if (t == Terrain.ICE) {
-						for (int j : PathFinder.NEIGHBOURS8) {
-							int k = j + i;
+						if (!burning) {
+							int damage = BitHelper.getNumber(info, 1, 4);
 
-							if ((updateId + x + y + i) % 5 == 0 && this.liquidData[k] == Terrain.WATER) {
-								this.set(k, Terrain.ICE);
-								this.updateTile(toX(k), toY(k));
+							if (damage >= 1) {
+								for (int j : PathFinder.NEIGHBOURS8) {
+									int k = j + i;
+
+									if (this.liquidData[k] == Terrain.WATER) {
+										this.set(k, Terrain.ICE);
+										this.updateTile(toX(k), toY(k));
+									}
+								}
+							} else {
+								damage ++;
 							}
+
+							this.info[i] = (byte) BitHelper.putNumber(info, 1, 4, damage);
 						}
 					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
-						if ((updateId + x + y) % 10 == 0) {
+						if ((updateId + x + y) % 20 == 0) {
+							if (t == Terrain.GRASS && Random.chance(1)) {
+								this.set(i, Terrain.HIGH_GRASS);
+							}
 
 							i += PathFinder.NEIGHBOURS8[Random.newInt(8)];
 
@@ -742,13 +768,25 @@ public abstract class Level extends SaveableEntity {
 								this.updateTile(toX(i), toY(i));
 							}
 						}
+					} else if (t == Terrain.LAVA) {
+						for (int j : PathFinder.NEIGHBOURS8) {
+							int k = j + i;
+							byte l = this.liquidData[k];
+
+							if (l == Terrain.WATER) {
+								this.liquidData[k] = Terrain.OBSIDIAN;
+								this.updateTile(toX(k), toY(k));
+							} else if (l == Terrain.ICE) {
+								this.liquidData[k] = Terrain.WATER;
+								this.updateTile(toX(k), toY(k));
+							}
+						}
 					}
 				}
 			}
 		}
 	}
 
-	// TODO: Too complex
 	public void renderSolid() {
 		if (Dungeon.level != this) {
 			return;
@@ -771,23 +809,22 @@ public abstract class Level extends SaveableEntity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-		for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
-			for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
-
+		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy); y--) {
+			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 
+				byte tile = this.liquidData[i];
+
+				if (tile == Terrain.HIGH_GRASS) {
+					Graphics.render(Terrain.grassHigh, x * 16, y * 16 - 8);
+				} else if (tile == Terrain.HIGH_DRY_GRASS) {
+					Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
+				}
+
 				if (!this.low[i] && (this.light[i] > 0 || this.light[i + getWidth()] > 0)) {
-					byte tile = this.get(i);
+					tile = this.get(i);
 
 					if (Terrain.patterns[tile] != null) {
-						/*if (tile == Terrain.WALL || tile == Terrain.CRACK) {
-							byte variant = this.walls[i];
-
-							if (variant == 0) {
-								continue;
-							}
-						}*/
-
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
 
 						int n = region.getRegionHeight() / 16;
@@ -811,8 +848,8 @@ public abstract class Level extends SaveableEntity {
 					if (tile == Terrain.WALL || tile == Terrain.CRACK) {
 						short v = this.walls[i];
 
-						for (int xx = 0; xx < 2; xx++) {
-							for (int yy = 0; yy < 2; yy++) {
+						for (int yy = 0; yy < 2; yy++) {
+							for (int xx = 0; xx < 2; xx++) {
 
 								int lv = 0;
 
@@ -878,6 +915,7 @@ public abstract class Level extends SaveableEntity {
 					}
 
 					Graphics.batch.setColor(1, 1, 1, 1);
+
 				}
 
 				// useful passable debug
@@ -1086,11 +1124,12 @@ public abstract class Level extends SaveableEntity {
 		t.bind(1);
 		maskShader.setUniformf("activated", 1);
 		maskShader.setUniformf("water", water ? 1 : 0);
+		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? -0.3f : 1);
 		maskShader.setUniformi("u_texture2", 1);
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		texture.bind(0);
 		maskShader.setUniformi("u_texture", 1);
-		maskShader.setUniformf("time", Dungeon.time);
+		maskShader.setUniformf("time", this.t);
 		maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
 		maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
 		maskShader.end();
@@ -1444,6 +1483,8 @@ public abstract class Level extends SaveableEntity {
 	public boolean checkFor(int i, int flag) {
 		if (flag == Terrain.PASSABLE && this.liquidData[i] == Terrain.LAVA) {
 			return false;
+		} else if (flag == Terrain.BREAKS_LOS && (this.liquidData[i] == Terrain.HIGH_DRY_GRASS || this.liquidData[i] == Terrain.HIGH_GRASS)) {
+			return true;
 		}
 
 		return matchesFlag(this.get(i), flag);

@@ -23,7 +23,6 @@ import java.util.HashMap;
 public class Item extends Entity {
   public static TextureRegion missing = Graphics.getTexture("item-missing");
 
-
   public boolean useOnPickup;
   public float a = 1;
   public boolean shop;
@@ -43,7 +42,6 @@ public class Item extends Entity {
   protected boolean auto = false;
   protected boolean fly = false;
   protected byte level = 1;
-  protected boolean canBeUpgraded;
   protected String useSpeedStr;
   public byte price = 15;
   public boolean sale;
@@ -52,7 +50,11 @@ public class Item extends Entity {
 		initStats();
   }
 
-  public void updgrade() {
+  public int getMaxLevel() {
+  	return 11;
+  }
+
+  public void upgrade() {
   	this.level ++;
   }
 
@@ -61,7 +63,7 @@ public class Item extends Entity {
 	}
 
 	public boolean canBeUpgraded() {
-		return canBeUpgraded;
+		return false;
 	}
 
 	// todo: depend on quality

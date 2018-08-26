@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.level.painters;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.fx.Firefly;
 import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -57,8 +58,8 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		leftMost -= 10;
-		topMost -= 10;
+		//leftMost -= 10;
+		//topMost -= 10;
 
 		int rightMost = 0, bottomMost = 0;
 
@@ -72,8 +73,8 @@ public class Painter {
 		rightMost++;
 		bottomMost++;
 
-		rightMost += 10;
-		bottomMost += 10;
+		//rightMost += 10;
+		//bottomMost += 10;
 
 		//add 1 to account for 0 values
 		Level.setSize(rightMost + 1, bottomMost + 1);
@@ -104,6 +105,10 @@ public class Painter {
 					}
 				}
 			}
+		}
+
+		if (PathFinder.NEIGHBOURS8 == null) {
+			PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 		}
 
 		if (this.dirt > 0) {
@@ -154,7 +159,7 @@ public class Painter {
 	}
 
 	private void paintDirt(Level level, ArrayList<Room> rooms) {
-		boolean[] grass = Patch.generate(this.grass, 5);
+		boolean[] grass = Patch.generate(this.dirt, 5);
 
 		for (Room r : rooms) {
 			for (Point p : r.grassPlaceablePoints()) {
@@ -186,19 +191,17 @@ public class Painter {
 			int count = 1;
 
 			for (int n : PathFinder.NEIGHBOURS8) {
-				if (grass[i + n]) {
+				int k = i + n;
+
+				if (Level.isValid(k) && grass[k]) {
 					count++;
 				}
 			}
 
-			boolean high = (Random.newFloat() < count / 12f);
+			boolean high = true; // (Random.newFloat() < count / 12f);
 			level.set(i, dry[i] ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
 		}
 	}
-
-	private static byte[] floors = new byte[]{
-		1, 34, 35, 36, 37, 38, 39, 40
-	};
 
 	public void draw(Level level, ArrayList<Room> rooms) {
 		Log.info("Making all pretty...");
@@ -207,6 +210,18 @@ public class Painter {
 
 	protected void decorate(Level level, ArrayList<Room> rooms) {
 		for (Room room : rooms) {
+			if (Dungeon.depth > -1) {
+				if (Random.chance(60)) {
+					for (int i = 0; i < (Random.chance(50) ? 1 : Random.newInt(3, 6)); i++) {
+						Firefly fly = new Firefly();
+
+						fly.x = (room.left + 2) * 16 + Random.newFloat((room.getWidth() - 4) * 16);
+						fly.y = (room.top + 2) * 16 + Random.newFloat((room.getHeight() - 4) * 16);
+
+						Dungeon.area.add(fly.add());
+					}
+				}
+			}
 
 			for (int y = room.top; y <= room.bottom; y++) {
 				for (int x = room.left; x <= room.right; x++) {

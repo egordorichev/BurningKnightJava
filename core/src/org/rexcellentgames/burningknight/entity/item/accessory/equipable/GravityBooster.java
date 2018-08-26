@@ -3,9 +3,6 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class GravityBooster extends Equipable {
 	{
@@ -15,8 +12,8 @@ public class GravityBooster extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 
 		Tween.to(new Tween.Task(Orbital.speed + 1, 0.3f) {
 			@Override
@@ -32,8 +29,8 @@ public class GravityBooster extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 
 		Tween.to(new Tween.Task(Orbital.speed - 1, 0.3f) {
 			@Override

@@ -16,6 +16,8 @@ import org.rexcellentgames.burningknight.entity.item.key.KeyC
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*
 import org.rexcellentgames.burningknight.entity.item.reference.*
+import org.rexcellentgames.burningknight.entity.item.tool.LavaBucket
+import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket
 import org.rexcellentgames.burningknight.entity.item.weapon.HeadshotGun
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA
@@ -256,7 +258,15 @@ object ItemRegistry {
 	  "mimic_totem" to Pair(MimicTotem::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MIMIC_TOTEM),
 	  "mimic_summoner" to Pair(MimicSummoner::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_MIMIC_SUMMONER),
 	  "fire_boots" to Pair(FireBoots::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
-	  "upgrade" to Pair(ScrollOfUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UPGRADE)
+	  "ice_boots" to Pair(IceBoots::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+	  "upgrade" to Pair(ScrollOfUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UPGRADE),
+	  "ice_skates" to Pair(IceSkates::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+	  "scissors" to Pair(Scissors::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+	  "elemental_ring" to Pair(ElementalRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
+	  "lava_bucket" to Pair(LavaBucket::class.java, 0.2f, 1f, 1f, 1f, Quality.WOODEN),
+	  "water_bucket" to Pair(WaterBucket::class.java, 0.2f, 1f, 1f, 1f, Quality.WOODEN),
+	  "tech_eye" to Pair(TechEye::class.java, 2f, 1f, 1f, 1f, Quality.IRON),
+	  "eco_wand" to Pair(EcoWand::class.java, 1f, 0f, 1f, 0.1f, Quality.WOODEN)
   )
 
   val modItems = mutableMapOf<String, Item>()

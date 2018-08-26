@@ -12,8 +12,8 @@ public class VVVVV extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 
 		Dungeon.flip = !Dungeon.flip;
 
@@ -23,8 +23,8 @@ public class VVVVV extends Equipable {
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onEquip();
+	public void onUnequip(boolean load) {
+		super.onEquip(load);
 
 		Dungeon.flip = !Dungeon.flip;
 

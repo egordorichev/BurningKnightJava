@@ -72,7 +72,7 @@ public class RectFx extends Entity {
 
 		Graphics.batch.setShader(RectFx.shader);
 		Graphics.batch.begin();
-		Graphics.render(region, this.x - this.w / 2, this.y - this.h / 2, this.angle, this.w / 2, this.h / 2, false, false, this.scale, this.scale);
+		Graphics.render(region, this.x + this.w / 2, this.y + this.h / 2, this.angle, this.w / 2, this.h / 2, false, false, this.scale, this.scale);
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();

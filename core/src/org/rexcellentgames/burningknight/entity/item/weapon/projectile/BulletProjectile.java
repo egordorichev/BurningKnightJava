@@ -162,7 +162,7 @@ public class BulletProjectile extends Projectile {
 				this.body.setLinearVelocity(this.vel);
 			}
 
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 3; i++) {
 				PoofFx fx = new PoofFx();
 
 				fx.x = this.x;

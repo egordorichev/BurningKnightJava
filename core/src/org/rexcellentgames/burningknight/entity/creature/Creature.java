@@ -269,8 +269,10 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-
-		this.vel.mul((this.touches[Terrain.ICE] ? 0.95f : this.mul));
+		this.vel.mul(
+			(this.touches[Terrain.COBWEB] ? 0.3f :
+			(iceResitant == 0 && this.touches[Terrain.ICE] ? 0.95f : this.mul))
+		);
 
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
@@ -324,12 +326,14 @@ public class Creature extends SaveableEntity {
 				} else {
 					this.addBuff(new BurningBuff());
 				}
+			} else if (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS) {
+				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
 			}
 		}
 	}
 
 	protected void doVel() {
-		float fr = this.touches[Terrain.ICE] ? 0.2f : 1f;
+		float fr = (iceResitant > 0 && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA] ? 0.35f : 1f));
 		this.vel.x += this.acceleration.x * fr;
 		this.vel.y += this.acceleration.y * fr;
 	}
@@ -381,7 +385,10 @@ public class Creature extends SaveableEntity {
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0) {
 			return null;
-		} else if (amount < 0 && ((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || (this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense())) {
+		} else if (amount < 0 && !this.touches[Terrain.COBWEB] &&
+			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
+			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
+
 			if (this.unhittable) {
 				return null;
 			}
@@ -425,8 +432,10 @@ public class Creature extends SaveableEntity {
 			hurt = true;
 		}
 
-		/*HpFx fx = new HpFx(this, amount);
-		Dungeon.area.add(fx);*/
+		if (Player.showStats) {
+			HpFx fx = new HpFx(this, amount);
+			Dungeon.area.add(fx);
+		}
 
 		if (hurt) {
 			this.doHurt(amount);
@@ -473,8 +482,14 @@ public class Creature extends SaveableEntity {
 	}
 
 	public float rollDamage() {
-		return 1;
+		return this.touches[Terrain.ICE] ? 2 : 1;
 	}
+
+	public boolean isTouching(byte t) {
+		return touches[t];
+	}
+
+	public byte iceResitant;
 
 	public float rollDefense() {
 		return 1;
@@ -722,7 +737,7 @@ public class Creature extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (this.flying && entity == null && contact.getFixtureA().getBody().isBullet()) {
+		if (this.flying && entity == null && fixture.getBody().isBullet()) {
 			return false;
 		} else if (entity instanceof Creature) {
 			if (this.hasBuff(BurningBuff.class)) {

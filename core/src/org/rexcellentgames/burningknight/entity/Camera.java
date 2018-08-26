@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -156,16 +155,19 @@ public class Camera extends Entity {
 						@Override
 						public void onEnd() {
 							Player.instance.generate();
+							Player.toSet = Player.instance.getType();
 							GlobalSave.put("last_class", Player.instance.getType().id);
 							Dungeon.goToLevel(0);
 						}
 					});
 				}
 			} else {
-				game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
+				game.position.x = camPosition.x;
+				game.position.y = camPosition.y;
+				/*game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
 					Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, camPosition.x);
 				game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
-					Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, camPosition.y);
+					Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, camPosition.y);*/
 			}
 
 			game.update();

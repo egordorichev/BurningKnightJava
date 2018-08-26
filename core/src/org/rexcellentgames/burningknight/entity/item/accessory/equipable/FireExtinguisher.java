@@ -2,8 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class FireExtinguisher extends Equipable {
 	{
@@ -13,20 +11,20 @@ public class FireExtinguisher extends Equipable {
 	}
 
 	@Override
-	public void onEquip() {
-		super.onEquip();
+	public void onEquip(boolean load) {
+		super.onEquip(load);
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).fireResist = true;
+			((Player) this.owner).fireResist += 1;
 		}
 	}
 
 	@Override
-	public void onUnequip() {
-		super.onUnequip();
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).fireResist = false;
+			((Player) this.owner).fireResist -= 1;
 		}
 	}
 }

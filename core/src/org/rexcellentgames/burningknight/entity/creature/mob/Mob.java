@@ -103,6 +103,12 @@ public class Mob extends Creature {
 		return this;
 	}
 
+	public void renderStats() {
+		if (Player.showStats) {
+			Graphics.print(this.hp + "/" + this.hpMax, Graphics.small, this.x, this.y + this.z);
+		}
+	}
+
 	public void generatePrefix() {
 		if (this.prefix == null) {
 			this.prefix = PrefixPool.instance.generate();
@@ -323,6 +329,11 @@ public class Mob extends Creature {
 
 	@Override
 	public void update(float dt) {
+		if (this.toDead) {
+			this.die();
+			return;
+		}
+
 		super.update(dt * speedMod);
 
 		if (this.freezed) {
@@ -595,9 +606,16 @@ public class Mob extends Creature {
 		}
 	}
 
+	private boolean toDead;
+
 	@Override
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
+
+		if (!this.saw && !(this instanceof Boss)) {
+			this.toDead = true;
+			return;
+		}
 
 		if (this.ai != null && !(this instanceof Boss)) {
 			this.ai.checkForPlayer(true);

@@ -290,6 +290,8 @@ public class BurningKnight extends Boss {
 
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
+		super.renderStats();
+
 		// Graphics.print(this.hp + " / " + this.hpMax, Graphics.small, this.x, this.y);
 	}
 

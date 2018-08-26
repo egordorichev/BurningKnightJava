@@ -116,6 +116,7 @@ public class Thief extends Mob {
 		this.renderWithOutline(this.animation);
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
+		super.renderStats();
 	}
 
 	public class ThiefState extends Mob.State<Thief> {

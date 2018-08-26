@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
+import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -182,6 +183,14 @@ public class UiSlot {
 		Item current = this.inventory.getCurrentSlot();
 		Item self = this.inventory.getInventory().getSlot(this.id);
 
+		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());
+
+		if (active instanceof ScrollOfUpgrade && self != null && (self.canBeUpgraded() && self.getLevel() < self.getMaxLevel())) {
+			active.use();
+			self.upgrade();
+			return;
+		}
+
 		if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
 			current.setCount(current.getCount() + self.getCount());
 			this.inventory.getInventory().setSlot(this.id, current);
@@ -202,12 +211,12 @@ public class UiSlot {
 
 			if (this.id > 5) {
 				if (self instanceof Accessory) {
-					((Accessory) self).onUnequip();
+					((Accessory) self).onUnequip(false);
 				}
 
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
-					((Accessory) current).onEquip();
+					((Accessory) current).onEquip(false);
 					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
 			}
@@ -275,6 +284,8 @@ public class UiSlot {
 	public void render(Item item) {
 		TextureRegion reg = slot;
 		boolean h = this.inventory.getActive() == this.id;
+		boolean upgrade = this.inventory.getInventory().getSlot(this.inventory.getActive()) instanceof ScrollOfUpgrade;
+
 
 		if (h) {
 			/*if (Input.instance.isDown("use") || Input.instance.isDown("second_use")) {
@@ -374,6 +385,12 @@ public class UiSlot {
 		Graphics.batch.setColor(1, 1, 1, a);
 
 		if (item != null) {
+			float gray = 1;
+
+			if (upgrade && (!item.canBeUpgraded() || item.getLevel() >= item.getMaxLevel()) && !(item instanceof ScrollOfUpgrade)) {
+				gray = 0.6f;
+			}
+
 			TextureRegion sprite = item.getSprite();
 			int count = item.getValue();
 			boolean enable = !item.disableBlink();
@@ -386,12 +403,13 @@ public class UiSlot {
 					Graphics.batch.end();
 					WeaponBase.shader.begin();
 					WeaponBase.shader.setUniformf("a", item.a);
+					WeaponBase.shader.setUniformf("gray", gray);
 					WeaponBase.shader.setUniformf("time", Dungeon.time);
 					WeaponBase.shader.end();
 					Graphics.batch.setShader(WeaponBase.shader);
 					Graphics.batch.begin();
 				} else {
-					Graphics.batch.setColor(1, 1, 1, item.a);
+					Graphics.batch.setColor(gray, gray, gray, item.a);
 				}
 
 				Graphics.render(sprite, x + slot.getRegionWidth() / 2,
@@ -407,9 +425,24 @@ public class UiSlot {
 
 			}
 
+			float w = 24 * this.scale;
+			float x = this.x + 12;
+			float y = this.y + 12;
+
 			if (count != 1 || item instanceof Gun) {
 				Graphics.small.setColor(1, 1, 1, item.a);
-				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
+				Graphics.print(String.valueOf(count), Graphics.small, x - w / 2 + 3, y - w / 2 + 3);
+				Graphics.small.setColor(1, 1, 1, 1);
+			}
+
+			int level = item.getLevel();
+
+			if (level != 1) {
+				level -= 1;
+				Graphics.small.setColor(level < 1 ? 1 : 0, level < 0 ? 0 : 1, 0, item.a);
+				String text = level > 0 ? "+" + level : "" + level;
+				Graphics.layout.setText(Graphics.small, text);
+				Graphics.print(text, Graphics.small, x + w / 2 - 3 - Graphics.layout.width, y - w / 2 + 3);
 				Graphics.small.setColor(1, 1, 1, 1);
 			}
 		}

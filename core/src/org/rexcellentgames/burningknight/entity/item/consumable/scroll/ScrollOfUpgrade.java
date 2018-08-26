@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.game.Achievements;
 public class ScrollOfUpgrade extends Scroll {
 	{
 		sprite = "item-upgrade_scroll";
+		useTime = 0f;
 	}
 
 	@Override
@@ -12,5 +13,10 @@ public class ScrollOfUpgrade extends Scroll {
 		super.use();
 
 		Achievements.unlock(Achievements.UPGRADE);
+	}
+
+	@Override
+	public boolean canBeUsed() {
+		return false;
 	}
 }

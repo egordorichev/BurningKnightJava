@@ -59,8 +59,8 @@ public class Terrain {
 		flags[TABLE] = SOLID | HIGH;
 		flags[ICE] = PASSABLE | LIQUID_LAYER;
 		flags[DRY_GRASS] = PASSABLE | BURNS | LIQUID_LAYER;
-		flags[HIGH_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER;
-		flags[HIGH_DRY_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER;
+		flags[HIGH_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER | BREAKS_LOS;
+		flags[HIGH_DRY_GRASS] = PASSABLE | HIGH | BURNS | LIQUID_LAYER | BREAKS_LOS;
 		flags[OBSIDIAN] = PASSABLE | LIQUID_LAYER;
 		flags[EMBER] = PASSABLE | LIQUID_LAYER;
 		flags[COBWEB] = PASSABLE | LIQUID_LAYER | BURNS;
@@ -69,6 +69,11 @@ public class Terrain {
 		colors[0][CHASM] = Color.valueOf("#000000");
 		colors[0][DIRT] = Color.valueOf("#8a4836");
 		colors[0][GRASS] = Color.valueOf("#33984b");
+		colors[0][HIGH_GRASS] = Color.valueOf("#33984b");
+		colors[0][DRY_GRASS] = Color.valueOf("#e69c69");
+		colors[0][HIGH_DRY_GRASS] = Color.valueOf("#e69c69");
+		colors[0][OBSIDIAN] = Color.valueOf("#2a2f4e");
+		colors[0][EMBER] = Color.valueOf("#000000");
 		colors[0][FLOOR_A] = Color.valueOf("#657392");
 		colors[0][FLOOR_B] = Color.valueOf("#bf6f4a");
 		colors[0][FLOOR_C] = Color.valueOf("#92a1b9");
@@ -169,6 +174,8 @@ public class Terrain {
 
 	public static TextureRegion exit;
 	public static TextureRegion entrance;
+	public static TextureRegion dryGrassHigh;
+	public static TextureRegion grassHigh;
 
 	private static int lastt = -1;
 
@@ -196,6 +203,8 @@ public class Terrain {
 
 		entrance = Graphics.getTexture("props-entance");
 		exit = Graphics.getTexture("props-exit");
+		dryGrassHigh = Graphics.getTexture("biome-gen-dry_grass_high");
+		grassHigh = Graphics.getTexture("biome-gen-grass_high");
 
 		patterns[DIRT] = dirtPattern;
 		patterns[GRASS] = grassPattern;

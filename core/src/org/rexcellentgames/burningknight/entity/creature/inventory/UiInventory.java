@@ -81,7 +81,7 @@ public class UiInventory extends UiEntity {
 
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
-					((Accessory) current).onEquip();
+					((Accessory) current).onEquip(true);
 
 					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
@@ -104,7 +104,7 @@ public class UiInventory extends UiEntity {
 			Item current = this.inventory.getSlot(i);
 
 			if (current instanceof Accessory) {
-				((Accessory) current).onUnequip();
+				((Accessory) current).onUnequip(true);
 			}
 		}
 	}
@@ -511,16 +511,19 @@ public class UiInventory extends UiEntity {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-		boolean empty = false;
 
 		for (int i = (this.slots[0].a == 1f ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
 			Item item = this.inventory.getSlot(i);
-
-			if (item == null) {
-				empty = true;
-			}
-
 			this.slots[i].render(item);
+		}
+
+		boolean empty = false;
+
+		for (int i = this.inventory.getSize() - 1; i >= 0; i--) {
+			if (this.inventory.getSlot(i) == null) {
+				empty = true;
+				break;
+			}
 		}
 
 		if (!empty) {
@@ -631,16 +634,20 @@ public class UiInventory extends UiEntity {
 
 	public UiBuff hoveredBuff;
 
-	public boolean hasEquiped(Class<? extends Equipable> type) {
+	public boolean hasEquipped(Class<? extends Equipable> type) {
+		return getEquipped(type) != null;
+	}
+
+	public Equipable getEquipped(Class<? extends Equipable> type) {
 		for (int i = 6; i < this.inventory.getSize(); i++) {
 			Item it = this.inventory.getSlot(i);
 
 			if (type.isInstance(it)) {
-				return true;
+				return (Equipable) it;
 			}
 		}
 
-		return false;
+		return null;
 	}
 
 	public void renderCurrentSlot() {

@@ -95,6 +95,8 @@ public abstract class RegularLevel extends Level {
 		if (Dungeon.depth > 0) {
 			MobPool.instance.initForFloor();
 
+			Log.info("Spawn modifier is x" + Player.mobSpawnModifier);
+
 			for (Room room : this.rooms) {
 				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom)) {
 					float weight = (Random.newFloat(1f, 1f + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
@@ -183,6 +185,8 @@ public abstract class RegularLevel extends Level {
 			}
 
 			this.rooms = builder.build((ArrayList<Room>) rooms.clone());
+
+			// fixme: clear the level if failed
 
 			if (this.rooms == null) {
 				Log.error("Failed!");

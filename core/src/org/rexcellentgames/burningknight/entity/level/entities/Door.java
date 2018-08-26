@@ -213,7 +213,7 @@ public class Door extends SaveableEntity {
 			if (this.lock && this.lockable && entity instanceof Player) {
 				Player player = (Player) entity;
 
-				if (player.ui.hasEquiped(Lootpick.class)) {
+				if (player.ui.hasEquipped(Lootpick.class)) {
 					this.lock = false;
 					this.animation.setBack(false);
 					this.animation.setPaused(false);
