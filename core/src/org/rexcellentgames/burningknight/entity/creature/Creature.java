@@ -326,6 +326,8 @@ public class Creature extends SaveableEntity {
 				} else {
 					this.addBuff(new BurningBuff());
 				}
+			} else if (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS) {
+				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
 			}
 		}
 	}

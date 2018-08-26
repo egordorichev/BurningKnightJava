@@ -851,6 +851,8 @@ public class Player extends Creature {
 			} else if (t == Terrain.COBWEB && this.cutCobweb) {
 				Dungeon.level.liquidData[Level.toIndex(x, y)] = 0;
 				Dungeon.level.updateTile(x, y);
+			} else if (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS) {
+				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
 			}
 		}
 	}
