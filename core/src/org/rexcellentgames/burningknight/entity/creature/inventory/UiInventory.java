@@ -634,16 +634,20 @@ public class UiInventory extends UiEntity {
 
 	public UiBuff hoveredBuff;
 
-	public boolean hasEquiped(Class<? extends Equipable> type) {
+	public boolean hasEquipped(Class<? extends Equipable> type) {
+		return getEquipped(type) != null;
+	}
+
+	public Equipable getEquipped(Class<? extends Equipable> type) {
 		for (int i = 6; i < this.inventory.getSize(); i++) {
 			Item it = this.inventory.getSlot(i);
 
 			if (type.isInstance(it)) {
-				return true;
+				return (Equipable) it;
 			}
 		}
 
-		return false;
+		return null;
 	}
 
 	public void renderCurrentSlot() {

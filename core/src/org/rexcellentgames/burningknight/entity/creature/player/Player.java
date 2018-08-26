@@ -1019,7 +1019,7 @@ public class Player extends Creature {
 
 	@Override
 	public boolean rollBlock() {
-		if (Random.chance(50) && this.ui.hasEquiped(ManaShield.class) && this.mana >= 2) {
+		if (Random.chance(50) && this.ui.hasEquipped(ManaShield.class) && this.mana >= 2) {
 			this.modifyMana(-2);
 			return true;
 		}
@@ -1080,17 +1080,19 @@ public class Player extends Creature {
 			from.modifyHp(4, this, true);
 		}
 
-		if (this.ui.hasEquiped(BlackHeart.class) && this.room != null) {
+		BlackHeart heart = (BlackHeart) this.ui.getEquipped(BlackHeart.class);
+
+		if (heart != null && this.room != null) {
 			for (int i = Mob.all.size() - 1; i >= 0; i--) {
 				Mob mob = Mob.all.get(i);
 
 				if (mob.getRoom() == this.room) {
-					mob.modifyHp(-3, this, true);
+					mob.modifyHp((int) heart.getDamage(), this, true);
 				}
 			}
 		}
 
-		if (this.ui.hasEquiped(ClockHeart.class)) {
+		if (this.ui.hasEquipped(ClockHeart.class)) {
 			Dungeon.slowDown(0.5f, 1f);
 		}
 	}
