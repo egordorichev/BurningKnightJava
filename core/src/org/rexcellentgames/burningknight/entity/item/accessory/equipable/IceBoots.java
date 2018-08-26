@@ -31,12 +31,21 @@ public class IceBoots extends Equipable {
 	}
 
 	@Override
+	public int getMaxLevel() {
+		return 4;
+	}
+
+	@Override
 	public void onEquip() {
 		super.onEquip();
 		this.owner.frostLevel += this.level;
 
 		if (this.level >= 2) {
 			this.owner.iceResitant += 1;
+		}
+
+		if (this.level >= 3) {
+			this.owner.lavaResist += 1;
 		}
 	}
 
@@ -47,6 +56,10 @@ public class IceBoots extends Equipable {
 
 		if (this.level >= 2) {
 			this.owner.iceResitant -= 1;
+		}
+
+		if (this.level >= 3) {
+			this.owner.lavaResist -= 1;
 		}
 	}
 }

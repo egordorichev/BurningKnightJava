@@ -737,7 +737,7 @@ public class Creature extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (this.flying && entity == null && contact.getFixtureA().getBody().isBullet()) {
+		if (this.flying && entity == null && fixture.getBody().isBullet()) {
 			return false;
 		} else if (entity instanceof Creature) {
 			if (this.hasBuff(BurningBuff.class)) {

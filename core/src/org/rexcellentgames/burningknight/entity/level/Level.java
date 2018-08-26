@@ -614,6 +614,8 @@ public abstract class Level extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.t += dt;
+
 		if (this != Dungeon.level) {
 			Log.error("Extra level!");
 			setDone(true);
@@ -1127,7 +1129,7 @@ public abstract class Level extends SaveableEntity {
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		texture.bind(0);
 		maskShader.setUniformi("u_texture", 1);
-		maskShader.setUniformf("time", Dungeon.time);
+		maskShader.setUniformf("time", this.t);
 		maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
 		maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
 		maskShader.end();
