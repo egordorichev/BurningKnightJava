@@ -95,12 +95,14 @@ public class WeaponBase extends Item {
 
 		builder.append("\n[orange]");
 
+		float mod = this.owner.getStat("damage");
+
 		if (this.minDamage != this.damage) {
-			builder.append(this.minDamage + this.level - 1);
+			builder.append(Math.round((this.minDamage + this.level - 1) * mod));
 			builder.append("-");
 		}
 
-		builder.append(this.damage + this.level - 1);
+		builder.append(Math.round((this.damage + this.level - 1) * mod));
 		builder.append(" damage[gray]");
 
 		float stat = this.owner.getStat("crit_chance") * 10;
