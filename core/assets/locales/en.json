@@ -132,7 +132,7 @@
 	"blood_ring" : "Blood Ring",
 	"blood_ring_desc" : "Increases your hp regeneration",
 	"metal_ring" : "Metal Ring",
-	"metal_ring_desc" : "Gives a {CHANCE}% chance to reflect\ndamage ontoAnd  the attacker",
+	"metal_ring_desc" : "Gives a {CHANCE}% chance to reflect\ndamage onto the attacker",
 	"fortune_ring" : "Fortune Ring",
 	"fortune_ring_desc" : "Increases critical hit chance by {CHANCE}%",
 	"fire_flower" : "Fire Flower",

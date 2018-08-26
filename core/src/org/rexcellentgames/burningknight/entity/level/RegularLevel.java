@@ -186,10 +186,24 @@ public abstract class RegularLevel extends Level {
 
 			this.rooms = builder.build((ArrayList<Room>) rooms.clone());
 
-			// fixme: clear the level if failed
-
 			if (this.rooms == null) {
 				Log.error("Failed!");
+
+				Player.all.clear();
+				Mob.all.clear();
+				ItemHolder.all.clear();
+				Chest.all.clear();
+				Mimic.all.clear();
+
+				PlayerSave.all.clear();
+				LevelSave.all.clear();
+
+				Dungeon.area.destroy();
+				Dungeon.area.add(Dungeon.level);
+
+				Level.GENERATED = true;
+
+				this.itemsToSpawn.clear();
 			}
 		} while (this.rooms == null);
 	}

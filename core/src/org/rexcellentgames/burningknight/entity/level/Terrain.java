@@ -73,7 +73,6 @@ public class Terrain {
 		colors[0][DRY_GRASS] = Color.valueOf("#e69c69");
 		colors[0][HIGH_DRY_GRASS] = Color.valueOf("#e69c69");
 		colors[0][OBSIDIAN] = Color.valueOf("#2a2f4e");
-		colors[0][EMBER] = Color.valueOf("#000000");
 		colors[0][FLOOR_A] = Color.valueOf("#657392");
 		colors[0][FLOOR_B] = Color.valueOf("#bf6f4a");
 		colors[0][FLOOR_C] = Color.valueOf("#92a1b9");
@@ -90,7 +89,6 @@ public class Terrain {
 		colors[1][DRY_GRASS] = Color.valueOf("#e69c69");
 		colors[1][HIGH_DRY_GRASS] = Color.valueOf("#e69c69");
 		colors[1][OBSIDIAN] = Color.valueOf("#2a2f4e");
-		colors[1][EMBER] = Color.valueOf("#000000");
 		colors[1][FLOOR_A] = Color.valueOf("#bf6f4a");
 		colors[1][FLOOR_B] = Color.valueOf("#f5555d");
 		colors[1][FLOOR_C] = Color.valueOf("#5d2c28");

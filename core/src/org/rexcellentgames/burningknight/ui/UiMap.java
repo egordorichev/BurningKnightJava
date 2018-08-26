@@ -591,7 +591,7 @@ public class UiMap extends UiEntity {
 					int i = Level.toIndex(x, y);
 					byte t = Dungeon.level.liquidData[i];
 
-					if (t == 0) {
+					if (t == 0 || t == Terrain.COBWEB || t == Terrain.EMBER) {
 						t = Dungeon.level.get(i);
 					}
 
