@@ -366,6 +366,12 @@ public class Input implements InputProcessor, ControllerListener {
 		controllerChanged = false;
 	}
 
+	public void putState(String id, State state) {
+		for (String name : this.bindings.get(id)) {
+			this.keys.put(name, state);
+		}
+	}
+
 	public boolean isDown(String key) {
 		if (blocked) {
 			return false;

@@ -726,7 +726,7 @@ public abstract class Level extends SaveableEntity {
 							this.info[i] = 0;
 
 							if (matchesFlag(this.get(x, y), Terrain.BURNS)) {
-								this.data[i] = Terrain.DIRT;
+								this.data[i] = Terrain.FLOOR_A;
 							}
 
 							this.liquidData[i] = Terrain.EMBER;

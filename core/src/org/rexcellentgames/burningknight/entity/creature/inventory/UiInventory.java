@@ -17,6 +17,7 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -212,6 +213,8 @@ public class UiInventory extends UiEntity {
 		if (Dungeon.depth < 0) {
 			return;
 		}
+
+		depth = 10;
 
 		if (Dungeon.game.getState().isPaused() || Dialog.active != null || toRemove) {
 			return;
@@ -424,6 +427,7 @@ public class UiInventory extends UiEntity {
 	private void checkUse() {
 		if (Player.instance != null && !Player.instance.freezed && !this.handled && !Player.instance.isDead()) {
 			if (this.currentSlot != null && (Input.instance.wasPressed("use"))) {
+
 				Item slot = this.currentSlot;
 
 				if (!slot.isCursed()) {

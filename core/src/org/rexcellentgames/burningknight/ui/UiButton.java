@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiButton extends UiEntity {
@@ -122,6 +123,8 @@ public class UiButton extends UiEntity {
 
 		if (Input.instance.wasPressed("uiAccept") && !disableClick) {
 			if ((this.hover && !Input.instance.wasPressed("use") && this.isSelected) || (checkHover() && Input.instance.wasPressed("use"))) {
+				Input.instance.putState("use", Input.State.HELD);
+
 				if (this.last != null) {
 					Tween.remove(this.last);
 				}

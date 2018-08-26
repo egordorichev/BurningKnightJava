@@ -47,6 +47,10 @@ public class Painter {
 	}
 
 	public void paint(Level level, ArrayList<Room> rooms) {
+		if (rooms == null) {
+			return;
+		}
+
 		int leftMost = Integer.MAX_VALUE, topMost = Integer.MAX_VALUE;
 
 		for (Room r : rooms) {
