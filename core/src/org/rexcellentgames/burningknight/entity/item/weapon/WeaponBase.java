@@ -95,7 +95,7 @@ public class WeaponBase extends Item {
 
 		builder.append("\n[orange]");
 
-		float mod = this.owner.getStat("damage");
+		float mod = this.owner.getStat("damage") * ((Player) (this.owner)).damageModifier;
 
 		if (this.minDamage != this.damage) {
 			builder.append(Math.round((this.minDamage + this.level - 1) * mod));
