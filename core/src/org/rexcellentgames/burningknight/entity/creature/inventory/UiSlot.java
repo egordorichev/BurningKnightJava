@@ -412,6 +412,13 @@ public class UiSlot {
 				Graphics.print(String.valueOf(count), Graphics.small, this.x + 3, this.y + 3);
 				Graphics.small.setColor(1, 1, 1, 1);
 			}
+
+			int level = item.getLevel();
+
+			if (level != 1) {
+				level -= 1;
+				
+			}
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);

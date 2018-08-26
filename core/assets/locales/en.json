@@ -643,5 +643,9 @@
 	"eco_wand" : "Eco wand",
 	"eco_wand_desc" : "Spread the green!",
 	"grass_seed" : "Grass seed",
-	"grass_seed_desc" : "So tiny, yet so powerful"
+	"grass_seed_desc" : "So tiny, yet so powerful",
+	"ice_boots" : "Frost boots",
+	"ice_boots_desc" : "Ice provider",
+	"fire_boots" : "Burning boots",
+	"fire_boots_desc" : "Always on-fire!"
 }

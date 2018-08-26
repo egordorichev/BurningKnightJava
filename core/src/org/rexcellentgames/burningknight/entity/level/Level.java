@@ -706,13 +706,12 @@ public abstract class Level extends SaveableEntity {
 			for (int y = room.top; y < room.bottom; y++) {
 				for (int x = room.left; x < room.right; x++) {
 					int i = toIndex(x, y);
-					byte tile = this.get(i);
+					// byte tile = this.get(i);
 					byte info = this.info[i];
 					byte t = this.liquidData[i];
+					boolean burning = BitHelper.isBitSet(info, 0);
 
-					if (BitHelper.isBitSet(info, 0)) {
-						// Burning
-
+					if (burning) {
 						int damage = BitHelper.getNumber(info, 1, 4) + 1;
 
 						if (damage > 1) {
@@ -736,13 +735,23 @@ public abstract class Level extends SaveableEntity {
 					}
 
 					if (t == Terrain.ICE) {
-						for (int j : PathFinder.NEIGHBOURS8) {
-							int k = j + i;
+						if (!burning) {
+							int damage = BitHelper.getNumber(info, 1, 4);
 
-							if ((updateId + x + y + i) % 5 == 0 && this.liquidData[k] == Terrain.WATER) {
-								this.set(k, Terrain.ICE);
-								this.updateTile(toX(k), toY(k));
+							if (damage >= 1) {
+								for (int j : PathFinder.NEIGHBOURS8) {
+									int k = j + i;
+
+									if (this.liquidData[k] == Terrain.WATER) {
+										this.set(k, Terrain.ICE);
+										this.updateTile(toX(k), toY(k));
+									}
+								}
+							} else {
+								damage ++;
 							}
+
+							this.info[i] = (byte) BitHelper.putNumber(info, 1, 4, damage);
 						}
 					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
 						if ((updateId + x + y) % 20 == 0) {

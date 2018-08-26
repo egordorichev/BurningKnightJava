@@ -8,9 +8,10 @@ public class FireBoots extends Equipable {
 	}
 
 	@Override
-	public void updgrade() {
-		super.updgrade();
-		this.owner.burnLevel = this.level;
+	public void upgrade() {
+		this.owner.burnLevel -= this.level;
+		super.upgrade();
+		this.owner.burnLevel += this.level;
 	}
 
 	@Override

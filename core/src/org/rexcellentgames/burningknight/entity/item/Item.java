@@ -51,7 +51,7 @@ public class Item extends Entity {
 		initStats();
   }
 
-  public void updgrade() {
+  public void upgrade() {
   	this.level ++;
   }
 
