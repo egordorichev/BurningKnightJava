@@ -9,6 +9,7 @@ uniform vec2 pos;
 uniform vec2 size;
 uniform vec2 tpos;
 uniform float water;
+uniform float speed;
 uniform float activated;
 uniform sampler2D u_texture;
 uniform sampler2D u_texture2;
@@ -31,7 +32,7 @@ void main() {
 
         if (edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
             vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
-            float m = (time / (cof.x * 2.0));
+            float m = (time * speed / (cof.x * 2.0));
 
             m -= floor(m / (size.x * 4.0)) * (size.x * 4.0);
 

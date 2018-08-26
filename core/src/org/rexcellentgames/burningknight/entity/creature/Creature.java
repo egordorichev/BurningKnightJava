@@ -331,7 +331,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void doVel() {
-		float fr = (iceResitant && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : 1f);
+		float fr = (iceResitant && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA] ? 0.35f : 1f));
 		this.vel.x += this.acceleration.x * fr;
 		this.vel.y += this.acceleration.y * fr;
 	}
@@ -384,7 +384,7 @@ public class Creature extends SaveableEntity {
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0) {
 			return null;
 		} else if (amount < 0 && !this.touches[Terrain.COBWEB] &&
-			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) ||
+			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
 			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
 
 			if (this.unhittable) {
