@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.level.painters;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.fx.Firefly;
 import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -213,6 +214,18 @@ public class Painter {
 
 	protected void decorate(Level level, ArrayList<Room> rooms) {
 		for (Room room : rooms) {
+			if (Dungeon.depth > -1) {
+				if (Random.chance(60)) {
+					for (int i = 0; i < (Random.chance(50) ? 1 : Random.newInt(3, 6)); i++) {
+						Firefly fly = new Firefly();
+
+						fly.x = (room.left + 2) * 16 + Random.newFloat((room.getWidth() - 4) * 16);
+						fly.y = (room.top + 2) * 16 + Random.newFloat((room.getHeight() - 4) * 16);
+
+						Dungeon.area.add(fly.add());
+					}
+				}
+			}
 
 			for (int y = room.top; y <= room.bottom; y++) {
 				for (int x = room.left; x <= room.right; x++) {

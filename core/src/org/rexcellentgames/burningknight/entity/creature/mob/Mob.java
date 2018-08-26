@@ -610,7 +610,7 @@ public class Mob extends Creature {
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
-		if (!this.saw) {
+		if (!this.saw && !(this instanceof Boss)) {
 			this.toDead = true;
 			return;
 		}

@@ -198,7 +198,7 @@ public class MainMenuState extends State {
 			}
 		});
 	}
-	
+
 	@Override
 	public void renderUi() {
 		super.render();

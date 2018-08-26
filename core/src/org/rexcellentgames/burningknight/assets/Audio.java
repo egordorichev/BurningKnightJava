@@ -31,7 +31,8 @@ public class Audio {
 		root = reader.parse(Gdx.files.internal("music/music.json"));
 
 		for (JsonValue name : root) {
-			Assets.manager.load("music/" + name.toString() + ".mp3", Music.class);
+			// todo: read bp
+			Assets.manager.load("music/" + name.name + ".mp3", Music.class);
 		}
 
 		FileHandle file = Gdx.files.external("sfx.json");

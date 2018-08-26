@@ -75,7 +75,7 @@ public class Player extends Creature {
 	public static Entity ladder;
 	private static HashMap<String, Animation> skins = new HashMap<>();
 	public static ShaderProgram shader;
-	public static boolean showStats = true;
+	public static boolean showStats;
 
 	static {
 		shader = new ShaderProgram(Gdx.files.internal("shaders/rainbow.vert").readString(),  Gdx.files.internal("shaders/rainbow.frag").readString());
@@ -808,10 +808,10 @@ public class Player extends Creature {
 			// todo: use the level
 		}
 
-		// if (this.frostLevel > 0) {
+		if (this.frostLevel > 0) {
 			Dungeon.level.freeze(Level.toIndex(Math.round((this.x) / 16), Math.round((this.y + this.h / 2) / 16)));
 			// todo: use the level
-		// }
+		}
 	}
 
 	public byte frostLevel;
