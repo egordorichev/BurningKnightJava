@@ -7,12 +7,16 @@ public class Accessory extends Item {
 	{
 		identified = true;
 		useable = false;
-		canBeUpgraded = true;
 	}
 
 	@Override
 	public int getPrice() {
 		return 10;
+	}
+
+	@Override
+	public boolean canBeUpgraded() {
+		return true;
 	}
 
 	private boolean equiped;

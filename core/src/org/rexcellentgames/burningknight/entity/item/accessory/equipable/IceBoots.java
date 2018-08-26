@@ -12,13 +12,6 @@ public class IceBoots extends Equipable {
 	}
 
 	@Override
-	public void upgrade() {
-		this.owner.frostLevel -= this.level;
-		super.upgrade();
-		this.owner.frostLevel += this.level;
-	}
-
-	@Override
 	public void onUnequip() {
 		super.onUnequip();
 		this.owner.frostLevel -= this.level;

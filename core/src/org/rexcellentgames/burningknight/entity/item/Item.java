@@ -42,7 +42,6 @@ public class Item extends Entity {
   protected boolean auto = false;
   protected boolean fly = false;
   protected byte level = 1;
-  protected boolean canBeUpgraded;
   protected String useSpeedStr;
   public byte price = 15;
   public boolean sale;
@@ -60,7 +59,7 @@ public class Item extends Entity {
 	}
 
 	public boolean canBeUpgraded() {
-		return canBeUpgraded;
+		return false;
 	}
 
 	// todo: depend on quality

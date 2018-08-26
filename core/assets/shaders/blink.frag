@@ -5,6 +5,7 @@ precision mediump int;
 
 uniform float time;
 uniform float a;
+uniform float gray;
 uniform sampler2D u_texture;
 varying vec2 v_texCoord;
 varying vec4 v_color;
@@ -20,5 +21,5 @@ void main() {
 
     color.a = min(color.a, a);
 
-    gl_FragColor = color;
+    gl_FragColor = color * vec4(gray);
 }

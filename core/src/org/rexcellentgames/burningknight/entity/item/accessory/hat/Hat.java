@@ -14,6 +14,11 @@ public class Hat extends Accessory {
 	}
 
 	@Override
+	public boolean canBeUpgraded() {
+		return true;
+	}
+
+	@Override
 	public void use() {
 		super.use();
 
@@ -34,7 +39,7 @@ public class Hat extends Accessory {
 	public void onEquip() {
 		super.onEquip();
 
-		this.owner.modifyDefense(this.defense);
+		this.owner.modifyDefense(this.defense + this.level - 1);
 
 		if (this.owner instanceof Player) {
 			((Player) this.owner).setHat(this.skin);
@@ -45,7 +50,7 @@ public class Hat extends Accessory {
 	public void onUnequip() {
 		super.onUnequip();
 
-		this.owner.modifyDefense(-this.defense);
+		this.owner.modifyDefense(-this.defense - this.level + 1);
 
 		if (this.owner instanceof Player) {
 			((Player) this.owner).setHat("");
@@ -56,9 +61,9 @@ public class Hat extends Accessory {
 	public StringBuilder buildInfo() {
 		StringBuilder builder = super.buildInfo();
 
-		builder.append("\n");
-		builder.append(this.defense);
-		builder.append(" defense");
+		builder.append("\n[orange]");
+		builder.append(this.defense + this.level - 1);
+		builder.append(" defense[gray]");
 
 		return builder;
 	}

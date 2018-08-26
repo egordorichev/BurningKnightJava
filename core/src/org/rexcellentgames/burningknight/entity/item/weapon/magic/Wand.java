@@ -66,9 +66,9 @@ public class Wand extends WeaponBase {
 
 		builder.append("\n[blue]Uses ");
 		builder.append((int) this.mana);
-		builder.append(" mana[gray]\n");
+		builder.append(" mana[gray]\n[orange]");
 		builder.append(this.damage);
-		builder.append(" damage\n");
+		builder.append(" damage[gray]");
 
 		return builder;
 	}

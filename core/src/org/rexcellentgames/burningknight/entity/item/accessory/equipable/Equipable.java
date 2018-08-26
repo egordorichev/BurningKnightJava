@@ -16,4 +16,11 @@ public class Equipable extends Accessory {
 		super.setOwner(owner);
 		this.owner = owner;
 	}
+
+	@Override
+	public void upgrade() {
+		this.onUnequip();
+		super.upgrade();
+		this.onEquip();
+	}
 }

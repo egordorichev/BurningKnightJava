@@ -627,7 +627,7 @@
 	"find_secret_room_achievement" : "What a secret",
 	"find_secret_room_achievement_desc" : "Find a secret room",
 	"scroll_of_upgrade" : "Scroll of upgrade",
-	"scroll_of_upgrade_desc" : "Upgrade one of your items!",
+	"scroll_of_upgrade_desc" : "Upgrade one of your items!\nClick with it onto the item you want to upgrade!",
 	"upgrade_achievement" : "Time for an upgrade!",
 	"upgrade_achievement_desc" : "Upgrade one of your items!",
 	"ice_skates" : "Ice skates",

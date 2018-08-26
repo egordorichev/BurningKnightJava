@@ -34,6 +34,11 @@ public class WeaponBase extends Item {
 	public float initialCrit;
 
 	@Override
+	public boolean canBeUpgraded() {
+		return true;
+	}
+
+	@Override
 	public int getPrice() {
 		return 15;
 	}
