@@ -807,14 +807,21 @@ public class Player extends Creature {
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 		this.flipped = dx >= 0;
 
+		int i = Level.toIndex(Math.round((this.x) / 16), Math.round((this.y + this.h / 2) / 16));
+
 		if (this.burnLevel > 0) {
-			Dungeon.level.setOnFire(Level.toIndex(Math.round((this.x) / 16), Math.round((this.y) / 16)), true);
-			// todo: use the level
+			Dungeon.level.setOnFire(i, true);
 		}
 
 		if (this.frostLevel > 0) {
-			Dungeon.level.freeze(Level.toIndex(Math.round((this.x) / 16), Math.round((this.y + this.h / 2) / 16)));
-			// todo: use the level
+			Dungeon.level.freeze(i);
+
+			if (this.frostLevel >= 4) {
+				if (Dungeon.level.liquidData[i] == Terrain.LAVA) {
+					Dungeon.level.set(i, Terrain.ICE);
+					Dungeon.level.updateTile(Level.toX(i), Level.toY(i));
+				}
+			}
 		}
 	}
 

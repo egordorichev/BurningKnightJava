@@ -185,7 +185,7 @@ public class UiSlot {
 
 		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());
 
-		if (active instanceof ScrollOfUpgrade && self != null && self.canBeUpgraded()) {
+		if (active instanceof ScrollOfUpgrade && self != null && (self.canBeUpgraded() && self.getLevel() < self.getMaxLevel())) {
 			active.use();
 			self.upgrade();
 			return;
@@ -387,7 +387,7 @@ public class UiSlot {
 		if (item != null) {
 			float gray = 1;
 
-			if (upgrade && !item.canBeUpgraded() && !(item instanceof ScrollOfUpgrade)) {
+			if (upgrade && (!item.canBeUpgraded() || item.getLevel() >= item.getMaxLevel()) && !(item instanceof ScrollOfUpgrade)) {
 				gray = 0.6f;
 			}
 

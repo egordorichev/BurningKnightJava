@@ -4,12 +4,12 @@ public class IceSkates extends Equipable {
 	@Override
 	public void onEquip() {
 		super.onEquip();
-		this.owner.iceResitant = true;
+		this.owner.iceResitant += 1;
 	}
 
 	@Override
 	public void onUnequip() {
 		super.onUnequip();
-		this.owner.iceResitant = false;
+		this.owner.iceResitant -= 1;
 	}
 }

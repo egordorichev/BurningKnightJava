@@ -271,7 +271,7 @@ public class Creature extends SaveableEntity {
 
 		this.vel.mul(
 			(this.touches[Terrain.COBWEB] ? 0.3f :
-			(!iceResitant && this.touches[Terrain.ICE] ? 0.95f : this.mul))
+			(iceResitant == 0 && this.touches[Terrain.ICE] ? 0.95f : this.mul))
 		);
 
 		if (this.body != null && !ignorePos) {
@@ -333,7 +333,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void doVel() {
-		float fr = (iceResitant && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA] ? 0.35f : 1f));
+		float fr = (iceResitant > 0 && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA] ? 0.35f : 1f));
 		this.vel.x += this.acceleration.x * fr;
 		this.vel.y += this.acceleration.y * fr;
 	}
@@ -489,7 +489,7 @@ public class Creature extends SaveableEntity {
 		return touches[t];
 	}
 
-	public boolean iceResitant;
+	public byte iceResitant;
 
 	public float rollDefense() {
 		return 1;

@@ -80,7 +80,54 @@ public class WeaponBase extends Item {
 			return this.damage * (lastCrit ? 2 : 1);
 		}
 
-		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1)) + this.level - 1;
+	}
+
+	protected boolean penetrates;
+
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+
+		if (this.minDamage == -1) {
+			minDamage = Math.round(((float) damage) / 3 * 2);
+		}
+
+		builder.append("\n[orange]");
+
+		if (this.minDamage != this.damage) {
+			builder.append(this.minDamage + this.level - 1);
+			builder.append("-");
+		}
+
+		builder.append(this.damage + this.level - 1);
+		builder.append(" damage[gray]");
+
+		float stat = this.owner.getStat("crit_chance") * 10;
+
+		if (this.critChance + stat != 4f) {
+			builder.append("\n[orange]");
+			builder.append((int) Math.floor(this.critChance + stat));
+			builder.append("% crit chance[gray]");
+		}
+
+		if (this.modifier != null) {
+			this.modifier.apply(builder);
+		}
+
+		if (this.penetrates || this.owner.penetrates) {
+			builder.append("\n[green]Can hit multiple targets[gray]");
+		}
+
+		if (this.useSpeedStr == null) {
+			this.useSpeedStr = this.getUseSpeedAsString();
+		}
+
+		builder.append("\n[brown]");
+		builder.append(this.useSpeedStr);
+		builder.append("[gray]");
+
+		return builder;
 	}
 
 	public void modifyDamage(int am) {
@@ -178,21 +225,6 @@ public class WeaponBase extends Item {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
-	}
-
-	@Override
-	public StringBuilder buildInfo() {
-		StringBuilder builder = super.buildInfo();
-
-		if (this.useSpeedStr == null) {
-			this.useSpeedStr = this.getUseSpeedAsString();
-		}
-
-		builder.append("\n[white]");
-		builder.append(this.useSpeedStr);
-		builder.append("[gray]");
-
-		return builder;
 	}
 
 	private float t;

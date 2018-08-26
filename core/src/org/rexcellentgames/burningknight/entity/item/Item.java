@@ -50,6 +50,10 @@ public class Item extends Entity {
 		initStats();
   }
 
+  public int getMaxLevel() {
+  	return 11;
+  }
+
   public void upgrade() {
   	this.level ++;
   }

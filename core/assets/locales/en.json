@@ -646,6 +646,9 @@
 	"grass_seed_desc" : "So tiny, yet so powerful",
 	"ice_boots" : "Frost boots",
 	"ice_boots_desc" : "Ice provider",
+	"ice_immunity" : "Enchants movement on ice",
+	"lava_to_ice" : "Converts lava to ice",
+	"lava_immunity" : "Gives immunity to lava",
 	"fire_boots" : "Burning boots",
 	"fire_boots_desc" : "Always on-fire!"
 }

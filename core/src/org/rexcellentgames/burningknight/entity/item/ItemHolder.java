@@ -227,6 +227,7 @@ public class ItemHolder extends SaveableEntity {
 
 		WeaponBase.shader.begin();
 		WeaponBase.shader.setUniformf("a", 1);
+		WeaponBase.shader.setUniformf("gray", 1);
 		WeaponBase.shader.setUniformf("time", Dungeon.time + this.t);
 		WeaponBase.shader.end();
 		Graphics.batch.setShader(WeaponBase.shader);
