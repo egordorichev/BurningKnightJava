@@ -95,8 +95,10 @@ public class HeartFx extends SaveableEntity {
 				player.modifyHp(2, null);
 				this.end(player);
 
-				if (player.ui.hasEquipped(BlueHeart.class)) {
-					player.modifyMana(2);
+				BlueHeart heart = (BlueHeart) player.ui.getEquipped(BlueHeart.class);
+
+				if (heart != null) {
+					player.modifyMana(2 * heart.getLevel());
 				}
 
 				player.numCollectedHearts += this.type == Type.RED ? 2 : 1;
