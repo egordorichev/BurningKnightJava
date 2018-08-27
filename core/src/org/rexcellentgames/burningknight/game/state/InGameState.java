@@ -23,7 +23,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLeve
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.special.TreasureRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;

@@ -1,16 +1,12 @@
-package org.rexcellentgames.burningknight.entity.level.rooms.special;
+package org.rexcellentgames.burningknight.entity.level.rooms.treasure;
 
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
-import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class TreasureRoom extends LockedRoom {
+public class CornerlessTreasureRoom extends TreasureRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
@@ -32,27 +28,9 @@ public class TreasureRoom extends LockedRoom {
 			Painter.fillEllipse(level, this, 3, Random.chance(50) ? Terrain.FLOOR_D : Terrain.randomFloor());
 		}
 
-		Point center = this.getCenter();
-
-		if (Random.chance(Mimic.chance)) {
-			Mimic chest = new Mimic();
-
-			chest.x = center.x * 16;
-			chest.y = center.y * 16;
-
-			Dungeon.area.add(chest);
-			LevelSave.add(chest);
-		} else {
-			Chest chest = Chest.random();
-
-			chest.x = center.x * 16;
-			chest.y = center.y * 16;
-			chest.setItem(chest.generate());
-
-			Dungeon.area.add(chest);
-			LevelSave.add(chest);
-		}
+		placeChest(this.getCenter());
 	}
+
 
 	@Override
 	public boolean canConnect(Point p) {
