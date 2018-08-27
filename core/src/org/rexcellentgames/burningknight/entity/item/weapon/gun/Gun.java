@@ -150,14 +150,14 @@ public class Gun extends WeaponBase {
 
 	@Override
 	public void update(float dt) {
-		float cp = this.owner.getStat("ammo_capacity");
-
-		if (this.ammoLeft > this.ammoMax * cp) {
-			this.ammoLeft = (int) (this.ammoMax * cp);
-		}
-
 		if (this.owner != null) {
 			this.delay = Math.max(0, this.delay - dt * this.owner.getStat("gun_use_time"));
+
+			float cp = this.owner.getStat("ammo_capacity");
+
+			if (this.ammoLeft > this.ammoMax * cp) {
+				this.ammoLeft = (int) (this.ammoMax * cp);
+			}
 		}
 	}
 

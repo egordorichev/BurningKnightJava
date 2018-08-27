@@ -966,7 +966,11 @@ public class Player extends Creature {
 			v *= 2;
 		}
 
-		return ((pauseMore && this.vel.len() < 1f) ? v * 1.5f : v) * damageModifier * this.getStat("damage");
+		return v * getDamageModifier();
+	}
+
+	public float getDamageModifier() {
+		return  ((pauseMore && this.vel.len() < 1f) ? 1.5f : 1) * damageModifier * this.getStat("damage") * (this.touches[Terrain.WATER] ? 0.5f : 1f);
 	}
 
 	public boolean cutCobweb;

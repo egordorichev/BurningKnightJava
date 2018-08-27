@@ -201,10 +201,11 @@ public class UiSlot {
 			this.inventory.setCurrentSlot(null);
 		} else if (canAccept(this.id, current) || current == null) {
 			if (this.id > 5 && current != null) {
-				for (int i = 5; i < this.inventory.getInventory().getSize(); i++) {
+				for (int i = 6; i < 12; i++) {
 					Item sl = this.inventory.getInventory().getSlot(i);
 
 					if (sl != null && sl.getClass().isInstance(current)) {
+						Audio.playSfx("item_nocash");
 						return;
 					}
 				}
