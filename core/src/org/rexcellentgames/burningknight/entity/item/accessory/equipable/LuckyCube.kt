@@ -22,6 +22,10 @@ class LuckyCube : Equipable() {
 		this.owner.luckDamage = false
 	}
 
+	override fun getMaxLevel(): Int {
+		return 15
+	}
+
 	override fun getDescription(): String {
 		return super.getDescription().replace("{CHANCE}", chance.toInt().toString())
 	}
