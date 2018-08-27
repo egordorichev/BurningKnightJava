@@ -171,11 +171,11 @@ public class ShopRoom extends LockedRoom {
 		placeItems(items);
 	}
 
-	private Pool<Item> getAccessoryPool() {
+	public static Pool<Item> getAccessoryPool() {
 		Pool<Item> pool = new Pool<>();
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (Accessory.class.isAssignableFrom(item.getType()) && Achievements.unlocked(item.getUnlock())) {
+			if (Accessory.class.isAssignableFrom(item.getType()) && Achievements.unlocked(item.getUnlock()) && Player.instance.getInventory().findItem(item.getType()) == null) {
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
 						item.getMage() * Player.instance.getMage() +
@@ -187,11 +187,11 @@ public class ShopRoom extends LockedRoom {
 		return pool;
 	}
 
-	private Pool<Item> getWeaponPool() {
+	public static Pool<Item> getWeaponPool() {
 		Pool<Item> pool = new Pool<>();
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (WeaponBase.class.isAssignableFrom(item.getType()) && Achievements.unlocked(item.getUnlock())) {
+			if (WeaponBase.class.isAssignableFrom(item.getType()) && Achievements.unlocked(item.getUnlock()) && Player.instance.getInventory().findItem(item.getType()) == null) {
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
 						item.getMage() * Player.instance.getMage() +
