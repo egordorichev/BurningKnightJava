@@ -12,7 +12,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ShopSale;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.ShopSale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;

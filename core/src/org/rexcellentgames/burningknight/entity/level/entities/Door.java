@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Lootpick;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.level.Level;

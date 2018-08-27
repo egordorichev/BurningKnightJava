@@ -9,7 +9,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -81,6 +81,7 @@ public class UiInventory extends UiEntity {
 
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
+					((Accessory) current).equipped = true;
 					((Accessory) current).onEquip(true);
 
 					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
@@ -104,6 +105,7 @@ public class UiInventory extends UiEntity {
 			Item current = this.inventory.getSlot(i);
 
 			if (current instanceof Accessory) {
+				((Accessory) current).equipped = false;
 				((Accessory) current).onUnequip(true);
 			}
 		}
@@ -598,16 +600,16 @@ public class UiInventory extends UiEntity {
 
 	public UiBuff hoveredBuff;
 
-	public boolean hasEquipped(Class<? extends Equipable> type) {
+	public boolean hasEquipped(Class<? extends Equippable> type) {
 		return getEquipped(type) != null;
 	}
 
-	public Equipable getEquipped(Class<? extends Equipable> type) {
+	public Equippable getEquipped(Class<? extends Equippable> type) {
 		for (int i = 6; i < this.inventory.getSize(); i++) {
 			Item it = this.inventory.getSlot(i);
 
 			if (type.isInstance(it)) {
-				return (Equipable) it;
+				return (Equippable) it;
 			}
 		}
 

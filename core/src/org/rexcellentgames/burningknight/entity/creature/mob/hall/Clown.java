@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ProtectiveBand;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.ProtectiveBand;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.UshankaHat;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;

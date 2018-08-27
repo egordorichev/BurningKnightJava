@@ -31,7 +31,7 @@ import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;

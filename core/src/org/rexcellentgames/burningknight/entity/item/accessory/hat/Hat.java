@@ -29,10 +29,13 @@ public class Hat extends Accessory {
 		ui.getInventory().setSlot(ui.getActive(), item);
 
 		if (item != null) {
+			((Accessory) item).equipped = false;
 			((Accessory) item).onUnequip(false);
 		}
 
-		((Accessory) ui.getInventory().getSlot(6)).onEquip(false);
+		Accessory ac = ((Accessory) ui.getInventory().getSlot(6));
+		ac.onEquip(false);
+		ac.equipped = true;
 	}
 
 	@Override

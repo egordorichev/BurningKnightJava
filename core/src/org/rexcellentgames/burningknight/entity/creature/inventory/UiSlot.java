@@ -9,7 +9,7 @@ import org.rexcellentgames.burningknight.entity.fx.UpgradeFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
@@ -228,11 +228,13 @@ public class UiSlot {
 
 			if (this.id > 5) {
 				if (self instanceof Accessory) {
+					((Accessory) self).equipped = false;
 					((Accessory) self).onUnequip(false);
 				}
 
 				if (current instanceof Accessory) {
 					current.setOwner(Player.instance);
+					((Accessory) current).equipped = true;
 					((Accessory) current).onEquip(false);
 					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
@@ -289,7 +291,7 @@ public class UiSlot {
 		} else if (id == 11) {
 			return item instanceof Gold;
 		} else if (id > 6 && id < 12) {
-			return item instanceof Equipable;
+			return item instanceof Equippable;
 		}
 
 		return true;

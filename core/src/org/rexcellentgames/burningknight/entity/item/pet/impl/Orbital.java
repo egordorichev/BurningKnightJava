@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.pet.impl;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.physics.World;
@@ -19,12 +18,18 @@ public class Orbital extends PetEntity {
 	private Body body;
 	private float a;
 
+	public static float orbitalTime;
+
+	public static void updateTime(float dt) {
+		orbitalTime += dt * speed;
+	}
+
 	{
 		noTp = false;
 	}
 
 	private void setPos() {
-		this.a = (float) (((float) id) / (count) * Math.PI * 2 + Dungeon.time * speed);
+		this.a = (float) (((float) id) / (count) * Math.PI * 2 + orbitalTime);
 		float d = 28f; //  + (float) Math.cos(Dungeon.time * 2f) * 4f;
 
 		this.x = this.owner.orbitalRing.x + (float) Math.cos(a) * d;

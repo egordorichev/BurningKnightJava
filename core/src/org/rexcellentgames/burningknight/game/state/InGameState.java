@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
@@ -270,6 +271,8 @@ public class InGameState extends State {
 		if (isPaused()) {
 			Camera.instance.update(dt);
 		}
+
+		Orbital.updateTime(dt);
 
 		if (Player.instance.room != null) {
 			for (int x = Player.instance.room.left; x <= Player.instance.room.right; x++) {

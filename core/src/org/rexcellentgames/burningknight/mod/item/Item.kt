@@ -2,7 +2,7 @@ package org.rexcellentgames.burningknight.mod.item
 
 import org.luaj.vm2.LuaTable
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.Equipable
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon
 
@@ -28,7 +28,7 @@ class Item(private val modId: String) {
 
 		item = when (type) {
 			ItemType.ITEM -> org.rexcellentgames.burningknight.entity.item.Item()
-			ItemType.EQUIPABLE -> Equipable()
+			ItemType.EQUIPABLE -> Equippable()
 			ItemType.WEAPON -> Weapon()
 			ItemType.CONSUMABLE -> Consumable()
 		}

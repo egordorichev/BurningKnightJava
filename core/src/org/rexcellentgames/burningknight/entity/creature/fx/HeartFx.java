@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Spark;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlueHeart;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.BlueHeart;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;

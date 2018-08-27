@@ -1,6 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item
 
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
 import org.rexcellentgames.burningknight.entity.item.autouse.Backpack
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map

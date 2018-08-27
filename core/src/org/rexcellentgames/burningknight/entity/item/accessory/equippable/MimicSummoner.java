@@ -1,0 +1,26 @@
+package org.rexcellentgames.burningknight.entity.item.accessory.equippable;
+
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
+
+public class MimicSummoner extends Equippable {
+	{
+		sprite = "item-mimic_summoner";
+	}
+
+	@Override
+	public void onEquip(boolean load) {
+		super.onEquip(load);
+		Mimic.chance += 100;
+
+		for (Chest chest : Chest.all) {
+			chest.toMimic();
+		}
+	}
+
+	@Override
+	public void onUnequip(boolean load) {
+		super.onUnequip(load);
+		Mimic.chance -= 100;
+	}
+}
