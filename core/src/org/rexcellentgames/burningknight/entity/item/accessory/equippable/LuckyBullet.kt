@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
 class LuckyBullet : Equippable() {
-
 	val chance: Float
 		get() = this.level * 10f
 
@@ -16,6 +15,10 @@ class LuckyBullet : Equippable() {
 	}
 
 	override fun getDescription(): String {
-		return super.getDescription().replace("{PERCENT}", chance)
+		return super.getDescription().replace("{PERCENT}", chance.toInt().toString())
+	}
+
+	override fun getMaxLevel(): Int {
+		return 5
 	}
 }

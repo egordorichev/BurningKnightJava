@@ -1029,8 +1029,10 @@ public class Player extends Creature {
 
 	@Override
 	public boolean rollBlock() {
-		if (Random.chance(50) && this.ui.hasEquipped(ManaShield.class) && this.mana >= 2) {
-			this.modifyMana(-2);
+		ManaShield shield = (ManaShield) this.ui.getEquipped(ManaShield.class);
+
+		if (shield != null && this.mana >= shield.getCost() && Random.chance(shield.getChance()) && this.mana >= 2) {
+			this.modifyMana((int) -shield.getCost());
 			return true;
 		}
 
