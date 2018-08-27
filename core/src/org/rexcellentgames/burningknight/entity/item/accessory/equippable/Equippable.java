@@ -29,4 +29,10 @@ public class Equippable extends Accessory {
 			this.onEquip(false);
 		}
 	}
+
+	// todo: use == quick equip, if you have inventory space
+	@Override
+	public boolean canBeUsed() {
+		return true;
+	}
 }
