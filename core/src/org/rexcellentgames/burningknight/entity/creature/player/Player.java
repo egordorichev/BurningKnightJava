@@ -31,9 +31,7 @@ import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.BlackHeart;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ClockHeart;
-import org.rexcellentgames.burningknight.entity.item.accessory.equipable.ManaShield;
+import org.rexcellentgames.burningknight.entity.item.accessory.equipable.*;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
@@ -939,7 +937,7 @@ public class Player extends Creature {
 		}
 
 		if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
-			this.modifyHp(2, null);
+			this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
 		}
 
 		if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
@@ -961,7 +959,7 @@ public class Player extends Creature {
 		float v;
 
 		if (luckDamage) {
-			if (Random.chance(60)) {
+			if (Random.chance(((LuckyCube) this.inventory.findItem(LuckyCube.class)).getChance())) {
 				v = 2;
 			} else {
 				v = 0.5f;
@@ -988,7 +986,7 @@ public class Player extends Creature {
 		float v;
 
 		if (luckDefense) {
-			if (Random.chance(60)) {
+			if (Random.chance(((FortuneArmor) this.inventory.findItem(FortuneArmor.class)).getChance())) {
 				v = 2;
 			} else {
 				v = 0.5f;

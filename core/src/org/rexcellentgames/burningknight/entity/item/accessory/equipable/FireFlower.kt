@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
 import org.rexcellentgames.burningknight.assets.Locale
-import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class FireFlower : Equipable() {
 	init {
@@ -14,17 +13,15 @@ class FireFlower : Equipable() {
 
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
-
-		if (this.owner is Player) {
-			(this.owner as Player).burnChance += 100f
-		}
+		this.owner.burnChance += 100f
 	}
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
+		this.owner.burnChance -= 100f
+	}
 
-		if (this.owner is Player) {
-			(this.owner as Player).burnChance -= 100f
-		}
+	override fun canBeUpgraded(): Boolean {
+		return false
 	}
 }

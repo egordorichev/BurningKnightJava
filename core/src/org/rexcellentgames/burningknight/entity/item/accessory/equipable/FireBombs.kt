@@ -2,24 +2,24 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equipable
 
 import org.rexcellentgames.burningknight.assets.Locale
 
-class DewVial : Equipable() {
+class FireBombs : Equipable() {
 	init {
-		name = Locale.get("dew_vial")
-		description = Locale.get("dew_vial_desc")
-		sprite = "item-dew_vial"
+		name = Locale.get("fire_bombs")
+		description = Locale.get("fire_bombs_desc")
+		sprite = "item-fire_bomb"
 	}
 
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
-		this.owner.healOnEnter = true
+		this.owner.fireBombs = true
 	}
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
-		this.owner.healOnEnter = false
+		this.owner.fireBombs = false
 	}
 
-	override fun getMaxLevel(): Int {
-		return 6
+	override fun canBeUpgraded(): Boolean {
+		return false
 	}
 }
