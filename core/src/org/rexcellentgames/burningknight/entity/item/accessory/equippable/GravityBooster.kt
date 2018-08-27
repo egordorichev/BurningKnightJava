@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
 import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital
-import org.rexcellentgames.burningknight.util.Log
 
 class GravityBooster : Equippable() {
 	init {
