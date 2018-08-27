@@ -13,18 +13,12 @@ public class StoneHeartRune extends Equippable {
 	@Override
 	public void onEquip(boolean load) {
 		super.onEquip(load);
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lowHealthDefense = true;
-		}
+		this.owner.lowHealthDefense = true;
 	}
 
 	@Override
 	public void onUnequip(boolean load) {
 		super.onUnequip(load);
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lowHealthDefense = false;
-		}
+		this.owner.lowHealthDefense = false;
 	}
 }
