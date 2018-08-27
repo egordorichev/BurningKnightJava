@@ -195,7 +195,7 @@ public class UiInventory extends UiEntity {
 			return;
 		}
 
-		depth = 10;
+		depth = 1;
 
 		if (Dungeon.game.getState().isPaused() || Dialog.active != null || toRemove) {
 			return;

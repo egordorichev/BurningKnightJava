@@ -210,9 +210,6 @@ public class Terrain {
 
 		patterns[DIRT] = dirtPattern;
 		patterns[GRASS] = grassPattern;
-		patterns[WATER] = waterPattern;
-		patterns[VENOM] = venomPattern;
-		patterns[LAVA] = lavaPattern;
 		patterns[WALL] = wallPattern;
 		patterns[CRACK] = crackPattern;
 

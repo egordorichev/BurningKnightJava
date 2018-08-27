@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -477,6 +478,10 @@ public class Mob extends Creature {
 			items.add(gold);
 		}
 
+		if (Random.chance(5)) {
+			items.add(new KeyB());
+		}
+
 		return items;
 	}
 
@@ -506,6 +511,16 @@ public class Mob extends Creature {
 		}
 
 		super.die(force);
+
+		for (int i = Mob.all.size() - 1; i >= 0; i--) {
+			Mob mob = Mob.all.get(i);
+
+			if (mob.getRoom() == this.room) {
+				return;
+			}
+		}
+
+		// room cleared
 	}
 
 	@Override

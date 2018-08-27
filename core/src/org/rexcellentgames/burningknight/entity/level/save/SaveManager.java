@@ -21,6 +21,7 @@ public class SaveManager {
 
 	public static final String SAVE_DIR = ".burningknight/";
 	public static int slot = 0;
+	public static final byte version = 0;
 
 	public static String getDir() {
 		return getDir(slot);
@@ -58,6 +59,7 @@ public class SaveManager {
 
 		try {
 			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
+			stream.writeByte(version);
 
 			switch (type) {
 				case LEVEL: LevelSave.save(stream); break;
@@ -91,6 +93,15 @@ public class SaveManager {
 			Log.info("Loading " + type + " " + Dungeon.depth);
 
 			FileReader stream = new FileReader(save.file().getAbsolutePath());
+
+			byte v = stream.readByte();
+
+			if (v < version) {
+				Log.error("Old save version! TODO: patch versions");
+				stream.close();
+				generate(type);
+				return;
+			}
 
 			switch (type) {
 				case LEVEL: LevelSave.load(stream); break;

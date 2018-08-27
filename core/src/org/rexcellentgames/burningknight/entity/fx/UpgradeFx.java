@@ -17,6 +17,12 @@ public class UpgradeFx extends Entity {
 	private float speed;
 	private float grow;
 
+	{
+		depth = 2;
+		alwaysRender = true;
+		alwaysActive = true;
+	}
+
 	@Override
 	public void init() {
 		super.init();

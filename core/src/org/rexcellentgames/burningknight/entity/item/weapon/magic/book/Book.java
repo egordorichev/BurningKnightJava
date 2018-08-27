@@ -79,8 +79,6 @@ public class Book extends Wand {
 			}
 		});
 
-		// todo: fix
-
 		float xx = this.owner.x + this.owner.w / 2 +
 			(this.owner.isFlipped() ? 0 : this.owner.w / 4);
 

@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.UpgradeFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
@@ -16,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiSlot {
@@ -192,6 +194,16 @@ public class UiSlot {
 		if (active instanceof ScrollOfUpgrade && self != null && (self.canBeUpgraded() && self.getLevel() < self.getMaxLevel())) {
 			active.use();
 			self.upgrade();
+
+			for (int i = 0; i < 10; i++) {
+				UpgradeFx fx = new UpgradeFx();
+
+				fx.x = Random.newFloat(16) - 8 + Input.instance.uiMouse.x;
+				fx.y = Random.newFloat(16) - 8 + Input.instance.uiMouse.y;
+
+				Dungeon.ui.add(fx);
+			}
+
 			return;
 		}
 

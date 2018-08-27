@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.*;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
@@ -206,6 +207,10 @@ public abstract class RegularLevel extends Level {
 				this.itemsToSpawn.clear();
 			}
 		} while (this.rooms == null);
+
+		if (Dungeon.depth > 0) {
+			itemsToSpawn.add(new ScrollOfUpgrade());
+		}
 	}
 
 	protected ArrayList<Room> createRooms() {
