@@ -1,13 +1,13 @@
 {
 	"Gobbeon": 100,
 	"Born to do rogueries" : 100,
-	"Fatiga" : 100,
+	"Fatiga" : 160,
 	"Rogue" : 100,
-	"Reckless" : 100,
-	"Believer" : 100,
-	"Burning Knight" : 100,
-	"Pirate bay" : 100,
-	"Cursed legend" : 100,
-	"Outsider" : 100,
+	"Reckless" : 160,
+	"Believer" : 180,
+	"Burning Knight" : 160,
+	"Pirate bay" : 130,
+	"Cursed legend" : 120,
+	"Outsider" : 120,
 	"Nostalgia" : 100
 }
