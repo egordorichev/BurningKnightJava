@@ -30,9 +30,34 @@ public class Equippable extends Accessory {
 		}
 	}
 
-	// todo: use == quick equip, if you have inventory space
+	@Override
+	public boolean isUseable() {
+		return true;
+	}
+
 	@Override
 	public boolean canBeUsed() {
-		return true;
+		for (int i = 7; i < 11; i++) {
+			if (Player.instance.getInventory().getSlot(i) == null) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public void use() {
+		super.use();
+
+		Player.instance.getInventory().setSlot(Player.instance.getInventory().active, null);
+
+		for (int i = 7; i < 11; i++) {
+			if (Player.instance.getInventory().getSlot(i) == null) {
+				Player.instance.getInventory().setSlot(i, this);
+				this.onEquip(false);
+				return;
+			}
+		}
 	}
 }
