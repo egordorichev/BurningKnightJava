@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Wand extends WeaponBase {
@@ -33,8 +34,11 @@ public class Wand extends WeaponBase {
 
 		TextureRegion s = this.getSprite();
 
-		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false);
+		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false, sx, sy);
 	}
+
+	private float sy = 1;
+	private float sx = 1;
 
 	@Override
 	public void use() {
@@ -47,6 +51,33 @@ public class Wand extends WeaponBase {
 		super.use();
 		this.owner.modifyMana(-mn);
 		this.sendProjectiles();
+
+		sx = 2f;
+		sy = 0.5f;
+
+		Tween.to(new Tween.Task(1f, 0.2f) {
+			@Override
+			public float getValue() {
+				return sy;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
+		});
+
+		Tween.to(new Tween.Task(1f, 0.2f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
+		});
 	}
 
 	protected void sendProjectiles() {
@@ -54,8 +85,11 @@ public class Wand extends WeaponBase {
 		float h = this.region.getRegionHeight();
 		double an = this.lastAngle + Math.PI / 2;
 
+		this.owner.vel.x -= Math.cos(an) * 40f;
+		this.owner.vel.y -= Math.sin(an) * 40f;
+
 		this.spawnProjectile(this.owner.x + this.owner.w / 2 + h * (float) Math.cos(an),
-			this.owner.y + this.owner.h / 2 + h * (float) Math.sin(an), a + 90);
+			this.owner.y + this.owner.h / 4 + h * (float) Math.sin(an), a + 90);
 	}
 
 	public void spawnProjectile(float x, float y, float a) {
