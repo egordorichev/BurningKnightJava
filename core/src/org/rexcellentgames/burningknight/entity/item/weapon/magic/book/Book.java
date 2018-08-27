@@ -84,7 +84,7 @@ public class Book extends Wand {
 		float xx = this.owner.x + this.owner.w / 2 +
 			(this.owner.isFlipped() ? 0 : this.owner.w / 4);
 
-		float yy = this.owner.y + this.owner.h / 2;
+		float yy = this.owner.y + this.owner.h / 4;
 
 		double a = Math.toRadians(angle);
 

@@ -1,6 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item.consumable.scroll;
 
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.fx.UpgradeFx;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.util.Random;
 
 public class ScrollOfUpgrade extends Scroll {
 	{
@@ -13,6 +16,15 @@ public class ScrollOfUpgrade extends Scroll {
 		super.use();
 
 		Achievements.unlock(Achievements.UPGRADE);
+
+		for (int i = 0; i < 10; i++) {
+			UpgradeFx fx = new UpgradeFx();
+
+			fx.x = Random.newFloat(this.owner.w) + this.owner.x;
+			fx.y = Random.newFloat(this.owner.h) + this.owner.y + this.owner.h / 2;
+
+			Dungeon.area.add(fx);
+		}
 	}
 
 	@Override
