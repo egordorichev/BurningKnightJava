@@ -26,7 +26,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.key.KeyB;
+import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -479,7 +479,7 @@ public class Mob extends Creature {
 		}
 
 		if (Random.chance(5)) {
-			items.add(new KeyB());
+			items.add(new KeyC());
 		}
 
 		return items;

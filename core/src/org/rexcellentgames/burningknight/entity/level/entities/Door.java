@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -203,7 +204,7 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity instanceof Creature && !((Creature) entity).flying) {
+		if (entity instanceof Creature && !(entity instanceof Boss)) {
 			if (((Creature) entity).hasBuff(BurningBuff.class)) {
 				this.burning = true;
 			} else if (this.burning) {

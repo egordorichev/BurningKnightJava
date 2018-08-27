@@ -1505,6 +1505,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public static boolean matchesFlag(byte b, int flag) {
+		if (b < 0) {
+			return false;
+		}
+
 		return (Terrain.flags[b] & flag) == flag;
 	}
 
