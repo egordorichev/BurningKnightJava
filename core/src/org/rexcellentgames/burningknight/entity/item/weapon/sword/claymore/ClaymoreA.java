@@ -20,6 +20,7 @@ public class ClaymoreA extends Sword {
 			return;
 		}
 
+		this.delay = this.useTime;
 		this.owner.playSfx(this.getSfx());
 
 		this.animation.setPaused(false);

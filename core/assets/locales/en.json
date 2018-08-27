@@ -485,7 +485,7 @@
 	"book_of_crash" : "Book of crash",
 	"book_of_crash_desc" : "Poor GPU...",
 	"demage_emblem" : "Demage emblem",
-	"demage_emblem_desc" : "+20% defense, +20% damage",
+	"demage_emblem_desc" : "+{PERCENT}% to defense, +{PERCENT}% to damage",
 	"apple" : "Apple",
 	"apple_desc" : "An apple a day keeps the doctor away!",
 	"mana_in_a_bottle" : "Mana in a bottle",
