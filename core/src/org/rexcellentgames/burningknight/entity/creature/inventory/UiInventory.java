@@ -455,6 +455,7 @@ public class UiInventory extends UiEntity {
 	private static TextureRegion star = Graphics.getTexture("ui-mana_star");
 	private static TextureRegion star_bg = Graphics.getTexture("ui-star_bg");
 	private static TextureRegion halfStar = Graphics.getTexture("ui-half_star");
+	private static TextureRegion defense = Graphics.getTexture("ui-defense");
 
 	@Override
 	public void render() {
@@ -565,8 +566,6 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		// todo: gold, half a heart wont display (iron) :x
-
 		/*UiBuff[] buffs = Player.instance.uiBuffs.toArray(new UiBuff[]{});
 
 		for (int i = 0; i < buffs.length; i++) {
@@ -580,6 +579,18 @@ public class UiInventory extends UiEntity {
 
 		if (this.al > 0) {
 			this.slots[11].renderItem(this.inventory.getSlot(11), 6 * 29 + 4, 4, this.al);
+		}
+
+		if (this.slots[6].y > 4) {
+			float dx = 6 * 29 + 4 + 4;
+			float dy = this.slots[6].y - 29 + 4;
+
+			Graphics.render(defense, dx, dy);
+			int d = Player.instance.getDefense();
+			String s = String.valueOf(d);
+
+			Graphics.layout.setText(Graphics.small, s);
+			Graphics.print(s, Graphics.small, dx + (defense.getRegionWidth() - Graphics.layout.width) / 2, dy + (defense.getRegionHeight() - Graphics.layout.height) / 2);
 		}
 	}
 
