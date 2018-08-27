@@ -833,9 +833,16 @@ public class Player extends Creature {
 		return this.manaMax;
 	}
 
+	public byte flight;
+
+	@Override
+	public boolean isFlying() {
+		return flight > 0;
+	}
+
 	@Override
 	protected void onTouch(short t, int x, int y, byte info) {
-		if (t == Terrain.WATER && !this.flying) {
+		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;
 				GlobalSave.put("num_fire_out", num);
@@ -856,7 +863,7 @@ public class Player extends Creature {
 				this.addBuff(new BurningBuff());
 			}
 
-			if (t == Terrain.LAVA && !this.flying && this.lavaResist == 0) {
+			if (t == Terrain.LAVA && !this.isFlying() && this.lavaResist == 0) {
 				this.modifyHp(-1, null, true);
 
 				if (this.isDead()) {

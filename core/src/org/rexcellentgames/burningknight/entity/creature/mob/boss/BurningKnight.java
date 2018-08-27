@@ -62,7 +62,7 @@ public class BurningKnight extends Boss {
 		alwaysActive = true;
 		speed = 2;
 		maxSpeed = 100;
-		flying = true;
+		setFlying(true);
 
 		idle = animations.get("idle");
 		hurt = animations.get("hurt");

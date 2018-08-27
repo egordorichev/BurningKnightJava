@@ -254,7 +254,7 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void onCollisionEnd(Entity entity) {
-		if (entity instanceof Creature && !((Creature) entity).flying) {
+		if (entity instanceof Creature && !((Creature) entity).isFlying()) {
 			if (this.lock) {
 				return;
 			}

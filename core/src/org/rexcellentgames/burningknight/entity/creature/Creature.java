@@ -55,7 +55,7 @@ public class Creature extends SaveableEntity {
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
-	public boolean flying = false;
+	private boolean flying = false;
 	public boolean penetrates;
 	public boolean explosionBlock;
 	public boolean freezed;
@@ -756,5 +756,9 @@ public class Creature extends SaveableEntity {
 		}
 
 		return super.shouldCollide(entity, contact, fixture);
+	}
+
+	public void setFlying(boolean flying) {
+		this.flying = flying;
 	}
 }

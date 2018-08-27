@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class ObsidianBoots extends Equippable {
 	{
@@ -13,18 +12,17 @@ public class ObsidianBoots extends Equippable {
 	@Override
 	public void onEquip(boolean load) {
 		super.onEquip(load);
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lavaResist += 1;
-		}
+		this.owner.lavaResist += 1;
 	}
 
 	@Override
 	public void onUnequip(boolean load) {
 		super.onUnequip(load);
+		this.owner.lavaResist -= 1;
+	}
 
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lavaResist -= 1;
-		}
+	@Override
+	public boolean canBeUpgraded() {
+		return false;
 	}
 }

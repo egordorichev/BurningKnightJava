@@ -4,12 +4,17 @@ public class RedBalloon extends Equippable {
 	@Override
 	public void onEquip(boolean load) {
 		super.onEquip(load);
-		this.owner.flying = true;
+		this.owner.flight += 1;
 	}
 
 	@Override
 	public void onUnequip(boolean load) {
 		super.onUnequip(load);
-		this.owner.flying = false;
+		this.owner.flight -= 1;
+	}
+
+	@Override
+	public boolean canBeUpgraded() {
+		return false;
 	}
 }

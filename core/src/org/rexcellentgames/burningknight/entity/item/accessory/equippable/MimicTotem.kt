@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
+import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic
 
 class MimicTotem : Equippable() {
@@ -36,6 +37,12 @@ class MimicTotem : Equippable() {
 	}
 
 	override fun getDescription(): String {
-		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
+		var d = super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
+		d = d.replace("{ALMOST}", if (getChance() < 100f) almost else "")
+		return d
+	}
+
+	companion object {
+		val almost = " (" + Locale.get("almost") + ")"
 	}
 }

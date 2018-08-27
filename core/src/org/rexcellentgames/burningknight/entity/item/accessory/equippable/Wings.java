@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class Wings extends Equippable {
 	{
@@ -13,18 +12,17 @@ public class Wings extends Equippable {
 	@Override
 	public void onEquip(boolean load) {
 		super.onEquip(load);
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).flying = true;
-		}
+		this.owner.flight += 1;
 	}
 
 	@Override
 	public void onUnequip(boolean load) {
 		super.onUnequip(load);
+		this.owner.flight -= 1;
+	}
 
-		if (this.owner instanceof Player) {
-			((Player) this.owner).flying = false;
-		}
+	@Override
+	public boolean canBeUpgraded() {
+		return false;
 	}
 }

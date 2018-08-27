@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
-import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic
 import org.rexcellentgames.burningknight.util.Random
@@ -41,13 +40,6 @@ class MimicSummoner : Equippable() {
 	}
 
 	override fun getDescription(): String {
-		var d = super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
-
-		d = d.replace("{ALMOST}", if (getChance() < 100f) almost else "")
-		return d;
-	}
-
-	companion object {
-		val almost = " " + Locale.get("almost")
+		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
 	}
 }

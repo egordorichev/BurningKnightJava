@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable;
 
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class RedBook extends Equippable {
 	{
@@ -13,18 +12,23 @@ public class RedBook extends Equippable {
 	@Override
 	public void onEquip(boolean load) {
 		super.onEquip(load);
-
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lifeRegenRegensMana = true;
-		}
+		this.owner.lifeRegenRegensMana = true;
+		this.owner.regen += this.getRegen();
 	}
 
 	@Override
 	public void onUnequip(boolean load) {
 		super.onUnequip(load);
+		this.owner.lifeRegenRegensMana = false;
+		this.owner.regen -= this.getRegen();
+	}
 
-		if (this.owner instanceof Player) {
-			((Player) this.owner).lifeRegenRegensMana = false;
-		}
+	private float getRegen() {
+		return this.level * 4;
+	}
+
+	@Override
+	public int getMaxLevel() {
+		return 4;
 	}
 }
