@@ -276,6 +276,9 @@ public abstract class Level extends SaveableEntity {
 				this.tile(xx, yy, false);
 			}
 		}
+
+		int i = toIndex(x, y);
+		this.passable[i] = this.checkFor(i, Terrain.PASSABLE);
 	}
 
 	public void tile(int x, int y) {
@@ -468,7 +471,7 @@ public abstract class Level extends SaveableEntity {
 				return true;
 			}
 
-			if ((tile == Terrain.WATER || tile == Terrain.ICE) && (tt == Terrain.WATER || tt == Terrain.ICE)) {
+			if ((tile == Terrain.WATER || tile == Terrain.VENOM || tile == Terrain.ICE) && (tt == Terrain.WATER || tt == Terrain.VENOM || tt == Terrain.ICE)) {
 				return true;
 			}
 
@@ -670,7 +673,7 @@ public abstract class Level extends SaveableEntity {
 		byte t = this.get(i);
 		byte l = this.liquidData[i];
 
-		if (l == Terrain.WATER) {
+		if (l == Terrain.WATER || l == Terrain.VENOM) {
 			this.liquidData[i] = Terrain.ICE;
 		}
 	}
@@ -745,8 +748,9 @@ public abstract class Level extends SaveableEntity {
 							if (damage >= 1) {
 								for (int j : PathFinder.NEIGHBOURS8) {
 									int k = j + i;
+									byte tt = this.liquidData[k];
 
-									if (this.liquidData[k] == Terrain.WATER) {
+									if (tt == Terrain.WATER || tt == Terrain.VENOM) {
 										this.set(k, Terrain.ICE);
 										this.updateTile(toX(k), toY(k));
 									}
@@ -775,13 +779,33 @@ public abstract class Level extends SaveableEntity {
 							int k = j + i;
 							byte l = this.liquidData[k];
 
-							if (l == Terrain.WATER) {
+							if (l == Terrain.WATER || l == Terrain.VENOM) {
 								this.liquidData[k] = Terrain.OBSIDIAN;
 								this.updateTile(toX(k), toY(k));
 							} else if (l == Terrain.ICE) {
 								this.liquidData[k] = Terrain.WATER;
 								this.updateTile(toX(k), toY(k));
 							}
+						}
+					} else if (t == Terrain.VENOM) {
+						if (!burning) {
+							int damage = BitHelper.getNumber(info, 1, 4);
+
+							if (damage >= 1) {
+								for (int j : PathFinder.NEIGHBOURS8) {
+									int k = j + i;
+									byte tt = this.liquidData[k];
+
+									if (tt == Terrain.WATER) {
+										this.set(k, Terrain.VENOM);
+										this.updateTile(toX(k), toY(k));
+									}
+								}
+							} else {
+								damage ++;
+							}
+
+							this.info[i] = (byte) BitHelper.putNumber(info, 1, 4, damage);
 						}
 					}
 				}
@@ -1071,6 +1095,8 @@ public abstract class Level extends SaveableEntity {
 					drawWith(Terrain.waterPattern, Terrain.pooledge, i, x, y, true);
 				} else if (tile == Terrain.LAVA) {
 					drawWith(Terrain.lavaPattern, Terrain.lavaedge, i, x, y, true);
+				} else if (tile == Terrain.VENOM) {
+					drawWith(Terrain.venomPattern, Terrain.pooledge, i, x, y, true);
 				}
 			}
 		}

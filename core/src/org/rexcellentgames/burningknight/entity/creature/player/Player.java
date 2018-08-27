@@ -847,6 +847,10 @@ public class Player extends Creature {
 				}
 			}
 
+			if (this.leaveVenom > 0) {
+				Dungeon.level.set(x, y, Terrain.VENOM);
+			}
+
 			this.removeBuff(BurningBuff.class);
 			this.watery = 5f;
 		} else {
@@ -875,6 +879,8 @@ public class Player extends Creature {
 
 					Dungeon.area.add(holder.add());
 				}
+			} else if (t == Terrain.VENOM) {
+				this.addBuff(new PoisonBuff());
 			}
 		}
 	}
@@ -947,6 +953,8 @@ public class Player extends Creature {
 			this.shouldDie = true;
 		}
 	}
+
+	public byte leaveVenom;
 
 	@Override
 	public float rollDamage() {

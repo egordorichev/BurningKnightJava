@@ -652,5 +652,6 @@
 	"fire_immunity" : "Gives immunity to fire",
 	"fire_boots" : "Burning boots\nSets enemies on-fire",
 	"fire_boots_desc" : "Always on-fire!",
-	"burns_floor" : "Burns floor"
+	"burns_floor" : "Burns floor",
+	"leaves_venom" : "Leaves venom water after you"
 }

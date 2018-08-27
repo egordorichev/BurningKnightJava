@@ -29,8 +29,9 @@ public class Terrain {
 	public static byte OBSIDIAN = 19;
 	public static byte EMBER = 20;
 	public static byte COBWEB = 21;
+	public static byte VENOM = 22;
 
-	public static byte SIZE = 22;
+	public static byte SIZE = 23;
 
 	public static int[] flags = new int[SIZE];
 	public static Color[][] colors = new Color[10][SIZE];
@@ -51,6 +52,7 @@ public class Terrain {
 		flags[WALL] = SOLID | HIGH | BREAKS_LOS;
 		flags[CRACK] = SOLID | HIGH | BREAKS_LOS;
 		flags[WATER] = PASSABLE | LIQUID_LAYER;
+		flags[VENOM] = LIQUID_LAYER;
 		flags[WALL_SIDE] = 0;
 		flags[FLOOR_B] = PASSABLE | BURNS;
 		flags[FLOOR_C] = PASSABLE;
@@ -141,6 +143,7 @@ public class Terrain {
 	public static TextureRegion grassPattern;
 	public static TextureRegion dryGrassPattern;
 	public static TextureRegion waterPattern;
+	public static TextureRegion venomPattern;
 	public static TextureRegion lavaPattern;
 	public static TextureRegion wallPattern;
 	public static TextureRegion crackPattern;
@@ -191,6 +194,7 @@ public class Terrain {
 		grassPattern = Graphics.getTexture("biome-gen-grass pattern");
 		dryGrassPattern = Graphics.getTexture("biome-gen-dry_grass_pattern");
 		waterPattern = Graphics.getTexture("biome-gen-pool pattern");
+		venomPattern = Graphics.getTexture("biome-gen-poluted pattern");
 		lavaPattern = Graphics.getTexture("biome-gen-lava pattern");
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
 		crackPattern = Graphics.getTexture(bm + "-crack");
@@ -207,6 +211,7 @@ public class Terrain {
 		patterns[DIRT] = dirtPattern;
 		patterns[GRASS] = grassPattern;
 		patterns[WATER] = waterPattern;
+		patterns[VENOM] = venomPattern;
 		patterns[LAVA] = lavaPattern;
 		patterns[WALL] = wallPattern;
 		patterns[CRACK] = crackPattern;
