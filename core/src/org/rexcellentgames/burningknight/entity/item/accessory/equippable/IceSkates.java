@@ -12,4 +12,9 @@ public class IceSkates extends Equippable {
 		super.onUnequip(load);
 		this.owner.iceResitant -= 1;
 	}
+
+	@Override
+	public boolean canBeUpgraded() {
+		return false;
+	}
 }
