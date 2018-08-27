@@ -119,8 +119,6 @@ public class Inventory {
 		Item item = holder.getItem();
 
 		if (item instanceof Gold) {
-			item.setCount((int) (item.getCount() * Player.instance.goldModifier));
-
 			Item slot = this.getSlot(11);
 
 			if (slot == null) {

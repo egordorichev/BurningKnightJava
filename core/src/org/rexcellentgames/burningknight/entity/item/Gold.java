@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -73,6 +74,10 @@ public class Gold extends Item {
 			case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7: this.setCount(1); break;
 			case 9: case 8: this.setCount(5); break;
 			case 10: this.setCount(10); break;
+		}
+
+		if (Player.instance != null) {
+			this.setCount((int) (Player.instance.goldModifier * this.getCount()));
 		}
 	}
 }

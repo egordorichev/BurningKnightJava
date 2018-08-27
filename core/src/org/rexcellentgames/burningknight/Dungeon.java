@@ -91,7 +91,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float shockTime = 10;
 	public static float glitchTime = 0;
 	public static Vector2 shockPos = new Vector2(0.5f, 0.5f);
-	public static boolean flip;
+	public static float flip = -1;
 	public static float colorBlind = 0f;
 	public static float colorBlindFix = 1f;
 	public static float grayscale = 0f;
@@ -494,8 +494,8 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 
-		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, (flip ? -1 : 1) * Display.GAME_HEIGHT * upscale / 2, (Display.GAME_WIDTH) * upscale,
-			(flip ? 1 : -1) * (Display.GAME_HEIGHT) * upscale);
+		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, (flip * -1) * Display.GAME_HEIGHT * upscale / 2, (Display.GAME_WIDTH) * upscale,
+			(flip) * (Display.GAME_HEIGHT) * upscale);
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 

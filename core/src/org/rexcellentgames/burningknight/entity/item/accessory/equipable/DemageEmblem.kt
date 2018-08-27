@@ -25,6 +25,10 @@ class DemageEmblem : Equipable() {
 		return this.level * 20f
 	}
 
+	override fun getMaxLevel(): Int {
+		return 10
+	}
+
 	override fun getDescription(): String {
 		return super.getDescription().replace("{PERCENT}", getMod().toInt().toString())
 	}
