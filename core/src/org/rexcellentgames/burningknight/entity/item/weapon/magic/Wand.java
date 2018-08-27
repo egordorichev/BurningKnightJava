@@ -37,8 +37,8 @@ public class Wand extends WeaponBase {
 		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false, sx, sy);
 	}
 
-	private float sy = 1;
-	private float sx = 1;
+	protected float sy = 1;
+	protected float sx = 1;
 
 	@Override
 	public void use() {
