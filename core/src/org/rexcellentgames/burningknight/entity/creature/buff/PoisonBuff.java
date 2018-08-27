@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.buff;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class PoisonBuff extends Buff {
@@ -11,7 +12,6 @@ public class PoisonBuff extends Buff {
 	{
 		name = "Poisoned";
 		description = "You are slowly losing your life";
-		setDuration(10);
 		sprite = "ui-poisoned";
 		bad = true;
 	}
@@ -29,6 +29,8 @@ public class PoisonBuff extends Buff {
 	@Override
 	public void onStart() {
 		super.onStart();
+		setDuration(10);
+
 		this.owner.poisoned = true;
 	}
 
@@ -41,11 +43,12 @@ public class PoisonBuff extends Buff {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		progress += dt * rate;
+		boolean mob = this.owner instanceof Mob;
+		progress += mob ? dt * 2 : dt * rate;
 
 		if (this.progress >= 1) {
-			setDuration(0);
-			this.owner.modifyHp(this.owner instanceof Player ? -1 : -4, null, false);
+			this.progress = 0;
+			this.owner.modifyHp(this.owner instanceof Player ? -1 : -2, null, true);
 		}
 	}
 

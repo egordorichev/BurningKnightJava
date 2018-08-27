@@ -645,7 +645,7 @@ public class Creature extends SaveableEntity {
 			Buff b = this.buffs.get(buff.getClass());
 
 			if (b != null) {
-				b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
+				// b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
 			} else {
 				this.buffs.put(buff.getClass(), buff);
 

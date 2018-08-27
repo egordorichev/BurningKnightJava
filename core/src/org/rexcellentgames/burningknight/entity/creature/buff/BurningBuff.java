@@ -51,6 +51,7 @@ public class BurningBuff extends Buff {
 		}
 
 		if (progress >= 1f) {
+			this.progress = 0;
 			this.owner.modifyHp(this.owner instanceof Player ? -1 : -4, null, true);
 
 			if (!mob) {
