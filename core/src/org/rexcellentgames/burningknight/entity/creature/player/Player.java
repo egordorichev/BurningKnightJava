@@ -101,10 +101,10 @@ public class Player extends Creature {
 	public float regen;
 	public float goldModifier = 1f;
 	public float vampire;
-	public byte lavaResist;
-	public byte fireResist;
-	public byte poisonResist;
-	public byte stunResist;
+	public int lavaResist;
+	public int fireResist;
+	public int poisonResist;
+	public int stunResist;
 	public boolean seeSecrets;
 	public float manaRegenRate = 1f;
 	public float damageModifier = 1f;
@@ -827,15 +827,22 @@ public class Player extends Creature {
 		}
 	}
 
-	public byte frostLevel;
+	public int frostLevel;
 
 	public int getManaMax() {
 		return this.manaMax;
 	}
 
+	public int flight;
+
+	@Override
+	public boolean isFlying() {
+		return flight > 0;
+	}
+
 	@Override
 	protected void onTouch(short t, int x, int y, byte info) {
-		if (t == Terrain.WATER && !this.flying) {
+		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;
 				GlobalSave.put("num_fire_out", num);
@@ -852,11 +859,11 @@ public class Player extends Creature {
 			this.removeBuff(BurningBuff.class);
 			this.watery = 5f;
 		} else {
-			if (BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
+			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
 				this.addBuff(new BurningBuff());
 			}
 
-			if (t == Terrain.LAVA && !this.flying && this.lavaResist == 0) {
+			if (t == Terrain.LAVA && !this.isFlying() && this.lavaResist == 0) {
 				this.modifyHp(-1, null, true);
 
 				if (this.isDead()) {
@@ -865,7 +872,7 @@ public class Player extends Creature {
 			} else if (t == Terrain.COBWEB && this.cutCobweb) {
 				Dungeon.level.liquidData[Level.toIndex(x, y)] = 0;
 				Dungeon.level.updateTile(x, y);
-			} else if (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS) {
+			} else if (!this.isFlying() && (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS)) {
 				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
 
 				if (Random.chance(10)) {
@@ -877,22 +884,22 @@ public class Player extends Creature {
 
 					Dungeon.area.add(holder.add());
 				}
-			} else if (t == Terrain.VENOM) {
+			} else if (!this.isFlying() && t == Terrain.VENOM) {
 				this.addBuff(new PoisonBuff());
 			}
 		}
 	}
 
 	private boolean hadEnemies;
-	public byte numCollectedHearts;
-	public byte burnLevel;
+	public int numCollectedHearts;
+	public int burnLevel;
 
 	@Override
 	protected void onRoomChange() {
 		super.onRoomChange();
 
 		if (numCollectedHearts >= 6) {
-			Achievements.unlock(Achievements.UNLOCK_MEETBOY);
+			Achievements.unlock(Achievements.UNLOCK_MEATBOY);
 		}
 
 		if (hadEnemies && !gotHit) {
@@ -924,7 +931,7 @@ public class Player extends Creature {
 
 							if (Dungeon.level.get(x, y) == Terrain.CRACK) {
 								r.hidden = false;
-								BombEntity.make(r);
+								BombEntity.Companion.make(r);
 								Dungeon.level.set(x, y, Terrain.FLOOR_A);
 
 								Dungeon.level.loadPassable();
@@ -952,7 +959,7 @@ public class Player extends Creature {
 		}
 	}
 
-	public byte leaveVenom;
+	public int leaveVenom;
 
 	@Override
 	public float rollDamage() {
@@ -1262,10 +1269,10 @@ public class Player extends Creature {
 		WIZARD(1),
 		RANGER(2);
 
-		public byte id;
+		public int id;
 
 		Type(int id) {
-			this.id = (byte) id;
+			this.id = (int) id;
 		}
 	}
 }
