@@ -91,7 +91,7 @@ public class Gun extends WeaponBase {
 	}
 
 	private Vector2 last = new Point();
-	private float lastAngle;
+	protected float lastAngle;
 
 	private float closestFraction = 1.0f;
 	
@@ -450,12 +450,11 @@ public class Gun extends WeaponBase {
 			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
 			bullet.sprite = Graphics.getTexture("bullet-" + b.bulletName);
 
-
 			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
 			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
 
-			bullet.x = x + this.getAimX(bullet.sprite.getRegionWidth() / 2, 0);
-			bullet.y = y + this.getAimY(bullet.sprite.getRegionWidth() / 2, 0);
+			bullet.x = x + this.getAimX(0, -bullet.sprite.getRegionHeight() / 2);
+			bullet.y = y + this.getAimY(0, -bullet.sprite.getRegionHeight() / 2);
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;

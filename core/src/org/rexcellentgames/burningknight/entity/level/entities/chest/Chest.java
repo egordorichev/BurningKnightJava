@@ -14,8 +14,8 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -81,28 +81,7 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (!this.open && entity instanceof Player) {
-			if (this.locked) {
-				Player player = (Player) entity;
-				Item key = player.getInventory().findItem(KeyC.class);
-
-				if (key == null) {
-					this.colliding = true;
-					return;
-				}
-
-				key.setCount(key.getCount() - 1);
-				this.locked = false;
-			}
-
-			this.open = true;
-			this.data = this.getOpenAnim();
-
-			this.data.setListener(new AnimationData.Listener() {
-				@Override
-				public void onEnd() {
-					create = true;
-				}
-			});
+			this.colliding = true;
 		}
 	}
 
@@ -214,7 +193,42 @@ public class Chest extends SaveableEntity {
 		this.body.setTransform(this.x, this.y, 0);
 
 		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 3;
+
+		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
+			if (this.locked) {
+				Item key = Player.instance.getInventory().findItem(KeyC.class);
+
+				if (key == null) {
+					this.colliding = true;
+					Player.instance.playSfx("item_nocash");
+					return;
+				}
+
+				drawOpenAnim = true;
+
+				key.setCount(key.getCount() - 1);
+				this.locked = false;
+
+				this.open = true;
+				this.data = this.getOpenAnim();
+
+				this.data.setListener(new AnimationData.Listener() {
+					@Override
+					public void onEnd() {
+						create = true;
+					}
+				});
+			}
+		}
+
+		if (this.drawOpenAnim) {
+			if (unlock.update(dt)) {
+				this.drawOpenAnim = false;
+			}
+		}
 	}
+
+	private boolean drawOpenAnim;
 
 	public void open() {
 		ItemHolder holder = new ItemHolder();
@@ -238,7 +252,13 @@ public class Chest extends SaveableEntity {
 		float r = Random.newFloat();
 
 		if (r < 0.5f) {
-			return new WoodenChest();
+			WoodenChest chest = new WoodenChest();
+
+			if (Random.chance(30)) {
+				chest.locked = false;
+			}
+
+			return chest;
 		} else if (r < 0.8f) {
 			return new IronChest();
 		}
@@ -259,16 +279,16 @@ public class Chest extends SaveableEntity {
 				w / 2, 0, false, false, sx, sy);
 		}
 
-		if (this.locked) {
-			float x = this.x + (w - idleLock.getRegionWidth()) / 2;
-			float y = this.y + (h - idleLock.getRegionHeight()) / 2 +
-				(float) Math.sin(this.t) * 1.8f;
+		float x = this.x + (w - idleLock.getRegionWidth()) / 2;
+		float y = this.y + (h - idleLock.getRegionHeight()) / 2 +
+			(float) Math.sin(this.t) * 1.8f;
 
+		if (this.locked) {
 			if (al > 0) {
 				Graphics.batch.end();
 				Mob.shader.begin();
 				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
-				Mob.shader.setUniformf("u_a", Exit.al);
+				Mob.shader.setUniformf("u_a", al);
 				Mob.shader.end();
 				Graphics.batch.setShader(Mob.shader);
 				Graphics.batch.begin();
@@ -287,6 +307,8 @@ public class Chest extends SaveableEntity {
 			}
 
 			Graphics.render(this.idleLock, x, y);
+		} else if (drawOpenAnim) {
+			unlock.render(x, y, false);
 		}
 	}
 

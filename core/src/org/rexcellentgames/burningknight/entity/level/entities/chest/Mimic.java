@@ -79,6 +79,7 @@ public class Mimic extends Mob {
 		chest.x = this.x;
 		chest.y = this.y;
 		chest.weapon = weapon;
+		chest.locked = false;
 
 		chest.setItem(chest.generate());
 
