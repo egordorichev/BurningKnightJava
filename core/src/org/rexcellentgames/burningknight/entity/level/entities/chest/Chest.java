@@ -14,8 +14,8 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -81,28 +81,7 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (!this.open && entity instanceof Player) {
-			if (this.locked) {
-				Player player = (Player) entity;
-				Item key = player.getInventory().findItem(KeyC.class);
-
-				if (key == null) {
-					this.colliding = true;
-					return;
-				}
-
-				key.setCount(key.getCount() - 1);
-				this.locked = false;
-			}
-
-			this.open = true;
-			this.data = this.getOpenAnim();
-
-			this.data.setListener(new AnimationData.Listener() {
-				@Override
-				public void onEnd() {
-					create = true;
-				}
-			});
+			this.colliding = true;
 		}
 	}
 
@@ -214,6 +193,31 @@ public class Chest extends SaveableEntity {
 		this.body.setTransform(this.x, this.y, 0);
 
 		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 3;
+
+		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
+			if (this.locked) {
+				Item key = Player.instance.getInventory().findItem(KeyC.class);
+
+				if (key == null) {
+					this.colliding = true;
+					Player.instance.playSfx("item_nocash");
+					return;
+				}
+
+				key.setCount(key.getCount() - 1);
+				this.locked = false;
+
+				this.open = true;
+				this.data = this.getOpenAnim();
+
+				this.data.setListener(new AnimationData.Listener() {
+					@Override
+					public void onEnd() {
+						create = true;
+					}
+				});
+			}
+		}
 	}
 
 	public void open() {
@@ -268,7 +272,7 @@ public class Chest extends SaveableEntity {
 				Graphics.batch.end();
 				Mob.shader.begin();
 				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
-				Mob.shader.setUniformf("u_a", Exit.al);
+				Mob.shader.setUniformf("u_a", al);
 				Mob.shader.end();
 				Graphics.batch.setShader(Mob.shader);
 				Graphics.batch.begin();
