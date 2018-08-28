@@ -8,7 +8,9 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class SuperCrazyBook extends Book {
@@ -151,6 +153,14 @@ public class SuperCrazyBook extends Book {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
+		y += 8;
+
+		if (Dungeon.level.checkFor(Math.round(x / 16), Math.round(y / 16), Terrain.SOLID) ||
+			Dungeon.level.checkFor(Math.round(x / 16), Math.round((y - 16) / 16), Terrain.SOLID)) {
+			Log.error("In Wall!");
+			return;
+		}
+
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
 			public void render() {
