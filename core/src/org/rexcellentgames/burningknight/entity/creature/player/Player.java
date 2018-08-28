@@ -833,11 +833,7 @@ public class Player extends Creature {
 		return this.manaMax;
 	}
 
-<<<<<<< HEAD
-	public byte flight;
-=======
 	public int flight;
->>>>>>> d5dbb7b740601360b76d810651a91d167202839d
 
 	@Override
 	public boolean isFlying() {

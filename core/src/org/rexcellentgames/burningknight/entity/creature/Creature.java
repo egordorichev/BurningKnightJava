@@ -55,11 +55,7 @@ public class Creature extends SaveableEntity {
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
-<<<<<<< HEAD
-	private boolean flying = false;
-=======
 	protected boolean flying = false;
->>>>>>> d5dbb7b740601360b76d810651a91d167202839d
 	public boolean penetrates;
 	public boolean explosionBlock;
 	public boolean freezed;

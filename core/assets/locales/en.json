@@ -654,5 +654,7 @@
 	"fire_boots" : "Burning boots\nSets enemies on-fire",
 	"fire_boots_desc" : "Always on-fire!",
 	"burns_floor" : "Burns floor",
-	"leaves_venom" : "Leaves venom water after you"
+	"leaves_venom" : "Leaves venom water after you",
+	"flippers" : "Flippers",
+	"flippers_desc" : "Water and lava are friends now!"
 }
