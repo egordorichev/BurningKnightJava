@@ -206,30 +206,12 @@ public class Gun extends WeaponBase {
 
 		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x + this.mod, this.origin.y,
 			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
-		float r = 4;
 
 		x = x + w / 2 + (flipped ? -7 : 7);
 		y = y + h / 4 + this.owner.z;
 
 		float xx = x + getAimX(0, 0);
 		float yy = y + getAimY(0, 0);
-
-		/*if (this.delay + 0.06f >= this.useTime) {
-			Graphics.batch.end();
-
-			Gdx.gl.glEnable(GL20.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			Graphics.shape.setProjectionMatrix(Camera.game.combined);
-			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-
-			Graphics.shape.setColor(1, 0.5f, 0, 0.9f);
-
-			Graphics.shape.circle(xx, yy, r);
-
-			Graphics.shape.end();
-			Gdx.gl.glDisable(GL20.GL_BLEND);
-			Graphics.batch.begin();
-		}*/
 
 		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
 			float d = Display.GAME_WIDTH * 10;
@@ -255,7 +237,7 @@ public class Gun extends WeaponBase {
 				Graphics.batch.begin();
 			}
 		}
-
+		
 		y += this.owner.h;
 		x = this.owner.x + this.owner.w / 2;
 
@@ -468,8 +450,9 @@ public class Gun extends WeaponBase {
 			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
 			bullet.sprite = Graphics.getTexture("bullet-" + b.bulletName);
 
-			float x = this.owner.x + this.owner.w / 2;
-			float y = this.owner.y + this.owner.h / 4 - 2;
+
+			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
+			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
 
 			bullet.x = x + this.getAimX(bullet.sprite.getRegionWidth() / 2, 0);
 			bullet.y = y + this.getAimY(bullet.sprite.getRegionWidth() / 2, 0);
