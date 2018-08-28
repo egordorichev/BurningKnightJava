@@ -15,7 +15,7 @@ public class WoodenChest extends Chest {
 	public static Animation animation = Animation.make("chest", "-wooden");
 	private static AnimationData closed = animation.get("idle");
 	private static AnimationData open = animation.get("opening");
-	private static AnimationData openend = animation.get("open");
+	private static AnimationData opened = animation.get("open");
 
 	@Override
 	public Item generate() {
@@ -48,6 +48,6 @@ public class WoodenChest extends Chest {
 
 	@Override
 	protected AnimationData getOpenedAnim() {
-		return openend;
+		return opened;
 	}
 }

@@ -32,6 +32,6 @@ class BloodCrown : Equippable() {
 	}
 
 	override fun getDescription(): String {
-		return super.getDescription().replace("{MODIFIER}", (if (getModifier() % 1 == 0.5f) getModifier() else getModifier().toInt()).toString())
+		return super.getDescription().replace("{MODIFIER}", (if (getModifier() % 1 == 0.5f) getModifier().toInt() else getModifier().toInt()).toString())
 	}
 }
