@@ -19,19 +19,19 @@ class CampfireInABottle : Equippable() {
 
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
-		this.owner.stunResist = ((this.owner.stunResist + 1) % 128).toByte()
+		this.owner.stunResist += 1
 
 		if (this.level >= 2) {
-			this.owner.burnLevel = ((this.owner.burnLevel + 1) % 128).toByte()
+			this.owner.burnLevel += 1
 		}
 	}
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
-		this.owner.stunResist = ((this.owner.stunResist - 1) % 128).toByte()
+		this.owner.stunResist -= 1
 
 		if (this.level >= 2) {
-			this.owner.burnLevel = ((this.owner.burnLevel - 1) % 128).toByte()
+			this.owner.burnLevel -= 1
 		}
 	}
 

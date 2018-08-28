@@ -268,7 +268,7 @@ public class WeaponBase extends Item {
 	}
 
 	public void generateModifier() {
-		if (this.modifier == null) {
+		if (this.modifier == null && Dungeon.depth > -1) {
 			this.setModifier(ModifierPool.instance.generate());
 		}
 	}

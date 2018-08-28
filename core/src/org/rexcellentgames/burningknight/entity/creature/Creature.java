@@ -28,7 +28,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.rocketlauncher.rocket.RocketA;
+import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -55,7 +55,7 @@ public class Creature extends SaveableEntity {
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
-	private boolean flying = false;
+	protected boolean flying = false;
 	public boolean penetrates;
 	public boolean explosionBlock;
 	public boolean freezed;

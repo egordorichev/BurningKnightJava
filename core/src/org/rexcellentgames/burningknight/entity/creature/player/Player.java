@@ -931,7 +931,7 @@ public class Player extends Creature {
 
 							if (Dungeon.level.get(x, y) == Terrain.CRACK) {
 								r.hidden = false;
-								BombEntity.Companion.make(r);
+								BombEntity.make(r);
 								Dungeon.level.set(x, y, Terrain.FLOOR_A);
 
 								Dungeon.level.loadPassable();

@@ -52,7 +52,7 @@ public class PoisonFx extends Entity {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if (entity instanceof Creature && !((Creature) entity).flying) {
+		if (entity instanceof Creature && !((Creature) entity).isFlying()) {
 			((Creature) entity).addBuff(new PoisonBuff().setDuration(2f));
 		}
 	}

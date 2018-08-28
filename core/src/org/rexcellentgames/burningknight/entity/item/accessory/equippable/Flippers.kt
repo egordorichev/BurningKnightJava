@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
 import org.rexcellentgames.burningknight.assets.Locale
-import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class Flippers : Equippable() {
 	companion object {
@@ -13,7 +12,7 @@ class Flippers : Equippable() {
 		this.owner.slowLiquidResist += 1
 
 		if (this.level >= 2) {
-			(this.owner as Player).lavaResist += 1
+			this.owner.lavaResist += 1
 		}
 	}
 
@@ -22,7 +21,7 @@ class Flippers : Equippable() {
 		this.owner.slowLiquidResist -= 1
 
 		if (this.level >= 2) {
-			(this.owner as Player).lavaResist -= 1
+			this.owner.lavaResist -= 1
 		}
 	}
 

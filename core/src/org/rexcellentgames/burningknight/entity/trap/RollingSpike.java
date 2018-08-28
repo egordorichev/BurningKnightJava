@@ -94,7 +94,7 @@ public class RollingSpike extends SaveableEntity {
 				player.modifyHp(-2, null);
 				player.knockBackFrom(this, 400f);
 
-				Achievements.unlock(Achievements.UNLOCK_MEETBOY_AXE);
+				Achievements.unlock(Achievements.UNLOCK_MEATBOY_AXE);
 			}
 		}
 	}

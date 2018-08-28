@@ -15,19 +15,19 @@ class Antidote : Equippable() {
 
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
-		this.owner.poisonResist = ((this.owner.poisonResist + 1) % 128).toByte()
+		this.owner.poisonResist +=1
 
 		if (this.level >= 2) {
-			this.owner.leaveVenom = ((this.owner.leaveVenom + 1) % 128).toByte()
+			this.owner.leaveVenom += 1
 		}
 	}
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
-		this.owner.poisonResist = ((this.owner.poisonResist - 1) % 128).toByte()
+		this.owner.poisonResist -=1
 
 		if (this.level >= 2) {
-			this.owner.leaveVenom = ((this.owner.leaveVenom - 1) % 128).toByte()
+			this.owner.leaveVenom -= 1
 		}
 	}
 
