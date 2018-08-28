@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -20,14 +19,5 @@ public class BurningClown extends Clown {
 	public void apply(BombEntity bomb) {
 		super.apply(bomb);
 		bomb.toApply.add(new BurningBuff());
-	}
-
-	@Override
-	protected boolean canHaveBuff(Buff buff) {
-		if (buff instanceof BurningBuff) {
-			return false;
-		}
-
-		return super.canHaveBuff(buff);
 	}
 }

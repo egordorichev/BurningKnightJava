@@ -1,8 +1,10 @@
 package org.rexcellentgames.burningknight.entity.fx;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -17,6 +19,8 @@ public class FireFx extends Entity {
 	private float av;
 	public Point vel = new Point();
 	private boolean second;
+	private float last;
+	private float b;
 
 	{
 		depth = 1;
@@ -31,8 +35,9 @@ public class FireFx extends Entity {
 		this.t = Random.newFloat(0.3f);
 
 		this.min = Random.newFloat(0.1f, 0.2f);
-		this.g = 0.3f + Random.newFloat(0.2f);
-		this.r = this.g + 0.1f;
+		this.g = 1f;
+		this.r = 1f;
+		this.b = 1f;
 		this.a = Random.newFloat(360);
 		this.av = Random.newFloat(0.5f, 1f) * (Random.chance(50) ? -1 : 1);
 	}
@@ -41,8 +46,15 @@ public class FireFx extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.r = Math.min(1f, r + dt / 2f);
-		this.g = Math.max(this.min, g - dt / 2f);
+		this.last += dt;
+
+		if (this.last >= 0.2f) {
+			this.last = 0;
+			Dungeon.level.setOnFire(Level.toIndex(Math.round(this.x / 16), Math.round(this.y / 16)), true);
+		}
+
+		this.b = Math.max(0f, b - dt * 2f);
+		this.g = Math.max(this.min, g - dt);
 
 		this.t += dt;
 		this.scale += this.scale >= 0.8f ? this.scale * dt * 0.5f : dt * 5;
@@ -68,7 +80,7 @@ public class FireFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(r, g, 0, this.al);
+		Graphics.batch.setColor(r, g, b, this.al);
 		Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, scale, scale);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}

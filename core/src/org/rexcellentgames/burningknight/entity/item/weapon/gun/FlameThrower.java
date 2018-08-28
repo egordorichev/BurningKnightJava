@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.fx.FireFx;
+import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -33,7 +34,7 @@ public class FlameThrower extends Gun {
 				x += this.getAimX(0, 0);
 				y += this.getAimY(0, 0);
 
-				FireFx fx = new FireFx();
+				FireFx fx = Random.chance(50) ? new FireFxPhysic() : new FireFx();
 
 				fx.x = x + Random.newFloat(-4, 4);
 				fx.y = y + Random.newFloat(-4, 4);
