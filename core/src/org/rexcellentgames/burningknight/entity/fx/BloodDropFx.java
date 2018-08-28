@@ -61,6 +61,7 @@ public class BloodDropFx extends Entity {
 			this.sz += (this.tsz - this.sz) * dt * 20;
 			if (this.tsz - this.sz <= 0.4f) {
 				this.second = true;
+				this.sz = this.tsz;
 			}
 		}
 	}
