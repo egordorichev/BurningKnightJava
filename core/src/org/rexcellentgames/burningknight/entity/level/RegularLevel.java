@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.item.ItemRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
@@ -230,6 +231,8 @@ public abstract class RegularLevel extends Level {
 			rooms.add(new LampRoom());
 		} else if (Dungeon.depth == -1) {
 			rooms.add(new HandmadeRoom("hub"));
+		} else {
+			rooms.add(ItemRoomPool.instance.generate());
 		}
 
 		int regular = this.getNumRegularRooms();
