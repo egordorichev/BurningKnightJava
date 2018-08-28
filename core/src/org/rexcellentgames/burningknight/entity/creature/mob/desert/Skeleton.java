@@ -377,7 +377,13 @@ public class Skeleton extends Mob {
 			checkForPlayer();
 
 			if (this.moveTo(self.lastSeen, 4f, distance)) {
-				self.become("preattack");
+				if (self.target != null) {
+					self.become("preattack");
+				} else {
+					self.noticeSignT = 0f;
+					self.hideSignT = 2f;
+					self.become("idle");
+				}
 			}
 		}
 	}

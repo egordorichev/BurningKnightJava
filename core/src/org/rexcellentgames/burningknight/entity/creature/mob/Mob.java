@@ -105,20 +105,30 @@ public class Mob extends Creature {
 	}
 
 	public void renderStats() {
+		if (Player.showStats) {
+			Graphics.print(this.hp + "/" + this.hpMax, Graphics.small, this.x, this.y + this.z);
+		}
+	}
+
+	public void renderSigns() {
 		TextureRegion region = this.hideSignT > 0 ? hideSign :
 			(this.noticeSignT > 0 ? noticeSign : null);
 
 		if (region != null) {
 			float t = Math.max(this.hideSignT, this.noticeSignT);
 
+			if (t <= 0.2f) {
+				Graphics.batch.setColor(1, 1, 1, t * 5);
+			} else if (t >= 1.8f) {
+				Graphics.batch.setColor(1, 1, 1, (t - 1.8f) * 5);
+			}
+
 			Graphics.render(region,
 				this.x + (this.w - region.getRegionWidth()) / 2 + region.getRegionWidth() / 2,
 				(float) (this.y + this.h + 2 + Math.cos(t * 5) * 5.5f + region.getRegionHeight() / 2),
 				(float) (Math.cos(t * 4) * 30f), region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false);
-		}
 
-		if (Player.showStats) {
-			Graphics.print(this.hp + "/" + this.hpMax, Graphics.small, this.x, this.y + this.z);
+			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 	}
 
@@ -781,7 +791,6 @@ public class Mob extends Creature {
 
 				if (!self.canSee(self.target)) {
 					self.target = null;
-
 					self.saw = false;
 				}
 			}

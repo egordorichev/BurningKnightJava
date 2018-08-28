@@ -510,6 +510,7 @@ public abstract class Level extends SaveableEntity {
 		llll.setLevel(this);
 
 		Dungeon.area.add(llll);
+		Dungeon.area.add(new SignsLevel());
 	}
 
 	public String getName() {

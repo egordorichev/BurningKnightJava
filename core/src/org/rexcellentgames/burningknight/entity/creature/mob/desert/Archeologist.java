@@ -116,7 +116,13 @@ public class Archeologist extends Mob {
 			this.checkForPlayer();
 
 			if (this.moveTo(this.to, 8, 16f)) {
-				self.become("predig");
+				if (toPlayer && self.target == null) {
+					self.noticeSignT = 0f;
+					self.hideSignT = 2f;
+					self.become("idle");
+				} else {
+					self.become("predig");
+				}
 			}
 		}
 	}

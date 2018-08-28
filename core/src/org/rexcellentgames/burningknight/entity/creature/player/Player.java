@@ -472,7 +472,6 @@ public class Player extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		this.renderBuffs();
 
 		// Graphics.print((int) Math.floor(this.x) + " " + (int) Math.floor(this.y), Graphics.small, this.x, this.y);
 	}

@@ -225,7 +225,7 @@ public class Creature extends SaveableEntity {
 		int sy = (int) (this.y + this.h / 2);
 
 		for (int i = buffs.length - 1; i >= 0; i--) {
-			if (buffs[i] instanceof BurningBuff) {
+			if (buffs[i] instanceof BurningBuff && !this.isFlying()) {
 				Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true);
 			}
 
@@ -561,7 +561,7 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected void renderBuffs() {
+	public void renderBuffs() {
 		for (Buff buff : this.buffs.values()) {
 			buff.render(this);
 		}
@@ -741,7 +741,7 @@ public class Creature extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (this.flying && entity == null && fixture.getBody().isBullet()) {
+		if (this.isFlying() && entity == null && fixture.getBody().isBullet()) {
 			return false;
 		} else if (entity instanceof Creature) {
 			if (this.hasBuff(BurningBuff.class)) {

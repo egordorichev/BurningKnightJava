@@ -90,8 +90,14 @@ public class Mummy extends Mob {
 
 			this.checkForPlayer();
 
-			if (self.target != null) {
-				this.moveTo(self.lastSeen, 3f * speedModifer, 8f);
+			if (self.lastSeen != null) {
+				if (this.moveTo(self.lastSeen, 3f * speedModifer, 8f)) {
+					if (self.target == null) {
+						self.noticeSignT = 0f;
+						self.hideSignT = 2f;
+						self.become("idle");
+					}
+				}
 			} else {
 				if (to == null) {
 					to = self.room.getRandomFreeCell();
