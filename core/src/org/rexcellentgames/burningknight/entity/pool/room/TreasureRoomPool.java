@@ -11,5 +11,6 @@ public class TreasureRoomPool extends Pool<TreasureRoom> {
 		add(BrokeLineTreasureRoom.class, 1f);
 		add(IslandTreasureRoom.class, 1f);
 		add(CollumnTreasureRoom.class, 1f);
+		add(MazeTreasureRoom.class, 1f);
 	}
 }
