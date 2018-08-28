@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
@@ -30,6 +31,12 @@ public class Chest extends SaveableEntity {
 	protected boolean create;
 	public static ArrayList<Chest> all = new ArrayList<>();
 	public boolean weapon;
+	public boolean locked = true;
+
+	public static Animation lockAnimations = Animation.make("door-lock", "-gold");
+
+	private AnimationData unlock = lockAnimations.get("open");
+	private TextureRegion idleLock = lockAnimations.getFrames("idle").get(0).frame;
 
 	{
 		h = 13;
@@ -63,6 +70,10 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (!this.open && entity instanceof Player) {
+			if (this.locked) {
+				return;
+			}
+
 			this.open = true;
 			this.data = this.getOpenAnim();
 
@@ -87,6 +98,8 @@ public class Chest extends SaveableEntity {
 
 		chest.x = this.x;
 		chest.y = this.y;
+		chest.weapon = this.weapon;
+		chest.locked = this.locked;
 
 		Dungeon.area.add(chest);
 		LevelSave.add(chest);
@@ -126,6 +139,8 @@ public class Chest extends SaveableEntity {
 		if (this.open) {
 			this.data = this.getOpenedAnim();
 		}
+
+		this.locked = reader.readBoolean();
 	}
 
 	@Override
@@ -142,6 +157,8 @@ public class Chest extends SaveableEntity {
 			writer.writeString(this.item.getClass().getName());
 			this.item.save(writer);
 		}
+
+		writer.writeBoolean(this.locked);
 	}
 
 	@Override
@@ -202,6 +219,11 @@ public class Chest extends SaveableEntity {
 			float sy = 1f;//(float) (1f + Math.sin(this.t * 3f) / 15f);
 			Graphics.render(sprite, this.x + w / 2, this.y, 0,
 				w / 2, 0, false, false, sx, sy);
+		}
+
+		if (this.locked) {
+			Graphics.render(this.idleLock, this.x + (w - idleLock.getRegionWidth()) / 2, this.y + (h - idleLock.getRegionHeight()) / 2 +
+				(float) Math.sin(this.t) * 1.8f);
 		}
 	}
 

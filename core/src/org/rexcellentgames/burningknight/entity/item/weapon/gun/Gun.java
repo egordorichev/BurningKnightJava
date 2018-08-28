@@ -237,7 +237,7 @@ public class Gun extends WeaponBase {
 				Graphics.batch.begin();
 			}
 		}
-		
+
 		y += this.owner.h;
 		x = this.owner.x + this.owner.w / 2;
 

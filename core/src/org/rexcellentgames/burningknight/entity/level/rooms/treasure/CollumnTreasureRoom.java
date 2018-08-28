@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class CollumnTreasureRoom extends TreasureRoom {
 	@Override
@@ -89,6 +90,10 @@ public class CollumnTreasureRoom extends TreasureRoom {
 				Painter.fill(level, left + 1 + pillarInset, bottom - pillarSize - pillarInset - Math.round(percentSkew * ySpaces), pillarSize, pillarSize, Terrain.WALL);
 			}
 		}
+
+		Point center = getCenter();
+
+		Painter.fill(level, (int) center.x - 1, (int) center.y - 1, 3, 3, Terrain.randomFloor());
 
 		placeChest(getCenter());
 	}

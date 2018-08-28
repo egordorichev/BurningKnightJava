@@ -35,6 +35,7 @@ public class Mimic extends Mob {
 	private AnimationData animation;
 	private boolean found;
 	public boolean weapon;
+	public boolean locked;
 
 	{
 		hpMax = 30;
@@ -91,7 +92,7 @@ public class Mimic extends Mob {
 	}
 
 	public void toChest() {
-		Chest chest = null;
+		Chest chest;
 
 		if (this.type == 1) {
 			chest = new IronChest();
@@ -103,6 +104,8 @@ public class Mimic extends Mob {
 
 		chest.x = this.x;
 		chest.y = this.y;
+		chest.locked = this.locked;
+		chest.weapon = this.weapon;
 
 		chest.setItem(chest.generate());
 
@@ -126,6 +129,7 @@ public class Mimic extends Mob {
 		found = reader.readBoolean();
 		this.type = reader.readByte();
 		weapon = reader.readBoolean();
+		locked = reader.readBoolean();
 
 		if (found) {
 			this.become("found");
@@ -138,6 +142,7 @@ public class Mimic extends Mob {
 		writer.writeBoolean(found);
 		writer.writeByte((byte) this.type);
 		writer.writeBoolean(weapon);
+		writer.writeBoolean(locked);
 	}
 
 	@Override

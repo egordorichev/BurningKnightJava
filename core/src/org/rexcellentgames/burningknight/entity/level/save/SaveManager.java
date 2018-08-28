@@ -21,7 +21,7 @@ public class SaveManager {
 
 	public static final String SAVE_DIR = ".burningknight/";
 	public static int slot = 0;
-	public static final byte version = 0;
+	public static final byte version = 1;
 
 	public static String getDir() {
 		return getDir(slot);
