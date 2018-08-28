@@ -70,7 +70,7 @@ public class Creature extends SaveableEntity {
 	protected boolean dead;
 	protected boolean unhittable = false;
 	protected Body body;
-	protected float mul = 0.9f;
+	protected float mul = 0.7f;
 	protected float timer;
 	protected boolean flipped = false;
 	protected int hx;
