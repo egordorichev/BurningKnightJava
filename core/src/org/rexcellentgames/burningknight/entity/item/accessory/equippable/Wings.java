@@ -12,7 +12,14 @@ public class Wings extends Equippable {
 	@Override
 	public void onEquip(boolean load) {
 		super.onEquip(load);
+<<<<<<< HEAD
 		this.owner.flight += 1;
+=======
+
+		if (this.owner instanceof Player) {
+			((Player) this.owner).flight += 1;
+		}
+>>>>>>> d5dbb7b740601360b76d810651a91d167202839d
 	}
 
 	@Override
@@ -21,8 +28,14 @@ public class Wings extends Equippable {
 		this.owner.flight -= 1;
 	}
 
+<<<<<<< HEAD
 	@Override
 	public boolean canBeUpgraded() {
 		return false;
+=======
+		if (this.owner instanceof Player) {
+			((Player) this.owner).flight += 1;
+		}
+>>>>>>> d5dbb7b740601360b76d810651a91d167202839d
 	}
 }

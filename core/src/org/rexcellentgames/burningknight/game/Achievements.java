@@ -50,8 +50,8 @@ public class Achievements {
 	public static final String UNLOCK_SWORD_ORBITAL = "UNLOCK_SWORD_ORBITAL";
 	public static final String UNLOCK_AMMO_ORBITAL = "UNLOCK_AMMO_ORBITAL";
 	public static final String UNLOCK_SPECTACLES = "UNLOCK_SPECTACLES";
-	public static final String UNLOCK_MEETBOY = "UNLOCK_MEETBOY";
-	public static final String UNLOCK_MEETBOY_AXE = "UNLOCK_MEETBOY_AXE";
+	public static final String UNLOCK_MEATBOY = "UNLOCK_MEETBOY";
+	public static final String UNLOCK_MEATBOY_AXE = "UNLOCK_MEETBOY_AXE";
 	public static final String UNLOCK_GOLD_RING = "UNLOCK_GOLD_RING";
 	public static final String UNLOCK_BACKPACK = "UNLOCK_BACKPACK";
 	public static final String UNLOCK_ISAAC_HEAD = "UNLOCK_ISAAC_HEAD";

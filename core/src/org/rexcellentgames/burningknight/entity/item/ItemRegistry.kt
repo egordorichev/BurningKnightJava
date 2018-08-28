@@ -101,7 +101,7 @@ object ItemRegistry {
     "launcher_a" to Pair(RocketLauncherA::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
     "launcher_b" to Pair(RocketLauncherB::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
     "launcher_c" to Pair(RocketLauncherC::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
-	  "meetboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEETBOY),
+	  "meetboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEATBOY),
     "dendy" to Pair(Dendy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_DENDY),
 	  "poison_potion" to Pair(PoisonPotion::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
     "poison_ring" to Pair(PoisonRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
@@ -145,7 +145,7 @@ object ItemRegistry {
     "penetration_rune" to Pair(PenetrationRune::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "map" to Pair(Map::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "map_greenprints" to Pair(MapGreenprints::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "meetboy_axe" to Pair(MeetboyAxe::class.java, 1f, 0.3f, 0.3f, 1f, Quality.GOLDEN, Achievements.UNLOCK_MEETBOY_AXE),
+    "meetboy_axe" to Pair(MeetboyAxe::class.java, 1f, 0.3f, 0.3f, 1f, Quality.GOLDEN, Achievements.UNLOCK_MEATBOY_AXE),
     "star" to Pair(Star::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_STAR),
     "blue_watch" to Pair(BlueWatch::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "stopwatch" to Pair(StopWatch::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_STOP_WATCH),
@@ -266,7 +266,8 @@ object ItemRegistry {
 	  "lava_bucket" to Pair(LavaBucket::class.java, 0.2f, 1f, 1f, 1f, Quality.WOODEN),
 	  "water_bucket" to Pair(WaterBucket::class.java, 0.2f, 1f, 1f, 1f, Quality.WOODEN),
 	  "tech_eye" to Pair(TechEye::class.java, 2f, 1f, 1f, 1f, Quality.IRON),
-	  "eco_wand" to Pair(EcoWand::class.java, 1f, 0f, 1f, 0.1f, Quality.WOODEN)
+	  "eco_wand" to Pair(EcoWand::class.java, 1f, 0f, 1f, 0.1f, Quality.WOODEN),
+	  "flippers" to Pair(Flippers::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN)
   )
 
   val modItems = mutableMapOf<String, Item>()

@@ -2,32 +2,26 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
 import org.rexcellentgames.burningknight.assets.Locale
 
-class Antidote : Equippable() {
+class Flippers : Equippable() {
 	companion object {
-		val lvl2 = Locale.get("leaves_venom")
-	}
-
-	init {
-		name = Locale.get("antidote")
-		description = Locale.get("antidote_desc")
-		sprite = "item-antidote"
+		val lvl2 = Locale.get("lava_immunity")
 	}
 
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
-		this.owner.poisonResist +=1
+		this.owner.slowLiquidResist += 1
 
 		if (this.level >= 2) {
-			this.owner.leaveVenom += 1
+			this.owner.lavaResist += 1
 		}
 	}
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
-		this.owner.poisonResist -=1
+		this.owner.slowLiquidResist -= 1
 
 		if (this.level >= 2) {
-			this.owner.leaveVenom -= 1
+			this.owner.lavaResist -= 1
 		}
 	}
 

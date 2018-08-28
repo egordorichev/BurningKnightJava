@@ -20,7 +20,7 @@ public class GameSave {
 
 	public static void save(FileWriter writer, boolean old) {
 		try {
-			writer.writeByte(Player.instance == null ? Player.toSet.id : Player.instance.type.id);
+			writer.writeByte((byte) (Player.instance == null ? Player.toSet.id : Player.instance.type.id));
 			writer.writeByte((byte) Dungeon.depth);
 			writer.writeString(Dungeon.level == null ? "The beginning" : Dungeon.level.formatDepth());
 

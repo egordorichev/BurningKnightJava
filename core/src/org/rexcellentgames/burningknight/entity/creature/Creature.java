@@ -55,7 +55,11 @@ public class Creature extends SaveableEntity {
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
+<<<<<<< HEAD
 	private boolean flying = false;
+=======
+	protected boolean flying = false;
+>>>>>>> d5dbb7b740601360b76d810651a91d167202839d
 	public boolean penetrates;
 	public boolean explosionBlock;
 	public boolean freezed;
@@ -270,8 +274,8 @@ public class Creature extends SaveableEntity {
 		}
 
 		this.vel.mul(
-			(this.touches[Terrain.COBWEB] ? 0.3f :
-			(iceResitant == 0 && this.touches[Terrain.ICE] ? 0.95f : this.mul))
+			(this.touches[Terrain.COBWEB] && !this.isFlying() ? 0.3f :
+			(iceResitant == 0 && this.touches[Terrain.ICE] && !this.isFlying() ? 0.95f : this.mul))
 		);
 
 		if (this.body != null && !ignorePos) {
@@ -305,6 +309,8 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
+	public int slowLiquidResist = 0;
+
 	@Override
 	public void become(String state) {
 		if (!this.falling) {
@@ -313,29 +319,29 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void onTouch(short t, int x, int y, byte info) {
-		if (t == Terrain.WATER && !this.flying) {
+		if (t == Terrain.WATER && !this.isFlying()) {
 			this.removeBuff(BurningBuff.class);
 		} else {
-			if (BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
+			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
 				this.addBuff(new BurningBuff());
 			}
 
-			if (t == Terrain.LAVA && !this.flying) {
+			if (t == Terrain.LAVA && !this.isFlying()) {
 				if (this instanceof Mob) {
 					this.die();
 				} else {
 					this.addBuff(new BurningBuff());
 				}
-			} else if (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS) {
+			} else if (!this.isFlying() && (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS)) {
 				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
-			} else if (t == Terrain.VENOM) {
+			} else if (!this.isFlying() && t == Terrain.VENOM) {
 				this.addBuff(new PoisonBuff());
 			}
 		}
 	}
 
 	protected void doVel() {
-		float fr = (iceResitant > 0 && this.touches[Terrain.ICE]) ? 1.3f : (this.touches[Terrain.ICE] ? 0.2f : (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA] ? 0.35f : 1f));
+		float fr = (iceResitant > 0 && this.touches[Terrain.ICE] && !this.isFlying()) ? 1.3f : (this.touches[Terrain.ICE] && !this.isFlying() ? 0.2f : (this.slowLiquidResist == 0 && (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA]) && !this.isFlying() ? 0.55f : 1f));
 		this.vel.x += this.acceleration.x * fr;
 		this.vel.y += this.acceleration.y * fr;
 	}
@@ -491,7 +497,7 @@ public class Creature extends SaveableEntity {
 		return touches[t];
 	}
 
-	public byte iceResitant;
+	public int iceResitant;
 
 	public float rollDefense() {
 		return 1;
