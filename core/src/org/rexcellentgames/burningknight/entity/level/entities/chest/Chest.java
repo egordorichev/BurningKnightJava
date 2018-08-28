@@ -204,6 +204,8 @@ public class Chest extends SaveableEntity {
 					return;
 				}
 
+				drawOpenAnim = true;
+
 				key.setCount(key.getCount() - 1);
 				this.locked = false;
 
@@ -218,7 +220,15 @@ public class Chest extends SaveableEntity {
 				});
 			}
 		}
+
+		if (this.drawOpenAnim) {
+			if (unlock.update(dt)) {
+				this.drawOpenAnim = false;
+			}
+		}
 	}
+
+	private boolean drawOpenAnim;
 
 	public void open() {
 		ItemHolder holder = new ItemHolder();
@@ -242,7 +252,13 @@ public class Chest extends SaveableEntity {
 		float r = Random.newFloat();
 
 		if (r < 0.5f) {
-			return new WoodenChest();
+			WoodenChest chest = new WoodenChest();
+
+			if (Random.chance(30)) {
+				chest.locked = false;
+			}
+
+			return chest;
 		} else if (r < 0.8f) {
 			return new IronChest();
 		}
@@ -263,11 +279,11 @@ public class Chest extends SaveableEntity {
 				w / 2, 0, false, false, sx, sy);
 		}
 
-		if (this.locked) {
-			float x = this.x + (w - idleLock.getRegionWidth()) / 2;
-			float y = this.y + (h - idleLock.getRegionHeight()) / 2 +
-				(float) Math.sin(this.t) * 1.8f;
+		float x = this.x + (w - idleLock.getRegionWidth()) / 2;
+		float y = this.y + (h - idleLock.getRegionHeight()) / 2 +
+			(float) Math.sin(this.t) * 1.8f;
 
+		if (this.locked) {
 			if (al > 0) {
 				Graphics.batch.end();
 				Mob.shader.begin();
@@ -291,6 +307,8 @@ public class Chest extends SaveableEntity {
 			}
 
 			Graphics.render(this.idleLock, x, y);
+		} else if (drawOpenAnim) {
+			unlock.render(x, y, false);
 		}
 	}
 
