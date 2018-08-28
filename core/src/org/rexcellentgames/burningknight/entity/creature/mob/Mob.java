@@ -62,8 +62,8 @@ public class Mob extends Creature {
 	public boolean stupid = false;
 	protected Prefix prefix;
 
-	private static TextureRegion hideSign;
-	private static TextureRegion noticeSign;
+	private static TextureRegion hideSign = Graphics.getTexture("ui-hide");
+	private static TextureRegion noticeSign = Graphics.getTexture("ui-notice");
 	public float noticeSignT;
 	public float hideSignT;
 	public boolean nodebuffs;
@@ -105,6 +105,18 @@ public class Mob extends Creature {
 	}
 
 	public void renderStats() {
+		TextureRegion region = this.hideSignT > 0 ? hideSign :
+			(this.noticeSignT > 0 ? noticeSign : null);
+
+		if (region != null) {
+			float t = Math.max(this.hideSignT, this.noticeSignT);
+
+			Graphics.render(region,
+				this.x + (this.w - region.getRegionWidth()) / 2 + region.getRegionWidth() / 2,
+				(float) (this.y + this.h + 2 + Math.cos(t * 5) * 5.5f + region.getRegionHeight() / 2),
+				(float) (Math.cos(t * 4) * 30f), region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false);
+		}
+
 		if (Player.showStats) {
 			Graphics.print(this.hp + "/" + this.hpMax, Graphics.small, this.x, this.y + this.z);
 		}
@@ -336,6 +348,9 @@ public class Mob extends Creature {
 		}
 
 		super.update(dt * speedMod);
+
+		this.noticeSignT = Math.max(0, this.noticeSignT - dt);
+		this.hideSignT = Math.max(0, this.hideSignT - dt);
 
 		if (this.freezed) {
 			return;
