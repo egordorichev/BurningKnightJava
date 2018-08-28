@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -49,6 +50,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
@@ -152,6 +154,8 @@ public class Player extends Creature {
 
 		setSkin("body");
 	}
+
+	public boolean seePath;
 
 	public float getMage() {
 		return this.type == Type.WIZARD ? 1f : 0f;
@@ -350,6 +354,28 @@ public class Player extends Creature {
 	public void modifyManaMax(int a) {
 		this.manaMax += a;
 		this.modifyMana(0);
+	}
+
+	@Override
+	public void renderBuffs() {
+		super.renderBuffs();
+
+		float dx = Exit.instance.x + 8 - x - w / 2;
+		float dy = Exit.instance.y + 8 - y - h / 2;
+		float a = (float) Math.atan2(dy, dx);
+
+		Graphics.batch.end();
+		Graphics.shape.setProjectionMatrix(Camera.game.combined);
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+		Graphics.shape.setColor(1, 1, 1, 1);
+
+		float an = (float) Math.toRadians(20);
+
+		Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a - an) * 18), (float) (y + h / 2 + Math.sin(a - an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
+		Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a + an) * 18), (float) (y + h / 2 + Math.sin(a + an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
+
+		Graphics.shape.end();
+		Graphics.batch.begin();
 	}
 
 	@Override
