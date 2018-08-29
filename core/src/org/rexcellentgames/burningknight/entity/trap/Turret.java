@@ -6,12 +6,11 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.fx.FireFx;
+import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -28,7 +27,7 @@ public class Turret extends SolidProp {
 
 	public float a;
 	public float last;
-	protected float sp = 1.5f;
+	protected float sp = 3f;
 	private boolean s;
 	protected float sx = 1f;
 	protected float sy = 1f;
@@ -39,10 +38,13 @@ public class Turret extends SolidProp {
 
 		float r = Random.newFloat();
 
-		if (r < 0.3f) {
+		if (r < 0.2f) {
 			this.type = 1;
-		} else if (r < 0.6f) {
+		} else if (r < 0.5f) {
 			this.type = 2;
+		} else if (r < 0.7f) {
+			this.type = 3;
+			this.sp = 10;
 		}
 	}
 
@@ -53,6 +55,7 @@ public class Turret extends SolidProp {
 		this.last = reader.readFloat();
 		this.a = reader.readFloat();
 		this.type = reader.readByte();
+		this.frame = reader.readByte();
 	}
 
 	@Override
@@ -62,17 +65,19 @@ public class Turret extends SolidProp {
 		writer.writeFloat(this.last);
 		writer.writeFloat(this.a);
 		writer.writeByte(this.type);
+		writer.writeByte((byte) Math.floorMod(this.frame, 8));
 	}
 
-	private byte type;
+	protected byte type;
 
 	protected Animation getAnimation() {
 		switch (this.type) {
 			case 1: return Animation.make("actor-turret", "-poison");
 			case 2: return Animation.make("actor-turret", "-ice");
+			case 3: return Animation.make("actor-turret", "-fire");
 		}
 
-		return Animation.make("actor-turret", "-fire");
+		return Animation.make("actor-turret", "-normal");
 	}
 
 	@Override
@@ -84,11 +89,71 @@ public class Turret extends SolidProp {
 		single.render(this.x, this.y, false, false, 8, 0, 0, sx, sy);
 	}
 
-	protected boolean rotates;
+	private float lastFlame;
+	private boolean was;
+
+	protected void sendFlames() {
+		FireFx fx = (Random.chance(50) && this.t >= 1.5f) ? new FireFxPhysic() : new FireFx();
+
+		float d = 5;
+		fx.x = x + Random.newFloat(-4, 4) + 8 + (float) (Math.cos(this.a) * d);
+		fx.y = y + Random.newFloat(-4, 4) + 8 + (float) (Math.sin(this.a) * d);
+
+		float f = this.t >= 1.5f ? 120f : 40f;
+
+		fx.vel.x = (float) (Math.cos(this.a) * f);
+		fx.vel.y = (float) (Math.sin(this.a) * f);
+
+		Dungeon.area.add(fx);
+	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (this.on) {
+			if (this.t >= 0.5f && this.t < 1.5f) {
+				was = false;
+				return;
+			}
+
+			if (!was) {
+				tween();
+				was = true;
+			}
+
+			this.lastFlame += dt;
+
+			if (this.lastFlame >= 0.04f) {
+				this.sendFlames();
+
+				if (this.t >= 4.5f) {
+					this.on = false;
+				}
+
+				this.lastFlame = 0;
+			}
+		}
+
+		if (this.type == 3) {
+			if (this.t >= 5f) {
+				if (!this.rotated) {
+					this.rotate();
+					this.rotated = true;
+				}
+			} else {
+				this.rotated = false;
+			}
+		} else {
+			if (this.t >= this.sp / 2) {
+				if (!this.rotated) {
+					this.rotate();
+					this.rotated = true;
+				}
+			} else {
+				this.rotated = false;
+			}
+		}
 
 		if (!s) {
 			s = true;
@@ -101,77 +166,86 @@ public class Turret extends SolidProp {
 		}
 
 		if (this.single != null) {
-			this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
+			this.single.setFrame(Math.floorMod(frame, 8));
 		}
 
 		this.last += dt;
 
 		if (this.last >= sp) {
 			this.last = 0;
-			Tween.to(new Tween.Task(0.6f, 0.05f) {
-				@Override
-				public float getValue() {
-					return sy;
-				}
-
-				@Override
-				public void setValue(float value) {
-					sy = value;
-				}
-
-				@Override
-				public void onEnd() {
-					Tween.to(new Tween.Task(1f, 0.1f) {
-						@Override
-						public float getValue() {
-							return sy;
-						}
-
-						@Override
-						public void setValue(float value) {
-							sy = value;
-						}
-					});
-				}
-			});
-
-			Tween.to(new Tween.Task(1.4f, 0.05f) {
-				@Override
-				public float getValue() {
-					return sx;
-				}
-
-				@Override
-				public void setValue(float value) {
-					sx = value;
-				}
-
-				@Override
-				public void onEnd() {
-					Tween.to(new Tween.Task(1f, 0.1f) {
-						@Override
-						public float getValue() {
-							return sx;
-						}
-
-						@Override
-						public void setValue(float value) {
-							sx = value;
-						}
-					});
-				}
-			});
+			this.tween();
 
 			this.send();
 		}
 	}
 
-	@Override
-	public void renderShadow() {
-		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
+	protected int frame;
+
+	protected void tween() {
+		Tween.to(new Tween.Task(0.6f, 0.05f) {
+			@Override
+			public float getValue() {
+				return sy;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.1f) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
+				});
+			}
+		});
+
+		Tween.to(new Tween.Task(1.4f, 0.05f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1f, 0.1f) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+				});
+			}
+		});
 	}
 
+	@Override
+	public void renderShadow() {
+		Graphics.shadowSized(this.x, this.y + 2, this.w, this.h, 6);
+	}
+
+	protected boolean on;
+
 	protected void send() {
+		this.t = 0;
 		BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet-bad");
 		bullet.anim = getAnimation().get("projectile");
@@ -179,29 +253,34 @@ public class Turret extends SolidProp {
 		float x = this.x + 8;
 		float y = this.y + 8;
 
-		if (this.isOnScreen()) {
-			Camera.shake(4);
+		if (this.type == 3) {
+			this.on = true;
+			this.t = 0;
+		} else {
+			if (this.isOnScreen()) {
+				Camera.shake(4);
+			}
+
+			bullet.x = x;
+			bullet.y = y;
+			bullet.damage = 2;
+			bullet.w = 4;
+			bullet.h = 4;
+			bullet.letter = "bad";
+			bullet.bad = true;
+
+			this.modify(bullet);
+
+			float s = 1.5f * 30f;
+
+			bullet.vel = new Point(
+				(float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s
+			);
+
+			bullet.a = a;
+
+			Dungeon.area.add(bullet);
 		}
-
-		bullet.x = x;
-		bullet.y = y;
-		bullet.damage = 2;
-		bullet.w = 4;
-		bullet.h = 4;
-		bullet.letter = "bad";
-		bullet.bad = true;
-
-		this.modify(bullet);
-
-		float s = 1.5f * 30f;
-
-		bullet.vel = new Point(
-			(float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s
-		);
-
-		bullet.a = a;
-
-		Dungeon.area.add(bullet);
 	}
 
 	protected void modify(BulletProjectile entity) {
@@ -209,5 +288,11 @@ public class Turret extends SolidProp {
 			case 1: entity.toApply = PoisonBuff.class; break;
 			case 2: entity.toApply = FreezeBuff.class; break;
 		}
+	}
+
+	private boolean rotated;
+
+	protected void rotate() {
+
 	}
 }

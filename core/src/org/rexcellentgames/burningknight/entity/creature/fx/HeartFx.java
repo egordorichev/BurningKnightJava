@@ -45,14 +45,16 @@ public class HeartFx extends SaveableEntity {
 		}
 	}
 
+	{
+		this.w = 12;
+		this.h = 9;
+	}
+
 	@Override
 	public void init() {
 		super.init();
 
 		this.generate();
-
-		this.w = 12;
-		this.h = 9;
 	}
 
 	public void generate() {

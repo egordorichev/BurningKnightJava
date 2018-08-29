@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -40,24 +38,14 @@ public class SuperCrazyBook extends Book {
 			BulletProjectile missile = new BulletProjectile() {
 				@Override
 				public void render() {
-					Graphics.batch.end();
-					RectFx.shader.begin();
-					RectFx.shader.setUniformf("r", 1f);
-					RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
-					RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
-					RectFx.shader.setUniformf("a", 0.8f);
-					Texture texture = tiny.getTexture();
+					float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
+					float b = (float) Math.abs(Math.sin(this.t * 2.7f));
 
-					RectFx.shader.setUniformf("pos", new Vector2(((float) tiny.getRegionX()) / texture.getWidth(), ((float) tiny.getRegionY()) / texture.getHeight()));
-					RectFx.shader.setUniformf("size", new Vector2(((float) tiny.getRegionWidth()) / texture.getWidth(), ((float) tiny.getRegionHeight()) / texture.getHeight()));
-
-					RectFx.shader.end();
-					Graphics.batch.setShader(RectFx.shader);
-					Graphics.batch.begin();
-					Graphics.render(tiny, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-					Graphics.batch.end();
-					Graphics.batch.setShader(null);
-					Graphics.batch.begin();
+					Graphics.batch.setColor(1f, g, b, 0.4f);
+					Graphics.render(tiny, this.x, this.y, this.a, tiny.getRegionWidth() / 2, tiny.getRegionHeight() / 2, false, false, 2f, 2f);
+					Graphics.batch.setColor(1f, g, b, 0.8f);
+					Graphics.render(tiny, this.x, this.y, this.a, tiny.getRegionWidth() / 2, tiny.getRegionHeight() / 2, false, false);
+					Graphics.batch.setColor(1, 1, 1, 1);
 				}
 
 				@Override
@@ -89,6 +77,8 @@ public class SuperCrazyBook extends Book {
 		}
 	}
 
+	public static TextureRegion full = Graphics.getTexture("particle-big");
+
 	public void spawnChild(float x, float y) {
 		for (int i = 0; i < 8; i++) {
 			float a = (float) (i * Math.PI / 4);
@@ -96,24 +86,15 @@ public class SuperCrazyBook extends Book {
 			BulletProjectile missile = new BulletProjectile() {
 				@Override
 				public void render() {
-					Graphics.batch.end();
-					RectFx.shader.begin();
-					RectFx.shader.setUniformf("r", (float) Math.abs(Math.cos(this.t * 3.5f)));
-					RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 1.4f - 0.1f)));
-					RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 1.7f)));
-					RectFx.shader.setUniformf("a", 0.8f);
-					Texture texture = small.getTexture();
+					float r = (float) Math.abs(Math.cos(this.t * 3.5f));
+					float g = (float) Math.abs(Math.cos(this.t * 1.4f - 0.1f));
+					float b = (float) Math.abs(Math.sin(this.t * 1.7f));
 
-					RectFx.shader.setUniformf("pos", new Vector2(((float) small.getRegionX()) / texture.getWidth(), ((float) small.getRegionY()) / texture.getHeight()));
-					RectFx.shader.setUniformf("size", new Vector2(((float) small.getRegionWidth()) / texture.getWidth(), ((float) small.getRegionHeight()) / texture.getHeight()));
-
-					RectFx.shader.end();
-					Graphics.batch.setShader(RectFx.shader);
-					Graphics.batch.begin();
-					Graphics.render(small, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-					Graphics.batch.end();
-					Graphics.batch.setShader(null);
-					Graphics.batch.begin();
+					Graphics.batch.setColor(r, g, b, 0.4f);
+					Graphics.render(full, this.x, this.y, this.a, full.getRegionWidth() / 2, full.getRegionHeight() / 2, false, false, 2f, 2f);
+					Graphics.batch.setColor(r, g, b, 0.8f);
+					Graphics.render(small, this.x, this.y, this.a, small.getRegionWidth() / 2, small.getRegionHeight() / 2, false, false);
+					Graphics.batch.setColor(1, 1, 1, 1);
 				}
 
 				@Override
@@ -164,24 +145,15 @@ public class SuperCrazyBook extends Book {
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
 			public void render() {
-				Graphics.batch.end();
-				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", (float) Math.abs(Math.cos(this.t * 1.5f)));
-				RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
-				RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
-				RectFx.shader.setUniformf("a", 0.8f);
-				Texture texture = big.getTexture();
+				float r = (float) Math.abs(Math.cos(this.t * 1.5f));
+				float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
+				float b = (float) Math.abs(Math.sin(this.t * 2.7f));
 
-				RectFx.shader.setUniformf("pos", new Vector2(((float) big.getRegionX()) / texture.getWidth(), ((float) big.getRegionY()) / texture.getHeight()));
-				RectFx.shader.setUniformf("size", new Vector2(((float) big.getRegionWidth()) / texture.getWidth(), ((float) big.getRegionHeight()) / texture.getHeight()));
-
-				RectFx.shader.end();
-				Graphics.batch.setShader(RectFx.shader);
-				Graphics.batch.begin();
-				Graphics.render(big, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.batch.setColor(r, g, b, 0.4f);
+				Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false, 1.5f, 1.5f);
+				Graphics.batch.setColor(r, g, b, 0.8f);
+				Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false);
+				Graphics.batch.setColor(1, 1, 1, 1);
 			}
 
 			@Override
@@ -244,24 +216,15 @@ public class SuperCrazyBook extends Book {
 			BulletProjectile missile = new BulletProjectile() {
 				@Override
 				public void render() {
-					Graphics.batch.end();
-					RectFx.shader.begin();
-					RectFx.shader.setUniformf("r", (float) Math.abs(Math.cos(this.t * 1.5f)));
-					RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
-					RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
-					RectFx.shader.setUniformf("a", 0.8f);
-					Texture texture = particle.getTexture();
+					float r = (float) Math.abs(Math.cos(this.t * 1.5f));
+					float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
+					float b = (float) Math.abs(Math.sin(this.t * 2.7f));
 
-					RectFx.shader.setUniformf("pos", new Vector2(((float) particle.getRegionX()) / texture.getWidth(), ((float) particle.getRegionY()) / texture.getHeight()));
-					RectFx.shader.setUniformf("size", new Vector2(((float) particle.getRegionWidth()) / texture.getWidth(), ((float) particle.getRegionHeight()) / texture.getHeight()));
-
-					RectFx.shader.end();
-					Graphics.batch.setShader(RectFx.shader);
-					Graphics.batch.begin();
-					Graphics.render(particle, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-					Graphics.batch.end();
-					Graphics.batch.setShader(null);
-					Graphics.batch.begin();
+					Graphics.batch.setColor(r, g, b, 0.4f);
+					Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false, 2f, 2f);
+					Graphics.batch.setColor(r, g, b, 0.8f);
+					Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false);
+					Graphics.batch.setColor(1, 1, 1, 1);
 				}
 
 				@Override

@@ -81,7 +81,21 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (!this.open && entity instanceof Player) {
-			this.colliding = true;
+			if (this.locked) {
+				this.colliding = true;
+			} else {
+				this.locked = false;
+
+				this.open = true;
+				this.data = this.getOpenAnim();
+
+				this.data.setListener(new AnimationData.Listener() {
+					@Override
+					public void onEnd() {
+						create = true;
+					}
+				});
+			}
 		}
 	}
 

@@ -2,15 +2,12 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class BloodFx extends Entity {
-	private static Animation animations = Animation.make("fx-blood");
-	private AnimationData animation;
 	private Point vel;
 
 	public static void add(Entity entity, int count) {
@@ -39,9 +36,14 @@ public class BloodFx extends Entity {
 			Random.newFloat(-1f)
 		);
 
-		this.animation = animations.get("idle");
-		this.animation.setFrame(Random.newInt(0, 2));
+		this.r = Random.newFloat(0.7f, 1f);
+		this.g = Random.newFloat(0f, 0.15f);
+		this.b = Random.newFloat(0f, 0.15f);
+		this.av = Random.newFloat(0.5f, 1f) * (Random.chance(50) ? -1 : 1);
 	}
+
+	private boolean second;
+	private float av;
 
 	@Override
 	public void update(float dt) {
@@ -50,16 +52,43 @@ public class BloodFx extends Entity {
 		this.x += this.vel.x;
 		this.y += this.vel.y;
 
-		this.vel.x *= 0.96f;
-		this.vel.y -= 0.03f;
+		this.vel.x *= 0.98f;
+		this.vel.y -= 0.01f;
 
-		if (this.animation.update(dt)) {
-			this.done = true;
+		this.angle += this.av * dt * 360;
+
+		if (this.second) {
+			this.size -= dt * 10;
+
+			if (this.size <= 0) {
+				this.done = true;
+			}
+		} else {
+			this.size += dt * 48;
+
+			if (this.size >= 5f) {
+				this.size = 5f;
+				this.second = true;
+			}
 		}
 	}
 
+	private float size;
+	private float r;
+	private float g;
+	private float b;
+	private float angle;
+
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, false);
+		Graphics.startShape();
+		Graphics.shape.setColor(r, g, b, 1);
+
+		float s = this.size / 2;
+
+		Graphics.shape.rect(this.x, this.y, s, s, this.size,
+			this.size, 1, 1, this.angle);
+
+		Graphics.endShape();
 	}
 }

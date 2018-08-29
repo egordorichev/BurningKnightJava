@@ -11,7 +11,7 @@ class BadGun : Gun() {
   }
 
   override fun use() {
-    this.vel = Mob.shotSpeedMod
+    this.vel = Mob.shotSpeedMod / 2f
     super.use()
   }
 }

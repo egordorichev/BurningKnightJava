@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -49,6 +50,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
@@ -152,6 +154,8 @@ public class Player extends Creature {
 
 		setSkin("body");
 	}
+
+	public boolean seePath;
 
 	public float getMage() {
 		return this.type == Type.WIZARD ? 1f : 0f;
@@ -350,6 +354,76 @@ public class Player extends Creature {
 	public void modifyManaMax(int a) {
 		this.manaMax += a;
 		this.modifyMana(0);
+	}
+
+	@Override
+	public void renderBuffs() {
+		super.renderBuffs();
+
+		if (this.seePath && Exit.instance != null) {
+			float dx = Exit.instance.x + 8 - x - w / 2;
+			float dy = Exit.instance.y + 8 - y - h / 2;
+			float a = (float) Math.atan2(dy, dx);
+
+			Graphics.batch.end();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(1, 1, 1, 1);
+
+			float an = (float) Math.toRadians(20);
+
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a - an) * 18), (float) (y + h / 2 + Math.sin(a - an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a + an) * 18), (float) (y + h / 2 + Math.sin(a + an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
+
+			Graphics.shape.end();
+			Graphics.batch.begin();
+		}
+
+		int count = 0;
+		Mob last = null;
+
+		for (Mob mob : Mob.all) {
+			if (mob.room == this.room) {
+				if (count == 1) {
+					return;
+				}
+
+				last = mob;
+				count ++;
+			}
+		}
+
+		if (last != null) {
+			float dx = last.x + last.w / 2 - this.x - this.w / 2;
+			float dy = last.y + last.h / 2 - this.y - this.h / 2;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+			float a = this.getAngleTo(last.x + last.w / 2, last.y + last.h / 2);
+
+			if (d < 48) {
+				return;
+			}
+
+			d -= 32;
+
+			float cx = Camera.game.position.x;
+			float cy = Camera.game.position.y;
+
+			float x = MathUtils.clamp(cx - Display.GAME_WIDTH / 2 + 16, cx + Display.GAME_WIDTH / 2 - 16, (float) Math.cos(a) * d + this.x + this.w / 2);
+			float y = MathUtils.clamp(cy - Display.GAME_HEIGHT / 2 + 16, cy + Display.GAME_HEIGHT / 2 - 16, (float) Math.sin(a) * d + this.y + this.h / 2);
+
+			Graphics.startShape();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.setColor(1, 0.2f, 0.2f, 1);
+
+			a = (float) Math.atan2(y - last.y - last.w / 2, x - last.x - last.h / 2);
+			float m = 10;
+			float am = 0.5f;
+
+			Graphics.shape.rectLine(x, y, x + (float) Math.cos(a - am) * m, y + (float) Math.sin(a - am) * m, 2);
+			Graphics.shape.rectLine(x, y, x + (float) Math.cos(a + am) * m, y + (float) Math.sin(a + am) * m, 2);
+
+			Graphics.endShape();
+		}
 	}
 
 	@Override
@@ -641,7 +715,7 @@ public class Player extends Creature {
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 16);
 		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
 			 || (!fromInit && (Dungeon.level.findRoomFor(this.x + this.w / 2, this.y) == null)))) {
-			this.tp(ladder.x, ladder.y - 2);
+			this.tp(ladder.x, ladder.y - 4);
 		} else if (ladder == null) {
 			Log.error("Null lader!");
 		}

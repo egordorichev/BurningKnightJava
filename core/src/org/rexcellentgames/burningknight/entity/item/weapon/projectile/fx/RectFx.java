@@ -1,13 +1,12 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class RectFx extends Entity {
@@ -38,9 +37,9 @@ public class RectFx extends Entity {
 		left = Random.chance(50);
 		angle = Random.newFloat(360);
 
-		this.r += Random.newFloat(-0.2f, 0.2f);
-		this.g += Random.newFloat(-0.2f, 0.2f);
-		this.b += Random.newFloat(-0.2f, 0.2f);
+		this.r = MathUtils.clamp(0, 1, Random.newFloat(-0.2f, 0.2f) + r);
+		this.g = MathUtils.clamp(0, 1, Random.newFloat(-0.2f, 0.2f) + g);
+		this.b = MathUtils.clamp(0, 1, Random.newFloat(-0.2f, 0.2f) + b);
 	}
 
 	@Override
@@ -56,25 +55,8 @@ public class RectFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.batch.end();
-		RectFx.shader.begin();
-		RectFx.shader.setUniformf("r", this.r);
-		RectFx.shader.setUniformf("g", this.g);
-		RectFx.shader.setUniformf("b", this.b);
-		RectFx.shader.setUniformf("a", this.a);
-
-		Texture texture = region.getTexture();
-
-		RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
-		RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
-
-		RectFx.shader.end();
-
-		Graphics.batch.setShader(RectFx.shader);
-		Graphics.batch.begin();
+		Graphics.batch.setColor(r, g, b, a);
 		Graphics.render(region, this.x + this.w / 2, this.y + this.h / 2, this.angle, this.w / 2, this.h / 2, false, false, this.scale, this.scale);
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 }

@@ -1,17 +1,15 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class MagicWallBook extends Book {
 	public static TextureRegion particle = Graphics.getTexture("particle-cool");
+	public static TextureRegion big = Graphics.getTexture("particle-big");
 
 	{
 		name = Locale.get("book_of_magic_wall");
@@ -39,31 +37,21 @@ public class MagicWallBook extends Book {
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
 			public void render() {
-				Graphics.batch.end();
-				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", (float) Math.abs(Math.sin(this.t * 2.5f)));
-				RectFx.shader.setUniformf("g", 0f);
-				RectFx.shader.setUniformf("b", (float) Math.abs(Math.cos(this.t * 3f)));
-				RectFx.shader.setUniformf("a", 0.8f);
-				Texture texture = region.getTexture();
+				float r = (float) Math.abs(Math.sin(this.t * 2.5f));
+				float b = (float) Math.abs(Math.cos(this.t * 3f));
 
-				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
-				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
-
-				RectFx.shader.end();
-				Graphics.batch.setShader(RectFx.shader);
-				Graphics.batch.begin();
-				Graphics.render(particle, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.batch.setColor(r, 0, b, 0.4f);
+				Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false, 2, 2);
+				Graphics.batch.setColor(r, 0, b, 0.8f);
+				Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false);
+				Graphics.batch.setColor(1, 1, 1, 1);
 			}
 
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
 
-				if (this.last > 0.1f) {
+				/*if (this.last > 0.1f) {
 					this.last = 0;
 					RectFx fx = new RectFx();
 
@@ -77,7 +65,7 @@ public class MagicWallBook extends Book {
 					fx.g = (float) Math.abs(Math.cos(this.t * 1.7f));
 
 					Dungeon.area.add(fx);
-				}
+				}*/
 
 				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 			}

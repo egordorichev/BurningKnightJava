@@ -79,6 +79,11 @@ public class TerrainFlameFx extends Entity {
 
 		float s = this.size / 2;
 
+
+		Graphics.shape.setColor(1, g, 0, 0.3f);
+		Graphics.shape.rect(this.x, this.y, s, s, this.size,
+			this.size, 2, 2, this.angle);
+
 		Graphics.shape.setColor(1, g, 0, 0.7f);
 		Graphics.shape.rect(this.x, this.y, s, s, this.size,
 			this.size, 1, 1, this.angle);

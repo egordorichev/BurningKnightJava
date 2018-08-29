@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -17,7 +15,7 @@ public class SlowBook extends Book {
 		name = Locale.get("slow_book");
 		description = Locale.get("slow_book_desc");
 		sprite = "item-book_d";
-		mana = 6;
+		mana = 4;
 		damage = 10; // GG WP EZ
 	}
 
@@ -32,24 +30,15 @@ public class SlowBook extends Book {
 
 			@Override
 			public void render() {
-				Graphics.batch.end();
-				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", (float) Math.abs(Math.cos(this.t * 1.5f)));
-				RectFx.shader.setUniformf("g", (float) Math.abs(Math.cos(this.t * 2f - 0.1f)));
-				RectFx.shader.setUniformf("b", (float) Math.abs(Math.sin(this.t * 2.7f)));
-				RectFx.shader.setUniformf("a", 0.8f);
-				Texture texture = region.getTexture();
+				float r = (float) Math.abs(Math.cos(this.t * 1.5f));
+				float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
+				float b = (float) Math.abs(Math.sin(this.t * 2.7f));
 
-				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
-				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
-
-				RectFx.shader.end();
-				Graphics.batch.setShader(RectFx.shader);
-				Graphics.batch.begin();
-				Graphics.render(particle, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.batch.setColor(r, g, b, 0.4f);
+				Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false, 1.5f, 1.5f);
+				Graphics.batch.setColor(r, g, b, 0.8f);
+				Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false);
+				Graphics.batch.setColor(1, 1, 1, 1);
 			}
 
 			@Override

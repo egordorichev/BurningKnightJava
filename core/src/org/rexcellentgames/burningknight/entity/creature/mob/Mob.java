@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -85,7 +86,7 @@ public class Mob extends Creature {
 	public void init() {
 		super.init();
 
-		if (!(this instanceof BurningKnight) && !(this instanceof Npc)) {
+		if (!(this instanceof BurningKnight) && !(this instanceof Npc) && !(this instanceof Mimic)) {
 			all.add(this);
 		}
 

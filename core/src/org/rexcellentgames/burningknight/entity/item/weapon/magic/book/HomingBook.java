@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -14,12 +12,13 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class HomingBook extends Book {
 	public static TextureRegion particle = Graphics.getTexture("particle-cool");
+	public static TextureRegion big = Graphics.getTexture("particle-big");
 
 	{
 		name = Locale.get("book_of_magic_aim");
 		description = Locale.get("book_of_magic_aim_desc");
 		sprite = "item-book_a";
-		mana = 3;
+		mana = 2;
 		damage = 3;
 	}
 
@@ -48,24 +47,11 @@ public class HomingBook extends Book {
 
 			@Override
 			public void render() {
-				Graphics.batch.end();
-				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", 1f);
-				RectFx.shader.setUniformf("g", 1f);
-				RectFx.shader.setUniformf("b", 1f);
-				RectFx.shader.setUniformf("a", 0.8f);
-				Texture texture = region.getTexture();
-
-				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
-				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
-
-				RectFx.shader.end();
-				Graphics.batch.setShader(RectFx.shader);
-				Graphics.batch.begin();
-				Graphics.render(particle, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.batch.setColor(1, 1, 1, 0.4f);
+				Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false, 2, 2);
+				Graphics.batch.setColor(1, 1, 1, 0.8f);
+				Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false);
+				Graphics.batch.setColor(1, 1, 1, 1);
 			}
 
 			@Override

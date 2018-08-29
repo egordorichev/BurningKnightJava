@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.*;
+import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
@@ -20,7 +21,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranc
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.*;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
@@ -192,6 +193,7 @@ public abstract class RegularLevel extends Level {
 				ItemHolder.all.clear();
 				Chest.all.clear();
 				Mimic.all.clear();
+				AnswerButton.all.clear();
 
 				PlayerSave.all.clear();
 				LevelSave.all.clear();
@@ -259,6 +261,16 @@ public abstract class RegularLevel extends Level {
 
 			if (room != null) {
 				rooms.add(room);
+
+				if (room instanceof ButtonPuzzleRoom) {
+					ButtonAnswerRoom r = new ButtonAnswerRoom();
+					r.room = (ButtonPuzzleRoom) room;
+
+					rooms.add(r);
+				} else if (room instanceof LeverPuzzleRoom) {
+					LeverAnswerRoom r = new LeverAnswerRoom();
+					rooms.add(r);
+				}
 			}
 		}
 
@@ -311,7 +323,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumSpecialRooms() {
-		return Dungeon.depth <= 0 ? 0 : Random.newInt(1, 4);
+		return Dungeon.depth <= 0 ? 0 : 1; // Random.newInt(1, 4);
 	}
 
 	protected int getNumSecretRooms() {
