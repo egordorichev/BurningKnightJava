@@ -233,7 +233,6 @@ object ItemRegistry {
     "revolver" to Pair(Revolver::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
     "triple_machine_gun" to Pair(TripleMachineGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.GOLDEN),
 		"snowgun" to Pair(SnowGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
-		"gun_gun" to Pair(GunGun::class.java, 0.1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 		"aim" to Pair(Aim::class.java, 1f, 0f, 0.3f, 1f, Quality.IRON),
 	  "cursed_aim" to Pair(CursedAim::class.java, 1f, 0f, 0.3f, 1f, Quality.IRON),
 	  "zoom" to Pair(Zoom::class.java, 1f,  0.3f, 0.3f, 1f, Quality.WOODEN),
