@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.util.Random;
 public class FlameThrower extends Gun {
 	{
 		sprite = "item-gun_a";
+		ammoMax = 8;
 	}
 
 	@Override
@@ -16,6 +17,7 @@ public class FlameThrower extends Gun {
 		this.down = true;
 	}
 
+	private float lastAmmo;
 	private float last;
 
 	@Override
@@ -24,6 +26,17 @@ public class FlameThrower extends Gun {
 
 		if (this.down) {
 			last += dt;
+			lastAmmo += dt;
+
+			if (lastAmmo >= 1f) {
+				lastAmmo = 0;
+				ammoLeft = Math.max(0, ammoLeft - 1);
+
+				if (ammoLeft == 0) {
+					down = false;
+					return;
+				}
+			}
 
 			if (last >= 0.05f) {
 				last = 0;

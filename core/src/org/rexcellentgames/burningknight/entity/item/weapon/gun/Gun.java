@@ -104,6 +104,11 @@ public class Gun extends WeaponBase {
   }
 
 	@Override
+	public boolean canBeUsed() {
+		return super.canBeUsed() && ammoLeft >= 0;
+	}
+
+	@Override
 	public void updateInHands(float dt) {
 		super.updateInHands(dt);
 		if (this.ammoLeft == 0) {
