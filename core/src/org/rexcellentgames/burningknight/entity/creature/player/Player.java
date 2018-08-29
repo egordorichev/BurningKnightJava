@@ -378,6 +378,52 @@ public class Player extends Creature {
 			Graphics.shape.end();
 			Graphics.batch.begin();
 		}
+
+		int count = 0;
+		Mob last = null;
+
+		for (Mob mob : Mob.all) {
+			if (mob.room == this.room) {
+				if (count == 1) {
+					return;
+				}
+
+				last = mob;
+				count ++;
+			}
+		}
+
+		if (last != null) {
+			float dx = last.x + last.w / 2 - this.x - this.w / 2;
+			float dy = last.y + last.h / 2 - this.y - this.h / 2;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+			float a = this.getAngleTo(last.x + last.w / 2, last.y + last.h / 2);
+
+			if (d < 48) {
+				return;
+			}
+
+			d -= 32;
+
+			float cx = Camera.game.position.x;
+			float cy = Camera.game.position.y;
+
+			float x = MathUtils.clamp(cx - Display.GAME_WIDTH / 2 + 16, cx + Display.GAME_WIDTH / 2 - 16, (float) Math.cos(a) * d + this.x + this.w / 2);
+			float y = MathUtils.clamp(cy - Display.GAME_HEIGHT / 2 + 16, cy + Display.GAME_HEIGHT / 2 - 16, (float) Math.sin(a) * d + this.y + this.h / 2);
+
+			Graphics.startShape();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.setColor(1, 0.2f, 0.2f, 1);
+
+			a = (float) Math.atan2(y - last.y - last.w / 2, x - last.x - last.h / 2);
+			float m = 10;
+			float am = 0.5f;
+
+			Graphics.shape.rectLine(x, y, x + (float) Math.cos(a - am) * m, y + (float) Math.sin(a - am) * m, 2);
+			Graphics.shape.rectLine(x, y, x + (float) Math.cos(a + am) * m, y + (float) Math.sin(a + am) * m, 2);
+
+			Graphics.endShape();
+		}
 	}
 
 	@Override
