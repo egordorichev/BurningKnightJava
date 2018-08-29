@@ -409,6 +409,8 @@ public class UiInventory extends UiEntity {
 	}
 
 	private void drop(final Item slot) {
+		slot.disableAutoPickup();
+
 		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override
 			public float getValue() {

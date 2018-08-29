@@ -60,6 +60,10 @@ public class Item extends Entity {
   	this.level ++;
   }
 
+  public void disableAutoPickup() {
+  	this.autoPickup = false;
+  }
+
 	public byte getLevel() {
 		return level;
 	}
