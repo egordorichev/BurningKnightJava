@@ -44,8 +44,17 @@ public class Button extends SaveableEntity {
 		if (entity instanceof Player) {
 			this.down = true;
 			Camera.shake(4);
+			this.onPress();
 			// todo: sfx
 		}
+	}
+
+	public void onPress() {
+
+	}
+
+	public boolean isDown() {
+		return down;
 	}
 
 	@Override

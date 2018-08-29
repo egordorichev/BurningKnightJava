@@ -2,7 +2,7 @@ package org.rexcellentgames.burningknight.entity.level.rooms.special;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.entities.Button;
+import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class ButtonPuzzleRoom extends SpecialRoom {
@@ -40,11 +40,14 @@ public class ButtonPuzzleRoom extends SpecialRoom {
 
 		for (int y = 0; y < this.getHeight() - 2; y++) {
 			for (int x = 0; x < w; x++) {
-				if (this.data[x + y * (w)] > 0) {
-					Button button = new Button();
+				byte t = this.data[x + y * (w)];
+
+				if (t > 0) {
+					AnswerButton button = new AnswerButton();
 
 					button.x = (x + this.left) * 16;
-					button.y = (y + this.top) * 16;
+					button.y = (y + this.top) * 16 - 8;
+					button.shouldBeDown = t == 1;
 
 					Dungeon.area.add(button.add());
 				}

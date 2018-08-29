@@ -15,7 +15,6 @@ public class FireFx extends Entity {
 	private float g;
 	private float scale;
 	private float a;
-	private float t;
 	private float av;
 	public Point vel = new Point();
 	private boolean second;
@@ -32,7 +31,6 @@ public class FireFx extends Entity {
 	@Override
 	public void init() {
 		super.init();
-		this.t = Random.newFloat(0.3f);
 
 		this.min = Random.newFloat(0.1f, 0.2f);
 		this.g = 1f;
@@ -56,7 +54,6 @@ public class FireFx extends Entity {
 		this.b = Math.max(0f, b - dt * 2f);
 		this.g = Math.max(this.min, g - dt);
 
-		this.t += dt;
 		this.scale += this.scale >= 0.8f ? this.scale * dt * 0.5f : dt * 5;
 
 		if (this.second) {
@@ -80,6 +77,8 @@ public class FireFx extends Entity {
 
 	@Override
 	public void render() {
+		Graphics.batch.setColor(r, g, b, this.al / 3);
+		Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, scale * 2, scale * 2);
 		Graphics.batch.setColor(r, g, b, this.al);
 		Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, scale, scale);
 		Graphics.batch.setColor(1, 1, 1, 1);

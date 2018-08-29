@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.*;
+import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
@@ -194,6 +195,7 @@ public abstract class RegularLevel extends Level {
 				ItemHolder.all.clear();
 				Chest.all.clear();
 				Mimic.all.clear();
+				AnswerButton.all.clear();
 
 				PlayerSave.all.clear();
 				LevelSave.all.clear();
