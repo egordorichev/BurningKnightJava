@@ -1,4 +1,5 @@
 package org.rexcellentgames.burningknight.util;
+
 public class Random {
 	public static java.util.Random random = new java.util.Random();
 

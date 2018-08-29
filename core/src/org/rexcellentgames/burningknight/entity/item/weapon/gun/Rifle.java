@@ -1,6 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
-public class Riffle extends Gun {
+public class Rifle extends Gun {
 	{
 		sprite = "item-gun_i";
 		damage = 5;

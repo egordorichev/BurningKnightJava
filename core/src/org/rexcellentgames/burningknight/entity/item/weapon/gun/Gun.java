@@ -448,8 +448,13 @@ public class Gun extends WeaponBase {
 
 		try {
 			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
-			bullet.sprite = Graphics.getTexture("bullet-" + b.bulletName);
 
+			if (!b.bulletName.startsWith("bullet-")) {
+			  b.bulletName = "bullet-" + b.bulletName;
+			}
+
+      bullet.sprite = Graphics.getTexture(b.bulletName);
+			
 			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
 			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
 
