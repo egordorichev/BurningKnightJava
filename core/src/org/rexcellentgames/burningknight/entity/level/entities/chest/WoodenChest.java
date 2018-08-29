@@ -22,6 +22,11 @@ public class WoodenChest extends Chest {
 	private static AnimationData openend = animation.get("open");
 
 	@Override
+	protected Animation getAnim() {
+		return animation;
+	}
+
+	@Override
 	public Item generate() {
 		Pool<Item> pool = new Pool<>();
 		weapon = Random.chance(50);

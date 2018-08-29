@@ -13,7 +13,10 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
+import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
@@ -43,6 +46,10 @@ public class Chest extends SaveableEntity {
 
 	private AnimationData unlock = lockAnimations.get("open");
 	private TextureRegion idleLock = lockAnimations.getFrames("idle").get(0).frame;
+	private TextureRegion halfBroken = getAnim().getFrames("break").get(0).frame;
+	private TextureRegion broken = getAnim().getFrames("break").get(1).frame;
+
+	private byte hp = 14;
 
 	{
 		h = 13;
@@ -80,6 +87,10 @@ public class Chest extends SaveableEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
+		if (this.hp == 0) {
+			return;
+		}
+
 		if (!this.open && entity instanceof Player) {
 			if (this.locked) {
 				this.colliding = true;
@@ -95,6 +106,34 @@ public class Chest extends SaveableEntity {
 						create = true;
 					}
 				});
+			}
+		} else if (!this.open && (entity instanceof Projectile || entity instanceof Weapon)) {
+			if (entity instanceof Projectile) {
+				if (!(((Projectile) entity).owner instanceof Player)) {
+					return;
+				}
+			} else if (entity instanceof Weapon) {
+				if (!(((Weapon) entity).getOwner() instanceof Player)) {
+					return;
+				}
+			}
+
+
+			this.hp -= 1;
+
+			if (this.hp <= 0) {
+				this.hp = 0;
+
+				for (int i = 0; i < 10; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = this.x + this.w / 2;
+					fx.y = this.y + this.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
+				this.locked = false;
 			}
 		}
 	}
@@ -167,6 +206,7 @@ public class Chest extends SaveableEntity {
 		}
 
 		this.locked = reader.readBoolean();
+		this.hp = reader.readByte();
 	}
 
 	@Override
@@ -185,6 +225,7 @@ public class Chest extends SaveableEntity {
 		}
 
 		writer.writeBoolean(this.locked);
+		writer.writeByte(this.hp);
 	}
 
 	@Override
@@ -283,7 +324,15 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void render() {
 		if (this.data != null) {
-			TextureRegion sprite = this.data.getCurrent().frame;
+			TextureRegion sprite;
+
+			if (this.open || this.hp > 6) {
+				sprite = this.data.getCurrent().frame;
+			} else if (this.hp == 0) {
+				sprite = broken;
+			} else {
+				sprite = halfBroken;
+			}
 
 			int w = sprite.getRegionWidth();
 
@@ -332,6 +381,10 @@ public class Chest extends SaveableEntity {
 	}
 
 	protected AnimationData getClosedAnim() {
+		return null;
+	}
+
+	protected Animation getAnim() {
 		return null;
 	}
 
