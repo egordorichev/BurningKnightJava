@@ -27,6 +27,8 @@ public class Button extends SaveableEntity {
 		depth = -1;
 	}
 
+	// todo: interact on white outline only
+
 	@Override
 	public void init() {
 		super.init();

@@ -1,9 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -14,6 +12,7 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class FastBook extends Book {
 	public static TextureRegion region = Graphics.getTexture("particle-thick");
+	public static TextureRegion filled = Graphics.getTexture("particle-thick_filled");
 
 	{
 		name = Locale.get("book_of_green_energy");
@@ -32,27 +31,13 @@ public class FastBook extends Book {
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
 			public void render() {
-				Graphics.batch.end();
-				RectFx.shader.begin();
-
 				Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 100, 100);
 
-				RectFx.shader.setUniformf("r", color.r);
-				RectFx.shader.setUniformf("g", color.g);
-				RectFx.shader.setUniformf("b", color.b);
-				RectFx.shader.setUniformf("a", 0.8f);
-				Texture texture = region.getTexture();
-
-				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
-				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
-
-				RectFx.shader.end();
-				Graphics.batch.setShader(RectFx.shader);
-				Graphics.batch.begin();
-				Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.batch.setColor(color.r, color.g, color.b, 0.4f);
+				Graphics.render(filled, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, 2f, 2f);
+				Graphics.batch.setColor(color.r, color.g, color.b, 0.8f);
+				Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false);
+				Graphics.batch.setColor(1, 1, 1, 1);
 			}
 
 			@Override

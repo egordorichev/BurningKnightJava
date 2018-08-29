@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -24,24 +22,11 @@ public class EcoWand extends Wand {
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
 			public void render() {
-				Graphics.batch.end();
-				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", 0.3f);
-				RectFx.shader.setUniformf("g", 1f);
-				RectFx.shader.setUniformf("b", 0.3f);
-				RectFx.shader.setUniformf("a", 0.8f);
-				Texture texture = region.getTexture();
-
-				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
-				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
-
-				RectFx.shader.end();
-				Graphics.batch.setShader(RectFx.shader);
-				Graphics.batch.begin();
-				Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.batch.setColor(0.3f, 1, 0.3f, 0.4f);
+				Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 22, false, false, 2f, 2f);
+				Graphics.batch.setColor(0.3f, 1, 0.3f, 0.8f);
+				Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false);
+				Graphics.batch.setColor(1, 1, 1, 1);
 			}
 
 			@Override
@@ -75,7 +60,7 @@ public class EcoWand extends Wand {
 							Dungeon.level.set(i, Terrain.GRASS);
 						} else if (l == Terrain.HIGH_DRY_GRASS) {
 							Dungeon.level.set(i, Terrain.HIGH_GRASS);
-						} else if (l != Terrain.HIGH_GRASS) {
+						} else if (l != Terrain.HIGH_GRASS && l != Terrain.EXIT) {
 							Dungeon.level.set(i, Terrain.GRASS);
 						}
 
