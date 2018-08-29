@@ -656,5 +656,7 @@
 	"burns_floor" : "Burns floor",
 	"leaves_venom" : "Leaves venom water after you",
 	"flippers" : "Flippers",
-	"flippers_desc" : "Water and lava are friends now!"
+	"flippers_desc" : "Water and lava are friends now!",
+	"flame_thrower" : "Flame thrower",
+	"flame_thrower_desc" : "Always on-fire"
 }
