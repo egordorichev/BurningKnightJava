@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.fx.ExplosionLeftOver;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -87,6 +88,11 @@ public class Explosion extends Entity {
 		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
 		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
 
-		Camera.shake(30f);
+		Camera.shake(20f);
+
+		ExplosionLeftOver over = new ExplosionLeftOver();
+		over.x = x;
+		over.y = y;
+		Dungeon.area.add(over);
 	}
 }

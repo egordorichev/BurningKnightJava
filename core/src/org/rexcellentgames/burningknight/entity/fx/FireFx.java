@@ -22,6 +22,7 @@ public class FireFx extends Entity {
 	private float b;
 
 	{
+		alwaysActive = true;
 		depth = 1;
 	}
 
