@@ -360,22 +360,24 @@ public class Player extends Creature {
 	public void renderBuffs() {
 		super.renderBuffs();
 
-		float dx = Exit.instance.x + 8 - x - w / 2;
-		float dy = Exit.instance.y + 8 - y - h / 2;
-		float a = (float) Math.atan2(dy, dx);
+		if (this.seePath && Exit.instance != null) {
+			float dx = Exit.instance.x + 8 - x - w / 2;
+			float dy = Exit.instance.y + 8 - y - h / 2;
+			float a = (float) Math.atan2(dy, dx);
 
-		Graphics.batch.end();
-		Graphics.shape.setProjectionMatrix(Camera.game.combined);
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-		Graphics.shape.setColor(1, 1, 1, 1);
+			Graphics.batch.end();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+			Graphics.shape.setColor(1, 1, 1, 1);
 
-		float an = (float) Math.toRadians(20);
+			float an = (float) Math.toRadians(20);
 
-		Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a - an) * 18), (float) (y + h / 2 + Math.sin(a - an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
-		Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a + an) * 18), (float) (y + h / 2 + Math.sin(a + an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a - an) * 18), (float) (y + h / 2 + Math.sin(a - an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a + an) * 18), (float) (y + h / 2 + Math.sin(a + an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
 
-		Graphics.shape.end();
-		Graphics.batch.begin();
+			Graphics.shape.end();
+			Graphics.batch.begin();
+		}
 	}
 
 	@Override
@@ -667,7 +669,7 @@ public class Player extends Creature {
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 16);
 		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
 			 || (!fromInit && (Dungeon.level.findRoomFor(this.x + this.w / 2, this.y) == null)))) {
-			this.tp(ladder.x, ladder.y - 2);
+			this.tp(ladder.x, ladder.y - 4);
 		} else if (ladder == null) {
 			Log.error("Null lader!");
 		}

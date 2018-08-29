@@ -20,6 +20,8 @@ import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranc
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.ButtonAnswerRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.ButtonPuzzleRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -259,6 +261,13 @@ public abstract class RegularLevel extends Level {
 
 			if (room != null) {
 				rooms.add(room);
+
+				if (room instanceof ButtonPuzzleRoom) {
+					ButtonAnswerRoom r = new ButtonAnswerRoom();
+					r.room = (ButtonPuzzleRoom) room;
+
+					rooms.add(r);
+				}
 			}
 		}
 
@@ -311,7 +320,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumSpecialRooms() {
-		return Dungeon.depth <= 0 ? 0 : Random.newInt(1, 4);
+		return Dungeon.depth <= 0 ? 0 : 1; // Random.newInt(1, 4);
 	}
 
 	protected int getNumSecretRooms() {
