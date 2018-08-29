@@ -654,6 +654,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void setOnFire(int i, boolean fire) {
+		if (!this.isValid(i)) {
+			return;
+		}
+
 		byte t = this.get(i);
 		byte l = this.liquidData[i];
 

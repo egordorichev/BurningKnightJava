@@ -1,10 +1,13 @@
 package org.rexcellentgames.burningknight.entity.trap;
 
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.fx.FireFx;
+import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
+import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -52,7 +55,32 @@ public class FourSideTurret extends Turret {
 	}
 
 	@Override
+	protected void sendFlames() {
+		for (int i = 0; i < 4; i++) {
+			FireFx fx = (Random.chance(50) && this.t >= 1.5f) ? new FireFxPhysic() : new FireFx();
+
+			float d = 5;
+			fx.x = x + Random.newFloat(-4, 4) + 8 + (float) (Math.cos(this.a) * d);
+			fx.y = y + Random.newFloat(-4, 4) + 8 + (float) (Math.sin(this.a) * d);
+
+			float f = this.t >= 1.5f ? 120f : 40f;
+			float a = (float) (this.a + i * (Math.PI / 2));
+
+			fx.vel.x = (float) (Math.cos(a) * f);
+			fx.vel.y = (float) (Math.sin(a) * f);
+
+			Dungeon.area.add(fx);
+		}
+	}
+
+	@Override
 	protected void send() {
+		if (this.type == 3) {
+			this.on = true;
+			this.t = 0;
+			return;
+		}
+
 		for (int i = 0; i < 4; i++) {
 			BulletProjectile bullet = new BulletProjectile();
 			bullet.sprite = Graphics.getTexture("bullet-bad");
