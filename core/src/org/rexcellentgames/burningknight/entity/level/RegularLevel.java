@@ -21,9 +21,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranc
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.special.ButtonAnswerRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.special.ButtonPuzzleRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.special.SpecialRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.*;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
@@ -268,6 +266,9 @@ public abstract class RegularLevel extends Level {
 					ButtonAnswerRoom r = new ButtonAnswerRoom();
 					r.room = (ButtonPuzzleRoom) room;
 
+					rooms.add(r);
+				} else if (room instanceof LeverPuzzleRoom) {
+					LeverAnswerRoom r = new LeverAnswerRoom();
 					rooms.add(r);
 				}
 			}

@@ -30,8 +30,9 @@ public class Terrain {
 	public static byte EMBER = 20;
 	public static byte COBWEB = 21;
 	public static byte VENOM = 22;
+	public static byte DISCO = 23;
 
-	public static byte SIZE = 23;
+	public static byte SIZE = 24;
 
 	public static int[] flags = new int[SIZE];
 	public static Color[][] colors = new Color[10][SIZE];
@@ -67,6 +68,7 @@ public class Terrain {
 		flags[EMBER] = PASSABLE | LIQUID_LAYER;
 		flags[COBWEB] = PASSABLE | LIQUID_LAYER | BURNS;
 		flags[EXIT] = PASSABLE | LIQUID_LAYER;
+		flags[DISCO] = PASSABLE;
 
 		colors[0][CHASM] = Color.valueOf("#000000");
 		colors[0][DIRT] = Color.valueOf("#8a4836");
@@ -128,10 +130,11 @@ public class Terrain {
 	}
 
 	public static byte randomFloor() {
-		switch (Random.newInt(3)) {
+		switch (Random.newInt(4)) {
 			case 0: default: last = FLOOR_A; break;
 			case 1: last = FLOOR_B; break;
 			case 2: last = FLOOR_C; break;
+			case 3: last = DISCO; break;
 		}
 
 		return last;
@@ -149,6 +152,7 @@ public class Terrain {
 	public static TextureRegion crackPattern;
 	public static TextureRegion chasmPattern;
 	public static TextureRegion cobwebPattern;
+	public static TextureRegion discoPattern;
 	public static TextureRegion emberPattern;
 	public static TextureRegion obsidianPattern;
 	public static TextureRegion icePattern;
@@ -202,6 +206,7 @@ public class Terrain {
 		cobwebPattern = Graphics.getTexture("biome-gen-cobweb_pattern");
 		obsidianPattern = Graphics.getTexture("biome-gen-obsidian_pattern");
 		icePattern = Graphics.getTexture("biome-gen-ice_pattern");
+		discoPattern = Graphics.getTexture("biome-gen-disco pattern");
 
 		entrance = Graphics.getTexture("props-entance");
 		exit = Graphics.getTexture("props-exit");

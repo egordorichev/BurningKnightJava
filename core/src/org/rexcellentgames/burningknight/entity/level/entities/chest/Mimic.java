@@ -368,6 +368,11 @@ public class Mimic extends Mob {
 
 	@Override
 	public boolean rollBlock() {
+		if (!this.found) {
+			this.found = true;
+			this.become("found");
+		}
+
 		return !this.state.equals("attack") || super.rollBlock();
 	}
 }

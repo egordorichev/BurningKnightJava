@@ -44,7 +44,7 @@ public class Turret extends SolidProp {
 			this.type = 2;
 		} else if (r < 0.7f) {
 			this.type = 3;
-			this.sp = 8;
+			this.sp = 10;
 		}
 	}
 
@@ -89,7 +89,6 @@ public class Turret extends SolidProp {
 		single.render(this.x, this.y, false, false, 8, 0, 0, sx, sy);
 	}
 
-	protected boolean rotates;
 	private float lastFlame;
 	private boolean was;
 
@@ -246,6 +245,7 @@ public class Turret extends SolidProp {
 	protected boolean on;
 
 	protected void send() {
+		this.t = 0;
 		BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet-bad");
 		bullet.anim = getAnimation().get("projectile");

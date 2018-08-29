@@ -6,5 +6,6 @@ public class FourSideRotatingTurret extends FourSideTurret {
 		this.a += Math.PI / 4;
 		this.str = !this.str;
 		this.tween();
+		this.t = 0;
 	}
 }

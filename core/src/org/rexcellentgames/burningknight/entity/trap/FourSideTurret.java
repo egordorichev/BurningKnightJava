@@ -59,12 +59,14 @@ public class FourSideTurret extends Turret {
 		for (int i = 0; i < 4; i++) {
 			FireFx fx = (Random.chance(50) && this.t >= 1.5f) ? new FireFxPhysic() : new FireFx();
 
+
 			float d = 5;
-			fx.x = x + Random.newFloat(-4, 4) + 8 + (float) (Math.cos(this.a) * d);
-			fx.y = y + Random.newFloat(-4, 4) + 8 + (float) (Math.sin(this.a) * d);
+			float a = (float) (this.a + i * (Math.PI / 2));
+
+			fx.x = x + Random.newFloat(-4, 4) + 8 + (float) (Math.cos(a) * d);
+			fx.y = y + Random.newFloat(-4, 4) + 8 + (float) (Math.sin(a) * d);
 
 			float f = this.t >= 1.5f ? 120f : 40f;
-			float a = (float) (this.a + i * (Math.PI / 2));
 
 			fx.vel.x = (float) (Math.cos(a) * f);
 			fx.vel.y = (float) (Math.sin(a) * f);

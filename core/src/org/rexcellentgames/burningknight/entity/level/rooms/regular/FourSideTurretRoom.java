@@ -15,10 +15,10 @@ public class FourSideTurretRoom extends TrapRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Painter.fill(level, this, Random.chance(50) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
+		Painter.fill(level, this, 1, Random.chance(50) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
 
 		if (Random.chance(50)) {
-			Painter.fillEllipse(level, this, Random.chance(50) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
+			Painter.fillEllipse(level, this, 1, Random.chance(50) ? Terrain.FLOOR_A : Terrain.FLOOR_B);
 		}
 
 		Point center = this.getCenter();

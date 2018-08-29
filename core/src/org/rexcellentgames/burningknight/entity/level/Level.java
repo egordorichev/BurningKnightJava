@@ -303,6 +303,8 @@ public abstract class Level extends SaveableEntity {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.FLOOR_A || tile == Terrain.FLOOR_B || tile == Terrain.FLOOR_C || tile == Terrain.FLOOR_D) {
 			this.makeFloor(x, y, tile);
+		} else if (tile == Terrain.DISCO) {
+			this.tileUp(x, y, tile, false)
 		}
 
 		byte t = this.liquidData[toIndex(x, y)];
