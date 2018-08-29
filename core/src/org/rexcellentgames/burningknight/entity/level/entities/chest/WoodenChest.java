@@ -1,9 +1,13 @@
 package org.rexcellentgames.burningknight.entity.level.entities.chest;
 
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
+import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -49,5 +53,30 @@ public class WoodenChest extends Chest {
 	@Override
 	protected AnimationData getOpenedAnim() {
 		return openend;
+	}
+
+	@Override
+	public void open() {
+		super.open();
+
+		if (Random.chance(50)) {
+			HeartFx fx = new HeartFx();
+
+			fx.x = this.x + (this.w - fx.w) / 2;
+			fx.y = this.y + (this.h - fx.h) / 2;
+
+			Dungeon.area.add(fx);
+		}
+
+
+		if (Random.chance(10)) {
+			ItemHolder fx = new ItemHolder();
+
+			fx.setItem(new KeyC());
+			fx.x = this.x + (this.w - fx.w) / 2;
+			fx.y = this.y + (this.h - fx.h) / 2;
+
+			Dungeon.area.add(fx);
+		}
 	}
 }
