@@ -85,8 +85,10 @@ public class Terrain {
 		colors[0][LAVA] = Color.valueOf("#ff5000");
 		colors[0][EXIT] = Color.valueOf("#424c6e");
 		colors[0][TABLE] = Color.valueOf("#f6ca9f");
+		colors[0][DISCO] = Color.valueOf("#ff0000");
 
 		colors[1][CHASM] = Color.valueOf("#000000");
+		colors[1][DISCO] = Color.valueOf("#ff0000");
 		colors[1][DIRT] = Color.valueOf("#8a4836");
 		colors[1][GRASS] = Color.valueOf("#33984b");
 		colors[1][HIGH_GRASS] = Color.valueOf("#33984b");
