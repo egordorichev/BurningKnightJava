@@ -62,8 +62,8 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		//leftMost -= 10;
-		//topMost -= 10;
+		leftMost -= 4;
+		topMost -= 4;
 
 		int rightMost = 0, bottomMost = 0;
 
@@ -77,8 +77,8 @@ public class Painter {
 		rightMost++;
 		bottomMost++;
 
-		//rightMost += 10;
-		//bottomMost += 10;
+		rightMost += 4;
+		bottomMost += 4;
 
 		//add 1 to account for 0 values
 		Level.setSize(rightMost + 1, bottomMost + 1);

@@ -130,11 +130,11 @@ public class Terrain {
 	}
 
 	public static byte randomFloor() {
-		switch (Random.newInt(4)) {
+		switch (Random.newInt(3)) {
 			case 0: default: last = FLOOR_A; break;
 			case 1: last = FLOOR_B; break;
 			case 2: last = FLOOR_C; break;
-			case 3: last = DISCO; break;
+			// case 3: last = DISCO; break;
 		}
 
 		return last;

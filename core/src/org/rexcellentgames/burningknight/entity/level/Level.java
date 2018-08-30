@@ -1017,10 +1017,7 @@ public abstract class Level extends SaveableEntity {
 					if (tile == Terrain.DISCO) {
 						TextureRegion region = new TextureRegion(Terrain.discoPattern);
 
-						int w = region.getRegionWidth() / 16;
-						int h = region.getRegionHeight() / 16;
-
-						region.setRegionX(region.getRegionX() + (x + this.t % 2 >= 1 ? 1 : 0 + y) % 2 * 16);
+						region.setRegionX(region.getRegionX() + (x + y + (this.t % 2f >= 1f ? 1 : 0)) % 2 * 16);
 						region.setRegionWidth(16);
 
 						Graphics.render(region, x * 16, y * 16 - 8);
