@@ -19,6 +19,11 @@ public class Accessory extends Item {
 		return true;
 	}
 
+	@Override
+	public boolean canBeDegraded() {
+		return true;
+	}
+
 	public boolean equipped;
 
 	public void onEquip(boolean load) {

@@ -39,6 +39,16 @@ public class WeaponBase extends Item {
 	}
 
 	@Override
+	public boolean canBeDegraded() {
+		return false;
+	}
+
+	@Override
+	public int getMaxLevel() {
+		return 7;
+	}
+
+	@Override
 	public int getPrice() {
 		return 15;
 	}

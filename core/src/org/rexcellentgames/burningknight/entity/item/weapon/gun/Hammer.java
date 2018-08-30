@@ -8,7 +8,7 @@ public class Hammer extends Gun {
 		hole.x = 16;
 		hole.y = 4;
 		useTime = 0.1f;
-		damage = 0;
+		damage = 2;
 		setAccuracy(20);
 		origin.x = 4;
 		origin.y = 4;

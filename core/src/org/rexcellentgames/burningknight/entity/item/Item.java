@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -42,7 +43,6 @@ public class Item extends Entity {
   protected Creature owner;
   protected TextureRegion region;
   protected boolean auto = false;
-  protected boolean fly = false;
   protected byte level = 1;
   protected String useSpeedStr;
   public byte price = 15;
@@ -56,9 +56,29 @@ public class Item extends Entity {
   	return 11;
   }
 
-  public void upgrade() {
-  	this.level ++;
+  public int getMinLevel() {
+  	return -1;
   }
+
+  public boolean canBeDegraded() {
+  	return false;
+  }
+
+  public void upgrade() {
+  	if (!canBeUpgraded()) {
+  		return;
+	  }
+
+  	this.level = (byte) Math.min(this.getMaxLevel(), this.level + 1);
+  }
+
+	public void degrade() {
+  	if (!canBeDegraded()) {
+  		return;
+	  }
+
+		this.level = (byte) Math.max(this.getMinLevel(), this.level - 1);
+	}
 
   public void disableAutoPickup() {
   	this.autoPickup = false;
@@ -121,12 +141,30 @@ public class Item extends Entity {
   }
 
   public void generate() {
+  	float r = Random.newFloat();
 
+		if (r <= 0.2f) {
+			if (this.canBeDegraded()) {
+				this.degrade();
+
+				if (Random.chance(30)) {
+					this.degrade();
+				}
+			}
+		} else if (r <= 0.4f) {
+			if (this.canBeUpgraded()) {
+				this.upgrade();
+
+				if (Random.chance(30)) {
+					this.upgrade();
+				}
+			}
+		}
   }
 
-  public boolean isFlying() {
-    return this.fly;
-  }
+	public void setLevel(byte level) {
+		this.level = level;
+	}
 
   public void onPickup() {
   	if (Dungeon.game.getState() instanceof InGameState) {

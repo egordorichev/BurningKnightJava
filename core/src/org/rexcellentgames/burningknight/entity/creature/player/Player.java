@@ -345,6 +345,8 @@ public class Player extends Creature {
 	public void give(Item item) {
 		item.generate();
 		this.inventory.add(new ItemHolder().setItem(item));
+
+		item.setLevel((byte) 0);
 	}
 
 	public void setUi(UiInventory ui) {

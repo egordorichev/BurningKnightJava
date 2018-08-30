@@ -47,7 +47,7 @@ public class Chest extends SaveableEntity {
 	public static Animation lockAnimations = Animation.make("door-lock", "-gold");
 
 	private AnimationData unlock = lockAnimations.get("open");
-	private TextureRegion idleLock = lockAnimations.getFrames("idle").get(0).frame;
+	public static TextureRegion idleLock = lockAnimations.getFrames("idle").get(0).frame;
 	private TextureRegion halfBroken = getAnim().getFrames("break").get(0).frame;
 	private TextureRegion broken = getAnim().getFrames("break").get(1).frame;
 
@@ -380,7 +380,7 @@ public class Chest extends SaveableEntity {
 			int w = sprite.getRegionWidth();
 
 			float sx = 1f;
-			float sy = 1f;//(float) (1f + Math.sin(this.t * 3f) / 15f);
+			float sy = 1f;
 			Graphics.render(sprite, this.x + w / 2 - 1, this.y, 0,
 				w / 2, 0, false, false, sx, sy);
 		}
