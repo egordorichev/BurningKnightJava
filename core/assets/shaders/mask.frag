@@ -25,12 +25,12 @@ void main() {
     if (water > 0.5) {
         vec4 edge = texture2D(u_texture2,
             vec2(
-                v_texCoord.x - pos.x + tpos.x,
-                v_texCoord.y - pos.y + tpos.y
+                clamp(tpos.x, tpos.x + size.x, v_texCoord.x - pos.x + tpos.x),
+                clamp(tpos.y, tpos.y + size.y, v_texCoord.y - pos.y + tpos.y)
             )
         );
 
-        if (edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
+        if (edge.a == 1.0 && edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
             vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
             float m = (time * speed / (cof.x * 2.0));
 
@@ -43,8 +43,8 @@ void main() {
     } else {
         vec4 edge = texture2D(u_texture2,
             vec2(
-                v_texCoord.x - pos.x + tpos.x,
-                v_texCoord.y - pos.y + tpos.y
+                clamp(tpos.x, tpos.x + size.x, v_texCoord.x - pos.x + tpos.x),
+                clamp(tpos.y, tpos.y + size.y, v_texCoord.y - pos.y + tpos.y)
             )
         );
 

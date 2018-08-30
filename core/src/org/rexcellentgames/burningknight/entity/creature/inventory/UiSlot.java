@@ -344,6 +344,7 @@ public class UiSlot {
 
 		Graphics.batch.setColor(r, g, b, a);
 
+		// fixme: if cursed, render red
 		Graphics.render(reg, this.x + slot.getRegionWidth() / 2,
 			this.y + slot.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
