@@ -8,8 +8,10 @@ import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
@@ -118,7 +120,6 @@ public class Chest extends SaveableEntity {
 				}
 			}
 
-
 			this.hp -= 1;
 
 			if (this.hp <= 0) {
@@ -134,6 +135,36 @@ public class Chest extends SaveableEntity {
 				}
 
 				this.locked = false;
+			}
+
+			if (Random.chance(50)) {
+				HeartFx fx = new HeartFx();
+
+				fx.x = this.x + (this.w - fx.w) / 2;
+				fx.y = this.y + (this.h - fx.h) / 2;
+
+				Dungeon.area.add(fx);
+			}
+
+			if (Random.chance(10)) {
+				ItemHolder fx = new ItemHolder();
+
+				fx.setItem(new KeyC());
+				fx.x = this.x + (this.w - fx.w) / 2;
+				fx.y = this.y + (this.h - fx.h) / 2;
+
+				Dungeon.area.add(fx);
+			}
+
+			if (Random.chance(10)) {
+				ItemHolder fx = new ItemHolder();
+
+				fx.setItem(new Gold());
+				fx.getItem().generate();
+				fx.x = this.x + (this.w - fx.w) / 2;
+				fx.y = this.y + (this.h - fx.h) / 2;
+
+				Dungeon.area.add(fx);
 			}
 		}
 	}
