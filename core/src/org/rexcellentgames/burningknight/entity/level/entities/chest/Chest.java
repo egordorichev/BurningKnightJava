@@ -135,39 +135,15 @@ public class Chest extends SaveableEntity {
 				}
 
 				this.locked = false;
-			}
+				this.createLoot = true;
 
-			if (Random.chance(50)) {
-				HeartFx fx = new HeartFx();
-
-				fx.x = this.x + (this.w - fx.w) / 2;
-				fx.y = this.y + (this.h - fx.h) / 2;
-
-				Dungeon.area.add(fx);
-			}
-
-			if (Random.chance(10)) {
-				ItemHolder fx = new ItemHolder();
-
-				fx.setItem(new KeyC());
-				fx.x = this.x + (this.w - fx.w) / 2;
-				fx.y = this.y + (this.h - fx.h) / 2;
-
-				Dungeon.area.add(fx);
-			}
-
-			if (Random.chance(10)) {
-				ItemHolder fx = new ItemHolder();
-
-				fx.setItem(new Gold());
-				fx.getItem().generate();
-				fx.x = this.x + (this.w - fx.w) / 2;
-				fx.y = this.y + (this.h - fx.h) / 2;
-
-				Dungeon.area.add(fx);
+				this.body = World.removeBody(this.body);
+				this.sensor = World.removeBody(this.sensor);
 			}
 		}
 	}
+
+	private boolean createLoot;
 
 	@Override
 	public void onCollisionEnd(Entity entity) {
@@ -263,6 +239,40 @@ public class Chest extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (createLoot) {
+			if (Random.chance(50)) {
+				HeartFx fx = new HeartFx();
+
+				fx.x = this.x + (this.w - fx.w) / 2;
+				fx.y = this.y + (this.h - fx.h) / 2;
+
+				Dungeon.area.add(fx);
+			}
+
+			if (Random.chance(30)) {
+				ItemHolder fx = new ItemHolder();
+
+				fx.setItem(new KeyC());
+				fx.x = this.x + (this.w - fx.w) / 2;
+				fx.y = this.y + (this.h - fx.h) / 2;
+
+				Dungeon.area.add(fx);
+			}
+
+			if (Random.chance(30)) {
+				ItemHolder fx = new ItemHolder();
+
+				fx.setItem(new Gold());
+				fx.getItem().generate();
+				fx.x = this.x + (this.w - fx.w) / 2;
+				fx.y = this.y + (this.h - fx.h) / 2;
+
+				Dungeon.area.add(fx);
+			}
+
+			createLoot = false;
+		}
+
 		this.t += dt;
 
 		if (this.item != null && this.create) {
@@ -275,8 +285,10 @@ public class Chest extends SaveableEntity {
 			}
 		}
 
-		this.sensor.setTransform(this.x, this.y, 0);
-		this.body.setTransform(this.x, this.y, 0);
+		if (this.body != null) {
+			this.sensor.setTransform(this.x, this.y, 0);
+			this.body.setTransform(this.x, this.y, 0);
+		}
 
 		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 3;
 
@@ -369,7 +381,7 @@ public class Chest extends SaveableEntity {
 
 			float sx = 1f;
 			float sy = 1f;//(float) (1f + Math.sin(this.t * 3f) / 15f);
-			Graphics.render(sprite, this.x + w / 2, this.y, 0,
+			Graphics.render(sprite, this.x + w / 2 - 1, this.y, 0,
 				w / 2, 0, false, false, sx, sy);
 		}
 
