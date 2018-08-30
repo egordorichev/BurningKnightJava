@@ -655,6 +655,14 @@ public abstract class Level extends SaveableEntity {
 								int step = BitHelper.getNumber(info, 6, 4);
 
 								if (step >= 15) {
+									byte t = this.liquidData[i];
+
+									if (t == Terrain.ICE) {
+										for (int j : PathFinder.NEIGHBOURS8) {
+											this.freeze(i + j);
+										}
+									}
+
 									//if (this.checkFor(i, Terrain.LIQUID_LAYER)) {
 										info = BitHelper.putNumber(info, 10, 3, getOverlayType(this.liquidData[i]));
 										info = BitHelper.setBit(info, 17, true);
@@ -884,25 +892,9 @@ public abstract class Level extends SaveableEntity {
 					//this.info[i] = BitHelper.putNumber(info, 10, 3, 1);
 
 					if (t == Terrain.ICE) {
-						/*if (!burning) {
-							int damage = BitHelper.getNumber(info, 1, 4);
-
-							if (damage >= 1) {
-								for (int j : PathFinder.NEIGHBOURS8) {
-									int k = j + i;
-									byte tt = this.liquidData[k];
-
-									if (tt == Terrain.WATER || tt == Terrain.VENOM) {
-										this.set(k, Terrain.ICE);
-										this.updateTile(toX(k), toY(k));
-									}
-								}
-							} else {
-								damage ++;
-							}
-
-							this.info[i] = (byte) BitHelper.putNumber(info, 1, 4, damage);
-						}*/
+						for (int j : PathFinder.NEIGHBOURS8) {
+							this.freeze(i + j);
+						}
 					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
 						if ((updateId + x + y) % 20 == 0) {
 							if (t == Terrain.GRASS && Random.chance(1)) {
@@ -1378,26 +1370,35 @@ public abstract class Level extends SaveableEntity {
 
 		Graphics.batch.end();
 		maskShader.begin();
+
+		maskShader.setUniformf("spreadStep", 1f);
+
 		t.bind(1);
-		maskShader.setUniformf("activated", 1);
-		maskShader.setUniformf("water", water ? 1 : 0);
-		maskShader.setUniformf("overlay", 1);
-		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? -0.3f : 1);
 		maskShader.setUniformi("u_texture2", 1);
+
+		maskShader.setUniformf("activated", 1);
+		maskShader.setUniformf("spread", 1);
+		maskShader.setUniformf("water", 0);
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-		texture.bind(0);
-		maskShader.setUniformi("u_texture", 1);
 		maskShader.setUniformf("time", this.t);
 		maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
 		maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+
+		texture.bind(0);
+		maskShader.setUniformi("u_texture", 1);
+
+		rr = edge[this.liquidVariants[i]];
+
+		maskShader.setUniformf("epos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		maskShader.end();
+
 		Graphics.batch.begin();
 
 		Graphics.render(r, x * 16, y * 16 - 8);
 
 		Graphics.batch.end();
 		maskShader.begin();
-		maskShader.setUniformf("overlay", 0);
+		maskShader.setUniformf("spread", 0);
 		maskShader.setUniformf("activated", 0);
 		maskShader.end();
 		Graphics.batch.begin();
