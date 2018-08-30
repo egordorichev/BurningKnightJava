@@ -9,6 +9,7 @@ uniform vec2 pos;
 uniform vec2 epos;
 uniform vec2 size;
 uniform vec2 tpos;
+uniform float overlay;
 uniform float spread;
 uniform float spreadStep;
 uniform float water;
@@ -25,7 +26,20 @@ void main() {
         return;
     }
 
-    if (spread > 0.5) {
+    if (overlay > 0.5) {
+        vec4 map = texture2D(u_texture2,
+            vec2(
+                v_texCoord.x - pos.x + tpos.x,
+                v_texCoord.y - pos.y + tpos.y
+            )
+        );
+
+        if (map.a == 1.0) {
+            gl_FragColor = texture2D(u_texture, v_texCoord.xy);
+        } else {
+            gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+        }
+    } else if (spread > 0.5) {
         vec4 map = texture2D(u_texture2,
             vec2(
                 v_texCoord.x - pos.x + tpos.x,

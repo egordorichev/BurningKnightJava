@@ -93,10 +93,11 @@ public abstract class Level extends SaveableEntity {
 	 * Layout:
 	 *
 	 * bit 0: is burning
-	 * bit 1-5: damage/hp
+	 * bit 1-5: damage / hp
 	 * bit 6-9: growth
-	 * bit 10-12: grow type
+	 * bit 10-12: grow type / overlay type
 	 * bit 13-16: neighbour mask
+	 * bit 17: if true then this is overlay
 	 */
 
 	public static int[] orders = new int[5];
@@ -654,8 +655,24 @@ public abstract class Level extends SaveableEntity {
 								int step = BitHelper.getNumber(info, 6, 4);
 
 								if (step >= 15) {
-									this.info[i] = 0;
-									this.liquidData[i] = Terrain.ICE;
+									//if (this.checkFor(i, Terrain.LIQUID_LAYER)) {
+										info = BitHelper.putNumber(info, 10, 3, getOverlayType(this.liquidData[i]));
+										info = BitHelper.setBit(info, 17, true);
+
+										this.info[i] = info;
+										this.liquidData[i] = Terrain.ICE;
+
+
+										for (int yy = y - 1; yy < y + 2; yy++) {
+											for (int xx = x - 1; xx < x + 2; xx++) {
+												this.updateNeighbourMask(xx, yy);
+											}
+										}
+
+									/*} else {
+										this.info[i] = 0;
+										this.liquidData[i] = Terrain.ICE;
+									}*/
 								} else {
 									this.info[i] = BitHelper.putNumber(info, 6, 4, step + 1);
 								}
@@ -675,6 +692,32 @@ public abstract class Level extends SaveableEntity {
 				}
 			}
 		}
+	}
+
+	private int getOverlayType(byte liquid) {
+		if (liquid == Terrain.ICE) {
+			return 1;
+		} if (liquid == Terrain.WATER) {
+			return 2;
+		} else if (liquid == Terrain.VENOM) {
+			return 3;
+		} else if (liquid == Terrain.LAVA) {
+			return 4;
+		}
+
+		return 0;
+	}
+
+	private int fromOverlay(int ov) {
+		if (ov == 2) {
+			return Terrain.WATER;
+		} else if (ov == 3) {
+			return Terrain.VENOM;
+		} else if (ov == 4) {
+			return Terrain.LAVA;
+		}
+
+		return Terrain.WATER;
 	}
 
 	private int updateId;
@@ -717,23 +760,30 @@ public abstract class Level extends SaveableEntity {
 			}
 
 			info = BitHelper.putNumber(info, 6, 4, 0);
+			info = BitHelper.setBit(info, 17, false);
 			this.info[i] = BitHelper.putNumber(info, 10, 3, 1);
 
 			int x = toX(i);
 			int y = toY(i);
 
-			//for (int yy = y - 1; yy < y + 2; yy++) {
-			//for (int xx = x - 1; xx < x + 2; xx++) {
-			this.updateNeighbourMask(x, y);
-			//}
-			//}
+			for (int yy = y - 1; yy < y + 2; yy++) {
+				for (int xx = x - 1; xx < x + 2; xx++) {
+					this.updateNeighbourMask(xx, yy);
+				}
+			}
 		}
 	}
 
 	private void updateNeighbourMask(int x, int y) {
 		int i = toIndex(x, y);
 		int info = this.info[i];
-		int type = BitHelper.getNumber(info, 10, 3);
+		int type;
+
+		if (BitHelper.isBitSet(info, 17)) {
+			type = this.getOverlayType(this.liquidData[i]);
+		} else {
+			type = BitHelper.getNumber(info, 10, 3);
+		}
 
 		int count = 0;
 
@@ -761,10 +811,11 @@ public abstract class Level extends SaveableEntity {
 		byte t = this.liquidData[i];
 
 		switch (type) {
-			case 1: default: if (t == Terrain.ICE) { return true; } break;
+			case 1: if (t == Terrain.ICE) { return true; } break;
 		}
 
-		return false; // BitHelper.getNumber(this.info[i], 10, 3) == type;
+		int info = this.info[i];
+		return BitHelper.getNumber(info, 6, 4) > 0 && BitHelper.getNumber(info, 10, 3) == type;
 	}
 
 	private void doEffects() {
@@ -1127,6 +1178,8 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
+	private TextureRegion[] edge = null;
+
 	public void renderLiquids() {
 		OrthographicCamera camera = Camera.game;
 
@@ -1145,8 +1198,6 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.setShader(maskShader);
 		Graphics.batch.begin();
 
-		TextureRegion[] edge = null;
-
 		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy);  y--) {
 			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
@@ -1154,115 +1205,86 @@ public abstract class Level extends SaveableEntity {
 					continue;
 				}
 
+				int info = this.info[i];
 				byte tile = this.liquidData[i];
 
-				if (tile == Terrain.EXIT) {
-					float dt = Gdx.graphics.getDeltaTime();
-					Exit.al = MathUtils.clamp(0, 1, Exit.al + ((Exit.exitFx != null ? 1 : 0) - Exit.al) * dt * 10);
+				if (BitHelper.isBitSet(info, 17)) {
+					this.doDraw((byte) this.fromOverlay(BitHelper.getNumber(info, 10, 3)), i, x, y);
 
-					if (Exit.al > 0) {
-						Graphics.batch.end();
-						Mob.shader.begin();
-						Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
-						Mob.shader.setUniformf("u_a", Exit.al);
-						Mob.shader.end();
-						Graphics.batch.setShader(Mob.shader);
-						Graphics.batch.begin();
-
-						for (int yy = -1; yy < 2; yy++) {
-							for (int xx = -1; xx < 2; xx++) {
-								if (Math.abs(xx) + Math.abs(yy) == 1) {
-									Graphics.render(Terrain.exit, x * 16 + xx, y * 16 - 8 + yy);
-								}
-							}
-						}
-
-						Graphics.batch.end();
-						Graphics.batch.setShader(maskShader);
-						Graphics.batch.begin();
+					if (tile == Terrain.ICE) {
+						drawOver(Terrain.icePattern, i, x, y, false, info);
 					}
+				} else {
+					this.doDraw(tile, i, x, y);
 
-					Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
-				} else if (tile == Terrain.WATER) {
-					drawWith(Terrain.waterPattern, edge = Terrain.pooledge, i, x, y, true);
-				} else if (tile == Terrain.LAVA) {
-					drawWith(Terrain.lavaPattern, edge = Terrain.lavaedge, i, x, y, true);
-				} else if (tile == Terrain.VENOM) {
-					drawWith(Terrain.venomPattern, edge = Terrain.pooledge, i, x, y, true);
-				} else if (tile == Terrain.HIGH_GRASS) {
-					Graphics.render(Terrain.grassHigh, x * 16, y * 16 - 8);
-				} else if (tile == Terrain.HIGH_DRY_GRASS) {
-					Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
-				}
-
-				if (edge == null) {
-					continue;
-				}
-
-				int info = this.info[i];
-				int spread = BitHelper.getNumber(info, 10, 3);
-
-				if (spread > 0) {
-					int step = BitHelper.getNumber(info, 6, 4);
-					TextureRegion r;
-
-					if (spread == 1) {
-						r = new TextureRegion(Terrain.icePattern);
-					} else {
+					if (edge == null) {
 						continue;
 					}
 
-					r.setRegionX(r.getRegionX() + x % 4 * 16);
-					r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
+					int spread = BitHelper.getNumber(info, 10, 3);
 
-					int rx = r.getRegionX();
-					int ry = r.getRegionY();
+					if (spread > 0) {
+						int step = BitHelper.getNumber(info, 6, 4);
+						TextureRegion r;
 
-					r.setRegionHeight(16);
-					r.setRegionWidth(16);
+						if (spread == 1) {
+							r = new TextureRegion(Terrain.icePattern);
+						} else {
+							continue;
+						}
 
-					Texture texture = r.getTexture();
+						r.setRegionX(r.getRegionX() + x % 4 * 16);
+						r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
 
-					int rw = texture.getWidth();
-					int rh = texture.getHeight();
+						int rx = r.getRegionX();
+						int ry = r.getRegionY();
 
-					TextureRegion rr = Terrain.spread[BitHelper.getNumber(info, 13, 4)];
-					Texture t = rr.getTexture();
+						r.setRegionHeight(16);
+						r.setRegionWidth(16);
 
-					Graphics.batch.end();
-					maskShader.begin();
+						Texture texture = r.getTexture();
 
-					maskShader.setUniformf("spreadStep", ((float) step) / 256f);
+						int rw = texture.getWidth();
+						int rh = texture.getHeight();
 
-					t.bind(1);
-					maskShader.setUniformi("u_texture2", 1);
+						TextureRegion rr = Terrain.spread[BitHelper.getNumber(info, 13, 4)];
+						Texture t = rr.getTexture();
 
-					maskShader.setUniformf("activated", 1);
-					maskShader.setUniformf("spread", 1);
-					maskShader.setUniformf("water", 0);
-					maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-					maskShader.setUniformf("time", this.t);
-					maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
-					maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+						Graphics.batch.end();
+						maskShader.begin();
 
-					texture.bind(0);
-					maskShader.setUniformi("u_texture", 1);
+						maskShader.setUniformf("spreadStep", ((float) step) / 256f);
 
-					rr = edge[this.liquidVariants[i]];
+						t.bind(1);
+						maskShader.setUniformi("u_texture2", 1);
 
-					maskShader.setUniformf("epos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-					maskShader.end();
+						maskShader.setUniformf("activated", 1);
+						maskShader.setUniformf("spread", 1);
+						maskShader.setUniformf("water", 0);
+						maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
+						maskShader.setUniformf("time", this.t);
+						maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+						maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
 
-					Graphics.batch.begin();
+						texture.bind(0);
+						maskShader.setUniformi("u_texture", 1);
 
-					Graphics.render(r, x * 16, y * 16 - 8);
+						rr = edge[this.liquidVariants[i]];
 
-					Graphics.batch.end();
-					maskShader.begin();
-					maskShader.setUniformf("spread", 0);
-					maskShader.setUniformf("activated", 0);
-					maskShader.end();
-					Graphics.batch.begin();
+						maskShader.setUniformf("epos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
+						maskShader.end();
+
+						Graphics.batch.begin();
+
+						Graphics.render(r, x * 16, y * 16 - 8);
+
+						Graphics.batch.end();
+						maskShader.begin();
+						maskShader.setUniformf("spread", 0);
+						maskShader.setUniformf("activated", 0);
+						maskShader.end();
+						Graphics.batch.begin();
+					}
 				}
 
 				edge = null;
@@ -1291,6 +1313,94 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		renderShadows();
+	}
+
+	private void doDraw(byte tile, int i, int x, int y) {
+		if (tile == Terrain.EXIT) {
+			float dt = Gdx.graphics.getDeltaTime();
+			Exit.al = MathUtils.clamp(0, 1, Exit.al + ((Exit.exitFx != null ? 1 : 0) - Exit.al) * dt * 10);
+
+			if (Exit.al > 0) {
+				Graphics.batch.end();
+				Mob.shader.begin();
+				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+				Mob.shader.setUniformf("u_a", Exit.al);
+				Mob.shader.end();
+				Graphics.batch.setShader(Mob.shader);
+				Graphics.batch.begin();
+
+				for (int yy = -1; yy < 2; yy++) {
+					for (int xx = -1; xx < 2; xx++) {
+						if (Math.abs(xx) + Math.abs(yy) == 1) {
+							Graphics.render(Terrain.exit, x * 16 + xx, y * 16 - 8 + yy);
+						}
+					}
+				}
+
+				Graphics.batch.end();
+				Graphics.batch.setShader(maskShader);
+				Graphics.batch.begin();
+			}
+
+			Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
+		} else if (tile == Terrain.WATER) {
+			drawWith(Terrain.waterPattern, edge = Terrain.pooledge, i, x, y, true);
+		} else if (tile == Terrain.LAVA) {
+			drawWith(Terrain.lavaPattern, edge = Terrain.lavaedge, i, x, y, true);
+		} else if (tile == Terrain.VENOM) {
+			drawWith(Terrain.venomPattern, edge = Terrain.pooledge, i, x, y, true);
+		} else if (tile == Terrain.HIGH_GRASS) {
+			Graphics.render(Terrain.grassHigh, x * 16, y * 16 - 8);
+		} else if (tile == Terrain.HIGH_DRY_GRASS) {
+			Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
+		}
+	}
+
+	private void drawOver(TextureRegion pattern, int i, int x, int y, boolean water, int info) {
+		TextureRegion r = new TextureRegion(pattern);
+
+		r.setRegionX(r.getRegionX() + x % 4 * 16);
+		r.setRegionY(r.getRegionY() + (3 - y % 4) * 16);
+
+		int rx = r.getRegionX();
+		int ry = r.getRegionY();
+
+		r.setRegionHeight(16);
+		r.setRegionWidth(16);
+
+		Texture texture = r.getTexture();
+
+		int rw = texture.getWidth();
+		int rh = texture.getHeight();
+
+		TextureRegion rr = Terrain.spread[BitHelper.getNumber(info, 13, 4)];
+		Texture t = rr.getTexture();
+
+		Graphics.batch.end();
+		maskShader.begin();
+		t.bind(1);
+		maskShader.setUniformf("activated", 1);
+		maskShader.setUniformf("water", water ? 1 : 0);
+		maskShader.setUniformf("overlay", 1);
+		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? -0.3f : 1);
+		maskShader.setUniformi("u_texture2", 1);
+		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
+		texture.bind(0);
+		maskShader.setUniformi("u_texture", 1);
+		maskShader.setUniformf("time", this.t);
+		maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
+		maskShader.setUniformf("size", new Vector2(16f / rw, 16f / rh));
+		maskShader.end();
+		Graphics.batch.begin();
+
+		Graphics.render(r, x * 16, y * 16 - 8);
+
+		Graphics.batch.end();
+		maskShader.begin();
+		maskShader.setUniformf("overlay", 0);
+		maskShader.setUniformf("activated", 0);
+		maskShader.end();
+		Graphics.batch.begin();
 	}
 
 	private void drawWith(TextureRegion pattern, TextureRegion edge[], int i, int x, int y, boolean water) {
