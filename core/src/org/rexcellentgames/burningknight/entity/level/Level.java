@@ -1249,12 +1249,8 @@ public abstract class Level extends SaveableEntity {
 					maskShader.setUniformi("u_texture", 1);
 
 					rr = edge[this.liquidVariants[i]];
-					t = rr.getTexture();
 
-					t.bind(2);
-					maskShader.setUniformi("u_texture3", 1);
 					maskShader.setUniformf("epos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
-
 					maskShader.end();
 
 					Graphics.batch.begin();
@@ -1263,6 +1259,7 @@ public abstract class Level extends SaveableEntity {
 
 					Graphics.batch.end();
 					maskShader.begin();
+					maskShader.setUniformf("spread", 0);
 					maskShader.setUniformf("activated", 0);
 					maskShader.end();
 					Graphics.batch.begin();
@@ -1322,7 +1319,6 @@ public abstract class Level extends SaveableEntity {
 		maskShader.begin();
 		t.bind(1);
 		maskShader.setUniformf("activated", 1);
-		maskShader.setUniformf("spread", 0);
 		maskShader.setUniformf("water", water ? 1 : 0);
 		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? -0.3f : 1);
 		maskShader.setUniformi("u_texture2", 1);

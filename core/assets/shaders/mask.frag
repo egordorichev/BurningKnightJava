@@ -16,7 +16,6 @@ uniform float speed;
 uniform float activated;
 uniform sampler2D u_texture;
 uniform sampler2D u_texture2;
-uniform sampler2D u_texture3;
 varying vec2 v_texCoord;
 varying vec4 v_color;
 
@@ -35,7 +34,7 @@ void main() {
         );
 
         if (map.a == 1.0 && map.r <= spreadStep) {
-            vec4 edge = texture2D(u_texture3,
+            vec4 edge = texture2D(u_texture2,
                 vec2(
                     v_texCoord.x - pos.x + epos.x,
                     v_texCoord.y - pos.y + epos.y
@@ -76,7 +75,7 @@ void main() {
             )
         );
 
-       if (edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
+       if (edge.a == 1.0 && edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
             gl_FragColor = texture2D(u_texture, vec2(v_texCoord.x, v_texCoord.y));
        } else {
             gl_FragColor = edge;

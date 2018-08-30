@@ -181,7 +181,7 @@ public class HeartFx extends SaveableEntity {
 			}
 		}
 
-		this.animation.update(dt);
+		this.animation.update(dt * 0.6f);
 	}
 
 	@Override
