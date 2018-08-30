@@ -2,7 +2,7 @@ package org.rexcellentgames.burningknight.entity;
 
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class NetworkedEntity extends Entity {
+public class StatefulEntity extends Entity {
 	public Point vel = new Point();
 	public float t;
 	protected String state = "idle";
