@@ -6,13 +6,17 @@ precision mediump int;
 
 uniform float time;
 uniform vec2 pos;
+uniform vec2 epos;
 uniform vec2 size;
 uniform vec2 tpos;
+uniform float spread;
+uniform float spreadStep;
 uniform float water;
 uniform float speed;
 uniform float activated;
 uniform sampler2D u_texture;
 uniform sampler2D u_texture2;
+uniform sampler2D u_texture3;
 varying vec2 v_texCoord;
 varying vec4 v_color;
 
@@ -22,11 +26,35 @@ void main() {
         return;
     }
 
-    if (water > 0.5) {
+    if (spread > 0.5) {
+        vec4 map = texture2D(u_texture2,
+            vec2(
+                v_texCoord.x - pos.x + tpos.x,
+                v_texCoord.y - pos.y + tpos.y
+            )
+        );
+
+        if (map.r <= spreadStep) {
+            vec4 edge = texture2D(u_texture3,
+                vec2(
+                    v_texCoord.x - pos.x + epos.x,
+                    v_texCoord.y - pos.y + epos.y
+                )
+            );
+
+            if (edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
+                gl_FragColor = texture2D(u_texture, v_texCoord.xy);
+            } else {
+                gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+            }
+        } else {
+            gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+        }
+    } else if (water > 0.5) {
         vec4 edge = texture2D(u_texture2,
             vec2(
-                clamp(tpos.x, tpos.x + size.x, v_texCoord.x - pos.x + tpos.x),
-                clamp(tpos.y, tpos.y + size.y, v_texCoord.y - pos.y + tpos.y)
+                v_texCoord.x - pos.x + tpos.x,
+                v_texCoord.y - pos.y + tpos.y
             )
         );
 
@@ -43,8 +71,8 @@ void main() {
     } else {
         vec4 edge = texture2D(u_texture2,
             vec2(
-                clamp(tpos.x, tpos.x + size.x, v_texCoord.x - pos.x + tpos.x),
-                clamp(tpos.y, tpos.y + size.y, v_texCoord.y - pos.y + tpos.y)
+                v_texCoord.x - pos.x + tpos.x,
+                v_texCoord.y - pos.y + tpos.y
             )
         );
 

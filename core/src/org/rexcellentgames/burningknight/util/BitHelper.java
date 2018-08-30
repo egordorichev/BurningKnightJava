@@ -5,12 +5,12 @@ public class BitHelper {
 		return (val & (1L << pos)) != 0;
 	}
 
-	public static byte setBit(int val, int pos, boolean set) {
+	public static int setBit(int val, int pos, boolean set) {
 		if (set) {
-			return (byte) (val | 1 << pos);
+			return (val | 1 << pos);
 		}
 
-		return (byte) (val & ~(1 << pos));
+		return (val & ~(1 << pos));
 	}
 
 	public static int getBit(int data, int bit) {

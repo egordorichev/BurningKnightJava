@@ -160,6 +160,7 @@ public class Terrain {
 	public static TextureRegion icePattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
 
+	public static TextureRegion[] spread = new TextureRegion[16];
 	public static TextureRegion[] pooledge = new TextureRegion[16];
 	public static TextureRegion[] lavaedge = new TextureRegion[16];
 	public static TextureRegion[] dirtedge = new TextureRegion[16];
@@ -240,6 +241,10 @@ public class Terrain {
 
 		for (int i = 0; i < 10; i++) {
 			dither[i] = Graphics.getTexture("fx-dither-idle-" + String.format("%02d", i));
+		}
+
+		for (int i = 0; i < 16; i++) {
+			spread[i] = Graphics.getTexture("biome-gen-l" + Level.COMPASS[i]);
 		}
 
 		for (int i = 0; i < 16; i++) {

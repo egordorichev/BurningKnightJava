@@ -150,7 +150,7 @@ public class Door extends SaveableEntity {
 
 		if (!this.burning) {
 			int i = Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16));
-			byte info = Dungeon.level.getInfo(i);
+			short info = Dungeon.level.getInfo(i);
 
 			if (BitHelper.isBitSet(info, 0)) {
 				// Burning

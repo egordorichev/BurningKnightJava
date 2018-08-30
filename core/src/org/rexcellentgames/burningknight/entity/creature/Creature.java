@@ -290,7 +290,7 @@ public class Creature extends SaveableEntity {
 
 					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
 						int i = Level.toIndex(x, y);
-						byte info = Dungeon.level.getInfo(i);
+						short info = Dungeon.level.getInfo(i);
 						byte t = Dungeon.level.get(i);
 						byte l = Dungeon.level.liquidData[i];
 
@@ -314,7 +314,7 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected void onTouch(short t, int x, int y, byte info) {
+	protected void onTouch(short t, int x, int y, short info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
 			this.removeBuff(BurningBuff.class);
 		} else {
