@@ -20,6 +20,7 @@ public class Waterbolt extends Wand {
 		description = Locale.get("waterbolt_desc");
 		sprite = "item-wand_b";
 		damage = 2;
+		penetrates = true;
 	}
 
 	public static TextureRegion region = Graphics.getTexture("particle-long");

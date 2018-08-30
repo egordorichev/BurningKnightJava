@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.CurseFx;
 import org.rexcellentgames.burningknight.entity.fx.UpgradeFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -192,9 +193,6 @@ public class UiSlot {
 		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());
 
 		if (active instanceof ScrollOfUpgrade && self != null && (self.canBeUpgraded() && self.getLevel() < self.getMaxLevel())) {
-			active.use();
-			self.upgrade();
-
 			for (int i = 0; i < 10; i++) {
 				UpgradeFx fx = new UpgradeFx();
 
@@ -203,6 +201,22 @@ public class UiSlot {
 
 				Dungeon.ui.add(fx);
 			}
+
+			if (active.isCursed()) {
+				for (int i = 0; i < 10; i++) {
+					CurseFx fx = new CurseFx();
+
+					fx.x = Random.newFloat(16) - 8 + Input.instance.uiMouse.x;
+					fx.y = Random.newFloat(16) - 8 + Input.instance.uiMouse.y;
+
+					Dungeon.ui.add(fx);
+				}
+
+				((ScrollOfUpgrade) active).wasCursed = true;
+			}
+
+			active.use();
+			self.upgrade();
 
 			return;
 		}
@@ -304,18 +318,12 @@ public class UiSlot {
 		TextureRegion reg = slot;
 		boolean h = this.inventory.getActive() == this.id;
 		boolean upgrade = this.inventory.getInventory().getSlot(this.inventory.getActive()) instanceof ScrollOfUpgrade;
-
+		boolean cursed = item != null && item.isCursed();
 
 		if (h) {
-			/*if (Input.instance.isDown("use") || Input.instance.isDown("second_use")) {
-				this.rr = 1f;
-				this.rg = 1f;
-				this.rb = 1f;
-			} else {*/
-				this.rr = 0.6f;
-				this.rg = 0.6f;
-				this.rb = 0.6f;
-			// }
+			this.rr = 0.6f;
+			this.rg = 0.6f;
+			this.rb = 0.6f;
 		} else if (this.hovered) {
 			if (Input.instance.isDown("use") || Input.instance.isDown("second_use")) {
 				this.rr = 0.3f;
@@ -334,7 +342,7 @@ public class UiSlot {
 
 		float an = 0;//(float) (Math.cos(Dungeon.time) * 10f);
 
-		Graphics.batch.setColor(this.r, this.g, this.b, a);
+		Graphics.batch.setColor(r, g, b, a);
 
 		Graphics.render(reg, this.x + slot.getRegionWidth() / 2,
 			this.y + slot.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);

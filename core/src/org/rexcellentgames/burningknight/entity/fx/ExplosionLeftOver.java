@@ -7,7 +7,7 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class ExplosionLeftOver extends Entity {
 	{
-		depth = -1;
+		depth = -9;
 	}
 
 	private static TextureRegion region = Graphics.getTexture("explosion-boom-00");

@@ -14,6 +14,7 @@ public class LeverPuzzleRoom extends SpecialRoom {
 			AnswerLever lever = new AnswerLever();
 
 			lever.shouldBeOn = Random.chance(50);
+			lever.on = Random.chance(50);
 			lever.x = (this.left + x) * 16;
 			lever.y = (this.top + this.getHeight() / 2) * 16 - 8;
 

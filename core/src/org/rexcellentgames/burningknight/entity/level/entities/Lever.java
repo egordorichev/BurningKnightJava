@@ -23,7 +23,7 @@ public class Lever extends SaveableEntity {
 	private static TextureRegion off = animations.getFrames("idle").get(0).frame;
 	private static TextureRegion onRegion = animations.getFrames("idle").get(1).frame;
 
-	protected boolean on;
+	public boolean on;
 	private Body body;
 	private boolean colliding;
 	private float al;

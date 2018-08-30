@@ -69,6 +69,7 @@ public class Item extends Entity {
   		return;
 	  }
 
+	  this.cursed = false;
   	this.level = (byte) Math.min(this.getMaxLevel(), this.level + 1);
   }
 
@@ -146,6 +147,10 @@ public class Item extends Entity {
 		if (r <= 0.2f) {
 			if (this.canBeDegraded()) {
 				this.degrade();
+
+				if (Random.chance(50)) {
+					this.cursed = true;
+				}
 
 				if (Random.chance(30)) {
 					this.degrade();

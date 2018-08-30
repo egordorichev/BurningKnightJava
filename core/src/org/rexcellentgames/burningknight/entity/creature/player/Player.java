@@ -343,10 +343,7 @@ public class Player extends Creature {
 	}
 
 	public void give(Item item) {
-		item.generate();
 		this.inventory.add(new ItemHolder().setItem(item));
-
-		item.setLevel((byte) 0);
 	}
 
 	public void setUi(UiInventory ui) {
@@ -999,18 +996,20 @@ public class Player extends Creature {
 		}
 
 		if (this.seeSecrets) {
-			for (Room r : room.connected.keySet()) {
-				if (r.hidden) {
-					for (int y = r.top; y <= r.bottom; y++) {
-						for (int x = r.left; x <= r.right; x++) {
+			if (room != null) {
+				for (Room r : room.connected.keySet()) {
+					if (r.hidden) {
+						for (int y = r.top; y <= r.bottom; y++) {
+							for (int x = r.left; x <= r.right; x++) {
 
-							if (Dungeon.level.get(x, y) == Terrain.CRACK) {
-								r.hidden = false;
-								BombEntity.make(r);
-								Dungeon.level.set(x, y, Terrain.FLOOR_A);
+								if (Dungeon.level.get(x, y) == Terrain.CRACK) {
+									r.hidden = false;
+									BombEntity.make(r);
+									Dungeon.level.set(x, y, Terrain.FLOOR_A);
 
-								Dungeon.level.loadPassable();
-								Dungeon.level.addPhysics();
+									Dungeon.level.loadPassable();
+									Dungeon.level.addPhysics();
+								}
 							}
 						}
 					}

@@ -23,6 +23,7 @@ public class Firebolt extends Wand {
 		description = Locale.get("firebolt_desc");
 		sprite = "item-wand_h";
 		damage = 2;
+		penetrates = true;
 	}
 
 	public static TextureRegion region = Graphics.getTexture("particle-long");

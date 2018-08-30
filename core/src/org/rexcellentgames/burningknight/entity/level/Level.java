@@ -846,16 +846,8 @@ public abstract class Level extends SaveableEntity {
 			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
 
-				byte tile = this.liquidData[i];
-
-				if (tile == Terrain.HIGH_GRASS) {
-					Graphics.render(Terrain.grassHigh, x * 16, y * 16 - 8);
-				} else if (tile == Terrain.HIGH_DRY_GRASS) {
-					Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
-				}
-
 				if (!this.low[i] && (this.light[i] > 0 || this.light[i + getWidth()] > 0)) {
-					tile = this.get(i);
+					byte tile = this.get(i);
 
 					if (Terrain.patterns[tile] != null) {
 						TextureRegion region = new TextureRegion(Terrain.patterns[tile]);
@@ -1111,6 +1103,10 @@ public abstract class Level extends SaveableEntity {
 					drawWith(Terrain.lavaPattern, Terrain.lavaedge, i, x, y, true);
 				} else if (tile == Terrain.VENOM) {
 					drawWith(Terrain.venomPattern, Terrain.pooledge, i, x, y, true);
+				} else if (tile == Terrain.HIGH_GRASS) {
+					Graphics.render(Terrain.grassHigh, x * 16, y * 16 - 8);
+				} else if (tile == Terrain.HIGH_DRY_GRASS) {
+					Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
 				}
 			}
 		}

@@ -23,7 +23,7 @@ public class EcoWand extends Wand {
 			@Override
 			public void render() {
 				Graphics.batch.setColor(0.3f, 1, 0.3f, 0.4f);
-				Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 22, false, false, 2f, 2f);
+				Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, 2f, 2f);
 				Graphics.batch.setColor(0.3f, 1, 0.3f, 0.8f);
 				Graphics.render(region, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false);
 				Graphics.batch.setColor(1, 1, 1, 1);
