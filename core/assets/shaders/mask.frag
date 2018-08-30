@@ -34,7 +34,7 @@ void main() {
             )
         );
 
-        if (map.r <= spreadStep) {
+        if (map.a == 1.0 && map.r <= spreadStep) {
             vec4 edge = texture2D(u_texture3,
                 vec2(
                     v_texCoord.x - pos.x + epos.x,
@@ -42,7 +42,7 @@ void main() {
                 )
             );
 
-            if (edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
+            if (edge.a == 1.0 && edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
                 gl_FragColor = texture2D(u_texture, v_texCoord.xy);
             } else {
                 gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);

@@ -913,7 +913,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void onTouch(short t, int x, int y, short info) {
+	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;

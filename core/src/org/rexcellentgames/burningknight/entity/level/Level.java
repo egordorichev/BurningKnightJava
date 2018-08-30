@@ -88,7 +88,7 @@ public abstract class Level extends SaveableEntity {
 	protected boolean[] free;
 	protected byte[] decor;
 	public boolean[] explored;
-	protected short[] info;
+	protected int[] info;
 	/**
 	 * Layout:
 	 *
@@ -96,6 +96,7 @@ public abstract class Level extends SaveableEntity {
 	 * bit 1-5: damage/hp
 	 * bit 6-9: growth
 	 * bit 10-12: grow type
+	 * bit 13-16: neighbour mask
 	 */
 
 	public static int[] orders = new int[5];
@@ -245,7 +246,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void fill() {
 		this.data = new byte[getSize()];
-		this.info = new short[getSize()];
+		this.info = new int[getSize()];
 		this.liquidData = new byte[getSize()];
 		this.explored = new boolean[getSize()];
 
@@ -646,17 +647,17 @@ public abstract class Level extends SaveableEntity {
 					for (int y = room.top; y < room.bottom; y++) {
 						for (int x = room.left; x < room.right; x++) {
 							int i = toIndex(x, y);
-							short info = this.info[i];
-							short spread = (short) BitHelper.getNumber(info, 10, 3);
+							int info = this.info[i];
+							int spread = BitHelper.getNumber(info, 10, 3);
 
 							if (spread > 0) {
-								short step = (short) BitHelper.getNumber(info, 6, 4);
+								int step = BitHelper.getNumber(info, 6, 4);
 
 								if (step >= 15) {
 									this.info[i] = 0;
 									this.liquidData[i] = Terrain.ICE;
 								} else {
-									this.info[i] = (short) BitHelper.putNumber(info, 6, 4, step + 1);
+									this.info[i] = BitHelper.putNumber(info, 6, 4, step + 1);
 								}
 							}
 						}
@@ -685,7 +686,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void setOnFire(int i, boolean fire) {
-		if (!this.isValid(i)) {
+		if (!isValid(i)) {
 			return;
 		}
 
@@ -701,7 +702,7 @@ public abstract class Level extends SaveableEntity {
 		boolean bb = matchesFlag(l, Terrain.BURNS);
 
 		if ((((ab && bb) || bb || (ab && l == 0)) && l != Terrain.WATER && l != Terrain.EXIT)) {
-			this.info[i] = (short) BitHelper.setBit(this.info[i], 0, fire);
+			this.info[i] = BitHelper.setBit(this.info[i], 0, fire);
 		}
 	}
 
@@ -709,11 +710,61 @@ public abstract class Level extends SaveableEntity {
 		byte l = this.liquidData[i];
 
 		if (l == Terrain.WATER || l == Terrain.VENOM) {
-			short info = this.info[i];
+			int info = this.info[i];
 
-			info = (short) BitHelper.putNumber(info, 6, 4, 0);
-			this.info[i] = (short) BitHelper.putNumber(info, 10, 3, 1);
+			if (BitHelper.getNumber(info, 10, 3) > 0) {
+				return;
+			}
+
+			info = BitHelper.putNumber(info, 6, 4, 0);
+			this.info[i] = BitHelper.putNumber(info, 10, 3, 1);
+
+			int x = toX(i);
+			int y = toY(i);
+
+			//for (int yy = y - 1; yy < y + 2; yy++) {
+			//for (int xx = x - 1; xx < x + 2; xx++) {
+			this.updateNeighbourMask(x, y);
+			//}
+			//}
 		}
+	}
+
+	private void updateNeighbourMask(int x, int y) {
+		int i = toIndex(x, y);
+		int info = this.info[i];
+		int type = BitHelper.getNumber(info, 10, 3);
+
+		int count = 0;
+
+		if (this.checkForNeighbour(x, y + 1, type)) {
+			count += 1;
+		}
+
+		if (this.checkForNeighbour(x + 1, y, type)) {
+			count += 2;
+		}
+
+		if (this.checkForNeighbour(x, y - 1, type)) {
+			count += 4;
+		}
+
+		if (this.checkForNeighbour(x - 1, y, type)) {
+			count += 8;
+		}
+
+		this.info[i] = BitHelper.putNumber(info, 13, 4, count);
+	}
+
+	private boolean checkForNeighbour(int x, int y, int type) {
+		int i = toIndex(x, y);
+		byte t = this.liquidData[i];
+
+		switch (type) {
+			case 1: default: if (t == Terrain.ICE) { return true; } break;
+		}
+
+		return false; // BitHelper.getNumber(this.info[i], 10, 3) == type;
 	}
 
 	private void doEffects() {
@@ -723,7 +774,7 @@ public abstract class Level extends SaveableEntity {
 					for (int x = room.left; x < room.right; x++) {
 						int i = toIndex(x, y);
 						//byte tile = this.get(i);
-						short info = this.info[i];
+						int info = this.info[i];
 						//byte t = this.liquidData[i];
 
 						if (BitHelper.isBitSet(info, 0)) {
@@ -742,7 +793,7 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	public short getInfo(int i) {
+	public int getInfo(int i) {
 		return info[i];
 	}
 
@@ -751,7 +802,7 @@ public abstract class Level extends SaveableEntity {
 			for (int y = room.top; y < room.bottom; y++) {
 				for (int x = room.left; x < room.right; x++) {
 					int i = toIndex(x, y);
-					short info = this.info[i];
+					int info = this.info[i];
 					byte t = this.liquidData[i];
 					boolean burning = BitHelper.isBitSet(info, 0);
 
@@ -778,8 +829,8 @@ public abstract class Level extends SaveableEntity {
 						}
 					}
 
-					//info = (short) BitHelper.putNumber(info, 6, 4, 0);
-					//this.info[i] = (short) BitHelper.putNumber(info, 10, 3, 1);
+					//info = BitHelper.putNumber(info, 6, 4, 0);
+					//this.info[i] = BitHelper.putNumber(info, 10, 3, 1);
 
 					if (t == Terrain.ICE) {
 						/*if (!burning) {
@@ -1148,7 +1199,7 @@ public abstract class Level extends SaveableEntity {
 					continue;
 				}
 
-				short info = this.info[i];
+				int info = this.info[i];
 				int spread = BitHelper.getNumber(info, 10, 3);
 
 				if (spread > 0) {
@@ -1175,7 +1226,7 @@ public abstract class Level extends SaveableEntity {
 					int rw = texture.getWidth();
 					int rh = texture.getHeight();
 
-					TextureRegion rr = Terrain.spread[0];
+					TextureRegion rr = Terrain.spread[BitHelper.getNumber(info, 13, 4)];
 					Texture t = rr.getTexture();
 
 					Graphics.batch.end();
@@ -2022,7 +2073,7 @@ public abstract class Level extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		setSize(reader.readInt32(), reader.readInt32());
 		this.data = new byte[getSize()];
-		this.info = new short[getSize()];
+		this.info = new int[getSize()];
 		this.liquidData = new byte[getSize()];
 		this.decor = new byte[getSize()];
 		this.explored = new boolean[getSize()];
