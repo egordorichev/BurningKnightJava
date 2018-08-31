@@ -13,7 +13,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
@@ -81,8 +80,6 @@ public class LoadState extends State {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Level lvl = Level.forDepth(Dungeon.depth - 1);
-
 				try {
 					SaveManager.load(SaveManager.Type.GAME);
 				} catch (IOException e) {
@@ -144,7 +141,7 @@ public class LoadState extends State {
 
 				Audio.play(Dungeon.level.getMusic());
 
-				if (!Dungeon.level.same(lvl)) {
+				if (!Dungeon.level.same(Level.forDepth(Dungeon.depth - 1))) {
 					Audio.reset();
 				}
 

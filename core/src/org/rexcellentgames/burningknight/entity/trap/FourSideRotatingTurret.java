@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.trap;
 
+import org.rexcellentgames.burningknight.util.Log;
+
 public class FourSideRotatingTurret extends FourSideTurret {
 	@Override
 	protected void rotate() {

@@ -21,8 +21,10 @@ public class GameSave {
 	public static void save(FileWriter writer, boolean old) {
 		try {
 			writer.writeByte((byte) (Player.instance == null ? Player.toSet.id : Player.instance.type.id));
-			writer.writeByte((byte) Dungeon.depth);
+			writer.writeByte((byte) (old ? Dungeon.lastDepth : Dungeon.depth));
 			writer.writeString(Dungeon.level == null ? "The beginning" : Dungeon.level.formatDepth());
+
+			Log.error("Wrote " + (old ? Dungeon.lastDepth : Dungeon.depth) + " " + old + " depth");
 
 			ChangableRegistry.save(writer);
 

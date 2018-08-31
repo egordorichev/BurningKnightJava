@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
+import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
@@ -317,7 +318,18 @@ public class Creature extends SaveableEntity {
 
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
-			this.removeBuff(BurningBuff.class);
+			if (this.hasBuff(BurningBuff.class)) {
+				this.removeBuff(BurningBuff.class);
+
+				for (int i = 0; i < 20; i++) {
+					SteamFx fx = new SteamFx();
+
+					fx.x = this.x + Random.newFloat(this.w);
+					fx.y = this.y + Random.newFloat(this.h);
+
+					Dungeon.area.add(fx);
+				}
+			}
 		} else {
 			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
 				this.addBuff(new BurningBuff());
