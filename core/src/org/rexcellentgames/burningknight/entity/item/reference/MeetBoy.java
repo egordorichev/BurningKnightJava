@@ -1,15 +1,13 @@
 package org.rexcellentgames.burningknight.entity.item.reference;
 
-import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
-import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
+import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 
 public class MeetBoy extends Autouse {
 	{
-		name = Locale.get("meetboy");
-		description = Locale.get("meetboy_desc");
+		name = Locale.get("meatboy");
+		description = Locale.get("meatboy_desc");
 		sprite = "item-meetboy_hp";
 	}
 

@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -34,24 +33,11 @@ public class Waterbolt extends Wand {
 
 			@Override
 			public void render() {
-				Graphics.batch.end();
-				RectFx.shader.begin();
-				RectFx.shader.setUniformf("r", 0.1f);
-				RectFx.shader.setUniformf("g", 0.1f);
-				RectFx.shader.setUniformf("b", 1f);
-				RectFx.shader.setUniformf("a", 0.9f);
-				Texture texture = region.getTexture();
-
-				RectFx.shader.setUniformf("pos", new Vector2(((float) region.getRegionX()) / texture.getWidth(), ((float) region.getRegionY()) / texture.getHeight()));
-				RectFx.shader.setUniformf("size", new Vector2(((float) region.getRegionWidth()) / texture.getWidth(), ((float) region.getRegionHeight()) / texture.getHeight()));
-
-				RectFx.shader.end();
-				Graphics.batch.setShader(RectFx.shader);
-				Graphics.batch.begin();
+				Graphics.batch.setColor(0.1f, 0.1f, 1f, 0.2f);
+				Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false, 2, 2);
+				Graphics.batch.setColor(0.1f, 0.1f, 1f, 0.9f);
 				Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false);
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
+				Graphics.shape.setColor(1, 1, 1, 1);
 			}
 
 			@Override
@@ -132,6 +118,7 @@ public class Waterbolt extends Wand {
 		missile.x = x;
 		missile.y = y - 3;
 		missile.penetrates = true;
+		missile.canBeRemoved = false;
 		missile.rectShape = true;
 		missile.w = 13;
 		missile.h = 3;

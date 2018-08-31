@@ -28,7 +28,7 @@ public class Accessory extends Item {
 
 	public void onEquip(boolean load) {
 		this.triggerEvent("on_equip");
-		this.identify();
+		// this.identify();
 	}
 
 	public void onUnequip(boolean load) {
