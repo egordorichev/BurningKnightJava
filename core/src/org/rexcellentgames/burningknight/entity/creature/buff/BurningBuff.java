@@ -95,7 +95,7 @@ public class BurningBuff extends Buff {
 			}
 
 			Graphics.batch.setColor(1, 1, 1, this.al);
-			Graphics.render(flame, x + 1, y + 1, 0, 0, 0, false, false, 1, 5 * progress);
+			Graphics.render(flame, x + 1, y + 1, 0, 0, 0, false, false, 1, (float) Math.floor(5 * progress));
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 	}

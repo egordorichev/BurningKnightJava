@@ -227,7 +227,9 @@ public class Terrain {
 			Graphics.getTexture("props-decor_b"),
 			Graphics.getTexture("props-decor_c"),
 			Graphics.getTexture("props-decor_d"),
-			Graphics.getTexture("props-decor_e")
+			Graphics.getTexture("props-decor_e"),
+			Graphics.getTexture("props-decor_f"),
+			Graphics.getTexture("props-decor_g")
 		};
 
 		for (int j = 0; j < 3; j++) {
