@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mimic extends Mob {
-	public static float chance = 100;
+	public static float chance = 20;
 	public static ArrayList<Mimic> all = new ArrayList<>();
 	private AnimationData closed;
 	private AnimationData open;
@@ -196,6 +196,10 @@ public class Mimic extends Mob {
 		}
 
 		renderStats();
+	}
+
+	{
+		ignoreRooms = true;
 	}
 
 	@Override

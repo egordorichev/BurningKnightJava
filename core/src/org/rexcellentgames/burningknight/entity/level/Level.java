@@ -1388,7 +1388,8 @@ public abstract class Level extends SaveableEntity {
 		} else if (tile == Terrain.VENOM) {
 			drawWith(Terrain.venomPattern, edge = Terrain.pooledge, i, x, y, true);
 		} else if (tile == Terrain.HIGH_GRASS) {
-			Graphics.render(Terrain.grassHigh, x * 16, y * 16 - 8);
+			float a = (float) (Math.cos(this.t + (x + y) / 2f + y / 4f) * 20f * Math.sin(this.t * 0.75f + x / 3f - y / 6f));
+			Graphics.render(Terrain.grassHigh, x * 16 + 8, y * 16 - 8, a, 8, 0, false, false);
 		} else if (tile == Terrain.HIGH_DRY_GRASS) {
 			Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
 		}
