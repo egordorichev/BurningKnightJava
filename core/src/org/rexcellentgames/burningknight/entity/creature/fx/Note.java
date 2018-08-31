@@ -53,7 +53,7 @@ public class Note extends Entity {
 	
 		if (this.body != null) {
 			this.body.setBullet(true);
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 			this.body.setLinearVelocity(this.vel);
 		}
 

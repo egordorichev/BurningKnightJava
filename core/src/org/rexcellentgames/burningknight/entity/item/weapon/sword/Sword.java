@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -154,7 +155,7 @@ public class Sword extends Weapon {
 
 	  if (this.body != null) {
 			float a = (float) Math.toRadians(angle);
-			this.body.setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
+			World.checkLocked(this.body).setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
 		}
 	}
 

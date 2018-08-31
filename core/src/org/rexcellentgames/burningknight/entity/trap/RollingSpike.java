@@ -43,7 +43,7 @@ public class RollingSpike extends SaveableEntity {
 		
 		if (this.body != null) {
 			this.body.setMassData(data);
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 			this.body.setLinearVelocity(this.vel);
 		}
 	}
@@ -55,7 +55,7 @@ public class RollingSpike extends SaveableEntity {
 		this.vel.x = reader.readFloat();
 		this.vel.y = reader.readFloat();
 		body.setLinearVelocity(this.vel);
-		body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override

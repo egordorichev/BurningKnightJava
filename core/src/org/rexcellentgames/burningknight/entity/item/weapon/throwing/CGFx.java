@@ -34,7 +34,7 @@ public class CGFx extends Entity {
 		MassData data = new MassData();
 		data.mass = 0.1f;
 		this.body.setMassData(data);
-		this.body.setTransform(this.x, this.y, this.a);
+		World.checkLocked(this.body).setTransform(this.x, this.y, this.a);
 		this.body.setLinearVelocity(this.vel.x, this.vel.y);
 
 		this.va = Random.newFloat(-1f, 1f) * 360f;
@@ -56,7 +56,7 @@ public class CGFx extends Entity {
 		this.vel.x *= 0.99f;
 		this.vel.y *= 0.99f;
 
-		this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+		World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 		this.body.setLinearVelocity(this.vel.x, this.vel.y);
 
 		this.t += dt;

@@ -85,7 +85,7 @@ public class Shopkeeper extends Npc {
 	public void init() {
 		super.init();
 		this.body = World.createSimpleBody(this, 4, 0, 8, 14, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		instance = this;
 	}
 

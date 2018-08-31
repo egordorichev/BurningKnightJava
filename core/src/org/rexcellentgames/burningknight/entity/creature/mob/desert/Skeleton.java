@@ -8,7 +8,11 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Skeleton extends Mob {
@@ -57,7 +61,7 @@ public class Skeleton extends Mob {
 		super.init();
 
 		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override

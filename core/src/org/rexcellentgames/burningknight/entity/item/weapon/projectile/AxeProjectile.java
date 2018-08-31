@@ -44,7 +44,7 @@ public class AxeProjectile extends Projectile {
 		);
 
 		this.body = World.createSimpleCentredBody(this, 0, 0, this.region.getRegionWidth(), this.region.getRegionHeight(), BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 
 		this.a = Random.newFloat((float) (Math.PI * 2));
@@ -84,7 +84,7 @@ public class AxeProjectile extends Projectile {
 
 		this.a += dt * 1000;
 
-		this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+		World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 
 		float dx = this.owner.x + this.owner.w / 2 - this.x - 8;
 		float dy = this.owner.y + this.owner.h / 2 - this.y - 8;
@@ -101,7 +101,7 @@ public class AxeProjectile extends Projectile {
 			this.vel.y += dy / d * f;
 		}
 
-		this.body.setTransform(this.body.getPosition(), (float) Math.toRadians(this.a));
+		World.checkLocked(this.body).setTransform(this.body.getPosition(), (float) Math.toRadians(this.a));
 		this.body.setLinearVelocity(this.vel);
 	}
 

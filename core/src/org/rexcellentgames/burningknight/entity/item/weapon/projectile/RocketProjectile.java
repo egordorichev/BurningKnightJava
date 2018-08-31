@@ -40,7 +40,7 @@ public class RocketProjectile extends Projectile {
 		this.body = World.createSimpleCentredBody(this, 0, 0, sprite.getRegionWidth(), sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
 		
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, ra);
+			World.checkLocked(this.body).setTransform(this.x, this.y, ra);
 			this.body.setBullet(true);
 		}
 	}
@@ -174,7 +174,7 @@ public class RocketProjectile extends Projectile {
 		this.x += this.vel.x;
 		this.y += this.vel.y;
 
-		this.body.setTransform(this.x, this.y, this.ra);
+		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 		this.body.setLinearVelocity(this.vel);
 	}
 

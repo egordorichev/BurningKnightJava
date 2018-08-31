@@ -33,7 +33,7 @@ public class Table extends SaveableEntity {
 		this.body = World.createSimpleBody(this, 0, 10, (int) w, (int) h - 14, BodyDef.BodyType.StaticBody, false);
 		
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 	}
 
@@ -47,7 +47,7 @@ public class Table extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override

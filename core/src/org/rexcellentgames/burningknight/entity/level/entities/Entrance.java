@@ -46,7 +46,7 @@ public class Entrance extends SaveableEntity {
 		// this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		
 		/*if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}*/
 
 		if (Level.GENERATED) {
@@ -77,7 +77,7 @@ public class Entrance extends SaveableEntity {
 
 		this.type = reader.readByte();
 
-		// this.body.setTransform(this.x, this.y, 0);
+		// World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.addSelf();
 	}
 

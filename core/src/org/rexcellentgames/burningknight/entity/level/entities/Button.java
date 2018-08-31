@@ -35,7 +35,7 @@ public class Button extends SaveableEntity {
 	public void init() {
 		super.init();
 		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class Button extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.down = reader.readBoolean();
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override

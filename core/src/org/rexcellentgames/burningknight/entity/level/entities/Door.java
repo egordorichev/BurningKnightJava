@@ -117,7 +117,7 @@ public class Door extends SaveableEntity {
 				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, false);
 			
 			if (this.body != null) {
-				this.body.setTransform(this.x, this.y, 0);
+				World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 			}
 
 			MassData data = new MassData();
@@ -128,7 +128,7 @@ public class Door extends SaveableEntity {
 			}
 		}
 
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		super.update(dt);
 
 		if (this.animation.update(dt)) {

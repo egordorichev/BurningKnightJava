@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -63,7 +64,7 @@ public class FastBook extends Book {
 					Dungeon.area.add(fx);
 				}
 
-				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+				World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 			}
 		};
 

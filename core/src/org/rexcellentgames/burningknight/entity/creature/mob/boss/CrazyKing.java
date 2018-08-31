@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -68,7 +69,7 @@ public class CrazyKing extends Boss {
 		ignorePos = true;
 
 		this.body = this.createSimpleBody(2, 3, 16, 16, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.shouldBeInTheSameRoom = !this.talked;
 
 		this.gun = new CKGun();
@@ -146,7 +147,7 @@ public class CrazyKing extends Boss {
 
 		if (this.body != null) {
 			this.lz = this.z;
-			this.body.setTransform(this.x, this.y + this.z, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
 		}
 	}
 

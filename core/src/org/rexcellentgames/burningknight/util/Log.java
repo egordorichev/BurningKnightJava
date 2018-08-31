@@ -28,6 +28,12 @@ public class Log {
 		init();
 	}
 
+	public static void printStackTrace() {
+		for (StackTraceElement s : Thread.currentThread().getStackTrace()) {
+			Log.error(s.toString());
+		}
+	}
+
 	public static void init() {
 		if (UI_DEBUG_WINDOW) {
 			frame = new JFrame();
@@ -85,7 +91,7 @@ public class Log {
 		}
 	}
 
-	public static void error(String string) {
+	public static void error(Object string) {
 		if (UI_DEBUG_WINDOW) {
 			area.append("ERROR: " + string + "\n");
 			frame.getContentPane().validate();
@@ -102,7 +108,7 @@ public class Log {
 		}
 	}
 
-	public static void info(String string) {
+	public static void info(Object string) {
 		if (UI_DEBUG_WINDOW) {
 			area.append(string + "\n");
 			frame.getContentPane().validate();
@@ -115,7 +121,7 @@ public class Log {
 		}
 	}
 
-	public static void physics(String string) {
+	public static void physics(Object string) {
 		if (!ENABLE_PHYSICS_MESSAGES || !Version.debug) {
 			return;
 		}

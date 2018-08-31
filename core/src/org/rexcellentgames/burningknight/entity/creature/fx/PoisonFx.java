@@ -39,7 +39,7 @@ public class PoisonFx extends Entity {
 		this.region = animations.get(Random.newInt(animations.size())).frame;
 
 		this.body = World.createCircleCentredBody(this, 0, 0, 12, BodyDef.BodyType.StaticBody, true);
-		this.body.setTransform(this.x + 16, this.y + 16, 0);
+		World.checkLocked(this.body).setTransform(this.x + 16, this.y + 16, 0);
 	}
 
 	@Override

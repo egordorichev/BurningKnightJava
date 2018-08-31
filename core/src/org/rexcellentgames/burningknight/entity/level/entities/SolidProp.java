@@ -20,7 +20,7 @@ public class SolidProp extends Prop {
 			this.body = World.createSimpleBody(this, collider.x, collider.y, collider.width, collider.height, BodyDef.BodyType.StaticBody, false);
 			
 			if (this.body != null) {
-				this.body.setTransform(this.x, this.y, 0);
+				World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 			}
 		}
 	}
@@ -30,7 +30,7 @@ public class SolidProp extends Prop {
 		super.load(reader);
 
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 	}
 

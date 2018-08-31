@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.PickaxeA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.ShovelA;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -232,7 +233,7 @@ public class Archeologist extends Mob {
 		super.init();
 
 		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		this.weapon = Random.chance(50) ? new PickaxeA() : new ShovelA();
 		this.weapon.setOwner(this);

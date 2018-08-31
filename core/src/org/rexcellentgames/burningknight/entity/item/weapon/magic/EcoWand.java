@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class EcoWand extends Wand {
@@ -69,7 +70,7 @@ public class EcoWand extends Wand {
 					}
 				}
 
-				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+				World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 			}
 		};
 

@@ -37,7 +37,7 @@ public class Shell extends Entity {
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
 		this.sprite = frames.get(Random.newInt(frames.size())).frame;
 		this.body = World.createSimpleCentredBody(this, 0, 0, this.sprite.getRegionWidth(), this.sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x + this.sprite.getRegionWidth() / 2, this.y + this.sprite.getRegionHeight() / 2, 0);
+		World.checkLocked(this.body).setTransform(this.x + this.sprite.getRegionWidth() / 2, this.y + this.sprite.getRegionHeight() / 2, 0);
 		this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		this.body.setBullet(true);
 	}
@@ -92,7 +92,7 @@ public class Shell extends Entity {
 
 		if (this.body != null) {
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
-			this.body.setTransform(this.x, this.y + this.z, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
 		}
 	}
 

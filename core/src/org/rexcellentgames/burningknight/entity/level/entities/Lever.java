@@ -34,7 +34,7 @@ public class Lever extends SaveableEntity {
 	public void init() {
 		super.init();
 		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class Lever extends SaveableEntity {
 		this.shouldBeOn = reader.readBoolean();
 		this.did = reader.readBoolean();
 
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override

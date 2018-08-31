@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.physics.World;
 
 public class Waterbolt extends Wand {
 	{
@@ -59,7 +60,7 @@ public class Waterbolt extends Wand {
 					Dungeon.area.add(fx);
 				}
 
-				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+				World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 			}
 
 			@Override

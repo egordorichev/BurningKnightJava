@@ -35,7 +35,7 @@ public class Orbital extends PetEntity {
 		this.x = this.owner.orbitalRing.x + (float) Math.cos(a) * d;
 		this.y = this.owner.orbitalRing.y + (float) Math.sin(a) * d;
 
-		this.body.setTransform(this.x, this.y, a);
+		World.checkLocked(this.body).setTransform(this.x, this.y, a);
 	}
 
 

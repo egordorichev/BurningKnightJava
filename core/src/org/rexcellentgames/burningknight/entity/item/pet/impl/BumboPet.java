@@ -35,7 +35,7 @@ public class BumboPet extends SimpleFollowPet {
 		this.body = World.createCircleBody(this, 0, 0, this.w / 2f, BodyDef.BodyType.DynamicBody, false);
 		
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 	}
 
@@ -43,7 +43,7 @@ public class BumboPet extends SimpleFollowPet {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		progress = reader.readByte();
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class BumboPet extends SimpleFollowPet {
 	@Override
 	protected void tp() {
 		super.tp();
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.target = this.owner;
 		this.next = null;
 	}

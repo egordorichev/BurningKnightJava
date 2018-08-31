@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.dagger;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Dagger extends Sword {
@@ -46,7 +47,7 @@ public class Dagger extends Sword {
 			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 
 		if (this.body != null) {
-			this.body.setTransform(xx, yy, a);
+			World.checkLocked(this.body).setTransform(xx, yy, a);
 		}
 	}
 }

@@ -16,14 +16,14 @@ public class FireFxPhysic extends FireFx {
 		super.init();
 
 		body = World.createCircleCentredBody(this, 0, 0, 3, BodyDef.BodyType.DynamicBody, true);
-		body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-		body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override

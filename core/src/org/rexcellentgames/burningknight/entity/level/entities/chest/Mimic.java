@@ -58,7 +58,7 @@ public class Mimic extends Mob {
 		all.add(this);
 
 		this.body = World.createSimpleBody(this, 1, 0, 14, 13, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override

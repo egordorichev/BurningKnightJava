@@ -148,7 +148,7 @@ public class HeartFx extends SaveableEntity {
 			MassData data = new MassData();
 			data.mass = 0.1f;
 			this.body.setMassData(data);
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 
 		super.update(dt);

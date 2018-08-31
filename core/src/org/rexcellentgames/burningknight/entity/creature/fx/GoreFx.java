@@ -34,7 +34,7 @@ public class GoreFx extends Entity {
 
 		if (!this.menu) {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
-			this.body.setTransform(this.x + this.texture.getRegionWidth() / 2, this.y + this.texture.getRegionHeight() / 2, 0);
+			World.checkLocked(this.body).setTransform(this.x + this.texture.getRegionWidth() / 2, this.y + this.texture.getRegionHeight() / 2, 0);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 			this.body.setBullet(true);
 		}
@@ -97,7 +97,7 @@ public class GoreFx extends Entity {
 
 		if (this.body != null) {
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
-			this.body.setTransform(this.x, this.y + this.z, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
 		}
 	}
 

@@ -145,7 +145,7 @@ public class ItemHolder extends SaveableEntity {
 
 			this.z = MathUtils.clamp(0, 5f, this.z);
 
-			this.body.setTransform(this.x, this.y + this.z, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
 		}
 
 		this.item.update(dt);
@@ -164,7 +164,7 @@ public class ItemHolder extends SaveableEntity {
 		this.last = Random.newFloat(1);
 
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 
 		all.add(this);
@@ -293,7 +293,7 @@ public class ItemHolder extends SaveableEntity {
 			Dungeon.reportException(e);
 		}
 
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	public ItemHolder setItem(Item item) {

@@ -36,7 +36,7 @@ public class TFFx extends Entity {
 		super.init();
 
 		this.body = World.createSimpleCentredBody(this, 0, 0, 10, 13, BodyDef.BodyType.DynamicBody, true);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class TFFx extends Entity {
 			parts();
 		}
 
-		this.body.setTransform(this.x, this.y + this.z, (float) Math.toRadians(this.a));
+		World.checkLocked(this.body).setTransform(this.x, this.y + this.z, (float) Math.toRadians(this.a));
 
 		this.depth = this.z > 5f ? 11 : 0;
 	}

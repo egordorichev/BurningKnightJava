@@ -118,7 +118,7 @@ public class Laser extends Entity {
 		body.setUserData(this);
 		poly.dispose();
 
-		this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+		World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class ThrowingDagger extends Weapon {
@@ -71,7 +72,7 @@ public class ThrowingDagger extends Weapon {
 			a, sprite.getRegionWidth() / 2, 0, flipped, false);
 
 		if (this.body != null) {
-			this.body.setTransform(xx, yy, an);
+			World.checkLocked(this.body).setTransform(xx, yy, an);
 		}
 	}
 }

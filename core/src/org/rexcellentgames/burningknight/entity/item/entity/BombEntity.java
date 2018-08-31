@@ -56,7 +56,7 @@ public class BombEntity extends Entity {
 		data.mass = 0.1f;
 		this.body.setMassData(data);
 
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		this.playSfx("bomb_placed");
 

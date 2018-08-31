@@ -127,7 +127,7 @@ public class Creature extends SaveableEntity {
 		this.y = y;
 
 		if (this.body != null) {
-			this.body.setTransform(x, y, 0);
+			World.checkLocked(this.body).setTransform(x, y, 0);
 		}
 
 		this.triggerEvent("tp");
@@ -648,7 +648,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 	}
 

@@ -115,6 +115,14 @@ public class World {
 		return body;
 	}
 
+	public static Body checkLocked(Body body) {
+		if (world.isLocked()) {
+			throw new RuntimeException("World is locked!");
+		}
+
+		return body;
+	}
+
 	public static Body createSimpleCentredBody(Entity owner, float x, float y, float w, float h, BodyDef.BodyType type) {
 		return createSimpleCentredBody(owner, x, y, w, h, type, false);
 	}

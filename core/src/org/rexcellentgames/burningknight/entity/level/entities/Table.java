@@ -26,7 +26,7 @@ public class Table extends SolidProp {
 		this.body = World.createSimpleBody(this, 2, 4, this.w - 4, Math.max(1, this.h - 16 - 8), BodyDef.BodyType.StaticBody, false);
 		
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 	}
 

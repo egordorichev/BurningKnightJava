@@ -80,7 +80,7 @@ public class BulletProjectile extends Projectile {
 		}
 
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, ra);
+			World.checkLocked(this.body).setTransform(this.x, this.y, ra);
 			this.body.setBullet(true);
 		}
 
@@ -287,7 +287,7 @@ public class BulletProjectile extends Projectile {
 		this.x += this.vel.x * dt;
 		this.y += this.vel.y * dt;
 
-		this.body.setTransform(this.x, this.y, this.ra);
+		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 		this.body.setLinearVelocity(this.vel);
 	}
 

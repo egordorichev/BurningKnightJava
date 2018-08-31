@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Protec
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.UshankaHat;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.Guitar;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -57,7 +58,7 @@ public class Clown extends Mob {
 		super.init();
 
 		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		speed = 100;
 		maxSpeed = 100;

@@ -39,7 +39,7 @@ public class ArrowProjectile extends Projectile {
 
 		this.body = World.createSimpleCentredBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, true);
 		this.body.setBullet(true);
-		this.body.setTransform(this.x, this.y, this.a);
+		World.checkLocked(this.body).setTransform(this.x, this.y, this.a);
 
 		float s = 5f * 60f;
 		this.vel = new Point((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
@@ -88,7 +88,7 @@ public class ArrowProjectile extends Projectile {
 		this.y += this.vel.y * dt;
 
 		if (this.body != null) {
-			this.body.setTransform(this.x, this.y, this.a);
+			World.checkLocked(this.body).setTransform(this.x, this.y, this.a);
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
 		}
 	}

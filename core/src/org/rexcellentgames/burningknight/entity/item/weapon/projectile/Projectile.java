@@ -65,7 +65,7 @@ public class Projectile extends StatefulEntity {
 
 	public void setPos(float x, float y) {
 		if (this.body != null) {
-			this.body.setTransform(x, y, this.body.getAngle());
+			World.checkLocked(this.body).setTransform(x, y, this.body.getAngle());
 		}
 	}
 

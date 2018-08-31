@@ -32,7 +32,7 @@ public class Yoyo extends Weapon {
 
 		this.x = this.owner.x + this.owner.w / 2 - region.getRegionWidth() / 2;
 		this.y = this.owner.y + this.owner.h / 2 - region.getRegionHeight() / 2;
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
 	private float t;

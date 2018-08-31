@@ -69,7 +69,7 @@ public class Chest extends SaveableEntity {
 		this.body = World.createSimpleBody(this, 4, 8, 8, 1, BodyDef.BodyType.DynamicBody, false);
 		this.sensor = World.createSimpleBody(this, 0, 0, 16, 12, BodyDef.BodyType.DynamicBody, true);
 
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.sensor.setTransform(this.x, this.y, 0);
 
 		MassData data = new MassData();
@@ -203,7 +203,7 @@ public class Chest extends SaveableEntity {
 		super.load(reader);
 
 		this.open = reader.readBoolean();
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		if (!this.open) {
 			String name = reader.readString();
@@ -310,7 +310,7 @@ public class Chest extends SaveableEntity {
 
 		if (this.body != null) {
 			this.sensor.setTransform(this.x, this.y, 0);
-			this.body.setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 
 		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 3;

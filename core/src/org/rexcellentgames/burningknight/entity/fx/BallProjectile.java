@@ -32,7 +32,7 @@ public class BallProjectile extends Projectile {
 	public void init() {
 		super.init();
 		this.body = World.createCircleBody(this, 0, 0, this.w / 2, BodyDef.BodyType.DynamicBody, false,0.8f);
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		MassData data = new MassData();
 		data.mass = 0.01f;

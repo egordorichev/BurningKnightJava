@@ -129,7 +129,7 @@ public class FireballProjectile extends Projectile {
 			this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
 		}
 
-		this.body.setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
 
 		if (this.target != null) {

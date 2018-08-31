@@ -123,7 +123,7 @@ public class SlashSword extends Weapon {
 
 		if (this.body != null) {
 			float a = (float) Math.toRadians(angle);
-			this.body.setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
+			World.checkLocked(this.body).setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
 		}
 	}
 

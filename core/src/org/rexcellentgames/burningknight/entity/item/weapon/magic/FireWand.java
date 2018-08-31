@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FireWand extends Wand {
@@ -58,7 +59,7 @@ public class FireWand extends Wand {
 					Dungeon.level.setOnFire(Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16)), true);
 				}
 
-				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+				World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 			}
 
 			@Override
