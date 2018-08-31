@@ -17,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.item.pet.Bumbo
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*
 import org.rexcellentgames.burningknight.entity.item.reference.*
 import org.rexcellentgames.burningknight.entity.item.tool.LavaBucket
+import org.rexcellentgames.burningknight.entity.item.tool.Matches
 import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket
 import org.rexcellentgames.burningknight.entity.item.weapon.HeadshotGun
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*
@@ -268,7 +269,8 @@ object ItemRegistry {
 	  "eco_wand" to Pair(EcoWand::class.java, 1f, 0f, 1f, 0.1f, Quality.WOODEN),
 	  "flippers" to Pair(Flippers::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 	  "flame" to Pair(FlameThrower::class.java, 1f, 0.1f, 0.3f, 1f, Quality.GOLDEN),
-	  "bomb" to Pair(Bomb::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN)
+	  "bomb" to Pair(Bomb::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
+	  "matches" to Pair(Matches::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN)
   )
 
   val modItems = mutableMapOf<String, Item>()
