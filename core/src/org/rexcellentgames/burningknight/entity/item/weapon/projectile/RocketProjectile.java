@@ -115,8 +115,8 @@ public class RocketProjectile extends Projectile {
 
 			Part part = new Part();
 
-			part.x = this.x - 2.5f;
-			part.y = this.y - 2.5f;
+			part.x = this.x;
+			part.y = this.y;
 			part.depth = -1;
 			part.speed = 3f;
 			part.vel = new Point();

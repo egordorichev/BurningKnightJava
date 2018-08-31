@@ -1,17 +1,16 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet;
 
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Part extends Entity {
-	private static Animation animations = Animation.make("fx-part");
-	public AnimationData animation;
 	public Point vel;
 	public float speed = 1f;
-	public boolean shadow = true;
+	private float size;
+	private float val;
+	private boolean second;
 
 	@Override
 	public void init() {
@@ -24,13 +23,12 @@ public class Part extends Entity {
 			);
 		}
 
+		this.val = Random.newFloat(0.7f, 1f);
+		this.tar = Random.newFloat(3, 5f);
 		this.vel.mul(60);
-
-		if (this.animation == null) {
-			this.animation = animations.get("idle");
-			this.animation.setFrame(Random.newInt(0, 2));
-		}
 	}
+
+	private float tar;
 
 	@Override
 	public void update(float dt) {
@@ -41,13 +39,28 @@ public class Part extends Entity {
 
 		this.vel.mul(0.95f);
 
-		if (this.animation.update(dt / this.speed)) {
+		if (this.second) {
+			this.size -= dt * speed * 2f;
+		} else {
+			this.size += dt * 40f;
+
+			if (this.size >= this.tar) {
+				this.size = this.tar;
+				this.second = true;
+			}
+		}
+
+		if (this.size <= 0) {
 			this.done = true;
 		}
 	}
 
 	@Override
 	public void render() {
-		this.animation.render(this.x, this.y, false);
+		Graphics.startShape();
+		Graphics.shape.setColor(val, val, val, 1);
+		Graphics.shape.circle(this.x, this.y, this.size);
+		Graphics.shape.setColor(1, 1, 1, 1);
+		Graphics.endShape();
 	}
 }

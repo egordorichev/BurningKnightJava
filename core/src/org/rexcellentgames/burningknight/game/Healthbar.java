@@ -2,23 +2,10 @@ package org.rexcellentgames.burningknight.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Healthbar {
 	private static TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
@@ -167,7 +154,7 @@ public class Healthbar {
 			// todo: scale?
 			Graphics.render(skull, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() / 2, skull.getRegionHeight() / 2, false, false, sx, sy);
 
-			if (this.bk && this.last > 0.2f) {
+			/*if (this.bk && this.last > 0.2f) {
 				Part part = new Part();
 				this.last = 0;
 				part.x = Random.newFloat(r.getRegionWidth()) + Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2;
@@ -175,12 +162,11 @@ public class Healthbar {
 				part.depth = 32;
 				part.alwaysRender = true;
 				part.alwaysActive = true;
-				part.shadow = false;
 				part.animation = animations.get("idle");
 				part.vel = new Point(0, 0.6f);
 
 				Dungeon.ui.add(part);
-			}
+			}*/
 		}
 	}
 }
