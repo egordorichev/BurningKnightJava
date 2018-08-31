@@ -54,7 +54,6 @@ public class AssetLoadState extends State {
 		if (!START_TO_MENU) {
 			Gdx.graphics.setTitle(Dungeon.title);
 			GameSave.Info info = GameSave.peek(SaveManager.slot);
-			Log.info("Going to depth " + info.depth + " " + info.free + " " + info.error);
 			Dungeon.goToLevel(info.free ? -1 : info.depth);
 			return;
 		}
