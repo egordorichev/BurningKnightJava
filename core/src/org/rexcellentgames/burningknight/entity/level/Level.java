@@ -663,6 +663,14 @@ public abstract class Level extends SaveableEntity {
 								int step = BitHelper.getNumber(info, 6, 4);
 
 								if (step >= 15) {
+									// this.liquidData[i] = (byte) fromOverlay(spread);
+
+									info = BitHelper.putNumber(info, 10, 3, getOverlayType(this.liquidData[i]));
+									info = BitHelper.setBit(info, 17, true);
+
+									this.info[i] = info;
+									this.liquidData[i] = (byte) fromOverlay(spread);
+									
 									byte t = this.liquidData[i];
 
 									if (t == Terrain.ICE) {
@@ -674,14 +682,6 @@ public abstract class Level extends SaveableEntity {
 											this.venom(toX(i + j), toY(i + j));
 										}
 									}
-
-									// this.liquidData[i] = (byte) fromOverlay(spread);
-
-									info = BitHelper.putNumber(info, 10, 3, getOverlayType(this.liquidData[i]));
-									info = BitHelper.setBit(info, 17, true);
-
-									this.info[i] = info;
-									this.liquidData[i] = (byte) fromOverlay(spread);
 
 									for (int yy = y - 1; yy < y + 2; yy++) {
 										for (int xx = x - 1; xx < x + 2; xx++) {
@@ -813,10 +813,9 @@ public abstract class Level extends SaveableEntity {
 	public void freeze(int i) {
 		byte l = this.liquidData[i];
 		int info = this.info[i];
-		int id = BitHelper.getNumber(info, 10, 3);
 
-		if (l == Terrain.WATER || l == Terrain.VENOM ) { // || id == 3
-			if (id > 0) {
+		if (l == Terrain.WATER || l == Terrain.VENOM) {
+			if (!BitHelper.isBitSet(info, 17) && BitHelper.getNumber(info, 10, 3) > 0) {
 				return;
 			}
 
@@ -877,7 +876,7 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		int info = this.info[i];
-		return BitHelper.getNumber(info, 6, 4) > 0 && BitHelper.getNumber(info, 10, 3) == type;
+		return  BitHelper.getNumber(info, 10, 3) == type;
 	}
 
 	private void doEffects() {
