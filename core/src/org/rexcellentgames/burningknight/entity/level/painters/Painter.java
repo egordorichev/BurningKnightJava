@@ -275,7 +275,7 @@ public class Painter {
 
 			for (int x = room.left; x < room.right; x++) {
 				if (level.get(x, y) == Terrain.WALL) {
-					if (Random.chance(20)) {
+					if (Random.chance(30)) {
 						level.setDecor(x, y, (byte) (Random.newInt(Terrain.decor.length) + 1));
 					}
 				}
@@ -287,6 +287,9 @@ public class Painter {
 		for (Room r : rooms) {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
+
+				level.setDecor((int) d.x, (int) d.y, (byte) 0);
+
 				byte t = level.get((int) d.x, (int) d.y);
 				boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
 

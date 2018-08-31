@@ -84,6 +84,7 @@ public abstract class Level extends SaveableEntity {
 	protected float[] lightR;
 	protected float[] lightG;
 	protected float[] lightB;
+	protected byte[] wallDecor;
 	public boolean[] passable;
 	protected boolean[] low;
 	protected boolean[] free;
@@ -143,6 +144,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void generateDecor() {
 		decor = new byte[getSize()];
+		wallDecor = new byte[getSize()];
 	}
 
 	public static int getHeight() {
@@ -303,7 +305,7 @@ public abstract class Level extends SaveableEntity {
 			this.tileUp(x, y, tile, false);
 		} else if (walls && (tile == Terrain.WALL || tile == Terrain.CRACK)) {
 			this.tileUp(x, y, tile, false);
-			this.decor[toIndex(x, y)] = (byte) Random.newInt(3);
+			this.wallDecor[toIndex(x, y)] = (byte) (Random.newInt(3));
 		} else if (tile == Terrain.TABLE) {
 			this.tileUp(x, y, tile, false);
 		} else if (tile == Terrain.GRASS || tile == Terrain.HIGH_GRASS || tile == Terrain.HIGH_DRY_GRASS || tile == Terrain.DRY_GRASS) {
@@ -1071,7 +1073,7 @@ public abstract class Level extends SaveableEntity {
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
-											Graphics.render(Terrain.wallTop[this.decor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
+											Graphics.render(Terrain.wallTop[this.wallDecor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
 										}
 									}
 								} else {
@@ -1082,12 +1084,14 @@ public abstract class Level extends SaveableEntity {
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
-											Graphics.render(Terrain.wallTop[this.decor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
+											Graphics.render(Terrain.wallTop[this.wallDecor[i]][vl], x * 16 + xx * 8, y * 16 + yy * 8);
 										}
 									}
 								}
 							}
 						}
+
+						Graphics.batch.setColor(1, 1, 1, 1);
 
 						byte t = this.get(i - getWidth());
 
@@ -1104,14 +1108,12 @@ public abstract class Level extends SaveableEntity {
 									Graphics.startAlphaShape();
 									Graphics.shape.setColor(1f, 0.8f - (x % 3) * 0.1f, 0f, 0.2f);
 									Graphics.shape.circle(tx + 4, ty + 6, (float) (6 + Math.cos(this.t + (x + y)) * 0.8f * Math.sin(this.t * 0.7f + x - y / 2)));
-
+									Graphics.shape.setColor(1f, 1f, 1f, 1f);
 									Graphics.endAlphaShape();
 								}
 							}
 						}
 					}
-
-					Graphics.batch.setColor(1, 1, 1, 1);
 				}
 
 				// useful passable debug
@@ -2220,6 +2222,7 @@ public abstract class Level extends SaveableEntity {
 		this.info = new int[getSize()];
 		this.liquidData = new byte[getSize()];
 		this.decor = new byte[getSize()];
+		this.wallDecor = new byte[getSize()];
 		this.explored = new boolean[getSize()];
 		this.initLight();
 
