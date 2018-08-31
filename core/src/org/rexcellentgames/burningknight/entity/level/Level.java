@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
@@ -682,6 +683,29 @@ public abstract class Level extends SaveableEntity {
 										this.liquidData[i] = Terrain.ICE;
 									}*/
 								} else {
+									if (BitHelper.getNumber(info, 10, 3) == 1) {
+
+										for (Mob mob : Mob.all) {
+											if (mob.isDead() || mob.isFlying()) {
+												continue;
+											}
+
+											if (CollisionHelper.check(mob.hx + mob.x, mob.hy + mob.y, mob.hw, mob.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
+												mob.addBuff(new FreezeBuff());
+											}
+										}
+
+										Player mob = Player.instance;
+
+										if (mob.isDead() || mob.isFlying()) {
+											return;
+										}
+
+										if (CollisionHelper.check(mob.hx + mob.x, mob.hy + mob.y, mob.hw, mob.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
+											mob.addBuff(new FreezeBuff());
+										}
+									}
+
 									this.info[i] = BitHelper.putNumber(info, 6, 4, step + 1);
 								}
 							}

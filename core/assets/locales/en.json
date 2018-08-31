@@ -594,7 +594,7 @@
 	"grass_seed": "Grass seed",
 	"grass_seed_desc": "So tiny, yet so powerful",
 	"ice_boots": "Frost boots",
-	"ice_boots_desc": "Ice provider\nFreezes enemies",
+	"ice_boots_desc": "Ice provider\nFreezes enemies\nGives immunity to frozen",
 	"ice_immunity": "Enchants movement on ice",
 	"lava_to_ice": "Converts lava to ice",
 	"lava_immunity": "Gives immunity to lava",

@@ -22,7 +22,7 @@ public class ButtonAnswerRoom extends SpecialRoom {
 				byte t = this.room.data[x + y * (w)];
 
 				if (t > 0) {
-					Dungeon.level.set(this.left + x, this.top + y, t == 1 ? Terrain.CHASM : Terrain.FLOOR_D);
+					Dungeon.level.set(this.left + x, this.top + y, t == 1 ? Terrain.CHASM : Terrain.WALL);
 				}
 			}
 		}

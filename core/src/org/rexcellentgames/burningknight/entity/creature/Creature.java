@@ -73,8 +73,8 @@ public class Creature extends SaveableEntity {
 	protected float mul = 0.7f;
 	protected float timer;
 	protected boolean flipped = false;
-	protected int hx;
-	protected int hy;
+	public int hx;
+	public int hy;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
 	protected float invtt;
 	protected HashMap<String, ArrayList<LuaFunction>> events = new HashMap<>();
