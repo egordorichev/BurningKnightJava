@@ -1067,7 +1067,7 @@ public abstract class Level extends SaveableEntity {
 									int vl = Terrain.wallMapExtra[lv];
 
 									if (vl != -1) {
-										float a =  getLight(x + (xx == 0 ? -1 : 1), y + yy);
+										float a = getLight(x + (xx == 0 ? -1 : 1), y + yy);
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
@@ -1078,7 +1078,7 @@ public abstract class Level extends SaveableEntity {
 									int vl = Terrain.wallMap[lv];
 
 									if (vl != -1) {
-										float a =  getLight(x + (xx == 0 ? -1 : 1), y + yy);
+										float a = getLight(x + (xx == 0 ? -1 : 1), y + yy);
 
 										if (a > 0.05f) {
 											Graphics.batch.setColor(1, 1, 1, a);
@@ -1088,10 +1088,30 @@ public abstract class Level extends SaveableEntity {
 								}
 							}
 						}
+
+						byte t = this.get(i - getWidth());
+
+						if (t != Terrain.CRACK && t != Terrain.WALL) {
+							byte d = this.decor[i];
+
+							if (d != 0) {
+								TextureRegion s = Terrain.decor[d - 1];
+								Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 8);
+
+								if (d == 1) {
+									int tx = x * 16 + 4;
+									int ty = y * 16 - 6;
+									Graphics.startAlphaShape();
+									Graphics.shape.setColor(1f, 0.8f - (x % 3) * 0.1f, 0f, 0.2f);
+									Graphics.shape.circle(tx + 4, ty + 6, (float) (6 + Math.cos(this.t + (x + y)) * 0.8f * Math.sin(this.t * 0.7f + x - y / 2)));
+
+									Graphics.endAlphaShape();
+								}
+							}
+						}
 					}
 
 					Graphics.batch.setColor(1, 1, 1, 1);
-
 				}
 
 				// useful passable debug
@@ -1536,13 +1556,6 @@ public abstract class Level extends SaveableEntity {
 
 						if (t != Terrain.CRACK && t != Terrain.WALL) {
 							Graphics.render(Terrain.topVariants[(x * 3 + y / 2 + (x + y) / 2) % 12], x * 16, y * 16 - 16);
-
-							byte v = this.decor[i];
-
-							if (v != 0) {
-								TextureRegion s = Terrain.decor[v - 1];
-								Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 8);
-							}
 
 							if (!lg || !rg) {
 								t = 1;
