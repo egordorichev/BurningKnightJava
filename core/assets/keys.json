@@ -6,6 +6,7 @@
 
 	"pickup" : [ "L-Shift", "ControllerX" ],
 	"drop" : [ "ControllerY", "Q" ],
+	"shift" : [ "L-Shift", "R-Shift" ],
 
 	"use" : [ "Mouse0", "ControllerR2" ],
 	"second_use" : [ "Mouse1" ],

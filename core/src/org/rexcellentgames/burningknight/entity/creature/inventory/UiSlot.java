@@ -188,8 +188,17 @@ public class UiSlot {
 	}
 
 	public void leftClick() {
-		Item current = this.inventory.getCurrentSlot();
 		Item self = this.inventory.getInventory().getSlot(this.id);
+
+		if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
+			if (self.canBeUsed()) {
+				self.use();
+			}
+
+			return;
+		}
+
+		Item current = this.inventory.getCurrentSlot();
 
 		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());
 
