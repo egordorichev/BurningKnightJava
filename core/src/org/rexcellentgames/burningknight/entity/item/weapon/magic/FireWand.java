@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FireWand extends Wand {
@@ -75,6 +76,8 @@ public class FireWand extends Wand {
 
 				if (entity instanceof Door) {
 					((Door) entity).burning = true;
+				} else if (entity instanceof Chest) {
+					((Chest) entity).burning = true;
 				}
 			}
 		};
@@ -85,7 +88,7 @@ public class FireWand extends Wand {
 		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
-missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
+		missile.y = y - 3; 		missile.rectShape = true; 		missile.w = 6; 		missile.h = 6;
 		missile.rotates = true;
 
 		double ra = Math.toRadians(a);

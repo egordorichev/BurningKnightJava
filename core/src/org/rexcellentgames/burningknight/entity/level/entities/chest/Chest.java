@@ -8,24 +8,25 @@ import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -43,6 +44,7 @@ public class Chest extends SaveableEntity {
 	public static ArrayList<Chest> all = new ArrayList<>();
 	public boolean weapon;
 	public boolean locked = true;
+	public boolean burning;
 
 	public static Animation lockAnimations = Animation.make("door-lock", "-gold");
 
@@ -93,7 +95,15 @@ public class Chest extends SaveableEntity {
 			return;
 		}
 
-		if (!this.open && entity instanceof Player) {
+		if (entity instanceof Creature) {
+			if (((Creature) entity).hasBuff(BurningBuff.class)) {
+				this.burning = true;
+			} else if (this.burning) {
+				((Creature) entity).addBuff(new BurningBuff());
+			}
+		}
+
+			if (!this.open && entity instanceof Player) {
 			if (this.locked) {
 				this.colliding = true;
 			} else {
@@ -120,26 +130,35 @@ public class Chest extends SaveableEntity {
 				}
 			}
 
-			this.hp -= 1;
+			hit();
+		}
+	}
 
-			if (this.hp <= 0) {
-				this.hp = 0;
+	private void hit() {
+		if (this.hp == 0) {
+			return;
+		}
 
-				for (int i = 0; i < 10; i++) {
-					PoofFx fx = new PoofFx();
+		this.hp -= 1;
 
-					fx.x = this.x + this.w / 2;
-					fx.y = this.y + this.h / 2;
+		if (this.hp <= 0) {
+			this.hp = 0;
+			this.burning = false;
 
-					Dungeon.area.add(fx);
-				}
+			for (int i = 0; i < 10; i++) {
+				PoofFx fx = new PoofFx();
 
-				this.locked = false;
-				this.createLoot = true;
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
 
-				this.body = World.removeBody(this.body);
-				this.sensor = World.removeBody(this.sensor);
+				Dungeon.area.add(fx);
 			}
+
+			this.locked = false;
+			this.createLoot = true;
+
+			this.body = World.removeBody(this.body);
+			this.sensor = World.removeBody(this.sensor);
 		}
 	}
 
@@ -239,6 +258,10 @@ public class Chest extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (this.hp == 0) {
+			this.burning = false;
+		}
+
 		if (createLoot) {
 			if (Random.chance(50)) {
 				HeartFx fx = new HeartFx();
@@ -324,8 +347,43 @@ public class Chest extends SaveableEntity {
 				this.drawOpenAnim = false;
 			}
 		}
+
+		if (this.burning) {
+			lastFlame += dt;
+
+			if (this.lastFlame >= 0.05f) {
+				this.lastFlame = 0;
+				TerrainFlameFx fx = new TerrainFlameFx();
+				fx.x = this.x + Random.newFloat(this.w);
+				fx.y = this.y + Random.newFloat(this.h) - 4;
+				fx.depth = 1;
+				Dungeon.area.add(fx);
+			}
+
+			damage += dt * 2;
+
+			if (damage >= 1f) {
+				damage = 0f;
+				hit();
+			}
+		} else {
+			int i = Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16));
+			int info = Dungeon.level.getInfo(i);
+
+			if (BitHelper.isBitSet(info, 0)) {
+				// Burning
+				this.damage = 0;
+				this.burning = true;
+
+				for (int j : PathFinder.NEIGHBOURS4) {
+					Dungeon.level.setOnFire(i + j, true);
+				}
+			}
+		}
 	}
 
+	private float damage;
+	private float lastFlame;
 	private boolean drawOpenAnim;
 
 	public void open() {

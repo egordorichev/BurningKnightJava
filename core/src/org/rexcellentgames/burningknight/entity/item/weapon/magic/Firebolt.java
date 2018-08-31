@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 
 public class Firebolt extends Wand {
 	{
@@ -78,6 +79,8 @@ public class Firebolt extends Wand {
 
 				if (entity instanceof Door) {
 					((Door) entity).burning = true;
+				} else if (entity instanceof Chest) {
+					((Chest) entity).burning = true;
 				}
 
 				if (entity == null || entity instanceof SolidProp || entity instanceof Door) {
