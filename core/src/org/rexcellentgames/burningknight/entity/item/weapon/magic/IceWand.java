@@ -54,7 +54,7 @@ public class IceWand extends Wand {
 
 					Dungeon.area.add(fx);
 
-					int i = Level.toIndex(Math.round(this.x / 16), Math.round(this.y / 16));
+					int i = Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor(this.y / 16));
 
 					Dungeon.level.setOnFire(i, false);
 					Dungeon.level.freeze(i);

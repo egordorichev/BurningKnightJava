@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
@@ -90,7 +91,7 @@ public abstract class Level extends SaveableEntity {
 	protected boolean[] free;
 	protected byte[] decor;
 	public boolean[] explored;
-	protected int[] info;
+	public int[] info;
 	/**
 	 * Layout:
 	 *
@@ -775,8 +776,22 @@ public abstract class Level extends SaveableEntity {
 		byte t = this.get(i);
 		byte l = this.liquidData[i];
 
-		if (l == Terrain.ICE) {
+		if (fire && l == Terrain.ICE) {
 			this.liquidData[i] = Terrain.WATER;
+			this.info[i] = 0;
+
+			int x = toX(i) * 16;
+			int y = toY(i) * 16 - 8;
+
+			for (i = 0; i < 20; i++) {
+				SteamFx fx = new SteamFx();
+
+				fx.x = x + Random.newFloat(16);
+				fx.y = y + Random.newFloat(16);
+
+				Dungeon.area.add(fx);
+			}
+
 			return;
 		}
 
@@ -898,6 +913,17 @@ public abstract class Level extends SaveableEntity {
 							fx.y = y * 16 - 8 + Random.newFloat(16);
 
 							Dungeon.area.add(fx);
+
+							if (Random.chance(20)) {
+								SteamFx s = new SteamFx();
+
+								s.x = x * 16 + Random.newFloat(16);
+								s.y = y * 16 - 8 + Random.newFloat(16);
+
+								Dungeon.area.add(s);
+
+								s.val = Random.newFloat(0, 0.5f);
+							}
 						}
 					}
 				}
