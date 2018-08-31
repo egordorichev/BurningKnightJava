@@ -227,31 +227,48 @@ public class UiSlot {
 			this.inventory.getInventory().setSlot(this.id, current);
 			this.inventory.setCurrentSlot(null);
 		} else if (canAccept(this.id, current) || current == null) {
-			if (this.id > 5 && current != null) {
-				for (int i = 6; i < 12; i++) {
-					Item sl = this.inventory.getInventory().getSlot(i);
+			if (this.id > 5 && this.id < 12 && self != null && self.isCursed()) {
+				Audio.playSfx("item_nocash");
+			} else {
+				if (this.id > 5 && current != null) {
+					for (int i = 6; i < 12; i++) {
+						Item sl = this.inventory.getInventory().getSlot(i);
 
-					if (sl != null && sl.getClass().isInstance(current)) {
-						Audio.playSfx("item_nocash");
-						return;
+						if (sl != null && sl.getClass().isInstance(current)) {
+							Audio.playSfx("item_nocash");
+							return;
+						}
 					}
 				}
-			}
 
-			this.inventory.setCurrentSlot(self);
-			this.inventory.getInventory().setSlot(this.id, current);
+				this.inventory.setCurrentSlot(self);
+				this.inventory.getInventory().setSlot(this.id, current);
 
-			if (this.id > 5) {
-				if (self instanceof Accessory) {
-					((Accessory) self).equipped = false;
-					((Accessory) self).onUnequip(false);
-				}
+				if (this.id > 5 && this.id < 12) {
+					if (current != null && current.isCursed()) {
+						for (int i = 0; i < 10; i++) {
+							CurseFx fx = new CurseFx();
 
-				if (current instanceof Accessory) {
-					current.setOwner(Player.instance);
-					((Accessory) current).equipped = true;
-					((Accessory) current).onEquip(false);
-					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
+							fx.x = Random.newFloat(16) - 8 + Input.instance.uiMouse.x;
+							fx.y = Random.newFloat(16) - 8 + Input.instance.uiMouse.y;
+
+							Dungeon.ui.add(fx);
+						}
+
+						Audio.playSfx("curse_lamp_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
+					}
+
+					if (self instanceof Accessory) {
+						((Accessory) self).equipped = false;
+						((Accessory) self).onUnequip(false);
+					}
+
+					if (current instanceof Accessory) {
+						current.setOwner(Player.instance);
+						((Accessory) current).equipped = true;
+						((Accessory) current).onEquip(false);
+						Achievements.unlock(Achievements.EQUIP_ACCESSORY);
+					}
 				}
 			}
 		} else {

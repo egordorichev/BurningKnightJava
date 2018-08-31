@@ -7,7 +7,6 @@ public class Key extends Item {
 	{
 		stackable = true;
 		useable = false;
-		identified = true;
 		autoPickup = true;
 	}
 

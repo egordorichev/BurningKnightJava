@@ -8,7 +8,6 @@ public class Compass extends Equippable {
 		description = Locale.get("compass_desc");
 		name = Locale.get("compass");
 		sprite = "item-compass";
-		identified = true;
 	}
 
 	@Override

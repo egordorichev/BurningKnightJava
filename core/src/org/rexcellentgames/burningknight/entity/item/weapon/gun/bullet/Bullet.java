@@ -7,7 +7,6 @@ public class Bullet extends Item {
 	public String bulletName;
 
 	{
-		identified = true;
 		stackable = true;
 		useable = false;
 	}

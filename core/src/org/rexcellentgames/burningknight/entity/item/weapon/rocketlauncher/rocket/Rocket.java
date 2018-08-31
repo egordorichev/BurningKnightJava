@@ -7,7 +7,6 @@ public class Rocket extends Item {
 	public String rocketName;
 
 	{
-		identified = true;
 		stackable = true;
 		useable = false;
 		rocketName = "rocket";

@@ -22,7 +22,6 @@ public class Gold extends Item {
 		autoPickup = true;
 		useable = false;
 		description = Locale.get("gold_desc");
-		identified = true;
 	}
 
 	public static ArrayList<ItemHolder> all = new ArrayList<>();

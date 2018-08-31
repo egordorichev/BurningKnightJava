@@ -85,7 +85,6 @@ public class Gun extends WeaponBase {
 	}
 
 	{
-		identified = true;
 		auto = true;
 		useTime = 0.2f;
 	}

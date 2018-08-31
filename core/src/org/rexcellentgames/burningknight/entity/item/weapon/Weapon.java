@@ -14,9 +14,6 @@ public class Weapon extends WeaponBase {
 	private boolean used = false;
 	protected float added;
 
-	{
-		identified = true;
-	}
 	@Override
 	public void use() {
 		super.use();

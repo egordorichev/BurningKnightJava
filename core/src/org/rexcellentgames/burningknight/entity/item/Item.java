@@ -141,10 +141,12 @@ public class Item extends Entity {
     return Locale.get(str);
   }
 
+	{
+		cursed = true;
+	}
+
   public void generate() {
   	float r = Random.newFloat();
-
-  	cursed = true;
 
 	  if (r <= 0.2f) {
 			if (this.canBeDegraded()) {
@@ -240,6 +242,7 @@ public class Item extends Entity {
     writer.writeBoolean(this.sale);
     writer.writeByte(this.level);
 	  writer.writeBoolean(this.identified);
+	  writer.writeBoolean(this.cursed);
   }
 
   public void load(FileReader reader) throws IOException {
@@ -249,6 +252,7 @@ public class Item extends Entity {
     this.sale = reader.readBoolean();
     this.level = reader.readByte();
     this.identified = reader.readBoolean();
+	  this.cursed = reader.readBoolean();
   }
 
   public boolean disableBlink() {

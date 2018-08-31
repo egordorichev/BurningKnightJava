@@ -28,7 +28,6 @@ public class Bow extends WeaponBase {
 	{
 		auto = true;
 		delay = 0.3f;
-		identified = true;
 	}
 
 	private float charge;
