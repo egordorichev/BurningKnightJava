@@ -652,6 +652,11 @@ public abstract class Level extends SaveableEntity {
 						for (int x = room.left; x < room.right; x++) {
 							int i = toIndex(x, y);
 							int info = this.info[i];
+
+							if (BitHelper.isBitSet(info, 17)) {
+								continue;
+							}
+
 							int spread = BitHelper.getNumber(info, 10, 3);
 
 							if (spread > 0) {
@@ -661,32 +666,30 @@ public abstract class Level extends SaveableEntity {
 									byte t = this.liquidData[i];
 
 									if (t == Terrain.ICE) {
-										for (int j : PathFinder.NEIGHBOURS8) {
+										for (int j : PathFinder.NEIGHBOURS4) {
 											this.freeze(i + j);
+										}
+									} else if (t == Terrain.VENOM) {
+										for (int j : PathFinder.NEIGHBOURS4) {
+											this.venom(toX(i + j), toY(i + j));
 										}
 									}
 
-									//if (this.checkFor(i, Terrain.LIQUID_LAYER)) {
-										info = BitHelper.putNumber(info, 10, 3, getOverlayType(this.liquidData[i]));
-										info = BitHelper.setBit(info, 17, true);
+									// this.liquidData[i] = (byte) fromOverlay(spread);
 
-										this.info[i] = info;
-										this.liquidData[i] = Terrain.ICE;
+									info = BitHelper.putNumber(info, 10, 3, getOverlayType(this.liquidData[i]));
+									info = BitHelper.setBit(info, 17, true);
 
+									this.info[i] = info;
+									this.liquidData[i] = (byte) fromOverlay(spread);
 
-										for (int yy = y - 1; yy < y + 2; yy++) {
-											for (int xx = x - 1; xx < x + 2; xx++) {
-												this.updateNeighbourMask(xx, yy);
-											}
+									for (int yy = y - 1; yy < y + 2; yy++) {
+										for (int xx = x - 1; xx < x + 2; xx++) {
+											this.updateNeighbourMask(xx, yy);
 										}
-
-									/*} else {
-										this.info[i] = 0;
-										this.liquidData[i] = Terrain.ICE;
-									}*/
+									}
 								} else {
-									if (BitHelper.getNumber(info, 10, 3) == 1) {
-
+									if (spread == 1) {
 										for (Mob mob : Mob.all) {
 											if (mob.isDead() || mob.isFlying()) {
 												continue;
@@ -743,7 +746,9 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	private int fromOverlay(int ov) {
-		if (ov == 2) {
+		if (ov == 1) {
+			return Terrain.ICE;
+		} else if (ov == 2) {
 			return Terrain.WATER;
 		} else if (ov == 3) {
 			return Terrain.VENOM;
@@ -783,13 +788,35 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	public void freeze(int i) {
-		byte l = this.liquidData[i];
+	public void venom(int x, int y) {
+		int i = toIndex(x, y);
 
-		if (l == Terrain.WATER || l == Terrain.VENOM) {
+		if (this.liquidData[i] == Terrain.WATER) {
 			int info = this.info[i];
 
 			if (BitHelper.getNumber(info, 10, 3) > 0) {
+				return;
+			}
+
+			info = BitHelper.putNumber(info, 6, 4, 0);
+			info = BitHelper.setBit(info, 17, false);
+			this.info[i] = BitHelper.putNumber(info, 10, 3, 3);
+
+			for (int yy = y - 1; yy < y + 2; yy++) {
+				for (int xx = x - 1; xx < x + 2; xx++) {
+					this.updateNeighbourMask(xx, yy);
+				}
+			}
+		}
+	}
+
+	public void freeze(int i) {
+		byte l = this.liquidData[i];
+		int info = this.info[i];
+		int id = BitHelper.getNumber(info, 10, 3);
+
+		if (l == Terrain.WATER || l == Terrain.VENOM ) { // || id == 3
+			if (id > 0) {
 				return;
 			}
 
@@ -846,6 +873,7 @@ public abstract class Level extends SaveableEntity {
 
 		switch (type) {
 			case 1: if (t == Terrain.ICE) { return true; } break;
+			case 3: if (t == Terrain.VENOM) { return true; } break;
 		}
 
 		int info = this.info[i];
@@ -895,7 +923,7 @@ public abstract class Level extends SaveableEntity {
 						int damage = BitHelper.getNumber(info, 1, 4) + 1;
 
 						if (damage > 1) {
-							for (int j : PathFinder.NEIGHBOURS8) {
+							for (int j : PathFinder.NEIGHBOURS4) {
 								this.setOnFire(j + i, true);
 							}
 						}
@@ -918,7 +946,7 @@ public abstract class Level extends SaveableEntity {
 					//this.info[i] = BitHelper.putNumber(info, 10, 3, 1);
 
 					if (t == Terrain.ICE) {
-						for (int j : PathFinder.NEIGHBOURS8) {
+						for (int j : PathFinder.NEIGHBOURS4) {
 							this.freeze(i + j);
 						}
 					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
@@ -935,7 +963,7 @@ public abstract class Level extends SaveableEntity {
 							}
 						}
 					} else if (t == Terrain.LAVA) {
-						for (int j : PathFinder.NEIGHBOURS8) {
+						for (int j : PathFinder.NEIGHBOURS4) {
 							int k = j + i;
 							byte l = this.liquidData[k];
 
@@ -948,24 +976,8 @@ public abstract class Level extends SaveableEntity {
 							}
 						}
 					} else if (t == Terrain.VENOM) {
-						if (!burning) {
-							int damage = BitHelper.getNumber(info, 1, 4);
-
-							if (damage >= 1) {
-								for (int j : PathFinder.NEIGHBOURS8) {
-									int k = j + i;
-									byte tt = this.liquidData[k];
-
-									if (tt == Terrain.WATER) {
-										this.set(k, Terrain.VENOM);
-										this.updateTile(toX(k), toY(k));
-									}
-								}
-							} else {
-								damage ++;
-							}
-
-							this.info[i] = (byte) BitHelper.putNumber(info, 1, 4, damage);
+						for (int j : PathFinder.NEIGHBOURS4) {
+							this.venom(toX(i + j), toY(i + j));
 						}
 					}
 				}
@@ -1216,8 +1228,6 @@ public abstract class Level extends SaveableEntity {
 		}
 	}
 
-	private TextureRegion[] edge = null;
-
 	public void renderLiquids() {
 		OrthographicCamera camera = Camera.game;
 
@@ -1251,13 +1261,11 @@ public abstract class Level extends SaveableEntity {
 
 					if (tile == Terrain.ICE) {
 						drawOver(Terrain.icePattern, i, x, y, false, info);
+					} else if (tile == Terrain.VENOM) {
+						drawOver(Terrain.venomPattern, i, x, y, true, info);
 					}
 				} else {
 					this.doDraw(tile, i, x, y);
-
-					if (edge == null) {
-						continue;
-					}
 
 					int spread = BitHelper.getNumber(info, 10, 3);
 
@@ -1267,6 +1275,8 @@ public abstract class Level extends SaveableEntity {
 
 						if (spread == 1) {
 							r = new TextureRegion(Terrain.icePattern);
+						} else if (spread == 3) {
+							r = new TextureRegion(Terrain.venomPattern);
 						} else {
 							continue;
 						}
@@ -1298,7 +1308,7 @@ public abstract class Level extends SaveableEntity {
 
 						maskShader.setUniformf("activated", 1);
 						maskShader.setUniformf("spread", 1);
-						maskShader.setUniformf("water", 0);
+						maskShader.setUniformf("water", spread == 3 ? 1 : 0);
 						maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 						maskShader.setUniformf("time", this.t);
 						maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
@@ -1307,7 +1317,7 @@ public abstract class Level extends SaveableEntity {
 						texture.bind(0);
 						maskShader.setUniformi("u_texture", 1);
 
-						rr = edge[this.liquidVariants[i]];
+						rr = Terrain.edges[tile][this.liquidVariants[i]];
 
 						maskShader.setUniformf("epos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 						maskShader.end();
@@ -1324,8 +1334,6 @@ public abstract class Level extends SaveableEntity {
 						Graphics.batch.begin();
 					}
 				}
-
-				edge = null;
 			}
 		}
 
@@ -1382,11 +1390,11 @@ public abstract class Level extends SaveableEntity {
 
 			Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
 		} else if (tile == Terrain.WATER) {
-			drawWith(Terrain.waterPattern, edge = Terrain.pooledge, i, x, y, true);
+			drawWith(Terrain.waterPattern, Terrain.pooledge, i, x, y, true);
 		} else if (tile == Terrain.LAVA) {
-			drawWith(Terrain.lavaPattern, edge = Terrain.lavaedge, i, x, y, true);
+			drawWith(Terrain.lavaPattern, Terrain.lavaedge, i, x, y, true);
 		} else if (tile == Terrain.VENOM) {
-			drawWith(Terrain.venomPattern, edge = Terrain.pooledge, i, x, y, true);
+			drawWith(Terrain.venomPattern, Terrain.pooledge, i, x, y, true);
 		} else if (tile == Terrain.HIGH_GRASS) {
 			float a = (float) (Math.cos(this.t + (x + y) / 2f + y / 4f) * 20f * Math.sin(this.t * 0.75f + x / 3f - y / 6f));
 			Graphics.render(Terrain.grassHigh, x * 16 + 8, y * 16 - 8, a, 8, 0, false, false);
@@ -1425,7 +1433,7 @@ public abstract class Level extends SaveableEntity {
 
 		maskShader.setUniformf("activated", 1);
 		maskShader.setUniformf("spread", 1);
-		maskShader.setUniformf("water", 0);
+		maskShader.setUniformf("water", water ? 1 : 0);
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		maskShader.setUniformf("time", this.t);
 		maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
@@ -1434,7 +1442,7 @@ public abstract class Level extends SaveableEntity {
 		texture.bind(0);
 		maskShader.setUniformi("u_texture", 1);
 
-		rr = edge[this.liquidVariants[i]];
+		rr = Terrain.edges[fromOverlay(BitHelper.getNumber(info, 10, 3))][this.liquidVariants[i]];
 
 		maskShader.setUniformf("epos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		maskShader.end();

@@ -925,7 +925,7 @@ public class Player extends Creature {
 			}
 
 			if (this.leaveVenom > 0) {
-				Dungeon.level.set(x, y, Terrain.VENOM);
+				Dungeon.level.venom(x, y);
 			}
 
 			this.removeBuff(BurningBuff.class);

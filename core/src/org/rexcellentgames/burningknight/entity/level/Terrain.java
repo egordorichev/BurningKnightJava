@@ -159,6 +159,7 @@ public class Terrain {
 	public static TextureRegion obsidianPattern;
 	public static TextureRegion icePattern;
 	public static TextureRegion[] patterns = new TextureRegion[SIZE];
+	public static TextureRegion[][] edges = new TextureRegion[SIZE][16];
 
 	public static TextureRegion[] spread = new TextureRegion[16];
 	public static TextureRegion[] pooledge = new TextureRegion[16];
@@ -306,6 +307,14 @@ public class Terrain {
 		variants[TABLE] = tableVariants;
 		variants[FLOOR_C] = badVariants;
 		variants[FLOOR_D] = goldVariants;
+
+		edges[WATER] = pooledge;
+		edges[VENOM] = pooledge;
+		edges[ICE] = pooledge;
+		edges[DIRT] = dirtedge;
+		edges[LAVA] = lavaedge;
+		edges[OBSIDIAN] = dirtedge;
+		edges[COBWEB] = webedge;
 	}
 
 	public static char[] letters = new char[] { 'A', 'B', 'C', 'D' };

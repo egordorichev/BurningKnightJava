@@ -610,5 +610,7 @@
 	"cursed" : "Cursed",
 	"penetrates" : "Can hit multiple targets",
 	"crit_chance" : "critical chance",
-	"damage" : "damage"
+	"damage" : "damage",
+	"matches" : "Matches",
+	"matches_desc" : "Always ready to add some oil into the fire"
 }

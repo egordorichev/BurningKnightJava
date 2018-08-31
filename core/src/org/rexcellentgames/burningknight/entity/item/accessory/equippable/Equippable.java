@@ -50,7 +50,12 @@ public class Equippable extends Accessory {
 	public void use() {
 		super.use();
 
-		Player.instance.getInventory().setSlot(Player.instance.getInventory().active, null);
+		for (int i = 0; i < Player.instance.getInventory().getSize(); i++) {
+			if (Player.instance.getInventory().getSlot(i) == this) {
+				Player.instance.getInventory().setSlot(i, null);
+				break;
+			}
+		}
 
 		for (int i = 7; i < 11; i++) {
 			if (Player.instance.getInventory().getSlot(i) == null) {
