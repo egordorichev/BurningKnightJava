@@ -144,7 +144,7 @@ public class Item extends Entity {
   public void generate() {
   	float r = Random.newFloat();
 
-		if (r <= 0.2f) {
+	  if (r <= 0.2f) {
 			if (this.canBeDegraded()) {
 				this.degrade();
 

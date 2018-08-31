@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiSlot {
 	private static TextureRegion slot = Graphics.getTexture("ui-inventory_slot");
+	private static TextureRegion cursedSlot = Graphics.getTexture("ui-cursed_slot");
 	private static TextureRegion slotBig = Graphics.getTexture("ui-inventory_slot_large");
 
 	private static TextureRegion armorBg = Graphics.getTexture("ui-hat_bg");
@@ -315,7 +316,6 @@ public class UiSlot {
 	public float a = 0.7f;
 
 	public void render(Item item) {
-		TextureRegion reg = slot;
 		boolean h = this.inventory.getActive() == this.id;
 		boolean upgrade = this.inventory.getInventory().getSlot(this.inventory.getActive()) instanceof ScrollOfUpgrade;
 		boolean cursed = item != null && item.isCursed();
@@ -344,7 +344,7 @@ public class UiSlot {
 
 		Graphics.batch.setColor(r, g, b, a);
 
-		// fixme: if cursed, render red
+		TextureRegion reg = cursed ? cursedSlot : slot;
 		Graphics.render(reg, this.x + slot.getRegionWidth() / 2,
 			this.y + slot.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
