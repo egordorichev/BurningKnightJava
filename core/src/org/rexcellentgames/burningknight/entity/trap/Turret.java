@@ -18,7 +18,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class Turret extends SolidProp {
-	private AnimationData single;
+	protected AnimationData single;
 
 	{
 		alwaysActive = true;
@@ -166,7 +166,7 @@ public class Turret extends SolidProp {
 		}
 
 		if (this.single != null) {
-			this.single.setFrame(Math.floorMod(frame, 8));
+			setFrame();
 		}
 
 		this.last += dt;
@@ -177,6 +177,10 @@ public class Turret extends SolidProp {
 
 			this.send();
 		}
+	}
+
+	protected void setFrame() {
+		this.single.setFrame(7 - Math.floorMod((int) (Math.floor(this.a / (Math.PI / 4))) - 1, 8));
 	}
 
 	protected int frame;

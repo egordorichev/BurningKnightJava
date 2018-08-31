@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.level.save;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -19,7 +20,7 @@ public class GameSave {
 
 	public static void save(FileWriter writer, boolean old) {
 		try {
-			writer.writeByte((byte) 4);
+			writer.writeByte((byte) (old ? Dungeon.lastDepth : Dungeon.depth));
 			writer.writeByte((byte) (Player.instance == null ? Player.toSet.id : Player.instance.type.id));
 
 			ChangableRegistry.save(writer);
@@ -29,7 +30,7 @@ public class GameSave {
 				writer.writeBoolean(Level.boss[i]);
 			}
 
-			for (int i = 0; i< 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				writer.writeByte((byte) Level.orders[i]);
 			}
 

@@ -558,7 +558,7 @@ public class Player extends Creature {
 	public void setHpMax(int hpMax) {
 		super.setHpMax(hpMax);
 
-		if (this.hpMax >= 8) {
+		if (this.hpMax >= 16) {
 			Achievements.unlock(Achievements.GET_8_HEART_CONTAINERS);
 		}
 	}

@@ -7,4 +7,9 @@ public class RotatingTurret extends Turret {
 		this.frame -= 1;
 		this.tween();
 	}
+
+	@Override
+	protected void setFrame() {
+		this.single.setFrame(Math.floorMod(frame, 8));
+	}
 }
