@@ -38,7 +38,7 @@ public class Item extends Entity {
   protected boolean useable = true;
   protected float delay = 0;
   protected float useTime = 0.5f;
-  protected boolean identified = true;
+  protected boolean identified;
   protected boolean cursed;
   protected Creature owner;
   protected TextureRegion region;
@@ -327,7 +327,7 @@ public class Item extends Entity {
   }
 
   public String getDescription() {
-    return this.identified ? this.description : "???";
+    return this.description;
   }
 
   public float getUseTime() {
@@ -345,12 +345,16 @@ public class Item extends Entity {
       builder.append(this.getDescription());
     }
 
-    if (this.cursed) {
-      builder.append("\n[red]Cursed[gray]");
+    if (this.cursed && this.identified) {
+      builder.append("\n[red]);");
+      builder.append(cursedLocale);
+      builder.append("[gray]");
     }
 
     return builder;
   }
+
+  private static String cursedLocale = Locale.get("cursed");
 
   /*
    * Lua logic

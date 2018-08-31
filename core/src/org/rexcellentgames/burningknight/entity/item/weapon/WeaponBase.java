@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -113,14 +114,18 @@ public class WeaponBase extends Item {
 		}
 
 		builder.append(Math.round((this.damage + this.level - 1) * mod));
-		builder.append(" damage[gray]");
+		builder.append(" ");
+		builder.append(damageLocale);
+		builder.append("[gray]");
 
 		float stat = this.owner.getStat("crit_chance") * 10;
 
 		if (this.critChance + stat != 4f) {
 			builder.append("\n[orange]");
 			builder.append((int) Math.floor(this.critChance + stat));
-			builder.append("% crit chance[gray]");
+			builder.append("% ");
+			builder.append(critLocale);
+			builder.append("[gray]");
 		}
 
 		if (this.modifier != null) {
@@ -128,7 +133,9 @@ public class WeaponBase extends Item {
 		}
 
 		if (this.penetrates || this.owner.penetrates) {
-			builder.append("\n[green]Can hit multiple targets[gray]");
+			builder.append("\n[green]");
+			builder.append(penetratesLocale);
+			builder.append("[gray]");
 		}
 
 		if (this.useSpeedStr == null) {
@@ -141,6 +148,10 @@ public class WeaponBase extends Item {
 
 		return builder;
 	}
+
+	private static String critLocale = Locale.get("crit_chance");
+	private static String damageLocale = Locale.get("damage");
+	private static String penetratesLocale = Locale.get("penetrates");
 
 	public void modifyDamage(int am) {
 		this.initialDamage = damage;
@@ -252,7 +263,6 @@ public class WeaponBase extends Item {
 	@Override
 	public void init() {
 		super.init();
-
 		this.t = Random.newFloat(10f);
 	}
 
@@ -260,6 +270,7 @@ public class WeaponBase extends Item {
 	public void onPickup() {
 		super.onPickup();
 		this.t = Random.newFloat(10f);
+		this.identify();
 	}
 
 	public void endRender() {

@@ -606,5 +606,9 @@
 	"flippers": "Flippers",
 	"flippers_desc": "Water and lava are friends now!",
 	"flame_thrower": "Flame thrower",
-	"flame_thrower_desc": "Always on-fire"
+	"flame_thrower_desc": "Always on-fire",
+	"cursed" : "Cursed",
+	"penetrates" : "Can hit multiple targets",
+	"crit_chance" : "critical chance",
+	"damage" : "damage"
 }

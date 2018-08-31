@@ -318,7 +318,7 @@ public class UiSlot {
 	public void render(Item item) {
 		boolean h = this.inventory.getActive() == this.id;
 		boolean upgrade = this.inventory.getInventory().getSlot(this.inventory.getActive()) instanceof ScrollOfUpgrade;
-		boolean cursed = item != null && item.isCursed();
+		boolean cursed = item != null && item.isIdentified() && item.isCursed();
 
 		if (h) {
 			this.rr = 0.6f;
