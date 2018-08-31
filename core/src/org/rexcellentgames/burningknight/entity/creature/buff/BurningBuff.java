@@ -26,21 +26,24 @@ public class BurningBuff extends Buff {
 
 	@Override
 	public Buff setDuration(float duration) {
-		rate = 1 / duration;
+		rate = 1 / (duration - 1);
 		return super.setDuration(duration);
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		setDuration(6.0f);
+		setDuration(7.0f);
 		this.owner.removeBuff(FreezeBuff.class);
 	}
 
 	@Override
 	protected void onUpdate(float dt) {
 		boolean mob = this.owner instanceof Mob;
-		progress += mob ? dt * 2 : dt * rate;
+
+		if (!this.did) {
+			progress += mob ? dt * 2 : dt * rate;
+		}
 
 		Dungeon.level.addLightInRadius(this.owner.x + this.owner.w / 2, this.owner.y + this.owner.h / 2, 1f, 0.9f, 0f, 0.9f, 3f, false);
 		this.lastFlame += dt;
@@ -51,18 +54,31 @@ public class BurningBuff extends Buff {
 		}
 
 		if (progress >= 1f) {
-			this.progress = 0;
 			this.owner.modifyHp(this.owner instanceof Player ? -1 : -4, null, true);
 
 			if (!mob) {
-				setDuration(0);
+				did = true;
+				// setDuration(1f);
 
 				if (this.owner instanceof Player && this.owner.isDead()) {
 					Achievements.unlock(Achievements.BURN_TO_DEATH);
 				}
+
+				this.progress = 1f;
+			} else {
+				this.progress = 0;
 			}
 		}
+
+		this.al += ((did ? 0 : 1) - al) * dt * 5;
+
+		if (this.did && this.al <= 0.05f) {
+			this.setDuration(0);
+		}
 	}
+
+	private boolean did;
+	private float al;
 
 	@Override
 	public void render(Creature creature) {
@@ -70,8 +86,17 @@ public class BurningBuff extends Buff {
 		float y = creature.y + creature.h + 4;
 
 		if (!(this.owner instanceof Mob)) {
+			Graphics.batch.setColor(1, 1, 1, this.al);
 			Graphics.render(frame, x, y);
+
+			if (this.progress < 1f) {
+				Graphics.batch.setColor(0.2f, 0.2f, 0.2f, this.al);
+				Graphics.render(flame, x + 1, y + 1, 0, 0, 0, false, false, 1, 5);
+			}
+
+			Graphics.batch.setColor(1, 1, 1, this.al);
 			Graphics.render(flame, x + 1, y + 1, 0, 0, 0, false, false, 1, 5 * progress);
+			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 	}
 }
