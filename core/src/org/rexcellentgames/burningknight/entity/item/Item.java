@@ -141,10 +141,6 @@ public class Item extends Entity {
     return Locale.get(str);
   }
 
-	{
-		cursed = true;
-	}
-
   public void generate() {
   	float r = Random.newFloat();
 

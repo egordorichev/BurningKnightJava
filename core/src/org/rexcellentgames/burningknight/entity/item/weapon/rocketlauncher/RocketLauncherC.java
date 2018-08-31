@@ -6,7 +6,7 @@ public class RocketLauncherC extends RocketLauncher {
 	{
 		sprite = "item-cannon_c";
 		useTime = 1f;
-		damage = 5;
+		damage = 20;
 		name = Locale.get("launcher_c");
 		description = Locale.get("launcher_c_desc");
 	}

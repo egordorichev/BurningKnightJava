@@ -2,8 +2,11 @@ package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
@@ -47,6 +50,7 @@ public class RocketProjectile extends Projectile {
 	private void explode() {
 		this.playSfx("explosion");
 		this.done = true;
+		Camera.shake(15);
 		Dungeon.area.add(new Explosion(this.x, this.y));
 
 		for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
@@ -78,6 +82,10 @@ public class RocketProjectile extends Projectile {
 	@Override
 	protected boolean hit(Entity entity) {
 		if (entity == null || entity instanceof Creature || entity instanceof SolidProp || entity instanceof Door) {
+			if (entity instanceof Creature && this.t <= 0.3f) {
+				return false;
+			}
+
 			this.explode();
 			return true;
 		}
@@ -100,6 +108,7 @@ public class RocketProjectile extends Projectile {
 	@Override
 	public void logic(float dt) {
 		this.last += dt;
+		// Log.info("Logic!");
 
 		if (this.last >= 0.12f) {
 			this.last = 0;
@@ -131,15 +140,15 @@ public class RocketProjectile extends Projectile {
 
 			double a = Math.atan2(this.vel.y, this.vel.x);
 
-			this.vel.x += Math.cos(a) / 15;
-			this.vel.y += Math.sin(a) / 15;
+			this.vel.x += Math.cos(a) / 18;
+			this.vel.y += Math.sin(a) / 18;
 
 			float dx = this.target.x + this.target.w / 2 - this.x;
 			float dy = this.target.y + this.target.h / 2 - this.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			this.vel.x += dx / d / 15;
-			this.vel.y += dy / d / 15;
+			this.vel.x += dx / d / 13;
+			this.vel.y += dy / d / 13;
 
 			if (this.target.isDead()) {
 				this.target = null;
@@ -148,11 +157,13 @@ public class RocketProjectile extends Projectile {
 			float m = 512f;
 
 			for (Mob mob : Mob.every) {
-				float d = mob.getDistanceTo(this.x, this.y);
+				if (mob.room == this.owner.room) {
+					float d = mob.getDistanceTo(this.x, this.y);
 
-				if (d < m) {
-					this.target = mob;
-					m = d;
+					if (d < m) {
+						this.target = mob;
+						m = d;
+					}
 				}
 			}
 		}
@@ -165,5 +176,14 @@ public class RocketProjectile extends Projectile {
 
 		this.body.setTransform(this.x, this.y, this.ra);
 		this.body.setLinearVelocity(this.vel);
+	}
+
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (!(entity == null || entity instanceof Creature || entity instanceof Door || entity instanceof SolidProp)) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact, fixture);
 	}
 }

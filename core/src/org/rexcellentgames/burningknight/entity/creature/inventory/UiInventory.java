@@ -253,13 +253,7 @@ public class UiInventory extends UiEntity {
 
 				ui.tweenClick();
 
-				if (slot == null || slot.isCursed()) {
-					if (slot != null) {
-						ui.r = 1;
-						ui.g = 0;
-						ui.b = 0;
-					}
-
+				if (slot == null) {
 					return;
 				}
 
@@ -381,10 +375,8 @@ public class UiInventory extends UiEntity {
 
 				Item slot = this.currentSlot;
 
-				if (!slot.isCursed()) {
-					this.drop(slot);
-					this.currentSlot = null;
-				}
+				this.drop(slot);
+				this.currentSlot = null;
 			} else {
 				Item slot = this.inventory.getSlot(this.active);
 
