@@ -670,7 +670,7 @@ public abstract class Level extends SaveableEntity {
 
 									this.info[i] = info;
 									this.liquidData[i] = (byte) fromOverlay(spread);
-									
+
 									byte t = this.liquidData[i];
 
 									if (t == Terrain.ICE) {
