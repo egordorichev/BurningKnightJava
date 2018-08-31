@@ -202,6 +202,8 @@ public class Mimic extends Mob {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.saw = true;
+
 		if (this.freezed) {
 			return;
 		}
@@ -238,7 +240,6 @@ public class Mimic extends Mob {
 			if (!this.found) {
 				Achievements.unlock(Achievements.FIND_MIMIC);
 				this.found = true;
-				this.saw = true;
 				this.become("found");
 			}
 		}
@@ -251,7 +252,6 @@ public class Mimic extends Mob {
 		if (!this.found) {
 			Achievements.unlock(Achievements.FIND_MIMIC);
 			this.found = true;
-			this.saw = true;
 			this.become("found");
 		}
 	}
@@ -378,7 +378,6 @@ public class Mimic extends Mob {
 	public boolean rollBlock() {
 		if (!this.found) {
 			this.found = true;
-			this.saw = true;
 			this.become("found");
 		}
 
