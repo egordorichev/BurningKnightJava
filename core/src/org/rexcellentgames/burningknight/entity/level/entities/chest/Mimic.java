@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mimic extends Mob {
-	public static float chance = 20;
+	public static float chance = 100;
 	public static ArrayList<Mimic> all = new ArrayList<>();
 	private AnimationData closed;
 	private AnimationData open;
@@ -40,6 +40,7 @@ public class Mimic extends Mob {
 	{
 		hpMax = 30;
 		h = 13;
+		w = 18;
 	}
 
 	@Override
@@ -146,8 +147,7 @@ public class Mimic extends Mob {
 		writer.writeBoolean(locked);
 	}
 
-	@Override
-	public void render() {
+	private void readAnim() {
 		if (this.animation == null) {
 			Animation animations = WoodenChest.animation;
 
@@ -177,6 +177,11 @@ public class Mimic extends Mob {
 
 			this.animation = this.closed;
 		}
+	}
+
+	@Override
+	public void render() {
+		readAnim();
 
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
@@ -187,10 +192,10 @@ public class Mimic extends Mob {
 			float y = this.y + (h - Chest.idleLock.getRegionHeight()) / 2 +
 				(float) Math.sin(this.t) * 1.8f;
 
-			Graphics.render(Chest.idleLock, x + 1, y);
+			Graphics.render(Chest.idleLock, x, y);
 		}
 
-		// Graphics.print(this.state, Graphics.small, this.x, this.y - 16);
+		renderStats();
 	}
 
 	@Override
@@ -233,6 +238,7 @@ public class Mimic extends Mob {
 			if (!this.found) {
 				Achievements.unlock(Achievements.FIND_MIMIC);
 				this.found = true;
+				this.saw = true;
 				this.become("found");
 			}
 		}
@@ -245,6 +251,7 @@ public class Mimic extends Mob {
 		if (!this.found) {
 			Achievements.unlock(Achievements.FIND_MIMIC);
 			this.found = true;
+			this.saw = true;
 			this.become("found");
 		}
 	}
@@ -252,15 +259,6 @@ public class Mimic extends Mob {
 	public class MimicState extends Mob.State<Mimic> {
 
 	}
-
-	/*
-	 * AI plan (todo):
-	 *o + Stands still till you hit it or touch it, then does following:
-	 *  - Opens, then throws a bottle with poison creep, looks at you for a bit
-	 *o  - Closes, becomes unhittable
-	 *
-	 * + On death becomes pure chest with open state, generates drop and drops it, as well as some money
-	 */
 
 	@Override
 	protected State getAi(String state) {
@@ -283,6 +281,8 @@ public class Mimic extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			readAnim();
+
 			animation = open;
 			animation.setBack(false);
 			animation.setPaused(false);
@@ -378,6 +378,7 @@ public class Mimic extends Mob {
 	public boolean rollBlock() {
 		if (!this.found) {
 			this.found = true;
+			this.saw = true;
 			this.become("found");
 		}
 

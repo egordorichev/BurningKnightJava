@@ -18,13 +18,14 @@ public class HpFx extends Entity {
 	public boolean crit;
 	public boolean block;
 
-	public HpFx(Creature creature, int change) {
+	public HpFx(Creature creature, int change, boolean block) {
 		this.text = String.valueOf(Math.abs(change));
+		this.block = block;
 
 		Graphics.layout.setText(Graphics.medium, text);
 
 		if (this.block) {
-			this.x = creature.x + (creature.w) / 2;
+			this.x = creature.x + creature.w / 2;
 		} else {
 			this.x = creature.x + (creature.w - Graphics.layout.width) / 2;
 		}

@@ -387,22 +387,19 @@ public class Creature extends SaveableEntity {
 	}
 
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
+		if (this.unhittable) {
+			return null;
+		}
+
 		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0) {
 			return null;
 		} else if (amount < 0 && !this.touches[Terrain.COBWEB] &&
 			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
 			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
 
-			if (this.unhittable) {
-				return null;
-			}
-
-			HpFx fx = new HpFx(this, 0);
-			fx.block = true;
-			Dungeon.area.add(fx);
 			this.playSfx("block");
 			this.invt = this.getStat("inv_time");
-			return fx;
+			return (HpFx) Dungeon.area.add(new HpFx(this, 0, true));
 		}
 
 		boolean hurt = false;
@@ -437,7 +434,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (Player.showStats) {
-			HpFx fx = new HpFx(this, amount);
+			HpFx fx = new HpFx(this, amount, false);
 			Dungeon.area.add(fx);
 		}
 

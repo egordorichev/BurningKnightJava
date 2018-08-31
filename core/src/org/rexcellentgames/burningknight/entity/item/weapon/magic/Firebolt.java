@@ -81,6 +81,8 @@ public class Firebolt extends Wand {
 					((Door) entity).burning = true;
 				} else if (entity instanceof Chest) {
 					((Chest) entity).burning = true;
+				} else if (this.t >= 0.2f && entity instanceof Creature) {
+					((Creature) entity).addBuff(new BurningBuff());
 				}
 
 				if (entity == null || entity instanceof SolidProp || entity instanceof Door) {
