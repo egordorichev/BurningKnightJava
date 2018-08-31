@@ -90,11 +90,23 @@ public class KeyConfigState extends State {
 
 		first = (UiEntity) Dungeon.ui.add(new UiButton("save", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 + 24 * 11.5f - Display.GAME_HEIGHT * 3.5f)) {
 			@Override
+			public void render() {
+				super.render();
+
+				if (SettingsState.current == SettingsState.Type.CONFIG && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+
+			@Override
 			public void onClick() {
 				Input.instance.saveBindings();
 
 				InputSettingsState.add();
 				Dungeon.ui.select(InputSettingsState.first);
+
+				SettingsState.current = SettingsState.Type.INPUT;
 
 				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override

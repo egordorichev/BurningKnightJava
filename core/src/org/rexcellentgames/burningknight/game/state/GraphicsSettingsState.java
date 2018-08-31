@@ -5,8 +5,8 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -124,9 +124,21 @@ public class GraphicsSettingsState extends State {
 
 		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (138 - 20 * 4.5f) + Display.GAME_HEIGHT) {
 			@Override
+			public void render() {
+				super.render();
+
+				if (SettingsState.current == SettingsState.Type.GRAPHICS && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+
+			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
 				Dungeon.ui.select(SettingsState.first);
+
+				SettingsState.current = SettingsState.Type.SETTINGS;
 
 				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
