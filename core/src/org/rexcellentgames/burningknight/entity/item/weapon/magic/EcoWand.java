@@ -48,7 +48,7 @@ public class EcoWand extends Wand {
 					Dungeon.area.add(fx);
 
 					int x = (int) Math.floor(this.x / 16);
-					int y = (int) Math.floor(this.y / 16);
+					int y = (int) Math.floor((this.y + 8) / 16);
 					int i = Level.toIndex(x, y);
 					// byte t = Dungeon.level.get(i);
 					byte l = Dungeon.level.liquidData[i];

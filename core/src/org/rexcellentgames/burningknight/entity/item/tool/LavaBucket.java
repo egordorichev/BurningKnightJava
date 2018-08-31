@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.tool;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.game.input.Input;
 
@@ -23,6 +24,7 @@ public class LavaBucket extends Consumable {
 						continue;
 					}
 
+					Dungeon.level.info[Level.toIndex(nx, ny)] = 0;
 					Dungeon.level.set(nx, ny, Terrain.LAVA);
 					Dungeon.level.updateTile(nx, ny);
 				}
