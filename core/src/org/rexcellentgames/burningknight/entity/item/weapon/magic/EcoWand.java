@@ -47,10 +47,10 @@ public class EcoWand extends Wand {
 
 					Dungeon.area.add(fx);
 
-					int x = Math.round(this.x / 16);
-					int y = Math.round(this.y / 16);
+					int x = (int) Math.floor(this.x / 16);
+					int y = (int) Math.floor((this.y + 8) / 16);
 					int i = Level.toIndex(x, y);
-					byte t = Dungeon.level.get(i);
+					// byte t = Dungeon.level.get(i);
 					byte l = Dungeon.level.liquidData[i];
 
 					if (Dungeon.level.checkFor(i, Terrain.PASSABLE)) {
@@ -64,6 +64,7 @@ public class EcoWand extends Wand {
 							Dungeon.level.set(i, Terrain.GRASS);
 						}
 
+						Dungeon.level.info[i] = 0;
 						Dungeon.level.updateTile(x, y);
 					}
 				}

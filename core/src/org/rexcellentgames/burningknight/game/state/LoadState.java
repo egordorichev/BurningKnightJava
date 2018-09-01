@@ -80,8 +80,6 @@ public class LoadState extends State {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Level lvl = Level.forDepth(Dungeon.depth - 1);
-
 				try {
 					SaveManager.load(SaveManager.Type.GAME);
 				} catch (IOException e) {
@@ -143,7 +141,7 @@ public class LoadState extends State {
 
 				Audio.play(Dungeon.level.getMusic());
 
-				if (!Dungeon.level.same(lvl)) {
+				if (!Dungeon.level.same(Level.forDepth(Dungeon.depth - 1))) {
 					Audio.reset();
 				}
 

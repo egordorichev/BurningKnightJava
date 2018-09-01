@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.level.save;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -20,9 +19,8 @@ public class GameSave {
 
 	public static void save(FileWriter writer, boolean old) {
 		try {
+			writer.writeByte((byte) 4);
 			writer.writeByte((byte) (Player.instance == null ? Player.toSet.id : Player.instance.type.id));
-			writer.writeByte((byte) Dungeon.depth);
-			writer.writeString(Dungeon.level == null ? "The beginning" : Dungeon.level.formatDepth());
 
 			ChangableRegistry.save(writer);
 
@@ -67,9 +65,10 @@ public class GameSave {
 		try {
 			FileReader stream = new FileReader(save.file().getAbsolutePath());
 
-			info.type = Player.Type.values()[stream.readByte()];
+			byte version = stream.readByte();
+
 			info.depth = stream.readByte();
-			info.second = stream.readString();
+			info.type = Player.Type.values()[stream.readByte()];
 
 			stream.close();
 		} catch (Exception e) {
@@ -81,9 +80,8 @@ public class GameSave {
 	}
 
 	public static void load(FileReader reader) throws IOException {
-		Player.toSet = Player.Type.values()[reader.readByte()];
 		byte d = reader.readByte();
-		String name = reader.readString();
+		Player.toSet = Player.Type.values()[reader.readByte()];
 
 		ChangableRegistry.load(reader);
 

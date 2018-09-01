@@ -62,7 +62,7 @@ public class Firebolt extends Wand {
 
 					Dungeon.area.add(fx);
 
-					Dungeon.level.setOnFire(Level.toIndex(Math.round(this.x / 16), Math.round(this.y / 16)), true);
+					Dungeon.level.setOnFire(Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16)), true);
 				}
 
 				this.body.setTransform(this.x, this.y, (float) Math.toRadians(this.a));

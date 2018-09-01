@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
@@ -90,7 +91,7 @@ public abstract class Level extends SaveableEntity {
 	protected boolean[] free;
 	protected byte[] decor;
 	public boolean[] explored;
-	protected int[] info;
+	public int[] info;
 	/**
 	 * Layout:
 	 *
@@ -480,6 +481,10 @@ public abstract class Level extends SaveableEntity {
 		} else {
 			byte tt = this.liquidData[toIndex(x, y)];
 
+			if ((tile == Terrain.LAVA || tt == Terrain.LAVA) && (tile == Terrain.OBSIDIAN || tt == Terrain.OBSIDIAN)) {
+				return true;
+			}
+
 			if ((tile == Terrain.GRASS || tile == Terrain.HIGH_GRASS || tile == Terrain.HIGH_DRY_GRASS || tile == Terrain.DRY_GRASS)
 				&& (tt == Terrain.GRASS || tt == Terrain.HIGH_GRASS || tt == Terrain.HIGH_DRY_GRASS || tt == Terrain.DRY_GRASS)) {
 
@@ -663,8 +668,6 @@ public abstract class Level extends SaveableEntity {
 								int step = BitHelper.getNumber(info, 6, 4);
 
 								if (step >= 15) {
-									// this.liquidData[i] = (byte) fromOverlay(spread);
-
 									info = BitHelper.putNumber(info, 10, 3, getOverlayType(this.liquidData[i]));
 									info = BitHelper.setBit(info, 17, true);
 
@@ -740,6 +743,8 @@ public abstract class Level extends SaveableEntity {
 			return 3;
 		} else if (liquid == Terrain.LAVA) {
 			return 4;
+		} else if (liquid == Terrain.OBSIDIAN) {
+			return 5;
 		}
 
 		return 0;
@@ -754,6 +759,8 @@ public abstract class Level extends SaveableEntity {
 			return Terrain.VENOM;
 		} else if (ov == 4) {
 			return Terrain.LAVA;
+		} else if (ov == 5) {
+			return Terrain.OBSIDIAN;
 		}
 
 		return Terrain.WATER;
@@ -775,8 +782,49 @@ public abstract class Level extends SaveableEntity {
 		byte t = this.get(i);
 		byte l = this.liquidData[i];
 
-		if (l == Terrain.ICE) {
+		if (fire && l == Terrain.ICE) {
 			this.liquidData[i] = Terrain.WATER;
+			this.info[i] = 0;
+
+			int x = toX(i) * 16;
+			int y = toY(i) * 16 - 8;
+
+			for (i = 0; i < 20; i++) {
+				SteamFx fx = new SteamFx();
+
+				fx.x = x + Random.newFloat(16);
+				fx.y = y + Random.newFloat(16);
+
+				Dungeon.area.add(fx);
+			}
+
+			return;
+		} else if (fire && l == Terrain.WATER) {
+			this.liquidData[i] = 0;
+			this.info[i] = 0;
+
+			int x = toX(i) * 16;
+			int y = toY(i) * 16 - 8;
+
+			for (int j = 0; j < 20; j++) {
+				SteamFx fx = new SteamFx();
+
+				fx.x = x + Random.newFloat(16);
+				fx.y = y + Random.newFloat(16);
+
+				Dungeon.area.add(fx);
+			}
+
+			x = toX(i);
+			y = toY(i);
+
+			for (int yy = y - 1; yy < y + 2; yy++) {
+				for (int xx = x - 1; xx < x + 2; xx++) {
+					this.updateNeighbourMask(xx, yy);
+					this.tile(xx, yy);
+				}
+			}
+
 			return;
 		}
 
@@ -806,6 +854,27 @@ public abstract class Level extends SaveableEntity {
 				for (int xx = x - 1; xx < x + 2; xx++) {
 					this.updateNeighbourMask(xx, yy);
 				}
+			}
+		}
+	}
+
+	public void toObsidian(int i) {
+		int info = this.info[i];
+
+		if (BitHelper.getNumber(info, 10, 3) > 0) {
+			return;
+		}
+
+		info = BitHelper.putNumber(info, 6, 4, 0);
+		info = BitHelper.setBit(info, 17, false);
+		this.info[i] = BitHelper.putNumber(info, 10, 3, 5);
+
+		int x = toX(i);
+		int y = toY(i);
+
+		for (int yy = y - 1; yy < y + 2; yy++) {
+			for (int xx = x - 1; xx < x + 2; xx++) {
+				this.updateNeighbourMask(xx, yy);
 			}
 		}
 	}
@@ -872,7 +941,10 @@ public abstract class Level extends SaveableEntity {
 
 		switch (type) {
 			case 1: if (t == Terrain.ICE) { return true; } break;
+			case 2: if (t == Terrain.WATER) { return true; } break;
 			case 3: if (t == Terrain.VENOM) { return true; } break;
+			case 4: if (t == Terrain.LAVA) { return true; } break;
+			case 5: if (t == Terrain.OBSIDIAN) { return true; } break;
 		}
 
 		int info = this.info[i];
@@ -898,6 +970,17 @@ public abstract class Level extends SaveableEntity {
 							fx.y = y * 16 - 8 + Random.newFloat(16);
 
 							Dungeon.area.add(fx);
+
+							if (Random.chance(20)) {
+								SteamFx s = new SteamFx();
+
+								s.x = x * 16 + Random.newFloat(16);
+								s.y = y * 16 - 8 + Random.newFloat(16);
+
+								Dungeon.area.add(s);
+
+								s.val = Random.newFloat(0, 0.5f);
+							}
 						}
 					}
 				}
@@ -941,9 +1024,6 @@ public abstract class Level extends SaveableEntity {
 						}
 					}
 
-					//info = BitHelper.putNumber(info, 6, 4, 0);
-					//this.info[i] = BitHelper.putNumber(info, 10, 3, 1);
-
 					if (t == Terrain.ICE) {
 						for (int j : PathFinder.NEIGHBOURS4) {
 							this.freeze(i + j);
@@ -967,11 +1047,9 @@ public abstract class Level extends SaveableEntity {
 							byte l = this.liquidData[k];
 
 							if (l == Terrain.WATER || l == Terrain.VENOM) {
-								this.liquidData[k] = Terrain.OBSIDIAN;
-								this.updateTile(toX(k), toY(k));
+								this.toObsidian(i);
 							} else if (l == Terrain.ICE) {
-								this.liquidData[k] = Terrain.WATER;
-								this.updateTile(toX(k), toY(k));
+								this.setOnFire(k, true);
 							}
 						}
 					} else if (t == Terrain.VENOM) {
@@ -1262,6 +1340,8 @@ public abstract class Level extends SaveableEntity {
 						drawOver(Terrain.icePattern, i, x, y, false, info);
 					} else if (tile == Terrain.VENOM) {
 						drawOver(Terrain.venomPattern, i, x, y, true, info);
+					} else if (tile == Terrain.OBSIDIAN) {
+						drawOver(Terrain.obsidianPattern, i, x, y, false, info);
 					}
 				} else {
 					this.doDraw(tile, i, x, y);
@@ -1276,6 +1356,8 @@ public abstract class Level extends SaveableEntity {
 							r = new TextureRegion(Terrain.icePattern);
 						} else if (spread == 3) {
 							r = new TextureRegion(Terrain.venomPattern);
+						} else if (spread == 5) {
+							r = new TextureRegion(Terrain.obsidianPattern);
 						} else {
 							continue;
 						}
@@ -1399,6 +1481,8 @@ public abstract class Level extends SaveableEntity {
 			Graphics.render(Terrain.grassHigh, x * 16 + 8, y * 16 - 8, a, 8, 0, false, false);
 		} else if (tile == Terrain.HIGH_DRY_GRASS) {
 			Graphics.render(Terrain.dryGrassHigh, x * 16, y * 16 - 8);
+		} else if (tile == Terrain.OBSIDIAN) {
+			drawWith(Terrain.obsidianPattern, Terrain.dirtedge, i, x, y, false);
 		}
 	}
 
@@ -1668,9 +1752,9 @@ public abstract class Level extends SaveableEntity {
 					drawWith(dry ? Terrain.dryGrassPattern : Terrain.grassPattern, dry ? Terrain.drygrassedge : Terrain.grassedge, i, x, y, false);
 
 					// todo: high grass overlays
-				} else if (tile == Terrain.OBSIDIAN) {
+				/*} else if (tile == Terrain.OBSIDIAN) {
 					drawWith(Terrain.obsidianPattern, Terrain.obedge, i, x, y, false);
-				} else if (tile == Terrain.COBWEB) {
+				*/} else if (tile == Terrain.COBWEB) {
 					drawWith(Terrain.cobwebPattern, Terrain.webedge, i, x, y, false);
 				} else if (tile == Terrain.EMBER) {
 					Graphics.batch.end();

@@ -29,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
+import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -919,8 +920,19 @@ public class Player extends Creature {
 				int num = GlobalSave.getInt("num_fire_out") + 1;
 				GlobalSave.put("num_fire_out", num);
 
-				if (num >= 30) {
+				if (num >= 50) {
 					Achievements.unlock(Achievements.UNLOCK_WATER_BOLT);
+				}
+
+				this.removeBuff(BurningBuff.class);
+
+				for (int i = 0; i < 20; i++) {
+					SteamFx fx = new SteamFx();
+
+					fx.x = this.x + Random.newFloat(this.w);
+					fx.y = this.y + Random.newFloat(this.h);
+
+					Dungeon.area.add(fx);
 				}
 			}
 
@@ -928,7 +940,6 @@ public class Player extends Creature {
 				Dungeon.level.venom(x, y);
 			}
 
-			this.removeBuff(BurningBuff.class);
 			this.watery = 5f;
 		} else {
 			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {

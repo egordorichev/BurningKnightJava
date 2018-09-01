@@ -136,7 +136,7 @@ public class Turret extends SolidProp {
 		}
 
 		if (this.type == 3) {
-			if (this.t >= 5f) {
+			if (this.t >= 9f) {
 				if (!this.rotated) {
 					this.rotate();
 					this.rotated = true;

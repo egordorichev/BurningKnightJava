@@ -288,7 +288,7 @@ public class Painter {
 			for (Room n : r.getConnected().keySet()) {
 				Door d = r.getConnected().get(n);
 
-				level.setDecor((int) d.x, (int) d.y, (byte) 0);
+				level.setDecor((int) d.x, (int) d.y + 1, (byte) 0);
 
 				byte t = level.get((int) d.x, (int) d.y);
 				boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
