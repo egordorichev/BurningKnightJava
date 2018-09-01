@@ -44,7 +44,7 @@ public class Crash {
 		builder.append(writer.toString());
 		builder.append("\n--- END CRASH REPORT ---\n");
 
-		// if (!Version.debug) {
+		if (!Version.debug) {
 			Trello trelloApi = new TrelloImpl("7e84b78076780d10a2c6a1905c69c6e9", "2695b451bd169f26fc16319500d3bf08eb479ae76794954aff4d90a204814419");
 
 			Board board = trelloApi.getBoard("ve32nwEC");
@@ -68,7 +68,7 @@ public class Crash {
 
 				reports.createCard(card);
 			}
-		// }
+		}
 
 		JTextArea text = new JTextArea();
 

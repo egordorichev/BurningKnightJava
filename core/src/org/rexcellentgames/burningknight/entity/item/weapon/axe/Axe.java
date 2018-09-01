@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.axe;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -44,6 +45,7 @@ public class Axe extends Weapon {
 		damage = 2 + this.level;
 		penetrates = true;
 		sprite = "item-axe_" + letter;
+		region = Graphics.getTexture(sprite);
 	}
 
 	private float added;
