@@ -2,19 +2,56 @@ package org.rexcellentgames.burningknight.entity.item.weapon.throwing;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.io.IOException;
 
 public class ThrowingDagger extends Weapon {
 	private boolean forward;
-	float max = 100f;
+	private float max = 100f;
 
 	{
 		useTime = 1f;
+	}
+
+	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+
+		sprite = "item-dagger_" + letter;
+		damage = 3;
+		name = Locale.get("throwing_dagger_" + letter);
+		description = Locale.get("throwing_dagger_desc");
+
+		region = Graphics.getTexture(sprite);
+	}
+
+	@Override
+	public int getMaxLevel() {
+		return 7;
+	}
+
+	public ThrowingDagger() {
+		setStats();
+	}
+
+	@Override
+	public void upgrade() {
+		super.upgrade();
+		setStats();
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		setStats();
 	}
 
 	@Override
