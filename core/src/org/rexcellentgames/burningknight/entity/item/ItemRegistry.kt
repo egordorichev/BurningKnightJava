@@ -33,11 +33,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.Rocke
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.Butcher
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreA
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreB
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreC
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStar
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.Claymore
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberA
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC
@@ -94,9 +92,7 @@ object ItemRegistry {
     "fire_flower" to Pair(FireFlower::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN),
     "backpack" to Pair(Backpack::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_BACKPACK),
     "blood_ring" to Pair(BloodRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
-    "claymore_a" to Pair(ClaymoreA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "claymore_b" to Pair(ClaymoreB::class.java, 1f, 1f, 0.3f, 0.1f, Quality.IRON),
-    "claymore_c" to Pair(ClaymoreC::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+    "claymore" to Pair(Claymore::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "goo" to Pair(GooOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "bumbo" to Pair(Bumbo::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "gold_ring" to Pair(GoldRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_GOLD_RING),

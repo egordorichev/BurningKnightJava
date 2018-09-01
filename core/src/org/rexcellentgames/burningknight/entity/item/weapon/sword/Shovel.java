@@ -1,11 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreA;
-import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreA;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.Claymore;
 
-public class Shovel extends ClaymoreA {
+public class Shovel extends Claymore {
 	{
 		damage = 12;
 		sprite = "item-shovel";

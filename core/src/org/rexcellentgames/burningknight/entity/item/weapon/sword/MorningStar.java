@@ -1,8 +1,7 @@
-package org.rexcellentgames.burningknight.entity.item.weapon.sword.morning;
+package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 
 public class MorningStar extends Sword {
 	{

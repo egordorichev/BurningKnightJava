@@ -1,9 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword.tool;
 
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreA;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.Claymore;
 
-public class ShovelA extends ClaymoreA {
+public class ShovelA extends Claymore {
 	{
 		sprite = "item-bronze_shovel";
 		name = Locale.get("bronze_shovel");

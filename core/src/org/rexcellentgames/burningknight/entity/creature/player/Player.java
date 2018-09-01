@@ -46,8 +46,8 @@ import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWa
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.Butcher;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStar;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;

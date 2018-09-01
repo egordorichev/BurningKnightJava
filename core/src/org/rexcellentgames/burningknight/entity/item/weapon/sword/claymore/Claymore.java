@@ -1,17 +1,22 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore;
 
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Tween;
 
-public class ClaymoreA extends Sword {
-	{
-		sprite = "item-claymore_a";
-		damage = 2;
-		description = Locale.get("claymore_a_desc");
-		name = Locale.get("claymore_a");
+public class Claymore extends Sword {
+	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+
+		name = Locale.get("claymore_" + letter);
+		description = Locale.get("claymore_desc");
+		sprite = "item-claymore_" + letter;
+		damage = 4;
+		useTime = 0.4f;
+		region = Graphics.getTexture(sprite);
 	}
 
 	@Override
