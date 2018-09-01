@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.level.rooms.item;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;

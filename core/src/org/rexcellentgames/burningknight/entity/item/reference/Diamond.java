@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item.reference;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.game.Achievements;
 
@@ -21,7 +22,6 @@ public class Diamond extends Autouse {
 		super.use();
 
 		ItemHolder item = new ItemHolder((new Gold()));
-
 		item.getItem().setCount(99);
 
 		Player.instance.tryToPickup(item);

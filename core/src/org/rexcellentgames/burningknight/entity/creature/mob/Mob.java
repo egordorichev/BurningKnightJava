@@ -25,6 +25,7 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet;
 import org.rexcellentgames.burningknight.entity.level.Level;
