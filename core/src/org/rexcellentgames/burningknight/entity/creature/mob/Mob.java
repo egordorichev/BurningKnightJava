@@ -280,7 +280,11 @@ public class Mob extends Creature {
 			return true;
 		}
 
-		return last == player;
+		if (last == player) {
+			return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16)) == 0;
+		}
+
+		return false;
 	}
 
 	protected void assignTarget() {

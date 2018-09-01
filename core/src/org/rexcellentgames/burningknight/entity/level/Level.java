@@ -1857,13 +1857,10 @@ public abstract class Level extends SaveableEntity {
 							byte vl = this.canSee(fx, fy, fx + xx, fy + yy);
 
 							if (vl == 1 && yy >= 0) {
-								v = 0.5f;
 								see = true;
 							} else { //(fy + yy > 0 && Dungeon.level.checkFor(fx, fy + yy - 1, Terrain.PASSABLE));
 								see = vl == 0;
 							}
-						} else {
-							see = false;
 						}
 					}
 

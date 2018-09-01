@@ -287,6 +287,9 @@ public class InGameState extends State {
 					}
 				}
 			}
+
+			// todo: as a challenge
+			// Dungeon.level.addLightInRadius(Player.instance.x + 8, Player.instance.y + 8, 0, 0, 0, 2f, 8f, false);
 		}
 		
 		if (Version.debug) {
