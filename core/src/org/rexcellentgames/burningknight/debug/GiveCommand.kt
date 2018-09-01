@@ -32,15 +32,13 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
 
           clazz.type.newInstance()
         }
-        
-        val itemHolder = ItemHolder()
-        
-        itemHolder.item = item
 
         if (item.isStackable) {
           item.count = count
         }
-
+        
+        val itemHolder = ItemHolder(item)
+        
         Player.instance.inventory.add(itemHolder)
       } catch (e: Exception) {
         Log.error("Failed to create item, consult @egordorichev")

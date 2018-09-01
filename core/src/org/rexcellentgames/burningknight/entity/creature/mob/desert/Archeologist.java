@@ -153,7 +153,7 @@ public class Archeologist extends Mob {
 		private void sendBone(float a) {
 			BulletProjectile ball = new BulletProjectile();
 
-			ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
+			ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
 
 			ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 			ball.damage = 2;
@@ -247,8 +247,8 @@ public class Archeologist extends Mob {
 			return;
 		}
 
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
+		if (Math.abs(this.velocity.x) > 1f) {
+			this.flipped = this.velocity.x < 0;
 		}
 
 		if (this.dead) {

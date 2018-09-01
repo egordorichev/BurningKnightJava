@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.*;
 import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
@@ -47,7 +46,7 @@ public abstract class RegularLevel extends Level {
 	public void generate() {
 		Player.all.clear();
 		Mob.all.clear();
-		ItemHolder.all.clear();
+		ItemHolder.getAll().clear();
 		Chest.all.clear();
 		Mimic.all.clear();
 
@@ -137,10 +136,9 @@ public abstract class RegularLevel extends Level {
 				point = this.getRandomFreePoint(RegularRoom.class);
 			}
 
-			ItemHolder holder = new ItemHolder();
+			ItemHolder holder = new ItemHolder(item);
 
-			item.generate();
-			holder.setItem(item);
+			holder.getItem().generate();
 			holder.x = point.x * 16 + Random.newInt(-4, 4);
 			holder.y = point.y * 16 + Random.newInt(-4, 4);
 
@@ -190,7 +188,7 @@ public abstract class RegularLevel extends Level {
 
 				Player.all.clear();
 				Mob.all.clear();
-				ItemHolder.all.clear();
+				ItemHolder.getAll().clear();
 				Chest.all.clear();
 				Mimic.all.clear();
 				AnswerButton.all.clear();

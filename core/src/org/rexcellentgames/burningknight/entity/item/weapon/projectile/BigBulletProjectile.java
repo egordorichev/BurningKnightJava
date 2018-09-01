@@ -43,7 +43,7 @@ public class BigBulletProjectile extends BulletProjectile {
 				Dungeon.area.add(part);
 			}
 
-			bullet.vel = new Point((float) Math.cos(a) * s, (float) Math.sin(a) * s);
+			bullet.velocity = new Point((float) Math.cos(a) * s, (float) Math.sin(a) * s);
 
 			Dungeon.area.add(bullet);
 		}

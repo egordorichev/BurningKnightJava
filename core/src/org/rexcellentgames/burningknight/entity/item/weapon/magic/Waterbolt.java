@@ -103,9 +103,9 @@ public class Waterbolt extends Wand {
 					}
 
 					if (a > Math.PI * 1.75 || a < Math.PI * 0.25 || (a > Math.PI * 0.75 && a < Math.PI * 1.25)) {
-						this.vel.x *= -1;
+						this.velocity.x *= -1;
 					} else {
-						this.vel.y *= -1;
+						this.velocity.y *= -1;
 					}
 				}
 			}
@@ -126,8 +126,8 @@ public class Waterbolt extends Wand {
 
 		double ra = Math.toRadians(a);
 
-		missile.vel.x = (float) Math.cos(ra) * s;
-		missile.vel.y = (float) Math.sin(ra) * s;
+		missile.velocity.x = (float) Math.cos(ra) * s;
+		missile.velocity.y = (float) Math.sin(ra) * s;
 
 		Dungeon.area.add(missile);
 	}

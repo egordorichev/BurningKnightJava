@@ -87,8 +87,8 @@ public class EcoWand extends Wand {
 
 		float s = 60f;
 
-		missile.vel.x = (float) Math.cos(ra) * s;
-		missile.vel.y = (float) Math.sin(ra) * s;
+		missile.velocity.x = (float) Math.cos(ra) * s;
+		missile.velocity.y = (float) Math.sin(ra) * s;
 
 		Dungeon.area.add(missile);
 	}

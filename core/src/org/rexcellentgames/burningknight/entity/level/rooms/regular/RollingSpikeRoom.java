@@ -6,12 +6,6 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class RollingSpikeRoom extends TrapRoom {
 	@Override
@@ -28,7 +22,7 @@ public class RollingSpikeRoom extends TrapRoom {
 				spike.x = ((i % 2 == 0) ? this.left + 2 : this.right - 2) * 16;
 				spike.y = y * 16;
 				float s = 20f;
-				spike.vel = new Point(i % 2 == 0 ? s : -s, 0);
+				spike.velocity = new Point(i % 2 == 0 ? s : -s, 0);
 
 				Dungeon.area.add(spike);
 				LevelSave.add(spike);
@@ -42,7 +36,7 @@ public class RollingSpikeRoom extends TrapRoom {
 				spike.y = ((i % 2 == 0) ? this.top + 2 : this.bottom - 2) * 16;
 				spike.x = x * 16;
 				float s = 20f;
-				spike.vel = new Point(0, i % 2 == 0 ? s : -s);
+				spike.velocity = new Point(0, i % 2 == 0 ? s : -s);
 
 				Dungeon.area.add(spike);
 				LevelSave.add(spike);

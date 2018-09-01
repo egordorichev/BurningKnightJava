@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.level.rooms.item;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
@@ -38,10 +37,9 @@ public class ItemRoom extends RegularRoom {
 
 		Dungeon.area.add(slab.add());
 
-		ItemHolder holder = new ItemHolder();
+		ItemHolder holder = new ItemHolder(item);
 
-		holder.setItem(item);
-		item.generate();
+		holder.getItem().generate();
 
 		holder.x = point.x * 16 + (16 - holder.w) / 2;
 		holder.y = point.y * 16 + (16 - holder.h) / 2;

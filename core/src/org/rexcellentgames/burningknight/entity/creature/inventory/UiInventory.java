@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
@@ -416,12 +415,11 @@ public class UiInventory extends UiEntity {
 
 			@Override
 			public void onEnd() {
-				ItemHolder holder = new ItemHolder();
+				ItemHolder holder = new ItemHolder(slot);
 
 				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
 				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-				holder.setItem(slot);
-				holder.velToMouse();
+				holder.velocityToMouse();
 
 				for (int i = 0; i < inventory.getSize(); i++)  {
 					Item it = inventory.getSlot(i);

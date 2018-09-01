@@ -181,8 +181,8 @@ public class Mummy extends Mob {
 			return;
 		}
 
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
+		if (Math.abs(this.velocity.x) > 1f) {
+			this.flipped = this.velocity.x < 0;
 		}
 
 		if (this.dead) {

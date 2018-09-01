@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class ItemPrice extends Entity {
-	public byte price;
+	public int price;
 	private String text;
 	public boolean sale;
 

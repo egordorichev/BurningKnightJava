@@ -57,10 +57,10 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void init() {
-		angle = (float) Math.atan2(this.vel.y, this.vel.x);
-		dist = (float) Math.sqrt(vel.x * vel.x + vel.y * vel.y);
+		angle = (float) Math.atan2(this.velocity.y, this.velocity.x);
+		dist = (float) Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
 
-		this.ivel = new Point(this.vel.x, this.vel.y);
+		this.ivel = new Point(this.velocity.x, this.velocity.y);
 		this.dir = Random.chance(50) ? -1 : 1;
 		this.ra = (float) Math.toRadians(this.a);
 
@@ -162,8 +162,8 @@ public class BulletProjectile extends Projectile {
 		super.onCollision(entity);
 
 		if (this.bad && entity instanceof WeaponBase && ((WeaponBase) entity).getOwner() instanceof Player) {
-			this.vel.x *= -1;
-			this.vel.y *= -1;
+			this.velocity.x *= -1;
+			this.velocity.y *= -1;
 			this.bad = false;
 
 			int num = GlobalSave.getInt("num_bullets_reflected") + 1;
@@ -174,7 +174,7 @@ public class BulletProjectile extends Projectile {
 			}
 
 			if (this.body != null) {
-				this.body.setLinearVelocity(this.vel);
+				this.body.setLinearVelocity(this.velocity);
 			}
 
 			for (int i = 0; i < 3; i++) {
@@ -267,14 +267,14 @@ public class BulletProjectile extends Projectile {
 			for (int i = 0; i < 20; i++) {
 				Part part = new Part();
 
-				part.x = this.x - this.vel.x * dt;
-				part.y = this.y - this.vel.y * dt;
+				part.x = this.x - this.velocity.x * dt;
+				part.y = this.y - this.velocity.y * dt;
 
 				Dungeon.area.add(part);
 			}
 		}
 
-		this.ra = (float) Math.atan2(this.vel.y, this.vel.x);
+		this.ra = (float) Math.atan2(this.velocity.y, this.velocity.x);
 
 		if (this.rotates) {
 			this.a += dt * 360 * 2 * dir * rotationSpeed;
@@ -284,11 +284,11 @@ public class BulletProjectile extends Projectile {
 
 		this.control();
 
-		this.x += this.vel.x * dt;
-		this.y += this.vel.y * dt;
+		this.x += this.velocity.x * dt;
+		this.y += this.velocity.y * dt;
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
-		this.body.setLinearVelocity(this.vel);
+		this.body.setLinearVelocity(this.velocity);
 	}
 
 	@Override

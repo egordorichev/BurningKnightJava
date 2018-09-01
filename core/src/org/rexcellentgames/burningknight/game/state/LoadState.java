@@ -12,7 +12,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
@@ -67,7 +66,7 @@ public class LoadState extends State {
 
 		Player.all.clear();
 		Mob.all.clear();
-		ItemHolder.all.clear();
+		ItemHolder.getAll().clear();
 		Chest.all.clear();
 		Mimic.all.clear();
 		AnswerButton.all.clear();
@@ -105,7 +104,7 @@ public class LoadState extends State {
 
 					Player.all.clear();
 					Mob.all.clear();
-					ItemHolder.all.clear();
+					ItemHolder.getAll().clear();
 					Chest.all.clear();
 					Mimic.all.clear();
 					Player.ladder = null;

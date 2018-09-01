@@ -89,8 +89,8 @@ public class Wand extends WeaponBase {
 		float h = this.region.getRegionHeight();
 		double an = this.lastAngle + Math.PI / 2;
 
-		this.owner.vel.x -= Math.cos(an) * 40f;
-		this.owner.vel.y -= Math.sin(an) * 40f;
+		this.owner.velocity.x -= Math.cos(an) * 40f;
+		this.owner.velocity.y -= Math.sin(an) * 40f;
 
 		this.spawnProjectile(this.owner.x + this.owner.w / 2 + h * (float) Math.cos(an),
 			this.owner.y + this.owner.h / 4 + h * (float) Math.sin(an), a + 90);

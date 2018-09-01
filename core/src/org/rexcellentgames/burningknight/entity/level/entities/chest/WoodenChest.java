@@ -5,7 +5,6 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
@@ -76,9 +75,8 @@ public class WoodenChest extends Chest {
 
 
 		if (Random.chance(10)) {
-			ItemHolder fx = new ItemHolder();
+			ItemHolder fx = new ItemHolder(new KeyC());
 
-			fx.setItem(new KeyC());
 			fx.x = this.x + (this.w - fx.w) / 2;
 			fx.y = this.y + (this.h - fx.h) / 2;
 
@@ -86,9 +84,8 @@ public class WoodenChest extends Chest {
 		}
 
 		if (Random.chance(10)) {
-			ItemHolder fx = new ItemHolder();
+			ItemHolder fx = new ItemHolder(new Gold());
 
-			fx.setItem(new Gold());
 			fx.getItem().generate();
 			fx.x = this.x + (this.w - fx.w) / 2;
 			fx.y = this.y + (this.h - fx.h) / 2;

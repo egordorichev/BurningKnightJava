@@ -40,8 +40,8 @@ public class ExplosiveDeathPrefix extends Prefix {
 
 						float knockbackMod = creature.getStat("knockback");
 
-						creature.vel.x += Math.cos(a) * 5000f * knockbackMod;
-						creature.vel.y += Math.sin(a) * 5000f * knockbackMod;
+						creature.velocity.x += Math.cos(a) * 5000f * knockbackMod;
+						creature.velocity.y += Math.sin(a) * 5000f * knockbackMod;
 					}
 				}
 			}

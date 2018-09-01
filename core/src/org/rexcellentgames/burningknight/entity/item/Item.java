@@ -43,9 +43,9 @@ public class Item extends Entity {
   protected Creature owner;
   protected TextureRegion region;
   protected boolean auto = false;
-  protected byte level = 1;
+  protected int level = 1;
   protected String useSpeedStr;
-  public byte price = 15;
+  public int price = 15;
   public boolean sale;
 
   public Item() {
@@ -85,7 +85,7 @@ public class Item extends Entity {
   	this.autoPickup = false;
   }
 
-	public byte getLevel() {
+	public int getLevel() {
 		return level;
 	}
 
@@ -234,9 +234,9 @@ public class Item extends Entity {
   public void save(FileWriter writer) throws IOException {
     writer.writeInt32(this.count);
     writer.writeBoolean(this.shop);
-    writer.writeByte(this.price);
+    writer.writeByte((byte) this.price);
     writer.writeBoolean(this.sale);
-    writer.writeByte(this.level);
+    writer.writeByte((byte) this.level);
 	  writer.writeBoolean(this.identified);
 	  writer.writeBoolean(this.cursed);
   }

@@ -168,8 +168,8 @@ public class Sword extends Weapon {
 		// Camera.shake(4);
 
 		float a = this.owner.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2);
-		this.owner.vel.x += -Math.cos(a) * 120f;
-		this.owner.vel.y += -Math.sin(a) * 120f;
+		this.owner.velocity.x += -Math.cos(a) * 120f;
+		this.owner.velocity.y += -Math.sin(a) * 120f;
 	}
 
 	@Override
@@ -188,8 +188,8 @@ public class Sword extends Weapon {
 
 		float a = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
 
-		this.owner.vel.x += -Math.cos(a) * 30f;
-		this.owner.vel.y += -Math.sin(a) * 30f;
+		this.owner.velocity.x += -Math.cos(a) * 30f;
+		this.owner.velocity.y += -Math.sin(a) * 30f;
 
 		Tween.to(new Tween.Task(this.maxAngle, this.timeA) {
 			@Override

@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
@@ -67,8 +66,9 @@ public class ShopRoom extends LockedRoom {
 
 		if (Random.chance(30)) {
 			for (int i = 0; i < Random.newInt(1, 4); i++) {
-				ItemHolder holder = new ItemHolder();
-				holder.setItem(new Gold()).getItem().generate();
+				ItemHolder holder = new ItemHolder(new Gold());
+				
+				holder.getItem().generate();
 
 				Point p = this.getRandomFreeCell();
 
@@ -239,9 +239,8 @@ public class ShopRoom extends LockedRoom {
 		LevelSave.add(slab);
 		Dungeon.area.add(slab);
 
-		ItemHolder holder = new ItemHolder();
+		ItemHolder holder = new ItemHolder(item);
 
-		holder.setItem(item);
 		holder.x = x + (16 - holder.w) / 2;
 		holder.y = y + (16 - holder.h) / 2;
 		holder.getItem().shop = true;

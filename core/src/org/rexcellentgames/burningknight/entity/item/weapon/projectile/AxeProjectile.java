@@ -38,7 +38,7 @@ public class AxeProjectile extends Projectile {
 
 		float s = this.speed * 0.5f;
 
-		this.vel = new Point(
+		this.velocity = new Point(
 			(float) Math.cos(a) * s,
 			(float) Math.sin(a) * s
 		);
@@ -76,11 +76,11 @@ public class AxeProjectile extends Projectile {
 
 	@Override
 	public void logic(float dt) {
-		this.vel.mul(0.97f);
+		this.velocity.mul(0.97f);
 
 		this.t += dt;
-		this.x += this.vel.x * dt;
-		this.y += this.vel.y * dt;
+		this.x += this.velocity.x * dt;
+		this.y += this.velocity.y * dt;
 
 		this.a += dt * 1000;
 
@@ -97,12 +97,12 @@ public class AxeProjectile extends Projectile {
 				f = MathUtils.clamp(1f, 10f, 64 - d);
 			}
 
-			this.vel.x += dx / d * f;
-			this.vel.y += dy / d * f;
+			this.velocity.x += dx / d * f;
+			this.velocity.y += dy / d * f;
 		}
 
 		World.checkLocked(this.body).setTransform(this.body.getPosition(), (float) Math.toRadians(this.a));
-		this.body.setLinearVelocity(this.vel);
+		this.body.setLinearVelocity(this.velocity);
 	}
 
 	@Override
@@ -114,13 +114,13 @@ public class AxeProjectile extends Projectile {
 	public void destroy() {
 		super.destroy();
 
-		ItemHolder holder = new ItemHolder();
 
 		try {
-			holder.setItem(this.type.newInstance());
+			ItemHolder holder = new ItemHolder(this.type.newInstance());
+
 			holder.x = this.x;
 			holder.y = this.y;
-			holder.auto = true;
+			holder.setAuto(true);
 
 			Dungeon.area.add(holder);
 		} catch (InstantiationException | IllegalAccessException e) {

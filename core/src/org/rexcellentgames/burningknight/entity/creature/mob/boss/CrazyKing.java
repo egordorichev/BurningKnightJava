@@ -100,7 +100,7 @@ public class CrazyKing extends Boss {
 			this.animation = land;
 		} else if (this.state.equals("fadeOut") || (this.state.equals("jump") && this.up)) {
 			this.animation = jump;
-		} else if (this.vel.len2() > 5) {
+		} else if (this.velocity.len2() > 5) {
 			this.animation = run;
 		} else {
 			this.animation = idle;
@@ -486,7 +486,7 @@ public class CrazyKing extends Boss {
 											BulletProjectile ball = new BulletProjectile();
 
 											float a = (float) (i * Math.PI / 4);
-											ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
+											ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
 
 											ball.parts = true;
 											ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
@@ -618,7 +618,7 @@ public class CrazyKing extends Boss {
 						BulletProjectile ball = new BulletProjectile();
 
 						float a = (float) (i * Math.PI / 4);
-						ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
+						ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * shotSpeedMod);
 
 						ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 						ball.damage = 9;

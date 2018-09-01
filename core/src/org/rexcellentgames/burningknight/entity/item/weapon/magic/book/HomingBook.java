@@ -74,13 +74,13 @@ public class HomingBook extends Book {
 				}
 
 				if (this.target != null) {
-					this.vel.mul(0.9f);
+					this.velocity.mul(0.9f);
 					float dx = this.target.x + this.target.w / 2 - this.x - this.w / 2;
 					float dy = this.target.y + this.target.h / 2 - this.y - this.h / 2;
 					float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-					this.vel.x += dx / d * 4;
-					this.vel.y += dy / d * 4;
+					this.velocity.x += dx / d * 4;
+					this.velocity.y += dy / d * 4;
 
 					if (this.target.isDead()) {
 						this.target = null;
@@ -107,8 +107,8 @@ public class HomingBook extends Book {
 
 		float s = 80f;
 
-		missile.vel.x = (float) Math.cos(ra) * s;
-		missile.vel.y = (float) Math.sin(ra) * s;
+		missile.velocity.x = (float) Math.cos(ra) * s;
+		missile.velocity.y = (float) Math.sin(ra) * s;
 
 		Dungeon.area.add(missile);
 	}

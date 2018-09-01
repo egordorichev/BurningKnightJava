@@ -82,8 +82,8 @@ public class SlowBook extends Book {
 		double ra = Math.toRadians(a);
 		float s = 10f;
 
-		missile.vel.x = (float) Math.cos(ra) * s;
-		missile.vel.y = (float) Math.sin(ra) * s;
+		missile.velocity.x = (float) Math.cos(ra) * s;
+		missile.velocity.y = (float) Math.sin(ra) * s;
 
 		Dungeon.area.add(missile);
 	}

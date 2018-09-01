@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.level.rooms.secret;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
@@ -34,8 +33,8 @@ public class BombRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(3, 5); i++) {
 			Point point = this.getCenter();
-			ItemHolder holder = new ItemHolder();
-			holder.setItem(new Bomb());
+			ItemHolder holder = new ItemHolder(new Bomb());
+
 			holder.x = point.x * 16 + 3;
 			holder.y = point.y * 16;
 

@@ -29,7 +29,7 @@ public class ItemPickupFx extends Entity {
 
 	public ItemPickupFx(ItemHolder item, Player player) {
 		if (item instanceof ClassSelector) {
-			this.text = Locale.get(((ClassSelector) item).id);
+			this.text = Locale.get(((ClassSelector) item).getClass());
 		} else {
 			this.text = item.getItem().getName();
 
@@ -75,10 +75,12 @@ public class ItemPickupFx extends Entity {
 				old.setOwner(Player.instance);
 				Player.instance.getInventory().setSlot(0, old);
 
-				switch (s.id) {
-					case "warrior": Player.instance.setType(Player.Type.WARRIOR); break;
-					case "wizard": Player.instance.setType(Player.Type.WIZARD); break;
-					case "ranger": Player.instance.setType(Player.Type.RANGER); break;
+				if ("warrior".equals(s.getClass())) {
+					Player.instance.setType(Player.Type.WARRIOR);
+				} else if ("wizard".equals(s.getClass())) {
+					Player.instance.setType(Player.Type.WIZARD);
+				} else if ("ranger".equals(s.getClass())) {
+					Player.instance.setType(Player.Type.RANGER);
 				}
 
 				this.erase();
@@ -93,7 +95,7 @@ public class ItemPickupFx extends Entity {
 					} else {
 						this.player.getInventory().removeGold(this.item.getItem().price);
 						this.item.getItem().shop = false;
-						this.item.price.remove();
+						this.item.getPrice().remove();
 						this.erase();
 						Player.instance.playSfx("item_purchase");
 

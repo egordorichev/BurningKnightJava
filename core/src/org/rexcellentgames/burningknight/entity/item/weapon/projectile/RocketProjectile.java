@@ -72,8 +72,8 @@ public class RocketProjectile extends Projectile {
 					float a = (float) Math.atan2(c.y + c.h / 2 - this.y - 8, c.x + c.w / 2 - this.x - 8);
 
 					float knockbackMod = c.getStat("knockback");
-					c.vel.x += Math.cos(a) * 5000f * knockbackMod;
-					c.vel.y += Math.sin(a) * 5000f * knockbackMod;
+					c.velocity.x += Math.cos(a) * 5000f * knockbackMod;
+					c.velocity.y += Math.sin(a) * 5000f * knockbackMod;
 				}
 			}
 		}

@@ -94,8 +94,8 @@ public class Weapon extends WeaponBase {
 			double a = Math.atan2(dy, dx);
 			float knockbackMod = creature.getStat("knockback");
 
-			creature.vel.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
-			creature.vel.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
+			creature.velocity.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
+			creature.velocity.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
 
 			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
 				return;

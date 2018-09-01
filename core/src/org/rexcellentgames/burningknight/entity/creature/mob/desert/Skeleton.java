@@ -105,8 +105,8 @@ public class Skeleton extends Mob {
 
 	@Override
 	public void render() {
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
+		if (Math.abs(this.velocity.x) > 1f) {
+			this.flipped = this.velocity.x < 0;
 		}
 
 		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
@@ -228,7 +228,7 @@ public class Skeleton extends Mob {
 				BulletProjectile ball = new BulletProjectile() {
 					@Override
 					public void control() {
-						mod(vel, ivel, angle, dist, t);
+						mod(velocity, ivel, angle, dist, t);
 					}
 
 					@Override
@@ -249,7 +249,7 @@ public class Skeleton extends Mob {
 				};
 
 				float a = (float) (i * Math.PI / (eight ? 4 : 2)) + add;
-				ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod * 0.5f);
+				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod * 0.5f);
 
 				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 				ball.damage = 2;

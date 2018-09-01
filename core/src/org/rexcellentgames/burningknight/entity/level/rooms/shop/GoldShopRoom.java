@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.level.rooms.shop;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Gold;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
@@ -43,9 +42,9 @@ public class GoldShopRoom extends ShopRoom {
 			Random.chance(50) ? Terrain.CHASM : Terrain.LAVA);
 
 		for (int i = 0; i < Random.newInt(3, 8); i++) {
-			ItemHolder holder = new ItemHolder();
-			holder.setItem(new Gold()).getItem().generate();
-
+			ItemHolder holder = new ItemHolder(new Gold());
+			
+			holder.getItem().generate();
 			holder.x = this.left * 16 + 16 + Random.newInt(this.getWidth() * 16 - 32);
 			holder.y = (this.bottom - 1) * 16;
 
