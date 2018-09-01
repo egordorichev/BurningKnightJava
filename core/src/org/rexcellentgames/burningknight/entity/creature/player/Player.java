@@ -340,7 +340,7 @@ public class Player extends Creature {
 		switch (Random.newInt(3)) {
 			case 0: default: this.give(new BowA()); break;
 			case 1: this.give(new Revolver()); break;
-			case 2: this.give(new AxeA().setCount(10)); break;
+			case 2: this.give(new AxeA()); break;
 		}
 	}
 

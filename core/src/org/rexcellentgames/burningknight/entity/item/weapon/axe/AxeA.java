@@ -9,6 +9,7 @@ public class AxeA extends Axe {
 		damage = 3;
 		penetrates = true;
 		sprite = "item-axe_a";
+		stackable = false;
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.AxeA;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -114,17 +115,18 @@ public class AxeProjectile extends Projectile {
 	public void destroy() {
 		super.destroy();
 
+		if (this.type != AxeA.class) {
+			try {
+				ItemHolder holder = new ItemHolder(this.type.newInstance());
 
-		try {
-			ItemHolder holder = new ItemHolder(this.type.newInstance());
+				holder.x = this.x;
+				holder.y = this.y;
+				holder.setAuto(true);
 
-			holder.x = this.x;
-			holder.y = this.y;
-			holder.setAuto(true);
-
-			Dungeon.area.add(holder);
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+				Dungeon.area.add(holder);
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
