@@ -29,6 +29,8 @@ open class ItemHolder : SaveableEntity {
 	constructor(item: Item? = null) {
 		this.item = item
 	}
+  
+  constructor()
 
   var item: Item? = null
     set(value) {
