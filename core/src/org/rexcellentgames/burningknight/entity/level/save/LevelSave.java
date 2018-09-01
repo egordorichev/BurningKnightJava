@@ -53,7 +53,7 @@ public class LevelSave {
 				e.printStackTrace();
 			}
 
-			SaveableEntity entity = null;
+			SaveableEntity entity;
 
 			try {
 				entity = (SaveableEntity) clazz.newInstance();
