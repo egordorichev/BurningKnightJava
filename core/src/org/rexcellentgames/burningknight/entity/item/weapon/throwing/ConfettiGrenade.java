@@ -18,7 +18,7 @@ public class ConfettiGrenade extends Consumable {
 		Point aim = this.owner.getAim();
 
 		float a = this.owner.getAngleTo(aim.x, aim.y);
-		float f = 60f;
+		float f = 80f;
 
 		fx.vel.x = (float) Math.cos(a) * f;
 		fx.vel.y = (float) Math.sin(a) * f;

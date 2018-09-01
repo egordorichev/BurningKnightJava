@@ -732,9 +732,15 @@ public class Player extends Creature {
 
 	private float last;
 	private float lastBlood;
+	private boolean teleport;
 
 	@Override
 	public void update(float dt) {
+		if (this.teleport) {
+			this.doTp(false);
+			this.teleport = false;
+		}
+
 		super.update(dt);
 
 		orbitalRing.lerp(new Vector2(this.x + this.w / 2, this.y + this.h / 2), 4 * dt);
@@ -1155,7 +1161,7 @@ public class Player extends Creature {
 			}
 
 			Log.info("Golden hearts tp");
-			this.doTp(false);
+			this.teleport = true;
 
 			for (int i = 0; i < 10; i++) {
 				PoofFx fx = new PoofFx();

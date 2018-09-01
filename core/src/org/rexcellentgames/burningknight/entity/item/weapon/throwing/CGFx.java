@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Smoke;
@@ -42,7 +43,23 @@ public class CGFx extends Entity {
 	}
 
 	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
+
+		if (entity instanceof Mob && !((Mob) entity).isFlying()) {
+			this.doExplode = true;
+		}
+	}
+
+	private boolean doExplode;
+
+	@Override
 	public void update(float dt) {
+		if (this.doExplode) {
+			this.explode();
+			return;
+		}
+
 		super.update(dt);
 
 		this.x = this.body.getPosition().x;
@@ -63,39 +80,52 @@ public class CGFx extends Entity {
 		this.t += dt;
 
 		if (this.t >= 5f) {
-			this.done = true;
-
-			float x = this.x + this.w / 2;
-			float y = this.y + this.h / 2;
-
-			for (int i = 0; i < 50; i++) {
-				float an = Random.newFloat((float) (Math.PI * 2));
-
-				Confetti fx = new Confetti();
-
-				fx.x = x;
-				fx.y = y;
-
-				float f = Random.newFloat(40, 80f);
-
-				fx.vel.x = (float) Math.cos(an) * f;
-				fx.vel.y = (float) Math.sin(an) * f;
-
-				Dungeon.area.add(fx);
-			}
-
-			Explosion explosion = new Explosion(x, y);
-			Dungeon.area.add(explosion);
-
-			Smoke smoke = new Smoke(x, y + 8);
-			smoke.delay = 0.2f;
-			Dungeon.area.add(smoke);
+			explode();
 		}
+	}
+
+	private void explode() {
+		this.done = true;
+
+		float x = this.x + this.w / 2;
+		float y = this.y + this.h / 2;
+
+		for (int i = 0; i < 50; i++) {
+			float an = Random.newFloat((float) (Math.PI * 2));
+
+			Confetti fx = new Confetti();
+
+			fx.x = x;
+			fx.y = y;
+
+			float f = Random.newFloat(40, 80f);
+
+			fx.vel.x = (float) Math.cos(an) * f;
+			fx.vel.y = (float) Math.sin(an) * f;
+
+			Dungeon.area.add(fx);
+		}
+
+		Explosion explosion = new Explosion(x, y);
+		Dungeon.area.add(explosion);
+
+		Smoke smoke = new Smoke(x, y + 8);
+		smoke.delay = 0.2f;
+		Dungeon.area.add(smoke);
 
 		for (int i = 0; i < 16; i++) {
 			BulletProjectile bullet = new BulletProjectile();
 
+			float f = 60;
+			float a = (float) (i * (Math.PI / 8));
+
 			bullet.letter = "a";
+			bullet.x = (float) (this.x + Math.cos(a) * 8);
+			bullet.y = (float) (this.y + Math.sin(a) * 8);
+			bullet.velocity.x = (float) (Math.cos(a) * f);
+			bullet.velocity.y = (float) (Math.sin(a) * f);
+
+			Dungeon.area.add(bullet);
 		}
 	}
 
