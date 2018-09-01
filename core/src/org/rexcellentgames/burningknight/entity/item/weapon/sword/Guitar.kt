@@ -1,10 +1,9 @@
-package org.rexcellentgames.burningknight.entity.item.weapon
+package org.rexcellentgames.burningknight.entity.item.weapon.sword
 
 import org.rexcellentgames.burningknight.Dungeon
 import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.creature.fx.Note
 import org.rexcellentgames.burningknight.entity.creature.player.Player
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.util.Random
 

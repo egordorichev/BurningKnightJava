@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity.item.weapon
+package org.rexcellentgames.burningknight.entity.item.weapon.gun
 
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun
 import org.rexcellentgames.burningknight.util.Random
