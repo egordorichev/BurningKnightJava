@@ -1,13 +1,23 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.Claymore;
 
 public class Shovel extends Claymore {
-	{
-		damage = 12;
-		sprite = "item-shovel";
-		name = Locale.get("shovel");
+	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+
+		name = Locale.get("shovel_" + letter);
 		description = Locale.get("shovel_desc");
+
+		switch (letter) {
+			case "a": sprite = "item-bronze_shovel"; break;
+			case "b": sprite = "item-iron_shovel"; break;
+			case "c": sprite = "item-gold_shovel"; break;
+		}
+
+		damage = 4;
+		useTime = 0.4f;
+		region = Graphics.getTexture(sprite);
 	}
 }

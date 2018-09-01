@@ -33,14 +33,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.Rocke
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.Claymore
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberA
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberD
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.tool.*
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC
@@ -105,12 +97,9 @@ object ItemRegistry {
     "fire_extinguisher" to Pair(FireExtinguisher::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "broken_orbital" to Pair(BrokenOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "vampire_orbital" to Pair(VampireOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
-    "lightsaber_a" to Pair(LightsaberA::class.java, 1f, 1f, 0.3f, 0.11f, Quality.WOODEN),
-    "lightsaber_b" to Pair(LightsaberB::class.java, 1f, 1f, 0.3f, 0.1f, Quality.IRON),
-    "lightsaber_c" to Pair(LightsaberC::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "lightsaber_d" to Pair(LightsaberD::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+    "lightsaber" to Pair(Lightsaber::class.java, 1f, 1f, 0.3f, 0.11f, Quality.WOODEN),
     "chicken_sword" to Pair(ChickenSword::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "shovel" to Pair(Shovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+    "shovel" to Pair(BlueShovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "magic_shield" to Pair(MagicShield::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "cobalt_shield" to Pair(CobaltShield::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "cross" to Pair(Cross::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
@@ -150,13 +139,8 @@ object ItemRegistry {
     "ice_bombs" to Pair(IceBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "poison_bombs" to Pair(PoisonBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "protective_band" to Pair(ProtectiveBand::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
-    "shovel_a" to Pair(ShovelA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "shovel_b" to Pair(ShovelB::class.java, 1f, 1f, 0.3f, 0.1f, Quality.IRON),
-    "shovel_c" to Pair(ShovelC::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "pickaxe_a" to Pair(PickaxeA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "pickaxe_b" to Pair(PickaxeB::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "pickaxe_c" to Pair(PickaxeC::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "pickaxe_d" to Pair(PickaxeD::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+    "shovel" to Pair(Shovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
+    "pickaxe" to Pair(Pickaxe::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "missile_wand" to Pair(MagicMissileWand::class.java, 1f, 0.3f, 1f, 0.3f, Quality.WOODEN),
     "laser_aim" to Pair(LaserAim::class.java, 1f, 0f, 0.3f, 1f, Quality.IRON),
     "poison_wand" to Pair(PoisonWand::class.java, 1f, 0.3f, 1f, 0.3f, Quality.WOODEN),

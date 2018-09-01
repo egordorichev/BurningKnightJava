@@ -216,10 +216,10 @@ public class WeaponBase extends Item {
 
 
 	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy) {
-		renderAt(x, y, a, ox, oy, fx, fy, sx, sy, 1);
+		renderAt(x, y, a, ox, oy, fx, fy, sx, sy, 1, 1);
 	}
 
-	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy, float al) {
+	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy, float al, float gray) {
 		Graphics.batch.setColor(1, 1, 1, 1);
 
 		if (this.modifier != null) {
@@ -238,7 +238,7 @@ public class WeaponBase extends Item {
 
 		Graphics.batch.end();
 		shader.begin();
-		shader.setUniformf("gray", 1f);
+		shader.setUniformf("gray", gray);
 		shader.setUniformf("a", al == 1 ? (this.owner == null ? 1 : this.owner.a) : al);
 		shader.setUniformf("time", this.t);
 		shader.end();

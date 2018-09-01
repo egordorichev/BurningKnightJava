@@ -1,8 +1,7 @@
-package org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore;
+package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Tween;

@@ -451,7 +451,7 @@ public class UiSlot {
 
 			if (item instanceof WeaponBase) {
 				((WeaponBase) item).renderAt(x + slot.getRegionWidth() / 2,
-					y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
+					y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a, gray);
 			} else {
 				if (enable) {
 					Graphics.batch.end();
@@ -512,7 +512,7 @@ public class UiSlot {
 
 			if (item instanceof WeaponBase) {
 				((WeaponBase) item).renderAt(x + slot.getRegionWidth() / 2,
-					y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a);
+					y + slot.getRegionHeight() / 2, 0,sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, this.scale, this.scale, item.a, 1);
 			} else {
 				if (enable) {
 					Graphics.batch.end();
