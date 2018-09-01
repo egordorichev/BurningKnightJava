@@ -10,4 +10,14 @@ public class AxeA extends Axe {
 		penetrates = true;
 		sprite = "item-axe_a";
 	}
+
+	@Override
+	public void generate() {
+
+	}
+
+	@Override
+	protected boolean canBeConsumed() {
+		return false;
+	}
 }

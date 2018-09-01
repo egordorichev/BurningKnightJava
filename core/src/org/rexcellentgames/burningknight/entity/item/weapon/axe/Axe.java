@@ -75,6 +75,10 @@ public class Axe extends Weapon {
 		}
 	}
 
+	protected boolean canBeConsumed() {
+		return true;
+	}
+
 	@Override
 	public void use() {
 		super.use();
@@ -102,7 +106,7 @@ public class Axe extends Weapon {
 
 			@Override
 			public void onEnd() {
-				count -= 1;
+				if (canBeConsumed()) { count -= 1; }
 				added = 0;
 
 				AxeProjectile fx = new AxeProjectile();

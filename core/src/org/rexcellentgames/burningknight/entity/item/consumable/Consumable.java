@@ -19,6 +19,12 @@ public class Consumable extends Item {
 	public void use() {
 		super.use();
 
-		this.setCount(this.count - 1);
+		if (this.canBeConsumed()) {
+			this.setCount(this.count - 1);
+		}
+	}
+
+	protected boolean canBeConsumed() {
+		return true;
 	}
 }
