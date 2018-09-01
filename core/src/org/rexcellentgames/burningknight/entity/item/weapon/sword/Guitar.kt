@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword
 
 import org.rexcellentgames.burningknight.Dungeon
+import org.rexcellentgames.burningknight.assets.Graphics
 import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.creature.fx.Note
 import org.rexcellentgames.burningknight.entity.creature.player.Player
@@ -8,13 +9,16 @@ import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.util.Random
 
 class Guitar : Sword() {
-	init {
+	override fun setStats() {
 		description = Locale.get("guitar_desc")
 		name = Locale.get("guitar")
 		damage = 4
 		sprite = "item-guitar_a"
 		useTime = 0.5f
+		region = Graphics.getTexture(this.sprite)
 	}
+
+	// todo:variants
 
 	override fun use() {
 		super.use()

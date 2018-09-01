@@ -21,12 +21,19 @@ public class Hat extends Accessory {
 	@Override
 	public void use() {
 		super.use();
+		int i;
+
+		for (i = 0; i < Player.instance.getInventory().getSize(); i++) {
+			if (Player.instance.getInventory().getSlot(i) == this) {
+				break;
+			}
+		}
 
 		UiInventory ui = Player.instance.ui;
 
 		Item item = ui.getInventory().getSlot(6);
-		ui.getInventory().setSlot(6, ui.getInventory().getSlot(ui.getActive()));
-		ui.getInventory().setSlot(ui.getActive(), item);
+		ui.getInventory().setSlot(6, ui.getInventory().getSlot(i));
+		ui.getInventory().setSlot(i, item);
 
 		if (item != null) {
 			((Accessory) item).equipped = false;

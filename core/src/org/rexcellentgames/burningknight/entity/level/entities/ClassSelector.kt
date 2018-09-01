@@ -12,6 +12,10 @@ import java.io.IOException
 class ClassSelector : ItemHolder {
   var `class`: String = ""
 
+  constructor() {
+
+  }
+
   constructor(id: String) {
     `class` = id
 

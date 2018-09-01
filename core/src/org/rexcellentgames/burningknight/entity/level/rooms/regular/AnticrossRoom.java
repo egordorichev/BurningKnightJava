@@ -30,7 +30,7 @@ public class AnticrossRoom extends RegularRoom {
 			w -= 1;
 			h -= 1;
 
-			Painter.fill(level, new Rect(this.left + (side == 0 ? 2 : 3), this.top + this.getHeight() / 2 - w, this.right - (side == 1 ? 2 : 3), this.top + this.getHeight() / 2 + w), fl);
+			Painter.fill(level, new Rect(this.left + 2 /* (side == 0 ? 2 : 3) */, this.top + this.getHeight() / 2 - w, this.right - (side == 1 ? 2 : 3), this.top + this.getHeight() / 2 + w), fl);
 			Painter.fill(level, new Rect(this.left + this.getWidth() / 2 - h, this.top + (side == 2 ? 2 : 3), this.left + this.getWidth() / 2 + h, this.bottom - (side == 3 ? 1 : 2)), fl);
 
 			if (f != Terrain.LAVA) {

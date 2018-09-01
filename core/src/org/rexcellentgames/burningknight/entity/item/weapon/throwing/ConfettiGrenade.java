@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.throwing;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class ConfettiGrenade extends Consumable {
@@ -23,5 +24,10 @@ public class ConfettiGrenade extends Consumable {
 		fx.vel.y = (float) Math.sin(a) * f;
 
 		Dungeon.area.add(fx);
+	}
+
+	@Override
+	public void generate() {
+		this.setCount(Random.newInt(10, 30));
 	}
 }

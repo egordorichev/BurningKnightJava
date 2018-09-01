@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
@@ -21,7 +20,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -47,12 +45,18 @@ public class Gun extends WeaponBase {
 	protected int ammoLeft = 20;
 	protected float chargeProgress;
 
+	protected void setStats() {
+
+	}
+
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
 		this.charge = reader.readInt32();
 		this.ammoLeft = reader.readInt32();
+
+		setStats();
 	}
 
 	@Override
@@ -61,6 +65,12 @@ public class Gun extends WeaponBase {
 
 		writer.writeInt32(this.charge);
 		writer.writeInt32(this.ammoLeft);
+	}
+
+	@Override
+	public void upgrade() {
+		super.upgrade();
+		setStats();
 	}
 
 	@Override
@@ -95,11 +105,7 @@ public class Gun extends WeaponBase {
 	private float closestFraction = 1.0f;
 	
 	protected Gun() {
-	  String unlocalizedName = Utils.INSTANCE.pascalCaseToSnakeCase(getClass().getSimpleName());
-	  
-	  this.name = Locale.get(unlocalizedName);
-	  this.description = Locale.get(unlocalizedName + "_desc");
-	  this.sprite = "item-" + unlocalizedName;
+	  setStats();
   }
 
 	@Override

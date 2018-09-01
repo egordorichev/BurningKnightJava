@@ -33,10 +33,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.Rocke
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerA
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerB
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDaggerC
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ToxicFlask
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.*
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC
@@ -99,7 +96,7 @@ object ItemRegistry {
     "vampire_orbital" to Pair(VampireOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "lightsaber" to Pair(Lightsaber::class.java, 1f, 1f, 0.3f, 0.11f, Quality.WOODEN),
     "chicken_sword" to Pair(ChickenSword::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "shovel" to Pair(BlueShovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+    "blue_shovel" to Pair(BlueShovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "magic_shield" to Pair(MagicShield::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "cobalt_shield" to Pair(CobaltShield::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "cross" to Pair(Cross::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
@@ -186,9 +183,9 @@ object ItemRegistry {
     "bronze_shotgun" to Pair(BronzeShotgun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON),
     "back_gun" to Pair(BackGun::class.java, 1f, 10.3f, 0.1f, 1f, Quality.IRON),
     "kotling_gun" to Pair(KotlingGun::class.java, 0.1f, 0.3f, 0.1f, 1f, Quality.WOODEN, Achievements.UNLOCK_KOTLING_GUN),
-    "machine_gun" to Pair(MachineGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-    "revolver" to Pair(Revolver::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-    "triple_machine_gun" to Pair(TripleMachineGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.GOLDEN),
+	  "machine_gun" to Pair(MachineGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
+	  "triple_machine_gun" to Pair(TripleMachineGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
+	  "gun" to Pair(Revolver::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 		"snowgun" to Pair(SnowGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
 		"aim" to Pair(Aim::class.java, 1f, 0f, 0.3f, 1f, Quality.IRON),
 	  "cursed_aim" to Pair(CursedAim::class.java, 1f, 0f, 0.3f, 1f, Quality.IRON),
@@ -226,7 +223,8 @@ object ItemRegistry {
 	  "flippers" to Pair(Flippers::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 	  "flame" to Pair(FlameThrower::class.java, 1f, 0.1f, 0.3f, 1f, Quality.GOLDEN),
 	  "bomb" to Pair(Bomb::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
-	  "matches" to Pair(Matches::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN)
+	  "matches" to Pair(Matches::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+	  "confetti_grenade" to Pair(ConfettiGrenade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN)
   )
 
   val modItems = mutableMapOf<String, Item>()

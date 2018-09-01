@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Smoke;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -90,6 +91,12 @@ public class CGFx extends Entity {
 			smoke.delay = 0.2f;
 			Dungeon.area.add(smoke);
 		}
+
+		for (int i = 0; i < 16; i++) {
+			BulletProjectile bullet = new BulletProjectile();
+
+			bullet.letter = "a";
+		}
 	}
 
 	@Override
@@ -100,10 +107,11 @@ public class CGFx extends Entity {
 
 	@Override
 	public void render() {
-		float v = 0;
+		float sx = (float) (Math.cos(this.t * 16) / 4) + 1;
+		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 5) + 1;
 
 		Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false,
-			1f + v, 1f + v);
+			sx, sy);
 	}
 
 	@Override
