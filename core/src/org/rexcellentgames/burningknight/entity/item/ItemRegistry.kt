@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.item.reference.*
 import org.rexcellentgames.burningknight.entity.item.tool.LavaBucket
 import org.rexcellentgames.burningknight.entity.item.tool.Matches
 import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket
+import org.rexcellentgames.burningknight.entity.item.weapon.Guitar
 import org.rexcellentgames.burningknight.entity.item.weapon.HeadshotGun
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA
@@ -72,6 +73,7 @@ object ItemRegistry {
 	// todo: depend price on quality
 	
   val items = mapOf(
+	  "guitar" to Pair(Guitar::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 	  "bk_sword" to Pair(BKSword::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "dagger_a" to Pair(DaggerA::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "dagger_b" to Pair(DaggerB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),

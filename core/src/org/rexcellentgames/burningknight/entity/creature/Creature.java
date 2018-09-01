@@ -400,7 +400,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
-		if (this.unhittable) {
+		if (this.unhittable && amount < 0) {
 			return null;
 		}
 
