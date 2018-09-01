@@ -7,16 +7,21 @@ import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWa
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA
 import org.rexcellentgames.burningknight.util.file.FileReader
 import org.rexcellentgames.burningknight.util.file.FileWriter
-
 import java.io.IOException
 
-class ClassSelector(id: String) : ItemHolder(when (id) {
-  "ranger" -> Revolver()
-  "warrior" -> SwordA()
-  "wizard" -> MagicMissileWand()
-  else -> null!!
-}) {
-  var `class`: String = id
+class ClassSelector : ItemHolder {
+  var `class`: String = ""
+
+  constructor(id: String) {
+    `class` = id
+
+    item = when (id) {
+      "ranger" -> Revolver()
+      "warrior" -> SwordA()
+      "wizard" -> MagicMissileWand()
+      else -> null!!
+    }
+  }
 
   @Throws(IOException::class)
   override fun load(reader: FileReader) {

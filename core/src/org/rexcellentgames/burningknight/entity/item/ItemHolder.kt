@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.physics.World
+import org.rexcellentgames.burningknight.util.Log
 import org.rexcellentgames.burningknight.util.MathUtils
 import org.rexcellentgames.burningknight.util.Random
 import org.rexcellentgames.burningknight.util.Tween
@@ -22,25 +23,33 @@ import org.rexcellentgames.burningknight.util.file.FileWriter
 import java.io.IOException
 import java.util.*
 
-open class ItemHolder(item: Item) : SaveableEntity() {
-  lateinit var body: Body
+open class ItemHolder : SaveableEntity {
+  var body: Body? = null
     private set
-  
-  var item: Item = item
+
+	constructor(item: Item? = null) {
+		this.item = item
+	}
+
+  var item: Item? = null
     set(value) {
       field = value
 
       this.body = World.removeBody(this.body)
+
+	    if (item == null) {
+		    return
+	    }
 
       if (this.item is Gold) {
         Gold.all.add(this)
       }
 
       // This might be bad!
-      this.body = this.createSimpleBody(-2, -2, item.getSprite().regionWidth + 4, item.getSprite().regionHeight + 4, BodyDef.BodyType.DynamicBody, false)
+      this.body = this.createSimpleBody(-2, -2, item!!.getSprite().regionWidth + 4, item!!.getSprite().regionHeight + 4, BodyDef.BodyType.DynamicBody, false)
 
-      this.w = item.getSprite().regionWidth.toFloat()
-      this.h = item.getSprite().regionWidth.toFloat()
+      this.w = item!!.getSprite().regionWidth.toFloat()
+      this.h = item!!.getSprite().regionWidth.toFloat()
     }
   
   var falling: Boolean = false
@@ -82,8 +91,8 @@ open class ItemHolder(item: Item) : SaveableEntity() {
   }
 
   fun sale() {
-    item.sale = true
-    item.price = Math.max(0.0, Math.floor((item.price / 2).toDouble())).toInt()
+    item!!.sale = true
+    item!!.price = Math.max(0.0, Math.floor((item!!.price / 2).toDouble())).toInt()
 
     added = false
 
@@ -93,11 +102,11 @@ open class ItemHolder(item: Item) : SaveableEntity() {
   }
 
   fun unSale() {
-    item.sale = false
-    item.price *= 2
+    item!!.sale = false
+    item!!.price *= 2
 
-    if (item.price % 2 == 0) {
-      item.price++
+    if (item!!.price % 2 == 0) {
+      item!!.price++
     }
 
     added = false
@@ -108,15 +117,15 @@ open class ItemHolder(item: Item) : SaveableEntity() {
   }
 
   override fun update(dt: Float) {
-    if (this.item.shop && !added) {
+    if (this.item!!.shop && !added) {
       added = true
       
       val price = ItemPrice()
 
       price.x = this.x + this.w / 2
       price.y = this.y - 6f - (16 - this.h) / 2
-      price.price = this.item.price
-      price.sale = this.item.sale
+      price.price = this.item!!.price
+      price.sale = this.item!!.sale
 
       this.price = price
       
@@ -137,8 +146,10 @@ open class ItemHolder(item: Item) : SaveableEntity() {
 
     super.update(dt)
 
-    this.x = this.body.position.x
-    this.y = this.body.position.y - this.z
+    if (this.body != null) {
+      this.x = this.body!!.position.x
+      this.y = this.body!!.position.y - this.z
+    }
 
     this.velocity.mul(0.9f)
 
@@ -153,11 +164,16 @@ open class ItemHolder(item: Item) : SaveableEntity() {
 
       this.z = MathUtils.clamp(0f, 5f, this.z)
 
-      World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0f)
+	    if (this.body != null) {
+		    World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0f)
+	    }
     }
 
-    this.item.update(dt)
-    this.body.linearVelocity = this.velocity
+    this.item!!.update(dt)
+
+    if (this.body != null) {
+      this.body!!.linearVelocity = this.velocity
+    }
   }
 
   override fun init() {
@@ -166,7 +182,9 @@ open class ItemHolder(item: Item) : SaveableEntity() {
     this.t = Random.newFloat(32f)
     this.last = Random.newFloat(1f)
 
-    World.checkLocked(this.body).setTransform(this.x, this.y, 0f)
+    if (this.body != null) {
+      World.checkLocked(this.body).setTransform(this.x, this.y, 0f)
+    }
 
     all.add(this)
   }
@@ -189,7 +207,7 @@ open class ItemHolder(item: Item) : SaveableEntity() {
   }
 
   override fun render() {
-    val sprite = this.item.getSprite()
+    val sprite = this.item!!.getSprite()
 
     val a = Math.cos((this.t * 3f).toDouble()).toFloat() * 8f * sz
     val sy = (1f + Math.sin((this.t * 2f).toDouble()) / 10f).toFloat()
@@ -238,7 +256,7 @@ open class ItemHolder(item: Item) : SaveableEntity() {
     Graphics.shadow(this.x, this.y, this.w, this.h, this.z)
   }
 
-  override fun onCollision(entity: Entity) {
+  override fun onCollision(entity: Entity?) {
     super.onCollision(entity)
 
     if (entity is Creature) {
@@ -258,8 +276,8 @@ open class ItemHolder(item: Item) : SaveableEntity() {
   override fun save(writer: FileWriter) {
     super.save(writer)
 
-    writer.writeString(this.item.javaClass.name)
-    this.item.save(writer)
+    writer.writeString(this.item!!.javaClass.name)
+    this.item!!.save(writer)
   }
 
   @Throws(IOException::class)
@@ -280,7 +298,7 @@ open class ItemHolder(item: Item) : SaveableEntity() {
       Dungeon.reportException(e)
     }
 
-    this.body.setTransform(this.x, this.y, 0f)
+    this.body!!.setTransform(this.x, this.y, 0f)
   }
 
   companion object {

@@ -12,7 +12,7 @@ class ShopSale : Equippable() {
 		this.owner.modifyStat("sale", 1f)
 
 		for (item in ItemHolder.all) {
-			if (item.item.shop) {
+			if (item.item!!.shop) {
 				item.sale()
 			}
 		}
@@ -23,7 +23,7 @@ class ShopSale : Equippable() {
 		this.owner.modifyStat("sale", 1f)
 
 		for (item in ItemHolder.all) {
-			if (item.item.shop) {
+			if (item.item!!.shop) {
 				item.unSale()
 			}
 		}

@@ -37,7 +37,8 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
           item.count = count
         }
         
-        val itemHolder = ItemHolder(item)
+        val itemHolder = ItemHolder()
+        itemHolder.item = item
         
         Player.instance.inventory.add(itemHolder)
       } catch (e: Exception) {

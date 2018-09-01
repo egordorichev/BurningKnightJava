@@ -59,8 +59,10 @@ public class LevelSave {
 				entity = (SaveableEntity) clazz.newInstance();
 			} catch (InstantiationException e) {
 				e.printStackTrace();
+				continue;
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
+				continue;
 			}
 
 			Dungeon.area.add(entity);
