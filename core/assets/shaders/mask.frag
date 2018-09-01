@@ -7,6 +7,8 @@ precision mediump int;
 uniform float time;
 uniform vec2 pos;
 uniform vec2 epos;
+uniform vec2 bpos;
+uniform float burnStep;
 uniform vec2 size;
 uniform vec2 tpos;
 uniform float spread;
@@ -68,6 +70,20 @@ void main() {
             gl_FragColor = edge;
         }
     } else {
+        /*if (burnStep > 0.0) {
+            vec4 burn = texture2D(u_texture2,
+                vec2(
+                    v_texCoord.x - pos.x + bpos.x,
+                    v_texCoord.y - pos.y + bpos.y
+                )
+            );
+
+            if (map.a == 1.0 && map.r > spreadStep) {
+                gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+                return;
+            }
+        }*/
+
         vec4 edge = texture2D(u_texture2,
             vec2(
                 v_texCoord.x - pos.x + tpos.x,

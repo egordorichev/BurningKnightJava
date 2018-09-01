@@ -15,8 +15,7 @@ public class StabbingKnight extends RangedKnight {
 		super.init();
 
 		this.minAttack = 64f;
-		this.sword = new w
-		ThrowingDagger();
+		this.sword = new ThrowingDagger();
 		this.sword.setOwner(this);
 	}
 }
