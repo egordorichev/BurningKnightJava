@@ -33,15 +33,11 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.Rocke
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherB
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherC
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.Butcher
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreA
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreB
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.claymore.ClaymoreC
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarB
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarC
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStar
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberA
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberB
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.starwars.LightsaberC
@@ -71,12 +67,8 @@ object ItemRegistry {
 	  "bk_sword" to Pair(BKSword::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "dagger" to Pair(Dagger::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "sword" to Pair(Sword::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "butcher_a" to Pair(ButcherA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "butcher_b" to Pair(ButcherB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),
-    "butcher_c" to Pair(ButcherC::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "morning_a" to Pair(MorningStarA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "morning_b" to Pair(MorningStarB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),
-    "morning_c" to Pair(MorningStarC::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+    "butcher" to Pair(Butcher::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
+    "morning" to Pair(MorningStar::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "axe" to Pair(Axe::class.java, 1f, 1f, 0.1f, 1f, Quality.WOODEN),
     "the_sword" to Pair(TheSword::class.java, 0f, 1f, 0f, 0f, Quality.WOODEN),
     "gold" to Pair(Gold::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
