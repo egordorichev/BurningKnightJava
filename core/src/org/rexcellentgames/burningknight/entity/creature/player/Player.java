@@ -29,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
+import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -546,8 +547,6 @@ public class Player extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-
-		// Graphics.print((int) Math.floor(this.x) + " " + (int) Math.floor(this.y), Graphics.small, this.x, this.y);
 	}
 
 	private static int offsets[] = new int[] {
@@ -966,6 +965,15 @@ public class Player extends Creature {
 					holder.y = y * 16 + (16 - holder.h) / 2;
 
 					Dungeon.area.add(holder.add());
+				}
+
+				for (int i = 0; i < 10; i++) {
+					GrassBreakFx fx = new GrassBreakFx();
+
+					fx.x = x * 16 + Random.newFloat(16);
+					fx.y = y * 16 + Random.newFloat(16) - 8;
+
+					Dungeon.area.add(fx);
 				}
 			} else if (!this.isFlying() && t == Terrain.VENOM) {
 				this.addBuff(new PoisonBuff());
