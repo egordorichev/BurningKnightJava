@@ -55,6 +55,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -1007,6 +1008,10 @@ public class Player extends Creature {
 		if (this.room == null) {
 
 		} else {
+			if (this.room instanceof ShopRoom) {
+				Audio.play("Shopkeeper");
+			}
+
 			hadEnemies = false;
 
 			for (int i = Mob.all.size() - 1; i >= 0; i--) {

@@ -355,7 +355,9 @@ public class InGameState extends State {
 		if (last >= 1f) {
 			last = 0;
 
-			if (Boss.all.size() > 1 && !BurningKnight.instance.getState().equals("unactive")) {
+			if (Player.instance.room instanceof ShopRoom) {
+				Audio.play("Shopkeeper");
+			} else if (Boss.all.size() > 1 && !BurningKnight.instance.getState().equals("unactive")) {
 				Audio.play("Rogue");
 			} else {
 				Audio.play(Dungeon.level.getMusic());
