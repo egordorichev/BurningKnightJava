@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
@@ -33,7 +34,19 @@ public class Sword extends Weapon {
 	}
 
 	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
 
+		name = Locale.get("sword_" + letter);
+		description = Locale.get("sword_desc");
+		sprite = "item-sword_" + letter;
+		damage = 4;
+		useTime = 0.4f;
+		region = Graphics.getTexture(sprite);
+	}
+
+	@Override
+	public int getMaxLevel() {
+		return 7;
 	}
 
 	@Override

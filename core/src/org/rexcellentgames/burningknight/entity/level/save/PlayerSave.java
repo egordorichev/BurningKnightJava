@@ -1,11 +1,11 @@
 package org.rexcellentgames.burningknight.entity.level.save;
 
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -71,7 +71,7 @@ public class PlayerSave {
 		player.setType(Player.Type.values()[GlobalSave.getInt("last_class")]);
 
 		switch (player.getType()) {
-			case WARRIOR: player.give(new SwordA()); break;
+			case WARRIOR: player.give(new Sword()); break;
 			case WIZARD: player.give(new MagicMissileWand()); break;
 			case RANGER: player.give(new Revolver()); break;
 		}

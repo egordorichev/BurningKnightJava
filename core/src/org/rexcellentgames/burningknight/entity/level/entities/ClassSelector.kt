@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player
 import org.rexcellentgames.burningknight.entity.item.ItemHolder
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword
 import org.rexcellentgames.burningknight.util.file.FileReader
 import org.rexcellentgames.burningknight.util.file.FileWriter
 import java.io.IOException
@@ -17,7 +17,7 @@ class ClassSelector : ItemHolder {
 
     item = when (id) {
       "ranger" -> Revolver()
-      "warrior" -> SwordA()
+      "warrior" -> Sword()
       "wizard" -> MagicMissileWand()
       else -> null!!
     }
