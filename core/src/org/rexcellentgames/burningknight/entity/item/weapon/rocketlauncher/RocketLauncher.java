@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -12,6 +13,18 @@ public class RocketLauncher extends Gun {
 	{
 		hole.x = 15;
 		ammoMax = 1;
+	}
+
+	@Override
+	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+
+		sprite = "item-cannon_" + letter;
+		useTime = 1f;
+		damage = 8 + level * 2;
+		name = Locale.get("launcher_" + letter);
+		description = Locale.get("launcher_desc");
+		region = Graphics.getTexture(sprite);
 	}
 
 	@Override

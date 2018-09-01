@@ -28,9 +28,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.*
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.*
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*
-import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherA
-import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherB
-import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
+import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncher
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.*
@@ -63,9 +61,7 @@ object ItemRegistry {
 	  "key_b" to Pair(KeyB::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 	  "key" to Pair(KeyC::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
     "bow" to Pair(Bow::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-    "launcher_a" to Pair(RocketLauncherA::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-    "launcher_b" to Pair(RocketLauncherB::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
-    "launcher_c" to Pair(RocketLauncherC::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
+    "launcher" to Pair(RocketLauncher::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 	  "meatboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEATBOY),
     "dendy" to Pair(Dendy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_DENDY),
 	  "poison_potion" to Pair(PoisonPotion::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
