@@ -1,10 +1,15 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.dagger;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.io.IOException;
 
 public class Dagger extends Sword {
 	{
@@ -13,6 +18,36 @@ public class Dagger extends Sword {
 		auto = true;
 	}
 
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		setStats();
+	}
+
+	@Override
+	public void upgrade() {
+		super.upgrade();
+		setStats();
+	}
+
+	public Dagger() {
+		setStats();
+	}
+
+	@Override
+	public int getMaxLevel() {
+		return 7;
+	}
+
+	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+
+		description = Locale.get("dagger_desc");
+		name = Locale.get("dagger_" + letter);
+		sprite = "item-dagger_" + letter;
+		damage = 2;
+		region = Graphics.getTexture(sprite);
+	}
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {

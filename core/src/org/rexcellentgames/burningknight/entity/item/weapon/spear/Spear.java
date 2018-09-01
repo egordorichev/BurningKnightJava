@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.spear;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.physics.World;
@@ -13,6 +15,20 @@ public class Spear extends Sword {
 		timeA = 0.15f;
 		timeB = 0.15f;
 		auto = true;
+	}
+
+	public Spear() {
+		super();
+	}
+
+	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+
+		description = Locale.get("spear_desc");
+		name = Locale.get("spear_" + letter);
+		sprite = "item-spear_" + letter;
+		damage = 2;
+		region = Graphics.getTexture(sprite);
 	}
 
 	@Override

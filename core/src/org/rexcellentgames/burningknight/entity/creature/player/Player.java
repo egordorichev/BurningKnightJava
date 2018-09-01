@@ -40,11 +40,10 @@ import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.spear.SpearA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.SwordA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.morning.MorningStarA;
@@ -291,7 +290,7 @@ public class Player extends Creature {
 				this.give(new MorningStarA());
 				break;
 			case 3:
-				this.give(new DaggerA());
+				this.give(new Dagger());
 				break;
 			case 4:
 				this.give(new SpearA());

@@ -19,11 +19,10 @@ import org.rexcellentgames.burningknight.entity.item.reference.*
 import org.rexcellentgames.burningknight.entity.item.tool.LavaBucket
 import org.rexcellentgames.burningknight.entity.item.tool.Matches
 import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket
-import org.rexcellentgames.burningknight.entity.item.weapon.axe.*
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.MeatboyAxe
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.ManaKnife
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.*
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun
@@ -32,9 +31,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherA
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherB
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncherC
-import org.rexcellentgames.burningknight.entity.item.weapon.spear.SpearA
-import org.rexcellentgames.burningknight.entity.item.weapon.spear.SpearB
-import org.rexcellentgames.burningknight.entity.item.weapon.spear.SpearC
+import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherA
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.butcher.ButcherB
@@ -72,19 +69,17 @@ object ItemRegistry {
 	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON),
 	  "guitar" to Pair(Guitar::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 	  "bk_sword" to Pair(BKSword::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "dagger_a" to Pair(DaggerA::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "dagger_b" to Pair(DaggerB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),
-    "dagger_c" to Pair(DaggerC::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "sword_a" to Pair(SwordA::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "sword_b" to Pair(SwordB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),
-    "sword_c" to Pair(SwordC::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "butcher_a" to Pair(ButcherA::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.WOODEN),
+    "dagger" to Pair(Dagger::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
+    "sword_a" to Pair(SwordA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
+    "sword_b" to Pair(SwordB::class.java, 1f, 1f, 0.3f, 0.1f, Quality.IRON),
+    "sword_c" to Pair(SwordC::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+    "butcher_a" to Pair(ButcherA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "butcher_b" to Pair(ButcherB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),
     "butcher_c" to Pair(ButcherC::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "morning_a" to Pair(MorningStarA::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.WOODEN),
+    "morning_a" to Pair(MorningStarA::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "morning_b" to Pair(MorningStarB::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.IRON),
     "morning_c" to Pair(MorningStarC::class.java, 0.3f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-    "axe" to Pair(Axe::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
+    "axe" to Pair(Axe::class.java, 1f, 1f, 0.1f, 1f, Quality.WOODEN),
     "the_sword" to Pair(TheSword::class.java, 0f, 1f, 0f, 0f, Quality.WOODEN),
     "gold" to Pair(Gold::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 	  "key_a" to Pair(KeyA::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
@@ -146,9 +141,7 @@ object ItemRegistry {
     "lucky_cube" to Pair(LuckyCube::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "fortune_armor" to Pair(FortuneArmor::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "stop_and_play" to Pair(StopAndPlay::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "spear_a" to Pair(SpearA::class.java, 0.3f, 1f, 0.1f, 0.3f, Quality.WOODEN),
-    "spear_b" to Pair(SpearB::class.java, 0.3f, 1f, 0.1f, 0.3f, Quality.IRON),
-    "spear_c" to Pair(SpearC::class.java, 0.3f, 1f, 0.1f, 0.3f, Quality.GOLDEN),
+    "spear" to Pair(Spear::class.java, 1f, 1f, 0.1f, 0.3f, Quality.WOODEN),
     "yoyo_a" to Pair(YoyoA::class.java, 1f, 1f, 0.1f, 0.8f, Quality.WOODEN),
     "yoyo_b" to Pair(YoyoB::class.java, 1f, 1f, 0.1f, 0.8f, Quality.IRON),
     "yoyo_c" to Pair(YoyoC::class.java, 1f, 1f, 0.1f, 0.8f, Quality.GOLDEN),

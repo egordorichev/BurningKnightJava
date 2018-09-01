@@ -14,8 +14,10 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Sword extends Weapon {
@@ -25,6 +27,26 @@ public class Sword extends Weapon {
 	protected AnimationData animation;
 
 	protected int maxAngle = 200;
+
+	public Sword() {
+		setStats();
+	}
+
+	protected void setStats() {
+
+	}
+
+	@Override
+	public void upgrade() {
+		super.upgrade();
+		setStats();
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		setStats();
+	}
 
 	{
 		name = "Sword";
