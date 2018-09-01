@@ -59,7 +59,7 @@ public class Projectile extends StatefulEntity {
 		this.logic(dt);
 
 		if (this.body != null && !this.ignoreVel) {
-			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
 		}
 	}
 

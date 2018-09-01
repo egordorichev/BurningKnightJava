@@ -343,7 +343,7 @@ public class Player extends Creature {
 	}
 
 	public void give(Item item) {
-		this.inventory.add(new ItemHolder().setItem(item));
+		this.inventory.add(new ItemHolder(item));
 	}
 
 	public void setUi(UiInventory ui) {
@@ -579,8 +579,8 @@ public class Player extends Creature {
 		if (entity instanceof ItemHolder) {
 			ItemHolder item = (ItemHolder) entity;
 
-			if (item.getItem().hasAutoPickup() || item.auto) {
-				if (this.tryToPickup(item) && !item.auto) {
+			if (item.getItem().hasAutoPickup() || item.getAuto()) {
+				if (this.tryToPickup(item) && !item.getAuto()) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
 					} else {
@@ -595,7 +595,7 @@ public class Player extends Creature {
 
 					item.remove();
 				}
-			} else if (!item.falling) {
+			} else if (!item.getFalling()) {
 				if (item instanceof ClassSelector) {
 					if (((ClassSelector) item).same(this.type)) {
 						return;
@@ -762,7 +762,7 @@ public class Player extends Creature {
 		}
 
 		if (this.mana != this.manaMax) {
-			this.lastMana += dt * (this.vel.len2() > 9.9f ?
+			this.lastMana += dt * (this.velocity.len2() > 9.9f ?
 				(this.flipRegenFormula ? 1f : 0.5f) :
 				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
 					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 2 : 1
@@ -948,9 +948,8 @@ public class Player extends Creature {
 				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
 
 				if (Random.chance(10)) {
-					ItemHolder holder = new ItemHolder();
+					ItemHolder holder = new ItemHolder(new GrassSeed());
 
-					holder.setItem(new GrassSeed());
 					holder.x = x * 16 + (16 - holder.w) / 2;
 					holder.y = y * 16 + (16 - holder.h) / 2;
 
@@ -1057,7 +1056,7 @@ public class Player extends Creature {
 	}
 
 	public float getDamageModifier() {
-		return  ((pauseMore && this.vel.len() < 1f) ? 1.5f : 1) * damageModifier * this.getStat("damage") * (this.touches[Terrain.WATER] ? 0.5f : 1f);
+		return  ((pauseMore && this.velocity.len() < 1f) ? 1.5f : 1) * damageModifier * this.getStat("damage") * (this.touches[Terrain.WATER] ? 0.5f : 1f);
 	}
 
 	public boolean cutCobweb;

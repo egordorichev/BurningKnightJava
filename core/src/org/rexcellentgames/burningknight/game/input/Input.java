@@ -435,7 +435,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 		this.keys.put(id, State.DOWN);
 
-		// Log.info(id);
+		// Log.info(class);
 
 		return false;
 	}

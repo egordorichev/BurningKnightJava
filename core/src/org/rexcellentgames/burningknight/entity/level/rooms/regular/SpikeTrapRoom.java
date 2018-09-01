@@ -34,7 +34,7 @@ public class SpikeTrapRoom extends TrapRoom {
 
 		spike.x = (this.left + 1) * 16 + 1;
 		spike.y = y * 16 - 1;
-		spike.vel = new Point(20f, 0);
+		spike.velocity = new Point(20f, 0);
 
 		Dungeon.area.add(spike);
 		LevelSave.add(spike);

@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -57,7 +56,7 @@ public class BumboPet extends SimpleFollowPet {
 		super.update(dt);
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
-		this.body.setLinearVelocity(this.vel);
+		this.body.setLinearVelocity(this.velocity);
 
 		if (this.target == this.owner) {
 			float max = 64f;

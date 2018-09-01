@@ -52,7 +52,7 @@ public class AmmoOrbital extends Pet {
 							BulletProjectile ball = new BulletProjectile();
 
 							float a = this.getAngleTo(mob.x + mob.w / 2, mob.y + mob.h / 2);
-							ball.vel = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * 5f);
+							ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * 5f);
 
 							ball.x = (float) (this.x + this.w / 2 + Math.cos(a) * 8);
 							ball.damage = 4;

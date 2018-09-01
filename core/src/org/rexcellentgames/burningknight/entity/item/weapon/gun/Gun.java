@@ -362,8 +362,8 @@ public class Gun extends WeaponBase {
 
 		Dungeon.area.add(shell);
 
-		this.owner.vel.x -= Math.cos(a) * 40f;
-		this.owner.vel.y -= Math.sin(a) * 40f;
+		this.owner.velocity.x -= Math.cos(a) * 40f;
+		this.owner.velocity.y -= Math.sin(a) * 40f;
 
 		Camera.push(a, 8f);
 		Camera.shake(2);
@@ -484,7 +484,7 @@ public class Gun extends WeaponBase {
 
 			float s = this.vel * 60f;
 
-			bullet.vel = new Point(
+			bullet.velocity = new Point(
 				(float) Math.cos(an) * s, (float) Math.sin(an) * s
 			);
 

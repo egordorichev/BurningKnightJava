@@ -163,7 +163,7 @@ public class Healthbar {
 				part.alwaysRender = true;
 				part.alwaysActive = true;
 				part.animation = animations.get("idle");
-				part.vel = new Point(0, 0.6f);
+				part.velocity = new Point(0, 0.6f);
 
 				Dungeon.ui.add(part);
 			}*/

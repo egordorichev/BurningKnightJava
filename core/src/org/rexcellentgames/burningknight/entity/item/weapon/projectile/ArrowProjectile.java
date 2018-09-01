@@ -42,7 +42,7 @@ public class ArrowProjectile extends Projectile {
 		this.body.setTransform(this.x, this.y, this.a);
 
 		float s = 5f * 60f;
-		this.vel = new Point((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
+		this.velocity = new Point((float) Math.cos(this.a) * s, (float) Math.sin(this.a) * s);
 	}
 
 	public float charge;
@@ -51,8 +51,8 @@ public class ArrowProjectile extends Projectile {
 	protected boolean breaksFrom(Entity entity) {
 		if (!this.done && (entity == null || entity instanceof SolidProp || entity instanceof Door)) {
 			this.done = true;
-			this.vel.mul(0);
-			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.velocity.mul(0);
+			this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
 
 			for (int i = 0; i < 3; i++) {
 				PoofFx fx = new PoofFx();
@@ -84,12 +84,12 @@ public class ArrowProjectile extends Projectile {
 
 	@Override
 	public void logic(float dt) {
-		this.x += this.vel.x * dt;
-		this.y += this.vel.y * dt;
+		this.x += this.velocity.x * dt;
+		this.y += this.velocity.y * dt;
 
 		if (this.body != null) {
 			this.body.setTransform(this.x, this.y, this.a);
-			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
 		}
 	}
 

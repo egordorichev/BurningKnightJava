@@ -264,13 +264,13 @@ public class Creature extends SaveableEntity {
 		if (this.freezed) {
 			this.invt = Math.max(0, this.invt - dt);
 			this.invtt = Math.max(0, this.invtt - dt);
-			this.vel.x = 0;
-			this.vel.y = 0;
-			this.body.setLinearVelocity(this.vel);
+			this.velocity.x = 0;
+			this.velocity.y = 0;
+			this.body.setLinearVelocity(this.velocity);
 			return;
 		}
 
-		this.vel.mul(
+		this.velocity.mul(
 			(this.touches[Terrain.COBWEB] && !this.isFlying() ? 0.3f :
 			(iceResitant == 0 && this.touches[Terrain.ICE] && !this.isFlying() ? 0.95f : this.mul))
 		);
@@ -339,8 +339,8 @@ public class Creature extends SaveableEntity {
 
 	protected void doVel() {
 		float fr = (iceResitant > 0 && this.touches[Terrain.ICE] && !this.isFlying()) ? 1.3f : (this.touches[Terrain.ICE] && !this.isFlying() ? 0.2f : (this.slowLiquidResist == 0 && (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA]) && !this.isFlying() ? 0.55f : 1f));
-		this.vel.x += this.acceleration.x * fr;
-		this.vel.y += this.acceleration.y * fr;
+		this.velocity.x += this.acceleration.x * fr;
+		this.velocity.y += this.acceleration.y * fr;
 	}
 
 	protected void common() {
@@ -353,24 +353,24 @@ public class Creature extends SaveableEntity {
 		this.invtt = Math.max(0, this.invtt - dt);
 
 		if (!this.dead) {
-			if (this.vel.x < 0) {
+			if (this.velocity.x < 0) {
 				this.flipped = true;
-			} else if (this.vel.x > 0) {
+			} else if (this.velocity.x > 0) {
 				this.flipped = false;
 			}
 		}
 
-		if (this.vel.len2() > 1) {
+		if (this.velocity.len2() > 1) {
 			this.lastIndex = Dungeon.longTime;
 		}
 
 		if (this.falling) {
-			this.vel.mul(0);
+			this.velocity.mul(0);
 		}
 
 		if (this.body != null) {
-			this.vel.clamp(0, this.maxSpeed);
-			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.velocity.clamp(0, this.maxSpeed);
+			this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
 		}
 	}
 
@@ -682,8 +682,8 @@ public class Creature extends SaveableEntity {
 
 		float knockbackMod = this.getStat("knockback");
 
-		this.vel.x += Math.cos(a) * force * knockbackMod;
-		this.vel.y += Math.sin(a) * force * knockbackMod;
+		this.velocity.x += Math.cos(a) * force * knockbackMod;
+		this.velocity.y += Math.sin(a) * force * knockbackMod;
 	}
 
 	public void removeBuff(Class<? extends Buff> buff) {

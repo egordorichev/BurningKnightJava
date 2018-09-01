@@ -97,8 +97,8 @@ public class Thief extends Mob {
 
 	@Override
 	public void render() {
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
+		if (Math.abs(this.velocity.x) > 1f) {
+			this.flipped = this.velocity.x < 0;
 		}
 
 		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
@@ -357,10 +357,11 @@ public class Thief extends Mob {
 		deathEffect(killed);
 
 		if (stolen != null) {
-			ItemHolder holder = new ItemHolder();
-			holder.setItem(this.stolen);
+			ItemHolder holder = new ItemHolder(this.stolen);
+			
 			holder.x = this.x + (this.w - holder.w) / 2;
 			holder.y = this.y + (this.h - holder.h) / 2;
+			
 			Dungeon.area.add(holder);
 		}
 	}

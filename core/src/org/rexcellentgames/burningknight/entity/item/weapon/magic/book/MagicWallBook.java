@@ -83,8 +83,8 @@ public class MagicWallBook extends Book {
 		missile.rotates = true;
 		missile.t = Random.newFloat(1f);
 		missile.dissappearWithTime = true;
-		missile.vel.x = 0;
-		missile.vel.y = 0;
+		missile.velocity.x = 0;
+		missile.velocity.y = 0;
 
 		Dungeon.area.add(missile);
 	}

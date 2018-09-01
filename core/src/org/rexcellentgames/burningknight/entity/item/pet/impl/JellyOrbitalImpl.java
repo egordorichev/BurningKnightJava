@@ -12,11 +12,11 @@ public class JellyOrbitalImpl extends Orbital {
 	@Override
 	protected void onHit(Entity entity) {
 		if (entity instanceof BulletProjectile) {
-			((BulletProjectile) entity).vel.x *= -1;
-			((BulletProjectile) entity).vel.y *= -1;
+			((BulletProjectile) entity).velocity.x *= -1;
+			((BulletProjectile) entity).velocity.y *= -1;
 		} else if (entity instanceof FireballProjectile) {
-			((FireballProjectile) entity).vel.x *= -1;
-			((FireballProjectile) entity).vel.y *= -1;
+			((FireballProjectile) entity).velocity.x *= -1;
+			((FireballProjectile) entity).velocity.y *= -1;
 		}
 
 		if (this.xlast != null) {

@@ -105,7 +105,7 @@ public class FourSideTurret extends Turret {
 
 			float a = (float) (this.a + i * Math.PI / 2);
 
-			bullet.vel = new Point(
+			bullet.velocity = new Point(
 				(float) Math.cos(a) * s, (float) Math.sin(a) * s
 			);
 

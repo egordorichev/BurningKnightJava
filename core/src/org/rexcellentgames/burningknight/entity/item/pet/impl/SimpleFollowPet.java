@@ -4,7 +4,6 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.util.PathFinder;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -63,8 +62,8 @@ public class SimpleFollowPet extends PetEntity {
 					} else {
 						d *= 0.1f;
 
-						this.vel.x += dx / d;
-						this.vel.y += dy / d;
+						this.velocity.x += dx / d;
+						this.velocity.y += dy / d;
 					}
 				}
 			}
@@ -73,24 +72,24 @@ public class SimpleFollowPet extends PetEntity {
 				if (dependOnDistance) {
 					d *= 0.25f;
 
-					this.vel.x += dx / d;
-					this.vel.y += dy / d;
+					this.velocity.x += dx / d;
+					this.velocity.y += dy / d;
 				} else {
 					float s = 10f;
 
-					this.vel.x += dx / s;
-					this.vel.y += dy / s;
+					this.velocity.x += dx / s;
+					this.velocity.y += dy / s;
 				}
 			}
 		}
 
 		if (!this.noAdd) {
-			this.x += this.vel.x * dt;
-			this.y += this.vel.y * dt;
+			this.x += this.velocity.x * dt;
+			this.y += this.velocity.y * dt;
 		}
 
-		this.vel.x *= 0.9f;
-		this.vel.y *= 0.9f;
+		this.velocity.x *= 0.9f;
+		this.velocity.y *= 0.9f;
 	}
 
 	@Override

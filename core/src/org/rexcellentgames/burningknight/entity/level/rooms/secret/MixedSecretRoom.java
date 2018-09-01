@@ -23,8 +23,8 @@ public class MixedSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(1, 4); i++) {
 			Point point = this.getRandomFreeCell();
-			ItemHolder holder = new ItemHolder();
-			holder.setItem(new Bomb());
+			ItemHolder holder = new ItemHolder(new Bomb());
+
 			holder.x = point.x * 16 + 3;
 			holder.y = point.y * 16;
 
@@ -34,8 +34,8 @@ public class MixedSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
 			Point point = this.getRandomFreeCell();
-			ItemHolder holder = new ItemHolder();
-			holder.setItem(new KeyC());
+			ItemHolder holder = new ItemHolder(new KeyC());
+			
 			holder.x = point.x * 16 + 3;
 			holder.y = point.y * 16;
 
@@ -45,8 +45,8 @@ public class MixedSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
 			Point point = this.getRandomFreeCell();
-			ItemHolder holder = new ItemHolder();
-			holder.setItem(new Gold());
+			ItemHolder holder = new ItemHolder(new Gold());
+			
 			holder.getItem().generate();
 			holder.x = point.x * 16 + 3;
 			holder.y = point.y * 16;

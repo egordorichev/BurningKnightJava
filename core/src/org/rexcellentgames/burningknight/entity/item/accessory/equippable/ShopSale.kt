@@ -24,7 +24,7 @@ class ShopSale : Equippable() {
 
 		for (item in ItemHolder.all) {
 			if (item.item.shop) {
-				item.unsale()
+				item.unSale()
 			}
 		}
 	}

@@ -156,8 +156,8 @@ public class Shopkeeper extends Npc {
 					public void run() {
 						if (Dialog.active.getSelected() == 0) {
 							Player.instance.getInventory().setSlot(id, null);
-							ItemHolder gold = new ItemHolder();
-							gold.setItem(new Gold());
+							ItemHolder gold = new ItemHolder(new Gold());
+
 							gold.getItem().setCount(price);
 
 							Player.instance.tryToPickup(gold);
@@ -178,7 +178,7 @@ public class Shopkeeper extends Npc {
 
 		if (this.invt > 0) {
 			this.animation = hurt;
-		} else if (this.vel.len2() >= 20f) {
+		} else if (this.velocity.len2() >= 20f) {
 			this.animation = run;
 		} else {
 			this.animation = idle;
@@ -188,8 +188,8 @@ public class Shopkeeper extends Npc {
 			return;
 		}
 
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
+		if (Math.abs(this.velocity.x) > 1f) {
+			this.flipped = this.velocity.x < 0;
 		}
 
 		if (this.dead) {
@@ -468,7 +468,7 @@ public class Shopkeeper extends Npc {
 			if (to == null) {
 				ArrayList<ItemHolder> list = new ArrayList<>();
 
-				for (ItemHolder holder : ItemHolder.all) {
+				for (ItemHolder holder : ItemHolder.getAll()) {
 					if (holder.getItem().shop) {
 						list.add(holder);
 					}
@@ -501,11 +501,11 @@ public class Shopkeeper extends Npc {
 		enranged = true;
 		this.become("hana");
 
-		for (ItemHolder holder : ItemHolder.all) {
+		for (ItemHolder holder : ItemHolder.getAll()) {
 			holder.getItem().shop = false;
-			if (holder.price != null) {
-				holder.price.remove();
-				holder.price = null;
+			if (holder.getPrice() != null) {
+				holder.getPrice().remove();
+				holder.setPrice(null);
 			}
 		}
 

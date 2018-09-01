@@ -43,8 +43,8 @@ public class GoldSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(3, 10); i++) {
 			Point point = this.getRandomFreeCell();
-			ItemHolder holder = new ItemHolder();
-			holder.setItem(new Gold());
+			ItemHolder holder = new ItemHolder(new Gold());
+
 			holder.x = point.x * 16 + 3;
 			holder.y = point.y * 16;
 			holder.getItem().generate();

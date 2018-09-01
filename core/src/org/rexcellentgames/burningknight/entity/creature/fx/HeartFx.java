@@ -164,13 +164,13 @@ public class HeartFx extends SaveableEntity {
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
 
-		this.vel.x = this.body.getLinearVelocity().x;
-		this.vel.y = this.body.getLinearVelocity().y;
+		this.velocity.x = this.body.getLinearVelocity().x;
+		this.velocity.y = this.body.getLinearVelocity().y;
 
-		this.vel.x *= 0.96f;
-		this.vel.y *= 0.96f;
+		this.velocity.x *= 0.96f;
+		this.velocity.y *= 0.96f;
 
-		this.body.setLinearVelocity(this.vel);
+		this.body.setLinearVelocity(this.velocity);
 
 		if (this.animation == null) {
 			switch (this.type) {

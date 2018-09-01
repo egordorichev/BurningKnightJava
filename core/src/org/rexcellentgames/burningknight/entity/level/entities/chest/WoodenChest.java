@@ -76,9 +76,8 @@ public class WoodenChest extends Chest {
 
 
 		if (Random.chance(10)) {
-			ItemHolder fx = new ItemHolder();
+			ItemHolder fx = new ItemHolder(new KeyC());
 
-			fx.setItem(new KeyC());
 			fx.x = this.x + (this.w - fx.w) / 2;
 			fx.y = this.y + (this.h - fx.h) / 2;
 
@@ -86,9 +85,8 @@ public class WoodenChest extends Chest {
 		}
 
 		if (Random.chance(10)) {
-			ItemHolder fx = new ItemHolder();
+			ItemHolder fx = new ItemHolder(new Gold());
 
-			fx.setItem(new Gold());
 			fx.getItem().generate();
 			fx.x = this.x + (this.w - fx.w) / 2;
 			fx.y = this.y + (this.h - fx.h) / 2;

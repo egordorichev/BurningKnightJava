@@ -151,9 +151,9 @@ public class BurningKnight extends Boss {
 	public void update(float dt) {
 		this.activityTimer += dt;
 
-		if (this.vel.x < 0) {
+		if (this.velocity.x < 0) {
 			this.flipped = true;
-		} else if (this.vel.x > 0) {
+		} else if (this.velocity.x > 0) {
 			this.flipped = false;
 		}
 

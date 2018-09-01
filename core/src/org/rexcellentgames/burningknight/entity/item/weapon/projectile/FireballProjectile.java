@@ -115,8 +115,8 @@ public class FireballProjectile extends Projectile {
 		}
 
 		if (this.tar != null) {
-			this.vel.x += (this.tar.x - this.vel.x) * dt;
-			this.vel.y += (this.tar.y - this.vel.y) * dt;
+			this.velocity.x += (this.tar.x - this.velocity.x) * dt;
+			this.velocity.y += (this.tar.y - this.velocity.y) * dt;
 		}
 	}
 
@@ -137,10 +137,10 @@ public class FireballProjectile extends Projectile {
 			float dy = this.target.y + this.target.h / 2 - this.y - 5;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			this.vel.x = dx / d * 120;
-			this.vel.y = dy / d * 120;
+			this.velocity.x = dx / d * 120;
+			this.velocity.y = dy / d * 120;
 
-			this.body.setLinearVelocity(this.vel);
+			this.body.setLinearVelocity(this.velocity);
 		}
 	}
 

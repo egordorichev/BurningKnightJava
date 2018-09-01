@@ -21,8 +21,8 @@ public class BombOrbital extends Pet {
 	public void use() {
 		super.use();
 
-		ItemHolder item = new ItemHolder();
-		item.setItem(new Bomb());
+		ItemHolder item = new ItemHolder(new Bomb());
+
 		item.getItem().setCount(5);
 
 		Dungeon.area.add(item);
@@ -59,8 +59,8 @@ public class BombOrbital extends Pet {
 			if (last >= 60f) {
 				last = 0;
 
-				ItemHolder item = new ItemHolder();
-				item.setItem(new Bomb());
+				ItemHolder item = new ItemHolder(new Bomb());
+
 				Dungeon.area.add(item);
 
 				item.x = this.x + (this.w - item.w) / 2;

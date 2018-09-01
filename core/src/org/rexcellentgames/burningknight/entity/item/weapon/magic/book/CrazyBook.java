@@ -84,8 +84,8 @@ public class CrazyBook extends Book {
 
 			float s = 60f;
 
-			missile.vel.x = (float) Math.cos((double) a) * s;
-			missile.vel.y = (float) Math.sin((double) a) * s;
+			missile.velocity.x = (float) Math.cos((double) a) * s;
+			missile.velocity.y = (float) Math.sin((double) a) * s;
 
 			Dungeon.area.add(missile);
 		}
@@ -153,8 +153,8 @@ public class CrazyBook extends Book {
 		double ra = Math.toRadians(a);
 		float s = 40f;
 
-		missile.vel.x = (float) Math.cos(ra) * s;
-		missile.vel.y = (float) Math.sin(ra) * s;
+		missile.velocity.x = (float) Math.cos(ra) * s;
+		missile.velocity.y = (float) Math.sin(ra) * s;
 
 		Dungeon.area.add(missile);
 	}

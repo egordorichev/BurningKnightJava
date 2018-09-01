@@ -380,15 +380,14 @@ public class Mob extends Creature {
 			ArrayList<Item> items = this.getDrops();
 
 			for (Item item : items) {
-				ItemHolder holder = new ItemHolder();
+				ItemHolder holder = new ItemHolder(item);
 
-				item.generate();
-
-				holder.setItem(item);
 				holder.x = this.x;
 				holder.y = this.y;
+				holder.getItem().generate();
 
 				this.area.add(holder);
+				
 				LevelSave.add(holder);
 			}
 		}
@@ -446,24 +445,24 @@ public class Mob extends Creature {
 		this.invtt = Math.max(0, this.invtt - dt);
 
 		if (!this.dead && !(this instanceof Boss)) {
-			if (this.vel.x < 0) {
+			if (this.velocity.x < 0) {
 				this.flipped = true;
-			} else if (this.vel.x > 0) {
+			} else if (this.velocity.x > 0) {
 				this.flipped = false;
 			}
 		}
 
-		if (this.vel.len2() > 1) {
+		if (this.velocity.len2() > 1) {
 			this.lastIndex = Dungeon.longTime;
 		}
 
 		if (this.falling) {
-			this.vel.mul(0);
+			this.velocity.mul(0);
 		}
 
 		if (this.body != null) {
-			this.vel.clamp(0, this.maxSpeed);
-			this.body.setLinearVelocity(this.vel.x * speedMod, this.vel.y * speedMod);
+			this.velocity.clamp(0, this.maxSpeed);
+			this.body.setLinearVelocity(this.velocity.x * speedMod, this.velocity.y * speedMod);
 		}
 	}
 

@@ -416,12 +416,11 @@ public class UiInventory extends UiEntity {
 
 			@Override
 			public void onEnd() {
-				ItemHolder holder = new ItemHolder();
+				ItemHolder holder = new ItemHolder(slot);
 
 				holder.x = (float) Math.floor(Player.instance.x) + (16 - slot.getSprite().getRegionWidth()) / 2;
 				holder.y = (float) Math.floor(Player.instance.y) + (16 - slot.getSprite().getRegionHeight()) / 2;
-				holder.setItem(slot);
-				holder.velToMouse();
+				holder.velocityToMouse();
 
 				for (int i = 0; i < inventory.getSize(); i++)  {
 					Item it = inventory.getSlot(i);

@@ -212,8 +212,8 @@ public class Mimic extends Mob {
 			return;
 		}
 
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
+		if (Math.abs(this.velocity.x) > 1f) {
+			this.flipped = this.velocity.x < 0;
 		}
 
 		if (this.animation != null) {
@@ -339,8 +339,9 @@ public class Mimic extends Mob {
 		ArrayList<Item> drops = super.getDrops();
 
 		for (int i = 0; i < Random.newInt(3, 8); i++) {
-			ItemHolder item = new ItemHolder();
-			item.setItem(new Gold()).getItem().generate();
+			ItemHolder item = new ItemHolder(new Gold());
+			
+			item.getItem().generate();
 
 			Dungeon.area.add(item);
 			LevelSave.add(item);

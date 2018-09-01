@@ -273,9 +273,8 @@ public class Chest extends SaveableEntity {
 			}
 
 			if (Random.chance(30)) {
-				ItemHolder fx = new ItemHolder();
+				ItemHolder fx = new ItemHolder(new KeyC());
 
-				fx.setItem(new KeyC());
 				fx.x = this.x + (this.w - fx.w) / 2;
 				fx.y = this.y + (this.h - fx.h) / 2;
 
@@ -283,9 +282,8 @@ public class Chest extends SaveableEntity {
 			}
 
 			if (Random.chance(30)) {
-				ItemHolder fx = new ItemHolder();
+				ItemHolder fx = new ItemHolder(new Gold());
 
-				fx.setItem(new Gold());
 				fx.getItem().generate();
 				fx.x = this.x + (this.w - fx.w) / 2;
 				fx.y = this.y + (this.h - fx.h) / 2;
@@ -387,12 +385,10 @@ public class Chest extends SaveableEntity {
 	private boolean drawOpenAnim;
 
 	public void open() {
-		ItemHolder holder = new ItemHolder();
+		ItemHolder holder = new ItemHolder(this.item);
 
 		holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;
 		holder.y = this.y - 3;
-
-		holder.setItem(this.item);
 
 		Dungeon.area.add(holder);
 		LevelSave.add(holder);

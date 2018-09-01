@@ -87,8 +87,8 @@ public class Knight extends Mob {
 
 	@Override
 	public void render() {
-		if (Math.abs(this.vel.x) > 1f) {
-			this.flipped = this.vel.x < 0;
+		if (Math.abs(this.velocity.x) > 1f) {
+			this.flipped = this.velocity.x < 0;
 		}
 
 		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
