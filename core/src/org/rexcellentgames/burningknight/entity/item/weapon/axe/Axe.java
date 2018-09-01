@@ -1,14 +1,18 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.axe;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeProjectile;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.file.FileReader;
+
+import java.io.IOException;
 
 public class Axe extends Weapon {
 	{
@@ -17,6 +21,29 @@ public class Axe extends Weapon {
 		ox = 0;
 		oy = 0;
 		auto = true;
+		setStats();
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		setStats();
+	}
+
+	@Override
+	public void upgrade() {
+		super.upgrade();
+		setStats();
+	}
+
+	private void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : (this.level <= 6 ? "c" : "d"));
+
+		name = Locale.get("axe_" + letter);
+		description = Locale.get("axe_" + letter + "_desc");
+		damage = 2 + this.level;
+		penetrates = true;
+		sprite = "item-axe_" + letter;
 	}
 
 	private float added;
@@ -76,7 +103,7 @@ public class Axe extends Weapon {
 	}
 
 	protected boolean canBeConsumed() {
-		return true;
+		return false;
 	}
 
 	@Override
