@@ -20,9 +20,7 @@ import org.rexcellentgames.burningknight.entity.item.tool.LavaBucket
 import org.rexcellentgames.burningknight.entity.item.tool.Matches
 import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.*
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowB
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowC
+import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerB
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerC
@@ -92,14 +90,11 @@ object ItemRegistry {
 	  "key_a" to Pair(KeyA::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 	  "key_b" to Pair(KeyB::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 	  "key" to Pair(KeyC::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
-    "bow_a" to Pair(BowA::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-    "bow_b" to Pair(BowB::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
-    "bow_c" to Pair(BowC::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
-    "compass" to Pair(Compass::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+    "bow" to Pair(Bow::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
     "launcher_a" to Pair(RocketLauncherA::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
     "launcher_b" to Pair(RocketLauncherB::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
     "launcher_c" to Pair(RocketLauncherC::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
-	  "meetboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEATBOY),
+	  "meatboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEATBOY),
     "dendy" to Pair(Dendy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_DENDY),
 	  "poison_potion" to Pair(PoisonPotion::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
     "poison_ring" to Pair(PoisonRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
@@ -143,7 +138,7 @@ object ItemRegistry {
     "penetration_rune" to Pair(PenetrationRune::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "map" to Pair(Map::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "map_greenprints" to Pair(MapGreenprints::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "meetboy_axe" to Pair(MeetboyAxe::class.java, 1f, 0.3f, 0.3f, 1f, Quality.GOLDEN, Achievements.UNLOCK_MEATBOY_AXE),
+    "meatboy_axe" to Pair(MeatboyAxe::class.java, 1f, 0.3f, 0.3f, 1f, Quality.GOLDEN, Achievements.UNLOCK_MEATBOY_AXE),
     "star" to Pair(Star::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_STAR),
     "blue_watch" to Pair(BlueWatch::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "stopwatch" to Pair(StopWatch::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_STOP_WATCH),

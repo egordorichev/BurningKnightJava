@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeProjectile;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 
@@ -37,11 +36,11 @@ public class Axe extends Weapon {
 		setStats();
 	}
 
-	private void setStats() {
+	protected void setStats() {
 		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : (this.level <= 6 ? "c" : "d"));
 
 		name = Locale.get("axe_" + letter);
-		description = Locale.get("axe_" + letter + "_desc");
+		description = Locale.get("axe_desc");
 		damage = 2 + this.level;
 		penetrates = true;
 		sprite = "item-axe_" + letter;
@@ -52,12 +51,6 @@ public class Axe extends Weapon {
 	private float ox;
 	private float oy;
 	protected int speed = 520;
-
-	@Override
-	public void generate() {
-		super.generate();
-		this.count = Random.newInt(3, 7);
-	}
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {

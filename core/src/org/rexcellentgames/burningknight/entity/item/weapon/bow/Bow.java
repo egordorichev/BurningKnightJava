@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -19,7 +20,10 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProj
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.io.IOException;
 
 public class Bow extends WeaponBase {
 	private float sx = 1f;
@@ -28,11 +32,45 @@ public class Bow extends WeaponBase {
 	{
 		auto = true;
 		delay = 0.3f;
+		setStats();
 	}
 
 	private float charge;
 	private boolean beingUsed;
 	protected float accuracity = 10;
+
+	protected void setStats() {
+		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+
+		name = Locale.get("bow_" + letter);
+		sprite = "item-bow_" + letter;
+		description = Locale.get("bow_desc");
+		useTime = 0.45f - this.level * 0.01f;
+		damage = 1 + this.level;
+		useSpeedStr = this.getUseSpeedAsString();
+		region = Graphics.getTexture(sprite);
+	}
+
+	@Override
+	public void upgrade() {
+		super.upgrade();
+		setStats();
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+		setStats();
+	}
+
+	public Bow() {
+		setStats();
+	}
+
+	@Override
+	public int getMaxLevel() {
+		return 6;
+	}
 
 	@Override
 	public void use() {

@@ -39,7 +39,7 @@ import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPo
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.BowA;
+import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.DaggerA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
@@ -338,7 +338,7 @@ public class Player extends Creature {
 		this.mana = 4;
 
 		switch (Random.newInt(3)) {
-			case 0: default: this.give(new BowA()); break;
+			case 0: default: this.give(new Bow()); break;
 			case 1: this.give(new Revolver()); break;
 			case 2: this.give(new Axe()); break;
 		}
