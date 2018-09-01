@@ -10,20 +10,20 @@ import org.rexcellentgames.burningknight.util.Random
 
 class Guitar : Sword() {
 	override fun setStats() {
+		val letter = if (this.level <= 2) "a" else if (this.level <= 4) "b" else "c"
+
 		description = Locale.get("guitar_desc")
-		name = Locale.get("guitar")
+		name = Locale.get("guitar_" + letter)
 		damage = 4
-		sprite = "item-guitar_a"
+		sprite = "item-guitar_" + letter
 		useTime = 0.5f
 		region = Graphics.getTexture(this.sprite)
 	}
 
-	// todo:variants
-
 	override fun use() {
 		super.use()
 
-		if (this.level >= 2f) {
+		if (this.level >= 3f) {
 			val note = Note()
 
 			val a = Math.max(0f, 10 - (this.owner as Player).accuracy)
@@ -35,9 +35,5 @@ class Guitar : Sword() {
 
 			Dungeon.area.add(note)
 		}
-	}
-
-	override fun getMaxLevel(): Int {
-		return 2
 	}
 }
