@@ -49,6 +49,7 @@ public class BulletProjectile extends Projectile {
 	public boolean dissappearWithTime;
 	public float rotationSpeed = 1f;
 	public Gun gun;
+	public boolean second;
 
 	{
 		alwaysActive = true;
@@ -114,8 +115,8 @@ public class BulletProjectile extends Projectile {
 		RectFx.shader.setUniformf("r", 1f);
 		RectFx.shader.setUniformf("g", 1f);
 		RectFx.shader.setUniformf("b", 1f);
-		RectFx.shader.setUniformf("a", 0.33f);
-		RectFx.shader.setUniformf("remove", 1f);
+		RectFx.shader.setUniformf("a", second ? 0.33f : 1f);
+		RectFx.shader.setUniformf("remove", second ? 1f : 0f);
 
 		RectFx.shader.setUniformf("pos", new Vector2(((float) reg.getRegionX()) / texture.getWidth(), ((float) reg.getRegionY()) / texture.getHeight()));
 		RectFx.shader.setUniformf("size", new Vector2(((float) reg.getRegionWidth()) / texture.getWidth(), ((float) reg.getRegionHeight()) / texture.getHeight()));
@@ -126,22 +127,26 @@ public class BulletProjectile extends Projectile {
 		Graphics.batch.begin();
 
 		if (this.anim != null) {
-			this.anim.render(this.x - 8, this.y - 8, false, false, 8, 8, 0, 2, 2);
-			Graphics.batch.end();
-			RectFx.shader.begin();
-			RectFx.shader.setUniformf("a", 1f);
-			RectFx.shader.setUniformf("remove", 0f);
-			RectFx.shader.end();
-			Graphics.batch.begin();
+			if (second) {
+				this.anim.render(this.x - 8, this.y - 8, false, false, 8, 8, 0, 2, 2);
+				Graphics.batch.end();
+				RectFx.shader.begin();
+				RectFx.shader.setUniformf("a", 1f);
+				RectFx.shader.setUniformf("remove", 0f);
+				RectFx.shader.end();
+				Graphics.batch.begin();
+			}
 			this.anim.render(this.x - 8, this.y - 8, false, false, 8, 8, 0);
 		} else {
-			Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, 2, 2);
-			Graphics.batch.end();
-			RectFx.shader.begin();
-			RectFx.shader.setUniformf("a", 1f);
-			RectFx.shader.setUniformf("remove", 0f);
-			RectFx.shader.end();
-			Graphics.batch.begin();
+			if (second) {
+				Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, 2, 2);
+				Graphics.batch.end();
+				RectFx.shader.begin();
+				RectFx.shader.setUniformf("a", 1f);
+				RectFx.shader.setUniformf("remove", 0f);
+				RectFx.shader.end();
+				Graphics.batch.begin();
+			}
 			Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
 		}
 

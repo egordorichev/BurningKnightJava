@@ -24,9 +24,11 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
+import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA;
@@ -343,6 +345,24 @@ public class Creature extends SaveableEntity {
 				}
 			} else if (!this.isFlying() && (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS)) {
 				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
+
+				if (Random.chance(10)) {
+					ItemHolder holder = new ItemHolder(new GrassSeed());
+
+					holder.x = x * 16 + (16 - holder.w) / 2;
+					holder.y = y * 16 + (16 - holder.h) / 2;
+
+					Dungeon.area.add(holder.add());
+				}
+
+				for (int i = 0; i < 10; i++) {
+					GrassBreakFx fx = new GrassBreakFx();
+
+					fx.x = x * 16 + Random.newFloat(16);
+					fx.y = y * 16 + Random.newFloat(16) - 8;
+
+					Dungeon.area.add(fx);
+				}
 			} else if (!this.isFlying() && t == Terrain.VENOM) {
 				this.addBuff(new PoisonBuff());
 			}

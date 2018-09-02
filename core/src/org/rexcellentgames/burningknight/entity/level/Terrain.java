@@ -200,16 +200,16 @@ public class Terrain {
 
 		dirtPattern = Graphics.getTexture("biome-gen-dirt pattern");
 		grassPattern = Graphics.getTexture("biome-gen-grass pattern");
-		dryGrassPattern = Graphics.getTexture("biome-gen-dry_grass_pattern");
+		dryGrassPattern = Graphics.getTexture("biome-gen-dry pattern");
 		waterPattern = Graphics.getTexture("biome-gen-pool pattern");
-		venomPattern = Graphics.getTexture("biome-gen-poluted_pattern");
+		venomPattern = Graphics.getTexture("biome-gen-polluted pattern");
 		lavaPattern = Graphics.getTexture("biome-gen-lava pattern");
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
 		crackPattern = Graphics.getTexture(bm + "-crack");
-		emberPattern = Graphics.getTexture("biome-gen-coal_pattern");
-		cobwebPattern = Graphics.getTexture("biome-gen-cobweb_pattern");
-		obsidianPattern = Graphics.getTexture("biome-gen-obsidian_pattern");
-		icePattern = Graphics.getTexture("biome-gen-ice_pattern");
+		emberPattern = Graphics.getTexture("biome-gen-coal pattern");
+		cobwebPattern = Graphics.getTexture("biome-gen-web pattern");
+		obsidianPattern = Graphics.getTexture("biome-gen-ob pattern");
+		icePattern = Graphics.getTexture("biome-gen-ice pattern");
 		discoPattern = Graphics.getTexture("biome-gen-disco pattern");
 
 		entrance = Graphics.getTexture("props-entance");
