@@ -30,7 +30,7 @@ public class GoldenChest extends Chest {
 		weapon = Random.chance(50);
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (item.getQuality() == ItemRegistry.Quality.GOLDEN && Achievements.unlocked(item.getUnlock())
+			if (item.getQuality().equals(ItemRegistry.Quality.GOLDEN) && Achievements.unlocked(item.getUnlock())
 				&& (weapon ? WeaponBase.class : Accessory.class).isAssignableFrom(item.getType()) && Player.instance.getInventory().findItem(item.getType()) == null) {
 
 				pool.add(item.getType(), item.getChance() * (

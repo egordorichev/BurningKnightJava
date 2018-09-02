@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item
 
+import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
 import org.rexcellentgames.burningknight.entity.item.autouse.Backpack
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
@@ -8,7 +9,6 @@ import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.PoisonPotion
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
@@ -40,17 +40,39 @@ import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC
 import org.rexcellentgames.burningknight.game.Achievements
 
 object ItemRegistry {
-	class Pair(val type: Class<out Item>, val chance: Float, val warrior: Float, val mage: Float, val ranged: Float, val quality: Quality, val unlock: String? = null)
+	class Pair(val type: Class<out Item>, val chance: Float, val warrior: Float, val mage: Float, val ranged: Float,
+	           val quality: Quality, val unlock: String? = null) {
+
+		constructor(type: Class<out Item>, chance: Float, warrior: Float, mage: Float, ranged: Float,
+		            quality: Quality, pool: Upgrade.Type) : this(type, chance, warrior, mage, ranged, quality, null) {
+
+			this.pool = pool
+		}
+
+		var busy: Boolean = false
+		var pool: Upgrade.Type = Upgrade.Type.NONE
+	}
 
 	enum class Quality {
-		WOODEN, IRON, GOLDEN
+		WOODEN, IRON, GOLDEN,
+		WOODEN_PLUS, IRON_PLUS;
+
+		fun equals(q: Quality): Boolean {
+			if (q == Quality.WOODEN) {
+				return this == Quality.WOODEN || this == Quality.WOODEN_PLUS
+			} else if (q == Quality.IRON) {
+				return this == Quality.IRON || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
+			} else {
+				return this == Quality.GOLDEN || this == Quality.WOODEN_PLUS || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
+			}
+		}
 	}
 
 	// todo: depend price on quality
 	
   val items = mapOf(
-	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON),
-	  "bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
+	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON),
+	  "bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY),
 	  "guitar" to Pair(Guitar::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 	  "bk_sword" to Pair(BKSword::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "dagger" to Pair(Dagger::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
@@ -67,7 +89,6 @@ object ItemRegistry {
     "launcher" to Pair(RocketLauncher::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 	  "meatboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEATBOY),
     "dendy" to Pair(Dendy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_DENDY),
-	  "poison_potion" to Pair(PoisonPotion::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
     "poison_ring" to Pair(PoisonRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "metal_ring" to Pair(MetalRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "fire_ring" to Pair(FireRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
@@ -75,9 +96,9 @@ object ItemRegistry {
     "fortune_ring" to Pair(FortuneRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "ice_ring" to Pair(IceRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "blue_boomerang" to Pair(BlueBoomerang::class.java, 1f, 0.7f, 0.1f, 1f, Quality.WOODEN),
-    "magic_mushroom" to Pair(MagicMushroom::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
+    "magic_mushroom" to Pair(MagicMushroom::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.CONSUMABLE),
     "isaac_head" to Pair(IsaacHead::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON, Achievements.UNLOCK_ISAAC_HEAD),
-    "fire_flower" to Pair(FireFlower::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN),
+    "fire_flower" to Pair(FireFlower::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Upgrade.Type.ACCESSORY),
     "backpack" to Pair(Backpack::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_BACKPACK),
     "blood_ring" to Pair(BloodRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "claymore" to Pair(Claymore::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
@@ -184,7 +205,7 @@ object ItemRegistry {
 	  "machine_gun" to Pair(MachineGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
 	  "triple_machine_gun" to Pair(TripleMachineGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
 	  "gun" to Pair(Revolver::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-		"snowgun" to Pair(SnowGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
+		"snow_gun" to Pair(SnowGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
 		"aim" to Pair(Aim::class.java, 1f, 0f, 0.3f, 1f, Quality.IRON),
 	  "cursed_aim" to Pair(CursedAim::class.java, 1f, 0f, 0.3f, 1f, Quality.IRON),
 	  "zoom" to Pair(Zoom::class.java, 1f,  0.3f, 0.3f, 1f, Quality.WOODEN),

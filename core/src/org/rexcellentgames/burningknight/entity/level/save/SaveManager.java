@@ -37,19 +37,19 @@ public class SaveManager {
 
 	public static String getSavePath(Type type, boolean old) {
 		switch (type) {
-			case LEVEL: return getDir() + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".save";
-			case PLAYER: return getDir() + "player.save";
-			case GAME: default: return getDir() + "game.save";
-			case GLOBAL: return SAVE_DIR + "progress.save";
+			case LEVEL: return ((old ? Dungeon.lastDepth : Dungeon.depth) <= -1 ? SAVE_DIR : getDir()) + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".sv";
+			case PLAYER: return getDir() + "player.sv";
+			case GAME: default: return getDir() + "game.sv";
+			case GLOBAL: return SAVE_DIR + "global.sv";
 		}
 	}
 
 	public static String getSavePath(Type type, int slot) {
 		switch (type) {
-			case LEVEL: return getDir(slot) + "level" + Dungeon.depth + ".save";
-			case PLAYER: return getDir(slot) + "player.save";
-			case GAME: default: return getDir(slot) + "game.save";
-			case GLOBAL: return SAVE_DIR + "progress.save";
+			case LEVEL: return (Dungeon.depth <= -1 ? SAVE_DIR : getDir(slot)) + "level" + Dungeon.depth + ".sv";
+			case PLAYER: return getDir(slot) + "player.sv";
+			case GAME: default: return getDir(slot) + "game.sv";
+			case GLOBAL: return SAVE_DIR + "global.sv";
 		}
 	}
 

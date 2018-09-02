@@ -33,7 +33,7 @@ public class WoodenChest extends Chest {
 		weapon = Random.chance(50);
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (item.getQuality() == ItemRegistry.Quality.WOODEN && Achievements.unlocked(item.getUnlock()) && (weapon ? WeaponBase.class : Accessory.class).isAssignableFrom(item.getType()) && Player.instance.getInventory().findItem(item.getType()) == null) {
+			if (item.getQuality().equals(ItemRegistry.Quality.WOODEN) && Achievements.unlocked(item.getUnlock()) && (weapon ? WeaponBase.class : Accessory.class).isAssignableFrom(item.getType()) && Player.instance.getInventory().findItem(item.getType()) == null) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
