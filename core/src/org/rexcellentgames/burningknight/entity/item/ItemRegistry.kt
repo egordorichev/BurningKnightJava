@@ -44,13 +44,23 @@ object ItemRegistry {
 	           val quality: Quality, val unlock: String? = null) {
 
 		constructor(type: Class<out Item>, chance: Float, warrior: Float, mage: Float, ranged: Float,
-		            quality: Quality, pool: Upgrade.Type) : this(type, chance, warrior, mage, ranged, quality, null) {
+		            quality: Quality, pool: Upgrade.Type, cost: Int) : this(type, chance, warrior, mage, ranged, quality, null) {
 
 			this.pool = pool
+			this.cost = cost
 		}
 
+		var cost: Int = 0
 		var busy: Boolean = false
 		var pool: Upgrade.Type = Upgrade.Type.NONE
+
+		fun unlocked(): Boolean {
+			if (unlock != null) {
+				return Achievements.unlocked(unlock)
+			} else {
+				return Achievements.unlocked("SHOP_" + type.simpleName.toUpperCase())
+			}
+		}
 	}
 
 	enum class Quality {
@@ -71,8 +81,8 @@ object ItemRegistry {
 	// todo: depend price on quality
 	
   val items = mapOf(
-	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON),
-	  "bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY),
+	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 3),
+	  "bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY, 3),
 	  "guitar" to Pair(Guitar::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 	  "bk_sword" to Pair(BKSword::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "dagger" to Pair(Dagger::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
@@ -96,24 +106,24 @@ object ItemRegistry {
     "fortune_ring" to Pair(FortuneRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "ice_ring" to Pair(IceRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "blue_boomerang" to Pair(BlueBoomerang::class.java, 1f, 0.7f, 0.1f, 1f, Quality.WOODEN),
-    "magic_mushroom" to Pair(MagicMushroom::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.CONSUMABLE),
+    "magic_mushroom" to Pair(MagicMushroom::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.CONSUMABLE, 5),
     "isaac_head" to Pair(IsaacHead::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON, Achievements.UNLOCK_ISAAC_HEAD),
-    "fire_flower" to Pair(FireFlower::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Upgrade.Type.ACCESSORY),
+    "fire_flower" to Pair(FireFlower::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Upgrade.Type.ACCESSORY, 1),
     "backpack" to Pair(Backpack::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_BACKPACK),
     "blood_ring" to Pair(BloodRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "claymore" to Pair(Claymore::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
-    "goo" to Pair(GooOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "bumbo" to Pair(Bumbo::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+    "goo" to Pair(GooOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 1),
+    "bumbo" to Pair(Bumbo::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 3),
     "gold_ring" to Pair(GoldRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_GOLD_RING),
     "vampire_ring" to Pair(VampireRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "vvvvv" to Pair(VVVVV::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_VVVVV),
-    "jelly" to Pair(JellyOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "obsidian_boots" to Pair(ObsidianBoots::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "campfire_in_a_bottle" to Pair(CampfireInABottle::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "antidote" to Pair(Antidote::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+    "jelly" to Pair(JellyOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 2),
+    "obsidian_boots" to Pair(ObsidianBoots::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 1),
+    "campfire_in_a_bottle" to Pair(CampfireInABottle::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 1),
+    "antidote" to Pair(Antidote::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 1),
     "fire_extinguisher" to Pair(FireExtinguisher::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "broken_orbital" to Pair(BrokenOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "vampire_orbital" to Pair(VampireOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
+    "broken_orbital" to Pair(BrokenOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 1),
+    "vampire_orbital" to Pair(VampireOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PET, 5),
     "lightsaber" to Pair(Lightsaber::class.java, 1f, 1f, 0.3f, 0.11f, Quality.WOODEN),
     "chicken_sword" to Pair(ChickenSword::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "blue_shovel" to Pair(BlueShovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),

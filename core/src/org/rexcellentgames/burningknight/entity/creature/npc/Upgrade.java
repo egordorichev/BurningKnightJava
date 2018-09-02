@@ -5,7 +5,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -21,8 +20,9 @@ public class Upgrade extends SaveableEntity {
 		CONSUMABLE(0),
 		WEAPON(1),
 		ACCESSORY(2),
+		PET(3),
 
-		NONE(3);
+		NONE(4);
 
 		Type(int id) {
 			this.id = (byte) id;
@@ -54,7 +54,7 @@ public class Upgrade extends SaveableEntity {
 
 	protected Item generateItem() {
 		for (Map.Entry<String, ItemRegistry.Pair> entry : ItemRegistry.INSTANCE.getItems().entrySet()) {
-			if (!entry.getValue().getBusy() && entry.getValue().getPool() == this.type && !Achievements.unlocked("SHOP_" + entry.getKey().toUpperCase())) {
+			if (!entry.getValue().getBusy() && entry.getValue().getPool() == this.type && !entry.getValue().unlocked()) {
 				this.str = entry.getKey();
 				entry.getValue().setBusy(true);
 
