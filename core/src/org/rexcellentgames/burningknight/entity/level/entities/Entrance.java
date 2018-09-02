@@ -1,8 +1,13 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
@@ -11,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -43,11 +49,8 @@ public class Entrance extends SaveableEntity {
 	public void init() {
 		super.init();
 
-		// this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		
-		/*if (this.body != null) {
-			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
-		}*/
+		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		if (Level.GENERATED) {
 			this.addSelf();
@@ -77,7 +80,7 @@ public class Entrance extends SaveableEntity {
 
 		this.type = reader.readByte();
 
-		// World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.addSelf();
 	}
 
@@ -88,11 +91,11 @@ public class Entrance extends SaveableEntity {
 		writer.writeByte(this.type);
 	}
 
-	// private float al;
+	private float al;
 
 	@Override
 	public void render() {
-		/*float dt = Gdx.graphics.getDeltaTime();
+		float dt = Gdx.graphics.getDeltaTime();
 		this.al = MathUtils.clamp(0, 1, this.al + ((this.fx != null ? 1 : 0) - this.al) * dt * 10);
 
 		if (this.al > 0) {
@@ -115,7 +118,7 @@ public class Entrance extends SaveableEntity {
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
-		}*/
+		}
 
 		Graphics.render(Terrain.entrance, this.x, this.y);
 	}
@@ -125,9 +128,9 @@ public class Entrance extends SaveableEntity {
 		Graphics.shadow(this.x, this.y + 4, 16, 32);
 	}
 
-	/*@Override
+	@Override
 	public void onCollision(Entity entity) {
-		if (entity instanceof Player && this.fx == null && Dungeon.depth > 0) {
+		if (entity instanceof Player && this.fx == null && Dungeon.depth == -2) {
 			this.fx = new LadderFx(this, "ascend");
 			this.area.add(this.fx);
 		}
@@ -139,5 +142,5 @@ public class Entrance extends SaveableEntity {
 			this.fx.remove();
 			this.fx = null;
 		}
-	}*/
+	}
 }

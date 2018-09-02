@@ -719,6 +719,13 @@ public class Player extends Creature {
 		} else if (ladder == null) {
 			Log.error("Null lader!");
 		}
+
+		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y;
+
+		Dungeon.darkX = vec.x;
+		Dungeon.darkY = vec.y;
 	}
 
 	@Override

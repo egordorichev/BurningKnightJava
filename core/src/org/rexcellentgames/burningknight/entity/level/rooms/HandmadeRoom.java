@@ -14,6 +14,8 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -172,15 +174,15 @@ public class HandmadeRoom extends RegularRoom {
 				ClassSelector c = new ClassSelector(name.replace("class_", ""));
 
 				c.x = x + rect.x + (rect.width - c.w) / 2 + 16;
-				c.y = y + rect.y + (rect.height - c.h) / 2;
+				c.y = y + rect.y + (rect.height - c.h) / 2 + 16;
 
 				Dungeon.area.add(c.add());
 			} else if (name.startsWith("control_")) {
 				Control c = new Control();
 
 				c.id = name.replace("control_", "");
-				c.x = x + rect.x;
-				c.y = y + rect.y;
+				c.x = x + rect.x + 16;
+				c.y = y + rect.y + 16;
 
 				Dungeon.area.add(c.add());
 			}
@@ -250,6 +252,27 @@ public class HandmadeRoom extends RegularRoom {
 						Dungeon.area.add(door);
 					break;
 					case 12: tt = Terrain.CRACK; break;
+					case 13:
+						dr = true;
+						Exit exit = new Exit();
+
+						exit.x = (x + this.left + 1) * 16;
+						exit.y = (y + this.top + 1) * 16;
+
+						Dungeon.level.set(this.left + x + 1, this.top + y + 1, Terrain.FLOOR_B);
+						Dungeon.level.set(this.left + x + 1, this.top + y + 1, Terrain.EXIT);
+
+						Dungeon.area.add(exit.add());
+						break;
+					case 14:
+						dr = true;
+						Entrance entrance = new Entrance();
+
+						entrance.x = (x + this.left + 1) * 16;
+						entrance.y = (y + this.top + 1) * 16 - 6;
+
+						Dungeon.area.add(entrance.add());
+					break;
 				}
 
 				if (!dr) {
