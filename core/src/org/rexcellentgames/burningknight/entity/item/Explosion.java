@@ -62,6 +62,9 @@ public class Explosion extends Entity {
 	}
 
 	public static void make(float x, float y) {
+		make(x, y, true);
+	}
+	public static void make(float x, float y, boolean leave) {
 		for (int i = 0; i < Random.newInt(2, 5); i++) {
 			Explosion explosion = new Explosion(x + Random.newFloat(-16, 16), y + Random.newFloat(-16, 16));
 			explosion.delay = Random.newFloat(0, 0.25f);
@@ -90,9 +93,11 @@ public class Explosion extends Entity {
 
 		Camera.shake(20f);
 
-		ExplosionLeftOver over = new ExplosionLeftOver();
-		over.x = x;
-		over.y = y;
-		Dungeon.area.add(over);
+		if (leave) {
+			ExplosionLeftOver over = new ExplosionLeftOver();
+			over.x = x;
+			over.y = y;
+			Dungeon.area.add(over);
+		}
 	}
 }

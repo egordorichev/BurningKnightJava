@@ -41,6 +41,8 @@ public class Bomb extends Item {
 		if (this.owner instanceof Player) {
 			Player player = (Player) this.owner;
 
+			e.leaveSmall = player.leaveSmall;
+
 			if (player.fireBombs) {
 				e.toApply.add(new BurningBuff());
 			}

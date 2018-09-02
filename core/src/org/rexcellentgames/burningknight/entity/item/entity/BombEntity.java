@@ -88,7 +88,7 @@ public class BombEntity extends Entity {
 			this.animation = normal.get("idle");
 		}
 
-		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createSimpleBody(this, 0, 0, w, h, BodyDef.BodyType.DynamicBody, false);
 		MassData data = new MassData();
 		data.mass = 0.1f;
 		this.body.setMassData(data);
@@ -105,6 +105,7 @@ public class BombEntity extends Entity {
 	}
 
 	private float t;
+	public boolean leaveSmall;
 
 	@Override
 	public void destroy() {
@@ -113,18 +114,19 @@ public class BombEntity extends Entity {
 	}
 
 	public BombEntity toMouseVel() {
-		return this.velTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+		return this.velTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y, 60f);
 	}
 
-	public BombEntity velTo(float x, float y) {
+	public BombEntity velTo(float x, float y, float f) {
 		float a = (float) Math.atan2(y - this.y - 8, x - this.x - 8);
-		this.vel = new Point((float) Math.cos(a) * 50f, (float) Math.sin(a) * 50f);
+		this.vel = new Point((float) Math.cos(a) * f, (float) Math.sin(a) * f);
 
 		this.x += Math.cos(a) * 5f;
 		this.y += Math.sin(a) * 5f;
 
 		return this;
 	}
+
 
 	private float lastFlame;
 
@@ -148,9 +150,26 @@ public class BombEntity extends Entity {
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation.update(dt)) {
+			if (this.leaveSmall && !this.small) {
+				for (int i = 0; i < 4; i++) {
+					BombEntity e = new BombEntity(this.x + this.w - Random.newFloat(this.w), this.y + this.h - Random.newFloat(this.h));
+
+					e.small = true;
+
+					float a = (float) (i * Math.PI / 2);
+					float f = 200f;
+					e.vel = new Point((float) Math.cos(a) * f, (float) Math.sin(a) * f);
+
+					e.x += Math.cos(a) * 5f;
+					e.y += Math.sin(a) * 5f;
+
+					Dungeon.area.add(e);
+				}
+			}
+
 			this.playSfx("explosion");
 			this.done = true;
-			Explosion.make(this.x + 8, this.y + 8);
+			Explosion.make(this.x + 8, this.y + 8, !this.small);
 
 			boolean fire = false;
 			boolean ice = false;
@@ -296,7 +315,7 @@ public class BombEntity extends Entity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity != null && !(entity instanceof Player)) {
+		if (entity != null && !(entity instanceof Player || entity instanceof BombEntity)) {
 			return false;
 		}
 

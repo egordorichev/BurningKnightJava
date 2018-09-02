@@ -709,6 +709,8 @@ public class Player extends Creature {
 		}
 	}
 
+	public boolean leaveSmall;
+
 	private void doTp(boolean fromInit) {
 		if (Dungeon.depth == -1) {
 			Room room = Dungeon.level.getRooms().get(0);

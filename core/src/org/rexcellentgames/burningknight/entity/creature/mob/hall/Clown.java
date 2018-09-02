@@ -301,7 +301,7 @@ public class Clown extends Mob {
 			if (Random.chance(75)) {
 				self.guitar.use();
 			} else {
-				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
+				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8, 60f);
 
 				self.apply(e);
 				Dungeon.area.add(e);

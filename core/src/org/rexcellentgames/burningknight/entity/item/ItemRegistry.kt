@@ -50,6 +50,7 @@ object ItemRegistry {
 	
   val items = mapOf(
 	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON),
+	  "bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 	  "guitar" to Pair(Guitar::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 	  "bk_sword" to Pair(BKSword::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
     "dagger" to Pair(Dagger::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
