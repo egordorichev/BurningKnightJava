@@ -6,8 +6,8 @@ import org.rexcellentgames.burningknight.entity.creature.npc.OrangeShopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.*;
-import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
+import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
@@ -173,7 +173,7 @@ public class ShopRoom extends LockedRoom {
 		Pool<Item> pool = new Pool<>();
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (Accessory.class.isAssignableFrom(item.getType()) && item.unlocked() && Player.instance.getInventory().findItem(item.getType()) == null) {
+			if (!Weapon.class.isAssignableFrom(item.getType()) && item.unlocked() && Player.instance.getInventory().findItem(item.getType()) == null) {
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
 						item.getMage() * Player.instance.getMage() +
