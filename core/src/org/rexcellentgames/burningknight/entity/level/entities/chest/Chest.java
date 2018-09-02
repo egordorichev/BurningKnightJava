@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -398,6 +399,18 @@ public class Chest extends SaveableEntity {
 
 		this.data = this.getOpenedAnim();
 		this.open = true;
+
+
+		for (int i = 0; i < 15; i++) {
+			Confetti c = new Confetti();
+
+			c.x = this.x + Random.newFloat(this.w);
+			c.y = this.y + Random.newFloat(this.h);
+			c.vel.x = Random.newFloat(-30f, 30f);
+			c.vel.y = Random.newFloat(30f, 40f);
+
+			Dungeon.area.add(c);
+		}
 	}
 
 	public static Chest random() {

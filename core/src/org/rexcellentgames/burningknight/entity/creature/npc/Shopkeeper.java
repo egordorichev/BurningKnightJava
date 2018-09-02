@@ -109,17 +109,7 @@ public class Shopkeeper extends Npc {
 
 	@Override
 	public void update(float dt) {
-		/*if (!(this.state.equals("idle") || this.state.equals("roam")) && Player.instance.room != this.room) {
-			for (int i = 0; i < Player.instance.getInventory().getSize(); i++) {
-				Item item = Player.instance.getInventory().getSlot(i);
-
-				if (item != null && item.shop) {
-					this.enranged = true;
-					this.become("hana");
-					break;
-				}
-			}
-		}*/
+		this.saw = true;
 
 		super.update(dt);
 

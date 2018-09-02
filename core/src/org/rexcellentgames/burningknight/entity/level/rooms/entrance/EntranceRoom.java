@@ -40,7 +40,7 @@ public class EntranceRoom extends LadderRoom {
 			Exit exit = new Exit();
 
 			exit.x = point.x * 16;
-			exit.y = point.y * 16 - 8;
+			exit.y = point.y * 16 - 7;
 
 			level.set((int) point.x, (int) point.y, Terrain.EXIT);
 			LevelSave.add(exit);
@@ -49,7 +49,7 @@ public class EntranceRoom extends LadderRoom {
 			Entrance entrance = new Entrance();
 
 			entrance.x = point.x * 16 + 1;
-			entrance.y = point.y * 16 - 8;
+			entrance.y = point.y * 16 - 6;
 
 		  LevelSave.add(entrance);
 			Dungeon.area.add(entrance);

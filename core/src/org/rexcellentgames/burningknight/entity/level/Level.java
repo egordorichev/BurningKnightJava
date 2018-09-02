@@ -1459,7 +1459,7 @@ public abstract class Level extends SaveableEntity {
 				for (int yy = -1; yy < 2; yy++) {
 					for (int xx = -1; xx < 2; xx++) {
 						if (Math.abs(xx) + Math.abs(yy) == 1) {
-							Graphics.render(Terrain.exit, x * 16 + xx, y * 16 - 8 + yy);
+							Graphics.render(Terrain.exit, x * 16 + xx, y * 16 - 7 + yy);
 						}
 					}
 				}
@@ -1469,7 +1469,7 @@ public abstract class Level extends SaveableEntity {
 				Graphics.batch.begin();
 			}
 
-			Graphics.render(Terrain.exit, x * 16, y * 16 - 8);
+			Graphics.render(Terrain.exit, x * 16, y * 16 - 7);
 		} else if (tile == Terrain.WATER) {
 			drawWith(Terrain.waterPattern, Terrain.pooledge, i, x, y, true);
 		} else if (tile == Terrain.LAVA) {

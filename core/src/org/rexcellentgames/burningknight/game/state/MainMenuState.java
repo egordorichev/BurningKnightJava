@@ -76,21 +76,6 @@ public class MainMenuState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
-				/*SlotSelectState.add();
-				Dungeon.ui.select(SlotSelectState.first);
-
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT / 2, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
-					@Override
-					public float getValue() {
-						return cameraY;
-					}
-
-					@Override
-					public void setValue(float value) {
-						cameraY = value;
-					}
-				});*/
-
 				Player.toSet = Player.Type.values()[GlobalSave.getInt("last_class")];
 				GameSave.Info info = GameSave.peek(SaveManager.slot);
 
@@ -98,7 +83,7 @@ public class MainMenuState extends State {
 					@Override
 					public void run() {
 						Dungeon.loadType = Entrance.LoadType.LOADING;
-						Dungeon.goToLevel(info.depth);
+						Dungeon.goToLevel(info.free ? -1 : info.depth);
 					}
 				});
 			}

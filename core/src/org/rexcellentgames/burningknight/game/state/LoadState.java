@@ -68,6 +68,7 @@ public class LoadState extends State {
 		Player.all.clear();
 		Mob.all.clear();
 		ItemHolder.getAll().clear();
+
 		Chest.all.clear();
 		Mimic.all.clear();
 		AnswerButton.all.clear();
@@ -77,7 +78,7 @@ public class LoadState extends State {
 
 		Dungeon.setBackground(new Color(0, 0, 0, 1));
 
-		new Thread(new Runnable() {
+		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				Level lvl = Level.forDepth(Dungeon.depth - 1);
@@ -167,7 +168,10 @@ public class LoadState extends State {
 
 				Dungeon.buildDiscordBadge();
 			}
-		}).run();
+		});
+
+		thread.setPriority(3);
+		thread.run();
 
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 1;

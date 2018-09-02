@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -102,6 +101,8 @@ public class InGameState extends State {
 	}
 
 	private boolean wasHidden;
+	private String depth;
+	private float w;
 
 	@Override
 	public void setPaused(boolean paused) {
@@ -109,7 +110,11 @@ public class InGameState extends State {
 
 		if (this.isPaused()) {
 			this.mv = -256;
+			depth = Dungeon.level.formatDepth();
 			this.wasHidden = !UiMap.instance.isOpen();
+
+			Graphics.layout.setText(Graphics.medium, depth);
+			this.w = Graphics.layout.width;
 
 			if (Player.instance.ui != null && Player.instance.ui.isOpen()) {
 				Player.instance.ui.hide();
@@ -238,8 +243,8 @@ public class InGameState extends State {
 		super.destroy();
 		this.console.destroy();
 
-		if (Dungeon.reset) {
-			Gdx.files.external(".bk/" + SaveManager.slot).deleteDirectory();
+		if (Dungeon.reset || Player.instance == null || Player.instance.isDead()) {
+			Gdx.files.external(SaveManager.SAVE_DIR + SaveManager.slot).deleteDirectory();
 			Dungeon.reset = false;
 		} else {
 			boolean old = (Dungeon.game.getState() instanceof LoadState);
@@ -417,7 +422,6 @@ public class InGameState extends State {
 
 	private int lastHp;
 	private boolean setFrames;
-	private Color bg = Color.valueOf("#1a1932");
 	private float mv = - 256;
 	private float size;
 
@@ -460,6 +464,8 @@ public class InGameState extends State {
 
 			pauseMenuUi.render();
 
+			Graphics.print(this.depth, Graphics.medium, Display.GAME_WIDTH / 2 - w / 2, 128 + 32);
+
 			Camera.ui.translate(0, -this.mv);
 			Camera.ui.update();
 		}
@@ -473,7 +479,9 @@ public class InGameState extends State {
 		Dungeon.ui.add(inventory);
 		Dungeon.ui.add(new UiMap());
 
-		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128+ 32) {
+		int y = -24;
+
+		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128 + 32 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -481,19 +489,19 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("quick_restart", Display.GAME_WIDTH / 2, 128+ 32 - 24) {
+		this.pauseMenuUi.add(new UiButton("quick_restart", Display.GAME_WIDTH / 2, 128 + 32 - 24 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
 
 				transition(() -> {
 					Dungeon.grayscale = 0;
-					Dungeon.newGame(true);
+					Dungeon.newGame(true, 0);
 				});
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128+ 32 - 24 * 2) {
+		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 + 32 - 24 * 2 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -508,7 +516,7 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 + 32 - 24 * 3) {
+		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 + 32 - 24 * 3 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();

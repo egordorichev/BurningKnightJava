@@ -115,12 +115,15 @@ public class SaveManager {
 	}
 
 	public static void delete() {
+		Log.info("Deleting saves!");
+
 		LevelSave.all.clear();
 		PlayerSave.all.clear();
 
 		File file = Gdx.files.external(getDir()).file();
 
 		if (file == null) {
+			Log.error("Failed to delete!");
 			return;
 		}
 
@@ -128,6 +131,7 @@ public class SaveManager {
 
 		if (files == null) {
 			file.delete();
+			Log.error("Failed to detect inner files to delete!");
 			return;
 		}
 
