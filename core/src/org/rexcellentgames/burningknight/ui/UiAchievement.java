@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiAchievement extends Entity {
@@ -95,7 +96,11 @@ public class UiAchievement extends Entity {
 
 			Graphics.render(icon, this.x + 3 + (32 - icon.getRegionWidth()) / 2, this.y + 3 + (32 - icon.getRegionHeight()) / 2);
 		} else {
-			Graphics.render(icon, this.x + 3, this.y + 3);
+			if (icon == Item.missing) {
+				Graphics.render(icon, this.x + 3, this.y + 3, 0, 0, 0, false, false, 2, 2);
+			} else {
+				Graphics.render(icon, this.x + 3, this.y + 3);
+			}
 		}
 
 		Graphics.render(left, this.x, this.y);
