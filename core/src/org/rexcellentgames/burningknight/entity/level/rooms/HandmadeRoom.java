@@ -210,9 +210,9 @@ public class HandmadeRoom extends RegularRoom {
 				trader.y = y + rect.y + 16 - 8;
 
 				switch (id) {
-					case "add": trader.type = Upgrade.Type.ACCESSORY; break;
-					case "weapon": trader.type = Upgrade.Type.WEAPON; break;
-					case "spell": trader.type = Upgrade.Type.CONSUMABLE; break;
+					case "add": trader.setType(Upgrade.Type.ACCESSORY); break;
+					case "weapon": trader.setType(Upgrade.Type.WEAPON); break;
+					case "spell": trader.setType(Upgrade.Type.CONSUMABLE); break;
 				}
 
 				Dungeon.area.add(trader.add());

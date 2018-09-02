@@ -71,7 +71,8 @@ public class Achievements {
 	private static UiAchievement lastActive;
 
 	public static boolean unlocked(String id) {
-		return id == null || GlobalSave.isTrue(id);
+		// FIXME: remove SHOP_ condition
+		return id == null || GlobalSave.isTrue(id) || id.startsWith("SHOP_");
 	}
 
 	public static void unlock(String id) {

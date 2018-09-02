@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.debug.Console;
@@ -297,7 +296,7 @@ public class InGameState extends State {
 			// Dungeon.level.addLightInRadius(Player.instance.x + 8, Player.instance.y + 8, 0, 0, 0, 2f, 8f, false);
 		}
 		
-		if (Version.debug) {
+		//if (Version.debug) {
 			this.console.update(dt);
 
 			if (Input.instance.wasPressed("reset")) {
@@ -354,7 +353,8 @@ public class InGameState extends State {
 					}
 				}
 			}
-		}
+		//}
+
 		last += dt;
 
 		if (last >= 1f) {

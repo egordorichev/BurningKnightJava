@@ -7,15 +7,13 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
-import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
-	public static final boolean START_TO_MENU = false;
-	public static final boolean QUICK = true;
+	public static final boolean START_TO_MENU = true;
+	public static final boolean QUICK = false;
 	public static boolean done = false;
 	private static Texture region;
 	private float a;

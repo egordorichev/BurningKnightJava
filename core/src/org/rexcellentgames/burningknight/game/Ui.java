@@ -327,21 +327,25 @@ public class Ui {
 		});
 	}
 
-	private static TextureRegion coin = Graphics.getTexture("ui-coin");
+	private static TextureRegion coin;
 
 	public void render() {
+		if (coin == null) {
+			coin = Graphics.getTexture("ui-coin");
+		}
+
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		for (Healthbar healthbar : healthbars.values()) {
 			healthbar.render();
 		}
 
-		if (Dungeon.depth <= -1) {
-			Graphics.render(coin, 2, Display.GAME_HEIGHT - 18);
-			Graphics.print(GlobalSave.getInt("num_coins") + "", Graphics.medium, 20, Display.GAME_HEIGHT - 20);
-		}
-
 		if (Dungeon.game.getState() instanceof InGameState) {
+			if (Dungeon.depth <= -1) {
+				Graphics.render(coin, 2, Display.GAME_HEIGHT - 18);
+				Graphics.print(GlobalSave.getInt("num_coins") + "", Graphics.medium, 20, Display.GAME_HEIGHT - 20);
+			}
+
 			if (this.al > 0) {
 				Graphics.startAlphaShape();
 				Graphics.shape.setColor(this.val, this.val, this.val, this.al);
