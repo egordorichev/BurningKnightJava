@@ -5,13 +5,20 @@ import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.util.Tween
 
 class VVVVV : Equippable() {
-
 	private var lastTween: Tween.Task? = null
 
 	init {
 		name = Locale.get("vvvvv")
 		description = Locale.get("vvvvv_desc")
 		sprite = "item-vvvvv"
+	}
+
+	override fun canBeUpgraded(): Boolean {
+		return false
+	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
 	}
 
 	override fun onEquip(load: Boolean) {

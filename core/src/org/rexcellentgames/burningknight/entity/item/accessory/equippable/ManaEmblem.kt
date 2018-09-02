@@ -25,4 +25,12 @@ class ManaEmblem : Equippable() {
       (this.owner as Player).manaRegenRate -= 5.0f
     }
   }
+
+  override fun canBeDegraded(): Boolean {
+    return false
+  }
+
+  override fun canBeUpgraded(): Boolean {
+    return false
+  }
 }

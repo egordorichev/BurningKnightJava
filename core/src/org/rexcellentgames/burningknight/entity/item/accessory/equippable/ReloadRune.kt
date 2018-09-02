@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
 class ReloadRune : Equippable() {
-
 	val time: Float
 		get() = this.level.toFloat()
 

@@ -239,10 +239,10 @@ public class Gun extends WeaponBase {
 
 				Graphics.shape.setColor(1, 0, 0, 0.3f);
 				Graphics.shape.rectLine(xx, yy, last.x, last.y, 3);
-				Graphics.shape.rect(last.x - 3, last.y - 3, 6, 6);
+				Graphics.shape.rect(last.x - 2.5f, last.y - 2.5f, 5, 5);
 				Graphics.shape.setColor(1, 0, 0, 0.7f);
 				Graphics.shape.rectLine(xx, yy, last.x, last.y, 1);
-				Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
+				Graphics.shape.rect(last.x - 1.5f, last.y - 1.5f, 3, 3);
 
 				Graphics.endAlphaShape();
 			}
