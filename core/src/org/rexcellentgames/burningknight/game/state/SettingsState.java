@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -100,6 +101,8 @@ public class SettingsState extends State {
 			@Override
 			public void render() {
 				super.render();
+
+				SaveManager.save(SaveManager.Type.GLOBAL, false);
 
 				if (current == Type.SETTINGS && Input.instance.wasPressed("pause")) {
 					Input.instance.putState("pause", Input.State.UP);

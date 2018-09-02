@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -227,6 +228,7 @@ public class HandmadeRoom extends RegularRoom {
 			for (int y = 0; y < this.data.h; y++) {
 				byte tt = Terrain.FLOOR_A;
 				byte t = this.data.data[x + y * this.data.w];
+				boolean dr = false;
 
 				switch (t) {
 					case 2: tt = Terrain.FLOOR_B; break;
@@ -238,9 +240,21 @@ public class HandmadeRoom extends RegularRoom {
 					case 8: tt = Terrain.WALL; break;
 					case 9: tt = Terrain.CHASM; break;
 					case 10: tt = Terrain.GRASS; break;
+					case 11:
+						int xx = x + this.left + 1;
+						int yy = y + this.left + 1;
+
+						dr = true;
+						Door door = new Door(xx, yy, this.data.data[x - 1 + (y * this.data.w)] != 8);
+						door.add();
+						Dungeon.area.add(door);
+					break;
+					case 12: tt = Terrain.CRACK; break;
 				}
 
-				level.set(this.left + 1 + x, this.top + 1 + y, tt);
+				if (!dr) {
+					level.set(this.left + 1 + x, this.top + 1 + y, tt);
+				}
 			}
 		}
 
