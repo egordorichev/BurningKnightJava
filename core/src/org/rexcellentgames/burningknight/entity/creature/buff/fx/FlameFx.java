@@ -26,10 +26,10 @@ public class FlameFx extends Entity {
 	private float range = 1;
 	private float angle;
 	private float s;
-	private Creature owner;
+	private Entity owner;
 	private boolean second;
 
-	public FlameFx(Creature owner) {
+	public FlameFx(Entity owner) {
 		this.owner = owner;
 		x = owner.x;
 		y = owner.y;
@@ -40,7 +40,11 @@ public class FlameFx extends Entity {
 	public void update(float dt) {
 		this.t += dt;
 		this.tt += dt;
-		this.y = this.owner.y + this.owner.z + this.tt * 15;
+		this.y = this.owner.y + this.tt * 15;
+
+		if (this.owner instanceof Creature) {
+			this.y += ((Creature) this.owner).z;
+		}
 
 		if (this.second) {
 			this.size -= dt * 4;

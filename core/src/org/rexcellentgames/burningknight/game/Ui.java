@@ -304,6 +304,18 @@ public class Ui {
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
 			public float getValue() {
+				return Dungeon.grayscale;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.grayscale = value;
+			}
+		});
+
+		Tween.to(new Tween.Task(0, 0.3f) {
+			@Override
+			public float getValue() {
 				return size;
 			}
 

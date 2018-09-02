@@ -4,8 +4,11 @@ package org.rexcellentgames.burningknight.entity.item;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.util.Random;
 
 public class Bomb extends Item {
 	{
@@ -14,6 +17,12 @@ public class Bomb extends Item {
 		sprite = "item-bomb";
 		useTime = 0.3f;
 		stackable = true;
+	}
+
+	@Override
+	public void generate() {
+		super.generate();
+		setCount(Random.newInt(3, 8));
 	}
 
 	@Override
@@ -29,8 +38,6 @@ public class Bomb extends Item {
 		BombEntity e = new BombEntity(this.owner.x + (this.owner.w - 16) / 2, this.owner.y + (this.owner.h - 16) / 2).toMouseVel();
 		e.owner = this.owner;
 
-		Dungeon.area.add(e);
-
 		if (this.owner instanceof Player) {
 			Player player = (Player) this.owner;
 
@@ -39,16 +46,18 @@ public class Bomb extends Item {
 			}
 
 			if (player.iceBombs) {
-				e.toApply.add(new BurningBuff());
+				e.toApply.add(new FreezeBuff());
 			}
 
 			if (player.poisonBombs) {
-				e.toApply.add(new BurningBuff());
+				e.toApply.add(new PoisonBuff());
 			}
 
 			if (player.manaBombs) {
 				player.modifyMana(player.getManaMax());
 			}
 		}
+
+		Dungeon.area.add(e);
 	}
 }

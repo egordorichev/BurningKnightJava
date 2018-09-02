@@ -8,6 +8,8 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
@@ -26,8 +28,13 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.util.ArrayList;
 
 public class BombEntity extends Entity {
-	public static Animation animations = Animation.make("actor-bomb", "-normal");
-	private AnimationData animation = animations.get("idle");
+	public static Animation normal = Animation.make("actor-bomb", "-normal");
+	public static Animation iced = Animation.make("actor-bomb", "-ice_bomb");
+	public static Animation poisoned = Animation.make("actor-bomb", "-poison");
+	public static Animation fire = Animation.make("actor-bomb", "-fire_bomb");
+	public static Animation tiny = Animation.make("actor-bomb", "-small");
+
+	private AnimationData animation;
 	private Body body;
 	private Point vel = new Point();
 	public Creature owner;
@@ -35,8 +42,6 @@ public class BombEntity extends Entity {
 
 	{
 		alwaysActive = true;
-		w = 10;
-		h = 14;
 	}
 
 	public BombEntity(float x, float y) {
@@ -45,11 +50,43 @@ public class BombEntity extends Entity {
 		this.fliped = Random.chance(50);
 	}
 
+	private boolean burning;
+	private boolean poison;
+	private boolean ice;
+	public boolean small;
 	private boolean fliped;
 
 	@Override
 	public void init() {
 		super.init();
+
+		for (Buff buff : this.toApply) {
+			if (buff instanceof BurningBuff) {
+				this.burning = true;
+			} else if (buff instanceof PoisonBuff) {
+				this.poison = true;
+			} else if (buff instanceof FreezeBuff) {
+				this.ice = true;
+			}
+		}
+
+		if (this.small) {
+			w = 8;
+			h = 8;
+		} else {
+			w = 10;
+			h = 14;
+		}
+
+		if (this.ice) {
+			this.animation = iced.get("idle");
+		} else if (this.poison) {
+			this.animation = poisoned.get("idle");
+		} else if (this.small) {
+			this.animation = tiny.get("idle");
+		} else {
+			this.animation = normal.get("idle");
+		}
 
 		this.body = World.createSimpleBody(this, 2, 2, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		MassData data = new MassData();
@@ -75,16 +112,6 @@ public class BombEntity extends Entity {
 		this.body = World.removeBody(this.body);
 	}
 
-	public BombEntity randomVel() {
-		float a = Random.newFloat((float) (Math.PI * 2));
-		this.vel = new Point((float) Math.cos(a) * 50f, (float) Math.sin(a) * 50f);
-
-		this.x += Math.cos(a) * 5f;
-		this.y += Math.sin(a) * 5f;
-
-		return this;
-	}
-
 	public BombEntity toMouseVel() {
 		return this.velTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
 	}
@@ -99,9 +126,20 @@ public class BombEntity extends Entity {
 		return this;
 	}
 
+	private float lastFlame;
+
 	@Override
 	public void update(float dt) {
 		this.t += dt;
+
+		if (this.burning) {
+			this.lastFlame += dt;
+
+			if (this.lastFlame >= 0.1f) {
+				this.lastFlame = 0;
+				Dungeon.area.add(new FlameFx(this));
+			}
+		}
 
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;

@@ -507,7 +507,7 @@ public class Mob extends Creature {
 			items.add(gold);
 		}
 
-		if (Random.chance(5)) {
+		if (Random.chance(10)) {
 			items.add(new KeyC());
 		}
 
@@ -558,7 +558,7 @@ public class Mob extends Creature {
 	}
 
 	protected float moveToPoint(float x, float y, float speed) {
-		speed *= 0.75f;
+		// speed *= 0.75f;
 
 		float dx = x - this.x - this.w / 2;
 		float dy = y - this.y - this.h / 2;

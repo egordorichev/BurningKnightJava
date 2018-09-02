@@ -5,11 +5,9 @@ import org.rexcellentgames.burningknight.entity.creature.npc.BlueShopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.npc.OrangeShopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Gold;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
+import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
+import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
@@ -209,6 +207,17 @@ public class ShopRoom extends LockedRoom {
 
 		Pool weapon = getWeaponPool();
 		Pool accessory = getAccessoryPool();
+
+		if (Random.chance(50)) {
+			Bomb bomb = new Bomb();
+			bomb.generate();
+			c -= 1;
+			items.add(bomb);
+		}
+
+		if (Random.chance(50)) {
+			items.add(new KeyC());
+		}
 
 		for (int i = 0; i < c; i++) {
 			switch (Random.newInt(2)) {

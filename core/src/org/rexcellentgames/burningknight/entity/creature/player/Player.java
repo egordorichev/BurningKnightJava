@@ -620,7 +620,7 @@ public class Player extends Creature {
 			}
 
 			if (Random.chance(this.thornDamageChance)) {
-				((Mob) entity).modifyHp(-4, this);
+				((Mob) entity).modifyHp(-this.inventory.findItem(ThornRing.class).getLevel() * 2, this);
 			}
 		}
 	}

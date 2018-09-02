@@ -302,9 +302,9 @@ public class Clown extends Mob {
 				self.guitar.use();
 			} else {
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
-				Dungeon.area.add(e);
 
 				self.apply(e);
+				Dungeon.area.add(e);
 
 				for (Mob mob : Mob.all) {
 					if (mob.room == self.room) {
