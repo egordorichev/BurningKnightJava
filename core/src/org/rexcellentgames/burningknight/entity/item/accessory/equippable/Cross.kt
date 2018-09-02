@@ -30,4 +30,8 @@ class Cross : Equippable() {
 	override fun getDescription(): String { // fixme
 		return super.getDescription().replace("{TIME}", getChance().toString().replace(".0", "").replace("000001", ""))
 	}
+
+	override fun getMinLevel(): Int {
+		return -2
+	}
 }

@@ -833,6 +833,7 @@ public abstract class Level extends SaveableEntity {
 
 		if ((((ab && bb) || bb || (ab && l == 0)) && l != Terrain.WATER && l != Terrain.EXIT)) {
 			this.info[i] = BitHelper.setBit(this.info[i], 0, fire);
+			this.passable[i] = false;
 		}
 	}
 
@@ -1019,6 +1020,7 @@ public abstract class Level extends SaveableEntity {
 
 							this.liquidData[i] = Terrain.EMBER;
 							this.updateTile(x, y);
+							this.passable[i] = true;
 						} else {
 							this.info[i] = (byte) BitHelper.putNumber(info, 1, 4, damage);
 						}
@@ -1182,7 +1184,13 @@ public abstract class Level extends SaveableEntity {
 
 						Graphics.batch.setColor(1, 1, 1, 1);
 
-						byte t = this.get(i - getWidth());
+						int m = i - getWidth();
+
+						if (m < 0) {
+							continue;
+						}
+
+						byte t = this.get(m);
 
 						if (t != Terrain.CRACK && t != Terrain.WALL) {
 							byte d = this.decor[i];

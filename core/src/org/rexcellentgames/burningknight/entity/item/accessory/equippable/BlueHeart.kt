@@ -12,4 +12,8 @@ class BlueHeart : Equippable() {
 	override fun getMaxLevel(): Int {
 		return 6
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

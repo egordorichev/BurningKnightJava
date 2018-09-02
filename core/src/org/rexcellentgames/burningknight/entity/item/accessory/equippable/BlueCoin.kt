@@ -22,4 +22,8 @@ class BlueCoin : Equippable() {
 		super.onUnequip(load)
 		this.owner.manaCoins = false
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

@@ -29,4 +29,8 @@ class FortuneArmor : Equippable() {
 	override fun getDescription(): String {
 		return super.getDescription().replace("{CHANCE}", chance.toInt().toString())
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

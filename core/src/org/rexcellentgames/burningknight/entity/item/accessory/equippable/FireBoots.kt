@@ -20,7 +20,7 @@ class FireBoots : Equippable() {
 
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
-		this.owner.burnLevel += this.level.toInt()
+		this.owner.burnLevel += this.level
 
 		if (this.level >= 2) {
 			this.owner.fireResist += 1
@@ -37,7 +37,7 @@ class FireBoots : Equippable() {
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
-		this.owner.burnLevel -= this.level.toInt()
+		this.owner.burnLevel -= this.level
 
 		if (this.level >= 2) {
 			this.owner.fireResist -= 1
@@ -51,5 +51,9 @@ class FireBoots : Equippable() {
 	companion object {
 		private val lvl2 = Locale.get("fire_immunity")
 		private val lvl3 = Locale.get("lava_immunity")
+	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
 	}
 }

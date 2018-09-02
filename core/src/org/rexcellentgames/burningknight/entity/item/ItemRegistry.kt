@@ -31,7 +31,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncher
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.*
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ConfettiGrenade
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger
+import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ToxicFlask
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB
 import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC
@@ -126,6 +128,7 @@ object ItemRegistry {
     "gravity_booster" to Pair(GravityBooster::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "wings" to Pair(Wings::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_WINGS),
     "throwing" to Pair(ThrowingDagger::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
+	  "compass" to Pair(Compass::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "fire_bombs" to Pair(FireBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "ice_bombs" to Pair(IceBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "poison_bombs" to Pair(PoisonBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),

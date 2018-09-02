@@ -35,6 +35,10 @@ class Antidote : Equippable() {
 		return 2
 	}
 
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
+
 	override fun getDescription(): String {
 		var d = super.getDescription()
 

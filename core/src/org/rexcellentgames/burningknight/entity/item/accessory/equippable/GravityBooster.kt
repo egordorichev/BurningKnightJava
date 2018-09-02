@@ -22,4 +22,8 @@ class GravityBooster : Equippable() {
 			Orbital.speed = 1f
 		}
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

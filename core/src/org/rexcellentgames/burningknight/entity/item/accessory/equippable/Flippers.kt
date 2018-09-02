@@ -38,4 +38,8 @@ class Flippers : Equippable() {
 
 		return d
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

@@ -31,6 +31,11 @@ public class Equippable extends Accessory {
 	}
 
 	@Override
+	public int getMinLevel() {
+		return 0;
+	}
+
+	@Override
 	public boolean isUseable() {
 		return true;
 	}

@@ -30,4 +30,8 @@ class GoldRing : Equippable() {
 	override fun getDescription(): String {
 		return super.getDescription().replace("{CHANCE}", getChance().toInt().toString())
 	}
+
+	override fun getMinLevel(): Int {
+		return -1
+	}
 }

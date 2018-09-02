@@ -40,8 +40,8 @@ public class WeaponBase extends Item {
 	}
 
 	@Override
-	public boolean canBeDegraded() {
-		return false;
+	public int getMinLevel() {
+		return 0;
 	}
 
 	@Override
@@ -109,11 +109,11 @@ public class WeaponBase extends Item {
 		float mod = ((Player) (this.owner)).getDamageModifier();
 
 		if (this.minDamage != this.damage) {
-			builder.append(Math.round((this.minDamage + this.level - 1) * mod));
+			builder.append(Math.max(1, Math.round((this.minDamage + this.level - 1) * mod)));
 			builder.append("-");
 		}
 
-		builder.append(Math.round((this.damage + this.level - 1) * mod));
+		builder.append(Math.max(1, Math.round((this.damage + this.level - 1) * mod)));
 		builder.append(" ");
 		builder.append(damageLocale);
 		builder.append("[gray]");

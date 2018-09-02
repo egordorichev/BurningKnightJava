@@ -31,7 +31,7 @@ class IceBoots : Equippable() {
 
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
-		this.owner.frostLevel += this.level.toInt()
+		this.owner.frostLevel += this.level
 		this.owner.stunResist += 1
 
 		if (this.level >= 2) {
@@ -43,9 +43,13 @@ class IceBoots : Equippable() {
 		}
 	}
 
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
+
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
-		this.owner.frostLevel -= this.level.toInt()
+		this.owner.frostLevel -= this.level
 		this.owner.stunResist -= 1
 
 		if (this.level >= 2) {

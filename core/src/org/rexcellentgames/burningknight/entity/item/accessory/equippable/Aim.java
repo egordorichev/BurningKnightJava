@@ -15,6 +15,11 @@ public class Aim extends Equippable {
 	}
 
 	@Override
+	public boolean canBeDegraded() {
+		return false;
+	}
+
+	@Override
 	public void onEquip(boolean load) {
 		super.onEquip(load);
 		this.owner.accuracy += 5;

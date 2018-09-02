@@ -26,4 +26,9 @@ public class Compass extends Equippable {
 	public boolean canBeUpgraded() {
 		return false;
 	}
+
+	@Override
+	public boolean canBeDegraded() {
+		return false;
+	}
 }

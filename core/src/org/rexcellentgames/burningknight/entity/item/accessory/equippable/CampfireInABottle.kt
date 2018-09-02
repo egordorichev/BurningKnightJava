@@ -44,4 +44,8 @@ class CampfireInABottle : Equippable() {
 
 		return d
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

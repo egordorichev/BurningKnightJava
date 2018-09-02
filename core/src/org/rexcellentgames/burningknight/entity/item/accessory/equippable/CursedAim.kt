@@ -24,4 +24,8 @@ class CursedAim : Equippable() {
 	override fun getMaxLevel(): Int {
 		return 4
 	}
+
+	override fun getMinLevel(): Int {
+		return -2
+	}
 }

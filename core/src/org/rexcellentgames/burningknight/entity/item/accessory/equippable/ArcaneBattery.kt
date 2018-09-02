@@ -22,4 +22,8 @@ class ArcaneBattery : Equippable() {
 		super.onUnequip(load)
 		this.owner.moreManaRegenWhenLow = false
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

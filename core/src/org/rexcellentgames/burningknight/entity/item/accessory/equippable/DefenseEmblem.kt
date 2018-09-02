@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 import org.rexcellentgames.burningknight.assets.Locale
 
 class DefenseEmblem : Equippable() {
-
-	// todo: inventory defense indicator
 	private val mod: Float
 		get() = 20 + this.level * 20f
 

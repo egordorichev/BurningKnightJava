@@ -103,7 +103,7 @@ public class Player extends Creature {
 	public float freezeChance;
 	public float reflectDamageChance;
 	public float thornDamageChance;
-	public float regen;
+	public float regen = 1;
 	public float goldModifier = 1f;
 	public float vampire;
 	public int lavaResist;

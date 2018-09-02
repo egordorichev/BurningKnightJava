@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
@@ -235,16 +234,17 @@ public class Gun extends WeaponBase {
 			}
 
 			if (last != null) {
-				Graphics.batch.end();
+				Graphics.startAlphaShape();
 				Graphics.shape.setProjectionMatrix(Camera.game.combined);
-				Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-				Graphics.shape.setColor(1, 0, 0, 0.7f);
 
-				Graphics.shape.line(xx, yy, last.x, last.y);
+				Graphics.shape.setColor(1, 0, 0, 0.3f);
+				Graphics.shape.rectLine(xx, yy, last.x, last.y, 3);
+				Graphics.shape.rect(last.x - 3, last.y - 3, 6, 6);
+				Graphics.shape.setColor(1, 0, 0, 0.7f);
+				Graphics.shape.rectLine(xx, yy, last.x, last.y, 1);
 				Graphics.shape.rect(last.x - 2, last.y - 2, 4, 4);
 
-				Graphics.shape.end();
-				Graphics.batch.begin();
+				Graphics.endAlphaShape();
 			}
 		}
 

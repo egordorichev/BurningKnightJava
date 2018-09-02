@@ -30,4 +30,8 @@ class ChallengeRune : Equippable() {
 	override fun canBeUpgraded(): Boolean {
 		return false
 	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }

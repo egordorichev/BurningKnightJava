@@ -16,4 +16,12 @@ class ElementalRing : Equippable() {
 		this.owner.stunResist -= 1
 		this.owner.fireResist -= 1
 	}
+
+	override fun canBeUpgraded(): Boolean {
+		return false
+	}
+
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
 }
