@@ -152,7 +152,7 @@ public class Player extends Creature {
 		manaMax = 6;
 		level = 1;
 		mul = 0.7f;
-		speed = 20;
+		speed = 30;
 		alwaysActive = true;
 
 		setSkin("body");

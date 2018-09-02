@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
@@ -13,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class ItemPickupFx extends Entity {
@@ -101,6 +103,17 @@ public class ItemPickupFx extends Entity {
 
 						if (Shopkeeper.instance != null && !Shopkeeper.instance.enranged) {
 							Shopkeeper.instance.become("thanks");
+						}
+
+						for (int i = 0; i < 15; i++) {
+							Confetti c = new Confetti();
+
+							c.x = this.item.x + Random.newFloat(this.item.w);
+							c.y = this.item.y + Random.newFloat(this.item.h);
+							c.vel.x = Random.newFloat(-30f, 30f);
+							c.vel.y = Random.newFloat(30f, 40f);
+
+							Dungeon.area.add(c);
 						}
 					}
 				}

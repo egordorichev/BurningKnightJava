@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 
 public class WallLevel extends Entity {
 	{
-		depth = -8;
+		depth = -7;
 		alwaysRender = true;
 	}
 
