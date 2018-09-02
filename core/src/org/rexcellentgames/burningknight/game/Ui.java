@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
@@ -326,11 +327,18 @@ public class Ui {
 		});
 	}
 
+	private static TextureRegion coin = Graphics.getTexture("ui-coin");
+
 	public void render() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		for (Healthbar healthbar : healthbars.values()) {
 			healthbar.render();
+		}
+
+		if (Dungeon.depth <= -1) {
+			Graphics.render(coin, 2, Display.GAME_HEIGHT - 18);
+			Graphics.print(GlobalSave.getInt("num_coins") + "", Graphics.medium, 20, Display.GAME_HEIGHT - 20);
 		}
 
 		if (Dungeon.game.getState() instanceof InGameState) {

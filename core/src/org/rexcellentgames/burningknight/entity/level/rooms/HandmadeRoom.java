@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
+import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -168,6 +170,11 @@ public class HandmadeRoom extends RegularRoom {
 
 		for (MapObject o : list) {
 			String name = o.getName();
+
+			if (name == null) {
+				continue;
+			}
+
 			Rectangle rect = ((RectangleMapObject) o).getRectangle();
 
 			if (name.startsWith("class_")) {
@@ -185,6 +192,24 @@ public class HandmadeRoom extends RegularRoom {
 				c.y = y + rect.y + 16;
 
 				Dungeon.area.add(c.add());
+			} else if (name.startsWith("sk_")) {
+				String id = name.replace("sk_", "");
+
+				Trader trader = new Trader();
+
+				trader.x = x + rect.x + 16;
+				trader.y = y + rect.y + 16 - 8;
+
+				Dungeon.area.add(trader.add());
+			} else if (name.startsWith("sp_")) {
+				String id = name.replace("sp_", "");
+
+				Upgrade trader = new Upgrade();
+
+				trader.x = x + rect.x + 16;
+				trader.y = y + rect.y + 16 - 8;
+
+				Dungeon.area.add(trader.add());
 			}
 		}
 	}
