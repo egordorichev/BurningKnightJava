@@ -38,10 +38,7 @@ import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Game;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.AssetLoadState;
-import org.rexcellentgames.burningknight.game.state.InGameState;
-import org.rexcellentgames.burningknight.game.state.LoadState;
-import org.rexcellentgames.burningknight.game.state.State;
+import org.rexcellentgames.burningknight.game.state.*;
 import org.rexcellentgames.burningknight.mod.ModManager;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
@@ -96,6 +93,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float colorBlindFix = 1f;
 	public static float grayscale = 0f;
 	public static float dark = 1f;
+	public static boolean goToMenu;
 
 	public static String title;
 
@@ -298,6 +296,46 @@ public class Dungeon extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		if (goToMenu) {
+			goToMenu = false;
+
+			Tween.to(new Tween.Task(0, 0.2f) {
+				@Override
+				public float getValue() {
+					return Dungeon.dark;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Dungeon.dark = value;
+				}
+
+				@Override
+				public void onEnd() {
+					game.setState(new MainMenuState());
+
+					Tween.to(new Tween.Task(1, 0.2f) {
+						@Override
+						public float getValue() {
+							return Dungeon.dark;
+						}
+
+						@Override
+						public void setValue(float value) {
+							Dungeon.dark = value;
+						}
+					});
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
+
+			return;
+		}
+
 		if (AssetLoadState.done && to > -2) {
 			Dungeon.lastDepth = depth;
 			Dungeon.depth = to;

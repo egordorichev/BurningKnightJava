@@ -11,7 +11,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -131,6 +130,7 @@ public class Painter {
 			this.paintWater(level, rooms);
 		}
 
+		this.decorate(level, rooms);
 		this.paintDoors(level, rooms);
 	}
 
@@ -202,14 +202,9 @@ public class Painter {
 				}
 			}
 
-			boolean high = true; // (Random.newFloat() < count / 12f);
+			boolean high = (Random.newFloat() < count / 12f);
 			level.set(i, dry[i] ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
 		}
-	}
-
-	public void draw(Level level, ArrayList<Room> rooms) {
-		Log.info("Making all pretty...");
-		this.decorate(level, rooms);
 	}
 
 	protected void decorate(Level level, ArrayList<Room> rooms) {
@@ -229,6 +224,12 @@ public class Painter {
 
 			for (int y = room.top; y <= room.bottom; y++) {
 				for (int x = room.left; x <= room.right; x++) {
+					if (level.get(x, y) == Terrain.WALL) {
+						if (Random.chance(30)) {
+							level.setDecor(x, y, (byte) (Random.newInt(Terrain.decor.length) + 1));
+						}
+					}
+
 					if (level.get(x, y) == Terrain.WALL) {
 						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
@@ -267,16 +268,6 @@ public class Painter {
 							Dungeon.area.add(web);
 							LevelSave.add(web);
 						}
-					}
-				}
-			}
-
-			int y = room.bottom;
-
-			for (int x = room.left; x < room.right; x++) {
-				if (level.get(x, y) == Terrain.WALL) {
-					if (Random.chance(30)) {
-						level.setDecor(x, y, (byte) (Random.newInt(Terrain.decor.length) + 1));
 					}
 				}
 			}

@@ -521,8 +521,6 @@ public class InGameState extends State {
 			public void onClick() {
 				super.onClick();
 				
-				Camera.shake(3);
-				
 				transition(() -> {
 					Dungeon.grayscale = 0;
 					Dungeon.game.setState(new MainMenuState());

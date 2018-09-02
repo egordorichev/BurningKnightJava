@@ -160,6 +160,9 @@ public class Camera extends Entity {
 							Dungeon.goToLevel(0);
 						}
 					});
+				} else if (Player.instance.y <= room.top * 16 + 18 && !did) {
+					did = true;
+					Dungeon.goToMenu = true;
 				}
 			} else {
 				game.position.x = camPosition.x;

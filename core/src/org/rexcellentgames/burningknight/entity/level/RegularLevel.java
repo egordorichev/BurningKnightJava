@@ -161,7 +161,6 @@ public abstract class RegularLevel extends Level {
 
 		if (painter != null) {
 			painter.paint(this, this.rooms);
-			painter.draw(this, this.rooms);
 		} else {
 			Log.error("No painter!");
 		}
