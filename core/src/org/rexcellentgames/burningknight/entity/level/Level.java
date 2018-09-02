@@ -219,7 +219,9 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public String formatDepth() {
-		if (Dungeon.depth == -1) {
+		if (Dungeon.depth == -2) {
+			return Locale.get("traders_asylum");
+		} else if (Dungeon.depth == -1) {
 			return Locale.get("castle");
 		} else if (Dungeon.depth == 0) {
 			return Locale.get("beginning");

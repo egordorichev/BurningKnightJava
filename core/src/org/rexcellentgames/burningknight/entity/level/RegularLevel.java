@@ -164,6 +164,14 @@ public abstract class RegularLevel extends Level {
 		} else {
 			Log.error("No painter!");
 		}
+
+		for (int i = this.rooms.size() - 1; i >= 0; i--) {
+			Room room = this.rooms.get(i);
+
+			if (room instanceof HandmadeRoom && ((HandmadeRoom) room).data.sub.size() > 0) {
+				this.rooms.remove(i);
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -171,7 +179,10 @@ public abstract class RegularLevel extends Level {
 		Builder builder = this.getBuilder();
 
 		ArrayList<Room> rooms = this.createRooms();
-		Collections.shuffle(rooms);
+
+		if (Dungeon.depth != -2) {
+			Collections.shuffle(rooms);
+		}
 
 		do {
 			Log.info("Generating...");
@@ -205,6 +216,7 @@ public abstract class RegularLevel extends Level {
 			}
 		} while (this.rooms == null);
 
+
 		if (Dungeon.depth > 0) {
 			itemsToSpawn.add(new ScrollOfUpgrade());
 		}
@@ -213,7 +225,7 @@ public abstract class RegularLevel extends Level {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<>();
 
-		if (Dungeon.depth != -1) {
+		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
 			this.exit = this.isBoss ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
 			((EntranceRoom) this.exit).exit = true;
@@ -228,6 +240,8 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth == 0) {
 			rooms.add(new LampRoom());
+		} else if (Dungeon.depth == -2) {
+			rooms.add(new HandmadeRoom("shops"));
 		} else if (Dungeon.depth == -1) {
 			rooms.add(new HandmadeRoom("hub"));
 		} else if (Random.chance(50)) {
@@ -293,13 +307,25 @@ public abstract class RegularLevel extends Level {
 			rooms.add(SecretRoomPool.instance.generate());
 		}
 
+		ArrayList<HandmadeRoom> handmadeRooms = new ArrayList<>();
+
+		for (Room room : rooms) {
+			if (room instanceof HandmadeRoom && ((HandmadeRoom) room).data.sub.size() > 0) {
+				handmadeRooms.add((HandmadeRoom) room);
+			}
+		}
+
+		for (HandmadeRoom room : handmadeRooms) {
+			room.addSubRooms(rooms);
+		}
+
 		return rooms;
 	}
 
 	protected abstract Painter getPainter();
 
 	protected Builder getBuilder() {
-		if (Dungeon.depth == -1) {
+		if (Dungeon.depth <= -1) {
 			return new SingleRoomBuilder();
 		} else if (Dungeon.depth == 0) {
 			return new LineBuilder();

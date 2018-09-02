@@ -114,20 +114,22 @@ public class Painter {
 			PathFinder.setMapSize(Level.getWidth(), Level.getHeight());
 		}
 
-		if (this.dirt > 0) {
-			this.paintDirt(level, rooms);
-		}
+		if (Dungeon.depth > -1) {
+			if (this.dirt > 0) {
+				this.paintDirt(level, rooms);
+			}
 
-		if (this.grass > 0) {
-			this.paintGrass(level, rooms);
-		}
+			if (this.grass > 0) {
+				this.paintGrass(level, rooms);
+			}
 
-		if (this.cobweb > 0) {
-			this.paintCobweb(level, rooms);
-		}
+			if (this.cobweb > 0) {
+				this.paintCobweb(level, rooms);
+			}
 
-		if (this.water > 0) {
-			this.paintWater(level, rooms);
+			if (this.water > 0) {
+				this.paintWater(level, rooms);
+			}
 		}
 
 		this.decorate(level, rooms);

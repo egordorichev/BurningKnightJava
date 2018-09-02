@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,8 @@ public class HandmadeRoom extends RegularRoom {
 		byte data[];
 		byte w;
 		byte h;
+		public Rectangle rect;
+		public ArrayList<Rect> sub = new ArrayList<>();
 	}
 
 	private static boolean inited;
@@ -59,10 +62,15 @@ public class HandmadeRoom extends RegularRoom {
 		}
 
 		for (MapObject object : rooms.getObjects()) {
+			if (object.getName().equals("sub")) {
+				continue;
+			}
+
 			if (object instanceof RectangleMapObject) {
 				Rectangle rect = ((RectangleMapObject) object).getRectangle();
 				RoomData data = new RoomData();
 
+				data.rect = rect;
 				data.w = (byte) (rect.width / 16);
 				data.h = (byte) (rect.height / 16);
 				data.data = new byte[data.w * data.h];
@@ -97,6 +105,28 @@ public class HandmadeRoom extends RegularRoom {
 				}
 			}
 		}
+
+		for (MapObject object : rooms.getObjects()) {
+			if (!(object instanceof RectangleMapObject) || !object.getName().equals("sub")) {
+				continue;
+			}
+
+			for (RoomData data : datas.values()) {
+				Rectangle r = ((RectangleMapObject) object).getRectangle();
+
+				if (data.rect.overlaps(r)) {
+					Rect rect = new Rect();
+
+					rect.left = (int) (r.x - data.rect.x) / 16;
+					rect.top = (int) (r.y - data.rect.y) / 16;
+
+					rect.resize((int) r.getWidth() / 16, (int) r.getHeight() / 16);
+
+					data.sub.add(rect);
+					break;
+				}
+			}
+		}
 	}
 
 	public static void destroy() {
@@ -105,6 +135,20 @@ public class HandmadeRoom extends RegularRoom {
 		}
 
 		map.dispose();
+	}
+
+	public void addSubRooms(ArrayList<Room> rooms) {
+		Log.error("Adding sub rooms " + this.data.sub.size());
+
+		for (Rect sub : this.data.sub) {
+			SubRoom room = new SubRoom();
+
+			room.left = sub.left + 1;
+			room.top = sub.top + 1;
+			room.resize(sub.getWidth() - 1, sub.getHeight() - 1);
+
+			rooms.add(room);
+		}
 	}
 
 	public RoomData data;
@@ -176,6 +220,8 @@ public class HandmadeRoom extends RegularRoom {
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
+
+		Log.error("size " + this.left + ":" + this.top + ":" + this.getWidth() + ":" + this.getHeight());
 
 		for (int x = 0; x < this.data.w; x++) {
 			for (int y = 0; y < this.data.h; y++) {
