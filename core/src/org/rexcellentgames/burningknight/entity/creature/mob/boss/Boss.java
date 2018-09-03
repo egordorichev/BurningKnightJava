@@ -3,6 +3,9 @@ package org.rexcellentgames.burningknight.entity.creature.mob.boss;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.level.entities.Coin;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -49,6 +52,17 @@ public class Boss extends Mob {
 	protected void die(boolean force) {
 		super.die(force);
 		Audio.highPriority("Reckless");
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> drops = super.getDrops();
+
+		for (int i = 0; i < Random.newInt(5, 16); i++) {
+			drops.add(new Coin());
+		}
+
+		return drops;
 	}
 
 	public class BossState<T extends Mob> extends State<T> {

@@ -617,7 +617,10 @@ public class Player extends Creature {
 							}
 
 							@Override
-							public void onEnd() {
+							public void onStart() {
+								if (Ui.y < 20) {
+									deleteSelf();
+								}
 							}
 						}).delay(3.1f);
 					}

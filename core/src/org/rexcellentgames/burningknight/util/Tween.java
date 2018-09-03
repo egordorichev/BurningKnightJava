@@ -124,6 +124,11 @@ public class Tween {
 		for (int i = tasks.size() - 1; i >= 0; i--) {
 			Task task = tasks.get(i);
 
+			if (task.done) {
+				tasks.remove(i);
+				continue;
+			}
+
 			if (!task.runWhenPaused() && Dungeon.game.getState().isPaused()) {
 				continue;
 			}
@@ -163,6 +168,9 @@ public class Tween {
 		public boolean done;
 		public boolean started;
 
+		public void deleteSelf() {
+			done = true;
+		}
 
 		public Task(float end, float t) {
 			this(end, t, Type.QUAD_IN);

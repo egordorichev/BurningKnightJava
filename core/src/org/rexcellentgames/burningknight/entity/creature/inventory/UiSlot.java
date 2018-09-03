@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfU
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Random;
@@ -24,7 +25,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 public class UiSlot {
 	private static TextureRegion slot = Graphics.getTexture("ui-inventory_slot");
 	private static TextureRegion cursedSlot = Graphics.getTexture("ui-cursed_slot");
-	private static TextureRegion slotBig = Graphics.getTexture("ui-inventory_slot_large");
+	private static TextureRegion selected = Graphics.getTexture("ui-selected_slot");
 
 	private static TextureRegion armorBg = Graphics.getTexture("ui-hat_bg");
 	private static TextureRegion coinBg = Graphics.getTexture("ui-coin_bg");
@@ -113,6 +114,18 @@ public class UiSlot {
 
 		boolean h = this.hovered;
 		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, (int) this.y, 24, 24);
+
+		if (Ui.upgradeMosue) {
+			if (this.hovered || h) {
+				if (item != null && item.canBeUpgraded()) {
+					if (this.hovered) {
+						Ui.move = true;
+					} else {
+						Ui.move = false;
+					}
+				}
+			}
+		}
 
 		if (this.hovered && !h) {
 			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
@@ -368,9 +381,9 @@ public class UiSlot {
 
 		float an = 0;//(float) (Math.cos(Dungeon.time) * 10f);
 
-		Graphics.batch.setColor(r, g, b, a);
+		Graphics.batch.setColor(r, g, b, h ? 1 : a);
 
-		TextureRegion reg = cursed ? cursedSlot : slot;
+		TextureRegion reg = h ? selected : (cursed ? cursedSlot : slot);
 		Graphics.render(reg, this.x + slot.getRegionWidth() / 2,
 			this.y + slot.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);
 

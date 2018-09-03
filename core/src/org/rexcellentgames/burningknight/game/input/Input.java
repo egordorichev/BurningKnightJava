@@ -68,7 +68,6 @@ public class Input implements InputProcessor, ControllerListener {
 		if (activeController == null) {
 			activeController = controller;
 			onControllerChange();
-			Achievements.unlock(Achievements.UNLOCK_DENDY);
 		}
 	}
 

@@ -4,7 +4,7 @@
 	"up" : [ "W", "Up" ],
 	"down" : [ "S", "Down" ],
 
-	"pickup" : [ "L-Shift", "ControllerX" ],
+	"pickup" : [ "E", "ControllerX" ],
 	"drop" : [ "ControllerY", "X" ],
 	"shift" : [ "L-Shift", "R-Shift" ],
 

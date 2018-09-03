@@ -24,9 +24,12 @@ public class Ui {
 	public HashMap<Class<? extends Boss>, Healthbar> healthbars = new HashMap<>();
 
 	private TextureRegion cursor;
+	private TextureRegion upgrade;
+
 	public Ui() {
 		ui = this;
 		cursor = Graphics.getTexture("ui-cursor");
+		upgrade = Graphics.getTexture("ui-upgrade_cursor");
 	}
 
 	public void update(float dt) {
@@ -384,24 +387,26 @@ public class Ui {
 	private static String kill2Locale = Locale.get("killed_yet_dead");
 
 	public boolean dead;
+	public static boolean move = false;
+	public static boolean upgradeMosue = true;
 
 	public void renderCursor() {
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		if (upgradeMosue) {
+			Graphics.batch.setColor(1, 1, 1, this.ca);
+			Graphics.render(this.upgrade, Input.instance.uiMouse.x,
+				(float) (Input.instance.uiMouse.y + (move ? Math.cos(Dungeon.time * 6) * 1.5f : 0)), 0, 8, 8, false, false);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		} else {
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
+			float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
+			float a = Dungeon.time * 60;
 
-		//float dx = Math.abs(Input.instance.target.x - Input.instance.mouse.x);
-		//float dy = Math.abs(Input.instance.target.y - Input.instance.mouse.y);
-
-		float a = Dungeon.time * 60;
-
-		float sx = 1; //MathUtils.clamp(1f, 2f, dx / 30);
-		float sy = 1; //MathUtils.clamp(1f, 2f, dy / 30);
-
-		Graphics.batch.setColor(1, 1, 1, this.ca);
-		Graphics.render(this.cursor, Input.instance.uiMouse.x,
-			Input.instance.uiMouse.y, a, 8, 8, false, false, sx * s, sy * s);
-		Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.batch.setColor(1, 1, 1, this.ca);
+			Graphics.render(this.cursor, Input.instance.uiMouse.x,
+				Input.instance.uiMouse.y, a, 8, 8, false, false, s, s);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
 	}
 
 	private float ca;

@@ -47,6 +47,10 @@ public class InGameState extends State {
 	public void init() {
 		// ModManager.INSTANCE.load();
 
+		if (Input.instance.activeController != null) {
+			Achievements.unlock(Achievements.UNLOCK_DENDY);
+		}
+
 		Camera.did = false;
 
 		pauseMenuUi = new Area(true);
