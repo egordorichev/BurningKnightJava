@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.ui.UiAchievement;
 import org.rexcellentgames.burningknight.util.Log;
 
@@ -79,6 +80,8 @@ public class Achievements {
 			Log.info(id + " was unlocked!");
 			GlobalSave.put(id, true);
 			onUnlock(id);
+
+			SaveManager.save(SaveManager.Type.GLOBAL, false);
 
 			UiAchievement achievement = new UiAchievement();
 

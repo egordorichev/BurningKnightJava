@@ -43,7 +43,7 @@ class Upgrade : SaveableEntity() {
 		WEAPON(1),
 		ACCESSORY(2),
 		PET(3),
-		PERMANENT(4),a *
+		PERMANENT(4),
 		NONE(5);
 
 		internal var id: Byte = 0
@@ -63,6 +63,8 @@ class Upgrade : SaveableEntity() {
 
 			if (str != null) {
 				val pair = ItemRegistry.items[this.str!!]!!
+
+				pair.busy = true
 
 				this.item = pair.type.newInstance()
 				this.price = pair.cost
@@ -98,7 +100,6 @@ class Upgrade : SaveableEntity() {
 				} catch (e: IllegalAccessException) {
 					e.printStackTrace()
 				}
-
 			}
 		}
 
@@ -106,12 +107,17 @@ class Upgrade : SaveableEntity() {
 	}
 
 	private fun setupInfo() {
+		if (this.item == null) {
+			this.costStr = ""
+			return
+		}
+
 		this.costStr = "" + this.price
 
 		Graphics.layout.setText(Graphics.small, this.costStr)
 		this.costW = Graphics.layout.width.toInt()
 
-		Graphics.layout.setText(Graphics.small, this.item!!.name)
+		Graphics.layout.setText(Graphics.medium, this.item!!.name)
 		this.nameW = Graphics.layout.width.toInt()
 	}
 
@@ -175,6 +181,7 @@ class Upgrade : SaveableEntity() {
 				}
 
 				this.item = null
+				this.str = null
 				this.body = World.removeBody(this.body)
 			}
 		}
@@ -189,6 +196,7 @@ class Upgrade : SaveableEntity() {
 			if (this.item == null) {
 				this.hidden = true
 			} else {
+				this.setupInfo()
 				this.createBody()
 			}
 		}
