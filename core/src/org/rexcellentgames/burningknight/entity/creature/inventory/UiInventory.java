@@ -572,7 +572,7 @@ public class UiInventory extends UiEntity {
 
 		this.al += ((Player.instance.room instanceof ShopRoom && !this.open ? 1 : 0) - this.al) * Gdx.graphics.getDeltaTime() * 4;
 
-		if (this.al > 0) {
+		if (this.al > 0.05f) {
 			this.slots[11].renderItem(this.inventory.getSlot(11), 6 * 29 + 4, 4, this.al);
 		}
 

@@ -217,7 +217,7 @@ public class Shopkeeper extends Npc {
 			float dt = Gdx.graphics.getDeltaTime();
 			this.al = MathUtils.clamp(0, 1, this.al + ((lastWhite ? 1 : 0) - this.al) * dt * 10);
 
-			if (this.al > 0) {
+			if (this.al > 0.05f) {
 				Graphics.batch.end();
 				Mob.shader.begin();
 				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));

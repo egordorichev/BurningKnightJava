@@ -1,37 +1,49 @@
 package org.rexcellentgames.burningknight.entity.creature.npc
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.physics.box2d.Body
+import com.badlogic.gdx.physics.box2d.BodyDef
 import org.rexcellentgames.burningknight.Dungeon
+import org.rexcellentgames.burningknight.assets.Audio
 import org.rexcellentgames.burningknight.assets.Graphics
+import org.rexcellentgames.burningknight.entity.Entity
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob
+import org.rexcellentgames.burningknight.entity.creature.player.Player
+import org.rexcellentgames.burningknight.entity.fx.Confetti
 import org.rexcellentgames.burningknight.entity.item.Item
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave
+import org.rexcellentgames.burningknight.game.Achievements
+import org.rexcellentgames.burningknight.game.input.Input
+import org.rexcellentgames.burningknight.physics.World
 import org.rexcellentgames.burningknight.util.MathUtils
+import org.rexcellentgames.burningknight.util.Random
 import org.rexcellentgames.burningknight.util.file.FileReader
 import org.rexcellentgames.burningknight.util.file.FileWriter
 import java.io.IOException
 
 class Upgrade : SaveableEntity() {
-
 	var type = Type.PERMANENT
 	private var item: Item? = null
 	private var str: String? = null
+	protected var z = 0f
+	private var body: Body? = null
+	private var price = 0
+	private var costStr = ""
+	private var costW = 0
+	private var nameW = 0
 
 	private var hidden: Boolean = false
 
-	init {
-		depth = -1
-	}
-
-	enum class Type private constructor(id: Int) {
+	enum class Type constructor(id: Int) {
 		CONSUMABLE(0),
 		WEAPON(1),
 		ACCESSORY(2),
 		PET(3),
-		PERMANENT(4),
+		PERMANENT(4),a *
 		NONE(5);
 
 		internal var id: Byte = 0
@@ -50,17 +62,25 @@ class Upgrade : SaveableEntity() {
 			this.str = reader.readString()
 
 			if (str != null) {
-				this.item = ItemRegistry.items[this.str!!]!!.type.newInstance()
+				val pair = ItemRegistry.items[this.str!!]!!
+
+				this.item = pair.type.newInstance()
+				this.price = pair.cost
+				this.setupInfo()
+
+				this.createBody()
 			}
 		} catch (e: InstantiationException) {
 			e.printStackTrace()
 		} catch (e: IllegalAccessException) {
 			e.printStackTrace()
 		}
-
 	}
 
-	protected var z = 0f
+	override fun init() {
+		super.init()
+		this.t = Random.newFloat(10f)
+	}
 
 	protected fun generateItem(): Item? {
 		for ((key, value) in ItemRegistry.items) {
@@ -69,6 +89,9 @@ class Upgrade : SaveableEntity() {
 				value.busy = true
 
 				try {
+					this.price = value.cost
+					this.setupInfo()
+
 					return value.type.newInstance()
 				} catch (e: InstantiationException) {
 					e.printStackTrace()
@@ -80,6 +103,16 @@ class Upgrade : SaveableEntity() {
 		}
 
 		return null
+	}
+
+	private fun setupInfo() {
+		this.costStr = "" + this.price
+
+		Graphics.layout.setText(Graphics.small, this.costStr)
+		this.costW = Graphics.layout.width.toInt()
+
+		Graphics.layout.setText(Graphics.small, this.item!!.name)
+		this.nameW = Graphics.layout.width.toInt()
 	}
 
 	@Throws(IOException::class)
@@ -97,10 +130,54 @@ class Upgrade : SaveableEntity() {
 			return
 		}
 
+		if (colliding && activeUpgrade == null) {
+			activeUpgrade = this
+		} else if (!colliding && activeUpgrade == this) {
+			activeUpgrade = null
+		}
+
 		this.checkItem()
 
-		this.z += (Math.cos((this.t * 1.7f).toDouble()) / 5f * dt.toDouble() * 60.0).toFloat()
+		this.al = MathUtils.clamp(0f, 1f, this.al + ((if (activeUpgrade == this) 1 else 0) - this.al) * dt * 10f)
+		this.z += (Math.cos((this.t * 2.4f).toDouble()) / 10f * dt.toDouble() * 60.0).toFloat()
 		this.z = MathUtils.clamp(0f, 5f, this.z)
+
+		this.body?.setTransform(this.x + 8 - this.w / 2, this.y + this.z + 8 - this.h / 2, 0f)
+
+		if (activeUpgrade == this && Input.instance.wasPressed("interact")) {
+			var count = GlobalSave.getInt("num_coins")
+
+			if (count < this.price) {
+				Audio.playSfx("item_nocash")
+			} else {
+				count -= this.price
+				GlobalSave.put("num_coins", count)
+				Achievements.unlock("SHOP_" + this.str!!.toUpperCase())
+
+				for (i in 0..9) {
+					val fx = PoofFx()
+
+					fx.x = this.x + this.w / 2
+					fx.y = this.y + this.h / 2
+
+					Dungeon.area.add(fx)
+				}
+
+				for (i in 0..14) {
+					val c = Confetti()
+
+					c.x = this.x + Random.newFloat(this.w)
+					c.y = this.y + Random.newFloat(this.h)
+					c.vel.x = Random.newFloat(-30f, 30f)
+					c.vel.y = Random.newFloat(30f, 40f)
+
+					Dungeon.area.add(c)
+				}
+
+				this.item = null
+				this.body = World.removeBody(this.body)
+			}
+		}
 
 		super.update(dt)
 	}
@@ -112,10 +189,24 @@ class Upgrade : SaveableEntity() {
 			if (this.item == null) {
 				this.hidden = true
 			} else {
-				this.w = this.item!!.sprite.regionWidth.toFloat()
-				this.w = this.item!!.sprite.regionHeight.toFloat()
+				this.createBody()
 			}
 		}
+	}
+
+	private fun createBody() {
+		this.w = this.item!!.sprite.regionWidth.toFloat()
+		this.h = this.item!!.sprite.regionHeight.toFloat()
+
+		this.body = World.removeBody(this.body)
+		this.body = World.createSimpleBody(this, 0f, 0f,
+			this.w, this.h, BodyDef.BodyType.DynamicBody, true)
+		this.body!!.setTransform(this.x, this.y, 0f)
+	}
+
+	override fun destroy() {
+		super.destroy()
+		this.body = World.removeBody(this.body)
 	}
 
 	private var al = 0f
@@ -125,17 +216,20 @@ class Upgrade : SaveableEntity() {
 			return
 		}
 
-		val sprite = this.item!!.getSprite()
+		if (this.al > 0.05f) {
+			Graphics.medium.setColor(1f, 1f, 1f, this.al)
+			Graphics.print(this.item!!.name, Graphics.medium, this.x + 8 - nameW / 2, this.y + this.h + 8)
+			Graphics.medium.setColor(1f, 1f, 1f, 1f)
+		}
+
+		val sprite = this.item!!.sprite
 
 		val a = Math.cos((this.t * 3f).toDouble()).toFloat() * 8f
 		val sy = (1f + Math.sin((this.t * 2f).toDouble()) / 10f).toFloat()
 
 		Graphics.batch.end()
 
-		val dt = Gdx.graphics.deltaTime
-		this.al = MathUtils.clamp(0f, 1f, this.al + ((if (false) 1 else 0) - this.al) * dt * 10f)
-
-		if (this.al > 0) {
+		if (this.al > 0.05f) {
 			Mob.shader.begin()
 			Mob.shader.setUniformf("u_color", Vector3(1f, 1f, 1f))
 			Mob.shader.setUniformf("u_a", this.al)
@@ -146,7 +240,8 @@ class Upgrade : SaveableEntity() {
 			for (xx in -1..1) {
 				for (yy in -1..1) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(sprite, this.x + (16 - w) / 2 + xx.toFloat(), this.y + z + (16 - h) / 2 + yy.toFloat(), a, w / 2, h / 2, false, false, 1f, sy)
+						Graphics.render(sprite, this.x + 8 + xx.toFloat(),
+							this.y + z + 8 + yy.toFloat(), a, w / 2, h / 2, false, false, 1f, sy)
 					}
 				}
 			}
@@ -154,6 +249,11 @@ class Upgrade : SaveableEntity() {
 			Graphics.batch.end()
 			Graphics.batch.shader = null
 		}
+
+		Graphics.batch.begin()
+		Graphics.print(this.costStr, Graphics.small,
+			this.x + 8 - this.costW / 2, this.y - 8)
+		Graphics.batch.end()
 
 		WeaponBase.shader.begin()
 		WeaponBase.shader.setUniformf("a", 1f)
@@ -163,10 +263,33 @@ class Upgrade : SaveableEntity() {
 		Graphics.batch.shader = WeaponBase.shader
 		Graphics.batch.begin()
 
-		Graphics.render(sprite, this.x + (16 - w) / 2, this.y + z + (16 - h) / 2, a, w / 2, h / 2, false, false, 1f, sy)
+		Graphics.render(sprite, this.x + 8,
+			this.y + z + 8, a, w / 2, h / 2, false, false, 1f, sy)
 
 		Graphics.batch.end()
 		Graphics.batch.shader = null
 		Graphics.batch.begin()
+	}
+
+	private var colliding = false
+
+	override fun onCollision(entity: Entity?) {
+		super.onCollision(entity)
+
+		if (entity is Player) {
+			colliding = true
+		}
+	}
+
+	override fun onCollisionEnd(entity: Entity?) {
+		super.onCollisionEnd(entity)
+
+		if (entity is Player) {
+			colliding = false
+		}
+	}
+
+	companion object {
+		var activeUpgrade: Upgrade? = null
 	}
 }

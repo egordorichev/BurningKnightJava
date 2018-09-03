@@ -346,7 +346,7 @@ public class Ui {
 				Graphics.print(GlobalSave.getInt("num_coins") + "", Graphics.medium, 20, Display.GAME_HEIGHT - 20);
 			}
 
-			if (this.al > 0) {
+			if (this.al > 0.05f) {
 				Graphics.startAlphaShape();
 				Graphics.shape.setColor(this.val, this.val, this.val, this.al);
 				Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);

@@ -71,8 +71,7 @@ public class Achievements {
 	private static UiAchievement lastActive;
 
 	public static boolean unlocked(String id) {
-		// FIXME: remove SHOP_ condition
-		return id == null || GlobalSave.isTrue(id) || id.startsWith("SHOP_");
+		return id == null || GlobalSave.isTrue(id);
 	}
 
 	public static void unlock(String id) {
@@ -88,7 +87,7 @@ public class Achievements {
 				achievement.extra = Locale.get(id.toLowerCase() + "_desc");
 				achievement.icon = Graphics.getTexture("achievements-" + (id.toLowerCase().replace("_achievement", "")));
 			} else {
-				String reg = id.replace("UNLOCK_", "").toLowerCase();
+				String reg = id.replace("UNLOCK_", "").replace("SHOP_", "").toLowerCase();
 
 				try {
 					ItemRegistry.Pair pair = ItemRegistry.INSTANCE.getItems().get(reg);

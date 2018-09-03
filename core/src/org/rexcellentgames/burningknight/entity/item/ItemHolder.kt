@@ -222,7 +222,7 @@ open class ItemHolder : SaveableEntity {
     val dt = Gdx.graphics.deltaTime
     this.al = MathUtils.clamp(0f, 1f, this.al + ((if (Player.instance.pickupFx != null && Player.instance.pickupFx.item === this) 1 else 0) - this.al) * dt * 10f)
 
-    if (this.al > 0) {
+    if (this.al > 0.05f) {
       Mob.shader.begin()
       Mob.shader.setUniformf("u_color", Vector3(1f, 1f, 1f))
       Mob.shader.setUniformf("u_a", this.al)

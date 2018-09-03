@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -39,7 +40,7 @@ public class DashingKnight extends Knight {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 2f) {
+			if (this.t >= 5f) {
 				this.checkForPlayer();
 
 				if (self.target == null) {
@@ -59,7 +60,7 @@ public class DashingKnight extends Knight {
 			super.onEnter();
 
 			double a = self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
-			float f = 60f;
+			float f = 1f;
 
 			dir.x = (float) (Math.cos(a) * f);
 			dir.y = (float) (Math.sin(a) * f);
@@ -69,15 +70,71 @@ public class DashingKnight extends Knight {
 		public void update(float dt) {
 			super.update(dt);
 
-			self.acceleration.x = dir.x;
-			self.acceleration.y = dir.y;
+			float f = Math.min(120f, this.t * 60f * 2f);
+
+			self.acceleration.x = dir.x * (f);
+			self.acceleration.y = dir.y * (f);
 		}
+	}
+
+	private float al;
+
+	@Override
+	public void renderSigns() {
+		if (this.al > 0.05f) {
+			Graphics.startAlphaShape();
+			Graphics.shape.setColor(1, 1, 1, this.al);
+
+			for (int i = 0; i < 5; i++) {
+				float a = (float) (((float) i) / 6 * (Math.PI * 2) + this.t);
+
+				float x = (float) (Math.cos(a) * 6f);
+				float y = (float) (Math.sin(a) * 3f);
+
+				Graphics.shape.circle(this.x + this.w / 2 + x,
+					this.y + this.h + 3 + y, (float) (2 - Math.sin(a)));
+			}
+
+			Graphics.endAlphaShape();
+		}
+
+		super.renderSigns();
+	}
+
+	private boolean use;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		this.al += ((this.state.equals("stun") ? 1 : 0) - this.al) * dt;
+
+		if (this.use) {
+			this.sword.use();
+			this.use = false;
+		}
+	}
+
+	@Override
+	public boolean rollBlock() {
+		if (this.state.equals("stun")) {
+			return false;
+		}
+
+		return true;
 	}
 
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player || entity == null || entity instanceof Door || entity instanceof SolidProp || entity instanceof RollingSpike) {
-			this.become("stun");
+			if (entity instanceof Player) {
+				this.use = true;
+				this.become("stun"); // sorry, dirty trick
+				this.become("chase");
+			} else {
+				this.become("stun");
+			}
+
 		}
 
 		super.onCollision(entity);
