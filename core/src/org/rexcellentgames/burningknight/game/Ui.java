@@ -328,6 +328,7 @@ public class Ui {
 	}
 
 	private static TextureRegion coin;
+	public static float y;
 
 	public void render() {
 		if (coin == null) {
@@ -341,9 +342,11 @@ public class Ui {
 		}
 
 		if (Dungeon.game.getState() instanceof InGameState) {
-			if (Dungeon.depth <= -1) {
-				Graphics.render(coin, 2, Display.GAME_HEIGHT - 18);
-				Graphics.print(GlobalSave.getInt("num_coins") + "", Graphics.medium, 20, Display.GAME_HEIGHT - 20);
+			if (Dungeon.depth <= -1 || y > 0) {
+				Graphics.render(coin, 2, Display.GAME_HEIGHT - (Dungeon.depth <= -1 ? 20 : y) + 2);
+				Graphics.print(GlobalSave.getInt("num_coins") + "",
+					Graphics.medium, 20,
+					Display.GAME_HEIGHT - (Dungeon.depth <= -1 ? 20 : y));
 			}
 
 			if (this.al > 0.05f) {

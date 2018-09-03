@@ -106,6 +106,10 @@ public class Terrain {
 	}
 
 	public static Color getColor(byte t) {
+		if (t < 0) {
+			return Color.WHITE;
+		}
+
 		if (t == Terrain.WALL || t == Terrain.CRACK) {
 			return Level.colors[Dungeon.level.uid];
 		}

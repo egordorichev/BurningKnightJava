@@ -45,12 +45,13 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
+import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
@@ -580,7 +581,57 @@ public class Player extends Creature {
 		if (entity instanceof ItemHolder) {
 			ItemHolder item = (ItemHolder) entity;
 
-			if (item.getItem().hasAutoPickup() || item.getAuto()) {
+			if (item.getItem() instanceof Coin) {
+				item.remove();
+				item.done = true;
+
+				Tween.to(new Tween.Task(20, 0.2f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return Ui.y;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Ui.y = value;
+					}
+
+					@Override
+					public void onEnd() {
+						Tween.to(new Tween.Task(0, 0.1f) {
+							@Override
+							public void onEnd() {
+								GlobalSave.put("num_coins", GlobalSave.getInt("num_coins") + 1);
+							}
+						});
+
+						Tween.to(new Tween.Task(0, 0.2f) {
+							@Override
+							public float getValue() {
+								return Ui.y;
+							}
+
+							@Override
+							public void setValue(float value) {
+								Ui.y = value;
+							}
+
+							@Override
+							public void onEnd() {
+							}
+						}).delay(3.1f);
+					}
+				});
+
+				for (int i = 0; i < 10; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = item.x + item.w / 2;
+					fx.y = item.y + item.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+			} else if (item.getItem().hasAutoPickup() || item.getAuto()) {
 				if (this.tryToPickup(item) && !item.getAuto()) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));

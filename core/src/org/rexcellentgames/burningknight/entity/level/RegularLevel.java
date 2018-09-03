@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.*;
 import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
+import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
@@ -156,6 +157,10 @@ public abstract class RegularLevel extends Level {
 
 	protected void paint() {
 		Log.info("Painting...");
+
+		if (Random.chance(75) || true) {
+			this.itemsToSpawn.add(new Coin());
+		}
 
 		Painter painter = this.getPainter();
 

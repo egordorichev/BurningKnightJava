@@ -596,5 +596,7 @@
 	"matches" : "Matches",
 	"matches_desc" : "Always ready to add some oil into the fire",
 	"bomb_in_abomb" : "Bomb in a bomb",
-	"bomb_in_abomb_desc" : "One bomb, oh wait, 4 now!"
+	"bomb_in_abomb_desc" : "One bomb, oh wait, 4 now!",
+	"coin" : "Coin",
+	"coin_desc" : "How did you read this???"
 }
