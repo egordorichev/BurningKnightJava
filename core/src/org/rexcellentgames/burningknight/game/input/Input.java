@@ -381,6 +381,10 @@ public class Input implements InputProcessor, ControllerListener {
 			return false;
 		}
 
+		if (!this.bindings.containsKey(key)) {
+			return false;
+		}
+
 		for (String id : this.bindings.get(key)) {
 			State state = this.keys.get(toButtonWithId(id));
 
@@ -397,6 +401,10 @@ public class Input implements InputProcessor, ControllerListener {
 			return false;
 		}
 
+		if (!this.bindings.containsKey(key)) {
+			return false;
+		}
+
 		for (String id : this.bindings.get(key)) {
 		  if (this.keys.get(toButtonWithId(id)) == State.DOWN) {
 				return true;
@@ -408,6 +416,10 @@ public class Input implements InputProcessor, ControllerListener {
 
 	public boolean wasReleased(String key) {
 		if (blocked) {
+			return false;
+		}
+
+		if (!this.bindings.containsKey(key)) {
 			return false;
 		}
 

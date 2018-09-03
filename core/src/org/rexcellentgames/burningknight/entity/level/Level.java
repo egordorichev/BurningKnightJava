@@ -570,7 +570,7 @@ public abstract class Level extends SaveableEntity {
 		float sp = dt * 3f;
 
 		for (int i = 0; i < getSize(); i++) {
-			this.light[i] = MathUtils.clamp(0f, 1f, this.light[i] - sp);
+			this.light[i] = MathUtils.clamp(this.explored[i] ? 0.4f : 0f, 1f, this.light[i] - sp);
 			this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - sp);
 			this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - sp);
 			this.lightB[i] = MathUtils.clamp(color.b, 1f, this.lightB[i] - sp);

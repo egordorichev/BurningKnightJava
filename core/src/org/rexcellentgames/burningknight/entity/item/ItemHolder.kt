@@ -42,6 +42,10 @@ open class ItemHolder : SaveableEntity {
 		    return
 	    }
 
+      if (this.item!!.getSprite() == null) {
+        return
+      }
+
       if (this.item is Gold) {
         Gold.all.add(this)
       }
