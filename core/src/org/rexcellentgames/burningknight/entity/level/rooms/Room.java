@@ -186,6 +186,7 @@ public abstract class Room extends Rect implements GraphNode {
 		do {
 			if (at++ > 200) {
 				Log.error("To many attempts");
+				return null;
 			}
 
 			point = getRandomCell();

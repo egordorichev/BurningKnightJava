@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDag
 import org.rexcellentgames.burningknight.util.Animation;
 
 public class StabbingKnight extends RangedKnight {
-	public static Animation animations = Animation.make("actor-knight-v2", "-green");
+	public static Animation animations = Animation.make("actor-knight", "-green");
 
 	public Animation getAnimation() {
 		return animations;

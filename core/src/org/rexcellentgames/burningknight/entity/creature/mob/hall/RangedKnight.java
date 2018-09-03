@@ -1,12 +1,11 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
-import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class RangedKnight extends Knight {
-	public static Animation animations = Animation.make("actor-knight-v2", "-red");
+	public static Animation animations = Animation.make("actor-knight", "-red");
 
 	public Animation getAnimation() {
 		return animations;

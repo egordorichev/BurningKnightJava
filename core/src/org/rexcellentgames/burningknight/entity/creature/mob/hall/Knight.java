@@ -17,7 +17,7 @@ import org.rexcellentgames.burningknight.util.Random;
 import java.util.ArrayList;
 
 public class Knight extends Mob {
-	public static Animation animations = Animation.make("actor-knight-v2", "-blue");
+	public static Animation animations = Animation.make("actor-knight", "-blue");
 	protected Item sword;
 	private AnimationData idle;
 	private AnimationData run;

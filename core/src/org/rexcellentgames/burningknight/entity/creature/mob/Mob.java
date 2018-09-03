@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
 import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
+import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -267,12 +268,18 @@ public class Mob extends Creature {
 	};
 
 	public boolean canSee(Creature player) {
+		if (!(this instanceof Shopkeeper || this instanceof BurningKnight)) {
+			if (player.room != this.room) {
+				return false;
+			}
+		}
+
 		closestFraction = 1f;
 		float x = this.x + this.w / 2;
-		float y = this.y + 4;
+		float y = this.y + this.h / 2;
 
 		float x2 = player.x + player.w / 2;
-		float y2 = player.y + 4;
+		float y2 = player.y + player.h / 2;
 
 		if (x != x2 || y != y2) {
 			World.world.rayCast(callback, x, y, x2, y2);
