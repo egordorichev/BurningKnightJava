@@ -183,7 +183,7 @@ public class Item extends Entity {
   }
 
   public boolean isAuto() {
-    return this.auto;
+    return this.auto && !this.shop;
   }
 
   public int getValue() {

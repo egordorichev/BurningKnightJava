@@ -564,13 +564,12 @@ public abstract class Level extends SaveableEntity {
 		int fx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
 		int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-		float dt = Gdx.graphics.getDeltaTime() / 5;
+		float dt = Gdx.graphics.getDeltaTime() * Dungeon.speed;
 		Color color = colors[Dungeon.level.uid];
-
-		float sp = dt * 3f;
+		float sp = dt * 0.3f;
 
 		for (int i = 0; i < getSize(); i++) {
-			this.light[i] = MathUtils.clamp(this.explored[i] ? 0.4f : 0f, 1f, this.light[i] - sp);
+			this.light[i] = MathUtils.clamp(this.explored[i] ? 0.5f : 0f, 1f, this.light[i] - sp);
 			this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - sp);
 			this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - sp);
 			this.lightB[i] = MathUtils.clamp(color.b, 1f, this.lightB[i] - sp);
@@ -1805,6 +1804,9 @@ public abstract class Level extends SaveableEntity {
 
 		if (this.light[i] < max) {
 			this.light[i] = Math.min(1, this.light[i] + a * dt);
+			if (this.light[i] >= 0.4f) {
+				this.explored[i] = true;
+			}
 		}
 
 		if (this.lightR[i] < max) {
@@ -1817,10 +1819,6 @@ public abstract class Level extends SaveableEntity {
 
 		if (this.lightB[i] < max) {
 			this.lightB[i] = Math.min(1, this.lightB[i] + b * dt);
-		}
-
-		if (this.light[i] > 0.2f && (data[i] > 0 && data[i] != Terrain.CRACK)) {
-			this.explored[i] = true;
 		}
 	}
 

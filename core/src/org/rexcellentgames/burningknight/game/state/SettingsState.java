@@ -102,8 +102,6 @@ public class SettingsState extends State {
 			public void render() {
 				super.render();
 
-				SaveManager.save(SaveManager.Type.GLOBAL, false);
-
 				if (current == Type.SETTINGS && Input.instance.wasPressed("pause")) {
 					Input.instance.putState("pause", Input.State.UP);
 					this.onClick();
@@ -113,6 +111,7 @@ public class SettingsState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				SaveManager.save(SaveManager.Type.GLOBAL, false);
 
 				if (toGame) {
 					toGame = false;

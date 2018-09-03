@@ -379,7 +379,9 @@ public class UiMap extends UiEntity {
 
 			if (Input.instance.wasPressed("map") && !Dungeon.game.getState().isPaused() && !did) {
 				if (!large) {
-					openHuge();
+					if (!Player.instance.isDead()) {
+						openHuge();
+					}
 				} else {
 					hideHuge();
 				}
@@ -573,9 +575,12 @@ public class UiMap extends UiEntity {
 			yy = Math.max(0, sy);
 
 			for (int y = Math.max(0, sy); y < Math.min(fy, Level.getHeight()); y++) {
+				byte t = Dungeon.level.get(x, y);
 
-				if (Dungeon.level.explored(x, y)) {
-					Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
+				if (t != Terrain.WALL && t != Terrain.CRACK) {
+					if (Dungeon.level.explored(x, y)) {
+						Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
+					}
 				}
 
 				yy ++;
@@ -592,14 +597,17 @@ public class UiMap extends UiEntity {
 			for (int y = Math.max(0, sy); y < Math.min(fy, Level.getHeight()); y++) {
 				if (Dungeon.level.explored(x, y)) {
 					int i = Level.toIndex(x, y);
-					byte t = Dungeon.level.liquidData[i];
+					byte l = Dungeon.level.liquidData[i];
+					byte t = Dungeon.level.data[i];
 
-					if (t == 0 || t == Terrain.COBWEB || t == Terrain.EMBER) {
-						t = Dungeon.level.get(i);
+					if (t != Terrain.WALL && t != Terrain.CRACK) {
+						if (l == 0 || l == Terrain.COBWEB || l == Terrain.EMBER) {
+							l = t;
+						}
+
+						Graphics.shape.setColor(Terrain.getColor(l));
+						Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
 					}
-
-					Graphics.shape.setColor(Terrain.getColor(t));
-					Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
 				}
 
 				yy ++;
