@@ -110,7 +110,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void exploreAll() {
 		for (int i = 0; i < getSize(); i++) {
-			if (data[i] > 0 && data[i] != Terrain.CRACK) {
+			if (data[i] > -1) {
 				explored[i] = true;
 			}
 		}
@@ -118,7 +118,7 @@ public abstract class Level extends SaveableEntity {
 
 	public void exploreRandom() {
 		for (int i = 0; i < getSize(); i++) {
-			if ((data[i] > 0 && data[i] != Terrain.CRACK) && Random.chance(50)) {
+			if ((data[i] > -1) && Random.chance(50)) {
 				explored[i] = true;
 			}
 		}

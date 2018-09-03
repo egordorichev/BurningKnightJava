@@ -33,7 +33,7 @@ public class Clown extends Mob {
 	}
 
 	{
-		hpMax = 1;
+		hpMax = 4;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();

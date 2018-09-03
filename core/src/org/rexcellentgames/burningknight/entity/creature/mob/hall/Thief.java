@@ -33,7 +33,7 @@ public class Thief extends Mob {
 	}
 
 	{
-		hpMax = 1;
+		hpMax = 3;
 		w = 15;
 
 		idle = getAnimation().get("idle").randomize();

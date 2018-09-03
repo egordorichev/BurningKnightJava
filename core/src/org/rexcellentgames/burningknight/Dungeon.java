@@ -150,10 +150,8 @@ public class Dungeon extends ApplicationAdapter {
 		SaveManager.delete();
 		loadType = Entrance.LoadType.GO_DOWN;
 
-		if (to != -3) {
-			Player.instance = null;
-			BurningKnight.instance = null;
-		}
+		Player.instance = null;
+		BurningKnight.instance = null;
 
 		level = null;
 
