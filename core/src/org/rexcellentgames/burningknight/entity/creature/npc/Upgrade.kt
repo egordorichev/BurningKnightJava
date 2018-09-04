@@ -26,6 +26,11 @@ import org.rexcellentgames.burningknight.util.file.FileWriter
 import java.io.IOException
 
 class Upgrade : SaveableEntity() {
+	companion object {
+		var all = ArrayList<Upgrade>()
+		var activeUpgrade: Upgrade? = null
+	}
+
 	var type = Type.PERMANENT
 	private var item: Item? = null
 	private var str: String? = null
@@ -84,6 +89,7 @@ class Upgrade : SaveableEntity() {
 	override fun init() {
 		super.init()
 		this.t = Random.newFloat(10f)
+		all.add(this)
 	}
 
 	protected fun generateItem(): Item? {
@@ -233,11 +239,12 @@ class Upgrade : SaveableEntity() {
 	override fun destroy() {
 		super.destroy()
 		this.body = World.removeBody(this.body)
+		all.remove(this)
 	}
 
 	private var al = 0f
 
-	override fun render() {
+	fun renderSigns() {
 		if (hidden || item == null) {
 			return
 		}
@@ -246,6 +253,12 @@ class Upgrade : SaveableEntity() {
 			Graphics.medium.setColor(1f, 1f, 1f, this.al)
 			Graphics.print(this.item!!.name, Graphics.medium, this.x + 8 - nameW / 2, this.y + this.h + 8)
 			Graphics.medium.setColor(1f, 1f, 1f, 1f)
+		}
+	}
+
+	override fun render() {
+		if (hidden || item == null) {
+			return
 		}
 
 		val sprite = this.item!!.sprite
@@ -313,9 +326,5 @@ class Upgrade : SaveableEntity() {
 		if (entity is Player) {
 			colliding = false
 		}
-	}
-
-	companion object {
-		var activeUpgrade: Upgrade? = null
 	}
 }
