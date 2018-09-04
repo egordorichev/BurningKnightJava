@@ -248,6 +248,7 @@ public class Door extends SaveableEntity {
 						for (Trader trader : Trader.all) {
 							if (trader.room == room) {
 								trader.saved = true;
+								GlobalSave.put("npc_" + trader.id + "_saved", true);
 								trader.become("thanks");
 								break;
 							}

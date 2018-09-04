@@ -13,14 +13,12 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
@@ -288,7 +286,7 @@ public class InGameState extends State {
 				for (int y = Player.instance.room.top; y <= Player.instance.room.bottom; y++) {
 					if ((x == Player.instance.room.left || x == Player.instance.room.right || y == Player.instance.room.top || y == Player.instance.room.bottom
 					) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
-						Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 4f, 3f, false);
+						Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 3f, false);
 					}
 
 					if (y != Player.instance.room.top) {

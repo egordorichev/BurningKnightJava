@@ -121,16 +121,9 @@ class Upgrade : SaveableEntity() {
 
 		Graphics.layout.setText(Graphics.medium, this.item!!.name)
 		this.nameW = Graphics.layout.width.toInt()
-
-		for (trader in Trader.all) {
-			if (trader.id == this.idd && trader.saved) {
-				this.hidden = false
-				return
-			}
-		}
-
-		this.hidden = true
 	}
+
+	private var checked = false
 
 	@Throws(IOException::class)
 	override fun save(writer: FileWriter) {
@@ -144,6 +137,19 @@ class Upgrade : SaveableEntity() {
 	}
 
 	override fun update(dt: Float) {
+		if (!checked) {
+			checked = true
+
+			for (trader in Trader.all) {
+				if (trader.id == this.idd && trader.saved) {
+					this.hidden = false
+					return
+				}
+			}
+
+			this.hidden = true
+		}
+
 		if (this.hidden) {
 			return
 		}

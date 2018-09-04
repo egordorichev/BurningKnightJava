@@ -7,10 +7,15 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class NpcSaveRoom extends SpecialRoom {
+	private static final String[] saveOrder = {
+		"a", "b", "c", "d"
+	};
+
 	@Override
 	public void paint(Level level) {
 		super.paint(level);
@@ -44,6 +49,13 @@ public class NpcSaveRoom extends SpecialRoom {
 
 		trader.x = center.x * 16;
 		trader.y = center.y * 16;
+
+		for (String id : saveOrder) {
+			if (GlobalSave.isFalse("npc_" + id + "_saved")) {
+				trader.id = id;
+				break;
+			}
+		}
 
 		Dungeon.area.add(trader.add());
 	}

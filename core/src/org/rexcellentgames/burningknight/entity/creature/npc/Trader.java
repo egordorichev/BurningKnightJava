@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -88,6 +89,10 @@ public class Trader extends Npc {
 	public void init() {
 		super.init();
 		all.add(this);
+
+		if (this.id != null) {
+			this.saved = this.id.equals("b") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+		}
 	}
 
 	@Override
@@ -108,6 +113,10 @@ public class Trader extends Npc {
 		super.load(reader);
 		this.saved = reader.readBoolean();
 		this.id = reader.readString();
+
+		if (this.id != null) {
+			this.saved = this.id.equals("b") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+		}
 	}
 
 	@Override
