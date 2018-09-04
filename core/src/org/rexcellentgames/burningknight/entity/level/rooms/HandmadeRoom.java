@@ -197,6 +197,7 @@ public class HandmadeRoom extends RegularRoom {
 
 				Trader trader = new Trader();
 
+				// trader.id = o.
 				trader.x = x + rect.x + 16;
 				trader.y = y + rect.y + 16 - 8;
 

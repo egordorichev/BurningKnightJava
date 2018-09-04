@@ -37,7 +37,7 @@ public class Door extends SaveableEntity {
 	private static Animation bronzeLockAnimation = Animation.make("door-lock", "-bronze");
 	private static Animation goldLockAnimation = Animation.make("door-lock", "-gold");
 	private AnimationData animation;
-	private AnimationData locked;
+	public AnimationData locked;
 	private AnimationData unlock;
 	private AnimationData lk;
 	private AnimationData lockAnim;

@@ -35,6 +35,7 @@ class Upgrade : SaveableEntity() {
 	private var costStr = ""
 	private var costW = 0
 	private var nameW = 0
+	var idd = ""
 
 	private var hidden: Boolean = false
 
@@ -59,6 +60,7 @@ class Upgrade : SaveableEntity() {
 		type = Type.values()[reader.readByte().toInt()]
 
 		try {
+			this.idd = reader.readString()
 			this.str = reader.readString()
 
 			if (str != null) {
@@ -119,6 +121,15 @@ class Upgrade : SaveableEntity() {
 
 		Graphics.layout.setText(Graphics.medium, this.item!!.name)
 		this.nameW = Graphics.layout.width.toInt()
+
+		for (trader in Trader.all) {
+			if (trader.id == this.idd) {
+				this.hidden = false
+				return
+			}
+		}
+
+		this.hidden = true
 	}
 
 	@Throws(IOException::class)
@@ -128,6 +139,7 @@ class Upgrade : SaveableEntity() {
 		this.checkItem()
 
 		writer.writeByte(type.id)
+		writer.writeString(this.idd)
 		writer.writeString(this.str)
 	}
 
