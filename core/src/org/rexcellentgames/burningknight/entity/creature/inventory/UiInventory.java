@@ -633,7 +633,7 @@ public class UiInventory extends UiEntity {
 
 
 				if (count > 1) {
-					Graphics.small.draw(Graphics.batch, String.valueOf(count), x + 12, y - 4);
+					Graphics.small.draw(Graphics.batch, String.valueOf(count), x + 16, y - 4);
 				}
 			}
 		} else if (this.hoveredSlot != -1) {

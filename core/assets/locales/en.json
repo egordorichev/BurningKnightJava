@@ -1,5 +1,6 @@
 {
 	"traders_asylum" : "The Asylum",
+	"upgrade_hint" : "Upgrade",
 	"lamp": "Magical Lamp",
 	"lamp_desc": "Looks really old but shiny.\nRight click to summon Burning Knight.",
 	"bomb": "Bomb",
@@ -558,7 +559,7 @@
 	"find_secret_room_achievement": "What a secret",
 	"find_secret_room_achievement_desc": "Find a secret room",
 	"scroll_of_upgrade": "Scroll of upgrade",
-	"scroll_of_upgrade_desc": "Upgrade one of your items!\nClick with it onto the item you want to upgrade!",
+	"scroll_of_upgrade_desc": "Upgrade one of your items!\nClick on it to upgrade an item!",
 	"upgrade_achievement": "Time for an upgrade!",
 	"upgrade_achievement_desc": "Upgrade one of your items!",
 	"ice_skates": "Ice skates",

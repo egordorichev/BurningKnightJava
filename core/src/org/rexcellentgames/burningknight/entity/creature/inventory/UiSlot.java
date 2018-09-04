@@ -93,6 +93,9 @@ public class UiSlot {
 		} else if (this.inventory.getActive() != this.id && this.active) {
 			this.active = false;
 
+			if (item instanceof ScrollOfUpgrade) {
+				Ui.upgradeMouse = false;
+			}
 
 			Tween.remove(this.last);
 			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
@@ -115,16 +118,18 @@ public class UiSlot {
 		boolean h = this.hovered;
 		this.hovered = CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y, this.x, (int) this.y, 24, 24);
 
-		if (Ui.upgradeMosue) {
-			if (this.hovered || h) {
-				if (item != null && item.canBeUpgraded()) {
-					if (this.hovered) {
-						Ui.move = true;
-					} else {
-						Ui.move = false;
-					}
+		if (Ui.upgradeMouse) {
+			if (this.hovered) {
+				if (item != null && item.canBeUpgraded() && item.getLevel() < item.getMaxLevel()) {
+					Ui.move = true;
+				} else {
+					Ui.move = false;
 				}
 			}
+		}
+
+		if (this.active && item instanceof ScrollOfUpgrade) {
+			Ui.upgradeMouse = true;
 		}
 
 		if (this.hovered && !h) {
@@ -208,14 +213,58 @@ public class UiSlot {
 				self.use();
 			}
 
+			if (self.getCount() <= 0) {
+				Ui.upgradeMouse = false;
+			}
+
 			return;
 		}
 
 		Item current = this.inventory.getCurrentSlot();
-
 		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());
 
-		if (active instanceof ScrollOfUpgrade && self != null && (self.canBeUpgraded() && self.getLevel() < self.getMaxLevel())) {
+		if (self != null && self.canBeUpgraded() && current instanceof ScrollOfUpgrade) {
+			if (self.getLevel() >= self.getMaxLevel()) {
+				Audio.playSfx("item_nocash");
+				tweenClick();
+				return;
+			}
+
+			for (int i = 0; i < 10; i++) {
+				UpgradeFx fx = new UpgradeFx();
+
+				fx.x = Random.newFloat(16) - 8 + Input.instance.uiMouse.x;
+				fx.y = Random.newFloat(16) - 8 + Input.instance.uiMouse.y;
+
+				Dungeon.ui.add(fx);
+			}
+
+			if (self.isCursed()) {
+				for (int i = 0; i < 10; i++) {
+					CurseFx fx = new CurseFx();
+
+					fx.x = Random.newFloat(16) - 8 + Input.instance.uiMouse.x;
+					fx.y = Random.newFloat(16) - 8 + Input.instance.uiMouse.y;
+
+					Dungeon.ui.add(fx);
+				}
+
+				((ScrollOfUpgrade) active).wasCursed = true;
+			}
+
+			this.tweenClick();
+			current.use();
+			self.upgrade();
+			return;
+		}
+
+		if (active instanceof ScrollOfUpgrade && (self.canBeUpgraded())) {
+			if (self.getLevel() >= self.getMaxLevel()) {
+				Audio.playSfx("item_nocash");
+				tweenClick();
+				return;
+			}
+
 			for (int i = 0; i < 10; i++) {
 				UpgradeFx fx = new UpgradeFx();
 
@@ -240,7 +289,7 @@ public class UiSlot {
 
 			active.use();
 			self.upgrade();
-
+			this.tweenClick();
 			return;
 		}
 
@@ -251,6 +300,7 @@ public class UiSlot {
 		} else if (canAccept(this.id, current) || current == null) {
 			if (this.id > 5 && this.id < 12 && self != null && self.isCursed()) {
 				Audio.playSfx("item_nocash");
+				tweenClick();
 			} else {
 				if (this.id > 5 && current != null) {
 					for (int i = 6; i < 12; i++) {
@@ -258,12 +308,22 @@ public class UiSlot {
 
 						if (sl != null && sl.getClass().isInstance(current)) {
 							Audio.playSfx("item_nocash");
+							tweenClick();
 							return;
 						}
 					}
 				}
 
 				this.inventory.setCurrentSlot(self);
+
+				if (current instanceof ScrollOfUpgrade) {
+					Ui.upgradeMouse = false;
+				}
+
+				if (self instanceof ScrollOfUpgrade) {
+					Ui.upgradeMouse = true;
+				}
+
 				this.inventory.getInventory().setSlot(this.id, current);
 
 				if (this.id > 5 && this.id < 12) {
@@ -356,7 +416,8 @@ public class UiSlot {
 
 	public void render(Item item) {
 		boolean h = this.inventory.getActive() == this.id;
-		boolean upgrade = this.inventory.getInventory().getSlot(this.inventory.getActive()) instanceof ScrollOfUpgrade;
+		boolean upgrade = this.inventory.getInventory().getSlot(this.inventory.getActive()) instanceof ScrollOfUpgrade ||
+			this.inventory.getCurrentSlot() instanceof ScrollOfUpgrade;
 		boolean cursed = item != null && item.isIdentified() && item.isCursed();
 
 		if (h) {

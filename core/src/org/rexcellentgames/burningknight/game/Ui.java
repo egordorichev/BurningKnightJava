@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -385,17 +386,30 @@ public class Ui {
 
 	private static String killLocale = Locale.get("didnt_kill_bk");
 	private static String kill2Locale = Locale.get("killed_yet_dead");
+	private static String hintStr = Locale.get("upgrade_hint");
 
 	public boolean dead;
-	public static boolean move = false;
-	public static boolean upgradeMosue = true;
+	public static boolean move;
+	public static boolean upgradeMouse;
+	public static boolean drawHint = true;
+	private static float alf;
 
 	public void renderCursor() {
-		if (upgradeMosue) {
+		if (upgradeMouse) {
+			// (move ? Math.cos(Dungeon.time * 6) * 1.5f : 0))
+
 			Graphics.batch.setColor(1, 1, 1, this.ca);
 			Graphics.render(this.upgrade, Input.instance.uiMouse.x,
-				(float) (Input.instance.uiMouse.y + (move ? Math.cos(Dungeon.time * 6) * 1.5f : 0)), 0, 8, 8, false, false);
+				Input.instance.uiMouse.y, 0, this.upgrade.getRegionWidth() / 2, this.upgrade.getRegionHeight(), false, false);
 			Graphics.batch.setColor(1, 1, 1, 1);
+
+			alf += ((move ? 1 : 0) - alf) * Gdx.graphics.getDeltaTime() * 8;
+
+			if (alf > 0.05f && drawHint) {
+				Graphics.medium.setColor(0.3f, 1f, 0.3f, alf);
+				Graphics.print(hintStr, Graphics.medium, Input.instance.uiMouse.x + 8, Input.instance.uiMouse.y - 20);
+				Graphics.medium.setColor(1, 1, 1, 1);
+			}
 		} else {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
