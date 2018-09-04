@@ -15,6 +15,8 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -31,7 +33,6 @@ public class BombEntity extends Entity {
 	public static Animation normal = Animation.make("actor-bomb", "-normal");
 	public static Animation iced = Animation.make("actor-bomb", "-ice_bomb");
 	public static Animation poisoned = Animation.make("actor-bomb", "-poison");
-	public static Animation fire = Animation.make("actor-bomb", "-fire_bomb");
 	public static Animation tiny = Animation.make("actor-bomb", "-small");
 
 	private AnimationData animation;
@@ -315,7 +316,11 @@ public class BombEntity extends Entity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity != null && !(entity instanceof Player || entity instanceof BombEntity)) {
+		if (entity instanceof Door && !((Door) entity).isOpen()) {
+			return true;
+		}
+
+		if (entity != null && !(entity instanceof Player || entity instanceof BombEntity || entity instanceof SolidProp)) {
 			return false;
 		}
 
