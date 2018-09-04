@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -228,7 +229,7 @@ public class Shopkeeper extends Npc {
 			if (this.al > 0.05f) {
 				Graphics.batch.end();
 				Mob.shader.begin();
-				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+				Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
 				Mob.shader.setUniformf("u_a", this.al);
 				Mob.shader.end();
 				Graphics.batch.setShader(Mob.shader);

@@ -96,7 +96,7 @@ public class UiSlider extends UiButton {
 				this.onUpdate();
 			}
 
-			if ((Input.instance.isDown("second_use") || Input.instance.isDown("use"))){
+			if ((Input.instance.isDown("use"))) {
 				if (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
 					(int) (this.ox + 6), (int) this.y - 4, (int) ((int) (this.sw - 12) * scale), 9)) {
 

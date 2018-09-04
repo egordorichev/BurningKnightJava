@@ -30,7 +30,6 @@ public class Bow extends WeaponBase {
 	private float sy = 1f;
 
 	{
-		auto = true;
 		delay = 0.3f;
 		setStats();
 	}

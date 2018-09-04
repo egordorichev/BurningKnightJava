@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -13,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -106,7 +106,7 @@ public class Lever extends SaveableEntity {
 		if (al > 0) {
 			Graphics.batch.end();
 			Mob.shader.begin();
-			Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+			Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
 			Mob.shader.setUniformf("u_a", al);
 			Mob.shader.end();
 			Graphics.batch.setShader(Mob.shader);

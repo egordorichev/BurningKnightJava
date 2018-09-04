@@ -906,6 +906,7 @@ public class BurningKnight extends Boss {
 						}
 					}
 
+					this.balls.clear();
 					self.become("chase");
 				} else {
 					if (this.balls.size() == 0) {
@@ -916,7 +917,7 @@ public class BurningKnight extends Boss {
 					float t = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
 					float an = (float) ((((float) (this.balls.size() - 1)) / count * Math.PI * 2 + Dungeon.time * 10) % (Math.PI * 2));
 
-					if (Math.abs(t - an) % (Math.PI * 2) < Math.PI / 2) {
+					if (Math.abs(t - an) % (Math.PI * 2) < Math.PI / 8) {
 						FireballProjectile ball = this.balls.get(this.balls.size() - 1);
 						this.balls.remove(this.balls.size() - 1);
 

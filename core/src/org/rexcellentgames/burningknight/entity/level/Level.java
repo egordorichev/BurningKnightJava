@@ -1488,7 +1488,7 @@ public abstract class Level extends SaveableEntity {
 			if (Exit.al > 0) {
 				Graphics.batch.end();
 				Mob.shader.begin();
-				Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+				Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
 				Mob.shader.setUniformf("u_a", Exit.al);
 				Mob.shader.end();
 				Graphics.batch.setShader(Mob.shader);

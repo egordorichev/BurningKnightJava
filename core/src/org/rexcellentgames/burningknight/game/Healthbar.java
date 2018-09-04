@@ -3,16 +3,15 @@ package org.rexcellentgames.burningknight.game;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class Healthbar {
 	private static TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
 	private static TextureRegion bar = Graphics.getTexture("ui-bkbar-fill");
 	private TextureRegion skull;
-	private static TextureRegion lock = Graphics.getTexture("ui-bkbar-lock");
-	private static Animation animations = Animation.make("ui-bkbar-flame");
 	public float y = Display.GAME_HEIGHT;
 	public boolean tweened = false;
 	private float lastV;
@@ -20,22 +19,24 @@ public class Healthbar {
 	private float max = 1000;
 	private float sx = 1;
 	private float sy = 1;
-	private float last;
 	public float targetValue = 16;
 	public Boss boss;
-	private boolean bk;
 	public boolean done;
+	private float invt;
+
+	public Healthbar() {
+		this.invt = 0f;
+	}
 
 	public void update(float dt) {
 		if (skull == null) {
 			skull = Graphics.getTexture(this.boss.texture);
-			this.bk = this.boss.texture.equals("ui-bkbar-skull");
 		}
 
-		this.last += dt;
+		this.invt = Math.max(0, this.invt - dt);
 		this.done = this.boss.isDead() && this.y >= Display.GAME_HEIGHT;
 
-		if (((int) this.lastBV) != boss.getHp()) {
+		if (((int) this.lastBV) > boss.getHp()) {
 			Tween.to(new Tween.Task(0.95f, 0.1f) {
 				@Override
 				public float getValue() {
@@ -89,6 +90,7 @@ public class Healthbar {
 					});
 				}
 			});
+			this.invt = 0.3f;
 		}
 
 		max = boss.getHpMax();
@@ -132,41 +134,37 @@ public class Healthbar {
 			TextureRegion r = new TextureRegion(bar);
 
 			Graphics.batch.setColor(0, 0, 0, 1);
-			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
 
 			r.setRegionWidth((int) Math.ceil(this.lastV / max * bar.getRegionWidth()));
-			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
 			Graphics.batch.setColor(1, 1, 1, 1);
-
 			float s = this.lastBV / max * bar.getRegionWidth();
 
 			r.setRegionWidth((int) Math.ceil(s));
-			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight(), 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
-			/*for (int i = 0; i < 6; i++) {
-				Graphics.render(lock, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + i * lock.getRegionWidth() + lock.getRegionWidth() / 2, y + lock.getRegionHeight() / 2, 0, lock.getRegionWidth() / 2, bar.getRegionHeight() / 2, false, false);
-			}*/
+			if (this.invt > 0.02f) {
+				Graphics.batch.end();
+				Mob.shader.begin();
+				Mob.shader.setUniformf("u_a", 1f);
+				Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
+				Mob.shader.end();
+				Graphics.batch.setShader(Mob.shader);
+				Graphics.batch.begin();
+			}
+
+			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+
+			if (this.invt > 0.02f) {
+				Graphics.batch.end();
+				Graphics.batch.setShader(null);
+				Graphics.batch.begin();
+			}
 
 			Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight() - 5, 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
-
-			// todo: scale?
 			Graphics.render(skull, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() / 2, skull.getRegionHeight() / 2, false, false, sx, sy);
-
-			/*if (this.bk && this.last > 0.2f) {
-				Part part = new Part();
-				this.last = 0;
-				part.x = Random.newFloat(r.getRegionWidth()) + Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2;
-				part.y = -Random.newFloat(bar.getRegionHeight() * 1.5f) + y + bar.getRegionHeight();
-				part.depth = 32;
-				part.alwaysRender = true;
-				part.alwaysActive = true;
-				part.animation = animations.get("idle");
-				part.velocity = new Point(0, 0.6f);
-
-				Dungeon.ui.add(part);
-			}*/
 		}
 	}
 }

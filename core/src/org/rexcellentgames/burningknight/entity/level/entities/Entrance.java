@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -15,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -101,7 +101,7 @@ public class Entrance extends SaveableEntity {
 		if (this.al > 0.05f) {
 			Graphics.batch.end();
 			Mob.shader.begin();
-			Mob.shader.setUniformf("u_color", new Vector3(1, 1, 1));
+			Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
 			Mob.shader.setUniformf("u_a", this.al);
 			Mob.shader.end();
 			Graphics.batch.setShader(Mob.shader);

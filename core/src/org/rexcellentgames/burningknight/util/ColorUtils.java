@@ -1,8 +1,11 @@
 package org.rexcellentgames.burningknight.util;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 
 public class ColorUtils {
+	public static final Vector3 WHITE = new Vector3(1, 1, 1);
+
 	public static Color HSV_to_RGB (float h, float s, float v) {
 		int r, g, b;
 		int i;
