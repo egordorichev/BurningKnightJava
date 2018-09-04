@@ -13,6 +13,11 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
@@ -626,6 +631,23 @@ public class UiMap extends UiEntity {
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 
+		Graphics.batch.begin();
+
+		for (Room room : Dungeon.level.getRooms()) {
+			if (Dungeon.level.explored[Level.toIndex(room.left + 1, room.top + 1)]) {
+				if (room instanceof ShopRoom) {
+					Graphics.render(shop, (room.left + ((float) room.getWidth()) / 2f) * s + mx, (room.top + ((float) room.getHeight()) / 2f) * s + my, 0, shop.getRegionWidth() / 2, shop.getRegionHeight() / 2, false, false);
+				} else if (room instanceof EntranceRoom && !(room instanceof BossRoom) || room instanceof BossEntranceRoom) {
+					TextureRegion reg = room instanceof BossEntranceRoom ? exit : (((EntranceRoom) room).exit ? exit : entrance);
+
+					Graphics.render(reg, (room.left + ((float) room.getWidth()) / 2f) * s + mx, (room.top + ((float) room.getHeight()) / 2f) * s + my,
+						0, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
+				}
+			}
+		}
+
+		Graphics.batch.end();
+
 		Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
 			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
@@ -664,4 +686,8 @@ public class UiMap extends UiEntity {
 		Graphics.render(top, x + topLeft.getRegionWidth(), y + ly + h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
 		Graphics.render(topRight, x + this.w - topRight.getRegionWidth(), y + ly + h - topLeft.getRegionHeight());
 	}
+
+	public static TextureRegion entrance = Graphics.getTexture("ui-entrance");
+	public static TextureRegion exit = Graphics.getTexture("ui-exit");
+	public static TextureRegion shop = Graphics.getTexture("ui-shop");
 }

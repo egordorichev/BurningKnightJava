@@ -20950,7 +20950,7 @@ ui-cart_top
   index: -1
 ui-cart_top_right
   rotate: false
-  xy: 107, 1
+  xy: 123, 1
   size: 5, 6
   orig: 5, 6
   offset: 0, 0
@@ -21083,16 +21083,16 @@ ui-dialog_top_right
   index: -1
 ui-entrance
   rotate: false
-  xy: 448, 1006
-  size: 4, 4
-  orig: 4, 4
+  xy: 107, 1
+  size: 6, 6
+  orig: 6, 6
   offset: 0, 0
   index: -1
 ui-exit
   rotate: false
-  xy: 448, 1000
-  size: 4, 4
-  orig: 4, 4
+  xy: 115, 1
+  size: 6, 6
+  orig: 6, 6
   offset: 0, 0
   index: -1
 ui-freezed
@@ -21118,7 +21118,7 @@ ui-half_heart_golden
   index: -1
 ui-half_heart_iron
   rotate: false
-  xy: 705, 288
+  xy: 448, 1003
   size: 4, 7
   orig: 4, 7
   offset: 0, 0
@@ -21279,14 +21279,14 @@ ui-option_bottom
   index: -1
 ui-option_bottom_left
   rotate: false
-  xy: 967, 732
+  xy: 448, 997
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 ui-option_bottom_right
   rotate: false
-  xy: 925, 678
+  xy: 967, 732
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
@@ -21349,9 +21349,9 @@ ui-selected_slot
   index: -1
 ui-shop
   rotate: false
-  xy: 932, 326
-  size: 3, 7
-  orig: 3, 7
+  xy: 705, 286
+  size: 5, 9
+  orig: 5, 9
   offset: 0, 0
   index: -1
 ui-show
@@ -21370,7 +21370,7 @@ ui-slider
   index: -1
 ui-slider_fill
   rotate: false
-  xy: 114, 1
+  xy: 130, 1
   size: 4, 6
   orig: 4, 6
   offset: 0, 0

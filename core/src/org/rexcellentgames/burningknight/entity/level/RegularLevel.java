@@ -158,11 +158,13 @@ public abstract class RegularLevel extends Level {
 	protected void paint() {
 		Log.info("Painting...");
 
-		if (Random.chance(75)) {
-			this.itemsToSpawn.add(new Coin());
-
-			while (Random.chance(25)) {
+		if (Dungeon.depth > 0) {
+			if (Random.chance(75)) {
 				this.itemsToSpawn.add(new Coin());
+
+				while (Random.chance(25)) {
+					this.itemsToSpawn.add(new Coin());
+				}
 			}
 		}
 

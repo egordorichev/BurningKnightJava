@@ -2282,6 +2282,10 @@ public abstract class Level extends SaveableEntity {
 			writer.writeInt32(room.right);
 			writer.writeInt32(room.bottom);
 			writer.writeBoolean(room.hidden);
+
+			if (room instanceof EntranceRoom) {
+				writer.writeBoolean(((EntranceRoom) room).exit);
+			}
 		}
 
 		int count = 0;
@@ -2347,6 +2351,10 @@ public abstract class Level extends SaveableEntity {
 				room.right = reader.readInt32();
 				room.bottom = reader.readInt32();
 				room.hidden = reader.readBoolean();
+
+				if (room instanceof EntranceRoom) {
+					((EntranceRoom) room).exit = reader.readBoolean();
+				}
 
 				this.rooms.add(room);
 			}
