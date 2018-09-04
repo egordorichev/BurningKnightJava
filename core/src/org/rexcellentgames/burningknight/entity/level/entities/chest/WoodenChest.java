@@ -2,14 +2,11 @@ package org.rexcellentgames.burningknight.entity.level.entities.chest;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
-import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -27,22 +24,7 @@ public class WoodenChest extends Chest {
 
 	@Override
 	public Item generate() {
-		Pool<Item> pool = new Pool<>();
-		weapon = Random.chance(50);
-
-		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (item.getQuality().equals(ItemRegistry.Quality.WOODEN) && item.unlocked() &&
-				(weapon == WeaponBase.class.isAssignableFrom(item.getType())) && Player.instance.getInventory().findItem(item.getType()) == null) {
-
-				pool.add(item.getType(), item.getChance() * (
-					item.getWarrior() * Player.instance.getWarrior() +
-					item.getMage() * Player.instance.getMage() +
-					item.getRanged() * Player.instance.getRanger()
-				));
-			}
-		}
-
-		return pool.generate();
+		return Chest.generate(ItemRegistry.Quality.WOODEN, weapon);
 	}
 
 	@Override

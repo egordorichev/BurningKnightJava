@@ -203,6 +203,14 @@ public class Shopkeeper extends Npc {
 		this.playSfx("death_towelknight");
 		this.done = true;
 
+		for (ItemHolder holder : ItemHolder.getAll()) {
+			holder.getItem().shop = false;
+			if (holder.getPrice() != null) {
+				holder.getPrice().remove();
+				holder.setPrice(null);
+			}
+		}
+
 		deathEffect(death);
 		Achievements.unlock(Achievements.UNLOCK_SALE);
 	}
@@ -575,7 +583,7 @@ public class Shopkeeper extends Npc {
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
-		if (from instanceof Player) {
+		if (from instanceof Player || from == null) {
 			this.become("hana");
 		}
 	}

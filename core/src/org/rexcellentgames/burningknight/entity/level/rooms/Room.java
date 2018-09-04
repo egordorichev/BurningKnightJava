@@ -279,7 +279,14 @@ public abstract class Room extends Rect implements GraphNode {
 			setSize();
 
 			if (getWidth() > w || getHeight() > h) {
-				resize(Math.min(getWidth(), w) - 1, Math.min(getHeight(), h) - 1);
+				int ww = validateWidth(Math.min(getWidth(), w) - 1);
+				int hh = validateHeight(Math.min(getHeight(), h) - 1);
+
+				if (ww > w || hh > h) {
+					return false;
+				}
+
+				resize(ww, hh);
 			}
 
 			return true;

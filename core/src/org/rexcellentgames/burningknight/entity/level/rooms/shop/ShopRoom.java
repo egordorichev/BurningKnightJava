@@ -6,11 +6,11 @@ import org.rexcellentgames.burningknight.entity.creature.npc.OrangeShopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.*;
+import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
-import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.special.LockedRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.entity.pool.item.ShopHatPool;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -148,7 +149,7 @@ public class ShopRoom extends LockedRoom {
 	private void paintWeapon(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 
-		Pool<Item> pool = getWeaponPool();
+		Pool<Item> pool = Chest.makePool(ItemRegistry.Quality.ANY, false, false);
 
 		for (int i = 0; i < c; i++) {
 			items.add(pool.generate());
@@ -160,7 +161,7 @@ public class ShopRoom extends LockedRoom {
 	private void paintAccessory(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 
-		Pool pool = getAccessoryPool();
+		Pool pool = Chest.makePool(ItemRegistry.Quality.ANY, false, false);
 
 		for (int i = 0; i < c; i++) {
 			items.add((Item) pool.generate());
@@ -169,43 +170,12 @@ public class ShopRoom extends LockedRoom {
 		placeItems(items);
 	}
 
-	public static Pool<Item> getAccessoryPool() {
-		Pool<Item> pool = new Pool<>();
-
-		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (!Weapon.class.isAssignableFrom(item.getType()) && item.unlocked() && Player.instance.getInventory().findItem(item.getType()) == null) {
-				pool.add(item.getType(), item.getChance() * (
-					item.getWarrior() * Player.instance.getWarrior() +
-						item.getMage() * Player.instance.getMage() +
-						item.getRanged() * Player.instance.getRanger()
-				));
-			}
-		}
-
-		return pool;
-	}
-
-	public static Pool<Item> getWeaponPool() {
-		Pool<Item> pool = new Pool<>();
-
-		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
-			if (WeaponBase.class.isAssignableFrom(item.getType()) && item.unlocked() && Player.instance.getInventory().findItem(item.getType()) == null) {
-				pool.add(item.getType(), item.getChance() * (
-					item.getWarrior() * Player.instance.getWarrior() +
-						item.getMage() * Player.instance.getMage() +
-						item.getRanged() * Player.instance.getRanger()
-				));
-			}
-		}
-
-		return pool;
-	}
 
 	private void paintMixed(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 
-		Pool weapon = getWeaponPool();
-		Pool accessory = getAccessoryPool();
+		Pool weapon = Chest.makePool(ItemRegistry.Quality.ANY, true, false);
+		Pool accessory = Chest.makePool(ItemRegistry.Quality.ANY, false, false);
 
 		if (Random.chance(50)) {
 			Bomb bomb = new Bomb();
@@ -219,12 +189,21 @@ public class ShopRoom extends LockedRoom {
 		}
 
 		for (int i = 0; i < c; i++) {
+			Item item = null;
+
 			switch (Random.newInt(2)) {
-				case 0: items.add((Item) weapon.generate()); break;
-				case 1: items.add((Item) accessory.generate()); break;
+				case 0: item = (Item) weapon.generate(); break;
+				case 1: item = (Item) accessory.generate(); break;
 
 				// case 2: items.add(ShopHatPool.instance.generate()); break;
 			}
+
+			if (item == null) {
+				Log.error("Null item result!");
+				item = new KeyB();
+			}
+
+			items.add(item);
 		}
 
 		placeItems(items);

@@ -49,7 +49,7 @@ public class BulletProjectile extends Projectile {
 	public boolean dissappearWithTime;
 	public float rotationSpeed = 1f;
 	public Gun gun;
-	public boolean second;
+	public boolean second = true;
 
 	{
 		alwaysActive = true;

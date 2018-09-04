@@ -18,13 +18,17 @@ import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
+import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
@@ -88,6 +92,36 @@ public class Chest extends SaveableEntity {
 	public void setItem(Item item) {
 		this.item = item;
 		this.item.generate();
+	}
+
+	public static Pool<Item> makePool(ItemRegistry.Quality quality, boolean weapon, boolean any) {
+		Pool<Item> pool = new Pool<>();
+
+		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
+			if (item.getQuality().check(quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.getType())))
+				&& item.unlocked() &&Player.instance.getInventory().findItem(item.getType()) == null) {
+
+				pool.add(item.getType(), item.getChance() * (
+					item.getWarrior() * Player.instance.getWarrior() +
+						item.getMage() * Player.instance.getMage() +
+						item.getRanged() * Player.instance.getRanger()
+				));
+			}
+		}
+
+		return pool;
+	}
+
+	public static Item generate(ItemRegistry.Quality quality, boolean weapon) {
+		Pool<Item> pool = makePool(quality, weapon, false);
+		Item item = pool.generate();
+
+		if (item == null) {
+			Log.error("Failed to generate item " + quality + " (weapon = " + weapon + ")");
+			return new KeyB();
+		}
+
+		return item;
 	}
 
 	@Override

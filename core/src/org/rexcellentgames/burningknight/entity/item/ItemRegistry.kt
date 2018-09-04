@@ -57,24 +57,36 @@ object ItemRegistry {
 		fun unlocked(): Boolean {
 			if (unlock != null) {
 				return Achievements.unlocked(unlock)
-			} else {
+			} else if (pool != Upgrade.Type.NONE) {
 				return Achievements.unlocked("SHOP_" + type.simpleName.toUpperCase())
 			}
+
+			return true
 		}
 	}
 
 	enum class Quality {
 		WOODEN, IRON, GOLDEN,
-		WOODEN_PLUS, IRON_PLUS;
+		WOODEN_PLUS, IRON_PLUS, ANY;
 
-		fun equals(q: Quality): Boolean {
+		fun check(q: Quality): Boolean {
+			if (q == Quality.ANY || this == Quality.ANY) {
+				return true
+			}
+
 			if (q == Quality.WOODEN) {
 				return this == Quality.WOODEN || this == Quality.WOODEN_PLUS
 			} else if (q == Quality.IRON) {
 				return this == Quality.IRON || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
-			} else {
+			} else if (q == Quality.GOLDEN) {
 				return this == Quality.GOLDEN || this == Quality.WOODEN_PLUS || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
+			} else if (q == Quality.WOODEN_PLUS) {
+				return true
+			} else if (q == Quality.IRON_PLUS) {
+				return this == Quality.IRON || this == Quality.IRON_PLUS || this == Quality.GOLDEN;
 			}
+
+			return false;
 		}
 	}
 
