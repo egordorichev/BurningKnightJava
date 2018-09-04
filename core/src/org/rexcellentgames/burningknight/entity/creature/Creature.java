@@ -221,6 +221,36 @@ public class Creature extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		Arrays.fill(touches, false);
+
+		for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
+			for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
+				if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
+					continue;
+				}
+
+				if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
+					int i = Level.toIndex(x, y);
+					int info = Dungeon.level.getInfo(i);
+					byte t = Dungeon.level.get(i);
+					this.onTouch(t, x, y, info);
+					touches[t] = true;
+
+					byte l = Dungeon.level.liquidData[i];
+
+					if (l > 0) {
+						com.badlogic.gdx.math.Rectangle r = Level.COLLISIONS[Dungeon.level.liquidVariants[i]];
+
+						if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3,
+							x * 16 + r.x, y * 16 - 8 + r.y, r.width, r.height)) {
+							touches[l] = true;
+							this.onTouch(l, x, y, info);
+						}
+					}
+				}
+			}
+		}
+
 		this.acceleration.x = 0;
 		this.acceleration.y = 0;
 
@@ -281,38 +311,6 @@ public class Creature extends SaveableEntity {
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
-		}
-
-		if (Dungeon.level != null) {
-			Arrays.fill(touches, false);
-
-			for (int x = (int) Math.floor((this.hx + this.x) / 16); x < Math.ceil((this.hx + this.x + this.hw) / 16); x++) {
-				for (int y = (int) Math.floor((this.hy + this.y + 8) / 16); y < Math.ceil((this.hy + this.y + 8 + this.hh / 3) / 16); y++) {
-					if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
-						continue;
-					}
-
-					if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
-						int i = Level.toIndex(x, y);
-						int info = Dungeon.level.getInfo(i);
-						byte t = Dungeon.level.get(i);
-						this.onTouch(t, x, y, info);
-						touches[t] = true;
-
-						byte l = Dungeon.level.liquidData[i];
-
-						if (l > 0) {
-							com.badlogic.gdx.math.Rectangle r = Level.COLLISIONS[Dungeon.level.liquidVariants[i]];
-
-							if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3,
-								x * 16 + r.x, y * 16 - 8 + r.y, r.width, r.height)) {
-								touches[l] = true;
-								this.onTouch(l, x, y, info);
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 

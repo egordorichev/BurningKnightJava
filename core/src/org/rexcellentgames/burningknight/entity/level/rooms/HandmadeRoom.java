@@ -197,9 +197,13 @@ public class HandmadeRoom extends RegularRoom {
 
 				Trader trader = new Trader();
 
-				// trader.id = o.
+				trader.id = id;
 				trader.x = x + rect.x + 16;
 				trader.y = y + rect.y + 16 - 8;
+
+				if (id.equals("b")) {
+					trader.saved = true;
+				}
 
 				Dungeon.area.add(trader.add());
 			} else if (name.startsWith("sp_")) {
@@ -209,11 +213,12 @@ public class HandmadeRoom extends RegularRoom {
 
 				trader.x = x + rect.x + 16;
 				trader.y = y + rect.y + 16 - 8;
+				trader.setIdd(id);
 
 				switch (id) {
-					case "add": trader.setType(Upgrade.Type.ACCESSORY); break;
-					case "weapon": trader.setType(Upgrade.Type.WEAPON); break;
-					case "spell": trader.setType(Upgrade.Type.CONSUMABLE); break;
+					case "a": trader.setType(Upgrade.Type.ACCESSORY); break;
+					case "d": trader.setType(Upgrade.Type.WEAPON); break;
+					case "c": trader.setType(Upgrade.Type.CONSUMABLE); break;
 				}
 
 				Dungeon.area.add(trader.add());

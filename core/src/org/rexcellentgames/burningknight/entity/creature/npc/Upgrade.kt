@@ -35,7 +35,7 @@ class Upgrade : SaveableEntity() {
 	private var costStr = ""
 	private var costW = 0
 	private var nameW = 0
-	var idd = ""
+	public var idd = ""
 
 	private var hidden: Boolean = false
 
@@ -123,7 +123,7 @@ class Upgrade : SaveableEntity() {
 		this.nameW = Graphics.layout.width.toInt()
 
 		for (trader in Trader.all) {
-			if (trader.id == this.idd) {
+			if (trader.id == this.idd && trader.saved) {
 				this.hidden = false
 				return
 			}

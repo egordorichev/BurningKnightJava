@@ -599,5 +599,7 @@
 	"bomb_in_abomb" : "Bomb in a bomb",
 	"bomb_in_abomb_desc" : "One bomb, oh wait, 4 now!",
 	"coin" : "Coin",
-	"coin_desc" : "How did you read this???"
+	"coin_desc" : "How did you read this???",
+	"thanks_for_saving" : "Thanks for saving!",
+	"see_you_in_the_asylum" : "See you in the Asylum!"
 }

@@ -282,7 +282,7 @@ public abstract class Room extends Rect implements GraphNode {
 				int ww = validateWidth(Math.min(getWidth(), w) - 1);
 				int hh = validateHeight(Math.min(getHeight(), h) - 1);
 
-				if (ww > w || hh > h) {
+				if (ww >= w || hh >= h) {
 					return false;
 				}
 

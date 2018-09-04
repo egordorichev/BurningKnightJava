@@ -50,7 +50,7 @@ public class PoofFx extends Entity {
 
 		this.t += dt;
 
-		this.a += this.va;
+		this.a += this.va * dt * 60 ;
 		this.va *= 0.995f;
 
 		if (this.t >= max) {

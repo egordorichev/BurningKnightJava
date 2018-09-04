@@ -49,11 +49,11 @@ public class BloodFx extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.x += this.vel.x;
-		this.y += this.vel.y;
+		this.x += this.vel.x * dt * 60;
+		this.y += this.vel.y * dt * 60;
 
 		this.vel.x *= 0.98f;
-		this.vel.y -= 0.01f;
+		this.vel.y -= dt;
 
 		this.angle += this.av * dt * 360;
 

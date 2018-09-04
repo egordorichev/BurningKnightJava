@@ -8,11 +8,14 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
+import org.rexcellentgames.burningknight.entity.item.key.KeyA;
+import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
@@ -60,7 +63,11 @@ public class Door extends SaveableEntity {
 	}
 
 	public Animation getAnimation() {
-		if (this.autoLock) {
+		if (this.key == KeyA.class) {
+			return bronzeLockAnimation;
+		}
+
+		if (this.autoLock || this.key == KeyB.class) {
 			return ironLockAnimation;
 		}
 
@@ -234,6 +241,18 @@ public class Door extends SaveableEntity {
 					this.animation.setBack(false);
 					this.animation.setPaused(false);
 					this.lockAnim = this.unlock;
+
+					if (this.key == KeyA.class) {
+						Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+						for (Trader trader : Trader.all) {
+							if (trader.room == room) {
+								trader.saved = true;
+								trader.become("thanks");
+								break;
+							}
+						}
+					}
 				}
 			}
 
@@ -321,6 +340,10 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
+		if (this.animation == null) {
+			return;
+		}
+
 		Graphics.shape.end();
 		Graphics.batch.begin();
 		this.animation.render(this.x, this.y - (this.vertical ? h / 2 - 2 : h), false, true, this.animation.getFrame());

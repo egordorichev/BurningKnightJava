@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.*;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
@@ -227,7 +228,6 @@ public abstract class RegularLevel extends Level {
 			}
 		} while (this.rooms == null);
 
-
 		if (Dungeon.depth > 0) {
 			itemsToSpawn.add(new ScrollOfUpgrade());
 		}
@@ -257,6 +257,12 @@ public abstract class RegularLevel extends Level {
 			rooms.add(new HandmadeRoom("hub"));
 		} else if (Random.chance(50)) {
 			rooms.add(ItemRoomPool.instance.generate());
+		}
+
+		if (Dungeon.depth > 0) {
+			if (GlobalSave.isFalse("all_traders_saved") && (Random.chance(50) || true)) {
+				rooms.add(new NpcSaveRoom());
+			}
 		}
 
 		int regular = this.getNumRegularRooms();

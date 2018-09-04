@@ -70,21 +70,21 @@ public class GoreFx extends Entity {
 		}
 
 		this.va *= (this.z == 0 ? 0.5f : 0.98f);
-		this.a += this.va;
+		this.a += this.va * dt * 60;
 
-		this.x += this.vel.x;
+		this.x += this.vel.x * dt * 60;
 		this.vel.y -= dt * 8f;
 
 		if (!menu) {
-			this.z = Math.max(0, this.z + this.vel.y);
+			this.z = Math.max(0, this.z + this.vel.y * dt * 60);
 		} else {
-			this.z += this.vel.y;
+			this.z += this.vel.y * dt * 60;
 			if (this.y + this.z < 0) {
 				this.done = true;
 			}
 		}
 
-		this.a += this.va;
+		this.a += this.va * dt * 60;
 		this.va *= 0.95f;
 
 		if (this.vel.x <= 0.1f || this.z == 0) {

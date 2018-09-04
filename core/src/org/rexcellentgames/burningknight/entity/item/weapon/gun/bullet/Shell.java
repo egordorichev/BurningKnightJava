@@ -76,7 +76,7 @@ public class Shell extends Entity {
 
 		this.vel.x *= (this.z == 0 ? 0.5f : 0.98f);
 		this.va *= (this.z == 0 ? 0.5f : 0.98f);
-		this.a += this.va;
+		this.a += this.va * dt * 60;
 
 		if (this.vel.x <= 0.1f && this.z == 0) {
 			this.vel.x = 0;
