@@ -296,13 +296,20 @@ public class Creature extends SaveableEntity {
 						int i = Level.toIndex(x, y);
 						int info = Dungeon.level.getInfo(i);
 						byte t = Dungeon.level.get(i);
+						this.onTouch(t, x, y, info);
+						touches[t] = true;
+
 						byte l = Dungeon.level.liquidData[i];
 
-						touches[t] = true;
-						touches[l] = true;
+						if (l > 0) {
+							com.badlogic.gdx.math.Rectangle r = Level.COLLISIONS[Dungeon.level.liquidVariants[i]];
 
-						this.onTouch(t, x, y, info);
-						this.onTouch(l, x, y, info);
+							if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3,
+								x * 16 + r.x, y * 16 - 8 + r.y, r.width, r.height)) {
+								touches[l] = true;
+								this.onTouch(l, x, y, info);
+							}
+						}
 					}
 				}
 			}

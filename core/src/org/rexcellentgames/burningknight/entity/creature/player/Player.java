@@ -583,6 +583,8 @@ public class Player extends Creature {
 			ItemHolder item = (ItemHolder) entity;
 
 			if (item.getItem() instanceof Coin) {
+				this.playSfx("coin");
+
 				item.remove();
 				item.done = true;
 

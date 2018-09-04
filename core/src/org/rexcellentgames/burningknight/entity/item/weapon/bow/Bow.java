@@ -101,6 +101,8 @@ public class Bow extends WeaponBase {
 	}
 
 	private void sendArrow() {
+		this.owner.playSfx("bow");
+
 		Arrow ar = (Arrow) this.owner.getAmmo("arrow");
 		Point aim = this.owner.getAim();
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -72,6 +73,26 @@ public abstract class Level extends SaveableEntity {
 		" NES", " ES", " NS", " S", " NE", " E", " N", ""
 	};
 
+	public static final Rectangle[] COLLISIONS = new Rectangle[] {
+		new Rectangle(4, 4, 8, 8), // NESW
+		new Rectangle(4, 4, 8, 12), // ESW
+		new Rectangle(4, 4, 12, 8), // NSW
+		new Rectangle(4, 4, 12, 12), // SW
+		new Rectangle(4, 0, 8, 12), // NEW
+		new Rectangle(4, 0, 8, 16), // EW
+		new Rectangle(0, 0, 12, 16), // NW
+		new Rectangle(4, 0, 12, 16), // W
+		new Rectangle(0, 4, 12, 8), // NES
+		new Rectangle(0, 4, 12, 12), // ES
+		new Rectangle(0, 4, 16, 8), // NS
+		new Rectangle(0, 4, 16, 12), // S
+		new Rectangle(0, 0, 12, 12), // NE
+		new Rectangle(0, 0, 12, 16), // E
+		new Rectangle(0, 0, 16, 12), // N
+		new Rectangle(0, 0, 16, 16),
+	};
+
+
 	private static int WIDTH = 36;
 	private static int HEIGHT = 36;
 	private static int SIZE = getWidth() * getHeight();
@@ -79,7 +100,7 @@ public abstract class Level extends SaveableEntity {
 	public byte[] data;
 	public byte[] liquidData;
 	protected byte[] variants;
-	protected byte[] liquidVariants;
+	public byte[] liquidVariants;
 	protected byte[] walls;
 	protected float[] light;
 	protected float[] lightR;
@@ -1090,6 +1111,14 @@ public abstract class Level extends SaveableEntity {
 		for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy); y--) {
 			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
 				int i = x + y * getWidth();
+
+				/*if (this.liquidData[i] != 0) {
+					Graphics.startAlphaShape();
+					Graphics.shape.setColor(1, 1, 1, 0.5f);
+					Rectangle r = COLLISIONS[this.liquidVariants[i]];
+					Graphics.shape.rect(x * 16 + r.x, y * 16 + r.y - 8, r.width, r.height);
+					Graphics.endAlphaShape();
+				}*/
 
 				if (!this.low[i] && (this.light[i] > 0 || this.light[i + getWidth()] > 0)) {
 					byte tile = this.get(i);
