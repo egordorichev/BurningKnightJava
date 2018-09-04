@@ -24,11 +24,11 @@ public class LeverPuzzleRoom extends SpecialRoom {
 
 	@Override
 	public int getMaxWidth() {
-		return 10;
+		return 14;
 	}
 
 	@Override
 	public int getMinWidth() {
-		return 7;
+		return 9;
 	}
 }

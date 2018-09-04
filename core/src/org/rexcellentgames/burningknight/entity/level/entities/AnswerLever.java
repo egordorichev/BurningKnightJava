@@ -45,11 +45,20 @@ public class AnswerLever extends Lever {
 
 		for (AnswerLever lever : all) {
 			lever.did = true;
+			lever.remove();
+			lever.done = true;
+
+			for (int i = 0; i < 4; i++) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = lever.x + lever.w / 2;
+				fx.y = lever.y + lever.h / 2;
+
+				Dungeon.area.add(fx);
+			}
 		}
 
 		Log.info("Right!");
-
-		// todo: spawn only once
 
 		for (Room room : Dungeon.level.getRooms()) {
 			if (room instanceof LeverAnswerRoom) {

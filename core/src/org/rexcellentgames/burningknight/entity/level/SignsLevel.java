@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
 public class SignsLevel extends Entity {
 	{
-		depth = 14;
+		depth = 13;
 		alwaysRender = true;
 	}
 
