@@ -302,10 +302,10 @@ public abstract class RegularLevel extends Level {
 			rooms.add(room);
 			rooms.add(TreasureRoomPool.instance.generate());
 
-			if (Random.chance(75)) {
+			//if (Random.chance(75)) {
 				Log.info("Adding shop");
 				rooms.add(ShopRoomPool.instance.generate());
-			}
+			//}
 		}
 
 		for (int i = 0; i < connection; i++) {

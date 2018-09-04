@@ -25,6 +25,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
@@ -634,7 +635,7 @@ public class Player extends Creature {
 
 					Dungeon.area.add(fx);
 				}
-			} else if (item.getItem().hasAutoPickup() || item.getAuto()) {
+			} else if (!item.getItem().shop && (item.getItem().hasAutoPickup() || item.getAuto())) {
 				if (this.tryToPickup(item) && !item.getAuto()) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
@@ -1068,11 +1069,13 @@ public class Player extends Creature {
 
 		this.resetHit();
 
-		if (this.room == null) {
-
-		} else {
+		if (this.room != null) {
 			if (this.room instanceof ShopRoom) {
 				Audio.play("Shopkeeper");
+
+				if (BurningKnight.instance != null) {
+					BurningKnight.instance.become("await");
+				}
 			}
 
 			hadEnemies = false;

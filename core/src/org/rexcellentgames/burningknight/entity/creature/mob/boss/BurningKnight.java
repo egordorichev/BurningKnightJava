@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -437,7 +438,7 @@ public class BurningKnight extends Boss {
 			}
 
 			if (this.roomToVisit != null) {
-				if (this.flyTo(this.roomToVisit, self.speed, 32f)) {
+				if (this.flyTo(this.roomToVisit, self.speed * 5, 32f)) {
 					if (Random.chance(25)) {
 						self.become("idle");
 						return;
@@ -820,9 +821,21 @@ public class BurningKnight extends Boss {
 				return new UnactiveState();
 			case "rangedAttack":
 				return new RangedAttackState();
+			case "await": return new AwaitState();
 		}
 
 		return super.getAi(state);
+	}
+
+	public class AwaitState extends BKState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (Player.instance == null || Player.instance.isDead() || !(Player.instance.room instanceof ShopRoom)) {
+				self.become("idle");
+			}
+		}
 	}
 
 	public class RangedAttackState extends BKState {
@@ -836,6 +849,17 @@ public class BurningKnight extends Boss {
 
 			fast = Random.chance(40);
 			count = Random.newInt(2, 8);
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+
+			for (FireballProjectile ball : balls) {
+				ball.done = true;
+			}
+
+			balls.clear();
 		}
 
 		private float speed = 1;
