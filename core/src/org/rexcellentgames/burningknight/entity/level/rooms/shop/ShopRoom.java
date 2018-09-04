@@ -108,12 +108,12 @@ public class ShopRoom extends LockedRoom {
 
 
 	protected int getItemCount() {
-		return (this.getWidth() - 2) / 2;
+		return (this.getWidth() - 1) / 2;
 	}
 
 	@Override
 	protected int validateWidth(int w) {
-		return (int) (Math.floor(w / 2) * 2);
+		return w % 2 == 0 ? w : w + 1;
 	}
 
 	@Override

@@ -255,8 +255,6 @@ public class HandmadeRoom extends RegularRoom {
 	public void paint(Level level) {
 		super.paint(level);
 
-		Log.error("size " + this.left + ":" + this.top + ":" + this.getWidth() + ":" + this.getHeight());
-
 		for (int x = 0; x < this.data.w; x++) {
 			for (int y = 0; y < this.data.h; y++) {
 				byte tt = Terrain.FLOOR_A;
