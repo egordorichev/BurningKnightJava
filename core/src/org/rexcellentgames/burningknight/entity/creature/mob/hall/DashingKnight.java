@@ -107,7 +107,7 @@ public class DashingKnight extends Knight {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.al += ((this.state.equals("stun") ? 1 : 0) - this.al) * dt;
+		this.al += ((this.state.equals("stun") ? 1 : 0) - this.al) * dt * 5;
 
 		if (this.use) {
 			this.sword.use();
@@ -134,7 +134,6 @@ public class DashingKnight extends Knight {
 			} else {
 				this.become("stun");
 			}
-
 		}
 
 		super.onCollision(entity);
