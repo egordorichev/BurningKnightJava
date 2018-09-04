@@ -1228,9 +1228,6 @@ public class Player extends Creature {
 				Dungeon.area.add(fx);
 			}
 
-			Log.info("Golden hearts tp");
-			this.teleport = true;
-
 			for (int i = 0; i < 10; i++) {
 				PoofFx fx = new PoofFx();
 
@@ -1238,6 +1235,12 @@ public class Player extends Creature {
 				fx.y = this.y + this.h / 2;
 
 				Dungeon.area.add(fx);
+			}
+
+			for (Mob mob : Mob.all) {
+				if (mob.room == this.room) {
+					mob.addBuff(new FreezeBuff().setDuration(10));
+				}
 			}
 		}
 
