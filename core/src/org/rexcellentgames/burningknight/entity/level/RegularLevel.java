@@ -260,7 +260,7 @@ public abstract class RegularLevel extends Level {
 		}
 
 		if (Dungeon.depth > 0) {
-			if (GlobalSave.isFalse("all_traders_saved") && (Random.chance(50) || true)) {
+			if (GlobalSave.isFalse("all_npcs_saved") && (Random.chance(25))) {
 				rooms.add(new NpcSaveRoom());
 			}
 		}

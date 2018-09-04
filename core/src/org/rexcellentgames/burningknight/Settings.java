@@ -31,6 +31,8 @@ public class Settings {
 			Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2);
 		}
 
+		Gdx.graphics.setVSync(Settings.vsync);
+
 		/*
 		if (!AssetLoadState.START_TO_MENU) {
 			music = 0;

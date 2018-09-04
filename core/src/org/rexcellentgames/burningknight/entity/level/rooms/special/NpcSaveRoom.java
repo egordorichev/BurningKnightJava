@@ -12,8 +12,8 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class NpcSaveRoom extends SpecialRoom {
-	private static final String[] saveOrder = {
-		"a", "b", "c", "d"
+	public static final String[] saveOrder = {
+		"d", "a", "c", "e", "g", "h"
 	};
 
 	@Override

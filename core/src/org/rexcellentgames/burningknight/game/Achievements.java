@@ -33,6 +33,7 @@ public class Achievements {
 	public static final String FILL_UP_INVENTORY = "FILL_UP_INVENTORY_ACHIEVEMENT";
 	public static final String FIND_SECRET_ROOM = "FIND_SECRET_ROOM_ACHIEVEMENT";
 	public static final String UPGRADE = "UPGRADE_ACHIEVEMENT";
+	public static final String SAVE_ALL = "SAVE_ALL_ACHIEVEMENT";
 	// Item unlocks
 	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
 	public static final String UNLOCK_MIMIC_TOTEM = "UNLOCK_MIMIC_TOTEM";
@@ -65,7 +66,7 @@ public class Achievements {
 	public static final String UNLOCK_KOTLING_GUN = "UNLOCK_KOTLING_GUN";
 	// todo: unlock for resizing win to min
 	// Secret
-	// TODO
+	public static final String SECRET_TRADER = "SECRET_TRADER";
 
 	private static ArrayList<UiAchievement> toShow = new ArrayList<>();
 	private static Area top = new Area(true);

@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
@@ -250,6 +251,11 @@ public class Door extends SaveableEntity {
 								trader.saved = true;
 								GlobalSave.put("npc_" + trader.id + "_saved", true);
 								trader.become("thanks");
+
+								if (trader.id.equals(NpcSaveRoom.saveOrder[NpcSaveRoom.saveOrder.length - 1])) {
+									Achievements.unlock(Achievements.SAVE_ALL);
+									GlobalSave.put("all_npcs_saved", true);
+								}
 								break;
 							}
 						}

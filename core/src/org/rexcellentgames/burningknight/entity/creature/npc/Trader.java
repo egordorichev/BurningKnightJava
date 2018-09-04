@@ -91,7 +91,7 @@ public class Trader extends Npc {
 		all.add(this);
 
 		if (this.id != null) {
-			this.saved = this.id.equals("b") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+			this.saved = this.id.equals("b") || this.id.equals("f") || GlobalSave.isTrue("npc_" + this.id + "_saved");
 		}
 	}
 
@@ -115,7 +115,7 @@ public class Trader extends Npc {
 		this.id = reader.readString();
 
 		if (this.id != null) {
-			this.saved = this.id.equals("b") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+			this.saved = this.id.equals("b") || this.id.equals("f") || GlobalSave.isTrue("npc_" + this.id + "_saved");
 		}
 	}
 

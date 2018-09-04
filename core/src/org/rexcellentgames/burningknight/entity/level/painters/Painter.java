@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -61,8 +62,8 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		leftMost -= 4;
-		topMost -= 4;
+		//leftMost -= 4;
+		//topMost -= 4;
 
 		int rightMost = 0, bottomMost = 0;
 
@@ -76,10 +77,11 @@ public class Painter {
 		rightMost++;
 		bottomMost++;
 
-		rightMost += 4;
-		bottomMost += 4;
+		//rightMost += 4;
+		//bottomMost += 4;
 
 		//add 1 to account for 0 values
+		Log.info("Setting level size to " + (1 + rightMost) + ":" + (bottomMost + 1));
 		Level.setSize(rightMost + 1, bottomMost + 1);
 		level.generateDecor();
 		level.fill();

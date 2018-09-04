@@ -250,13 +250,13 @@ public class Skeleton extends Mob {
 
 				float a = (float) (i * Math.PI / (eight ? 4 : 2)) + add;
 				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod * 0.5f);
-
 				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
 				ball.damage = 2;
 				ball.canBeRemoved = false;
 				ball.owner = self;
 				ball.circleShape = true;
 				ball.rotates = true;
+				ball.second = false;
 				ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
 
 				ball.letter = "bone";

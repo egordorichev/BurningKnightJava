@@ -106,12 +106,11 @@ public class Bow extends WeaponBase {
 		Point aim = this.owner.getAim();
 
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
-		float s = 60f;
 
 		float knockbackMod = owner.getStat("knockback");
 
-		this.owner.velocity.x += Math.cos(a) * s * knockbackMod;
-		this.owner.velocity.y += Math.sin(a) * s * knockbackMod;
+		this.owner.velocity.x += Math.cos(a) * 60 * knockbackMod;
+		this.owner.velocity.y += Math.sin(a) * 60 * knockbackMod;
 
 		ArrowProjectile arrow = new ArrowProjectile();
 
@@ -120,15 +119,24 @@ public class Bow extends WeaponBase {
 		float dx = aim.x - this.owner.x - this.owner.w / 2;
 		float dy = aim.y - this.owner.y - this.owner.h / 2;
 
-		arrow.type = ar.getClass();
+		double an = (Math.atan2(dy, dx));
+
 		arrow.sprite = ar.getSprite();
-		arrow.a = (float) (Math.atan2(dy, dx) + Math.toRadians(Random.newFloat(-accuracity, accuracity)));
-		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(arrow.a) * 16);
-		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(arrow.a) * 16);
+		arrow.a = (float) Math.toDegrees(an);
+		arrow.second = false;
+
+		float s = 3 * 60f;
+		double ann = an + Math.toRadians(Math.toRadians(Random.newFloat(-accuracity, accuracity)));
+
+		arrow.velocity = new Point(
+			(float) Math.cos(ann) * s, (float) Math.sin(ann) * s
+		);
+
+		arrow.x = (float) (this.owner.x + this.owner.w / 2 + Math.cos(an) * 8);
+		arrow.y = (float) (this.owner.y + this.owner.h / 2 + Math.sin(an) * 8);
 		arrow.damage = rollDamage() + ar.damage;
 		arrow.crit = lastCrit;
 		arrow.bad = this.owner instanceof Mob;
-		arrow.charge = charge;
 
 		Dungeon.area.add(arrow);
 

@@ -44,6 +44,7 @@ public class ChasmFx extends Entity {
 			this.a -= dt / 3f;
 
 			if (this.a <= 0 || this.size <= 0) {
+				this.done = true;
 				return;
 			}
 		}
