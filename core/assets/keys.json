@@ -8,7 +8,7 @@
 	"drop" : [ "ControllerY", "X" ],
 	"shift" : [ "L-Shift", "R-Shift" ],
 
-	"use" : [ "Mouse0", "F", "ControllerR2" ],
+	"use" : [ "Mouse0", "ControllerR2" ],
 	"second_use" : [ "Mouse1" ],
 	"scroll" : [ "MouseWheel" ],
 
@@ -44,7 +44,7 @@
 	"map" : [ "M", "Tab", "ControllerA" ],
 
 	"zoom_out" : [ "-" ],
-	"zoom_in" : [ "+", "=" ],
+	"zoom_in" : [ "=" ],
 	"toggle_minimap" : [ "T" ],
 
 	"reset" : [ "F4" ],

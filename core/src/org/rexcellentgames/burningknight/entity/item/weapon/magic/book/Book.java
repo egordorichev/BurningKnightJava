@@ -15,7 +15,7 @@ public class Book extends Wand {
 			Point aim = this.owner.getAim();
 
 			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
-			an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+			an = Gun.angleLerp(this.lastAngle, an, 0.15f, this.owner != null && this.owner.freezed);
 			this.lastAngle = an;
 			float a = (float) Math.toDegrees(this.lastAngle);
 
@@ -40,7 +40,7 @@ public class Book extends Wand {
 			Point aim = this.owner.getAim();
 
 			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
-			an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+			an = Gun.angleLerp(this.lastAngle, an, 0.15f, this.owner != null && this.owner.freezed);
 			this.lastAngle = an;
 			float a = (float) Math.toDegrees(this.lastAngle);
 

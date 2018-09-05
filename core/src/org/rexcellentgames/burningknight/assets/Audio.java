@@ -14,10 +14,31 @@ import org.rexcellentgames.burningknight.util.Tween;
 import java.util.HashMap;
 
 public class Audio {
+	public static HashMap<String, Integer> bpm = new HashMap<>();
 	public static HashMap<String, Float> volumes = new HashMap<>();
 	public static Music current;
 	private static boolean important;
 	private static String last = "";
+	private static float time;
+
+	public static boolean beat;
+
+	public static void update(float dt) {
+		if (current != null && current.isPlaying()) {
+			time += dt;
+
+			int beats = bpm.get(last);
+
+			if (time >= 60f / beats) {
+				time = 0;
+				beat = true;
+			} else {
+				beat = false;
+			}
+		} else {
+			time = 0;
+		}
+	}
 
 	public static void targetAssets() {
 		JsonReader reader = new JsonReader();
@@ -31,7 +52,7 @@ public class Audio {
 		root = reader.parse(Gdx.files.internal("music/music.json"));
 
 		for (JsonValue name : root) {
-			// todo: read bp
+			bpm.put(name.name, name.asInt());
 			Assets.manager.load("music/" + name.name + ".mp3", Music.class);
 		}
 
@@ -98,6 +119,8 @@ public class Audio {
 
 		fadeOut();
 
+		time = 0;
+
 		music.setLooping(false);
 		music.setVolume(Settings.music);
 		music.play();
@@ -111,6 +134,7 @@ public class Audio {
 		if (current != null) {
 			current.stop();
 			current.play();
+			time = 0;
 		}
 	}
 
@@ -137,6 +161,7 @@ public class Audio {
 		music.setLooping(true);
 		music.setVolume(0);
 		music.play();
+		time = 0;
 
 		Tween.to(new Tween.Task(Settings.music, 1f) {
 			@Override

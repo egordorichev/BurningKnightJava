@@ -19,6 +19,7 @@ import net.arikia.dev.drpc.DiscordRichPresence;
 import net.arikia.dev.drpc.DiscordUser;
 import net.arikia.dev.drpc.callbacks.ReadyCallback;
 import org.rexcellentgames.burningknight.assets.Assets;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -311,18 +312,6 @@ public class Dungeon extends ApplicationAdapter {
 				@Override
 				public void onEnd() {
 					game.setState(new MainMenuState());
-
-					Tween.to(new Tween.Task(1, 0.2f) {
-						@Override
-						public float getValue() {
-							return Dungeon.dark;
-						}
-
-						@Override
-						public void setValue(float value) {
-							Dungeon.dark = value;
-						}
-					});
 				}
 
 				@Override
@@ -340,7 +329,7 @@ public class Dungeon extends ApplicationAdapter {
 
 			game.setState(new LoadState());
 
-			Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
+			Gdx.gl.glClearColor(0, 0, 0, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 			to = -3;
@@ -365,6 +354,7 @@ public class Dungeon extends ApplicationAdapter {
 			Input.instance.updateMousePosition();
 		}
 
+		Audio.update(dt);
 		Tween.update(dt);
 		shockTime += dt;
 		glitchTime = Math.max(0, glitchTime - dt);
@@ -461,7 +451,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.setProjectionMatrix(Camera.game.combined);
 
-		if (Level.SHADOWS) {
+		if (game.getState() instanceof InGameState && Level.SHADOWS) {
 			// Clear shadows
 
 			Graphics.shadows.begin();
@@ -497,7 +487,10 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.begin();
 
-		area.render();
+		if (!(game.getState() instanceof LoadState)) {
+			area.render();
+		}
+
 		game.render(false);
 
 		Graphics.batch.end();
@@ -551,6 +544,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.begin();
 
 		game.renderUi();
+
 		if (fpsY > 0) {
 			int f = Gdx.graphics.getFramesPerSecond();
 

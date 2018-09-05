@@ -164,7 +164,7 @@ vec4 get(vec2 pos) {
     }
 
     if (ui < 0.5) {
-    	realColor.rgb = mix(realColor.rgb, realColor.rgb * smoothstep(0.75, 0.3, length(pos.xy - vec2(0.5))), 0.5);
+    	realColor.rgb = mix(realColor.rgb, realColor.rgb * smoothstep(0.7, 0.4, length(pos.xy - vec2(0.5))), 0.5);
     }
 
     if (transR < 1.0) {
@@ -178,7 +178,7 @@ vec4 get(vec2 pos) {
     }
 
     if (dark < 1.0) {
-        return realColor * dark;
+        return realColor * vec4(dark, dark, dark, 1.0);
     } else {
         return realColor;
     }

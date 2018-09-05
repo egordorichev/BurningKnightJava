@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiButton extends UiEntity {
@@ -21,7 +20,7 @@ public class UiButton extends UiEntity {
 	public float scale = 1f;
 	private Tween.Task last;
 	protected String label;
-	protected float mx = 3f;
+	protected float mx = 0f;
 	public boolean sparks;
 	public float r = 1f;
 	public float g = 1f;
@@ -82,7 +81,7 @@ public class UiButton extends UiEntity {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
+		Graphics.batch.setColor(this.r * this.ar, this.g * this.ag, this.b * this.ab, 1);
 
 		Graphics.batch.end();
 		Graphics.shadows.end();
@@ -129,9 +128,9 @@ public class UiButton extends UiEntity {
 					Tween.remove(this.last);
 				}
 
-				this.rr = 1f;
-				this.rg = 1f;
-				this.rb = 1f;
+				this.rr = 0.5f;
+				this.rg = 0.5f;
+				this.rb = 0.5f;
 
 				this.last = Tween.to(new Tween.Task(1f - 0.2f * scaleMod, 0.05f) {
 					@Override
@@ -150,9 +149,9 @@ public class UiButton extends UiEntity {
 						last = null;
 						onClick();
 
-						r = 0.7f;
-						g = 0.7f;
-						b = 0.7f;
+						r = 1f;
+						g = 1f;
+						b = 1f;
 
 						last = Tween.to(new Tween.Task(1 + 0.2f * scaleMod, 0.05f) {
 							@Override
@@ -226,7 +225,8 @@ public class UiButton extends UiEntity {
 				}
 			});
 
-			Tween.to(new Tween.Task(3, 0.1f) {
+			Tween.remove(this.lastMx);
+			this.lastMx = Tween.to(new Tween.Task(0, 0.1f) {
 				@Override
 				public float getValue() {
 					return mx;
@@ -248,13 +248,16 @@ public class UiButton extends UiEntity {
 				Tween.remove(this.last);
 			}
 
-			this.r = 0.7f;
-			this.g = 0.7f;
-			this.b = 0.7f;
+			this.r = 1f;
+			this.g = 1f;
+			this.b = 1f;
 
 			Audio.playSfx("menu/moving");
 
-			Tween.to(new Tween.Task(20, 0.1f) {
+
+
+			Tween.remove(this.lastMx);
+			this.lastMx = Tween.to(new Tween.Task(20, 0.1f) {
 				@Override
 				public float getValue() {
 					return mx;
@@ -295,10 +298,8 @@ public class UiButton extends UiEntity {
 			});
 		}
 
-		this.t += dt;
-
 		if (this.hover) {
-			float v = this.t % 1f > 0.5f ? 1f : 0.7f;
+			float v = 0.7f;
 
 			this.r = v;
 			this.g = v;
@@ -306,13 +307,13 @@ public class UiButton extends UiEntity {
 
 			this.area.select(this);
 		} else {
-			r = 0.7f;
-			g = 0.7f;
-			b = 0.7f;
+			r = 1f;
+			g = 1f;
+			b = 1f;
 		}
 	}
 
-	private float t;
+	private Tween.Task lastMx;
 
 	public void onClick() {
 		if (this.playSfx) {

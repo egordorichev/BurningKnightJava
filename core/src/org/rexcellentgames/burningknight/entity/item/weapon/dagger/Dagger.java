@@ -62,7 +62,7 @@ public class Dagger extends Sword {
 			Point aim = this.owner.getAim();
 
 			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI / 2);
-			an = Gun.angleLerp(this.lastAngle, an, 0.15f);
+			an = Gun.angleLerp(this.lastAngle, an, 0.15f, this.owner != null && this.owner.freezed);
 			this.lastAngle = an;
 			float a = (float) Math.toDegrees(this.lastAngle);
 

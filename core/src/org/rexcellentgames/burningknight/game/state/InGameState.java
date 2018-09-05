@@ -106,6 +106,9 @@ public class InGameState extends State {
 	private String depth;
 	private float w;
 
+	private Tween.Task lastTask;
+	private Tween.Task lastTaskSize;
+
 	@Override
 	public void setPaused(boolean paused) {
 		super.setPaused(paused);
@@ -143,7 +146,8 @@ public class InGameState extends State {
 				}
 			});
 
-			Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+			Tween.remove(lastTask);
+			lastTask = Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
 					return mv;
@@ -160,7 +164,9 @@ public class InGameState extends State {
 				}
 			});
 
-			Tween.to(new Tween.Task(52, 0.2f) {
+
+			Tween.remove(lastTaskSize);
+			lastTaskSize = Tween.to(new Tween.Task(52, 0.2f) {
 				@Override
 				public float getValue() {
 					return size;
@@ -198,7 +204,9 @@ public class InGameState extends State {
 				}
 			});
 
-			Tween.to(new Tween.Task(0, 0.2f) {
+
+			Tween.remove(lastTaskSize);
+			lastTaskSize = Tween.to(new Tween.Task(0, 0.2f) {
 				@Override
 				public float getValue() {
 					return size;
@@ -215,7 +223,9 @@ public class InGameState extends State {
 				}
 			});
 
-			Tween.to(new Tween.Task(-256, 0.2f) {
+
+			Tween.remove(lastTask);
+			lastTask = Tween.to(new Tween.Task(-256, 0.2f) {
 				@Override
 				public float getValue() {
 					return mv;

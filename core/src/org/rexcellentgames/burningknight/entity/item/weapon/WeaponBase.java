@@ -256,7 +256,6 @@ public class WeaponBase extends Item {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-
 		this.t += dt;
 	}
 

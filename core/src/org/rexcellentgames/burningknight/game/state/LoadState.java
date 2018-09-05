@@ -38,26 +38,47 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
-		HandmadeRoom.init();
-
 		this.s = "Doing secret stuff...";
 		Dungeon.grayscale = 0;
-
-		if (Ui.ui != null) {
-			Ui.ui.healthbars.clear();
-		}
-
-		Dungeon.speed = 1f;
-		Dungeon.darkR = Dungeon.MAX_R;
-		Dungeon.ui.destroy();
-		Dungeon.area.destroy();
-		Exit.instance = null;
 
 		switch (Dungeon.loadType) {
 			case GO_UP: this.s = Locale.get("ascending"); break;
 			case GO_DOWN: this.s = Locale.get("descending"); break;
 			case LOADING: this.s = Locale.get("loading"); break;
 		}
+
+		if (Ui.ui != null) {
+			Ui.ui.healthbars.clear();
+		}
+
+		Dungeon.setBackground(new Color(0, 0, 0, 1));
+
+		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.dark = 1;
+	}
+
+	private boolean second;
+
+	@Override
+	public void update(float dt) {
+		if (this.ready) {
+			Dungeon.darkR = 0;
+			Dungeon.game.setState(new InGameState());
+		}
+	}
+
+	private boolean third;
+
+	private void runThread() {
+
+		HandmadeRoom.init();
+
+		Dungeon.speed = 1f;
+		Dungeon.dark = 1;
+		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.ui.destroy();
+		Dungeon.area.destroy();
+		Exit.instance = null;
 
 		Player.ladder = null;
 		Level.GENERATED = false;
@@ -75,8 +96,6 @@ public class LoadState extends State {
 
 		PlayerSave.all.clear();
 		LevelSave.all.clear();
-
-		Dungeon.setBackground(new Color(0, 0, 0, 1));
 
 		Thread thread = new Thread(new Runnable() {
 			@Override
@@ -167,35 +186,24 @@ public class LoadState extends State {
 				}
 
 				Dungeon.buildDiscordBadge();
+				third = true;
 			}
 		});
 
 		thread.setPriority(3);
 		thread.run();
-
-		Dungeon.darkR = Dungeon.MAX_R;
-		Dungeon.dark = 1;
-	}
-
-	private boolean second;
-
-	@Override
-	public void update(float dt) {
-		if (this.ready) {
-			Dungeon.darkR = 0;
-			Dungeon.game.setState(new InGameState());
-		}
 	}
 
 	@Override
 	public void renderUi() {
-		this.alp += ((this.second ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 8;
+		this.alp += ((this.third ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 5;
 
-		if (this.alp >= 0.95f) {
+		if (this.alp >= 0.95f && !second) {
 			this.second = true;
+			runThread();
 		}
 
-		if (this.alp <= 0.05f && this.second) {
+		if (this.alp <= 0.05f && this.third) {
 			this.ready = true;
 		}
 
