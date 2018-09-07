@@ -21,12 +21,12 @@ public class LavaLakeRoom extends PatchRoom {
 
 		Painter.fill(level, this, 1, chasm ? Terrain.CHASM : Terrain.LAVA);
 
-		float fill = 0.2f + (this.getWidth() * this.getHeight()) / 128f;
+		float fill = 0.4f;// + (this.getWidth() * this.getHeight()) / 8f;
 
-		setupPatch(level, fill, 20, true);
+		setupPatch(level, fill, 5, true);
 		cleanDiagonalEdges();
 
-		byte floor = chasm ? Terrain.randomFloor() : (Random.chance(50) ? Terrain.WATER : Terrain.DIRT);
+		byte floor = chasm ? Terrain.randomFloor() : (Terrain.DIRT);
 
 		for (int i = top + 1; i < bottom; i++) {
 			for (int j = left + 1; j < right; j++) {

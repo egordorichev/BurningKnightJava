@@ -18,6 +18,7 @@ public class Boss extends Mob {
 	public boolean ignoreHealthbar;
 	public boolean shouldBeInTheSameRoom;
 	public boolean talked;
+	public boolean rage;
 
 	@Override
 	public void load(FileReader reader) throws IOException {

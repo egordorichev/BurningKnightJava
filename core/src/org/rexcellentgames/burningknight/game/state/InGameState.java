@@ -364,7 +364,7 @@ public class InGameState extends State {
 
 			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
 				Audio.play("Shopkeeper");
-			} else if (Boss.all.size() > 0 && Player.instance.room instanceof BossRoom) {
+			} else if (Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage) {
 				Audio.play("Rogue");
 			} else {
 				Audio.play(Dungeon.level.getMusic());

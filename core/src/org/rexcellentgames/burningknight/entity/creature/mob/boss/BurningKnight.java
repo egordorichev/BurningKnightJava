@@ -35,6 +35,7 @@ import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
+import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
@@ -72,8 +73,8 @@ public class BurningKnight extends Boss {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
-		super.onHurt(a, from);
+	protected void onHurt(int am, Creature from) {
+		super.onHurt(am, from);
 
 		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
@@ -85,6 +86,30 @@ public class BurningKnight extends Boss {
 		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
 
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
+	}
+
+	@Override
+	public void die() {
+		this.dead = false;
+		this.done = false;
+		this.hp = 1;
+		this.rage = true;
+		this.unhittable = true;
+		this.ignoreRooms = true;
+
+		Tween.to(new Tween.Task(0.6f, 0.3f) {
+			@Override
+			public float getValue() {
+				return a;
+			}
+
+			@Override
+			public void setValue(float value) {
+				a = value;
+			}
+		});
+
+		this.become("chase");
 	}
 
 	public void findStartPoint() {
@@ -142,11 +167,42 @@ public class BurningKnight extends Boss {
 		this.tp(0, 0);
 	}
 
+	public void restore() {
+		Log.error("Restore!");
+		this.hpMax = Dungeon.depth * 30 + 70;
+		this.hp = this.hpMax;
+		this.rage = false;
+	}
+
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		this.tp(0, 0);
+		this.rage = reader.readBoolean();
+		int lastLevel = reader.readInt16();
+
+		Log.error("Last depth " + lastLevel);
+
+		if (lastLevel != Dungeon.depth) {
+			restore();
+		}
+
+		if (this.rage) {
+			this.ignoreRooms = true;
+			this.attackTp = true;
+			this.become("fadeIn");
+			this.a = 0.5f;
+		}
 	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+		writer.writeBoolean(this.rage);
+		writer.writeInt16((short) deathDepth);
+	}
+
+	private int deathDepth;
 
 	@Override
 	public void update(float dt) {
@@ -341,10 +397,8 @@ public class BurningKnight extends Boss {
 					self.attackTp = true;
 					self.become("fadeOut");
 				} else if (!self.onScreen) {
-					self.target = null;
-					self.become("idle");
-					self.noticeSignT = 0f;
-					self.hideSignT = 2f;
+					self.attackTp = true;
+					self.become("fadeOut");
 				}
 			} else {
 				if (this.t >= 1f) {
@@ -358,10 +412,8 @@ public class BurningKnight extends Boss {
 					self.attackTp = true;
 					self.become("fadeOut");
 				} else if (!self.onScreen) {
-					self.target = null;
-					self.become("idle");
-					self.noticeSignT = 0f;
-					self.hideSignT = 2f;
+					self.attackTp = true;
+					self.become("fadeOut");
 				}
 			}
 		}
@@ -595,7 +647,7 @@ public class BurningKnight extends Boss {
 		public void onEnter() {
 			self.a = 0;
 
-			Tween.to(new Tween.Task(1, 0.3f) {
+			Tween.to(new Tween.Task(self.rage ? 0.6f : 1f, 0.3f) {
 				@Override
 				public float getValue() {
 					return self.a;
@@ -752,6 +804,7 @@ public class BurningKnight extends Boss {
 		instance = null;
 		this.done = true;
 		GameSave.defeatedBK = true;
+		this.deathDepth = Dungeon.depth;
 
 		deathEffect(killed);
 		PlayerSave.remove(this);

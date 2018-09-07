@@ -97,7 +97,7 @@ public class Healthbar {
 		this.lastV += (boss.getHp() - this.lastV) / 60f;
 		this.lastBV += (boss.getHp() - this.lastBV) / 4f;
 
-		boolean d = boss.isDead() || boss.getState().equals("unactive");
+		boolean d = boss.isDead() || boss.getState().equals("unactive") || boss.rage;
 
 		if (d && this.tweened) {
 			tweened = false;
