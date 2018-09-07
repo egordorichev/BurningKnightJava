@@ -229,7 +229,7 @@ public class Ui {
 						super.onClick();
 
 						rst();
-						Dungeon.newGame(true, 0);
+						Dungeon.newGame(true, 1);
 						Camera.shake(3);
 					}
 				});

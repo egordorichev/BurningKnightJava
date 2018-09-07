@@ -255,10 +255,16 @@ public class UiSlot {
 			this.tweenClick();
 			current.use();
 			self.upgrade();
+
+			if (current.getCount() <= 0) {
+				this.inventory.setCurrentSlot(null);
+				Ui.upgradeMouse = false;
+			}
+
 			return;
 		}
 
-		if (active instanceof ScrollOfUpgrade && (self.canBeUpgraded())) {
+		if (active instanceof ScrollOfUpgrade && (self != null && self.canBeUpgraded())) {
 			if (self.getLevel() >= self.getMaxLevel()) {
 				Audio.playSfx("item_nocash");
 				tweenClick();

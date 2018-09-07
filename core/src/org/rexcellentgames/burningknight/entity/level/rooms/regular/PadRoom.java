@@ -54,7 +54,7 @@ public class PadRoom extends RegularRoom {
 		Painter.fill(level, this, 1, Terrain.CHASM);
 
 		if (below) {
-			this.paintTunnel(level, Terrain.randomFloor());
+			this.paintTunnel(level, Terrain.randomFloor(), true);
 		}
 
 		if (Random.chance(50)) {
@@ -107,7 +107,7 @@ public class PadRoom extends RegularRoom {
 		}
 
 		if (!below) {
-			this.paintTunnel(level, Terrain.randomFloor());
+			this.paintTunnel(level, Terrain.randomFloor(), true);
 		}
 	}
 

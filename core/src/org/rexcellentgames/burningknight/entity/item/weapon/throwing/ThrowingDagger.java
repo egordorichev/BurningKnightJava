@@ -19,7 +19,7 @@ public class ThrowingDagger extends Weapon {
 	private float max = 100f;
 
 	{
-		useTime = 1f;
+		useTime = 2f;
 	}
 
 	protected void setStats() {
@@ -78,24 +78,24 @@ public class ThrowingDagger extends Weapon {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		float dt = Gdx.graphics.getDeltaTime() * 5;
+		float dt = Gdx.graphics.getDeltaTime() * 2;
 		float d = this.max - this.added;
 
 		if (this.forward) {
 			if (d <= 10f) {
 				this.forward = false;
 			} else {
-				this.added += d * dt;
+				this.added += d * dt * 1.5;
 			}
 		} else if (this.added > 0) {
-			this.added = Math.max(this.added - d * dt, 0);
+			this.added = Math.max(this.added - d * dt * 7, 0);
 		} else {
 			endUse();
 		}
 
 		Point aim = this.owner.getAim();
 		float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI / 2);
-		an = Gun.angleLerp(this.lastAngle, an, 0.05f + (this.max - this.added) / 400f, this.owner != null && this.owner.freezed);
+		an = Gun.angleLerp(this.lastAngle, an, 0.05f, this.owner != null && this.owner.freezed);
 		this.lastAngle = an;
 		float a = (float) Math.toDegrees(an);
 		float dst = added;

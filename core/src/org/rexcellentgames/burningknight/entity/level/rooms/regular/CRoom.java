@@ -56,7 +56,7 @@ public class CRoom extends RegularRoom {
 		}
 
 		if (Random.chance(10)) {
-			paintTunnel(level, Terrain.randomFloor());
+			paintTunnel(level, Terrain.randomFloor(), true);
 		}
 	}
 

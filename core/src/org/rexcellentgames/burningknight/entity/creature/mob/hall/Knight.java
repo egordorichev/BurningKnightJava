@@ -252,7 +252,9 @@ public class Knight extends Mob {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= this.att) {
 
-						self.become("preattack");
+						if (self.canSee(self.target)) {
+							self.become("preattack");
+						}
 					} else {
 						self.noticeSignT = 0f;
 						self.hideSignT = 2f;

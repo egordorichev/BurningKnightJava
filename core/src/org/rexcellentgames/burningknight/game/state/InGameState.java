@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -23,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -90,6 +92,17 @@ public class InGameState extends State {
 			Achievements.unlock(Achievements.UNLOCK_DEW_VIAL);
 		} else if (Dungeon.level instanceof LibraryLevel) {
 			Achievements.unlock(Achievements.REACH_LIBRARY);
+		}
+
+		if (BurningKnight.instance == null && !GameSave.defeatedBK && Dungeon.depth > -1) {
+			BurningKnight knight = new BurningKnight();
+
+			Dungeon.area.add(knight);
+			PlayerSave.add(knight);
+		}
+
+		if (BurningKnight.instance != null) {
+			BurningKnight.instance.become("unactive");
 		}
 	}
 
@@ -487,7 +500,7 @@ public class InGameState extends State {
 
 				transition(() -> {
 					Dungeon.grayscale = 0;
-					Dungeon.newGame(true, 0);
+					Dungeon.newGame(true, 1);
 				});
 			}
 		}.setSparks(true));

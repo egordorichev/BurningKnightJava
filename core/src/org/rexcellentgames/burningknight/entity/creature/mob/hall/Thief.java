@@ -284,6 +284,13 @@ public class Thief extends Mob {
 		}
 	}
 
+
+	@Override
+	protected void onHurt(int a, Creature creature) {
+		super.onHurt(a, creature);
+		this.playSfx("damage_clown");
+	}
+
 	@Override
 	public void onHit(Creature who) {
 		super.onHit(who);

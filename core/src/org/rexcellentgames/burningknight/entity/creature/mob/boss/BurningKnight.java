@@ -351,7 +351,10 @@ public class BurningKnight extends Boss {
 					self.become("rangedAttack");
 				}
 
-				if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
+				if (d < 48) {
+					self.attackTp = true;
+					self.become("fadeOut");
+				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
 					self.attackTp = true;
 					self.become("fadeOut");
 				} else if (!self.onScreen) {
@@ -607,6 +610,7 @@ public class BurningKnight extends Boss {
 				public void onEnd() {
 					self.become("chase");
 					self.attackTp = false;
+					Camera.follow(Player.instance, false);
 				}
 			});
 		}
@@ -779,14 +783,13 @@ public class BurningKnight extends Boss {
 			if (Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) {
 				Log.info("BK is out");
 
-				float a = Random.newFloat((float) (Math.PI * 2));
-
 				self.setUnhittable(false);
-				self.tp(Player.instance.x + Player.instance.w / 2 + (float) Math.cos(a) * 64f,
-					Player.instance.y + Player.instance.h / 2 + (float) Math.sin(a) * 64f);
+				self.tp((Player.instance.room.left + Player.instance.room.getWidth() / 2) * 16,
+					(Player.instance.room.top + Player.instance.room.getHeight() / 2) * 16);
 				self.become("fadeIn");
 				self.a = 0;
 
+				Camera.follow(self, false);
 				Camera.shake(10);
 				Lamp.play();
 			}

@@ -218,6 +218,12 @@ public class Clown extends Mob {
 			this.lastAttack += dt;
 			this.checkForPlayer();
 
+			if (!self.canSee(self.target)) {
+				if (!this.moveTo(self.lastSeen, 10f, 64f)) {
+					return;
+				}
+			}
+
 			if (self.target != null && this.lastAttack >= 1f && Random.chance(75)) {
 				Note note = new Note();
 				this.lastAttack = 0;

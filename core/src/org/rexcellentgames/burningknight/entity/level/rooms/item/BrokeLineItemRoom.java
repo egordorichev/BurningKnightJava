@@ -17,36 +17,36 @@ public class BrokeLineItemRoom extends ItemRoom {
 
 		Painter.fill(level, this, Terrain.WALL);
 		Painter.fill(level, this, 1, Terrain.randomFloor());
-		Painter.fill(level, this, 2, fl);
+		Painter.fill(level, this, 3, fl);
 
 		boolean el = Random.chance(50);
 
 		if (el) {
-			Painter.fillEllipse(level, this, 3, f);
+			Painter.fillEllipse(level, this, 4, f);
 		} else {
-			Painter.fill(level, this, 3, f);
+			Painter.fill(level, this, 4, f);
 		}
 
 		boolean s = false;
 		boolean all = true; // Random.chance(50);
 
 		if (all || Random.chance(50)) {
-			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 2), f);
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.top + 3), f);
 			s = true;
 		}
 
 		if (all || Random.chance(50)) {
-			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 2), f);
+			Painter.set(level, new Point(this.getWidth() / 2 + this.left, this.bottom - 3), f);
 			s = true;
 		}
 
 		if (all || Random.chance(50)) {
-			Painter.set(level, new Point(this.left + 2, this.getHeight() / 2 + this.top), f);
+			Painter.set(level, new Point(this.left + 3, this.getHeight() / 2 + this.top), f);
 			s = true;
 		}
 
 		if (all || Random.chance(50) || !s) {
-			Painter.set(level, new Point(this.right - 2, this.getHeight() / 2 + this.top), f);
+			Painter.set(level, new Point(this.right - 3, this.getHeight() / 2 + this.top), f);
 		}
 
 		if (Random.chance(50)) {

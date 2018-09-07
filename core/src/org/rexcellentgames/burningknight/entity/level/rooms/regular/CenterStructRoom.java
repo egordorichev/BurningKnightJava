@@ -23,12 +23,12 @@ public class CenterStructRoom extends RegularRoom {
 
 		Painter.fill(level, this, m, Terrain.randomFloor());
 
-		m += Random.newInt(1, 3);
+		m += Random.newInt(2, 4);
 
 		boolean before = Random.chance(50);
 
 		if (before) {
-			this.paintTunnel(level, Terrain.randomFloor());
+			this.paintTunnel(level, Terrain.randomFloor(), true);
 		}
 
 		Painter.fill(level, this, m, getSolid());
@@ -76,7 +76,7 @@ public class CenterStructRoom extends RegularRoom {
 		}
 
 		if (!before) {
-			this.paintTunnel(level, Terrain.randomFloor());
+			this.paintTunnel(level, Terrain.randomFloor(), true);
 		}
 	}
 

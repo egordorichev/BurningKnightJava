@@ -108,12 +108,15 @@ public class WeaponBase extends Item {
 
 		float mod = ((Player) (this.owner)).getDamageModifier();
 
-		if (this.minDamage != this.damage) {
-			builder.append(Math.max(1, Math.round((this.minDamage + this.level - 1) * mod)));
+		int min = Math.max(1, Math.round((this.minDamage + this.level - 1) * mod));
+		int dmg = Math.max(1, Math.round((this.damage + this.level - 1) * mod));
+
+		if (min != dmg) {
+			builder.append(min);
 			builder.append("-");
 		}
 
-		builder.append(Math.max(1, Math.round((this.damage + this.level - 1) * mod)));
+		builder.append(dmg);
 		builder.append(" ");
 		builder.append(damageLocale);
 		builder.append("[gray]");
