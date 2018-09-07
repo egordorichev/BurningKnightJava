@@ -100,7 +100,7 @@ public abstract class RegularLevel extends Level {
 
 			for (Room room : this.rooms) {
 				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
-					float weight = (Random.newFloat(1f, 1f + room.getWidth() * room.getHeight() / 64) * Player.mobSpawnModifier);
+					float weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 64) * Player.mobSpawnModifier);
 
 					while (weight > 0) {
 						Mob mob = MobPool.instance.generate();
@@ -347,24 +347,24 @@ public abstract class RegularLevel extends Level {
 		} else if (Dungeon.depth == 0) {
 			return new LineBuilder();
 		} else {
-			switch (Random.newInt(4)) {
+			/*switch (Random.newInt(4)) {
 				case 0:
 				case 1: return new CastleBuilder();
 				case 2:
-				case 3: default:
+				case 3: default:*/
 					return new LoopBuilder().setShape(2,
 						Random.newFloat(0.4f, 0.7f),
 						Random.newFloat(0f, 0.5f)).setPathLength(Random.newFloat(0.3f, 0.8f), new float[]{1, 1, 1});
-			}
+			// }
 		}
 	}
 
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : Random.newInt((int) (Dungeon.depth % 5 * 1.4f + 2f), (int) (Dungeon.depth % 5 * 2.5f + 3));
+		return Dungeon.depth <= 0 ? 0 : Random.newInt(4, 8);
 	}
 
 	protected int getNumSpecialRooms() {
-		return Dungeon.depth <= 0 ? 0 : Random.newInt(1, 4);
+		return 0; // Dungeon.depth <= 0 ? 0 : Random.newInt(1, 4);
 	}
 
 	protected int getNumSecretRooms() {

@@ -6,11 +6,6 @@ import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
-import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.features.Door;
-import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 public class HalfRoomChasm extends RegularRoom {
 	@Override
@@ -46,7 +41,7 @@ public class HalfRoomChasm extends RegularRoom {
 		}
 
 		if (rect != null) {
-			this.paintTunnel(level, f);
+			this.paintTunnel(level, f, true);
 			Painter.fill(level, rect, f);
 		}
 	}

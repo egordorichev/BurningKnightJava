@@ -25,10 +25,14 @@ public class SpikeTrapRoom extends TrapRoom {
 		Painter.fill(level, new Rect(this.left + 1, this.top + 1, this.left + 4, this.bottom), f);
 		Painter.fill(level, new Rect(this.right - 3, this.top + 1, this.right, this.bottom), f);
 
-		int y = this.top + Random.newInt(1, this.getHeight() - 1);
+		int y = this.top + Random.newInt(2, this.getHeight() - 2);
 
 		Painter.drawLine(level, new Point(this.left + 1, y),
 			new Point(this.right - 1, y), f);
+		Painter.drawLine(level, new Point(this.left + 1, y - 1),
+			new Point(this.right - 1, y - 1), f);
+		Painter.drawLine(level, new Point(this.left + 1, y + 1),
+			new Point(this.right - 1, y + 1), f);
 
 		RollingSpike spike = new RollingSpike();
 

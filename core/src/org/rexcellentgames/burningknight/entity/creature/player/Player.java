@@ -1087,7 +1087,8 @@ public class Player extends Creature {
 
 				if (mob.getRoom() == this.room) {
 					hadEnemies = true;
-					break;
+					mob.target = this;
+					mob.become("alerted");
 				}
 			}
 		}
