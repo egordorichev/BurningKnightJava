@@ -157,7 +157,7 @@ public class Camera extends Entity {
 							Player.instance.generate();
 							Player.toSet = Player.instance.getType();
 							GlobalSave.put("last_class", Player.instance.getType().id);
-							Dungeon.goToLevel(0);
+							Dungeon.goToLevel(1);
 						}
 					});
 				} else if (Player.instance.y <= room.top * 16 + 18 && !did) {

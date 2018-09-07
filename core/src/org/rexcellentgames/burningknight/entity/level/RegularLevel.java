@@ -238,15 +238,12 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
-			this.exit = this.isBoss ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
+			this.exit = BossRoomPool.instance.generate(); // : EntranceRoomPool.instance.generate();
 			((EntranceRoom) this.exit).exit = true;
+			rooms.add(new BossEntranceRoom());
 
 			rooms.add(this.entrance);
 			rooms.add(this.exit);
-		}
-
-		if (this.isBoss) {
-			rooms.add(new BossEntranceRoom());
 		}
 
 		if (Dungeon.depth == 0) {

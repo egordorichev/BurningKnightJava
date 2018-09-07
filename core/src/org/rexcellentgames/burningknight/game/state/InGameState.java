@@ -11,7 +11,6 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -19,11 +18,11 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
-import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -85,14 +84,6 @@ public class InGameState extends State {
 				Camera.follow(Player.instance);
 			}
 		});
-
-		if (BurningKnight.instance == null && !GameSave.defeatedBK && Dungeon.depth > -1) {
-			BurningKnight knight = new BurningKnight();
-
-			Dungeon.area.add(knight);
-			PlayerSave.add(knight);
-			knight.attackTp = true;
-		}
 
 		if (Dungeon.level instanceof DesertLevel) {
 			Achievements.unlock(Achievements.REACH_DESERT);
@@ -360,7 +351,7 @@ public class InGameState extends State {
 
 			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
 				Audio.play("Shopkeeper");
-			} else if (Boss.all.size() > 1 && !BurningKnight.instance.getState().equals("unactive")) {
+			} else if (Boss.all.size() > 0 && Player.instance.room instanceof BossRoom) {
 				Audio.play("Rogue");
 			} else {
 				Audio.play(Dungeon.level.getMusic());
@@ -415,7 +406,9 @@ public class InGameState extends State {
 			setFrames = false;
 		}
 
-		lastHp = Player.instance.getHp();
+		if (Player.instance != null) {
+			lastHp = Player.instance.getHp();
+		}
 	}
 
 	private int lastHp;

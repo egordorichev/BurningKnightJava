@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -54,11 +55,10 @@ public class BurningKnight extends Boss {
 
 	{
 		texture = "ui-bkbar-skull";
-		hpMax = 430;
+		hpMax = 100;
 		damage = 10;
 		w = 23;
 		h = 30;
-		ignoreRooms = true;
 		depth = 16;
 		alwaysActive = true;
 		speed = 2;
@@ -151,6 +151,7 @@ public class BurningKnight extends Boss {
 	@Override
 	public void update(float dt) {
 		this.activityTimer += dt;
+		this.time += dt;
 
 		if (this.velocity.x < 0) {
 			this.flipped = true;
@@ -310,7 +311,7 @@ public class BurningKnight extends Boss {
 	private float activityTimer;
 
 	public boolean isActiveState() {
-		return this.activityTimer % 90 <= 30;
+		return this.activityTimer % 50 <= 30;
 	}
 
 	@Override
@@ -775,7 +776,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (Dungeon.depth > -1 && Player.instance.room != null && !(Player.instance.room instanceof EntranceRoom)) {
+			if (Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) {
 				Log.info("BK is out");
 
 				float a = Random.newFloat((float) (Math.PI * 2));
