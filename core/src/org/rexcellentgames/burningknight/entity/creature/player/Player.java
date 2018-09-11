@@ -989,7 +989,10 @@ public class Player extends Creature {
 					this.zvel = 20;
 
 					if (this.acceleration.x == 0 && this.acceleration.y == 0) {
-						this.acceleration.x += (this.flipped ? -this.speed : this.speed) * 3;
+						double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+
+						this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
+						this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
 					}
 				}
 			}
