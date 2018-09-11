@@ -303,10 +303,14 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		this.velocity.mul(
-			(this.touches[Terrain.COBWEB] && !this.isFlying() ? 0.3f :
-			(iceResitant == 0 && this.touches[Terrain.ICE] && !this.isFlying() ? 0.95f : this.mul))
-		);
+		if (this instanceof Player && ((Player) this).isRolling()) {
+			this.velocity.mul(this.mul);
+		} else {
+			this.velocity.mul(
+				(this.touches[Terrain.COBWEB] && !this.isFlying() ? 0.3f :
+					(iceResitant == 0 && this.touches[Terrain.ICE] && !this.isFlying() ? 0.95f : this.mul))
+			);
+		}
 
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;

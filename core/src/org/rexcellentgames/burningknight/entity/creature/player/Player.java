@@ -525,11 +525,11 @@ public class Player extends Creature {
 		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
-			this.y, false, false, region.getRegionWidth() / 2,
+			this.y + this.z, false, false, region.getRegionWidth() / 2,
 			0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
 		if (this.hat != null) {
-			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + offsets[id] + region.getRegionHeight() / 2 - 2,
+			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + this.z + offsets[id] + region.getRegionHeight() / 2 - 2,
 				0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 		} else {
 			AnimationData anim = headIdle;
@@ -546,7 +546,7 @@ public class Player extends Creature {
 			region = anim.getCurrent().frame;
 
 			anim.render(this.x - region.getRegionWidth() / 2 + 8,
-				this.y, false, false, region.getRegionWidth() / 2,
+				this.y + this.z, false, false, region.getRegionWidth() / 2,
 				0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 		}
 
@@ -732,7 +732,7 @@ public class Player extends Creature {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.hx, this.y, this.hw, this.hh);
+		Graphics.shadow(this.x + this.hx, this.y, this.hw, this.hh, this.z);
 	}
 
 	@Override
@@ -780,6 +780,11 @@ public class Player extends Creature {
 	public boolean leaveSmall;
 
 	private void doTp(boolean fromInit) {
+		if (this.teleport) {
+			this.tp(this.lastGround.x, this.lastGround.y);
+			return;
+		}
+
 		if (Dungeon.depth == -1) {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 32);
@@ -817,6 +822,10 @@ public class Player extends Creature {
 		return super.isUnhittable() || this.rolling;
 	}
 
+	private float zvel;
+	private boolean onGround;
+	private Vector2 lastGround = new Vector2();
+
 	@Override
 	public void update(float dt) {
 		if (this.teleport) {
@@ -824,7 +833,21 @@ public class Player extends Creature {
 			this.teleport = false;
 		}
 
+		this.onGround = false;
 		super.update(dt);
+
+		if (this.onGround) {
+			this.lastGround.x = this.x;
+			this.lastGround.y = this.y;
+		} else {
+			this.modifyHp(-1, null);
+			this.teleport = true;
+			this.doTp(false);
+			this.teleport = false;
+		}
+
+		this.z = Math.max(0, this.zvel * dt + this.z);
+		this.zvel = Math.max(-120, this.zvel - dt * 40);
 
 		orbitalRing.lerp(new Vector2(this.x + this.w / 2, this.y + this.h / 2), 4 * dt);
 
@@ -948,6 +971,7 @@ public class Player extends Creature {
 				if (Input.instance.wasPressed("roll")) {
 					this.rolling = true;
 					this.mul = 1;
+					this.zvel = 20;
 
 					if (this.acceleration.x == 0 && this.acceleration.y == 0) {
 						this.acceleration.x += (this.flipped ? -this.speed : this.speed) * 3;
@@ -982,6 +1006,7 @@ public class Player extends Creature {
 					this.animation = this.idle;
 					this.rolling = false;
 					this.mul = 0.7f;
+					this.removeBuff(BurningBuff.class);
 				}
 			}
 		}
@@ -1018,11 +1043,15 @@ public class Player extends Creature {
 
 	@Override
 	public boolean isFlying() {
-		return flight > 0;
+		return flight > 0 || this.rolling;
 	}
 
 	@Override
 	protected void onTouch(short t, int x, int y, int info) {
+		if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
+			this.onGround = true;
+		}
+
 		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;
@@ -1418,11 +1447,11 @@ public class Player extends Creature {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		if (fireResist > 0 && buff instanceof BurningBuff) {
+		if ((this.rolling || fireResist > 0) && buff instanceof BurningBuff) {
 			return false;
 		} else if (poisonResist > 0 && buff instanceof PoisonBuff) {
 			return false;
-		} else if (stunResist > 0 && buff instanceof FreezeBuff) {
+		} else if ((this.rolling || stunResist > 0) && buff instanceof FreezeBuff) {
 			return false;
 		}
 
