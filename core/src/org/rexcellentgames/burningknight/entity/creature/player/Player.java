@@ -781,7 +781,7 @@ public class Player extends Creature {
 
 	private void doTp(boolean fromInit) {
 		if (this.teleport) {
-			this.tp(this.lastGround.x, this.lastGround.y);
+			this.tp((float) Math.floor(this.lastGround.x) / 16 * 16, (float) Math.floor(this.lastGround.y) / 16 * 16 - 8);
 			return;
 		}
 
@@ -806,7 +806,7 @@ public class Player extends Creature {
 	@Override
 	public void tp(float x, float y) {
 		super.tp(x, y);
-		Camera.follow(this, true);
+		Camera.follow(this, !this.teleport);
 		orbitalRing.x = this.x + this.w / 2;
 		orbitalRing.y = this.y + this.h / 2;
 	}
@@ -828,22 +828,37 @@ public class Player extends Creature {
 
 	@Override
 	public void update(float dt) {
-		if (this.teleport) {
-			this.doTp(false);
-			this.teleport = false;
-		}
-
-		this.onGround = false;
 		super.update(dt);
 
-		if (this.onGround) {
-			this.lastGround.x = this.x;
-			this.lastGround.y = this.y;
-		} else {
-			this.modifyHp(-1, null);
-			this.teleport = true;
-			this.doTp(false);
-			this.teleport = false;
+		if (!this.rolling) {
+			if (!this.onGround) {
+				this.teleport = true;
+
+				for (int i = 0; i < 5; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = this.x + this.w / 2;
+					fx.y = this.y + this.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
+				this.doTp(false);
+
+				for (int i = 0; i < 5; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = this.x + this.w / 2;
+					fx.y = this.y + this.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
+				this.teleport = false;
+				this.modifyHp(-1, null, true);
+			}
+
+			this.onGround = false;
 		}
 
 		this.z = Math.max(0, this.zvel * dt + this.z);
@@ -1050,6 +1065,8 @@ public class Player extends Creature {
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
 			this.onGround = true;
+			this.lastGround.x = this.x;
+			this.lastGround.y = this.y;
 		}
 
 		if (t == Terrain.WATER && !this.isFlying()) {
