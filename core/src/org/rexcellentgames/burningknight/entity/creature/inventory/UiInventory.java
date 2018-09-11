@@ -385,17 +385,14 @@ public class UiInventory extends UiEntity {
 
 				if (slot != null) {
 					if (Input.instance.wasPressed("use")) {
-						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0) {
+						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
 							slot.setOwner(Player.instance);
 							slot.use();
 						}
 					} else {
-						if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0) {
+						if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
 							slot.setOwner(Player.instance);
 							slot.use();
-						} else if (Input.instance.isDown("second_use") && slot.isAuto() && slot.getDelay() == 0) {
-							slot.setOwner(Player.instance);
-							slot.secondUse();
 						}
 					}
 				}

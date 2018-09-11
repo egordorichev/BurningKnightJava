@@ -144,6 +144,7 @@ public class Player extends Creature {
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
+	private AnimationData roll;
 	private AnimationData killed;
 	private AnimationData animation;
 	public float accuracy;
@@ -232,6 +233,7 @@ public class Player extends Creature {
 	private static AnimationData headIdle = headAnimations.get("idle");
 	private static AnimationData headRun = headAnimations.get("run");
 	private static AnimationData headHurt = headAnimations.get("hurt");
+	private static AnimationData headRoll = headAnimations.get("roll");
 
 	public void setSkin(String add) {
 		Animation animations;
@@ -250,6 +252,7 @@ public class Player extends Creature {
 		idle = animations.get("idle");
 		run = animations.get("run");
 		hurt = animations.get("hurt");
+		roll = animations.get("roll");
 		killed = animations.get("dead");
 		animation = this.idle;
 	}
@@ -430,11 +433,17 @@ public class Player extends Creature {
 		}
 	}
 
+	public boolean isRolling() {
+		return this.rolling;
+	}
+
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		if (this.invt > 0) {
+		if (this.rolling) {
+			this.animation = roll;
+		} else if (this.invt > 0) {
 			this.animation = hurt;
 		} else if (this.state.equals("run")) {
 			this.animation = run;
@@ -469,7 +478,7 @@ public class Player extends Creature {
 			before = (a > 0 && a < Math.PI);
 		}*/
 
-		if (this.ui != null && before) {
+		if (!this.rolling && this.ui != null && before) {
 			this.ui.renderOnPlayer(this, of);
 		}
 
@@ -525,7 +534,9 @@ public class Player extends Creature {
 		} else {
 			AnimationData anim = headIdle;
 
-			if (this.invt > 0) {
+			if (this.rolling) {
+				anim = headRoll;
+			} else if (this.invt > 0) {
 				anim = headHurt;
 			} else if (this.state.equals("run")) {
 				anim = headRun;
@@ -545,7 +556,7 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (this.ui != null && !before) {
+		if (!this.rolling && this.ui != null && !before) {
 			this.ui.renderOnPlayer(this, of);
 		}
 
@@ -802,6 +813,11 @@ public class Player extends Creature {
 	private boolean teleport;
 
 	@Override
+	public boolean isUnhittable() {
+		return super.isUnhittable() || this.rolling;
+	}
+
+	@Override
 	public void update(float dt) {
 		if (this.teleport) {
 			this.doTp(false);
@@ -902,28 +918,41 @@ public class Player extends Creature {
 		this.heat = Math.max(0, this.heat - dt / 3);
 
 		if (Dialog.active == null && !this.freezed && !UiMap.large) {
-			if (Input.instance.isDown("left")) {
-				this.acceleration.x -= this.speed;
+			if (!this.rolling) {
+				if (Input.instance.isDown("left")) {
+					this.acceleration.x -= this.speed;
+				}
+
+				if (Input.instance.isDown("right")) {
+					this.acceleration.x += this.speed;
+				}
+
+				if (Input.instance.isDown("up")) {
+					this.acceleration.y += this.speed;
+				}
+
+				if (Input.instance.isDown("down")) {
+					this.acceleration.y -= this.speed;
+				}
+
+				float mx = Input.instance.getAxis("moveX");
+				float my = Input.instance.getAxis("moveY");
+
+				if (mx != 0 || my != 0) {
+					this.acceleration.x += mx * this.speed;
+					this.acceleration.y -= my * this.speed; // Inverted!
+				}
 			}
 
-			if (Input.instance.isDown("right")) {
-				this.acceleration.x += this.speed;
-			}
+			if (!this.rolling) {
+				if (Input.instance.wasPressed("roll")) {
+					this.rolling = true;
+					this.mul = 1;
 
-			if (Input.instance.isDown("up")) {
-				this.acceleration.y += this.speed;
-			}
-
-			if (Input.instance.isDown("down")) {
-				this.acceleration.y -= this.speed;
-			}
-
-			float mx = Input.instance.getAxis("moveX");
-			float my = Input.instance.getAxis("moveY");
-
-			if (mx != 0 || my != 0) {
-				this.acceleration.x += mx * this.speed;
-				this.acceleration.y -= my * this.speed; // Inverted!
+					if (this.acceleration.x == 0 && this.acceleration.y == 0) {
+						this.acceleration.x += (this.flipped ? -this.speed : this.speed) * 3;
+					}
+				}
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("interact")) {
@@ -948,7 +977,13 @@ public class Player extends Creature {
 		super.common();
 
 		if (this.animation != null && !this.freezed) {
-			this.animation.update(dt);
+			if (this.animation.update(dt)) {
+				if (this.animation == this.roll) {
+					this.animation = this.idle;
+					this.rolling = false;
+					this.mul = 0.7f;
+				}
+			}
 		}
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
@@ -973,6 +1008,7 @@ public class Player extends Creature {
 	}
 
 	public int frostLevel;
+	private boolean rolling;
 
 	public int getManaMax() {
 		return this.manaMax;
