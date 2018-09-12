@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.util.Random;
@@ -26,6 +27,7 @@ public class Trader extends Npc {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
+			case "hi": return new HiState();
 			case "thanks": return new ThanksState();
 		}
 
@@ -33,6 +35,46 @@ public class Trader extends Npc {
 	}
 
 	public class TraderState extends Mob.State<Trader> {
+
+	}
+
+	private static String[] dialogs = {
+		"hi", "hey", "how_is_it_going"
+	};
+
+	public class HiState extends TraderState {
+		private NpcDialog dialog;
+		private float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			delay = Random.newFloat(5f, 7f);
+
+			dialog = new NpcDialog(self, Locale.get(dialogs[Random.newInt(dialogs.length - 1)]));
+			dialog.open();
+
+			Dungeon.area.add(dialog);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= this.delay) {
+				self.become("idle");
+			}
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			dialog.remove();
+		}
+	}
+
+	public class ThanksState extends TraderState {
 		private NpcDialog dialog;
 		private float delay;
 
@@ -79,10 +121,6 @@ public class Trader extends Npc {
 			super.onExit();
 			dialog.remove();
 		}
-	}
-
-	public class ThanksState extends TraderState {
-
 	}
 
 	@Override

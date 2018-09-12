@@ -267,7 +267,7 @@ public class Door extends SaveableEntity {
 				return;
 			}
 
-			if (this.numCollisions == 0) {
+			if (!this.isOpen()) {
 				this.playSfx("door");
 			}
 

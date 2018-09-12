@@ -40,7 +40,7 @@ class Upgrade : SaveableEntity() {
 	private var costStr = ""
 	private var costW = 0
 	private var nameW = 0
-	public var idd = ""
+	var idd = ""
 
 	private var hidden: Boolean = false
 
@@ -182,6 +182,8 @@ class Upgrade : SaveableEntity() {
 			} else {
 				count -= this.price
 				GlobalSave.put("num_coins", count)
+				this.playSfx("item_purchase");
+
 				Achievements.unlock("SHOP_" + this.str!!.toUpperCase())
 
 				for (i in 0..9) {

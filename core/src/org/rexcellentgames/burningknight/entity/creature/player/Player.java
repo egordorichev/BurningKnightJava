@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
@@ -35,9 +36,15 @@ import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
+import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.permanent.ExtraHeart;
+import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
+import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
+import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
@@ -183,6 +190,10 @@ public class Player extends Creature {
 		this.modifyStat("inv_time", 1f);
 		this.modifyStat("reload_time", 1f);
 		this.modifyStat("gun_use_time", 1f);
+
+		if (GlobalSave.isTrue(MoreGold.ID)) {
+			this.goldModifier += 1.3f;
+		}
 	}
 
 	public Player() {
@@ -279,6 +290,19 @@ public class Player extends Creature {
 				generateRanger();
 				break;
 		}
+
+		if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
+			this.give(new HealingPotion());
+		}
+
+		if (GlobalSave.isTrue(StartingArmor.ID)) {
+			this.give(new VikingHat());
+		}
+
+		if (GlobalSave.isTrue(ExtraHeart.ID)) {
+			this.hpMax += 2;
+			this.hp += 2;
+		}
 	}
 
 	private void generateWarrior() {
@@ -351,7 +375,13 @@ public class Player extends Creature {
 	}
 
 	public void give(Item item) {
-		this.inventory.add(new ItemHolder(item));
+		if (item instanceof Accessory) {
+			this.inventory.setSlot(6, item);
+			item.setOwner(this);
+			((Accessory) item).onEquip(false);
+		} else {
+			this.inventory.add(new ItemHolder(item));
+		}
 	}
 
 	public void setUi(UiInventory ui) {
@@ -564,7 +594,8 @@ public class Player extends Creature {
 	}
 
 	private static int offsets[] = new int[] {
-		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0
+		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
+		0, 0, 0 // for roll
 	};
 
 	@Override
@@ -1174,6 +1205,12 @@ public class Player extends Creature {
 					hadEnemies = true;
 					mob.target = this;
 					mob.become("alerted");
+				}
+			}
+
+			for (Trader trader : Trader.all) {
+				if (trader.room == this.room) {
+					trader.become("hi");
 				}
 			}
 		}

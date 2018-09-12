@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfU
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
 import org.rexcellentgames.burningknight.entity.item.key.KeyC
+import org.rexcellentgames.burningknight.entity.item.permanent.*
 import org.rexcellentgames.burningknight.entity.item.pet.Bumbo
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*
 import org.rexcellentgames.burningknight.entity.item.reference.*
@@ -74,19 +75,14 @@ object ItemRegistry {
 				return true
 			}
 
-			if (q == Quality.WOODEN) {
-				return this == Quality.WOODEN || this == Quality.WOODEN_PLUS
-			} else if (q == Quality.IRON) {
-				return this == Quality.IRON || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
-			} else if (q == Quality.GOLDEN) {
-				return this == Quality.GOLDEN || this == Quality.WOODEN_PLUS || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
-			} else if (q == Quality.WOODEN_PLUS) {
-				return true
-			} else if (q == Quality.IRON_PLUS) {
-				return this == Quality.IRON || this == Quality.IRON_PLUS || this == Quality.GOLDEN;
+			return when (q) {
+				Quality.WOODEN -> this == Quality.WOODEN || this == Quality.WOODEN_PLUS
+				Quality.IRON -> this == Quality.IRON || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
+				Quality.GOLDEN -> this == Quality.GOLDEN || this == Quality.WOODEN_PLUS || this == Quality.IRON_PLUS || this == Quality.WOODEN_PLUS
+				Quality.WOODEN_PLUS -> true
+				Quality.IRON_PLUS -> this == Quality.IRON || this == Quality.IRON_PLUS || this == Quality.GOLDEN
+				else -> false
 			}
-
-			return false;
 		}
 	}
 
@@ -94,6 +90,14 @@ object ItemRegistry {
 	// todo: sort by cost and quality
 
   val items = mapOf(
+	  "extra_heart" to Pair(ExtraHeart::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 10),
+	  "totally_shop" to Pair(TotallyShop::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 5),
+	  "start_with_health_potion" to Pair(StartWithHealthPotion::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 3),
+	  "starting_armor" to Pair(StartingArmor::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 1),
+	  "more_gold" to Pair(MoreGold::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 15),
+	  "extra_upgrade" to Pair(ExtraUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 8),
+	  "better_chest_chance" to Pair(BetterChestChance::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 12),
+
 	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 3),
 	  "bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY, 3),
 	  "guitar" to Pair(Guitar::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),

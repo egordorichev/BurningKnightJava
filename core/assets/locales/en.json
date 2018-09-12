@@ -605,5 +605,14 @@
 	"secret_trader_achievement" : "Who is that?",
 	"secret_trader_achievement_desc" : "Find a secret npc",
 	"save_all_achievement" : "Save all!",
-	"save_all_achievement_desc" : "Save all npcs!"
+	"save_all_achievement_desc" : "Save all npcs!",
+	"hey" : "Hey!",
+	"how_is_it_going" : "How's it going?",
+	"extra_heart" : "Extra heart",
+	"totally_shop" : "100% shop chance",
+	"start_with_health_potion" : "Start with health potion",
+	"starting_armor" : "Start with armor",
+	"more_gold" : "More gold",
+	"extra_upgrade" : "Extra upgrade per game",
+	"better_chest_chance" : "Chance for a better chest"
 }

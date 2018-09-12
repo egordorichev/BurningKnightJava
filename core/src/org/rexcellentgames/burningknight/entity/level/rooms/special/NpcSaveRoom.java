@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.rooms.special;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.item.key.KeyA;
+import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -58,6 +59,7 @@ public class NpcSaveRoom extends SpecialRoom {
 		}
 
 		Dungeon.area.add(trader.add());
+		Dungeon.level.itemsToSpawn.add(new KeyB());
 	}
 
 	@Override
