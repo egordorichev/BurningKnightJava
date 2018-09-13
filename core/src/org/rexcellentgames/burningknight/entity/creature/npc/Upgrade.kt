@@ -50,7 +50,8 @@ class Upgrade : SaveableEntity() {
 		ACCESSORY(2),
 		PET(3),
 		PERMANENT(4),
-		NONE(5);
+		NONE(5),
+		DECOR(6);
 
 		internal var id: Byte = 0
 

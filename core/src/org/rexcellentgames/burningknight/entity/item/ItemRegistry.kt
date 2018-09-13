@@ -90,6 +90,7 @@ object ItemRegistry {
 	// todo: sort by cost and quality
 
   val items = mapOf(
+	  // Permanent upgrades
 	  "extra_heart" to Pair(ExtraHeart::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 10),
 	  "totally_shop" to Pair(TotallyShop::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 5),
 	  "start_with_health_potion" to Pair(StartWithHealthPotion::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 3),
@@ -97,7 +98,9 @@ object ItemRegistry {
 	  "more_gold" to Pair(MoreGold::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 15),
 	  "extra_upgrade" to Pair(ExtraUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 8),
 	  "better_chest_chance" to Pair(BetterChestChance::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 12),
+		// Decor
 
+	  // Items
 	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 3),
 	  "bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY, 3),
 	  "guitar" to Pair(Guitar::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),

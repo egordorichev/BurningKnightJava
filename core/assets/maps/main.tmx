@@ -191,14 +191,14 @@
   <object id="112" x="1024" y="272" width="16" height="16"/>
   <object id="113" x="1040" y="272" width="16" height="16"/>
   <object id="115" x="1056" y="272" width="16" height="16"/>
-  <object id="116" x="944" y="368" width="16" height="16"/>
-  <object id="117" x="976" y="368" width="16" height="16"/>
-  <object id="118" x="1008" y="368" width="16" height="16"/>
-  <object id="119" x="1040" y="368" width="16" height="16"/>
-  <object id="120" x="944" y="336" width="16" height="16"/>
-  <object id="121" x="976" y="336" width="16" height="16"/>
-  <object id="122" x="1008" y="336" width="16" height="16"/>
-  <object id="123" x="1040" y="336" width="16" height="16"/>
+  <object id="116" name="sp_h" x="944" y="368" width="16" height="16"/>
+  <object id="117" name="sp_h" x="976" y="368" width="16" height="16"/>
+  <object id="118" name="sp_h" x="1008" y="368" width="16" height="16"/>
+  <object id="119" name="sp_h" x="1040" y="368" width="16" height="16"/>
+  <object id="120" name="sp_h" x="944" y="336" width="16" height="16"/>
+  <object id="121" name="sp_h" x="976" y="336" width="16" height="16"/>
+  <object id="122" name="sp_h" x="1008" y="336" width="16" height="16"/>
+  <object id="123" name="sp_h" x="1040" y="336" width="16" height="16"/>
   <object id="124" name="sk_c" x="1032" y="168" width="16" height="16"/>
   <object id="125" name="sk_e" x="1032" y="248" width="16" height="16"/>
   <object id="126" name="sk_h" x="992" y="352" width="16" height="16"/>
