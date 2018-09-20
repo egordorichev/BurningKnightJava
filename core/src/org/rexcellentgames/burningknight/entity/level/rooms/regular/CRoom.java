@@ -41,11 +41,11 @@ public class CRoom extends RegularRoom {
 		}
 
 		if (Random.chance(50)) {
-			Painter.fill(level, this, 2 + Random.newInt(3), Terrain.CHASM);
+			Painter.fill(level, this, 3 + Random.newInt(3), Terrain.CHASM);
 		}
 
 		if (Random.chance(50)) {
-			paintTunnel(level, Terrain.randomFloor());
+			paintTunnel(level, Terrain.randomFloor(), true);
 		}
 
 		boolean wall = Random.chance(50);

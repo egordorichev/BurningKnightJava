@@ -15,6 +15,11 @@ public class ArrowProjectile extends BulletProjectile {
 
 		if (this.next <= 0) {
 			if (this.did) {
+				if (this.positions.size() == 0) {
+					this.done = true;
+					return;
+				}
+
 				this.positions.remove(0);
 
 				if (this.positions.size() == 0) {

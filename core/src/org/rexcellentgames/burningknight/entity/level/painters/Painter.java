@@ -213,8 +213,7 @@ public class Painter {
 
 	protected void decorate(Level level, ArrayList<Room> rooms) {
 		for (Room room : rooms) {
-			if (Dungeon.depth > -1) {
-				if (Random.chance(60)) {
+			if (Random.chance(60)) {
 					for (int i = 0; i < (Random.chance(50) ? 1 : Random.newInt(3, 6)); i++) {
 						Firefly fly = new Firefly();
 
@@ -223,7 +222,6 @@ public class Painter {
 
 						Dungeon.area.add(fly.add());
 					}
-				}
 			}
 
 			for (int y = room.top; y <= room.bottom; y++) {

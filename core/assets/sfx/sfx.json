@@ -64,5 +64,7 @@
 	"block",
 	"death_mummy",
 	"damage_mummy",
-	"enemy_alert"
+	"enemy_alert",
+	"death_thief",
+	"damage_thief"
 ]

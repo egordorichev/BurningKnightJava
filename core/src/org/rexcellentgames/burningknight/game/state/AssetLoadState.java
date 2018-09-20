@@ -12,8 +12,8 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
-	public static final boolean START_TO_MENU = true;
-	public static final boolean QUICK = false;
+	public static final boolean START_TO_MENU = false;
+	public static final boolean QUICK = true;
 	public static boolean done = false;
 	private static Texture region;
 	private float a;

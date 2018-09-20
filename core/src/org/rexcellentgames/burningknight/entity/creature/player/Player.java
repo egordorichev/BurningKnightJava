@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
@@ -35,9 +36,15 @@ import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
+import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.permanent.ExtraHeart;
+import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
+import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
+import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
@@ -144,6 +151,7 @@ public class Player extends Creature {
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
+	private AnimationData roll;
 	private AnimationData killed;
 	private AnimationData animation;
 	public float accuracy;
@@ -182,6 +190,10 @@ public class Player extends Creature {
 		this.modifyStat("inv_time", 1f);
 		this.modifyStat("reload_time", 1f);
 		this.modifyStat("gun_use_time", 1f);
+
+		if (GlobalSave.isTrue(MoreGold.ID)) {
+			this.goldModifier += 1.3f;
+		}
 	}
 
 	public Player() {
@@ -232,6 +244,7 @@ public class Player extends Creature {
 	private static AnimationData headIdle = headAnimations.get("idle");
 	private static AnimationData headRun = headAnimations.get("run");
 	private static AnimationData headHurt = headAnimations.get("hurt");
+	private static AnimationData headRoll = headAnimations.get("roll");
 
 	public void setSkin(String add) {
 		Animation animations;
@@ -250,6 +263,7 @@ public class Player extends Creature {
 		idle = animations.get("idle");
 		run = animations.get("run");
 		hurt = animations.get("hurt");
+		roll = animations.get("roll");
 		killed = animations.get("dead");
 		animation = this.idle;
 	}
@@ -275,6 +289,19 @@ public class Player extends Creature {
 			case RANGER:
 				generateRanger();
 				break;
+		}
+
+		if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
+			this.give(new HealingPotion());
+		}
+
+		if (GlobalSave.isTrue(StartingArmor.ID)) {
+			this.give(new VikingHat());
+		}
+
+		if (GlobalSave.isTrue(ExtraHeart.ID)) {
+			this.hpMax += 2;
+			this.hp += 2;
 		}
 	}
 
@@ -348,7 +375,13 @@ public class Player extends Creature {
 	}
 
 	public void give(Item item) {
-		this.inventory.add(new ItemHolder(item));
+		if (item instanceof Accessory) {
+			this.inventory.setSlot(6, item);
+			item.setOwner(this);
+			((Accessory) item).onEquip(false);
+		} else {
+			this.inventory.add(new ItemHolder(item));
+		}
 	}
 
 	public void setUi(UiInventory ui) {
@@ -430,11 +463,17 @@ public class Player extends Creature {
 		}
 	}
 
+	public boolean isRolling() {
+		return this.rolling;
+	}
+
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		if (this.invt > 0) {
+		if (this.rolling) {
+			this.animation = roll;
+		} else if (this.invt > 0) {
 			this.animation = hurt;
 		} else if (this.state.equals("run")) {
 			this.animation = run;
@@ -469,7 +508,7 @@ public class Player extends Creature {
 			before = (a > 0 && a < Math.PI);
 		}*/
 
-		if (this.ui != null && before) {
+		if (!this.rolling && this.ui != null && before) {
 			this.ui.renderOnPlayer(this, of);
 		}
 
@@ -516,16 +555,18 @@ public class Player extends Creature {
 		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
-			this.y, false, false, region.getRegionWidth() / 2,
+			this.y + this.z, false, false, region.getRegionWidth() / 2,
 			0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
 		if (this.hat != null) {
-			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + offsets[id] + region.getRegionHeight() / 2 - 2,
+			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + this.z + offsets[id] + region.getRegionHeight() / 2 - 2,
 				0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 		} else {
 			AnimationData anim = headIdle;
 
-			if (this.invt > 0) {
+			if (this.rolling) {
+				anim = headRoll;
+			} else if (this.invt > 0) {
 				anim = headHurt;
 			} else if (this.state.equals("run")) {
 				anim = headRun;
@@ -535,7 +576,7 @@ public class Player extends Creature {
 			region = anim.getCurrent().frame;
 
 			anim.render(this.x - region.getRegionWidth() / 2 + 8,
-				this.y, false, false, region.getRegionWidth() / 2,
+				this.y + this.z, false, false, region.getRegionWidth() / 2,
 				0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 		}
 
@@ -545,7 +586,7 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (this.ui != null && !before) {
+		if (!this.rolling && this.ui != null && !before) {
 			this.ui.renderOnPlayer(this, of);
 		}
 
@@ -553,7 +594,8 @@ public class Player extends Creature {
 	}
 
 	private static int offsets[] = new int[] {
-		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0
+		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
+		0, 0, 0 // for roll
 	};
 
 	@Override
@@ -721,7 +763,7 @@ public class Player extends Creature {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.hx, this.y, this.hw, this.hh);
+		Graphics.shadow(this.x + this.hx, this.y, this.hw, this.hh, this.z);
 	}
 
 	@Override
@@ -769,6 +811,11 @@ public class Player extends Creature {
 	public boolean leaveSmall;
 
 	private void doTp(boolean fromInit) {
+		if (this.teleport) {
+			this.tp((float) Math.floor(this.lastGround.x) / 16 * 16, (float) Math.floor(this.lastGround.y) / 16 * 16 - 8);
+			return;
+		}
+
 		if (Dungeon.depth == -1) {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 32);
@@ -790,7 +837,7 @@ public class Player extends Creature {
 	@Override
 	public void tp(float x, float y) {
 		super.tp(x, y);
-		Camera.follow(this, true);
+		Camera.follow(this, !this.teleport);
 		orbitalRing.x = this.x + this.w / 2;
 		orbitalRing.y = this.y + this.h / 2;
 	}
@@ -802,13 +849,51 @@ public class Player extends Creature {
 	private boolean teleport;
 
 	@Override
+	public boolean isUnhittable() {
+		return super.isUnhittable() || this.rolling;
+	}
+
+	private float zvel;
+	private boolean onGround;
+	private Vector2 lastGround = new Vector2();
+
+	@Override
 	public void update(float dt) {
-		if (this.teleport) {
-			this.doTp(false);
-			this.teleport = false;
+		super.update(dt);
+
+		if (!this.rolling) {
+			if (!this.onGround) {
+				this.teleport = true;
+
+				for (int i = 0; i < 5; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = this.x + this.w / 2;
+					fx.y = this.y + this.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
+				this.doTp(false);
+
+				for (int i = 0; i < 5; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = this.x + this.w / 2;
+					fx.y = this.y + this.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
+				this.teleport = false;
+				this.modifyHp(-1, null, true);
+			}
+
+			this.onGround = false;
 		}
 
-		super.update(dt);
+		this.z = Math.max(0, this.zvel * dt + this.z);
+		this.zvel = Math.max(-120, this.zvel - dt * 40);
 
 		orbitalRing.lerp(new Vector2(this.x + this.w / 2, this.y + this.h / 2), 4 * dt);
 
@@ -902,28 +987,45 @@ public class Player extends Creature {
 		this.heat = Math.max(0, this.heat - dt / 3);
 
 		if (Dialog.active == null && !this.freezed && !UiMap.large) {
-			if (Input.instance.isDown("left")) {
-				this.acceleration.x -= this.speed;
+			if (!this.rolling) {
+				if (Input.instance.isDown("left")) {
+					this.acceleration.x -= this.speed;
+				}
+
+				if (Input.instance.isDown("right")) {
+					this.acceleration.x += this.speed;
+				}
+
+				if (Input.instance.isDown("up")) {
+					this.acceleration.y += this.speed;
+				}
+
+				if (Input.instance.isDown("down")) {
+					this.acceleration.y -= this.speed;
+				}
+
+				float mx = Input.instance.getAxis("moveX");
+				float my = Input.instance.getAxis("moveY");
+
+				if (mx != 0 || my != 0) {
+					this.acceleration.x += mx * this.speed;
+					this.acceleration.y -= my * this.speed; // Inverted!
+				}
 			}
 
-			if (Input.instance.isDown("right")) {
-				this.acceleration.x += this.speed;
-			}
+			if (!this.rolling) {
+				if (Input.instance.wasPressed("roll")) {
+					this.rolling = true;
+					this.mul = 1;
+					this.zvel = 20;
 
-			if (Input.instance.isDown("up")) {
-				this.acceleration.y += this.speed;
-			}
+					if (this.acceleration.x == 0 && this.acceleration.y == 0) {
+						double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 
-			if (Input.instance.isDown("down")) {
-				this.acceleration.y -= this.speed;
-			}
-
-			float mx = Input.instance.getAxis("moveX");
-			float my = Input.instance.getAxis("moveY");
-
-			if (mx != 0 || my != 0) {
-				this.acceleration.x += mx * this.speed;
-				this.acceleration.y -= my * this.speed; // Inverted!
+						this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
+						this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
+					}
+				}
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("interact")) {
@@ -948,7 +1050,14 @@ public class Player extends Creature {
 		super.common();
 
 		if (this.animation != null && !this.freezed) {
-			this.animation.update(dt);
+			if (this.animation.update(dt)) {
+				if (this.animation == this.roll) {
+					this.animation = this.idle;
+					this.rolling = false;
+					this.mul = 0.7f;
+					this.removeBuff(BurningBuff.class);
+				}
+			}
 		}
 
 		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
@@ -973,6 +1082,7 @@ public class Player extends Creature {
 	}
 
 	public int frostLevel;
+	private boolean rolling;
 
 	public int getManaMax() {
 		return this.manaMax;
@@ -982,11 +1092,17 @@ public class Player extends Creature {
 
 	@Override
 	public boolean isFlying() {
-		return flight > 0;
+		return flight > 0 || this.rolling;
 	}
 
 	@Override
 	protected void onTouch(short t, int x, int y, int info) {
+		if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
+			this.onGround = true;
+			this.lastGround.x = this.x;
+			this.lastGround.y = this.y;
+		}
+
 		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;
@@ -1089,6 +1205,12 @@ public class Player extends Creature {
 					hadEnemies = true;
 					mob.target = this;
 					mob.become("alerted");
+				}
+			}
+
+			for (Trader trader : Trader.all) {
+				if (trader.room == this.room) {
+					trader.become("hi");
 				}
 			}
 		}
@@ -1382,11 +1504,11 @@ public class Player extends Creature {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		if (fireResist > 0 && buff instanceof BurningBuff) {
+		if ((this.rolling || fireResist > 0) && buff instanceof BurningBuff) {
 			return false;
 		} else if (poisonResist > 0 && buff instanceof PoisonBuff) {
 			return false;
-		} else if (stunResist > 0 && buff instanceof FreezeBuff) {
+		} else if ((this.rolling || stunResist > 0) && buff instanceof FreezeBuff) {
 			return false;
 		}
 

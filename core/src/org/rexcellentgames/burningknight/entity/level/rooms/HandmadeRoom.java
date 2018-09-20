@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.level.Control;
@@ -201,7 +202,7 @@ public class HandmadeRoom extends RegularRoom {
 				trader.x = x + rect.x + 16;
 				trader.y = y + rect.y + 16 - 8;
 
-				if (id.equals("b")) {
+				if (id.equals("b") || Version.debug) { // fixme, remove
 					trader.saved = true;
 				}
 
@@ -219,6 +220,7 @@ public class HandmadeRoom extends RegularRoom {
 					case "a": trader.setType(Upgrade.Type.ACCESSORY); break;
 					case "d": trader.setType(Upgrade.Type.WEAPON); break;
 					case "c": trader.setType(Upgrade.Type.CONSUMABLE); break;
+					case "h": trader.setType(Upgrade.Type.DECOR); break;
 				}
 
 				Dungeon.area.add(trader.add());

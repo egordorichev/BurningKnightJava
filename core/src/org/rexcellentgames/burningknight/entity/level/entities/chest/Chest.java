@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.entities.chest;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,12 +20,14 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
+import org.rexcellentgames.burningknight.entity.item.permanent.BetterChestChance;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -449,6 +450,10 @@ public class Chest extends SaveableEntity {
 
 	public static Chest random() {
 		float r = Random.newFloat();
+
+		if (GlobalSave.isTrue(BetterChestChance.ID)) {
+			r += 0.1f;
+		}
 
 		if (r < 0.5f) {
 			WoodenChest chest = new WoodenChest();

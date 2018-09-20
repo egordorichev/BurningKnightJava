@@ -26,7 +26,7 @@ public class CircleRoom extends RegularRoom {
 			Painter.fillEllipse(level, this, 3, Random.chance(33) ? Terrain.WALL : (Random.chance(50) ? Terrain.CHASM : Terrain.LAVA));
 		}
 
-		paintTunnel(level, Terrain.randomFloor());
+		paintTunnel(level, Terrain.randomFloor(), true);
 
 		for (Door door : this.connected.values()) {
 			door.setType(Door.Type.REGULAR);

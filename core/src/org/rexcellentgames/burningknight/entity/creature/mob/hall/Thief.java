@@ -288,7 +288,7 @@ public class Thief extends Mob {
 	@Override
 	protected void onHurt(int a, Creature creature) {
 		super.onHurt(a, creature);
-		this.playSfx("damage_clown");
+		this.playSfx("damage_thief");
 	}
 
 	@Override
@@ -359,7 +359,7 @@ public class Thief extends Mob {
 	protected void die(boolean force) {
 		super.die(force);
 
-		this.playSfx("death_clown");
+		this.playSfx("death_thief");
 
 		this.done = true;
 		deathEffect(killed);
