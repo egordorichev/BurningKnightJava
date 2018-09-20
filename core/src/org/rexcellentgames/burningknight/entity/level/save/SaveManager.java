@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 
 public class SaveManager {
 	public enum Type {
@@ -19,16 +20,21 @@ public class SaveManager {
 		GLOBAL
 	}
 
-	public static final String SAVE_DIR = "burningknightsavedir/";
+	public static final String SAVE_DIR = "burningknight/";
+	public static final String WORKING_DIR = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
 	public static int slot = 0;
 	public static final byte version = 1;
+
+	static {
+		Log.info("Save directory is " + WORKING_DIR + "/" + SAVE_DIR);
+	}
 
 	public static String getDir() {
 		return getDir(slot);
 	}
 
 	public static String getDir(int slot) {
-		return SAVE_DIR + "slot-" + slot + "/";
+		return WORKING_DIR + "/" + SAVE_DIR + "slot-" + slot + "/";
 	}
 
 	public static String getSavePath(Type type) {
@@ -37,19 +43,19 @@ public class SaveManager {
 
 	public static String getSavePath(Type type, boolean old) {
 		switch (type) {
-			case LEVEL: return ((old ? Dungeon.lastDepth : Dungeon.depth) <= -1 ? SAVE_DIR : getDir()) + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".sv";
+			case LEVEL: return ((old ? Dungeon.lastDepth : Dungeon.depth) <= -1 ? WORKING_DIR + "/" + SAVE_DIR : getDir()) + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".sv";
 			case PLAYER: return getDir() + "player.sv";
 			case GAME: default: return getDir() + "game.sv";
-			case GLOBAL: return SAVE_DIR + "global.sv";
+			case GLOBAL: return WORKING_DIR + "/" + SAVE_DIR + "global.sv";
 		}
 	}
 
 	public static String getSavePath(Type type, int slot) {
 		switch (type) {
-			case LEVEL: return (Dungeon.depth <= -1 ? SAVE_DIR : getDir(slot)) + "level" + Dungeon.depth + ".sv";
+			case LEVEL: return (Dungeon.depth <= -1 ? WORKING_DIR + "/" + SAVE_DIR : getDir(slot)) + "level" + Dungeon.depth + ".sv";
 			case PLAYER: return getDir(slot) + "player.sv";
 			case GAME: default: return getDir(slot) + "game.sv";
-			case GLOBAL: return SAVE_DIR + "global.sv";
+			case GLOBAL: return WORKING_DIR + "/" + SAVE_DIR + "global.sv";
 		}
 	}
 
@@ -59,6 +65,7 @@ public class SaveManager {
 
 		try {
 			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
+			Log.error("Saving to " + save.file().getAbsolutePath());
 			stream.writeByte(version);
 
 			switch (type) {
