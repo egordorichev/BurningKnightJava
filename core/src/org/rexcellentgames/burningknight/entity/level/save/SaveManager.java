@@ -19,7 +19,7 @@ public class SaveManager {
 		GLOBAL
 	}
 
-	public static final String SAVE_DIR = "burningknight/";
+	public static final String SAVE_DIR = "burningknightsavedir/";
 	public static int slot = 0;
 	public static final byte version = 1;
 

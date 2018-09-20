@@ -15,6 +15,7 @@ public class Spear extends Sword {
 		timeA = 0.15f;
 		timeB = 0.15f;
 		auto = true;
+		useTime = timeA + timeB + timeDelay + 0.02f;
 	}
 
 	public Spear() {
