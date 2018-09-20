@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -10,7 +11,6 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 
 public class SaveManager {
 	public enum Type {
@@ -21,12 +21,11 @@ public class SaveManager {
 	}
 
 	public static final String SAVE_DIR = "burningknight/";
-	public static final String WORKING_DIR = FileSystems.getDefault().getPath("").toAbsolutePath().toString();
 	public static int slot = 0;
 	public static final byte version = 1;
 
 	static {
-		Log.info("Save directory is " + WORKING_DIR + "/" + SAVE_DIR);
+		Log.info("Save directory is " + SAVE_DIR);
 	}
 
 	public static String getDir() {
@@ -34,7 +33,7 @@ public class SaveManager {
 	}
 
 	public static String getDir(int slot) {
-		return WORKING_DIR + "/" + SAVE_DIR + "slot-" + slot + "/";
+		return SAVE_DIR + "slot-" + slot + "/";
 	}
 
 	public static String getSavePath(Type type) {
@@ -43,29 +42,36 @@ public class SaveManager {
 
 	public static String getSavePath(Type type, boolean old) {
 		switch (type) {
-			case LEVEL: return ((old ? Dungeon.lastDepth : Dungeon.depth) <= -1 ? WORKING_DIR + "/" + SAVE_DIR : getDir()) + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".sv";
+			case LEVEL: return ((old ? Dungeon.lastDepth : Dungeon.depth) <= -1 ? SAVE_DIR : getDir()) + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".sv";
 			case PLAYER: return getDir() + "player.sv";
 			case GAME: default: return getDir() + "game.sv";
-			case GLOBAL: return WORKING_DIR + "/" + SAVE_DIR + "global.sv";
+			case GLOBAL: return SAVE_DIR + "global.sv";
 		}
 	}
 
 	public static String getSavePath(Type type, int slot) {
 		switch (type) {
-			case LEVEL: return (Dungeon.depth <= -1 ? WORKING_DIR + "/" + SAVE_DIR : getDir(slot)) + "level" + Dungeon.depth + ".sv";
+			case LEVEL: return (Dungeon.depth <= -1 ? SAVE_DIR : getDir(slot)) + "level" + Dungeon.depth + ".sv";
 			case PLAYER: return getDir(slot) + "player.sv";
 			case GAME: default: return getDir(slot) + "game.sv";
-			case GLOBAL: return WORKING_DIR + "/" + SAVE_DIR + "global.sv";
+			case GLOBAL: return SAVE_DIR + "global.sv";
+		}
+	}
+
+	public static FileHandle getFileHandle(String path) {
+		if (Version.debug) {
+			return Gdx.files.external(path);
+		} else {
+			return Gdx.files.local(path);
 		}
 	}
 
 	public static void save(Type type, boolean old) {
-		FileHandle save = Gdx.files.external(getSavePath(type, old));
+		FileHandle save = getFileHandle(getSavePath(type, old));
 		Log.info("Saving " + type + " " + (old ? Dungeon.lastDepth : Dungeon.depth));
 
 		try {
 			FileWriter stream = new FileWriter(save.file().getAbsolutePath());
-			Log.error("Saving to " + save.file().getAbsolutePath());
 			stream.writeByte(version);
 
 			switch (type) {
@@ -82,7 +88,7 @@ public class SaveManager {
 	}
 
 	public static void load(Type type) throws IOException {
-		FileHandle save = Gdx.files.external(getSavePath(type));
+		FileHandle save = getFileHandle(getSavePath(type));
 
 		if (!save.exists()) {
 			File file = save.file();
@@ -127,7 +133,7 @@ public class SaveManager {
 		LevelSave.all.clear();
 		PlayerSave.all.clear();
 
-		File file = Gdx.files.external(getDir()).file();
+		File file = getFileHandle(getDir()).file();
 
 		if (file == null) {
 			Log.error("Failed to delete!");
