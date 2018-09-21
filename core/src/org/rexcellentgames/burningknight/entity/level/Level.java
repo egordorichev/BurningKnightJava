@@ -2292,8 +2292,8 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void save(FileWriter writer) throws IOException {
-		writer.writeInt32(getWidth());
-		writer.writeInt32(getHeight());
+		writer.writeByte((byte) getWidth());
+		writer.writeByte((byte) getHeight());
 
 		int sz = getSize();
 
@@ -2303,8 +2303,7 @@ public abstract class Level extends SaveableEntity {
 			writer.writeByte(this.decor[i]);
 			writer.writeBoolean(this.explored[i]);
 
-			int m = 1;
-			short c = 0;
+			short m = 1;
 
 			while (m + i < sz
 				&& this.data[i + m] == this.data[i]
@@ -2312,16 +2311,17 @@ public abstract class Level extends SaveableEntity {
 				&& this.decor[i + m] == this.decor[i]
 				&& this.explored[i + m] == this.explored[i]) {
 
-				c ++;
+				m ++;
 			}
 
-			writer.writeBoolean(c > 0);
+			writer.writeBoolean(m > 1);
 
-			if (c > 0) {
-				Log.error("Found a short cut for " + c + " !");
-				writer.writeInt16(c);
+			if (m > 1) {
+				i += m - 1;
+				writer.writeInt16((short) (m - 1));
 			}
 		}
+
 
 		writer.writeByte((byte) this.rooms.size());
 
@@ -2368,7 +2368,8 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void load(FileReader reader) throws IOException {
-		setSize(reader.readInt32(), reader.readInt32());
+		setSize(reader.readByte(), reader.readByte());
+
 		this.data = new byte[getSize()];
 		this.info = new int[getSize()];
 		this.liquidData = new byte[getSize()];
@@ -2386,14 +2387,16 @@ public abstract class Level extends SaveableEntity {
 
 			if (vr && reader.readBoolean()) {
 				int j = i;
+				short cn = reader.readInt16();
 
-				for (int m = 0; m < reader.readInt16(); m++) {
+				for (int m = 0; m < cn; m++) {
 					i++;
+					int in = j + m + 1;
 
-					this.data[j + m] = this.data[i + m];
-					this.liquidData[j + m] = this.liquidData[i + m];
-					this.decor[j + m] = this.decor[i + m];
-					this.explored[j + m] = this.explored[i + m];
+					this.data[in] = this.data[j];
+					this.liquidData[in] = this.liquidData[j];
+					this.decor[in] = this.decor[j];
+					this.explored[in] = this.explored[j];
 				}
 			}
 		}
