@@ -1060,8 +1060,10 @@ public class Player extends Creature {
 			}
 		}
 
-		float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
-		this.flipped = dx >= 0;
+		if (!this.freezed) {
+			float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
+			this.flipped = dx >= 0;
+		}
 
 		int i = Level.toIndex(Math.round((this.x) / 16), Math.round((this.y + this.h / 2) / 16));
 

@@ -97,6 +97,9 @@ public class BurningKnight extends Boss {
 		this.unhittable = true;
 		this.ignoreRooms = true;
 
+		Camera.shake(20);
+		vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
+
 		Tween.to(new Tween.Task(0.6f, 0.3f) {
 			@Override
 			public float getValue() {
@@ -165,6 +168,8 @@ public class BurningKnight extends Boss {
 		sword.modifyDamage(-10);
 
 		this.tp(0, 0);
+
+		vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
 	}
 
 	public void restore() {
@@ -711,11 +716,6 @@ public class BurningKnight extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			voice = Audio.getSound("bk_voice");
-			vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
-			voice.setVolume(vid, 0);
-			voice.pause(vid);
-
 			Dialog.active = self.dialog;
 			Dialog.active.start();
 
@@ -725,54 +725,6 @@ public class BurningKnight extends Boss {
 				@Override
 				public void run() {
 					Camera.follow(Player.instance, false);
-				}
-			});
-
-			Dialog.active.onStop(new Runnable() {
-				@Override
-				public void run() {
-					Tween.to(new Tween.Task(0, 0.3f) {
-						@Override
-						public float getValue() {
-							return volume;
-						}
-
-						@Override
-						public void setValue(float value) {
-							volume = value;
-							voice.setVolume(vid, value);
-						}
-
-						@Override
-						public void onEnd() {
-							super.onEnd();
-							voice.pause(vid);
-						}
-					});
-				}
-			});
-
-			Dialog.active.onStart(new Runnable() {
-				@Override
-				public void run() {
-					voice.resume(vid);
-					Tween.to(new Tween.Task(Settings.sfx, 0.3f) {
-						@Override
-						public float getValue() {
-							return volume;
-						}
-
-						@Override
-						public void setValue(float value) {
-							volume = value;
-							voice.setVolume(vid, value);
-						}
-
-						@Override
-						public void onEnd() {
-							super.onEnd();
-						}
-					});
 				}
 			});
 		}
@@ -805,6 +757,7 @@ public class BurningKnight extends Boss {
 		this.done = true;
 		GameSave.defeatedBK = true;
 		this.deathDepth = Dungeon.depth;
+		Camera.shake(10);
 
 		deathEffect(killed);
 		PlayerSave.remove(this);
