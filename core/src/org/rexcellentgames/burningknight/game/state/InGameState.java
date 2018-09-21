@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.debug.Console;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -260,6 +261,7 @@ public class InGameState extends State {
 	public void destroy() {
 		super.destroy();
 		this.console.destroy();
+		Dungeon.battleDarkness = 0;
 
 		if (Dungeon.reset || Player.instance == null || Player.instance.isDead()) {
 			Gdx.files.external(SaveManager.SAVE_DIR + SaveManager.slot).deleteDirectory();
@@ -451,6 +453,24 @@ public class InGameState extends State {
 		if (Player.instance != null) {
 			lastHp = Player.instance.getHp();
 		}
+
+		boolean dark = Player.instance.isDead();
+
+		if (!dark) {
+			dark = Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage;
+
+			if (!dark) {
+
+				for (Mob mob : Mob.all) {
+					if (mob.room == Player.instance.room) {
+						dark = true;
+						break;
+					}
+				}
+			}
+		}
+
+		Dungeon.battleDarkness += ((dark ? 0 : 1) - Dungeon.battleDarkness) * dt * 2;
 	}
 
 	private int lastHp;

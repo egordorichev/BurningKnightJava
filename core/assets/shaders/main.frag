@@ -21,6 +21,7 @@ uniform float colorBlind;
 uniform float correct;
 uniform float grayscale;
 uniform float ui;
+uniform float battle;
 uniform sampler2D u_texture;
 varying vec2 v_texCoord;
 varying vec4 v_color;
@@ -185,5 +186,9 @@ vec4 get(vec2 pos) {
 }
 
 void main() {
-    gl_FragColor = daltonize(get(v_texCoord));
+    if (battle > 0.0) {
+        gl_FragColor = daltonize(get(v_texCoord) - vec4(0.07, 0.07, 0.035, 0.0) * battle);
+    } else {
+        gl_FragColor = daltonize(get(v_texCoord));
+    }
 }
