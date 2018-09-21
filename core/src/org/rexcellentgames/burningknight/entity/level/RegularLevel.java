@@ -12,7 +12,6 @@ import org.rexcellentgames.burningknight.entity.level.builders.Builder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.LoopBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.SingleRoomBuilder;
-import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
 import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
@@ -199,8 +198,10 @@ public abstract class RegularLevel extends Level {
 			Collections.shuffle(rooms);
 		}
 
+		int attempt = 0;
+
 		do {
-			Log.info("Generating...");
+			Log.info("Generating (attempt " + attempt + ")...");
 
 			for (Room room : rooms) {
 				room.getConnected().clear();
@@ -212,7 +213,7 @@ public abstract class RegularLevel extends Level {
 			if (this.rooms == null) {
 				Log.error("Failed!");
 
-				Player.all.clear();
+				/*Player.all.clear();
 				Mob.all.clear();
 				ItemHolder.getAll().clear();
 				Chest.all.clear();
@@ -220,7 +221,7 @@ public abstract class RegularLevel extends Level {
 				AnswerButton.all.clear();
 
 				PlayerSave.all.clear();
-				LevelSave.all.clear();
+				LevelSave.all.clear();*/
 
 				Dungeon.area.destroy();
 				Dungeon.area.add(Dungeon.level);
@@ -228,6 +229,19 @@ public abstract class RegularLevel extends Level {
 				Level.GENERATED = true;
 
 				this.itemsToSpawn.clear();
+
+				if (attempt >= 10) {
+					Log.error("Too many attempts to generate a level! Trying a different room set!");
+					attempt = 0;
+
+					rooms = this.createRooms();
+
+					if (Dungeon.depth != -2) {
+						Collections.shuffle(rooms);
+					}
+				}
+
+				attempt ++;
 			}
 		} while (this.rooms == null);
 

@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -317,7 +319,34 @@ public class InGameState extends State {
 			this.console.update(dt);
 
 			if (Input.instance.wasPressed("reset")) {
-				Dungeon.newGame();
+				Dungeon.darkR = Dungeon.MAX_R;
+				Player.instance.setUnhittable(true);
+				Camera.follow(null);
+
+				Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
+				vec = Camera.ui.unproject(vec);
+				vec.y = Display.GAME_HEIGHT - vec.y;
+
+				Dungeon.darkX = vec.x;
+				Dungeon.darkY = vec.y;
+
+				Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
+					@Override
+					public float getValue() {
+						return Dungeon.darkR;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.darkR = value;
+					}
+
+					@Override
+					public void onEnd() {
+						Dungeon.newGame();
+						Dungeon.setBackground2(new Color(0, 0, 0, 1));
+					}
+				});
 			}
 
 			if (Input.instance.wasPressed("to_shop")) {
