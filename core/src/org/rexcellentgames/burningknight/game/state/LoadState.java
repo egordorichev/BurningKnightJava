@@ -190,7 +190,7 @@ public class LoadState extends State {
 			}
 		});
 
-		thread.setPriority(3);
+		thread.setPriority(1);
 		thread.run();
 	}
 

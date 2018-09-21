@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -36,6 +35,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -2295,21 +2295,42 @@ public abstract class Level extends SaveableEntity {
 		writer.writeInt32(getWidth());
 		writer.writeInt32(getHeight());
 
-		for (int i = 0; i < getSize(); i++) {
+		int sz = getSize();
+
+		for (int i = 0; i < sz; i++) {
 			writer.writeByte(this.data[i]);
 			writer.writeByte(this.liquidData[i]);
 			writer.writeByte(this.decor[i]);
 			writer.writeBoolean(this.explored[i]);
+
+			int m = 1;
+			short c = 0;
+
+			while (m + i < sz
+				&& this.data[i + m] == this.data[i]
+				&& this.liquidData[i + m] == this.data[i]
+				&& this.decor[i + m] == this.decor[i]
+				&& this.explored[i + m] == this.explored[i]) {
+
+				c ++;
+			}
+
+			writer.writeBoolean(c > 0);
+
+			if (c > 0) {
+				Log.error("Found a short cut for " + c + " !");
+				writer.writeInt16(c);
+			}
 		}
 
-		writer.writeInt32(this.rooms.size());
+		writer.writeByte((byte) this.rooms.size());
 
 		for (Room room : this.rooms) {
 			writer.writeString(room.getClass().getName());
-			writer.writeInt32(room.left);
-			writer.writeInt32(room.top);
-			writer.writeInt32(room.right);
-			writer.writeInt32(room.bottom);
+			writer.writeInt16((short) room.left);
+			writer.writeInt16((short) room.top);
+			writer.writeInt16((short) room.right);
+			writer.writeInt16((short) room.bottom);
 			writer.writeBoolean(room.hidden);
 
 			if (room instanceof EntranceRoom) {
@@ -2329,7 +2350,7 @@ public abstract class Level extends SaveableEntity {
 			}
 		}
 
-		writer.writeInt32(count);
+		writer.writeByte((byte) count);
 
 		for (int i = 0; i < this.rooms.size(); i++) {
 			Room room = this.rooms.get(i);
@@ -2338,8 +2359,8 @@ public abstract class Level extends SaveableEntity {
 				int in = this.rooms.indexOf(n);
 
 				if (in > -1) {
-					writer.writeInt32(i);
-					writer.writeInt32(in);
+					writer.writeByte((byte) i);
+					writer.writeByte((byte) in);
 				}
 			}
 		}
@@ -2355,16 +2376,30 @@ public abstract class Level extends SaveableEntity {
 		this.wallDecor = new byte[getSize()];
 		this.explored = new boolean[getSize()];
 		this.initLight();
+		boolean vr = SaveManager.version > 1;
 
 		for (int i = 0; i < getSize(); i++) {
 			this.data[i] = reader.readByte();
 			this.liquidData[i] = reader.readByte();
 			this.decor[i] = reader.readByte();
 			this.explored[i] = reader.readBoolean();
+
+			if (vr && reader.readBoolean()) {
+				int j = i;
+
+				for (int m = 0; m < reader.readInt16(); m++) {
+					i++;
+
+					this.data[j + m] = this.data[i + m];
+					this.liquidData[j + m] = this.liquidData[i + m];
+					this.decor[j + m] = this.decor[i + m];
+					this.explored[j + m] = this.explored[i + m];
+				}
+			}
 		}
 
 		try {
-			int count = reader.readInt32();
+			int count = reader.readByte();
 			this.rooms = new ArrayList<>();
 
 			for (int i = 0; i < count; i++) {
@@ -2375,10 +2410,10 @@ public abstract class Level extends SaveableEntity {
 
 				Room room = (Room) object;
 
-				room.left = reader.readInt32();
-				room.top = reader.readInt32();
-				room.right = reader.readInt32();
-				room.bottom = reader.readInt32();
+				room.left = reader.readInt16();
+				room.top = reader.readInt16();
+				room.right = reader.readInt16();
+				room.bottom = reader.readInt16();
 				room.hidden = reader.readBoolean();
 
 				if (room instanceof EntranceRoom) {
@@ -2388,11 +2423,11 @@ public abstract class Level extends SaveableEntity {
 				this.rooms.add(room);
 			}
 
-			count = reader.readInt32();
+			count = reader.readByte();
 
 			for (int i = 0; i < count; i++) {
-				int in = reader.readInt32();
-				this.rooms.get(in).neighbours.add(this.rooms.get(reader.readInt32()));
+				int in = reader.readByte();
+				this.rooms.get(in).neighbours.add(this.rooms.get(reader.readByte()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

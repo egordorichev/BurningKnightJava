@@ -22,7 +22,13 @@ public class SaveManager {
 
 	public static final String SAVE_DIR = "burningknight/";
 	public static int slot = 0;
-	public static final byte version = 1;
+	public static final byte version = 2;
+
+	/*
+	 * Version change log:
+	 * 1: debug test
+	 * 2: implemented level saving with optimization
+	 */
 
 	static {
 		Log.info("Save directory is " + SAVE_DIR);
@@ -104,16 +110,17 @@ public class SaveManager {
 			save(type, false);
 		} else {
 			Log.info("Loading " + type + " " + Dungeon.depth);
-
 			FileReader stream = new FileReader(save.file().getAbsolutePath());
 
 			byte v = stream.readByte();
 
-			if (v < version) {
-				Log.error("Old save version! TODO: patch versions");
+			if (v > version) {
+				Log.error("Unknown save version!");
 				stream.close();
 				generate(type);
 				return;
+			} else if (v < version) {
+				Log.info("Older save version!");
 			}
 
 			switch (type) {
