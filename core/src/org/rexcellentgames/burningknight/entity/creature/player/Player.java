@@ -812,7 +812,7 @@ public class Player extends Creature {
 
 	private void doTp(boolean fromInit) {
 		if (this.teleport) {
-			this.tp((float) Math.floor(this.lastGround.x) / 16 * 16, (float) Math.floor(this.lastGround.y) / 16 * 16 - 8);
+			this.tp(this.lastGround.x, this.lastGround.y);
 			return;
 		}
 
@@ -862,6 +862,12 @@ public class Player extends Creature {
 		super.update(dt);
 
 		if (!this.rolling) {
+			if (this.touches[Terrain.FLOOR_A] || this.touches[Terrain.FLOOR_B] || this.touches[Terrain.FLOOR_C] || this.touches[Terrain.FLOOR_D]) {
+				this.onGround = true;
+				this.lastGround.x = this.x;
+				this.lastGround.y = this.y;
+			}
+
 			if (!this.onGround) {
 				this.teleport = true;
 
@@ -1099,12 +1105,6 @@ public class Player extends Creature {
 
 	@Override
 	protected void onTouch(short t, int x, int y, int info) {
-		if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
-			this.onGround = true;
-			this.lastGround.x = this.x;
-			this.lastGround.y = this.y;
-		}
-
 		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;

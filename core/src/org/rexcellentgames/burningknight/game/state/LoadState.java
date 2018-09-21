@@ -15,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
@@ -26,10 +25,9 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
+import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
-
-import java.io.IOException;
 
 public class LoadState extends State {
 	private boolean ready = false;
@@ -69,8 +67,23 @@ public class LoadState extends State {
 
 	private boolean third;
 
-	private void runThread() {
+	private void showError(String err) {
+		Log.error(err);
+		error = true;
+		errorString = err;
+		Graphics.layout.setText(Graphics.medium, errorString);
+		ew = Graphics.layout.width / 2;
+		et = 0.3f;
 
+		Dungeon.ui.add(new UiButton("start_new_game", Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 3) {
+			@Override
+			public void onClick() {
+				Dungeon.newGame();
+			}
+		});
+	}
+
+	private void runThread() {
 		HandmadeRoom.init();
 
 		Dungeon.speed = 1f;
@@ -102,59 +115,43 @@ public class LoadState extends State {
 			public void run() {
 				Level lvl = Level.forDepth(Dungeon.depth - 1);
 
+				boolean error;
+
 				try {
-					SaveManager.load(SaveManager.Type.GAME);
-				} catch (IOException e) {
-					Log.error("Failed to load game!");
-					Dungeon.newGame();
-					return;
-				} catch (RuntimeException e) {
+					error = !SaveManager.load(SaveManager.Type.GAME);
+				} catch (Exception e) {
 					Log.report(e);
-					Thread.currentThread().interrupt();
+					error = true;
+				}
+
+				if (error) {
+					showError("Failed to load game!");
 					return;
 				}
 
 				try {
-					SaveManager.load(SaveManager.Type.LEVEL);
-				} catch (IOException e) {
-					Log.error("Failed to load level, generating new...");
-
-					if (Dungeon.level != null) {
-						Log.error("Removing old level");
-						Dungeon.area.remove(Dungeon.level);
-						Dungeon.level = null;
-					}
-
-					Player.all.clear();
-					Mob.all.clear();
-					ItemHolder.getAll().clear();
-					Chest.all.clear();
-					Mimic.all.clear();
-					Player.ladder = null;
-					Level.GENERATED = false;
-					Shopkeeper.instance = null;
-
-					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-
-					SaveManager.generate(SaveManager.Type.LEVEL);
-					SaveManager.save(SaveManager.Type.LEVEL, false);
-				} catch (RuntimeException e) {
+					error = !SaveManager.load(SaveManager.Type.LEVEL);
+				} catch (Exception e) {
 					Log.report(e);
-					Thread.currentThread().interrupt();
+					error = true;
+				}
+
+				if (error) {
+					showError("Failed to load level!");
 					return;
 				}
 
 				Dungeon.area.add(new Camera());
 
 				try {
-					SaveManager.load(SaveManager.Type.PLAYER);
-				} catch (IOException e) {
-					Log.error("Failed to load player!");
-					Dungeon.newGame();
-					return;
-				} catch (RuntimeException e) {
+					error = !SaveManager.load(SaveManager.Type.PLAYER);
+				} catch (Exception e) {
 					Log.report(e);
-					Thread.currentThread().interrupt();
+					error = true;
+				}
+
+				if (error) {
+					showError("Failed to load player!");
 					return;
 				}
 
@@ -168,7 +165,7 @@ public class LoadState extends State {
 				}
 
 				if (Player.instance == null) {
-					Log.error("No player!");
+					showError("Failed to load player!");
 					Dungeon.newGame();
 					return;
 				}
@@ -194,6 +191,11 @@ public class LoadState extends State {
 		thread.run();
 	}
 
+	private boolean error;
+	private String errorString;
+	private float ew;
+	private float et;
+
 	@Override
 	public void renderUi() {
 		this.alp += ((this.third ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 10;
@@ -208,12 +210,31 @@ public class LoadState extends State {
 		}
 
 		Graphics.startShape();
-		Graphics.shape.setColor(0, 0, 0, 1);
+
+		if (et > 0) {
+			Graphics.shape.setColor(1, 1, 1, 1);
+		} else {
+			Graphics.shape.setColor(0, 0, 0, 1);
+		}
+
 		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		Graphics.endShape();
 
+		if (et > 0) {
+			et -= Gdx.graphics.getDeltaTime();
+			return;
+		}
+
 		Graphics.medium.setColor(1, 1, 1, this.alp);
-		Graphics.print(this.s, Graphics.medium, (Display.GAME_HEIGHT - 16) / 2 - 8);
+
+		if (error) {
+			Graphics.print(this.errorString, Graphics.medium, Display.GAME_WIDTH / 2 - ew, (Display.GAME_HEIGHT - 16) / 2 - 8);
+			Dungeon.ui.render();
+			Ui.ui.renderCursor();
+		} else {
+			Graphics.print(this.s, Graphics.medium, (Display.GAME_HEIGHT - 16) / 2 - 8);
+		}
+
 		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 }

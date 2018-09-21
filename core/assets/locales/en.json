@@ -614,5 +614,6 @@
 	"starting_armor" : "Start with armor",
 	"more_gold" : "More gold",
 	"extra_upgrade" : "Extra upgrade per game",
-	"better_chest_chance" : "Chance for a better chest"
+	"better_chest_chance" : "Chance for a better chest",
+	"start_new_game" : "Start a new game"
 }

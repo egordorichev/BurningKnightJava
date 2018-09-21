@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 import org.rexcellentgames.burningknight.assets.Locale
 
 class FireBoots : Equippable() {
-
 	override fun getDescription(): String {
 		var d = super.getDescription()
 

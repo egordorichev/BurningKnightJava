@@ -93,21 +93,29 @@ public class SaveManager {
 		}
 	}
 
-	public static void load(Type type) throws IOException {
+	public static boolean load(Type type) throws IOException {
+		return load(type, true);
+	}
+
+	public static boolean load(Type type, boolean autoGen) throws IOException {
 		FileHandle save = getFileHandle(getSavePath(type));
 
 		if (!save.exists()) {
-			File file = save.file();
-			file.getParentFile().mkdirs();
+			if (autoGen) {
+				File file = save.file();
+				file.getParentFile().mkdirs();
 
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				Dungeon.reportException(e);
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					Dungeon.reportException(e);
+				}
+
+				generate(type);
+				save(type, false);
+			} else {
+				return false;
 			}
-
-			generate(type);
-			save(type, false);
 		} else {
 			Log.info("Loading " + type + " " + Dungeon.depth);
 			FileReader stream = new FileReader(save.file().getAbsolutePath());
@@ -118,7 +126,7 @@ public class SaveManager {
 				Log.error("Unknown save version!");
 				stream.close();
 				generate(type);
-				return;
+				return false;
 			} else if (v < version) {
 				Log.info("Older save version!");
 			}
@@ -132,6 +140,8 @@ public class SaveManager {
 
 			stream.close();
 		}
+
+		return true;
 	}
 
 	public static void delete() {

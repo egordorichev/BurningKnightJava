@@ -168,8 +168,6 @@ public class BurningKnight extends Boss {
 		sword.modifyDamage(-10);
 
 		this.tp(0, 0);
-
-		vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
 	}
 
 	public void restore() {
