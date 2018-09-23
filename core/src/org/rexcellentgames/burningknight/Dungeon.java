@@ -537,7 +537,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
-		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT);
+		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.UI_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.UI_HEIGHT);
 
 		Graphics.shadows.begin();
 
@@ -558,7 +558,7 @@ public class Dungeon extends ApplicationAdapter {
 				Graphics.small.setColor(1, 0, 0, 1);
 			}
 
-			Graphics.print(Integer.toString(f), Graphics.small, 2, Display.GAME_HEIGHT - fpsY + 8);
+			Graphics.print(Integer.toString(f), Graphics.small, 2, Display.UI_HEIGHT - fpsY + 8);
 
 			Graphics.small.setColor(1, 1, 1, 1);
 		}
@@ -586,8 +586,8 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("grayscale", 0);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, Display.GAME_HEIGHT * upscale / 2, Display.GAME_WIDTH * upscale,
-			-Display.GAME_HEIGHT * upscale);
+		Graphics.batch.draw(texture, -Display.UI_WIDTH * upscale / 2, Display.UI_HEIGHT * upscale / 2, Display.UI_WIDTH * upscale,
+			-Display.UI_HEIGHT * upscale);
 
 		Graphics.batch.setShader(null);
 		Graphics.batch.end();

@@ -62,7 +62,7 @@ public class Ui {
 					bar.targetValue = j * 19 + 16;
 					bar.tweened = true;
 
-					Tween.to(new Tween.Task(Display.GAME_HEIGHT - bar.targetValue, 0.5f) {
+					Tween.to(new Tween.Task(Display.UI_HEIGHT - bar.targetValue, 0.5f) {
 						@Override
 						public float getValue() {
 							return bar.y;
@@ -223,7 +223,7 @@ public class Ui {
 					}
 				});
 
-				UiButton button = (UiButton) Dungeon.ui.add(new UiButton("restart", Display.GAME_WIDTH / 2 + 256, 107 + 24) {
+				UiButton button = (UiButton) Dungeon.ui.add(new UiButton("restart", Display.UI_WIDTH / 2 + 256, 107 + 24) {
 					@Override
 					public void onClick() {
 						super.onClick();
@@ -235,7 +235,7 @@ public class Ui {
 				});
 
 				final UiButton finalButton3 = button;
-				Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
 						return finalButton3.x;
@@ -249,7 +249,7 @@ public class Ui {
 
 				Dungeon.ui.select(button);
 
-				button = (UiButton) Dungeon.ui.add(new UiButton("back_to_castle", Display.GAME_WIDTH / 2 - 256, 107) {
+				button = (UiButton) Dungeon.ui.add(new UiButton("back_to_castle", Display.UI_WIDTH / 2 - 256, 107) {
 					@Override
 					public void onClick() {
 						super.onClick();
@@ -263,7 +263,7 @@ public class Ui {
 				Dungeon.ui.select(button);
 
 				UiButton finalButton = button;
-				Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
 						return finalButton.x;
@@ -275,7 +275,7 @@ public class Ui {
 					}
 				}).delay(0.3f);
 
-				button = (UiButton) Dungeon.ui.add(new UiButton("menu", Display.GAME_WIDTH / 2 + 256, 83) {
+				button = (UiButton) Dungeon.ui.add(new UiButton("menu", Display.UI_WIDTH / 2 + 256, 83) {
 					@Override
 					public void onClick() {
 						super.onClick();
@@ -287,7 +287,7 @@ public class Ui {
 				});
 
 				UiButton finalButton1 = button;
-				Tween.to(new Tween.Task(Display.GAME_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
 						return finalButton1.x;
@@ -347,26 +347,26 @@ public class Ui {
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Dungeon.depth <= -1 || y > 0) {
-				Graphics.render(coin, 2, Display.GAME_HEIGHT - (Dungeon.depth <= -1 ? 20 : y) + 2);
+				Graphics.render(coin, 2, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y) + 2);
 				Graphics.print(GlobalSave.getInt("num_coins") + "",
 					Graphics.medium, 20,
-					Display.GAME_HEIGHT - (Dungeon.depth <= -1 ? 20 : y));
+					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y));
 			}
 
 			if (this.al > 0.05f) {
 				Graphics.startAlphaShape();
 				Graphics.shape.setColor(this.val, this.val, this.val, this.al);
-				Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+				Graphics.shape.rect(0, 0, Display.UI_WIDTH, Display.UI_HEIGHT);
 				Graphics.endAlphaShape();
 			}
 
-			float y = Display.GAME_HEIGHT - 52 - 32;
+			float y = Display.UI_HEIGHT - 52 - 32;
 
 			if (this.size > 0) {
 				Graphics.startShape();
 				Graphics.shape.setColor(0, 0, 0, 1);
-				Graphics.shape.rect(0, 0, Display.GAME_WIDTH, size);
-				Graphics.shape.rect(0, Display.GAME_HEIGHT - size, Display.GAME_WIDTH, size);
+				Graphics.shape.rect(0, 0, Display.UI_WIDTH, size);
+				Graphics.shape.rect(0, Display.UI_HEIGHT - size, Display.UI_WIDTH, size);
 				Graphics.endShape();
 
 				if (this.killX != -128) {
@@ -374,7 +374,7 @@ public class Ui {
 
 					Graphics.small.draw(Graphics.batch, this.depth, this.killX + 32, yy - 16);
 					Graphics.small.draw(Graphics.batch, this.kills, this.killX + 32, yy);
-					Graphics.small.draw(Graphics.batch, this.time, Display.GAME_WIDTH - 32 - this.killX - this.timeW, yy);
+					Graphics.small.draw(Graphics.batch, this.time, Display.UI_WIDTH - 32 - this.killX - this.timeW, yy);
 				}
 			}
 

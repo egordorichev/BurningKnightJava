@@ -48,13 +48,15 @@ public class UiMap extends UiEntity {
 	private float ly;
 
 	private boolean hadOpen;
+	private Tween.Task last;
 
 	public boolean isOpen() {
 		return large || my == 0;
 	}
 
 	public void hide() {
-		Tween.to(new Tween.Task(96, 0.4f) {
+		Tween.remove(last);
+		last = Tween.to(new Tween.Task(96, 0.2f) {
 			@Override
 			public float getValue() {
 				return my;
@@ -98,7 +100,8 @@ public class UiMap extends UiEntity {
 	}
 
 	public void show() {
-		Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+		Tween.remove(last);
+		last = Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
 			@Override
 			public float getValue() {
 				return my;
@@ -114,6 +117,11 @@ public class UiMap extends UiEntity {
 				super.onEnd();
 
 				did = false;
+			}
+
+			@Override
+			public boolean runWhenPaused() {
+				return true;
 			}
 		});
 
@@ -168,7 +176,7 @@ public class UiMap extends UiEntity {
 
 		Dungeon.ui.add(hide);
 
-		show = new UiImageButton("ui-show", Display.GAME_WIDTH - 4 - 9, (int) y - 3) {
+		show = new UiImageButton("ui-show", Display.UI_WIDTH - 4 - 9, (int) y - 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -198,7 +206,7 @@ public class UiMap extends UiEntity {
 						vl += (-vl) * dt;
 					}
 
-					this.y = 96 - my + Display.GAME_HEIGHT - MathUtils.clamp(0, 8, 8 - vl * 8);
+					this.y = 96 - my + Display.UI_HEIGHT - MathUtils.clamp(0, 8, 8 - vl * 8);
 					super.render();
 				}
 			}
@@ -322,11 +330,11 @@ public class UiMap extends UiEntity {
 	}
 
 	public void setSize() {
-		this.w = large ? Display.GAME_WIDTH - 20 : 64;
-		this.h = large ? Display.GAME_HEIGHT - 20 : Math.min(this.w, Display.GAME_HEIGHT);
+		this.w = large ? Display.UI_WIDTH - 20 : 64;
+		this.h = large ? Display.UI_HEIGHT - 20 : Math.min(this.w, Display.UI_HEIGHT);
 
-		this.x = Math.round(Display.GAME_WIDTH - this.w - (large ? 10 : 4));
-		this.y = Math.round(Display.GAME_HEIGHT - this.h - (large ? 10 : 4));
+		this.x = Math.round(Display.UI_WIDTH - this.w - (large ? 10 : 4));
+		this.y = Math.round(Display.UI_HEIGHT - this.h - (large ? 10 : 4));
 	}
 
 	@Override
@@ -402,7 +410,8 @@ public class UiMap extends UiEntity {
 			hadOpen = true;
 			did = true;
 
-			Tween.to(new Tween.Task(96, 0.1f) {
+			Tween.remove(last);
+			last = Tween.to(new Tween.Task(96, 0.1f) {
 				@Override
 				public float getValue() {
 					return my;
@@ -411,6 +420,11 @@ public class UiMap extends UiEntity {
 				@Override
 				public void setValue(float value) {
 					my = value;
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
 				}
 
 				@Override
@@ -430,7 +444,7 @@ public class UiMap extends UiEntity {
 		large = true;
 		setSize();
 
-		ly = -Display.GAME_HEIGHT;
+		ly = -Display.UI_HEIGHT;
 
 		Tween.to(new Tween.Task(0, 0.3f, Tween.Type.BACK_OUT) {
 			@Override
@@ -447,11 +461,16 @@ public class UiMap extends UiEntity {
 			public void onEnd() {
 				did = false;
 			}
+
+			@Override
+			public boolean runWhenPaused() {
+				return true;
+			}
 		});
 	}
 
 	public void hideHuge() {
-		Tween.to(new Tween.Task(-Display.GAME_HEIGHT, 0.1f) {
+		Tween.to(new Tween.Task(-Display.UI_HEIGHT, 0.1f) {
 			@Override
 			public float getValue() {
 				return ly;
@@ -469,7 +488,8 @@ public class UiMap extends UiEntity {
 				did = false;
 
 				if (!toRemove && hadOpen) {
-					Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
+					Tween.remove(last);
+					last = Tween.to(new Tween.Task(0, 0.2f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {
 							return my;
@@ -484,6 +504,11 @@ public class UiMap extends UiEntity {
 						public void onEnd() {
 							did = false;
 						}
+
+						@Override
+						public boolean runWhenPaused() {
+							return true;
+						}
 					});
 
 					did = true;
@@ -491,6 +516,11 @@ public class UiMap extends UiEntity {
 				}
 
 				toRemove = false;
+			}
+
+			@Override
+			public boolean runWhenPaused() {
+				return true;
 			}
 		});
 
@@ -565,8 +595,8 @@ public class UiMap extends UiEntity {
 
 		Graphics.shape.setColor(border);
 
-		float cx = px - w * 2 / zoom;
-		float cy = py - h * 2 / zoom;
+		float cx = px - (w * 2) / zoom;
+		float cy = py - (h * 2) / zoom;
 
 		int sx = (int) (Math.floor(cx / 16) - 1);
 		int sy = (int) (Math.floor(cy / 16) - 1);

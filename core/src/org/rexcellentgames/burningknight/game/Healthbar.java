@@ -12,7 +12,7 @@ public class Healthbar {
 	private static TextureRegion frame = Graphics.getTexture("ui-bkbar-frame");
 	private static TextureRegion bar = Graphics.getTexture("ui-bkbar-fill");
 	private TextureRegion skull;
-	public float y = Display.GAME_HEIGHT;
+	public float y = Display.UI_HEIGHT;
 	public boolean tweened = false;
 	private float lastV;
 	private float lastBV;
@@ -34,7 +34,7 @@ public class Healthbar {
 		}
 
 		this.invt = Math.max(0, this.invt - dt);
-		this.done = this.boss.isDead() && this.y >= Display.GAME_HEIGHT;
+		this.done = this.boss.isDead() && this.y >= Display.UI_HEIGHT;
 
 		if (((int) this.lastBV) > boss.getHp()) {
 			Tween.to(new Tween.Task(0.95f, 0.1f) {
@@ -101,7 +101,7 @@ public class Healthbar {
 
 		if (d && this.tweened) {
 			tweened = false;
-			Tween.to(new Tween.Task(Display.GAME_HEIGHT, 0.5f) {
+			Tween.to(new Tween.Task(Display.UI_HEIGHT, 0.5f) {
 				@Override
 				public float getValue() {
 					return y;
@@ -115,7 +115,7 @@ public class Healthbar {
 		} else if (!d && !this.tweened) {
 			tweened = true;
 
-			Tween.to(new Tween.Task(Display.GAME_HEIGHT - this.targetValue, 0.5f, Tween.Type.BACK_OUT) {
+			Tween.to(new Tween.Task(Display.UI_HEIGHT - this.targetValue, 0.5f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
 					return y;
@@ -130,15 +130,15 @@ public class Healthbar {
 	}
 
 	public void render() {
-		if (y != Display.GAME_HEIGHT) {
+		if (y != Display.UI_HEIGHT) {
 			TextureRegion r = new TextureRegion(bar);
 
 			Graphics.batch.setColor(0, 0, 0, 1);
-			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+			Graphics.render(r, Display.UI_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 			Graphics.batch.setColor(0.5f, 0.5f, 0.5f, 1);
 
 			r.setRegionWidth((int) Math.ceil(this.lastV / max * bar.getRegionWidth()));
-			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+			Graphics.render(r, Display.UI_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
 			Graphics.batch.setColor(1, 1, 1, 1);
 			float s = this.lastBV / max * bar.getRegionWidth();
@@ -155,7 +155,7 @@ public class Healthbar {
 				Graphics.batch.begin();
 			}
 
-			Graphics.render(r, Display.GAME_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
+			Graphics.render(r, Display.UI_WIDTH / 2, y + bar.getRegionHeight() - 1, 0, bar.getRegionWidth() / 2, bar.getRegionHeight(), false, false, sx, sy);
 
 			if (this.invt > 0.02f) {
 				Graphics.batch.end();
@@ -163,8 +163,8 @@ public class Healthbar {
 				Graphics.batch.begin();
 			}
 
-			Graphics.render(frame, Display.GAME_WIDTH / 2, y + frame.getRegionHeight() - 5, 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
-			Graphics.render(skull, Display.GAME_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() / 2, skull.getRegionHeight() / 2, false, false, sx, sy);
+			Graphics.render(frame, Display.UI_WIDTH / 2, y + frame.getRegionHeight() - 5, 0, frame.getRegionWidth() / 2, frame.getRegionHeight(), false, false, sx, sy);
+			Graphics.render(skull, Display.UI_WIDTH / 2 - bar.getRegionWidth() / 2 + s, y + 2, 0, skull.getRegionWidth() / 2, skull.getRegionHeight() / 2, false, false, sx, sy);
 		}
 	}
 }

@@ -65,8 +65,8 @@ public class Camera extends Entity {
 		int w = Display.GAME_WIDTH;
 		int h = Display.GAME_HEIGHT;
 
-		ui = new OrthographicCamera(w, h);
-		ui.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		ui = new OrthographicCamera(Display.UI_WIDTH, Display.UI_HEIGHT);
+		ui.position.set(Display.UI_WIDTH / 2, Display.UI_HEIGHT / 2, 0);
 		ui.update();
 
 		nil = new OrthographicCamera(w, h);

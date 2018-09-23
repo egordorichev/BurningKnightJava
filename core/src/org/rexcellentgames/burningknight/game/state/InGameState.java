@@ -427,10 +427,10 @@ public class InGameState extends State {
 				for (int i = 0; i < 64; i++) {
 					Bloodsplat splat = new Bloodsplat();
 
-					splat.x = Random.newFloat(Display.GAME_WIDTH);
+					splat.x = Random.newFloat(Display.UI_WIDTH);
 
-					if (splat.x < 32 || splat.x > Display.GAME_WIDTH - 32) {
-						splat.y = Random.newFloat(Display.GAME_HEIGHT);
+					if (splat.x < 32 || splat.x > Display.UI_WIDTH - 32) {
+						splat.y = Random.newFloat(Display.UI_HEIGHT);
 
 						if (splat.x < 32) {
 							splat.x -= 16;
@@ -440,7 +440,7 @@ public class InGameState extends State {
 					} else if (Random.chance(50)) {
 						splat.y = Random.newFloat(32) - 32;
 					} else {
-						splat.y = Display.GAME_HEIGHT - Random.newFloat(32) + 32;
+						splat.y = Display.UI_HEIGHT - Random.newFloat(32) + 32;
 					}
 
 					Dungeon.ui.add(splat);
@@ -486,8 +486,8 @@ public class InGameState extends State {
 		if (this.size > 0) {
 			Graphics.startShape();
 			Graphics.shape.setColor(0, 0, 0, 1);
-			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, size);
-			Graphics.shape.rect(0, Display.GAME_HEIGHT - size, Display.GAME_WIDTH, size);
+			Graphics.shape.rect(0, 0, Display.UI_WIDTH, size);
+			Graphics.shape.rect(0, Display.UI_HEIGHT - size, Display.UI_WIDTH, size);
 			Graphics.endShape();
 		}
 
@@ -517,7 +517,7 @@ public class InGameState extends State {
 
 			pauseMenuUi.render();
 
-			Graphics.print(this.depth, Graphics.medium, Display.GAME_WIDTH / 2 - w / 2, 128 + 32);
+			Graphics.print(this.depth, Graphics.medium, Display.UI_WIDTH / 2 - w / 2, 128 + 32);
 
 			Camera.ui.translate(0, -this.mv);
 			Camera.ui.update();
@@ -528,13 +528,13 @@ public class InGameState extends State {
 
 	private void setupUi() {
 		UiInventory inventory = new UiInventory(Player.instance.getInventory());
-		
+
 		Dungeon.ui.add(inventory);
 		Dungeon.ui.add(new UiMap());
 
 		int y = -24;
 
-		this.pauseMenuUi.add(new UiButton("resume", Display.GAME_WIDTH / 2, 128 + 32 + y) {
+		this.pauseMenuUi.add(new UiButton("resume", Display.UI_WIDTH / 2, 128 + 32 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -542,7 +542,7 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("quick_restart", Display.GAME_WIDTH / 2, 128 + 32 - 24 + y) {
+		this.pauseMenuUi.add(new UiButton("quick_restart", Display.UI_WIDTH / 2, 128 + 32 - 24 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -554,11 +554,11 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("settings", Display.GAME_WIDTH / 2, 128 + 32 - 24 * 2 + y) {
+		this.pauseMenuUi.add(new UiButton("settings", Display.UI_WIDTH / 2, 128 + 32 - 24 * 2 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
-				
+
 				transition(() -> {
 					Dungeon.grayscale = 0;
 					Dungeon.game.setState(new MainMenuState(true));
@@ -569,11 +569,11 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.GAME_WIDTH / 2, 128 + 32 - 24 * 3 + y) {
+		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.UI_WIDTH / 2, 128 + 32 - 24 * 3 + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
-				
+
 				transition(() -> {
 					Dungeon.grayscale = 0;
 					Dungeon.game.setState(new MainMenuState());

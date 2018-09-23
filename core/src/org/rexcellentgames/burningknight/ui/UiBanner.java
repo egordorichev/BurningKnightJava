@@ -226,7 +226,7 @@ public class UiBanner extends Entity {
 
 	@Override
 	public void render() {
-		float x = Display.GAME_WIDTH / 2 - this.w / 2;
+		float x = Display.UI_WIDTH / 2 - this.w / 2;
 		float y = this.y + 48;
 
 		float sx = (this.w - 18);
@@ -246,10 +246,10 @@ public class UiBanner extends Entity {
 
 		if (this.a > 0) {
 			Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
-			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.GAME_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 8);
+			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.UI_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 8);
 
 			if (this.extra != null) {
-				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.GAME_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 8 - 12);
+				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.UI_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 8 - 12);
 			}
 
 			Graphics.smallSimple.setColor(1, 1, 1, 1);

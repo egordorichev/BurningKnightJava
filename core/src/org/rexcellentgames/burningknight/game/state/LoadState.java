@@ -75,7 +75,7 @@ public class LoadState extends State {
 		ew = Graphics.layout.width / 2;
 		et = 0.3f;
 
-		Dungeon.ui.add(new UiButton("start_new_game", Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 3) {
+		Dungeon.ui.add(new UiButton("start_new_game", Display.UI_WIDTH / 2, Display.UI_HEIGHT / 3) {
 			@Override
 			public void onClick() {
 				Dungeon.newGame();
@@ -217,7 +217,7 @@ public class LoadState extends State {
 			Graphics.shape.setColor(0, 0, 0, 1);
 		}
 
-		Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		Graphics.shape.rect(0, 0, Display.UI_WIDTH, Display.UI_HEIGHT);
 		Graphics.endShape();
 
 		if (et > 0) {
@@ -228,11 +228,11 @@ public class LoadState extends State {
 		Graphics.medium.setColor(1, 1, 1, this.alp);
 
 		if (error) {
-			Graphics.print(this.errorString, Graphics.medium, Display.GAME_WIDTH / 2 - ew, (Display.GAME_HEIGHT - 16) / 2 - 8);
+			Graphics.print(this.errorString, Graphics.medium, Display.UI_WIDTH / 2 - ew, (Display.UI_HEIGHT - 16) / 2 - 8);
 			Dungeon.ui.render();
 			Ui.ui.renderCursor();
 		} else {
-			Graphics.print(this.s, Graphics.medium, (Display.GAME_HEIGHT - 16) / 2 - 8);
+			Graphics.print(this.s, Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
 		}
 
 		Graphics.medium.setColor(1, 1, 1, 1);
