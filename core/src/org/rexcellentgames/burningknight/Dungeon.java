@@ -33,6 +33,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -48,7 +49,6 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
-import java.util.Date;
 
 /*
  * TODO:
@@ -224,7 +224,10 @@ public class Dungeon extends ApplicationAdapter {
 			String type = Player.instance.getType().toString().toLowerCase();
 			type = type.substring(0, 1).toUpperCase() + type.substring(1);
 
-			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(Version.string)
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(
+				game.getState() instanceof InGameState ?
+				String.format("%02d", (int) Math.floor(GameSave.time / 3600)) + ":" +
+				String.format("%02d", (int) Math.floor(GameSave.time / 60)) : "00:00")
 				.setBigImage("hero_mercy", type)
 				.setSmallImage("hero_mercy", type).build());
 		} else {
