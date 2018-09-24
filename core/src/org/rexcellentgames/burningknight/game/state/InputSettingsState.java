@@ -26,7 +26,7 @@ public class InputSettingsState extends State {
 
 		added = true;
 
-		first = (UiEntity) Dungeon.ui.add(new UiButton("bindings", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24 - Display.GAME_HEIGHT) {
+		first = (UiEntity) Dungeon.ui.add(new UiButton("bindings", (int) (Display.UI_WIDTH_MAX * 1.5f), 128 + 24 - Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -36,7 +36,7 @@ public class InputSettingsState extends State {
 
 				SettingsState.current = SettingsState.Type.CONFIG;
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(-Display.UI_HEIGHT_MAX * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;
@@ -50,7 +50,7 @@ public class InputSettingsState extends State {
 			}
 		});
 
-		c = new UiChoice("joystick", (int) (Display.GAME_WIDTH * 1.5f), 128 - Display.GAME_HEIGHT) {
+		c = new UiChoice("joystick", (int) (Display.UI_WIDTH_MAX * 1.5f), 128 - Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onUpdate() {
 				super.onUpdate();
@@ -74,7 +74,7 @@ public class InputSettingsState extends State {
 
 		Dungeon.ui.add(c);
 
-		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 1.5f) - Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiButton("back", (int) (Display.UI_WIDTH_MAX * 1.5f), (int) (128 - 24 * 1.5f) - Display.UI_HEIGHT_MAX) {
 			@Override
 			public void render() {
 				super.render();
@@ -93,7 +93,7 @@ public class InputSettingsState extends State {
 
 				SettingsState.current = SettingsState.Type.SETTINGS;
 
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(Display.UI_HEIGHT_MAX * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;

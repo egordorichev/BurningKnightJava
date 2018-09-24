@@ -22,7 +22,7 @@ public class GraphicsSettingsState extends State {
 
 		added = true;
 
-		Dungeon.ui.add(new UiChoice("quality", (int) (Display.GAME_WIDTH * 1.5f), 138 + 20 * 2 + Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiChoice("quality", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 + 20 * 2 + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -43,7 +43,7 @@ public class GraphicsSettingsState extends State {
 			(Settings.quality == 2 ? 0 : (Settings.quality == 4 ? 1 : 2))
 		));
 
-		Dungeon.ui.add(new UiSlider("screenshake", (int) (Display.GAME_WIDTH * 1.5f), 138 + 20 + Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiSlider("screenshake", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 + 20 + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/select");
@@ -55,7 +55,7 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setValue(Settings.screenshake));
 
-		Dungeon.ui.add(new UiCheckbox("fullscreen", (int) (Display.GAME_WIDTH * 1.5f), 138 + Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiCheckbox("fullscreen", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -65,12 +65,12 @@ public class GraphicsSettingsState extends State {
 				if (Settings.fullscreen) {
 					Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 				} else {
-					Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2);
+					Gdx.graphics.setWindowedMode(Display.UI_WIDTH_MAX * 2, Display.UI_HEIGHT_MAX * 2);
 				}
 			}
 		}.setOn(Settings.fullscreen).setSparks(true));
 
-		Dungeon.ui.add(new UiCheckbox("blood", (int) (Display.GAME_WIDTH * 1.5f), 138 - 20 + Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiCheckbox("blood", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 - 20 + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				this.setPlaySfx(Settings.blood);
@@ -85,7 +85,7 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.blood));
 
-		Dungeon.ui.add(new UiCheckbox("gore", (int) (Display.GAME_WIDTH * 1.5f), 138 - 20 * 2 + Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiCheckbox("gore", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 - 20 * 2 + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				this.setPlaySfx(Settings.gore);
@@ -112,7 +112,7 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.gore));
 
-		first = (UiEntity) Dungeon.ui.add(new UiCheckbox("vsync", (int) (Display.GAME_WIDTH * 1.5f), 138 + 20 * 3 + Display.GAME_HEIGHT) {
+		first = (UiEntity) Dungeon.ui.add(new UiCheckbox("vsync", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 + 20 * 3 + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -122,7 +122,7 @@ public class GraphicsSettingsState extends State {
 			}
 		}.setOn(Settings.vsync).setSparks(true));
 
-		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (138 - 20 * 4.5f) + Display.GAME_HEIGHT) {
+		Dungeon.ui.add(new UiButton("back", (int) (Display.UI_WIDTH_MAX * 1.5f), (int) (138 - 20 * 4.5f) + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void render() {
 				super.render();
@@ -140,7 +140,7 @@ public class GraphicsSettingsState extends State {
 
 				SettingsState.current = SettingsState.Type.SETTINGS;
 
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(Display.UI_HEIGHT_MAX * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;

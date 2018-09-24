@@ -28,7 +28,7 @@ public class SettingsState extends State {
 
 		added = true;
 
-		first = (UiEntity) Dungeon.ui.add(new UiButton("graphics", (int) (Display.GAME_WIDTH * 1.5f), 128 + 24) {
+		first = (UiEntity) Dungeon.ui.add(new UiButton("graphics", (int) (Display.UI_WIDTH_MAX * 1.5f), 128 + 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -37,7 +37,7 @@ public class SettingsState extends State {
 
 				current = Type.GRAPHICS;
 
-				Tween.to(new Tween.Task(Display.GAME_HEIGHT * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(Display.UI_HEIGHT_MAX * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;
@@ -51,7 +51,7 @@ public class SettingsState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.ui.add(new UiButton("audio", (int) (Display.GAME_WIDTH * 1.5f), 128) {
+		Dungeon.ui.add(new UiButton("audio", (int) (Display.UI_WIDTH_MAX * 1.5f), 128) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -60,7 +60,7 @@ public class SettingsState extends State {
 
 				current = Type.AUDIO;
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 2.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH_MAX * 2.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraX;
@@ -74,7 +74,7 @@ public class SettingsState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.ui.add(new UiButton("input", (int) (Display.GAME_WIDTH * 1.5f), 128 - 24) {
+		Dungeon.ui.add(new UiButton("input", (int) (Display.UI_WIDTH_MAX * 1.5f), 128 - 24) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -83,7 +83,7 @@ public class SettingsState extends State {
 
 				current = Type.INPUT;
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(-Display.UI_HEIGHT_MAX * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;
@@ -97,7 +97,7 @@ public class SettingsState extends State {
 			}
 		}.setSparks(true));
 
-		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 - 24 * 2.5f)) {
+		Dungeon.ui.add(new UiButton("back", (int) (Display.UI_WIDTH_MAX * 1.5f), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void render() {
 				super.render();
@@ -126,7 +126,7 @@ public class SettingsState extends State {
 				} else {
 					Dungeon.ui.select(MainMenuState.first);
 
-					Tween.to(new Tween.Task(Display.GAME_WIDTH * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+					Tween.to(new Tween.Task(Display.UI_WIDTH_MAX * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 						@Override
 						public float getValue() {
 							return MainMenuState.cameraX;

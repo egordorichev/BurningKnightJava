@@ -18,7 +18,7 @@ public class BackgroundFx extends Entity {
 	@Override
 	public void init() {
 		y = -32 - Random.newFloat(32f);
-		x = Random.newFloat(0, Display.GAME_WIDTH);
+		x = Random.newFloat(0, Display.UI_WIDTH_MAX);
 
 		size = Random.newFloat(8, 24) / 2f;
 		val = Random.newFloat(0.7f, 1f);
@@ -32,7 +32,7 @@ public class BackgroundFx extends Entity {
 
 		this.y += speed * dt;
 
-		if (this.y >= Display.GAME_HEIGHT + 32) {
+		if (this.y >= Display.UI_HEIGHT_MAX + 32) {
 			this.init();
 		}
 	}

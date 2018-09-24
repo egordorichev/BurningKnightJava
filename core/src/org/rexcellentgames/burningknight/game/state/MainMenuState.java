@@ -27,9 +27,9 @@ public class MainMenuState extends State {
 	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
 	private ArrayList<UiButton> buttons = new ArrayList<>();
 	private float logoX = 0;
-	private float logoY = Display.GAME_HEIGHT;
-	public static float cameraX = Display.GAME_WIDTH / 2;
-	public static float cameraY = Display.GAME_HEIGHT / 2;
+	private float logoY = Display.UI_HEIGHT_MAX;
+	public static float cameraX = Display.UI_WIDTH_MAX / 2;
+	public static float cameraY = Display.UI_HEIGHT_MAX / 2;
 	public static final float MOVE_T = 0.2f;
 
 	private float scale = 1f;
@@ -57,8 +57,8 @@ public class MainMenuState extends State {
 		ClassSelectState.added = false;
 		KeyConfigState.added = false;
 
-		cameraX = Display.GAME_WIDTH / 2;
-		cameraY = Display.GAME_HEIGHT / 2;
+		cameraX = Display.UI_WIDTH_MAX / 2;
+		cameraY = Display.UI_HEIGHT_MAX / 2;
 
 		String track = "Burning Knight";
 		Audio.play(track);
@@ -94,14 +94,14 @@ public class MainMenuState extends State {
 		first = buttons.get(0);
 		Dungeon.ui.select(first);
 
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.GAME_WIDTH + 128 + v), (int) (128 - 24 * 2.5f + y)) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.UI_WIDTH_MAX + 128 + v), (int) (128 - 24 * 2.5f + y)) {
 			@Override
 			public void onClick() {
 				super.onClick();
 				SettingsState.add();
 				Dungeon.ui.select(SettingsState.first);
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH_MAX * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return cameraX;
@@ -145,7 +145,7 @@ public class MainMenuState extends State {
 				super.onEnd();
 
 				for (final UiButton button : buttons) {
-					Tween.to(new Tween.Task(Display.GAME_WIDTH / 2 + v, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
+					Tween.to(new Tween.Task(Display.UI_WIDTH_MAX / 2 + v, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
 						@Override
 						public float getValue() {
 							return button.x;
@@ -162,14 +162,14 @@ public class MainMenuState extends State {
 
 		// Particles
 
-		Camera.game.position.set(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2, 0);
+		Camera.game.position.set(Display.UI_WIDTH_MAX / 2, Display.UI_HEIGHT_MAX / 2, 0);
 		Camera.game.update();
 
 		for (int i = 0; i < 100; i++) {
 			BackgroundFx fx = new BackgroundFx();
 			Dungeon.area.add(fx);
 
-			fx.y = Random.newFloat(-32, Display.GAME_HEIGHT + 32);
+			fx.y = Random.newFloat(-32, Display.UI_HEIGHT_MAX + 32);
 		}
 	}
 
@@ -193,7 +193,7 @@ public class MainMenuState extends State {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		Graphics.render(logo, Display.GAME_WIDTH / 2 + logoX, 180 + logoY - 3, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
+		Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, 180 + logoY - 3, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
 		Dungeon.ui.render();
 
 		Ui.ui.renderCursor();

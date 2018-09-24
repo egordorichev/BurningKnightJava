@@ -23,64 +23,64 @@ public class KeyConfigState extends State {
 
 		Log.info("add");
 
-		float w = Display.GAME_WIDTH / 4;
+		float w = Display.UI_WIDTH_MAX / 4;
 		float y = 32;
 
-		Dungeon.ui.add(new UiKey("up", (int) (Display.GAME_WIDTH * 1.5f - w), (int) (128 + 24 * 3.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("up", (int) (Display.UI_WIDTH_MAX * 1.5f - w), (int) (128 + 24 * 3.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("down", (int) (Display.GAME_WIDTH * 1.5f - w), (int) (128 + 24 * 2.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("down", (int) (Display.UI_WIDTH_MAX * 1.5f - w), (int) (128 + 24 * 2.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("left", (int) (Display.GAME_WIDTH * 1.5f - w), (int) (128 + 24 * 1.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("left", (int) (Display.UI_WIDTH_MAX * 1.5f - w), (int) (128 + 24 * 1.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("right", (int) (Display.GAME_WIDTH * 1.5f - w), (int) (128 + 24 * 0.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("right", (int) (Display.UI_WIDTH_MAX * 1.5f - w), (int) (128 + 24 * 0.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("toggle_minimap", (int) (Display.GAME_WIDTH * 1.5f - w), (int) (128 + 24 * -0.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("toggle_minimap", (int) (Display.UI_WIDTH_MAX * 1.5f - w), (int) (128 + 24 * -0.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("map", (int) (Display.GAME_WIDTH * 1.5f - w), (int) (128 + 24 * -1.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("map", (int) (Display.UI_WIDTH_MAX * 1.5f - w), (int) (128 + 24 * -1.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
 		// Second row
 
-		Dungeon.ui.add(new UiKey("use", (int) (Display.GAME_WIDTH * 1.5f + w), (int) (128 + 24 * 3.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("use", (int) (Display.UI_WIDTH_MAX * 1.5f + w), (int) (128 + 24 * 3.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("interact", (int) (Display.GAME_WIDTH * 1.5f + w), (int) (128 + 24 * 2.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("interact", (int) (Display.UI_WIDTH_MAX * 1.5f + w), (int) (128 + 24 * 2.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("drop", (int) (Display.GAME_WIDTH * 1.5f + w), (int) (128 + 24 * 1.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("drop", (int) (Display.UI_WIDTH_MAX * 1.5f + w), (int) (128 + 24 * 1.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("inventory", (int) (Display.GAME_WIDTH * 1.5f + w), (int) (128 + 24 * 0.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("inventory", (int) (Display.UI_WIDTH_MAX * 1.5f + w), (int) (128 + 24 * 0.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("pause", (int) (Display.GAME_WIDTH * 1.5f + w), (int) (128 + 24 * -0.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("pause", (int) (Display.UI_WIDTH_MAX * 1.5f + w), (int) (128 + 24 * -0.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("zoom_in", (int) (Display.GAME_WIDTH * 1.5f + w), (int) (128 + 24 * -1.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("zoom_in", (int) (Display.UI_WIDTH_MAX * 1.5f + w), (int) (128 + 24 * -1.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiKey("zoom_out", (int) (Display.GAME_WIDTH * 1.5f + w), (int) (128 + 24 * -2.5f - Display.GAME_HEIGHT * 2f + y)) {
+		Dungeon.ui.add(new UiKey("zoom_out", (int) (Display.UI_WIDTH_MAX * 1.5f + w), (int) (128 + 24 * -2.5f - Display.UI_HEIGHT_MAX * 2f + y)) {
 
 		});
 
-		Dungeon.ui.add(new UiButton("reset_to_default", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 + 24 * 12.5f - Display.GAME_HEIGHT * 3.5f)) {
+		Dungeon.ui.add(new UiButton("reset_to_default", (int) (Display.UI_WIDTH_MAX * 1.5f), (int) (128 + 24 * 13.5f - Display.UI_HEIGHT_MAX * 3.5f)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -88,7 +88,7 @@ public class KeyConfigState extends State {
 			}
 		});
 
-		first = (UiEntity) Dungeon.ui.add(new UiButton("save", (int) (Display.GAME_WIDTH * 1.5f), (int) (128 + 24 * 11.5f - Display.GAME_HEIGHT * 3.5f)) {
+		first = (UiEntity) Dungeon.ui.add(new UiButton("save", (int) (Display.UI_WIDTH_MAX * 1.5f), (int) (128 + 24 * 12.5f - Display.UI_HEIGHT_MAX * 3.5f)) {
 			@Override
 			public void render() {
 				super.render();
@@ -108,7 +108,7 @@ public class KeyConfigState extends State {
 
 				SettingsState.current = SettingsState.Type.INPUT;
 
-				Tween.to(new Tween.Task(-Display.GAME_HEIGHT * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(-Display.UI_HEIGHT_MAX * 0.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraY;

@@ -22,7 +22,7 @@ public class AudioSettingsState extends State {
 
 		added = true;
 
-		first = (UiEntity) Dungeon.ui.add(new UiSlider("music", (int) (Display.GAME_WIDTH * 2.5f), 128 + 24) {
+		first = (UiEntity) Dungeon.ui.add(new UiSlider("music", (int) (Display.UI_WIDTH_MAX * 2.5f), 128 + 24) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/select");
@@ -35,7 +35,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setValue(Settings.music));
 
-		Dungeon.ui.add(new UiSlider("sfx", (int) (Display.GAME_WIDTH * 2.5f), 128) {
+		Dungeon.ui.add(new UiSlider("sfx", (int) (Display.UI_WIDTH_MAX * 2.5f), 128) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/select");
@@ -47,7 +47,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setValue(Settings.sfx));
 
-		Dungeon.ui.add(new UiCheckbox("uisfx", (int) (Display.GAME_WIDTH * 2.5f), 128 - 24) {
+		Dungeon.ui.add(new UiCheckbox("uisfx", (int) (Display.UI_WIDTH_MAX * 2.5f), 128 - 24) {
 			@Override
 			public void onClick() {
 				Settings.uisfx = !Settings.uisfx;
@@ -55,7 +55,7 @@ public class AudioSettingsState extends State {
 			}
 		}.setOn(Settings.uisfx));
 
-		Dungeon.ui.add(new UiButton("back", (int) (Display.GAME_WIDTH * 2.5f), (int) (128 - 24 * 2.5f)) {
+		Dungeon.ui.add(new UiButton("back", (int) (Display.UI_WIDTH_MAX * 2.5f), (int) (128 - 24 * 2.5f)) {
 			@Override
 			public void render() {
 				super.render();
@@ -73,7 +73,7 @@ public class AudioSettingsState extends State {
 
 				SettingsState.current = SettingsState.Type.SETTINGS;
 
-				Tween.to(new Tween.Task(Display.GAME_WIDTH * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH_MAX * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
 						return MainMenuState.cameraX;
