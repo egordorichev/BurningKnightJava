@@ -899,7 +899,7 @@ public class Player extends Creature {
 		}
 
 		this.z = Math.max(0, this.zvel * dt + this.z);
-		this.zvel = Math.max(-120, this.zvel - dt * 40);
+		this.zvel = Math.max(-120, this.zvel - dt * 80);
 
 		orbitalRing.lerp(new Vector2(this.x + this.w / 2, this.y + this.h / 2), 4 * dt);
 

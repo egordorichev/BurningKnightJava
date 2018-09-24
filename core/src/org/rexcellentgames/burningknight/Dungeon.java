@@ -255,6 +255,8 @@ public class Dungeon extends ApplicationAdapter {
 		Log.init();
 		Log.info("Loading from " + (steam ? "Steam" : "native"));
 
+
+
 		initDiscord();
 
 		loadGlobal();

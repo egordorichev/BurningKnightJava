@@ -173,7 +173,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 3, "y": 5, "w": 11, "h": 11 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 22.ase": {
     "frame": { "x": 232, "y": 0, "w": 13, "h": 11 },
@@ -181,7 +181,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 2, "y": 5, "w": 13, "h": 11 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 23.ase": {
     "frame": { "x": 245, "y": 0, "w": 13, "h": 9 },
@@ -189,7 +189,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 3, "y": 6, "w": 13, "h": 9 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 24.ase": {
     "frame": { "x": 258, "y": 0, "w": 10, "h": 7 },
@@ -197,7 +197,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 4, "y": 8, "w": 10, "h": 7 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 25.ase": {
     "frame": { "x": 268, "y": 0, "w": 11, "h": 8 },
@@ -205,7 +205,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 3, "y": 8, "w": 11, "h": 8 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 26.ase": {
     "frame": { "x": 279, "y": 0, "w": 9, "h": 8 },
@@ -213,7 +213,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 4, "y": 8, "w": 9, "h": 8 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 27.ase": {
     "frame": { "x": 288, "y": 0, "w": 9, "h": 6 },
@@ -221,7 +221,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 4, "y": 10, "w": 9, "h": 6 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 28.ase": {
     "frame": { "x": 297, "y": 0, "w": 10, "h": 8 },
@@ -229,7 +229,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 3, "y": 8, "w": 10, "h": 8 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    },
    "actor_gobbo 29.ase": {
     "frame": { "x": 307, "y": 0, "w": 11, "h": 11 },
@@ -237,7 +237,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 2, "y": 5, "w": 11, "h": 11 },
     "sourceSize": { "w": 16, "h": 16 },
-    "duration": 100
+    "duration": 50
    }
  },
  "meta": {
