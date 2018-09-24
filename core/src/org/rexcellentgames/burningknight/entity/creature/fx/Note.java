@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -127,7 +128,27 @@ public class Note extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.batch.end();
+		Mob.shader.begin();
+		Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
+		Mob.shader.setUniformf("u_a", 1);
+		Mob.shader.end();
+		Graphics.batch.setShader(Mob.shader);
+		Graphics.batch.begin();
+
+		for (int yy = -1; yy < 2; yy++) {
+			for (int xx = -1; xx < 2; xx++) {
+				if (Math.abs(xx) + Math.abs(yy) == 1) {
+					Graphics.render(region, this.x + xx, this.y + yy, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
+						false, false, flip ? -scale : scale, scale);
+				}
+			}
+		}
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+
 		Graphics.render(region, this.x, this.y, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
 			false, false, flip ? -scale : scale, scale);
 	}

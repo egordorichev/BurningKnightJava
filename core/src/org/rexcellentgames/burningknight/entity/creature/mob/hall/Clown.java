@@ -191,6 +191,11 @@ public class Clown extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 			this.checkForPlayer();
+
+			if (this.target != null) {
+				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
+				self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
+			}
 		}
 	}
 
@@ -286,6 +291,10 @@ public class Clown extends Mob {
 					}
 
 					return;
+				}
+
+				if (Random.chance(1)) {
+					self.become("rangedAttack");
 				}
 			}
 
