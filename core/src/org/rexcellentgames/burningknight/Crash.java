@@ -19,9 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Crash {
-	private static String ERROR_MESSAGE = "BurningKnight had stopped running, because it encountered a problem.\n"
-		+ "\nPlease, copy and report the entire text to email egordorichev@gmail.com or\n"
-		+ "DM egordorichev on twitter (https://twitter.com/egordorichev)\n\n";
+	private static final String ERROR_MESSAGE = "BurningKnight had stopped running, because it encountered a problem.\n"
+		+ "\nThis crash was automatically reported to rexcellent games team.\n\n";
 
 	public static void report(Thread thread, Throwable throwable) {
 		StringBuilder builder = new StringBuilder();

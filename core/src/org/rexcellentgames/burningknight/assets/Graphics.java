@@ -187,13 +187,13 @@ public class Graphics {
 	public static void printCenter(String s, BitmapFont font, float x, float y) {
 		layout.setText(font, s);
 
-		print(s, font, (Display.GAME_WIDTH - layout.width) / 2 + x, y);
+		print(s, font, (Display.UI_WIDTH - layout.width) / 2 + x, y);
 	}
 
 	public static void print(String s, BitmapFont font, float y) {
 		layout.setText(font, s);
 
-		print(s, font, (Display.GAME_WIDTH - layout.width) / 2, y);
+		print(s, font, (Display.UI_WIDTH - layout.width) / 2, y);
 	}
 
 	public static void render(TextureRegion texture, float x, float y) {
