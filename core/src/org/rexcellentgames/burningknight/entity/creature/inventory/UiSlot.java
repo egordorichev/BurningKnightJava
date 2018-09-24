@@ -128,8 +128,8 @@ public class UiSlot {
 			}
 		}
 
-		if (this.active && item instanceof ScrollOfUpgrade) {
-			Ui.upgradeMouse = true;
+		if (this.active && this.inventory.getCurrentSlot() == null) {
+			Ui.upgradeMouse = item instanceof ScrollOfUpgrade;
 		}
 
 		if (this.hovered && !h) {

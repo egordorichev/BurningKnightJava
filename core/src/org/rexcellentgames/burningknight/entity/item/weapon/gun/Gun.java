@@ -468,8 +468,8 @@ public class Gun extends WeaponBase {
 			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
 			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
 
-			bullet.x = x + this.getAimX(0, -bullet.sprite.getRegionHeight() / 2);
-			bullet.y = y + this.getAimY(0, -bullet.sprite.getRegionHeight() / 2);
+			bullet.x = x + this.getAimX(0, 0);
+			bullet.y = y + this.getAimY(0, 0);
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;

@@ -167,8 +167,11 @@ public class BulletProjectile extends Projectile {
 		super.onCollision(entity);
 
 		if (this.bad && entity instanceof WeaponBase && ((WeaponBase) entity).getOwner() instanceof Player) {
-			this.velocity.x *= -1;
-			this.velocity.y *= -1;
+			Player player = (Player) ((WeaponBase) entity).getOwner();
+			double a = this.getAngleTo(player.x + player.w / 2, player.y + player.h / 2) - Math.PI;
+			double d = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+			this.velocity.x = (float) (d * Math.cos(a));
+			this.velocity.y = (float) (d * Math.sin(a));
 			this.bad = false;
 
 			int num = GlobalSave.getInt("num_bullets_reflected") + 1;
