@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
+import java.util.Date;
 import java.util.List;
 
 public class Crash {
@@ -30,6 +31,7 @@ public class Crash {
 
 		builder.append("--- BEGIN CRASH REPORT ---");
 		builder.append("\nBurningKnight version: ").append(Version.asString());
+		builder.append("\nDate: ").append(new Date().toString());
 		builder.append("\nOS: ").append(System.getProperty("os.name")).append(" (").append(System.getProperty("os.arch")).append(") version ").append(System.getProperty("os.version"));
 		builder.append("\nJava version: ").append(System.getProperty("java.version")).append(", ").append(System.getProperty("java.vendor"));
 		builder.append("\nJava VM version: ").append(System.getProperty("java.vm.name")).append(" (").append(System.getProperty("java.vm.info")).append("), ").append(System.getProperty("java.vm.vendor"));
