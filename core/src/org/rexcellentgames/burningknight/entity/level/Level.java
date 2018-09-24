@@ -2292,8 +2292,8 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void save(FileWriter writer) throws IOException {
-		writer.writeByte((byte) getWidth());
-		writer.writeByte((byte) getHeight());
+		writer.writeInt16((byte) getWidth());
+		writer.writeInt16((byte) getHeight());
 
 		int sz = getSize();
 
@@ -2368,7 +2368,7 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void load(FileReader reader) throws IOException {
-		setSize(reader.readByte(), reader.readByte());
+		setSize(reader.readInt16(), reader.readInt16());
 
 		this.data = new byte[getSize()];
 		this.info = new int[getSize()];
