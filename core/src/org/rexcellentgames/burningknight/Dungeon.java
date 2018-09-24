@@ -49,6 +49,7 @@ import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
+import java.util.Date;
 
 /*
  * TODO:
@@ -253,9 +254,9 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		Log.init();
+		Log.info("Burning knight " + Version.string);
+		Log.info(new Date().toString());
 		Log.info("Loading from " + (steam ? "Steam" : "native"));
-
-
 
 		initDiscord();
 

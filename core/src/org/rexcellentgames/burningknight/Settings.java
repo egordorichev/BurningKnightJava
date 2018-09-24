@@ -28,7 +28,7 @@ public class Settings {
 		if (fullscreen) {
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		} else {
-			Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 2, Display.GAME_HEIGHT * 2);
+			Gdx.graphics.setWindowedMode(Display.GAME_WIDTH * 3, Display.GAME_HEIGHT * 3);
 		}
 
 		Gdx.graphics.setVSync(Settings.vsync);

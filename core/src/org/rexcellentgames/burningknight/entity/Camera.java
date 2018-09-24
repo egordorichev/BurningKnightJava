@@ -112,11 +112,10 @@ public class Camera extends Entity {
 		if (target != null) {
 			int x = (int) (target.x + 8);
 			int y = (int) (target.y + 8);
-			float z = game.zoom;
 
 			if (target instanceof Player && !((Player) target).toDeath) {
-				x += (Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / (Player.seeMore ? 1f : 1.5f / game.zoom);
-				y += (Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / (Player.seeMore ? 1f : 1.5f / game.zoom);
+				x += (Input.instance.uiMouse.x - Display.UI_WIDTH / 2) / ((Player.seeMore ? 1f : 1.5f) / game.zoom * Display.UI_SCALE);
+				y += (Input.instance.uiMouse.y - Display.UI_HEIGHT / 2) / ((Player.seeMore ? 1f : 1.5f) / game.zoom * Display.UI_SCALE);
 			} else {
 				y += target.h;
 			}

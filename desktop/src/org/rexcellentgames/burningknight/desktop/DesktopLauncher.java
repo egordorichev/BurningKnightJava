@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DesktopLauncher {
-	private static final int SCALE = 2;
+	private static final int SCALE = 3;
 
 	public static void main(String[] arg) {
 		if (!lockInstance(System.getProperty("user.home") + File.separator + ".burningknight_lock")) {
@@ -117,7 +117,6 @@ public class DesktopLauncher {
 			e.printStackTrace();
 			extra = "Houston, we have a problem!";
 		}
-
 
 		Dungeon.title = "Burning Knight " + Version.asString() + ": " + extra;
 
