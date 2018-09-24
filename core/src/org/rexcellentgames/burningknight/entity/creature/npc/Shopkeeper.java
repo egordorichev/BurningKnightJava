@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -583,6 +581,7 @@ public class Shopkeeper extends Npc {
 	@Override
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
+		this.playSfx("hurt_towelknight");
 
 		if (from instanceof Player || from == null) {
 			this.become("hana");

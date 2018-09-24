@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.Builder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
-import org.rexcellentgames.burningknight.entity.level.builders.LoopBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.SingleRoomBuilder;
 import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
@@ -365,11 +364,12 @@ public abstract class RegularLevel extends Level {
 				case 0:
 				case 1: return new CastleBuilder();
 				case 2:
-				case 3: default:*/
+				case 3: default:
 					return new LoopBuilder().setShape(2,
 						Random.newFloat(0.4f, 0.7f),
 						Random.newFloat(0f, 0.5f)).setPathLength(Random.newFloat(0.3f, 0.8f), new float[]{1, 1, 1});
-			// }
+			}*/
+			return new LineBuilder();
 		}
 	}
 

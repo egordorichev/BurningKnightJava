@@ -73,7 +73,7 @@ public class RollingSpike extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
+		Graphics.shadowSized(this.x, this.y + 2, this.w, this.h, 6);
 	}
 
 	private float a;

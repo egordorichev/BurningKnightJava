@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
@@ -76,14 +75,14 @@ public class BurningKnight extends Boss {
 	protected void onHurt(int am, Creature from) {
 		super.onHurt(am, from);
 
-		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
+		/*Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
 		vec.y = Display.GAME_HEIGHT - vec.y;
 
 		Dungeon.glitchTime = 0.3f;
 		Dungeon.shockTime = 0;
 		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;*/
 
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
@@ -391,12 +390,12 @@ public class BurningKnight extends Boss {
 		protected void doAttack() {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (self.isActiveState()) {
-				if (this.flyTo(self.lastSeen, self.speed * 5f, ATTACK_DISTANCE)) {
+			if (self.isActiveState() || self.rage) {
+				if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
 					self.become("preattack");
-				} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(1f)) {
+				} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(self.rage ? 10f : 1f)) {
 					self.become("rangedAttack");
-				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
+				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 					self.attackTp = true;
 					self.become("fadeOut");
 				} else if (!self.onScreen) {
@@ -411,7 +410,7 @@ public class BurningKnight extends Boss {
 				if (d < 48) {
 					self.attackTp = true;
 					self.become("fadeOut");
-				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(1f)) {
+				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 					self.attackTp = true;
 					self.become("fadeOut");
 				} else if (!self.onScreen) {
@@ -904,7 +903,7 @@ public class BurningKnight extends Boss {
 							ball.destroy();
 						} else {
 							float a = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
-							float s = 100;
+							float s = 200;
 
 							ball.tar = new Point();
 							ball.tar.x = (float) (s * Math.cos(a));
@@ -933,7 +932,7 @@ public class BurningKnight extends Boss {
 							ball.destroy();
 						} else {
 							float a = (float) (t + Math.toRadians(Random.newFloat(-5, 5)));
-							float s = 100;
+							float s = 200;
 
 							ball.tar = new Point();
 							ball.tar.x = (float) (s * Math.cos(a));
@@ -943,7 +942,7 @@ public class BurningKnight extends Boss {
 						}
 					}
 				}
-			} else if (this.t >= balls.size() * 0.5f + 1f) {
+			} else if (this.t >= (self.rage ? balls.size() * 0.25f + 0.25f : balls.size() * 0.5f + 1f)) {
 				FireballProjectile ball = new FireballProjectile();
 
 				ball.owner = self;
@@ -953,7 +952,7 @@ public class BurningKnight extends Boss {
 
 				if (balls.size() == count) {
 					this.t = 0;
-					this.wait = 1.5f;
+					this.wait = self.rage ? 0.5f : 1.5f;
 					this.sec = true;
 				}
 			}

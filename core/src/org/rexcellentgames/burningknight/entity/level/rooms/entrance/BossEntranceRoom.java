@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Random;
@@ -62,7 +61,7 @@ public class BossEntranceRoom extends RegularRoom {
 
 	@Override
 	public boolean canConnect(Room r) {
-		return r instanceof BossRoom && super.canConnect(r);
+		return r instanceof EntranceRoom && super.canConnect(r);
 	}
 
 	@Override

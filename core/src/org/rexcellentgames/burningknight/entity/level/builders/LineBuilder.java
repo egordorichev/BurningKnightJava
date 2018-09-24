@@ -30,22 +30,30 @@ public class LineBuilder extends RegularBuilder {
 		entrance.setSize();
 		entrance.setPos(0, 0);
 		branchable.add(entrance);
-		
+
+		if (bossExit != null) {
+			placeRoom(init, entrance, bossExit, direction + 180f);
+		}
+
 		int roomsOnPath = (int) (this.multiConnection.size() * pathLength) + Random.chances(pathLenJitterChances);
 		roomsOnPath = Math.min(roomsOnPath, this.multiConnection.size());
 
 		Room curr = entrance;
 
 		float[] pathTunnels = pathTunnelChances.clone();
+
 		for (int i = 0; i <= roomsOnPath; i++) {
-			if (i == roomsOnPath && exit == null)
+			if (i == roomsOnPath && exit == null) {
 				continue;
+			}
 
 			int tunnels = Random.chances(pathTunnels);
+
 			if (tunnels == -1) {
 				pathTunnels = pathTunnelChances.clone();
 				tunnels = Random.chances(pathTunnels);
 			}
+
 			pathTunnels[tunnels]--;
 
 			if (i != 0 && Dungeon.depth != 0) {
@@ -65,9 +73,11 @@ public class LineBuilder extends RegularBuilder {
 		}
 
 		ArrayList<Room> roomsToBranch = new ArrayList<>();
+
 		for (int i = roomsOnPath; i < this.multiConnection.size(); i++) {
 			roomsToBranch.add(this.multiConnection.get(i));
 		}
+
 		roomsToBranch.addAll(this.singleConnection);
 		weightRooms(branchable);
 		createBranches(init, branchable, roomsToBranch, branchTunnelChances);

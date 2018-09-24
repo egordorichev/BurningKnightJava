@@ -184,6 +184,24 @@ public class Door extends SaveableEntity {
 			damage += dt / 5;
 
 			if (damage >= 1f) {
+				if (this.key == KeyA.class) {
+					Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+					for (Trader trader : Trader.all) {
+						if (trader.room == room) {
+							trader.saved = true;
+							GlobalSave.put("npc_" + trader.id + "_saved", true);
+							trader.become("thanks");
+
+							if (trader.id.equals(NpcSaveRoom.saveOrder[NpcSaveRoom.saveOrder.length - 1])) {
+								Achievements.unlock(Achievements.SAVE_ALL);
+								GlobalSave.put("all_npcs_saved", true);
+							}
+							break;
+						}
+					}
+				}
+
 				this.done = true;
 				for (int i = 0; i < 5; i++) {
 					PoofFx fx = new PoofFx();

@@ -41,7 +41,7 @@ public class UiAchievement extends Entity {
 		this.h = 38;
 		this.w = Math.max(this.w2, w1) + 32 + 9 + 5;
 		this.y = -this.h * 3;
-		this.x = Display.GAME_WIDTH - 2 - this.w;
+		this.x = Display.UI_WIDTH - 2 - this.w;
 
 		Tween.to(new Tween.Task(2, 0.5f, Tween.Type.BACK_OUT) {
 			@Override
