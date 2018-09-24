@@ -114,7 +114,19 @@ public class FireballProjectile extends Projectile {
 			this.animation = dead;
 		}
 
-		if (this.tar != null) {
+
+
+		if (this.target != null) {
+			float dx = this.target.x + this.target.w / 2 - this.x - 5;
+			float dy = this.target.y + this.target.h / 2 - this.y - 5;
+			float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+			this.velocity.mul((0.99f));
+
+			float s = 2f;
+			this.velocity.x += dx / d * s;
+			this.velocity.y += dy / d * s;
+		} else if (this.tar != null) {
 			this.velocity.x += (this.tar.x - this.velocity.x) * dt;
 			this.velocity.y += (this.tar.y - this.velocity.y) * dt;
 		}
@@ -131,17 +143,6 @@ public class FireballProjectile extends Projectile {
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.body.setBullet(true);
-
-		if (this.target != null) {
-			float dx = this.target.x + this.target.w / 2 - this.x - 5;
-			float dy = this.target.y + this.target.h / 2 - this.y - 5;
-			float d = (float) Math.sqrt(dx * dx + dy * dy);
-
-			this.velocity.x = dx / d * 120;
-			this.velocity.y = dy / d * 120;
-
-			this.body.setLinearVelocity(this.velocity);
-		}
 	}
 
 	@Override

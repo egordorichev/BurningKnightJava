@@ -390,19 +390,19 @@ public class BurningKnight extends Boss {
 		protected void doAttack() {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
-			if (self.isActiveState() || self.rage) {
-				if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
-					self.become("preattack");
-				} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(self.rage ? 10f : 1f)) {
-					self.become("rangedAttack");
-				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
-					self.attackTp = true;
-					self.become("fadeOut");
-				} else if (!self.onScreen) {
-					self.attackTp = true;
-					self.become("fadeOut");
-				}
-			} else {
+			//if (self.isActiveState() || self.rage) {
+			if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
+				self.become("preattack");
+			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(self.rage ? 10f : 1f)) {
+				self.become("rangedAttack");
+			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
+				self.attackTp = true;
+				self.become("fadeOut");
+			} else if (!self.onScreen) {
+				self.attackTp = true;
+				self.become("fadeOut");
+			}
+			/*} else {
 				if (this.t >= 1f) {
 					self.become("rangedAttack");
 				}
@@ -417,7 +417,7 @@ public class BurningKnight extends Boss {
 					self.attackTp = true;
 					self.become("fadeOut");
 				}
-			}
+			}*/
 		}
 	}
 
@@ -849,6 +849,7 @@ public class BurningKnight extends Boss {
 		private int count;
 		private ArrayList<FireballProjectile> balls = new ArrayList<>();
 		private boolean fast;
+		private boolean auto;
 
 		@Override
 		public void onEnter() {
@@ -856,6 +857,7 @@ public class BurningKnight extends Boss {
 
 			fast = Random.chance(40);
 			count = Random.newInt(2, 8);
+			auto = true;
 		}
 
 		@Override
@@ -908,6 +910,7 @@ public class BurningKnight extends Boss {
 							ball.tar = new Point();
 							ball.tar.x = (float) (s * Math.cos(a));
 							ball.tar.y = (float) (s * Math.sin(a));
+							ball.target = auto ? self.target : null;
 
 							Dungeon.area.add(ball);
 						}
@@ -937,6 +940,7 @@ public class BurningKnight extends Boss {
 							ball.tar = new Point();
 							ball.tar.x = (float) (s * Math.cos(a));
 							ball.tar.y = (float) (s * Math.sin(a));
+							ball.target = auto ? self.target : null;
 
 							Dungeon.area.add(ball);
 						}
