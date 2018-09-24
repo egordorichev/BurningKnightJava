@@ -857,7 +857,7 @@ public class BurningKnight extends Boss {
 
 			fast = Random.chance(40);
 			count = Random.newInt(2, 8);
-			auto = true;
+			auto = Random.chance(30);
 		}
 
 		@Override
@@ -900,13 +900,20 @@ public class BurningKnight extends Boss {
 				}
 
 				if (fast) {
-					for (FireballProjectile ball : balls) {
+					boolean allDir = Random.chance(50);
+					double a = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
+					float s = 200;
+
+					for (int i = 0; i < balls.size(); i++) {
+						FireballProjectile ball = balls.get(i);
+
+						if (allDir) {
+							a = ((float) i) / count * Math.PI * 2 + tt;
+						}
+
 						if (ball.done) {
 							ball.destroy();
 						} else {
-							float a = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
-							float s = 200;
-
 							ball.tar = new Point();
 							ball.tar.x = (float) (s * Math.cos(a));
 							ball.tar.y = (float) (s * Math.sin(a));
@@ -927,7 +934,7 @@ public class BurningKnight extends Boss {
 					float t = (self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
 					float an = (float) ((((float) (this.balls.size() - 1)) / count * Math.PI * 2 + Dungeon.time * 10) % (Math.PI * 2));
 
-					if (Math.abs(t - an) % (Math.PI * 2) < Math.PI / 8) {
+					if (Math.abs(t - an) % (Math.PI * 2) < Math.PI / 16) {
 						FireballProjectile ball = this.balls.get(this.balls.size() - 1);
 						this.balls.remove(this.balls.size() - 1);
 
