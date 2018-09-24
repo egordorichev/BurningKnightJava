@@ -81,9 +81,9 @@ public class LadderFx extends UiEntity {
 
 		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
+		vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
 
-		Dungeon.darkX = vec.x;
+		Dungeon.darkX = vec.x / Display.UI_SCALE;
 		Dungeon.darkY = vec.y;
 
 		Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {

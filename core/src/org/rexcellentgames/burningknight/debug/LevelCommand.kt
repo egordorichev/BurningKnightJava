@@ -18,26 +18,26 @@ class LevelCommand : ConsoleCommand("/level", "/lvl", "Changes level") {
 
 	        var vec = Camera.game.project(Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0f))
 	        vec = Camera.ui.unproject(vec)
-	        vec.y = Display.GAME_HEIGHT - vec.y
+	        vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE
 
-	        Dungeon.darkX = vec.x
+	        Dungeon.darkX = vec.x / Display.UI_SCALE
 	        Dungeon.darkY = vec.y
 
-            Tween.to(object : Tween.Task(0f, 0.3f, Tween.Type.QUAD_OUT) {
-                override fun getValue(): Float {
-                    return Dungeon.darkR
-                }
+          Tween.to(object : Tween.Task(0f, 0.3f, Tween.Type.QUAD_OUT) {
+              override fun getValue(): Float {
+                  return Dungeon.darkR
+              }
 
-                override fun setValue(value: Float) {
-                    Dungeon.darkR = value
-                }
+              override fun setValue(value: Float) {
+                  Dungeon.darkR = value
+              }
 
-                override fun onEnd() {
-                    Dungeon.loadType = Entrance.LoadType.GO_DOWN
-                    Dungeon.goToLevel(Integer.valueOf(args[0]))
-                    Dungeon.setBackground2(Color(0f, 0f, 0f, 1f))
-                }
-            })
+              override fun onEnd() {
+                  Dungeon.loadType = Entrance.LoadType.GO_DOWN
+                  Dungeon.goToLevel(Integer.valueOf(args[0]))
+                  Dungeon.setBackground2(Color(0f, 0f, 0f, 1f))
+              }
+          })
         }
     }
 }
