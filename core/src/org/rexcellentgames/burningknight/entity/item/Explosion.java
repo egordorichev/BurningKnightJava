@@ -85,11 +85,11 @@ public class Explosion extends Entity {
 
 		Vector3 vec = Camera.game.project(new Vector3(x, y, 0));
 		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
+		vec.y = Display.UI_HEIGHT - vec.y;
 
 		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+		Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
 
 		Camera.shake(20f);
 

@@ -20,10 +20,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.BKSword;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.Lamp;
+import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -80,12 +77,12 @@ public class BurningKnight extends Boss {
 
 		/*Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
+		vec.y = Display.UI_HEIGHT - vec.y;
 
 		Dungeon.glitchTime = 0.3f;
 		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;*/
+		Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;*/
 
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
@@ -100,23 +97,13 @@ public class BurningKnight extends Boss {
 		this.unhittable = true;
 		this.ignoreRooms = true;
 
-		Camera.shake(20);
-		vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
-
-		Tween.to(new Tween.Task(0.6f, 0.3f) {
-			@Override
-			public float getValue() {
-				return a;
-			}
-
-			@Override
-			public void setValue(float value) {
-				a = value;
-			}
-		});
-
-		this.become("chase");
+		Camera.shake(10);
+		this.invt = 3f;
+		this.dest = true;
+		Audio.stop();
 	}
+
+	public boolean dest;
 
 	public void findStartPoint() {
 		if (this.attackTp) {
@@ -207,6 +194,7 @@ public class BurningKnight extends Boss {
 
 	private int deathDepth;
 	private boolean dropItems;
+	private float lastExpl;
 
 	@Override
 	public void update(float dt) {
@@ -227,6 +215,30 @@ public class BurningKnight extends Boss {
 
 				LevelSave.add(holder);
 			}
+		}
+
+		if (this.dest) {
+			this.invt -= dt;
+			lastExpl += dt;
+
+			if (lastExpl >= 0.2f) {
+				lastExpl = 0;
+				Dungeon.area.add(new Explosion(this.x + this.w / 2 + Random.newFloat(this.w * 2) - this.w, this.y + this.h / 2 + Random.newFloat(this.h * 2) - this.h));
+				this.playSfx("explosion");
+			}
+
+			Camera.shake(10);
+
+			if (this.invt <= 0) {
+				this.become("defeated");
+				this.tp(0, 0);
+				this.dest = false;
+				Camera.shake(30);
+				Explosion.make(this.x + this.w / 2, this.y + this.h / 2, false);
+				Audio.highPriority("Reckless");
+			}
+
+			return;
 		}
 
 		this.activityTimer += dt;
@@ -315,7 +327,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void render() {
-		if (this.state.equals("unactive")) {
+		if (this.state.equals("unactive") || this.state.equals("defeated")) {
 			return;
 		}
 
@@ -850,9 +862,29 @@ public class BurningKnight extends Boss {
 			case "rangedAttack":
 				return new RangedAttackState();
 			case "await": return new AwaitState();
+			case "defeated": return new DefeatedState();
 		}
 
 		return super.getAi(state);
+	}
+
+	public class DefeatedState extends BKState {
+		@Override
+		public void onExit() {
+			Lamp.play();
+
+			Tween.to(new Tween.Task(0.6f, 0.3f) {
+				@Override
+				public float getValue() {
+					return a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					a = value;
+				}
+			});
+		}
 	}
 
 	public class AwaitState extends BKState {

@@ -396,7 +396,7 @@ public class InGameState extends State {
 
 		last += dt;
 
-		if (last >= 1f) {
+		if (last >= 1f && (BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
 			last = 0;
 
 			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {

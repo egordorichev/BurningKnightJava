@@ -181,6 +181,25 @@ public class Audio {
 		last = name;
 	}
 
+	public static void stop() {
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return current.getVolume();
+			}
+
+			@Override
+			public void setValue(float value) {
+				current.setVolume(value);
+			}
+
+			@Override
+			public void onEnd() {
+				current = null;
+			}
+		});
+	}
+
 	private static void fadeOut() {
 		if (current != null) {
 			final Music last = current;

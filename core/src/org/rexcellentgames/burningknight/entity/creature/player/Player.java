@@ -1434,11 +1434,11 @@ public class Player extends Creature {
 
 		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
+		vec.y = Display.UI_HEIGHT - vec.y;
 
 		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+		Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
 
 		this.toDeath = true;
 		this.t = 0;
