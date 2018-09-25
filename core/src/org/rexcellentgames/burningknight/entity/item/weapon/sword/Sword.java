@@ -81,10 +81,6 @@ public class Sword extends SlashSword {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (this.animation != null && this.animation.update(dt)) {
-			this.animation.setPaused(true);
-		}
-
 		this.lastFrame += dt;
 
 		if (this.lastFrame >= 0.005f) {

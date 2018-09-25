@@ -39,11 +39,6 @@ public class Spear extends Sword {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		if (this.animation == null) {
-			this.animation = animations.get("idle");
-			this.animation.setPaused(true);
-		}
-
 		float angle = 0;
 
 		if (this.owner != null) {

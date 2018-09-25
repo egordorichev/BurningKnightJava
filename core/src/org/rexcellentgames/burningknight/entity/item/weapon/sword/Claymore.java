@@ -27,8 +27,6 @@ public class Claymore extends Sword {
 		this.delay = this.useTime;
 		this.owner.playSfx(this.getSfx());
 
-		this.animation.setPaused(false);
-
 		if (this.body != null) {
 			this.body = World.removeBody(this.body);
 		}

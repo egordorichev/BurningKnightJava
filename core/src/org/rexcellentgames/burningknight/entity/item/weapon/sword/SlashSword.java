@@ -4,14 +4,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class SlashSword extends Weapon {
-	protected static Animation animations = Animation.make("sword-fx");
-	protected AnimationData animation;
 	protected float added;
 	protected float maxAngle = 150;
 
@@ -51,20 +47,7 @@ public class SlashSword extends Weapon {
 
 	protected float lastAngle;
 
-	@Override
-	public void update(float dt) {
-		super.update(dt);
-
-		if (this.animation != null && this.animation.update(dt)) {
-			this.animation.setPaused(true);
-		}
-	}
-
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		if (this.animation == null) {
-			this.animation = animations.get("idle");
-			this.animation.setPaused(true);
-		}
 		float angle = added;
 		float pure = 0;
 
@@ -86,10 +69,6 @@ public class SlashSword extends Weapon {
 
 		float xx = x + w / 2 + (flipped ? 0 : w / 4) + move;
 		float yy = y + h / 4 + moveY;
-
-		if (!this.animation.isPaused() && !this.owner.isDead()) {
-			this.animation.render(x + w / 2, y - this.owner.hh / 2, false, false, 0, 11, pure, 1, this.owner.isFlipped() ? -1 : 1);
-		}
 
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
 		angle, sprite.getRegionWidth() / 2 + this.ox, this.oy, false, false, flipped ? -1 : 1, 1);
@@ -181,10 +160,6 @@ public class SlashSword extends Weapon {
 						createHitbox();
 
 						owner.playSfx("sword_1");
-
-						if (animation != null) {
-							animation.setPaused(false);
-						}
 
 						Tween.to(new Tween.Task(finalMxb, timeB) {
 							@Override

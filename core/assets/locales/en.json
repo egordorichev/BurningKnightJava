@@ -615,5 +615,7 @@
 	"more_gold" : "More gold",
 	"extra_upgrade" : "Extra upgrade per game",
 	"better_chest_chance" : "Chance for a better chest",
-	"start_new_game" : "Start a new game"
+	"start_new_game" : "Start a new game",
+	"burning_key" : "Burning Key",
+	"burning_key_desc" : "Opens the door onto the next level"
 }
