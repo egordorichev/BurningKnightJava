@@ -24,7 +24,6 @@ import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLeve
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
@@ -383,7 +382,7 @@ public class InGameState extends State {
 
 			if (Input.instance.wasPressed("to_secret")) {
 				for (Room room : Dungeon.level.getRooms()) {
-					if (room instanceof NpcSaveRoom && room != Player.instance.room) {
+					if (room instanceof BossRoom && room != Player.instance.room) {
 
 						Point point = room.getRandomFreeCell();
 

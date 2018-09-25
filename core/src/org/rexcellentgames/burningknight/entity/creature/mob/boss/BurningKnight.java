@@ -22,13 +22,16 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.BKSword;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.Lamp;
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.ui.UiBanner;
@@ -89,6 +92,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void die() {
+		dropItems = true;
 		this.dead = false;
 		this.done = false;
 		this.hp = 1;
@@ -202,9 +206,29 @@ public class BurningKnight extends Boss {
 	}
 
 	private int deathDepth;
+	private boolean dropItems;
 
 	@Override
 	public void update(float dt) {
+		if (dropItems) {
+			dropItems = false;
+			ArrayList<Item> items = new ArrayList<>();
+
+			items.add(new BurningKey());
+
+			for (Item item : items) {
+				ItemHolder holder = new ItemHolder(item);
+
+				holder.x = this.x;
+				holder.y = this.y;
+				holder.getItem().generate();
+
+				this.area.add(holder);
+
+				LevelSave.add(holder);
+			}
+		}
+
 		this.activityTimer += dt;
 		this.time += dt;
 

@@ -2292,8 +2292,8 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void save(FileWriter writer) throws IOException {
-		writer.writeInt16((byte) getWidth());
-		writer.writeInt16((byte) getHeight());
+		writer.writeInt16(getWidth());
+		writer.writeInt16(getHeight());
 
 		int sz = getSize();
 
