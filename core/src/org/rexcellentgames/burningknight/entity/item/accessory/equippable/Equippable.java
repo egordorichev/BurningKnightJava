@@ -18,6 +18,15 @@ public class Equippable extends Accessory {
 	}
 
 	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+
+		builder.append("\n[green]Equippable[gray]");
+
+		return builder;
+	}
+
+	@Override
 	public void upgrade() {
 		if (equipped) {
 			this.onUnequip(false);

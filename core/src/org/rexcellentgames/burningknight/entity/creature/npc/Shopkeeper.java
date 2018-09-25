@@ -581,7 +581,7 @@ public class Shopkeeper extends Npc {
 	@Override
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
-		this.playSfx("hurt_towelknight");
+		this.playSfx("damage_towelknight");
 
 		if (from instanceof Player || from == null) {
 			this.become("hana");

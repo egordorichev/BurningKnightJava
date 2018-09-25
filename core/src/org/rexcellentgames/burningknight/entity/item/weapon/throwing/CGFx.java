@@ -24,6 +24,7 @@ public class CGFx extends Entity {
 	private float t;
 
 	{
+		alwaysActive = true;
 		w = 6;
 		h = 10;
 	}
@@ -40,6 +41,8 @@ public class CGFx extends Entity {
 		this.body.setLinearVelocity(this.vel.x, this.vel.y);
 
 		this.va = Random.newFloat(-1f, 1f) * 360f;
+		this.playSfx("bomb_placed");
+
 	}
 
 	@Override
@@ -86,6 +89,7 @@ public class CGFx extends Entity {
 
 	private void explode() {
 		this.done = true;
+		this.playSfx("explosion");
 
 		float x = this.x + this.w / 2;
 		float y = this.y + this.h / 2;
@@ -116,10 +120,11 @@ public class CGFx extends Entity {
 		for (int i = 0; i < 16; i++) {
 			BulletProjectile bullet = new BulletProjectile();
 
-			float f = 60;
+			float f = 100f;
 			float a = (float) (i * (Math.PI / 8));
 
-			bullet.letter = "a";
+			bullet.damage = 10;
+			bullet.letter = "bad";
 			bullet.x = (float) (this.x + Math.cos(a) * 8);
 			bullet.y = (float) (this.y + Math.sin(a) * 8);
 			bullet.velocity.x = (float) (Math.cos(a) * f);
@@ -137,8 +142,8 @@ public class CGFx extends Entity {
 
 	@Override
 	public void render() {
-		float sx = (float) (Math.cos(this.t * 16) / 4) + 1;
-		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 5) + 1;
+		float sx = (float) (Math.cos(this.t * 16) / 2) + 1;
+		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 2.5) + 1;
 
 		Graphics.render(region, this.x, this.y, this.a, this.w / 2, this.h / 2, false, false,
 			sx, sy);

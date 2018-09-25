@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -151,6 +152,24 @@ public class BombEntity extends Entity {
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation.update(dt)) {
+			if (true) {
+				for (int i = 0; i < 16; i++) {
+					BulletProjectile bullet = new BulletProjectile();
+
+					float f = 100;
+					float a = (float) (i * (Math.PI / 8));
+
+					bullet.damage = 10;
+					bullet.letter = "bad";
+					bullet.x = (float) (this.x + Math.cos(a) * 8);
+					bullet.y = (float) (this.y + Math.sin(a) * 8);
+					bullet.velocity.x = (float) (Math.cos(a) * f);
+					bullet.velocity.y = (float) (Math.sin(a) * f);
+
+					Dungeon.area.add(bullet);
+				}
+			}
+
 			if (this.leaveSmall && !this.small) {
 				for (int i = 0; i < 4; i++) {
 					BombEntity e = new BombEntity(this.x + this.w - Random.newFloat(this.w), this.y + this.h - Random.newFloat(this.h));

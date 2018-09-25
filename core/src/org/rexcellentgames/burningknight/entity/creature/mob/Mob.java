@@ -609,7 +609,7 @@ public class Mob extends Creature {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = Random.newFloat(2f, 3f);
+			delay = Random.newFloat(3f, 5f);
 		}
 
 		@Override
