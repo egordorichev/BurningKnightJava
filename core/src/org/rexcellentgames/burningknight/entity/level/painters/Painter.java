@@ -2,7 +2,7 @@ package org.rexcellentgames.burningknight.entity.level.painters;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.fx.Firefly;
-import org.rexcellentgames.burningknight.entity.item.key.KeyB;
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Patch;
@@ -298,7 +298,7 @@ public class Painter {
 					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
 
 					if (d.getType() == Door.Type.LEVEL_LOCKED) {
-						door.key = KeyB.class;
+						door.key = BurningKey.class;
 					} else if (d.getType() == Door.Type.LOCKED) {
 						door.key = KeyC.class;
 					}

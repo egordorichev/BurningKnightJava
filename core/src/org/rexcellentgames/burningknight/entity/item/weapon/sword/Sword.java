@@ -1,33 +1,32 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Sword extends Weapon {
+public class Sword extends SlashSword {
 	protected float oy;
 	protected float ox;
-	protected static Animation animations = Animation.make("sword-fx");
-	protected AnimationData animation;
 
 	protected int maxAngle = 200;
+
+	{
+		moveXA = 2.5f;
+		moveXB = -8;
+		moveYA = 2;
+		moveYB = 0;
+		timeA = 0.15f;
+		delayA = 0.0f;
+		timeB = 0.15f;
+		delayB = 0.05f;
+		timeC = 0.1f;
+
+		useTime = timeA + delayA + timeB + delayB + timeC;
+	}
 
 	public Sword() {
 		setStats();
@@ -115,9 +114,8 @@ public class Sword extends Weapon {
 	protected float tb = 1f;
 
 	protected float lastAngle;
-	private float pure;
 
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	/*public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.animation == null) {
 			this.animation = animations.get("idle");
 			this.animation.setPaused(true);
@@ -192,7 +190,7 @@ public class Sword extends Weapon {
 			float a = (float) Math.toRadians(angle);
 			World.checkLocked(this.body).setTransform(xx + (flipped ? - w / 4 : 0), yy, a);
 		}
-	}
+	}*/
 
 	protected  boolean tail;
 
@@ -206,6 +204,8 @@ public class Sword extends Weapon {
 		this.owner.velocity.x += -Math.cos(a) * 120f;
 		this.owner.velocity.y += -Math.sin(a) * 120f;
 	}
+
+	/*
 
 	@Override
 	public void use() {
@@ -261,5 +261,5 @@ public class Sword extends Weapon {
 				}
 			}
 		});
-	}
+	}*/
 }
