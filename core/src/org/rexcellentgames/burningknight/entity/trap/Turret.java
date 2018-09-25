@@ -38,11 +38,11 @@ public class Turret extends SolidProp {
 
 		float r = Random.newFloat();
 
-		if (r < 0.2f) {
+		/*if (r < 0.2f) {
 			this.type = 1;
 		} else if (r < 0.5f) {
 			this.type = 2;
-		} else if (r < 0.7f) {
+		} else*/ if (r < 0.1f) {
 			this.type = 3;
 			this.sp = 10;
 		}
@@ -120,6 +120,7 @@ public class Turret extends SolidProp {
 			if (!was) {
 				tween();
 				was = true;
+				this.playSfx("fire");
 			}
 
 			this.lastFlame += dt;
@@ -250,12 +251,14 @@ public class Turret extends SolidProp {
 
 	protected void send() {
 		this.t = 0;
+		this.playSfx(this.type == 3 ? "fire" : "gun_machinegun");
+
 		BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet-bad");
-		bullet.anim = getAnimation().get("projectile");
+		// bullet.anim = getAnimation().get("projectile");
 
-		float x = this.x + 8;
-		float y = this.y + 8;
+		float x = (float) (this.x + 8 + Math.cos(this.a) * 8);
+		float y = (float) (this.y + 8 + Math.sin(this.a) * 8);
 
 		if (this.type == 3) {
 			this.on = true;

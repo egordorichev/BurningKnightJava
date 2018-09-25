@@ -170,7 +170,6 @@ public class BurningKnight extends Boss {
 	}
 
 	public void restore() {
-		Log.error("Restore!");
 		this.hpMax = Dungeon.depth * 30 + 70;
 		this.hp = this.hpMax;
 		this.rage = false;
@@ -182,8 +181,6 @@ public class BurningKnight extends Boss {
 		this.tp(0, 0);
 		this.rage = reader.readBoolean();
 		int lastLevel = reader.readInt16();
-
-		Log.error("Last depth " + lastLevel);
 
 		if (lastLevel != Dungeon.depth) {
 			restore();
