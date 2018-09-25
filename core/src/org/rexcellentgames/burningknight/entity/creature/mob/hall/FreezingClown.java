@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.util.Animation;
 
@@ -15,9 +13,11 @@ public class FreezingClown extends Clown {
 	@Override
 	public void apply(BombEntity bomb) {
 		super.apply(bomb);
-		bomb.toApply.add(new FreezeBuff());
+		// bomb.toApply.add(new FreezeBuff());
+		bomb.bullets = true;
 	}
 
+	/*
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
 		if (buff instanceof FreezeBuff) {
@@ -25,5 +25,5 @@ public class FreezingClown extends Clown {
 		}
 
 		return super.canHaveBuff(buff);
-	}
+	}*/
 }

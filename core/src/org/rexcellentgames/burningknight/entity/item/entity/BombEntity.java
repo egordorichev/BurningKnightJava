@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
@@ -40,6 +41,7 @@ public class BombEntity extends Entity {
 	private Body body;
 	private Point vel = new Point();
 	public Creature owner;
+	public boolean bullets;
 	public ArrayList<Buff> toApply = new ArrayList<>();
 
 	{
@@ -152,14 +154,15 @@ public class BombEntity extends Entity {
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation.update(dt)) {
-			if (true) {
-				for (int i = 0; i < 16; i++) {
+			if (this.bullets) {
+				for (int i = 0; i < 8; i++) {
 					BulletProjectile bullet = new BulletProjectile();
 
-					float f = 100;
-					float a = (float) (i * (Math.PI / 8));
+					float f = 60;
+					float a = (float) (i * (Math.PI / 4));
 
 					bullet.damage = 10;
+					bullet.bad = this.owner instanceof Mob;
 					bullet.letter = "bad";
 					bullet.x = (float) (this.x + Math.cos(a) * 8);
 					bullet.y = (float) (this.y + Math.sin(a) * 8);
@@ -202,17 +205,6 @@ public class BombEntity extends Entity {
 				}
 			}
 
-			int sx = Math.round((this.x + 8) / 16);
-			int sy = Math.round((this.y + 8) / 16);
-
-			if (fire) {
-				Dungeon.level.setOnFire(Level.toIndex(sx, sy), true);
-			}
-
-			if (ice) {
-				Dungeon.level.freeze(Level.toIndex(sx, sy));
-			}
-
 			for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 				Entity entity = Dungeon.area.getEntities().get(i);
 
@@ -246,21 +238,28 @@ public class BombEntity extends Entity {
 			}
 
 			if (!fire && !ice) {
-				int s = 2;
+				int s = 3;
 
 				for (int yy = -s; yy <= s; yy++) {
 					for (int xx = -s; xx <= s; xx++) {
 						int x = (int) ((this.x + this.w / 2) / 16 + xx);
 						int y = (int) ((this.y + this.h / 2) / 16 + yy);
 
-						if (Math.sqrt(xx * xx + yy * yy) <= s) {
-
+						if (Math.sqrt(xx * xx + yy * yy) <= s - 1) {
 							int t = Dungeon.level.get(x, y);
 
 							if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
 								Dungeon.level.set(x, y, Terrain.DIRT);
 								Dungeon.level.tileRegion(x, y);
 							}
+						}
+
+						if (fire) {
+							Dungeon.level.setOnFire(Level.toIndex(x, y), true);
+						}
+
+						if (ice) {
+							Dungeon.level.freeze(Level.toIndex(x, y));
 						}
 					}
 				}

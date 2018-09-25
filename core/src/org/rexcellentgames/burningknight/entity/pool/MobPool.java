@@ -24,9 +24,8 @@ public class MobPool extends Pool<Mob> {
 
 			if (Dungeon.depth > 1) {
 				add(StabbingKnight.class, 0.5f);
-
+				add(FreezingClown.class, 0.5f);
 				add(Clown.class, 1f);
-				add(BurningClown.class, 0.7f);
 			}
 
 			// add(DashingKnight.class, 1f);
@@ -36,7 +35,7 @@ public class MobPool extends Pool<Mob> {
 			if (Dungeon.depth > 2) {
 				add(Thief.class, 1f);
 				add(InvisThief.class, 0.7f);
-				add(FreezingClown.class, 0.5f);
+				add(BurningClown.class, 0.7f);
 			}
 
 			add(BossThief.class, 0.1f);

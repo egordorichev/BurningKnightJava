@@ -282,7 +282,6 @@ public class Clown extends Mob {
 
 				if (this.moveTo(self.lastSeen, d < 48f ? 20f : 10f, ATTACK_DISTANCE)) {
 					if (self.target != null) {
-
 						self.become("preattack");
 					} else if (self.target == null) {
 						self.noticeSignT = 0f;
