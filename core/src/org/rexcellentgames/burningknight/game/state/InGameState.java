@@ -47,6 +47,7 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
+		Dungeon.white = 0;
 		// ModManager.INSTANCE.load();
 
 		if (Input.instance.activeController != null) {
@@ -259,6 +260,7 @@ public class InGameState extends State {
 	@Override
 	public void destroy() {
 		super.destroy();
+		Dungeon.white = 0;
 		this.console.destroy();
 		Dungeon.battleDarkness = 0;
 

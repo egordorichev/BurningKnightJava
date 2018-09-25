@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
@@ -75,15 +76,6 @@ public class BurningKnight extends Boss {
 	protected void onHurt(int am, Creature from) {
 		super.onHurt(am, from);
 
-		/*Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
-		vec = Camera.ui.unproject(vec);
-		vec.y = Display.UI_HEIGHT - vec.y;
-
-		Dungeon.glitchTime = 0.3f;
-		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;*/
-
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
 
@@ -97,10 +89,51 @@ public class BurningKnight extends Boss {
 		this.unhittable = true;
 		this.ignoreRooms = true;
 
+		if (dest) {
+			return;
+		}
+
+		// todo: could use some particles and gore
 		Camera.shake(10);
 		this.invt = 3f;
 		this.dest = true;
 		Audio.stop();
+
+		Tween.to(new Tween.Task(1, 1f) {
+			@Override
+			public float getValue() {
+				return Dungeon.white;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.white = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
+				vec = Camera.ui.unproject(vec);
+				vec.y = Display.UI_HEIGHT - vec.y;
+
+				// Dungeon.glitchTime = 0.3f;
+				Dungeon.shockTime = 0;
+				Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+				Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
+
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return Dungeon.white;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.white = value;
+					}
+				});
+			}
+		}).delay(2f);
 	}
 
 	public boolean dest;
@@ -231,7 +264,6 @@ public class BurningKnight extends Boss {
 
 			if (this.invt <= 0) {
 				this.become("defeated");
-				this.tp(0, 0);
 				this.dest = false;
 				Camera.shake(30);
 				Explosion.make(this.x + this.w / 2, this.y + this.h / 2, false);
