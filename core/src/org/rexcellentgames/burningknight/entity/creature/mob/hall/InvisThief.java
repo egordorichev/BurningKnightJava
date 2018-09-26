@@ -15,6 +15,11 @@ public class InvisThief extends Thief {
 	}
 
 	@Override
+	public void generatePrefix() {
+
+	}
+
+	@Override
 	public void render() {
 		if (this.target != null) {
 			float d = this.getDistanceTo(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);

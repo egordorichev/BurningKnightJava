@@ -12,6 +12,11 @@ public class RedArcheologist extends Archeologist {
 	}
 
 	@Override
+	public void generatePrefix() {
+
+	}
+
+	@Override
 	public Animation getAnimation() {
 		return animations;
 	}

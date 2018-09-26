@@ -12,7 +12,8 @@ public class BurningKey extends Key {
 		super.onPickup();
 
 		if (BurningKnight.instance != null) {
-			BurningKnight.instance.become("chase");
+			BurningKnight.instance.pickedKey = true;
+			BurningKnight.instance.become("appear");
 		}
 	}
 }

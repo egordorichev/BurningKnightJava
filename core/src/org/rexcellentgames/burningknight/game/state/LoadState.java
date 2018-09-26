@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -179,10 +178,6 @@ public class LoadState extends State {
 				UiBanner banner = new UiBanner();
 				banner.text = Dungeon.level.formatDepth();
 				Dungeon.ui.add(banner);
-
-				if (BurningKnight.instance != null) {
-					BurningKnight.instance.become("unactive");
-				}
 
 				Dungeon.buildDiscordBadge();
 				third = true;

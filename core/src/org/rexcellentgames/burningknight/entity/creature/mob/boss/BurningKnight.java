@@ -53,6 +53,7 @@ public class BurningKnight extends Boss {
 	private long sid;
 	private static Sound sfx;
 	private BKSword sword;
+	public boolean pickedKey;
 
 	{
 		texture = "ui-bkbar-skull";
@@ -81,13 +82,14 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void die() {
-		dropItems = true;
 		this.dead = false;
+		this.deathDepth = Dungeon.depth;
 		this.done = false;
 		this.hp = 1;
 		this.rage = true;
 		this.unhittable = true;
 		this.ignoreRooms = true;
+		this.pickedKey = false;
 
 		if (dest) {
 			return;
@@ -194,6 +196,7 @@ public class BurningKnight extends Boss {
 	}
 
 	public void restore() {
+		this.pickedKey = false;
 		this.hpMax = Dungeon.depth * 30 + 70;
 		this.hp = this.hpMax;
 		this.rage = false;
@@ -204,51 +207,56 @@ public class BurningKnight extends Boss {
 		super.load(reader);
 		this.tp(0, 0);
 		this.rage = reader.readBoolean();
-		int lastLevel = reader.readInt16();
+		this.pickedKey = reader.readBoolean();
+		boolean def = reader.readBoolean();
+		deathDepth = reader.readInt16();
 
-		if (lastLevel != Dungeon.depth) {
+		if (deathDepth != Dungeon.depth) {
 			restore();
 		}
 
-		if (this.rage) {
+		if (def && !this.pickedKey) {
+			this.rage = true;
+			this.become("defeated");
+		} if (this.rage) {
 			this.ignoreRooms = true;
 			this.attackTp = true;
-			this.become("fadeIn");
+			this.findStartPoint();
+			this.rage = true;
+			this.dead = false;
+			this.deathDepth = Dungeon.depth;
+			this.done = false;
+			// this.hp = this.hp;
+			this.unhittable = true;
+			this.ignoreRooms = true;
+			this.become("appear");
 			this.a = 0.5f;
 		}
+	}
+
+	@Override
+	public void become(String state) {
+		if (this.state.equals("defeated") && !state.equals("appear")) {
+			return;
+		}
+
+		super.become(state);
 	}
 
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeBoolean(this.rage);
+		writer.writeBoolean(this.pickedKey);
+		writer.writeBoolean(this.state.equals("defeated"));
 		writer.writeInt16((short) deathDepth);
 	}
 
 	private int deathDepth;
-	private boolean dropItems;
 	private float lastExpl;
 
 	@Override
 	public void update(float dt) {
-		if (dropItems) {
-			dropItems = false;
-			ArrayList<Item> items = new ArrayList<>();
-
-			items.add(new BurningKey());
-
-			for (Item item : items) {
-				ItemHolder holder = new ItemHolder(item);
-
-				holder.x = this.x;
-				holder.y = this.y;
-				holder.getItem().generate();
-
-				this.area.add(holder);
-
-				LevelSave.add(holder);
-			}
-		}
 
 		if (this.dest) {
 			this.invt -= dt;
@@ -263,6 +271,23 @@ public class BurningKnight extends Boss {
 			Camera.shake(10);
 
 			if (this.invt <= 0) {
+				ArrayList<Item> items = new ArrayList<>();
+				items.add(new BurningKey());
+
+				for (Item item : items) {
+					ItemHolder holder = new ItemHolder(item);
+
+					holder.x = this.x;
+					holder.y = this.y;
+					holder.getItem().generate();
+
+					this.area.add(holder);
+
+					LevelSave.add(holder);
+				}
+
+				this.invt = 0;
+
 				this.become("defeated");
 				this.dest = false;
 				Camera.shake(30);
@@ -818,7 +843,6 @@ public class BurningKnight extends Boss {
 		instance = null;
 		this.done = true;
 		GameSave.defeatedBK = true;
-		this.deathDepth = Dungeon.depth;
 		Camera.shake(10);
 
 		deathEffect(killed);
@@ -869,6 +893,7 @@ public class BurningKnight extends Boss {
 		switch (state) {
 			case "idle":
 				return new IdleState();
+			case "appear": return new AppearState();
 			case "roam":
 				return new RoamState();
 			case "alerted":
@@ -900,7 +925,43 @@ public class BurningKnight extends Boss {
 		return super.getAi(state);
 	}
 
+	public class AppearState extends BKState {
+		@Override
+		public void onEnter() {
+			self.setUnhittable(true);
+			self.rage = true;
+			self.hp = 1;
+			self.ignoreRooms = true;
+			self.a = 0;
+			Lamp.play();
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			Camera.shake(30);
+			self.a = Math.min(0.6f, self.a + dt / 3);
+
+			if (self.a == 0.6f) {
+				self.become("chase");
+			}
+		}
+	}
+
 	public class DefeatedState extends BKState {
+		@Override
+		public void onEnter() {
+			self.dead = false;
+			self.deathDepth = Dungeon.depth;
+			self.done = false;
+			self.hp = 1;
+			self.rage = true;
+			self.unhittable = true;
+			self.ignoreRooms = true;
+			self.pickedKey = false;
+		}
+
 		@Override
 		public void onExit() {
 			Lamp.play();

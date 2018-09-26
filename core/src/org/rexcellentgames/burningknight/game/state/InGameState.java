@@ -103,10 +103,6 @@ public class InGameState extends State {
 			Dungeon.area.add(knight);
 			PlayerSave.add(knight);
 		}
-
-		if (BurningKnight.instance != null) {
-			BurningKnight.instance.become("unactive");
-		}
 	}
 
 	private boolean wasHidden;
