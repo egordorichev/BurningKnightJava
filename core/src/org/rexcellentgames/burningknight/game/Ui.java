@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -222,6 +223,9 @@ public class Ui {
 						});
 					}
 				});
+
+				Audio.play("Nostalgia");
+				Audio.reset();
 
 				UiButton button = (UiButton) Dungeon.ui.add(new UiButton("restart", Display.UI_WIDTH / 2 + 256, 107 + 24) {
 					@Override

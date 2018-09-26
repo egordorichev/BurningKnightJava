@@ -36,6 +36,8 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
+		Audio.stop();
+
 		this.s = "Doing secret stuff...";
 		Dungeon.grayscale = 0;
 

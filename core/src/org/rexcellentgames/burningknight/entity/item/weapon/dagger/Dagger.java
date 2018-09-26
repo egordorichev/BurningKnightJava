@@ -5,7 +5,9 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -14,8 +16,10 @@ import java.io.IOException;
 public class Dagger extends Sword {
 	{
 		knockback = 30f;
-		useTime = 0.3f;
-		auto = true;
+		timeA = 0.1f;
+		timeB = 0.2f;
+		delayA = 0;
+		delayB = 0;
 	}
 
 	@Override
@@ -79,5 +83,61 @@ public class Dagger extends Sword {
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(xx, yy, a);
 		}
+	}
+
+	@Override
+	public void use() {
+		if (this.delay > 0) {
+			return;
+		}
+
+		if (this.body != null) {
+			this.body = World.removeBody(this.body);
+		}
+
+		this.createHitbox();
+		this.owner.playSfx(this.getSfx());
+		this.delay = this.useTime;
+
+		float a = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
+
+		this.owner.velocity.x += -Math.cos(a) * 30f;
+		this.owner.velocity.y += -Math.sin(a) * 30f;
+
+		Tween.to(new Tween.Task(this.maxAngle, this.timeA) {
+			@Override
+			public float getValue() {
+				return added;
+			}
+
+			@Override
+			public void setValue(float value) {
+				added = value;
+			}
+
+			@Override
+			public void onEnd() {
+				if (timeB == 0) {
+					added = 0;
+				} else {
+					Tween.to(new Tween.Task(0, timeB) {
+						@Override
+						public float getValue() {
+							return added;
+						}
+
+						@Override
+						public void setValue(float value) {
+							added = value;
+						}
+
+						@Override
+						public void onEnd() {
+							endUse();
+						}
+					}).delay(timeDelay);
+				}
+			}
+		});
 	}
 }

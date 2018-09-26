@@ -396,17 +396,19 @@ public class InGameState extends State {
 			}
 		//}
 
-		last += dt;
+		if (Player.instance != null && !Player.instance.isDead()) {
+			last += dt;
 
-		if (last >= 1f && (BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
-			last = 0;
+			if (last >= 1f && (BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
+				last = 0;
 
-			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
-				Audio.play("Shopkeeper");
-			} else if (Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage) {
-				Audio.play("Rogue");
-			} else {
-				Audio.play(Dungeon.level.getMusic());
+				if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
+					Audio.play("Shopkeeper");
+				} else if (Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage) {
+					Audio.play("Rogue");
+				} else {
+					Audio.play(Dungeon.level.getMusic());
+				}
 			}
 		}
 

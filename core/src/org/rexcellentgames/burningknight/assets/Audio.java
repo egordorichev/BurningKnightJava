@@ -182,6 +182,10 @@ public class Audio {
 	}
 
 	public static void stop() {
+		if (current == null) {
+			return;
+		}
+
 		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {
@@ -196,6 +200,7 @@ public class Audio {
 			@Override
 			public void onEnd() {
 				current = null;
+				last = "";
 			}
 		});
 	}

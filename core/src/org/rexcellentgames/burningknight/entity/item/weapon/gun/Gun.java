@@ -77,24 +77,11 @@ public class Gun extends WeaponBase {
 		return this.ammoLeft;
 	}
 
-	public int getMaxCharge() {
-		return maxCharge;
-	}
-
-	public int getCharge() {
-		return charge;
-	}
-
-	public int getAmmoMax() {
-		return ammoMax;
-	}
-
 	public int getAmmoLeft() {
 		return ammoLeft;
 	}
 
 	{
-		auto = true;
 		useTime = 0.2f;
 	}
 
