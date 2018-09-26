@@ -132,5 +132,5 @@ public class Entity extends Point {
 		return Audio.playSfx(sound, (DISTANCE - d) / DISTANCE, 0.9f + Random.newFloat(0.3f));
 	}
 
-	private static final float DISTANCE = 512f;
+	private static final float DISTANCE = 256f;
 }

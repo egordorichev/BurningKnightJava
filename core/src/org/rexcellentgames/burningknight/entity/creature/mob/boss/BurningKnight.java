@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.CurseFx;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
@@ -80,6 +81,9 @@ public class BurningKnight extends Boss {
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
 
+	private float dtx;
+	private float dty;
+
 	@Override
 	public void die() {
 		this.dead = false;
@@ -91,11 +95,13 @@ public class BurningKnight extends Boss {
 		this.ignoreRooms = true;
 		this.pickedKey = false;
 
+		dtx = x;
+		dty = y;
+
 		if (dest) {
 			return;
 		}
 
-		// todo: could use some particles and gore
 		Camera.shake(10);
 		this.invt = 3f;
 		this.dest = true;
@@ -114,15 +120,6 @@ public class BurningKnight extends Boss {
 
 			@Override
 			public void onEnd() {
-				Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
-				vec = Camera.ui.unproject(vec);
-				vec.y = Display.UI_HEIGHT - vec.y;
-
-				// Dungeon.glitchTime = 0.3f;
-				Dungeon.shockTime = 0;
-				Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
-				Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
-
 				Tween.to(new Tween.Task(0, 0.1f) {
 					@Override
 					public float getValue() {
@@ -132,6 +129,28 @@ public class BurningKnight extends Boss {
 					@Override
 					public void setValue(float value) {
 						Dungeon.white = value;
+					}
+
+					@Override
+					public void onEnd() {
+						Vector3 vec = Camera.game.project(new Vector3(dtx + w / 2, dty + h / 2, 0));
+						vec = Camera.ui.unproject(vec);
+						vec.y = Display.UI_HEIGHT - vec.y;
+
+						Dungeon.shockTime = 0;
+						Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+						Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
+
+						for (int i = 0; i < 30; i++) {
+							CurseFx fx = new CurseFx();
+
+							fx.x = dtx + w / 2 + Random.newFloat(-w, w);
+							fx.y = dty + h / 2 + Random.newFloat(-h, h);
+
+							Dungeon.area.add(fx);
+						}
+
+						playSfx("explosion");
 					}
 				});
 			}
@@ -226,7 +245,6 @@ public class BurningKnight extends Boss {
 			this.dead = false;
 			this.deathDepth = Dungeon.depth;
 			this.done = false;
-			// this.hp = this.hp;
 			this.unhittable = true;
 			this.ignoreRooms = true;
 			this.become("appear");
@@ -257,7 +275,6 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void update(float dt) {
-
 		if (this.dest) {
 			this.invt -= dt;
 			lastExpl += dt;
@@ -291,7 +308,6 @@ public class BurningKnight extends Boss {
 				this.become("defeated");
 				this.dest = false;
 				Camera.shake(30);
-				Explosion.make(this.x + this.w / 2, this.y + this.h / 2, false);
 				Audio.highPriority("Reckless");
 			}
 
@@ -441,8 +457,6 @@ public class BurningKnight extends Boss {
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		super.renderStats();
-
-		// Graphics.print(this.hp + " / " + this.hpMax, Graphics.small, this.x, this.y);
 	}
 
 	private float time;
@@ -928,12 +942,33 @@ public class BurningKnight extends Boss {
 	public class AppearState extends BKState {
 		@Override
 		public void onEnter() {
+			self.attackTp = true;
+			self.findStartPoint();
 			self.setUnhittable(true);
 			self.rage = true;
 			self.hp = 1;
 			self.ignoreRooms = true;
 			self.a = 0;
 			Lamp.play();
+
+			Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
+			vec = Camera.ui.unproject(vec);
+			vec.y = Display.UI_HEIGHT - vec.y;
+
+			Dungeon.shockTime = 0;
+			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
+
+			for (int i = 0; i < 30; i++) {
+				CurseFx fx = new CurseFx();
+
+				fx.x = x + w / 2 + Random.newFloat(-w, w);
+				fx.y = y + h / 2 + Random.newFloat(-h, h);
+
+				Dungeon.area.add(fx);
+			}
+
+			playSfx("explosion");
 		}
 
 		@Override
@@ -1125,7 +1160,6 @@ public class BurningKnight extends Boss {
 				continue;
 			}
 
-			// todo
 			if (player instanceof Player && this.state.equals("wait") && ((Player) player).room != this.room) {
 				continue;
 			}

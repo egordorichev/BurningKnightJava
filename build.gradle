@@ -68,6 +68,7 @@ project(":core") {
         compile group: 'commons-io', name: 'commons-io', version: '2.4'
         compile group: 'org.luaj', name: 'luaj-jse', version: '3.0.1'
         compile 'com.taskadapter:trello-java-wrapper:0.7'
+        compile "com.badlogicgames.box2dlights:box2dlights:1.4"
     }
 }
 

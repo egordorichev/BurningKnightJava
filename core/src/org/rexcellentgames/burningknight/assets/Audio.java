@@ -24,7 +24,7 @@ public class Audio {
 	public static boolean beat;
 
 	public static void update(float dt) {
-		if (current != null && current.isPlaying()) {
+		/*if (current != null && current.isPlaying()) {
 			time += dt;
 
 			int beats = bpm.get(last);
@@ -37,7 +37,7 @@ public class Audio {
 			}
 		} else {
 			time = 0;
-		}
+		}*/
 	}
 
 	public static void targetAssets() {
@@ -130,6 +130,11 @@ public class Audio {
 		important = true;
 	}
 
+	/*
+	 * TODO:
+	 * BK better appear (in the beginning of the battle and when pick up the key)
+	 */
+
 	public static void reset() {
 		if (current != null) {
 			current.stop();
@@ -186,21 +191,18 @@ public class Audio {
 			return;
 		}
 
+		final Music m = current;
+		last = "";
+
 		Tween.to(new Tween.Task(0, 0.2f) {
 			@Override
 			public float getValue() {
-				return current.getVolume();
+				return m.getVolume();
 			}
 
 			@Override
 			public void setValue(float value) {
-				current.setVolume(value);
-			}
-
-			@Override
-			public void onEnd() {
-				current = null;
-				last = "";
+				m.setVolume(value);
 			}
 		});
 	}

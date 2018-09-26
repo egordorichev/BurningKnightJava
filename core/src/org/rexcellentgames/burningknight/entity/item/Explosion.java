@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.fx.ExplosionLeftOver;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class Explosion extends Entity {
@@ -64,6 +65,7 @@ public class Explosion extends Entity {
 	public static void make(float x, float y) {
 		make(x, y, true);
 	}
+
 	public static void make(float x, float y, boolean leave) {
 		for (int i = 0; i < Random.newInt(2, 5); i++) {
 			Explosion explosion = new Explosion(x + Random.newFloat(-16, 16), y + Random.newFloat(-16, 16));

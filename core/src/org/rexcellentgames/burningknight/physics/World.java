@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.physics;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -17,6 +18,7 @@ public class World {
 	private static Box2DDebugRenderer debug = new Box2DDebugRenderer();
 	private static float accumulator;
 	private static ArrayList<Body> toDestroy = new ArrayList<>();
+	public static RayHandler lights;
 
 	/*
 	 * Simple world logic
@@ -29,6 +31,12 @@ public class World {
 
 		Log.physics("Creating new world");
 		world = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);
+
+		/*lights = new RayHandler(world, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		lights.setLightMapRendering(false);
+		lights.setAmbientLight(1f, 0f, 0f, 1f);
+		// lights.setBlur(false);
+		lights.isDiffuse = true;*/
 	}
 
 	public static void update(float dt) {
@@ -67,6 +75,8 @@ public class World {
 		Log.physics("Destroying the world");
 		world.dispose();
 		world = null;
+		// lights.dispose();
+		lights = null;
 	}
 
 	/*

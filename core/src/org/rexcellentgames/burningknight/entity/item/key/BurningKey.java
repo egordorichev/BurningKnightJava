@@ -11,7 +11,7 @@ public class BurningKey extends Key {
 	public void onPickup() {
 		super.onPickup();
 
-		if (BurningKnight.instance != null) {
+		if (BurningKnight.instance != null && !BurningKnight.instance.pickedKey) {
 			BurningKnight.instance.pickedKey = true;
 			BurningKnight.instance.become("appear");
 		}

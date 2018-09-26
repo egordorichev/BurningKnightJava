@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.player;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -156,6 +157,7 @@ public class Player extends Creature {
 	private AnimationData animation;
 	public float accuracy;
 	public static boolean seeMore;
+	private PointLight light;
 
 	{
 		hpMax = 8;
@@ -769,6 +771,7 @@ public class Player extends Creature {
 	@Override
 	public void destroy() {
 		super.destroy();
+		// light.dispose();
 
 		if (this.ui != null && !this.ui.done) {
 			this.ui.remove();
@@ -806,6 +809,8 @@ public class Player extends Creature {
 		switch (this.type) {
 			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
 		}
+
+		// light = new PointLight(World.lights, 128, new Color(1, 1, 1, 1f), 512, x, y);
 	}
 
 	public boolean leaveSmall;
@@ -953,6 +958,7 @@ public class Player extends Creature {
 		}
 
 		this.watery = Math.max(0, this.watery - dt);
+		// light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.dead) {
 			super.common();
