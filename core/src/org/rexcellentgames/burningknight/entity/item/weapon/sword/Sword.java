@@ -38,7 +38,7 @@ public class Sword extends SlashSword {
 		name = Locale.get("sword_" + letter);
 		description = Locale.get("sword_desc");
 		sprite = "item-sword_" + letter;
-		damage = 4;
+		damage = 6;
 		useTime = 0.4f;
 		region = Graphics.getTexture(sprite);
 	}
@@ -63,7 +63,6 @@ public class Sword extends SlashSword {
 	{
 		name = "Sword";
 		sprite = "item-sword_b";
-		damage = 3;
 	}
 
 	protected String getSfx() {

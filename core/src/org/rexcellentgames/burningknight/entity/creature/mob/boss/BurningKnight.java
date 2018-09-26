@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.CurseFx;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
@@ -497,7 +498,7 @@ public class BurningKnight extends Boss {
 			//if (self.isActiveState() || self.rage) {
 			if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
 				self.become("preattack");
-			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(self.rage ? 10f : 1f)) {
+			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
 				self.become("rangedAttack");
 			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 				self.attackTp = true;
@@ -674,7 +675,7 @@ public class BurningKnight extends Boss {
 	}
 
 	private static final float ATTACK_DISTANCE = 32;
-	private static final float RANGED_ATTACK_DISTANCE = 128;
+	private static final float RANGED_ATTACK_DISTANCE = 132;
 	private static final float TP_DISTANCE = 140;
 
 	@Override
@@ -741,7 +742,41 @@ public class BurningKnight extends Boss {
 				sword.use();
 				this.attacked = true;
 			} else if (sword.getDelay() == 0) {
-				self.become("chase");
+				if (Random.chance(30)) {
+					float a = Random.newFloat(0, (float) (Math.PI * 2));
+					float d = 128;
+					Tween.to(new Tween.Task(0, 0.5f) {
+						@Override
+						public float getValue() {
+							return self.a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							self.a = value;
+						}
+
+						@Override
+						public void onEnd() {
+							self.tp((float) Math.cos(a) * d + Player.instance.x - Player.instance.w / 2 + self.w / 2,
+								(float) Math.sin(a) * d + Player.instance.y - Player.instance.h / 2 + self.h / 2);
+
+							Tween.to(new Tween.Task(1, 0.5f) {
+								@Override
+								public float getValue() {
+									return self.a;
+								}
+
+								@Override
+								public void setValue(float value) {
+									self.a = value;
+								}
+							});
+						}
+					});
+				} else {
+					self.become("chase");
+				}
 			}
 
 			super.update(dt);
@@ -1031,10 +1066,24 @@ public class BurningKnight extends Boss {
 		private ArrayList<FireballProjectile> balls = new ArrayList<>();
 		private boolean fast;
 		private boolean auto;
+		private boolean roll;
+		private boolean swing;
 
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			swing = Random.chance(10);
+
+			if (swing) {
+				left = Random.chance(50);
+				return;
+			}
+
+			roll = Random.chance(10);
+
+			if (roll) {
+				return;
+			}
 
 			fast = Random.chance(40);
 			count = Random.newInt(2, 8);
@@ -1043,7 +1092,9 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void onExit() {
-			super.onExit();
+			if (roll || swing) {
+				return;
+			}
 
 			for (FireballProjectile ball : balls) {
 				ball.done = true;
@@ -1054,10 +1105,82 @@ public class BurningKnight extends Boss {
 
 		private float speed = 1;
 		private float tt;
+		private boolean did;
+		private int i;
+		private boolean left;
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			if (swing) {
+				if (i < 64 && self.t >= i * 0.1f + 1f) {
+					float s = 30;
+					int c = 32;
+
+					if (i % 3 == 0) {
+						self.playSfx("gun_machinegun");
+					}
+
+					BulletProjectile ball = new BulletProjectile();
+					ball.x = self.x + self.w / 2;
+					ball.y = self.y + self.h / 2;
+					ball.bad = true;
+					ball.owner = self;
+					ball.letter = "bad";
+
+					double a = ((float) i) / c * Math.PI * 2 + tt;
+
+					if (!left) {
+						a *= -1;
+					}
+
+					ball.velocity = new Point();
+					ball.velocity.x = (float) (s * Math.cos(a));
+					ball.velocity.y = (float) (s * Math.sin(a));
+
+					Dungeon.area.add(ball);
+					i++;
+				}
+
+				if (self.t >= 10f) {
+					self.become("chase");
+				}
+
+				return;
+			} else if (roll) {
+				if (!did && self.t >= 2f) {
+					float s = 30;
+					int c = 32;
+
+					self.playSfx("gun_machinegun");
+
+					for (int i = 0; i < c; i++) {
+						BulletProjectile ball = new BulletProjectile();
+						ball.x = self.x + self.w / 2;
+						ball.y = self.y + self.h / 2;
+						ball.bad = true;
+						ball.owner = self;
+						ball.letter = "bad";
+
+						double a = ((float) i) / c * Math.PI * 2 + tt;
+
+						ball.velocity = new Point();
+						ball.velocity.x = (float) (s * Math.cos(a));
+						ball.velocity.y = (float) (s * Math.sin(a));
+
+						Dungeon.area.add(ball);
+					}
+
+					did = true;
+				}
+
+				if (self.t >= 6f) {
+					self.become("chase");
+				}
+
+				return;
+			}
 
 			speed = Math.min(speed + dt * 10, 10);
 			tt += speed * dt;

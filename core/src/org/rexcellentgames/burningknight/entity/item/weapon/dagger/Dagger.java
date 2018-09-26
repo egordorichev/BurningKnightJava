@@ -49,7 +49,7 @@ public class Dagger extends Sword {
 		description = Locale.get("dagger_desc");
 		name = Locale.get("dagger_" + letter);
 		sprite = "item-dagger_" + letter;
-		damage = 2;
+		damage = 4;
 		region = Graphics.getTexture(sprite);
 	}
 

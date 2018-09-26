@@ -27,7 +27,7 @@ public class Spear extends Sword {
 		description = Locale.get("spear_desc");
 		name = Locale.get("spear_" + letter);
 		sprite = "item-spear " + letter.toUpperCase();
-		damage = 2;
+		damage = 4;
 		region = Graphics.getTexture(sprite);
 	}
 

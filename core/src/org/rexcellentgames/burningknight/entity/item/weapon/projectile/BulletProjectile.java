@@ -204,7 +204,7 @@ public class BulletProjectile extends Projectile {
 	@Override
 	protected boolean hit(Entity entity) {
 		if (this.bad) {
-			if (entity instanceof Player) {
+			if (entity instanceof Player && !((Player) entity).isRolling()) {
 				this.doHit(entity);
 				return this.canBeRemoved;
 			}

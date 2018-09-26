@@ -1031,12 +1031,10 @@ public class Player extends Creature {
 					this.mul = 1;
 					this.zvel = 20;
 
-					if (this.acceleration.x == 0 && this.acceleration.y == 0) {
-						double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+					double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 
-						this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
-						this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
-					}
+					this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
+					this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
 				}
 			}
 		} else if (Dialog.active != null) {
