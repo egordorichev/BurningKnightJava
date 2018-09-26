@@ -90,7 +90,7 @@ public class Gun extends WeaponBase {
 
 	private float closestFraction = 1.0f;
 	
-	protected Gun() {
+	public Gun() {
 	  setStats();
   }
 

@@ -47,6 +47,18 @@ public class MainMenuState extends State {
 
 	@Override
 	public void init() {
+			Tween.to(new Tween.Task(1, 0.2f) {
+				@Override
+				public float getValue() {
+					return Dungeon.dark;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Dungeon.dark = value;
+				}
+			});
+
 		Dungeon.setBackground2(Color.valueOf("#000000")); // 1a1932
 
 		SettingsState.added = false;

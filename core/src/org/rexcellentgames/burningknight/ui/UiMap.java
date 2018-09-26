@@ -598,11 +598,11 @@ public class UiMap extends UiEntity {
 		float cx = px - (w * 2) / zoom;
 		float cy = py - (h * 2) / zoom;
 
-		int sx = (int) (Math.floor(cx / 16) - 1);
-		int sy = (int) (Math.floor(cy / 16) - 1);
+		int sx = (int) (Math.floor(cx / 16) - 4);
+		int sy = (int) (Math.floor(cy / 16) - 4);
 
-		int fx = (int) (Math.ceil((cx + w * 4 / zoom) / 16) + 1);
-		int fy = (int) (Math.ceil((cy + h * 4 / zoom) / 16) + 1);
+		int fx = (int) (Math.ceil((cx + w * 4 / zoom) / 16) + 4);
+		int fy = (int) (Math.ceil((cy + h * 4 / zoom) / 16) + 4);
 
 		xx = Math.max(0, sx);
 

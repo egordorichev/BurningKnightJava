@@ -211,7 +211,7 @@ public class Camera extends Entity {
 
 	public static void follow(Entity entity, boolean jump) {
 		target = entity;
-		speed = entity instanceof Player ? 1 : 4;
+		speed = entity instanceof Player ? (Dungeon.depth == -1 ? 2 : 1) : 4;
 
 		if (target == null) {
 			return;

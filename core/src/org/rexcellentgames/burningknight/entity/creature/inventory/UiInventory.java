@@ -194,9 +194,6 @@ public class UiInventory extends UiEntity {
 	@Override
 	public void update(float dt) {
 		if (Dungeon.depth < 0) {
-			for (UiSlot slot : this.slots) {
-				slot.update(dt);
-			}
 			return;
 		}
 
