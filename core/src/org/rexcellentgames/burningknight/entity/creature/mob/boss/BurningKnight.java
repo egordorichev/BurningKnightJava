@@ -237,7 +237,7 @@ public class BurningKnight extends Boss {
 		if (def && !this.pickedKey) {
 			this.rage = true;
 			this.become("defeated");
-		} if (this.rage) {
+		} if (this.rage && this.pickedKey) {
 			this.ignoreRooms = true;
 			this.attackTp = true;
 			this.findStartPoint();
@@ -975,7 +975,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			Camera.shake(30);
+			Camera.shake(20);
 			self.a = Math.min(0.6f, self.a + dt / 3);
 
 			if (self.a == 0.6f) {

@@ -62,8 +62,10 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		//leftMost -= 4;
-		//topMost -= 4;
+		int sz = 6;
+
+		leftMost -= sz;
+		topMost -= sz;
 
 		int rightMost = 0, bottomMost = 0;
 
@@ -77,8 +79,8 @@ public class Painter {
 		rightMost++;
 		bottomMost++;
 
-		//rightMost += 4;
-		//bottomMost += 4;
+		rightMost += sz;
+		bottomMost += sz;
 
 		//add 1 to account for 0 values
 		Log.info("Setting level size to " + (1 + rightMost) + ":" + (bottomMost + 1));

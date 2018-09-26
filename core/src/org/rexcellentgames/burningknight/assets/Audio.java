@@ -130,11 +130,6 @@ public class Audio {
 		important = true;
 	}
 
-	/*
-	 * TODO:
-	 * BK better appear (in the beginning of the battle and when pick up the key)
-	 */
-
 	public static void reset() {
 		if (current != null) {
 			current.stop();
