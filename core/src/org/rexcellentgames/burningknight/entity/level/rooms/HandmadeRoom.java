@@ -12,20 +12,10 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
@@ -188,28 +178,13 @@ public class HandmadeRoom extends RegularRoom {
 
 			Rectangle rect = ((RectangleMapObject) o).getRectangle();
 
-			if (name.startsWith("class")) {
-				ArrayList<Item> items = new ArrayList<>();
+			if (name.startsWith("class_")) {
+				ClassSelector c = new ClassSelector(name.replace("class_", ""));
 
-				items.add(new Gun());
-				items.add(new Bow());
-				items.add(new Dagger());
-				items.add(new Sword());
-				items.add(new Butcher());
-				items.add(new MorningStar());
-				items.add(new Spear());
-				items.add(new FastBook());
-				items.add(new MagicMissileWand());
+				c.x = x + rect.x + (rect.width - c.w) / 2 + 16;
+				c.y = y + rect.y + (rect.height - c.h) / 2 + 16;
 
-				for (Item item : items) {
-					ItemHolder c = new ItemHolder();
-
-					c.setItem(item);
-					c.x = x + rect.x + (rect.width - c.w) / 2 + 16;
-					c.y = y + rect.y + (rect.height - c.h) / 2 + 16;
-
-					Dungeon.area.add(c.add());
-				}
+				Dungeon.area.add(c.add());
 			} else if (name.startsWith("control_")) {
 				Control c = new Control();
 
