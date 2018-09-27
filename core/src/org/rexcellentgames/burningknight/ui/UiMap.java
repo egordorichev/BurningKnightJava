@@ -595,14 +595,14 @@ public class UiMap extends UiEntity {
 
 		Graphics.shape.setColor(border);
 
-		float cx = px - (w * 2) / zoom;
-		float cy = py - (h * 2) / zoom;
+		float cx = px - (w * 2) / (zoom / 1.5f);
+		float cy = py - (h * 2) / (zoom / 1.5f);
 
-		int sx = (int) (Math.floor(cx / 16) - 4);
-		int sy = (int) (Math.floor(cy / 16) - 4);
+		int sx = (int) (Math.floor(cx / 16) - 1);
+		int sy = (int) (Math.floor(cy / 16) - 1);
 
-		int fx = (int) (Math.ceil((cx + w * 4 / zoom) / 16) + 4);
-		int fy = (int) (Math.ceil((cy + h * 4 / zoom) / 16) + 4);
+		int fx = (int) (Math.ceil((cx + w * 4 / (zoom / 1.5f)) / 16) + 1);
+		int fy = (int) (Math.ceil((cy + h * 4 / (zoom / 1.5f)) / 16) + 1);
 
 		xx = Math.max(0, sx);
 

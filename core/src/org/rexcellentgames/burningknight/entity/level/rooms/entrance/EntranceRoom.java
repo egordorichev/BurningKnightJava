@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -26,11 +25,6 @@ public class EntranceRoom extends LadderRoom {
 		}
 
 		this.place(level, this.getCenter());
-	}
-
-	@Override
-	public boolean canConnect(Room r) {
-		return !(r instanceof EntranceRoom) && super.canConnect(r);
 	}
 
 	protected void place(Level level, Point point) {

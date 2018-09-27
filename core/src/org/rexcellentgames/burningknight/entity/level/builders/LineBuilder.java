@@ -59,7 +59,9 @@ public class LineBuilder extends RegularBuilder {
 			if (i != 0 && Dungeon.depth != 0) {
 				for (int j = 0; j < tunnels; j++) {
 					ConnectionRoom t = ConnectionRoom.create();
-					placeRoom(init, curr, t, direction + Random.newFloat(-pathVariance, pathVariance));
+					if (placeRoom(init, curr, t, direction + Random.newFloat(-pathVariance, pathVariance)) == -1) {
+						return null;
+					}
 					branchable.add(t);
 					init.add(t);
 					curr = t;
@@ -67,7 +69,9 @@ public class LineBuilder extends RegularBuilder {
 			}
 
 			Room r = (i == roomsOnPath ? exit : this.multiConnection.get(i));
-			placeRoom(init, curr, r, direction + Random.newFloat(-pathVariance, pathVariance));
+			if (placeRoom(init, curr, r, direction + Random.newFloat(-pathVariance, pathVariance)) == -1) {
+				return null;
+			}
 			branchable.add(r);
 			curr = r;
 		}

@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.pool.room;
 
-import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.*;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 
@@ -56,7 +55,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(MissingCornerRoom.class, 3f);
 		add(DoubleCornerRoom.class, 3f);
 		add(CRoom.class, 2f);
-		add(HandmadeRoom.class, 1f);
+		// add(HandmadeRoom.class, 1f);
 		add(DiscoRoom.class, 1f);
 	}
 }

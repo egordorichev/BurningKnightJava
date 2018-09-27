@@ -26,13 +26,13 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -124,7 +124,6 @@ public abstract class Level extends SaveableEntity {
 	 * bit 17: if true then this is overlay
 	 */
 
-	public static int[] orders = new int[5];
 	protected Body body;
 	protected ArrayList<Room> rooms;
 	public ArrayList<Item> itemsToSpawn = new ArrayList<>();
@@ -194,49 +193,22 @@ public abstract class Level extends SaveableEntity {
 		return (int) Math.floor(i / WIDTH);
 	}
 
-	public static byte[] depths = new byte[21];
-	public static boolean[] boss = new boolean[21];
-
 	public static RegularLevel forDepth(int depth) {
-		int weight = 1;
-
-		for (int i = 0; i < 5; i++) {
-			weight += depths[i];
-
-			if (depth < weight) {
-				if (depth > 0 && boss[depth]) {
-					switch (orders[i]) {
-						case 0: default: return new HallLevel().setBoss(true);
-						case 1: return new DesertLevel().setBoss(true);
-						case 2: return new LibraryLevel().setBoss(true);
-					}
-				} else {
-					switch (orders[i]) {
-						case 0: default: return new HallLevel();
-						case 1: return new DesertLevel();
-						case 2: return new LibraryLevel();
-						case 3: return new ForestLevel();
-						case 4: return new BloodLevel();
-					}
-				}
-			}
+		if (depth < 5) {
+			return new HallLevel();
+		} else if (depth < 9) {
+			return new DesertLevel();
+		} else if (depth < 13) {
+			return new ForestLevel();
+		} else if (depth < 17) {
+			return new LibraryLevel();
 		}
 
-		return new HallLevel();
+		return new TechLevel();
 	}
 
 	public String getDepthAsCoolNum() {
-		int weight = 0;
-
-		for (int i = 0; i < 5; i++) {
-			weight += depths[i];
-
-			if (Dungeon.depth <= weight) {
-				return "" + letters[(depths[i] - (weight - Dungeon.depth) - 1)];
-			}
-		}
-
-		return "";
+		return letters[(Dungeon.depth - 1) % 5];
 	}
 
 	public String formatDepth() {
