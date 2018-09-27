@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
@@ -20,11 +21,10 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.BKSword;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.Lamp;
+import org.rexcellentgames.burningknight.entity.fx.CurseFx;
+import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
@@ -55,6 +55,7 @@ public class BurningKnight extends Boss {
 	private long sid;
 	private static Sound sfx;
 	private BKSword sword;
+	public boolean pickedKey;
 
 	{
 		texture = "ui-bkbar-skull";
@@ -78,45 +79,86 @@ public class BurningKnight extends Boss {
 	protected void onHurt(int am, Creature from) {
 		super.onHurt(am, from);
 
-		/*Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
-		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
-
-		Dungeon.glitchTime = 0.3f;
-		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;*/
-
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
 
+	private float dtx;
+	private float dty;
+
 	@Override
 	public void die() {
-		dropItems = true;
 		this.dead = false;
+		this.deathDepth = Dungeon.depth;
 		this.done = false;
 		this.hp = 1;
 		this.rage = true;
 		this.unhittable = true;
 		this.ignoreRooms = true;
+		this.pickedKey = false;
 
-		Camera.shake(20);
-		vid = Audio.playSfx("bk_voice", Settings.sfx, 1f);
+		dtx = x;
+		dty = y;
 
-		Tween.to(new Tween.Task(0.6f, 0.3f) {
+		if (dest) {
+			return;
+		}
+
+		Camera.shake(10);
+		this.invt = 3f;
+		this.dest = true;
+		Audio.stop();
+
+		Tween.to(new Tween.Task(1, 1f) {
 			@Override
 			public float getValue() {
-				return a;
+				return Dungeon.white;
 			}
 
 			@Override
 			public void setValue(float value) {
-				a = value;
+				Dungeon.white = value;
 			}
-		});
 
-		this.become("chase");
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return Dungeon.white;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.white = value;
+					}
+
+					@Override
+					public void onEnd() {
+						Vector3 vec = Camera.game.project(new Vector3(dtx + w / 2, dty + h / 2, 0));
+						vec = Camera.ui.unproject(vec);
+						vec.y = Display.UI_HEIGHT - vec.y;
+
+						Dungeon.shockTime = 0;
+						Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+						Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
+
+						for (int i = 0; i < 30; i++) {
+							CurseFx fx = new CurseFx();
+
+							fx.x = dtx + w / 2 + Random.newFloat(-w, w);
+							fx.y = dty + h / 2 + Random.newFloat(-h, h);
+
+							Dungeon.area.add(fx);
+						}
+
+						playSfx("explosion");
+					}
+				});
+			}
+		}).delay(2f);
 	}
+
+	public boolean dest;
 
 	public void findStartPoint() {
 		if (this.attackTp) {
@@ -174,6 +216,7 @@ public class BurningKnight extends Boss {
 	}
 
 	public void restore() {
+		this.pickedKey = false;
 		this.hpMax = Dungeon.depth * 30 + 70;
 		this.hp = this.hpMax;
 		this.rage = false;
@@ -184,49 +227,92 @@ public class BurningKnight extends Boss {
 		super.load(reader);
 		this.tp(0, 0);
 		this.rage = reader.readBoolean();
-		int lastLevel = reader.readInt16();
+		this.pickedKey = reader.readBoolean();
+		boolean def = reader.readBoolean();
+		deathDepth = reader.readInt16();
 
-		if (lastLevel != Dungeon.depth) {
+		if (deathDepth != Dungeon.depth) {
 			restore();
 		}
 
-		if (this.rage) {
+		if (def && !this.pickedKey) {
+			this.rage = true;
+			this.become("defeated");
+		} if (this.rage && this.pickedKey) {
 			this.ignoreRooms = true;
 			this.attackTp = true;
-			this.become("fadeIn");
+			this.findStartPoint();
+			this.rage = true;
+			this.dead = false;
+			this.deathDepth = Dungeon.depth;
+			this.done = false;
+			this.unhittable = true;
+			this.ignoreRooms = true;
+			this.become("appear");
 			this.a = 0.5f;
 		}
+	}
+
+	@Override
+	public void become(String state) {
+		if (this.state.equals("defeated") && !state.equals("appear")) {
+			return;
+		}
+
+		super.become(state);
 	}
 
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeBoolean(this.rage);
+		writer.writeBoolean(this.pickedKey);
+		writer.writeBoolean(this.state.equals("defeated"));
 		writer.writeInt16((short) deathDepth);
 	}
 
 	private int deathDepth;
-	private boolean dropItems;
+	private float lastExpl;
 
 	@Override
 	public void update(float dt) {
-		if (dropItems) {
-			dropItems = false;
-			ArrayList<Item> items = new ArrayList<>();
+		if (this.dest) {
+			this.invt -= dt;
+			lastExpl += dt;
 
-			items.add(new BurningKey());
-
-			for (Item item : items) {
-				ItemHolder holder = new ItemHolder(item);
-
-				holder.x = this.x;
-				holder.y = this.y;
-				holder.getItem().generate();
-
-				this.area.add(holder);
-
-				LevelSave.add(holder);
+			if (lastExpl >= 0.2f) {
+				lastExpl = 0;
+				Dungeon.area.add(new Explosion(this.x + this.w / 2 + Random.newFloat(this.w * 2) - this.w, this.y + this.h / 2 + Random.newFloat(this.h * 2) - this.h));
+				this.playSfx("explosion");
 			}
+
+			Camera.shake(10);
+
+			if (this.invt <= 0) {
+				ArrayList<Item> items = new ArrayList<>();
+				items.add(new BurningKey());
+
+				for (Item item : items) {
+					ItemHolder holder = new ItemHolder(item);
+
+					holder.x = this.x;
+					holder.y = this.y;
+					holder.getItem().generate();
+
+					this.area.add(holder);
+
+					LevelSave.add(holder);
+				}
+
+				this.invt = 0;
+
+				this.become("defeated");
+				this.dest = false;
+				Camera.shake(30);
+				Audio.highPriority("Reckless");
+			}
+
+			return;
 		}
 
 		this.activityTimer += dt;
@@ -315,7 +401,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void render() {
-		if (this.state.equals("unactive")) {
+		if (this.state.equals("unactive") || this.state.equals("defeated")) {
 			return;
 		}
 
@@ -372,8 +458,6 @@ public class BurningKnight extends Boss {
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		super.renderStats();
-
-		// Graphics.print(this.hp + " / " + this.hpMax, Graphics.small, this.x, this.y);
 	}
 
 	private float time;
@@ -414,7 +498,7 @@ public class BurningKnight extends Boss {
 			//if (self.isActiveState() || self.rage) {
 			if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
 				self.become("preattack");
-			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(self.rage ? 10f : 1f)) {
+			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
 				self.become("rangedAttack");
 			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 				self.attackTp = true;
@@ -591,7 +675,7 @@ public class BurningKnight extends Boss {
 	}
 
 	private static final float ATTACK_DISTANCE = 32;
-	private static final float RANGED_ATTACK_DISTANCE = 128;
+	private static final float RANGED_ATTACK_DISTANCE = 132;
 	private static final float TP_DISTANCE = 140;
 
 	@Override
@@ -658,7 +742,41 @@ public class BurningKnight extends Boss {
 				sword.use();
 				this.attacked = true;
 			} else if (sword.getDelay() == 0) {
-				self.become("chase");
+				if (Random.chance(30)) {
+					float a = Random.newFloat(0, (float) (Math.PI * 2));
+					float d = 128;
+					Tween.to(new Tween.Task(0, 0.5f) {
+						@Override
+						public float getValue() {
+							return self.a;
+						}
+
+						@Override
+						public void setValue(float value) {
+							self.a = value;
+						}
+
+						@Override
+						public void onEnd() {
+							self.tp((float) Math.cos(a) * d + Player.instance.x - Player.instance.w / 2 + self.w / 2,
+								(float) Math.sin(a) * d + Player.instance.y - Player.instance.h / 2 + self.h / 2);
+
+							Tween.to(new Tween.Task(1, 0.5f) {
+								@Override
+								public float getValue() {
+									return self.a;
+								}
+
+								@Override
+								public void setValue(float value) {
+									self.a = value;
+								}
+							});
+						}
+					});
+				} else {
+					self.become("chase");
+				}
 			}
 
 			super.update(dt);
@@ -774,7 +892,6 @@ public class BurningKnight extends Boss {
 		instance = null;
 		this.done = true;
 		GameSave.defeatedBK = true;
-		this.deathDepth = Dungeon.depth;
 		Camera.shake(10);
 
 		deathEffect(killed);
@@ -825,6 +942,7 @@ public class BurningKnight extends Boss {
 		switch (state) {
 			case "idle":
 				return new IdleState();
+			case "appear": return new AppearState();
 			case "roam":
 				return new RoamState();
 			case "alerted":
@@ -850,9 +968,86 @@ public class BurningKnight extends Boss {
 			case "rangedAttack":
 				return new RangedAttackState();
 			case "await": return new AwaitState();
+			case "defeated": return new DefeatedState();
 		}
 
 		return super.getAi(state);
+	}
+
+	public class AppearState extends BKState {
+		@Override
+		public void onEnter() {
+			self.attackTp = true;
+			self.findStartPoint();
+			self.setUnhittable(true);
+			self.rage = true;
+			self.hp = 1;
+			self.ignoreRooms = true;
+			self.a = 0;
+			Lamp.play();
+
+			Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
+			vec = Camera.ui.unproject(vec);
+			vec.y = Display.UI_HEIGHT - vec.y;
+
+			Dungeon.shockTime = 0;
+			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
+
+			for (int i = 0; i < 30; i++) {
+				CurseFx fx = new CurseFx();
+
+				fx.x = x + w / 2 + Random.newFloat(-w, w);
+				fx.y = y + h / 2 + Random.newFloat(-h, h);
+
+				Dungeon.area.add(fx);
+			}
+
+			playSfx("explosion");
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			Camera.shake(20);
+			self.a = Math.min(0.6f, self.a + dt / 3);
+
+			if (self.a == 0.6f) {
+				self.become("chase");
+			}
+		}
+	}
+
+	public class DefeatedState extends BKState {
+		@Override
+		public void onEnter() {
+			self.dead = false;
+			self.deathDepth = Dungeon.depth;
+			self.done = false;
+			self.hp = 1;
+			self.rage = true;
+			self.unhittable = true;
+			self.ignoreRooms = true;
+			self.pickedKey = false;
+		}
+
+		@Override
+		public void onExit() {
+			Lamp.play();
+
+			Tween.to(new Tween.Task(0.6f, 0.3f) {
+				@Override
+				public float getValue() {
+					return a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					a = value;
+				}
+			});
+		}
 	}
 
 	public class AwaitState extends BKState {
@@ -871,10 +1066,24 @@ public class BurningKnight extends Boss {
 		private ArrayList<FireballProjectile> balls = new ArrayList<>();
 		private boolean fast;
 		private boolean auto;
+		private boolean roll;
+		private boolean swing;
 
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			swing = Random.chance(10);
+
+			if (swing) {
+				left = Random.chance(50);
+				return;
+			}
+
+			roll = Random.chance(10);
+
+			if (roll) {
+				return;
+			}
 
 			fast = Random.chance(40);
 			count = Random.newInt(2, 8);
@@ -883,7 +1092,9 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void onExit() {
-			super.onExit();
+			if (roll || swing) {
+				return;
+			}
 
 			for (FireballProjectile ball : balls) {
 				ball.done = true;
@@ -894,10 +1105,82 @@ public class BurningKnight extends Boss {
 
 		private float speed = 1;
 		private float tt;
+		private boolean did;
+		private int i;
+		private boolean left;
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			if (swing) {
+				if (i < 64 && self.t >= i * 0.1f + 1f) {
+					float s = 30;
+					int c = 32;
+
+					if (i % 3 == 0) {
+						self.playSfx("gun_machinegun");
+					}
+
+					BulletProjectile ball = new BulletProjectile();
+					ball.x = self.x + self.w / 2;
+					ball.y = self.y + self.h / 2;
+					ball.bad = true;
+					ball.owner = self;
+					ball.letter = "bad";
+
+					double a = ((float) i) / c * Math.PI * 2 + tt;
+
+					if (!left) {
+						a *= -1;
+					}
+
+					ball.velocity = new Point();
+					ball.velocity.x = (float) (s * Math.cos(a));
+					ball.velocity.y = (float) (s * Math.sin(a));
+
+					Dungeon.area.add(ball);
+					i++;
+				}
+
+				if (self.t >= 10f) {
+					self.become("chase");
+				}
+
+				return;
+			} else if (roll) {
+				if (!did && self.t >= 2f) {
+					float s = 30;
+					int c = 32;
+
+					self.playSfx("gun_machinegun");
+
+					for (int i = 0; i < c; i++) {
+						BulletProjectile ball = new BulletProjectile();
+						ball.x = self.x + self.w / 2;
+						ball.y = self.y + self.h / 2;
+						ball.bad = true;
+						ball.owner = self;
+						ball.letter = "bad";
+
+						double a = ((float) i) / c * Math.PI * 2 + tt;
+
+						ball.velocity = new Point();
+						ball.velocity.x = (float) (s * Math.cos(a));
+						ball.velocity.y = (float) (s * Math.sin(a));
+
+						Dungeon.area.add(ball);
+					}
+
+					did = true;
+				}
+
+				if (self.t >= 6f) {
+					self.become("chase");
+				}
+
+				return;
+			}
 
 			speed = Math.min(speed + dt * 10, 10);
 			tt += speed * dt;
@@ -1000,7 +1283,6 @@ public class BurningKnight extends Boss {
 				continue;
 			}
 
-			// todo
 			if (player instanceof Player && this.state.equals("wait") && ((Player) player).room != this.room) {
 				continue;
 			}

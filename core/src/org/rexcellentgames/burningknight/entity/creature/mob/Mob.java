@@ -1,9 +1,11 @@
 package org.rexcellentgames.burningknight.entity.creature.mob;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -37,7 +39,10 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.PathFinder;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -148,13 +153,13 @@ public class Mob extends Creature {
 	}
 
 	public void renderWithOutline(AnimationData data) {
-		//if (this.prefix != null) {
-			//Color color = this.prefix.getColor();
+		if (this.prefix != null) {
+			Color color = this.prefix.getColor();
 
 			Graphics.batch.end();
 			shader.begin();
 			shader.setUniformf("u_a", 1f);
-			shader.setUniformf("u_color", ColorUtils.WHITE); // new Vector3(color.r, color.g, color.b)
+			shader.setUniformf("u_color", new Vector3(color.r, color.g, color.b));
 			shader.end();
 			Graphics.batch.setShader(shader);
 			Graphics.batch.begin();
@@ -170,7 +175,7 @@ public class Mob extends Creature {
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
-		//}
+		}
 
 		if (this.fa > 0) {
 			Graphics.batch.end();

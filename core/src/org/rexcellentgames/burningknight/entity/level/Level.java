@@ -1741,9 +1741,20 @@ public abstract class Level extends SaveableEntity {
 			}
 		}
 
+		Graphics.surface.end();
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+		Graphics.surface.begin();
+		/*World.lights.setCombinedMatrix(Camera.game.combined);
+		World.lights.update();
+		World.lights.render();
+
+		Graphics.batch.begin();
+		Graphics.surface.begin();
+		Texture texture = World.lights.getLightMapTexture();
+
+		Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);*/
 	}
 
 	@Override

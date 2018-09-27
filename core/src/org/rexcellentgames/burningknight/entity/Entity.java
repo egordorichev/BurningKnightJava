@@ -119,6 +119,10 @@ public class Entity extends Point {
 			return -1;
 		}
 
+		if (Player.instance == null) {
+			return -1;
+		}
+
 		float d = this.getDistanceTo(Player.instance.x + 8, Player.instance.y + 8);
 
 		if (d >= DISTANCE) {
@@ -128,5 +132,5 @@ public class Entity extends Point {
 		return Audio.playSfx(sound, (DISTANCE - d) / DISTANCE, 0.9f + Random.newFloat(0.3f));
 	}
 
-	private static final float DISTANCE = 512f;
+	private static final float DISTANCE = 256f;
 }

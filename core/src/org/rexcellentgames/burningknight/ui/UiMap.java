@@ -570,7 +570,7 @@ public class UiMap extends UiEntity {
 		Graphics.shadows.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
 			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
-		Graphics.text.begin();
+		Graphics.map.begin();
 
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
@@ -598,11 +598,11 @@ public class UiMap extends UiEntity {
 		float cx = px - (w * 2) / zoom;
 		float cy = py - (h * 2) / zoom;
 
-		int sx = (int) (Math.floor(cx / 16) - 1);
-		int sy = (int) (Math.floor(cy / 16) - 1);
+		int sx = (int) (Math.floor(cx / 16) - 4);
+		int sy = (int) (Math.floor(cy / 16) - 4);
 
-		int fx = (int) (Math.ceil((cx + w * 4 / zoom) / 16) + 1);
-		int fy = (int) (Math.ceil((cy + h * 4 / zoom) / 16) + 1);
+		int fx = (int) (Math.ceil((cx + w * 4 / zoom) / 16) + 4);
+		int fy = (int) (Math.ceil((cy + h * 4 / zoom) / 16) + 4);
 
 		xx = Math.max(0, sx);
 
@@ -678,12 +678,12 @@ public class UiMap extends UiEntity {
 
 		Graphics.batch.end();
 
-		Graphics.text.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
+		Graphics.map.end(Camera.viewport.getScreenX(), Camera.viewport.getScreenY(),
 			Camera.viewport.getScreenWidth(), Camera.viewport.getScreenHeight());
 
 		Graphics.shadows.begin();
 
-		Texture texture = Graphics.text.getColorBufferTexture();
+		Texture texture = Graphics.map.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.begin();

@@ -38,7 +38,7 @@ public class Sword extends SlashSword {
 		name = Locale.get("sword_" + letter);
 		description = Locale.get("sword_desc");
 		sprite = "item-sword_" + letter;
-		damage = 4;
+		damage = 6;
 		useTime = 0.4f;
 		region = Graphics.getTexture(sprite);
 	}
@@ -63,7 +63,6 @@ public class Sword extends SlashSword {
 	{
 		name = "Sword";
 		sprite = "item-sword_b";
-		damage = 3;
 	}
 
 	protected String getSfx() {
@@ -200,62 +199,4 @@ public class Sword extends SlashSword {
 		this.owner.velocity.x += -Math.cos(a) * 120f;
 		this.owner.velocity.y += -Math.sin(a) * 120f;
 	}
-
-	/*
-
-	@Override
-	public void use() {
-		if (this.delay > 0) {
-			return;
-		}
-
-		this.owner.playSfx(this.getSfx());
-
-		if (this.animation != null) {
-			this.animation.setPaused(false);
-		}
-
-		super.use();
-
-		float a = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
-
-		this.owner.velocity.x += -Math.cos(a) * 30f;
-		this.owner.velocity.y += -Math.sin(a) * 30f;
-
-		Tween.to(new Tween.Task(this.maxAngle, this.timeA) {
-			@Override
-			public float getValue() {
-				return added;
-			}
-
-			@Override
-			public void setValue(float value) {
-				added = value;
-			}
-
-			@Override
-			public void onEnd() {
-				if (timeB == 0) {
-					added = 0;
-				} else {
-					Tween.to(new Tween.Task(0, timeB) {
-						@Override
-						public float getValue() {
-							return added;
-						}
-
-						@Override
-						public void setValue(float value) {
-							added = value;
-						}
-
-						@Override
-						public void onEnd() {
-							endUse();
-						}
-					}).delay(timeDelay);
-				}
-			}
-		});
-	}*/
 }

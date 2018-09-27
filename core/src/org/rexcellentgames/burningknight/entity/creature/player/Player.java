@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.player;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -156,6 +157,7 @@ public class Player extends Creature {
 	private AnimationData animation;
 	public float accuracy;
 	public static boolean seeMore;
+	private PointLight light;
 
 	{
 		hpMax = 8;
@@ -769,6 +771,7 @@ public class Player extends Creature {
 	@Override
 	public void destroy() {
 		super.destroy();
+		// light.dispose();
 
 		if (this.ui != null && !this.ui.done) {
 			this.ui.remove();
@@ -806,6 +809,8 @@ public class Player extends Creature {
 		switch (this.type) {
 			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
 		}
+
+		// light = new PointLight(World.lights, 128, new Color(1, 1, 1, 1f), 512, x, y);
 	}
 
 	public boolean leaveSmall;
@@ -953,6 +958,7 @@ public class Player extends Creature {
 		}
 
 		this.watery = Math.max(0, this.watery - dt);
+		// light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.dead) {
 			super.common();
@@ -1025,12 +1031,10 @@ public class Player extends Creature {
 					this.mul = 1;
 					this.zvel = 20;
 
-					if (this.acceleration.x == 0 && this.acceleration.y == 0) {
-						double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+					double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 
-						this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
-						this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
-					}
+					this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
+					this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
 				}
 			}
 		} else if (Dialog.active != null) {
@@ -1434,11 +1438,11 @@ public class Player extends Creature {
 
 		Vector3 vec = Camera.game.project(new Vector3(this.x + this.w / 2, this.y + this.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
+		vec.y = Display.UI_HEIGHT - vec.y;
 
 		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+		Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
 
 		this.toDeath = true;
 		this.t = 0;

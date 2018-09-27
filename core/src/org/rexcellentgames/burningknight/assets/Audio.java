@@ -24,7 +24,7 @@ public class Audio {
 	public static boolean beat;
 
 	public static void update(float dt) {
-		if (current != null && current.isPlaying()) {
+		/*if (current != null && current.isPlaying()) {
 			time += dt;
 
 			int beats = bpm.get(last);
@@ -37,7 +37,7 @@ public class Audio {
 			}
 		} else {
 			time = 0;
-		}
+		}*/
 	}
 
 	public static void targetAssets() {
@@ -179,6 +179,27 @@ public class Audio {
 
 		current = music;
 		last = name;
+	}
+
+	public static void stop() {
+		if (current == null) {
+			return;
+		}
+
+		final Music m = current;
+		last = "";
+
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return m.getVolume();
+			}
+
+			@Override
+			public void setValue(float value) {
+				m.setVolume(value);
+			}
+		});
 	}
 
 	private static void fadeOut() {

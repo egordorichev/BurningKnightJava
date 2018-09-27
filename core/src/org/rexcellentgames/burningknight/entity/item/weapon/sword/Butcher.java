@@ -20,7 +20,7 @@ public class Butcher extends Sword {
 		name = Locale.get("butcher_" + letter);
 		description = Locale.get("butcher_desc");
 		sprite = "item-butcher_" + letter;
-		damage = 3 + level;
+		damage = 5 + level;
 		region = Graphics.getTexture(this.sprite);
 	}
 }

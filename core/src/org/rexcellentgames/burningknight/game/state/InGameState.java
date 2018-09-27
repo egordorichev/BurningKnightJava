@@ -47,6 +47,7 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
+		Dungeon.white = 0;
 		// ModManager.INSTANCE.load();
 
 		if (Input.instance.activeController != null) {
@@ -101,10 +102,6 @@ public class InGameState extends State {
 
 			Dungeon.area.add(knight);
 			PlayerSave.add(knight);
-		}
-
-		if (BurningKnight.instance != null) {
-			BurningKnight.instance.become("unactive");
 		}
 	}
 
@@ -259,6 +256,7 @@ public class InGameState extends State {
 	@Override
 	public void destroy() {
 		super.destroy();
+		Dungeon.white = 0;
 		this.console.destroy();
 		Dungeon.battleDarkness = 0;
 
@@ -394,17 +392,23 @@ public class InGameState extends State {
 			}
 		//}
 
-		last += dt;
+		if (Player.instance != null && !Player.instance.isDead()) {
+			last += dt;
 
-		if (last >= 1f) {
-			last = 0;
+			if (last >= 1f) {
+				last = 0;
 
-			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
-				Audio.play("Shopkeeper");
-			} else if (Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage) {
-				Audio.play("Rogue");
-			} else {
-				Audio.play(Dungeon.level.getMusic());
+				if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
+					Audio.play("Cursed legend");
+				} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
+					if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
+						Audio.play("Shopkeeper");
+					} else if (Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage) {
+						Audio.play("Rogue");
+					} else {
+						Audio.play(Dungeon.level.getMusic());
+					}
+				}
 			}
 		}
 
@@ -570,7 +574,7 @@ public class InGameState extends State {
 					Dungeon.game.setState(new MainMenuState(true));
 					SettingsState.toGame = true;
 					SettingsState.add();
-					MainMenuState.cameraX = Display.GAME_WIDTH * 1.5f;
+					MainMenuState.cameraX = Display.UI_WIDTH * 1.5f;
 				});
 			}
 		}.setSparks(true));

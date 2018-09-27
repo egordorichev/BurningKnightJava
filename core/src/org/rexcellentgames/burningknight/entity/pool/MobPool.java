@@ -35,10 +35,9 @@ public class MobPool extends Pool<Mob> {
 			if (Dungeon.depth > 2) {
 				add(Thief.class, 1f);
 				add(InvisThief.class, 0.7f);
+				add(BossThief.class, 0.2f);
 				add(BurningClown.class, 0.7f);
 			}
-
-			add(BossThief.class, 0.1f);
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {

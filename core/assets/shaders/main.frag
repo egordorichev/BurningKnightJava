@@ -20,6 +20,7 @@ uniform vec2 cam;
 uniform float colorBlind;
 uniform float correct;
 uniform float grayscale;
+uniform float white;
 uniform float ui;
 uniform float battle;
 uniform sampler2D u_texture;
@@ -186,9 +187,17 @@ vec4 get(vec2 pos) {
 }
 
 void main() {
-    if (battle > 0.0) {
-        gl_FragColor = daltonize(get(v_texCoord) - vec4(0.07, 0.07, 0.035, 0.0) * battle);
+    if (white > 0.0) {
+         if (battle > 0.0) {
+            gl_FragColor = daltonize(get(v_texCoord) - vec4(0.07, 0.07, 0.035, 0.0) * battle + vec4(1.0) * white);
+         } else {
+            gl_FragColor = daltonize(get(v_texCoord) + vec4(1.0) * white);
+         }
     } else {
-        gl_FragColor = daltonize(get(v_texCoord));
+        if (battle > 0.0) {
+            gl_FragColor = daltonize(get(v_texCoord) - vec4(0.07, 0.07, 0.035, 0.0) * battle);
+        } else {
+            gl_FragColor = daltonize(get(v_texCoord));
+        }
     }
 }

@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.fx.ExplosionLeftOver;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class Explosion extends Entity {
@@ -64,6 +65,7 @@ public class Explosion extends Entity {
 	public static void make(float x, float y) {
 		make(x, y, true);
 	}
+
 	public static void make(float x, float y, boolean leave) {
 		for (int i = 0; i < Random.newInt(2, 5); i++) {
 			Explosion explosion = new Explosion(x + Random.newFloat(-16, 16), y + Random.newFloat(-16, 16));
@@ -85,11 +87,11 @@ public class Explosion extends Entity {
 
 		Vector3 vec = Camera.game.project(new Vector3(x, y, 0));
 		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y;
+		vec.y = Display.UI_HEIGHT - vec.y;
 
 		Dungeon.shockTime = 0;
-		Dungeon.shockPos.x = (vec.x) / Display.GAME_WIDTH;
-		Dungeon.shockPos.y = (vec.y) / Display.GAME_HEIGHT;
+		Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
 
 		Camera.shake(20f);
 

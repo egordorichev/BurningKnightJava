@@ -14,7 +14,6 @@ public class Spear extends Sword {
 		useTime = 0.3f;
 		timeA = 0.15f;
 		timeB = 0.15f;
-		auto = true;
 		useTime = timeA + timeB + timeDelay + 0.02f;
 	}
 
@@ -28,7 +27,7 @@ public class Spear extends Sword {
 		description = Locale.get("spear_desc");
 		name = Locale.get("spear_" + letter);
 		sprite = "item-spear " + letter.toUpperCase();
-		damage = 2;
+		damage = 4;
 		region = Graphics.getTexture(sprite);
 	}
 

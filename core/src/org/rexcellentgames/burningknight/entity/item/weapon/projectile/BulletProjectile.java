@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -55,6 +56,8 @@ public class BulletProjectile extends Projectile {
 		alwaysActive = true;
 		depth = 1;
 	}
+
+	public boolean noRotation;
 
 	@Override
 	public void init() {
@@ -87,6 +90,10 @@ public class BulletProjectile extends Projectile {
 
 		if (this.letter != null && this.letter.equals("bone")) {
 			this.depth = 16;
+		}
+
+		if (this.letter.equals("bullet-bad")) {
+			this.noRotation = true;
 		}
 
 		penetrates = !canBeRemoved;
@@ -139,7 +146,7 @@ public class BulletProjectile extends Projectile {
 			this.anim.render(this.x - 8, this.y - 8, false, false, 8, 8, 0);
 		} else {
 			if (second) {
-				Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, 2, 2);
+				Graphics.render(reg, this.x, this.y, this.noRotation ? 0 : this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, 2, 2);
 				Graphics.batch.end();
 				RectFx.shader.begin();
 				RectFx.shader.setUniformf("a", 1f);
@@ -147,7 +154,7 @@ public class BulletProjectile extends Projectile {
 				RectFx.shader.end();
 				Graphics.batch.begin();
 			}
-			Graphics.render(reg, this.x, this.y, this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
+			Graphics.render(reg, this.x, this.y, this.noRotation ? 0 : this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
 		}
 
 		Graphics.batch.end();
@@ -204,7 +211,7 @@ public class BulletProjectile extends Projectile {
 	@Override
 	protected boolean hit(Entity entity) {
 		if (this.bad) {
-			if (entity instanceof Player) {
+			if (entity instanceof Player && !((Player) entity).isRolling()) {
 				this.doHit(entity);
 				return this.canBeRemoved;
 			}

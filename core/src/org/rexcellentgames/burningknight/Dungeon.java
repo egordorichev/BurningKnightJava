@@ -98,6 +98,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float dark = 1f;
 	public static boolean goToMenu;
 	public static float battleDarkness;
+	public static float white;
 
 	public static String title;
 
@@ -522,6 +523,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("correct", colorBlindFix);
 		shader.setUniformf("grayscale", grayscale);
 		shader.setUniformf("ui", 0);
+		shader.setUniformf("white", white);
 		shader.setUniformf("battle", battleDarkness);
 		shader.setUniformf("heat", 0); // level instanceof DesertLevel ? 1 :
 		shader.setUniformf("time", Dungeon.time);
@@ -589,6 +591,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("glitchT", 0);
 		shader.setUniformf("heat", 0);
 		shader.setUniformf("ui", 1);
+		shader.setUniformf("white", white);
 		shader.setUniformf("battle", 0);
 		shader.setUniformf("grayscale", 0);
 
