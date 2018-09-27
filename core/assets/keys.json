@@ -46,13 +46,5 @@
 
 	"zoom_out" : [ "-" ],
 	"zoom_in" : [ "=" ],
-	"toggle_minimap" : [ "T" ],
-
-	"reset" : [ "F4" ],
-	"show_fps" : [ "F3" ],
-	"switch_colorblind" : [ "F5" ],
-	"toggle_correction" : [ "F6" ],
-	"to_shop" : [ "F7" ],
-	"to_secret" : [ "F8" ],
-	"to_treasure" : [ "F9" ]
+	"toggle_minimap" : [ "T" ]
 }

@@ -324,7 +324,7 @@ public class InGameState extends State {
 		//if (Version.debug) {
 			this.console.update(dt);
 
-			if (Input.instance.wasPressed("reset")) {
+			if (Input.instance.wasPressed("F4")) {
 				Dungeon.darkR = Dungeon.MAX_R;
 				Player.instance.setUnhittable(true);
 				Camera.follow(null);
@@ -355,7 +355,7 @@ public class InGameState extends State {
 				});
 			}
 
-			if (Input.instance.wasPressed("to_shop")) {
+			if (Input.instance.wasPressed("F5")) {
 				for (Room room : Dungeon.level.getRooms()) {
 					if (room instanceof ShopRoom && !room.hidden) {
 						Point point = room.getRandomFreeCell();
@@ -366,7 +366,7 @@ public class InGameState extends State {
 				}
 			}
 
-			if (Input.instance.wasPressed("to_treasure")) {
+			if (Input.instance.wasPressed("F6")) {
 				for (Room room : Dungeon.level.getRooms()) {
 					if (room instanceof TreasureRoom) {
 						Point point = room.getRandomFreeCell();
@@ -378,7 +378,7 @@ public class InGameState extends State {
 				}
 			}
 
-			if (Input.instance.wasPressed("to_secret")) {
+			if (Input.instance.wasPressed("F7")) {
 				for (Room room : Dungeon.level.getRooms()) {
 					if (room instanceof BossRoom && room != Player.instance.room) {
 

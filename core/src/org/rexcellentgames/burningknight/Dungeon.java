@@ -372,13 +372,14 @@ public class Dungeon extends ApplicationAdapter {
 			Ui.ui.update(dt);
 		}
 
-		if (Input.instance.wasPressed("switch_colorblind")) {
+		if (Input.instance.wasPressed("F10")) {
 			colorBlind = (colorBlind + 1) % 4;
 		}
 
-		if (Input.instance.wasPressed("toggle_correction")) {
+		// Stopped working
+		/*if (Input.instance.wasPressed("F10")) {
 			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
-		}
+		}*/
 
 		if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead()) {
 			game.getState().setPaused(!game.getState().isPaused());
@@ -390,7 +391,7 @@ public class Dungeon extends ApplicationAdapter {
 			area.update(dt);
 		}
 
-		if (Input.instance.wasPressed("show_fps")) {
+		if (Input.instance.wasPressed("F2")) {
 			Tween.to(new Tween.Task(fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
@@ -409,6 +410,16 @@ public class Dungeon extends ApplicationAdapter {
 			});
 
 			Achievements.unlock(Achievements.TEST);
+		}
+
+		if (Input.instance.wasPressed("F11")) {
+			Settings.fullscreen = !Settings.fullscreen;
+
+			if (Settings.fullscreen) {
+				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+			} else {
+				Gdx.graphics.setWindowedMode(Display.UI_WIDTH_MAX * 2, Display.UI_HEIGHT_MAX * 2);
+			}
 		}
 
 		Dungeon.ui.update(dt);
