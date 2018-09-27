@@ -170,6 +170,14 @@ public class SaveManager {
 		}
 
 		file.delete();
+
+		if (Dungeon.depth < 0) {
+			FileHandle handle = getFileHandle(getSavePath(Type.LEVEL, false));
+
+			if (handle.exists()) {
+				handle.delete();
+			}
+		}
 	}
 
 	public static void generate(Type type) {
