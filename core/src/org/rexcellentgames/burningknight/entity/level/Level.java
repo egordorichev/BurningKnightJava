@@ -2295,6 +2295,7 @@ public abstract class Level extends SaveableEntity {
 			writer.writeByte(this.liquidData[i]);
 			writer.writeByte(this.decor[i]);
 			writer.writeBoolean(this.explored[i]);
+			writer.writeInt32(this.info[i]);
 
 			short m = 1;
 
@@ -2302,7 +2303,8 @@ public abstract class Level extends SaveableEntity {
 				&& this.data[i + m] == this.data[i]
 				&& this.liquidData[i + m] == this.data[i]
 				&& this.decor[i + m] == this.decor[i]
-				&& this.explored[i + m] == this.explored[i]) {
+				&& this.explored[i + m] == this.explored[i]
+				&& this.info[i + m] == this.info[i]) {
 
 				m ++;
 			}
@@ -2377,6 +2379,7 @@ public abstract class Level extends SaveableEntity {
 			this.liquidData[i] = reader.readByte();
 			this.decor[i] = reader.readByte();
 			this.explored[i] = reader.readBoolean();
+			this.info[i] = reader.readInt32();
 
 			if (vr && reader.readBoolean()) {
 				int j = i;
@@ -2390,6 +2393,7 @@ public abstract class Level extends SaveableEntity {
 					this.liquidData[in] = this.liquidData[j];
 					this.decor[in] = this.decor[j];
 					this.explored[in] = this.explored[j];
+					this.info[in] = this.info[j];
 				}
 			}
 		}
