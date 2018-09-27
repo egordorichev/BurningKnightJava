@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
 import org.rexcellentgames.burningknight.entity.item.key.KeyA;
 import org.rexcellentgames.burningknight.entity.item.key.KeyB;
@@ -40,6 +41,7 @@ public class Door extends SaveableEntity {
 	private static Animation ironLockAnimation = Animation.make("door-lock", "-iron");
 	private static Animation bronzeLockAnimation = Animation.make("door-lock", "-bronze");
 	private static Animation goldLockAnimation = Animation.make("door-lock", "-gold");
+	private static Animation fireLockAnimation = Animation.make("door-lock", "-fire");
 	private AnimationData animation;
 	public AnimationData locked;
 	private AnimationData unlock;
@@ -64,6 +66,10 @@ public class Door extends SaveableEntity {
 	}
 
 	public Animation getAnimation() {
+		if (this.key == BurningKey.class) {
+			return fireLockAnimation;
+		}
+
 		if (this.key == KeyA.class) {
 			return bronzeLockAnimation;
 		}
