@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 public class Terrain {
 	public static byte WALL = 0;
@@ -36,7 +35,8 @@ public class Terrain {
 	public static byte SIZE = 24;
 
 	public static int[] flags = new int[SIZE];
-	public static Color[][] colors = new Color[10][SIZE];
+	public static Color[] colors = new Color[SIZE];
+	public static Color[][] floors = new Color[6][4];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
@@ -71,39 +71,42 @@ public class Terrain {
 		flags[EXIT] = PASSABLE | LIQUID_LAYER;
 		flags[DISCO] = PASSABLE;
 
-		colors[0][CHASM] = Color.valueOf("#000000");
-		colors[0][DIRT] = Color.valueOf("#8a4836");
-		colors[0][GRASS] = Color.valueOf("#33984b");
-		colors[0][HIGH_GRASS] = Color.valueOf("#33984b");
-		colors[0][DRY_GRASS] = Color.valueOf("#e69c69");
-		colors[0][HIGH_DRY_GRASS] = Color.valueOf("#e69c69");
-		colors[0][OBSIDIAN] = Color.valueOf("#2a2f4e");
-		colors[0][FLOOR_A] = Color.valueOf("#657392");
-		colors[0][FLOOR_B] = Color.valueOf("#bf6f4a");
-		colors[0][FLOOR_C] = Color.valueOf("#92a1b9");
-		colors[0][FLOOR_D] = Color.valueOf("#ffa214");
-		colors[0][WATER] = Color.valueOf("#0098dc");
-		colors[0][LAVA] = Color.valueOf("#ff5000");
-		colors[0][EXIT] = Color.valueOf("#424c6e");
-		colors[0][TABLE] = Color.valueOf("#f6ca9f");
-		colors[0][DISCO] = Color.valueOf("#ff0000");
+		colors[CHASM] = Color.valueOf("#000000");
+		colors[DIRT] = Color.valueOf("#8a4836");
+		colors[GRASS] = Color.valueOf("#33984b");
+		colors[HIGH_GRASS] = Color.valueOf("#33984b");
+		colors[DRY_GRASS] = Color.valueOf("#e69c69");
+		colors[HIGH_DRY_GRASS] = Color.valueOf("#e69c69");
+		colors[OBSIDIAN] = Color.valueOf("#2a2f4e");
+		colors[WATER] = Color.valueOf("#0098dc");
+		colors[LAVA] = Color.valueOf("#ff5000");
+		colors[EXIT] = Color.valueOf("#424c6e");
+		colors[TABLE] = Color.valueOf("#f6ca9f");
+		colors[DISCO] = Color.valueOf("#ff0000");
 
-		colors[1][CHASM] = Color.valueOf("#000000");
-		colors[1][DISCO] = Color.valueOf("#ff0000");
-		colors[1][DIRT] = Color.valueOf("#8a4836");
-		colors[1][GRASS] = Color.valueOf("#33984b");
-		colors[1][HIGH_GRASS] = Color.valueOf("#33984b");
-		colors[1][DRY_GRASS] = Color.valueOf("#e69c69");
-		colors[1][HIGH_DRY_GRASS] = Color.valueOf("#e69c69");
-		colors[1][OBSIDIAN] = Color.valueOf("#2a2f4e");
-		colors[1][FLOOR_A] = Color.valueOf("#bf6f4a");
-		colors[1][FLOOR_B] = Color.valueOf("#f5555d");
-		colors[1][FLOOR_C] = Color.valueOf("#5d2c28");
-		colors[1][FLOOR_D] = Color.valueOf("#f6ca9f");
-		colors[1][WATER] = Color.valueOf("#0098dc");
-		colors[1][LAVA] = Color.valueOf("#ff5000");
-		colors[1][EXIT] = Color.valueOf("#424c6e");
-		colors[1][TABLE] = Color.valueOf("#858585");
+		// Castle
+		floors[0][0] = Color.valueOf("#657392");
+		floors[0][1] = Color.valueOf("#bf6f4a");
+		floors[0][2] = Color.valueOf("#92a1b9");
+		floors[0][3] = Color.valueOf("#ffa214");
+
+		// Desert
+		floors[1][0] = Color.valueOf("#bf6f4a");
+		floors[1][1] = Color.valueOf("#f5555d");
+		floors[1][2] = Color.valueOf("#5d2c28");
+		floors[1][3] = Color.valueOf("#f6ca9f");
+
+		// Library
+		floors[2][0] = Color.valueOf("#8a4836");
+		floors[2][1] = Color.valueOf("#891e2b");
+		floors[2][2] = Color.valueOf("#5d2c28");
+		floors[2][3] = Color.valueOf("#657392");
+
+		// Forest
+		floors[5][0] = Color.valueOf("#1e6f50");
+		floors[5][1] = Color.valueOf("#33984b");
+		floors[5][2] = Color.valueOf("#5d2c28");
+		floors[5][3] = Color.valueOf("#424c6e");
 	}
 
 	public static Color getColor(byte t) {
@@ -115,7 +118,17 @@ public class Terrain {
 			return Level.colors[Dungeon.level.uid];
 		}
 
-		Color color = colors[lastt][t];
+		if (t == Terrain.FLOOR_A) {
+			return floors[lastt][0];
+		} else if (t == Terrain.FLOOR_B) {
+			return floors[lastt][1];
+		} else if (t == Terrain.FLOOR_C) {
+			return floors[lastt][2];
+		} else if (t == Terrain.FLOOR_D) {
+			return floors[lastt][3];
+		}
+
+		Color color = colors[t];
 
 		if (color != null) {
 			return color;

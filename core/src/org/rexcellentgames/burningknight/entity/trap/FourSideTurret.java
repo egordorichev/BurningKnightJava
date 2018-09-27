@@ -75,6 +75,7 @@ public class FourSideTurret extends Turret {
 		}
 	}
 
+	// fixme: not animated, no sfx
 	@Override
 	protected void send() {
 		if (this.type == 3) {
@@ -86,7 +87,7 @@ public class FourSideTurret extends Turret {
 		for (int i = 0; i < 4; i++) {
 			BulletProjectile bullet = new BulletProjectile();
 			bullet.sprite = Graphics.getTexture("bullet-bad");
-			bullet.anim = getAnimation().get("projectile");
+			// bullet.anim = getAnimation().get("projectile");
 
 			float x = this.x + 8;
 			float y = this.y + 8;
@@ -94,8 +95,8 @@ public class FourSideTurret extends Turret {
 			bullet.x = x;
 			bullet.y = y;
 			bullet.damage = 2;
-			bullet.w = 4;
-			bullet.h = 4;
+			bullet.w = 12;
+			bullet.h = 12;
 			bullet.letter = "bad";
 			bullet.bad = true;
 

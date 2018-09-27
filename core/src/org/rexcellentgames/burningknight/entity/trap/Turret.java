@@ -271,8 +271,8 @@ public class Turret extends SolidProp {
 			bullet.x = x;
 			bullet.y = y;
 			bullet.damage = 2;
-			bullet.w = 4;
-			bullet.h = 4;
+			bullet.w = 12;
+			bullet.h = 12;
 			bullet.letter = "bad";
 			bullet.bad = true;
 
