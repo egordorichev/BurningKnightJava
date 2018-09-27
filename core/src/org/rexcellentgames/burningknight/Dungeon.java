@@ -374,24 +374,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		if (Input.instance.wasPressed("F10")) {
 			colorBlind = (colorBlind + 1) % 4;
-		}
-
-		// Stopped working
-		/*if (Input.instance.wasPressed("F10")) {
-			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
-		}*/
-
-		if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead()) {
-			game.getState().setPaused(!game.getState().isPaused());
-		}
-
-		boolean paused = game.getState().isPaused();
-
-		if (!(game.getState() instanceof LoadState) && !paused) {
-			area.update(dt);
-		}
-
-		if (Input.instance.wasPressed("F2")) {
+		} else if (Input.instance.wasPressed("F2")) {
 			Tween.to(new Tween.Task(fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
@@ -410,9 +393,7 @@ public class Dungeon extends ApplicationAdapter {
 			});
 
 			Achievements.unlock(Achievements.TEST);
-		}
-
-		if (Input.instance.wasPressed("F11")) {
+		} else if (Input.instance.wasPressed("F11")) {
 			Settings.fullscreen = !Settings.fullscreen;
 
 			if (Settings.fullscreen) {
@@ -420,7 +401,35 @@ public class Dungeon extends ApplicationAdapter {
 			} else {
 				Gdx.graphics.setWindowedMode(Display.UI_WIDTH_MAX * 2, Display.UI_HEIGHT_MAX * 2);
 			}
+		} else if (Input.instance.wasPressed("F7")) {
+			if (Settings.music > 0.1f) {
+				Settings.music = 0;
+				Audio.update();
+			} else {
+				Settings.music = 0.5f;
+				Audio.update();
+			}
+		} else if (Input.instance.wasPressed("F8")) {
+			if (Settings.sfx > 0.1f) {
+				Settings.sfx = 0;
+			} else {
+				Settings.sfx = 0.5f;
+			}
+		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead()) {
+			game.getState().setPaused(!game.getState().isPaused());
 		}
+
+		// Stopped working
+		/*if (Input.instance.wasPressed("F10")) {
+			colorBlindFix = colorBlindFix > 0.5f ? 0f : 1f;
+		}*/
+
+		boolean paused = game.getState().isPaused();
+
+		if (!(game.getState() instanceof LoadState) && !paused) {
+			area.update(dt);
+		}
+
 
 		Dungeon.ui.update(dt);
 		Achievements.update(dt);
