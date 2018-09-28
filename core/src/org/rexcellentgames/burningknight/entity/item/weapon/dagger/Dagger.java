@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -83,6 +84,12 @@ public class Dagger extends Sword {
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(xx, yy, a);
 		}
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock("UNLOCK_DAGGER");
 	}
 
 	@Override

@@ -11,33 +11,70 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.StartingItem;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
+import java.util.ArrayList;
+
 public class ItemSelectState extends State {
-	private static Item[] melee = {
-		new Sword(), new Dagger(), new Spear()
-	};
-
-	private static Item[] ranged = {
-		new Gun(), new Bow()
-	};
-
-	private static final Item[] mage = {
-		new MagicMissileWand(), new FastBook()
-	};
+	private static ArrayList<Item> melee = new ArrayList<>();
+	private static  ArrayList<Item> ranged = new ArrayList<>();
+	private static  ArrayList<Item> mage = new ArrayList<>();
 
 	public static int depth;
 
 	@Override
 	public void init() {
 		super.init();
+
+		melee.clear();
+		ranged.clear();
+		mage.clear();
+
+		melee.add(new Sword());
+		ranged.add(new Gun());
+		mage.add(new MagicMissileWand());
+
+		if (Achievements.unlocked("UNLOCK_DAGGER")) {
+			melee.add(new Dagger());
+		}
+
+		if (Achievements.unlocked("UNLOCK_SPEAR")) {
+			melee.add(new Spear());
+		}
+
+		if (Achievements.unlocked("UNLOCK_BUTCHER")) {
+			melee.add(new Butcher());
+		}
+
+		if (Achievements.unlocked("UNLOCK_MORNING")) {
+			melee.add(new MorningStar());
+		}
+
+		if (Achievements.unlocked("UNLOCK_BOW")) {
+			ranged.add(new Bow());
+		}
+
+		if (Achievements.unlocked("UNLOCK_FAST_BOOK")) {
+			mage.add(new FastBook());
+		}
+
+		if (Achievements.unlocked("UNLOCK_BUTCHER")) {
+			melee.add(new Butcher());
+		}
+
+		if (Achievements.unlocked("UNLOCK_MORNING")) {
+			melee.add(new MorningStar());
+		}
 
 		Dungeon.dark = 0;
 		Tween.to(new Tween.Task(1, 0.3f) {
@@ -52,30 +89,30 @@ public class ItemSelectState extends State {
 			}
 		});
 
-		for (int i = 0; i < melee.length; i++) {
+		for (int i = 0; i < melee.size(); i++) {
 			StartingItem item = new StartingItem();
-			item.item = melee[i];
+			item.item = melee.get(i);
 			item.type = Player.Type.WARRIOR;
 			item.y = Display.UI_HEIGHT / 2 + 48;
-			item.x = (Display.UI_WIDTH - melee.length * 48) / 2 + i * 48 + 24;
+			item.x = (Display.UI_WIDTH - melee.size() * 48) / 2 + i * 48 + 24;
 			Dungeon.ui.add(item);
 		}
 
-		for (int i = 0; i < ranged.length; i++) {
+		for (int i = 0; i < ranged.size(); i++) {
 			StartingItem item = new StartingItem();
-			item.item = ranged[i];
+			item.item = ranged.get(i);
 			item.type = Player.Type.RANGER;
 			item.y = Display.UI_HEIGHT / 2;
-			item.x = (Display.UI_WIDTH - ranged.length * 48) / 2 + i * 48 + 24;
+			item.x = (Display.UI_WIDTH - ranged.size() * 48) / 2 + i * 48 + 24;
 			Dungeon.ui.add(item);
 		}
 
-		for (int i = 0; i < mage.length; i++) {
+		for (int i = 0; i < mage.size(); i++) {
 			StartingItem item = new StartingItem();
-			item.item = mage[i];
+			item.item = mage.get(i);
 			item.type = Player.Type.WIZARD;
 			item.y = Display.UI_HEIGHT / 2 - 48;
-			item.x = (Display.UI_WIDTH - mage.length * 48) / 2 + i * 48 + 24;
+			item.x = (Display.UI_WIDTH - mage.size() * 48) / 2 + i * 48 + 24;
 			Dungeon.ui.add(item);
 		}
 
@@ -86,11 +123,11 @@ public class ItemSelectState extends State {
 				float r = Random.newFloat(1);
 
 				if (r < 0.333f) {
-					pick(melee[Random.newInt(melee.length - 1)], Player.Type.WARRIOR);
+					pick(melee.get(Random.newInt(melee.size() - 1)), Player.Type.WARRIOR);
 				} else if (r < 0.666f) {
-					pick(ranged[Random.newInt(ranged.length - 1)], Player.Type.RANGER);
+					pick(ranged.get(Random.newInt(ranged.size() - 1)), Player.Type.RANGER);
 				} else {
-					pick(mage[Random.newInt(mage.length - 1)], Player.Type.WIZARD);
+					pick(mage.get(Random.newInt(mage.size() - 1)), Player.Type.WIZARD);
 				}
 			}
 		});

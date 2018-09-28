@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Random;
@@ -26,6 +27,12 @@ public class FastBook extends Book {
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		this.spawnShot(x, y, a);
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock("UNLOCK_FAST_BOOK");
 	}
 
 	private void spawnShot(float x, float y, float a) {

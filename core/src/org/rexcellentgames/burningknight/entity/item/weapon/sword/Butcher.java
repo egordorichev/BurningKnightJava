@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.game.Achievements;
 
 public class Butcher extends Sword {
 	{
@@ -22,5 +23,11 @@ public class Butcher extends Sword {
 		sprite = "item-butcher_" + letter;
 		damage = 5 + level;
 		region = Graphics.getTexture(this.sprite);
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock("UNLOCK_BUTCHER");
 	}
 }

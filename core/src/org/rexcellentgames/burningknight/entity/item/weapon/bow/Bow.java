@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -32,6 +33,12 @@ public class Bow extends WeaponBase {
 	{
 		delay = 0.3f;
 		setStats();
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock("UNLOCK_BOW");
 	}
 
 	private float charge;
