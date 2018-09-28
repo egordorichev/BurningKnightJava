@@ -75,9 +75,11 @@ public class FourSideTurret extends Turret {
 		}
 	}
 
-	// fixme: not animated, no sfx
 	@Override
 	protected void send() {
+		this.tween();
+		this.playSfx(this.type == 3 ? "fire" : "gun_machinegun");
+
 		if (this.type == 3) {
 			this.on = true;
 			this.t = 0;

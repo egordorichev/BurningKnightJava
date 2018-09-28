@@ -187,7 +187,7 @@ public class Mimic extends Mob {
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		this.renderWithOutline((this.invt > 0 && this.animation == open) ? hurt : this.animation);
 
-		if (this.locked && !this.found) {
+		if (!this.found) {
 			float x = this.x + (w - Chest.idleLock.getRegionWidth()) / 2;
 			float y = this.y + (h - Chest.idleLock.getRegionHeight()) / 2 +
 				(float) Math.sin(this.t) * 1.8f;

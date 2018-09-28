@@ -27,7 +27,7 @@ public class Turret extends SolidProp {
 
 	public float a;
 	public float last;
-	protected float sp = 3f;
+	protected float sp = 4f;
 	private boolean s;
 	protected float sx = 1f;
 	protected float sy = 1f;
@@ -172,10 +172,8 @@ public class Turret extends SolidProp {
 
 		this.last += dt;
 
-		if (this.last >= sp) {
+		if (this.last >= sp / 2) {
 			this.last = 0;
-			this.tween();
-
 			this.send();
 		}
 	}
@@ -187,7 +185,7 @@ public class Turret extends SolidProp {
 	protected int frame;
 
 	protected void tween() {
-		Tween.to(new Tween.Task(0.6f, 0.05f) {
+		Tween.to(new Tween.Task(0.6f, 0.1f) {
 			@Override
 			public float getValue() {
 				return sy;
@@ -200,7 +198,7 @@ public class Turret extends SolidProp {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(1f, 0.1f) {
+				Tween.to(new Tween.Task(1f, 0.15f) {
 					@Override
 					public float getValue() {
 						return sy;
@@ -214,7 +212,7 @@ public class Turret extends SolidProp {
 			}
 		});
 
-		Tween.to(new Tween.Task(1.4f, 0.05f) {
+		Tween.to(new Tween.Task(1.4f, 0.1f) {
 			@Override
 			public float getValue() {
 				return sx;
@@ -227,7 +225,7 @@ public class Turret extends SolidProp {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(1f, 0.1f) {
+				Tween.to(new Tween.Task(1f, 0.15f) {
 					@Override
 					public float getValue() {
 						return sx;
@@ -250,6 +248,7 @@ public class Turret extends SolidProp {
 	protected boolean on;
 
 	protected void send() {
+		this.tween();
 		this.t = 0;
 		this.playSfx(this.type == 3 ? "fire" : "gun_machinegun");
 

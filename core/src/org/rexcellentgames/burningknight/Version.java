@@ -4,7 +4,7 @@ public class Version {
 	public static final boolean debug = true;
 	public static final boolean showAlphaWarning = true;
 	public static final double major = 0.0;
-	public static final double minor = 19.2;
+	public static final double minor = 19.3;
 
 	public static String asString() {
 		return "v" + major + "." + minor + (debug ? " dev" : "");

@@ -18,6 +18,8 @@ public class ScrollOfUpgrade extends Scroll {
 	public void use() {
 		super.use();
 
+		this.owner.playSfx("health_up");
+
 		Achievements.unlock(Achievements.UPGRADE);
 
 		for (int i = 0; i < 10; i++) {
