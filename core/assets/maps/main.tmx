@@ -148,9 +148,6 @@
   <object id="46" name="sub" x="848" y="176" width="144" height="144"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="10" name="class_warrior" x="352" y="352" width="16" height="16"/>
-  <object id="12" name="class_wizard" x="416" y="352" width="16" height="16"/>
-  <object id="16" name="class_ranger" x="384" y="352" width="16" height="16"/>
   <object id="66" name="sp_a" x="736" y="160" width="16" height="16"/>
   <object id="67" name="sp_a" x="768" y="160" width="16" height="16"/>
   <object id="68" name="sp_a" x="800" y="160" width="16" height="16"/>

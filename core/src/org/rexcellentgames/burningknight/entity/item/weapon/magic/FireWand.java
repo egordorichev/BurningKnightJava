@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -25,6 +26,13 @@ public class FireWand extends Wand {
 	}
 
 	public static TextureRegion region = Graphics.getTexture("particle-big");
+
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock("UNLOCK_FIRE_WAND");
+	}
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {

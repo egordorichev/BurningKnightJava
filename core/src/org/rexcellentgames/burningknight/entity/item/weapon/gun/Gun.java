@@ -26,7 +26,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class Gun extends WeaponBase {
-	private float accuracy = 10f;
+	protected float accuracy = 5f;
 	protected float sx = 1f;
 	protected float sy = 1f;
 	protected float vel = 6f;
@@ -38,14 +38,16 @@ public class Gun extends WeaponBase {
 	protected boolean s;
 	protected Point origin = new Point(3, 1);
 	protected Point hole = new Point(13, 6);
-	protected int maxCharge = 100;
 	protected int charge = 100;
 	protected int ammoMax = 20;
 	protected int ammoLeft = 20;
 	protected float chargeProgress;
+	protected float reloadRate = 1;
 
 	{
 		sprite = "item-gun_a";
+		damage = 4;
+		useTime = 0.8f;
 	}
 
 	protected void setStats() {
@@ -111,7 +113,7 @@ public class Gun extends WeaponBase {
 				this.time = this.owner.getStat("reload_time");
 			}
 
-			this.chargeProgress += dt * this.time / 3f;
+			this.chargeProgress += dt * this.time / 3f * reloadRate;
 
 			if (this.chargeProgress >= 1f) {
 				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
@@ -459,8 +461,8 @@ public class Gun extends WeaponBase {
 			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
 			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
 
-			bullet.x = x + this.getAimX(0, 0);
-			bullet.y = y + this.getAimY(0, 0);
+			bullet.x = (float) (x + this.getAimX(xx, yy));
+			bullet.y = (float) (y + this.getAimY(xx, yy));
 			bullet.damage = b.damage + rollDamage();
 			bullet.crit = true;
 			bullet.letter = b.bulletName;

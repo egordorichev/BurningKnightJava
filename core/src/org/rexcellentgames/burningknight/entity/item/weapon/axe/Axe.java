@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeProjectile;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -28,6 +29,12 @@ public class Axe extends Weapon {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		setStats();
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock("UNLOCK_AXE");
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -21,6 +22,12 @@ public class HomingBook extends Book {
 		sprite = "item-book_a";
 		mana = 2;
 		damage = 3;
+	}
+
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		Achievements.unlock("UNLOCK_AIM_BOOK");
 	}
 
 	@Override

@@ -5,11 +5,17 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.BurstGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.NoppyGun;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.HomingBook;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.TripleShotBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
@@ -60,21 +66,39 @@ public class ItemSelectState extends State {
 			melee.add(new MorningStar());
 		}
 
+
 		if (Achievements.unlocked("UNLOCK_BOW")) {
 			ranged.add(new Bow());
+		}
+
+		if (Achievements.unlocked("UNLOCK_AXE")) {
+			ranged.add(new Axe());
+		}
+
+		if (Achievements.unlocked("UNLOCK_NOPPY")) {
+			ranged.add(new NoppyGun());
+		}
+
+		if (Achievements.unlocked("UNLOCK_BURST")) {
+			ranged.add(new BurstGun());
 		}
 
 		if (Achievements.unlocked("UNLOCK_FAST_BOOK")) {
 			mage.add(new FastBook());
 		}
 
-		if (Achievements.unlocked("UNLOCK_BUTCHER")) {
-			melee.add(new Butcher());
+		if (Achievements.unlocked("UNLOCK_AIM_BOOK")) {
+			mage.add(new HomingBook());
 		}
 
-		if (Achievements.unlocked("UNLOCK_MORNING")) {
-			melee.add(new MorningStar());
+		if (Achievements.unlocked("UNLOCK_FIRE_WAND")) {
+			mage.add(new FireWand());
 		}
+
+		if (Achievements.unlocked("UNLOCK_TRIPLE_BOOK")) {
+			mage.add(new TripleShotBook());
+		}
+
 
 		Dungeon.dark = 0;
 		Tween.to(new Tween.Task(1, 0.3f) {

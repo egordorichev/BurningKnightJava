@@ -618,5 +618,11 @@
 	"start_new_game" : "Start a new game",
 	"burning_key" : "Burning Key",
 	"burning_key_desc" : "Opens the door onto the next level",
-	"random" : "Random"
+	"random" : "Random",
+	"burst_gun" : "Burst Gun",
+	"burst_gun_desc" : "Fast and easy",
+	"noppy_gun" : "Noppy Gun",
+	"noppy_gun_desc" : "Fast and hard",
+	"puncher_gun" : "Puncher Gun",
+	"puncher_gun_desc" : "Punch out!"
 }
