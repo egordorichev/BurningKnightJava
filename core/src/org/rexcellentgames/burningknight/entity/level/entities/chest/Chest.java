@@ -348,7 +348,7 @@ public class Chest extends SaveableEntity {
 			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 
-		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 3;
+		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 8;
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
 			if (this.locked) {

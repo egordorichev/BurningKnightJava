@@ -44,6 +44,10 @@ public class Gun extends WeaponBase {
 	protected int ammoLeft = 20;
 	protected float chargeProgress;
 
+	{
+		sprite = "item-gun_a";
+	}
+
 	protected void setStats() {
 
 	}
@@ -90,7 +94,7 @@ public class Gun extends WeaponBase {
 
 	private float closestFraction = 1.0f;
 	
-	protected Gun() {
+	public Gun() {
 	  setStats();
   }
 

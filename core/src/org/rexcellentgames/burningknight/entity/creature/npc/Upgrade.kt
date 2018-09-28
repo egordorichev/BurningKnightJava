@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import org.rexcellentgames.burningknight.Dungeon
 import org.rexcellentgames.burningknight.assets.Audio
 import org.rexcellentgames.burningknight.assets.Graphics
+import org.rexcellentgames.burningknight.entity.Camera
 import org.rexcellentgames.burningknight.entity.Entity
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob
 import org.rexcellentgames.burningknight.entity.creature.player.Player
@@ -180,6 +181,7 @@ class Upgrade : SaveableEntity() {
 
 			if (count < this.price) {
 				Audio.playSfx("item_nocash")
+				Camera.shake(6f)
 			} else {
 				count -= this.price
 				GlobalSave.put("num_coins", count)

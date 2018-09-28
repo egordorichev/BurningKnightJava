@@ -172,8 +172,9 @@ public class Item extends Entity {
 	}
 
   public void onPickup() {
-  	if (Dungeon.darkR == Dungeon.MAX_R && Dungeon.game.getState() instanceof InGameState) {
-		  Audio.playSfx("pickup_item");
+  	if (Dungeon.depth != -1 && Dungeon.darkR == Dungeon.MAX_R && Dungeon.game.getState() instanceof InGameState) {
+		  Log.error("Play!");
+  		Audio.playSfx("pickup_item");
 	  }
 
     if (useOnPickup) {

@@ -10,8 +10,8 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.ItemSelectState;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -153,10 +153,8 @@ public class Camera extends Entity {
 
 						@Override
 						public void onEnd() {
-							Player.instance.generate();
-							Player.toSet = Player.instance.getType();
-							GlobalSave.put("last_class", Player.instance.getType().id);
-							Dungeon.goToLevel(1);
+							ItemSelectState.depth = 1;
+							Dungeon.game.setState(new ItemSelectState());
 						}
 					});
 				} else if (Player.instance.y <= room.top * 16 + 18 && !did) {

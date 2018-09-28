@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -145,7 +146,7 @@ public class UiMap extends UiEntity {
 		instance = this;
 		setSize();
 
-		if (GlobalSave.isTrue("hide_minimap")) {
+		if (GlobalSave.isTrue("hide_minimap", false)) {
 			this.my = 96;
 		}
 

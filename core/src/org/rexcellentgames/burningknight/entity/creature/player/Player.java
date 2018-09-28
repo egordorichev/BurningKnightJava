@@ -47,16 +47,6 @@ import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
-import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
-import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
@@ -82,6 +72,7 @@ import java.util.HashMap;
 
 public class Player extends Creature {
 	public static Type toSet = Type.WARRIOR;
+	public static Item startingItem;
 	public static float mobSpawnModifier = 1f;
 	public static ArrayList<Player> all = new ArrayList<>();
 	public static Player instance;
@@ -280,18 +271,8 @@ public class Player extends Creature {
 
 	public void generate() {
 		this.inventory.clear();
-
-		switch (this.type) {
-			case WARRIOR:
-				generateWarrior();
-				break;
-			case WIZARD:
-				generateMage();
-				break;
-			case RANGER:
-				generateRanger();
-				break;
-		}
+		this.give(startingItem);
+		startingItem = null;
 
 		if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
 			this.give(new HealingPotion());
@@ -304,43 +285,6 @@ public class Player extends Creature {
 		if (GlobalSave.isTrue(ExtraHeart.ID)) {
 			this.hpMax += 2;
 			this.hp += 2;
-		}
-	}
-
-	private void generateWarrior() {
-		this.manaMax = 4;
-		this.mana = 4;
-
-		switch (Random.newInt(5)) {
-			case 0:
-			default:
-				this.give(new Sword());
-				break;
-			case 1:
-				this.give(new Butcher());
-				break;
-			case 2:
-				this.give(new MorningStar());
-				break;
-			case 3:
-				this.give(new Dagger());
-				break;
-			case 4:
-				this.give(new Spear());
-				break;
-		}
-
-		this.give(new HealingPotion());
-	}
-
-	private void generateMage() {
-		this.hpMax = 6;
-		this.hp = 6;
-		this.numIronHearts = 2;
-
-		switch (Random.newInt(2)) {
-			case 0: default: this.give(new MagicMissileWand()); break;
-			case 1: this.give(new FastBook()); break;
 		}
 	}
 
@@ -361,19 +305,6 @@ public class Player extends Creature {
 
 	public int getGoldenHearts() {
 		return numGoldenHearts;
-	}
-
-	private void generateRanger() {
-		this.hpMax = 6;
-		this.hp = 6;
-		this.manaMax = 4;
-		this.mana = 4;
-
-		switch (Random.newInt(3)) {
-			case 0: default: this.give(new Bow()); break;
-			case 1: this.give(new Revolver()); break;
-			case 2: this.give(new Axe()); break;
-		}
 	}
 
 	public void give(Item item) {

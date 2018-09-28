@@ -155,7 +155,7 @@ public class Painter {
 	}
 
 	private void paintCobweb(Level level, ArrayList<Room> rooms) {
-		boolean[] lake = Patch.generate(this.water, 3);
+		boolean[] lake = Patch.generate(this.water, 5);
 
 		for (Room r : rooms) {
 			for (Point p : r.waterPlaceablePoints()) {
