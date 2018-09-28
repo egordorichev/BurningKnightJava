@@ -13,6 +13,8 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -143,14 +145,17 @@ public class Yoyo extends Weapon {
 
 	@Override
 	protected void createHitbox() {
-		TextureRegion region = this.getSprite();
-		this.body = World.createCircleBody(this, 0, 0, Math.max(region.getRegionWidth(), region.getRegionHeight()) / 2, BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createCircleBody(this, 0, 0, Math.max(projectile.getRegionWidth(), projectile.getRegionHeight()) / 2, BodyDef.BodyType.DynamicBody, false);
 	}
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if (entity instanceof ItemHolder) {
 			return false;
+		}
+
+		if ((entity == null && !fixture.getBody().isBullet()) || entity instanceof Door || entity instanceof SolidProp) {
+			return true;
 		}
 
 		return super.shouldCollide(entity, contact, fixture);

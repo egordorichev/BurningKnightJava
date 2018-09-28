@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -104,7 +105,11 @@ public class AssetLoadState extends State {
 						Gdx.graphics.setTitle(Dungeon.title);
 
 						if (START_TO_MENU) {
-							Dungeon.game.setState(new MainMenuState());
+							if (Version.showAlphaWarning) {
+								Dungeon.game.setState(new AlphaWarningState());
+							} else {
+								Dungeon.game.setState(new MainMenuState());
+							}
 						}
 					}
 				});

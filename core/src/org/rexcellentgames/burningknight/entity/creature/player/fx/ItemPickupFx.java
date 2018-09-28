@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.player.fx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -93,6 +94,8 @@ public class ItemPickupFx extends Entity {
 					if (g < this.item.getItem().price) {
 						this.remove();
 						Player.instance.playSfx("item_nocash");
+
+						Camera.shake(6);
 						return;
 					} else {
 						this.player.getInventory().removeGold(this.item.getItem().price);

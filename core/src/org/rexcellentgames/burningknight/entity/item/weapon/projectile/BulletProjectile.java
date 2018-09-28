@@ -27,7 +27,6 @@ import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -92,7 +91,7 @@ public class BulletProjectile extends Projectile {
 			this.depth = 16;
 		}
 
-		if (this.letter.equals("bullet-bad")) {
+		if (this.letter != null && this.letter.equals("bullet-bad")) {
 			this.noRotation = true;
 		}
 

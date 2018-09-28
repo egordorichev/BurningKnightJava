@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -25,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -55,6 +58,8 @@ public class Door extends SaveableEntity {
 	public Class<? extends Key> key;
 	private int sx;
 	private int sy;
+	private boolean collidingWithPlayer;
+	private float al;
 
 	{
 		depth = -1;
@@ -114,6 +119,53 @@ public class Door extends SaveableEntity {
 			locked = animation.get("idle");
 			unlock = animation.get("open");
 			lk = animation.get("close");
+		}
+
+		this.al += ((this.collidingWithPlayer ? 1 : 0) - this.al) * dt * 10;
+
+		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
+			if (Player.instance.ui.hasEquipped(Lootpick.class)) {
+				this.lock = false;
+				this.animation.setBack(false);
+				this.animation.setPaused(false);
+				this.lockAnim = this.unlock;
+			} else if (Player.instance.getInventory().find(this.key)) {
+				Item key = Player.instance.getInventory().findItem(this.key);
+				key.setCount(key.getCount() - 1);
+
+				int num = GlobalSave.getInt("num_keys_used");
+				GlobalSave.put("num_keys_used", num);
+
+				if (num >= 10) {
+					Achievements.unlock(Achievements.UNLOCK_LOOTPICK);
+				}
+
+				this.lock = false;
+				this.animation.setBack(false);
+				this.animation.setPaused(false);
+				this.lockAnim = this.unlock;
+
+				if (this.key == KeyA.class) {
+					Room room = Dungeon.level.findRoomFor(this.x, this.y);
+
+					for (Trader trader : Trader.all) {
+						if (trader.room == room) {
+							trader.saved = true;
+							GlobalSave.put("npc_" + trader.id + "_saved", true);
+							trader.become("thanks");
+
+							if (trader.id.equals(NpcSaveRoom.saveOrder[NpcSaveRoom.saveOrder.length - 1])) {
+								Achievements.unlock(Achievements.SAVE_ALL);
+								GlobalSave.put("all_npcs_saved", true);
+							}
+							break;
+						}
+					}
+				}
+			} else {
+				this.playSfx("item_nocash");
+				Camera.shake(6);
+			}
 		}
 
 		if (this.numCollisions == 0 && this.animation.isPaused() && this.animation.getFrame() == 3) {
@@ -244,47 +296,7 @@ public class Door extends SaveableEntity {
 			}
 
 			if (this.lock && this.lockable && entity instanceof Player) {
-				Player player = (Player) entity;
-
-				if (player.ui.hasEquipped(Lootpick.class)) {
-					this.lock = false;
-					this.animation.setBack(false);
-					this.animation.setPaused(false);
-					this.lockAnim = this.unlock;
-				} else if (player.getInventory().find(this.key)) {
-					Item key = player.getInventory().findItem(this.key);
-					key.setCount(key.getCount() - 1);
-
-					int num = GlobalSave.getInt("num_keys_used");
-					GlobalSave.put("num_keys_used", num);
-
-					if (num >= 10) {
-						Achievements.unlock(Achievements.UNLOCK_LOOTPICK);
-					}
-
-					this.lock = false;
-					this.animation.setBack(false);
-					this.animation.setPaused(false);
-					this.lockAnim = this.unlock;
-
-					if (this.key == KeyA.class) {
-						Room room = Dungeon.level.findRoomFor(this.x, this.y);
-
-						for (Trader trader : Trader.all) {
-							if (trader.room == room) {
-								trader.saved = true;
-								GlobalSave.put("npc_" + trader.id + "_saved", true);
-								trader.become("thanks");
-
-								if (trader.id.equals(NpcSaveRoom.saveOrder[NpcSaveRoom.saveOrder.length - 1])) {
-									Achievements.unlock(Achievements.SAVE_ALL);
-									GlobalSave.put("all_npcs_saved", true);
-								}
-								break;
-							}
-						}
-					}
-				}
+				this.collidingWithPlayer = true;
 			}
 
 			if (this.lock) {
@@ -306,6 +318,10 @@ public class Door extends SaveableEntity {
 	public void onCollisionEnd(Entity entity) {
 		if (entity instanceof Creature && !((Creature) entity).isFlying()) {
 			if (this.lock) {
+				if (entity instanceof Player) {
+					this.collidingWithPlayer = false;
+				}
+
 				return;
 			}
 
@@ -347,7 +363,6 @@ public class Door extends SaveableEntity {
 			}
 		}
 
-
 		if (this.lock && !last) {
 			this.playSfx("door_lock");
 
@@ -365,6 +380,28 @@ public class Door extends SaveableEntity {
 		this.animation.render(this.x, this.y, false);
 
 		if (this.lockAnim != null) {
+			if (this.al > 0) {
+				Graphics.batch.end();
+				Mob.shader.begin();
+				Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
+				Mob.shader.setUniformf("u_a", al);
+				Mob.shader.end();
+				Graphics.batch.setShader(Mob.shader);
+				Graphics.batch.begin();
+
+				for (int yy = -1; yy < 2; yy++) {
+					for (int xx = -1; xx < 2; xx++) {
+						if (Math.abs(xx) + Math.abs(yy) == 1) {
+							this.lockAnim.render(this.x + (this.vertical ? -1 : 3) + xx, this.y + (this.vertical ? 2 : -2) + yy, false);
+						}
+					}
+				}
+
+				Graphics.batch.end();
+				Graphics.batch.setShader(null);
+				Graphics.batch.begin();
+			}
+
 			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false);
 		}
 	}

@@ -47,7 +47,9 @@ public class MainMenuState extends State {
 
 	@Override
 	public void init() {
-			Tween.to(new Tween.Task(1, 0.2f) {
+		Dungeon.setBackground(new Color(0, 0, 0, 1));
+
+		Tween.to(new Tween.Task(1, 0.2f) {
 				@Override
 				public float getValue() {
 					return Dungeon.dark;
@@ -63,10 +65,8 @@ public class MainMenuState extends State {
 
 		SettingsState.added = false;
 		InputSettingsState.added = false;
-		SlotSelectState.added = false;
 		GraphicsSettingsState.added = false;
 		AudioSettingsState.added = false;
-		ClassSelectState.added = false;
 		KeyConfigState.added = false;
 
 		cameraX = Display.UI_WIDTH_MAX / 2;

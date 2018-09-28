@@ -44,6 +44,8 @@ public class Input implements InputProcessor, ControllerListener {
 
 	private boolean controllerChanged;
 
+	public static boolean anyPressed;
+
 	public static UiKey listener;
 
 	static {
@@ -99,6 +101,8 @@ public class Input implements InputProcessor, ControllerListener {
 		if (activeController == null || controller != activeController) {
 			return false;
 		}
+
+		anyPressed = true;
 
 		if (listener != null) {
 			listener.set("Controller" + buttonCode);
@@ -156,6 +160,7 @@ public class Input implements InputProcessor, ControllerListener {
 		this.keys.put("ControllerDPadUp", value == PovDirection.north || value == PovDirection.northEast || value == PovDirection.northWest ? State.DOWN : State.UP);
 		this.keys.put("ControllerDPadDown", value == PovDirection.south || value == PovDirection.southEast || value == PovDirection.southWest ? State.DOWN : State.UP);
 
+		anyPressed = true;
 		return false;
 	}
 
@@ -351,6 +356,8 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 
 	public void update() {
+		anyPressed = false;
+
 		for (Map.Entry<String, State> pair : this.keys.entrySet()) {
 			State state = pair.getValue();
 
@@ -400,7 +407,15 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		if (!this.bindings.containsKey(key)) {
-			return Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.valueOf(key));
+			if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.valueOf(key))) {
+				return true;
+			}
+
+			if (activeController == null || !key.equals("X")) {
+				return false;
+			}
+
+			return activeController.getButton(map.BUTTON_X);
 		}
 
 		for (String id : this.bindings.get(key)) {
@@ -438,6 +453,7 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean keyDown(int keycode) {
 		String id = com.badlogic.gdx.Input.Keys.toString(keycode);
 
+		anyPressed = true;
 		if (listener != null) {
 			listener.set(id);
 			return false;
@@ -467,6 +483,7 @@ public class Input implements InputProcessor, ControllerListener {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		this.keys.put("Mouse" + button, State.DOWN);
 
+		anyPressed = true;
 		return false;
 	}
 

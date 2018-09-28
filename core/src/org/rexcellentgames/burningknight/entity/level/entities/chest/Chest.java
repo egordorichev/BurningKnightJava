@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
@@ -356,6 +357,8 @@ public class Chest extends SaveableEntity {
 				if (key == null) {
 					this.colliding = true;
 					Player.instance.playSfx("item_nocash");
+
+					Camera.shake(6);
 					return;
 				}
 

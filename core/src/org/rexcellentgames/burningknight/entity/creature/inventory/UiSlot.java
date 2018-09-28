@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.CurseFx;
 import org.rexcellentgames.burningknight.entity.fx.UpgradeFx;
@@ -226,6 +227,8 @@ public class UiSlot {
 		if (self != null && self.canBeUpgraded() && current instanceof ScrollOfUpgrade) {
 			if (self.getLevel() >= self.getMaxLevel()) {
 				Audio.playSfx("item_nocash");
+
+				Camera.shake(6);
 				tweenClick();
 				return;
 			}
@@ -267,6 +270,8 @@ public class UiSlot {
 		if (active instanceof ScrollOfUpgrade && (self != null && self.canBeUpgraded())) {
 			if (self.getLevel() >= self.getMaxLevel()) {
 				Audio.playSfx("item_nocash");
+
+				Camera.shake(6);
 				tweenClick();
 				return;
 			}
@@ -306,6 +311,8 @@ public class UiSlot {
 		} else if (canAccept(this.id, current) || current == null) {
 			if (this.id > 5 && this.id < 12 && self != null && self.isCursed()) {
 				Audio.playSfx("item_nocash");
+
+				Camera.shake(6);
 				tweenClick();
 			} else {
 				if (this.id > 5 && current != null) {
@@ -314,6 +321,8 @@ public class UiSlot {
 
 						if (sl != null && sl.getClass().isInstance(current)) {
 							Audio.playSfx("item_nocash");
+
+							Camera.shake(6);
 							tweenClick();
 							return;
 						}
