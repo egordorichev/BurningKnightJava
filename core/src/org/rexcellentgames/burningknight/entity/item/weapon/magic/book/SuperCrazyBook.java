@@ -37,6 +37,10 @@ public class SuperCrazyBook extends Book {
 			float a = (float) (i * Math.PI / 4);
 
 			BulletProjectile missile = new BulletProjectile() {
+				{
+					ignoreArmor = true;
+				}
+
 				@Override
 				public void render() {
 					float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));

@@ -19,8 +19,9 @@ public class Waterbolt extends Wand {
 		name = Locale.get("waterbolt");
 		description = Locale.get("waterbolt_desc");
 		sprite = "item-wand_b";
-		damage = 2;
+		damage = 3;
 		penetrates = true;
+		useTime = 0.2f;
 	}
 
 	public static TextureRegion region = Graphics.getTexture("particle-long");
@@ -30,6 +31,10 @@ public class Waterbolt extends Wand {
 		float s = 80f;
 
 		BulletProjectile missile = new BulletProjectile() {
+			{
+				ignoreArmor = true;
+			}
+
 			private int num;
 
 			@Override

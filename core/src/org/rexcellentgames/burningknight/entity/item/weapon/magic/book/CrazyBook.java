@@ -20,7 +20,7 @@ public class CrazyBook extends Book {
 		description = Locale.get("book_of_crazy_particles_desc");
 		sprite = "item-book_f";
 		mana = 3;
-		damage = 4;
+		damage = 8;
 	}
 
 	@Override
@@ -34,6 +34,10 @@ public class CrazyBook extends Book {
 			float a = (float) (i * Math.PI / 4);
 
 			BulletProjectile missile = new BulletProjectile() {
+				{
+					ignoreArmor = true;
+				}
+
 				@Override
 				public void render() {
 					float r = (float) Math.abs(Math.cos(this.t * 1.5f));

@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
@@ -55,6 +56,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -862,7 +864,23 @@ public class Player extends Creature {
 		}
 
 		if (this.mana != this.manaMax) {
-			this.lastMana += dt * (this.velocity.len2() > 9.9f ?
+			boolean dark = Player.instance.isDead();
+
+			if (!dark) {
+				dark = Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage;
+
+				if (!dark) {
+					for (Mob mob : Mob.all) {
+						if (mob.room == Player.instance.room) {
+							dark = true;
+							break;
+						}
+					}
+				}
+			}
+
+
+			this.lastMana += (dark ? 1 : 3) * dt * 1.5f * (this.velocity.len2() > 9.9f ?
 				(this.flipRegenFormula ? 1f : 0.5f) :
 				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
 					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 2 : 1

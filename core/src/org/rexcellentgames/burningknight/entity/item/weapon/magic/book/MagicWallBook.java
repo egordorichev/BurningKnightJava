@@ -16,7 +16,7 @@ public class MagicWallBook extends Book {
 		name = Locale.get("book_of_magic_wall");
 		description = Locale.get("book_of_magic_wall_desc");
 		sprite = "item-book_c";
-		damage = 4;
+		damage = 6;
 		mana = 4;
 	}
 
@@ -36,6 +36,10 @@ public class MagicWallBook extends Book {
 
 	private void spawnParticle(float x, float y) {
 		BulletProjectile missile = new BulletProjectile() {
+			{
+				ignoreArmor = true;
+			}
+
 			@Override
 			public void render() {
 				float r = (float) Math.abs(Math.sin(this.t * 2.5f));

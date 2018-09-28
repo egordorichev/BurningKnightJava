@@ -99,8 +99,10 @@ public class Projectile extends StatefulEntity {
 		return false;
 	}
 
+	protected boolean ignoreArmor = false;
+
 	protected void doHit(Entity entity) {
-		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner);
+		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, this.ignoreArmor);
 		((Creature) entity).knockBackFrom(this.owner, this.knockback);
 
 		if (fx != null) {

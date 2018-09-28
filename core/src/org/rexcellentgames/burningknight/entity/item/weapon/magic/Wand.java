@@ -10,7 +10,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Wand extends WeaponBase {
 	{
-		useTime = 0.3f;
+		useTime = 0.15f;
 	}
 
 	protected int mana = 1;

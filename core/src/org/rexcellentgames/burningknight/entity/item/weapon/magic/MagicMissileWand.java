@@ -23,6 +23,10 @@ public class MagicMissileWand extends Wand {
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
+			{
+				ignoreArmor = true;
+			}
+
 			@Override
 			public void render() {
 				Graphics.batch.setColor(1, 1, 1, 0.4f);
@@ -67,7 +71,7 @@ public class MagicMissileWand extends Wand {
 
 		double ra = Math.toRadians(a);
 
-		float s = 60f;
+		float s = 100f;
 
 		missile.velocity.x = (float) Math.cos(ra) * s;
 		missile.velocity.y = (float) Math.sin(ra) * s;

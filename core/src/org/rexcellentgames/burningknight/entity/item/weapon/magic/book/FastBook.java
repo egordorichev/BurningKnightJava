@@ -37,6 +37,10 @@ public class FastBook extends Book {
 
 	private void spawnShot(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
+			{
+				ignoreArmor = true;
+			}
+
 			@Override
 			public void render() {
 				Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 100, 100);

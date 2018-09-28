@@ -17,12 +17,16 @@ public class SlowBook extends Book {
 		description = Locale.get("slow_book_desc");
 		sprite = "item-book_d";
 		mana = 4;
-		damage = 10; // GG WP EZ
+		damage = 30; // GG WP EZ
 	}
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
+			{
+				ignoreArmor = true;
+			}
+
 			@Override
 			public void init() {
 				super.init();

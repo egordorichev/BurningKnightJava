@@ -28,6 +28,10 @@ public class IceWand extends Wand {
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
+			{
+				ignoreArmor = true;
+			}
+
 			@Override
 			public void render() {
 				Graphics.batch.setColor(0.3f, 0.3f, 1, 0.4f);

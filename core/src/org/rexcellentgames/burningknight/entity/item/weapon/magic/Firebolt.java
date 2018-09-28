@@ -25,6 +25,7 @@ public class Firebolt extends Wand {
 		sprite = "item-wand_h";
 		damage = 2;
 		penetrates = true;
+		useTime = 0.2f;
 	}
 
 	public static TextureRegion region = Graphics.getTexture("particle-long");
@@ -35,6 +36,10 @@ public class Firebolt extends Wand {
 
 		BulletProjectile missile = new BulletProjectile() {
 			private int num;
+
+			{
+				ignoreArmor = true;
+			}
 
 			@Override
 			public void render() {

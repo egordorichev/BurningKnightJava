@@ -21,7 +21,7 @@ public class HomingBook extends Book {
 		description = Locale.get("book_of_magic_aim_desc");
 		sprite = "item-book_a";
 		mana = 2;
-		damage = 3;
+		damage = 4;
 	}
 
 	@Override
@@ -33,6 +33,10 @@ public class HomingBook extends Book {
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
+			{
+				ignoreArmor = true;
+			}
+
 			private Mob target;
 
 			@Override
