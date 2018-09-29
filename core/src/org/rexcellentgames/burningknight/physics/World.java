@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.physics;
 
+import box2dLight.Light;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -7,6 +8,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.util.Log;
 
 import java.util.ArrayList;
@@ -32,12 +34,27 @@ public class World {
 
 		Log.physics("Creating new world");
 		world = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);
+		RayHandler.isDiffuse = true;
 
 		lights = new RayHandler(world, Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		lights.setLightMapRendering(false);
-		lights.setAmbientLight(1f, 0f, 0f, 1f);
+		// lights.setAmbientLight(1f, 0f, 0f, 1f);
 		// lights.setBlur(false);
-		lights.isDiffuse = true;
+
+		// categoryBits, groupIndex, maskBits
+		Light.setGlobalContactFilter((short) -1, (short) -1, (short) 0x0003);
+	}
+
+	private static void setBits(FixtureDef fixture, Entity owner) {
+		if (owner instanceof ItemHolder) {
+			fixture.filter.categoryBits = 0x0002;
+			fixture.filter.groupIndex = -1;
+			fixture.filter.maskBits = -1;
+		} else {
+			fixture.filter.categoryBits = 0x0003;
+			fixture.filter.groupIndex = -1;
+			fixture.filter.maskBits = -1;
+		}
 	}
 
 	public static void update(float dt) {
@@ -119,6 +136,8 @@ public class World {
 		fixture.isSensor = sensor;
 		fixture.restitution = den;
 
+		setBits(fixture, owner);
+
 		body.createFixture(fixture);
 		body.setUserData(owner);
 		poly.dispose();
@@ -169,6 +188,8 @@ public class World {
 		fixture.restitution = den;
 		fixture.isSensor = sensor;
 
+		setBits(fixture, owner);
+
 		body.createFixture(fixture);
 		body.setUserData(owner);
 		poly.dispose();
@@ -208,6 +229,8 @@ public class World {
 		fixture.isSensor = sensor;
 		fixture.restitution = restitution;
 
+		setBits(fixture, owner);
+
 		body.createFixture(fixture);
 		body.setUserData(owner);
 		poly.dispose();
@@ -236,6 +259,8 @@ public class World {
 		fixture.shape = poly;
 		fixture.friction = 0;
 		fixture.isSensor = sensor;
+
+		setBits(fixture, owner);
 
 		body.createFixture(fixture);
 		body.setUserData(owner);

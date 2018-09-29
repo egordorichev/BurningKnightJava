@@ -745,7 +745,8 @@ public class Player extends Creature {
 			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
 		}
 
-		light = new PointLight(World.lights, 256, new Color(1, 1, 1, 1f), 256, x, y);
+		// fixme: colors broken
+		light = new PointLight(World.lights, 256, new Color(1, 1, 1, 1f), 128, x, y);
 	}
 
 	public boolean leaveSmall;
