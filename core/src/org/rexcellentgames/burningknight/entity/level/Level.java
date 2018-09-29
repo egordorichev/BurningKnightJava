@@ -2213,6 +2213,10 @@ public abstract class Level extends SaveableEntity {
 						fixture.shape = poly;
 						fixture.friction = 0;
 
+						fixture.filter.categoryBits = 0x0002;
+						fixture.filter.groupIndex = -1;
+						fixture.filter.maskBits = -1;
+
 						chasms.createFixture(fixture);
 
 						poly.dispose();

@@ -8,7 +8,9 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.util.Log;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class World {
 	}
 
 	private static void setBits(FixtureDef fixture, Entity owner) {
-		if (owner instanceof ItemHolder) {
+		if (owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.groupIndex = -1;
 			fixture.filter.maskBits = -1;

@@ -9,7 +9,7 @@ varying vec4 v_color;
 
 void main() {
     vec4 color = texture2D(u_texture, v_texCoord);
-    float anti = -(1.0 - color.a) * 0.1;
+    float an = (1.0 - color.a);
     float vl = (color.r + color.g + color.b) / 3.0;
-    gl_FragColor = vec4(color.r * color.a + anti, color.g * color.a + anti, color.b * color.a + anti, 1.0 - vl - (1.0 - vl) * 0.5);
+    gl_FragColor = vec4(color.r * an, color.g * an, color.b * an, 1.0 - vl - (1.0 - vl) * 0.5);
 }
