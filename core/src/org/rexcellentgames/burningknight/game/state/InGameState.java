@@ -2,7 +2,10 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -44,9 +47,17 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 public class InGameState extends State {
 	private Console console;
 	private Area pauseMenuUi;
+	private static TextureRegion noise = Graphics.getTexture("noise");
 
 	@Override
 	public void init() {
+		shader.begin();
+		float a = Random.newFloat((float) (Math.PI * 2));
+
+		shader.setUniformf("tx", (float) Math.cos(a));
+		shader.setUniformf("ty", (float) Math.sin(a));
+		shader.end();
+
 		Dungeon.white = 0;
 		// ModManager.INSTANCE.load();
 
@@ -285,6 +296,7 @@ public class InGameState extends State {
 	@Override
 	public void update(float dt) {
 		this.ls += dt;
+		this.time += dt;
 
 		if (this.ls >= 60) {
 			this.ls = 0;
@@ -487,6 +499,46 @@ public class InGameState extends State {
 	private boolean setFrames;
 	private float mv = - 256;
 	private float size;
+
+	public static ShaderProgram shader;
+
+	static {
+		shader = new ShaderProgram(Gdx.files.internal("shaders/fog.vert").readString(), Gdx.files.internal("shaders/fog.frag").readString());
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+
+		shader.begin();
+		shader.setUniformf("sx", ((float) noise.getRegionX()) / noise.getTexture().getWidth());
+		shader.setUniformf("sy", ((float) noise.getRegionY()) / noise.getTexture().getHeight());
+		shader.setUniformf("szx", ((float) noise.getRegionWidth()) / noise.getTexture().getWidth());
+		shader.setUniformf("szy", ((float) noise.getRegionHeight()) / noise.getTexture().getHeight());
+		shader.end();
+	}
+
+	private float time;
+
+	@Override
+	public void render() {
+		super.render();
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(shader);
+
+		shader.begin();
+		shader.setUniformf("time", time * 0.01f);
+		shader.setUniformf("cx", Camera.game.position.x / 1000);
+		shader.setUniformf("cy", -Camera.game.position.y / 1000);
+		shader.end();
+
+		Graphics.batch.begin();
+
+		Graphics.batch.setColor(1, 1, 1, 0.5f);
+		Graphics.render(noise, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y - Display.GAME_HEIGHT / 2, 0, 0, 0, false, false);
+		Graphics.batch.setColor(1, 1, 1, 1);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+	}
 
 	@Override
 	public void renderUi() {
