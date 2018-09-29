@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.physics;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -32,11 +33,11 @@ public class World {
 		Log.physics("Creating new world");
 		world = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);
 
-		/*lights = new RayHandler(world, Display.GAME_WIDTH, Display.GAME_HEIGHT);
+		lights = new RayHandler(world, Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		lights.setLightMapRendering(false);
 		lights.setAmbientLight(1f, 0f, 0f, 1f);
 		// lights.setBlur(false);
-		lights.isDiffuse = true;*/
+		lights.isDiffuse = true;
 	}
 
 	public static void update(float dt) {

@@ -1714,17 +1714,32 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		Graphics.batch.end();
+		Graphics.surface.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
-		/*World.lights.setCombinedMatrix(Camera.game.combined);
+
+		World.lights.setCombinedMatrix(Camera.game.combined);
 		World.lights.update();
 		World.lights.render();
 
-		Graphics.batch.begin();
+		Graphics.batch.end();
 		Graphics.surface.begin();
-		Texture texture = World.lights.getLightMapTexture();
+		Graphics.batch.setShader(lightShader);
+		Graphics.batch.begin();
 
-		Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);*/
+		Texture texture = World.lights.getLightMapTexture();
+		Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
+	}
+
+	public static ShaderProgram lightShader;
+
+	static {
+		lightShader = new ShaderProgram(Gdx.files.internal("shaders/light.vert").readString(), Gdx.files.internal("shaders/light.frag").readString());
+		if (!lightShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + lightShader.getLog());
 	}
 
 	@Override

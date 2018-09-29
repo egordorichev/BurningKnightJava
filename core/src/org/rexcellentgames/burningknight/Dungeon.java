@@ -715,6 +715,7 @@ public class Dungeon extends ApplicationAdapter {
 			RectFx.shader.dispose();
 			shader.dispose();
 			InGameState.shader.dispose();
+			Level.lightShader.dispose();
 		}
 
 		shutdownDiscord();

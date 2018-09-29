@@ -26,7 +26,7 @@
 	"uiLeft": [ "Left", "ControllerDPadLeft", "ControllerL1" ],
 	"uiRight": [ "Right", "ControllerDPadRight", "ControllerR1" ],
 	"uiAccept": [ "Mouse0", "Enter", "ControllerA" ],
-	"inventory" : [ "R", "ControllerL2" ],
+	"inventory" : [ "Q", "ControllerL2" ],
 
 	"1" : [ "1" ],
 	"2" : [ "2" ],

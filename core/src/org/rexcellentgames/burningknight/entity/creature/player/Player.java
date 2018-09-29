@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.creature.player;
 
 import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -63,6 +64,7 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -704,7 +706,7 @@ public class Player extends Creature {
 	@Override
 	public void destroy() {
 		super.destroy();
-		// light.dispose();
+		light.dispose();
 
 		if (this.ui != null && !this.ui.done) {
 			this.ui.remove();
@@ -743,7 +745,7 @@ public class Player extends Creature {
 			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
 		}
 
-		// light = new PointLight(World.lights, 128, new Color(1, 1, 1, 1f), 512, x, y);
+		light = new PointLight(World.lights, 256, new Color(1, 1, 1, 1f), 256, x, y);
 	}
 
 	public boolean leaveSmall;
@@ -907,7 +909,7 @@ public class Player extends Creature {
 		}
 
 		this.watery = Math.max(0, this.watery - dt);
-		// light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
+		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.dead) {
 			super.common();
