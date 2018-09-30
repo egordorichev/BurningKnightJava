@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
@@ -185,7 +186,14 @@ public class ItemSelectState extends State {
 				GlobalSave.put("last_class", Player.toSet.id);
 
 				Player.startingItem = item;
-				Player.instance.generate();
+				if (Player.instance == null) {
+					PlayerSave.generate();
+				} else {
+					Player.instance.generate();
+				}
+
+				Dungeon.area.remove(Player.instance);
+
 				SaveManager.save(SaveManager.Type.PLAYER, false);
 				Dungeon.goToLevel(depth);
 			}

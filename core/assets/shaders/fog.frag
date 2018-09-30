@@ -20,9 +20,6 @@ void main() {
     float x = mod(v_texCoord.x + cx - sx + tx * time, szx) + sx;
     float y = mod(v_texCoord.y + cy - sy + ty * time, szy) + sy;
     vec4 color = texture2D(u_texture, vec2(x, y));
-    //float mod = sin(time * 100.0 + color.r) * 0.5 + 0.5;
-    //gl_FragColor = vec4(color.r * mod + (1.0 - color.r) * (1.0 - mod));
-
 
     float md = cos(time * 100.0 + texture2D(u_texture, vec2(
         mod(v_texCoord.x + cx - sx, szx * 2.0) * 0.5 + sx,
