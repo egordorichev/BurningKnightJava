@@ -50,7 +50,7 @@ public class FilledRombRoom extends RegularRoom {
 
 			if (Random.chance(50)) {
 				Painter.fillEllipse(level, this, m - Random.newInt(1, 3), fix);
-				Painter.fillEllipse(level, this, m + 1, floor);
+				Painter.fillEllipse(level, this, m + 2 + Random.newInt(3), floor);
 			} else {
 				Painter.fill(level, this, m - Random.newInt(1, 3), fix);
 				Painter.fill(level, this, m, floor);

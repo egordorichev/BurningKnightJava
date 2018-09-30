@@ -43,6 +43,8 @@ public class ChasmConnectionRoom extends ConnectionRoom {
 					: (Random.chance(50) ? Terrain.WALL : Terrain.CHASM));
 			}
 		}
+
+		paintTunnel(level, Terrain.randomFloor());
 	}
 
 	@Override

@@ -51,6 +51,8 @@ public class World {
 	public static void removeLight(PointLight light) {
 		lightPool.add(light);
 		light.setActive(false);
+		light.setDistance(0);
+		light.setPosition(-10, -10);
 	}
 
 	/*

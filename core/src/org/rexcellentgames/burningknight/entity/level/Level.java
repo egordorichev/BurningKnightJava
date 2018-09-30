@@ -1636,7 +1636,7 @@ public abstract class Level extends SaveableEntity {
 				if (m > -1) {
 					byte t = this.get(m);
 
-					if (t != Terrain.CRACK && t != Terrain.WALL) {
+					if (t != Terrain.CRACK && t != Terrain.WALL && (this.data[i] == Terrain.WALL || this.data[i] == Terrain.CRACK)) {
 						byte d = this.decor[i];
 
 						if (d != 0) {

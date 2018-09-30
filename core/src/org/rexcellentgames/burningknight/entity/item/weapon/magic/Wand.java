@@ -52,6 +52,8 @@ public class Wand extends WeaponBase {
 			return;
 		}
 
+		this.owner.playSfx("fireball_cast");
+
 		super.use();
 		this.owner.modifyMana(-mn);
 		this.sendProjectiles();
