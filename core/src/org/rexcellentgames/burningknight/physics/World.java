@@ -8,6 +8,8 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
+import org.rexcellentgames.burningknight.entity.creature.fx.PoisonFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
@@ -42,15 +44,14 @@ public class World {
 
 		lights = new RayHandler(world, Display.GAME_WIDTH, Display.GAME_HEIGHT);
 		lights.setLightMapRendering(false);
-		// lights.setAmbientLight(1f, 0f, 0f, 1f);
-		// lights.setBlur(false);
+		lights.setBlurNum(5);
 
 		// categoryBits, groupIndex, maskBits
 		Light.setGlobalContactFilter((short) 1, (short) -1, (short) 0x0003);
 	}
 
 	private static void setBits(FixtureDef fixture, Entity owner) {
-		if (!(owner instanceof SolidProp) && (owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell)) {
+		if (!(owner instanceof SolidProp) && (owner instanceof HeartFx || owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell)) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.groupIndex = -1;
 			fixture.filter.maskBits = -1;

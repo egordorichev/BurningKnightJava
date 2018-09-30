@@ -1,9 +1,11 @@
 package org.rexcellentgames.burningknight.entity.creature.fx;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -14,18 +16,26 @@ public class Firefly extends SaveableEntity {
 		h = 12;
 	}
 
+	private PointLight light;
 	private float t;
 
 	@Override
 	public void init() {
 		super.init();
 		this.t = Random.newFloat(1024);
+		light = new PointLight(World.lights, 32, new Color(0, 1, 0.3f, 1f), 0, x, y);
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 		this.t += dt * 2;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		light.remove();
 	}
 
 	private float rd = 6;
@@ -40,6 +50,10 @@ public class Firefly extends SaveableEntity {
 
 		float x = (float) (this.x + Math.cos(this.t / 8) * Math.sin(this.t / 9) * 32);
 		float y = (float) (this.y + Math.sin(this.t / 7) * Math.cos(this.t / 10) * 32);
+
+		light.setPosition(x + r, y + r);
+		light.setDistance(rd * 10);
+		light.setColor(0, 1, 0.3f, 1);
 
 		Graphics.startAlphaShape();
 
