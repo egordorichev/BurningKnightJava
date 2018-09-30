@@ -27,6 +27,8 @@ public class Ui {
 
 	private TextureRegion cursor;
 	private TextureRegion upgrade;
+	public static boolean hideCursor;
+	public static boolean hideUi;
 
 	public Ui() {
 		ui = this;
@@ -339,6 +341,10 @@ public class Ui {
 	public static float y;
 
 	public void render() {
+		if (hideUi) {
+			return;
+		}
+
 		if (coin == null) {
 			coin = Graphics.getTexture("ui-coin");
 		}
@@ -399,6 +405,10 @@ public class Ui {
 	private static float alf;
 
 	public void renderCursor() {
+		if (hideCursor) {
+			return;
+		}
+
 		if (upgradeMouse) {
 			// (move ? Math.cos(Dungeon.time * 6) * 1.5f : 0))
 

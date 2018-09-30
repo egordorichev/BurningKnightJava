@@ -369,9 +369,7 @@ public class InGameState extends State {
 						break;
 					}
 				}
-			}
-
-			if (Input.instance.wasPressed("F6")) {
+			} else if (Input.instance.wasPressed("F6")) {
 				for (Room room : Dungeon.level.getRooms()) {
 					if (room instanceof TreasureRoom) {
 						Point point = room.getRandomFreeCell();
@@ -381,9 +379,7 @@ public class InGameState extends State {
 						break;
 					}
 				}
-			}
-
-			if (Input.instance.wasPressed("F7")) {
+			} else if (Input.instance.wasPressed("F7")) {
 				for (Room room : Dungeon.level.getRooms()) {
 					if (room instanceof BossRoom && room != Player.instance.room) {
 
@@ -394,6 +390,10 @@ public class InGameState extends State {
 						break;
 					}
 				}
+			} else if (Input.instance.wasPressed("F3")) {
+				Ui.hideUi = !Ui.hideUi;
+			} else if (Input.instance.wasPressed("F9")) {
+				Ui.hideCursor = !Ui.hideCursor;
 			}
 		//}
 

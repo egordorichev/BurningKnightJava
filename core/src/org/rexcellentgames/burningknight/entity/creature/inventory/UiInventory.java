@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equipp
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
@@ -451,7 +452,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		if (Dungeon.depth < 0) {
+		if (Dungeon.depth < 0 || Ui.hideUi) {
 			return;
 		}
 
