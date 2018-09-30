@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature.fx;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -30,6 +32,7 @@ public class HeartFx extends SaveableEntity {
 	private Body body;
 	private float t;
 	private Type type;
+	private PointLight light;
 
 	public enum Type {
 		RED(0, false), RED_HALF(1, true),
@@ -53,6 +56,7 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void init() {
 		super.init();
+		light = new PointLight(World.lights, 16, new Color(1, 0.2f, 0, 1f), 64, x, y);
 
 		this.generate();
 	}
@@ -69,6 +73,8 @@ public class HeartFx extends SaveableEntity {
 		} else {
 			this.type = Type.GOLDEN;
 		}
+
+		setColor();
 	}
 
 	@Override
@@ -79,6 +85,15 @@ public class HeartFx extends SaveableEntity {
 
 		if (this.type.half) {
 			this.w /= 2;
+		}
+		setColor();
+	}
+
+	private void setColor() {
+		switch (this.type) {
+			case RED: case RED_HALF: this.light.setColor(1, 0.1f, 0, 1f); break;
+			case GOLDEN: this.light.setColor(1, 1f, 0, 1f); break;
+			case IRON: this.light.setColor(1, 1f, 1, 1f); break;
 		}
 	}
 
@@ -134,6 +149,7 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
+		this.light.remove();
 		this.body = World.removeBody(this.body);
 	}
 
@@ -141,6 +157,8 @@ public class HeartFx extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		this.light.setPosition(x, y);
+
 		if (this.body == null) {
 			this.t = Random.newFloat(128);
 			this.body = World.createCircleBody(this, 0, 0, Math.max(this.h / 2, this.w / 2), BodyDef.BodyType.DynamicBody, false, 0.8f);

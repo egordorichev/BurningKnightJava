@@ -1,17 +1,15 @@
 package org.rexcellentgames.burningknight.entity.trap;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.MassData;
+import com.badlogic.gdx.physics.box2d.*;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -76,6 +74,15 @@ public class RollingSpike extends SaveableEntity {
 		Graphics.shadowSized(this.x, this.y + 2, this.w, this.h, 6);
 	}
 
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity instanceof Player && ((Player) entity).isRolling()) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact, fixture);
+	}
+
 	private float a;
 
 	@Override
@@ -110,7 +117,7 @@ public class RollingSpike extends SaveableEntity {
 			if (this.body != null) {
 				body.setLinearVelocity(this.velocity);
 			}
-		} else if (entity instanceof Player) {
+		} else if (entity instanceof Player && !((Player) entity).isRolling()) {
 			this.colliding.add((Player) entity);
 		}
 	}

@@ -512,8 +512,8 @@ public class InGameState extends State {
 
 		shader.begin();
 		shader.setUniformf("time", time * 0.01f);
-		shader.setUniformf("cx", Camera.game.position.x / 1000);
-		shader.setUniformf("cy", -Camera.game.position.y / 1000);
+		shader.setUniformf("cx", Camera.game.position.x / 512);
+		shader.setUniformf("cy", -Camera.game.position.y / 512);
 		shader.end();
 
 		Graphics.batch.begin();
