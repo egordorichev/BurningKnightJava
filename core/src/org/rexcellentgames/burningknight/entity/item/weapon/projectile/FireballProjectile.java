@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -27,10 +29,11 @@ public class FireballProjectile extends Projectile {
 	public Point tar;
 	public Creature target;
 	private float tt;
+	private PointLight light = null;
 
 	{
 		alwaysActive = true;
-		depth = 12;
+		depth = 17;
 	}
 
 	@Override
@@ -108,13 +111,9 @@ public class FireballProjectile extends Projectile {
 
 		super.update(dt);
 
-		Dungeon.level.addLightInRadius(this.x, this.y, 2f, 3f, true);
-
 		if (this.tt >= 10f) {
 			this.animation = dead;
 		}
-
-
 
 		if (this.target != null) {
 			float dx = this.target.x + this.target.w / 2 - this.x - 5;
@@ -133,12 +132,27 @@ public class FireballProjectile extends Projectile {
 	}
 
 	@Override
+	public void destroy() {
+		super.destroy();
+
+		if (light != null) {
+			light.remove();
+			light = null;
+		}
+	}
+
+	@Override
 	public void init() {
 		super.init();
+
 		this.playSfx("fireball_cast");
 
 		if (this.body == null) {
 			this.body = World.createCircleCentredBody(this, 0, 0, 6, BodyDef.BodyType.DynamicBody, true);
+		}
+
+		if (World.lights != null) {
+			light = new PointLight(World.lights, 32, new Color(1, 0f, 0, 1f), 64, x, y);
 		}
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
@@ -147,6 +161,10 @@ public class FireballProjectile extends Projectile {
 
 	@Override
 	public void render() {
+		if (light != null) {
+			light.setPosition(x, y);
+		}
+
 		TextureRegion texture = this.animation.getCurrent().frame;
 
 		float sx = (float) (1f + Math.cos(this.t * 7) / 6f);

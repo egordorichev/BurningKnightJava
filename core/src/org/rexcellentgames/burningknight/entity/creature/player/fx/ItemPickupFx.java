@@ -47,7 +47,7 @@ public class ItemPickupFx extends Entity {
 		Graphics.layout.setText(Graphics.medium, this.text);
 		this.x = item.x + item.w / 2 - Graphics.layout.width / 2;
 		this.y = item.y + item.h + 4;
-		Tween.to(new Tween.Task(1, 0.1f, Tween.Type.QUAD_OUT) {
+		Tween.to(new Tween.Task(1, 0.2f, Tween.Type.QUAD_OUT) {
 			@Override
 			public float getValue() {
 				return a;
@@ -138,7 +138,7 @@ public class ItemPickupFx extends Entity {
 
 		this.go = true;
 
-		Tween.to(new Tween.Task(0, 0.2f) {
+		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
 			public float getValue() {
 				return a;

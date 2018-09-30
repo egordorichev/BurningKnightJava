@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Log;
@@ -98,7 +99,7 @@ public class Entrance extends SaveableEntity {
 		float dt = Gdx.graphics.getDeltaTime();
 		this.al = MathUtils.clamp(0, 1, this.al + ((this.fx != null ? 1 : 0) - this.al) * dt * 10);
 
-		if (this.al > 0.05f) {
+		if (this.al > 0.05f && !Ui.hideUi) {
 			Graphics.batch.end();
 			Mob.shader.begin();
 			Mob.shader.setUniformf("u_color", ColorUtils.WHITE);

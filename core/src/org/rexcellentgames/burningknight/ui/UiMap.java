@@ -19,9 +19,9 @@ import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranc
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -549,7 +549,7 @@ public class UiMap extends UiEntity {
 
 	@Override
 	public void render() {
-		if ((my == 96 && !large) || Dungeon.depth < 0) {
+		if ((my == 96 && !large) || Dungeon.depth < 0 || Ui.hideUi) {
 			return;
 		}
 

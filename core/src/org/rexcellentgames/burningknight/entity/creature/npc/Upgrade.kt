@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave
 import org.rexcellentgames.burningknight.game.Achievements
+import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.physics.World
 import org.rexcellentgames.burningknight.util.MathUtils
@@ -254,7 +255,7 @@ class Upgrade : SaveableEntity() {
 			return
 		}
 
-		if (this.al > 0.05f) {
+		if (this.al > 0.05f && !Ui.hideUi) {
 			Graphics.medium.setColor(1f, 1f, 1f, this.al)
 			Graphics.print(this.item!!.name, Graphics.medium, this.x + 8 - nameW / 2, this.y + this.h + 8)
 			Graphics.medium.setColor(1f, 1f, 1f, 1f)
@@ -273,7 +274,7 @@ class Upgrade : SaveableEntity() {
 
 		Graphics.batch.end()
 
-		if (this.al > 0.05f) {
+		if (this.al > 0.05f && !Ui.hideUi) {
 			Mob.shader.begin()
 			Mob.shader.setUniformf("u_color", Vector3(1f, 1f, 1f))
 			Mob.shader.setUniformf("u_a", this.al)

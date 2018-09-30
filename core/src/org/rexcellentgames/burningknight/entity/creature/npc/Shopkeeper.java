@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeSh
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
@@ -224,7 +225,7 @@ public class Shopkeeper extends Npc {
 			float dt = Gdx.graphics.getDeltaTime();
 			this.al = MathUtils.clamp(0, 1, this.al + ((lastWhite ? 1 : 0) - this.al) * dt * 10);
 
-			if (this.al > 0.05f) {
+			if (this.al > 0.05f && !Ui.hideUi) {
 				Graphics.batch.end();
 				Mob.shader.begin();
 				Mob.shader.setUniformf("u_color", ColorUtils.WHITE);

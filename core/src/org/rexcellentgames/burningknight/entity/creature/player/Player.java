@@ -641,7 +641,7 @@ public class Player extends Creature {
 
 				this.holders.add(item);
 
-				if (this.pickupFx == null) {
+				if (this.pickupFx == null && !Ui.hideUi) {
 					this.pickupFx = new ItemPickupFx(item, this);
 					this.area.add(this.pickupFx);
 				}
@@ -671,7 +671,7 @@ public class Player extends Creature {
 
 			this.holders.remove(entity);
 
-			if (this.holders.size() > 0) {
+			if (this.holders.size() > 0 && !Ui.hideUi) {
 				this.pickupFx = new ItemPickupFx(this.holders.get(0), this);
 				this.area.add(this.pickupFx);
 			}
@@ -803,9 +803,9 @@ public class Player extends Creature {
 		super.update(dt);
 
 		if (this.hasBuff(BurningBuff.class)) {
-			this.light.setColor(1, 0.8f, 0f, 1f);
+			this.light.setColor(1, 0.5f, 0f, 1f);
 		} else {
-			this.light.setColor(1, 1, 1, 1f);
+			this.light.setColor(1, 1, 0.5f, 1f);
 		}
 
 		if (!this.rolling) {

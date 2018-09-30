@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -81,7 +82,7 @@ public class DashingKnight extends Knight {
 
 	@Override
 	public void renderSigns() {
-		if (this.al > 0.05f) {
+		if (this.al > 0.05f && !Ui.hideUi) {
 			Graphics.startAlphaShape();
 			Graphics.shape.setColor(1, 1, 1, this.al);
 

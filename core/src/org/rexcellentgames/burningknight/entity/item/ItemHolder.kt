@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.item.key.BurningKey
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
 import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
+import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.physics.World
 import org.rexcellentgames.burningknight.util.MathUtils
@@ -237,7 +238,7 @@ open class ItemHolder : SaveableEntity {
     val dt = Gdx.graphics.deltaTime
     this.al = MathUtils.clamp(0f, 1f, this.al + ((if (Player.instance.pickupFx != null && Player.instance.pickupFx.item === this) 1 else 0) - this.al) * dt * 10f)
 
-    if (this.al > 0.05f) {
+    if (this.al > 0.05f && !Ui.hideUi) {
       Mob.shader.begin()
       Mob.shader.setUniformf("u_color", Vector3(1f, 1f, 1f))
       Mob.shader.setUniformf("u_a", this.al)

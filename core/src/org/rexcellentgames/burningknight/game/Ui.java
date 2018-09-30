@@ -363,7 +363,7 @@ public class Ui {
 					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y));
 			}
 
-			if (this.al > 0.05f) {
+			if (this.al > 0.05f && !Ui.hideUi) {
 				Graphics.startAlphaShape();
 				Graphics.shape.setColor(this.val, this.val, this.val, this.al);
 				Graphics.shape.rect(0, 0, Display.UI_WIDTH, Display.UI_HEIGHT);
