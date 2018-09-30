@@ -59,7 +59,7 @@ public class Waterbolt extends Wand {
 			@Override
 			public void destroy() {
 				super.destroy();
-				light.remove(true);
+				// light.remove(true);
 			}
 
 			@Override

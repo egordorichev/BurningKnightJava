@@ -706,7 +706,7 @@ public class Player extends Creature {
 	@Override
 	public void destroy() {
 		super.destroy();
-		light.dispose();
+		light.remove(true);
 
 		if (this.ui != null && !this.ui.done) {
 			this.ui.remove();

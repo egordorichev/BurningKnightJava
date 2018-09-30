@@ -95,7 +95,12 @@ public class World {
 		Log.physics("Destroying the world");
 		world.dispose();
 		world = null;
-		// lights.dispose();
+
+		if (lights == null) {
+			return;
+		}
+
+		lights.dispose();
 		lights = null;
 	}
 
