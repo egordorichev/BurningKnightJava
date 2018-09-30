@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.game.Achievements;
 public class NoppyGun extends Gun {
 	{
 		accuracy = 15f;
-		ammoMax = 6;
+		ammoMax = 30;
 		reloadRate = 1.5f;
 		useTime = 0.2f;
 		damage = 1;

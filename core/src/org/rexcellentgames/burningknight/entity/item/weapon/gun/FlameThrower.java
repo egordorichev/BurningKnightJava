@@ -28,7 +28,7 @@ public class FlameThrower extends Gun {
 			last += dt;
 			lastAmmo += dt;
 
-			if (lastAmmo >= 1f) {
+			if (lastAmmo >= 0.4f) {
 				lastAmmo = 0;
 				ammoLeft = Math.max(0, ammoLeft - 1);
 
