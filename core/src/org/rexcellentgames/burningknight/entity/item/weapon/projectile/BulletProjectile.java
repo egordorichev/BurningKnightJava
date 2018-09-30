@@ -100,9 +100,9 @@ public class BulletProjectile extends Projectile {
 		if (this.letter != null && this.letter.equals("bullet-bad")) {
 			this.noRotation = true;
 			this.second = false;
-			light.setColor(1, 0, 0, 1);
 		}
 
+		light.setColor(1, 0, 0, 1);
 		penetrates = !canBeRemoved;
 	}
 
