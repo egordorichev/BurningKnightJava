@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.physics;
 
-import box2dLight.Light;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -44,7 +43,7 @@ public class World {
 		// lights.setBlur(false);
 
 		// categoryBits, groupIndex, maskBits
-		Light.setGlobalContactFilter((short) -1, (short) -1, (short) 0x0003);
+		// Light.setGlobalContactFilter((short) -1, (short) -1, (short) 0x0003);
 	}
 
 	private static void setBits(FixtureDef fixture, Entity owner) {

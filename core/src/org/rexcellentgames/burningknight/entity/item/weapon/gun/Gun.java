@@ -355,7 +355,7 @@ public class Gun extends WeaponBase {
 		shell.y = y - 10;
 
 		shell.vel = new Point(
-			(float) -Math.cos(a) * 2f,
+			(float) -Math.cos(a) * 1f,
 			1.5f
 		);
 

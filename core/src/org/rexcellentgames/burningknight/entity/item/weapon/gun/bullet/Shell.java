@@ -74,7 +74,7 @@ public class Shell extends Entity {
 			}
 		}
 
-		this.vel.x *= (this.z == 0 ? 0.5f : 0.98f);
+		this.vel.x *= (this.z == 0 ? 0.5f : 0.97f);
 		this.va *= (this.z == 0 ? 0.5f : 0.98f);
 		this.a += this.va * dt * 60;
 
@@ -87,8 +87,8 @@ public class Shell extends Entity {
 		}
 
 		this.x += this.vel.x;
-		this.z = Math.max(0, this.z / 4 + this.vel.y);
-		this.vel.y -= 0.1f;
+		this.z = Math.max(0, this.z + this.vel.y * dt * 60);
+		this.vel.y -= dt * 5;
 
 		if (this.body != null) {
 			this.body.setLinearVelocity(this.vel.x, this.vel.y);
