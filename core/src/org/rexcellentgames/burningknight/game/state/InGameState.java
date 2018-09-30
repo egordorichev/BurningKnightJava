@@ -291,18 +291,9 @@ public class InGameState extends State {
 
 	private boolean set;
 	private float last;
-	private float ls;
 
 	@Override
 	public void update(float dt) {
-		this.ls += dt;
-		this.time += dt;
-
-		if (this.ls >= 60) {
-			this.ls = 0;
-			Dungeon.buildDiscordBadge();
-		}
-
 		if (!Player.instance.isDead()) {
 			GameSave.time += Gdx.graphics.getDeltaTime();
 		} else {
@@ -311,6 +302,8 @@ public class InGameState extends State {
 
 		if (isPaused()) {
 			Camera.instance.update(dt);
+		} else {
+			this.time += dt;
 		}
 
 		Orbital.updateTime(dt);
