@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -38,11 +40,27 @@ public class CrazyBook extends Book {
 					ignoreArmor = true;
 				}
 
+				private PointLight light;
+
+				@Override
+				public void init() {
+					super.init();
+					light = new PointLight(World.lights, 32, new Color(1, 1f, 1f, 1f), 64, x, y);
+				}
+
+				@Override
+				public void destroy() {
+					super.destroy();
+					light.remove(true);
+				}
+
 				@Override
 				public void render() {
 					float r = (float) Math.abs(Math.cos(this.t * 1.5f));
 					float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
 					float b = (float) Math.abs(Math.sin(this.t * 2.7f));
+
+					light.setColor(r, g, b, 1f);
 
 					Graphics.batch.setColor(r, g, b, 0.4f);
 					Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false, 2f, 2f);
@@ -54,6 +72,8 @@ public class CrazyBook extends Book {
 				@Override
 				public void logic(float dt) {
 					super.logic(dt);
+
+					light.setPosition(x, y);
 
 					if (this.last > 0.03f) {
 						this.last = 0;
@@ -99,11 +119,27 @@ public class CrazyBook extends Book {
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
+			private PointLight light;
+
+			@Override
+			public void init() {
+				super.init();
+				light = new PointLight(World.lights, 32, new Color(1, 1f, 1f, 1f), 64, x, y);
+			}
+
+			@Override
+			public void destroy() {
+				super.destroy();
+				light.remove(true);
+			}
+
 			@Override
 			public void render() {
 				float r = (float) Math.abs(Math.cos(this.t * 1.5f));
 				float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
 				float b = (float) Math.abs(Math.sin(this.t * 2.7f));
+
+				light.setColor(r, g, b, 1);
 
 				Graphics.batch.setColor(r, g, b, 0.4f);
 				Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false, 2f, 2f);
@@ -121,6 +157,8 @@ public class CrazyBook extends Book {
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
+
+				light.setPosition(x, y);
 
 				if (this.last > 0.03f) {
 					this.last = 0;

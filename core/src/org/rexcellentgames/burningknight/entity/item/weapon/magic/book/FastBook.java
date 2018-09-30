@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -41,9 +42,25 @@ public class FastBook extends Book {
 				ignoreArmor = true;
 			}
 
+			private PointLight light;
+
+			@Override
+			public void init() {
+				super.init();
+				light = new PointLight(World.lights, 32, new Color(1, 1f, 1f, 1f), 64, x, y);
+			}
+
+			@Override
+			public void destroy() {
+				super.destroy();
+				light.remove(true);
+			}
+
 			@Override
 			public void render() {
 				Color color = ColorUtils.HSV_to_RGB(this.t * 180 % 360, 100, 100);
+
+				light.setColor(color.r, color.g, color.b, 1);
 
 				Graphics.batch.setColor(color.r, color.g, color.b, 0.4f);
 				Graphics.render(filled, this.x, this.y, this.a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, 2f, 2f);
@@ -55,6 +72,8 @@ public class FastBook extends Book {
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
+
+				light.setPosition(x, y);
 
 				if (this.last > 0.01f) {
 					this.last = 0;

@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -45,6 +47,8 @@ public class MagicWallBook extends Book {
 				float r = (float) Math.abs(Math.sin(this.t * 2.5f));
 				float b = (float) Math.abs(Math.cos(this.t * 3f));
 
+				light.setColor(r, 0, b, 1f);
+
 				Graphics.batch.setColor(r, 0, b, 0.4f);
 				Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false, 2, 2);
 				Graphics.batch.setColor(r, 0, b, 0.8f);
@@ -52,9 +56,25 @@ public class MagicWallBook extends Book {
 				Graphics.batch.setColor(1, 1, 1, 1);
 			}
 
+			private PointLight light;
+
+			@Override
+			public void init() {
+				super.init();
+				light = new PointLight(World.lights, 32, new Color(1, 1f, 1f, 1f), 64, x, y);
+			}
+
+			@Override
+			public void destroy() {
+				super.destroy();
+				light.remove(true);
+			}
+
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
+
+				light.setPosition(x, y);
 
 				/*if (this.last > 0.1f) {
 					this.last = 0;

@@ -8,9 +8,12 @@ import org.rexcellentgames.burningknight.Dungeon
 import org.rexcellentgames.burningknight.assets.Graphics
 import org.rexcellentgames.burningknight.entity.Entity
 import org.rexcellentgames.burningknight.entity.creature.Creature
+import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob
 import org.rexcellentgames.burningknight.entity.creature.player.Player
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
+import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.physics.World
@@ -179,7 +182,19 @@ open class ItemHolder : SaveableEntity {
     if (this.body != null) {
       this.body!!.linearVelocity = this.velocity
     }
+
+    if (this.item is BurningKey) {
+      this.lst += dt
+
+      if (this.lst > 0.2f) {
+        Dungeon.level.setOnFire(Level.toIndex((Math.floor(((this.x + this.w / 2) / 16).toDouble()).toInt()), (Math.floor(((this.y + this.h / 2) / 16).toDouble())).toInt()), true)
+        Dungeon.area.add(FlameFx(this))
+        lst = 0f
+      }
+    }
   }
+
+  private var lst = 0f
 
   override fun init() {
     super.init()

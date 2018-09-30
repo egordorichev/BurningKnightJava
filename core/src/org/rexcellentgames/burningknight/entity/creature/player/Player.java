@@ -746,7 +746,7 @@ public class Player extends Creature {
 		}
 
 		// fixme: colors broken
-		light = new PointLight(World.lights, 256, new Color(1, 1, 1, 1f), 128, x, y);
+		light = new PointLight(World.lights, 256, new Color(1, 1, 1, 1f), 120, x, y);
 	}
 
 	public boolean leaveSmall;

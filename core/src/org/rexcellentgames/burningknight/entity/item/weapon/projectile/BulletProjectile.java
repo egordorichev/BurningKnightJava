@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -51,6 +53,8 @@ public class BulletProjectile extends Projectile {
 	public Gun gun;
 	public boolean second = true;
 
+	private PointLight light;
+
 	{
 		alwaysActive = true;
 		depth = 1;
@@ -82,6 +86,8 @@ public class BulletProjectile extends Projectile {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
 		}
 
+		light = new PointLight(World.lights, 32, new Color(1, 1, 1, 1f), 64, x, y);
+
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, ra);
 			this.body.setBullet(true);
@@ -94,6 +100,7 @@ public class BulletProjectile extends Projectile {
 		if (this.letter != null && this.letter.equals("bullet-bad")) {
 			this.noRotation = true;
 			this.second = false;
+			light.setColor(1, 0, 0, 1);
 		}
 
 		penetrates = !canBeRemoved;
@@ -109,6 +116,7 @@ public class BulletProjectile extends Projectile {
 	@Override
 	public void destroy() {
 		this.body = World.removeBody(this.body);
+		light.remove(true);
 	}
 
 	@Override
@@ -304,6 +312,8 @@ public class BulletProjectile extends Projectile {
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 		this.body.setLinearVelocity(this.velocity);
+
+		light.setPosition(x, y);
 	}
 
 	@Override

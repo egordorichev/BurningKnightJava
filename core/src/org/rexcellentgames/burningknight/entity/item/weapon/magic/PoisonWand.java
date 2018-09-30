@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -30,6 +32,20 @@ public class PoisonWand extends Wand {
 				ignoreArmor = true;
 			}
 
+			private PointLight light;
+
+			@Override
+			public void init() {
+				super.init();
+				light = new PointLight(World.lights, 32, new Color(0.3f, 1f, 0.3f, 1f), 64, x, y);
+			}
+
+			@Override
+			public void destroy() {
+				super.destroy();
+				light.remove(true);
+			}
+
 			@Override
 			public void render() {
 				Graphics.batch.setColor(0.3f, 1f, 0.3f, 0.4f);
@@ -42,6 +58,8 @@ public class PoisonWand extends Wand {
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
+
+				light.setPosition(x, y);
 
 				if (this.last > 0.03f) {
 					this.last = 0;

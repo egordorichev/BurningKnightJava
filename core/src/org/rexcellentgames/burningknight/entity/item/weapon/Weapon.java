@@ -50,6 +50,9 @@ public class Weapon extends WeaponBase {
 		fixture.shape = poly;
 		fixture.friction = 0;
 		fixture.isSensor = false;
+		fixture.filter.categoryBits = 0x0002;
+		fixture.filter.groupIndex = -1;
+		fixture.filter.maskBits = -1;
 
 		body.createFixture(fixture);
 		body.setUserData(this);

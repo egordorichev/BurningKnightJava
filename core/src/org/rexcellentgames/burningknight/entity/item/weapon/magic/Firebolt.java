@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -50,9 +52,25 @@ public class Firebolt extends Wand {
 				Graphics.shape.setColor(1, 1, 1, 1);
 			}
 
+			private PointLight light;
+
+			@Override
+			public void init() {
+				super.init();
+				light = new PointLight(World.lights, 32, new Color(1f, 0.6f, 0.1f, 1f), 64, x, y);
+			}
+
+			@Override
+			public void destroy() {
+				super.destroy();
+				light.remove(true);
+			}
+
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
+
+				light.setPosition(x, y);
 
 				if (this.last > 0.03f) {
 					this.last = 0;

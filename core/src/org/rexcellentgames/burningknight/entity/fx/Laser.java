@@ -10,10 +10,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -113,6 +109,10 @@ public class Laser extends Entity {
 		fixture.shape = poly;
 		fixture.friction = 0;
 		fixture.isSensor = true;
+
+		fixture.filter.categoryBits = 0x0002;
+		fixture.filter.groupIndex = -1;
+		fixture.filter.maskBits = -1;
 
 		body.createFixture(fixture);
 		body.setUserData(this);

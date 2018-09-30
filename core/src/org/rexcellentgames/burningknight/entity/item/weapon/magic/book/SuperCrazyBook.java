@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic.book;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -89,11 +91,27 @@ public class SuperCrazyBook extends Book {
 			float a = (float) (i * Math.PI / 4);
 
 			BulletProjectile missile = new BulletProjectile() {
+				private PointLight light;
+
+				@Override
+				public void init() {
+					super.init();
+					light = new PointLight(World.lights, 32, new Color(1, 1, 1, 1f), 64, x, y);
+				}
+
+				@Override
+				public void destroy() {
+					super.destroy();
+					light.remove(true);
+				}
+
 				@Override
 				public void render() {
 					float r = (float) Math.abs(Math.cos(this.t * 3.5f));
 					float g = (float) Math.abs(Math.cos(this.t * 1.4f - 0.1f));
 					float b = (float) Math.abs(Math.sin(this.t * 1.7f));
+
+					light.setColor(r, g, b, 1f);
 
 					Graphics.batch.setColor(r, g, b, 0.4f);
 					Graphics.render(full, this.x, this.y, this.a, full.getRegionWidth() / 2, full.getRegionHeight() / 2, false, false, 2f, 2f);
@@ -111,6 +129,7 @@ public class SuperCrazyBook extends Book {
 				@Override
 				public void logic(float dt) {
 					super.logic(dt);
+					light.setPosition(x, y);
 					World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 				}
 			};
@@ -154,6 +173,8 @@ public class SuperCrazyBook extends Book {
 				float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
 				float b = (float) Math.abs(Math.sin(this.t * 2.7f));
 
+				light.setColor(r, g, b, 1);
+
 				Graphics.batch.setColor(r, g, b, 0.4f);
 				Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false, 1.5f, 1.5f);
 				Graphics.batch.setColor(r, g, b, 0.8f);
@@ -167,9 +188,25 @@ public class SuperCrazyBook extends Book {
 				spawnMain(this.x, this.y);
 			}
 
+			private PointLight light;
+
+			@Override
+			public void init() {
+				super.init();
+				light = new PointLight(World.lights, 32, new Color(1, 1, 1, 1f), 64, x, y);
+			}
+
+			@Override
+			public void destroy() {
+				super.destroy();
+				light.remove(true);
+			}
+
 			@Override
 			public void logic(float dt) {
 				super.logic(dt);
+
+				light.setPosition(x, y);
 
 				if (this.last > 0.03f) {
 					this.last = 0;
@@ -217,7 +254,6 @@ public class SuperCrazyBook extends Book {
 		for (int i = 0; i < 8; i++) {
 			float a = (float) (i * Math.PI / 4);
 
-
 			BulletProjectile missile = new BulletProjectile() {
 				@Override
 				public void render() {
@@ -225,11 +261,27 @@ public class SuperCrazyBook extends Book {
 					float g = (float) Math.abs(Math.cos(this.t * 2f - 0.1f));
 					float b = (float) Math.abs(Math.sin(this.t * 2.7f));
 
+					light.setColor(r, g, b, 1);
+
 					Graphics.batch.setColor(r, g, b, 0.4f);
 					Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false, 2f, 2f);
 					Graphics.batch.setColor(r, g, b, 0.8f);
 					Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false);
 					Graphics.batch.setColor(1, 1, 1, 1);
+				}
+
+				private PointLight light;
+
+				@Override
+				public void init() {
+					super.init();
+					light = new PointLight(World.lights, 32, new Color(1, 1, 1, 1f), 128, x, y);
+				}
+
+				@Override
+				public void destroy() {
+					super.destroy();
+					light.remove(true);
 				}
 
 				@Override
@@ -241,6 +293,8 @@ public class SuperCrazyBook extends Book {
 				@Override
 				public void logic(float dt) {
 					super.logic(dt);
+
+					light.setPosition(x, y);
 
 					if (this.last > 0.03f) {
 						this.last = 0;
