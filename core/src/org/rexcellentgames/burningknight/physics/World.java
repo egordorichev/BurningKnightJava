@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.physics;
 
+import box2dLight.Light;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -9,7 +10,9 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.util.Log;
 
 import java.util.ArrayList;
@@ -43,17 +46,17 @@ public class World {
 		// lights.setBlur(false);
 
 		// categoryBits, groupIndex, maskBits
-		// Light.setGlobalContactFilter((short) -1, (short) -1, (short) 0x0003);
+		Light.setGlobalContactFilter((short) 1, (short) -1, (short) 0x0003);
 	}
 
 	private static void setBits(FixtureDef fixture, Entity owner) {
-		if (owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile) {
+		if (!(owner instanceof SolidProp) && (owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell)) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.groupIndex = -1;
 			fixture.filter.maskBits = -1;
 		} else {
 			fixture.filter.categoryBits = 0x0003;
-			fixture.filter.groupIndex = -1;
+			fixture.filter.groupIndex = 1;
 			fixture.filter.maskBits = -1;
 		}
 	}

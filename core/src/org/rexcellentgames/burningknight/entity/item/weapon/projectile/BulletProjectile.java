@@ -93,16 +93,29 @@ public class BulletProjectile extends Projectile {
 			this.body.setBullet(true);
 		}
 
-		if (this.letter != null && this.letter.equals("bone")) {
-			this.depth = 16;
+		if (this.letter != null) {
+			switch (this.letter) {
+				case "bad": case "bullet-bad": light.setColor(1, 0, 0, 1); break;
+				case "bullet-a": light.setColor(1, 1, 0, 1); break;
+				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); break;
+				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
+			}
+
+			if (this.letter.equals("bullet-bone")) {
+				this.depth = 16;
+			}
+
+			if (this.letter.equals("bullet-bad")) {
+				this.noRotation = true;
+				this.second = false;
+			}
+
+			if (this.letter.equals("bullet-snow")) {
+				this.rotates = true;
+				this.second = false;
+			}
 		}
 
-		if (this.letter != null && this.letter.equals("bullet-bad")) {
-			this.noRotation = true;
-			this.second = false;
-		}
-
-		light.setColor(1, 0, 0, 1);
 		penetrates = !canBeRemoved;
 	}
 

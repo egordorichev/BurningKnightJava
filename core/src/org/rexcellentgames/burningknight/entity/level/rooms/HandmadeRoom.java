@@ -294,7 +294,7 @@ public class HandmadeRoom extends RegularRoom {
 						Exit exit = new Exit();
 
 						exit.x = (x + this.left + 1) * 16;
-						exit.y = (y + this.top + 1) * 16;
+						exit.y = (y + this.top + 1) * 16 - 8;
 
 						Dungeon.level.set(this.left + x + 1, this.top + y + 1, Terrain.FLOOR_B);
 						Dungeon.level.set(this.left + x + 1, this.top + y + 1, Terrain.EXIT);
