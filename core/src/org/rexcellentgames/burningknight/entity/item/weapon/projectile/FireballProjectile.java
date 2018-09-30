@@ -152,7 +152,7 @@ public class FireballProjectile extends Projectile {
 		}
 
 		if (World.lights != null) {
-			light = new PointLight(World.lights, 32, new Color(1, 0f, 0, 1f), 64, x, y);
+			light = World.newLight(32, new Color(1, 0f, 0, 1f), 64, x, y);
 		}
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);

@@ -23,7 +23,7 @@ public class Firefly extends SaveableEntity {
 	public void init() {
 		super.init();
 		this.t = Random.newFloat(1024);
-		light = new PointLight(World.lights, 32, new Color(0, 1, 0.3f, 1f), 0, x, y);
+		light = World.newLight(32, new Color(0, 1, 0.3f, 1f), 0, x, y);
 	}
 
 	@Override

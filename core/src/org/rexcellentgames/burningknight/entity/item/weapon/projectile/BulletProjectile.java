@@ -86,7 +86,7 @@ public class BulletProjectile extends Projectile {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
 		}
 
-		light = new PointLight(World.lights, 32, new Color(1, 1, 1, 1f), 64, x, y);
+		light = World.newLight(32, new Color(1, 1, 1, 1f), 64, x, y);
 
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, ra);
@@ -129,7 +129,7 @@ public class BulletProjectile extends Projectile {
 	@Override
 	public void destroy() {
 		this.body = World.removeBody(this.body);
-		light.remove(true);
+		World.removeLight(light);
 	}
 
 	@Override

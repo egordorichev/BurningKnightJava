@@ -706,7 +706,7 @@ public class Player extends Creature {
 	@Override
 	public void destroy() {
 		super.destroy();
-		light.remove(true);
+		World.removeLight(light);
 
 		if (this.ui != null && !this.ui.done) {
 			this.ui.remove();
@@ -745,7 +745,7 @@ public class Player extends Creature {
 			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
 		}
 
-		light = new PointLight(World.lights, 256, new Color(1, 1, 1, 1f), 120, x, y);
+		light = World.newLight(256, new Color(1, 1, 1, 1f), 120, x, y);
 	}
 
 	public boolean leaveSmall;

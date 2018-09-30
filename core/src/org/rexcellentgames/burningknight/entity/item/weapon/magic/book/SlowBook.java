@@ -35,13 +35,13 @@ public class SlowBook extends Book {
 			public void init() {
 				super.init();
 				penetrates = true; // LOL GG WP
-				light = new PointLight(World.lights, 32, new Color(1, 1f, 1f, 1f), 128, x, y);
+				light = World.newLight(32, new Color(1, 1f, 1f, 1f), 128, x, y);
 			}
 
 			@Override
 			public void destroy() {
 				super.destroy();
-				light.remove(true);
+				World.removeLight(light);
 			}
 
 			@Override

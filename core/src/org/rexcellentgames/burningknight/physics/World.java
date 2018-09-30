@@ -1,7 +1,9 @@
 package org.rexcellentgames.burningknight.physics;
 
 import box2dLight.Light;
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Display;
@@ -28,6 +30,28 @@ public class World {
 	private static float accumulator;
 	private static ArrayList<Body> toDestroy = new ArrayList<>();
 	public static RayHandler lights;
+	private static ArrayList<PointLight> lightPool = new ArrayList<>();
+
+	public static PointLight newLight(int rays, Color color, int rad, float x, float y) {
+		if (lightPool.size() == 0) {
+			return new PointLight(lights, rays, color, rad, x, y);
+		}
+
+		PointLight light = lightPool.get(lightPool.size() - 1);
+		lightPool.remove(lightPool.size() - 1);
+
+		light.setColor(color);
+		light.setDistance(rad);
+		light.setPosition(x, y);
+		light.setActive(true);
+
+		return light;
+	}
+
+	public static void removeLight(PointLight light) {
+		lightPool.add(light);
+		light.setActive(false);
+	}
 
 	/*
 	 * Simple world logic
@@ -101,6 +125,10 @@ public class World {
 
 		if (lights == null) {
 			return;
+		}
+
+		for (Light light : lightPool) {
+			light.remove();
 		}
 
 		lights.dispose();

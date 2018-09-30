@@ -41,13 +41,13 @@ public class EcoWand extends Wand {
 			@Override
 			public void init() {
 				super.init();
-				light = new PointLight(World.lights, 32, new Color(0.3f, 0.3f, 1f, 1f), 64, x, y);
+				light = World.newLight(32, new Color(0.3f, 0.3f, 1f, 1f), 64, x, y);
 			}
 
 			@Override
 			public void destroy() {
 				super.destroy();
-				light.remove(true);
+				World.removeLight(light);
 			}
 
 			@Override

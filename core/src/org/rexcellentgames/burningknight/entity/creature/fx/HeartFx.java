@@ -56,7 +56,7 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void init() {
 		super.init();
-		light = new PointLight(World.lights, 16, new Color(1, 0.2f, 0, 1f), 64, x, y);
+		light = World.newLight(16, new Color(1, 0.2f, 0, 1f), 64, x, y);
 
 		this.generate();
 	}

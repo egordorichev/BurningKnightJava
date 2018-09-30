@@ -72,7 +72,7 @@ public class Note extends Entity {
 		region = frames.get(i).frame;
 
 		Color color = colors[i];
-		light = new PointLight(World.lights, 32, new Color(color.r * 2, color.g * 2, color.b * 2, 1f), 32, x, y);
+		light = World.newLight(32, new Color(color.r * 2, color.g * 2, color.b * 2, 1f), 32, x, y);
 	}
 
 	private void parts() {
