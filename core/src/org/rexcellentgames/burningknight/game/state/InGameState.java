@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
@@ -47,7 +48,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 public class InGameState extends State {
 	private Console console;
 	private Area pauseMenuUi;
-	private static TextureRegion noise = Graphics.getTexture("noise");
+	private static TextureRegion noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
 
 	@Override
 	public void init() {
@@ -498,13 +499,6 @@ public class InGameState extends State {
 	static {
 		shader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(), Gdx.files.internal("shaders/fog.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-
-		shader.begin();
-		shader.setUniformf("sx", ((float) noise.getRegionX()) / noise.getTexture().getWidth());
-		shader.setUniformf("sy", ((float) noise.getRegionY()) / noise.getTexture().getHeight());
-		shader.setUniformf("szx", ((float) noise.getRegionWidth()) / noise.getTexture().getWidth());
-		shader.setUniformf("szy", ((float) noise.getRegionHeight()) / noise.getTexture().getHeight());
-		shader.end();
 	}
 
 	private float time;

@@ -809,7 +809,7 @@ public class Player extends Creature {
 		}
 
 		if (!this.rolling) {
-			if (this.isFlying() || this.touches[Terrain.FLOOR_A] || this.touches[Terrain.FLOOR_B] || this.touches[Terrain.FLOOR_C] || this.touches[Terrain.FLOOR_D] || this.touches[Terrain.DISCO]) {
+			if (this.isFlying() || this.touches[Terrain.WALL] || this.touches[Terrain.FLOOR_A] || this.touches[Terrain.FLOOR_B] || this.touches[Terrain.FLOOR_C] || this.touches[Terrain.FLOOR_D] || this.touches[Terrain.DISCO]) {
 				this.onGround = true;
 				this.lastGround.x = this.x;
 				this.lastGround.y = this.y;
