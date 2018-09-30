@@ -320,9 +320,11 @@ public class Door extends SaveableEntity {
 
 			this.numCollisions += 1;
 
-			Filter d = this.body.getFixtureList().get(0).getFilterData();
-			d.maskBits = 0x0002;
-			this.body.getFixtureList().get(0).setFilterData(d);
+			if (this.body != null) {
+				Filter d = this.body.getFixtureList().get(0).getFilterData();
+				d.maskBits = 0x0002;
+				this.body.getFixtureList().get(0).setFilterData(d);
+			}
 
 			this.animation.setBack(false);
 			this.animation.setPaused(false);

@@ -802,6 +802,12 @@ public class Player extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (this.hasBuff(BurningBuff.class)) {
+			this.light.setColor(1, 0.8f, 0f, 1f);
+		} else {
+			this.light.setColor(1, 1, 1, 1f);
+		}
+
 		if (!this.rolling) {
 			if (this.isFlying() || this.touches[Terrain.FLOOR_A] || this.touches[Terrain.FLOOR_B] || this.touches[Terrain.FLOOR_C] || this.touches[Terrain.FLOOR_D] || this.touches[Terrain.DISCO]) {
 				this.onGround = true;
@@ -1063,6 +1069,7 @@ public class Player extends Creature {
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
+
 				int num = GlobalSave.getInt("num_fire_out") + 1;
 				GlobalSave.put("num_fire_out", num);
 

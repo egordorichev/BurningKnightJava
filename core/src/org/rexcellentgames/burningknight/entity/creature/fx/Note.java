@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature.fx;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -13,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -29,11 +30,19 @@ public class Note extends Entity {
 	private float scale = 1f;
 	public Creature owner;
 	private boolean flip;
+	private PointLight light;
 
 	{
 		alwaysActive = true;
 		alwaysRender = true;
 	}
+
+	private static Color[] colors = new Color[] {
+		Color.valueOf("#3d3d3d"),
+		Color.valueOf("#1f6f50"),
+		Color.valueOf("#c42430"),
+		Color.valueOf("#0069aa")
+	};
 
 	@Override
 	public void init() {
@@ -59,7 +68,11 @@ public class Note extends Entity {
 		}
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
-		region = frames.get(Random.newInt(frames.size())).frame;
+		int i = Random.newInt(frames.size());
+		region = frames.get(i).frame;
+
+		Color color = colors[i];
+		light = new PointLight(World.lights, 32, new Color(color.r * 2, color.g * 2, color.b * 2, 1f), 32, x, y);
 	}
 
 	private void parts() {
@@ -109,6 +122,7 @@ public class Note extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
+		light.remove();
 		this.body = World.removeBody(this.body);
 	}
 
@@ -121,6 +135,8 @@ public class Note extends Entity {
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
 
+		light.setPosition(x, y);
+
 		if (this.t >= 5f || scale <= 0) {
 			this.done = true;
 		}
@@ -128,27 +144,6 @@ public class Note extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.batch.end();
-		Mob.shader.begin();
-		Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
-		Mob.shader.setUniformf("u_a", 1);
-		Mob.shader.end();
-		Graphics.batch.setShader(Mob.shader);
-		Graphics.batch.begin();
-
-		for (int yy = -1; yy < 2; yy++) {
-			for (int xx = -1; xx < 2; xx++) {
-				if (Math.abs(xx) + Math.abs(yy) == 1) {
-					Graphics.render(region, this.x + xx, this.y + yy, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
-						false, false, flip ? -scale : scale, scale);
-				}
-			}
-		}
-
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
-
 		Graphics.render(region, this.x, this.y, 0, region.getRegionWidth() / 2, region.getRegionHeight() / 2,
 			false, false, flip ? -scale : scale, scale);
 	}

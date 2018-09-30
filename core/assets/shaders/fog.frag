@@ -22,5 +22,14 @@ void main() {
     vec4 color = texture2D(u_texture, vec2(x, y));
     //float mod = sin(time * 100.0 + color.r) * 0.5 + 0.5;
     //gl_FragColor = vec4(color.r * mod + (1.0 - color.r) * (1.0 - mod));
-    gl_FragColor = vec4(color.r, color.r, color.r, color.r * 0.5);
+
+
+    float md = cos(time * 100.0 + texture2D(u_texture, vec2(
+        mod(v_texCoord.x + cx - sx, szx * 2.0) * 0.5 + sx,
+        mod(v_texCoord.y + cy - sy, szy * 2.0) * 0.5 + sy
+    )).r * 10.0) * 0.5 + 0.5;
+
+    float v = color.r * md;
+
+    gl_FragColor = vec4(v, v, v, color.r * 0.5);
 }
