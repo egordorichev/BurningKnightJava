@@ -27,7 +27,7 @@ public class RectFx extends Entity {
 	public static ShaderProgram shader;
 
 	static {
-		shader = new ShaderProgram(Gdx.files.internal("shaders/bloom.vert").readString(),  Gdx.files.internal("shaders/bloom.frag").readString());
+		shader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(),  Gdx.files.internal("shaders/bloom.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 

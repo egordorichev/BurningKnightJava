@@ -211,7 +211,7 @@ public class WeaponBase extends Item {
 	static {
 		String vertexShader;
 		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/blink.vert").readString();
+		vertexShader = Gdx.files.internal("shaders/default.vert").readString();
 		fragmentShader = Gdx.files.internal("shaders/blink.frag").readString();
 		shader = new ShaderProgram(vertexShader, fragmentShader);
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());

@@ -496,7 +496,7 @@ public class InGameState extends State {
 	public static ShaderProgram shader;
 
 	static {
-		shader = new ShaderProgram(Gdx.files.internal("shaders/fog.vert").readString(), Gdx.files.internal("shaders/fog.frag").readString());
+		shader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(), Gdx.files.internal("shaders/fog.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 
 		shader.begin();

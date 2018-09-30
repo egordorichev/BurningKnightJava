@@ -146,9 +146,9 @@ public class Mob extends Creature {
 	public static ShaderProgram frozen;
 
 	static {
-		shader = new ShaderProgram(Gdx.files.internal("shaders/outline.vert").readString(), Gdx.files.internal("shaders/outline.frag").readString());
+		shader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(), Gdx.files.internal("shaders/outline.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-		frozen = new ShaderProgram(Gdx.files.internal("shaders/ice.vert").readString(), Gdx.files.internal("shaders/ice.frag").readString());
+		frozen = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(), Gdx.files.internal("shaders/ice.frag").readString());
 		if (!frozen.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + frozen.getLog());
 	}
 

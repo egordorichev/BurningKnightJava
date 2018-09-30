@@ -1237,7 +1237,7 @@ public abstract class Level extends SaveableEntity {
 	public static ShaderProgram maskShader;
 
 	static {
-		maskShader = new ShaderProgram( Gdx.files.internal("shaders/mask.vert").readString(),  Gdx.files.internal("shaders/mask.frag").readString());
+		maskShader = new ShaderProgram( Gdx.files.internal("shaders/default.vert").readString(),  Gdx.files.internal("shaders/mask.frag").readString());
 
 		if (!maskShader.isCompiled()) {
 			throw new GdxRuntimeException("Couldn't compile shader: " + maskShader.getLog());
@@ -1600,7 +1600,7 @@ public abstract class Level extends SaveableEntity {
 	public static ShaderProgram shader;
 
 	static {
-		shader = new ShaderProgram(Gdx.files.internal("shaders/fadeout.vert").readString(),  Gdx.files.internal("shaders/fadeout.frag").readString());
+		shader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(),  Gdx.files.internal("shaders/fadeout.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
@@ -1718,7 +1718,7 @@ public abstract class Level extends SaveableEntity {
 	public static ShaderProgram lightShader;
 
 	static {
-		lightShader = new ShaderProgram(Gdx.files.internal("shaders/light.vert").readString(), Gdx.files.internal("shaders/light.frag").readString());
+		lightShader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(), Gdx.files.internal("shaders/light.frag").readString());
 		if (!lightShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + lightShader.getLog());
 	}
 

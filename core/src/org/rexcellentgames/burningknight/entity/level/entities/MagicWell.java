@@ -20,7 +20,7 @@ public class MagicWell extends UsableProp {
 	static {
 		String vertexShader;
 		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/dist.vert").readString();
+		vertexShader = Gdx.files.internal("shaders/default.vert").readString();
 		fragmentShader = Gdx.files.internal("shaders/dist.frag").readString();
 		shader = new ShaderProgram(vertexShader, fragmentShader);
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
