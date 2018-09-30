@@ -1,7 +1,9 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.boss;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -34,6 +36,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -56,6 +59,7 @@ public class BurningKnight extends Boss {
 	private static Sound sfx;
 	private BKSword sword;
 	public boolean pickedKey;
+	private PointLight light;
 
 	{
 		texture = "ui-bkbar-skull";
@@ -213,6 +217,8 @@ public class BurningKnight extends Boss {
 		sword.modifyDamage(-10);
 
 		this.tp(0, 0);
+
+		light = new PointLight(World.lights, 256, new Color(1, 0.5f, 0, 1f), 128, x, y);
 	}
 
 	public void restore() {
@@ -325,6 +331,7 @@ public class BurningKnight extends Boss {
 		}
 
 		super.update(dt);
+		this.light.setPosition(x + this.w / 2, y + this.h / 2);
 
 		this.lastFrame += dt;
 
@@ -684,6 +691,7 @@ public class BurningKnight extends Boss {
 
 		sfx.stop(this.sid);
 		sword.destroy();
+		light.remove();
 	}
 
 	public class DashState extends BKState {

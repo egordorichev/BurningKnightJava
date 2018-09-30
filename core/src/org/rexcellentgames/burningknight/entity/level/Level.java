@@ -103,9 +103,6 @@ public abstract class Level extends SaveableEntity {
 	public byte[] liquidVariants;
 	protected byte[] walls;
 	protected float[] light;
-	protected float[] lightR;
-	protected float[] lightG;
-	protected float[] lightB;
 	protected byte[] wallDecor;
 	public boolean[] passable;
 	protected boolean[] low;
@@ -229,16 +226,6 @@ public abstract class Level extends SaveableEntity {
 
 	public void initLight() {
 		this.light = new float[getSize()];
-		this.lightR = new float[getSize()];
-		this.lightG = new float[getSize()];
-		this.lightB = new float[getSize()];
-
-		Color color = colors[Dungeon.level.uid];
-
-		Arrays.fill(this.lightR, color.r);
-		Arrays.fill(this.lightG, color.g);
-		Arrays.fill(this.lightB, color.b);
-		//  (BurningKnight.instance == null)
 		Arrays.fill(this.light, Dungeon.level.addLight && false ? 1f : 0f);
 	}
 
@@ -563,9 +550,6 @@ public abstract class Level extends SaveableEntity {
 
 		for (int i = 0; i < getSize(); i++) {
 			this.light[i] = MathUtils.clamp(this.explored[i] ? 0.5f : 0f, 1f, this.light[i] - sp);
-			this.lightR[i] = MathUtils.clamp(color.r, 1f, this.lightR[i] - sp);
-			this.lightG[i] = MathUtils.clamp(color.g, 1f, this.lightG[i] - sp);
-			this.lightB[i] = MathUtils.clamp(color.b, 1f, this.lightB[i] - sp);
 		}
 
 		for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
@@ -578,15 +562,11 @@ public abstract class Level extends SaveableEntity {
 
 				float v = this.light[i];
 
-				if (v == 1 || v == 0) {
+				if (v == 1) {
 					continue;
 				}
 
-				float r = this.lightR[i];
-				float g = this.lightG[i];
-				float b = this.lightB[i];
-
-				Graphics.shape.setColor(r, g, b, 1f - v);
+				Graphics.shape.setColor(color.r, color.g, color.b, 1f - v);
 				Graphics.shape.rect(x * 16, y * 16 - 8, 16, 16);
 			}
 		}
@@ -595,7 +575,7 @@ public abstract class Level extends SaveableEntity {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		Graphics.batch.begin();
 
-		float s = 0.5f;
+		/*float s = 0.5f;
 		float md = 1f / s;
 
 		for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
@@ -617,7 +597,7 @@ public abstract class Level extends SaveableEntity {
 					}
 				}
 			}
-		}
+		}*/
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
@@ -1819,7 +1799,7 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.begin();
 	}
 
-	public void addLight(float x, float y, float r, float g, float b, float a, float max) {
+	public void addLight(float x, float y, float a, float max) {
 		float dt = Gdx.graphics.getDeltaTime();
 		int i = (int) (Math.floor(x / 16) + Math.floor(y / 16) * getWidth());
 
@@ -1832,18 +1812,6 @@ public abstract class Level extends SaveableEntity {
 			if (this.light[i] >= 0.4f) {
 				this.explored[i] = true;
 			}
-		}
-
-		if (this.lightR[i] < max) {
-			this.lightR[i] = Math.min(1, this.lightR[i] + r * dt);
-		}
-
-		if (this.lightG[i] < max) {
-			this.lightG[i] = Math.min(1, this.lightG[i] + g * dt);
-		}
-
-		if (this.lightB[i] < max) {
-			this.lightB[i] = Math.min(1, this.lightB[i] + b * dt);
 		}
 	}
 
@@ -1865,7 +1833,7 @@ public abstract class Level extends SaveableEntity {
 		return this.light[i];
 	}
 
-	public void addLightInRadius(float x, float y, float r, float g, float b, float a, float rd, boolean xray) {
+	public void addLightInRadius(float x, float y, float a, float rd, boolean xray) {
 		int fx = (int) Math.floor((x) / 16);
 		int fy = (int) Math.floor((y) / 16);
 
@@ -1898,7 +1866,7 @@ public abstract class Level extends SaveableEntity {
 					}
 
 					if (see) {
-						Dungeon.level.addLight(x + xx * 16, y + yy * 16, r, g, b, a, (rd - d) / rd * v);
+						Dungeon.level.addLight(x + xx * 16, y + yy * 16, a, (rd - d) / rd * v);
 					}
 				}
 			}

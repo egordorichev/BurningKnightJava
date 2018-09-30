@@ -108,7 +108,7 @@ public class FireballProjectile extends Projectile {
 
 		super.update(dt);
 
-		Dungeon.level.addLightInRadius(this.x, this.y, 0.5f, 0.3f, 0, 2f, 3f, true);
+		Dungeon.level.addLightInRadius(this.x, this.y, 2f, 3f, true);
 
 		if (this.tt >= 10f) {
 			this.animation = dead;

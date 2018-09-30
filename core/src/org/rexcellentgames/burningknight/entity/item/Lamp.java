@@ -147,7 +147,7 @@ public class Lamp extends Item {
 		if (this.lightUp) {
 			if (this.val > 0) {
 				this.val = Math.max(this.val - dt, 0);
-				Dungeon.level.addLightInRadius(this.owner.x + 8, this.owner.y + 8, 0, 0, 0, 2f * (this.val / 100 + 0.3f), 8f, false);
+				Dungeon.level.addLightInRadius(this.owner.x + 8, this.owner.y + 8, 2f * (this.val / 100 + 0.3f), 8f, false);
 			} else {
 				this.lightUp = false;
 			}

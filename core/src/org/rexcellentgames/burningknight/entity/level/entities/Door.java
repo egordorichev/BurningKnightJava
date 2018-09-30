@@ -234,6 +234,11 @@ public class Door extends SaveableEntity {
 				}
 			}
 		} else {
+			if (this.key == KeyA.class || this.key == BurningKey.class) {
+				this.burning = false;
+				return;
+			}
+
 			lastFlame += dt;
 
 			if (this.lastFlame >= 0.05f) {

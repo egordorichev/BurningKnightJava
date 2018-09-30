@@ -313,11 +313,11 @@ public class InGameState extends State {
 				for (int y = Player.instance.room.top; y <= Player.instance.room.bottom; y++) {
 					if ((x == Player.instance.room.left || x == Player.instance.room.right || y == Player.instance.room.top || y == Player.instance.room.bottom
 					) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
-						Dungeon.level.addLightInRadius(x * 16, y * 16, 0, 0, 0, 2f, 3f, false);
+						Dungeon.level.addLightInRadius(x * 16, y * 16, 2f, 3f, false);
 					}
 
 					if (y != Player.instance.room.top) {
-						Dungeon.level.addLight(x * 16, y * 16, 0, 0, 0, 4f, 1f);
+						Dungeon.level.addLight(x * 16, y * 16, 4f, 1f);
 					}
 				}
 			}

@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.fx.ExplosionLeftOver;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class Explosion extends Entity {
@@ -41,7 +40,7 @@ public class Explosion extends Entity {
 			return;
 		}
 
-		Dungeon.level.addLightInRadius(this.x, this.y, 1f, 0.7f, 0f, 0.8f, 5f, true);
+		Dungeon.level.addLightInRadius(this.x, this.y, 0.8f, 5f, true);
 
 		if (this.animation.update(dt)) {
 			this.done = true;

@@ -45,7 +45,7 @@ public class BurningBuff extends Buff {
 			progress += mob ? dt * 2 : dt * rate;
 		}
 
-		Dungeon.level.addLightInRadius(this.owner.x + this.owner.w / 2, this.owner.y + this.owner.h / 2, 1f, 0.9f, 0f, 0.9f, 3f, false);
+		Dungeon.level.addLightInRadius(this.owner.x + this.owner.w / 2, this.owner.y + this.owner.h / 2, 0.9f, 3f, false);
 		this.lastFlame += dt;
 
 		if (this.lastFlame >= 0.1f) {
