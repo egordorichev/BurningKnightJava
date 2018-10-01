@@ -2,6 +2,8 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -15,6 +17,8 @@ import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.fx.BackgroundFx;
+import org.rexcellentgames.burningknight.game.fx.PixelFx;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Random;
@@ -24,7 +28,7 @@ import java.util.ArrayList;
 
 public class MainMenuState extends State {
 	public static MainMenuState instance;
-	private static TextureRegion logo = Graphics.getTexture("artwork_logo (sticker)");
+	private static TextureRegion logo = new TextureRegion(new Texture(Gdx.files.internal("artwork_logo (sticker).png")));
 	private ArrayList<UiButton> buttons = new ArrayList<>();
 	private float logoX = 0;
 	private float logoY = Display.UI_HEIGHT_MAX;
@@ -183,17 +187,50 @@ public class MainMenuState extends State {
 
 			fx.y = Random.newFloat(-32, Display.UI_HEIGHT_MAX + 32);
 		}
+
+		spread();
+	}
+
+	private void spread() {
+		if (!logo.getTexture().getTextureData().isPrepared()) {
+			logo.getTexture().getTextureData().prepare();
+		}
+
+		Pixmap pixmap = logo.getTexture().getTextureData().consumePixmap();
+		int x = logo.getRegionX();
+		int y = logo.getRegionY();
+		int h = logo.getRegionHeight();
+
+		float lx = Display.UI_WIDTH_MAX / 2 - logo.getRegionWidth() / 2;
+		float ly = 180 - 3 - h / 2;
+
+		for (int ry = 0; ry < h; ry++) {
+			for (int rx = 0; rx < logo.getRegionWidth(); rx++) {
+				Color color = new Color(pixmap.getPixel(x + rx, y + (h - ry)));
+
+				if (color.r != 0 || color.g != 0 || color.b != 0) {
+					PixelFx fx = new PixelFx();
+
+					fx.x = lx + rx;
+					fx.y = ly + ry;
+
+					fx.r = color.r;
+					fx.g = color.g;
+					fx.b = color.b;
+
+					Dungeon.ui.add(fx);
+				}
+			}
+		}
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Audio.beat) {
-			// scale = 0.95f;
+		if (Input.instance.wasPressed("Space")) {
+			spread();
 		}
-
-		// scale += (1f - scale) * dt * 10;
 	}
 
 	@Override
@@ -205,7 +242,7 @@ public class MainMenuState extends State {
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-		Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, 180 + logoY - 3, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
+		// Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, 180 + logoY - 3, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
 		Dungeon.ui.render();
 
 		Ui.ui.renderCursor();
