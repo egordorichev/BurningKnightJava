@@ -89,10 +89,11 @@ public class Skeleton extends Mob {
 	private boolean rem;
 
 	@Override
-	protected void die(boolean force) {
+	protected void deathEffects() {
 		if (this.rem) {
 			return;
 		}
+		super.deathEffects();
 
 		this.hp = this.hpMax;
 		this.done = false;

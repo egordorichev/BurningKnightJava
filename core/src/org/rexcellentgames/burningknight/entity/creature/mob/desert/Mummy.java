@@ -27,12 +27,9 @@ public class Mummy extends Mob {
 	private AnimationData animation;
 
 	@Override
-	protected void die(boolean force) {
-		super.die(force);
-
+	protected void deathEffects() {
+		super.deathEffects();
 		this.playSfx("death_mummy");
-
-		this.done = true;
 		deathEffect(killed);
 	}
 

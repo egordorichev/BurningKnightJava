@@ -103,7 +103,7 @@ public abstract class RegularLevel extends Level {
 				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
 					float weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
 
-					if (weight > 0) { // while, FIXME
+					while (weight > 0) {
 						Mob mob = MobPool.instance.generate();
 
 						weight -= mob.getWeight();

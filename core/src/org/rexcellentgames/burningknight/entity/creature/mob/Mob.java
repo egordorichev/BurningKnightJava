@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
+import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
@@ -41,10 +42,7 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.PathFinder;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -176,7 +174,7 @@ public class Mob extends Creature {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(region, x + xx + w / 2, y + z + yy, 0, w / 2, 0, false, false, sx, sy);
+						Graphics.render(region, x + xx + w / 2, y + z + yy, 0, w / 2, 0, false, false, sx * (flipped ? -1f : 1f), sy);
 					}
 				}
 			}
@@ -200,7 +198,7 @@ public class Mob extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		Graphics.render(region, x + w / 2, y + z, 0, w / 2, 0, false, false, sx, sy);
+		Graphics.render(region, x + w / 2, y + z, 0, w / 2, 0, false, false, sx * (flipped ? -1 : 1), sy);
 
 		if (this.freezed || this.poisoned) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
@@ -444,7 +442,7 @@ public class Mob extends Creature {
 			}
 		}
 
-		if (this.dead) {
+		if (this.dead || this.dd) {
 			return;
 		}
 
@@ -558,41 +556,113 @@ public class Mob extends Creature {
 	}
 
 	@Override
+	public HpFx modifyHp(int amount, Creature from) {
+		if (this.dd) {
+			return null;
+		}
+
+		return super.modifyHp(amount, from);
+	}
+
+	protected void deathEffects() {
+		this.done = true;
+	}
+
+	private boolean dd;
+
+	@Override
 	protected void die(boolean force) {
-		if (!this.dead && !force) {
-			this.drop = true;
-			GameSave.killCount ++;
-
-			if (GameSave.killCount >= 10) {
-				Achievements.unlock(Achievements.UNLOCK_BLACK_HEART);
-			}
-
-			if (GameSave.killCount >= 100) {
-				Achievements.unlock(Achievements.UNLOCK_BLOOD_CROWN);
-			}
+		if (dd) {
+			return;
 		}
 
-		if (!Player.instance.isDead() && !force && Random.chance(20)) {
-			HeartFx fx = new HeartFx();
+		// super.die(force);
 
-			fx.x = this.x + this.w / 2 + Random.newFloat(-4, 4);
-			fx.y = this.y + this.h / 2 + Random.newFloat(-4, 4);
+		this.dd = true;
+		this.done = false;
+		this.velocity.x = 0;
+		this.velocity.y = 0;
 
-			Dungeon.area.add(fx);
-			LevelSave.add(fx);
-		}
-
-		super.die(force);
-
-		for (int i = Mob.all.size() - 1; i >= 0; i--) {
-			Mob mob = Mob.all.get(i);
-
-			if (mob.getRoom() == this.room) {
-				return;
+		Tween.to(new Tween.Task(0.7f, 0.2f) {
+			@Override
+			public float getValue() {
+				return sy;
 			}
-		}
 
-		// room cleared
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1.5f, 0.1f) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
+
+					@Override
+					public void onEnd() {
+						dead = true;
+						remove = true;
+						deathEffects();
+
+						if (!force) {
+							drop = true;
+							GameSave.killCount ++;
+
+							if (GameSave.killCount >= 10) {
+								Achievements.unlock(Achievements.UNLOCK_BLACK_HEART);
+							}
+
+							if (GameSave.killCount >= 100) {
+								Achievements.unlock(Achievements.UNLOCK_BLOOD_CROWN);
+							}
+						}
+
+						if (!Player.instance.isDead() && !force && Random.chance(20)) {
+							HeartFx fx = new HeartFx();
+
+							fx.x = x + w / 2 + Random.newFloat(-4, 4);
+							fx.y = y + h / 2 + Random.newFloat(-4, 4);
+
+							Dungeon.area.add(fx);
+							LevelSave.add(fx);
+						}
+					}
+				}).delay(0.2f);
+
+				Tween.to(new Tween.Task(0.5f, 0.1f) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+				}).delay(0.2f);
+			}
+		});
+
+		Tween.to(new Tween.Task(1.3f, 0.2f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
+		});
 	}
 
 	@Override

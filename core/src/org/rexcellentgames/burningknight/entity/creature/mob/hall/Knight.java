@@ -208,11 +208,9 @@ public class Knight extends Mob {
 	}
 
 	@Override
-	protected void die(boolean force) {
-		super.die(force);
+	protected void deathEffects() {
+		super.deathEffects();
 		this.playSfx("death_towelknight");
-
-		this.done = true;
 		deathEffect(killed);
 	}
 
