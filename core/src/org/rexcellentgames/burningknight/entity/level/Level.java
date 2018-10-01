@@ -1929,6 +1929,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public boolean checkFor(int i, int flag) {
+		if (i < 0 || i > getSize()) {
+			return false;
+		}
+
 		if (flag == Terrain.PASSABLE && this.liquidData[i] == Terrain.LAVA) {
 			return false;
 		} else if (flag == Terrain.BREAKS_LOS && (this.liquidData[i] == Terrain.HIGH_DRY_GRASS || this.liquidData[i] == Terrain.HIGH_GRASS)) {

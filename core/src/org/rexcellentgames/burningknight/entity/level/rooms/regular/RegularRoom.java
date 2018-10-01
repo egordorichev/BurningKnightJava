@@ -11,9 +11,9 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class RegularRoom extends Room {
 	public enum Size {
-		NORMAL(10, 18, 1),
-		LARGE(18, 24, 2),
-		GIANT(24, 32, 3);
+		NORMAL(8, 12, 1),
+		LARGE(12, 18, 2),
+		GIANT(18, 24, 3);
 
 		public final int minDim;
 		public final int maxDim;

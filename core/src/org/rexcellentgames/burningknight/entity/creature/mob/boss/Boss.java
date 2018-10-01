@@ -36,6 +36,11 @@ public class Boss extends Mob {
 	}
 
 	@Override
+	protected State getAiWithLow(String state) {
+		return getAi(state);
+	}
+
+	@Override
 	public void init() {
 		super.init();
 
