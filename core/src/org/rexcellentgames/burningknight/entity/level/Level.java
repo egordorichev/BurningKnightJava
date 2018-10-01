@@ -1626,33 +1626,33 @@ public abstract class Level extends SaveableEntity {
 								Graphics.render(Terrain.sides[t], x * 16, y * 16 - 16);
 							}
 						}
-					} else if (tile == Terrain.CHASM) {
-						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
-					}
-				}
 
-				int m = i - getWidth();
+						int m = i - getWidth();
 
-				if (m > -1) {
-					byte t = this.get(m);
+						if (m > -1) {
+							t = this.get(m);
 
-					if (t != Terrain.CRACK && t != Terrain.WALL) {
-						byte d = this.decor[i];
+							if (t > 0 && t != Terrain.CRACK && t != Terrain.WALL) {
+								byte d = this.decor[i];
 
-						if (d != 0) {
-							TextureRegion s = Terrain.decor[d - 1];
-							Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 9);
+								if (d != 0) {
+									TextureRegion s = Terrain.decor[d - 1];
+									Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 9);
 
-							if (d == 1) {
-								int tx = x * 16 + 4;
-								int ty = y * 16 - 7;
-								Graphics.startAlphaShape();
-								Graphics.shape.setColor(1f, 0.8f - (x % 3) * 0.1f, 0f, 0.2f);
-								Graphics.shape.circle(tx + 4, ty + 6, (float) (6 + Math.cos(this.t + (x + y)) * 0.8f * Math.sin(this.t * 0.7f + x - y / 2)));
-								Graphics.shape.setColor(1f, 1f, 1f, 1f);
-								Graphics.endAlphaShape();
+									if (d == 1) {
+										int tx = x * 16 + 4;
+										int ty = y * 16 - 7;
+										Graphics.startAlphaShape();
+										Graphics.shape.setColor(1f, 0.8f - (x % 3) * 0.1f, 0f, 0.2f);
+										Graphics.shape.circle(tx + 4, ty + 6, (float) (6 + Math.cos(this.t + (x + y)) * 0.8f * Math.sin(this.t * 0.7f + x - y / 2)));
+										Graphics.shape.setColor(1f, 1f, 1f, 1f);
+										Graphics.endAlphaShape();
+									}
+								}
 							}
 						}
+					} else if (tile == Terrain.CHASM) {
+						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
 					}
 				}
 			}

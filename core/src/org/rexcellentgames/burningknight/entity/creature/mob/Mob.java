@@ -17,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
@@ -566,6 +567,16 @@ public class Mob extends Creature {
 
 	protected void deathEffects() {
 		this.done = true;
+
+		for (int i = 0; i < 5; i++) {
+			BloodSplatFx fxx = new BloodSplatFx();
+
+			fxx.x = x + Random.newFloat(w) - 8;
+			fxx.y = y + Random.newFloat(h) - 8;
+
+			Dungeon.area.add(fxx);
+			BloodFx.add(this, 5);
+		}
 	}
 
 	private boolean dd;

@@ -310,7 +310,7 @@ public class Knight extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t > 1f) {
+			if (this.t > 0.5f) {
 				self.become("attack");
 			}
 		}

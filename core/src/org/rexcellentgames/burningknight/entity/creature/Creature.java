@@ -709,7 +709,7 @@ public class Creature extends SaveableEntity {
 
 		float a = from.getAngleTo(this.x + this.w / 2, this.y + this.h / 2);
 
-		float knockbackMod = this.getStat("knockback") * 100;
+		float knockbackMod = this.getStat("knockback");
 
 		this.velocity.x += Math.cos(a) * force * knockbackMod;
 		this.velocity.y += Math.sin(a) * force * knockbackMod;

@@ -64,5 +64,7 @@ public class MixedSecretRoom extends SecretRoom {
 			Dungeon.area.add(holde);
 			LevelSave.add(holde);
 		}
+
+		this.addEnemies();
 	}
 }
