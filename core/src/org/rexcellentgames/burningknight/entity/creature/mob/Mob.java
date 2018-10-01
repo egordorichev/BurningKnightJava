@@ -17,13 +17,17 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
+import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
 import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
+import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -39,10 +43,7 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.PathFinder;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -69,6 +70,9 @@ public class Mob extends Creature {
 	public float noticeSignT;
 	public float hideSignT;
 	public boolean nodebuffs;
+
+	protected float sx = 1;
+	protected float sy = 1;
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
@@ -153,6 +157,10 @@ public class Mob extends Creature {
 	}
 
 	public void renderWithOutline(AnimationData data) {
+		TextureRegion region = data.getCurrent().frame;
+		float w = region.getRegionWidth();
+		float h = region.getRegionHeight();
+
 		if (this.prefix != null) {
 			Color color = this.prefix.getColor();
 
@@ -167,7 +175,7 @@ public class Mob extends Creature {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						data.render(this.x + xx, this.y + yy + z, this.flipped);
+						Graphics.render(region, x + xx + w / 2, y + z + yy, 0, w / 2, 0, false, false, sx * (flipped ? -1f : 1f), sy);
 					}
 				}
 			}
@@ -191,7 +199,7 @@ public class Mob extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		data.render(this.x, this.y + z, this.flipped);
+		Graphics.render(region, x + w / 2, y + z, 0, w / 2, 0, false, false, sx * (flipped ? -1 : 1), sy);
 
 		if (this.freezed || this.poisoned) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
@@ -362,6 +370,13 @@ public class Mob extends Creature {
 		return 1;
 	}
 
+	private float lastBlood;
+	private float lastSplat;
+
+	public boolean isLow() {
+		return this.hp != this.hpMax && this.hp <= Math.ceil(((float) this.hpMax) / 4);
+	}
+
 	@Override
 	public void update(float dt) {
 		if (this.toDead) {
@@ -373,6 +388,31 @@ public class Mob extends Creature {
 
 		this.noticeSignT = Math.max(0, this.noticeSignT - dt);
 		this.hideSignT = Math.max(0, this.hideSignT - dt);
+
+		if (this.isLow()) {
+			this.lastSplat += dt;
+			this.lastBlood += dt;
+
+			if (this.lastBlood > 0.1f) {
+				this.lastBlood = 0;
+
+				BloodDropFx fx = new BloodDropFx();
+
+				fx.owner = this;
+
+				Dungeon.area.add(fx);
+			}
+
+			if (this.lastSplat >= 1f) {
+				this.lastSplat = 0;
+				BloodSplatFx fxx = new BloodSplatFx();
+
+				fxx.x = x + Random.newFloat(w) - 8;
+				fxx.y = y + Random.newFloat(h) - 8;
+
+				Dungeon.area.add(fxx);
+			}
+		}
 
 		if (this.freezed) {
 			return;
@@ -403,12 +443,12 @@ public class Mob extends Creature {
 			}
 		}
 
-		if (this.dead) {
+		if (this.dead || this.dd) {
 			return;
 		}
 
 		if (this.ai == null) {
-			this.ai = this.getAi(this.state);
+			this.ai = this.getAiWithLow(this.state);
 
 			if (this.ai != null) {
 				this.ai.self = this;
@@ -466,11 +506,6 @@ public class Mob extends Creature {
 		if (this.velocity.len2() > 1) {
 			this.lastIndex = Dungeon.longTime;
 		}
-
-		if (this.falling) {
-			this.velocity.mul(0);
-		}
-
 		if (this.body != null) {
 			this.velocity.clamp(0, this.maxSpeed);
 			this.body.setLinearVelocity(this.velocity.x * speedMod, this.velocity.y * speedMod);
@@ -522,41 +557,123 @@ public class Mob extends Creature {
 	}
 
 	@Override
+	public HpFx modifyHp(int amount, Creature from) {
+		if (this.dd) {
+			return null;
+		}
+
+		return super.modifyHp(amount, from);
+	}
+
+	protected void deathEffects() {
+		this.done = true;
+
+		for (int i = 0; i < 5; i++) {
+			BloodSplatFx fxx = new BloodSplatFx();
+
+			fxx.x = x + Random.newFloat(w) - 8;
+			fxx.y = y + Random.newFloat(h) - 8;
+
+			Dungeon.area.add(fxx);
+			BloodFx.add(this, 5);
+		}
+	}
+
+	private boolean dd;
+
+	@Override
 	protected void die(boolean force) {
-		if (!this.dead && !force) {
-			this.drop = true;
-			GameSave.killCount ++;
-
-			if (GameSave.killCount >= 10) {
-				Achievements.unlock(Achievements.UNLOCK_BLACK_HEART);
-			}
-
-			if (GameSave.killCount >= 100) {
-				Achievements.unlock(Achievements.UNLOCK_BLOOD_CROWN);
-			}
+		if (dd) {
+			return;
 		}
 
-		if (!Player.instance.isDead() && !force && Random.chance(20)) {
-			HeartFx fx = new HeartFx();
+		// super.die(force);
 
-			fx.x = this.x + this.w / 2 + Random.newFloat(-4, 4);
-			fx.y = this.y + this.h / 2 + Random.newFloat(-4, 4);
+		this.dd = true;
+		this.done = false;
+		this.velocity.x = 0;
+		this.velocity.y = 0;
 
-			Dungeon.area.add(fx);
-			LevelSave.add(fx);
-		}
-
-		super.die(force);
-
-		for (int i = Mob.all.size() - 1; i >= 0; i--) {
-			Mob mob = Mob.all.get(i);
-
-			if (mob.getRoom() == this.room) {
-				return;
+		Tween.to(new Tween.Task(0.7f, 0.2f) {
+			@Override
+			public float getValue() {
+				return sy;
 			}
-		}
 
-		// room cleared
+			@Override
+			public void setValue(float value) {
+				sy = value;
+			}
+
+			@Override
+			public void onEnd() {
+				Tween.to(new Tween.Task(1.5f, 0.1f) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
+
+					@Override
+					public void onEnd() {
+						dead = true;
+						remove = true;
+						deathEffects();
+
+						if (!force) {
+							drop = true;
+							GameSave.killCount ++;
+
+							if (GameSave.killCount >= 10) {
+								Achievements.unlock(Achievements.UNLOCK_BLACK_HEART);
+							}
+
+							if (GameSave.killCount >= 100) {
+								Achievements.unlock(Achievements.UNLOCK_BLOOD_CROWN);
+							}
+						}
+
+						if (!Player.instance.isDead() && !force && Random.chance(20)) {
+							HeartFx fx = new HeartFx();
+
+							fx.x = x + w / 2 + Random.newFloat(-4, 4);
+							fx.y = y + h / 2 + Random.newFloat(-4, 4);
+
+							Dungeon.area.add(fx);
+							LevelSave.add(fx);
+						}
+					}
+				}).delay(0.2f);
+
+				Tween.to(new Tween.Task(0.5f, 0.1f) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+				}).delay(0.2f);
+			}
+		});
+
+		Tween.to(new Tween.Task(1.3f, 0.2f) {
+			@Override
+			public float getValue() {
+				return sx;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sx = value;
+			}
+		});
 	}
 
 	@Override
@@ -589,7 +706,7 @@ public class Mob extends Creature {
 				}
 			}
 
-			this.ai = this.getAi(state);
+			this.ai = this.getAiWithLow(state);
 
 			if (this.ai != null) {
 				this.ai.self = this;
@@ -614,19 +731,27 @@ public class Mob extends Creature {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = Random.newFloat(3f, 5f);
+			delay = self.isLow() ? 100000000f : Random.newFloat(3f, 5f);
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 			this.checkForPlayer();
-			this.moveFrom(self.lastSeen, 7f, 5f);
+			this.moveFrom(self.lastSeen, 20f, 5f);
 
 			if (this.t >= delay) {
 				self.become("idle");
 			}
 		}
+	}
+
+	protected State getAiWithLow(String state) {
+		if (this.isLow()) {
+			return new GetOutState();
+		}
+
+		return getAi(state);
 	}
 
 	protected State getAi(String state) {
@@ -667,6 +792,18 @@ public class Mob extends Creature {
 			this.toDead = true;
 			return;
 		}
+
+		if (this.isLow() && !(this.ai instanceof GetOutState)) {
+			State state = this.getAiWithLow(this.state);
+
+			if (state instanceof GetOutState) {
+				this.ai.onExit();
+				this.ai = state;
+				state.self = this;
+				state.onEnter();
+			}
+		}
+
 
 		if (this.ai != null && !(this instanceof Boss)) {
 			this.ai.checkForPlayer(true);

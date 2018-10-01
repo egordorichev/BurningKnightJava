@@ -12,10 +12,12 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.PoisonFx;
+import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.util.Log;
 
@@ -37,15 +39,22 @@ public class World {
 			return new PointLight(lights, rays, color, rad, x, y);
 		}
 
-		PointLight light = lightPool.get(lightPool.size() - 1);
-		lightPool.remove(lightPool.size() - 1);
+		for (int i = 0; i < lightPool.size(); i++) {
+			PointLight light = lightPool.get(i);
 
-		light.setColor(color);
-		light.setDistance(rad);
-		light.setPosition(x, y);
-		light.setActive(true);
+			if (light.getRayNum() == rays) {
+				lightPool.remove(i);
 
-		return light;
+				light.setColor(color);
+				light.setDistance(rad);
+				light.setPosition(x, y);
+				light.setActive(true);
+
+				return light;
+			}
+		}
+
+		return new PointLight(lights, rays, color, rad, x, y);
 	}
 
 	public static void removeLight(PointLight light) {
@@ -77,7 +86,7 @@ public class World {
 	}
 
 	private static void setBits(FixtureDef fixture, Entity owner) {
-		if (!(owner instanceof SolidProp) && (owner instanceof HeartFx || owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell)) {
+		if (!(owner instanceof SolidProp) && (owner instanceof HeartFx || owner instanceof Upgrade || owner instanceof Entrance || owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell)) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.groupIndex = -1;
 			fixture.filter.maskBits = -1;

@@ -35,6 +35,7 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.game.fx.WindFx;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.Bloodsplat;
@@ -77,7 +78,7 @@ public class InGameState extends State {
 
 		this.setupUi();
 
-		Dungeon.setBackground2(Level.colors[Dungeon.level.uid]);
+		Dungeon.setBackground2(new Color(Level.colors[Dungeon.level.uid]));
 
 		this.console = new Console();
 
@@ -114,6 +115,10 @@ public class InGameState extends State {
 
 			Dungeon.area.add(knight);
 			PlayerSave.add(knight);
+		}
+
+		for (int i = 0; i < 15; i++) {
+			Dungeon.area.add(new WindFx());
 		}
 	}
 

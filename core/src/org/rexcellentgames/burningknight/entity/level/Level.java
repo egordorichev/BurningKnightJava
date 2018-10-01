@@ -1626,33 +1626,34 @@ public abstract class Level extends SaveableEntity {
 								Graphics.render(Terrain.sides[t], x * 16, y * 16 - 16);
 							}
 						}
-					} else if (tile == Terrain.CHASM) {
-						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
-					}
-				}
 
-				int m = i - getWidth();
+						int m = i - getWidth();
 
-				if (m > -1) {
-					byte t = this.get(m);
+						if (m > -1) {
+							t = this.get(m);
 
-					if (t != Terrain.CRACK && t != Terrain.WALL && (this.data[i] == Terrain.WALL || this.data[i] == Terrain.CRACK)) {
-						byte d = this.decor[i];
+							if (t != Terrain.CRACK && t != Terrain.WALL && (this.data[i] == Terrain.WALL || this.data[i] == Terrain.CRACK)) {
+								byte d = this.decor[i];
 
-						if (d != 0) {
-							TextureRegion s = Terrain.decor[d - 1];
-							Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 9);
+								if (d != 0) {
+									TextureRegion s = Terrain.decor[d - 1];
+									Graphics.render(s, x * 16 + (16 - s.getRegionWidth()) / 2, y * 16 - 9);
 
-							if (d == 1) {
-								int tx = x * 16 + 4;
-								int ty = y * 16 - 7;
-								Graphics.startAlphaShape();
-								Graphics.shape.setColor(1f, 0.8f - (x % 3) * 0.1f, 0f, 0.2f);
-								Graphics.shape.circle(tx + 4, ty + 6, (float) (6 + Math.cos(this.t + (x + y)) * 0.8f * Math.sin(this.t * 0.7f + x - y / 2)));
-								Graphics.shape.setColor(1f, 1f, 1f, 1f);
-								Graphics.endAlphaShape();
+									if (d == 1) {
+										int tx = x * 16 + 4;
+										int ty = y * 16 - 7;
+										Graphics.startAlphaShape();
+										Graphics.shape.setColor(1f, 0.8f - (x % 3) * 0.1f, 0f, 0.2f);
+										Graphics.shape.circle(tx + 4, ty + 6, (float) (6 + Math.cos(this.t + (x + y)) * 0.8f * Math.sin(this.t * 0.7f + x - y / 2)));
+										Graphics.shape.setColor(1f, 1f, 1f, 1f);
+										Graphics.endAlphaShape();
+									}
+
+								}
 							}
 						}
+					} else if (tile == Terrain.CHASM) {
+						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
 					}
 				}
 			}
@@ -1795,7 +1796,45 @@ public abstract class Level extends SaveableEntity {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+
+		/*if (bloodRegion == null) {
+			bloodRegion = new TextureRegion(Graphics.blood.getColorBufferTexture());
+			bloodRegion.setRegionWidth(Display.GAME_WIDTH);
+			bloodRegion.setRegionHeight(Display.GAME_WIDTH);
+		}
+
+		float scale = 1; //  Math.max(((float)getWidth()) / 64f, ((float)getHeight()) / 64f);
+
+		Graphics.batch.end();
+		Graphics.surface.end();
+		Graphics.blood.begin();
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+		Graphics.shape.setColor(1, 0, 1, 1);
+		Graphics.shape.circle(Player.instance.x * scale, Player.instance.y * scale, 8 * scale);
+
+		Graphics.shape.setColor(1, 0, 1, 1);
+
+		for (int x = 0; x < 1024; x += 16) {
+			Graphics.shape.line(x * scale, 0, x * scale, 1024);
+		}
+
+		Graphics.shape.end();
+		Graphics.blood.end();
+		Graphics.surface.begin();
+		Graphics.batch.begin();
+
+		bloodRegion.setRegionX((int) (Camera.game.position.x - Display.GAME_WIDTH / 2));
+		bloodRegion.setRegionY((int) (Camera.game.position.y - Display.GAME_HEIGHT / 2));
+
+		Graphics.render(bloodRegion, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y - Display.GAME_HEIGHT / 2, 0, 0, 0, false, false,
+			1, 1f);*/
 	}
+
+	private TextureRegion bloodRegion;
 
 	public void addLight(float x, float y, float a, float max) {
 		float dt = Gdx.graphics.getDeltaTime();
@@ -1929,6 +1968,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public boolean checkFor(int i, int flag) {
+		if (i < 0 || i > getSize()) {
+			return false;
+		}
+
 		if (flag == Terrain.PASSABLE && this.liquidData[i] == Terrain.LAVA) {
 			return false;
 		} else if (flag == Terrain.BREAKS_LOS && (this.liquidData[i] == Terrain.HIGH_DRY_GRASS || this.liquidData[i] == Terrain.HIGH_GRASS)) {

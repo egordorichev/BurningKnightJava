@@ -37,6 +37,7 @@ public class Graphics {
 	public static FrameBuffer surface;
 	public static FrameBuffer text;
 	public static FrameBuffer map;
+	public static FrameBuffer blood;
 
 	private static HashMap<String, HashMap<String, TextureRegion>> modSprites = new HashMap<>();
 
@@ -84,6 +85,7 @@ public class Graphics {
 		surface = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 		text = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 		map = new FrameBuffer(Pixmap.Format.RGBA8888, Display.UI_WIDTH, Display.UI_HEIGHT, false);
+		blood = new FrameBuffer(Pixmap.Format.RGBA8888, Display.GAME_WIDTH, Display.GAME_HEIGHT, false);
 
 		Assets.manager.load("atlas/atlas.atlas", TextureAtlas.class);
 
@@ -287,5 +289,6 @@ public class Graphics {
 		shape.dispose();
 		shadows.dispose();
 		surface.dispose();
+		blood.dispose();
 	}
 }

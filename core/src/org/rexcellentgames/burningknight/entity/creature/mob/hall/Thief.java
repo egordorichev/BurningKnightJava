@@ -356,12 +356,9 @@ public class Thief extends Mob {
 	}
 
 	@Override
-	protected void die(boolean force) {
-		super.die(force);
-
+	protected void deathEffects() {
+		super.deathEffects();
 		this.playSfx("death_thief");
-
-		this.done = true;
 		deathEffect(killed);
 
 		if (stolen != null) {

@@ -82,7 +82,6 @@ public class Creature extends SaveableEntity {
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
 	protected float invtt;
 	protected HashMap<String, ArrayList<LuaFunction>> events = new HashMap<>();
-	protected boolean falling;
 	protected boolean shouldDie = false;
 	public boolean remove;
 
@@ -320,13 +319,6 @@ public class Creature extends SaveableEntity {
 
 	public int slowLiquidResist = 0;
 
-	@Override
-	public void become(String state) {
-		if (!this.falling) {
-			super.become(state);
-		}
-	}
-
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class)) {
@@ -405,12 +397,8 @@ public class Creature extends SaveableEntity {
 			this.lastIndex = Dungeon.longTime;
 		}
 
-		if (this.falling) {
-			this.velocity.mul(0);
-		}
-
 		if (this.body != null) {
-			this.velocity.clamp(0, this.maxSpeed);
+			// this.velocity.clamp(0, this.maxSpeed);
 			this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
 		}
 	}
@@ -433,7 +421,7 @@ public class Creature extends SaveableEntity {
 			return null;
 		}
 
-		if (this.falling || this.done || this.dead || this.invtt > 0 || this.invt > 0) {
+		if (this.done || this.dead || this.invtt > 0 || this.invt > 0) {
 			return null;
 		} else if (amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class) &&
 			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||

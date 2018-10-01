@@ -92,6 +92,8 @@ public class ChestRoom extends SecretRoom {
 			Dungeon.area.add(chest);
 			LevelSave.add(chest);
 		}
+
+		this.addEnemies();
 	}
 
 	@Override

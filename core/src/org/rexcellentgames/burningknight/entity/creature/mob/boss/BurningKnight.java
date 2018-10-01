@@ -63,7 +63,7 @@ public class BurningKnight extends Boss {
 
 	{
 		texture = "ui-bkbar-skull";
-		hpMax = 100;
+		hpMax = 50;
 		damage = 10;
 		w = 23;
 		h = 30;
@@ -223,7 +223,7 @@ public class BurningKnight extends Boss {
 
 	public void restore() {
 		this.pickedKey = false;
-		this.hpMax = Dungeon.depth * 30 + 70;
+		this.hpMax = Dungeon.depth * 30 + 20;
 		this.hp = this.hpMax;
 		this.rage = false;
 	}

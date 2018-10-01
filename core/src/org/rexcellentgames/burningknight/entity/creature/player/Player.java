@@ -987,6 +987,8 @@ public class Player extends Creature {
 					this.rolling = true;
 					this.mul = 1;
 					this.zvel = 20;
+					this.velocity.x = 0;
+					this.velocity.y = 0;
 
 					double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 

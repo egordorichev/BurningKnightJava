@@ -31,5 +31,7 @@ public class HeartRoom extends SecretRoom {
 			Dungeon.area.add(holder);
 			LevelSave.add(holder);
 		}
+
+		this.addEnemies();
 	}
 }

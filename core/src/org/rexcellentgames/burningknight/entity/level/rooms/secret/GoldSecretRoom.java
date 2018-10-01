@@ -52,5 +52,7 @@ public class GoldSecretRoom extends SecretRoom {
 			Dungeon.area.add(holder);
 			LevelSave.add(holder);
 		}
+
+		this.addEnemies();
 	}
 }

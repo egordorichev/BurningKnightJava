@@ -12,7 +12,7 @@ public class RangedKnight extends Knight {
 	}
 
 	{
-		hpMax = 2;
+		hpMax = 8;
 	}
 
 	@Override

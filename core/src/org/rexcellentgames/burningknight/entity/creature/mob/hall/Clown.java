@@ -96,10 +96,10 @@ public class Clown extends Mob {
 		this.playSfx("damage_clown");
 	}
 
-	@Override
-	protected void die(boolean force) {
-		super.die(force);
 
+	@Override
+	protected void deathEffects() {
+		super.deathEffects();
 		this.playSfx("death_clown");
 
 		this.done = true;

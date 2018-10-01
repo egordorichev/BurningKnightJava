@@ -295,9 +295,8 @@ public class Archeologist extends Mob {
 	}
 
 	@Override
-	protected void die(boolean force) {
-		super.die(force);
-
+	protected void deathEffects() {
+		super.deathEffects();
 		this.playSfx("death_clown");
 
 		this.done = true;
