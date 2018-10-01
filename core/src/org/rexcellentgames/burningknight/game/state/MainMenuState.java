@@ -196,9 +196,13 @@ public class MainMenuState extends State {
 			logo.getTexture().getTextureData().prepare();
 		}
 
+		if (!InGameState.noise.getTexture().getTextureData().isPrepared()) {
+			InGameState.noise.getTexture().getTextureData().prepare();
+		}
+
 		Pixmap pixmap = logo.getTexture().getTextureData().consumePixmap();
-		int x = logo.getRegionX();
-		int y = logo.getRegionY();
+		Pixmap noise = InGameState.noise.getTexture().getTextureData().consumePixmap();
+
 		int h = logo.getRegionHeight();
 
 		float lx = Display.UI_WIDTH_MAX / 2 - logo.getRegionWidth() / 2;
@@ -206,10 +210,15 @@ public class MainMenuState extends State {
 
 		for (int ry = 0; ry < h; ry++) {
 			for (int rx = 0; rx < logo.getRegionWidth(); rx++) {
-				Color color = new Color(pixmap.getPixel(x + rx, y + (h - ry)));
+				Color color = new Color(pixmap.getPixel(rx, (h - ry)));
 
 				if (color.r != 0 || color.g != 0 || color.b != 0) {
 					PixelFx fx = new PixelFx();
+
+
+					float a = (float) (new Color(noise.getPixel(rx, ry)).r * Math.PI);
+					fx.vel.x = (float) Math.cos(a) * 90f;
+					fx.vel.y = (float) Math.sin(a) * 90f;
 
 					fx.x = lx + rx;
 					fx.y = ly + ry;

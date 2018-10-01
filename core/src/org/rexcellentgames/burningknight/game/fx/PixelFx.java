@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.game.fx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class PixelFx extends Entity {
@@ -19,16 +18,7 @@ public class PixelFx extends Entity {
 	public float g;
 	public float b;
 	private float a = 1f;
-	private Point vel = new Point();
-
-	@Override
-	public void init() {
-		super.init();
-
-		float a = Random.newFloat((float) (Math.PI * 2));
-		vel.x = (float) Math.cos(a) * 60f;
-		vel.y = (float) Math.sin(a) * 60f;
-	}
+	public Point vel = new Point();
 
 	@Override
 	public void update(float dt) {
@@ -44,8 +34,6 @@ public class PixelFx extends Entity {
 
 		this.x += this.vel.x * dt;
 		this.y += this.vel.y * dt;
-
-		this.vel.mul(0.97f);
 
 		if (this.a <= 0) {
 			this.done = true;

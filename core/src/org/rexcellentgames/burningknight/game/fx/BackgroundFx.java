@@ -20,7 +20,7 @@ public class BackgroundFx extends Entity {
 		y = -32 - Random.newFloat(32f);
 		x = Random.newFloat(0, Display.UI_WIDTH_MAX);
 
-		size = Random.newFloat(8, 24) / 2f;
+		size = Random.newFloat(2, 24) / 2f;
 		val = Random.newFloat(0.7f, 1f);
 		speed = size * 3f;
 		alpha = Random.newFloat(0.3f, 0.8f);

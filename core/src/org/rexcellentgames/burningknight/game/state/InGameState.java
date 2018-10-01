@@ -49,7 +49,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 public class InGameState extends State {
 	private Console console;
 	private Area pauseMenuUi;
-	private static TextureRegion noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
+	public static TextureRegion noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
 
 	@Override
 	public void init() {
