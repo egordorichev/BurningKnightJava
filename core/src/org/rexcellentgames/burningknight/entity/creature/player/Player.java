@@ -1298,6 +1298,10 @@ public class Player extends Creature {
 
 	@Override
 	public boolean rollBlock() {
+		if (this.ui == null) {
+			return false;
+		}
+
 		ManaShield shield = (ManaShield) this.ui.getEquipped(ManaShield.class);
 
 		if (shield != null && this.mana >= shield.getCost() && Random.chance(shield.getChance()) && this.mana >= 2) {
@@ -1364,22 +1368,25 @@ public class Player extends Creature {
 			from.modifyHp(4, this, true);
 		}
 
-		BlackHeart heart = (BlackHeart) this.ui.getEquipped(BlackHeart.class);
+		if (this.ui != null) {
 
-		if (heart != null && this.room != null) {
-			for (int i = Mob.all.size() - 1; i >= 0; i--) {
-				Mob mob = Mob.all.get(i);
+			BlackHeart heart = (BlackHeart) this.ui.getEquipped(BlackHeart.class);
 
-				if (mob.getRoom() == this.room) {
-					mob.modifyHp((int) heart.getDamage(), this, true);
+			if (heart != null && this.room != null) {
+				for (int i = Mob.all.size() - 1; i >= 0; i--) {
+					Mob mob = Mob.all.get(i);
+
+					if (mob.getRoom() == this.room) {
+						mob.modifyHp((int) heart.getDamage(), this, true);
+					}
 				}
 			}
-		}
 
-		ClockHeart clock = (ClockHeart) this.ui.getEquipped(ClockHeart.class);
+			ClockHeart clock = (ClockHeart) this.ui.getEquipped(ClockHeart.class);
 
-		if (clock != null) {
-			Dungeon.slowDown(0.5f - (clock.getLevel() - 1f) * 0.05f, 1f * clock.getLevel());
+			if (clock != null) {
+				Dungeon.slowDown(0.5f - (clock.getLevel() - 1f) * 0.05f, 1f * clock.getLevel());
+			}
 		}
 	}
 
@@ -1389,7 +1396,10 @@ public class Player extends Creature {
 			return;
 		}
 
-		ui.hide();
+		if (this.ui != null) {
+			ui.hide();
+		}
+
 		UiMap.instance.hide();
 
 		Ui.ui.onDeath();
