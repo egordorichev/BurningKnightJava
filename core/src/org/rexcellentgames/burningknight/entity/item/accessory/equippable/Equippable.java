@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable;
 
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 
@@ -63,6 +64,7 @@ public class Equippable extends Accessory {
 	@Override
 	public void use() {
 		super.use();
+		Audio.playSfx("menu/select");
 
 		for (int i = 0; i < Player.instance.getInventory().getSize(); i++) {
 			if (Player.instance.getInventory().getSlot(i) == this) {

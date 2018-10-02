@@ -390,7 +390,7 @@ public class UiInventory extends UiEntity {
 	}
 
 	private void checkClosed() {
-		if (this.open && this.wasOpen && this.inventory.getSlot(this.active) instanceof Accessory) {
+		if (this.open && this.wasOpen && (this.inventory.getSlot(this.active) instanceof Accessory || this.getCurrentSlot() instanceof Accessory)) {
 			this.hide();
 		}
 
@@ -400,7 +400,7 @@ public class UiInventory extends UiEntity {
 	private void checkOpen() {
 		Item item = this.inventory.getSlot(this.active);
 
-		if (item instanceof Accessory && !this.open) {
+		if ((item instanceof Accessory || this.getCurrentSlot() instanceof Accessory) && !this.open) {
 			this.wasOpen = true;
 			this.open();
 		}
@@ -722,7 +722,9 @@ public class UiInventory extends UiEntity {
 	}
 
 	public void setCurrentSlot(Item currentSlot) {
+		this.checkClosed();
 		this.currentSlot = currentSlot;
+		this.checkOpen();
 	}
 
 	public Item getCurrentSlot() {
