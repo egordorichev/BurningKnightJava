@@ -37,7 +37,7 @@ public class Ui {
 		Graphics.getTexture("ui-cursor-corner"),
 		Graphics.getTexture("ui-cursor-sniper"),
 		Graphics.getTexture("ui-cursor-round-sniper"),
-		Graphics.getTexture("ui-cursor-round-cross")
+		Graphics.getTexture("ui-cursor-cross")
 	};
 
 

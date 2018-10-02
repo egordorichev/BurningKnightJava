@@ -103,6 +103,9 @@ public class BurningKnight extends Boss {
 		dtx = x;
 		dty = y;
 
+		Player.instance.setUnhittable(true);
+		Camera.follow(this, false);
+
 		if (dest) {
 			return;
 		}
@@ -314,6 +317,15 @@ public class BurningKnight extends Boss {
 
 				this.become("defeated");
 				this.dest = false;
+
+				Tween.to(new Tween.Task(0, 1f) {
+					@Override
+					public void onEnd() {
+						Player.instance.setUnhittable(false);
+						Camera.follow(Player.instance, false);
+					}
+				});
+
 				Camera.shake(30);
 				Audio.highPriority("Reckless");
 			}
@@ -500,6 +512,10 @@ public class BurningKnight extends Boss {
 		}
 
 		protected void doAttack() {
+			if (self.dest) {
+				return;
+			}
+
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
 			//if (self.isActiveState() || self.rage) {

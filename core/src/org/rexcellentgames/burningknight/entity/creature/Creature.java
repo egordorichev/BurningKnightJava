@@ -691,6 +691,12 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected boolean canHaveBuff(Buff buff) {
+		if (this.unhittable) {
+			if (buff instanceof BurningBuff || buff instanceof PoisonBuff) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
