@@ -210,11 +210,11 @@ public class UiSlot {
 		Item self = this.inventory.getInventory().getSlot(this.id);
 
 		if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
-			Audio.playSfx("menu/select");
+			// Audio.playSfx("menu/select");
 
-			/*if (self.canBeUsed()) {
+			if (self.canBeUsed()) {
 				self.use();
-			}*/
+			}
 
 			if (self.getCount() <= 0) {
 				Ui.upgradeMouse = false;

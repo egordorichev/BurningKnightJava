@@ -129,7 +129,7 @@ public class UiInventory extends UiEntity {
 	private Tween.Task lastA;
 	public float forceT;
 
-	private void open() {
+	public void open() {
 		this.open = true;
 		this.dn = false;
 
