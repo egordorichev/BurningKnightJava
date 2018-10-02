@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight;
 
 import com.badlogic.gdx.Gdx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.util.Log;
 
 public class Settings {
 	public static boolean fullscreen;
@@ -14,12 +15,16 @@ public class Settings {
 	public static float music = 0.5f;
 	public static float sfx = 0.5f;
 	public static String cursor = "cursor-standart";
+	public static boolean rotateCursor = true;
 	public static int cursorId = 0;
 
 	public static final String[] cursors = new String[] {
 		"cursor-standart",
 		"cursor-small",
-		"cursor-rect"
+		"cursor-rect",
+		"cursor-corner",
+		"cursor-sniper",
+		"cursor-round-sniper",
 	};
 
 	public static int getCursorId(String name) {
@@ -43,6 +48,7 @@ public class Settings {
 		sfx = GlobalSave.getFloat("settings_sfx");
 		music = GlobalSave.getFloat("settings_music");
 		cursor = GlobalSave.getString("settings_cursor", "cursor-standart");
+		rotateCursor = GlobalSave.isTrue("settings_rotate_cursor", true);
 
 		cursorId = getCursorId(cursor);
 
@@ -68,6 +74,7 @@ public class Settings {
 		GlobalSave.put("settings_music", music);
 
 		GlobalSave.put("settings_cursor", cursor);
+		GlobalSave.put("settings_rotate_cursor", rotateCursor);
 	}
 
 	public static void generate() {
@@ -83,6 +90,8 @@ public class Settings {
 		GlobalSave.put("settings_music", 0.5f);
 
 		GlobalSave.put("settings_cursor", "cursor-standart");
+		GlobalSave.put("settings_rotate_cursor", true);
+
 		cursorId = getCursorId(cursor);
 	}
 }

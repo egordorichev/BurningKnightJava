@@ -571,7 +571,7 @@ public class InGameState extends State {
 
 			pauseMenuUi.render();
 
-			Graphics.print(this.depth, Graphics.medium, Display.UI_WIDTH / 2 - w / 2, 128 + 32);
+			Graphics.print(this.depth, Graphics.medium, Display.UI_WIDTH / 2 - w / 2, 128 + 32 + 16);
 
 			Camera.ui.translate(0, -this.mv);
 			Camera.ui.update();
@@ -586,7 +586,7 @@ public class InGameState extends State {
 		Dungeon.ui.add(inventory);
 		Dungeon.ui.add(new UiMap());
 
-		int y = -24;
+		int y = -24 + 16;
 
 		this.pauseMenuUi.add(new UiButton("resume", Display.UI_WIDTH / 2, 128 + 32 + y) {
 			@Override

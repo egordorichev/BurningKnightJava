@@ -33,8 +33,12 @@ public class Ui {
 	public static TextureRegion[] regions = new TextureRegion[] {
 		Graphics.getTexture("ui-cursor-standart"),
 		Graphics.getTexture("ui-cursor-small"),
-		Graphics.getTexture("ui-cursor-rect")
+		Graphics.getTexture("ui-cursor-rect"),
+		Graphics.getTexture("ui-cursor-corner"),
+		Graphics.getTexture("ui-cursor-sniper"),
+		Graphics.getTexture("ui-cursor-round-sniper")
 	};
+
 
 	public Ui() {
 		ui = this;
@@ -432,12 +436,14 @@ public class Ui {
 		} else {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-			float s = (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale;
-			float a = Dungeon.time * 60;
+			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : 1f;
+			float a = Settings.rotateCursor ? Dungeon.time * 60 : 0;
+
+			TextureRegion region = regions[Settings.cursorId];
 
 			Graphics.batch.setColor(1, 1, 1, this.ca);
-			Graphics.render(regions[Settings.cursorId], Input.instance.uiMouse.x,
-				Input.instance.uiMouse.y, a, 8, 8, false, false, s, s);
+			Graphics.render(region, Input.instance.uiMouse.x,
+				Input.instance.uiMouse.y, a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, s, s);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 	}

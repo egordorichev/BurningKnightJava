@@ -628,5 +628,9 @@
 	"cursor" : "Cursor",
 	"cursor-standart" : "Standard",
 	"cursor-rect" : "Rect",
-	"cursor-small" : "Small"
+	"cursor-small" : "Small",
+	"cursor-corner" : "Corner",
+	"cursor-sniper" : "Sniper",
+	"cursor-round-sniper" : "Sniper Round",
+	"rotate_cursor" : "Rotate Cursor"
 }
