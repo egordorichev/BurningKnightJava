@@ -246,7 +246,7 @@ public class Knight extends Mob {
 				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 5f, this.att)) {
+				if (this.moveTo(self.lastSeen, 8f, this.att)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= this.att) {
 

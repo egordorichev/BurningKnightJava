@@ -464,6 +464,25 @@ public class Mob extends Creature {
 			}
 		}
 
+		if (this.room != null && Player.instance.room == this.room) {
+			for (Mob mob : Mob.all) {
+				if (mob != this && mob.room == this.room) {
+					float x = mob.x + mob.w / 2;
+					float y = mob.y + mob.h / 2;
+					float d = this.getDistanceTo(x, y);
+
+					if (d < 24) {
+						float a = d <= 8 ? Random.newFloat((float) (Math.PI * 2)) : this.getAngleTo(x, y);
+						float f = 4;
+
+						this.velocity.x -= Math.cos(a) * f;
+						this.velocity.y -= Math.sin(a) * f;
+
+					}
+				}
+			}
+		}
+
 		if (this.ai != null) {
 			try {
 				this.ai.update(dt * speedMod);
