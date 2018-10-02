@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiKey;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -90,6 +91,10 @@ public class Input implements InputProcessor, ControllerListener {
 	public void disconnected(Controller controller) {
 		Log.info("Controller " + controller.getName() + " disconnected!");
 		controllerChanged = true;
+
+		if (Dungeon.game.getState() instanceof InGameState && !Dungeon.game.getState().isPaused()) {
+			Dungeon.game.getState().setPaused(true);
+		}
 
 		if (activeController == controller) {
 			activeController = null;

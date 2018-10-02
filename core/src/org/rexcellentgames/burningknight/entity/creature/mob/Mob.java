@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -403,7 +404,7 @@ public class Mob extends Creature {
 				Dungeon.area.add(fx);
 			}
 
-			if (this.lastSplat >= 1f) {
+			if (this.lastSplat >= 1f && Settings.blood) {
 				this.lastSplat = 0;
 				BloodSplatFx fxx = new BloodSplatFx();
 
@@ -568,14 +569,16 @@ public class Mob extends Creature {
 	protected void deathEffects() {
 		this.done = true;
 
-		for (int i = 0; i < 5; i++) {
-			BloodSplatFx fxx = new BloodSplatFx();
+		if (Settings.blood) {
+			for (int i = 0; i < 5; i++) {
+				BloodSplatFx fxx = new BloodSplatFx();
 
-			fxx.x = x + Random.newFloat(w) - 8;
-			fxx.y = y + Random.newFloat(h) - 8;
+				fxx.x = x + Random.newFloat(w) - 8;
+				fxx.y = y + Random.newFloat(h) - 8;
 
-			Dungeon.area.add(fxx);
-			BloodFx.add(this, 5);
+				Dungeon.area.add(fxx);
+				BloodFx.add(this, 5);
+			}
 		}
 	}
 

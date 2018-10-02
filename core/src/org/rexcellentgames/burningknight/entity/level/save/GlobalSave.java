@@ -33,6 +33,16 @@ public class GlobalSave {
 		values.put(key, val.toString());
 	}
 
+	public static String getString(String key, String def) {
+		String value = values.get(key);
+
+		if (value == null) {
+			return def;
+		}
+
+		return value;
+	}
+
 	public static int getInt(String key) {
 		String value = values.get(key);
 

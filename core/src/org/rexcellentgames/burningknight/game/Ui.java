@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -25,14 +26,18 @@ public class Ui {
 	private float scale = 1f;
 	public HashMap<Class<? extends Boss>, Healthbar> healthbars = new HashMap<>();
 
-	private TextureRegion cursor;
 	private TextureRegion upgrade;
 	public static boolean hideCursor;
 	public static boolean hideUi;
 
+	public static TextureRegion[] regions = new TextureRegion[] {
+		Graphics.getTexture("ui-cursor-standart"),
+		Graphics.getTexture("ui-cursor-small"),
+		Graphics.getTexture("ui-cursor-rect")
+	};
+
 	public Ui() {
 		ui = this;
-		cursor = Graphics.getTexture("ui-cursor");
 		upgrade = Graphics.getTexture("ui-upgrade_cursor");
 	}
 
@@ -431,7 +436,7 @@ public class Ui {
 			float a = Dungeon.time * 60;
 
 			Graphics.batch.setColor(1, 1, 1, this.ca);
-			Graphics.render(this.cursor, Input.instance.uiMouse.x,
+			Graphics.render(regions[Settings.cursorId], Input.instance.uiMouse.x,
 				Input.instance.uiMouse.y, a, 8, 8, false, false, s, s);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}

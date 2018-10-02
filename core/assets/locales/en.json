@@ -624,5 +624,9 @@
 	"noppy_gun" : "Noppy Gun",
 	"noppy_gun_desc" : "Fast and hard",
 	"puncher_gun" : "Puncher Gun",
-	"puncher_gun_desc" : "Punch out!"
+	"puncher_gun_desc" : "Punch out!",
+	"cursor" : "Cursor",
+	"cursor-standart" : "Standard",
+	"cursor-rect" : "Rect",
+	"cursor-small" : "Small"
 }

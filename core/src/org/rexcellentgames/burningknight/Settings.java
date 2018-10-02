@@ -13,6 +13,24 @@ public class Settings {
 	public static float screenshake = 0.7f;
 	public static float music = 0.5f;
 	public static float sfx = 0.5f;
+	public static String cursor = "cursor-standart";
+	public static int cursorId = 0;
+
+	public static final String[] cursors = new String[] {
+		"cursor-standart",
+		"cursor-small",
+		"cursor-rect"
+	};
+
+	public static int getCursorId(String name) {
+		for (int i = 0; i < cursors.length; i++) {
+			if (cursors[i].equals(name)) {
+				return i;
+			}
+		}
+
+		return 0;
+	}
 
 	public static void load() {
 		fullscreen = GlobalSave.isTrue("settings_fullscreen");
@@ -24,6 +42,9 @@ public class Settings {
 		screenshake = GlobalSave.getFloat("settings_screenshake");
 		sfx = GlobalSave.getFloat("settings_sfx");
 		music = GlobalSave.getFloat("settings_music");
+		cursor = GlobalSave.getString("settings_cursor", "cursor-standart");
+
+		cursorId = getCursorId(cursor);
 
 		if (fullscreen) {
 			Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
@@ -32,12 +53,6 @@ public class Settings {
 		}
 
 		Gdx.graphics.setVSync(Settings.vsync);
-
-		/*
-		if (!AssetLoadState.START_TO_MENU) {
-			music = 0;
-			sfx = 0;
-		}*/
 	}
 
 	public static void save() {
@@ -51,6 +66,8 @@ public class Settings {
 		GlobalSave.put("settings_screenshake", screenshake);
 		GlobalSave.put("settings_sfx", sfx);
 		GlobalSave.put("settings_music", music);
+
+		GlobalSave.put("settings_cursor", cursor);
 	}
 
 	public static void generate() {
@@ -64,5 +81,8 @@ public class Settings {
 		GlobalSave.put("settings_screenshake", 0.7f);
 		GlobalSave.put("settings_sfx", 0.5f);
 		GlobalSave.put("settings_music", 0.5f);
+
+		GlobalSave.put("settings_cursor", "cursor-standart");
+		cursorId = getCursorId(cursor);
 	}
 }

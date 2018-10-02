@@ -22,26 +22,14 @@ public class GraphicsSettingsState extends State {
 
 		added = true;
 
-		Dungeon.ui.add(new UiChoice("quality", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 + 20 * 2 + Display.UI_HEIGHT_MAX) {
+		Dungeon.ui.add(new UiChoice("cursor", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 + 20 * 2 + Display.UI_HEIGHT_MAX) {
 			@Override
 			public void onClick() {
 				super.onClick();
-
-				switch (this.getCurrent()) {
-					case 0: default: Settings.quality = 2; break;
-					case 1: Settings.quality = 4; break;
-					case 2: Settings.quality = 1; break;
-				}
-
-				org.rexcellentgames.burningknight.assets.Graphics.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				Settings.cursor = Settings.cursors[this.getCurrent()];
+				Settings.cursorId = this.getCurrent();
 			}
-		}.setChoices(new String[] {
-			"normal",
-			"good",
-			"bad"
-		}).setCurrent(
-			(Settings.quality == 2 ? 0 : (Settings.quality == 4 ? 1 : 2))
-		));
+		}.setChoices(Settings.cursors).setCurrent(Settings.getCursorId(Settings.cursor)));
 
 		Dungeon.ui.add(new UiSlider("screenshake", (int) (Display.UI_WIDTH_MAX * 1.5f), 138 + 20 + Display.UI_HEIGHT_MAX) {
 			@Override
@@ -78,10 +66,10 @@ public class GraphicsSettingsState extends State {
 
 				Settings.blood = !Settings.blood;
 
-				/*
+
 				if (Settings.blood) {
 					Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4));
-				}*/
+				}
 			}
 		}.setOn(Settings.blood));
 

@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -936,7 +937,7 @@ public class Player extends Creature {
 				Dungeon.area.add(fx);
 			}
 
-			if (this.last >= 1f) {
+			if (this.last >= 1f && Settings.blood) {
 				this.last = 0;
 				BloodSplatFx fxx = new BloodSplatFx();
 
