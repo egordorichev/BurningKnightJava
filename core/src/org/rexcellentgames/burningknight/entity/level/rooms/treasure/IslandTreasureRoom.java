@@ -20,7 +20,7 @@ public class IslandTreasureRoom extends TreasureRoom {
 
 		Rect connetion = this.getConnectionSpace();
 
-		Painter.fill(level, connetion.left, connetion.top, 3, 3, Random.chance(30) ? Terrain.FLOOR_D : Terrain.randomFloor());
+		Painter.fill(level, connetion.left - 1, connetion.top - 1, 5, 5, Random.chance(30) ? Terrain.FLOOR_D : Terrain.randomFloor());
 
 		placeChest(getCenter());
 	}

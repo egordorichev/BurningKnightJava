@@ -46,6 +46,7 @@ public class UiInventory extends UiEntity {
 	}
 
 	private boolean toRemove;
+	private boolean wasOpen;
 
 	public void remove() {
 		if (toRemove) {
@@ -230,22 +231,28 @@ public class UiInventory extends UiEntity {
 			}
 
 			if (Input.instance.wasPressed("scroll") && Dialog.active == null) {
+				this.checkClosed();
 				this.active = (this.active + Input.instance.getAmount());
 
 				this.validate(Input.instance.getAmount());
 				this.forceT = 1f;
+				this.checkOpen();
 			}
 
 			if (Input.instance.wasPressed("prev") && Dialog.active == null) {
+				this.checkClosed();
 				this.active -= 1;
 				this.forceT = 1f;
 				this.validate(-1);
+				this.checkOpen();
 			}
 
 			if (Input.instance.wasPressed("next") && Dialog.active == null) {
+				this.checkClosed();
 				this.active = this.active + 1;
 				this.forceT = 1f;
 				this.validate(1);
+				this.checkOpen();
 			}
 
 			if (!Input.instance.blocked && Input.instance.wasPressed("drop") && Dialog.active == null) {
@@ -267,33 +274,45 @@ public class UiInventory extends UiEntity {
 			}
 
 			if (Input.instance.wasPressed("1")) {
+				this.checkClosed();
 				this.active = 0;
 				this.forceT = 1f;
+				this.checkOpen();
 			}
 
 			if (Input.instance.wasPressed("2")) {
+				this.checkClosed();
 				this.active = 1;
 				this.forceT = 1f;
+				this.checkOpen();
 			}
 
 			if (Input.instance.wasPressed("3")) {
+				this.checkClosed();
 				this.active = 2;
 				this.forceT = 1f;
+				this.checkOpen();
 			}
 
 			if (Input.instance.wasPressed("4")) {
+				this.checkClosed();
 				this.active = 3;
 				this.forceT = 1f;
+				this.checkOpen();
 			}
 
 			if (Input.instance.wasPressed("5")) {
+				this.checkClosed();
 				this.active = 4;
 				this.forceT = 1f;
+				this.checkOpen();
 			}
 
 			if (Input.instance.wasPressed("6")) {
+				this.checkClosed();
 				this.active = 5;
 				this.forceT = 1f;
+				this.checkOpen();
 			}
 		}
 
@@ -367,6 +386,23 @@ public class UiInventory extends UiEntity {
 					return true;
 				}
 			}).delay(0.01f);
+		}
+	}
+
+	private void checkClosed() {
+		if (this.open && this.wasOpen && this.inventory.getSlot(this.active) instanceof Accessory) {
+			this.hide();
+		}
+
+		this.wasOpen = false;
+	}
+
+	private void checkOpen() {
+		Item item = this.inventory.getSlot(this.active);
+
+		if (item instanceof Accessory && !this.open) {
+			this.wasOpen = true;
+			this.open();
 		}
 	}
 

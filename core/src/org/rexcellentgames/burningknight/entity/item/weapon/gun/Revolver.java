@@ -8,8 +8,8 @@ public class Revolver extends Gun {
 	protected void setStats() {
 		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
 		sprite = "item-gun_" + letter;
-		name = Locale.get("revolver_" + letter);
-		description = Locale.get("revolver_desc");
+		name = Locale.get("gun_" + letter);
+		description = Locale.get("gun_desc");
 		region = Graphics.getTexture(sprite);
 	}
 

@@ -12,7 +12,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.TFFx;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mimic extends Mob {
-	public static float chance = 20;
+	public static float chance = 100; // 20 FIXME
 	public static ArrayList<Mimic> all = new ArrayList<>();
 	private AnimationData closed;
 	private AnimationData open;
@@ -318,14 +318,32 @@ public class Mimic extends Mob {
 					Dungeon.area.add(fx);
 				}
 
-				TFFx fx = new TFFx();
+				BulletProjectile bullet = new BulletProjectile();
+
+				bullet.letter = "bad";
+				bullet.bad = true;
+				bullet.owner = self;
+				bullet.x = self.x + self.w / 2;
+				bullet.y = self.y + self.h / 2;
+
+				self.playSfx("gun_machinegun");
+
+				float a = self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
+				float d = 60f;
+
+				bullet.velocity.x = (float) (Math.cos(a) * d);
+				bullet.velocity.y = (float) (Math.sin(a) * d);
+
+				Dungeon.area.add(bullet);
+
+				/*TFFx fx = new TFFx();
 
 				fx.x = self.x + self.w / 2;
 				fx.y = self.y + self.h / 2;
 
 				fx.to(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
 
-				Dungeon.area.add(fx);
+				Dungeon.area.add(fx);*/
 			}
 
 			if (this.t >= 5f) {
