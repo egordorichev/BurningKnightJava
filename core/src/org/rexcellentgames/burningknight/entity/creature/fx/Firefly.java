@@ -35,7 +35,7 @@ public class Firefly extends SaveableEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		light.remove();
+		World.removeLight(light);
 	}
 
 	private float rd = 6;

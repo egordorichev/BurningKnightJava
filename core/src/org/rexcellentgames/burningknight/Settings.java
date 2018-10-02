@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight;
 
 import com.badlogic.gdx.Gdx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
-import org.rexcellentgames.burningknight.util.Log;
 
 public class Settings {
 	public static boolean fullscreen;
@@ -25,6 +24,7 @@ public class Settings {
 		"cursor-corner",
 		"cursor-sniper",
 		"cursor-round-sniper",
+		"cursor-cross"
 	};
 
 	public static int getCursorId(String name) {

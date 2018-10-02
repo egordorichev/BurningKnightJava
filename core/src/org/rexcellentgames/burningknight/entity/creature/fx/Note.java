@@ -122,7 +122,7 @@ public class Note extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		light.remove();
+		World.removeLight(light);
 		this.body = World.removeBody(this.body);
 	}
 

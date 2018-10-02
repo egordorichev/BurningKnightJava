@@ -129,6 +129,10 @@ public class FireballProjectile extends Projectile {
 			this.velocity.x += (this.tar.x - this.velocity.x) * dt;
 			this.velocity.y += (this.tar.y - this.velocity.y) * dt;
 		}
+
+		if (light != null) {
+			light.setPosition(x, y);
+		}
 	}
 
 	@Override
@@ -136,7 +140,7 @@ public class FireballProjectile extends Projectile {
 		super.destroy();
 
 		if (light != null) {
-			light.remove();
+			World.removeLight(light);
 			light = null;
 		}
 	}
@@ -161,10 +165,6 @@ public class FireballProjectile extends Projectile {
 
 	@Override
 	public void render() {
-		if (light != null) {
-			light.setPosition(x, y);
-		}
-
 		TextureRegion texture = this.animation.getCurrent().frame;
 
 		float sx = (float) (1f + Math.cos(this.t * 7) / 6f);

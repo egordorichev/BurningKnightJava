@@ -801,6 +801,8 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		
+		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.hasBuff(BurningBuff.class)) {
 			this.light.setColor(1, 0.5f, 0f, 1f);
@@ -916,7 +918,6 @@ public class Player extends Creature {
 		}
 
 		this.watery = Math.max(0, this.watery - dt);
-		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.dead) {
 			super.common();

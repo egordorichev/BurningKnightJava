@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -105,10 +106,14 @@ public class Gun extends WeaponBase {
 		return super.canBeUsed() && ammoLeft >= 0;
 	}
 
+	private boolean pressed;
+
 	@Override
 	public void updateInHands(float dt) {
 		super.updateInHands(dt);
-		if (this.ammoLeft == 0) {
+		if (ammoLeft < ammoMax && (pressed || Input.instance.wasPressed("interact"))) {
+			pressed = true;
+
 			if (this.chargeProgress == 0 || this.time == 0) {
 				this.time = this.owner.getStat("reload_time");
 			}
@@ -116,6 +121,7 @@ public class Gun extends WeaponBase {
 			this.chargeProgress += dt * this.time / 3f * reloadRate;
 
 			if (this.chargeProgress >= 1f) {
+				pressed = false;
 				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
 				this.charge -= this.ammoMax;
 				this.onAmmoAdded();

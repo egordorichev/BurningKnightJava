@@ -149,7 +149,7 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.light.remove();
+		World.removeLight(light);
 		this.body = World.removeBody(this.body);
 	}
 

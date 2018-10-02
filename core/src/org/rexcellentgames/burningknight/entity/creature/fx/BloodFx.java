@@ -14,6 +14,10 @@ public class BloodFx extends Entity {
 		add(entity.x, entity.y, entity.w, entity.h, count);
 	}
 
+	{
+		alwaysActive = true;
+	}
+
 	public static void add(float x, float y, float w, float h, int count) {
 		if (!Settings.blood) {
 			return;

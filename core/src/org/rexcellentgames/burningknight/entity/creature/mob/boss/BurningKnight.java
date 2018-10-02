@@ -691,7 +691,7 @@ public class BurningKnight extends Boss {
 
 		sfx.stop(this.sid);
 		sword.destroy();
-		light.remove();
+		World.removeLight(light);
 	}
 
 	public class DashState extends BKState {
@@ -1230,8 +1230,6 @@ public class BurningKnight extends Boss {
 							ball.tar.x = (float) (s * Math.cos(a));
 							ball.tar.y = (float) (s * Math.sin(a));
 							ball.target = auto ? self.target : null;
-
-							Dungeon.area.add(ball);
 						}
 					}
 
@@ -1260,8 +1258,6 @@ public class BurningKnight extends Boss {
 							ball.tar.x = (float) (s * Math.cos(a));
 							ball.tar.y = (float) (s * Math.sin(a));
 							ball.target = auto ? self.target : null;
-
-							Dungeon.area.add(ball);
 						}
 					}
 				}
