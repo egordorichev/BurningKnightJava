@@ -68,12 +68,15 @@ public class HandmadeRoom extends RegularRoom {
 			}
 		}
 
+		// fixme: proper camera movement, disable trader spawning on depth -3
+
 		for (MapObject object : rooms.getObjects()) {
 			if (object.getName().equals("sub")) {
 				continue;
 			}
 
 			if (object instanceof RectangleMapObject) {
+
 				Rectangle rect = ((RectangleMapObject) object).getRectangle();
 				RoomData data = new RoomData();
 
@@ -237,6 +240,8 @@ public class HandmadeRoom extends RegularRoom {
 
 				spawn.x = x + rect.x + 16;
 				spawn.y = y + rect.y + 16;
+
+				Log.error("Added spawner!");
 
 				Dungeon.area.add(spawn.add());
 			} else {

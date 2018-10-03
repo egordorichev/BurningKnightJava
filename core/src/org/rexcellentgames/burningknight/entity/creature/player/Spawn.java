@@ -9,6 +9,10 @@ public class Spawn extends SaveableEntity {
 	public void init() {
 		super.init();
 		instance = this;
+
+		if (Player.instance != null) {
+			Player.instance.tp(Spawn.instance.x, Spawn.instance.y);
+		}
 	}
 
 	@Override

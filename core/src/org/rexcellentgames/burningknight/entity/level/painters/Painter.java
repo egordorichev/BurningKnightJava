@@ -234,7 +234,7 @@ public class Painter {
 						}
 					}
 
-					if (level.get(x, y) == Terrain.WALL) {
+					if (Dungeon.depth != -3 && Dungeon.depth != -1 && level.get(x, y) == Terrain.WALL) {
 						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 

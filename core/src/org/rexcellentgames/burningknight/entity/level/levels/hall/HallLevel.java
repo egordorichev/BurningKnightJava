@@ -26,7 +26,7 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	public String getMusic() {
-		return Dungeon.depth == -2 ? "Shopkeeper" : (Dungeon.depth == 0 ? "Gobbeon" : (Dungeon.depth == -1 ? "Outsider" : "Born to do rogueries"));
+		return Dungeon.depth == -2 ? "Shopkeeper" : (Dungeon.depth == 0 ? "Gobbeon" : (Dungeon.depth < 0 ? "Outsider" : "Born to do rogueries"));
 	}
 
 	@Override

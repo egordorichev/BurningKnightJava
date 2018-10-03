@@ -758,7 +758,9 @@ public class Player extends Creature {
 		}
 
 		if (Dungeon.depth == -3) {
-			this.tp(Spawn.instance.x, Spawn.instance.y);
+			if (Spawn.instance != null) {
+				this.tp(Spawn.instance.x, Spawn.instance.y);
+			}
 		} else if (Dungeon.depth == -1) {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 32);
