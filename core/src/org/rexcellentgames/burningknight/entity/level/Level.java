@@ -209,7 +209,9 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public String formatDepth() {
-		if (Dungeon.depth == -2) {
+		if (Dungeon.depth == -3) {
+			return Locale.get("introduction");
+		} if (Dungeon.depth == -2) {
 			return Locale.get("traders_asylum");
 		} else if (Dungeon.depth == -1) {
 			return Locale.get("castle");
@@ -222,7 +224,7 @@ public abstract class Level extends SaveableEntity {
 
 	private static String[] letters = { "I", "II", "III", "IV", "V", "VI" };
 
-	public boolean addLight = false;
+	public boolean addLight;
 
 	public void initLight() {
 		this.light = new float[getSize()];
@@ -487,6 +489,8 @@ public abstract class Level extends SaveableEntity {
 
 	@Override
 	public void init() {
+		addLight = Dungeon.depth == -3 || Dungeon.depth == -1;
+
 		Dungeon.level = this;
 
 		this.alwaysRender = true;
@@ -549,7 +553,7 @@ public abstract class Level extends SaveableEntity {
 		float sp = dt * 0.3f;
 
 		for (int i = 0; i < getSize(); i++) {
-			this.light[i] = MathUtils.clamp(this.explored[i] ? 0.5f : 0f, 1f, this.light[i] - sp);
+			this.light[i] = MathUtils.clamp(addLight ? 1f : (this.explored[i] ? 0.5f : 0f), 1f, this.light[i] - sp);
 		}
 
 		for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
@@ -1693,25 +1697,33 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		Graphics.batch.end();
-		Graphics.surface.end();
+
+		boolean light = Dungeon.depth != -1 && Dungeon.depth != -3;
+
+		if (light) {
+			Graphics.surface.end();
+		}
+
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
 
-		World.lights.setCombinedMatrix(Camera.game.combined);
-		World.lights.update();
-		World.lights.render();
+		if (light) {
+			World.lights.setCombinedMatrix(Camera.game.combined);
+			World.lights.update();
+			World.lights.render();
 
-		Graphics.batch.end();
-		Graphics.surface.begin();
-		Graphics.batch.setShader(lightShader);
-		Graphics.batch.begin();
+			Graphics.batch.end();
+			Graphics.surface.begin();
+			Graphics.batch.setShader(lightShader);
+			Graphics.batch.begin();
 
-		Texture texture = World.lights.getLightMapTexture();
-		Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
+			Texture texture = World.lights.getLightMapTexture();
+			Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
 
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
 	}
 
 	public static ShaderProgram lightShader;

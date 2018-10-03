@@ -129,7 +129,17 @@ public class Camera extends Entity {
 				}
 			}
 
-			if (Dungeon.depth == -1) {
+			if (Dungeon.depth == -3) {
+				Room room = Player.instance.room;
+
+				if (room != null) {
+					game.position.x = MathUtils.clamp(room.left * 16 + Display.GAME_WIDTH / 2,
+						room.right * 16 - Display.GAME_WIDTH / 2, camPosition.x);
+					game.position.y = MathUtils.clamp(room.top * 16 + Display.GAME_HEIGHT / 2,
+						room.bottom * 16 - Display.GAME_HEIGHT / 2, camPosition.y);
+
+				}
+			} else if (Dungeon.depth == -1) {
 				Room room = Dungeon.level.getRooms().get(0);
 
 				game.position.x = MathUtils.clamp(room.left * 16 + Display.GAME_WIDTH / 2 + 16,

@@ -633,5 +633,6 @@
 	"cursor-sniper" : "Sniper",
 	"cursor-round-sniper" : "Sniper Round",
 	"rotate_cursor" : "Rotate Cursor",
-	"cursor-cross" : "Cross"
+	"cursor-cross" : "Cross",
+	"introduction" : "Introduction"
 }

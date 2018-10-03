@@ -228,7 +228,7 @@ public class Painter {
 
 			for (int y = room.top; y <= room.bottom; y++) {
 				for (int x = room.left; x <= room.right; x++) {
-					if (Dungeon.depth != -2 && level.get(x, y) == Terrain.WALL) {
+					if (Dungeon.depth > -2 && level.get(x, y) == Terrain.WALL) {
 						if (Random.chance(30)) {
 							level.setDecor(x, y, (byte) (Random.newInt(Terrain.decor.length) + 1));
 						}

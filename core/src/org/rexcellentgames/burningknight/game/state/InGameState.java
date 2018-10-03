@@ -512,24 +512,26 @@ public class InGameState extends State {
 	public void render() {
 		super.render();
 
-		Graphics.batch.end();
-		Graphics.batch.setShader(shader);
+		if (Dungeon.depth != -1 && Dungeon.depth != -3) {
+			Graphics.batch.end();
+			Graphics.batch.setShader(shader);
 
-		shader.begin();
-		shader.setUniformf("time", time * 0.01f);
-		shader.setUniformf("cx", Camera.game.position.x / 512);
-		shader.setUniformf("cy", -Camera.game.position.y / 512);
-		shader.end();
+			shader.begin();
+			shader.setUniformf("time", time * 0.01f);
+			shader.setUniformf("cx", Camera.game.position.x / 512);
+			shader.setUniformf("cy", -Camera.game.position.y / 512);
+			shader.end();
 
-		Graphics.batch.begin();
+			Graphics.batch.begin();
 
-		Graphics.batch.setColor(1, 1, 1, 0.5f);
-		Graphics.render(noise, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y - Display.GAME_HEIGHT / 2, 0, 0, 0, false, false);
-		Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.batch.setColor(1, 1, 1, 0.5f);
+			Graphics.render(noise, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y - Display.GAME_HEIGHT / 2, 0, 0, 0, false, false);
+			Graphics.batch.setColor(1, 1, 1, 1);
 
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
 	}
 
 	@Override

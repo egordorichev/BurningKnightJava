@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
+import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -162,6 +163,11 @@ public class HandmadeRoom extends RegularRoom {
 
 	public HandmadeRoom(String id) {
 		this.data = datas.get(id);
+
+		if (this.data == null) {
+			throw new RuntimeException("Handmade " + id + " does not exist!");
+		}
+
 		this.id = id;
 	}
 
@@ -194,6 +200,8 @@ public class HandmadeRoom extends RegularRoom {
 
 				Dungeon.area.add(c.add());
 			} else if (name.startsWith("sk_")) {
+				Log.error("Add trader :(");
+
 				String id = name.replace("sk_", "");
 
 				Trader trader = new Trader();
@@ -224,6 +232,15 @@ public class HandmadeRoom extends RegularRoom {
 				}
 
 				Dungeon.area.add(trader.add());
+			} else if (name.equals("start")) {
+				Spawn spawn = new Spawn();
+
+				spawn.x = x + rect.x + 16;
+				spawn.y = y + rect.y + 16;
+
+				Dungeon.area.add(spawn.add());
+			} else {
+				Log.error("Unknown entity " + name);
 			}
 		}
 	}
@@ -270,6 +287,7 @@ public class HandmadeRoom extends RegularRoom {
 				boolean dr = false;
 
 				switch (t) {
+					case 1: tt = Terrain.FLOOR_A; break;
 					case 2: tt = Terrain.FLOOR_B; break;
 					case 3: tt = Terrain.FLOOR_D; break;
 					case 4: tt = Terrain.FLOOR_C; break;
@@ -310,6 +328,7 @@ public class HandmadeRoom extends RegularRoom {
 
 						Dungeon.area.add(entrance.add());
 					break;
+					default: Log.error("Unknown tile " + t);
 				}
 
 				if (!dr) {

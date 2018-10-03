@@ -58,6 +58,10 @@ public class World {
 	}
 
 	public static void removeLight(PointLight light) {
+		if (light == null) {
+			return;
+		}
+
 		lightPool.add(light);
 		light.setDistance(0);
 		light.setPosition(-1000, -1000);

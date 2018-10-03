@@ -193,7 +193,7 @@ public abstract class RegularLevel extends Level {
 
 		ArrayList<Room> rooms = this.createRooms();
 
-		if (Dungeon.depth != -2) {
+		if (Dungeon.depth > -2) {
 			Collections.shuffle(rooms);
 		}
 
@@ -235,7 +235,7 @@ public abstract class RegularLevel extends Level {
 
 					rooms = this.createRooms();
 
-					if (Dungeon.depth != -2) {
+					if (Dungeon.depth > -2) {
 						Collections.shuffle(rooms);
 					}
 				}
@@ -264,6 +264,8 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth == 0) {
 			rooms.add(new LampRoom());
+		} else if (Dungeon.depth == -3) {
+			rooms.add(new HandmadeRoom("tutorial"));
 		} else if (Dungeon.depth == -2) {
 			rooms.add(new HandmadeRoom("shops"));
 		} else if (Dungeon.depth == -1) {
