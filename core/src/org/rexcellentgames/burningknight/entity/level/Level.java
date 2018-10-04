@@ -623,7 +623,7 @@ public abstract class Level extends SaveableEntity {
 			setDone(true);
 		}
 
-		if (Dungeon.depth > -1) {
+		if (Dungeon.depth > -1 || Dungeon.depth == -3) {
 			this.lastUpdate += dt;
 			this.lastFlame += dt;
 
@@ -753,6 +753,10 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public void setOnFire(int i, boolean fire) {
+		setOnFire(i, fire, true);
+	}
+
+	public void setOnFire(int i, boolean fire, boolean getWaterOut) {
 		if (!isValid(i)) {
 			return;
 		}
@@ -777,7 +781,7 @@ public abstract class Level extends SaveableEntity {
 			}
 
 			return;
-		} else if (fire && l == Terrain.WATER) {
+		} else if (fire && l == Terrain.WATER && getWaterOut) {
 			this.liquidData[i] = 0;
 			this.info[i] = 0;
 

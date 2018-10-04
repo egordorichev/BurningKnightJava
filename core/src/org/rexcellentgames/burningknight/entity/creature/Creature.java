@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -238,7 +239,7 @@ public class Creature extends SaveableEntity {
 					byte l = Dungeon.level.liquidData[i];
 
 					if (l > 0) {
-						com.badlogic.gdx.math.Rectangle r = Level.COLLISIONS[Dungeon.level.liquidVariants[i]];
+						Rectangle r = Level.COLLISIONS[Dungeon.level.liquidVariants[i]];
 
 						if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3,
 							x * 16 + r.x, y * 16 - 8 + r.y, r.width, r.height)) {
@@ -259,7 +260,7 @@ public class Creature extends SaveableEntity {
 
 		for (int i = buffs.length - 1; i >= 0; i--) {
 			if (buffs[i] instanceof BurningBuff && !this.isFlying()) {
-				Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true);
+				Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true, false);
 			}
 
 			buffs[i].update(dt);
