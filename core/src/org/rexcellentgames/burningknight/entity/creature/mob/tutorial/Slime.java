@@ -23,7 +23,7 @@ public class Slime extends Mob {
 	}
 
 	{
-		hpMax = 8;
+		hpMax = 12;
 
 		idle = getAnimation().get("idle");
 		hurt = getAnimation().get("hurt");
@@ -37,8 +37,6 @@ public class Slime extends Mob {
 
 		this.body = this.createSimpleBody(1, 1, 12, 8, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
-
-		saw = true;
 	}
 
 	@Override
@@ -114,6 +112,10 @@ public class Slime extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			if (self.target == null) {
+				this.checkForPlayer();
+			}
 
 			if (this.t >= 3f && self.animation.getFrame() == 3 && self.target != null) {
 				Tween.to(new Tween.Task(0.7f, 0.1f) {

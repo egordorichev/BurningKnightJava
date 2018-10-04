@@ -814,10 +814,10 @@ public class Mob extends Creature {
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
-		if (!this.saw && !(this instanceof Boss)) {
+		/*if (!this.saw && !(this instanceof Boss)) {
 			this.toDead = true;
 			return;
-		}
+		}*/
 
 		if (this.isLow() && !(this.ai instanceof GetOutState)) {
 			State state = this.getAiWithLow(this.state);
