@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.tutorial;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -32,5 +33,8 @@ public class PurpleSlime extends Slime {
 		ball.letter = "bad";
 
 		Dungeon.area.add(ball);
+
+		Camera.push((float) (a - Math.PI), 10);
+		this.playSfx("gun_machinegun");
 	}
 }

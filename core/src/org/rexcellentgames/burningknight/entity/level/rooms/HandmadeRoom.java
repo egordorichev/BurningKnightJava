@@ -22,10 +22,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
-import org.rexcellentgames.burningknight.entity.level.entities.Door;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.entities.*;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.WoodenChest;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
@@ -211,8 +208,6 @@ public class HandmadeRoom extends RegularRoom {
 
 				Dungeon.area.add(c.add());
 			} else if (name.startsWith("sk_")) {
-				Log.error("Add trader :(");
-
 				String id = name.replace("sk_", "");
 
 				Trader trader = new Trader();
@@ -288,6 +283,21 @@ public class HandmadeRoom extends RegularRoom {
 				key.setItem(new KeyC());
 
 				Dungeon.area.add(key.add());
+			} else if (name.equals("prop_tree")) {
+				Tree tree = new Tree();
+
+				tree.x = x + rect.x + 16;
+				tree.y = y + rect.y + 16;
+
+				Dungeon.area.add(tree.add());
+			} else if (name.equals("prop_stone") || name.equals("prop_big_stone") || name.equals("prop_high_stone")) {
+				Stone tree = new Stone();
+
+				tree.x = x + rect.x + 16;
+				tree.y = y + rect.y + 16;
+				tree.sprite = name;
+
+				Dungeon.area.add(tree.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}

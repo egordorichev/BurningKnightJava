@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 
 public class Prop extends SaveableEntity {
-	protected String sprite;
+	public String sprite;
 	protected TextureRegion region;
 
 	@Override
