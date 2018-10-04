@@ -140,7 +140,7 @@ public class Mob extends Creature {
 	}
 
 	public void generatePrefix() {
-		if (this.prefix == null) {
+		if (this.prefix == null && Dungeon.depth != -3) {
 			this.prefix = PrefixPool.instance.generate();
 			this.prefix.apply(this);
 			this.prefix.onGenerate(this);
@@ -424,23 +424,25 @@ public class Mob extends Creature {
 		}
 
 		if (this.drop) {
-			if (this.prefix != null) {
-				this.prefix.onDeath(this);
-			}
+			if (Dungeon.depth != -3) {
+				if (this.prefix != null) {
+					this.prefix.onDeath(this);
+				}
 
-			this.drop = false;
-			ArrayList<Item> items = this.getDrops();
+				this.drop = false;
+				ArrayList<Item> items = this.getDrops();
 
-			for (Item item : items) {
-				ItemHolder holder = new ItemHolder(item);
+				for (Item item : items) {
+					ItemHolder holder = new ItemHolder(item);
 
-				holder.x = this.x;
-				holder.y = this.y;
-				holder.getItem().generate();
+					holder.x = this.x;
+					holder.y = this.y;
+					holder.getItem().generate();
 
-				this.area.add(holder);
-				
-				LevelSave.add(holder);
+					this.area.add(holder);
+
+					LevelSave.add(holder);
+				}
 			}
 		}
 

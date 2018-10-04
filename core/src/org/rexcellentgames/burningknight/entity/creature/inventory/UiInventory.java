@@ -195,7 +195,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void update(float dt) {
-		if (Dungeon.depth < 0) {
+		if (Dungeon.depth < 0 && Dungeon.depth != -3) {
 			return;
 		}
 
@@ -488,7 +488,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		if (Dungeon.depth < 0 || Ui.hideUi) {
+		if ((Dungeon.depth != -3 && Dungeon.depth < 0) || Ui.hideUi) {
 			return;
 		}
 

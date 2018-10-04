@@ -10,9 +10,14 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Slime;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.key.KeyC;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -20,6 +25,8 @@ import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.WoodenChest;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -244,6 +251,39 @@ public class HandmadeRoom extends RegularRoom {
 				Log.error("Added spawner!");
 
 				Dungeon.area.add(spawn.add());
+			} else if (name.equals("tutorial_chest")) {
+				Chest chest = new WoodenChest();
+
+				((WoodenChest) chest).setItem(new FireWand());
+
+				chest.x = x + rect.x + 16;
+				chest.y = y + rect.y + 16;
+				chest.locked = true;
+
+				Dungeon.area.add(chest.add());
+			} else if (name.startsWith("enemy")) {
+				String id = name.replace("enemy", "");
+				Mob mob = null;
+
+				switch (id) {
+					case "1":
+					default:
+						mob = new Slime();
+						break;
+				}
+
+				mob.x = x + rect.x + 16;
+				mob.y = y + rect.y + 16;
+
+				Dungeon.area.add(mob.add());
+			} else if (name.equals("key")) {
+				ItemHolder key = new ItemHolder();
+
+				key.x = x + rect.x + 16;
+				key.y = y + rect.y + 16;
+				key.setItem(new KeyC());
+
+				Dungeon.area.add(key.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}

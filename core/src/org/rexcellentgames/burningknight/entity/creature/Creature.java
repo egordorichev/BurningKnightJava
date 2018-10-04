@@ -666,7 +666,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.body != null) {
-			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
 		}
 	}
 

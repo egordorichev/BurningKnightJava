@@ -354,6 +354,10 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
+		if (Dungeon.depth < 0) {
+			return;
+		}
+
 		int count = 0;
 		Mob last = null;
 
@@ -386,9 +390,9 @@ public class Player extends Creature {
 			float x = MathUtils.clamp(cx - Display.GAME_WIDTH / 2 + 16, cx + Display.GAME_WIDTH / 2 - 16, (float) Math.cos(a) * d + this.x + this.w / 2);
 			float y = MathUtils.clamp(cy - Display.GAME_HEIGHT / 2 + 16, cy + Display.GAME_HEIGHT / 2 - 16, (float) Math.sin(a) * d + this.y + this.h / 2);
 
-			Graphics.startShape();
+			Graphics.startAlphaShape();
 			Graphics.shape.setProjectionMatrix(Camera.game.combined);
-			Graphics.shape.setColor(1, 0.2f, 0.2f, 1);
+			Graphics.shape.setColor(1, 0.1f, 0.1f, 0.8f);
 
 			a = (float) Math.atan2(y - last.y - last.w / 2, x - last.x - last.h / 2);
 			float m = 10;
@@ -397,7 +401,7 @@ public class Player extends Creature {
 			Graphics.shape.rectLine(x, y, x + (float) Math.cos(a - am) * m, y + (float) Math.sin(a - am) * m, 2);
 			Graphics.shape.rectLine(x, y, x + (float) Math.cos(a + am) * m, y + (float) Math.sin(a + am) * m, 2);
 
-			Graphics.endShape();
+			Graphics.endAlphaShape();
 		}
 	}
 

@@ -311,6 +311,7 @@ public class Mimic extends Mob {
 			readAnim();
 
 			animation = open;
+			self.playSfx("chest_open");
 			animation.setBack(false);
 			animation.setPaused(false);
 			animation.setFrame(0);
