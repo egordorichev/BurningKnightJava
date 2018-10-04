@@ -226,6 +226,5 @@
   <object id="316" name="key" x="1722" y="1016" width="16" height="16"/>
   <object id="317" name="start" x="1824" y="1184" width="16" height="16"/>
   <object id="318" name="boss" x="1584" y="144" width="44" height="30"/>
-  <object id="329" name="enemy1" x="1744" y="1152" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -57,6 +57,7 @@ public class Creature extends SaveableEntity {
 	public int hw;
 	public int hh;
 	public float z;
+	public float lz;
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
@@ -129,7 +130,8 @@ public class Creature extends SaveableEntity {
 		this.y = y;
 
 		if (this.body != null) {
-			World.checkLocked(this.body).setTransform(x, y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
+			this.lz = this.z;
 		}
 
 		this.triggerEvent("tp");
@@ -314,7 +316,7 @@ public class Creature extends SaveableEntity {
 
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
-			this.y = this.body.getPosition().y;
+			this.y = this.body.getPosition().y - this.lz;
 		}
 	}
 
@@ -667,6 +669,7 @@ public class Creature extends SaveableEntity {
 
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
+			this.lz = this.z;
 		}
 	}
 

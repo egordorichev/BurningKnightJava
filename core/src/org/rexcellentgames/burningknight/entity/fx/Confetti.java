@@ -23,6 +23,7 @@ public class Confetti extends Entity {
 		w = 8;
 		h = 4;
 		z = 20;
+		depth = 1;
 	}
 
 	@Override

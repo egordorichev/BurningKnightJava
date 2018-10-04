@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.PurpleSlime;
 import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Slime;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
@@ -269,6 +270,9 @@ public class HandmadeRoom extends RegularRoom {
 					case "1":
 					default:
 						mob = new Slime();
+						break;
+					case "2":
+						mob = new PurpleSlime();
 						break;
 				}
 

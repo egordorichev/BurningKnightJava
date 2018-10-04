@@ -530,6 +530,8 @@ public class Mob extends Creature {
 		}
 		if (this.body != null) {
 			this.velocity.clamp(0, this.maxSpeed);
+			this.body.setTransform(this.x, this.y + this.z, 0);
+			this.lz = this.z;
 			this.body.setLinearVelocity(this.velocity.x * speedMod, this.velocity.y * speedMod);
 		}
 	}
