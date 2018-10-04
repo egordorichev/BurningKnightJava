@@ -2002,8 +2002,8 @@ public abstract class Level extends SaveableEntity {
 			this.liquidData[i] = v;
 
 			if (this.get(i) == Terrain.CHASM) {
-				this.set(i, Terrain.FLOOR_A);
-			}
+				this.data[i] = Terrain.FLOOR_A;
+				}
 		} else {
 			this.data[i] = v;
 
@@ -2015,7 +2015,12 @@ public abstract class Level extends SaveableEntity {
 
 	public void set(int x, int y, byte v) {
 		if (matchesFlag(v, Terrain.LIQUID_LAYER)) {
-			this.liquidData[toIndex(x, y)] = v;
+			int i = toIndex(x, y);
+			this.liquidData[i] = v;
+
+			if (this.get(i) == Terrain.CHASM) {
+				this.data[i] = Terrain.FLOOR_A;
+			}
 		} else {
 			this.data[toIndex(x, y)] = v;
 		}

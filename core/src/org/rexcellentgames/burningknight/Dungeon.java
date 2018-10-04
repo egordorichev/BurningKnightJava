@@ -163,7 +163,7 @@ public class Dungeon extends ApplicationAdapter {
 			area.destroy();
 		}
 
-		Dungeon.depth = quick ? depth : -1;
+		Dungeon.depth = quick ? depth : (Dungeon.depth == -3 ? -3 : -1);
 
 		if (quick) {
 			ItemSelectState.depth = Dungeon.depth;

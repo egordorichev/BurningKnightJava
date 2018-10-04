@@ -1108,6 +1108,7 @@ public class Player extends Creature {
 
 			if (t == Terrain.LAVA && !this.isFlying() && this.lavaResist == 0) {
 				this.modifyHp(-1, null, true);
+				this.addBuff(new BurningBuff());
 
 				if (this.isDead()) {
 					Achievements.unlock(Achievements.UNLOCK_WINGS);

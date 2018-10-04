@@ -297,8 +297,8 @@ public class HandmadeRoom extends RegularRoom {
 					case 3: tt = Terrain.FLOOR_D; break;
 					case 4: tt = Terrain.FLOOR_C; break;
 					case 5: tt = Terrain.DIRT; break;
-					case 6: tt = Terrain.LAVA; break;
-					case 7: tt = Terrain.WATER; break;
+					case 6: case 7: tt = Terrain.LAVA; break;
+					// case 7: tt = Terrain.WATER; break;
 					case 8: tt = Terrain.WALL; break;
 					case 9: tt = Terrain.CHASM; break;
 					case 10: tt = Terrain.GRASS; break;
