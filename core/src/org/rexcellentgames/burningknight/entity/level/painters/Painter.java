@@ -92,7 +92,7 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 
-			if (Dungeon.depth < 5) {
+			if (Dungeon.depth < 5 && Dungeon.depth > -1) {
 				for (int y = room.top; y <= room.bottom; y++) {
 					for (int x = room.left; x <= room.right; x++) {
 						int i = Level.toIndex(x, y);
