@@ -153,7 +153,7 @@ public class Camera extends Entity {
 
 					game.position.x = MathUtils.clamp(Spawn.instance.room.left * 16 + Display.GAME_WIDTH / 2,
 						Spawn.instance.room.right * 16 - Display.GAME_WIDTH / 2, camPosition.x);
-					game.position.y = MathUtils.clamp(Spawn.instance.room.top * 16 + Display.GAME_HEIGHT / 2,
+					game.position.y = MathUtils.clamp(Spawn.instance.room.top * 16 + Display.GAME_HEIGHT / 2 + 16,
 						Spawn.instance.room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 				}
 			} else if (Dungeon.depth == -1) {

@@ -939,6 +939,10 @@ public class BurningKnight extends Boss {
 			super.onExit();
 			self.setUnhittable(false);
 			Mob.every.add(self);
+
+			UiBanner banner = new UiBanner();
+			banner.text = Locale.get("burning_knight");
+			Dungeon.ui.add(banner);
 		}
 
 		@Override
