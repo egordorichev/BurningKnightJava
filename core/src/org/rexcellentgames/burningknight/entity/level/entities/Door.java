@@ -54,7 +54,6 @@ public class Door extends SaveableEntity {
 	public boolean autoLock;
 	public boolean lockable;
 	public boolean lock;
-	public Room[] rooms = new Room[2];
 	public Class<? extends Key> key;
 	private int sx;
 	private int sy;
@@ -363,21 +362,7 @@ public class Door extends SaveableEntity {
 		boolean last = this.lock;
 
 		if (this.autoLock) {
-			this.lock = false;
-
-			for (int i = 0; i < 2; i++) {
-				if (Player.instance != null && this.rooms[i] == Player.instance.room) {
-					/*if (Player.instance.room instanceof LampRoom
-						&& !Player.instance.getInventory().find(Lamp.class)) {
-
-						this.lock = true;
-						break;
-					} else */if (Player.instance.room.numEnemies > 0) {
-						this.lock = true;
-						break;
-					}
-				}
-			}
+			this.lock = Player.instance.room != null && Player.instance.room.numEnemies > 0;
 		}
 
 		if (this.lock && !last) {
@@ -461,11 +446,6 @@ public class Door extends SaveableEntity {
 		this.lock = reader.readBoolean();
 		this.lockable = reader.readBoolean();
 
-		if (this.autoLock) {
-			this.rooms[0] = Dungeon.level.getRooms().get(reader.readInt16());
-			this.rooms[1] = Dungeon.level.getRooms().get(reader.readInt16());
-		}
-
 		if (reader.readBoolean()) {
 			try {
 				this.key = (Class<? extends Key>) Class.forName(reader.readString());
@@ -492,11 +472,6 @@ public class Door extends SaveableEntity {
 		writer.writeBoolean(this.autoLock);
 		writer.writeBoolean(this.lock);
 		writer.writeBoolean(this.lockable);
-
-		if (this.autoLock) {
-			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[0]));
-			writer.writeInt16((short) Dungeon.level.getRooms().indexOf(this.rooms[1]));
-		}
 
 		writer.writeBoolean(this.lock && this.key != null);
 		

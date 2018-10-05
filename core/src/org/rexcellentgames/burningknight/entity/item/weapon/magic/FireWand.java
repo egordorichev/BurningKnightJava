@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.Tree;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
@@ -109,6 +110,8 @@ public class FireWand extends Wand {
 					((Door) entity).burning = true;
 				} else if (entity instanceof Chest) {
 					((Chest) entity).burning = true;
+				} else if (entity instanceof Tree) {
+					((Tree) entity).burning = true;
 				}
 			}
 		};

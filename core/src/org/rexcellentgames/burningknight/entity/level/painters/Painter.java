@@ -305,8 +305,6 @@ public class Painter {
 						door.key = KeyC.class;
 					}
 
-					door.rooms[0] = r;
-					door.rooms[1] = n;
 					door.lockable = door.lock;
 
 					door.add();

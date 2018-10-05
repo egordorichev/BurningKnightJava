@@ -363,6 +363,7 @@ public class HandmadeRoom extends RegularRoom {
 
 						dr = true;
 						Door door = new Door(xx, yy, this.data.data[x - 1 + (y * this.data.w)] != 8);
+						door.autoLock = true;
 						door.add();
 						Dungeon.area.add(door);
 					break;

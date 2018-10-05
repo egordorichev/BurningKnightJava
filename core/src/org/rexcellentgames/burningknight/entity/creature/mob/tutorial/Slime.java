@@ -1,6 +1,8 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.tutorial;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -108,14 +110,19 @@ public class Slime extends Mob {
 		return super.getAi(state);
 	}
 
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity == null && fixture.getBody().isBullet() && this.state.equals("jump")) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact, fixture);
+	}
+
 	public class IdleState extends SlimeState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-
-			if (self.target == null) {
-				this.checkForPlayer();
-			}
 
 			if (this.t >= 3f && self.animation.getFrame() == 3 && self.target != null) {
 				Tween.to(new Tween.Task(0.7f, 0.1f) {

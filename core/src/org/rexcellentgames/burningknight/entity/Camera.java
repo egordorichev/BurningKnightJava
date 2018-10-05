@@ -152,7 +152,7 @@ public class Camera extends Entity {
 					camPosition.lerp(new Vector2(rect.x + rect.width / 2, rect.y + rect.height / 2), dt * 3);
 
 					game.position.x = MathUtils.clamp(Spawn.instance.room.left * 16 + Display.GAME_WIDTH / 2,
-						Spawn.instance.room.right * 16 - Display.GAME_WIDTH / 2 - 16, camPosition.x);
+						Spawn.instance.room.right * 16 - Display.GAME_WIDTH / 2, camPosition.x);
 					game.position.y = MathUtils.clamp(Spawn.instance.room.top * 16 + Display.GAME_HEIGHT / 2,
 						Spawn.instance.room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 				}
