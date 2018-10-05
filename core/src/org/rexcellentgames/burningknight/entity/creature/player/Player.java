@@ -279,8 +279,8 @@ public class Player extends Creature {
 		this.inventory.clear();
 
 		if (Dungeon.depth == -3) {
-			this.hpMax = 10;
-			this.hp = 10;
+			this.hpMax = 12;
+			this.hp = 12;
 			this.give(new Sword());
 			return;
 		}
