@@ -1,5 +1,5 @@
 {
-	"traders_asylum" : "The Asylum",
+	"traders_asylum" : "The Market Place",
 	"upgrade_hint" : "Upgrade",
 	"lamp": "Magical Lamp",
 	"lamp_desc": "Looks really old but shiny.\nRight click to summon Burning Knight.",
@@ -601,7 +601,7 @@
 	"coin" : "Coin",
 	"coin_desc" : "How did you read this???",
 	"thanks_for_saving" : "Thanks for saving!",
-	"see_you_in_the_asylum" : "See you in the Asylum!",
+	"see_you_in_the_asylum" : "See you in the Market Place!",
 	"secret_trader_achievement" : "Who is that?",
 	"secret_trader_achievement_desc" : "Find a secret npc",
 	"save_all_achievement" : "Save all!",

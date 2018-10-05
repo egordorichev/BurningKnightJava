@@ -243,6 +243,7 @@ public class HandmadeRoom extends RegularRoom {
 
 				spawn.x = x + rect.x + 16;
 				spawn.y = y + rect.y + 16;
+				spawn.room.set(this);
 
 				Log.error("Added spawner!");
 

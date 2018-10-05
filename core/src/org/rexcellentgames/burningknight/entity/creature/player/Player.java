@@ -50,6 +50,7 @@ import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
@@ -276,6 +277,14 @@ public class Player extends Creature {
 
 	public void generate() {
 		this.inventory.clear();
+
+		if (Dungeon.depth == -3) {
+			this.hpMax = 10;
+			this.hp = 10;
+			this.give(new Sword());
+			return;
+		}
+
 		this.give(startingItem);
 		startingItem = null;
 

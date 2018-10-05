@@ -1013,7 +1013,7 @@ public abstract class Level extends SaveableEntity {
 							this.freeze(i + j);
 						}
 					} else if (t == Terrain.GRASS || t == Terrain.HIGH_GRASS) {
-						if ((updateId + x + y) % 20 == 0) {
+						if (Dungeon.depth != -3 && (updateId + x + y) % 20 == 0) {
 							if (t == Terrain.GRASS && Random.chance(1)) {
 								this.set(i, Terrain.HIGH_GRASS);
 							}

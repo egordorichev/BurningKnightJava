@@ -15,6 +15,10 @@ public class ChasmFx extends Entity {
 	private float rate;
 	private float v;
 
+	{
+		alwaysActive = true;
+	}
+
 	public ChasmFx(float x, float y) {
 		this.x = x;
 		this.y = y;

@@ -9,11 +9,12 @@ import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
-	public static final boolean START_TO_MENU = true;
+	public static final boolean START_TO_MENU = !Version.debug;
 	public static final boolean QUICK = true;
 	public static boolean done = false;
 	private static Texture region;
@@ -54,7 +55,7 @@ public class AssetLoadState extends State {
 		if (!START_TO_MENU) {
 			Gdx.graphics.setTitle(Dungeon.title);
 			GameSave.Info info = GameSave.peek(SaveManager.slot);
-			Dungeon.goToLevel(info.free ? -1 : info.depth);
+			Dungeon.goToLevel(GlobalSave.isTrue("finished_tutorial") ? (info.free ? -1 : info.depth) : -3);
 			return;
 		}
 

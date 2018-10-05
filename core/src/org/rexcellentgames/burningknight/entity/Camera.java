@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.ItemSelectState;
@@ -100,6 +101,7 @@ public class Camera extends Entity {
 	}
 
 	private static Vector2 camPosition;
+	private static Room lastRoom;
 
 	@Override
 	public void update(float dt) {
@@ -133,6 +135,12 @@ public class Camera extends Entity {
 			if (Dungeon.depth == -3) {
 				Room room = Player.instance.room;
 
+				if (room == null) {
+					room = lastRoom;
+				} else {
+					lastRoom = room;
+				}
+
 				if (room != null) {
 					float cx = room.left * 16 + Display.GAME_WIDTH / 2;
 					float cr = room.right * 16 - Display.GAME_WIDTH / 2;
@@ -141,10 +149,12 @@ public class Camera extends Entity {
 
 					Rectangle rect = new Rectangle(cx, cy, Math.abs(cx - cr), Math.abs(cb - cy));
 
-						camPosition.lerp(new Vector2(rect.x + rect.width / 2, rect.y + rect.height / 2), dt * 3);
+					camPosition.lerp(new Vector2(rect.x + rect.width / 2, rect.y + rect.height / 2), dt * 3);
 
-						game.position.x = camPosition.x;
-						game.position.y = camPosition.y;
+					game.position.x = MathUtils.clamp(Spawn.instance.room.left * 16 + Display.GAME_WIDTH / 2,
+						Spawn.instance.room.right * 16 - Display.GAME_WIDTH / 2 - 16, camPosition.x);
+					game.position.y = MathUtils.clamp(Spawn.instance.room.top * 16 + Display.GAME_HEIGHT / 2,
+						Spawn.instance.room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 				}
 			} else if (Dungeon.depth == -1) {
 				Room room = Dungeon.level.getRooms().get(0);
