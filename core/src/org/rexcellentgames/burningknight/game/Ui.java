@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.game.state.State;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Tween;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Ui {
@@ -349,6 +350,54 @@ public class Ui {
 
 	private static TextureRegion coin;
 	public static float y;
+	public static ArrayList<String> controls = new ArrayList<>();
+	private float sz = 0;
+
+	public void addControl(String control) {
+		if (controls.size() == 0) {
+			Tween.to(new Tween.Task(1, 0.3f) {
+				@Override
+				public float getValue() {
+					return sz;
+				}
+
+				@Override
+				public void setValue(float value) {
+					sz = value;
+				}
+			});
+		}
+
+		controls.add(control);
+	}
+
+	private boolean tweened;
+
+	public void hideControls() {
+		if (tweened) {
+			return;
+		}
+
+		Tween.to(new Tween.Task(0, 0.3f) {
+			@Override
+			public float getValue() {
+				return sz;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sz = value;
+			}
+
+			@Override
+			public void onEnd() {
+				tweened = false;
+				controls.clear();
+			}
+		}).delay(1);
+
+		tweened = true;
+	}
 
 	public void render() {
 		if (hideUi) {
@@ -357,6 +406,34 @@ public class Ui {
 
 		if (coin == null) {
 			coin = Graphics.getTexture("ui-coin");
+		}
+
+		if (Dungeon.depth == -3) {
+			Graphics.startAlphaShape();
+			Graphics.shape.setColor(0, 0, 0, 0.7f);
+
+			float s = 12;
+			float w = 10;
+
+			for (int i = 0; i < controls.size(); i++) {
+				Graphics.layout.setText(Graphics.small, controls.get(i));
+
+				if (Graphics.layout.width + 10 > w) {
+					w = Graphics.layout.width + 10;
+				}
+			}
+
+			float h = 5 + s * controls.size();
+
+			float x = Display.UI_WIDTH - w * sz;
+			float y = h + 32;
+
+			Graphics.shape.rect(x, y, w, h);
+			Graphics.endAlphaShape();
+
+			for (int i = 0; i < controls.size(); i++) {
+				Graphics.print(controls.get(i), Graphics.small, x + 5, y + h - 13 - s * i);
+			}
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);

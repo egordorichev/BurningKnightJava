@@ -741,6 +741,8 @@ public class Player extends Creature {
 	public void init() {
 		super.init();
 
+		t = 0;
+
 		this.type = toSet;
 
 		if (instance == null) {
@@ -824,11 +826,48 @@ public class Player extends Creature {
 	private float zvel;
 	private boolean onGround;
 	private Vector2 lastGround = new Vector2();
+	public int step;
+	private boolean moved;
+	private boolean rolled;
+	public float tt;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		
+
+		if (Dungeon.depth == -3) {
+			this.tt += dt;
+
+			if (this.velocity.len() > 1) {
+				this.moved = true;
+			}
+
+			if (this.step == 0) {
+				if (moved) {
+					this.step = 1;
+				} else if (this.tt >= 4f) {
+					Ui.ui.addControl("[white]W [gray]Forward");
+					Ui.ui.addControl("[white]A [gray]Left");
+					Ui.ui.addControl("[white]S [gray]Back");
+					Ui.ui.addControl("[white]D [gray]Right");
+
+					this.step = 1;
+				}
+			} else if (this.step == 1) {
+				if (this.moved && this.tt >= 5f) {
+					Ui.ui.hideControls();
+					Log.error("hide 1");
+					step = 2;
+				}
+			} else if (this.step == 3) {
+				if (this.tt >= 3f && this.rolled) {
+					Ui.ui.hideControls();
+					Log.error("hide 2");
+					step = 4;
+				}
+			}
+		}
+
 		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.hasBuff(BurningBuff.class)) {
@@ -1013,6 +1052,8 @@ public class Player extends Creature {
 
 			if (!this.rolling) {
 				if (Input.instance.wasPressed("roll")) {
+					rolled = true;
+
 					this.rolling = true;
 					this.mul = 1;
 					this.zvel = 20;

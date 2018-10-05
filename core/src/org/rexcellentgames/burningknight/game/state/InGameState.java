@@ -53,6 +53,8 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
+		Ui.controls.clear();
+
 		shader.begin();
 		float a = Random.newFloat((float) (Math.PI * 2));
 

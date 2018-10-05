@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Tree;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -30,11 +31,30 @@ public class FireWand extends Wand {
 
 	public static TextureRegion region = Graphics.getTexture("particle-big");
 
+	private boolean showed;
+	private boolean hidden;
 
 	@Override
 	public void onPickup() {
 		super.onPickup();
 		Achievements.unlock("UNLOCK_FIRE_WAND");
+
+		if (Dungeon.depth == -3 && !showed) {
+			showed = true;
+
+			Ui.ui.addControl("[white]LMB [gray]Use");
+			Ui.ui.addControl("[white]Wheel [gray]Select item");
+		}
+	}
+
+	@Override
+	public void use() {
+		super.use();
+
+		if (!hidden) {
+			hidden = true;
+			Ui.ui.hideControls();
+		}
 	}
 
 	@Override

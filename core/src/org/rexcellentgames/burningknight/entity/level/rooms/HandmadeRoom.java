@@ -246,14 +246,11 @@ public class HandmadeRoom extends RegularRoom {
 				spawn.y = y + rect.y + 16;
 				spawn.room.set(this);
 
-				Log.error("Added spawner!");
-
 				Dungeon.area.add(spawn.add());
 			} else if (name.equals("tutorial_chest")) {
 				Chest chest = new WoodenChest();
 
-				((WoodenChest) chest).setItem(new FireWand());
-
+				chest.setItem(new FireWand());
 				chest.x = x + rect.x + 16;
 				chest.y = y + rect.y + 16;
 				chest.locked = true;
@@ -261,7 +258,7 @@ public class HandmadeRoom extends RegularRoom {
 				Dungeon.area.add(chest.add());
 			} else if (name.startsWith("enemy")) {
 				String id = name.replace("enemy", "");
-				Mob mob = null;
+				Mob mob;
 
 				switch (id) {
 					case "1":
@@ -307,6 +304,13 @@ public class HandmadeRoom extends RegularRoom {
 
 				BurningKnight.instance.become("unactive");
 				BurningKnight.instance.tp(x + rect.x + 16, y + rect.y + 16);
+			} else if (name.equals("roll_collider")) {
+				RollTrigger trigger = new RollTrigger();
+
+				trigger.x = x + rect.x + 16;
+				trigger.y = y + rect.y + 16;
+
+				Dungeon.area.add(trigger.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}

@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
@@ -126,6 +127,8 @@ public class Chest extends SaveableEntity {
 		return item;
 	}
 
+	private boolean collided;
+
 	@Override
 	public void onCollision(Entity entity) {
 		if (this.hp == 0) {
@@ -143,6 +146,11 @@ public class Chest extends SaveableEntity {
 			if (!this.open && entity instanceof Player) {
 			if (this.locked) {
 				this.colliding = true;
+
+				if (!collided && Dungeon.depth == -3) {
+					Ui.ui.addControl("[white]E [gray]Interact");
+					collided = true;
+				}
 			} else {
 				this.locked = false;
 
@@ -425,6 +433,10 @@ public class Chest extends SaveableEntity {
 
 	public void open() {
 		this.playSfx("chest_open");
+
+		if (this.collided) {
+			Ui.ui.hideControls();
+		}
 
 		ItemHolder holder = new ItemHolder(this.item);
 

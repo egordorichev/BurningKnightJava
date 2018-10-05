@@ -298,7 +298,7 @@ public class Gun extends WeaponBase {
 
 	@Override
 	public void use() {
-		if (this.ammoLeft <= 0 && !(this.owner instanceof Mob)) {
+		if (this.ammoLeft <= 0 && !(this.owner instanceof Mob) || this.chargeProgress != 0) {
 			return;
 		}
 
