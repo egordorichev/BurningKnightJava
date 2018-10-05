@@ -498,7 +498,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f);
+		Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f, this.a);
 	}
 
 	public class BKState extends State<BurningKnight> {
@@ -945,7 +945,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) {
+			if ((Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) || (Dungeon.depth == -3 && Player.instance.room == self.room)) {
 				Log.info("BK is out");
 
 				self.setUnhittable(false);
@@ -957,6 +957,11 @@ public class BurningKnight extends Boss {
 				Camera.follow(self, false);
 				Camera.shake(10);
 				Lamp.play();
+
+				if (Dungeon.depth == -3) {
+					self.modifyHpMax(1000);
+					self.modifyHp(1000, null);
+				}
 			}
 		}
 	}

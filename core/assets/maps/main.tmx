@@ -147,14 +147,14 @@
   <object id="45" name="sub" x="864" y="96" width="112" height="96"/>
   <object id="46" name="sub" x="848" y="176" width="144" height="144"/>
   <object id="322" name="tutorial" x="1440" y="0" width="608" height="1136"/>
-  <object id="323" name="sub" x="1728" y="32" width="320" height="192"/>
+  <object id="323" name="sub" x="1728" y="32" width="320" height="144"/>
   <object id="324" name="sub" x="1696" y="352" width="352" height="272"/>
   <object id="325" name="sub" x="1440" y="336" width="288" height="224"/>
   <object id="326" name="sub" x="1456" y="768" width="208" height="240"/>
   <object id="327" name="sub" x="1648" y="800" width="384" height="112"/>
   <object id="328" name="sub" x="1792" y="848" width="256" height="288"/>
   <object id="394" name="sub" x="1440" y="544" width="288" height="240"/>
-  <object id="399" name="sub" x="1728" y="208" width="320" height="160"/>
+  <object id="399" name="sub" x="1728" y="160" width="320" height="208"/>
  </objectgroup>
  <objectgroup name="objects">
   <object id="66" name="sp_a" x="736" y="160" width="16" height="16"/>

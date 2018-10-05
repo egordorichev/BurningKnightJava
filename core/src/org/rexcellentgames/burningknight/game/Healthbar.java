@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
@@ -97,7 +98,7 @@ public class Healthbar {
 		this.lastV += (boss.getHp() - this.lastV) / 60f;
 		this.lastBV += (boss.getHp() - this.lastBV) / 4f;
 
-		boolean d = boss.isDead() || boss.getState().equals("unactive") || boss.rage;
+		boolean d = Dungeon.depth == -3 || boss.isDead() || boss.getState().equals("unactive") || boss.rage;
 
 		if (d && this.tweened) {
 			tweened = false;

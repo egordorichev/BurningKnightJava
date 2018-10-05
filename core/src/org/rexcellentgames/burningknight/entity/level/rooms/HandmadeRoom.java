@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.PurpleSlime;
 import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Slime;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
@@ -299,6 +300,13 @@ public class HandmadeRoom extends RegularRoom {
 				tree.sprite = name;
 
 				Dungeon.area.add(tree.add());
+			} else if (name.equals("boss")) {
+				if (BurningKnight.instance == null) {
+					Dungeon.area.add(new BurningKnight());
+				}
+
+				BurningKnight.instance.become("unactive");
+				BurningKnight.instance.tp(x + rect.x + 16, y + rect.y + 16);
 			} else {
 				Log.error("Unknown entity " + name);
 			}

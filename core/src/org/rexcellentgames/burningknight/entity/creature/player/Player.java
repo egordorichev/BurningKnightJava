@@ -1437,7 +1437,9 @@ public class Player extends Creature {
 		this.t = 0;
 		Dungeon.slowDown(0.5f, 1f);
 
-		Achievements.unlock(Achievements.DIE);
+		if (Dungeon.depth != -3) {
+			Achievements.unlock(Achievements.DIE);
+		}
 
 		if (num >= 50) {
 			Achievements.unlock(Achievements.UNLOCK_ISAAC_HEAD);
