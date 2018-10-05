@@ -234,7 +234,11 @@ public class BurningKnight extends Boss {
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
-		this.tp(0, 0);
+
+		if (Dungeon.depth != -3) {
+			this.tp(0, 0);
+		}
+
 		this.rage = reader.readBoolean();
 		this.pickedKey = reader.readBoolean();
 		boolean def = reader.readBoolean();
@@ -949,7 +953,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			if ((Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) || (Dungeon.depth == -3 && Player.instance.room == self.room)) {
+			if (self.t >= 0.1f && ((Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) || (Dungeon.depth == -3 && Player.instance.room == self.room))) {
 				Log.info("BK is out");
 
 				self.setUnhittable(false);

@@ -299,7 +299,7 @@ public class HandmadeRoom extends RegularRoom {
 				Dungeon.area.add(tree.add());
 			} else if (name.equals("boss")) {
 				if (BurningKnight.instance == null) {
-					Dungeon.area.add(new BurningKnight());
+					Dungeon.area.add(new BurningKnight().add());
 				}
 
 				BurningKnight.instance.become("unactive");

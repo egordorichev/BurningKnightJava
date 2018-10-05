@@ -411,7 +411,9 @@ public class InGameState extends State {
 			if (last >= 1f) {
 				last = 0;
 
-				if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
+				if (Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) {
+					Audio.play("Rogue");
+				} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
 					Audio.play("Cursed legend");
 				} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
 					if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {

@@ -220,19 +220,26 @@ public class Door extends SaveableEntity {
 		}
 
 		if (!this.burning) {
-			int i = Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16));
-			int info = Dungeon.level.getInfo(i);
+			if (Dungeon.depth != -3) {
+				int i = Level.toIndex((int) Math.floor(this.x / 16), (int) Math.floor((this.y + 8) / 16));
+				int info = Dungeon.level.getInfo(i);
 
-			if (BitHelper.isBitSet(info, 0)) {
-				// Burning
-				this.damage = 0;
-				this.burning = true;
+				if (BitHelper.isBitSet(info, 0)) {
+					// Burning
+					this.damage = 0;
+					this.burning = true;
 
-				for (int j : PathFinder.NEIGHBOURS4) {
-					Dungeon.level.setOnFire(i + j, true);
+					for (int j : PathFinder.NEIGHBOURS4) {
+						Dungeon.level.setOnFire(i + j, true);
+					}
 				}
 			}
 		} else {
+			if (Dungeon.depth == -3) {
+				burning = false;
+				return;
+			}
+
 			if (this.key == KeyA.class || this.key == BurningKey.class) {
 				this.burning = false;
 				return;

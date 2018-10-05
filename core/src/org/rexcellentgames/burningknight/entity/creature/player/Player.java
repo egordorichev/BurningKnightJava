@@ -771,6 +771,8 @@ public class Player extends Creature {
 			this.hpMax = 10;
 			this.hp = 10;
 			this.give(new Sword());
+
+			Player.instance.tp(Spawn.instance.x, Spawn.instance.y);
 		}
 	}
 
@@ -783,9 +785,7 @@ public class Player extends Creature {
 		}
 
 		if (Dungeon.depth == -3) {
-			if (Spawn.instance != null) {
-				this.tp(Spawn.instance.x, Spawn.instance.y);
-			}
+
 		} else if (Dungeon.depth == -1) {
 			Room room = Dungeon.level.getRooms().get(0);
 			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 32);
@@ -856,13 +856,11 @@ public class Player extends Creature {
 			} else if (this.step == 1) {
 				if (this.moved && this.tt >= 5f) {
 					Ui.ui.hideControls();
-					Log.error("hide 1");
 					step = 2;
 				}
 			} else if (this.step == 3) {
 				if (this.tt >= 3f && this.rolled) {
 					Ui.ui.hideControls();
-					Log.error("hide 2");
 					step = 4;
 				}
 			}

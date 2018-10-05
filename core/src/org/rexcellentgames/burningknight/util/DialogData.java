@@ -91,12 +91,12 @@ public class DialogData {
 			Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 			Graphics.startShape();
 			Graphics.shape.setColor(0, 0, 0, 1);
-			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, size);
-			Graphics.shape.rect(0, Display.GAME_HEIGHT - size, Display.GAME_WIDTH, size);
+			Graphics.shape.rect(0, 0, Display.UI_WIDTH, size);
+			Graphics.shape.rect(0, Display.UI_HEIGHT - size, Display.UI_WIDTH, size);
 			Graphics.endShape();
 		}
 
-		int x = (int) ((Display.GAME_WIDTH - this.w) / 2);
+		int x = (int) ((Display.UI_WIDTH - this.w) / 2);
 
 		float sx = (this.w - 8);
 
@@ -106,7 +106,7 @@ public class DialogData {
 
 				if (phrase.options != null && this.label.hasEnded()) {
 					float sy = (this.optionsH - 4);
-					int y = (int) (Display.GAME_HEIGHT - 52 - 16 - this.h - optionsH);
+					int y = (int) (Display.UI_HEIGHT - 52 - 16 - this.h - optionsH);
 
 
 					Graphics.render(optionsLeft, x, y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
@@ -148,7 +148,7 @@ public class DialogData {
 		}
 
 		float sy = (this.h - 9);
-		int y = (int) (Display.GAME_HEIGHT - 52 - 16 - this.h);
+		int y = (int) (Display.UI_HEIGHT - 52 - 16 - this.h);
 
 		Graphics.render(top, x + topLeft.getRegionWidth(), y + this.h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
 		Graphics.render(topLeft, x, y + this.h - topLeft.getRegionHeight());
@@ -192,7 +192,7 @@ public class DialogData {
 		this.w = 0;
 		this.selected = 0;
 
-		Tween.to(new Tween.Task(Display.GAME_WIDTH - 32,  0.4f) {
+		Tween.to(new Tween.Task(Display.UI_WIDTH - 32,  0.4f) {
 			@Override
 			public float getValue() {
 				return w;
@@ -235,8 +235,8 @@ public class DialogData {
 	private void readPhrase() {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
 		this.label = new TypingLabel("{COLOR=#FFFFFF}" + phrase.string, skin);
-		this.label.setSize(Display.GAME_WIDTH - 64, 32);
-		this.label.setPosition(32, Display.GAME_HEIGHT - 52 - 16 - 48 + 8);
+		this.label.setSize(Display.UI_WIDTH - 64, 32);
+		this.label.setPosition(32, Display.UI_HEIGHT - 52 - 16 - 48 + 8);
 		this.label.setWrap(true);
 
 		int deaths = GlobalSave.getInt("deaths");

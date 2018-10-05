@@ -165,7 +165,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Dungeon.depth = quick ? depth : (Dungeon.depth == -3 ? -3 : -1);
 
-		if (quick) {
+		if (quick && Dungeon.depth != -1) {
 			ItemSelectState.depth = Dungeon.depth;
 			game.setState(new ItemSelectState());
 		} else {
