@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -129,7 +130,23 @@ public class Camera extends Entity {
 				}
 			}
 
-			if (Dungeon.depth == -1) {
+			if (Dungeon.depth == -3) {
+				Room room = Player.instance.room;
+
+				if (room != null) {
+					float cx = room.left * 16 + Display.GAME_WIDTH / 2;
+					float cr = room.right * 16 - Display.GAME_WIDTH / 2;
+					float cy = room.top * 16 + Display.GAME_HEIGHT / 2;
+					float cb = room.bottom * 16 - Display.GAME_HEIGHT / 2;
+
+					Rectangle rect = new Rectangle(cx, cy, Math.abs(cx - cr), Math.abs(cb - cy));
+
+						camPosition.lerp(new Vector2(rect.x + rect.width / 2, rect.y + rect.height / 2), dt * 3);
+
+						game.position.x = camPosition.x;
+						game.position.y = camPosition.y;
+				}
+			} else if (Dungeon.depth == -1) {
 				Room room = Dungeon.level.getRooms().get(0);
 
 				game.position.x = MathUtils.clamp(room.left * 16 + Display.GAME_WIDTH / 2 + 16,
@@ -209,7 +226,7 @@ public class Camera extends Entity {
 
 	public static void follow(Entity entity, boolean jump) {
 		target = entity;
-		speed = entity instanceof Player ? (Dungeon.depth == -1 ? 2 : 1) : 4;
+		speed = entity instanceof Player ? ((Dungeon.depth == -1 || Dungeon.depth == -3) ? 2 : 1) : 4;
 
 		if (target == null) {
 			return;

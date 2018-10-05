@@ -10,15 +10,21 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.PurpleSlime;
+import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Slime;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
+import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.key.KeyC;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
-import org.rexcellentgames.burningknight.entity.level.entities.Door;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.entities.*;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.WoodenChest;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -67,12 +73,15 @@ public class HandmadeRoom extends RegularRoom {
 			}
 		}
 
+		// fixme: proper camera movement, disable trader spawning on depth -3
+
 		for (MapObject object : rooms.getObjects()) {
 			if (object.getName().equals("sub")) {
 				continue;
 			}
 
 			if (object instanceof RectangleMapObject) {
+
 				Rectangle rect = ((RectangleMapObject) object).getRectangle();
 				RoomData data = new RoomData();
 
@@ -162,6 +171,11 @@ public class HandmadeRoom extends RegularRoom {
 
 	public HandmadeRoom(String id) {
 		this.data = datas.get(id);
+
+		if (this.data == null) {
+			throw new RuntimeException("Handmade " + id + " does not exist!");
+		}
+
 		this.id = id;
 	}
 
@@ -224,6 +238,68 @@ public class HandmadeRoom extends RegularRoom {
 				}
 
 				Dungeon.area.add(trader.add());
+			} else if (name.equals("start")) {
+				Spawn spawn = new Spawn();
+
+				spawn.x = x + rect.x + 16;
+				spawn.y = y + rect.y + 16;
+
+				Log.error("Added spawner!");
+
+				Dungeon.area.add(spawn.add());
+			} else if (name.equals("tutorial_chest")) {
+				Chest chest = new WoodenChest();
+
+				((WoodenChest) chest).setItem(new FireWand());
+
+				chest.x = x + rect.x + 16;
+				chest.y = y + rect.y + 16;
+				chest.locked = true;
+
+				Dungeon.area.add(chest.add());
+			} else if (name.startsWith("enemy")) {
+				String id = name.replace("enemy", "");
+				Mob mob = null;
+
+				switch (id) {
+					case "1":
+					default:
+						mob = new Slime();
+						break;
+					case "2":
+						mob = new PurpleSlime();
+						break;
+				}
+
+				mob.x = x + rect.x + 16;
+				mob.y = y + rect.y + 16;
+
+				Dungeon.area.add(mob.add());
+			} else if (name.equals("key")) {
+				ItemHolder key = new ItemHolder();
+
+				key.x = x + rect.x + 16;
+				key.y = y + rect.y + 16;
+				key.setItem(new KeyC());
+
+				Dungeon.area.add(key.add());
+			} else if (name.equals("prop_tree")) {
+				Tree tree = new Tree();
+
+				tree.x = x + rect.x + 16;
+				tree.y = y + rect.y + 16;
+
+				Dungeon.area.add(tree.add());
+			} else if (name.equals("prop_stone") || name.equals("prop_big_stone") || name.equals("prop_high_stone")) {
+				Stone tree = new Stone();
+
+				tree.x = x + rect.x + 16;
+				tree.y = y + rect.y + 16;
+				tree.sprite = name;
+
+				Dungeon.area.add(tree.add());
+			} else {
+				Log.error("Unknown entity " + name);
 			}
 		}
 	}
@@ -270,6 +346,7 @@ public class HandmadeRoom extends RegularRoom {
 				boolean dr = false;
 
 				switch (t) {
+					case 1: tt = Terrain.FLOOR_A; break;
 					case 2: tt = Terrain.FLOOR_B; break;
 					case 3: tt = Terrain.FLOOR_D; break;
 					case 4: tt = Terrain.FLOOR_C; break;
@@ -310,6 +387,7 @@ public class HandmadeRoom extends RegularRoom {
 
 						Dungeon.area.add(entrance.add());
 					break;
+					default: Log.error("Unknown tile " + t);
 				}
 
 				if (!dr) {

@@ -14,7 +14,7 @@ public class BossThief extends Thief {
 	}
 
 	{
-		hpMax = 4;
+		hpMax = 20;
 	}
 
 	@Override

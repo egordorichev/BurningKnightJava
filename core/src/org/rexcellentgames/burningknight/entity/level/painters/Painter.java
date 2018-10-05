@@ -92,7 +92,7 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 
-			if (Dungeon.depth < 5) {
+			if (Dungeon.depth < 5 && Dungeon.depth > -1) {
 				for (int y = room.top; y <= room.bottom; y++) {
 					for (int x = room.left; x <= room.right; x++) {
 						int i = Level.toIndex(x, y);
@@ -228,13 +228,13 @@ public class Painter {
 
 			for (int y = room.top; y <= room.bottom; y++) {
 				for (int x = room.left; x <= room.right; x++) {
-					if (Dungeon.depth != -2 && level.get(x, y) == Terrain.WALL) {
+					if (Dungeon.depth > -2 && level.get(x, y) == Terrain.WALL) {
 						if (Random.chance(30)) {
 							level.setDecor(x, y, (byte) (Random.newInt(Terrain.decor.length) + 1));
 						}
 					}
 
-					if (level.get(x, y) == Terrain.WALL) {
+					if (Dungeon.depth != -3 && Dungeon.depth != -1 && level.get(x, y) == Terrain.WALL) {
 						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 

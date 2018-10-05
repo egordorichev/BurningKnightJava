@@ -12,7 +12,7 @@ public class BurningClown extends Clown {
 	}
 
 	{
-		hpMax = 2;
+		hpMax = 5;
 	}
 
 	@Override

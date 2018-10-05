@@ -11,7 +11,7 @@ public class InvisThief extends Thief {
 	}
 
 	{
-		hpMax = 2;
+		hpMax = 6;
 	}
 
 	@Override

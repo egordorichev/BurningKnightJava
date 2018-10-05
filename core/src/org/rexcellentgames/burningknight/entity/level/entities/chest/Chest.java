@@ -424,6 +424,8 @@ public class Chest extends SaveableEntity {
 	private boolean drawOpenAnim;
 
 	public void open() {
+		this.playSfx("chest_open");
+
 		ItemHolder holder = new ItemHolder(this.item);
 
 		holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;

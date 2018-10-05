@@ -12,7 +12,7 @@ public class Settings {
 	public static int quality = 1;
 	public static float screenshake = 0.7f;
 	public static float music = 0.5f;
-	public static float sfx = 0.5f;
+	public static float sfx = 0.75f;
 	public static String cursor = "cursor-standart";
 	public static boolean rotateCursor = true;
 	public static int cursorId = 0;
@@ -86,8 +86,8 @@ public class Settings {
 
 		GlobalSave.put("settings_quality", 1);
 		GlobalSave.put("settings_screenshake", 0.7f);
-		GlobalSave.put("settings_sfx", 0.5f);
 		GlobalSave.put("settings_music", 0.5f);
+		GlobalSave.put("settings_sfx", 0.75f);
 
 		GlobalSave.put("settings_cursor", "cursor-standart");
 		GlobalSave.put("settings_rotate_cursor", true);

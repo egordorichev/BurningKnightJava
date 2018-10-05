@@ -9,9 +9,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Gold;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -20,6 +18,7 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -57,7 +56,7 @@ public class Mimic extends Mob {
 
 		all.add(this);
 
-		this.body = World.createSimpleBody(this, 1, 0, 14, 13, BodyDef.BodyType.DynamicBody, false);
+		this.body = World.createSimpleBody(this, 1, 0, 14, 13, BodyDef.BodyType.DynamicBody, true);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
@@ -66,6 +65,11 @@ public class Mimic extends Mob {
 		super.deathEffects();
 		this.playSfx("death_clown");
 		this.done = true;
+
+		Dungeon.area.add(new Explosion(this.x + this.w / 2, this.y + this.h / 2));
+		Dungeon.area.add(new Smoke(this.x + this.w / 2, this.y + this.h / 2));
+
+		this.playSfx("explosion");
 
 		Chest chest = null;
 
@@ -203,8 +207,20 @@ public class Mimic extends Mob {
 	}
 
 	@Override
+	public void knockBackFrom(Entity from, float force) {
+
+	}
+
+	@Override
 	public void update(float dt) {
+		this.velocity.x = 0;
+		this.velocity.y = 0;
+
 		super.update(dt);
+
+		for (Player player : colliding) {
+			player.modifyHp(-1, this, true);
+		}
 
 		this.saw = true;
 
@@ -253,6 +269,8 @@ public class Mimic extends Mob {
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
+		this.playSfx("damage_clown");
+
 		if (!this.found) {
 			Achievements.unlock(Achievements.FIND_MIMIC);
 			this.found = true;
@@ -262,6 +280,11 @@ public class Mimic extends Mob {
 
 	public class MimicState extends Mob.State<Mimic> {
 
+	}
+
+	@Override
+	protected State getAiWithLow(String state) {
+		return getAi(state);
 	}
 
 	@Override
@@ -288,6 +311,7 @@ public class Mimic extends Mob {
 			readAnim();
 
 			animation = open;
+			self.playSfx("chest_open");
 			animation.setBack(false);
 			animation.setPaused(false);
 			animation.setFrame(0);
@@ -309,32 +333,91 @@ public class Mimic extends Mob {
 			if (this.t >= 1f && !did && self.target != null) {
 				did = true;
 
-				for (int i = 0; i < 10; i++) {
-					PoofFx fx = new PoofFx();
+				Tween.to(new Tween.Task(0.5f, 0.2f) {
+					@Override
+					public float getValue() {
+						return sy;
+					}
 
-					fx.x = self.x + self.w / 2;
-					fx.y = self.y + self.h / 2;
+					@Override
+					public void setValue(float value) {
+						sy = value;
+					}
 
-					Dungeon.area.add(fx);
-				}
+					@Override
+					public void onEnd() {
+						for (int i = 0; i < 10; i++) {
+							PoofFx fx = new PoofFx();
 
-				BulletProjectile bullet = new BulletProjectile();
+							fx.x = self.x + self.w / 2;
+							fx.y = self.y + self.h / 2;
 
-				bullet.letter = "bad";
-				bullet.bad = true;
-				bullet.owner = self;
-				bullet.x = self.x + self.w / 2;
-				bullet.y = self.y + self.h / 2;
+							Dungeon.area.add(fx);
+						}
 
-				self.playSfx("gun_machinegun");
+						BulletProjectile bullet = new BulletProjectile();
 
-				float a = self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
-				float d = 60f;
+						bullet.letter = "bad";
+						bullet.bad = true;
+						bullet.owner = self;
+						bullet.x = self.x + self.w / 2;
+						bullet.y = self.y + self.h / 2;
 
-				bullet.velocity.x = (float) (Math.cos(a) * d);
-				bullet.velocity.y = (float) (Math.sin(a) * d);
+						self.playSfx("gun_machinegun");
 
-				Dungeon.area.add(bullet);
+						float a = self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
+						float d = 60f;
+
+						bullet.velocity.x = (float) (Math.cos(a) * d);
+						bullet.velocity.y = (float) (Math.sin(a) * d);
+
+						Dungeon.area.add(bullet);
+
+						Tween.to(new Tween.Task(1f, 0.3f) {
+							@Override
+							public float getValue() {
+								return sy;
+							}
+
+							@Override
+							public void setValue(float value) {
+								sy = value;
+							}
+
+							@Override
+							public void onEnd() {
+
+							}
+						});
+					}
+				});
+
+				Tween.to(new Tween.Task(1.2f, 0.2f) {
+					@Override
+					public float getValue() {
+						return sx;
+					}
+
+					@Override
+					public void setValue(float value) {
+						sx = value;
+					}
+
+					@Override
+					public void onEnd() {
+						Tween.to(new Tween.Task(1f, 0.3f) {
+							@Override
+							public float getValue() {
+								return sx;
+							}
+
+							@Override
+							public void setValue(float value) {
+								sx = value;
+							}
+						});
+					}
+				});
 
 				/*TFFx fx = new TFFx();
 
@@ -402,6 +485,7 @@ public class Mimic extends Mob {
 		if (!this.found) {
 			this.found = true;
 			this.become("found");
+			this.playSfx("damage_clown");
 		}
 
 		return !this.state.equals("attack") || super.rollBlock();

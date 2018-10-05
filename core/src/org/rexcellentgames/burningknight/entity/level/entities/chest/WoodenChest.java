@@ -46,6 +46,10 @@ public class WoodenChest extends Chest {
 	public void open() {
 		super.open();
 
+		if (Dungeon.depth == -3) {
+			return;
+		}
+
 		if (Random.chance(50)) {
 			HeartFx fx = new HeartFx();
 

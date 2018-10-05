@@ -15,10 +15,13 @@ public class SolidProp extends Prop {
 	@Override
 	public void init() {
 		super.init();
+		createCollider();
+	}
 
-		if (this.collider != null) {
+	protected void createCollider() {
+		if (this.body == null && this.collider != null) {
 			this.body = World.createSimpleBody(this, collider.x, collider.y, collider.width, collider.height, BodyDef.BodyType.StaticBody, false);
-			
+
 			if (this.body != null) {
 				World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 			}

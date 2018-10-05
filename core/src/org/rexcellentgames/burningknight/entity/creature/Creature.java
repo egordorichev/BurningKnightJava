@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -56,6 +57,7 @@ public class Creature extends SaveableEntity {
 	public int hw;
 	public int hh;
 	public float z;
+	public float lz;
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
@@ -128,7 +130,8 @@ public class Creature extends SaveableEntity {
 		this.y = y;
 
 		if (this.body != null) {
-			World.checkLocked(this.body).setTransform(x, y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
+			this.lz = this.z;
 		}
 
 		this.triggerEvent("tp");
@@ -238,7 +241,7 @@ public class Creature extends SaveableEntity {
 					byte l = Dungeon.level.liquidData[i];
 
 					if (l > 0) {
-						com.badlogic.gdx.math.Rectangle r = Level.COLLISIONS[Dungeon.level.liquidVariants[i]];
+						Rectangle r = Level.COLLISIONS[Dungeon.level.liquidVariants[i]];
 
 						if (CollisionHelper.check(this.hx + this.x, this.hy + this.y, this.hw, this.hh / 3,
 							x * 16 + r.x, y * 16 - 8 + r.y, r.width, r.height)) {
@@ -259,7 +262,7 @@ public class Creature extends SaveableEntity {
 
 		for (int i = buffs.length - 1; i >= 0; i--) {
 			if (buffs[i] instanceof BurningBuff && !this.isFlying()) {
-				Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true);
+				Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true, false);
 			}
 
 			buffs[i].update(dt);
@@ -313,7 +316,7 @@ public class Creature extends SaveableEntity {
 
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
-			this.y = this.body.getPosition().y;
+			this.y = this.body.getPosition().y - this.lz;
 		}
 	}
 
@@ -665,7 +668,8 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.body != null) {
-			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
+			this.lz = this.z;
 		}
 	}
 

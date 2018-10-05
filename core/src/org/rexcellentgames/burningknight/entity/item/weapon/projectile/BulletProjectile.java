@@ -106,7 +106,7 @@ public class BulletProjectile extends Projectile {
 			}
 
 			if (this.letter.equals("bullet-bad")) {
-				this.noRotation = true;
+				// this.noRotation = true;
 				this.second = false;
 			}
 
@@ -134,7 +134,7 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void render() {
-		TextureRegion reg = this.t < 0.02f ? burst : sprite;
+		TextureRegion reg = this.t < 0.05f ? burst : sprite;
 		Texture texture = reg.getTexture();
 
 		Graphics.batch.end();

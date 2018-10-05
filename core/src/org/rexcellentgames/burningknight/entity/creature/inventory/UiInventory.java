@@ -129,7 +129,7 @@ public class UiInventory extends UiEntity {
 	private Tween.Task lastA;
 	public float forceT;
 
-	private void open() {
+	public void open() {
 		this.open = true;
 		this.dn = false;
 
@@ -195,7 +195,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void update(float dt) {
-		if (Dungeon.depth < 0) {
+		if (Dungeon.depth < 0 && Dungeon.depth != -3) {
 			return;
 		}
 
@@ -488,7 +488,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		if (Dungeon.depth < 0 || Ui.hideUi) {
+		if ((Dungeon.depth != -3 && Dungeon.depth < 0) || Ui.hideUi) {
 			return;
 		}
 

@@ -140,7 +140,7 @@ public class Mob extends Creature {
 	}
 
 	public void generatePrefix() {
-		if (this.prefix == null) {
+		if (this.prefix == null && Dungeon.depth != -3) {
 			this.prefix = PrefixPool.instance.generate();
 			this.prefix.apply(this);
 			this.prefix.onGenerate(this);
@@ -424,23 +424,25 @@ public class Mob extends Creature {
 		}
 
 		if (this.drop) {
-			if (this.prefix != null) {
-				this.prefix.onDeath(this);
-			}
+			if (Dungeon.depth != -3) {
+				if (this.prefix != null) {
+					this.prefix.onDeath(this);
+				}
 
-			this.drop = false;
-			ArrayList<Item> items = this.getDrops();
+				this.drop = false;
+				ArrayList<Item> items = this.getDrops();
 
-			for (Item item : items) {
-				ItemHolder holder = new ItemHolder(item);
+				for (Item item : items) {
+					ItemHolder holder = new ItemHolder(item);
 
-				holder.x = this.x;
-				holder.y = this.y;
-				holder.getItem().generate();
+					holder.x = this.x;
+					holder.y = this.y;
+					holder.getItem().generate();
 
-				this.area.add(holder);
-				
-				LevelSave.add(holder);
+					this.area.add(holder);
+
+					LevelSave.add(holder);
+				}
 			}
 		}
 
@@ -460,6 +462,25 @@ public class Mob extends Creature {
 					e.printStackTrace();
 					Log.error("AI error in " + this.getClass().getSimpleName());
 					this.become("idle");
+				}
+			}
+		}
+
+		if (this.room != null && Player.instance.room == this.room) {
+			for (Mob mob : Mob.all) {
+				if (mob != this && mob.room == this.room) {
+					float x = mob.x + mob.w / 2;
+					float y = mob.y + mob.h / 2;
+					float d = this.getDistanceTo(x, y);
+
+					if (d < 24) {
+						float a = d <= 8 ? Random.newFloat((float) (Math.PI * 2)) : this.getAngleTo(x, y);
+						float f = 4;
+
+						this.velocity.x -= Math.cos(a) * f;
+						this.velocity.y -= Math.sin(a) * f;
+
+					}
 				}
 			}
 		}
@@ -509,6 +530,8 @@ public class Mob extends Creature {
 		}
 		if (this.body != null) {
 			this.velocity.clamp(0, this.maxSpeed);
+			this.body.setTransform(this.x, this.y + this.z, 0);
+			this.lz = this.z;
 			this.body.setLinearVelocity(this.velocity.x * speedMod, this.velocity.y * speedMod);
 		}
 	}
@@ -791,10 +814,10 @@ public class Mob extends Creature {
 	protected void onHurt(int a, Creature from) {
 		super.onHurt(a, from);
 
-		if (!this.saw && !(this instanceof Boss)) {
+		/*if (!this.saw && !(this instanceof Boss)) {
 			this.toDead = true;
 			return;
-		}
+		}*/
 
 		if (this.isLow() && !(this.ai instanceof GetOutState)) {
 			State state = this.getAiWithLow(this.state);

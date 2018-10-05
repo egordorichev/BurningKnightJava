@@ -67,5 +67,7 @@
 	"enemy_alert",
 	"death_thief",
 	"damage_thief",
-	"fire"
+	"fire",
+	"chest_open",
+	"gun_2"
 ]
