@@ -7,6 +7,11 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
 
 public class Weapon extends WeaponBase {
@@ -57,7 +62,10 @@ public class Weapon extends WeaponBase {
 		body.createFixture(fixture);
 		body.setUserData(this);
 		body.setBullet(true);
+		body.setTransform(this.owner.x, this.owner.y, 0);
 		poly.dispose();
+
+		played = false;
 	}
 
 	@Override
@@ -80,8 +88,28 @@ public class Weapon extends WeaponBase {
 
 	}
 
+	private boolean played;
+
+	protected void knockFrom(Entity entity) {
+		this.owner.knockBackFrom(entity, 1000f);
+	}
+
 	@Override
 	public void onCollision(Entity entity) {
+		if (!played) {
+			if (entity == null) {
+				this.owner.playSfx("clink_1");
+				played = true;
+				this.knockFrom(entity);
+				return;
+			} else if (entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Entrance) {
+				this.owner.playSfx("clink_2");
+				played = true;
+				this.knockFrom(entity);
+				return;
+			}
+		}
+
 		if (entity instanceof Creature && entity != this.owner) {
 			if (this.used && (!this.penetrates && !this.owner.penetrates)) {
 				return;
@@ -128,7 +156,7 @@ public class Weapon extends WeaponBase {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (!(entity instanceof Creature)) {
+		if ((entity == null && fixture.getBody().isBullet()) || entity == owner || entity instanceof Door || entity instanceof ItemHolder) {
 			return false;
 		}
 

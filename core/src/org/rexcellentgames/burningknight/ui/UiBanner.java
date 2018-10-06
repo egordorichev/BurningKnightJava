@@ -52,6 +52,11 @@ public class UiBanner extends Entity {
 			}
 
 			@Override
+			public boolean runWhenPaused() {
+				return true;
+			}
+
+			@Override
 			public void onEnd() {
 				Tween.to(new Tween.Task(Math.max(w2, w1) + 18 + 4, 0.5f) {
 					@Override
@@ -62,6 +67,11 @@ public class UiBanner extends Entity {
 					@Override
 					public void setValue(float value) {
 						w = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
 					}
 
 					@Override
@@ -78,6 +88,11 @@ public class UiBanner extends Entity {
 							}
 
 							@Override
+							public boolean runWhenPaused() {
+								return true;
+							}
+
+							@Override
 							public void onEnd() {
 								Tween.to(new Tween.Task(0, 0.2f) {
 									@Override
@@ -88,6 +103,11 @@ public class UiBanner extends Entity {
 									@Override
 									public float getValue() {
 										return a;
+									}
+
+									@Override
+									public boolean runWhenPaused() {
+										return true;
 									}
 
 									@Override
@@ -109,6 +129,11 @@ public class UiBanner extends Entity {
 											}
 
 											@Override
+											public boolean runWhenPaused() {
+												return true;
+											}
+
+											@Override
 											public void onEnd() {
 												Tween.to(new Tween.Task(-68, 0.5f, Tween.Type.BACK_IN) {
 													@Override
@@ -119,6 +144,11 @@ public class UiBanner extends Entity {
 													@Override
 													public void setValue(float value) {
 														y = value;
+													}
+
+													@Override
+													public boolean runWhenPaused() {
+														return true;
 													}
 
 													@Override
