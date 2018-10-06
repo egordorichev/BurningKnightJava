@@ -113,7 +113,7 @@ public class BulletProjectile extends Projectile {
 			}
 
 			if (this.letter.equals("bullet-bad")) {
-				// this.noRotation = true;
+				this.noRotation = true;
 				this.second = false;
 			}
 

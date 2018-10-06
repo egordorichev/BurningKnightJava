@@ -189,8 +189,15 @@ public class Camera extends Entity {
 					Dungeon.goToMenu = true;
 				}
 			} else {
+				Room room = Player.instance.room;
+
+				if (room != null) {
+					camPosition.lerp(new Vector2(room.left * 16f + ((float) room.getWidth() / 2) * 16, room.top * 16f + ((float) room.getHeight() / 2) * 16), dt * 0.5f);
+				}
+
 				game.position.x = camPosition.x;
 				game.position.y = camPosition.y;
+
 				/*game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
 					Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, camPosition.x);
 				game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
