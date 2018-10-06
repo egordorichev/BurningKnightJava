@@ -591,6 +591,7 @@ public class Mob extends Creature {
 
 	protected void deathEffects() {
 		this.done = true;
+		drop = true;
 
 		if (Settings.blood) {
 			for (int i = 0; i < 5; i++) {
@@ -651,7 +652,6 @@ public class Mob extends Creature {
 						deathEffects();
 
 						if (!force) {
-							drop = true;
 							GameSave.killCount ++;
 
 							if (GameSave.killCount >= 10) {

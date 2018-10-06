@@ -632,7 +632,12 @@ public class InGameState extends State {
 
 				transition(() -> {
 					Dungeon.grayscale = 0;
-					Dungeon.newGame(true, 1);
+
+					if (Dungeon.depth == -3) {
+						Dungeon.newGame(false, -3);
+					} else {
+						Dungeon.newGame(true, 1);
+					}
 				});
 			}
 		}.setSparks(true));

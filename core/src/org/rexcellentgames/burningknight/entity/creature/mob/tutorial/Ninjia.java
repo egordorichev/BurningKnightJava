@@ -2,10 +2,12 @@ package org.rexcellentgames.burningknight.entity.creature.mob.tutorial;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -130,7 +132,10 @@ public class Ninjia extends Mob {
 		this.playSfx("damage_clown");
 
 		this.waitT = 1f;
-		this.doTp = true;
+
+		if (this.hp > 0) {
+			this.doTp = true;
+		}
 	}
 
 	protected float waitT;
@@ -143,6 +148,11 @@ public class Ninjia extends Mob {
 
 		this.done = true;
 		deathEffect(killed);
+
+		Dungeon.area.add(new Explosion(this.x + this.w / 2, this.y + this.h / 2));
+		this.playSfx("explosion");
+
+		Audio.highPriority("Reckless");
 	}
 
 	@Override
@@ -173,6 +183,7 @@ public class Ninjia extends Mob {
 
 			if (target != null) {
 				self.become("attack");
+				self.waitT = 1f;
 			}
 		}
 	}
@@ -199,7 +210,7 @@ public class Ninjia extends Mob {
 				this.t = 0;
 
 				if (!self.canSee(self.target)) {
-					InGameState.forceBoss = false;
+					// InGameState.forceBoss = false;
 					return;
 				}
 
