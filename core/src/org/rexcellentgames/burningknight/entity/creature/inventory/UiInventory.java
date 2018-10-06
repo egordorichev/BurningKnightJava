@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -193,6 +194,8 @@ public class UiInventory extends UiEntity {
 		this.active = (int) MathUtils.clamp(0, this.slots.length - 1, this.active);
 	}
 
+	private boolean last;
+
 	@Override
 	public void update(float dt) {
 		if (Dungeon.depth < 0 && Dungeon.depth != -3) {
@@ -209,13 +212,15 @@ public class UiInventory extends UiEntity {
 		this.active = this.inventory.active;
 		// this.forceT = 1f; // Math.max(this.forceT - dt, 0);
 
-		if (Dialog.active == null && this.dn && Input.instance.wasPressed("inventory")) {
+		if (Dialog.active == null && this.dn && !last && Input.instance.wasPressed("inventory")) {
 			if (!this.open) {
 				open();
 			} else {
 				hide();
 			}
 		}
+
+		last = Input.instance.isDownAndNotPressed("inventory");
 
 		if (!UiMap.large) {
 			if (Input.instance.wasPressed("inventory_up") && this.active + 6 < this.slots.length) {

@@ -77,6 +77,10 @@ public class Achievements {
 	}
 
 	public static void unlock(String id) {
+		if (Dungeon.depth == -3) {
+			return;
+		}
+
 		if (!unlocked(id)) {
 			Log.info(id + " was unlocked!");
 			GlobalSave.put(id, true);

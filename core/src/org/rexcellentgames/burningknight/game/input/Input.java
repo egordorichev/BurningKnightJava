@@ -379,8 +379,32 @@ public class Input implements InputProcessor, ControllerListener {
 
 	public void putState(String id, State state) {
 		for (String name : this.bindings.get(id)) {
-			this.keys.put(name, state);
+			this.keys.put(toButtonWithId(name), state);
 		}
+	}
+
+	public boolean isDownAndNotPressed(String key) {
+		if (blocked) {
+			return false;
+		}
+
+		if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
+			return false;
+		}
+
+		if (!this.bindings.containsKey(key)) {
+			return false;
+		}
+
+		for (String id : this.bindings.get(key)) {
+			State state = this.keys.get(toButtonWithId(id));
+
+			if (state == State.DOWN) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public boolean isDown(String key) {
