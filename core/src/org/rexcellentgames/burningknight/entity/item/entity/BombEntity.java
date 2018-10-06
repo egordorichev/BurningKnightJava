@@ -287,6 +287,7 @@ public class BombEntity extends Entity {
 			for (int y = room.top; y <= room.bottom; y++) {
 				if (Dungeon.level.get(x, y) == Terrain.CRACK && this.getDistanceTo(x * 16 + 8, y * 16 + 8) <= 32f) {
 					make(room);
+
 					Achievements.unlock(Achievements.FIND_SECRET_ROOM);
 
 					int num = GlobalSave.getInt("num_secret_rooms_found") + 1;
@@ -308,6 +309,8 @@ public class BombEntity extends Entity {
 	}
 
 	public static void make(Room room) {
+		Player.instance.playSfx("secret");
+
 		for (int x = room.left; x <= room.right; x++) {
 			for (int y = room.top; y <= room.bottom; y++) {
 				if (Dungeon.level.isValid(x, y)) {

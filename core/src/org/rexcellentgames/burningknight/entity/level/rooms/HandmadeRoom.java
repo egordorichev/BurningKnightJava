@@ -225,6 +225,7 @@ public class HandmadeRoom extends RegularRoom {
 
 					if (Version.debug) {
 						GlobalSave.put("npc_" + id + "_saved", true);
+						GlobalSave.put("all_npcs_saved", true);
 					}
 				}
 
