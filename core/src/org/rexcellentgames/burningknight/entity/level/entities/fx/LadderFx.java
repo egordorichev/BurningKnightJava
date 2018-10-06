@@ -60,7 +60,7 @@ public class LadderFx extends UiEntity {
 
 		if (Input.instance.wasPressed("interact") && Dialog.active == null && Player.instance.pickupFx == null) {
 			this.remove();
-			Input.instance.putState("interact", Input.State.UP);
+			Input.instance.putState("inventory", Input.State.UP);
 
 			if (this.ladder instanceof Entrance) {
 				if (Dungeon.depth == -2) {

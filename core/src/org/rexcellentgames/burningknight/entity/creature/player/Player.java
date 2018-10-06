@@ -855,9 +855,9 @@ public class Player extends Creature {
 				} else if (this.tt >= 4f) {
 					if (Input.instance.activeController == null) {
 						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("forward"));
-						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("left"));
-						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("back"));
-						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("right"));
+						Ui.ui.addControl("[white]" + Input.instance.getMapping("left") + " [gray]" + Locale.get("left"));
+						Ui.ui.addControl("[white]" + Input.instance.getMapping("down") + " [gray]" + Locale.get("back"));
+						Ui.ui.addControl("[white]" + Input.instance.getMapping("right") + " [gray]" + Locale.get("right"));
 					}
 
 					this.step = 1;
@@ -1075,7 +1075,7 @@ public class Player extends Creature {
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("interact")) {
-				Input.instance.putState("interact", Input.State.UP);
+				Input.instance.putState("inventory", Input.State.UP);
 
 				Dialog.active.skip();
 			}
@@ -1222,12 +1222,14 @@ public class Player extends Creature {
 	protected void onRoomChange() {
 		super.onRoomChange();
 
-		if (numCollectedHearts >= 6) {
-			Achievements.unlock(Achievements.UNLOCK_MEATBOY);
-		}
+		if (Dungeon.depth > -1) {
+			if (numCollectedHearts >= 6) {
+				Achievements.unlock(Achievements.UNLOCK_MEATBOY);
+			}
 
-		if (hadEnemies && !gotHit) {
-			Achievements.unlock(Achievements.UNLOCK_HALO);
+			if (hadEnemies && !gotHit) {
+				Achievements.unlock(Achievements.UNLOCK_HALO);
+			}
 		}
 
 		this.resetHit();

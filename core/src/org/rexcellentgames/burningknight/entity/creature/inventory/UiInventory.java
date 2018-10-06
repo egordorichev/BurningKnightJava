@@ -209,7 +209,7 @@ public class UiInventory extends UiEntity {
 		this.active = this.inventory.active;
 		// this.forceT = 1f; // Math.max(this.forceT - dt, 0);
 
-		if (Dialog.active == null && this.dn && Input.instance.wasPressed("interact")) {
+		if (Dialog.active == null && this.dn && Input.instance.wasPressed("inventory")) {
 			if (!this.open) {
 				open();
 			} else {

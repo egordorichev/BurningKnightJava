@@ -178,7 +178,7 @@ class Upgrade : SaveableEntity() {
 		this.body?.setTransform(this.x + 8 - this.w / 2, this.y + this.z + 8 - this.h / 2, 0f)
 
 		if (activeUpgrade == this && Input.instance.wasPressed("interact")) {
-			Input.instance.putState("interact", Input.State.UP)
+			Input.instance.putState("inventory", Input.State.UP)
 
 			var count = GlobalSave.getInt("num_coins")
 

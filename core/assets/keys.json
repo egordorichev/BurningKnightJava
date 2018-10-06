@@ -6,7 +6,7 @@
 
 	"drop" : [ "ControllerY", "X" ],
 	"shift" : [ "L-Shift", "R-Shift" ],
-	"roll" : [ "Mouse1", "ControllerL2" ],
+	"roll" : [ "Mouse1", "ControllerL2", "Space" ],
 
 	"use" : [ "Mouse0", "ControllerR2" ],
 	"second_use" : [ "Mouse1" ],

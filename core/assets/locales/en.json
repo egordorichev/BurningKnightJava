@@ -510,7 +510,6 @@
 	"castle": "The Castle",
 	"bk_sword": "The Burning Sword",
 	"bk_sword_desc": "Only for the strongest!",
-	"use": "Use",
 	"up": "Up",
 	"right": "Right",
 	"down": "Down",
@@ -635,5 +634,10 @@
 	"rotate_cursor" : "Rotate Cursor",
 	"cursor-cross" : "Cross",
 	"introduction" : "Introduction",
-	"forward" : "Forward"
+	"forward" : "Forward",
+	"roll" : "Roll",
+	"select_item" : "Select item",
+	"use" : "Use",
+	"left_mouse_button" : "LMB",
+	"right_mouse_button" : "RMB"
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -149,7 +150,7 @@ public class Chest extends SaveableEntity {
 				this.colliding = true;
 
 				if (!collided && Dungeon.depth == -3) {
-					Ui.ui.addControl("[white]E [gray]Interact");
+					Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"));
 					collided = true;
 				}
 			} else {
@@ -359,7 +360,7 @@ public class Chest extends SaveableEntity {
 		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 8;
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
-			Input.instance.putState("interact", Input.State.UP);
+			Input.instance.putState("inventory", Input.State.UP);
 
 			if (this.locked) {
 				Item key = Player.instance.getInventory().findItem(KeyC.class);

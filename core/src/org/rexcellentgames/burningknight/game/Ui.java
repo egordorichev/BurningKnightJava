@@ -169,7 +169,7 @@ public class Ui {
 		Tween.to(new Tween.Task(0, 1f) {
 			@Override
 			public void onEnd() {
-				if (true) {
+				if (bk_dead) {
 					Tween.to(new Tween.Task(0, 1.65f) {
 						@Override
 						public float getValue() {

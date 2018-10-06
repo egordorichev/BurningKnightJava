@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.state.InGameState;
@@ -536,6 +537,37 @@ public class Input implements InputProcessor, ControllerListener {
   }
 
 	public String getMapping(String key) {
-		return "";
+		ArrayList<String> keys = this.bindings.get(key);
+
+		if (keys == null) {
+			return "Null";
+		}
+
+		if (activeController != null) {
+			String k = keys.get(1).replace("Controller", "");
+
+			switch (k) {
+				case "L1": return "LT";
+				case "L2": return "LB";
+				case "R1": return "RT";
+				case "R2": return "RB";
+				default: return k;
+			}
+		} else {
+			String k = keys.get(0);
+
+			if (k.startsWith("Mouse")) {
+				k = k.replace("Mouse", "");
+
+				switch (k) {
+					case "0": return Locale.get("left_mouse_button");
+					case "1": return Locale.get("right_mouse_button");
+				}
+
+				return k;
+			} else {
+				return k;
+			}
+		}
 	}
 }

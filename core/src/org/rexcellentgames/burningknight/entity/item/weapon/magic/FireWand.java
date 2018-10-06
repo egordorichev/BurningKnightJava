@@ -17,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Tree;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -41,9 +42,9 @@ public class FireWand extends Wand {
 		if (Dungeon.depth == -3 && !showed) {
 			showed = true;
 
-			Ui.ui.addControl("[white]LMB [gray]Use");
-			Ui.ui.addControl("[white]Wheel [gray]Select item");
-			Ui.ui.addControl("[white]Q [gray]Inventory");
+			Ui.ui.addControl("[white]" + Input.instance.getMapping("use") + " [gray]" + Locale.get("use"));
+			Ui.ui.addControl("[white]" + Input.instance.getMapping("scroll") + " [gray]" + Locale.get("select_item"));
+			Ui.ui.addControl("[white]" + Input.instance.getMapping("inventory") + " [gray]" + Locale.get("inventory"));
 		}
 
 		if (Dungeon.depth != -3) {

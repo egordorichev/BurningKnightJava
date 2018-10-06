@@ -66,7 +66,7 @@ public class Button extends SaveableEntity {
 		this.al += (((this.colliding && !this.down) ? 1 : 0) - this.al) * dt * 8;
 
 		if (!this.down && this.al >= 0.5f && Input.instance.wasPressed("interact")) {
-			Input.instance.putState("interact", Input.State.UP);
+			Input.instance.putState("inventory", Input.State.UP);
 
 			this.down = true;
 			Camera.shake(8);

@@ -69,7 +69,7 @@ public class ItemPickupFx extends Entity {
 		}
 
 		if (Input.instance.wasPressed("interact") && Dialog.active == null) {
-			Input.instance.putState("interact", Input.State.DOWN);
+			Input.instance.putState("inventory", Input.State.UP);
 
 			if (this.item instanceof ClassSelector) {
 				ClassSelector s = (ClassSelector) this.item;
