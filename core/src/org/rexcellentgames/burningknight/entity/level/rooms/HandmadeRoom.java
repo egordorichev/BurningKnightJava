@@ -29,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.*;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.WoodenChest;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
@@ -219,8 +220,12 @@ public class HandmadeRoom extends RegularRoom {
 				trader.x = x + rect.x + 16;
 				trader.y = y + rect.y + 16 - 8;
 
-				if (id.equals("b") || Version.debug) { // fixme, remove
+				if (id.equals("b") || Version.debug) {
 					trader.saved = true;
+
+					if (Version.debug) {
+						GlobalSave.put("npc_" + this.id + "_saved", true);
+					}
 				}
 
 				Dungeon.area.add(trader.add());
