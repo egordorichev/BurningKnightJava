@@ -197,11 +197,6 @@ public class Camera extends Entity {
 
 				game.position.x = camPosition.x;
 				game.position.y = camPosition.y;
-
-				/*game.position.x = MathUtils.clamp(Display.GAME_WIDTH / 2 * z + 16,
-					Level.getWidth() * 16 - Display.GAME_WIDTH / 2 * z - 16, camPosition.x);
-				game.position.y = MathUtils.clamp(Display.GAME_HEIGHT / 2 * z + 16,
-					Level.getHeight() * 16 - Display.GAME_HEIGHT / 2 * z - 16, camPosition.y);*/
 			}
 
 			game.update();

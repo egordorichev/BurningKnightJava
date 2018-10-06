@@ -62,7 +62,7 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		int sz = 0;
+		int sz = 10;
 
 		leftMost -= sz;
 		topMost -= sz;
