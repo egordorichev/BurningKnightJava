@@ -4,16 +4,15 @@
 	"up" : [ "W", "Up" ],
 	"down" : [ "S", "Down" ],
 
-	"pickup" : [ "E", "ControllerX" ],
 	"drop" : [ "ControllerY", "X" ],
 	"shift" : [ "L-Shift", "R-Shift" ],
-	"roll" : [ "Space", "Mouse1" ],
+	"roll" : [ "Mouse1", "ControllerL2" ],
 
 	"use" : [ "Mouse0", "ControllerR2" ],
 	"second_use" : [ "Mouse1" ],
-	"scroll" : [ "MouseWheel" ],
+	"scroll" : [ "MouseWheel", "Triggers" ],
 
-	"interact" : [ "ControllerX", "ControllerL3", "E" ],
+	"interact" : [ "E", "ControllerX", "ControllerL3" ],
 
 	"prev" : [ "ControllerL1", "Numpad 7", "ControllerDPadLeft", "T" ],
 	"next" : [ "ControllerR1", "Numpad 9", "ControllerDPadRight", "Y" ],
@@ -26,7 +25,7 @@
 	"uiLeft": [ "Left", "ControllerDPadLeft", "ControllerL1" ],
 	"uiRight": [ "Right", "ControllerDPadRight", "ControllerR1" ],
 	"uiAccept": [ "Mouse0", "Enter", "ControllerA" ],
-	"inventory" : [ "Q", "ControllerL2" ],
+	"inventory" : [ "Q", "ControllerX" ],
 
 	"1" : [ "1" ],
 	"2" : [ "2" ],

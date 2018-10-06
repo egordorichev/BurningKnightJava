@@ -116,6 +116,8 @@ public class Shopkeeper extends Npc {
 		lastWhite = (!this.talking && Player.instance.pickupFx == null && Player.instance.room == this.room && Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2) < 10);
 
 		if (lastWhite && Input.instance.wasPressed("interact")) {
+			Input.instance.putState("interact", Input.State.UP);
+
 			talking = true;
 			this.become("talk_dialog");
 			int id = Player.instance.ui.getActive();

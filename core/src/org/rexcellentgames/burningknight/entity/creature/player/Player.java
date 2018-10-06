@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -852,10 +853,12 @@ public class Player extends Creature {
 				if (moved) {
 					this.step = 1;
 				} else if (this.tt >= 4f) {
-					Ui.ui.addControl("[white]W [gray]Forward");
-					Ui.ui.addControl("[white]A [gray]Left");
-					Ui.ui.addControl("[white]S [gray]Back");
-					Ui.ui.addControl("[white]D [gray]Right");
+					if (Input.instance.activeController == null) {
+						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("forward"));
+						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("left"));
+						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("back"));
+						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("right"));
+					}
 
 					this.step = 1;
 				}
@@ -1072,6 +1075,8 @@ public class Player extends Creature {
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("interact")) {
+				Input.instance.putState("interact", Input.State.UP);
+
 				Dialog.active.skip();
 			}
 		}

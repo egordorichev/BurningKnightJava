@@ -534,4 +534,8 @@ public class Input implements InputProcessor, ControllerListener {
     
     return id;
   }
+
+	public String getMapping(String key) {
+		return "";
+	}
 }

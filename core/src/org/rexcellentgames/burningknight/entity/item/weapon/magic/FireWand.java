@@ -43,6 +43,7 @@ public class FireWand extends Wand {
 
 			Ui.ui.addControl("[white]LMB [gray]Use");
 			Ui.ui.addControl("[white]Wheel [gray]Select item");
+			Ui.ui.addControl("[white]Q [gray]Inventory");
 		}
 
 		if (Dungeon.depth != -3) {
