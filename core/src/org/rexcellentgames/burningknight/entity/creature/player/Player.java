@@ -37,7 +37,6 @@ import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
-import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -286,8 +285,14 @@ public class Player extends Creature {
 			return;
 		}
 
-		this.give(startingItem);
-		startingItem = null;
+		if (Dungeon.depth < 0) {
+			return;
+		}
+
+		if (startingItem != null) {
+			this.give(startingItem);
+			startingItem = null;
+		}
 
 		if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
 			this.give(new HealingPotion());

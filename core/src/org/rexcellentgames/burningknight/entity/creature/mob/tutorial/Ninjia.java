@@ -149,10 +149,12 @@ public class Ninjia extends Mob {
 		this.done = true;
 		deathEffect(killed);
 
-		Dungeon.area.add(new Explosion(this.x + this.w / 2, this.y + this.h / 2));
-		this.playSfx("explosion");
+		if (Dungeon.depth == -3) {
+			Dungeon.area.add(new Explosion(this.x + this.w / 2, this.y + this.h / 2));
+			this.playSfx("explosion");
 
-		Audio.highPriority("Reckless");
+			Audio.highPriority("Reckless");
+		}
 	}
 
 	@Override

@@ -907,9 +907,11 @@ public class BurningKnight extends Boss {
 			super.onExit();
 			talked = true;
 
-			UiBanner banner = new UiBanner();
-			banner.text = Locale.get("burning_knight");
-			Dungeon.ui.add(banner);
+			if (!Player.instance.isDead()) {
+				UiBanner banner = new UiBanner();
+				banner.text = Locale.get("burning_knight");
+				Dungeon.ui.add(banner);
+			}
 		}
 	}
 
@@ -944,9 +946,11 @@ public class BurningKnight extends Boss {
 			self.setUnhittable(false);
 			Mob.every.add(self);
 
-			UiBanner banner = new UiBanner();
-			banner.text = Locale.get("burning_knight");
-			Dungeon.ui.add(banner);
+			if (!Player.instance.isDead()) {
+				UiBanner banner = new UiBanner();
+				banner.text = Locale.get("burning_knight");
+				Dungeon.ui.add(banner);
+			}
 		}
 
 		@Override
