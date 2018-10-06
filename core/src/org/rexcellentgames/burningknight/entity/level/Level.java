@@ -1271,7 +1271,7 @@ public abstract class Level extends SaveableEntity {
 						}
 					}
 
-					if (tile == Terrain.CHASM && Random.chance(0.4f) && !pause) {
+					if (tile == Terrain.CHASM && Random.chance(0.1f) && !pause) {
 						Dungeon.area.add(new ChasmFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 					}
 				}

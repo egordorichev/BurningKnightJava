@@ -7,7 +7,7 @@ public class MoneyPrinter extends Gun {
 	{
 		sprite = "item-gun_k";
 		hole.x = 12;
-		hole.y = 8;
+		hole.y = 4;
 		origin.x = 6;
 		origin.y = 4;
 		vel = 0.7f;

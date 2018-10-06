@@ -206,6 +206,12 @@ public class Creature extends SaveableEntity {
 			}
 		}
 
+		this.poof();
+
+		BloodFx.add(this, 20);
+	}
+
+	protected void poof() {
 		for (int i = 0; i < 10; i++) {
 			PoofFx fx = new PoofFx();
 
@@ -214,8 +220,6 @@ public class Creature extends SaveableEntity {
 
 			Dungeon.area.add(fx);
 		}
-
-		BloodFx.add(this, 20);
 	}
 
 	protected boolean ignorePos;

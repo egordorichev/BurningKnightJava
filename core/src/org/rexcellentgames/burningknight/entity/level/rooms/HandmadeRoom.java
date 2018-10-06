@@ -12,12 +12,14 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Ninjia;
 import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.PurpleSlime;
 import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Slime;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.level.Control;
@@ -256,6 +258,15 @@ public class HandmadeRoom extends RegularRoom {
 				chest.locked = true;
 
 				Dungeon.area.add(chest.add());
+			} else if (name.equals("heal_chest")) {
+				Chest chest = new WoodenChest();
+
+				chest.setItem(new HealingPotion());
+				chest.x = x + rect.x + 16;
+				chest.y = y + rect.y + 16;
+				chest.locked = false;
+
+				Dungeon.area.add(chest.add());
 			} else if (name.startsWith("enemy")) {
 				String id = name.replace("enemy", "");
 				Mob mob;
@@ -304,6 +315,13 @@ public class HandmadeRoom extends RegularRoom {
 
 				BurningKnight.instance.become("unactive");
 				BurningKnight.instance.tp(x + rect.x + 16, y + rect.y + 16);
+			} else if (name.equals("miniboss")) {
+				Ninjia ninjia = new Ninjia();
+
+				ninjia.x = x + rect.x + 16;
+				ninjia.y = y + rect.y + 16;
+
+				Dungeon.area.add(ninjia.add());
 			} else if (name.equals("roll_collider")) {
 				RollTrigger trigger = new RollTrigger();
 

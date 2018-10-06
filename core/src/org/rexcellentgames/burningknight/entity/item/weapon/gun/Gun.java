@@ -162,6 +162,8 @@ public class Gun extends WeaponBase {
 
 	@Override
 	public void update(float dt) {
+		super.update(dt);
+
 		if (this.owner != null) {
 			this.delay = Math.max(0, this.delay - dt * this.owner.getStat("gun_use_time"));
 

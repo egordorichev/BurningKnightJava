@@ -52,6 +52,7 @@ public class BulletProjectile extends Projectile {
 	public float rotationSpeed = 1f;
 	public Gun gun;
 	public boolean second = true;
+	public boolean lightUp = true;
 
 	private PointLight light;
 
@@ -72,7 +73,13 @@ public class BulletProjectile extends Projectile {
 		this.ra = (float) Math.toRadians(this.a);
 
 		if (this.sprite == null && this.letter != null) {
-			this.sprite = Graphics.getTexture("bullet-" + this.letter);
+			if (this.letter.startsWith("item")) {
+				lightUp = false;
+				rotationSpeed = 0.7f;
+				this.sprite = Graphics.getTexture(this.letter);
+			} else {
+				this.sprite = Graphics.getTexture("bullet-" + this.letter);
+			}
 		}
 
 		if (this.sprite != null && this.anim == null) {
@@ -97,7 +104,7 @@ public class BulletProjectile extends Projectile {
 			switch (this.letter) {
 				case "bad": case "bullet-bad": light.setColor(1, 0, 0, 1); break;
 				case "bullet-a": light.setColor(1, 1, 0, 1); break;
-				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); break;
+				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); lightUp = false; break;
 				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
 			}
 
@@ -144,7 +151,7 @@ public class BulletProjectile extends Projectile {
 		RectFx.shader.setUniformf("g", 1f);
 		RectFx.shader.setUniformf("b", 1f);
 		RectFx.shader.setUniformf("a", second ? 0.33f : 1f);
-		RectFx.shader.setUniformf("remove", second ? 1f : 0f);
+		RectFx.shader.setUniformf("remove", (!lightUp || second) ? 1f : 0f);
 
 		RectFx.shader.setUniformf("pos", new Vector2(((float) reg.getRegionX()) / texture.getWidth(), ((float) reg.getRegionY()) / texture.getHeight()));
 		RectFx.shader.setUniformf("size", new Vector2(((float) reg.getRegionWidth()) / texture.getWidth(), ((float) reg.getRegionHeight()) / texture.getHeight()));
@@ -164,6 +171,7 @@ public class BulletProjectile extends Projectile {
 				RectFx.shader.end();
 				Graphics.batch.begin();
 			}
+
 			this.anim.render(this.x - 8, this.y - 8, false, false, 8, 8, 0);
 		} else {
 			if (second) {
@@ -175,6 +183,7 @@ public class BulletProjectile extends Projectile {
 				RectFx.shader.end();
 				Graphics.batch.begin();
 			}
+
 			Graphics.render(reg, this.x, this.y, this.noRotation ? 0 : this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
 		}
 

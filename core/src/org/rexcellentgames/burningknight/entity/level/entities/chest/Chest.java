@@ -438,7 +438,7 @@ public class Chest extends SaveableEntity {
 		this.playSfx("chest_open");
 
 		if (this.collided) {
-			Ui.ui.hideControls();
+			Ui.ui.hideControlsFast();
 		}
 
 		ItemHolder holder = new ItemHolder(this.item);

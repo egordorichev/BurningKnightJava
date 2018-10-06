@@ -399,6 +399,32 @@ public class Ui {
 		tweened = true;
 	}
 
+	public void hideControlsFast() {
+		if (tweened) {
+			return;
+		}
+
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return sz;
+			}
+
+			@Override
+			public void setValue(float value) {
+				sz = value;
+			}
+
+			@Override
+			public void onEnd() {
+				tweened = false;
+				controls.clear();
+			}
+		});
+
+		tweened = true;
+	}
+
 	public void render() {
 		if (hideUi) {
 			return;

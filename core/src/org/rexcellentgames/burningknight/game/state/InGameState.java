@@ -54,6 +54,8 @@ public class InGameState extends State {
 	private static Music fire = Audio.getMusic("OnFire");
 	private float volume = 0;
 
+	public static boolean forceBoss;
+
 	@Override
 	public void init() {
 		Ui.controls.clear();
@@ -420,7 +422,7 @@ public class InGameState extends State {
 			if (last >= 1f) {
 				last = 0;
 
-				if (Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) {
+				if ((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss) {
 					Audio.play("Rogue");
 				} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
 					Audio.play("Cursed legend");
@@ -508,7 +510,7 @@ public class InGameState extends State {
 
 		boolean none = volume <= 0.05f;
 		volume += ((burning ? 1 : 0) - volume) * dt;
-		
+
 		if (volume > 0.05f && none) {
 			fire.play();
 		} else if (volume < 0.05f && !none) {
