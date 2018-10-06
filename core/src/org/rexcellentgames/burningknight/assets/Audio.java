@@ -17,7 +17,7 @@ public class Audio {
 	public static HashMap<String, Integer> bpm = new HashMap<>();
 	public static HashMap<String, Float> volumes = new HashMap<>();
 	public static Music current;
-	private static boolean important;
+	public static boolean important;
 	private static String last = "";
 	private static float time;
 

@@ -37,13 +37,16 @@ public class FireWand extends Wand {
 	@Override
 	public void onPickup() {
 		super.onPickup();
-		Achievements.unlock("UNLOCK_FIRE_WAND");
 
 		if (Dungeon.depth == -3 && !showed) {
 			showed = true;
 
 			Ui.ui.addControl("[white]LMB [gray]Use");
 			Ui.ui.addControl("[white]Wheel [gray]Select item");
+		}
+
+		if (Dungeon.depth != -3) {
+			Achievements.unlock("UNLOCK_FIRE_WAND");
 		}
 	}
 

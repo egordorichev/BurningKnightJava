@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -143,10 +144,12 @@ public class Ui {
 	private static String killsLocale = Locale.get("kills");
 
 	public void onDeath() {
-		boolean bk_dead = true; // Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")
+		boolean bk_dead = Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive");
 
 		if (bk_dead) {
-			Audio.play("Nostalgia");
+			GlobalSave.put("finished_tutorial", true);
+
+			Audio.highPriority("Nostalgia");
 			Audio.reset();
 
 

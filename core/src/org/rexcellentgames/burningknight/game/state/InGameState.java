@@ -58,6 +58,8 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
+		Audio.important = false;
+
 		Ui.controls.clear();
 
 		shader.begin();
@@ -422,14 +424,14 @@ public class InGameState extends State {
 			if (last >= 1f) {
 				last = 0;
 
-				if ((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss) {
+				if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
 					Audio.play("Rogue");
 				} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
 					Audio.play("Cursed legend");
 				} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
 					if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
 						Audio.play("Shopkeeper");
-					} else if (Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
+					} else if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
 						Audio.play("Rogue");
 					} else {
 						Audio.play(Dungeon.level.getMusic());
