@@ -290,6 +290,8 @@ public class Player extends Creature {
 			return;
 		}
 
+		Log.error("Generate!");
+
 		if (startingItem != null) {
 			this.give(startingItem);
 			startingItem = null;
