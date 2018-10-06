@@ -1,8 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -10,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.BitHelper;
 import org.rexcellentgames.burningknight.util.PathFinder;
 import org.rexcellentgames.burningknight.util.Random;
@@ -67,6 +66,7 @@ public class Tree extends SolidProp {
 				}
 			}
 		} else {
+			InGameState.burning = true;
 			Dungeon.level.setOnFire(Level.toIndex((int) Math.floor((this.x + 15) / 16), (int) Math.floor((this.y) / 16)), true);
 
 			this.damage += dt * 0.333f;

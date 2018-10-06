@@ -6,4 +6,8 @@ class MachineGun : Gun() {
     damage = 1
     sprite = "item-gun_b"
   }
+
+  override fun getSfx(): String {
+    return "gun_machinegun"
+  }
 }

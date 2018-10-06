@@ -33,6 +33,10 @@ public class WeaponBase extends Item {
 	public int initialDamage;
 	public int initialDamageMin;
 	public float initialCrit;
+	
+	protected String getSfx() {
+		return "melee_1";
+	}
 
 	@Override
 	public boolean canBeUpgraded() {

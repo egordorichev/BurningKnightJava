@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -50,6 +51,8 @@ public class InGameState extends State {
 	private Console console;
 	private Area pauseMenuUi;
 	public static TextureRegion noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
+	private static Music fire = Audio.getMusic("OnFire");
+	private float volume = 0;
 
 	@Override
 	public void init() {
@@ -122,6 +125,8 @@ public class InGameState extends State {
 		for (int i = 0; i < 15; i++) {
 			Dungeon.area.add(new WindFx());
 		}
+
+		volume = 0;
 	}
 
 	private boolean wasHidden;
@@ -295,10 +300,14 @@ public class InGameState extends State {
 		}
 
 		pauseMenuUi.destroy();
+
+		fire.setVolume(0);
+		fire.pause();
 	}
 
 	private boolean set;
 	private float last;
+	public static boolean burning;
 
 	@Override
 	public void update(float dt) {
@@ -496,6 +505,18 @@ public class InGameState extends State {
 		}
 
 		Dungeon.battleDarkness += ((dark ? 0 : 1) - Dungeon.battleDarkness) * dt * 2;
+
+		boolean none = volume <= 0.05f;
+		volume += ((burning ? 1 : 0) - volume) * dt;
+		
+		if (volume > 0.05f && none) {
+			fire.play();
+		} else if (volume < 0.05f && !none) {
+			fire.pause();
+		}
+
+		fire.setVolume(volume);
+		burning = false;
 	}
 
 	private int lastHp;

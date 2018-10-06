@@ -21,4 +21,8 @@ open class Shotgun : Gun() {
       this.sendBullet((a + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy).toDouble())).toFloat())
     }
   }
+
+  override fun getSfx(): String {
+    return "gun_3"
+  }
 }

@@ -41,6 +41,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -261,8 +262,12 @@ public class Creature extends SaveableEntity {
 		int sy = (int) (this.y + this.h / 2);
 
 		for (int i = buffs.length - 1; i >= 0; i--) {
-			if (buffs[i] instanceof BurningBuff && !this.isFlying()) {
-				Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true, false);
+			if (buffs[i] instanceof BurningBuff) {
+				InGameState.burning = true;
+
+				if (!this.isFlying()) {
+					Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true, false);
+				}
 			}
 
 			buffs[i].update(dt);

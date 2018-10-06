@@ -28,6 +28,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -131,6 +132,8 @@ public class Door extends SaveableEntity {
 			} else if (Player.instance.getInventory().find(this.key)) {
 				Item key = Player.instance.getInventory().findItem(this.key);
 				key.setCount(key.getCount() - 1);
+
+				Player.instance.playSfx("unlock");
 
 				int num = GlobalSave.getInt("num_keys_used");
 				GlobalSave.put("num_keys_used", num);
@@ -239,6 +242,8 @@ public class Door extends SaveableEntity {
 				burning = false;
 				return;
 			}
+
+			InGameState.burning = true;
 
 			if (this.key == KeyA.class || this.key == BurningKey.class) {
 				this.burning = false;

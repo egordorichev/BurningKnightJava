@@ -36,6 +36,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -946,6 +947,8 @@ public abstract class Level extends SaveableEntity {
 
 						if (BitHelper.isBitSet(info, 0)) {
 							// Burning
+
+							InGameState.burning = true;
 
 							TerrainFlameFx fx = new TerrainFlameFx();
 

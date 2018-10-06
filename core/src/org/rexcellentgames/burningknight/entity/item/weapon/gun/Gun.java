@@ -112,6 +112,10 @@ public class Gun extends WeaponBase {
 	public void updateInHands(float dt) {
 		super.updateInHands(dt);
 		if (ammoLeft < ammoMax && (pressed || Input.instance.wasPressed("interact"))) {
+			if (!pressed) {
+				this.owner.playSfx("reload_1");
+			}
+
 			pressed = true;
 
 			if (this.chargeProgress == 0 || this.time == 0) {
@@ -347,7 +351,7 @@ public class Gun extends WeaponBase {
 
 		getSprite();
 
-		this.owner.playSfx("gun_machinegun");
+		this.owner.playSfx(getSfx());
 		Point aim = this.owner.getAim();
 
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
@@ -515,5 +519,9 @@ public class Gun extends WeaponBase {
 
 	protected void modifyBullet(BulletProjectile bullet) {
 
+	}
+
+	protected String getSfx() {
+		return "gun_6";
 	}
 }

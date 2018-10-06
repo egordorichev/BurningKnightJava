@@ -33,6 +33,7 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -153,7 +154,6 @@ public class Chest extends SaveableEntity {
 				}
 			} else {
 				this.locked = false;
-
 				this.open = true;
 				this.data = this.getOpenAnim();
 
@@ -370,6 +370,8 @@ public class Chest extends SaveableEntity {
 					return;
 				}
 
+				Player.instance.playSfx("unlock");
+
 				drawOpenAnim = true;
 
 				key.setCount(key.getCount() - 1);
@@ -395,6 +397,7 @@ public class Chest extends SaveableEntity {
 
 		if (this.burning) {
 			lastFlame += dt;
+			InGameState.burning = true;
 
 			if (this.lastFlame >= 0.05f) {
 				this.lastFlame = 0;

@@ -10,4 +10,9 @@ public class Pistol extends Gun {
 		damage = 1;
 		useTime = 0.6f;
 	}
+
+	@Override
+	protected String getSfx() {
+		return "gun_5";
+	}
 }

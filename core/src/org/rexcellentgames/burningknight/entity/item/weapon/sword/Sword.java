@@ -65,10 +65,6 @@ public class Sword extends SlashSword {
 		sprite = "item-sword_b";
 	}
 
-	protected String getSfx() {
-		return "sword_1";
-	}
-
 	private float lastFrame;
 	private ArrayList<Frame> frames = new ArrayList<>();
 

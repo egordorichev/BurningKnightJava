@@ -159,7 +159,7 @@ public class SlashSword extends Weapon {
 
 						createHitbox();
 
-						owner.playSfx("sword_1");
+						owner.playSfx(getSfx());
 
 						Tween.to(new Tween.Task(finalMxb, timeB) {
 							@Override
