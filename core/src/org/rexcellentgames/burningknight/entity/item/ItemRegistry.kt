@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item
 
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
+import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
 import org.rexcellentgames.burningknight.entity.item.autouse.Backpack
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
@@ -66,6 +67,8 @@ object ItemRegistry {
 		}
 	}
 
+	// todo: hats
+
 	enum class Quality {
 		WOODEN, IRON, GOLDEN,
 		WOODEN_PLUS, IRON_PLUS, ANY;
@@ -87,8 +90,7 @@ object ItemRegistry {
 	}
 
 	// todo: depend price on quality
-	// todo: sort by cost and quality
-
+	
   val items = mapOf(
 	  // Permanent upgrades
 	  "extra_heart" to Pair(ExtraHeart::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 10),
@@ -99,6 +101,14 @@ object ItemRegistry {
 	  "extra_upgrade" to Pair(ExtraUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 8),
 	  "better_chest_chance" to Pair(BetterChestChance::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 12),
 		// Decor
+	  "top_hat" to Pair(RaveHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "cowboy_hat" to Pair(CoboiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "dunce_hat" to Pair(DunceHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "gold_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "moai_hat" to Pair(MoaiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "ruby_hat" to Pair(RubyHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
 
 	  // Items
 	  "confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 3),
