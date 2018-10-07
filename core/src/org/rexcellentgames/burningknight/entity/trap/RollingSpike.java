@@ -99,7 +99,7 @@ public class RollingSpike extends SaveableEntity {
 		for (Player player : colliding) {
 			if (player.getInvt() == 0) {
 				player.modifyHp(-2, null);
-				player.knockBackFrom(this, 400f);
+				player.knockBackFrom(this, 4f);
 
 				Achievements.unlock(Achievements.UNLOCK_MEATBOY_AXE);
 			}

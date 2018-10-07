@@ -156,7 +156,7 @@ public class Door extends SaveableEntity {
 							GlobalSave.put("npc_" + trader.id + "_saved", true);
 							trader.become("thanks");
 
-							if (trader.id.equals(NpcSaveRoom.saveOrder[NpcSaveRoom.saveOrder.length - 1])) {
+							if (trader.id != null && trader.id.equals(NpcSaveRoom.saveOrder[NpcSaveRoom.saveOrder.length - 1])) {
 								Achievements.unlock(Achievements.SAVE_ALL);
 								GlobalSave.put("all_npcs_saved", true);
 							}

@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
@@ -148,6 +149,7 @@ public class Ui {
 
 		if (bk_dead) {
 			GlobalSave.put("finished_tutorial", true);
+			SaveManager.deletePlayer();
 
 			Audio.highPriority("Nostalgia");
 			Audio.reset();

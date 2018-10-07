@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mimic extends Mob {
-	public static float chance = 100; // 20 FIXME
+	public static float chance = 5;
 	public static ArrayList<Mimic> all = new ArrayList<>();
 	private AnimationData closed;
 	private AnimationData open;

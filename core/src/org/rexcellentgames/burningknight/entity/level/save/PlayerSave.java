@@ -68,8 +68,6 @@ public class PlayerSave {
 		player.setType(Player.Type.values()[GlobalSave.getInt("last_class")]);
 
 		if (Dungeon.quick) {
-			Log.info("Quick restart!");
-
 			Dungeon.quick = false;
 			player.generate();
 			GlobalSave.put("last_class", player.getType().id);

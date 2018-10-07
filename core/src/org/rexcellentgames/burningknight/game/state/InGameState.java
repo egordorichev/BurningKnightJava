@@ -492,7 +492,7 @@ public class InGameState extends State {
 			lastHp = Player.instance.getHp();
 		}
 
-		boolean dark = Player.instance.isDead();
+		dark = Player.instance.isDead();
 
 		if (!dark) {
 			dark = Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage;
@@ -522,6 +522,8 @@ public class InGameState extends State {
 		fire.setVolume(volume);
 		burning = false;
 	}
+
+	public static boolean dark = true;
 
 	private int lastHp;
 	private boolean setFrames;

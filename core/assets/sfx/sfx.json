@@ -80,5 +80,8 @@
 	"melee_1",
 	"shotgun",
 	"unlock",
-	"throw"
+	"throw",
+	"secret",
+	"clink_1",
+	"clink_2"
 ]

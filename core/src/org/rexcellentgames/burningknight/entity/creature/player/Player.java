@@ -286,10 +286,6 @@ public class Player extends Creature {
 			return;
 		}
 
-		if (Dungeon.depth < 0) {
-			return;
-		}
-
 		if (startingItem != null) {
 			this.give(startingItem);
 			startingItem = null;
@@ -517,7 +513,7 @@ public class Player extends Creature {
 			0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
 		if (this.hat != null) {
-			Graphics.render(this.hat, this.x + 3 + hat.getRegionWidth() / 2, this.y + this.z + offsets[id] + region.getRegionHeight() / 2 - 2,
+			Graphics.render(this.hat, this.x + w / 2 - (this.flipped ? -1 : 1) * 7, this.y + 1 + this.z + offsets[id] + region.getRegionHeight() / 2 - 2,
 				0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 		} else {
 			AnimationData anim = headIdle;

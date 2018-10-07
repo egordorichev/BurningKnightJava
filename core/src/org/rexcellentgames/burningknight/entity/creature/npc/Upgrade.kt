@@ -188,7 +188,7 @@ class Upgrade : SaveableEntity() {
 			} else {
 				count -= this.price
 				GlobalSave.put("num_coins", count)
-				this.playSfx("item_purchase");
+				this.playSfx("item_purchase")
 
 				Achievements.unlock("SHOP_" + this.str!!.toUpperCase())
 

@@ -20,7 +20,7 @@ public class SaveManager {
 		GLOBAL
 	}
 
-	public static final String SAVE_DIR = "burningknight/";
+	public static final String SAVE_DIR = "burning_knight/";
 	public static int slot = 0;
 	public static final byte version = 2;
 
@@ -142,6 +142,19 @@ public class SaveManager {
 		}
 
 		return true;
+	}
+
+	public static void deletePlayer() {
+		Log.info("Deleting player save!");
+
+		LevelSave.all.clear();
+		PlayerSave.all.clear();
+
+		FileHandle handle = getFileHandle(getSavePath(Type.PLAYER, slot));
+
+		if (handle.exists()) {
+			handle.delete();
+		}
 	}
 
 	public static void delete() {

@@ -116,8 +116,8 @@ public class Bow extends WeaponBase {
 
 		float knockbackMod = owner.getStat("knockback");
 
-		this.owner.velocity.x += Math.cos(a) * 60 * knockbackMod;
-		this.owner.velocity.y += Math.sin(a) * 60 * knockbackMod;
+		this.owner.knockback.x += Math.cos(a) * 60 * knockbackMod;
+		this.owner.knockback.y += Math.sin(a) * 60 * knockbackMod;
 
 		ArrowProjectile arrow = new ArrowProjectile();
 

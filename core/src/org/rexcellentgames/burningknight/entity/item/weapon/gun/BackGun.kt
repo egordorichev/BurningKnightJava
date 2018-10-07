@@ -17,8 +17,8 @@ class BackGun : Gun() {
     val aim = this.owner.aim
     val a = (this.owner.getAngleTo(aim.x, aim.y) + Math.PI).toFloat()
 
-    this.owner.velocity.x -= (Math.cos(a.toDouble()) * 80f).toFloat()
-    this.owner.velocity.y -= (Math.sin(a.toDouble()) * 80f).toFloat()
+    this.owner.knockback.x -= (Math.cos(a.toDouble()) * 80f).toFloat()
+    this.owner.knockback.y -= (Math.sin(a.toDouble()) * 80f).toFloat()
 
     this.sendBullet((a + Math.toRadians(Random.newFloat(-this.accuracy, this.accuracy).toDouble())).toFloat())
   }

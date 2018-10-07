@@ -119,8 +119,8 @@ public class Axe extends Weapon {
 
 		float knockbackMod = owner.getStat("knockback");
 
-		this.owner.velocity.x += Math.cos(a) * s * knockbackMod;
-		this.owner.velocity.y += Math.sin(a) * s * knockbackMod;
+		this.owner.knockback.x += Math.cos(a) * s * knockbackMod;
+		this.owner.knockback.y += Math.sin(a) * s * knockbackMod;
 
 		Tween.to(new Tween.Task(90, 0.2f) {
 			@Override

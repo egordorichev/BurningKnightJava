@@ -166,6 +166,10 @@ public class Chest extends SaveableEntity {
 				});
 			}
 		} else if (!this.open && (entity instanceof Projectile || entity instanceof Weapon)) {
+			if (Dungeon.depth == -3) {
+				return;
+			}
+
 			if (entity instanceof Projectile) {
 				if (!(((Projectile) entity).owner instanceof Player)) {
 					return;

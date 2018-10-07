@@ -43,7 +43,10 @@ import org.rexcellentgames.burningknight.game.Achievements
 
 object ItemRegistry {
 	class Pair(val type: Class<out Item>, val chance: Float, val warrior: Float, val mage: Float, val ranged: Float,
-	           val quality: Quality, val unlock: String? = null) {
+	           val quality: Quality, val unlock: String? = null) : Comparable<Pair> {
+		override fun compareTo(other: Pair): Int {
+			return this.cost.compareTo(other.cost)
+		}
 
 		constructor(type: Class<out Item>, chance: Float, warrior: Float, mage: Float, ranged: Float,
 		            quality: Quality, pool: Upgrade.Type, cost: Int) : this(type, chance, warrior, mage, ranged, quality, null) {
@@ -287,7 +290,7 @@ object ItemRegistry {
 	  "bomb" to Pair(Bomb::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 	  "matches" to Pair(Matches::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 	  "confetti_grenade" to Pair(ConfettiGrenade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.WEAPON, 3)
-  )
+  ).toList().sortedBy { (_, value) -> value }.toMap()
 
   val modItems = mutableMapOf<String, Item>()
 }
