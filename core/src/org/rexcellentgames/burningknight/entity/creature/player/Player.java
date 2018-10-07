@@ -286,12 +286,6 @@ public class Player extends Creature {
 			return;
 		}
 
-		if (Dungeon.depth < 0) {
-			return;
-		}
-
-		Log.error("Generate!");
-
 		if (startingItem != null) {
 			this.give(startingItem);
 			startingItem = null;

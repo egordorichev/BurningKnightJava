@@ -144,6 +144,19 @@ public class SaveManager {
 		return true;
 	}
 
+	public static void deletePlayer() {
+		Log.info("Deleting player save!");
+
+		LevelSave.all.clear();
+		PlayerSave.all.clear();
+
+		FileHandle handle = getFileHandle(getSavePath(Type.PLAYER, slot));
+
+		if (handle.exists()) {
+			handle.delete();
+		}
+	}
+
 	public static void delete() {
 		Log.info("Deleting saves!");
 

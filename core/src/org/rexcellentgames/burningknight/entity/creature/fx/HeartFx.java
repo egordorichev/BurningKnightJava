@@ -62,16 +62,20 @@ public class HeartFx extends SaveableEntity {
 	}
 
 	public void generate() {
-		float r = Random.newFloat(1f);
-
-		if (r < 0.45f) {
-			this.type = Type.RED_HALF;
-		} else if (r < 0.8) {
+		if (Dungeon.depth == -1) {
 			this.type = Type.RED;
-		} else if (r < 0.95) {
-			this.type = Type.IRON;
 		} else {
-			this.type = Type.GOLDEN;
+			float r = Random.newFloat(1f);
+
+			if (r < 0.45f) {
+				this.type = Type.RED_HALF;
+			} else if (r < 0.8) {
+				this.type = Type.RED;
+			} else if (r < 0.95) {
+				this.type = Type.IRON;
+			} else {
+				this.type = Type.GOLDEN;
+			}
 		}
 
 		setColor();

@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -118,7 +119,7 @@ public class Weapon extends WeaponBase {
 				played = true;
 				this.knockFrom(entity);
 				return;
-			} else if (entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Entrance) {
+			} else if (entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Entrance || entity instanceof Chest) {
 				this.owner.playSfx("clink_2");
 				played = true;
 				this.knockFrom(entity);
