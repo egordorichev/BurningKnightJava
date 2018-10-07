@@ -373,8 +373,8 @@ public class Gun extends WeaponBase {
 
 		Dungeon.area.add(shell);
 
-		this.owner.velocity.x -= Math.cos(a) * 90f;
-		this.owner.velocity.y -= Math.sin(a) * 90f;
+		this.owner.knockback.x -= Math.cos(a) * 90f;
+		this.owner.knockback.y -= Math.sin(a) * 90f;
 
 		Camera.push(a, 8f);
 		Camera.shake(2);

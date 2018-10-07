@@ -151,7 +151,8 @@ public class SlashSword extends Weapon {
 					public void onStart() {
 						super.onStart();
 
-
+						owner.knockback.x -= Math.cos(an) * 30f;
+						owner.knockback.y -= Math.sin(an) * 30f;
 
 						if (body != null) {
 							body = World.removeBody(body);

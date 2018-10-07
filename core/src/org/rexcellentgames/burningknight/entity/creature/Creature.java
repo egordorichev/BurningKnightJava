@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.creature;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -310,7 +311,7 @@ public class Creature extends SaveableEntity {
 			this.invtt = Math.max(0, this.invtt - dt);
 			this.velocity.x = 0;
 			this.velocity.y = 0;
-			this.body.setLinearVelocity(this.velocity);
+			this.body.setLinearVelocity(new Vector2(this.velocity.x + this.knockback.x, this.velocity.y + this.knockback.y));
 			return;
 		}
 
@@ -322,6 +323,8 @@ public class Creature extends SaveableEntity {
 					(iceResitant == 0 && this.touches[Terrain.ICE] && !this.isFlying() ? 0.95f : this.mul))
 			);
 		}
+
+		this.knockback.mul(0.9f);
 
 		if (this.body != null && !ignorePos) {
 			this.x = this.body.getPosition().x;
@@ -411,7 +414,7 @@ public class Creature extends SaveableEntity {
 
 		if (this.body != null) {
 			// this.velocity.clamp(0, this.maxSpeed);
-			this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
+			this.body.setLinearVelocity(new Vector2(this.velocity.x + this.knockback.x, this.velocity.y + this.knockback.y));
 		}
 	}
 
@@ -726,13 +729,16 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
+		force *= 10;
 		float a = from.getAngleTo(this.x + this.w / 2, this.y + this.h / 2);
 
 		float knockbackMod = this.getStat("knockback");
 
-		this.velocity.x += Math.cos(a) * force * knockbackMod;
-		this.velocity.y += Math.sin(a) * force * knockbackMod;
+		this.knockback.x += Math.cos(a) * force * knockbackMod;
+		this.knockback.y += Math.sin(a) * force * knockbackMod;
 	}
+
+	public Point knockback = new Point();
 
 	public void removeBuff(Class<? extends Buff> buff) {
 		Buff instance = this.buffs.get(buff);

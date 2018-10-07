@@ -90,8 +90,22 @@ public class Weapon extends WeaponBase {
 
 	private boolean played;
 
+	protected float getAngle(Entity entity) {
+		if (entity == null) {
+			return 0;
+		}
+
+		return this.owner.getAngleTo(entity.x + entity.w / 2, entity.y + entity.h / 2);
+	}
+
 	protected void knockFrom(Entity entity) {
-		this.owner.knockBackFrom(entity, 1000f);
+		float a = (float) (getAngle(entity) + Math.PI);
+
+		float knockbackMod = this.owner.getStat("knockback");
+		float force = 100f;
+
+		this.owner.knockback.x += Math.cos(a) * force * knockbackMod;
+		this.owner.knockback.y += Math.sin(a) * force * knockbackMod;
 	}
 
 	@Override

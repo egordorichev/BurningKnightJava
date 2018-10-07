@@ -108,8 +108,8 @@ public class Dagger extends Sword {
 
 		float a = this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y);
 
-		this.owner.velocity.x += -Math.cos(a) * 30f;
-		this.owner.velocity.y += -Math.sin(a) * 30f;
+		this.owner.knockback.x += -Math.cos(a) * 30f;
+		this.owner.knockback.y += -Math.sin(a) * 30f;
 
 		Tween.to(new Tween.Task(this.maxAngle, this.timeA) {
 			@Override

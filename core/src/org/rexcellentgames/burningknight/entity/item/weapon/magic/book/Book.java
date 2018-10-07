@@ -86,8 +86,8 @@ public class Book extends Wand {
 
 		double a = Math.toRadians(angle);
 
-		this.owner.velocity.x -= Math.cos(a) * 40f;
-		this.owner.velocity.y -= Math.sin(a) * 40f;
+		this.owner.knockback.x -= Math.cos(a) * 40f;
+		this.owner.knockback.y -= Math.sin(a) * 40f;
 
 		this.spawnProjectile(xx, yy, angle);
 	}

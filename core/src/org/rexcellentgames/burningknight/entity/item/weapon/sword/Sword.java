@@ -192,7 +192,7 @@ public class Sword extends SlashSword {
 		// Camera.shake(4);
 
 		float a = this.owner.getAngleTo(creature.x + creature.w / 2, creature.y + creature.h / 2);
-		this.owner.velocity.x += -Math.cos(a) * 120f;
-		this.owner.velocity.y += -Math.sin(a) * 120f;
+		this.owner.knockback.x += -Math.cos(a) * 120f;
+		this.owner.knockback.y += -Math.sin(a) * 120f;
 	}
 }
