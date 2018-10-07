@@ -329,8 +329,8 @@ public class BombEntity extends Entity {
 	public void render() {
 		// (float x, float y, boolean flip, boolean flipY, float ox, float oy, float a, float sx, float sy)
 
-		float sx = (float) (Math.cos(this.t * 16) / 4) + 1;
-		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 5) + 1;
+		float sx = (float) (Math.cos(this.t * 16) / 2f) + 1;
+		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 3f) + 1;
 
 		this.animation.render(this.x, this.y, false, false, 5, 0, 0, this.fliped ? -sx : sx, sy);
 	}

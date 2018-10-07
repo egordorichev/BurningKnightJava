@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Weapon extends WeaponBase {
 	protected Body body;
@@ -92,7 +93,8 @@ public class Weapon extends WeaponBase {
 
 	protected float getAngle(Entity entity) {
 		if (entity == null) {
-			return 0;
+			Point aim = this.owner.getAim();
+			return this.owner.getAngleTo(aim.x, aim.y);
 		}
 
 		return this.owner.getAngleTo(entity.x + entity.w / 2, entity.y + entity.h / 2);
@@ -102,7 +104,7 @@ public class Weapon extends WeaponBase {
 		float a = (float) (getAngle(entity) + Math.PI);
 
 		float knockbackMod = this.owner.getStat("knockback");
-		float force = 100f;
+		float force = 30f;
 
 		this.owner.knockback.x += Math.cos(a) * force * knockbackMod;
 		this.owner.knockback.y += Math.sin(a) * force * knockbackMod;
@@ -134,13 +136,8 @@ public class Weapon extends WeaponBase {
 			if (creature.isDead() || creature.isUnhittable()) {
 				return;
 			}
-			float dx = creature.x + creature.w / 2 - this.owner.x - this.owner.w / 2;
-			float dy = creature.y + creature.h / 2 - this.owner.y - this.owner.h / 2;
-			double a = Math.atan2(dy, dx);
-			float knockbackMod = creature.getStat("knockback");
 
-			creature.velocity.x += Math.cos(a) * this.knockback * 50 * knockbackMod;
-			creature.velocity.y += Math.sin(a) * this.knockback * 50 * knockbackMod;
+			creature.knockBackFrom(this.owner, 2);
 
 			if (creature.isDead() || ((creature instanceof Mob && this.owner instanceof Mob && !((Mob) this.owner).stupid))) {
 				return;

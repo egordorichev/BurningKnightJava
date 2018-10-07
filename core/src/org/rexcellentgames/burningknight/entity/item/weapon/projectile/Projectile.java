@@ -18,7 +18,7 @@ public class Projectile extends StatefulEntity {
 	public int damage = 1;
 	public boolean bad;
 	public boolean crit;
-	public float knockback = 200f;
+	public float knockback = 2f;
 	public boolean penetrates;
 
 	protected boolean broke;
