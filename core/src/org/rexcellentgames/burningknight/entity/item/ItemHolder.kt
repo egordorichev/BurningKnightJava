@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.Contact
+import com.badlogic.gdx.physics.box2d.Fixture
 import org.rexcellentgames.burningknight.Dungeon
 import org.rexcellentgames.burningknight.assets.Graphics
 import org.rexcellentgames.burningknight.entity.Entity
@@ -17,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
 import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
+import org.rexcellentgames.burningknight.game.state.InGameState
 import org.rexcellentgames.burningknight.physics.World
 import org.rexcellentgames.burningknight.util.MathUtils
 import org.rexcellentgames.burningknight.util.Random
@@ -125,6 +128,14 @@ open class ItemHolder : SaveableEntity {
     }
   }
 
+  override fun shouldCollide(entity: Any?, contact: Contact?, fixture: Fixture?): Boolean {
+    if (entity == null && item is Gold && !InGameState.dark) {
+      return false;
+    }
+
+    return super.shouldCollide(entity, contact, fixture)
+  }
+
   override fun update(dt: Float) {
     if (this.item!!.shop && !added) {
       added = true
@@ -161,6 +172,15 @@ open class ItemHolder : SaveableEntity {
     }
 
     this.velocity.mul(0.9f)
+
+    if (!InGameState.dark && item is Gold) {
+      val dx = Player.instance.x + Player.instance.w / 2 - this.x - this.w / 2
+      val dy = Player.instance.y + Player.instance.h / 2 - this.y - this.h / 2
+      val d = Math.sqrt((dx * dx + dy * dy).toDouble())
+      val f = 20f
+      this.velocity.x += (dx / d).toFloat() * f
+      this.velocity.y += (dy / d).toFloat() * f
+    }
 
     this.sz = Math.max(1f, this.sz - this.sz * dt)
 
