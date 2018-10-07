@@ -336,8 +336,7 @@ public class Knight extends Mob {
 			this.vel.x = dx / (d + Random.newFloat(-d / 3, d / 3)) * 300;
 			this.vel.y = dy / (d + Random.newFloat(-d / 3, d / 3)) * 300;
 
-			//self.sword.setAdded(a);
-			//self.sword.use();
+			self.sword.use();
 		}
 
 		@Override
