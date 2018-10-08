@@ -86,7 +86,16 @@ public class Achievements {
 			GlobalSave.put(id, true);
 			onUnlock(id);
 
-			SaveManager.save(SaveManager.Type.GLOBAL, false);
+			Thread thread = new Thread() {
+				@Override
+				public void run() {
+					super.run();
+					SaveManager.save(SaveManager.Type.GLOBAL, false);
+				}
+			};
+
+			thread.setPriority(1);
+			thread.run();
 
 			UiAchievement achievement = new UiAchievement();
 

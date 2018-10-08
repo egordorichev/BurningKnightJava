@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Collisions;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.debug.Console;
@@ -519,7 +520,7 @@ public class InGameState extends State {
 			fire.pause();
 		}
 
-		fire.setVolume(volume);
+		fire.setVolume(volume * Settings.sfx);
 		burning = false;
 	}
 

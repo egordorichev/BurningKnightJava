@@ -18,7 +18,6 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -394,18 +393,18 @@ public class UiInventory extends UiEntity {
 		}
 	}
 
-	private void checkClosed() {
-		if (this.open && this.wasOpen && (this.inventory.getSlot(this.active) instanceof Accessory || this.getCurrentSlot() instanceof Accessory)) {
+	public void checkClosed() {
+		if (this.open && this.wasOpen && (this.inventory.getSlot(this.active) instanceof Accessory || getCurrentSlot() instanceof Accessory)) {
 			this.hide();
 		}
 
 		this.wasOpen = false;
 	}
 
-	private void checkOpen() {
+	public void checkOpen() {
 		Item item = this.inventory.getSlot(this.active);
 
-		if ((item instanceof Accessory || this.getCurrentSlot() instanceof Accessory) && !this.open) {
+		if ((item instanceof Accessory || getCurrentSlot() instanceof Accessory) && !this.open) {
 			this.wasOpen = true;
 			this.open();
 		}

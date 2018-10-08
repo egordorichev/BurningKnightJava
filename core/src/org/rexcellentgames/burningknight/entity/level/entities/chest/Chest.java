@@ -502,7 +502,7 @@ public class Chest extends SaveableEntity {
 		if (this.data != null) {
 			TextureRegion sprite;
 
-			if (this.open || this.hp > 6) {
+			if (this.hp != 0 && (this.open || this.hp > 6)) {
 				sprite = this.data.getCurrent().frame;
 			} else if (this.hp == 0) {
 				sprite = broken;

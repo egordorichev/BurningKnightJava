@@ -209,7 +209,7 @@ public class UiSlot {
 	public void leftClick() {
 		Item self = this.inventory.getInventory().getSlot(this.id);
 
-		if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
+		/*if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
 			// Audio.playSfx("menu/select");
 
 			if (self.canBeUsed()) {
@@ -220,8 +220,10 @@ public class UiSlot {
 				Ui.upgradeMouse = false;
 			}
 
+			Player.instance.ui.checkClosed();
+
 			return;
-		}
+		}*/
 
 		Item current = this.inventory.getCurrentSlot();
 		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());
@@ -306,6 +308,7 @@ public class UiSlot {
 			return;
 		}
 
+		Player.instance.ui.checkClosed();
 		if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
 			current.setCount(current.getCount() + self.getCount());
 			this.inventory.getInventory().setSlot(this.id, current);
@@ -376,6 +379,7 @@ public class UiSlot {
 			this.b = 0;
 		}
 
+		Player.instance.ui.checkOpen();
 		tweenClick();
 	}
 

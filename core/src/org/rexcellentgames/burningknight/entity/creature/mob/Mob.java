@@ -773,9 +773,9 @@ public class Mob extends Creature {
 	}
 
 	protected State getAiWithLow(String state) {
-		if (this.isLow()) {
+		/*if (this.isLow()) {
 			return new GetOutState();
-		}
+		}*/
 
 		return getAi(state);
 	}
