@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -1720,6 +1721,13 @@ public abstract class Level extends SaveableEntity {
 			World.lights.render();
 
 			Graphics.batch.end();
+
+			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
+			float x = -Camera.game.position.x + Display.GAME_WIDTH / 2;
+			float y = -Camera.game.position.y + Display.GAME_HEIGHT / 2 - 8;
+
+			Gdx.gl.glScissor((int) x, (int) y,getWidth() * 16, getHeight() * 16);
+
 			Graphics.surface.begin();
 			Graphics.batch.setShader(lightShader);
 			Graphics.batch.begin();
@@ -1727,7 +1735,11 @@ public abstract class Level extends SaveableEntity {
 			Texture texture = World.lights.getLightMapTexture();
 			Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
 
+			Graphics.batch.flush();
 			Graphics.batch.end();
+
+			Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
 		}

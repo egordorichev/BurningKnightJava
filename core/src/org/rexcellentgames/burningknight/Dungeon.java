@@ -562,7 +562,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 
-		Gdx.gl20.glDisable(GL20.GL_SCISSOR_TEST);
+		// Gdx.gl20.glDisable(GL20.GL_SCISSOR_TEST);
 	}
 
 	public void renderUi() {

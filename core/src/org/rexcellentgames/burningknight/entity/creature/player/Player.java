@@ -1060,13 +1060,23 @@ public class Player extends Creature {
 					this.rolling = true;
 					this.mul = 1;
 					this.zvel = 20;
+
+					float f = 4;
+
+					if (this.velocity.len() > 1f) {
+						double a = (Math.atan2(this.velocity.y, this.velocity.x));
+
+						this.acceleration.x = (float) Math.cos(a) * this.speed * f;
+						this.acceleration.y = (float) Math.sin(a) * this.speed * f;
+					} else {
+						double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+
+						this.acceleration.x = (float) Math.cos(a) * this.speed * f;
+						this.acceleration.y = (float) Math.sin(a) * this.speed * f;
+					}
+
 					this.velocity.x = 0;
 					this.velocity.y = 0;
-
-					double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
-
-					this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
-					this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
 				}
 			}
 		} else if (Dialog.active != null) {

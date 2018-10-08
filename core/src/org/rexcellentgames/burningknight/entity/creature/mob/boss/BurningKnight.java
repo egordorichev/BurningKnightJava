@@ -527,13 +527,14 @@ public class BurningKnight extends Boss {
 				self.become("preattack");
 			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
 				self.become("rangedAttack");
-			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
+			}/* else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 				self.attackTp = true;
 				self.become("fadeOut");
 			} else if (!self.onScreen) {
 				self.attackTp = true;
 				self.become("fadeOut");
-			}
+			}*/
+			
 			/*} else {
 				if (this.t >= 1f) {
 					self.become("rangedAttack");
