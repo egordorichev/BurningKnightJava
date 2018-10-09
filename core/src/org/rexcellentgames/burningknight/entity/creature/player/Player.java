@@ -1290,12 +1290,14 @@ public class Player extends Creature {
 			}
 		}
 
-		if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
-			this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
-		}
+		if (room != null) {
+			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
+				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
+			}
 
-		if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
-			this.modifyMana(this.getManaMax());
+			if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
+				this.modifyMana(this.getManaMax());
+			}
 		}
 	}
 

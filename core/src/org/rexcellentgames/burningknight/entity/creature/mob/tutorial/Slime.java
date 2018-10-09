@@ -25,7 +25,7 @@ public class Slime extends Mob {
 	}
 
 	{
-		hpMax = 12;
+		hpMax = 1;
 
 		idle = getAnimation().get("idle");
 		hurt = getAnimation().get("hurt");

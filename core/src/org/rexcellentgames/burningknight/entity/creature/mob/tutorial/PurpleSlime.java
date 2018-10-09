@@ -11,7 +11,7 @@ public class PurpleSlime extends Slime {
 
 	{
 		jump = false;
-		hpMax = 6;
+		hpMax = 1;
 	}
 
 	public Animation getAnimation() {

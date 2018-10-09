@@ -149,7 +149,7 @@ public class Chest extends SaveableEntity {
 			if (this.locked) {
 				this.colliding = true;
 
-				if (!collided && Dungeon.depth == -3) {
+				if (!collided && Dungeon.depth == -3 && Ui.controls.size() == 0) {
 					Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"));
 					collided = true;
 				}
@@ -375,6 +375,10 @@ public class Chest extends SaveableEntity {
 
 					Camera.shake(6);
 					return;
+				}
+
+				if (Dungeon.depth == -3) {
+					Ui.ui.hideControlsFast();
 				}
 
 				Player.instance.playSfx("unlock");
