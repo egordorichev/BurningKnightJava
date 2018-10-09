@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -1706,7 +1705,7 @@ public abstract class Level extends SaveableEntity {
 
 		Graphics.batch.end();
 
-		boolean light = Dungeon.depth != -1 && Dungeon.depth != -3;
+		boolean light = Dungeon.depth > -1;
 
 		if (light) {
 			Graphics.surface.end();

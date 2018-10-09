@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -24,18 +23,23 @@ public class Trader extends Npc {
 		ignoreRooms = true;
 	}
 
-	@Override
-	protected State getAi(String state) {
-		switch (state) {
-			case "hi": return new HiState();
-			case "thanks": return new ThanksState();
-		}
-
-		return super.getAi(state);
-	}
-
 	public class TraderState extends Mob.State<Trader> {
 
+	}
+
+	public class IdleState extends TraderState {
+
+	}
+
+	@Override
+	protected State getAi(String state) {
+		return new IdleState();
+
+		/*
+		switch (state) {
+			//case "hi": return new HiState();
+			//case "thanks": return new ThanksState();
+		}*/
 	}
 
 	private static String[] dialogs = {

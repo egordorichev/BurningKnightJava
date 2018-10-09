@@ -28,6 +28,8 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.*;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.WoodenChest;
+import org.rexcellentgames.burningknight.entity.level.entities.shop.ShopProp;
+import org.rexcellentgames.burningknight.entity.level.entities.shop.SolidShopProp;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.util.Log;
@@ -335,6 +337,23 @@ public class HandmadeRoom extends RegularRoom {
 				trigger.y = y + rect.y + 16;
 
 				Dungeon.area.add(trigger.add());
+			} else if (name.equals("carpet") || name.equals("stand") || name.equals("shelf") || name.equals("target") || name.equals("shields") || name.equals("maniken") || name.equals("bone")
+					|| name.equals("bat") || name.equals("frog") || name.equals("skull")) {
+				ShopProp prop = new ShopProp();
+
+				prop.x = x + rect.x + 16;
+				prop.y = y + rect.y + 16 - 8;
+				prop.sprite = "shop-" + name;
+
+				Dungeon.area.add(prop.add());
+			} else if (name.equals("table") || name.equals("cauldron")) {
+				SolidShopProp prop = new SolidShopProp();
+
+				prop.x = x + rect.x + 16;
+				prop.y = y + rect.y + 16 - 8;
+				prop.sprite = "shop-" + name;
+
+				Dungeon.area.add(prop.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}

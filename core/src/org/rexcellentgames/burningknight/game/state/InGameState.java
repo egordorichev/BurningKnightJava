@@ -544,7 +544,7 @@ public class InGameState extends State {
 	public void render() {
 		super.render();
 
-		if (Dungeon.depth != -1 && Dungeon.depth != -3) {
+		if (Dungeon.depth > -1) {
 			Graphics.batch.end();
 			Graphics.batch.setShader(shader);
 
