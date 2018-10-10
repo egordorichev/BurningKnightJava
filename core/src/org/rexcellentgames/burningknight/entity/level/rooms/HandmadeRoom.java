@@ -346,7 +346,7 @@ public class HandmadeRoom extends RegularRoom {
 				prop.sprite = "shop-" + name;
 
 				Dungeon.area.add(prop.add());
-			} else if (name.equals("table") || name.equals("cauldron")) {
+			} else if (name.equals("table") || name.equals("table_2Will") || name.equals("cauldron")) {
 				SolidShopProp prop = new SolidShopProp();
 
 				prop.x = x + rect.x + 16;

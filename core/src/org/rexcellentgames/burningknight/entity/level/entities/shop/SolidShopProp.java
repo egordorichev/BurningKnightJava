@@ -31,6 +31,9 @@ public class SolidShopProp extends SolidProp {
 		if (this.sprite.equals("shop-table")) {
 			this.collider = new Rectangle(0, 10, 60, 25 - 15);
 			this.createCollider();
+		} else if (this.sprite.equals("shop-table_2")) {
+			this.collider = new Rectangle(0, 10, 46, 28 - 15);
+			this.createCollider();
 		} else if (this.sprite.equals("shop-cauldron")) {
 			this.collider = new Rectangle(6, 10, 37 - 12, 35 - 20);
 			this.createCollider();
