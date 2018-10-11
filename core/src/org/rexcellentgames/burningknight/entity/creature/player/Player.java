@@ -766,8 +766,6 @@ public class Player extends Creature {
 
 		light = World.newLight(256, new Color(1, 1, 1, 1f), 120, x, y);
 
-
-
 		if (Dungeon.depth == -3 && Level.GENERATED) {
 			this.inventory.clear();
 
@@ -782,6 +780,7 @@ public class Player extends Creature {
 	public boolean leaveSmall;
 
 	private void doTp(boolean fromInit) {
+		// CRASH
 		if (this.teleport) {
 			this.tp(this.lastGround.x, this.lastGround.y);
 			return;
@@ -963,7 +962,7 @@ public class Player extends Creature {
 			this.lastMana += (dark ? 1 : 3) * dt * 1.5f * (this.velocity.len2() > 9.9f ?
 				(this.flipRegenFormula ? 1f : 0.5f) :
 				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
-					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 2 : 1
+					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 4 : 1
 				) * (this.type == Type.WIZARD ? 1 : 0.5f);
 
 			if (this.lastMana > 1f) {

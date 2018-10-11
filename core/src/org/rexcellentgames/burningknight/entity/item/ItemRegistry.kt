@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
 import org.rexcellentgames.burningknight.entity.item.key.KeyC
 import org.rexcellentgames.burningknight.entity.item.permanent.*
-import org.rexcellentgames.burningknight.entity.item.pet.Bumbo
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*
 import org.rexcellentgames.burningknight.entity.item.reference.*
 import org.rexcellentgames.burningknight.entity.item.tool.LavaBucket
@@ -35,9 +34,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ConfettiGrenade
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ToxicFlask
-import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoA
-import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoB
-import org.rexcellentgames.burningknight.entity.item.weapon.yoyo.YoyoC
 import org.rexcellentgames.burningknight.game.Achievements
 
 object ItemRegistry {
@@ -128,7 +124,7 @@ object ItemRegistry {
     "thorn_ring" to Pair(ThornRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "fortune_ring" to Pair(FortuneRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "ice_ring" to Pair(IceRing::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-    "blue_boomerang" to Pair(BlueBoomerang::class.java, 1f, 0.7f, 0.1f, 1f, Quality.WOODEN),
+    // "blue_boomerang" to Pair(BlueBoomerang::class.java, 1f, 0.7f, 0.1f, 1f, Quality.WOODEN),
     "magic_mushroom" to Pair(MagicMushroom::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.CONSUMABLE, 5),
     "isaac_head" to Pair(IsaacHead::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON, Achievements.UNLOCK_ISAAC_HEAD),
     "fire_flower" to Pair(FireFlower::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Upgrade.Type.ACCESSORY, 1),
@@ -136,7 +132,7 @@ object ItemRegistry {
     "blood_ring" to Pair(BloodRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "claymore" to Pair(Claymore::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
     "goo" to Pair(GooOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 1),
-    "bumbo" to Pair(Bumbo::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 3),
+    // "bumbo" to Pair(Bumbo::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 3),
     "gold_ring" to Pair(GoldRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_GOLD_RING),
     "vampire_ring" to Pair(VampireRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "vvvvv" to Pair(VVVVV::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_VVVVV),
@@ -167,12 +163,12 @@ object ItemRegistry {
     "fortune_armor" to Pair(FortuneArmor::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "stop_and_play" to Pair(StopAndPlay::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
     "spear" to Pair(Spear::class.java, 1f, 1f, 0.1f, 0.3f, Quality.WOODEN),
-    "yoyo_a" to Pair(YoyoA::class.java, 1f, 1f, 0.1f, 0.8f, Quality.WOODEN),
-    "yoyo_b" to Pair(YoyoB::class.java, 1f, 1f, 0.1f, 0.8f, Quality.IRON),
-    "yoyo_c" to Pair(YoyoC::class.java, 1f, 1f, 0.1f, 0.8f, Quality.GOLDEN),
+    // "yoyo_a" to Pair(YoyoA::class.java, 1f, 1f, 0.1f, 0.8f, Quality.WOODEN),
+    // "yoyo_b" to Pair(YoyoB::class.java, 1f, 1f, 0.1f, 0.8f, Quality.IRON),
+    // "yoyo_c" to Pair(YoyoC::class.java, 1f, 1f, 0.1f, 0.8f, Quality.GOLDEN),
     "nano_orbital" to Pair(NanoOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.PET, 1),
     "ammo_orbital" to Pair(AmmoOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_AMMO_ORBITAL),
-    "bomb_orbital" to Pair(BombOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PET, 5),
+    // "bomb_orbital" to Pair(BombOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PET, 5),
     "lootpick" to Pair(Lootpick::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_LOOTPICK),
     "sword_orbital" to Pair(SwordOrbital::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_SWORD_ORBITAL),
     "dew_vial" to Pair(DewVial::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_DEW_VIAL),
@@ -201,11 +197,11 @@ object ItemRegistry {
     "mana_up" to Pair(StarOnAString::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
     "mana_bottle" to Pair(ManaBottle::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
     "mana_heart" to Pair(ManaHeart::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
-    "blue_bomb" to Pair(BlueBomb::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
+    // "blue_bomb" to Pair(BlueBomb::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
     "mana_knife" to Pair(ManaKnife::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN, Upgrade.Type.WEAPON, 4),
     "halo" to Pair(Halo::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_HALO),
     "blue_book" to Pair(BlueBook::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 3),
-    "red_book" to Pair(RedBook::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 3),
+    // "red_book" to Pair(RedBook::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 3),
     "yellow_book" to Pair(YellowBook::class.java, 1f, 0f, 1f, 0f, Quality.IRON, Upgrade.Type.ACCESSORY, 3),
     "green_book" to Pair(GreenBook::class.java, 1f, 0f, 1f, 0f, Quality.GOLDEN, Upgrade.Type.ACCESSORY, 3),
     "arcane_shield" to Pair(ManaShield::class.java, 1f, 0.3f, 1f, 0.3f, Quality.WOODEN),
@@ -216,8 +212,8 @@ object ItemRegistry {
     "damage_emblem" to Pair(DamageEmblem::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN),
     "defense_emblem" to Pair(DefenseEmblem::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN),
     "arcane_battery" to Pair(ArcaneBattery::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
-    "blue_coin" to Pair(BlueCoin::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
-    "blue_heart" to Pair(BlueHeart::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
+    // "blue_coin" to Pair(BlueCoin::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
+    // "blue_heart" to Pair(BlueHeart::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
     "black_heart" to Pair(BlackHeart::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_BLACK_HEART),
     "clock_heart" to Pair(ClockHeart::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_CLOCK_HEART),
     "aim_book" to Pair(HomingBook::class.java, 1f, 0.1f, 1f, 0.3f, Quality.IRON, Upgrade.Type.WEAPON, 3),
@@ -248,7 +244,7 @@ object ItemRegistry {
 	  "rifle" to Pair(Rifle::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
 	  "chopper" to Pair(Chopper::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
 	  "pistol" to Pair(Pistol::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-	  "headshot" to Pair(HeadshotGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
+	  // "headshot" to Pair(HeadshotGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
 	  "hammer" to Pair(Hammer::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 5),
 	  "money_printer" to Pair(MoneyPrinter::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON, Achievements.UNLOCK_MONEY_PRINTER),
 	  "reload_rune" to Pair(ReloadRune::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
@@ -257,7 +253,7 @@ object ItemRegistry {
 	  "ammo_holder" to Pair(AmmoHolder::class.java, 1f, 0f, 0f, 1f, Quality.GOLDEN),
 	  "lucky_bullet" to Pair(LuckyBullet::class.java, 1f, 0f, 0f, 1f, Quality.GOLDEN),
 	  "smart_bullet" to Pair(SmartBullet::class.java, 1f, 0f, 0f, 1f, Quality.IRON),
-	  "rng_bullet" to Pair(RngBullet::class.java, 1f, 0f, 0f, 1f, Quality.IRON),
+	  // "rng_bullet" to Pair(RngBullet::class.java, 1f, 0f, 0f, 1f, Quality.IRON),
 	  "time_bullet" to Pair(TimeBullet::class.java, 1f, 0f, 0f, 1f, Quality.GOLDEN),
 	  "big_bullet" to Pair(BigBullet::class.java, 1f, 0f, 0f, 1f, Quality.WOODEN),
 	  "red_balloon" to Pair(RedBalloon::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
