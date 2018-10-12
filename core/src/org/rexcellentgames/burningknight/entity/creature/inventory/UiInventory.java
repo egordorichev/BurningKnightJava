@@ -487,8 +487,12 @@ public class UiInventory extends UiEntity {
 
 	private static TextureRegion star = Graphics.getTexture("ui-mana_star");
 	private static TextureRegion star_bg = Graphics.getTexture("ui-star_bg");
+	private static TextureRegion star_change = Graphics.getTexture("ui-mana_change");
 	private static TextureRegion halfStar = Graphics.getTexture("ui-half_star");
 	private static TextureRegion defense = Graphics.getTexture("ui-defense");
+
+	private int lastMana;
+	private float invm;
 
 	@Override
 	public void render() {
@@ -521,15 +525,15 @@ public class UiInventory extends UiEntity {
 		float y = this.slots[this.inventory.getSize() - 1].y + 20;
 		float x = 4;
 
-
 		int mana = Player.instance.getMana();
 
 		for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
 			float s = 1f;
 			float yy = y + 10;
 
-			Graphics.render(star_bg, x + i * 11 + star.getRegionWidth() / 2,
-				yy + 8 + star.getRegionHeight() / 2, 0,
+			boolean change = (invm > 0.7f || (invm > 0.5f && invm % 0.2f > 0.1f));
+			Graphics.render(change ? star_change : star_bg, x + i * 11 + star.getRegionWidth() / 2 + (change ? -1 : 0),
+				yy + 8 + star.getRegionHeight() / 2 + (change ? -1 : 0), 0,
 				star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
 
 			if (mana - 2 >= i * 2) {
@@ -541,6 +545,15 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
+		if (lastMana != mana) {
+			invm = 1.0f;
+		}
+
+		if (invm > 0) {
+			invm -= Gdx.graphics.getDeltaTime();
+		}
+
+		lastMana = mana;
 
 		int hp = Player.instance.getHp();
 		int iron = Player.instance.getIronHearts();
