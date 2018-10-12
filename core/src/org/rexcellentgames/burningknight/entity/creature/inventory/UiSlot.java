@@ -209,21 +209,15 @@ public class UiSlot {
 	public void leftClick() {
 		Item self = this.inventory.getInventory().getSlot(this.id);
 
-		/*if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
-			// Audio.playSfx("menu/select");
-
+		if (this.inventory.isOpen() && self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
 			if (self.canBeUsed()) {
 				self.use();
-			}
-
-			if (self.getCount() <= 0) {
-				Ui.upgradeMouse = false;
 			}
 
 			Player.instance.ui.checkClosed();
 
 			return;
-		}*/
+		}
 
 		Item current = this.inventory.getCurrentSlot();
 		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());

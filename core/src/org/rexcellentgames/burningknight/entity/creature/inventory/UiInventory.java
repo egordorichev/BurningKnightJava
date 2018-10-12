@@ -130,6 +130,10 @@ public class UiInventory extends UiEntity {
 	public float forceT;
 
 	public void open() {
+		if (!dn) {
+			return;
+		}
+
 		this.open = true;
 		this.dn = false;
 
@@ -334,6 +338,10 @@ public class UiInventory extends UiEntity {
 	}
 
 	public void hide() {
+		if (!dn) {
+			return;
+		}
+
 		if (this.active > 5) {
 			this.active -= Math.floor(this.active / 6) * 6;
 		}
