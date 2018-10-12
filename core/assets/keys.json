@@ -41,9 +41,9 @@
 
 	"moveX" : [ "ControllerLX" ],
 	"moveY" : [ "ControllerLY" ],
-	"map" : [ "M", "Tab", "ControllerA" ],
+	"map" : [ "M", "ControllerA" ],
 
 	"zoom_out" : [ "-" ],
 	"zoom_in" : [ "=" ],
-	"toggle_minimap" : [ "T" ]
+	"toggle_minimap" : [ "Tab" ]
 }

@@ -766,7 +766,7 @@ public class Player extends Creature {
 
 		light = World.newLight(256, new Color(1, 1, 1, 1f), 120, x, y);
 
-		if (Dungeon.depth == -3 && Level.GENERATED) {
+		if (Dungeon.depth == -3) {
 			this.inventory.clear();
 
 			this.hpMax = 10;

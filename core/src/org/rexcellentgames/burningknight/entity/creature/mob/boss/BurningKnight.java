@@ -322,13 +322,8 @@ public class BurningKnight extends Boss {
 				this.become("defeated");
 				this.dest = false;
 
-				Tween.to(new Tween.Task(0, 1f) {
-					@Override
-					public void onEnd() {
-						Player.instance.setUnhittable(false);
-						Camera.follow(Player.instance, false);
-					}
-				});
+				Camera.follow(Player.instance, false);
+				Player.instance.setUnhittable(false);
 
 				Camera.shake(30);
 				Audio.highPriority("Reckless");

@@ -172,7 +172,7 @@ open class ItemHolder : SaveableEntity {
 
     this.velocity.mul(0.9f)
 
-    if (!InGameState.dark && item is Gold) {
+    if (!InGameState.dark && item is Gold && this.auto && Player.instance.room == Dungeon.level.findRoomFor(this.x, this.y)) {
       val dx = Player.instance.x + Player.instance.w / 2 - this.x - this.w / 2
       val dy = Player.instance.y + Player.instance.h / 2 - this.y - this.h / 2
       val d = Math.sqrt((dx * dx + dy * dy).toDouble())

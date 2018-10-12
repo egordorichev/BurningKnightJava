@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectil
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,19 @@ public class World {
 				lightPool.remove(i);
 
 				light.setColor(color);
-				light.setDistance(rad);
+
+				Tween.to(new Tween.Task(rad, 0.2f) {
+					@Override
+					public float getValue() {
+						return light.getDistance();
+					}
+
+					@Override
+					public void setValue(float value) {
+						light.setDistance(value);
+					}
+				});
+
 				light.setPosition(x, y);
 				light.setActive(true);
 
@@ -62,10 +75,25 @@ public class World {
 			return;
 		}
 
-		lightPool.add(light);
-		light.setDistance(0);
-		light.setPosition(-1000, -1000);
-		light.setActive(false);
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return light.getDistance();
+			}
+
+			@Override
+			public void setValue(float value) {
+				light.setDistance(value);
+			}
+
+			@Override
+			public void onEnd() {
+				lightPool.add(light);
+				light.setDistance(0);
+				light.setPosition(-1000, -1000);
+				light.setActive(false);
+			}
+		});
 	}
 
 	/*
