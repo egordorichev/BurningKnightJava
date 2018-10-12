@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
@@ -16,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
@@ -107,12 +109,20 @@ public class Gun extends WeaponBase {
 	}
 
 	private boolean pressed;
+	private boolean shown;
 
 	@Override
 	public void updateInHands(float dt) {
 		super.updateInHands(dt);
+
+		if (ammoLeft == 0 && Dungeon.depth == -3 && !shown) {
+			shown = true;
+			Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("reload"));
+		}
+
 		if (ammoLeft < ammoMax && (pressed || Input.instance.wasPressed("interact"))) {
 			if (!pressed) {
+				Ui.ui.hideControlsFast();
 				this.owner.playSfx("reload_1");
 			}
 

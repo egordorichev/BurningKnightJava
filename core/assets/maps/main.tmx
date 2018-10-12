@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="454">
+<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="455">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer name="tiles" width="129" height="128">
   <data encoding="csv">
@@ -254,5 +254,6 @@
   <object id="450" name="sp_a" x="783" y="160" width="16" height="16"/>
   <object id="451" name="sp_a" x="767" y="160" width="16" height="16"/>
   <object id="452" name="table_2" x="1026" y="160" width="46" height="28"/>
+  <object id="454" name="gun_chest" x="1728" y="848" width="16" height="16"/>
  </objectgroup>
 </map>

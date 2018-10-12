@@ -313,32 +313,34 @@ public class Chest extends SaveableEntity {
 		}
 
 		if (createLoot) {
-			if (Random.chance(50)) {
-				HeartFx fx = new HeartFx();
+			if (Dungeon.depth != -3) {
+				if (Random.chance(50)) {
+					HeartFx fx = new HeartFx();
 
-				fx.x = this.x + (this.w - fx.w) / 2;
-				fx.y = this.y + (this.h - fx.h) / 2;
+					fx.x = this.x + (this.w - fx.w) / 2;
+					fx.y = this.y + (this.h - fx.h) / 2;
 
-				Dungeon.area.add(fx);
-			}
+					Dungeon.area.add(fx);
+				}
 
-			if (Random.chance(30)) {
-				ItemHolder fx = new ItemHolder(new KeyC());
+				if (Random.chance(30)) {
+					ItemHolder fx = new ItemHolder(new KeyC());
 
-				fx.x = this.x + (this.w - fx.w) / 2;
-				fx.y = this.y + (this.h - fx.h) / 2;
+					fx.x = this.x + (this.w - fx.w) / 2;
+					fx.y = this.y + (this.h - fx.h) / 2;
 
-				Dungeon.area.add(fx);
-			}
+					Dungeon.area.add(fx);
+				}
 
-			if (Random.chance(30)) {
-				ItemHolder fx = new ItemHolder(new Gold());
+				if (Random.chance(30)) {
+					ItemHolder fx = new ItemHolder(new Gold());
 
-				fx.getItem().generate();
-				fx.x = this.x + (this.w - fx.w) / 2;
-				fx.y = this.y + (this.h - fx.h) / 2;
+					fx.getItem().generate();
+					fx.x = this.x + (this.w - fx.w) / 2;
+					fx.y = this.y + (this.h - fx.h) / 2;
 
-				Dungeon.area.add(fx);
+					Dungeon.area.add(fx);
+				}
 			}
 
 			createLoot = false;

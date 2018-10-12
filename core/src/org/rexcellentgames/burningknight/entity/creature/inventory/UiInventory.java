@@ -133,6 +133,8 @@ public class UiInventory extends UiEntity {
 		this.open = true;
 		this.dn = false;
 
+		Player.instance.playSfx("menu/select");
+
 		if (this.lastA != null) {
 			Tween.remove(this.lastA);
 			this.lastA = null;
@@ -336,6 +338,7 @@ public class UiInventory extends UiEntity {
 			this.active -= Math.floor(this.active / 6) * 6;
 		}
 
+		Player.instance.playSfx("menu/exit");
 		if (this.lastA != null) {
 			Tween.remove(this.lastA);
 			this.lastA = null;

@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -270,6 +271,15 @@ public class HandmadeRoom extends RegularRoom {
 				Chest chest = new WoodenChest();
 
 				chest.setItem(new HealingPotion());
+				chest.x = x + rect.x + 16;
+				chest.y = y + rect.y + 16;
+				chest.locked = false;
+
+				Dungeon.area.add(chest.add());
+			} else if (name.equals("gun_chest")) {
+				Chest chest = new WoodenChest();
+
+				chest.setItem(new Revolver());
 				chest.x = x + rect.x + 16;
 				chest.y = y + rect.y + 16;
 				chest.locked = false;
