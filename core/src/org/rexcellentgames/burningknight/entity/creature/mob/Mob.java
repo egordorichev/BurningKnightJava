@@ -763,14 +763,14 @@ public class Mob extends Creature {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = self.isLow() ? 100000000f : Random.newFloat(3f, 5f);
+			delay = self.isLow() ? 100000000f : Random.newFloat(3f, 6f);
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 			this.checkForPlayer();
-			this.moveFrom(self.lastSeen, 20f, 5f);
+			this.moveFrom(self.lastSeen, 25f, 5f);
 
 			if (this.t >= delay) {
 				self.become("idle");

@@ -164,7 +164,6 @@ public class Clown extends Mob {
 			case "attack": return new AttackState();
 			case "roam": return new RoamState();
 			case "rangedAttack": return new RangedAttack();
-			case "preattack": return new PreattackState();
 		}
 
 		return super.getAi(state);
@@ -172,17 +171,6 @@ public class Clown extends Mob {
 
 	public class ClownState extends State<Clown> {
 
-	}
-
-	public class PreattackState extends ClownState {
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			if (this.t >= 1f) {
-				self.become("attack");
-			}
-		}
 	}
 
 	public class IdleState extends ClownState {
@@ -281,7 +269,7 @@ public class Clown extends Mob {
 
 				if (this.moveTo(self.lastSeen, d < 48f ? 20f : 10f, ATTACK_DISTANCE)) {
 					if (self.target != null) {
-						self.become("preattack");
+						self.become("attack");
 					} else if (self.target == null) {
 						self.noticeSignT = 0f;
 						self.hideSignT = 2f;
@@ -307,11 +295,17 @@ public class Clown extends Mob {
 	}
 
 	public class AttackState extends ClownState {
+		private int step;
+
 		@Override
 		public void onEnter() {
 			super.onEnter();
 
-			if (Random.chance(75)) {
+			doAttack();
+		}
+
+		private void doAttack() {
+			if (this.step < 3) {
 				self.guitar.use();
 			} else {
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8, 60f);
@@ -325,12 +319,26 @@ public class Clown extends Mob {
 					}
 				}
 			}
+
+			this.step ++;
 		}
 
 		@Override
 		public void update(float dt) {
-			if (this.t > 1f) {
-				self.become("chase");
+			super.update(dt);
+
+			float d = 32f;
+
+			if (self.target != null) {
+				d = self.getDistanceTo((int) (self.target.x + self.target.w / 2),
+					(int) (self.target.y + self.target.h / 2));
+			}
+
+			if (d < 16 || this.moveTo(self.target, d < 48f ? 20f : 10f, 16)) {
+				if (this.t > 1f) {
+					this.t = 0;
+					this.doAttack();
+				}
 			}
 		}
 	}

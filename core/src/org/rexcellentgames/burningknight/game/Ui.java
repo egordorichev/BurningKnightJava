@@ -136,7 +136,7 @@ public class Ui {
 	private float val;
 	private float size;
 	private String kills;
-	private float killX = -128;
+	private float killX = -256;
 	private float mainY = -128;
 	private String time;
 	private float timeW;

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -151,5 +153,10 @@ public class Note extends Entity {
 	@Override
 	public void renderShadow() {
 		Graphics.shadow(this.x - w / 2 + (flip ? 0 : 4), this.y - this.h / 2 + 3, w - 4, this.h, 8);
+	}
+
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		return (!(entity instanceof Player) || ((Player) entity).isRolling()) && super.shouldCollide(entity, contact, fixture);
 	}
 }
