@@ -5,7 +5,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class SlashSword extends Weapon {
 	protected float added;
@@ -52,9 +51,7 @@ public class SlashSword extends Weapon {
 		float pure = 0;
 
 		if (this.owner != null) {
-			Point aim = this.owner.getAim();
-
-			float an = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI);
+			float an = (float) (owner.getWeaponAngle() - Math.PI);
 			an = Gun.angleLerp(this.lastAngle, an, 0.15f, this.owner != null && this.owner.freezed);
 			this.lastAngle = an;
 			float a = (float) Math.toDegrees(this.lastAngle);
@@ -85,9 +82,8 @@ public class SlashSword extends Weapon {
 		}
 
 		this.delay = this.useTime;
-		Point aim = this.owner.getAim();
-		float an = owner.getAngleTo(aim.x, aim.y);
 
+		float an = owner.getWeaponAngle();
 		float ya = moveYA;
 		float yb = moveYB;
 		float xa = -moveXA;

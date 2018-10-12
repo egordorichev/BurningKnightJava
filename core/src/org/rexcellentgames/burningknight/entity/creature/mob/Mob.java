@@ -118,7 +118,7 @@ public class Mob extends Creature {
 	}
 
 	public void renderSigns() {
-		/*TextureRegion region = this.hideSignT > 0 ? hideSign :
+		TextureRegion region = // this.hideSignT > 0 ? hideSign :
 			(this.noticeSignT > 0 ? noticeSign : null);
 
 		if (region != null) {
@@ -136,7 +136,7 @@ public class Mob extends Creature {
 				(float) (Math.cos(t * 4) * 30f), region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false);
 
 			Graphics.batch.setColor(1, 1, 1, 1);
-		}*/
+		}
 	}
 
 	public void generatePrefix() {
@@ -479,7 +479,6 @@ public class Mob extends Creature {
 
 						this.velocity.x -= Math.cos(a) * f;
 						this.velocity.y -= Math.sin(a) * f;
-
 					}
 				}
 			}

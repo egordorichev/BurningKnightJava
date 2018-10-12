@@ -42,10 +42,10 @@ public class Turret extends SolidProp {
 			this.type = 1;
 		} else if (r < 0.5f) {
 			this.type = 2;
-		} else*/ if (r < 0.1f) {
+		} else if (r < 0.1f) {
 			this.type = 3;
 			this.sp = 10;
-		}
+		}*/
 	}
 
 	@Override

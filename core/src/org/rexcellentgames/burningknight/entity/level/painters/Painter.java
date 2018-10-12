@@ -209,7 +209,9 @@ public class Painter {
 			}
 
 			boolean high = (Random.newFloat() < count / 12f);
-			level.set(i, dry[i] ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
+
+			// false = dry[i]
+			level.set(i, false ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
 		}
 	}
 

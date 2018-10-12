@@ -1062,7 +1062,7 @@ public class Player extends Creature {
 
 					float f = 4;
 
-					if (this.velocity.len() > 1f) {
+					if (this.velocity.len() > 3f) {
 						double a = (Math.atan2(this.velocity.y, this.velocity.x));
 
 						this.acceleration.x = (float) Math.cos(a) * this.speed * f;
