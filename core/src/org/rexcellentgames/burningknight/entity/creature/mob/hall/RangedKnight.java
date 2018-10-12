@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class RangedKnight extends Knight {
 	public static Animation animations = Animation.make("actor-knight", "-red");
@@ -149,11 +150,34 @@ public class RangedKnight extends Knight {
 		public void update(float dt) {
 			super.update(dt);
 
+			float dx = self.target.x + self.target.w / 2 - lastAim.x;
+			float dy = self.target.y + self.target.h / 2 - lastAim.y;
+			// float d = (float) Math.sqrt(dx * dx + dy);
+			float s = 0.04f;
+
+			lastAim.x += dx * s;
+			lastAim.y += dy * s;
+
 			if (this.t > 1f) {
 				self.become("attack");
 			}
 
 			checkForRun();
 		}
+	}
+
+	private Point lastAim = new Point();
+
+	@Override
+	public void tp(float x, float y) {
+		super.tp(x, y);
+
+		lastAim.x = x + 10;
+		lastAim.y = y;
+	}
+
+	@Override
+	public Point getAim() {
+		return lastAim;
 	}
 }
