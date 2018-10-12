@@ -834,6 +834,13 @@ public class Player extends Creature {
 	public float tt;
 
 	@Override
+	protected void common() {
+		super.common();
+		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
+
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 
@@ -869,8 +876,6 @@ public class Player extends Creature {
 				}
 			}
 		}
-
-		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.hasBuff(BurningBuff.class)) {
 			this.light.setColor(1, 0.5f, 0f, 1f);

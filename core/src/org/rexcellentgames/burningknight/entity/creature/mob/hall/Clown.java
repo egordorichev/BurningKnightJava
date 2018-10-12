@@ -20,7 +20,7 @@ import org.rexcellentgames.burningknight.util.Random;
 import java.util.ArrayList;
 
 public class Clown extends Mob {
-	public static Animation animations = Animation.make("actor-clown-v2", "-purple");
+	public static Animation animations = Animation.make("actor-clown", "-purple");
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
@@ -63,8 +63,10 @@ public class Clown extends Mob {
 		speed = 100;
 		maxSpeed = 100;
 
-		this.guitar = new Guitar();
-		this.guitar.setOwner(this);
+		if (!(this instanceof BurningClown)) {
+			this.guitar = new Guitar();
+			this.guitar.setOwner(this);
+		}
 	}
 
 	@Override
@@ -126,7 +128,9 @@ public class Clown extends Mob {
 			this.animation.update(dt * speedMod);
 		}
 
-		this.guitar.update(dt * speedMod);
+		if (guitar != null) {
+			this.guitar.update(dt * speedMod);
+		}
 
 		super.common();
 	}
@@ -149,8 +153,12 @@ public class Clown extends Mob {
 
 
 		this.renderWithOutline(this.animation);
-		Graphics.batch.setColor(1, 1, 1, this.a);
-		this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
+
+		if (guitar != null) {
+			Graphics.batch.setColor(1, 1, 1, this.a);
+			this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
+		}
+
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
 	}
@@ -181,7 +189,7 @@ public class Clown extends Mob {
 
 			if (this.target != null) {
 				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
-				self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
+				self.become((d > 32f && Random.chance(75) && !(self instanceof BurningClown)) ? "rangedAttack" : "chase");
 			}
 		}
 	}
@@ -195,7 +203,7 @@ public class Clown extends Mob {
 
 			if (self.t >= DELAY) {
 				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
-				self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
+				self.become((d > 32f && Random.chance(75) && !(self instanceof BurningClown)) ? "rangedAttack" : "chase");
 			}
 		}
 	}
@@ -242,7 +250,7 @@ public class Clown extends Mob {
 			if (this.t >= 3f) {
 				self.become("chase");
 				// I know
-				if (Random.chance(75)) {
+				if (Random.chance(75) && !(self instanceof BurningClown)) {
 					self.become("rangedAttack");
 				}
 			}
@@ -279,7 +287,7 @@ public class Clown extends Mob {
 					return;
 				}
 
-				if (Random.chance(1)) {
+				if (Random.chance(1) && !(self instanceof BurningClown)) {
 					self.become("rangedAttack");
 				}
 			}
@@ -291,7 +299,10 @@ public class Clown extends Mob {
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.guitar.destroy();
+
+		if (guitar != null) {
+			this.guitar.destroy();
+		}
 	}
 
 	public class AttackState extends ClownState {
@@ -305,7 +316,7 @@ public class Clown extends Mob {
 		}
 
 		private void doAttack() {
-			if (this.step < 3) {
+			if (!(self instanceof BurningClown) && this.step < 3) {
 				self.guitar.use();
 			} else {
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8, 60f);

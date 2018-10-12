@@ -93,7 +93,7 @@ public class RangedKnight extends Knight {
 
 		float d = this.getDistanceTo(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
 
-		if (d < 72f) {
+		if (d < 64f) {
 			this.become("runaway");
 		}
 	}

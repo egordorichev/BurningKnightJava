@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.util.Animation;
 
 public class BurningClown extends Clown {
-	public static Animation animations = Animation.make("actor-clown-v2", "-green");
+	public static Animation animations = Animation.make("actor-clown", "-green");
 
 	public Animation getAnimation() {
 		return animations;
