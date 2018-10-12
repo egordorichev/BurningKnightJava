@@ -603,6 +603,13 @@ public class Mob extends Creature {
 				BloodFx.add(this, 5);
 			}
 		}
+
+		if (this.room != null) {
+			this.room.numEnemies -= 1;
+		}
+
+		all.remove(this);
+		every.remove(this);
 	}
 
 	private boolean dd;
@@ -832,14 +839,6 @@ public class Mob extends Creature {
 
 		if (this.ai != null && !(this instanceof Boss)) {
 			this.ai.checkForPlayer(true);
-		}
-
-		if (this.hp <= 0) {
-			if (this.room != null) {
-				this.room.numEnemies -= 1;
-				all.remove(this);
-				every.remove(this);
-			}
 		}
 	}
 

@@ -556,7 +556,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		if (lastMana != mana) {
+		if (lastMana > mana) {
 			invm = 1.0f;
 		}
 

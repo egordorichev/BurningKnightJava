@@ -234,7 +234,7 @@ public class Knight extends Mob {
 			int x = (int) ((self.x + self.w / 2) / 16);
 			int y = (int) ((self.y + self.h / 2) / 16);
 
-			if (!Dungeon.level.checkFor(x + (int) direction.x, y + (int) direction.y, Terrain.PASSABLE)) {
+			if (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) && !Dungeon.level.checkFor(x + (int) direction.x, y + (int) direction.y, Terrain.PASSABLE)) {
 				selectDir();
 			}
 		}

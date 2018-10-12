@@ -41,7 +41,6 @@ public class Gun extends WeaponBase {
 	protected boolean s;
 	protected Point origin = new Point(3, 1);
 	protected Point hole = new Point(13, 6);
-	protected int charge = 100;
 	protected int ammoMax = 20;
 	protected int ammoLeft = 20;
 	protected float chargeProgress;
@@ -61,7 +60,6 @@ public class Gun extends WeaponBase {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.charge = reader.readInt32();
 		this.ammoLeft = reader.readInt32();
 
 		setStats();
@@ -71,7 +69,6 @@ public class Gun extends WeaponBase {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 
-		writer.writeInt32(this.charge);
 		writer.writeInt32(this.ammoLeft);
 	}
 
@@ -111,14 +108,23 @@ public class Gun extends WeaponBase {
 	private boolean pressed;
 	private boolean shown;
 
+	public boolean isReloading() {
+		return pressed;
+	}
+
 	@Override
 	public void updateInHands(float dt) {
 		super.updateInHands(dt);
+
+		if (ammoLeft == 0 && this.chargeProgress == 0 && (this.owner instanceof Mob)) {
+			pressed = true;
+		}
 
 		if (ammoLeft == 0 && Dungeon.depth == -3 && !shown) {
 			shown = true;
 			Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("reload"));
 		}
+
 
 		if (ammoLeft < ammoMax && (pressed || Input.instance.wasPressed("interact"))) {
 			if (!pressed) {
@@ -137,10 +143,8 @@ public class Gun extends WeaponBase {
 			if (this.chargeProgress >= 1f) {
 				pressed = false;
 				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
-				this.charge -= this.ammoMax;
 				this.onAmmoAdded();
-
-				// todo: what if no left?
+				chargeProgress = 0;
 			}
 		}
 	}
@@ -318,7 +322,11 @@ public class Gun extends WeaponBase {
 			return;
 		}
 
-		if (this.ammoLeft <= 0 && !(this.owner instanceof Mob) || this.chargeProgress != 0) {
+		if (this.ammoLeft <= 0 || this.chargeProgress != 0) {
+			if (this.chargeProgress == 0 && (this.owner instanceof Mob)) {
+				pressed = true;
+			}
+
 			return;
 		}
 
