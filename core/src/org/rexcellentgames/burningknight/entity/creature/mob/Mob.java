@@ -415,14 +415,6 @@ public class Mob extends Creature {
 			}
 		}
 
-		if (this.freezed) {
-			return;
-		}
-
-		if (this.room != null && !this.ignoreRooms) {
-			this.room.numEnemies += 1;
-		}
-
 		if (this.drop) {
 			if (Dungeon.depth != -3) {
 				if (this.prefix != null) {
@@ -445,6 +437,15 @@ public class Mob extends Creature {
 				}
 			}
 		}
+
+		if (this.freezed) {
+			return;
+		}
+
+		if (this.room != null && !this.ignoreRooms) {
+			this.room.numEnemies += 1;
+		}
+
 
 		if (this.dead || this.dd) {
 			return;

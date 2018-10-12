@@ -15,6 +15,7 @@ public class FreezingClown extends Clown {
 		super.apply(bomb);
 		// bomb.toApply.add(new FreezeBuff());
 		bomb.bullets = true;
+		bomb.leaveSmall = true;
 	}
 
 	/*
