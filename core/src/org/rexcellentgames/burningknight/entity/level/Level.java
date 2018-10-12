@@ -53,7 +53,7 @@ public abstract class Level extends SaveableEntity {
 	public static boolean SHADOWS = true;
 
 	public static Color[] colors = {
-		Color.valueOf("#1a1932"),
+		Color.valueOf("#272727"),
 		Color.valueOf("#391f21"),
 		Color.valueOf("#5d2c28"),
 		Color.valueOf("#1a1932"),
