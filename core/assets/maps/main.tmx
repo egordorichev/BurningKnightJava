@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="455">
+<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="469">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer name="tiles" width="129" height="128">
   <data encoding="csv">
@@ -143,7 +143,7 @@
   <object id="37" name="sub" x="784" y="304" width="144" height="128"/>
   <object id="38" name="sub" x="912" y="304" width="176" height="112"/>
   <object id="39" name="sub" x="976" y="224" width="128" height="96"/>
-  <object id="40" name="sub" x="976" y="146" width="128" height="94"/>
+  <object id="40" name="sub" x="976" y="136" width="128" height="104"/>
   <object id="45" name="sub" x="848" y="96" width="128" height="96"/>
   <object id="46" name="sub" x="848" y="176" width="144" height="144"/>
   <object id="322" name="tutorial" x="1440" y="0" width="608" height="1136"/>
@@ -157,10 +157,7 @@
   <object id="399" name="sub" x="1728" y="160" width="320" height="208"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="66" name="sp_a" x="799" y="160" width="16" height="16"/>
-  <object id="67" name="sp_a" x="815" y="192" width="16" height="16"/>
-  <object id="70" name="sp_a" x="799" y="192" width="16" height="16"/>
-  <object id="71" name="sp_a" x="815" y="160" width="16" height="16"/>
+  <object id="70" name="sp_a" x="1008" y="194" width="16" height="16"/>
   <object id="74" name="sp_d" x="720" y="272" width="16" height="16"/>
   <object id="75" name="sp_d" x="736" y="272" width="16" height="16"/>
   <object id="76" name="sp_d" x="752" y="272" width="16" height="16"/>
@@ -185,20 +182,17 @@
   <object id="102" name="sp_b" x="896" y="144" width="16" height="16"/>
   <object id="103" name="sp_b" x="912" y="144" width="16" height="16"/>
   <object id="104" name="sp_b" x="928" y="144" width="16" height="16"/>
-  <object id="107" name="sp_c" x="1008" y="199" width="16" height="16"/>
-  <object id="108" name="sp_c" x="1024" y="199" width="16" height="16"/>
-  <object id="109" name="sp_c" x="1040" y="199" width="16" height="16"/>
-  <object id="110" name="sp_c" x="1056" y="199" width="16" height="16"/>
+  <object id="110" name="sp_c" x="768" y="159" width="16" height="16"/>
   <object id="120" name="sp_h" x="1056" y="272" width="16" height="16"/>
   <object id="121" name="sp_h" x="1040" y="272" width="16" height="16"/>
   <object id="122" name="sp_h" x="1024" y="272" width="16" height="16"/>
   <object id="123" name="sp_h" x="1008" y="272" width="16" height="16"/>
-  <object id="124" name="sk_c" x="997" y="165" width="16" height="16"/>
+  <object id="124" name="sk_c" x="767" y="191" width="16" height="16"/>
   <object id="125" name="sk_e" x="1141" y="284" width="16" height="16"/>
   <object id="126" name="sk_h" x="1008" y="252" width="16" height="16"/>
   <object id="127" name="sk_f" x="736" y="336" width="16" height="16"/>
   <object id="128" name="sk_g" x="848" y="336" width="16" height="16"/>
-  <object id="129" name="sk_a" x="769" y="193" width="16" height="16"/>
+  <object id="129" name="sk_a" x="1001" y="168" width="16" height="16"/>
   <object id="131" name="sk_b" x="903" y="125" width="16" height="16"/>
   <object id="132" name="sk_d" x="768" y="248" width="16" height="16"/>
   <object id="138" name="sp_b" x="880" y="144" width="16" height="16"/>
@@ -251,9 +245,18 @@
   <object id="447" name="bone" x="756" y="120" width="13" height="13"/>
   <object id="448" name="skull" x="784" y="123" width="12" height="11"/>
   <object id="449" name="table" x="754" y="120" width="60" height="25"/>
-  <object id="450" name="sp_a" x="783" y="160" width="16" height="16"/>
-  <object id="451" name="sp_a" x="767" y="160" width="16" height="16"/>
   <object id="452" name="table_2" x="1026" y="160" width="46" height="28"/>
   <object id="454" name="gun_chest" x="1728" y="848" width="16" height="16"/>
+  <object id="455" name="sp_a" x="1040" y="194" width="16" height="16"/>
+  <object id="456" name="sp_a" x="1024" y="194" width="16" height="16"/>
+  <object id="457" name="sp_a" x="1056" y="194" width="16" height="16"/>
+  <object id="458" name="sp_c" x="784" y="159" width="16" height="16"/>
+  <object id="459" name="sp_c" x="800" y="159" width="16" height="16"/>
+  <object id="460" name="sp_c" x="816" y="159" width="16" height="16"/>
+  <object id="461" name="blood" x="702" y="275" width="148" height="23"/>
+  <object id="463" name="frame_b" x="720" y="232" width="15" height="16"/>
+  <object id="465" name="frame_b" x="816" y="232" width="15" height="16"/>
+  <object id="466" name="frame_a" x="784" y="232" width="18" height="13"/>
+  <object id="468" name="frame_a" x="751" y="232" width="18" height="13"/>
  </objectgroup>
 </map>

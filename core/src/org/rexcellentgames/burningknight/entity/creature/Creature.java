@@ -311,6 +311,8 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
+		// TODO: a bit random bomb delay
+
 		if (this.freezed) {
 			this.invt = Math.max(0, this.invt - dt);
 			this.invtt = Math.max(0, this.invtt - dt);

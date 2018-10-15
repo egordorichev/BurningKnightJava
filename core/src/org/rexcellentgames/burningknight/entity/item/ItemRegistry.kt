@@ -153,7 +153,7 @@ object ItemRegistry {
     "diamond" to Pair(Diamond::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_DIAMOND),
     "penetration_rune" to Pair(PenetrationRune::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
     "map" to Pair(Map::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.CONSUMABLE, 5),
-    "map_greenprints" to Pair(MapGreenprints::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.WEAPON, 3),
+    "map_greenprints" to Pair(MapGreenprints::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.CONSUMABLE, 3),
     "meatboy_axe" to Pair(MeatboyAxe::class.java, 1f, 0.3f, 0.3f, 1f, Quality.GOLDEN, Achievements.UNLOCK_MEATBOY_AXE),
     "star" to Pair(Star::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_STAR),
     "blue_watch" to Pair(BlueWatch::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),

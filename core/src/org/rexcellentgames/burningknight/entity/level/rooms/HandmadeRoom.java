@@ -347,8 +347,8 @@ public class HandmadeRoom extends RegularRoom {
 				trigger.y = y + rect.y + 16;
 
 				Dungeon.area.add(trigger.add());
-			} else if (name.equals("carpet") || name.equals("stand") || name.equals("shelf") || name.equals("target") || name.equals("shields") || name.equals("maniken") || name.equals("bone")
-					|| name.equals("bat") || name.equals("frog") || name.equals("skull")) {
+			} else if (name.equals("carpet") || name.equals("stand") || name.equals("target") || name.equals("shields") || name.equals("maniken") || name.equals("bone")
+					|| name.equals("bat") || name.equals("frog") || name.equals("skull") || name.equals("blood") || name.equals("frame_a") ||  name.equals("frame_b")) {
 				ShopProp prop = new ShopProp();
 
 				prop.x = x + rect.x + 16;
@@ -356,7 +356,7 @@ public class HandmadeRoom extends RegularRoom {
 				prop.sprite = "shop-" + name;
 
 				Dungeon.area.add(prop.add());
-			} else if (name.equals("table") || name.equals("table_2") || name.equals("cauldron")) {
+			} else if (name.equals("table") || name.equals("table_2") || name.equals("cauldron") || name.equals("shelf") ) {
 				SolidShopProp prop = new SolidShopProp();
 
 				prop.x = x + rect.x + 16;

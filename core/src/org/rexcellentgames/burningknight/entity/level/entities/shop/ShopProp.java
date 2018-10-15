@@ -27,12 +27,15 @@ public class ShopProp extends Prop {
 	}
 
 	private void parseName() {
-		if (this.sprite.equals("shop-carpet")) {
+		if (this.sprite.equals("shop-carpet") || this.sprite.equals("shop-blood") || sprite.equals("shop-frame_a") || sprite.equals("shop-frame_b")) {
 			this.depth = -1;
 			this.shadow = false;
 		} else if (this.sprite.equals("shop-bat") || this.sprite.equals("shop-frog") || this.sprite.equals("shop-bone") || this.sprite.equals("shop-skull")) {
 			this.depth = 1;
 		}
+
+		this.w = this.region.getRegionWidth();
+		this.h = this.region.getRegionHeight();
 	}
 
 	@Override
