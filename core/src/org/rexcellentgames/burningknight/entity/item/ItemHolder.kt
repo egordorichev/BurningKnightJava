@@ -8,14 +8,13 @@ import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
 import org.rexcellentgames.burningknight.Dungeon
 import org.rexcellentgames.burningknight.assets.Graphics
+import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.Entity
 import org.rexcellentgames.burningknight.entity.creature.Creature
-import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob
 import org.rexcellentgames.burningknight.entity.creature.player.Player
-import org.rexcellentgames.burningknight.entity.item.key.BurningKey
+import org.rexcellentgames.burningknight.entity.item.key.Key
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
-import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
 import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
@@ -55,6 +54,7 @@ open class ItemHolder : SaveableEntity {
 
       if (this.item is Gold) {
         Gold.all.add(this)
+        this.alwaysActive = true
       }
 
       // This might be bad!
@@ -137,6 +137,10 @@ open class ItemHolder : SaveableEntity {
   }
 
   override fun update(dt: Float) {
+    if (this.item == null) {
+      return
+    }
+
     if (this.item!!.shop && !added) {
       added = true
       
@@ -173,13 +177,17 @@ open class ItemHolder : SaveableEntity {
 
     this.velocity.mul(0.9f)
 
-    if (!InGameState.dark && item is Gold) {
-      val dx = Player.instance.x + Player.instance.w / 2 - this.x - this.w / 2
-      val dy = Player.instance.y + Player.instance.h / 2 - this.y - this.h / 2
-      val d = Math.sqrt((dx * dx + dy * dy).toDouble())
-      val f = 20f
-      this.velocity.x += (dx / d).toFloat() * f
-      this.velocity.y += (dy / d).toFloat() * f
+    if (!InGameState.dark && item is Gold && item!!.autoPickup) {
+      val room = Dungeon.level.findRoomFor(this.x + this.w / 2, this.y + this.h / 2)
+
+      if (room != null && !room.hidden) {
+        val dx = Player.instance.x + Player.instance.w / 2 - this.x - this.w / 2
+        val dy = Player.instance.y + Player.instance.h / 2 - this.y - this.h / 2
+        val d = Math.sqrt((dx * dx + dy * dy).toDouble())
+        val f = 20f
+        this.velocity.x += (dx / d).toFloat() * f
+        this.velocity.y += (dy / d).toFloat() * f
+      }
     }
 
     this.sz = Math.max(1f, this.sz - this.sz * dt)
@@ -204,18 +212,21 @@ open class ItemHolder : SaveableEntity {
       this.body!!.linearVelocity = this.velocity
     }
 
+    /*
     if (this.item is BurningKey) {
-      this.lst += dt
+      this.lst += dtthat
 
       if (this.lst > 0.2f) {
         Dungeon.level.setOnFire(Level.toIndex((Math.floor(((this.x + this.w / 2) / 16).toDouble()).toInt()), (Math.floor(((this.y + this.h / 2) / 16).toDouble())).toInt()), true)
         Dungeon.area.add(FlameFx(this))
         lst = 0f
       }
-    }
+    }*/
   }
 
-  private var lst = 0f
+  // private var lst = 0f
+
+	private var collided = false
 
   override fun init() {
     super.init()
@@ -248,6 +259,10 @@ open class ItemHolder : SaveableEntity {
   }
 
   override fun render() {
+    if (this.item == null) {
+      return
+    }
+
     val sprite = this.item!!.getSprite()
 
     val a = Math.cos((this.t * 3f).toDouble()).toFloat() * 8f * sz
@@ -300,6 +315,11 @@ open class ItemHolder : SaveableEntity {
   override fun onCollision(entity: Entity?) {
     super.onCollision(entity)
 
+	  if (!collided && Dungeon.depth == -3 && Ui.controls.size == 0 && this.item is Key) {
+		  Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"))
+		  collided = true
+	  }
+
     if (entity is Creature) {
       Tween.to(object : Tween.Task(4f, 0.3f) {
         override fun getValue(): Float {
@@ -317,26 +337,32 @@ open class ItemHolder : SaveableEntity {
   override fun save(writer: FileWriter) {
     super.save(writer)
 
-    writer.writeString(this.item!!.javaClass.name)
-    this.item!!.save(writer)
+    writer.writeBoolean(this.item != null);
+
+    if (this.item != null) {
+      writer.writeString(this.item!!.javaClass.name)
+      this.item!!.save(writer)
+    }
   }
 
   @Throws(IOException::class)
   override fun load(reader: FileReader) {
     super.load(reader)
 
-    val type = reader.readString()
+    if (reader.readBoolean()) {
+      val type = reader.readString()
 
-    try {
-      val clazz = Class.forName(type)
-      val constructor = clazz.getConstructor()
-      val `object` = constructor.newInstance()
-      val item = `object` as Item
+      try {
+        val clazz = Class.forName(type)
+        val constructor = clazz.getConstructor()
+        val `object` = constructor.newInstance()
+        val item = `object` as Item
 
-      item.load(reader)
-      this.item = item
-    } catch (e: Exception) {
-      Dungeon.reportException(e)
+        item.load(reader)
+        this.item = item
+      } catch (e: Exception) {
+        Dungeon.reportException(e)
+      }
     }
 
     this.body!!.setTransform(this.x, this.y, 0f)

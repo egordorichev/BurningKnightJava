@@ -137,6 +137,7 @@ public class Axe extends Weapon {
 			public void onEnd() {
 				if (canBeConsumed()) { count -= 1; }
 				added = 0;
+				owner.playSfx("throw");
 
 				AxeProjectile fx = new AxeProjectile();
 

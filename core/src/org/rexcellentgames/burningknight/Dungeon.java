@@ -394,8 +394,6 @@ public class Dungeon extends ApplicationAdapter {
 					return true;
 				}
 			});
-
-			Achievements.unlock(Achievements.TEST);
 		} else if (Input.instance.wasPressed("F11")) {
 			Settings.fullscreen = !Settings.fullscreen;
 
@@ -562,7 +560,7 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 
-		Gdx.gl20.glDisable(GL20.GL_SCISSOR_TEST);
+		// Gdx.gl20.glDisable(GL20.GL_SCISSOR_TEST);
 	}
 
 	public void renderUi() {

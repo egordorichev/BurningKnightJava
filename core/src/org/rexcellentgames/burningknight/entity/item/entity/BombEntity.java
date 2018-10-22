@@ -59,10 +59,12 @@ public class BombEntity extends Entity {
 	private boolean ice;
 	public boolean small;
 	private boolean fliped;
+	private float mod;
 
 	@Override
 	public void init() {
 		super.init();
+		mod = Random.newFloat(0.95f, 1.05f);
 
 		for (Buff buff : this.toApply) {
 			if (buff instanceof BurningBuff) {
@@ -153,7 +155,7 @@ public class BombEntity extends Entity {
 		this.vel.mul(0.9f);
 		this.body.setLinearVelocity(this.vel);
 
-		if (this.animation.update(dt)) {
+		if (this.animation.update(dt * this.mod)) {
 			if (this.bullets) {
 				for (int i = 0; i < 8; i++) {
 					BulletProjectile bullet = new BulletProjectile();
@@ -237,9 +239,9 @@ public class BombEntity extends Entity {
 				}
 			}
 
-			if (!fire && !ice) {
-				int s = 3;
+			int s = 3;
 
+			if (!fire && !ice) {
 				for (int yy = -s; yy <= s; yy++) {
 					for (int xx = -s; xx <= s; xx++) {
 						int x = (int) ((this.x + this.w / 2) / 16 + xx);
@@ -253,6 +255,15 @@ public class BombEntity extends Entity {
 								Dungeon.level.tileRegion(x, y);
 							}
 						}
+					}
+				}
+			}
+
+			for (int yy = -s; yy <= s; yy++) {
+				for (int xx = -s; xx <= s; xx++) {
+					if (Math.sqrt(xx * xx + yy * yy) <= s) {
+						int x = (int) ((this.x + this.w / 2) / 16 + xx);
+						int y = (int) ((this.y + this.h / 2) / 16 + yy);
 
 						if (fire) {
 							Dungeon.level.setOnFire(Level.toIndex(x, y), true);

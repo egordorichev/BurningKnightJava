@@ -43,12 +43,12 @@ public class RombRoom extends RegularRoom {
 
 	@Override
 	public int getMinHeight() {
-		return 10;
+		return 12;
 	}
 
 	@Override
 	public int getMinWidth() {
-		return 10;
+		return 12;
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -28,6 +29,8 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.*;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.WoodenChest;
+import org.rexcellentgames.burningknight.entity.level.entities.shop.ShopProp;
+import org.rexcellentgames.burningknight.entity.level.entities.shop.SolidShopProp;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.util.Log;
@@ -247,6 +250,13 @@ public class HandmadeRoom extends RegularRoom {
 				}
 
 				Dungeon.area.add(trader.add());
+			} else if (name.equals("hat")) {
+				HatSelector trader = new HatSelector();
+
+				trader.x = x + rect.x + 16;
+				trader.y = y + rect.y + 16 - 8;
+
+				Dungeon.area.add(trader.add());
 			} else if (name.equals("start")) {
 				Spawn spawn = new Spawn();
 
@@ -268,6 +278,15 @@ public class HandmadeRoom extends RegularRoom {
 				Chest chest = new WoodenChest();
 
 				chest.setItem(new HealingPotion());
+				chest.x = x + rect.x + 16;
+				chest.y = y + rect.y + 16;
+				chest.locked = false;
+
+				Dungeon.area.add(chest.add());
+			} else if (name.equals("gun_chest")) {
+				Chest chest = new WoodenChest();
+
+				chest.setItem(new Revolver());
 				chest.x = x + rect.x + 16;
 				chest.y = y + rect.y + 16;
 				chest.locked = false;
@@ -335,6 +354,23 @@ public class HandmadeRoom extends RegularRoom {
 				trigger.y = y + rect.y + 16;
 
 				Dungeon.area.add(trigger.add());
+			} else if (name.equals("carpet") || name.equals("stand") || name.equals("target") || name.equals("shields") || name.equals("maniken") || name.equals("bone")
+					|| name.equals("bat") || name.equals("frog") || name.equals("skull") || name.equals("blood") || name.equals("frame_a") ||  name.equals("frame_b")) {
+				ShopProp prop = new ShopProp();
+
+				prop.x = x + rect.x + 16;
+				prop.y = y + rect.y + 16 - 8;
+				prop.sprite = "shop-" + name;
+
+				Dungeon.area.add(prop.add());
+			} else if (name.equals("table") || name.equals("table_2") || name.equals("cauldron") || name.equals("shelf") ) {
+				SolidShopProp prop = new SolidShopProp();
+
+				prop.x = x + rect.x + 16;
+				prop.y = y + rect.y + 16 - 8;
+				prop.sprite = "shop-" + name;
+
+				Dungeon.area.add(prop.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}
@@ -420,8 +456,8 @@ public class HandmadeRoom extends RegularRoom {
 						dr = true;
 						Entrance entrance = new Entrance();
 
-						entrance.x = (x + this.left + 1) * 16;
-						entrance.y = (y + this.top + 1) * 16 - 6;
+						entrance.x = (x + this.left + 1) * 16 + 1;
+						entrance.y = (y + this.top + 1) * 16 - 4;
 
 						Dungeon.area.add(entrance.add());
 					break;

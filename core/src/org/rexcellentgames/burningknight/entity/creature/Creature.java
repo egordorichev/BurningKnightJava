@@ -89,6 +89,11 @@ public class Creature extends SaveableEntity {
 	protected boolean shouldDie = false;
 	public boolean remove;
 
+	public float getWeaponAngle() {
+		Point aim = getAim();
+		return getAngleTo(aim.x, aim.y);
+	}
+
 	public int registerCallback(String name, LuaFunction runnable) {
 		ArrayList<LuaFunction> e = events.computeIfAbsent(name, k -> new ArrayList<>());
 		e.add(runnable);
@@ -305,6 +310,8 @@ public class Creature extends SaveableEntity {
 		if (this.dead) {
 			return;
 		}
+
+		// TODO: a bit random bomb delay
 
 		if (this.freezed) {
 			this.invt = Math.max(0, this.invt - dt);

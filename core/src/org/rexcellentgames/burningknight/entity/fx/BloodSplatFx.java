@@ -11,9 +11,6 @@ import java.util.ArrayList;
 public class BloodSplatFx extends Entity {
 	private static ArrayList<Animation.Frame> animations = Animation.make("blood").getFrames("idle");
 	private float a;
-	private float r;
-	private float g;
-	private float b;
 	private TextureRegion region;
 	private float al;
 
@@ -25,10 +22,7 @@ public class BloodSplatFx extends Entity {
 	public void init() {
 		super.init();
 
-		this.r = Random.newFloat(0.4f, 1f);
 		this.a = Random.newFloat(360);
-		this.g = Random.newFloat(0, 0.1f);
-		this.b = Random.newFloat(0, 0.1f);
 		this.region = animations.get(Random.newInt(animations.size())).frame;
 	}
 
@@ -43,7 +37,7 @@ public class BloodSplatFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.batch.setColor(this.r, this.g, this.b, 0.8f);
+		Graphics.batch.setColor(1, 0.1f, 0.1f, 1f);
 		Graphics.render(region, this.x + 8, this.y + 8, this.a, 8, 8, false, false, this.al, this.al);
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}

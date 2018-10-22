@@ -62,7 +62,7 @@ public class Painter {
 		leftMost--;
 		topMost--;
 
-		int sz = 10;
+		int sz = 0;
 
 		leftMost -= sz;
 		topMost -= sz;
@@ -209,7 +209,9 @@ public class Painter {
 			}
 
 			boolean high = (Random.newFloat() < count / 12f);
-			level.set(i, dry[i] ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
+
+			// false = dry[i]
+			level.set(i, false ? (high ? Terrain.HIGH_DRY_GRASS : Terrain.DRY_GRASS) : (high ? Terrain.HIGH_GRASS : Terrain.GRASS));
 		}
 	}
 
@@ -234,7 +236,7 @@ public class Painter {
 						}
 					}
 
-					if (Dungeon.depth != -3 && Dungeon.depth != -1 && level.get(x, y) == Terrain.WALL) {
+					if (Dungeon.depth > -1 && level.get(x, y) == Terrain.WALL) {
 						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 

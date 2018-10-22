@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -142,18 +141,9 @@ public class Camera extends Entity {
 				}
 
 				if (room != null) {
-					float cx = room.left * 16 + Display.GAME_WIDTH / 2;
-					float cr = room.right * 16 - Display.GAME_WIDTH / 2;
-					float cy = room.top * 16 + Display.GAME_HEIGHT / 2;
-					float cb = room.bottom * 16 - Display.GAME_HEIGHT / 2;
-
-					Rectangle rect = new Rectangle(cx, cy, Math.abs(cx - cr), Math.abs(cb - cy));
-
-					camPosition.lerp(new Vector2(rect.x + rect.width / 2, rect.y + rect.height / 2), dt * 3);
-
-					game.position.x = MathUtils.clamp(Spawn.instance.room.left * 16 + Display.GAME_WIDTH / 2,
+					game.position.x = MathUtils.clamp(Spawn.instance.room.left * 16 + 16 + Display.GAME_WIDTH / 2,
 						Spawn.instance.room.right * 16 - Display.GAME_WIDTH / 2, camPosition.x);
-					game.position.y = MathUtils.clamp(Spawn.instance.room.top * 16 + Display.GAME_HEIGHT / 2 + 16,
+					game.position.y = MathUtils.clamp(Spawn.instance.room.top * 16 + 16 + Display.GAME_HEIGHT / 2 + 16,
 						Spawn.instance.room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 				}
 			} else if (Dungeon.depth == -1) {
@@ -189,11 +179,11 @@ public class Camera extends Entity {
 					Dungeon.goToMenu = true;
 				}
 			} else {
-				Room room = Player.instance.room;
+				/*Room room = Player.instance.room;
 
 				if (room != null) {
-					camPosition.lerp(new Vector2(room.left * 16f + ((float) room.getWidth() / 2) * 16, room.top * 16f + ((float) room.getHeight() / 2) * 16), dt * 0.5f);
-				}
+					camPosition.lerp(new Vector2(room.left * 16f + ((float) room.getWidth() / 2) * 16, room.top * 16f + ((float) room.getHeight() / 2) * 16), dt * 0.2f);
+				}*/
 
 				game.position.x = camPosition.x;
 				game.position.y = camPosition.y;

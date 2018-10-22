@@ -4,13 +4,14 @@ import org.rexcellentgames.burningknight.util.Random
 
 class BackGun : Gun() {
   init {
-    damage = 6
+    damage = 10
     accuracy = 2f
     origin.x = 4f
     origin.y = 2f
     hole.x = 8f
     hole.y = 12f
     accuracy = 0f
+    sprite = "item-back_gun"
   }
 
   override fun sendBullets() {

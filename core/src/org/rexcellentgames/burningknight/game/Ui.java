@@ -136,7 +136,7 @@ public class Ui {
 	private float val;
 	private float size;
 	private String kills;
-	private float killX = -128;
+	private float killX = -256;
 	private float mainY = -128;
 	private String time;
 	private float timeW;
@@ -523,10 +523,10 @@ public class Ui {
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Dungeon.depth == -2 || y > 0) {
-				Graphics.render(coin, 2, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y) + 2);
+				Graphics.render(coin, 4, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 18 : y) + 2);
 				Graphics.print(GlobalSave.getInt("num_coins") + "",
 					Graphics.medium, 20,
-					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y));
+					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y - 2));
 			}
 
 			if (this.al > 0.05f && !Ui.hideUi) {

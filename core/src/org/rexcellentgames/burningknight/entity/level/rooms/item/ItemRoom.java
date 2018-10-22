@@ -34,7 +34,7 @@ public class ItemRoom extends RegularRoom {
 		Slab slab = new Slab();
 
 		slab.x = point.x * 16;
-		slab.y = point.y * 16;
+		slab.y = point.y * 16 - 8;
 
 		Dungeon.area.add(slab.add());
 
@@ -43,7 +43,7 @@ public class ItemRoom extends RegularRoom {
 		holder.getItem().generate();
 
 		holder.x = point.x * 16 + (16 - holder.w) / 2;
-		holder.y = point.y * 16 + (16 - holder.h) / 2;
+		holder.y = point.y * 16 + (16 - holder.h) / 2 - 8;
 
 		Dungeon.area.add(holder.add());
 	}

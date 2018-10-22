@@ -2,6 +2,9 @@ package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -9,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -51,6 +55,16 @@ public class Knight extends Mob {
 		super.onHurt(a, creature);
 
 		this.playSfx("damage_towelknight");
+	}
+
+	@Override
+	public boolean rollBlock() {
+		if (!this.state.equals("preattack") && !this.state.equals("attack")) {
+			this.become("chase");
+			return false;
+		}
+
+		return super.rollBlock();
 	}
 
 	@Override
@@ -133,20 +147,29 @@ public class Knight extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "idle": return new IdleState();
-			case "alerted": return new AlertedState();
+			case "idle": case "alerted": case "roam": return new RoamState();
 			case "chase": return new ChaseState();
-			case "attack": return new AttackingState();
 			case "preattack": return new PreAttackState();
-			case "roam": return new RoamState();
-			case "dash": return new DashState();
+			case "attack": return new AttackingState();
+			case "saw": return new SawState();
 		}
 
-		return super.getAi(state);
+ 		return super.getAi(state);
 	}
 
 	public class KnightState extends State<Knight> {
 
+	}
+
+	public class SawState extends KnightState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 1f) {
+				self.become("chase");
+			}
+		}
 	}
 
 	@Override
@@ -175,36 +198,107 @@ public class Knight extends Mob {
 		}
 	}
 
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (this.ai instanceof RoamState) {
+			((RoamState) this.ai).selectDirs();
+		}
+
+		return super.shouldCollide(entity, contact, fixture);
+	}
+
 	public class RoamState extends KnightState {
+		private float delay;
+		private float wait;
+		private Vector2 direction = new Vector2();
+		private Vector2 last = new Vector2();
+
 		@Override
 		public void onEnter() {
-			super.onEnter();
-			this.findNearbyPoint();
+			selectPoint();
+		}
+
+		public void selectPoint() {
+			this.delay = Random.newFloat(4, 8f);
+			this.wait = Random.chance(50) ? Random.newFloat(1, 2) : 0;
+		}
+
+		private void selectDir() {
+			if (Random.chance(50)) {
+				this.direction.x = Random.chance(50) ? 1 : -1;
+				this.direction.y = 0;
+			} else {
+				this.direction.x = 0;
+				this.direction.y = Random.chance(50) ? 1 : -1;
+			}
+
+			int x = (int) ((self.x + self.w / 2) / 16);
+			int y = (int) ((self.y + self.h / 2) / 16);
+
+			if (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) && !Dungeon.level.checkFor(x + (int) direction.x, y + (int) direction.y, Terrain.PASSABLE)) {
+				selectDir();
+			}
+		}
+
+		public void selectDirs() {
+			do {
+				selectDir();
+			} while (direction.x == last.x && direction.y == last.y);
 		}
 
 		@Override
 		public void update(float dt) {
-			if (this.targetPoint != null && this.moveTo(this.targetPoint, 2.5f, 8f)) {
-				self.become("idle");
+			super.update(dt);
+
+			if (self.target != null) {
+				float dx = self.target.x + self.target.w / 2 - self.x - self.w / 2;
+				float dy = self.target.y + self.target.h / 2 - self.y - self.h / 2;
+				boolean alerted = false;
+
+				float d = 16;
+
+				if (this.direction.x != 0) {
+					alerted = (direction.x == -1 ? dx < 0 : dx > 0) && Math.abs(dy) < d;
+				} else {
+					alerted = (direction.y == -1 ? dy < 0 : dy > 0) && Math.abs(dx) < d;
+				}
+
+				if (alerted) {
+					this.checkForPlayer();
+					self.become("saw");
+				}
+			}
+
+			if (this.wait > 0) {
+				this.wait -= dt;
+
+				if (this.wait <= 0) {
+					selectDirs();
+				}
 				return;
 			}
 
-			this.checkForPlayer();
-			super.update(dt);
+			if (this.delay > 0) {
+				this.delay -= dt;
+			} else {
+				this.selectPoint();
+			}
+
+			float f = 8;
+
+			self.acceleration.x = direction.x * f;
+			self.acceleration.y = direction.y * f;
+
+			self.lastAcceleration.x = self.acceleration.x * f;
+			self.lastAcceleration.y = self.acceleration.y * f;
 		}
 	}
 
-	public class AlertedState extends KnightState {
-		public static final float DELAY = 1f;
+	private Vector2 lastAcceleration = new Vector2();
 
-		@Override
-		public void update(float dt) {
-			if (this.t >= DELAY) {
-				self.become("chase");
-			}
-
-			super.update(dt);
-		}
+	@Override
+	public float getWeaponAngle() {
+		return (float) (Math.atan2(lastAcceleration.y, lastAcceleration.x) + Math.PI / 2 * (this.flipped ? 1 : -1));
 	}
 
 	@Override
@@ -217,7 +311,7 @@ public class Knight extends Mob {
 	public float minAttack = 130f;
 
 	public class ChaseState extends KnightState {
-		public static final float ATTACK_DISTANCE = 20f;
+		public static final float ATTACK_DISTANCE = 16f;
 		public static final float DASH_DIST = 48f;
 		public float delay;
 		private float att;
@@ -246,7 +340,7 @@ public class Knight extends Mob {
 				self.become("idle");
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 8f, this.att)) {
+				if (this.moveTo(self.lastSeen, 18f, this.att)) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= this.att) {
 
@@ -258,7 +352,11 @@ public class Knight extends Mob {
 						self.hideSignT = 2f;
 						self.become("idle");
 					}
-				} else {
+				}
+
+				self.lastAcceleration.x = self.acceleration.x;
+				self.lastAcceleration.y = self.acceleration.y;
+				/* else {
 					if (self.target != null && Random.chance(1)) {
 						float d = self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 							(int) (self.target.y + self.target.h / 2));
@@ -268,7 +366,7 @@ public class Knight extends Mob {
 							return;
 						}
 					}
-				}
+				}*/
 			}
 
 			super.update(dt);
@@ -280,14 +378,6 @@ public class Knight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 			self.sword.use();
-
-			float r = Random.newFloat();
-
-			if (r < 0.1f) {
-				self.become("dash");
-			} else if (r < 0.55f) {
-				self.become("preattack");
-			}
 		}
 
 		@Override

@@ -103,7 +103,6 @@ public class Sword extends SlashSword {
 	protected float tr = 1f;
 	protected float tg = 1f;
 	protected float tb = 1f;
-
 	protected float lastAngle;
 
 	/*public void render(float x, float y, float w, float h, boolean flipped) {

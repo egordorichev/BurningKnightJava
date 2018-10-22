@@ -49,7 +49,7 @@ import java.util.ArrayList;
 public class BurningKnight extends Boss {
 	public static BurningKnight instance;
 	public static float LIGHT_SIZE = 12f;
-	private static Animation animations = Animation.make("actor-burning-knight");
+	private static Animation animations = Animation.make("actor-burning-knight-new");
 	private Room last;
 	private AnimationData idle;
 	private AnimationData hurt;
@@ -322,13 +322,8 @@ public class BurningKnight extends Boss {
 				this.become("defeated");
 				this.dest = false;
 
-				Tween.to(new Tween.Task(0, 1f) {
-					@Override
-					public void onEnd() {
-						Player.instance.setUnhittable(false);
-						Camera.follow(Player.instance, false);
-					}
-				});
+				Camera.follow(Player.instance, false);
+				Player.instance.setUnhittable(false);
 
 				Camera.shake(30);
 				Audio.highPriority("Reckless");
@@ -527,13 +522,14 @@ public class BurningKnight extends Boss {
 				self.become("preattack");
 			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
 				self.become("rangedAttack");
-			} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
+			}/* else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 				self.attackTp = true;
 				self.become("fadeOut");
 			} else if (!self.onScreen) {
 				self.attackTp = true;
 				self.become("fadeOut");
-			}
+			}*/
+			
 			/*} else {
 				if (this.t >= 1f) {
 					self.become("rangedAttack");
@@ -865,15 +861,10 @@ public class BurningKnight extends Boss {
 	}
 
 	public static Dialog dialogs = Dialog.make("burning-knight");
-	public static DialogData onLampTake = dialogs.get("you_seem_new");
 	public static DialogData itsYouAgain = dialogs.get("its_you_again");
 	public static DialogData justDie = dialogs.get("just_die");
 	public static DialogData noPoint = dialogs.get("it_is_pointless");
 	public DialogData dialog;
-	private float volume;
-
-	private Sound voice;
-	private long vid;
 
 	public class DialogState extends BKState {
 		@Override

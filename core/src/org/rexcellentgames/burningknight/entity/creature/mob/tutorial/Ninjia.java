@@ -31,7 +31,7 @@ public class Ninjia extends Mob {
 	}
 
 	{
-		hpMax = 16;
+		hpMax = 12;
 
 		idle = getAnimation().get("idle");
 		run = getAnimation().get("run");

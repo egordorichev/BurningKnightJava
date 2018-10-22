@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
@@ -16,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
@@ -39,7 +41,6 @@ public class Gun extends WeaponBase {
 	protected boolean s;
 	protected Point origin = new Point(3, 1);
 	protected Point hole = new Point(13, 6);
-	protected int charge = 100;
 	protected int ammoMax = 20;
 	protected int ammoLeft = 20;
 	protected float chargeProgress;
@@ -59,7 +60,6 @@ public class Gun extends WeaponBase {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.charge = reader.readInt32();
 		this.ammoLeft = reader.readInt32();
 
 		setStats();
@@ -69,7 +69,6 @@ public class Gun extends WeaponBase {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 
-		writer.writeInt32(this.charge);
 		writer.writeInt32(this.ammoLeft);
 	}
 
@@ -107,12 +106,29 @@ public class Gun extends WeaponBase {
 	}
 
 	private boolean pressed;
+	private boolean shown;
+
+	public boolean isReloading() {
+		return pressed;
+	}
 
 	@Override
 	public void updateInHands(float dt) {
 		super.updateInHands(dt);
+
+		if (ammoLeft == 0 && this.chargeProgress == 0 && (this.owner instanceof Mob)) {
+			pressed = true;
+		}
+
+		if (ammoLeft == 0 && Dungeon.depth == -3 && !shown) {
+			shown = true;
+			Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("reload"));
+		}
+
+
 		if (ammoLeft < ammoMax && (pressed || Input.instance.wasPressed("interact"))) {
 			if (!pressed) {
+				Ui.ui.hideControlsFast();
 				this.owner.playSfx("reload_1");
 			}
 
@@ -127,10 +143,8 @@ public class Gun extends WeaponBase {
 			if (this.chargeProgress >= 1f) {
 				pressed = false;
 				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
-				this.charge -= this.ammoMax;
 				this.onAmmoAdded();
-
-				// todo: what if no left?
+				chargeProgress = 0;
 			}
 		}
 	}
@@ -304,7 +318,15 @@ public class Gun extends WeaponBase {
 
 	@Override
 	public void use() {
-		if (this.ammoLeft <= 0 && !(this.owner instanceof Mob) || this.chargeProgress != 0) {
+		if (this.delay > 0) {
+			return;
+		}
+
+		if (this.ammoLeft <= 0 || this.chargeProgress != 0) {
+			if (this.chargeProgress == 0 && (this.owner instanceof Mob)) {
+				pressed = true;
+			}
+
 			return;
 		}
 

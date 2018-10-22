@@ -37,8 +37,8 @@ public class PathFinder {
 		maxVal = new int[size];
 		Arrays.fill(maxVal, Integer.MAX_VALUE);
 
-		dir = new int[]{-1, +1, -width, +width, -width - 1, -width + 1, +width - 1, +width + 1};
-		dirLR = new int[]{-1 - width, -1, -1 + width, -width, +width, +1 - width, +1, +1 + width};
+		dir = new int[]{-1, +1, -width, +width};
+		dirLR = new int[]{-1, -width, +width, +1};
 
 		NEIGHBOURS4 = new int[]{-width, -1, +1, +width};
 		NEIGHBOURS8 = new int[]{-width - 1, -width, -width + 1, -1, +1, +width - 1, +width, +width + 1};

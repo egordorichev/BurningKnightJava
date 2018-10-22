@@ -766,9 +766,7 @@ public class Player extends Creature {
 
 		light = World.newLight(256, new Color(1, 1, 1, 1f), 120, x, y);
 
-
-
-		if (Dungeon.depth == -3 && Level.GENERATED) {
+		if (Dungeon.depth == -3) {
 			this.inventory.clear();
 
 			this.hpMax = 10;
@@ -782,6 +780,7 @@ public class Player extends Creature {
 	public boolean leaveSmall;
 
 	private void doTp(boolean fromInit) {
+		// CRASH
 		if (this.teleport) {
 			this.tp(this.lastGround.x, this.lastGround.y);
 			return;
@@ -835,6 +834,13 @@ public class Player extends Creature {
 	public float tt;
 
 	@Override
+	protected void common() {
+		super.common();
+		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
+
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 
@@ -870,8 +876,6 @@ public class Player extends Creature {
 				}
 			}
 		}
-
-		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (this.hasBuff(BurningBuff.class)) {
 			this.light.setColor(1, 0.5f, 0f, 1f);
@@ -963,7 +967,7 @@ public class Player extends Creature {
 			this.lastMana += (dark ? 1 : 3) * dt * 1.5f * (this.velocity.len2() > 9.9f ?
 				(this.flipRegenFormula ? 1f : 0.5f) :
 				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
-					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 2 : 1
+					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 4 : 1
 				) * (this.type == Type.WIZARD ? 1 : 0.5f);
 
 			if (this.lastMana > 1f) {
@@ -1060,13 +1064,23 @@ public class Player extends Creature {
 					this.rolling = true;
 					this.mul = 1;
 					this.zvel = 20;
+
+					float f = 4;
+
+					if (this.acceleration.len() > 1f) {
+						double a = (Math.atan2(this.velocity.y, this.velocity.x));
+
+						this.acceleration.x = (float) Math.cos(a) * this.speed * f;
+						this.acceleration.y = (float) Math.sin(a) * this.speed * f;
+					} else {
+						double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+
+						this.acceleration.x = (float) Math.cos(a) * this.speed * f;
+						this.acceleration.y = (float) Math.sin(a) * this.speed * f;
+					}
+
 					this.velocity.x = 0;
 					this.velocity.y = 0;
-
-					double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
-
-					this.acceleration.x = (float) Math.cos(a) * this.speed * 3;
-					this.acceleration.y = (float) Math.sin(a) * this.speed * 3;
 				}
 			}
 		} else if (Dialog.active != null) {
@@ -1280,12 +1294,14 @@ public class Player extends Creature {
 			}
 		}
 
-		if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
-			this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
-		}
+		if (room != null) {
+			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
+				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
+			}
 
-		if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
-			this.modifyMana(this.getManaMax());
+			if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
+				this.modifyMana(this.getManaMax());
+			}
 		}
 	}
 

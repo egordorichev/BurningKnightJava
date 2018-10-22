@@ -53,7 +53,7 @@ public abstract class Level extends SaveableEntity {
 	public static boolean SHADOWS = true;
 
 	public static Color[] colors = {
-		Color.valueOf("#1a1932"),
+		Color.valueOf("#272727"),
 		Color.valueOf("#391f21"),
 		Color.valueOf("#5d2c28"),
 		Color.valueOf("#1a1932"),
@@ -1705,7 +1705,7 @@ public abstract class Level extends SaveableEntity {
 
 		Graphics.batch.end();
 
-		boolean light = Dungeon.depth != -1 && Dungeon.depth != -3;
+		boolean light = Dungeon.depth > -1;
 
 		if (light) {
 			Graphics.surface.end();
@@ -1720,6 +1720,13 @@ public abstract class Level extends SaveableEntity {
 			World.lights.render();
 
 			Graphics.batch.end();
+
+			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
+			float x = -Camera.game.position.x + Display.GAME_WIDTH / 2;
+			float y = -Camera.game.position.y + Display.GAME_HEIGHT / 2 - 8;
+
+			Gdx.gl.glScissor((int) x, (int) y,getWidth() * 16, getHeight() * 16);
+
 			Graphics.surface.begin();
 			Graphics.batch.setShader(lightShader);
 			Graphics.batch.begin();
@@ -1727,7 +1734,11 @@ public abstract class Level extends SaveableEntity {
 			Texture texture = World.lights.getLightMapTexture();
 			Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
 
+			Graphics.batch.flush();
 			Graphics.batch.end();
+
+			Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
 		}

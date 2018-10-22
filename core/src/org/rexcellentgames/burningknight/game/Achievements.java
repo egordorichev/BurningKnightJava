@@ -15,8 +15,6 @@ import java.util.ArrayList;
 
 public class Achievements {
 	// Regular achievements
-	public static final String TEST = "TEST_ACHIEVEMENT";
-
 	public static final String REACH_DESERT = "REACH_DESERT_ACHIEVEMENT";
 	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
 	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
@@ -86,7 +84,16 @@ public class Achievements {
 			GlobalSave.put(id, true);
 			onUnlock(id);
 
-			SaveManager.save(SaveManager.Type.GLOBAL, false);
+			Thread thread = new Thread() {
+				@Override
+				public void run() {
+					super.run();
+					SaveManager.save(SaveManager.Type.GLOBAL, false);
+				}
+			};
+
+			thread.setPriority(1);
+			thread.run();
 
 			UiAchievement achievement = new UiAchievement();
 

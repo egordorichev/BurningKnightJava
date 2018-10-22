@@ -6,7 +6,8 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
-import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 public class Trader extends Npc {
 	public static ArrayList<Trader> all = new ArrayList<>();
+	private AnimationData animation;
 
 	public boolean saved = false;
 	public String id;
@@ -24,18 +26,23 @@ public class Trader extends Npc {
 		ignoreRooms = true;
 	}
 
-	@Override
-	protected State getAi(String state) {
-		switch (state) {
-			case "hi": return new HiState();
-			case "thanks": return new ThanksState();
-		}
-
-		return super.getAi(state);
-	}
-
 	public class TraderState extends Mob.State<Trader> {
 
+	}
+
+	public class IdleState extends TraderState {
+
+	}
+
+	@Override
+	protected State getAi(String state) {
+		return new IdleState();
+
+		/*
+		switch (state) {
+			//case "hi": return new HiState();
+			//case "thanks": return new ThanksState();
+		}*/
 	}
 
 	private static String[] dialogs = {
@@ -130,6 +137,7 @@ public class Trader extends Npc {
 
 		if (this.id != null) {
 			this.saved = this.id.equals("b") || this.id.equals("f") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+			this.loadSprite();
 		}
 	}
 
@@ -154,6 +162,27 @@ public class Trader extends Npc {
 
 		if (this.id != null) {
 			this.saved = this.id.equals("b") || this.id.equals("f") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+			this.loadSprite();
+		}
+	}
+
+	private void loadSprite() {
+		if (this.id.equals("c")) {
+			this.animation = Animation.make("actor-npc-consumables-trader").get("idle");
+		} else if (this.id.equals("a")) {
+			this.animation = Animation.make("actor-npc-accessory-trader").get("idle");
+		} else if (this.id.equals("b")) {
+			this.animation = Animation.make("actor-npc-permanent-upgrades-trader").get("idle");
+		} else if (this.id.equals("d")) {
+			this.animation = Animation.make("actor-npc-weapons-trader").get("idle");
+		} else if (this.id.equals("h")) {
+			this.animation = Animation.make("actor-npc-hats-trader").get("idle");
+		}
+
+
+		if (this.animation != null) {
+			w = animation.getFrames().get(0).frame.getRegionWidth();
+			h = animation.getFrames().get(0).frame.getRegionHeight();
 		}
 	}
 
@@ -168,6 +197,10 @@ public class Trader extends Npc {
 			this.remove();
 		}
 
+		if (this.animation != null) {
+			this.animation.update(dt);
+		}
+
 		super.update(dt);
 	}
 
@@ -177,7 +210,11 @@ public class Trader extends Npc {
 			return;
 		}
 
-		Graphics.render(Item.missing, this.x, this.y);
+		if (this.animation != null) {
+			Graphics.render(this.animation.getCurrent().frame, this.x, this.y);
+		} else {
+			Graphics.render(Item.missing, this.x, this.y);
+		}
 	}
 
 	@Override

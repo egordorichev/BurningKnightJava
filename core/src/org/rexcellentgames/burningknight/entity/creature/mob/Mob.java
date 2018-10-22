@@ -118,7 +118,7 @@ public class Mob extends Creature {
 	}
 
 	public void renderSigns() {
-		/*TextureRegion region = this.hideSignT > 0 ? hideSign :
+		TextureRegion region = // this.hideSignT > 0 ? hideSign :
 			(this.noticeSignT > 0 ? noticeSign : null);
 
 		if (region != null) {
@@ -136,7 +136,7 @@ public class Mob extends Creature {
 				(float) (Math.cos(t * 4) * 30f), region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false);
 
 			Graphics.batch.setColor(1, 1, 1, 1);
-		}*/
+		}
 	}
 
 	public void generatePrefix() {
@@ -415,14 +415,6 @@ public class Mob extends Creature {
 			}
 		}
 
-		if (this.freezed) {
-			return;
-		}
-
-		if (this.room != null && !this.ignoreRooms) {
-			this.room.numEnemies += 1;
-		}
-
 		if (this.drop) {
 			if (Dungeon.depth != -3) {
 				if (this.prefix != null) {
@@ -445,6 +437,15 @@ public class Mob extends Creature {
 				}
 			}
 		}
+
+		if (this.freezed) {
+			return;
+		}
+
+		if (this.room != null && !this.ignoreRooms) {
+			this.room.numEnemies += 1;
+		}
+
 
 		if (this.dead || this.dd) {
 			return;
@@ -479,7 +480,6 @@ public class Mob extends Creature {
 
 						this.velocity.x -= Math.cos(a) * f;
 						this.velocity.y -= Math.sin(a) * f;
-
 					}
 				}
 			}
@@ -604,6 +604,13 @@ public class Mob extends Creature {
 				BloodFx.add(this, 5);
 			}
 		}
+
+		if (this.room != null) {
+			this.room.numEnemies -= 1;
+		}
+
+		all.remove(this);
+		every.remove(this);
 	}
 
 	private boolean dd;
@@ -757,14 +764,14 @@ public class Mob extends Creature {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = self.isLow() ? 100000000f : Random.newFloat(3f, 5f);
+			delay = self.isLow() ? 100000000f : Random.newFloat(3f, 6f);
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 			this.checkForPlayer();
-			this.moveFrom(self.lastSeen, 20f, 5f);
+			this.moveFrom(self.lastSeen, 25f, 5f);
 
 			if (this.t >= delay) {
 				self.become("idle");
@@ -773,9 +780,9 @@ public class Mob extends Creature {
 	}
 
 	protected State getAiWithLow(String state) {
-		if (this.isLow()) {
+		/*if (this.isLow()) {
 			return new GetOutState();
-		}
+		}*/
 
 		return getAi(state);
 	}
@@ -833,14 +840,6 @@ public class Mob extends Creature {
 
 		if (this.ai != null && !(this instanceof Boss)) {
 			this.ai.checkForPlayer(true);
-		}
-
-		if (this.hp <= 0) {
-			if (this.room != null) {
-				this.room.numEnemies -= 1;
-				all.remove(this);
-				every.remove(this);
-			}
 		}
 	}
 

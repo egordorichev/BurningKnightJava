@@ -110,16 +110,15 @@ public class BulletProjectile extends Projectile {
 
 			if (this.letter.equals("bullet-bone")) {
 				this.depth = 16;
-			}
-
-			if (this.letter.equals("bullet-bad")) {
+			} else if (this.letter.equals("bullet-bad")) {
 				this.noRotation = true;
 				this.second = false;
-			}
-
-			if (this.letter.equals("bullet-snow")) {
+			} else if (this.letter.equals("bullet-snow")) {
 				this.rotates = true;
 				this.second = false;
+			} else if (this.letter.equals("bullet-/givkotlin")) {
+				this.second = false;
+				lightUp = false;
 			}
 		}
 

@@ -30,20 +30,6 @@ public class Potion extends Consumable {
 	}
 
 	@Override
-	public boolean isIdentified() {
-		if (super.isIdentified()) {
-			return true;
-		}
-
-		if (ChangableRegistry.identified.get(this.type)) {
-			this.identified = true;
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
 		if (this.added != 0) {
 			float angle = (flipped ? this.added : -this.added);
@@ -79,18 +65,6 @@ public class Potion extends Consumable {
 				added = 0;
 			}
 		});
-	}
-
-	@Override
-	public String getName() {
-		if (this.isIdentified()) {
-			return super.getName();
-		} else {
-			String name = this.type.toString().toLowerCase();
-			name = name.substring(0, 1).toUpperCase() + name.substring(1);
-
-			return name + " Potion";
-		}
 	}
 
 	@Override

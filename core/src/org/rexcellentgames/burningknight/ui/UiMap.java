@@ -146,9 +146,9 @@ public class UiMap extends UiEntity {
 		instance = this;
 		setSize();
 
-		if (GlobalSave.isTrue("hide_minimap", false)) {
+		/*if (GlobalSave.isTrue("hide_minimap", false)) {
 			this.my = 96;
-		}
+		}*/
 
 		final UiMap self = this;
 
@@ -161,7 +161,7 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void render() {
-				if (!large && Dungeon.depth >= 0) {
+				if (!large && Dungeon.depth >= 0 && !Ui.hideUi) {
 					this.y = self.y + my - 3;
 					super.render();
 				}
@@ -195,7 +195,7 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void render() {
-				if (!large && !Player.instance.isDead() && Dungeon.depth >= 0) {
+				if (!large && !Player.instance.isDead() && Dungeon.depth >= 0 && !Ui.hideUi) {
 					float dx = Input.instance.uiMouse.x - this.x - 4;
 					float dy = Input.instance.uiMouse.y - this.y - 4;
 					float d = (float) Math.sqrt(dx * dx + dy * dy);
@@ -232,7 +232,7 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void render() {
-				if (!large && Dungeon.depth >= 0) {
+				if (!large && Dungeon.depth >= 0 && !Ui.hideUi) {
 					this.y = self.y + my - 3;
 					super.render();
 				}
@@ -258,7 +258,7 @@ public class UiMap extends UiEntity {
 
 			@Override
 			public void render() {
-				if (!large && Dungeon.depth >= 0) {
+				if (!large && Dungeon.depth >= 0 && !Ui.hideUi) {
 					this.y = self.y + my - 3;
 					super.render();
 				}
@@ -283,7 +283,7 @@ public class UiMap extends UiEntity {
 			}
 
 			public void render() {
-				if (large && Dungeon.depth >= 0) {
+				if (large && Dungeon.depth >= 0 && !Ui.hideUi) {
 					y = self.y + ly - 2;
 					super.render();
 				}
@@ -308,7 +308,7 @@ public class UiMap extends UiEntity {
 			}
 
 			public void render() {
-				if (large && Dungeon.depth >= 0) {
+				if (large && Dungeon.depth >= 0 && !Ui.hideUi) {
 					super.render();
 					y = self.y + ly - 2;
 				}
