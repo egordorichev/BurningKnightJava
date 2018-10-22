@@ -346,6 +346,10 @@ public class Clown extends Mob {
 			}
 
 			if (d < 16 || this.moveTo(self.target, d < 48f ? 20f : 10f, 16)) {
+				if (d > 16) {
+					this.step = 0;
+				}
+
 				if (this.t > 1f) {
 					this.t = 0;
 					this.doAttack();

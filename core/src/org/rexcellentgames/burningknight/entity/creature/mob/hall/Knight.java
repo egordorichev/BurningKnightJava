@@ -61,6 +61,7 @@ public class Knight extends Mob {
 	public boolean rollBlock() {
 		if (!this.state.equals("preattack") && !this.state.equals("attack")) {
 			this.become("chase");
+			return false;
 		}
 
 		return super.rollBlock();

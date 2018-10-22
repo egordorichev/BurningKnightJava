@@ -168,10 +168,17 @@ public class Trader extends Npc {
 
 	private void loadSprite() {
 		if (this.id.equals("c")) {
-			this.animation = Animation.make("actor-consumables-trader").get("idle");
+			this.animation = Animation.make("actor-npc-consumables-trader").get("idle");
 		} else if (this.id.equals("a")) {
-			this.animation = Animation.make("actor-accessory-trader").get("idle");
+			this.animation = Animation.make("actor-npc-accessory-trader").get("idle");
+		} else if (this.id.equals("b")) {
+			this.animation = Animation.make("actor-npc-permanent-upgrades-trader").get("idle");
+		} else if (this.id.equals("d")) {
+			this.animation = Animation.make("actor-npc-weapons-trader").get("idle");
+		} else if (this.id.equals("h")) {
+			this.animation = Animation.make("actor-npc-hats-trader").get("idle");
 		}
+
 
 		if (this.animation != null) {
 			w = animation.getFrames().get(0).frame.getRegionWidth();

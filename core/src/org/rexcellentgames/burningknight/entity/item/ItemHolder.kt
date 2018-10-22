@@ -54,6 +54,7 @@ open class ItemHolder : SaveableEntity {
 
       if (this.item is Gold) {
         Gold.all.add(this)
+        this.alwaysActive = true
       }
 
       // This might be bad!
@@ -136,6 +137,10 @@ open class ItemHolder : SaveableEntity {
   }
 
   override fun update(dt: Float) {
+    if (this.item == null) {
+      return
+    }
+
     if (this.item!!.shop && !added) {
       added = true
       
@@ -254,6 +259,10 @@ open class ItemHolder : SaveableEntity {
   }
 
   override fun render() {
+    if (this.item == null) {
+      return
+    }
+
     val sprite = this.item!!.getSprite()
 
     val a = Math.cos((this.t * 3f).toDouble()).toFloat() * 8f * sz
@@ -328,26 +337,32 @@ open class ItemHolder : SaveableEntity {
   override fun save(writer: FileWriter) {
     super.save(writer)
 
-    writer.writeString(this.item!!.javaClass.name)
-    this.item!!.save(writer)
+    writer.writeBoolean(this.item != null);
+
+    if (this.item != null) {
+      writer.writeString(this.item!!.javaClass.name)
+      this.item!!.save(writer)
+    }
   }
 
   @Throws(IOException::class)
   override fun load(reader: FileReader) {
     super.load(reader)
 
-    val type = reader.readString()
+    if (reader.readBoolean()) {
+      val type = reader.readString()
 
-    try {
-      val clazz = Class.forName(type)
-      val constructor = clazz.getConstructor()
-      val `object` = constructor.newInstance()
-      val item = `object` as Item
+      try {
+        val clazz = Class.forName(type)
+        val constructor = clazz.getConstructor()
+        val `object` = constructor.newInstance()
+        val item = `object` as Item
 
-      item.load(reader)
-      this.item = item
-    } catch (e: Exception) {
-      Dungeon.reportException(e)
+        item.load(reader)
+        this.item = item
+      } catch (e: Exception) {
+        Dungeon.reportException(e)
+      }
     }
 
     this.body!!.setTransform(this.x, this.y, 0f)

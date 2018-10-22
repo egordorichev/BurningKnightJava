@@ -59,10 +59,12 @@ public class BombEntity extends Entity {
 	private boolean ice;
 	public boolean small;
 	private boolean fliped;
+	private float mod;
 
 	@Override
 	public void init() {
 		super.init();
+		mod = Random.newFloat(0.95f, 1.05f);
 
 		for (Buff buff : this.toApply) {
 			if (buff instanceof BurningBuff) {
@@ -153,7 +155,7 @@ public class BombEntity extends Entity {
 		this.vel.mul(0.9f);
 		this.body.setLinearVelocity(this.vel);
 
-		if (this.animation.update(dt)) {
+		if (this.animation.update(dt * this.mod)) {
 			if (this.bullets) {
 				for (int i = 0; i < 8; i++) {
 					BulletProjectile bullet = new BulletProjectile();

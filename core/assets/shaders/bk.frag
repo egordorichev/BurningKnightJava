@@ -24,7 +24,7 @@ void main() {
 
     vec4 color = texture2D(u_texture, ps);
 
-    color.a = min(color.a, a);
+    // color.a = min(color.a, a);
 
     float xx = (ps.x - pos.x) * cof.x;
     float yy = (ps.y - pos.y) * cof.y;
@@ -36,16 +36,14 @@ void main() {
     float sum = max(0.0, 1.41 - d * 2.0 + cos(time * 1.4));
 
     color.r = min(1.0, sum + color.r);
-    color.g = min(1.0, sum + color.g);
-    color.b = min(1.0, sum + color.b);
+    color.g = min(1.0, sum + color.g * 0.5);
+    color.b = min(1.0, sum + color.b * 0.5);
 
-    color = vec4(1.0, (abs(cos(time * 2.0) / 2.5)) + color.g, color.b * 0.5, color.a);
-
-    if (white > 0.5) {
+    /*if (white > 0.5) {
         color.r += 0.7;
         color.g += 0.4;
         color.b += 0.4;
-    }
+    }*/
 
     gl_FragColor = color;
 }

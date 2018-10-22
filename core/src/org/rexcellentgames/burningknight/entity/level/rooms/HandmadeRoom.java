@@ -250,6 +250,13 @@ public class HandmadeRoom extends RegularRoom {
 				}
 
 				Dungeon.area.add(trader.add());
+			} else if (name.equals("hat")) {
+				HatSelector trader = new HatSelector();
+
+				trader.x = x + rect.x + 16;
+				trader.y = y + rect.y + 16 - 8;
+
+				Dungeon.area.add(trader.add());
 			} else if (name.equals("start")) {
 				Spawn spawn = new Spawn();
 
@@ -449,8 +456,8 @@ public class HandmadeRoom extends RegularRoom {
 						dr = true;
 						Entrance entrance = new Entrance();
 
-						entrance.x = (x + this.left + 1) * 16;
-						entrance.y = (y + this.top + 1) * 16 - 6;
+						entrance.x = (x + this.left + 1) * 16 + 1;
+						entrance.y = (y + this.top + 1) * 16 - 4;
 
 						Dungeon.area.add(entrance.add());
 					break;

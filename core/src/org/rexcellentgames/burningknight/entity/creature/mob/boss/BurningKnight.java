@@ -49,7 +49,7 @@ import java.util.ArrayList;
 public class BurningKnight extends Boss {
 	public static BurningKnight instance;
 	public static float LIGHT_SIZE = 12f;
-	private static Animation animations = Animation.make("actor-burning-knight");
+	private static Animation animations = Animation.make("actor-burning-knight-new");
 	private Room last;
 	private AnimationData idle;
 	private AnimationData hurt;

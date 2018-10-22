@@ -1,0 +1,69 @@
+{ "frames": {
+   "actor_npc_hats_trader 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 13, "h": 20 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 12, "w": 13, "h": 20 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_npc_hats_trader 1.ase": {
+    "frame": { "x": 13, "y": 0, "w": 13, "h": 19 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 13, "w": 13, "h": 19 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_npc_hats_trader 2.ase": {
+    "frame": { "x": 26, "y": 0, "w": 13, "h": 19 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 13, "w": 13, "h": 19 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_npc_hats_trader 3.ase": {
+    "frame": { "x": 39, "y": 0, "w": 13, "h": 19 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 13, "w": 13, "h": 19 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_npc_hats_trader 4.ase": {
+    "frame": { "x": 52, "y": 0, "w": 13, "h": 20 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 12, "w": 13, "h": 20 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_npc_hats_trader 5.ase": {
+    "frame": { "x": 65, "y": 0, "w": 13, "h": 20 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 12, "w": 13, "h": 20 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_npc_hats_trader 6.ase": {
+    "frame": { "x": 78, "y": 0, "w": 13, "h": 20 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 12, "w": 13, "h": 20 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "I8",
+  "size": { "w": 91, "h": 20 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 6, "direction": "forward" }
+  ]
+ }
+}

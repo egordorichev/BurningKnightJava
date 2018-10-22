@@ -48,6 +48,11 @@ public class RangedKnight extends Knight {
 
 	}
 
+	@Override
+	public boolean rollBlock() {
+		return false;
+	}
+
 	public class ChaseState extends KnightState {
 		@Override
 		public void update(float dt) {
@@ -100,6 +105,14 @@ public class RangedKnight extends Knight {
 
 	public class RunAwayState extends KnightState {
 		private float last;
+		private Point lsat = new Point();
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			lsat.x = self.target.x;
+			lsat.y = self.target.y;
+		}
 
 		@Override
 		public void update(float dt) {
@@ -114,9 +127,9 @@ public class RangedKnight extends Knight {
 
 			this.checkForPlayer();
 
-			this.moveFrom(self.lastSeen, 25f, 5f);
+			this.moveFrom(lsat, 25f, 10f);
 
-			float d = self.getDistanceTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2);
+			float d = self.getDistanceTo(lsat.x, lsat.y);
 
 			if (d >= self.minAttack) {
 				self.become("preattack");
