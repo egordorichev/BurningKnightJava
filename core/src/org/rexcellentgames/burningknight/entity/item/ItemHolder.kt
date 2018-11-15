@@ -130,7 +130,7 @@ open class ItemHolder : SaveableEntity {
 
   override fun shouldCollide(entity: Any?, contact: Contact?, fixture: Fixture?): Boolean {
     if (entity == null && item is Gold && !InGameState.dark) {
-      return false;
+      return false
     }
 
     return super.shouldCollide(entity, contact, fixture)

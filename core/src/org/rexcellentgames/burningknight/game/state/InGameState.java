@@ -493,7 +493,7 @@ public class InGameState extends State {
 			lastHp = Player.instance.getHp();
 		}
 
-		dark = true; // saPlayer.instance.isDead();
+		dark = Player.instance.isDead();
 
 		if (!dark) {
 			dark = Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage;
@@ -509,7 +509,8 @@ public class InGameState extends State {
 			}
 		}
 
-		Dungeon.battleDarkness += ((dark ? 0 : 1) - Dungeon.battleDarkness) * dt * 2;
+		// Dungeon.battleDarkness += ((dark ? 0 : 1) - Dungeon.battleDarkness) * dt * 2;
+		Dungeon.battleDarkness = 0;
 
 		boolean none = volume <= 0.05f;
 		volume += ((burning ? 1 : 0) - volume) * dt;
