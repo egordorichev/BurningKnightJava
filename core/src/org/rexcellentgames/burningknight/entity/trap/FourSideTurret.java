@@ -99,7 +99,7 @@ public class FourSideTurret extends Turret {
 			bullet.damage = 2;
 			bullet.w = 12;
 			bullet.h = 12;
-			bullet.letter = "nano";
+			bullet.letter = "bullet-nano";
 			bullet.bad = true;
 
 			this.modify(bullet);

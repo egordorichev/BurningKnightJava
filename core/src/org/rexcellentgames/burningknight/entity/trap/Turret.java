@@ -254,6 +254,7 @@ public class Turret extends SolidProp {
 
 		BulletProjectile bullet = new BulletProjectile();
 		bullet.sprite = Graphics.getTexture("bullet-nano");
+		bullet.letter = "bullet-nano";
 		// bullet.anim = getAnimation().get("projectile");
 
 		float x = (float) (this.x + 8 + Math.cos(this.a) * 8);
@@ -272,7 +273,6 @@ public class Turret extends SolidProp {
 			bullet.damage = 2;
 			bullet.w = 12;
 			bullet.h = 12;
-			bullet.letter = "nano";
 			bullet.bad = true;
 
 			this.modify(bullet);

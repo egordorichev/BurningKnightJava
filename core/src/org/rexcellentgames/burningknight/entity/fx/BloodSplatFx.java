@@ -52,7 +52,7 @@ public class BloodSplatFx extends Entity {
 
 		poly = new PolygonSprite(new PolygonRegion(new TextureRegion(textureSolid), shape, triangulator.computeTriangles(shape).toArray()));
 		poly.setPosition(x + 8, y + 8);
-		poly.setColor(1, 0.1f, 0.1f, 1f);
+		poly.setColor(1, 0.2f, 0.2f, 1f);
 	}
 
 	@Override

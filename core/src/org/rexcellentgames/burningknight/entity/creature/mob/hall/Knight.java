@@ -293,6 +293,9 @@ public class Knight extends Mob {
 
 				if (alerted) {
 					this.checkForPlayer();
+					self.saw = true;
+					self.noticeSignT = 2f;
+					self.playSfx("enemy_alert");
 					self.become("saw");
 				}
 			}

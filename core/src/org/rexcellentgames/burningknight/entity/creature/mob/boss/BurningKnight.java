@@ -1160,7 +1160,7 @@ public class BurningKnight extends Boss {
 					ball.y = self.y + self.h / 2;
 					ball.bad = true;
 					ball.owner = self;
-					ball.letter = "nano";
+					ball.letter = "bullet-nano";
 
 					double a = ((float) i) / c * Math.PI * 2 + tt;
 
@@ -1194,7 +1194,7 @@ public class BurningKnight extends Boss {
 						ball.y = self.y + self.h / 2;
 						ball.bad = true;
 						ball.owner = self;
-						ball.letter = "nano";
+						ball.letter = "bullet-nano";
 
 						double a = ((float) i) / c * Math.PI * 2 + tt;
 
