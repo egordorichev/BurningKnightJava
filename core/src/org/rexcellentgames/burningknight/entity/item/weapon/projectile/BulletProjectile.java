@@ -78,7 +78,7 @@ public class BulletProjectile extends Projectile {
 				rotationSpeed = 0.7f;
 				this.sprite = Graphics.getTexture(this.letter);
 			} else {
-				this.sprite = Graphics.getTexture("bullet-" + this.letter);
+				this.sprite = Graphics.getTexture("bullet-" + this.letter.replace("bullet-", ""));
 			}
 		}
 

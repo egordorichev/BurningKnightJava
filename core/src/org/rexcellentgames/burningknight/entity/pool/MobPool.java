@@ -19,7 +19,7 @@ public class MobPool extends Pool<Mob> {
 		clear();
 
 		if (Dungeon.level instanceof HallLevel) {
-			add(RangedKnight.class, 1f);
+			// add(RangedKnight.class, 1f);
 			add(Knight.class, 1f);
 
 			if (Dungeon.depth > 1) {

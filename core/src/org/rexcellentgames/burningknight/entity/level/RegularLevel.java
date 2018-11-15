@@ -320,10 +320,9 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > 0) {
 			TreasureRoom room = TreasureRoomPool.instance.generate();
-			room.weapon = true;
-
+			room.weapon = Random.chance(50);
 			rooms.add(room);
-			rooms.add(TreasureRoomPool.instance.generate());
+			// rooms.add(TreasureRoomPool.instance.generate());
 
 			if (Random.chance(75)) {
 				Log.info("Adding shop");
@@ -376,7 +375,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : Random.newInt(6, 8);
+		return Dungeon.depth <= 0 ? 0 : Random.newInt(3, 5);
 	}
 
 	protected int getNumSpecialRooms() {

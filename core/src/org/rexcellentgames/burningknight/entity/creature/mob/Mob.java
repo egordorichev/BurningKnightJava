@@ -504,6 +504,10 @@ public class Mob extends Creature {
 			this.target = null;
 			this.become("idle");
 		}
+
+		for (Player player : colliding) {
+			player.modifyHp(-1, this, false);
+		}
 	}
 
 	@Override
@@ -545,6 +549,7 @@ public class Mob extends Creature {
 			}
 
 			this.target = player;
+			player.modifyHp(-1, this, false);
 
 			this.colliding.add(player);
 		}
