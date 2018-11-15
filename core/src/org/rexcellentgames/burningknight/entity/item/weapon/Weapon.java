@@ -120,7 +120,7 @@ public class Weapon extends WeaponBase {
 				this.knockFrom(entity);
 				return;
 			} else if (entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Entrance || entity instanceof Chest) {
-				this.owner.playSfx("clink_2");
+				// this.owner.playSfx("clink_2");
 				played = true;
 				this.knockFrom(entity);
 				return;

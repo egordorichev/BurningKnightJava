@@ -493,7 +493,7 @@ public class InGameState extends State {
 			lastHp = Player.instance.getHp();
 		}
 
-		dark = Player.instance.isDead();
+		dark = true; // saPlayer.instance.isDead();
 
 		if (!dark) {
 			dark = Boss.all.size() > 0 && Player.instance.room instanceof BossRoom && !BurningKnight.instance.rage;

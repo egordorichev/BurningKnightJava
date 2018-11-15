@@ -24,7 +24,7 @@ void main() {
 
     vec4 color = texture2D(u_texture, ps);
 
-    // color.a = min(color.a, a);
+    color.a = min(color.a, a);
 
     float xx = (ps.x - pos.x) * cof.x;
     float yy = (ps.y - pos.y) * cof.y;

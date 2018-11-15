@@ -40,10 +40,10 @@
     "duration": 100
    },
    "actor_burning_knight_new 5.ase": {
-    "frame": { "x": 140, "y": 0, "w": 28, "h": 33 },
+    "frame": { "x": 140, "y": 0, "w": 28, "h": 32 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 6, "y": 5, "w": 28, "h": 33 },
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 28, "h": 32 },
     "sourceSize": { "w": 42, "h": 42 },
     "duration": 100
    },

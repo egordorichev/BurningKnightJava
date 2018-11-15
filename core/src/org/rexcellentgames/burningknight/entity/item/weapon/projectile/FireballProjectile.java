@@ -44,6 +44,10 @@ public class FireballProjectile extends Projectile {
 
 		if (this.bad) {
 			if (entity instanceof Player) {
+				if (((Player) entity).isRolling()) {
+					return false;
+				}
+
 				this.doHit(entity);
 				return true;
 			}

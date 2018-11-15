@@ -99,7 +99,7 @@ public class PathFinder {
 		return best;
 	}
 
-	public static int getStepBack(int cur, int from, boolean[] passable) {
+	public static int getStepBack(int cur, int from, boolean[] passable, int last) {
 		int d = buildEscapeDistanceMap(cur, from, 2f, passable);
 
 		for (int i = 0; i < size; i++) {
@@ -110,16 +110,14 @@ public class PathFinder {
 			return -1;
 		}
 
-		int s = cur;
-
-		int minD = distance[s];
-		int mins = s;
+		int minD = distance[cur];
+		int mins = cur;
 
 		for (int i = 0; i < dir.length; i++) {
-			int n = s + dir[i];
+			int n = cur + dir[i];
 			int thisD = distance[n];
 
-			if (goodMove(from, i, passable) && thisD < minD) {
+			if (n != last && goodMove(from, i, passable) && thisD < minD) {
 				minD = thisD;
 				mins = n;
 			}
@@ -211,6 +209,8 @@ public class PathFinder {
 		return pathFound;
 	}
 
+	public static int lastStep;
+
 	private static int buildEscapeDistanceMap(int cur, int from, float factor, boolean[] passable) {
 		System.arraycopy(maxVal, 0, distance, 0, maxVal.length);
 
@@ -244,14 +244,15 @@ public class PathFinder {
 			int start = (step % width == 0 ? 3 : 0);
 			int end = ((step + 1) % width == 0 ? 3 : 0);
 			for (int i = start; i < dirLR.length - end; i++) {
-
 				int n = step + dirLR[i];
+
 				if (n >= 0 && n < size && passable[n] && goodMoveLR(step, i, passable) && distance[n] > nextDistance) {
 					// Add to queue
 					queue[tail++] = n;
 					distance[n] = nextDistance;
-				}
 
+					lastStep = n;
+				}
 			}
 		}
 

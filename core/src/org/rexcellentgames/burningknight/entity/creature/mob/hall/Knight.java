@@ -124,6 +124,22 @@ public class Knight extends Mob {
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
+
+		/*Graphics.startShape();
+
+		if (this.ai != null && this.ai.targetPoint != null) {
+			Graphics.shape.setColor(1, 0, 0, 1);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.targetPoint.x + 8, this.ai.targetPoint.y + 8);
+		}
+
+		if (this.ai != null && this.ai.nextPathPoint != null) {
+			Graphics.shape.setColor(0, 0, 1, 1);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 8);
+		}
+
+		Graphics.endShape();*/
+
+		// Graphics.print(this.state, Graphics.small, this.x, this.y + 16);
 	}
 
 	@Override
@@ -249,6 +265,7 @@ public class Knight extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+			this.checkForPlayer();
 
 			if (self.target != null) {
 				float dx = self.target.x + self.target.w / 2 - self.x - self.w / 2;
@@ -291,6 +308,8 @@ public class Knight extends Mob {
 
 			self.lastAcceleration.x = self.acceleration.x * f;
 			self.lastAcceleration.y = self.acceleration.y * f;
+
+			this.checkForPlayer();
 		}
 	}
 

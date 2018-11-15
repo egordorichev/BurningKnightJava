@@ -160,7 +160,6 @@ public class Mob extends Creature {
 	public void renderWithOutline(AnimationData data) {
 		TextureRegion region = data.getCurrent().frame;
 		float w = region.getRegionWidth();
-		float h = region.getRegionHeight();
 
 		if (this.prefix != null) {
 			Color color = this.prefix.getColor();
@@ -342,24 +341,24 @@ public class Mob extends Creature {
 			return null;
 		}
 
+		int pos = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
-		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
-		if (!Dungeon.level.checkFor(to, Terrain.PASSABLE)) {
-			to -= Level.getWidth();
+		if (!Dungeon.level.checkFor(pos, Terrain.PASSABLE)) {
+			pos -= Level.getWidth();
 		}
 
 		if (!Dungeon.level.checkFor(from, Terrain.PASSABLE)) {
 			from -= Level.getWidth();
 		}
 
-		int step = PathFinder.getStepBack(from, to, Dungeon.level.getPassable());
+		PathFinder.getStepBack(from, pos, Dungeon.level.getPassable(), pos);
 
-		if (step != -1) {
+		if (PathFinder.lastStep != -1) {
 			Point p = new Point();
 
-			p.x = step % Level.getWidth() * 16;
-			p.y = (float) (Math.floor(step / Level.getWidth()) * 16);
+			p.x = PathFinder.lastStep % Level.getWidth() * 16;
+			p.y = (float) (Math.floor(PathFinder.lastStep / Level.getWidth()) * 16);
 
 			return p;
 		}
@@ -926,18 +925,26 @@ public class Mob extends Creature {
 		}
 
 		public boolean moveFrom(Point point, float s, float d) {
-			if (this.nextPathPoint == null) {
+			if (this.targetPoint == null) {
+				self.lastSeen = new Point(self.target.x, self.target.y);
+
 				if (self.target == null) {
 					self.target = Player.instance;
 				}
 
-				if (self.lastSeen == null) {
-					self.lastSeen = new Point(self.target.x, self.target.y);
-				}
+				this.targetPoint = self.getFar(self.lastSeen);
 
-				this.nextPathPoint = self.getFar(point);
+				if (this.targetPoint == null) {
+					self.lastSeen = new Point(self.target.x, self.target.y);
+					return false;
+				}
+			}
+
+			if (this.nextPathPoint == null) {
+				this.nextPathPoint = self.getCloser(this.targetPoint);
 
 				if (this.nextPathPoint == null) {
+					this.targetPoint = null;
 					return false;
 				}
 			}
@@ -947,6 +954,7 @@ public class Mob extends Creature {
 			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
 
 			if (ds < 4f || dd < d) {
+				// self.lastSeen = new Point(self.target.x, self.target.y);
 				this.nextPathPoint = null;
 				return dd <= d;
 			}

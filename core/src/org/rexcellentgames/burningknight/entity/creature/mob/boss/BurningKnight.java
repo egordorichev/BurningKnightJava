@@ -473,6 +473,7 @@ public class BurningKnight extends Boss {
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
 
+		Graphics.batch.setColor(1, 1, 1, 1);
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		super.renderStats();

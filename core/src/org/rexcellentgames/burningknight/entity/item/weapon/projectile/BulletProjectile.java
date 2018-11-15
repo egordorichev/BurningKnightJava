@@ -102,7 +102,7 @@ public class BulletProjectile extends Projectile {
 
 		if (this.letter != null) {
 			switch (this.letter) {
-				case "bad": case "bullet-bad": light.setColor(1, 0, 0, 1); break;
+				case "nano": case "bullet-nano": light.setColor(1, 0, 0, 1); break;
 				case "bullet-a": light.setColor(1, 1, 0, 1); break;
 				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); lightUp = false; break;
 				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
@@ -110,7 +110,7 @@ public class BulletProjectile extends Projectile {
 
 			if (this.letter.equals("bullet-bone")) {
 				this.depth = 16;
-			} else if (this.letter.equals("bullet-bad")) {
+			} else if (this.letter.equals("bullet-nano")) {
 				this.noRotation = true;
 				this.second = false;
 			} else if (this.letter.equals("bullet-snow")) {
