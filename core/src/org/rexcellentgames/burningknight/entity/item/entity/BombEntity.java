@@ -165,7 +165,7 @@ public class BombEntity extends Entity {
 
 					bullet.damage = 10;
 					bullet.bad = this.owner instanceof Mob;
-					bullet.letter = "bad";
+					bullet.letter = "nano";
 					bullet.x = (float) (this.x + Math.cos(a) * 8);
 					bullet.y = (float) (this.y + Math.sin(a) * 8);
 					bullet.velocity.x = (float) (Math.cos(a) * f);

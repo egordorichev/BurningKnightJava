@@ -88,7 +88,7 @@ public class FourSideTurret extends Turret {
 
 		for (int i = 0; i < 4; i++) {
 			BulletProjectile bullet = new BulletProjectile();
-			bullet.sprite = Graphics.getTexture("bullet-bad");
+			bullet.sprite = Graphics.getTexture("bullet-nano");
 			// bullet.anim = getAnimation().get("projectile");
 
 			float x = this.x + 8;
@@ -99,7 +99,7 @@ public class FourSideTurret extends Turret {
 			bullet.damage = 2;
 			bullet.w = 12;
 			bullet.h = 12;
-			bullet.letter = "bad";
+			bullet.letter = "nano";
 			bullet.bad = true;
 
 			this.modify(bullet);
