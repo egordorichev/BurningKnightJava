@@ -267,12 +267,6 @@ public class Gun extends WeaponBase {
 			}
 		}
 
-		y += this.owner.h;
-		x = this.owner.x + this.owner.w / 2;
-
-		y = Math.round(y);
-		x = Math.round(x);
-
 		float dt = Gdx.graphics.getDeltaTime();
 
 		if (this.chargeProgress > 0 && this.chargeProgress < 1f && this.chargeA < 1) {
@@ -292,7 +286,16 @@ public class Gun extends WeaponBase {
 			this.chargeA += -this.chargeA * dt * 5;
 		}
 
+		if (this.owner instanceof Player) {
+			this.renderReload();
+		}
+	}
+
+	public void renderReload() {
 		if (this.chargeA > 0) {
+			float x = this.owner.x + this.owner.w / 2 ;
+			float y = this.owner.y + this.owner.h;
+
 			Graphics.startAlphaShape();
 
 			Graphics.shape.setColor(0, 0, 0, chargeA);
@@ -300,7 +303,7 @@ public class Gun extends WeaponBase {
 			Graphics.shape.setColor(1, 1, 1, chargeA);
 			Graphics.shape.rect(x - 8, y, 16, 1);
 
-			xx = (back ? 16 : this.chargeProgress * 16) - 8 + x;
+			float xx = (back ? 16 : this.chargeProgress * 16) - 8 + x;
 
 			Graphics.shape.setColor(0, 0, 0, this.chargeA);
 			Graphics.shape.rect(xx - 2, y - 2, 5, 5);

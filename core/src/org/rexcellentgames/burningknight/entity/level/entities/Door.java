@@ -121,6 +121,26 @@ public class Door extends SaveableEntity {
 			lk = animation.get("close");
 		}
 
+		boolean last = this.lock;
+
+		if (this.autoLock) {
+			this.lock = Player.instance.room != null && Player.instance.room.numEnemies > 0;
+		}
+
+		if (this.lock && !last) {
+			this.playSfx("door_lock");
+
+			this.lockAnim = this.lk;
+			this.animation.setBack(true);
+			this.animation.setPaused(false);
+			this.setPas(false);
+		} else if (!this.lock && last) {
+			this.playSfx("door_unlock");
+
+			this.lockAnim = this.unlock;
+			this.setPas(true);
+		}
+
 		this.al += ((this.collidingWithPlayer ? 1 : 0) - this.al) * dt * 10;
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
@@ -363,6 +383,7 @@ public class Door extends SaveableEntity {
 	}
 
 	private float clearT;
+	private int lastNum;
 
 	@Override
 	public void render() {
@@ -371,24 +392,8 @@ public class Door extends SaveableEntity {
 			this.setPas(false);
 		}
 
-		boolean last = this.lock;
-
-		if (this.autoLock) {
-			this.lock = Player.instance.room != null && Player.instance.room.numEnemies > 0;
-		}
-
-		if (this.lock && !last) {
-			this.playSfx("door_lock");
-
-			this.lockAnim = this.lk;
-			this.animation.setBack(true);
-			this.animation.setPaused(false);
-			this.setPas(false);
-		} else if (!this.lock && last) {
-			this.playSfx("door_unlock");
-
-			this.lockAnim = this.unlock;
-			this.setPas(true);
+		if (!Dungeon.game.getState().isPaused() && Player.instance.room != null) {
+			this.lastNum = Player.instance.room.numEnemies;
 		}
 
 		this.animation.render(this.x, this.y, false);

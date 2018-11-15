@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -42,6 +43,7 @@ public class Knight extends Mob {
 		hurt = getAnimation().get("hurt").randomize();
 		killed = getAnimation().get("death").randomize();
 		animation = this.idle;
+		ignoreNotice = true;
 	}
 
 	@Override
@@ -185,6 +187,15 @@ public class Knight extends Mob {
 			if (this.t >= 1f) {
 				self.become("chase");
 			}
+		}
+	}
+
+	@Override
+	public void renderSigns() {
+		super.renderSigns();
+
+		if (this.sword instanceof Gun) {
+			((Gun) this.sword).renderReload();
 		}
 	}
 

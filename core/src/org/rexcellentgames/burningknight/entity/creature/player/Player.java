@@ -1258,9 +1258,12 @@ public class Player extends Creature {
 			for (int i = Mob.all.size() - 1; i >= 0; i--) {
 				Mob mob = Mob.all.get(i);
 
-				if (mob.getRoom() == this.room) {
+				if (mob.getRoom() == this.room && !mob.ignoreNotice) {
 					hadEnemies = true;
 					mob.target = this;
+					mob.saw = true;
+					mob.noticeSignT = 2f;
+					mob.playSfx("enemy_alert");
 					mob.become("alerted");
 				}
 			}

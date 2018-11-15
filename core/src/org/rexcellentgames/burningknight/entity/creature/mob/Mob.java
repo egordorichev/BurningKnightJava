@@ -825,20 +825,14 @@ public class Mob extends Creature {
 			return;
 		}*/
 
-		if (this.isLow() && !(this.ai instanceof GetOutState)) {
-			State state = this.getAiWithLow(this.state);
-
-			if (state instanceof GetOutState) {
-				this.ai.onExit();
-				this.ai = state;
-				state.self = this;
-				state.onEnter();
-			}
+		if (!this.saw) {
+			this.saw = true;
+			this.playSfx("enemy_alert");
+			this.noticeSignT = 2f;
 		}
 
-
-		if (this.ai != null && !(this instanceof Boss)) {
-			this.ai.checkForPlayer(true);
+		if (from instanceof Player) {
+			this.target = from;
 		}
 	}
 
@@ -860,6 +854,7 @@ public class Mob extends Creature {
 
 	public Room lastRoom;
 	public boolean toWater;
+	public boolean ignoreNotice = false;
 
 	@Override
 	public Item getAmmo(String type) {
@@ -930,6 +925,12 @@ public class Mob extends Creature {
 
 				if (self.target == null) {
 					self.target = Player.instance;
+
+					if (!self.saw) {
+						self.saw = true;
+						self.noticeSignT = 2f;
+						self.playSfx("enemy_alert");
+					}
 				}
 
 				this.targetPoint = self.getFar(self.lastSeen);
@@ -951,7 +952,7 @@ public class Mob extends Creature {
 
 			// tile offset
 			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y , s);
-			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
+			float dd = self.getDistanceTo(this.targetPoint.x + 8, this.targetPoint.y + 8);
 
 			if (ds < 4f || dd < d) {
 				// self.lastSeen = new Point(self.target.x, self.target.y);
@@ -974,6 +975,8 @@ public class Mob extends Creature {
 					self.target = null;
 					self.saw = false;
 				}
+
+				return;
 			}
 
 			if (this.target == null && force) {
@@ -984,11 +987,7 @@ public class Mob extends Creature {
 				if (!self.saw && Player.instance.room == self.room) { //  && self.canSee(self.target)
 					self.saw = true;
 					self.playSfx("enemy_alert");
-
-					if (self.noticeSignT <= 0) {
-						self.hideSignT = 0f;
-						self.noticeSignT = 2f;
-					}
+					self.noticeSignT = 2f;
 
 					if (!self.state.equals("chase") && !self.state.equals("runaway")) {
 						self.become("alerted");

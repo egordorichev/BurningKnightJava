@@ -13,6 +13,7 @@ public class RangedKnight extends Knight {
 	}
 
 	{
+		ignoreNotice = false;
 		hpMax = 8;
 	}
 
@@ -116,7 +117,7 @@ public class RangedKnight extends Knight {
 				self.lastSeen = new Point(self.target.x, self.target.y);
 			}
 
-			this.moveFrom(self.lastSeen, 25f, 6f);
+			this.moveFrom(self.lastSeen, 20f, 6f);
 			float d = self.getDistanceTo(self.target.x, self.target.y);
 
 			if (d >= self.minAttack) {
