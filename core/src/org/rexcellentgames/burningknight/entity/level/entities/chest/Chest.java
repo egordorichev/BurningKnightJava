@@ -145,7 +145,7 @@ public class Chest extends SaveableEntity {
 			}
 		}
 
-			if (!this.open && entity instanceof Player) {
+		if (entity instanceof Player) {
 			if (this.locked) {
 				this.colliding = true;
 
@@ -165,7 +165,9 @@ public class Chest extends SaveableEntity {
 					}
 				});
 			}
-		} else if (!this.open && (entity instanceof Projectile || entity instanceof Weapon)) {
+		}
+
+		if ((entity instanceof Projectile || entity instanceof Weapon)) {
 			if (Dungeon.depth == -3) {
 				return;
 			}
@@ -174,6 +176,8 @@ public class Chest extends SaveableEntity {
 				if (!(((Projectile) entity).owner instanceof Player)) {
 					return;
 				}
+
+				((Projectile) entity).remove();
 			} else if (entity instanceof Weapon) {
 				if (!(((Weapon) entity).getOwner() instanceof Player)) {
 					return;

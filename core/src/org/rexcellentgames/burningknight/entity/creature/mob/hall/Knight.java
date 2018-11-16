@@ -575,4 +575,6 @@ public class Knight extends Mob {
 			}
 		}
 	}
+
+	// fixme: better knight dash indicator
 }

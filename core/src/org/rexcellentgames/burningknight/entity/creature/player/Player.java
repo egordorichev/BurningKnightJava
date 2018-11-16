@@ -51,6 +51,7 @@ import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -346,6 +347,11 @@ public class Player extends Creature {
 	@Override
 	public void renderBuffs() {
 		super.renderBuffs();
+		Item item = this.inventory.getSlot(this.inventory.active);
+
+		if (item instanceof Gun) {
+			((Gun) item).renderReload();
+		}
 
 		if (this.seePath && Exit.instance != null) {
 			float dx = Exit.instance.x + 8 - x - w / 2;
@@ -761,7 +767,7 @@ public class Player extends Creature {
 		doTp(true);
 
 		switch (this.type) {
-			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
+			case WARRIOR: case WIZARD: this.accuracy -= 5; break;
 		}
 
 		light = World.newLight(256, new Color(1, 1, 1, 1f), 120, x, y);

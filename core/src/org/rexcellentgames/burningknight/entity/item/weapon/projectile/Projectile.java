@@ -91,6 +91,10 @@ public class Projectile extends StatefulEntity {
 		}
 	}
 
+	public void remove() {
+		broke = true;
+	}
+
 	protected boolean breaksFrom(Entity entity) {
 		return false;
 	}

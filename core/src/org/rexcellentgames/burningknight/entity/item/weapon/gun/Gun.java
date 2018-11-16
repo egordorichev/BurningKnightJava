@@ -29,7 +29,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class Gun extends WeaponBase {
-	protected float accuracy = 5f;
+	protected float accuracy = 4f;
 	protected float sx = 1f;
 	protected float sy = 1f;
 	protected float vel = 6f;
@@ -284,10 +284,6 @@ public class Gun extends WeaponBase {
 			this.chargeProgress = 0;
 			this.back = true;
 			this.chargeA += -this.chargeA * dt * 5;
-		}
-
-		if (this.owner instanceof Player) {
-			this.renderReload();
 		}
 	}
 

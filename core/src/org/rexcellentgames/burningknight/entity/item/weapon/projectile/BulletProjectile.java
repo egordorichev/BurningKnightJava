@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
@@ -352,7 +353,7 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity != null) {
+		if (entity != null && !(entity instanceof Chest)) {
 			return false;
 		}
 
