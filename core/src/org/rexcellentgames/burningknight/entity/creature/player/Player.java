@@ -1580,6 +1580,8 @@ public class Player extends Creature {
 		this.maxSpeed += (this.speed - last) * 7f;
 
 		doTp(false);
+
+		onRoomChange();
 	}
 
 	@Override

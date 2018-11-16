@@ -739,7 +739,7 @@ public class Mob extends Creature {
 					this.ai.onExit();
 				} catch (RuntimeException e) {
 					e.printStackTrace();
-					Log.error("Mob AI exception " + this.getClass().getSimpleName());
+					Log.error("Mob AI exdsception " + this.getClass().getSimpleName());
 				}
 			}
 
@@ -778,8 +778,12 @@ public class Mob extends Creature {
 			this.moveFrom(self.lastSeen, 25f, 5f);
 
 			if (this.t >= delay) {
-				self.become("idle");
+				self.become(getState());
 			}
+		}
+
+		protected String getState() {
+			return "idle";
 		}
 	}
 
@@ -926,8 +930,6 @@ public class Mob extends Creature {
 
 		public boolean moveFrom(Point point, float s, float d) {
 			if (this.targetPoint == null) {
-				self.lastSeen = new Point(self.target.x, self.target.y);
-
 				if (self.target == null) {
 					self.target = Player.instance;
 
@@ -938,6 +940,7 @@ public class Mob extends Creature {
 					}
 				}
 
+				self.lastSeen = new Point(self.target.x, self.target.y);
 				this.targetPoint = self.getFar(self.lastSeen);
 
 				if (this.targetPoint == null) {
