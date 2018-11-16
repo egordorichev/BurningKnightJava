@@ -202,6 +202,7 @@ public class BurningKnight extends Boss {
 	@Override
 	public void init() {
 		talked = true;
+		saw = true;
 
 		sfx = Audio.getSound("bk");
 		this.sid = sfx.loop(Audio.playSfx("bk", 0f));
@@ -314,15 +315,22 @@ public class BurningKnight extends Boss {
 
 					this.area.add(holder);
 
+					Camera.follow(holder, false);
 					LevelSave.add(holder);
 				}
+
+				Tween.to(new Tween.Task(0, 2f) {
+					@Override
+					public void onEnd() {
+						Camera.follow(Player.instance, false);
+					}
+				});
 
 				this.invt = 0;
 
 				this.become("defeated");
 				this.dest = false;
 
-				Camera.follow(Player.instance, false);
 				Player.instance.setUnhittable(false);
 
 				Camera.shake(30);

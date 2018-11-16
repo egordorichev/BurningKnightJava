@@ -121,6 +121,15 @@ public class Door extends SaveableEntity {
 			lk = animation.get("close");
 		}
 
+		if (this.noColl > 0) {
+			this.noColl -= dt;
+
+			if (this.noColl <= 0) {
+				this.noColl = -1;
+				this.collidingWithPlayer = false;
+			}
+		}
+
 		boolean last = this.lock;
 
 		if (this.autoLock) {
@@ -362,12 +371,14 @@ public class Door extends SaveableEntity {
 		}
 	}
 
+	private float noColl = -1;
+
 	@Override
 	public void onCollisionEnd(Entity entity) {
 		if (entity instanceof Creature && !((Creature) entity).isFlying()) {
 			if (this.lock) {
 				if (entity instanceof Player) {
-					this.collidingWithPlayer = false;
+					this.noColl = 0.1f;
 				}
 
 				return;

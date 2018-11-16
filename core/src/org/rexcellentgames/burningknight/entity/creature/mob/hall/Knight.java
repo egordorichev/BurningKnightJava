@@ -449,6 +449,8 @@ public class Knight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
+			self.playSfx("predash");
+
 			self.velocity.x = 0;
 			self.velocity.y = 0;
 
@@ -575,6 +577,4 @@ public class Knight extends Mob {
 			}
 		}
 	}
-
-	// fixme: better knight dash indicator
 }
