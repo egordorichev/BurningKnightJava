@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -115,7 +116,14 @@ public class Thief extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
-		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+
+		if (this.stolen != null) {
+			TextureRegion region = stolen.getSprite();
+			Graphics.render(region, this.x + (this.w - region.getRegionWidth()) + (flipped ? -8 : 6), this.y);
+		} else {
+			this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+		}
+
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
 	}

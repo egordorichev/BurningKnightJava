@@ -17,7 +17,7 @@ public class MobPool extends Pool<Mob> {
 
 	public void initForFloor() {
 		clear();
-		add(Clown.class, 1f);
+		add(Thief.class, 1f);
 
 		if (Dungeon.level instanceof HallLevel) {
 			// add(RangedKnight.class, 1f);
