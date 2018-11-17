@@ -34,10 +34,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
-import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
-import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
-import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
-import org.rexcellentgames.burningknight.entity.fx.SteamFx;
+import org.rexcellentgames.burningknight.entity.fx.*;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -73,6 +70,7 @@ import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -854,6 +852,7 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;

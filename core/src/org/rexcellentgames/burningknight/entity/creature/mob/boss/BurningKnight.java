@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.CurseFx;
+import org.rexcellentgames.burningknight.entity.fx.FadeFx;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -319,6 +320,14 @@ public class BurningKnight extends Boss {
 				Dungeon.area.add(new Explosion(this.x + this.w / 2 + Random.newFloat(this.w * 2) - this.w, this.y + this.h / 2 + Random.newFloat(this.h * 2) - this.h));
 				this.playSfx("explosion");
 			}
+
+			FadeFx ft = new FadeFx();
+			ft.x = x + w / 2;
+			ft.y = y + h / 2;
+			float fr = 120;
+			float an = Random.newFloat((float) (Math.PI * 2));
+			ft.vel = new Point((float) Math.cos(an) * fr, (float) Math.sin(an) * fr);
+			Dungeon.area.add(ft);
 
 			Camera.shake(10);
 
@@ -837,12 +846,67 @@ public class BurningKnight extends Boss {
 		}
 	}
 
+	public class AppearState extends BKState {
+		@Override
+		public void onEnter() {
+			self.attackTp = true;
+			self.findStartPoint();
+			self.setUnhittable(true);
+			self.rage = true;
+			self.hp = 1;
+			self.ignoreRooms = true;
+			self.a = 0;
+			Lamp.play();
+
+			Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
+			vec = Camera.ui.unproject(vec);
+			vec.y = Display.UI_HEIGHT - vec.y;
+
+			Dungeon.shockTime = 0;
+			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
+
+			for (int i = 0; i < 30; i++) {
+				CurseFx fx = new CurseFx();
+
+				fx.x = x + w / 2 + Random.newFloat(-w, w);
+				fx.y = y + h / 2 + Random.newFloat(-h, h);
+
+				Dungeon.area.add(fx);
+			}
+
+			playSfx("explosion");
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			Camera.shake(20);
+			self.a = Math.min(0.6f, self.a + dt * 0.2f);
+
+			if (t < 1.6f) {
+				FadeFx ft = new FadeFx();
+				float an = Random.newFloat((float) (Math.PI * 2));
+				ft.x = (float) (x + w / 2 + Math.cos(an) * 48);
+				ft.y = (float) (y + h / 2 + Math.sin(an) * 48);
+				ft.to = true;
+				float fr = 150;
+				ft.vel = new Point((float) Math.cos(an - Math.PI) * fr, (float) Math.sin(an - Math.PI) * fr);
+				Dungeon.area.add(ft);
+			} else if (self.a == 0.6f) {
+				self.become("chase");
+			}
+		}
+	}
+
 	public class FadeInState extends BKState {
 		@Override
 		public void onEnter() {
 			self.a = 0;
+			Camera.follow(self, false);
 
-			Tween.to(new Tween.Task(self.rage ? 0.6f : 1f, 0.3f) {
+			Tween.to(new Tween.Task(self.rage ? 0.6f : 1f, 2f) {
 				@Override
 				public float getValue() {
 					return self.a;
@@ -861,6 +925,22 @@ public class BurningKnight extends Boss {
 				}
 			});
 		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			Camera.shake(20);
+			if (t < 1.6f) {
+				FadeFx ft = new FadeFx();
+				float an = Random.newFloat((float) (Math.PI * 2));
+				ft.x = (float) (x + w / 2 + Math.cos(an) * 48);
+				ft.y = (float) (y + h / 2 + Math.sin(an) * 48);
+				ft.to = true;
+				float fr = 150;
+				ft.vel = new Point((float) Math.cos(an - Math.PI) * fr, (float) Math.sin(an - Math.PI) * fr);
+				Dungeon.area.add(ft);
+			}
+		}
 	}
 
 	public boolean attackTp = false;
@@ -870,7 +950,7 @@ public class BurningKnight extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			Tween.to(new Tween.Task(0, 0.3f) {
+			Tween.to(new Tween.Task(0, 2f) {
 				@Override
 				public float getValue() {
 					return self.a;
@@ -887,6 +967,22 @@ public class BurningKnight extends Boss {
 					self.become("fadeIn");
 				}
 			});
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			Camera.shake(6);
+
+			if (t < 1.6f) {
+				FadeFx ft = new FadeFx();
+				ft.x = x + w / 2;
+				ft.y = y + h / 2;
+				float fr = 70;
+				float an = Random.newFloat((float) (Math.PI * 2));
+				ft.vel = new Point((float) Math.cos(an) * fr, (float) Math.sin(an) * fr);
+				Dungeon.area.add(ft);
+			}
 		}
 	}
 
@@ -1034,51 +1130,6 @@ public class BurningKnight extends Boss {
 		}
 
 		return super.getAi(state);
-	}
-
-	public class AppearState extends BKState {
-		@Override
-		public void onEnter() {
-			self.attackTp = true;
-			self.findStartPoint();
-			self.setUnhittable(true);
-			self.rage = true;
-			self.hp = 1;
-			self.ignoreRooms = true;
-			self.a = 0;
-			Lamp.play();
-
-			Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
-			vec = Camera.ui.unproject(vec);
-			vec.y = Display.UI_HEIGHT - vec.y;
-
-			Dungeon.shockTime = 0;
-			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
-			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
-
-			for (int i = 0; i < 30; i++) {
-				CurseFx fx = new CurseFx();
-
-				fx.x = x + w / 2 + Random.newFloat(-w, w);
-				fx.y = y + h / 2 + Random.newFloat(-h, h);
-
-				Dungeon.area.add(fx);
-			}
-
-			playSfx("explosion");
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			Camera.shake(20);
-			self.a = Math.min(0.6f, self.a + dt / 3);
-
-			if (self.a == 0.6f) {
-				self.become("chase");
-			}
-		}
 	}
 
 	public class DefeatedState extends BKState {
