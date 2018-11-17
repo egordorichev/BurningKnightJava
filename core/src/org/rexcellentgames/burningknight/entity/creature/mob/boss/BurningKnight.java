@@ -284,7 +284,6 @@ public class BurningKnight extends Boss {
 			this.unhittable = true;
 			this.ignoreRooms = true;
 			this.become("appear");
-			this.a = 0.5f;
 		}
 	}
 
@@ -855,16 +854,16 @@ public class BurningKnight extends Boss {
 			self.rage = true;
 			self.hp = 1;
 			self.ignoreRooms = true;
-			self.a = 0;
 			Lamp.play();
 
-			Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
+			// fixme: this is broken
+			/*Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
 			vec = Camera.ui.unproject(vec);
 			vec.y = Display.UI_HEIGHT - vec.y;
 
 			Dungeon.shockTime = 0;
 			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
-			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
+			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;*/
 
 			for (int i = 0; i < 30; i++) {
 				CurseFx fx = new CurseFx();
@@ -875,17 +874,30 @@ public class BurningKnight extends Boss {
 				Dungeon.area.add(fx);
 			}
 
+			Camera.follow(self, false);
 			playSfx("explosion");
+			self.a = 0;
+
+			Tween.to(new Tween.Task(0.6f, 2f) {
+				@Override
+				public float getValue() {
+					return self.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.a = value;
+				}
+			});
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			Camera.shake(20);
-			self.a = Math.min(0.6f, self.a + dt * 0.2f);
+			Camera.shake(6);
 
-			if (t < 1.6f) {
+			if (this.t < 1.6f) {
 				FadeFx ft = new FadeFx();
 				float an = Random.newFloat((float) (Math.PI * 2));
 				ft.x = (float) (x + w / 2 + Math.cos(an) * 48);
@@ -895,6 +907,7 @@ public class BurningKnight extends Boss {
 				ft.vel = new Point((float) Math.cos(an - Math.PI) * fr, (float) Math.sin(an - Math.PI) * fr);
 				Dungeon.area.add(ft);
 			} else if (self.a == 0.6f) {
+				Camera.follow(Player.instance, false);
 				self.become("chase");
 			}
 		}
@@ -929,7 +942,7 @@ public class BurningKnight extends Boss {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-			Camera.shake(20);
+			Camera.shake(6);
 			if (t < 1.6f) {
 				FadeFx ft = new FadeFx();
 				float an = Random.newFloat((float) (Math.PI * 2));
