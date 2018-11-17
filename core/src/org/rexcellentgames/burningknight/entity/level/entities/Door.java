@@ -152,7 +152,7 @@ public class Door extends SaveableEntity {
 
 		this.al += ((this.collidingWithPlayer ? 1 : 0) - this.al) * dt * 10;
 
-		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
+		if (this.lock && this.onScreen && this.al >= 0.5f && Input.instance.wasPressed("interact")) {
 			if (Player.instance.ui.hasEquipped(Lootpick.class)) {
 				this.lock = false;
 				this.animation.setBack(false);
@@ -194,7 +194,7 @@ public class Door extends SaveableEntity {
 					}
 				}
 			} else {
-				this.playSfx("item_nocash");
+				this.playSfx("item_nocash");s
 				Camera.shake(6);
 			}
 		}

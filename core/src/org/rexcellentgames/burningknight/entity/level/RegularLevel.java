@@ -164,7 +164,7 @@ public abstract class RegularLevel extends Level {
 			if (Random.chance(75)) {
 				this.itemsToSpawn.add(new Coin());
 
-				while (Random.chance(25)) {
+				while (Random.chance(10)) {
 					this.itemsToSpawn.add(new Coin());
 				}
 			}
@@ -324,7 +324,7 @@ public abstract class RegularLevel extends Level {
 			rooms.add(room);
 			// rooms.add(TreasureRoomPool.instance.generate());
 
-			if (Random.chance(75)) {
+			if (Random.chance(90)) {
 				Log.info("Adding shop");
 				rooms.add(ShopRoomPool.instance.generate());
 			}

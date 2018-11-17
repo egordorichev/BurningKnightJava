@@ -1254,7 +1254,7 @@ public class Player extends Creature {
 			if (this.room instanceof ShopRoom) {
 				Audio.play("Shopkeeper");
 
-				if (BurningKnight.instance != null) {
+				if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) {
 					BurningKnight.instance.become("await");
 				}
 			}

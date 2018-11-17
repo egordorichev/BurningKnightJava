@@ -505,10 +505,14 @@ public class Mob extends Creature {
 			this.become("idle");
 		}
 
-		for (Player player : colliding) {
-			player.modifyHp(-1, this, false);
+		if (!this.friendly) {
+			for (Player player : colliding) {
+				player.modifyHp(-1, this, false);
+			}
 		}
 	}
+
+	protected boolean friendly = false;
 
 	@Override
 	protected void common() {
@@ -549,7 +553,10 @@ public class Mob extends Creature {
 			}
 
 			this.target = player;
-			player.modifyHp(-1, this, false);
+
+			if (!friendly) {
+				player.modifyHp(-1, this, false);
+			}
 
 			this.colliding.add(player);
 		}

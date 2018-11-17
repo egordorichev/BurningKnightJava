@@ -84,6 +84,7 @@ public class Shopkeeper extends Npc {
 	@Override
 	public void init() {
 		super.init();
+		friendly = true;
 		this.body = World.createSimpleBody(this, 4, 0, 8, 14, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		instance = this;
@@ -498,6 +499,7 @@ public class Shopkeeper extends Npc {
 			return;
 		}
 
+		friendly = false;
 		enranged = true;
 		this.become("hana");
 
@@ -529,6 +531,7 @@ public class Shopkeeper extends Npc {
 			this.tt += dt;
 
 			if (self.shotgun == null) {
+				friendly = false;
 				shotgun = new BronzeShotgun();
 				shotgun.setOwner(self);
 			}

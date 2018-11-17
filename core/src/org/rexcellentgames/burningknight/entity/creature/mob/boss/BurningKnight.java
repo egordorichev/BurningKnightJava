@@ -28,6 +28,7 @@ import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
@@ -227,7 +228,7 @@ public class BurningKnight extends Boss {
 
 	public void restore() {
 		this.pickedKey = false;
-		this.hpMax = Dungeon.depth * 30 + 20;
+		this.hpMax = Dungeon.depth * 20 + 30;
 		this.hp = this.hpMax;
 		this.rage = false;
 	}
@@ -305,6 +306,7 @@ public class BurningKnight extends Boss {
 			if (this.invt <= 0) {
 				ArrayList<Item> items = new ArrayList<>();
 				items.add(new BurningKey());
+				items.add(Chest.generate(ItemRegistry.Quality.IRON_PLUS, Random.chance(50)));
 
 				for (Item item : items) {
 					ItemHolder holder = new ItemHolder(item);
