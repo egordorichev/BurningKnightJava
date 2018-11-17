@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -222,11 +223,11 @@ public class BombEntity extends Entity {
 							}
 						}
 
-							float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
+						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
-							float knockbackMod = creature.getStat("knockback");
-							creature.velocity.x += Math.cos(a) * 5000f * knockbackMod;
-							creature.velocity.y += Math.sin(a) * 5000f * knockbackMod;
+						float knockbackMod = creature.getStat("knockback");
+						creature.velocity.x += Math.cos(a) * 5000f * knockbackMod;
+						creature.velocity.y += Math.sin(a) * 5000f * knockbackMod;
 
 						try {
 							for (Buff buff : toApply) {
@@ -235,6 +236,10 @@ public class BombEntity extends Entity {
 						} catch (IllegalAccessException | InstantiationException e) {
 							e.printStackTrace();
 						}
+					}
+				} else if (entity instanceof Chest) {
+					if (((Chest) entity).getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+						((Chest) entity).explode();
 					}
 				}
 			}

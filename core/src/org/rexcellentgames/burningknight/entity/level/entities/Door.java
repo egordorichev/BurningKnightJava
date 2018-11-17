@@ -194,7 +194,7 @@ public class Door extends SaveableEntity {
 					}
 				}
 			} else {
-				this.playSfx("item_nocash");s
+				this.playSfx("item_nocash");
 				Camera.shake(6);
 			}
 		}

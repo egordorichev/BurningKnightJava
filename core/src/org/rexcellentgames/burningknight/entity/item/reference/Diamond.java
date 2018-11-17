@@ -21,7 +21,9 @@ public class Diamond extends Autouse {
 	public void use() {
 		super.use();
 
-		ItemHolder item = new ItemHolder((new Gold()));
+		ItemHolder item = new ItemHolder();
+		item.setFake(true);
+		item.setItem(new Gold());
 		item.getItem().setCount(99);
 
 		Player.instance.tryToPickup(item);

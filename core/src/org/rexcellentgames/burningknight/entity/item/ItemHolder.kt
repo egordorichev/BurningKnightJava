@@ -38,6 +38,7 @@ open class ItemHolder : SaveableEntity {
   
   constructor()
 
+  var fake = false
   var item: Item? = null
     set(value) {
       field = value
@@ -58,7 +59,9 @@ open class ItemHolder : SaveableEntity {
       }
 
       // This might be bad!
-      this.body = this.createSimpleBody(-2, -2, item!!.getSprite().regionWidth + 4, item!!.getSprite().regionHeight + 4, BodyDef.BodyType.DynamicBody, false)
+      if (!fake) {
+        this.body = this.createSimpleBody(-2, -2, item!!.getSprite().regionWidth + 4, item!!.getSprite().regionHeight + 4, BodyDef.BodyType.DynamicBody, false)
+      }
 
       this.w = item!!.getSprite().regionWidth.toFloat()
       this.h = item!!.getSprite().regionWidth.toFloat()

@@ -188,6 +188,30 @@ public class Chest extends SaveableEntity {
 		}
 	}
 
+	public void explode() {
+		if (this.hp == 0) {
+			return;
+		}
+
+		this.hp = 0;
+		this.burning = false;
+
+		for (int i = 0; i < 10; i++) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.x + this.w / 2;
+			fx.y = this.y + this.h / 2;
+
+			Dungeon.area.add(fx);
+		}
+
+		this.locked = false;
+		this.createLoot = true;
+
+		this.body = World.removeBody(this.body);
+		this.sensor = World.removeBody(this.sensor);
+	}
+
 	private void hit() {
 		if (this.hp == 0) {
 			return;

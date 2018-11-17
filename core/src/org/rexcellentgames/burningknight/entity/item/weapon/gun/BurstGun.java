@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.game.Achievements;
 public class BurstGun extends Gun {
 	{
 		accuracy = -8f;
-		ammoMax = 6;
+		ammoMax = 18;
 		reloadRate = 1.5f;
 		useTime = 0.1f;
 		auto = true;
