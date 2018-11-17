@@ -238,7 +238,7 @@ public class BombEntity extends Entity {
 						}
 					}
 				} else if (entity instanceof Chest) {
-					if (((Chest) entity).getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+					if (entity.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
 						((Chest) entity).explode();
 					}
 				}

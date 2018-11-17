@@ -1198,8 +1198,8 @@ public class BurningKnight extends Boss {
 					}
 
 					ball.velocity = new Point();
-					ball.velocity.x = (float) (s * Math.cos(a));
-					ball.velocity.y = (float) (s * Math.sin(a));
+					ball.velocity.x = (float) (s * Math.cos(a) * Mob.shotSpeedMod);
+					ball.velocity.y = (float) (s * Math.sin(a) * Mob.shotSpeedMod);
 
 					Dungeon.area.add(ball);
 					i++;
@@ -1228,8 +1228,8 @@ public class BurningKnight extends Boss {
 						double a = ((float) i) / c * Math.PI * 2 + tt;
 
 						ball.velocity = new Point();
-						ball.velocity.x = (float) (s * Math.cos(a));
-						ball.velocity.y = (float) (s * Math.sin(a));
+						ball.velocity.x = (float) (s * Math.cos(a) * Mob.shotSpeedMod);
+						ball.velocity.y = (float) (s * Math.sin(a) * Mob.shotSpeedMod);
 
 						Dungeon.area.add(ball);
 					}

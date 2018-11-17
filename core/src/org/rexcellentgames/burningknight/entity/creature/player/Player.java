@@ -79,7 +79,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Creature {
-	public static Type toSet = Type.WARRIOR;
+	public static Type toSet = Type.NONE;
 	public static Item startingItem;
 	public static float mobSpawnModifier = 1f;
 	public static ArrayList<Player> all = new ArrayList<>();
@@ -172,15 +172,15 @@ public class Player extends Creature {
 	public boolean seePath;
 
 	public float getMage() {
-		return this.type == Type.WIZARD ? 1f : 0f;
+		return this.type == Type.WIZARD ? 1f : 0.1f;
 	}
 
 	public float getWarrior() {
-		return this.type == Type.WARRIOR ? 1f : 0f;
+		return this.type == Type.WARRIOR ? 1f : 0.1f;
 	}
 
 	public float getRanger() {
-		return this.type == Type.RANGER ? 1f : 0f;
+		return this.type == Type.RANGER ? 1f : 0.1f;
 	}
 
 	@Override
@@ -285,25 +285,24 @@ public class Player extends Creature {
 			this.hpMax = 12;
 			this.hp = 12;
 			this.give(new Sword());
-			return;
-		}
+		} else {
+			if (startingItem != null) {
+				this.give(startingItem);
+				startingItem = null;
+			}
 
-		if (startingItem != null) {
-			this.give(startingItem);
-			startingItem = null;
-		}
+			if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
+				this.give(new HealingPotion());
+			}
 
-		if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
-			this.give(new HealingPotion());
-		}
+			if (GlobalSave.isTrue(StartingArmor.ID)) {
+				this.give(new VikingHat());
+			}
 
-		if (GlobalSave.isTrue(StartingArmor.ID)) {
-			this.give(new VikingHat());
-		}
-
-		if (GlobalSave.isTrue(ExtraHeart.ID)) {
-			this.hpMax += 2;
-			this.hp += 2;
+			if (GlobalSave.isTrue(ExtraHeart.ID)) {
+				this.hpMax += 2;
+				this.hp += 2;
+			}
 		}
 	}
 
@@ -753,7 +752,12 @@ public class Player extends Creature {
 
 		t = 0;
 
-		this.type = toSet;
+		if (toSet != Type.NONE) {
+			this.type = toSet;
+			toSet = Type.NONE;
+		} else if (this.type == null) {
+			this.type = Type.WARRIOR;
+		}
 
 		if (instance == null) {
 			instance = this;
@@ -1647,7 +1651,8 @@ public class Player extends Creature {
 	public enum Type {
 		WARRIOR(0),
 		WIZARD(1),
-		RANGER(2);
+		RANGER(2),
+		NONE(3);
 
 		public int id;
 

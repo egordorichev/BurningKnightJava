@@ -104,7 +104,7 @@ public class Chest extends SaveableEntity {
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
 			if (item.getQuality().check(quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.getType())))
-				&& item.unlocked() &&Player.instance.getInventory().findItem(item.getType()) == null) {
+				&& item.unlocked() && Player.instance.getInventory().findItem(item.getType()) == null) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +

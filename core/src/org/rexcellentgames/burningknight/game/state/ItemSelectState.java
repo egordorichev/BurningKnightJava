@@ -184,14 +184,9 @@ public class ItemSelectState extends State {
 			public void onEnd() {
 				Player.toSet = tp;
 				GlobalSave.put("last_class", Player.toSet.id);
-
 				Player.startingItem = item;
-				if (Player.instance == null) {
-					PlayerSave.generate();
-				} else {
-					Player.instance.generate();
-				}
 
+				PlayerSave.generate();
 				Dungeon.area.remove(Player.instance);
 
 				SaveManager.save(SaveManager.Type.PLAYER, false);
