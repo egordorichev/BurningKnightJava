@@ -1308,7 +1308,7 @@ public class BurningKnight extends Boss {
 	}
 
 	public class LaserAttackState extends BKState {
-
+		// todo
 	}
 
 	public class RangedAttackState extends BKState {
