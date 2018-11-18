@@ -10,13 +10,14 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.Arrow;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
@@ -200,22 +201,16 @@ public class Bow extends WeaponBase {
 	private RayCastCallback callback = new RayCastCallback() {
 		@Override
 		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-			if (fixture.isSensor()) {
-				return 1;
-			}
+			Object data = fixture.getBody().getUserData();
 
-			Entity entity = (Entity) fixture.getBody().getUserData();
-
-			if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+			if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()))) {
 				if (fraction < closestFraction) {
 					closestFraction = fraction;
 					last = point;
 				}
-
-				return fraction;
 			}
 
-			return 1;
+			return closestFraction;
 		}
 	};
 }

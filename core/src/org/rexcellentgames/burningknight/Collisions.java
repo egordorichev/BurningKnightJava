@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.DashingKnight;
+import org.rexcellentgames.burningknight.entity.level.Level;
 
 public class Collisions implements ContactListener, ContactFilter {
 	public static Fixture last;
@@ -12,9 +13,9 @@ public class Collisions implements ContactListener, ContactFilter {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
 		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
-		if (a == null && contact.getFixtureA().getBody().isBullet() && !(b instanceof DashingKnight)) {
+		if (a instanceof Level && !(b instanceof DashingKnight)) {
 			return;
-		} else if (b == null && contact.getFixtureB().getBody().isBullet() && !(a instanceof DashingKnight)) {
+		} else if (b instanceof Level && !(a instanceof DashingKnight)) {
 			return;
 		}
 

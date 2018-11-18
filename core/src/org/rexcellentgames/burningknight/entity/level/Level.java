@@ -2085,7 +2085,6 @@ public abstract class Level extends SaveableEntity {
 
 		BodyDef cdef = new BodyDef();
 		cdef.type = BodyDef.BodyType.StaticBody;
-		cdef.bullet = true;
 
 		this.chasms = World.world.createBody(cdef);
 		this.chasms.setUserData(this);

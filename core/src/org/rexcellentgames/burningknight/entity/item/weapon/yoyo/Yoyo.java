@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -154,7 +155,7 @@ public class Yoyo extends Weapon {
 			return false;
 		}
 
-		if ((entity == null && !fixture.getBody().isBullet()) || entity instanceof Door || entity instanceof SolidProp) {
+		if ((entity  instanceof Level) || entity instanceof Door || entity instanceof SolidProp) {
 			return true;
 		}
 

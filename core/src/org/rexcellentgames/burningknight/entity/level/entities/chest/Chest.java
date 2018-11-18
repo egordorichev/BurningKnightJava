@@ -348,7 +348,7 @@ public class Chest extends SaveableEntity {
 					fx.x = this.x + (this.w - fx.w) / 2;
 					fx.y = this.y + (this.h - fx.h) / 2;
 
-					Dungeon.area.add(fx);
+					Dungeon.area.add(fx.add());
 				}
 
 				if (Random.chance(30)) {
@@ -357,7 +357,7 @@ public class Chest extends SaveableEntity {
 					fx.x = this.x + (this.w - fx.w) / 2;
 					fx.y = this.y + (this.h - fx.h) / 2;
 
-					Dungeon.area.add(fx);
+					Dungeon.area.add(fx.add());
 				}
 
 				if (Random.chance(30)) {
@@ -367,7 +367,7 @@ public class Chest extends SaveableEntity {
 					fx.x = this.x + (this.w - fx.w) / 2;
 					fx.y = this.y + (this.h - fx.h) / 2;
 
-					Dungeon.area.add(fx);
+					Dungeon.area.add(fx.add());
 				}
 			}
 

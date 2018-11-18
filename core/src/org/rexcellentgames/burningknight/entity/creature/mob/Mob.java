@@ -43,7 +43,6 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.game.Achievements;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -256,22 +255,16 @@ public class Mob extends Creature {
 	private RayCastCallback callback = new RayCastCallback() {
 		@Override
 		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-			if (fixture.isSensor()) {
-				return 1;
-			}
+			Object data = fixture.getBody().getUserData();
 
-			Entity entity = (Entity) fixture.getBody().getUserData();
-
-			if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+			if (!fixture.isSensor() && data instanceof Entity && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()))) {
 				if (fraction < closestFraction) {
 					closestFraction = fraction;
-					last = entity;
+					last = (Entity) data;
 				}
-
-				return fraction;
 			}
 
-			return 1;
+			return closestFraction;
 		}
 	};
 
@@ -282,18 +275,19 @@ public class Mob extends Creature {
 			}
 		}
 
-		closestFraction = 1f;
 		float x = this.x + this.w / 2;
 		float y = this.y + this.h / 2;
-
 		float x2 = player.x + player.w / 2;
 		float y2 = player.y + player.h / 2;
+
+		/*closestFraction = 1f;
+
 
 		if (x != x2 || y != y2) {
 			World.world.rayCast(callback, x, y, x2, y2);
 		} else {
 			return true;
-		}
+		}*/
 
 		if (last == player) {
 			return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16)) == 0;

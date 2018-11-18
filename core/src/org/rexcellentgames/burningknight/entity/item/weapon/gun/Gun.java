@@ -8,14 +8,15 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -155,23 +156,17 @@ public class Gun extends WeaponBase {
 
 	private float time;
 
-	private static  RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		if (fixture.isSensor()) {
-			return -1;
-		}
+	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
+		Object data = fixture.getBody().getUserData();
 
-		Entity entity = (Entity) fixture.getBody().getUserData();
-
-		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+		if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()))) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = point;
 			}
-
-			return fraction;
 		}
 
-		return -1;
+		return closestFraction;
 	};
 
 	@Override

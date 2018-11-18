@@ -13,6 +13,8 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
@@ -90,28 +92,33 @@ public class Laser extends Entity {
 		if (!created) {
 			created = true;
 
-			float d = Display.GAME_WIDTH * 1.5f;
+			float xx = x;
+			float yy = y;
+			float d = Display.GAME_WIDTH * 2;
 			closestFraction = 1f;
 			last = null;
 
 			float an = (float) Math.toRadians(a);
-			float x2 = x + (float) Math.cos(an) * d;
-			float y2 = y + (float) Math.sin(an) * d;
+			float x2 = xx + (float) Math.cos(an + Math.PI / 2) * d;
+			float y2 = yy + (float) Math.sin(an + Math.PI / 2) * d;
 
-			World.world.rayCast(callback, x, y, x2, y2);
+			if (xx != x2 || yy != y2) {
+				World.world.rayCast(callback, xx, yy, x2, y2);
+			}
 
-			float dx;
-			float dy;
+			float dx, dy;
 
 			if (last != null) {
 				dx = last.x - x;
 				dy = last.y - y;
 			} else {
-				dx = x2;
-				dy = y2;
+				dx = x2 - x;
+				dy = y2 - y;
 			}
 
-			w = (float) Math.sqrt(dx * dx + dy * dy);
+			// fixme: broken with chasms
+
+			w = (float) Math.sqrt(dx * dx + dy * dy) + 4;
 
 			Log.physics("Creating centred body for laser");
 
@@ -128,7 +135,7 @@ public class Laser extends Entity {
 
 			float x = 0f;
 			float w = 6f;
-			float h = this.w - 8;
+			float h = this.w;
 			float y = 0f;
 
 			poly.set(new Vector2[] {
@@ -158,22 +165,16 @@ public class Laser extends Entity {
 	private static Vector2 last;
 
 	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		if (fixture.isSensor()) {
-			return 1;
-		}
+		Object data = fixture.getBody().getUserData();
 
-		Entity entity = (Entity) fixture.getBody().getUserData();
-
-		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen())) {
+		if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen())) || data instanceof Creature) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = point;
 			}
-
-			return fraction;
 		}
 
-		return 1;
+		return closestFraction;
 	};
 
 	@Override
@@ -183,7 +184,6 @@ public class Laser extends Entity {
 	}
 
 	public void render() {
-		start.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 		double a = Math.toRadians(this.a + 90);
 
@@ -193,23 +193,23 @@ public class Laser extends Entity {
 
 		Graphics.render(start, this.x, this.y, this.a, 8, 8, false, false);
 
-		if (this.w > 32) {
-			// Graphics.render(mid, this.x + (float) Math.cos(a) * 40, this.y + (float) Math.sin(a) * 40, this.a, 8, 8, false, false, 1, (w - 32) / 16);
+		float s = (this.w - 24f) / 16f;
+
+		if (this.w > 16) {
+			Graphics.render(mid, this.x + (float) Math.cos(a) * 8, this.y + (float) Math.sin(a) * 8, this.a, 8, 0, false, false, 1, s);
 		}
 
-		Graphics.render(end, this.x + (float) Math.cos(a) * (w - 16), this.y + (float) Math.sin(a) * (w - 16), this.a, 8, 8, false, false);
+		Graphics.render(end, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 8, 8, false, false);
 		Graphics.batch.setColor(1, 1, 1, this.al);
 		Graphics.render(startOverlay, this.x, this.y, this.a, 8, 8, false, false);
 
-		if (this.w > 32) {
-			// Graphics.render(midOverlay, this.x + (float) Math.cos(a) * 40, this.y + (float) Math.sin(a) * 40, this.a, 8, 8, false, false, 1, (w - 32) / 16);
+		if (this.w > 16) {
+			Graphics.render(midOverlay, this.x + (float) Math.cos(a) * 8, this.y + (float) Math.sin(a) * 8, this.a, 8, 0, false, false, 1, s);
 		}
 
-		Graphics.render(endOverlay, this.x + (float) Math.cos(a) * (w - 16), this.y + (float) Math.sin(a) * (w - 16), this.a, 8, 8, false, false);
-
+		Graphics.render(endOverlay, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 8, 8, false, false);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		start.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
