@@ -58,6 +58,8 @@ public class BurningKnight extends Boss {
 	private AnimationData idle;
 	private AnimationData hurt;
 	private AnimationData killed;
+	private AnimationData lookUp;
+	private AnimationData lookDown;
 	private AnimationData animation;
 	private long sid;
 	private static Sound sfx;
@@ -97,15 +99,21 @@ public class BurningKnight extends Boss {
 		setFlying(true);
 
 		idle = animations.get("idle");
+		anim = idle;
+
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
+		lookUp = animations.get("look_up");
+		lookDown = animations.get("look_down");
+
+		lookUp.setAutoPause(true);
+		lookDown.setAutoPause(true);
 		unhittable = false;
 	}
 
 	@Override
 	protected void onHurt(int am, Creature from) {
 		super.onHurt(am, from);
-
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
 
@@ -456,6 +464,8 @@ public class BurningKnight extends Boss {
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
+	private AnimationData anim;
+
 	@Override
 	public void render() {
 		if (this.state.equals("unactive") || this.state.equals("defeated")) {
@@ -465,7 +475,7 @@ public class BurningKnight extends Boss {
 		if (this.invt > 0) {
 			this.animation = hurt;
 		} else {
-			this.animation = idle;
+			this.animation = anim;
 		}
 
 		Graphics.batch.end();
@@ -558,19 +568,17 @@ public class BurningKnight extends Boss {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
 			//if (self.isActiveState() || self.rage) {
-			if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
+			if (this.flyTo(self.lastSeen, self.speed * 8f, 128)) {
 				self.become("preattack");
-			} else if (true || d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
-				self.become("rangedAttack");
-			}/* else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
+			}// else if (true || d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
+			//	self.become("rangedAttack");
+			/*} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 				self.attackTp = true;
 				self.become("fadeOut");
 			} else if (!self.onScreen) {
 				self.attackTp = true;
 				self.become("fadeOut");
-			}*/
-			
-			/*} else {
+			} else {
 				if (this.t >= 1f) {
 					self.become("rangedAttack");
 				}
@@ -774,17 +782,20 @@ public class BurningKnight extends Boss {
 		}
 	}
 
+	private int lastAttack;
+
 	public class PreattackState extends BKState {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-
 		}
 
 		@Override
 		public void update(float dt) {
-			if (this.t >= 1f) {
-				self.become("attack");
+			if (this.t >= 5f) {
+				self.become(lastAttack % 2 == 0 ? "autoAttack" : "missileAttack");
+				lastAttack++;
+
 				return;
 			}
 
@@ -1126,8 +1137,7 @@ public class BurningKnight extends Boss {
 				return new DashState();
 			case "preattack":
 				return new PreattackState();
-			case "attack":
-				return new AttackState();
+			case "attack": return new AttackState();
 			case "fadeIn":
 				return new FadeInState();
 			case "fadeOut":
@@ -1138,8 +1148,10 @@ public class BurningKnight extends Boss {
 				return new WaitState();
 			case "unactive":
 				return new UnactiveState();
-			case "rangedAttack":
+			case "missileAttack":
 				return new MissileAttackState();
+			case "autoAttack":
+				return new NewAttackState();
 			case "await": return new AwaitState();
 			case "defeated": return new DefeatedState();
 		}
@@ -1190,34 +1202,72 @@ public class BurningKnight extends Boss {
 	}
 
 	public class MissileAttackState extends BKState {
+		private int num;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.lookUp.setFrame(0);
+			self.lookUp.setPaused(false);
+			self.anim = self.lookUp;
+		}
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 2f) {
-				this.t = 0;
+			if (num < 7) {
+				if (this.t >= 2f) {
+					num++;
 
-				MissileProjectile missile = new MissileProjectile();
-				missile.to = Player.instance;
-				missile.bad = true;
-				missile.owner = self;
-				missile.x = self.x + self.w / 2;
-				missile.y = self.y + self.h - 24;
-				Dungeon.area.add(missile);
+					if (this.num == 7) {
 
-				MissileAppear appear = new MissileAppear();
-				appear.missile = missile;
-				Dungeon.area.add(appear);
+					} else if (num == 6) {
+						self.lookDown.setFrame(0);
+						self.lookDown.setPaused(false);
+						self.anim = self.lookDown;
+
+						return;
+					}
+
+					this.t = 0;
+
+					MissileProjectile missile = new MissileProjectile();
+					missile.to = Player.instance;
+					missile.bad = true;
+					missile.owner = self;
+					missile.x = self.x + self.w / 2 + (self.flipped ? -4 : 4);
+					missile.y = self.y + self.h - 16;
+					Dungeon.area.add(missile);
+
+					MissileAppear appear = new MissileAppear();
+					appear.missile = missile;
+					Dungeon.area.add(appear);
+				}
+			} else if (self.lookDown.isPaused()) {
+				self.anim = self.idle;
+				self.become("preattack");
 			}
 		}
 	}
 
 	public class NewAttackState extends BKState {
+		private int num;
+
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
 			if (t >= 3f) {
+				if (num == 5) {
+					self.become("preattack");
+					return;
+				}
+
+				t = 0;
+				num ++;
+
 				BulletProjectile ball = new BulletProjectile() {
 					@Override
 					protected void onDeath() {
@@ -1244,16 +1294,14 @@ public class BurningKnight extends Boss {
 
 				float a = self.getAngleTo(self.target.x + 8, self.target.y + 8);
 				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(40f * Mob.shotSpeedMod);
-				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
-				ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
+				ball.x = (float) (self.x + self.w / 2);
+				ball.y = (float) (self.y + self.h - 16);
 				ball.damage = 2;
 				ball.bad = true;
 				ball.auto = true;
 
 				ball.letter = "bullet-skull";
 				Dungeon.area.add(ball);
-
-				self.become("chase");
 			}
 		}
 	}
