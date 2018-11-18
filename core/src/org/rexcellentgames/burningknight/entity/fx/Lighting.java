@@ -59,7 +59,7 @@ public class Lighting extends Laser {
 				point = new Point(last.x + p.x + (float) Math.cos(this.an) * 16, last.y + p.y + (float) Math.sin(this.an) * 16);
 			}
 
-			renderFrom(last, point);
+			// renderFrom(last, point);
 
 			last = point;
 		}

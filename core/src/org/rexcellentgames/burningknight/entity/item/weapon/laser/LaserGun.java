@@ -24,9 +24,10 @@ public class LaserGun extends Revolver {
 
 		laser.x = (float) (x + px * Math.cos(an) - this.origin.x);
 		laser.y = (float) (y + px * Math.sin(an));
+		laser.huge = true;
 
 		laser.a = (float) Math.toDegrees(an - Math.PI / 2);
-		laser.w = 96f;
+		laser.w = 32f;
 		laser.damage = this.rollDamage();
 		laser.crit = this.lastCrit;
 		laser.owner = this.owner;
