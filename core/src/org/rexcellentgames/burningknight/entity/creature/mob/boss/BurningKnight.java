@@ -1149,12 +1149,10 @@ public class BurningKnight extends Boss {
 				return new DialogState();
 			case "wait":
 				return new WaitState();
-			case "unactive":
-				return new UnactiveState();
-			case "missileAttack":
-				return new MissileAttackState();
-			case "autoAttack":
-				return new NewAttackState();
+			case "unactive": return new UnactiveState();
+			case "missileAttack": return new MissileAttackState();
+			case "autoAttack": return new NewAttackState();
+			case "laserAttack": return new LaserAttackState();
 			case "await": return new AwaitState();
 			case "defeated": return new DefeatedState();
 		}
@@ -1307,6 +1305,10 @@ public class BurningKnight extends Boss {
 				Dungeon.area.add(ball);
 			}
 		}
+	}
+
+	public class LaserAttackState extends BKState {
+
 	}
 
 	public class RangedAttackState extends BKState {

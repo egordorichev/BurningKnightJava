@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.game.input.Input;
 public class LaserGun extends Revolver {
 	{
 		useTime = 1f;
-		damage = 30;
+		damage = 4;
 		hole.y -= 1.5f;
 		hole.x += 2f;
 	}
@@ -85,7 +85,7 @@ public class LaserGun extends Revolver {
 
 		laser.x = xx;
 		laser.y = yy;
-		laser.huge = true;
+		laser.huge = false;
 
 		laser.a = (float) Math.toDegrees(an - Math.PI / 2);
 		laser.w = 32f;

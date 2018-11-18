@@ -21,19 +21,15 @@ import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class Laser extends Entity {
-	public static TextureRegion start = Graphics.getTexture("laser-start");
-	public static TextureRegion startOverlay = Graphics.getTexture("laser-start_over");
+	public static TextureRegion start = Graphics.getTexture("laser-circ");
+	public static TextureRegion startOverlay = Graphics.getTexture("laser-circ_over");
 	public static TextureRegion mid = Graphics.getTexture("laser-mid");
 	public static TextureRegion midOverlay = Graphics.getTexture("laser-mid_over");
-	public static TextureRegion end = Graphics.getTexture("laser-end");
-	public static TextureRegion endOverlay = Graphics.getTexture("laser-end_over");
 
 	public static TextureRegion startHuge = Graphics.getTexture("laser-big_start");
 	public static TextureRegion startOverlayHuge = Graphics.getTexture("laser-big_start_over");
 	public static TextureRegion midHuge = Graphics.getTexture("laser-big_mid");
 	public static TextureRegion midOverlayHuge = Graphics.getTexture("laser-big_mid_over");
-	public static TextureRegion endHuge = Graphics.getTexture("laser-big_end");
-	public static TextureRegion endOverlayHuge = Graphics.getTexture("laser-big_end_over");
 
 	private Body body;
 	public float a;
@@ -64,28 +60,6 @@ public class Laser extends Entity {
 			public void setValue(float value) {
 				al = value;
 			}
-
-			@Override
-			public void onEnd() {
-				if (!huge) {
-					Tween.to(new Tween.Task(0, 2.95f) {
-						@Override
-						public float getValue() {
-							return al;
-						}
-
-						@Override
-						public void setValue(float value) {
-							al = value;
-						}
-
-						@Override
-						public void onEnd() {
-							setDone(true);
-						}
-					});
-				}
-			}
 		});
 	}
 
@@ -102,77 +76,74 @@ public class Laser extends Entity {
 			shade.g = (float) (Math.sin(this.t * 8) * 0.25f + 0.25f);
 		}
 
-		if (!created) {
-			created = !huge;
-			World.removeBody(body);
+		World.removeBody(body);
 
-			float xx = x;
-			float yy = y;
-			float d = Display.GAME_WIDTH * 2;
-			closestFraction = 1f;
-			last = null;
+		float xx = x;
+		float yy = y;
+		float d = Display.GAME_WIDTH * 2;
+		closestFraction = 1f;
+		last = null;
 
-			float an = (float) Math.toRadians(a);
-			float x2 = xx + (float) Math.cos(an + Math.PI / 2) * d;
-			float y2 = yy + (float) Math.sin(an + Math.PI / 2) * d;
+		float an = (float) Math.toRadians(a);
+		float x2 = xx + (float) Math.cos(an + Math.PI / 2) * d;
+		float y2 = yy + (float) Math.sin(an + Math.PI / 2) * d;
 
-			if (xx != x2 || yy != y2) {
-				World.world.rayCast(callback, xx, yy, x2, y2);
-			}
-
-			float dx, dy;
-
-			if (last != null) {
-				dx = last.x - x;
-				dy = last.y - y;
-			} else {
-				dx = x2 - x;
-				dy = y2 - y;
-			}
-
-			// fixme: broken with chasms
-
-			w = (float) Math.sqrt(dx * dx + dy * dy) + (huge ? 8 : 4);
-
-			Log.physics("Creating centred body for laser");
-
-			if (World.world.isLocked()) {
-				Log.physics("World is locked! Failed to create body");
-				return;
-			}
-
-			BodyDef def = new BodyDef();
-			def.type = BodyDef.BodyType.StaticBody;
-
-			body = World.world.createBody(def);
-			PolygonShape poly = new PolygonShape();
-
-			float x = 0f;
-			float w = huge ? 12f : 6f;
-			float h = this.w;
-			float y = 0f;
-
-			poly.set(new Vector2[] {
-				new Vector2(x - w / 2, y - 4), new Vector2(x + w / 2, y - 4),
-				new Vector2(x - w / 2, y + h - 4), new Vector2(x + w / 2, y + h - 4)
-			});
-
-			FixtureDef fixture = new FixtureDef();
-
-			fixture.shape = poly;
-			fixture.friction = 0;
-			fixture.isSensor = true;
-
-			fixture.filter.categoryBits = 0x0002;
-			fixture.filter.groupIndex = -1;
-			fixture.filter.maskBits = -1;
-
-			body.createFixture(fixture);
-			body.setUserData(this);
-			poly.dispose();
-
-			World.checkLocked(this.body).setTransform(this.x, this.y, an);
+		if (xx != x2 || yy != y2) {
+			World.world.rayCast(callback, xx, yy, x2, y2);
 		}
+
+		float dx, dy;
+
+		if (last != null) {
+			dx = last.x - x;
+			dy = last.y - y;
+		} else {
+			dx = x2 - x;
+			dy = y2 - y;
+		}
+
+		// fixme: broken with chasms
+
+		w = (float) Math.sqrt(dx * dx + dy * dy) + (huge ? 8 : 4);
+
+		Log.physics("Creating centred body for laser");
+
+		if (World.world.isLocked()) {
+			Log.physics("World is locked! Failed to create body");
+			return;
+		}
+
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.StaticBody;
+
+		body = World.world.createBody(def);
+		PolygonShape poly = new PolygonShape();
+
+		float x = 0f;
+		float w = huge ? 12f : 6f;
+		float h = this.w;
+		float y = 0f;
+
+		poly.set(new Vector2[] {
+			new Vector2(x - w / 2, y - 4), new Vector2(x + w / 2, y - 4),
+			new Vector2(x - w / 2, y + h - 4), new Vector2(x + w / 2, y + h - 4)
+		});
+
+		FixtureDef fixture = new FixtureDef();
+
+		fixture.shape = poly;
+		fixture.friction = 0;
+		fixture.isSensor = true;
+
+		fixture.filter.categoryBits = 0x0002;
+		fixture.filter.groupIndex = -1;
+		fixture.filter.maskBits = -1;
+
+		body.createFixture(fixture);
+		body.setUserData(this);
+		poly.dispose();
+
+		World.checkLocked(this.body).setTransform(this.x, this.y, an);
 	}
 
 	private static float closestFraction = 1.0f;
@@ -228,39 +199,39 @@ public class Laser extends Entity {
 
 		if (huge) {
 			Graphics.render(startHuge, this.x, this.y, this.a, 16, 16, false, false);
-			float s = (this.w - 48f) / 32f;
+			float s = (this.w - 8) / 32f;
 
-			if (this.w > 32) {
-				Graphics.render(midHuge, this.x + (float) Math.cos(a) * 16, this.y + (float) Math.sin(a) * 16, this.a, 16, 0, false, false, 1, s);
+			if (this.w > 16) {
+				Graphics.render(midHuge, this.x, this.y, this.a, 16, 0, false, false, 1, s);
 			}
 
-			Graphics.render(endHuge, this.x + (float) Math.cos(a) * (w - 16), this.y + (float) Math.sin(a) * (w - 16), this.a, 16, 16, false, false);
+			Graphics.render(startHuge, this.x + (float) Math.cos(a) * (w - 16), this.y + (float) Math.sin(a) * (w - 16), this.a, 16, 16, false, false);
 			Graphics.batch.setColor(1, 1, 1, this.al);
 			Graphics.render(startOverlayHuge, this.x, this.y, this.a, 16, 16, false, false);
 
-			if (this.w > 32) {
-				Graphics.render(midOverlayHuge, this.x + (float) Math.cos(a) * 16, this.y + (float) Math.sin(a) * 16, this.a, 16, 0, false, false, 1, s);
+			if (this.w > 16) {
+				Graphics.render(midOverlayHuge, this.x, this.y, this.a, 16, 0, false, false, 1, s);
 			}
 
-			Graphics.render(endOverlayHuge, this.x + (float) Math.cos(a) * (w - 16), this.y + (float) Math.sin(a) * (w - 16), this.a, 16, 16, false, false);
+			Graphics.render(startOverlayHuge, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 16, 16, false, false);
 		} else {
 			Graphics.render(start, this.x, this.y, this.a, 8, 8, false, false);
 
-			float s = (this.w - 24f) / 16f;
+			float s = (this.w - 4) / 16f;
 
-			if (this.w > 16) {
-				Graphics.render(mid, this.x + (float) Math.cos(a) * 8, this.y + (float) Math.sin(a) * 8, this.a, 8, 0, false, false, 1, s);
+			if (this.w > 8) {
+				Graphics.render(mid, this.x, this.y, this.a, 8, 0, false, false, 1, s);
 			}
 
-			Graphics.render(end, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 8, 8, false, false);
+			Graphics.render(start, this.x + (float) Math.cos(a) * (w - 4), this.y + (float) Math.sin(a) * (w - 4), this.a, 8, 8, false, false);
 			Graphics.batch.setColor(1, 1, 1, this.al);
 			Graphics.render(startOverlay, this.x, this.y, this.a, 8, 8, false, false);
 
-			if (this.w > 16) {
-				Graphics.render(midOverlay, this.x + (float) Math.cos(a) * 8, this.y + (float) Math.sin(a) * 8, this.a, 8, 0, false, false, 1, s);
+			if (this.w > 8) {
+				Graphics.render(midOverlay, this.x, this.y, this.a, 8, 0, false, false, 1, s);
 			}
 
-			Graphics.render(endOverlay, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 8, 8, false, false);
+			Graphics.render(startOverlay, this.x + (float) Math.cos(a) * (w - 4), this.y + (float) Math.sin(a) * (w - 4), this.a, 8, 8, false, false);
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
