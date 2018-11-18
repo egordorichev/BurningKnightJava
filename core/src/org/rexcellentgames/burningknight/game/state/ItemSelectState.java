@@ -51,6 +51,10 @@ public class ItemSelectState extends State {
 		ranged.add(new Gun());
 		mage.add(new MagicMissileWand());
 
+		if (Player.instance != null) {
+			Dungeon.area.remove(Player.instance);
+		}
+
 		if (Achievements.unlocked("UNLOCK_DAGGER")) {
 			melee.add(new Dagger());
 		}

@@ -32,7 +32,7 @@ public class Camera extends Entity {
 	private static float pushAm;
 
 	public static void shake(float amount) {
-		shake = amount * Settings.screenshake;
+		shake = Math.max(amount * Settings.screenshake, shake);
 	}
 
 	private static Tween.Task last;

@@ -36,7 +36,7 @@ public class Projectile extends StatefulEntity {
 		this.body = World.removeBody(this.body);
 	}
 
-	private boolean didDie;
+	protected boolean didDie;
 
 	@Override
 	public void update(float dt) {

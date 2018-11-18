@@ -25,6 +25,8 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.CurseFx;
 import org.rexcellentgames.burningknight.entity.fx.FadeFx;
+import org.rexcellentgames.burningknight.entity.fx.MissileAppear;
+import org.rexcellentgames.burningknight.entity.fx.MissileProjectile;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -558,7 +560,7 @@ public class BurningKnight extends Boss {
 			//if (self.isActiveState() || self.rage) {
 			if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
 				self.become("preattack");
-			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
+			} else if (true || d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
 				self.become("rangedAttack");
 			}/* else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 				self.attackTp = true;
@@ -1137,7 +1139,7 @@ public class BurningKnight extends Boss {
 			case "unactive":
 				return new UnactiveState();
 			case "rangedAttack":
-				return new RangedAttackState();
+				return new MissileAttackState();
 			case "await": return new AwaitState();
 			case "defeated": return new DefeatedState();
 		}
@@ -1183,6 +1185,75 @@ public class BurningKnight extends Boss {
 
 			if (Player.instance == null || Player.instance.isDead() || !(Player.instance.room instanceof ShopRoom)) {
 				self.become("idle");
+			}
+		}
+	}
+
+	public class MissileAttackState extends BKState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 2f) {
+				this.t = 0;
+
+				MissileProjectile missile = new MissileProjectile();
+				missile.to = Player.instance;
+				missile.bad = true;
+				missile.owner = self;
+				missile.x = self.x + self.w / 2;
+				missile.y = self.y + self.h - 24;
+				Dungeon.area.add(missile);
+
+				MissileAppear appear = new MissileAppear();
+				appear.missile = missile;
+				Dungeon.area.add(appear);
+			}
+		}
+	}
+
+	public class NewAttackState extends BKState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (t >= 3f) {
+				BulletProjectile ball = new BulletProjectile() {
+					@Override
+					protected void onDeath() {
+						super.onDeath();
+
+						if (!brokeWeapon) {
+							for (int i = 0; i < 8; i++) {
+								BulletProjectile ball = new BulletProjectile();
+
+								float a = (float) (i * Math.PI / 4);
+								ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * Mob.shotSpeedMod);
+
+								ball.x = (float) (this.x);
+								ball.y = (float) (this.y);
+								ball.damage = 2;
+								ball.bad = true;
+
+								ball.letter = "bullet-nano";
+								Dungeon.area.add(ball);
+							}
+						}
+					}
+				};
+
+				float a = self.getAngleTo(self.target.x + 8, self.target.y + 8);
+				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(40f * Mob.shotSpeedMod);
+				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
+				ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
+				ball.damage = 2;
+				ball.bad = true;
+				ball.auto = true;
+
+				ball.letter = "bullet-skull";
+				Dungeon.area.add(ball);
+
+				self.become("chase");
 			}
 		}
 	}
