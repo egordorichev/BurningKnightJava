@@ -3,11 +3,73 @@ package org.rexcellentgames.burningknight.entity.item.weapon.laser;
 import org.rexcellentgames.burningknight.entity.fx.Laser;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.game.input.Input;
 
 public class LaserGun extends Revolver {
 	{
 		useTime = 1f;
 		damage = 30;
+		hole.y -= 1.5f;
+		hole.x += 2f;
+	}
+
+	private Laser laser;
+	private float last;
+	private boolean inHands;
+
+	@Override
+	public void updateInHands(float dt) {
+		super.updateInHands(dt);
+
+		inHands = true;
+
+		if (laser != null) {
+			if (ammoLeft > 0 && !laser.dead) {
+				last += dt;
+
+				if (last >= 0.2f) {
+					last = 0;
+					ammoLeft -= 1;
+
+					if (ammoLeft == 0) {
+						laser.remove();
+						return;
+					}
+				}
+			}
+
+			if (!Input.instance.isDown("use")) {
+				laser.remove();
+				endUse();
+				return;
+			}
+
+			double an = this.lastAngle;
+
+			float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7);
+			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
+			float xx = x + getAimX(0, 0);
+			float yy = y + getAimY(0, 0);
+
+			laser.x = xx;
+			laser.y = yy;
+			laser.a = (float) Math.toDegrees(an - Math.PI / 2);
+
+			if (laser.done || laser.dead) {
+				laser = null;
+			}
+		}
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (!inHands && laser != null) {
+			laser.remove();
+		}
+
+		inHands = false;
 	}
 
 	@Override
@@ -15,15 +77,14 @@ public class LaserGun extends Revolver {
 		this.owner.playSfx("laser");
 
 		Laser laser = new Laser();
-		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
-		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
-
-		float px = this.tw - 3;
-
+		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7);
+		float y = this.owner.y + this.owner.h / 4 + this.owner.z;
+		float xx = x + getAimX(0, 0);
+		float yy = y + getAimY(0, 0);
 		double an = this.owner.getAngleTo(this.owner.getAim().x, this.owner.getAim().y);
 
-		laser.x = (float) (x + px * Math.cos(an) - this.origin.x);
-		laser.y = (float) (y + px * Math.sin(an));
+		laser.x = xx;
+		laser.y = yy;
 		laser.huge = true;
 
 		laser.a = (float) Math.toDegrees(an - Math.PI / 2);
@@ -31,6 +92,8 @@ public class LaserGun extends Revolver {
 		laser.damage = this.rollDamage();
 		laser.crit = this.lastCrit;
 		laser.owner = this.owner;
+
+		this.laser = laser;
 
 		Dungeon.area.add(laser);
 	}

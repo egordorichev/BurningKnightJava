@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
@@ -40,7 +41,6 @@ public class Laser extends Entity {
 	public int damage;
 	public boolean crit;
 	public Color shade = new Color(1, 0, 0, 1);
-	public Color color = new Color(1, 0f, 0f, 1);
 	public Creature owner;
 	public boolean huge;
 
@@ -67,34 +67,44 @@ public class Laser extends Entity {
 
 			@Override
 			public void onEnd() {
-				Tween.to(new Tween.Task(0, 0.95f) {
-					@Override
-					public float getValue() {
-						return al;
-					}
+				if (!huge) {
+					Tween.to(new Tween.Task(0, 2.95f) {
+						@Override
+						public float getValue() {
+							return al;
+						}
 
-					@Override
-					public void setValue(float value) {
-						al = value;
-					}
+						@Override
+						public void setValue(float value) {
+							al = value;
+						}
 
-					@Override
-					public void onEnd() {
-						setDone(true);
-					}
-				});
+						@Override
+						public void onEnd() {
+							setDone(true);
+						}
+					});
+				}
 			}
 		});
 	}
 
 	private boolean created;
+	private float t;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
+		this.t += dt;
+
+		if (huge) {
+			shade.g = (float) (Math.sin(this.t * 8) * 0.25f + 0.25f);
+		}
+
 		if (!created) {
-			created = true;
+			created = !huge;
+			World.removeBody(body);
 
 			float xx = x;
 			float yy = y;
@@ -122,7 +132,7 @@ public class Laser extends Entity {
 
 			// fixme: broken with chasms
 
-			w = (float) Math.sqrt(dx * dx + dy * dy) + 4;
+			w = (float) Math.sqrt(dx * dx + dy * dy) + (huge ? 8 : 4);
 
 			Log.physics("Creating centred body for laser");
 
@@ -168,10 +178,32 @@ public class Laser extends Entity {
 	private static float closestFraction = 1.0f;
 	private static Vector2 last;
 
+	public void remove() {
+		Tween.to(new Tween.Task(0, 0.3f) {
+			@Override
+			public float getValue() {
+				return al;
+			}
+
+			@Override
+			public void setValue(float value) {
+				al = value;
+			}
+
+			@Override
+			public void onEnd() {
+				setDone(true);
+				dead = true;
+			}
+		});
+	}
+
+	public boolean dead;
+
 	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		Object data = fixture.getBody().getUserData();
 
-		if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen())) || data instanceof Creature) {
+		if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()) || data instanceof Projectile)) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = point;
@@ -192,9 +224,7 @@ public class Laser extends Entity {
 		double a = Math.toRadians(this.a + 90);
 
 		shade.a = this.al;
-		color.a = this.al;
 		Graphics.batch.setColor(shade);
-
 
 		if (huge) {
 			Graphics.render(startHuge, this.x, this.y, this.a, 16, 16, false, false);

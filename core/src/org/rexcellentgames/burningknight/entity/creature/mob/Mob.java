@@ -548,7 +548,7 @@ public class Mob extends Creature {
 
 			this.target = player;
 
-			if (!friendly) {
+			if (!friendly && !this.state.equals("defeated") && !dead) {
 				player.modifyHp(-1, this, false);
 			}
 

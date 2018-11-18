@@ -388,7 +388,10 @@ public class BurningKnight extends Boss {
 			this.flipped = false;
 		}
 
-		super.update(dt);
+		if (!this.state.equals("defeated")) {
+			super.update(dt);
+		}
+
 		this.light.setPosition(x + this.w / 2, y + this.h / 2);
 
 		this.lastFrame += dt;
