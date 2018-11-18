@@ -91,10 +91,10 @@ public class Gun extends WeaponBase {
 		useTime = 0.2f;
 	}
 
-	private Vector2 last = new Point();
+	private static Vector2 last = null;
 	protected float lastAngle;
 
-	private float closestFraction = 1.0f;
+	private static float closestFraction = 1.0f;
 	
 	public Gun() {
 	  setStats();
@@ -155,14 +155,14 @@ public class Gun extends WeaponBase {
 
 	private float time;
 
-	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
+	private static  RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		if (fixture.isSensor()) {
-			return 1;
+			return -1;
 		}
 
 		Entity entity = (Entity) fixture.getBody().getUserData();
 
-		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+		if (entity == null || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = point;
@@ -171,7 +171,7 @@ public class Gun extends WeaponBase {
 			return fraction;
 		}
 
-		return 1;
+		return -1;
 	};
 
 	@Override
@@ -242,8 +242,9 @@ public class Gun extends WeaponBase {
 		float yy = y + getAimY(0, 0);
 
 		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
-			float d = Display.GAME_WIDTH * 10;
+			float d = Display.GAME_WIDTH * 2;
 			closestFraction = 1f;
+			last = null;
 
 			float x2 = xx + (float) Math.cos(an) * d;
 			float y2 = yy + (float) Math.sin(an) * d;
@@ -252,19 +253,28 @@ public class Gun extends WeaponBase {
 				World.world.rayCast(callback, xx, yy, x2, y2);
 			}
 
+			float tx, ty;
+
 			if (last != null) {
-				Graphics.startAlphaShape();
-				Graphics.shape.setProjectionMatrix(Camera.game.combined);
-
-				Graphics.shape.setColor(1, 0, 0, 0.3f);
-				Graphics.shape.rectLine(xx, yy, last.x, last.y, 3);
-				Graphics.shape.rect(last.x - 2.5f, last.y - 2.5f, 5, 5);
-				Graphics.shape.setColor(1, 0, 0, 0.7f);
-				Graphics.shape.rectLine(xx, yy, last.x, last.y, 1);
-				Graphics.shape.rect(last.x - 1.5f, last.y - 1.5f, 3, 3);
-
-				Graphics.endAlphaShape();
+				tx = last.x;
+				ty = last.y;
+			} else {
+				tx = x2;
+				ty = y2;
 			}
+
+			Graphics.startAlphaShape();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+
+			Graphics.shape.setColor(1, 0, 0, 0.3f);
+			Graphics.shape.rectLine(xx, yy, tx, ty, 3);
+			Graphics.shape.rect(tx - 2.5f, ty - 2.5f, 5, 5);
+			Graphics.shape.setColor(1, 0, 0, 0.7f);
+			Graphics.shape.rectLine(xx, yy, tx, ty, 1);
+			Graphics.shape.rect(tx - 1.5f, ty - 1.5f, 3, 3);
+
+			Graphics.endAlphaShape();
+
 		}
 
 		float dt = Gdx.graphics.getDeltaTime();

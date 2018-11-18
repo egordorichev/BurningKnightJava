@@ -2088,6 +2088,7 @@ public abstract class Level extends SaveableEntity {
 		cdef.bullet = true;
 
 		this.chasms = World.world.createBody(cdef);
+		this.chasms.setUserData(this);
 
 		for (int y = 0; y < getHeight(); y++) {
 			for (int x = 0; x < getWidth(); x++) {

@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.StatefulEntity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 
@@ -151,7 +152,7 @@ public class Projectile extends StatefulEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity == null && fixture.getBody().isBullet()) {
+		if (entity instanceof Level) {
 			return false;
 		}
 

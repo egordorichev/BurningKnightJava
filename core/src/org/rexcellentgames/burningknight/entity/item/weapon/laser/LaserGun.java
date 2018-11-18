@@ -7,11 +7,13 @@ import org.rexcellentgames.burningknight.Dungeon;
 public class LaserGun extends Revolver {
 	{
 		useTime = 1f;
-		damage = 10;
+		damage = 30;
 	}
 
 	@Override
 	protected void sendBullets() {
+		this.owner.playSfx("laser");
+
 		Laser laser = new Laser();
 		float x = this.owner.x + this.owner.w / 2 + (this.owner.isFlipped() ? -7 : 7) + 3 - 2;
 		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;

@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.ManaKnife
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.*
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun
+import org.rexcellentgames.burningknight.entity.item.weapon.laser.LaserGun
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.*
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.*
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.RocketLauncher
@@ -236,6 +237,9 @@ object ItemRegistry {
 	  "machine_gun" to Pair(MachineGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON),
 	  "triple_machine_gun" to Pair(TripleMachineGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.GOLDEN),
 	  "gun" to Pair(Revolver::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
+
+	  "laser_gun" to Pair(LaserGun::class.java, 0f, 0.3f, 0.1f, 1f, Quality.WOODEN),
+
 	  "burst" to Pair(BurstGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 	  "noppy" to Pair(NoppyGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 	  "puncher" to Pair(PuncherGun::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),

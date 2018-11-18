@@ -53,6 +53,8 @@ public class ItemSelectState extends State {
 
 		if (Player.instance != null) {
 			Dungeon.area.remove(Player.instance);
+			PlayerSave.remove(Player.instance);
+			Player.instance = null;
 		}
 
 		if (Achievements.unlocked("UNLOCK_DAGGER")) {
