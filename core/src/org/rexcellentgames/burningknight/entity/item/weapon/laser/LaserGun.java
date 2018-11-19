@@ -29,11 +29,11 @@ public class LaserGun extends Revolver {
 
 				if (last >= 0.2f) {
 					last = 0;
-					ammoLeft -= 1;
+					// FIXME
+					// ammoLeft -= 1;
 
 					if (ammoLeft == 0) {
 						laser.remove();
-						return;
 					}
 				}
 			}
@@ -41,7 +41,6 @@ public class LaserGun extends Revolver {
 			if (!Input.instance.isDown("use")) {
 				laser.remove();
 				endUse();
-				return;
 			}
 
 			double an = this.lastAngle;

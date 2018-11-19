@@ -12,9 +12,6 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
@@ -174,7 +171,7 @@ public class Laser extends Entity {
 	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		Object data = fixture.getBody().getUserData();
 
-		if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()) || data instanceof Projectile)) {
+		if (!fixture.isSensor() && (data == null || ((data instanceof Door && !((Door) data).isOpen())))) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = point;
