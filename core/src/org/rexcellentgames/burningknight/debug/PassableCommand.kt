@@ -2,8 +2,9 @@ package org.rexcellentgames.burningknight.debug
 
 import org.rexcellentgames.burningknight.entity.level.Level
 
-class ShadowCommand : ConsoleCommand("/shadow", "/sd", "Toggles shadows") {
+class PassableCommand : ConsoleCommand("/pas", "/p", "Some debug") {
+
 	override fun run(console: Console, args: Array<String>) {
-		Level.SHADOWS = !Level.SHADOWS
+		Level.RENDER_PASSABLE = !Level.RENDER_PASSABLE
 	}
 }

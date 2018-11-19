@@ -35,12 +35,13 @@ public class Console implements InputProcessor {
 		this.commands.add(new ZoomCommand());
 		this.commands.add(new HurtCommand());
 		this.commands.add(new CoinCommand());
+		this.commands.add(new ClearCommand());
 	}
 
 	public void destroy() {
 		org.rexcellentgames.burningknight.game.input.Input.multiplexer.removeProcessor(this);
 	}
-
+	
 	public void update(float dt) {
 
 	}
