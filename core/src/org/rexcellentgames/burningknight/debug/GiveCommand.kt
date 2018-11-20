@@ -14,7 +14,7 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
       count = Integer.valueOf(args[1])
     }
 
-    if (args.size < 3) {
+    if (args.size > 0 && args.size < 3) {
       val name = args[0]
       val item: Item
       

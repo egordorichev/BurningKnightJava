@@ -1004,7 +1004,7 @@ public abstract class Level extends SaveableEntity {
 								WaterfallFx fx = new WaterfallFx();
 
 								fx.x = x * 16 + Random.newFloat(16);
-								fx.y = y * 16 - 8;
+								fx.y = y * 16 - 6;
 
 								Dungeon.area.add(fx);
 							} // todo: other
@@ -1274,7 +1274,7 @@ public abstract class Level extends SaveableEntity {
 			this.loadPassable();
 		}
 
-		boolean pause = Dungeon.game.getState().isPaused();
+		// boolean pause = Dungeon.game.getState().isPaused();
 
 		for (int y = Math.max(0, sy); y < Math.min(fy, getHeight()); y++) {
 			for (int x = Math.max(0, sx); x < Math.min(fx, getWidth()); x++) {
@@ -1482,6 +1482,7 @@ public abstract class Level extends SaveableEntity {
 
 			Graphics.render(Terrain.exit, x * 16, y * 16 - 7);
 		} else if (tile == Terrain.WATER) {
+			InGameState.flow = true;
 			drawWith(Terrain.waterPattern, Terrain.pooledge, i, x, y, true);
 		} else if (tile == Terrain.LAVA) {
 			drawWith(Terrain.lavaPattern, Terrain.lavaedge, i, x, y, true);

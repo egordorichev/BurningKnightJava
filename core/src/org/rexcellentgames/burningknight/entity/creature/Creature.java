@@ -311,8 +311,6 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		// TODO: a bit random bomb delay
-
 		if (this.freezed) {
 			this.invt = Math.max(0, this.invt - dt);
 			this.invtt = Math.max(0, this.invtt - dt);
@@ -320,6 +318,10 @@ public class Creature extends SaveableEntity {
 			this.velocity.y = 0;
 			this.body.setLinearVelocity(new Vector2(this.velocity.x + this.knockback.x, this.velocity.y + this.knockback.y));
 			return;
+		}
+
+		if (this.touches[Terrain.WATER]) {
+			this.velocity.y -= dt * 600;
 		}
 
 		if (this instanceof Player && ((Player) this).isRolling()) {
@@ -393,7 +395,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void doVel() {
-		float fr = (iceResitant > 0 && this.touches[Terrain.ICE] && !this.isFlying()) ? 1.3f : (this.touches[Terrain.ICE] && !this.isFlying() ? 0.2f : (this.slowLiquidResist == 0 && (this.touches[Terrain.WATER] || this.touches[Terrain.LAVA]) && !this.isFlying() ? 0.55f : 1f));
+		float fr = (iceResitant > 0 && this.touches[Terrain.ICE] && !this.isFlying()) ? 1.3f : (this.touches[Terrain.ICE] && !this.isFlying() ? 0.2f : (this.slowLiquidResist == 0 && (this.touches[Terrain.LAVA]) && !this.isFlying() ? 0.55f : 1f));
 		this.velocity.x += this.acceleration.x * fr;
 		this.velocity.y += this.acceleration.y * fr;
 	}

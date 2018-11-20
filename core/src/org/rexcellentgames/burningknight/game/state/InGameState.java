@@ -53,7 +53,9 @@ public class InGameState extends State {
 	private Area pauseMenuUi;
 	public static TextureRegion noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
 	private static Music fire = Audio.getMusic("OnFire");
+	private static Music water = Audio.getMusic("water");
 	private float volume = 0;
+	private float flowVolume;
 
 	public static boolean forceBoss;
 
@@ -308,11 +310,15 @@ public class InGameState extends State {
 
 		fire.setVolume(0);
 		fire.pause();
+
+		water.setVolume(0);
+		water.pause();
 	}
 
 	private boolean set;
 	private float last;
 	public static boolean burning;
+	public static boolean flow;
 
 	@Override
 	public void update(float dt) {
@@ -523,6 +529,20 @@ public class InGameState extends State {
 
 		fire.setVolume(volume * Settings.sfx);
 		burning = false;
+
+
+		none = volume <= 0.05f;
+		flowVolume += ((flow ? 1 : 0) - flowVolume) * dt;
+
+		if (flowVolume > 0.05f && none) {
+			water.play();
+		} else if (flowVolume < 0.05f && !none) {
+			water.pause();
+		}
+
+		water.setVolume(flowVolume * Settings.sfx * 0.5f);
+
+		flow = false;
 	}
 
 	public static boolean dark = true;
