@@ -25,6 +25,8 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
+import org.rexcellentgames.burningknight.entity.fx.Waterfall;
+import org.rexcellentgames.burningknight.entity.fx.WaterfallFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
@@ -306,10 +308,19 @@ public abstract class Level extends SaveableEntity {
 			this.tileUp(x, y, tile, false);
 		}
 
-		byte t = this.liquidData[toIndex(x, y)];
+		int i = toIndex(x, y);
+		byte t = this.liquidData[i];
 
 		if (matchesFlag(t, Terrain.LIQUID_LAYER)) {
 			this.tileUpLiquid(x, y, t, false);
+
+			// todo: other
+			if (data[i] == Terrain.WATER && i > WIDTH && data[i + WIDTH] == Terrain.CHASM) {
+				Waterfall fx = new Waterfall();
+				fx.x = x * 16 + 16;
+				fx.y = y * 16 - 8;
+				Dungeon.area.add(fx);
+			}
 		}
 
 		if (!walls) {
@@ -460,6 +471,10 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		byte t = this.get(x, y);
+
+		if (t == Terrain.CHASM) {
+			return true;
+		}
 
 		if (flag) {
 			return this.checkFor(x, y, tile) || t == Terrain.WALL || t == Terrain.CRACK;
@@ -937,36 +952,62 @@ public abstract class Level extends SaveableEntity {
 
 	private void doEffects() {
 		if (this.lastFlame == 0) {
-			for (Room room : this.rooms) {
-				for (int y = room.top; y < room.bottom; y++) {
-					for (int x = room.left; x < room.right; x++) {
-						int i = toIndex(x, y);
-						//byte tile = this.get(i);
-						int info = this.info[i];
-						//byte t = this.liquidData[i];
+			OrthographicCamera camera = Camera.game;
+			float zoom = camera.zoom;
 
-						if (BitHelper.isBitSet(info, 0)) {
-							// Burning
+			float cx = camera.position.x - Display.GAME_WIDTH / 2 * zoom;
+			float cy = camera.position.y - Display.GAME_HEIGHT / 2 * zoom;
 
-							InGameState.burning = true;
+			int sx = (int) (Math.floor(cx / 16) - 1);
+			int sy = (int) (Math.floor(cy / 16) - 1);
 
-							TerrainFlameFx fx = new TerrainFlameFx();
+			int fxx = (int) (Math.ceil((cx + Display.GAME_WIDTH * zoom) / 16) + 1);
+			int fy = (int) (Math.ceil((cy + Display.GAME_HEIGHT * zoom) / 16) + 1);
 
-							fx.x = x * 16 + Random.newFloat(16);
-							fx.y = y * 16 - 8 + Random.newFloat(16);
+			for (int y = Math.min(fy, getHeight()) - 1; y >= Math.max(0, sy); y--) {
+				for (int x = Math.max(0, sx); x < Math.min(fxx, getWidth()); x++) {
+					int i = x + y * getWidth();
+					int info = this.info[i];
+					if (BitHelper.isBitSet(info, 0)) {
+						// Burning
 
-							Dungeon.area.add(fx);
+						InGameState.burning = true;
 
-							if (Random.chance(20)) {
-								SteamFx s = new SteamFx();
+						TerrainFlameFx fx = new TerrainFlameFx();
 
-								s.x = x * 16 + Random.newFloat(16);
-								s.y = y * 16 - 8 + Random.newFloat(16);
+						fx.x = x * 16 + Random.newFloat(16);
+						fx.y = y * 16 - 8 + Random.newFloat(16);
 
-								Dungeon.area.add(s);
+						Dungeon.area.add(fx);
 
-								s.val = Random.newFloat(0, 0.5f);
+						if (Random.chance(20)) {
+							SteamFx s = new SteamFx();
+
+							s.x = x * 16 + Random.newFloat(16);
+							s.y = y * 16 - 8 + Random.newFloat(16);
+
+							Dungeon.area.add(s);
+
+							s.val = Random.newFloat(0, 0.5f);
+						}
+					} else {
+						byte tile = this.get(i);
+
+						if (tile == Terrain.CHASM) {
+							if (Random.chance(2f)) {
+								Dungeon.area.add(new ChasmFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 							}
+						} else if (i > WIDTH && this.data[i - WIDTH] == Terrain.CHASM) {
+							byte t = this.liquidData[i];
+
+							if (t == Terrain.WATER) {
+								WaterfallFx fx = new WaterfallFx();
+
+								fx.x = x * 16 + Random.newFloat(16);
+								fx.y = y * 16 - 8;
+
+								Dungeon.area.add(fx);
+							} // todo: other
 						}
 					}
 				}
@@ -1270,10 +1311,6 @@ public abstract class Level extends SaveableEntity {
 							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
-
-					if (tile == Terrain.CHASM && Random.chance(0.1f) && !pause) {
-						Dungeon.area.add(new ChasmFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
-					}
 				}
 			}
 		}
@@ -1554,7 +1591,11 @@ public abstract class Level extends SaveableEntity {
 		maskShader.end();
 		Graphics.batch.begin();
 
-		Graphics.render(r, x * 16, y * 16 - 8);
+		if (water) {
+			Graphics.render(r, x * 16, y * 16 - 8);
+		} else {
+			Graphics.render(r, x * 16, y * 16 - 8);
+		}
 
 		Graphics.batch.end();
 		maskShader.begin();
