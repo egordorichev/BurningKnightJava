@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
@@ -237,7 +238,7 @@ public class CrazyKing extends Boss {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature creature) {
+	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 
 		if (this.hp == 0) {
@@ -544,9 +545,9 @@ public class CrazyKing extends Boss {
 	}
 
 	@Override
-	public HpFx modifyHp(int amount, Creature owner, boolean ignoreArmor) {
+	public HpFx modifyHp(int amount, Entity owner, boolean ignoreArmor) {
 		if (!this.state.equals("jump") && !this.state.equals("fadeIn") && !this.state.equals("fadeOut")) {
-			return super.modifyHp(amount, owner, ignoreArmor);
+			return super.modifyHp(amount, (Creature) owner, ignoreArmor);
 		}
 
 		return null;

@@ -34,6 +34,7 @@ import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.arrows.ArrowA;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocket.RocketA;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
@@ -209,6 +210,44 @@ public class Creature extends SaveableEntity {
 				fx.y = this.y + this.h / 2;
 
 				Dungeon.area.add(fx);
+			}
+		}
+
+
+		if (Settings.blood) {
+			for (int i = 0; i < Random.newInt(2, 3); i++) {
+				BloodSplatFx fxx = new BloodSplatFx();
+
+				fxx.sizeMod = 2;
+				fxx.x = x + Random.newFloat(w) - 8;
+				fxx.y = y + Random.newFloat(h) - 8;
+
+				Dungeon.area.add(fxx);
+			}
+
+			for (int i = 0; i < Random.newInt(2, 5); i++) {
+				BloodSplatFx fxx = new BloodSplatFx();
+
+				fxx.sizeMod = 1;
+				fxx.lng = true;
+				fxx.a = Random.newFloat(360);
+				fxx.x = x + Random.newFloat(w) - 8;
+				fxx.y = y + Random.newFloat(h) - 8;
+
+				Dungeon.area.add(fxx);
+			}
+
+			for (int i = 0; i < Random.newInt(3, 5); i++) {
+				BloodSplatFx fxx = new BloodSplatFx();
+
+				fxx.sizeMod = 1;
+				fxx.lng = true;
+				fxx.cntr = true;
+				fxx.a = Random.newFloat(360);
+				fxx.x = x + Random.newFloat(w) - 8;
+				fxx.y = y + Random.newFloat(h) - 8;
+
+				Dungeon.area.add(fxx);
 			}
 		}
 
@@ -440,7 +479,7 @@ public class Creature extends SaveableEntity {
 		return this.modifyHp(amount, from, false);
 	}
 
-	public HpFx modifyHp(int amount, Creature from, boolean ignoreArmor) {
+	public HpFx modifyHp(int amount, Entity from, boolean ignoreArmor) {
 		if (this.isUnhittable() && amount < 0) {
 			return null;
 		}
@@ -463,8 +502,12 @@ public class Creature extends SaveableEntity {
 				return null;
 			}
 
-			if (from != null) {
-				amount *= from.rollDamage();
+			if (from instanceof Creature) {
+				amount *= ((Creature)from).rollDamage();
+			} else if (from instanceof Projectile) {
+				if (((Projectile)from).owner != null) {
+					amount *= ((Projectile) from).owner.rollDamage();
+				}
 			}
 
 			if (!ignoreArmor) {
@@ -474,8 +517,12 @@ public class Creature extends SaveableEntity {
 					amount = -1;
 				}
 
-				if (from != null) {
-					from.onHit(this);
+				if (from instanceof Creature) {
+					((Creature) from).onHit(this);
+				} else if (from instanceof Projectile) {
+					if (((Projectile)from).owner != null) {
+						((Projectile) from).owner.onHit(this);
+					}
 				}
 			}
 
@@ -501,9 +548,37 @@ public class Creature extends SaveableEntity {
 		if (hurt) {
 			this.onHurt(amount, from);
 
-			for (int i = 0; i < Random.newInt(2, 3); i++) {
+			if (Settings.blood) {
+				for (int i = 0; i < Random.newInt(2, 3); i++) {
+					BloodSplatFx fxx = new BloodSplatFx();
+
+					fxx.sizeMod = 1;
+					fxx.x = x + Random.newFloat(w) - 8;
+					fxx.y = y + Random.newFloat(h) - 8;
+
+					Dungeon.area.add(fxx);
+				}
+
+				if (Random.chance(50)) {
+					for (int i = 0; i < Random.newInt(1, 3); i++) {
+						BloodSplatFx fxx = new BloodSplatFx();
+
+						fxx.sizeMod = 1;
+						fxx.lng = true;
+						fxx.cntr = true;
+						fxx.a = Random.newFloat(360);
+						fxx.x = x + Random.newFloat(w) - 8;
+						fxx.y = y + Random.newFloat(h) - 8;
+
+						Dungeon.area.add(fxx);
+					}
+				}
+
 				BloodSplatFx fxx = new BloodSplatFx();
 
+				fxx.sizeMod = 1;
+				fxx.lng = true;
+				fxx.a = from == null ? Random.newFloat(360) : (float) (Math.toDegrees(this.getAngleTo(from.x + from.w, from.y + from.h) - Math.PI));
 				fxx.x = x + Random.newFloat(w) - 8;
 				fxx.y = y + Random.newFloat(h) - 8;
 
@@ -554,7 +629,7 @@ public class Creature extends SaveableEntity {
 		this.triggerEvent("on_hit");
 	}
 
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		Graphics.delay(20);
 	}
 

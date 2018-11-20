@@ -83,6 +83,7 @@ public class Terrain {
 		colors[EXIT] = Color.valueOf("#424c6e");
 		colors[TABLE] = Color.valueOf("#f6ca9f");
 		colors[DISCO] = Color.valueOf("#ff0000");
+		colors[VENOM] = Color.valueOf("#93388f");
 
 		// Castle
 		floors[0][0] = Color.valueOf("#657392");

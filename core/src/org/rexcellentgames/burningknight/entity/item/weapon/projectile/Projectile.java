@@ -107,7 +107,7 @@ public class Projectile extends StatefulEntity {
 	protected boolean ignoreArmor = false;
 
 	protected void doHit(Entity entity) {
-		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, this.ignoreArmor);
+		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this, this.ignoreArmor);
 		((Creature) entity).knockBackFrom(this.owner, this.knockback);
 
 		if (fx != null) {
@@ -152,7 +152,7 @@ public class Projectile extends StatefulEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof Level || (entity instanceof Projectile && ((Projectile) entity).bad != this.bad)) {
+		if (entity instanceof Level || (entity instanceof Projectile && ((Projectile) entity).bad == this.bad)) {
 			return false;
 		}
 

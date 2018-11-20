@@ -18,7 +18,6 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
@@ -100,6 +99,8 @@ public class Mob extends Creature {
 		if (Random.chance(50)) {
 			this.become("roam");
 		}
+
+		this.stats.put("block_chance", 0f);
 	}
 
 	public Mob generate() {
@@ -598,18 +599,6 @@ public class Mob extends Creature {
 		this.done = true;
 		drop = true;
 
-		if (Settings.blood) {
-			for (int i = 0; i < 5; i++) {
-				BloodSplatFx fxx = new BloodSplatFx();
-
-				fxx.x = x + Random.newFloat(w) - 8;
-				fxx.y = y + Random.newFloat(h) - 8;
-
-				Dungeon.area.add(fxx);
-				BloodFx.add(this, 5);
-			}
-		}
-
 		if (this.room != null) {
 			this.room.numEnemies -= 1;
 		}
@@ -675,7 +664,7 @@ public class Mob extends Creature {
 							}
 						}
 
-						if (!Player.instance.isDead() && !force && Random.chance(20)) {
+						if (Player.instance != null && !Player.instance.isDead() && !force && Random.chance(20)) {
 							HeartFx fx = new HeartFx();
 
 							fx.x = x + w / 2 + Random.newFloat(-4, 4);
@@ -827,7 +816,7 @@ public class Mob extends Creature {
 	private boolean toDead;
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 
 		/*if (!this.saw && !(this instanceof Boss)) {
@@ -842,8 +831,14 @@ public class Mob extends Creature {
 		}
 
 		if (from instanceof Player) {
-			this.target = from;
+			this.target = (Creature) from;
 		}
+	}
+
+	// HACKZ
+	@Override
+	public boolean rollBlock() {
+		return false;// return super.rollBlock();
 	}
 
 	@Override

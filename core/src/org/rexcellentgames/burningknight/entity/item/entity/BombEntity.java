@@ -217,9 +217,9 @@ public class BombEntity extends Entity {
 					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
 						if (!creature.explosionBlock) {
 							if (creature instanceof Player) {
-								creature.modifyHp(-1000, this.owner, true);
+								creature.modifyHp(-1000, this, true);
 							} else {
-								creature.modifyHp(-Math.round(Random.newFloatDice(20 / 3 * 2, 20)), this.owner, true);
+								creature.modifyHp(-Math.round(Random.newFloatDice(20 / 3 * 2, 20)), this, true);
 							}
 						}
 

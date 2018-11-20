@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
@@ -112,7 +113,7 @@ public class BurningKnight extends Boss {
 	}
 
 	@Override
-	protected void onHurt(int am, Creature from) {
+	protected void onHurt(int am, Entity from) {
 		super.onHurt(am, from);
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}

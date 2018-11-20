@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.laser;
 
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.Laser;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -29,8 +30,7 @@ public class LaserGun extends Revolver {
 
 				if (last >= 0.2f) {
 					last = 0;
-					// FIXME
-					// ammoLeft -= 1;
+					ammoLeft -= 1;
 
 					if (ammoLeft == 0) {
 						laser.remove();
@@ -38,7 +38,8 @@ public class LaserGun extends Revolver {
 				}
 			}
 
-			if (!Input.instance.isDown("use")) {
+			// FIXME: wont detect key up
+			if (!Input.instance.isDown("use") || Player.instance.isRolling()) {
 				laser.remove();
 				endUse();
 			}

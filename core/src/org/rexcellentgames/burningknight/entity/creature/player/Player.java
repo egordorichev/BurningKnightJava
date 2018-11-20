@@ -34,7 +34,10 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
-import org.rexcellentgames.burningknight.entity.fx.*;
+import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
+import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
+import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
+import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -70,7 +73,6 @@ import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
-import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -200,7 +202,9 @@ public class Player extends Creature {
 	}
 
 	public Player(String name) {
-		this.name = name;
+		if (Player.instance != null) {
+			Player.instance.done = true;
+		}
 
 		all.add(this);
 		instance = this;
@@ -845,8 +849,6 @@ public class Player extends Creature {
 	@Override
 	protected void common() {
 		super.common();
-		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
-
 	}
 
 	@Override
@@ -888,10 +890,12 @@ public class Player extends Creature {
 		}
 
 		if (this.hasBuff(BurningBuff.class)) {
-			this.light.setColor(1, 0.5f, 0f, 1f);
+			this.light.setColor(1, 0.5f, 0f, 0.3f);
 		} else {
-			this.light.setColor(1, 1, 0.5f, 1f);
+			this.light.setColor(1, 1, 0.5f, 0.3f);
 		}
+
+		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (!this.rolling) {
 			if (this.isFlying() || this.touches[Terrain.WALL] || this.touches[Terrain.FLOOR_A] || this.touches[Terrain.FLOOR_B] || this.touches[Terrain.FLOOR_C] || this.touches[Terrain.FLOOR_D] || this.touches[Terrain.DISCO]) {
@@ -1460,7 +1464,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 
 		this.gotHit = true;
@@ -1468,8 +1472,8 @@ public class Player extends Creature {
 		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 
-		if (from != null && Random.chance(this.reflectDamageChance)) {
-			from.modifyHp(4, this, true);
+		if (from instanceof Creature && Random.chance(this.reflectDamageChance)) {
+			((Creature)from).modifyHp(4, this, true);
 		}
 
 		if (this.ui != null) {

@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
@@ -55,7 +55,7 @@ public class Knight extends Mob {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature creature) {
+	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 
 		this.playSfx("damage_towelknight");
@@ -538,17 +538,8 @@ public class Knight extends Mob {
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 			this.vel = new Vector2();
-			self.modifySpeed(100);
 			this.vel.x = dx / (d + Random.newFloat(-d / 3, d / 3)) * 300;
 			this.vel.y = dy / (d + Random.newFloat(-d / 3, d / 3)) * 300;
-		}
-
-		@Override
-		public void onExit() {
-			super.onExit();
-
-			//self.sword.setAdded(0);
-			self.modifySpeed(-100);
 		}
 
 		@Override
@@ -558,11 +549,13 @@ public class Knight extends Mob {
 			this.vel.x *= dt * 58f;
 			this.vel.y *= dt * 58f;
 
-			self.acceleration.x = this.vel.x;
-			self.acceleration.y = this.vel.y;
+			// FIXME: no vsync == smaller dt == issues!!!!
+
+			self.velocity.x = this.vel.x;
+			self.velocity.y = this.vel.y;
 
 			if (this.t >= 1f) {
-				self.become("wait");
+					self.become("wait");
 			}
 		}
 	}

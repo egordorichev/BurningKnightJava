@@ -15,11 +15,14 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob
 import org.rexcellentgames.burningknight.entity.creature.player.Player
 import org.rexcellentgames.burningknight.entity.item.key.Key
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
+import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
+import org.rexcellentgames.burningknight.entity.level.Terrain
 import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.game.state.InGameState
 import org.rexcellentgames.burningknight.physics.World
+import org.rexcellentgames.burningknight.util.CollisionHelper
 import org.rexcellentgames.burningknight.util.MathUtils
 import org.rexcellentgames.burningknight.util.Random
 import org.rexcellentgames.burningknight.util.Tween
@@ -142,6 +145,43 @@ open class ItemHolder : SaveableEntity {
   override fun update(dt: Float) {
     if (this.item == null) {
       return
+    }
+
+	  var found = false
+    var x = Math.floor(((this.x) / 16).toDouble()).toInt() - 1
+
+    while (x < Math.ceil(((this.x + this.hw.toFloat() + 8) / 16).toDouble())) {
+      var y = Math.floor(((this.y) / 16).toDouble()).toInt() - 1
+
+      while (y < Math.ceil(((this.y + 16f + this.hh.toFloat()) / 16).toDouble())) {
+        if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
+          y++
+          continue
+        }
+
+        if (CollisionHelper.check(this.x, this.y, w, h, x * 16f, y * 16f - 8f, 32f, 32f)) {
+          val i = Level.toIndex(x, y)
+          val l = Dungeon.level.liquidData[i]
+
+					if (l == Terrain.WATER)	{
+						velocity.y -= dt * 800
+						found = true
+						break
+          }
+        }
+
+	      if (found) {
+		      break
+	      }
+
+        y++
+      }
+
+	    if (found) {
+		    break
+	    }
+
+      x++
     }
 
     if (this.item!!.shop && !added) {
