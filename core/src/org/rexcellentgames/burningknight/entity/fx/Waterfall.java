@@ -16,7 +16,8 @@ public class Waterfall extends Entity {
 		for (int i = 0; i < 16; i++) {
 			Graphics.shape.setColor(0, 0.6f, 1, 0.4f);
 
-			float h = (float) (8 + Math.sin(i * 16f + Dungeon.time * 2f) * 4);
+			// fixme: better color/sin function
+			float h = (float) (8 + Math.sin((x + i) * 0.25f + Dungeon.time * 2f) * 2 * Math.cos(Dungeon.time * 2f));
 			Graphics.shape.rect(x + i, y - h, 1, h);
 		}
 

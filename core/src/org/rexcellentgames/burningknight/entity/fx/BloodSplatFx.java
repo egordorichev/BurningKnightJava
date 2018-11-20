@@ -32,7 +32,7 @@ public class BloodSplatFx extends Entity {
 			polyBatch = new PolygonSpriteBatch();
 
 			Pixmap pix = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-			pix.setColor(0xFFFFFFFF); // DE is red, AD is green and BE is blue.
+			pix.setColor(0xFFFFFFFF);
 			pix.fill();
 			textureSolid = new Texture(pix);
 		}
@@ -52,7 +52,7 @@ public class BloodSplatFx extends Entity {
 
 		poly = new PolygonSprite(new PolygonRegion(new TextureRegion(textureSolid), shape, triangulator.computeTriangles(shape).toArray()));
 		poly.setPosition(x + 8, y + 8);
-		poly.setColor(1, 0f, 0f, 1f);
+		poly.setColor(0.9f, 0f, 0f, 0f);
 	}
 
 	@Override

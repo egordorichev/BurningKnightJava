@@ -315,9 +315,9 @@ public abstract class Level extends SaveableEntity {
 			this.tileUpLiquid(x, y, t, false);
 
 			// todo: other
-			if (data[i] == Terrain.WATER && i > WIDTH && data[i + WIDTH] == Terrain.CHASM) {
+			if (liquidData[i] == Terrain.WATER && data[i - WIDTH] == Terrain.CHASM) {
 				Waterfall fx = new Waterfall();
-				fx.x = x * 16 + 16;
+				fx.x = x * 16;
 				fx.y = y * 16 - 8;
 				Dungeon.area.add(fx);
 			}
@@ -1706,6 +1706,22 @@ public abstract class Level extends SaveableEntity {
 						}
 					} else if (tile == Terrain.CHASM) {
 						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
+
+						if (data[i - 1] != Terrain.CHASM) {
+							Graphics.render(Terrain.chasmSides[3][(y + x * 2) % 3], x * 16 - 16, y * 16 - 8);
+						}
+
+						if (data[i + 1] != Terrain.CHASM) {
+							Graphics.render(Terrain.chasmSides[1][(y + x * 2) % 3], x * 16 + 16, y * 16 - 8);
+						}
+
+						if (data[i - WIDTH] != Terrain.CHASM) {
+							Graphics.render(Terrain.chasmSides[2][(y + x * 2 - 1) % 3], x * 16, y * 16 - 24);
+						}
+
+						if (data[i + WIDTH] != Terrain.CHASM) {
+							Graphics.render(Terrain.chasmSides[0][(y + x * 2 + 1) % 3], x * 16, y * 16 + 8);
+						}
 					}
 				}
 			}
