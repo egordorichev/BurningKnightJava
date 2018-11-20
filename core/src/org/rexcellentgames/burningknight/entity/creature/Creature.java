@@ -321,7 +321,7 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.touches[Terrain.WATER]) {
-			this.velocity.y -= dt * 600;
+			this.velocity.y -= dt * 1000;
 		}
 
 		if (this instanceof Player && ((Player) this).isRolling()) {

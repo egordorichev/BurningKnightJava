@@ -319,6 +319,7 @@ public abstract class Level extends SaveableEntity {
 				Waterfall fx = new Waterfall();
 				fx.x = x * 16;
 				fx.y = y * 16 - 8;
+				fx.i = i;
 				Dungeon.area.add(fx);
 			}
 		}
