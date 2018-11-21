@@ -290,11 +290,11 @@ public class Mob extends Creature {
 		}
 		*/
 
-		if (last == player) {
+		//if (last == player) {
 			return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16)) == 0;
-		}
+		//}
 
-		return false;
+		//return false;
 	}
 
 	protected void assignTarget() {
@@ -971,7 +971,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.saw && Player.instance.room == self.room && self.canSee(self.target)) {
+				if (!self.saw && self.canSee(self.target)) {
 					self.saw = true;
 					self.playSfx("enemy_alert");
 					self.noticeSignT = 2f;

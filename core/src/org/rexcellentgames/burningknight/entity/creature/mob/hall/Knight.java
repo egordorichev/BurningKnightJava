@@ -167,11 +167,11 @@ public class Knight extends Mob {
 		switch (state) {
 			case "wait": return new WaitState();
 			case "idle": case "roam": return new RoamState();
-			case "alerted": case "chase": return new ChaseState();
+			case "chase": return new ChaseState();
 			case "dash": return new DashState();
 			case "preattack": return new PreAttackState();
 			case "attack": return new AttackingState();
-			case "saw": return new SawState();
+			case "alerted": return new SawState();
 			case "predash": return new PredashState();
 		}
 
@@ -207,28 +207,6 @@ public class Knight extends Mob {
 		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
 	}
 
-	public class IdleState extends KnightState {
-		public float delay;
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			self.saw = false;
-			this.delay = Random.newFloat(5f, 10f);
-		}
-
-		@Override
-		public void update(float dt) {
-			if (this.t >= this.delay) {
-				self.become("roam");
-				return;
-			}
-
-			this.checkForPlayer();
-			super.update(dt);
-		}
-	}
-
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
 		if (this.ai instanceof RoamState) {
@@ -247,7 +225,6 @@ public class Knight extends Mob {
 		@Override
 		public void onEnter() {
 			selectPoint();
-			self.saw = false;
 		}
 
 		public void selectPoint() {
@@ -282,6 +259,8 @@ public class Knight extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
+			this.checkForPlayer();
+
 			/*if (self.target != null) {
 				float dx = self.target.x + self.target.w / 2 - self.x - self.w / 2;
 				float dy = self.target.y + self.target.h / 2 - self.y - self.h / 2;
@@ -309,6 +288,7 @@ public class Knight extends Mob {
 
 			if (this.wait > 0) {
 				this.wait -= dt;
+				this.checkForPlayer();
 
 				if (this.wait <= 0) {
 					selectDirs();
@@ -330,8 +310,6 @@ public class Knight extends Mob {
 
 			self.lastAcceleration.x = self.acceleration.x * f;
 			self.lastAcceleration.y = self.acceleration.y * f;
-
-			this.checkForPlayer();
 		}
 	}
 
