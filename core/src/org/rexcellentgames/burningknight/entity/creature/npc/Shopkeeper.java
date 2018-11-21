@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
@@ -84,6 +84,7 @@ public class Shopkeeper extends Npc {
 	@Override
 	public void init() {
 		super.init();
+		friendly = true;
 		this.body = World.createSimpleBody(this, 4, 0, 8, 14, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		instance = this;
@@ -498,6 +499,7 @@ public class Shopkeeper extends Npc {
 			return;
 		}
 
+		friendly = false;
 		enranged = true;
 		this.become("hana");
 
@@ -529,6 +531,7 @@ public class Shopkeeper extends Npc {
 			this.tt += dt;
 
 			if (self.shotgun == null) {
+				friendly = false;
 				shotgun = new BronzeShotgun();
 				shotgun.setOwner(self);
 			}
@@ -582,7 +585,7 @@ public class Shopkeeper extends Npc {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 		this.playSfx("damage_towelknight");
 

@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
@@ -120,7 +121,7 @@ public class Weapon extends WeaponBase {
 				this.knockFrom(entity);
 				return;
 			} else if (entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Entrance || entity instanceof Chest) {
-				this.owner.playSfx("clink_2");
+				// this.owner.playSfx("clink_2");
 				played = true;
 				this.knockFrom(entity);
 				return;
@@ -168,7 +169,7 @@ public class Weapon extends WeaponBase {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if ((entity == null && fixture.getBody().isBullet()) || entity == owner || entity instanceof Door || entity instanceof ItemHolder) {
+		if ((entity instanceof Level) || entity == owner || entity instanceof Door || entity instanceof ItemHolder) {
 			return false;
 		}
 

@@ -34,7 +34,7 @@ public class Mummy extends Mob {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 		this.playSfx("damage_mummy");
 	}

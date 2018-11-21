@@ -98,6 +98,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean goToMenu;
 	public static float battleDarkness;
 	public static float white;
+	public static boolean goToSelect;
 
 	public static String title;
 
@@ -163,7 +164,7 @@ public class Dungeon extends ApplicationAdapter {
 			area.destroy();
 		}
 
-		Dungeon.depth = quick ? depth : (Dungeon.depth == -3 ? -3 : -1);
+		Dungeon.depth = quick ? depth : (Dungeon.depth == -3 ? -3 : -2);
 
 		if (Dungeon.depth == -3) {
 			quick = false;
@@ -331,6 +332,14 @@ public class Dungeon extends ApplicationAdapter {
 					return true;
 				}
 			});
+
+			return;
+		}
+
+		if (goToSelect) {
+			goToSelect = false;
+			ItemSelectState.depth = 1;
+			game.setState(new ItemSelectState());
 
 			return;
 		}

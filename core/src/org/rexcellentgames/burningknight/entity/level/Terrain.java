@@ -83,6 +83,7 @@ public class Terrain {
 		colors[EXIT] = Color.valueOf("#424c6e");
 		colors[TABLE] = Color.valueOf("#f6ca9f");
 		colors[DISCO] = Color.valueOf("#ff0000");
+		colors[VENOM] = Color.valueOf("#93388f");
 
 		// Castle
 		floors[0][0] = Color.valueOf("#657392");
@@ -195,6 +196,7 @@ public class Terrain {
 	public static TextureRegion[] topVariants = new TextureRegion[12];
 	public static TextureRegion[][] wallTop = new TextureRegion[3][12];
 	public static TextureRegion[] sides = new TextureRegion[3];
+	public static TextureRegion[][] chasmSides = new TextureRegion[4][3];
 
 	public static TextureRegion[][] variants = new TextureRegion[SIZE][16];
 	public static TextureRegion[] decor;
@@ -219,7 +221,7 @@ public class Terrain {
 		dirtPattern = Graphics.getTexture("biome-gen-dirt pattern");
 		grassPattern = Graphics.getTexture("biome-gen-grass pattern");
 		dryGrassPattern = Graphics.getTexture("biome-gen-dry pattern");
-		waterPattern = Graphics.getTexture("biome-gen-pool pattern");
+		waterPattern = Graphics.getTexture("biome-gen-water pattern");
 		venomPattern = Graphics.getTexture("biome-gen-polluted pattern");
 		lavaPattern = Graphics.getTexture("biome-gen-lava pattern");
 		wallPattern = Graphics.getTexture(bm + "-wall pattern");
@@ -320,6 +322,14 @@ public class Terrain {
 			topVariants[i] = Graphics.getTexture(bm + "-wall " + letters[i / 4] + " " + String.format("%02d", i % 4 + 1));
 		}
 
+		for (int i = 0; i < 4; i++) {
+			chasmSides[i] = new TextureRegion[3];
+
+			for (int j = 0; j < 3; j++) {
+				chasmSides[i][j] = Graphics.getTexture("biome-gen-edge_" + coords[i] + "_" + (j + 1));
+			}
+		}
+
 		chasmPattern = Graphics.getTexture("biome-gen-chasm_bg");
 
 		variants[FLOOR_B] = woodVariants;
@@ -338,6 +348,7 @@ public class Terrain {
 	}
 
 	public static char[] letters = new char[] { 'A', 'B', 'C', 'D' };
+	public static char[] coords = new char[] { 'n', 'e', 's', 'w' };
 	public static int[] wallMap = new int[] { -1, -1, -1, 9, -1, -1, 0, 5, -1, 11, -1, 10, 2, 6, 1, -1 };
 	public static int[] wallMapExtra = new int[] { -1, 7, 3, -1, 4, -1, -1, -1, 8, -1, -1, -1, -1, -1, -1, -1 };
 }

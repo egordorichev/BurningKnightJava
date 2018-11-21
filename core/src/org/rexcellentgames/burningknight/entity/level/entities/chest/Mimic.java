@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -266,7 +265,7 @@ public class Mimic extends Mob {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 
 		this.playSfx("damage_clown");
@@ -357,7 +356,7 @@ public class Mimic extends Mob {
 
 						BulletProjectile bullet = new BulletProjectile();
 
-						bullet.letter = "bad";
+						bullet.letter = "nano";
 						bullet.bad = true;
 						bullet.owner = self;
 						bullet.x = self.x + self.w / 2;

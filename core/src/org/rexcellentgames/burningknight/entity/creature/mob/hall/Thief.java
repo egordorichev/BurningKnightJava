@@ -1,18 +1,18 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -115,7 +115,14 @@ public class Thief extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
-		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+
+		if (this.stolen != null) {
+			TextureRegion region = stolen.getSprite();
+			Graphics.render(region, this.x + (this.w - region.getRegionWidth()) + (flipped ? -8 : 6), this.y);
+		} else {
+			this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+		}
+
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
 	}
@@ -286,7 +293,7 @@ public class Thief extends Mob {
 
 
 	@Override
-	protected void onHurt(int a, Creature creature) {
+	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 		this.playSfx("damage_thief");
 	}
@@ -295,6 +302,7 @@ public class Thief extends Mob {
 	public void onHit(Creature who) {
 		super.onHit(who);
 
+		/*
 		if (stolen == null && who instanceof Player && Random.chance(70)) {
 			Player player = (Player) who;
 
@@ -312,7 +320,7 @@ public class Thief extends Mob {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	public class PreattackState extends ThiefState {

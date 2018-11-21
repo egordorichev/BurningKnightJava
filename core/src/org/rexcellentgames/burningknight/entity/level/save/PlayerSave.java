@@ -64,12 +64,11 @@ public class PlayerSave {
 		Dungeon.area.add(player);
 
 		all.add(player);
-
-		player.setType(Player.Type.values()[GlobalSave.getInt("last_class")]);
+		player.generate();
+		// player.setType(Player.Type.values()[GlobalSave.getInt("last_class")]);
 
 		if (Dungeon.quick) {
 			Dungeon.quick = false;
-			player.generate();
 			GlobalSave.put("last_class", player.getType().id);
 		}
 	}

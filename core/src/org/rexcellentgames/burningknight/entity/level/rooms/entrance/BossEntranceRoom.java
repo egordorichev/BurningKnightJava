@@ -35,7 +35,7 @@ public class BossEntranceRoom extends RegularRoom {
 			}
 		}
 
-		paintTunnel(level, Terrain.FLOOR_D);
+		paintTunnel(level, Terrain.randomFloor());
 		this.place(level, this.getCenter());
 
 		for (Door door : connected.values()) {
@@ -45,22 +45,22 @@ public class BossEntranceRoom extends RegularRoom {
 
 	@Override
 	public int getMinWidth() {
-		return 8;
+		return 5;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 8;
+		return 5;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 12;
+		return 10;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 12;
+		return 10;
 	}
 
 	@Override

@@ -5,18 +5,16 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 
 public class Npc extends Mob {
-	private boolean active;
-	private NpcDialog dialog;
-
 	{
 		hp = 10;
 		hpMax = 10;
+		friendly = true;
 	}
 
 	@Override
 	public void init() {
 		super.init();
-
+		friendly = true;
 		depth = 0;
 	}
 

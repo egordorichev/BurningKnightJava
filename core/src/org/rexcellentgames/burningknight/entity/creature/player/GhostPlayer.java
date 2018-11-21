@@ -1,6 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.player;
 
-import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.InvisibilityBuff;
 import org.rexcellentgames.burningknight.util.Log;
 
@@ -24,7 +24,7 @@ public class GhostPlayer extends Player {
 	}
 
 	@Override
-	public void onHurt(int a, Creature creature) {
+	public void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 
 		// FIXME: doesnt remove it

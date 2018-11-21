@@ -19,25 +19,9 @@ public class Audio {
 	public static Music current;
 	public static boolean important;
 	private static String last = "";
-	private static float time;
-
-	public static boolean beat;
 
 	public static void update(float dt) {
-		/*if (current != null && current.isPlaying()) {
-			time += dt;
 
-			int beats = bpm.get(last);
-
-			if (time >= 60f / beats) {
-				time = 0;
-				beat = true;
-			} else {
-				beat = false;
-			}
-		} else {
-			time = 0;
-		}*/
 	}
 
 	public static void targetAssets() {
@@ -119,8 +103,6 @@ public class Audio {
 
 		fadeOut();
 
-		time = 0;
-
 		music.setLooping(false);
 		music.setVolume(Settings.music);
 		music.play();
@@ -134,7 +116,6 @@ public class Audio {
 		if (current != null) {
 			current.stop();
 			current.play();
-			time = 0;
 		}
 	}
 
@@ -161,7 +142,6 @@ public class Audio {
 		music.setLooping(true);
 		music.setVolume(0);
 		music.play();
-		time = 0;
 
 		Tween.to(new Tween.Task(Settings.music, 1f) {
 			@Override

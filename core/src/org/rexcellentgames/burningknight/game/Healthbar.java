@@ -24,6 +24,7 @@ public class Healthbar {
 	public Boss boss;
 	public boolean done;
 	private float invt;
+	private boolean tweening;
 
 	public Healthbar() {
 		this.invt = 0f;
@@ -37,7 +38,7 @@ public class Healthbar {
 		this.invt = Math.max(0, this.invt - dt);
 		this.done = this.boss.isDead() && this.y >= Display.UI_HEIGHT;
 
-		if (((int) this.lastBV) > boss.getHp()) {
+		if (!tweening && ((int) this.lastBV) > boss.getHp()) {
 			Tween.to(new Tween.Task(0.95f, 0.1f) {
 				@Override
 				public float getValue() {
@@ -94,9 +95,11 @@ public class Healthbar {
 			this.invt = 0.3f;
 		}
 
-		max = boss.getHpMax();
-		this.lastV += (boss.getHp() - this.lastV) / 60f;
-		this.lastBV += (boss.getHp() - this.lastBV) / 4f;
+		if (!tweening) {
+			max = boss.getHpMax();
+			this.lastV += (boss.getHp() - this.lastV) / 60f;
+			this.lastBV += (boss.getHp() - this.lastBV) / 4f;
+		}
 
 		boolean d = Dungeon.depth == -3 || boss.isDead() || boss.getState().equals("unactive") || boss.rage;
 
@@ -115,8 +118,27 @@ public class Healthbar {
 			});
 		} else if (!d && !this.tweened) {
 			tweened = true;
+			lastBV = 0;
+			tweening = true;
 
-			Tween.to(new Tween.Task(Display.UI_HEIGHT - this.targetValue, 0.5f, Tween.Type.BACK_OUT) {
+			Tween.to(new Tween.Task(boss.getHp(), 1f, Tween.Type.QUAD_OUT) {
+				@Override
+				public float getValue() {
+					return lastBV;
+				}
+
+				@Override
+				public void setValue(float value) {
+					lastBV = value;
+				}
+
+				@Override
+				public void onEnd() {
+					tweening = false;
+				}
+			}).delay(0.4f);
+
+			Tween.to(new Tween.Task(Display.UI_HEIGHT - this.targetValue, 0.8f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
 					return y;

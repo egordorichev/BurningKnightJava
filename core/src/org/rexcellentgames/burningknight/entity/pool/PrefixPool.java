@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.pool;
 
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.*;
-import org.rexcellentgames.burningknight.entity.creature.mob.prefix.*;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -13,12 +12,12 @@ public class PrefixPool {
 		add(new MoreHealthPrefix(), 1f);
 		add(new MoreDefensePrefix(), 1f);
 		add(new ExplosiveDeathPrefix(), 1f);
-		add(new HighDodgePrefix(), 1f);
-		add(new KnockbackPrefix(), 1f);
-		add(new MoreCritChancePrefix(), 1f);
-		add(new MoreInvTimePrefix(), 1f);
-		add(new ImmuneToDebuffsPrefix(), 1f);
-		add(new NoKnockbackPrefix(), 1f);
+		// add(new HighDodgePrefix(), 1f);
+	  // add(new KnockbackPrefix(), 1f);
+		// add(new MoreCritChancePrefix(), 1f);
+		// add(new MoreInvTimePrefix(), 1f);
+		// add(new ImmuneToDebuffsPrefix(), 1f);
+		// add(new NoKnockbackPrefix(), 1f);
 		add(new DeathShotPrefix(), 1f);
 
 		// ideas: greed

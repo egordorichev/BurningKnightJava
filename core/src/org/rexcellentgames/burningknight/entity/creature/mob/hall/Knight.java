@@ -6,17 +6,20 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.KnightHat;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
 
@@ -51,9 +54,8 @@ public class Knight extends Mob {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature creature) {
+	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
-
 		this.playSfx("damage_towelknight");
 	}
 
@@ -124,6 +126,22 @@ public class Knight extends Mob {
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
+
+		/*Graphics.startShape();
+
+		if (this.ai != null && this.ai.targetPoint != null) {
+			Graphics.shape.setColor(1, 0, 0, 1);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.targetPoint.x + 8, this.ai.targetPoint.y + 8);
+		}
+
+		if (this.ai != null && this.ai.nextPathPoint != null) {
+			Graphics.shape.setColor(0, 0, 1, 1);
+			Graphics.shape.line(this.x + 8, this.y + 8, this.ai.nextPathPoint.x + 8, this.ai.nextPathPoint.y + 8);
+		}
+
+		Graphics.endShape();*/
+
+		// Graphics.print(this.state, Graphics.small, this.x, this.y + 16);
 	}
 
 	@Override
@@ -147,11 +165,14 @@ public class Knight extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "idle": case "alerted": case "roam": return new RoamState();
-			case "chase": return new ChaseState();
+			case "wait": return new WaitState();
+			case "idle": case "roam": return new RoamState();
+			case "alerted": case "chase": return new ChaseState();
+			case "dash": return new DashState();
 			case "preattack": return new PreAttackState();
 			case "attack": return new AttackingState();
 			case "saw": return new SawState();
+			case "predash": return new PredashState();
 		}
 
  		return super.getAi(state);
@@ -173,6 +194,15 @@ public class Knight extends Mob {
 	}
 
 	@Override
+	public void renderSigns() {
+		super.renderSigns();
+
+		if (this.sword instanceof Gun) {
+			((Gun) this.sword).renderReload();
+		}
+	}
+
+	@Override
 	public void renderShadow() {
 		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
 	}
@@ -183,6 +213,7 @@ public class Knight extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			self.saw = false;
 			this.delay = Random.newFloat(5f, 10f);
 		}
 
@@ -216,6 +247,7 @@ public class Knight extends Mob {
 		@Override
 		public void onEnter() {
 			selectPoint();
+			self.saw = false;
 		}
 
 		public void selectPoint() {
@@ -250,7 +282,7 @@ public class Knight extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (self.target != null) {
+			/*if (self.target != null) {
 				float dx = self.target.x + self.target.w / 2 - self.x - self.w / 2;
 				float dy = self.target.y + self.target.h / 2 - self.y - self.h / 2;
 				boolean alerted = false;
@@ -264,10 +296,16 @@ public class Knight extends Mob {
 				}
 
 				if (alerted) {
-					this.checkForPlayer();
+					if (!saw) {
+						this.checkForPlayer();
+						self.saw = true;
+						self.noticeSignT = 2f;
+						self.playSfx("enemy_alert");
+					}
+
 					self.become("saw");
 				}
-			}
+			}*/
 
 			if (this.wait > 0) {
 				this.wait -= dt;
@@ -275,6 +313,7 @@ public class Knight extends Mob {
 				if (this.wait <= 0) {
 					selectDirs();
 				}
+
 				return;
 			}
 
@@ -284,13 +323,15 @@ public class Knight extends Mob {
 				this.selectPoint();
 			}
 
-			float f = 8;
+			float f = 12;
 
 			self.acceleration.x = direction.x * f;
 			self.acceleration.y = direction.y * f;
 
 			self.lastAcceleration.x = self.acceleration.x * f;
 			self.lastAcceleration.y = self.acceleration.y * f;
+
+			this.checkForPlayer();
 		}
 	}
 
@@ -319,7 +360,8 @@ public class Knight extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			this.delay = Random.newFloat(8f, 10f);
+
+			this.delay = Random.newFloat(4f, 5f);
 
 			if (self.sword instanceof Sword) {
 				this.att = ATTACK_DISTANCE;
@@ -356,17 +398,11 @@ public class Knight extends Mob {
 
 				self.lastAcceleration.x = self.acceleration.x;
 				self.lastAcceleration.y = self.acceleration.y;
-				/* else {
-					if (self.target != null && Random.chance(1)) {
-						float d = self.getDistanceTo((int) (self.target.x + self.target.w / 2),
-							(int) (self.target.y + self.target.h / 2));
 
-						if (d >= DASH_DIST) {
-							self.become("dash");
-							return;
-						}
-					}
-				}*/
+				if (this.t >= this.delay) {
+					self.become("predash");
+					return;
+				}
 			}
 
 			super.update(dt);
@@ -400,9 +436,82 @@ public class Knight extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t > 0.5f) {
+			if (this.t > 0.2f) {
 				self.become("attack");
 			}
+		}
+	}
+
+	public class PredashState extends KnightState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.playSfx("predash");
+
+			self.velocity.x = 0;
+			self.velocity.y = 0;
+
+			Tween.to(new Tween.Task(0.7f, 0.5f) {
+				@Override
+				public float getValue() {
+					return self.sy;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.sy = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1f, 0.2f) {
+						@Override
+						public void onStart() {
+							super.onStart();
+							self.playSfx("dash");
+							self.become("dash");
+						}
+
+						@Override
+						public float getValue() {
+							return self.sy;
+						}
+
+						@Override
+						public void setValue(float value) {
+							self.sy = value;
+						}
+					}).delay(0.1f);
+				}
+			});
+
+			Tween.to(new Tween.Task(1.3f, 0.5f) {
+				@Override
+				public float getValue() {
+					return self.sx;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.sx = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(1f, 0.2f) {
+						@Override
+						public float getValue() {
+							return self.sx;
+						}
+
+						@Override
+						public void setValue(float value) {
+							self.sx = value;
+						}
+					}).delay(0.1f);
+				}
+			});
 		}
 	}
 
@@ -413,42 +522,49 @@ public class Knight extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			if (self.lastSeen == null) {
-				self.become("idle");
+			for (int i = 0; i < 5; i++) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = self.x + self.w / 2;
+				fx.y = self.y + self.h / 2;
+
+				Dungeon.area.add(fx);
 			}
 
-			float dx = self.lastSeen.x + 8 - self.x - self.w / 2;
-			float dy = self.lastSeen.y + 8 - self.y - self.h / 2;
+			float dx = self.target.x + 8 - self.x - self.w / 2;
+			float dy = self.target.y + 8 - self.y - self.h / 2;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 			this.vel = new Vector2();
-			self.modifySpeed(100);
 			this.vel.x = dx / (d + Random.newFloat(-d / 3, d / 3)) * 300;
 			this.vel.y = dy / (d + Random.newFloat(-d / 3, d / 3)) * 300;
-
-			self.sword.use();
-		}
-
-		@Override
-		public void onExit() {
-			super.onExit();
-
-			//self.sword.setAdded(0);
-			self.modifySpeed(-100);
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			this.vel.x *= 0.97;
-			this.vel.y *= 0.97;
+			this.vel.x -= this.vel.x * Math.min(1, dt * 3);
+			this.vel.y -= this.vel.y * Math.min(1, dt * 3);
 
-			self.acceleration.x = this.vel.x;
-			self.acceleration.y = this.vel.y;
+			// FIXME: no vsync == smaller dt == issues!!!!
+
+			self.velocity.x = this.vel.x;
+			self.velocity.y = this.vel.y;
 
 			if (this.t >= 1f) {
-				self.become("chase");
+				self.become("wait");
+			}
+		}
+	}
+
+	public class WaitState extends KnightState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 2f) {
+				self.become(self.getDistanceTo(self.target.x + 8, self.target.y + 8) < 64 ? "chase" : "idle");
 			}
 		}
 	}

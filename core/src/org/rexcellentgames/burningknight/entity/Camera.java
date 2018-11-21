@@ -32,7 +32,7 @@ public class Camera extends Entity {
 	private static float pushAm;
 
 	public static void shake(float amount) {
-		shake = amount * Settings.screenshake;
+		shake = Math.max(amount * Settings.screenshake, shake);
 	}
 
 	private static Tween.Task last;
@@ -228,7 +228,7 @@ public class Camera extends Entity {
 
 	public static void follow(Entity entity, boolean jump) {
 		target = entity;
-		speed = entity instanceof Player ? ((Dungeon.depth == -1 || Dungeon.depth == -3) ? 2 : 1) : 4;
+		speed = entity instanceof Player ? ((Dungeon.depth == -1 || Dungeon.depth == -3) ? 2 : 1.5f) : 4;
 
 		if (target == null) {
 			return;

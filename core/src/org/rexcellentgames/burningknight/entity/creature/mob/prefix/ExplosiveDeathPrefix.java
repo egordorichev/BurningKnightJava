@@ -29,7 +29,7 @@ public class ExplosiveDeathPrefix extends Prefix {
 		for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
 			Entity entity = Dungeon.area.getEntities().get(i);
 
-			if (entity instanceof Creature && !(entity instanceof Mob)) {
+			if (entity instanceof Creature) {
 				Creature creature = (Creature) entity;
 
 				if (creature.getDistanceTo(xx, yy) < 32f) {

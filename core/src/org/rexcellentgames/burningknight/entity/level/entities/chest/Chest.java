@@ -104,7 +104,7 @@ public class Chest extends SaveableEntity {
 
 		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
 			if (item.getQuality().check(quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.getType())))
-				&& item.unlocked() &&Player.instance.getInventory().findItem(item.getType()) == null) {
+				&& item.unlocked() && Player.instance.getInventory().findItem(item.getType()) == null) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +
@@ -145,7 +145,7 @@ public class Chest extends SaveableEntity {
 			}
 		}
 
-			if (!this.open && entity instanceof Player) {
+		if (entity instanceof Player) {
 			if (this.locked) {
 				this.colliding = true;
 
@@ -165,7 +165,9 @@ public class Chest extends SaveableEntity {
 					}
 				});
 			}
-		} else if (!this.open && (entity instanceof Projectile || entity instanceof Weapon)) {
+		}
+
+		if ((entity instanceof Projectile || entity instanceof Weapon)) {
 			if (Dungeon.depth == -3) {
 				return;
 			}
@@ -174,6 +176,8 @@ public class Chest extends SaveableEntity {
 				if (!(((Projectile) entity).owner instanceof Player)) {
 					return;
 				}
+
+				((Projectile) entity).remove();
 			} else if (entity instanceof Weapon) {
 				if (!(((Weapon) entity).getOwner() instanceof Player)) {
 					return;
@@ -182,6 +186,30 @@ public class Chest extends SaveableEntity {
 
 			hit();
 		}
+	}
+
+	public void explode() {
+		if (this.hp == 0) {
+			return;
+		}
+
+		this.hp = 0;
+		this.burning = false;
+
+		for (int i = 0; i < 10; i++) {
+			PoofFx fx = new PoofFx();
+
+			fx.x = this.x + this.w / 2;
+			fx.y = this.y + this.h / 2;
+
+			Dungeon.area.add(fx);
+		}
+
+		this.locked = false;
+		this.createLoot = true;
+
+		this.body = World.removeBody(this.body);
+		this.sensor = World.removeBody(this.sensor);
 	}
 
 	private void hit() {
@@ -320,7 +348,7 @@ public class Chest extends SaveableEntity {
 					fx.x = this.x + (this.w - fx.w) / 2;
 					fx.y = this.y + (this.h - fx.h) / 2;
 
-					Dungeon.area.add(fx);
+					Dungeon.area.add(fx.add());
 				}
 
 				if (Random.chance(30)) {
@@ -329,7 +357,7 @@ public class Chest extends SaveableEntity {
 					fx.x = this.x + (this.w - fx.w) / 2;
 					fx.y = this.y + (this.h - fx.h) / 2;
 
-					Dungeon.area.add(fx);
+					Dungeon.area.add(fx.add());
 				}
 
 				if (Random.chance(30)) {
@@ -339,7 +367,7 @@ public class Chest extends SaveableEntity {
 					fx.x = this.x + (this.w - fx.w) / 2;
 					fx.y = this.y + (this.h - fx.h) / 2;
 
-					Dungeon.area.add(fx);
+					Dungeon.area.add(fx.add());
 				}
 			}
 

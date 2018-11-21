@@ -44,6 +44,7 @@ class ClassSelector : ItemHolder {
       Player.Type.WARRIOR -> this.`class` == "warrior"
       Player.Type.WIZARD -> this.`class` == "wizard"
       Player.Type.RANGER -> this.`class` == "ranger"
+      Player.Type.NONE -> this.`class` == "none"
     }
   }
 }

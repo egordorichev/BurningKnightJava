@@ -3,7 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
@@ -93,9 +93,15 @@ public class Clown extends Mob {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature creature) {
+	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 		this.playSfx("damage_clown");
+	}
+
+	@Override
+	public boolean rollBlock() {
+		this.become("chase");
+		return super.rollBlock();
 	}
 
 	@Override
@@ -161,14 +167,19 @@ public class Clown extends Mob {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
+
+		// Graphics.print(this.state, Graphics.small, this.x, this.y + 16);
 	}
 
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
+			case "getout": return new GetOutState();
 			case "idle": return new IdleState();
 			case "alerted": return new AlertedState();
 			case "chase": return new ChasingState();
+			case "wait": return new WaitState();
+			case "laugh": return new LaughState();
 			case "attack": return new AttackState();
 			case "roam": return new RoamState();
 			case "rangedAttack": return new RangedAttack();
@@ -179,6 +190,45 @@ public class Clown extends Mob {
 
 	public class ClownState extends State<Clown> {
 
+	}
+
+	public class WaitState extends ClownState {
+		private float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			delay = Random.newFloat(4, 12f);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= delay) {
+				self.become("chase");
+			}
+		}
+	}
+
+	private boolean placedBomb;
+
+	public class LaughState extends ClownState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			self.placedBomb = false;
+			self.playSfx("laugh_" + Random.newInt(1, 3));
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (t >= 15f) {
+				self.become("chase");
+			}
+		}
 	}
 
 	public class IdleState extends ClownState {
@@ -202,8 +252,7 @@ public class Clown extends Mob {
 			super.update(dt);
 
 			if (self.t >= DELAY) {
-				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
-				self.become((d > 32f && Random.chance(75) && !(self instanceof BurningClown)) ? "rangedAttack" : "chase");
+				self.become("wait");
 			}
 		}
 	}
@@ -275,20 +324,8 @@ public class Clown extends Mob {
 						(int) (self.target.y + self.target.h / 2));
 				}
 
-				if (this.moveTo(self.lastSeen, d < 48f ? 20f : 10f, ATTACK_DISTANCE)) {
-					if (self.target != null) {
-						self.become("attack");
-					} else if (self.target == null) {
-						self.noticeSignT = 0f;
-						self.hideSignT = 2f;
-						self.become("idle");
-					}
-
-					return;
-				}
-
-				if (Random.chance(1) && !(self instanceof BurningClown)) {
-					self.become("rangedAttack");
+				if (this.moveTo(self.lastSeen, d < 48f ? 30f : 10f, ATTACK_DISTANCE)) {
+					self.become("attack");
 				}
 			}
 
@@ -305,22 +342,28 @@ public class Clown extends Mob {
 		}
 	}
 
+	public class GetOutState extends Mob.GetOutState {
+		@Override
+		protected String getState() {
+			return ((Clown) self).placedBomb ? "laugh" : "wait";
+		}
+	}
+
 	public class AttackState extends ClownState {
 		private int step;
 
 		@Override
 		public void onEnter() {
 			super.onEnter();
-
-			doAttack();
 		}
 
 		private void doAttack() {
-			if (!(self instanceof BurningClown) && this.step < 3) {
+			if (!(self instanceof BurningClown) && this.step < 3 && false) {
 				self.guitar.use();
 			} else {
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8, 60f);
 
+				self.placedBomb = true;
 				self.apply(e);
 				Dungeon.area.add(e);
 
@@ -338,6 +381,9 @@ public class Clown extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
+			doAttack();
+
+			/*
 			float d = 32f;
 
 			if (self.target != null) {
@@ -354,7 +400,7 @@ public class Clown extends Mob {
 					this.t = 0;
 					this.doAttack();
 				}
-			}
+			}*/
 		}
 	}
 

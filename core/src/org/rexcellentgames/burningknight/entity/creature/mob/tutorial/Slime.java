@@ -4,9 +4,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -77,7 +78,7 @@ public class Slime extends Mob {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 		this.playSfx("damage_clown");
 	}
@@ -112,7 +113,7 @@ public class Slime extends Mob {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity == null && fixture.getBody().isBullet() && this.state.equals("jump")) {
+		if (entity instanceof Level && this.state.equals("jump")) {
 			return false;
 		}
 

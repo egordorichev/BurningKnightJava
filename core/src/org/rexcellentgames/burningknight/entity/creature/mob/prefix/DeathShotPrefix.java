@@ -29,7 +29,7 @@ public class DeathShotPrefix extends Prefix {
 			ball.damage = 2;
 			ball.bad = true;
 
-			ball.letter = "bad";
+			ball.letter = "bullet-nano";
 			Dungeon.area.add(ball);
 		}
 	}

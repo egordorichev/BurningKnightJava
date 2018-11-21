@@ -106,9 +106,13 @@ public class LadderFx extends UiEntity {
 
 					Dungeon.goToLevel(Dungeon.depth == -2 ? -1 : (Dungeon.depth - 1));
 				} else {
-					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-					Dungeon.ladderId = ((Exit) ladder).getType();
-					Dungeon.goToLevel(Dungeon.depth == -1 ? -2 : (Dungeon.depth + 1));
+					if (Dungeon.depth == -2) {
+						Dungeon.goToSelect = true;
+					} else {
+						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+						Dungeon.ladderId = ((Exit) ladder).getType();
+						Dungeon.goToLevel(Dungeon.depth == -1 ? -2 : ((Dungeon.depth + 1)));
+					}
 				}
 
 				Dungeon.setBackground2(new Color(0, 0, 0, 1));

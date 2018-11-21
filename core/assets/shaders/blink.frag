@@ -20,6 +20,5 @@ void main() {
     }
 
     color.a = min(color.a, a);
-
     gl_FragColor = color * vec4(gray);
 }

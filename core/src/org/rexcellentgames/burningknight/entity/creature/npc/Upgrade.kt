@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.game.Achievements
 import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.physics.World
+import org.rexcellentgames.burningknight.util.Log
 import org.rexcellentgames.burningknight.util.MathUtils
 import org.rexcellentgames.burningknight.util.Random
 import org.rexcellentgames.burningknight.util.file.FileReader

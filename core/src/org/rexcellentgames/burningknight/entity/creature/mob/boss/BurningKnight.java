@@ -18,16 +18,21 @@ import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.CurseFx;
+import org.rexcellentgames.burningknight.entity.fx.FadeFx;
+import org.rexcellentgames.burningknight.entity.fx.MissileAppear;
+import org.rexcellentgames.burningknight.entity.fx.MissileProjectile;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
@@ -54,12 +59,34 @@ public class BurningKnight extends Boss {
 	private AnimationData idle;
 	private AnimationData hurt;
 	private AnimationData killed;
+	private AnimationData defeated;
+	private AnimationData lookUp;
+	private AnimationData lookDown;
 	private AnimationData animation;
 	private long sid;
 	private static Sound sfx;
 	private BKSword sword;
 	public boolean pickedKey;
 	private PointLight light;
+
+	/*
+	 * Tests:
+	 * + Rolling
+	 * + Dodging
+	 * + Attacking
+	 * + Running
+	 *
+	 * Attacks:
+	 * + (boss defese) spins and releases wind that pushes player away
+	 * + (rolling) Fire beam (aka laser but with fire) that he aims at you with
+	 *  - same as fire beam, but it keeps aiming at you while you dodge it
+	 * + (dodging and attacking at the same time) missiles dropping from the sky
+	 *  = good time to attack him, cause he won't be doing direct attacks at you
+	 * + (dodging) fireball spam at you
+	 * + (boss defense / movement) disappeares in once place and appears in another
+	 * + (dodging) big fireball that splits into regular when hits the wall
+	 * + (dodging) homing projectiles that split into regular on destroy
+	 */
 
 	{
 		texture = "ui-bkbar-skull";
@@ -74,15 +101,22 @@ public class BurningKnight extends Boss {
 		setFlying(true);
 
 		idle = animations.get("idle");
+		anim = idle;
+
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
+		defeated = animations.get("defeat");
+		lookUp = animations.get("look_up");
+		lookDown = animations.get("look_down");
+
+		lookUp.setAutoPause(true);
+		lookDown.setAutoPause(true);
 		unhittable = false;
 	}
 
 	@Override
-	protected void onHurt(int am, Creature from) {
+	protected void onHurt(int am, Entity from) {
 		super.onHurt(am, from);
-
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
 
@@ -202,6 +236,7 @@ public class BurningKnight extends Boss {
 	@Override
 	public void init() {
 		talked = true;
+		saw = true;
 
 		sfx = Audio.getSound("bk");
 		this.sid = sfx.loop(Audio.playSfx("bk", 0f));
@@ -212,7 +247,7 @@ public class BurningKnight extends Boss {
 		super.init();
 
 		this.t = 0;
-		this.body = this.createSimpleBody(0, 3, 23, 20, BodyDef.BodyType.DynamicBody, true);
+		this.body = this.createSimpleBody(0, 3, 23, 20, BodyDef.BodyType.DynamicBody, false);
 		this.become("unactive");
 
 		sword = new BKSword();
@@ -226,9 +261,11 @@ public class BurningKnight extends Boss {
 
 	public void restore() {
 		this.pickedKey = false;
-		this.hpMax = Dungeon.depth * 30 + 20;
+		this.hpMax = Dungeon.depth * 20 + 30;
 		this.hp = this.hpMax;
 		this.rage = false;
+
+		this.body.getFixtureList().get(0).setSensor(false);
 	}
 
 	@Override
@@ -262,7 +299,6 @@ public class BurningKnight extends Boss {
 			this.unhittable = true;
 			this.ignoreRooms = true;
 			this.become("appear");
-			this.a = 0.5f;
 		}
 	}
 
@@ -299,11 +335,20 @@ public class BurningKnight extends Boss {
 				this.playSfx("explosion");
 			}
 
+			FadeFx ft = new FadeFx();
+			ft.x = x + w / 2;
+			ft.y = y + h / 2;
+			float fr = 120;
+			float an = Random.newFloat((float) (Math.PI * 2));
+			ft.vel = new Point((float) Math.cos(an) * fr, (float) Math.sin(an) * fr);
+			Dungeon.area.add(ft);
+
 			Camera.shake(10);
 
 			if (this.invt <= 0) {
 				ArrayList<Item> items = new ArrayList<>();
 				items.add(new BurningKey());
+				items.add(Chest.generate(ItemRegistry.Quality.IRON_PLUS, Random.chance(50)));
 
 				for (Item item : items) {
 					ItemHolder holder = new ItemHolder(item);
@@ -314,15 +359,22 @@ public class BurningKnight extends Boss {
 
 					this.area.add(holder);
 
+					Camera.follow(holder, false);
 					LevelSave.add(holder);
 				}
+
+				Tween.to(new Tween.Task(0, 2f) {
+					@Override
+					public void onEnd() {
+						Camera.follow(Player.instance, false);
+					}
+				});
 
 				this.invt = 0;
 
 				this.become("defeated");
 				this.dest = false;
 
-				Camera.follow(Player.instance, false);
 				Player.instance.setUnhittable(false);
 
 				Camera.shake(30);
@@ -341,7 +393,10 @@ public class BurningKnight extends Boss {
 			this.flipped = false;
 		}
 
-		super.update(dt);
+		if (!this.state.equals("defeated")) {
+			super.update(dt);
+		}
+
 		this.light.setPosition(x + this.w / 2, y + this.h / 2);
 
 		this.lastFrame += dt;
@@ -417,6 +472,8 @@ public class BurningKnight extends Boss {
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
+	private AnimationData anim;
+
 	@Override
 	public void render() {
 		if (this.state.equals("unactive") || this.state.equals("defeated")) {
@@ -426,7 +483,7 @@ public class BurningKnight extends Boss {
 		if (this.invt > 0) {
 			this.animation = hurt;
 		} else {
-			this.animation = idle;
+			this.animation = anim;
 		}
 
 		Graphics.batch.end();
@@ -473,6 +530,7 @@ public class BurningKnight extends Boss {
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
 
+		Graphics.batch.setColor(1, 1, 1, 1);
 		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		super.renderStats();
@@ -518,19 +576,17 @@ public class BurningKnight extends Boss {
 			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
 			//if (self.isActiveState() || self.rage) {
-			if (this.flyTo(self.lastSeen, self.speed * 8f, ATTACK_DISTANCE)) {
+			if (this.flyTo(self.lastSeen, self.speed * 8f, 128)) {
 				self.become("preattack");
-			} else if (d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
-				self.become("rangedAttack");
-			}/* else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
+			}// else if (true || d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
+			//	self.become("rangedAttack");
+			/*} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
 				self.attackTp = true;
 				self.become("fadeOut");
 			} else if (!self.onScreen) {
 				self.attackTp = true;
 				self.become("fadeOut");
-			}*/
-			
-			/*} else {
+			} else {
 				if (this.t >= 1f) {
 					self.become("rangedAttack");
 				}
@@ -734,17 +790,20 @@ public class BurningKnight extends Boss {
 		}
 	}
 
+	private int lastAttack;
+
 	public class PreattackState extends BKState {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-
 		}
 
 		@Override
 		public void update(float dt) {
-			if (this.t >= 1f) {
-				self.become("attack");
+			if (this.t >= 5f) {
+				self.become(lastAttack % 2 == 0 ? "autoAttack" : "missileAttack");
+				lastAttack++;
+
 				return;
 			}
 
@@ -807,12 +866,83 @@ public class BurningKnight extends Boss {
 		}
 	}
 
+	public class AppearState extends BKState {
+		@Override
+		public void onEnter() {
+			self.attackTp = true;
+			self.findStartPoint();
+			self.setUnhittable(true);
+			self.rage = true;
+			self.body.getFixtureList().get(0).setSensor(true);
+
+			self.hp = 1;
+			self.ignoreRooms = true;
+			Lamp.play();
+
+			// fixme: this is broken
+			/*Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
+			vec = Camera.ui.unproject(vec);
+			vec.y = Display.UI_HEIGHT - vec.y;
+
+			Dungeon.shockTime = 0;
+			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
+			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;*/
+
+			for (int i = 0; i < 30; i++) {
+				CurseFx fx = new CurseFx();
+
+				fx.x = x + w / 2 + Random.newFloat(-w, w);
+				fx.y = y + h / 2 + Random.newFloat(-h, h);
+
+				Dungeon.area.add(fx);
+			}
+
+			Camera.follow(self, false);
+			playSfx("explosion");
+			self.a = 0;
+
+			Tween.to(new Tween.Task(0.6f, 2f) {
+				@Override
+				public float getValue() {
+					return self.a;
+				}
+
+				@Override
+				public void setValue(float value) {
+					self.a = value;
+				}
+			});
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			Camera.shake(6);
+
+			if (this.t < 1.6f) {
+				FadeFx ft = new FadeFx();
+				float an = Random.newFloat((float) (Math.PI * 2));
+				ft.x = (float) (x + w / 2 + Math.cos(an) * 48);
+				ft.y = (float) (y + h / 2 + Math.sin(an) * 48);
+				ft.to = true;
+				float fr = 150;
+				ft.vel = new Point((float) Math.cos(an - Math.PI) * fr, (float) Math.sin(an - Math.PI) * fr);
+				Dungeon.area.add(ft);
+			} else if (self.a == 0.6f) {
+				Camera.follow(Player.instance, false);
+				self.become("chase");
+			}
+		}
+	}
+
 	public class FadeInState extends BKState {
 		@Override
 		public void onEnter() {
 			self.a = 0;
+			Camera.follow(self, false);
 
-			Tween.to(new Tween.Task(self.rage ? 0.6f : 1f, 0.3f) {
+			Tween.to(new Tween.Task(self.rage ? 0.6f : 1f, 2f) {
 				@Override
 				public float getValue() {
 					return self.a;
@@ -831,6 +961,22 @@ public class BurningKnight extends Boss {
 				}
 			});
 		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			Camera.shake(6);
+			if (t < 1.6f) {
+				FadeFx ft = new FadeFx();
+				float an = Random.newFloat((float) (Math.PI * 2));
+				ft.x = (float) (x + w / 2 + Math.cos(an) * 48);
+				ft.y = (float) (y + h / 2 + Math.sin(an) * 48);
+				ft.to = true;
+				float fr = 150;
+				ft.vel = new Point((float) Math.cos(an - Math.PI) * fr, (float) Math.sin(an - Math.PI) * fr);
+				Dungeon.area.add(ft);
+			}
+		}
 	}
 
 	public boolean attackTp = false;
@@ -840,7 +986,7 @@ public class BurningKnight extends Boss {
 		public void onEnter() {
 			super.onEnter();
 
-			Tween.to(new Tween.Task(0, 0.3f) {
+			Tween.to(new Tween.Task(0, 2f) {
 				@Override
 				public float getValue() {
 					return self.a;
@@ -857,6 +1003,22 @@ public class BurningKnight extends Boss {
 					self.become("fadeIn");
 				}
 			});
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			Camera.shake(6);
+
+			if (t < 1.6f) {
+				FadeFx ft = new FadeFx();
+				ft.x = x + w / 2;
+				ft.y = y + h / 2;
+				float fr = 70;
+				float an = Random.newFloat((float) (Math.PI * 2));
+				ft.vel = new Point((float) Math.cos(an) * fr, (float) Math.sin(an) * fr);
+				Dungeon.area.add(ft);
+			}
 		}
 	}
 
@@ -985,8 +1147,7 @@ public class BurningKnight extends Boss {
 				return new DashState();
 			case "preattack":
 				return new PreattackState();
-			case "attack":
-				return new AttackState();
+			case "attack": return new AttackState();
 			case "fadeIn":
 				return new FadeInState();
 			case "fadeOut":
@@ -995,60 +1156,15 @@ public class BurningKnight extends Boss {
 				return new DialogState();
 			case "wait":
 				return new WaitState();
-			case "unactive":
-				return new UnactiveState();
-			case "rangedAttack":
-				return new RangedAttackState();
+			case "unactive": return new UnactiveState();
+			case "missileAttack": return new MissileAttackState();
+			case "autoAttack": return new NewAttackState();
+			case "laserAttack": return new LaserAttackState();
 			case "await": return new AwaitState();
 			case "defeated": return new DefeatedState();
 		}
 
 		return super.getAi(state);
-	}
-
-	public class AppearState extends BKState {
-		@Override
-		public void onEnter() {
-			self.attackTp = true;
-			self.findStartPoint();
-			self.setUnhittable(true);
-			self.rage = true;
-			self.hp = 1;
-			self.ignoreRooms = true;
-			self.a = 0;
-			Lamp.play();
-
-			Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
-			vec = Camera.ui.unproject(vec);
-			vec.y = Display.UI_HEIGHT - vec.y;
-
-			Dungeon.shockTime = 0;
-			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
-			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
-
-			for (int i = 0; i < 30; i++) {
-				CurseFx fx = new CurseFx();
-
-				fx.x = x + w / 2 + Random.newFloat(-w, w);
-				fx.y = y + h / 2 + Random.newFloat(-h, h);
-
-				Dungeon.area.add(fx);
-			}
-
-			playSfx("explosion");
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			Camera.shake(20);
-			self.a = Math.min(0.6f, self.a + dt / 3);
-
-			if (self.a == 0.6f) {
-				self.become("chase");
-			}
-		}
 	}
 
 	public class DefeatedState extends BKState {
@@ -1091,6 +1207,115 @@ public class BurningKnight extends Boss {
 				self.become("idle");
 			}
 		}
+	}
+
+	public class MissileAttackState extends BKState {
+		private int num;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			self.lookUp.setFrame(0);
+			self.lookUp.setPaused(false);
+			self.anim = self.lookUp;
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (num < 7) {
+				if (this.t >= 2f) {
+					num++;
+
+					if (this.num == 7) {
+
+					} else if (num == 6) {
+						self.lookDown.setFrame(0);
+						self.lookDown.setPaused(false);
+						self.anim = self.lookDown;
+
+						return;
+					}
+
+					this.t = 0;
+
+					MissileProjectile missile = new MissileProjectile();
+					missile.to = Player.instance;
+					missile.bad = true;
+					missile.owner = self;
+					missile.x = self.x + self.w / 2 + (self.flipped ? -4 : 4);
+					missile.y = self.y + self.h - 16;
+					Dungeon.area.add(missile);
+
+					MissileAppear appear = new MissileAppear();
+					appear.missile = missile;
+					Dungeon.area.add(appear);
+				}
+			} else if (self.lookDown.isPaused()) {
+				self.anim = self.idle;
+				self.become("preattack");
+			}
+		}
+	}
+
+	public class NewAttackState extends BKState {
+		private int num;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (t >= 3f) {
+				if (num == 5) {
+					self.become("preattack");
+					return;
+				}
+
+				t = 0;
+				num ++;
+
+				BulletProjectile ball = new BulletProjectile() {
+					@Override
+					protected void onDeath() {
+						super.onDeath();
+
+						if (!brokeWeapon) {
+							for (int i = 0; i < 8; i++) {
+								BulletProjectile ball = new BulletProjectile();
+
+								float a = (float) (i * Math.PI / 4);
+								ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * Mob.shotSpeedMod);
+
+								ball.x = (float) (this.x);
+								ball.y = (float) (this.y);
+								ball.damage = 2;
+								ball.bad = true;
+
+								ball.letter = "bullet-nano";
+								Dungeon.area.add(ball);
+							}
+						}
+					}
+				};
+
+				float a = self.getAngleTo(self.target.x + 8, self.target.y + 8);
+				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(40f * Mob.shotSpeedMod);
+				ball.x = (float) (self.x + self.w / 2);
+				ball.y = (float) (self.y + self.h - 16);
+				ball.damage = 2;
+				ball.bad = true;
+				ball.auto = true;
+
+				ball.letter = "bullet-skull";
+				Dungeon.area.add(ball);
+			}
+		}
+	}
+
+	public class LaserAttackState extends BKState {
+		// todo
 	}
 
 	public class RangedAttackState extends BKState {
@@ -1159,7 +1384,7 @@ public class BurningKnight extends Boss {
 					ball.y = self.y + self.h / 2;
 					ball.bad = true;
 					ball.owner = self;
-					ball.letter = "bad";
+					ball.letter = "bullet-nano";
 
 					double a = ((float) i) / c * Math.PI * 2 + tt;
 
@@ -1168,8 +1393,8 @@ public class BurningKnight extends Boss {
 					}
 
 					ball.velocity = new Point();
-					ball.velocity.x = (float) (s * Math.cos(a));
-					ball.velocity.y = (float) (s * Math.sin(a));
+					ball.velocity.x = (float) (s * Math.cos(a) * Mob.shotSpeedMod);
+					ball.velocity.y = (float) (s * Math.sin(a) * Mob.shotSpeedMod);
 
 					Dungeon.area.add(ball);
 					i++;
@@ -1193,13 +1418,13 @@ public class BurningKnight extends Boss {
 						ball.y = self.y + self.h / 2;
 						ball.bad = true;
 						ball.owner = self;
-						ball.letter = "bad";
+						ball.letter = "bullet-nano";
 
 						double a = ((float) i) / c * Math.PI * 2 + tt;
 
 						ball.velocity = new Point();
-						ball.velocity.x = (float) (s * Math.cos(a));
-						ball.velocity.y = (float) (s * Math.sin(a));
+						ball.velocity.x = (float) (s * Math.cos(a) * Mob.shotSpeedMod);
+						ball.velocity.y = (float) (s * Math.sin(a) * Mob.shotSpeedMod);
 
 						Dungeon.area.add(ball);
 					}

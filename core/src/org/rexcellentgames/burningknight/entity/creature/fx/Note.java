@@ -106,12 +106,14 @@ public class Note extends Entity {
 			this.body.setLinearVelocity(this.vel);
 			this.parts();
 		} else if (entity instanceof Player && this.bad) {
-			((Player) entity).modifyHp(Math.round(Random.newFloatDice(-1, -2)), this.owner, true);
-			this.brk = true;
-			this.vel.x = 0;
-			this.vel.y = 0;
-			this.body.setLinearVelocity(this.vel);
-			this.parts();
+			if (!((Player) entity).isRolling()) {
+				((Player) entity).modifyHp(Math.round(Random.newFloatDice(-1, -2)), this.owner, true);
+				this.brk = true;
+				this.vel.x = 0;
+				this.vel.y = 0;
+				this.body.setLinearVelocity(this.vel);
+				this.parts();
+			}
 		} else if (entity == null) {
 			this.brk = true; // Wall
 			this.vel.x = 0;

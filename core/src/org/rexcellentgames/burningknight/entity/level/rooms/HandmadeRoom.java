@@ -371,6 +371,13 @@ public class HandmadeRoom extends RegularRoom {
 				prop.sprite = "shop-" + name;
 
 				Dungeon.area.add(prop.add());
+			} else if (name.equals("blocker")) {
+				Blocker prop = new Blocker();
+
+				prop.x = x + rect.x + 16;
+				prop.y = y + rect.y + 16 - 8;
+
+				Dungeon.area.add(prop.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}

@@ -53,8 +53,11 @@ public class BulletProjectile extends Projectile {
 	public Gun gun;
 	public boolean second = true;
 	public boolean lightUp = true;
+	public boolean auto = false;
+	public boolean renderCircle = true;
+	public boolean brokeWeapon = false;
 
-	private PointLight light;
+	protected PointLight light;
 
 	{
 		alwaysActive = true;
@@ -78,13 +81,45 @@ public class BulletProjectile extends Projectile {
 				rotationSpeed = 0.7f;
 				this.sprite = Graphics.getTexture(this.letter);
 			} else {
-				this.sprite = Graphics.getTexture("bullet-" + this.letter);
+				this.sprite = Graphics.getTexture("bullet-" + this.letter.replace("bullet-", ""));
 			}
 		}
 
 		if (this.sprite != null && this.anim == null) {
 			this.w = sprite.getRegionWidth();
 			this.h = sprite.getRegionHeight();
+		}
+		light = World.newLight(32, new Color(1, 1, 1, 1f), 32, x, y);
+
+
+		if (this.letter != null) {
+			switch (this.letter) {
+				case "nano": case "bullet-skull": case "bullet-nano": light.setColor(1, 0, 0, 1); break;
+				case "bullet-a": case "bullet-missile": light.setColor(1, 1, 0, 1); break;
+				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); lightUp = false; break;
+				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
+			}
+
+			if (this.letter.equals("bullet-bone")) {
+				this.depth = 16;
+			} else if (this.letter.equals("bullet-nano")) {
+				this.noRotation = true;
+				this.second = false;
+			} else if (this.letter.equals("bullet-snow")) {
+				this.rotates = true;
+				this.second = false;
+			} else if (this.letter.equals("bullet-skull")) {
+				this.rotates = false;
+				this.second = false;
+				this.noRotation = true;
+				this.rectShape = false;
+				this.circleShape = true;
+				this.renderCircle = false;
+				this.lightUp = false;
+			} else if (this.letter.equals("bullet-kotlin")) {
+				this.second = false;
+				lightUp = false;
+			}
 		}
 
 		if ((this.w == this.h || circleShape) && !rectShape) {
@@ -93,33 +128,9 @@ public class BulletProjectile extends Projectile {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, false);
 		}
 
-		light = World.newLight(32, new Color(1, 1, 1, 1f), 64, x, y);
-
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, ra);
 			this.body.setBullet(true);
-		}
-
-		if (this.letter != null) {
-			switch (this.letter) {
-				case "bad": case "bullet-bad": light.setColor(1, 0, 0, 1); break;
-				case "bullet-a": light.setColor(1, 1, 0, 1); break;
-				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); lightUp = false; break;
-				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
-			}
-
-			if (this.letter.equals("bullet-bone")) {
-				this.depth = 16;
-			} else if (this.letter.equals("bullet-bad")) {
-				this.noRotation = true;
-				this.second = false;
-			} else if (this.letter.equals("bullet-snow")) {
-				this.rotates = true;
-				this.second = false;
-			} else if (this.letter.equals("bullet-/givkotlin")) {
-				this.second = false;
-				lightUp = false;
-			}
 		}
 
 		penetrates = !canBeRemoved;
@@ -140,12 +151,13 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void render() {
-		TextureRegion reg = this.t < 0.05f ? burst : sprite;
+		TextureRegion reg = (renderCircle && this.t < 0.05f) ? burst : sprite;
 		Texture texture = reg.getTexture();
 
 		Graphics.batch.end();
 
 		RectFx.shader.begin();
+
 		RectFx.shader.setUniformf("r", 1f);
 		RectFx.shader.setUniformf("g", 1f);
 		RectFx.shader.setUniformf("b", 1f);
@@ -203,32 +215,42 @@ public class BulletProjectile extends Projectile {
 		super.onCollision(entity);
 
 		if (this.bad && entity instanceof WeaponBase && ((WeaponBase) entity).getOwner() instanceof Player) {
-			Player player = (Player) ((WeaponBase) entity).getOwner();
-			double a = this.getAngleTo(player.x + player.w / 2, player.y + player.h / 2) - Math.PI;
-			double d = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-			this.velocity.x = (float) (d * Math.cos(a));
-			this.velocity.y = (float) (d * Math.sin(a));
-			this.bad = false;
+			if (auto) {
+				this.broke = true;
+				this.brokeWeapon = true;
+			} else {
+				Player player = (Player) ((WeaponBase) entity).getOwner();
+				double a = this.getAngleTo(player.x + player.w / 2, player.y + player.h / 2) - Math.PI;
+				double d = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+				this.velocity.x = (float) (d * Math.cos(a));
+				this.velocity.y = (float) (d * Math.sin(a));
+				this.bad = false;
 
-			int num = GlobalSave.getInt("num_bullets_reflected") + 1;
-			GlobalSave.put("num_bullets_reflected", num);
+				int num = GlobalSave.getInt("num_bullets_reflected") + 1;
+				GlobalSave.put("num_bullets_reflected", num);
 
-			if (num >= 30) {
-				Achievements.unlock(Achievements.UNLOCK_AMMO_ORBITAL);
+				if (num >= 30) {
+					Achievements.unlock(Achievements.UNLOCK_AMMO_ORBITAL);
+				}
+
+				if (this.body != null) {
+					this.body.setLinearVelocity(this.velocity);
+				}
+
+				for (int i = 0; i < 3; i++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = this.x;
+					fx.y = this.y;
+
+					Dungeon.area.add(fx);
+				}
 			}
-
-			if (this.body != null) {
-				this.body.setLinearVelocity(this.velocity);
-			}
-
-			for (int i = 0; i < 3; i++) {
-				PoofFx fx = new PoofFx();
-
-				fx.x = this.x;
-				fx.y = this.y;
-
-				Dungeon.area.add(fx);
-			}
+		} else if (this.bad && this.auto && entity instanceof BulletProjectile && (((BulletProjectile) entity).owner instanceof Player)) {
+			this.broke = true;
+			((BulletProjectile) entity).broke = true;
+		} else if (this.bad && entity instanceof Player) {
+			this.brokeWeapon = true;
 		}
 	}
 
@@ -328,6 +350,18 @@ public class BulletProjectile extends Projectile {
 
 		this.control();
 
+		if (this.auto) {
+			float dx = Player.instance.x + Player.instance.w / 2 - this.x - 5;
+			float dy = Player.instance.y + Player.instance.h / 2 - this.y - 5;
+			float angle = (float) Math.atan2(dy, dx);
+
+			this.angle = Gun.angleLerp(this.angle, angle, dt * 2f, false);
+
+			float f = 60f;
+			this.velocity.x = (float) (Math.cos(this.angle) * f);
+			this.velocity.y = (float) (Math.sin(this.angle) * f);
+		}
+
 		this.x += this.velocity.x * dt;
 		this.y += this.velocity.y * dt;
 
@@ -352,7 +386,7 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity != null) {
+		if (entity != null && !(entity instanceof BulletProjectile && ((Projectile) entity).bad != this.bad)) {
 			return false;
 		}
 

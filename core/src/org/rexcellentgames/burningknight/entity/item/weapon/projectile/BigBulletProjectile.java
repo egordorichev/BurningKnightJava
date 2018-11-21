@@ -23,12 +23,12 @@ public class BigBulletProjectile extends BulletProjectile {
 
 			BulletProjectile bullet = new BulletProjectile();
 			bullet.damage = 2;
-			bullet.letter = "bad";
+			bullet.letter = "nano";
 			bullet.owner = this.owner;
 			bullet.bad = true;
 			bullet.a = a;
 			bullet.parts = true;
-			bullet.sprite = Graphics.getTexture("bullet-bad");
+			bullet.sprite = Graphics.getTexture("bullet-nano");
 			bullet.x = this.x + (this.w - bullet.sprite.getRegionWidth()) / 2;
 			bullet.y = this.y + (this.h - bullet.sprite.getRegionHeight()) / 2;
 

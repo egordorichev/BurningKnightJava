@@ -29,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -53,7 +54,9 @@ public class InGameState extends State {
 	private Area pauseMenuUi;
 	public static TextureRegion noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
 	private static Music fire = Audio.getMusic("OnFire");
+	private static Music water = Audio.getMusic("water");
 	private float volume = 0;
+	private float flowVolume;
 
 	public static boolean forceBoss;
 
@@ -308,11 +311,30 @@ public class InGameState extends State {
 
 		fire.setVolume(0);
 		fire.pause();
+
+		water.setVolume(0);
+		water.pause();
 	}
 
 	private boolean set;
 	private float last;
 	public static boolean burning;
+	public static boolean flow;
+
+	private void lightUp(Room room) {
+		for (int x = room.left; x <= room.right; x++) {
+			for (int y = room.top; y <= room.bottom; y++) {
+				if ((x == room.left || x == room.right || y == room.top || y == room.bottom
+				) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
+					Dungeon.level.addLightInRadius(x * 16, y * 16, 2f, 3f, false);
+				}
+
+				if (y != room.top) {
+					Dungeon.level.addLight(x * 16, y * 16, 4f, 1f);
+				}
+			}
+		}
+	}
 
 	@Override
 	public void update(float dt) {
@@ -331,21 +353,16 @@ public class InGameState extends State {
 		Orbital.updateTime(dt);
 
 		if (Player.instance.room != null) {
-			for (int x = Player.instance.room.left; x <= Player.instance.room.right; x++) {
-				for (int y = Player.instance.room.top; y <= Player.instance.room.bottom; y++) {
-					if ((x == Player.instance.room.left || x == Player.instance.room.right || y == Player.instance.room.top || y == Player.instance.room.bottom
-					) && (Dungeon.level.checkFor(x, y, Terrain.PASSABLE) || Dungeon.level.checkFor(x, y, Terrain.HOLE))) {
-						Dungeon.level.addLightInRadius(x * 16, y * 16, 2f, 3f, false);
-					}
-
-					if (y != Player.instance.room.top) {
-						Dungeon.level.addLight(x * 16, y * 16, 4f, 1f);
-					}
-				}
-			}
-
+			lightUp(Player.instance.room);
 			// todo: as a challenge
 			// Dungeon.level.addLightInRadius(Player.instance.x + 8, Player.instance.y + 8, 0, 0, 0, 2f, 8f, false);
+		}
+
+		for (Room room : Dungeon.level.getRooms()) {
+			if (room instanceof BossEntranceRoom) {
+				lightUp(room);
+				break;
+			}
 		}
 		
 		//if (Version.debug) {
@@ -509,7 +526,8 @@ public class InGameState extends State {
 			}
 		}
 
-		Dungeon.battleDarkness += ((dark ? 0 : 1) - Dungeon.battleDarkness) * dt * 2;
+		// Dungeon.battleDarkness += ((dark ? 0 : 1) - Dungeon.battleDarkness) * dt * 2;
+		Dungeon.battleDarkness = 0;
 
 		boolean none = volume <= 0.05f;
 		volume += ((burning ? 1 : 0) - volume) * dt;
@@ -522,6 +540,20 @@ public class InGameState extends State {
 
 		fire.setVolume(volume * Settings.sfx);
 		burning = false;
+
+
+		none = volume <= 0.05f;
+		flowVolume += ((flow ? 1 : 0) - flowVolume) * dt;
+
+		if (flowVolume > 0.05f && none) {
+			water.play();
+		} else if (flowVolume < 0.05f && !none) {
+			water.pause();
+		}
+
+		water.setVolume(flowVolume * Settings.sfx * 0.5f);
+
+		flow = false;
 	}
 
 	public static boolean dark = true;

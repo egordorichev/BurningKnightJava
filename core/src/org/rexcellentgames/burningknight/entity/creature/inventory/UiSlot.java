@@ -310,7 +310,6 @@ public class UiSlot {
 		} else if (canAccept(this.id, current) || current == null) {
 			if (this.id > 5 && this.id < 12 && self != null && self.isCursed()) {
 				Audio.playSfx("item_nocash");
-
 				Camera.shake(6);
 				tweenClick();
 			} else {

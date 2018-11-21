@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
@@ -65,7 +64,7 @@ public class Skeleton extends Mob {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 
 		if (this.state.equals("dead")) {

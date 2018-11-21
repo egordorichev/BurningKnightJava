@@ -43,6 +43,9 @@ public class ItemSelectState extends State {
 	public void init() {
 		super.init();
 
+		Dungeon.white = 0;
+		Dungeon.darkR = Dungeon.MAX_R;
+
 		melee.clear();
 		ranged.clear();
 		mage.clear();
@@ -50,6 +53,12 @@ public class ItemSelectState extends State {
 		melee.add(new Sword());
 		ranged.add(new Gun());
 		mage.add(new MagicMissileWand());
+
+		if (Player.instance != null) {
+			Dungeon.area.remove(Player.instance);
+			PlayerSave.remove(Player.instance);
+			Player.instance = null;
+		}
 
 		if (Achievements.unlocked("UNLOCK_DAGGER")) {
 			melee.add(new Dagger());
@@ -184,14 +193,9 @@ public class ItemSelectState extends State {
 			public void onEnd() {
 				Player.toSet = tp;
 				GlobalSave.put("last_class", Player.toSet.id);
-
 				Player.startingItem = item;
-				if (Player.instance == null) {
-					PlayerSave.generate();
-				} else {
-					Player.instance.generate();
-				}
 
+				PlayerSave.generate();
 				Dungeon.area.remove(Player.instance);
 
 				SaveManager.save(SaveManager.Type.PLAYER, false);

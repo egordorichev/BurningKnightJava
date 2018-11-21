@@ -45,7 +45,15 @@ public class RangedKnight extends Knight {
 	}
 
 	public class IdleState extends KnightState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			this.checkForPlayer();
 
+			if (self.target != null) {
+				self.become("alerted");
+			}
+		}
 	}
 
 	@Override
@@ -88,10 +96,6 @@ public class RangedKnight extends Knight {
 			return;
 		}
 
-		if (this.ai != null) {
-			this.ai.checkForPlayer();
-		}
-
 		if (this.target == null) {
 			return;
 		}
@@ -104,32 +108,16 @@ public class RangedKnight extends Knight {
 	}
 
 	public class RunAwayState extends KnightState {
-		private float last;
-		private Point lsat = new Point();
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			lsat.x = self.target.x;
-			lsat.y = self.target.y;
-		}
-
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			last += dt;
-
-			if (this.last >= 0.25f) {
-				last = 0;
-				this.nextPathPoint = null;
+			if (self.lastSeen == null) {
+				self.lastSeen = new Point(self.target.x, self.target.y);
 			}
 
-			this.checkForPlayer();
-
-			this.moveFrom(lsat, 25f, 10f);
-
-			float d = self.getDistanceTo(lsat.x, lsat.y);
+			this.moveFrom(self.lastSeen, 20f, 6f);
+			float d = self.getDistanceTo(self.target.x, self.target.y);
 
 			if (d >= self.minAttack) {
 				self.become("preattack");
@@ -150,11 +138,11 @@ public class RangedKnight extends Knight {
 					self.become("chase");
 					return;
 				}
-			}
 
-			self.sword.use();
-			checkForRun();
-			self.become("preattack");
+				self.sword.use();
+				self.become("preattack");
+				checkForRun();
+			}
 		}
 	}
 

@@ -61,11 +61,10 @@ void main() {
 
         if (edge.a == 1.0 && edge.r == 1.0 && edge.g == 0.0 && edge.b == 0.0) {
             vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
-            float m = (time * speed / (cof.x * 2.0));
-
-            m -= floor(m / (size.x * 4.0)) * (size.x * 4.0);
-
-            gl_FragColor = texture2D(u_texture, vec2(v_texCoord.x + m, v_texCoord.y));
+            float m = (time * speed / (cof.y * 2.0));
+            m -= floor(m / (size.y * 4.0) + 1.0) * (size.y * 4.0);
+            gl_FragColor = texture2D(u_texture, vec2(v_texCoord.x, v_texCoord.y - m));
+            gl_FragColor.a = 0.5;
         } else {
             gl_FragColor = edge;
         }

@@ -20,7 +20,6 @@ public class Lighting extends Laser {
 		this.num = (int) (this.w / 16f);
 
 		shade = new Color(0, 1, 1, 1);
-		color = new Color(0.6f, 1f, 1, 1);
 
 		target = new Point(x + (float) Math.cos(this.an) * this.w, y + (float) Math.sin(this.an) * this.w);
 	}
@@ -59,7 +58,7 @@ public class Lighting extends Laser {
 				point = new Point(last.x + p.x + (float) Math.cos(this.an) * 16, last.y + p.y + (float) Math.sin(this.an) * 16);
 			}
 
-			renderFrom(last, point);
+			// renderFrom(last, point);
 
 			last = point;
 		}

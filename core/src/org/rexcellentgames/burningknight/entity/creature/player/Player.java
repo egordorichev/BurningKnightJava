@@ -51,6 +51,7 @@ import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
 import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -78,7 +79,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player extends Creature {
-	public static Type toSet = Type.WARRIOR;
+	public static Type toSet = Type.NONE;
 	public static Item startingItem;
 	public static float mobSpawnModifier = 1f;
 	public static ArrayList<Player> all = new ArrayList<>();
@@ -171,15 +172,15 @@ public class Player extends Creature {
 	public boolean seePath;
 
 	public float getMage() {
-		return this.type == Type.WIZARD ? 1f : 0f;
+		return this.type == Type.WIZARD ? 1f : 0.1f;
 	}
 
 	public float getWarrior() {
-		return this.type == Type.WARRIOR ? 1f : 0f;
+		return this.type == Type.WARRIOR ? 1f : 0.1f;
 	}
 
 	public float getRanger() {
-		return this.type == Type.RANGER ? 1f : 0f;
+		return this.type == Type.RANGER ? 1f : 0.1f;
 	}
 
 	@Override
@@ -201,7 +202,9 @@ public class Player extends Creature {
 	}
 
 	public Player(String name) {
-		this.name = name;
+		if (Player.instance != null) {
+			Player.instance.done = true;
+		}
 
 		all.add(this);
 		instance = this;
@@ -276,6 +279,7 @@ public class Player extends Creature {
 		this.name = name;
 	}
 
+	// FIXME: always generates ranged items in pools
 	public void generate() {
 		this.inventory.clear();
 
@@ -283,25 +287,24 @@ public class Player extends Creature {
 			this.hpMax = 12;
 			this.hp = 12;
 			this.give(new Sword());
-			return;
-		}
+		} else {
+			if (startingItem != null) {
+				this.give(startingItem);
+				startingItem = null;
+			}
 
-		if (startingItem != null) {
-			this.give(startingItem);
-			startingItem = null;
-		}
+			if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
+				this.give(new HealingPotion());
+			}
 
-		if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
-			this.give(new HealingPotion());
-		}
+			if (GlobalSave.isTrue(StartingArmor.ID)) {
+				this.give(new VikingHat());
+			}
 
-		if (GlobalSave.isTrue(StartingArmor.ID)) {
-			this.give(new VikingHat());
-		}
-
-		if (GlobalSave.isTrue(ExtraHeart.ID)) {
-			this.hpMax += 2;
-			this.hp += 2;
+			if (GlobalSave.isTrue(ExtraHeart.ID)) {
+				this.hpMax += 2;
+				this.hp += 2;
+			}
 		}
 	}
 
@@ -346,6 +349,11 @@ public class Player extends Creature {
 	@Override
 	public void renderBuffs() {
 		super.renderBuffs();
+		Item item = this.inventory.getSlot(this.inventory.active);
+
+		if (item instanceof Gun) {
+			((Gun) item).renderReload();
+		}
 
 		if (this.seePath && Exit.instance != null) {
 			float dx = Exit.instance.x + 8 - x - w / 2;
@@ -746,7 +754,12 @@ public class Player extends Creature {
 
 		t = 0;
 
-		this.type = toSet;
+		if (toSet != Type.NONE) {
+			this.type = toSet;
+			toSet = Type.NONE;
+		} else if (this.type == null) {
+			this.type = Type.WARRIOR;
+		}
 
 		if (instance == null) {
 			instance = this;
@@ -761,7 +774,7 @@ public class Player extends Creature {
 		doTp(true);
 
 		switch (this.type) {
-			case WARRIOR: case WIZARD: this.accuracy -= 10; break;
+			case WARRIOR: case WIZARD: this.accuracy -= 5; break;
 		}
 
 		light = World.newLight(256, new Color(1, 1, 1, 1f), 120, x, y);
@@ -836,18 +849,17 @@ public class Player extends Creature {
 	@Override
 	protected void common() {
 		super.common();
-		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
-
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
+
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
 
-			if (this.velocity.len() > 1) {
+			if (this.acceleration.len() > 1) {
 				this.moved = true;
 			}
 
@@ -878,10 +890,12 @@ public class Player extends Creature {
 		}
 
 		if (this.hasBuff(BurningBuff.class)) {
-			this.light.setColor(1, 0.5f, 0f, 1f);
+			this.light.setColor(1, 0.5f, 0f, 0.3f);
 		} else {
-			this.light.setColor(1, 1, 0.5f, 1f);
+			this.light.setColor(1, 1, 0.5f, 0.3f);
 		}
+
+		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (!this.rolling) {
 			if (this.isFlying() || this.touches[Terrain.WALL] || this.touches[Terrain.FLOOR_A] || this.touches[Terrain.FLOOR_B] || this.touches[Terrain.FLOOR_C] || this.touches[Terrain.FLOOR_D] || this.touches[Terrain.DISCO]) {
@@ -964,7 +978,7 @@ public class Player extends Creature {
 			}
 
 
-			this.lastMana += (dark ? 1 : 3) * dt * 1.5f * (this.velocity.len2() > 9.9f ?
+			this.lastMana += (dark ? 1 : 3) * dt * 1.5f * (this.acceleration.len2() > 9.9f ?
 				(this.flipRegenFormula ? 1f : 0.5f) :
 				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
 					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 4 : 1
@@ -1248,22 +1262,12 @@ public class Player extends Creature {
 			if (this.room instanceof ShopRoom) {
 				Audio.play("Shopkeeper");
 
-				if (BurningKnight.instance != null) {
+				if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) {
 					BurningKnight.instance.become("await");
 				}
 			}
 
 			hadEnemies = false;
-
-			for (int i = Mob.all.size() - 1; i >= 0; i--) {
-				Mob mob = Mob.all.get(i);
-
-				if (mob.getRoom() == this.room) {
-					hadEnemies = true;
-					mob.target = this;
-					mob.become("alerted");
-				}
-			}
 
 			for (Trader trader : Trader.all) {
 				if (trader.room == this.room) {
@@ -1336,7 +1340,7 @@ public class Player extends Creature {
 	}
 
 	public float getDamageModifier() {
-		return  ((pauseMore && this.velocity.len() < 1f) ? 1.5f : 1) * damageModifier * this.getStat("damage") * (this.touches[Terrain.WATER] ? 0.5f : 1f);
+		return  ((pauseMore && this.acceleration.len() < 1f) ? 1.5f : 1) * damageModifier * this.getStat("damage") * (this.touches[Terrain.WATER] ? 0.5f : 1f);
 	}
 
 	public boolean cutCobweb;
@@ -1447,7 +1451,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 
 		this.gotHit = true;
@@ -1455,8 +1459,8 @@ public class Player extends Creature {
 		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 
-		if (from != null && Random.chance(this.reflectDamageChance)) {
-			from.modifyHp(4, this, true);
+		if (from instanceof Creature && Random.chance(this.reflectDamageChance)) {
+			((Creature)from).modifyHp(4, this, true);
 		}
 
 		if (this.ui != null) {
@@ -1571,6 +1575,8 @@ public class Player extends Creature {
 		this.maxSpeed += (this.speed - last) * 7f;
 
 		doTp(false);
+
+		onRoomChange();
 	}
 
 	@Override
@@ -1635,7 +1641,8 @@ public class Player extends Creature {
 	public enum Type {
 		WARRIOR(0),
 		WIZARD(1),
-		RANGER(2);
+		RANGER(2),
+		NONE(3);
 
 		public int id;
 

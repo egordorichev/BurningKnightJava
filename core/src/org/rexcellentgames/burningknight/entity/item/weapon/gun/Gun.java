@@ -8,14 +8,16 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -29,7 +31,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class Gun extends WeaponBase {
-	protected float accuracy = 5f;
+	protected float accuracy = 4f;
 	protected float sx = 1f;
 	protected float sy = 1f;
 	protected float vel = 6f;
@@ -91,10 +93,10 @@ public class Gun extends WeaponBase {
 		useTime = 0.2f;
 	}
 
-	private Vector2 last = new Point();
+	private static Vector2 last = null;
 	protected float lastAngle;
 
-	private float closestFraction = 1.0f;
+	private static float closestFraction = 1.0f;
 	
 	public Gun() {
 	  setStats();
@@ -155,23 +157,17 @@ public class Gun extends WeaponBase {
 
 	private float time;
 
-	private RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		if (fixture.isSensor()) {
-			return 1;
-		}
+	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
+		Object data = fixture.getBody().getUserData();
 
-		Entity entity = (Entity) fixture.getBody().getUserData();
-
-		if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+		if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()) || data instanceof Projectile)) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last = point;
 			}
-
-			return fraction;
 		}
 
-		return 1;
+		return closestFraction;
 	};
 
 	@Override
@@ -242,8 +238,9 @@ public class Gun extends WeaponBase {
 		float yy = y + getAimY(0, 0);
 
 		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
-			float d = Display.GAME_WIDTH * 10;
+			float d = Display.GAME_WIDTH * 2;
 			closestFraction = 1f;
+			last = null;
 
 			float x2 = xx + (float) Math.cos(an) * d;
 			float y2 = yy + (float) Math.sin(an) * d;
@@ -252,26 +249,29 @@ public class Gun extends WeaponBase {
 				World.world.rayCast(callback, xx, yy, x2, y2);
 			}
 
+			float tx, ty;
+
 			if (last != null) {
-				Graphics.startAlphaShape();
-				Graphics.shape.setProjectionMatrix(Camera.game.combined);
-
-				Graphics.shape.setColor(1, 0, 0, 0.3f);
-				Graphics.shape.rectLine(xx, yy, last.x, last.y, 3);
-				Graphics.shape.rect(last.x - 2.5f, last.y - 2.5f, 5, 5);
-				Graphics.shape.setColor(1, 0, 0, 0.7f);
-				Graphics.shape.rectLine(xx, yy, last.x, last.y, 1);
-				Graphics.shape.rect(last.x - 1.5f, last.y - 1.5f, 3, 3);
-
-				Graphics.endAlphaShape();
+				tx = last.x;
+				ty = last.y;
+			} else {
+				tx = x2;
+				ty = y2;
 			}
+
+			Graphics.startAlphaShape();
+			Graphics.shape.setProjectionMatrix(Camera.game.combined);
+
+			Graphics.shape.setColor(1, 0, 0, 0.3f);
+			Graphics.shape.rectLine(xx, yy, tx, ty, 3);
+			Graphics.shape.rect(tx - 2.5f, ty - 2.5f, 5, 5);
+			Graphics.shape.setColor(1, 0, 0, 0.7f);
+			Graphics.shape.rectLine(xx, yy, tx, ty, 1);
+			Graphics.shape.rect(tx - 1.5f, ty - 1.5f, 3, 3);
+
+			Graphics.endAlphaShape();
+
 		}
-
-		y += this.owner.h;
-		x = this.owner.x + this.owner.w / 2;
-
-		y = Math.round(y);
-		x = Math.round(x);
 
 		float dt = Gdx.graphics.getDeltaTime();
 
@@ -291,8 +291,13 @@ public class Gun extends WeaponBase {
 			this.back = true;
 			this.chargeA += -this.chargeA * dt * 5;
 		}
+	}
 
+	public void renderReload() {
 		if (this.chargeA > 0) {
+			float x = this.owner.x + this.owner.w / 2 ;
+			float y = this.owner.y + this.owner.h;
+
 			Graphics.startAlphaShape();
 
 			Graphics.shape.setColor(0, 0, 0, chargeA);
@@ -300,7 +305,7 @@ public class Gun extends WeaponBase {
 			Graphics.shape.setColor(1, 1, 1, chargeA);
 			Graphics.shape.rect(x - 8, y, 16, 1);
 
-			xx = (back ? 16 : this.chargeProgress * 16) - 8 + x;
+			float xx = (back ? 16 : this.chargeProgress * 16) - 8 + x;
 
 			Graphics.shape.setColor(0, 0, 0, this.chargeA);
 			Graphics.shape.rect(xx - 2, y - 2, 5, 5);
@@ -320,6 +325,10 @@ public class Gun extends WeaponBase {
 	public void use() {
 		if (this.delay > 0) {
 			return;
+		}
+
+		if (this.ammoLeft == 0) {
+			this.owner.playSfx("item_nocash");
 		}
 
 		if (this.ammoLeft <= 0 || this.chargeProgress != 0) {

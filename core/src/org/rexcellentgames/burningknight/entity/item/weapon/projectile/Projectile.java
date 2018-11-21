@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.StatefulEntity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 
@@ -36,7 +37,7 @@ public class Projectile extends StatefulEntity {
 		this.body = World.removeBody(this.body);
 	}
 
-	private boolean didDie;
+	protected boolean didDie;
 
 	@Override
 	public void update(float dt) {
@@ -91,6 +92,10 @@ public class Projectile extends StatefulEntity {
 		}
 	}
 
+	public void remove() {
+		broke = true;
+	}
+
 	protected boolean breaksFrom(Entity entity) {
 		return false;
 	}
@@ -102,7 +107,7 @@ public class Projectile extends StatefulEntity {
 	protected boolean ignoreArmor = false;
 
 	protected void doHit(Entity entity) {
-		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, this.ignoreArmor);
+		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this, this.ignoreArmor);
 		((Creature) entity).knockBackFrom(this.owner, this.knockback);
 
 		if (fx != null) {
@@ -147,7 +152,7 @@ public class Projectile extends StatefulEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity == null && fixture.getBody().isBullet()) {
+		if (entity instanceof Level || (entity instanceof Projectile && ((Projectile) entity).bad == this.bad)) {
 			return false;
 		}
 

@@ -18,7 +18,6 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
-import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
@@ -43,7 +42,6 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.PrefixPool;
 import org.rexcellentgames.burningknight.game.Achievements;
-import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -101,6 +99,8 @@ public class Mob extends Creature {
 		if (Random.chance(50)) {
 			this.become("roam");
 		}
+
+		this.stats.put("block_chance", 0f);
 	}
 
 	public Mob generate() {
@@ -160,7 +160,6 @@ public class Mob extends Creature {
 	public void renderWithOutline(AnimationData data) {
 		TextureRegion region = data.getCurrent().frame;
 		float w = region.getRegionWidth();
-		float h = region.getRegionHeight();
 
 		if (this.prefix != null) {
 			Color color = this.prefix.getColor();
@@ -257,22 +256,16 @@ public class Mob extends Creature {
 	private RayCastCallback callback = new RayCastCallback() {
 		@Override
 		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-			if (fixture.isSensor()) {
-				return 1;
-			}
+			Object data = fixture.getBody().getUserData();
 
-			Entity entity = (Entity) fixture.getBody().getUserData();
-
-			if ((entity == null && !fixture.getBody().isBullet()) || (entity instanceof Door && !((Door) entity).isOpen()) || entity instanceof Player) {
+			if (!fixture.isSensor() && data instanceof Entity && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()))) {
 				if (fraction < closestFraction) {
 					closestFraction = fraction;
-					last = entity;
+					last = (Entity) data;
 				}
-
-				return fraction;
 			}
 
-			return 1;
+			return closestFraction;
 		}
 	};
 
@@ -283,18 +276,19 @@ public class Mob extends Creature {
 			}
 		}
 
-		closestFraction = 1f;
 		float x = this.x + this.w / 2;
 		float y = this.y + this.h / 2;
-
 		float x2 = player.x + player.w / 2;
 		float y2 = player.y + player.h / 2;
+
+		/*closestFraction = 1f;
 
 		if (x != x2 || y != y2) {
 			World.world.rayCast(callback, x, y, x2, y2);
 		} else {
 			return true;
 		}
+		*/
 
 		if (last == player) {
 			return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16)) == 0;
@@ -342,24 +336,24 @@ public class Mob extends Creature {
 			return null;
 		}
 
+		int pos = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
-		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
-		if (!Dungeon.level.checkFor(to, Terrain.PASSABLE)) {
-			to -= Level.getWidth();
+		if (!Dungeon.level.checkFor(pos, Terrain.PASSABLE)) {
+			pos -= Level.getWidth();
 		}
 
 		if (!Dungeon.level.checkFor(from, Terrain.PASSABLE)) {
 			from -= Level.getWidth();
 		}
 
-		int step = PathFinder.getStepBack(from, to, Dungeon.level.getPassable());
+		PathFinder.getStepBack(from, pos, Dungeon.level.getPassable(), pos);
 
-		if (step != -1) {
+		if (PathFinder.lastStep != -1) {
 			Point p = new Point();
 
-			p.x = step % Level.getWidth() * 16;
-			p.y = (float) (Math.floor(step / Level.getWidth()) * 16);
+			p.x = PathFinder.lastStep % Level.getWidth() * 16;
+			p.y = (float) (Math.floor(PathFinder.lastStep / Level.getWidth()) * 16);
 
 			return p;
 		}
@@ -505,7 +499,15 @@ public class Mob extends Creature {
 			this.target = null;
 			this.become("idle");
 		}
+
+		if (!this.friendly) {
+			for (Player player : colliding) {
+				player.modifyHp(-1, this, false);
+			}
+		}
 	}
+
+	protected boolean friendly = false;
 
 	@Override
 	protected void common() {
@@ -546,6 +548,10 @@ public class Mob extends Creature {
 			}
 
 			this.target = player;
+
+			if (!friendly && !this.state.equals("defeated") && !dead) {
+				player.modifyHp(-1, this, false);
+			}
 
 			this.colliding.add(player);
 		}
@@ -592,18 +598,6 @@ public class Mob extends Creature {
 	protected void deathEffects() {
 		this.done = true;
 		drop = true;
-
-		if (Settings.blood) {
-			for (int i = 0; i < 5; i++) {
-				BloodSplatFx fxx = new BloodSplatFx();
-
-				fxx.x = x + Random.newFloat(w) - 8;
-				fxx.y = y + Random.newFloat(h) - 8;
-
-				Dungeon.area.add(fxx);
-				BloodFx.add(this, 5);
-			}
-		}
 
 		if (this.room != null) {
 			this.room.numEnemies -= 1;
@@ -670,7 +664,7 @@ public class Mob extends Creature {
 							}
 						}
 
-						if (!Player.instance.isDead() && !force && Random.chance(20)) {
+						if (Player.instance != null && !Player.instance.isDead() && !force && Random.chance(20)) {
 							HeartFx fx = new HeartFx();
 
 							fx.x = x + w / 2 + Random.newFloat(-4, 4);
@@ -735,7 +729,7 @@ public class Mob extends Creature {
 					this.ai.onExit();
 				} catch (RuntimeException e) {
 					e.printStackTrace();
-					Log.error("Mob AI exception " + this.getClass().getSimpleName());
+					Log.error("Mob AI exdsception " + this.getClass().getSimpleName());
 				}
 			}
 
@@ -774,8 +768,12 @@ public class Mob extends Creature {
 			this.moveFrom(self.lastSeen, 25f, 5f);
 
 			if (this.t >= delay) {
-				self.become("idle");
+				self.become(getState());
 			}
+		}
+
+		protected String getState() {
+			return "idle";
 		}
 	}
 
@@ -802,15 +800,7 @@ public class Mob extends Creature {
 					continue;
 				}
 
-				if (force || this.stupid) {
-					this.target = player;
-					return;
-				}
-
-				if (this.canSee(player)) {
-					this.target = player;
-					break;
-				}
+				this.target = player;
 			}
 		}
 	}
@@ -818,7 +808,7 @@ public class Mob extends Creature {
 	private boolean toDead;
 
 	@Override
-	protected void onHurt(int a, Creature from) {
+	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 
 		/*if (!this.saw && !(this instanceof Boss)) {
@@ -826,21 +816,15 @@ public class Mob extends Creature {
 			return;
 		}*/
 
-		if (this.isLow() && !(this.ai instanceof GetOutState)) {
-			State state = this.getAiWithLow(this.state);
-
-			if (state instanceof GetOutState) {
-				this.ai.onExit();
-				this.ai = state;
-				state.self = this;
-				state.onEnter();
-			}
+		if (from instanceof Player) {
+			this.target = (Creature) from;
 		}
+	}
 
-
-		if (this.ai != null && !(this instanceof Boss)) {
-			this.ai.checkForPlayer(true);
-		}
+	// HACKZ
+	@Override
+	public boolean rollBlock() {
+		return false;// return super.rollBlock();
 	}
 
 	@Override
@@ -926,27 +910,41 @@ public class Mob extends Creature {
 		}
 
 		public boolean moveFrom(Point point, float s, float d) {
-			if (this.nextPathPoint == null) {
+			if (this.targetPoint == null) {
 				if (self.target == null) {
 					self.target = Player.instance;
+
+					if (!self.saw) {
+						self.saw = true;
+						self.noticeSignT = 2f;
+						self.playSfx("enemy_alert");
+					}
 				}
 
-				if (self.lastSeen == null) {
+				self.lastSeen = new Point(self.target.x, self.target.y);
+				this.targetPoint = self.getFar(self.lastSeen);
+
+				if (this.targetPoint == null) {
 					self.lastSeen = new Point(self.target.x, self.target.y);
+					return false;
 				}
+			}
 
-				this.nextPathPoint = self.getFar(point);
+			if (this.nextPathPoint == null) {
+				this.nextPathPoint = self.getCloser(this.targetPoint);
 
 				if (this.nextPathPoint == null) {
+					this.targetPoint = null;
 					return false;
 				}
 			}
 
 			// tile offset
 			float ds = self.moveToPoint(this.nextPathPoint.x + 8, this.nextPathPoint.y , s);
-			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
+			float dd = self.getDistanceTo(this.targetPoint.x + 8, this.targetPoint.y + 8);
 
 			if (ds < 4f || dd < d) {
+				// self.lastSeen = new Point(self.target.x, self.target.y);
 				this.nextPathPoint = null;
 				return dd <= d;
 			}
@@ -962,9 +960,10 @@ public class Mob extends Creature {
 			if (self.target != null) {
 				self.lastSeen = new Point(self.target.x, self.target.y);
 
-				if (self.target.room != self.room) { // !self.canSee(self.target)
-					self.target = null;
+				if (self.target.room != self.room) {
 					self.saw = false;
+
+					return;
 				}
 			}
 
@@ -973,14 +972,10 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.saw && Player.instance.room == self.room) { //  && self.canSee(self.target)
+				if (!self.saw && Player.instance.room == self.room && self.canSee(self.target)) {
 					self.saw = true;
 					self.playSfx("enemy_alert");
-
-					if (self.noticeSignT <= 0) {
-						self.hideSignT = 0f;
-						self.noticeSignT = 2f;
-					}
+					self.noticeSignT = 2f;
 
 					if (!self.state.equals("chase") && !self.state.equals("runaway")) {
 						self.become("alerted");

@@ -20,7 +20,6 @@ public class Game {
 		}
 
 		State old = this.state;
-
 		this.state = state;
 
 		if (old != null) {
