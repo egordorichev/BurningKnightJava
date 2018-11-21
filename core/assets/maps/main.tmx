@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="489">
+<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="489">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer name="tiles" width="129" height="128">
   <data encoding="csv">
@@ -252,6 +252,6 @@
   <object id="484" name="stand" x="1059" y="313" width="10" height="20"/>
   <object id="485" name="stand" x="930" y="314" width="10" height="20"/>
   <object id="486" name="stand" x="930" y="378" width="10" height="20"/>
-  <object id="488" name="blocker" x="908" y="184" width="40" height="20"/>
+  <object id="488" name="blocker" x="913" y="181" width="29" height="16"/>
  </objectgroup>
 </map>

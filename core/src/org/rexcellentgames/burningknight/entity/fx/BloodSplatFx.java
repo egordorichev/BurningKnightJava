@@ -73,7 +73,7 @@ public class BloodSplatFx extends Entity {
 		this.w = 64;
 		this.h = 64;
 	}
- 
+
 	@Override
 	public boolean isOnScreen() {
 		OrthographicCamera camera = Camera.game;
