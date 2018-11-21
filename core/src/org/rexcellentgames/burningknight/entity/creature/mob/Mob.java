@@ -374,11 +374,6 @@ public class Mob extends Creature {
 
 	@Override
 	public void update(float dt) {
-		if (this.toDead) {
-			this.die();
-			return;
-		}
-
 		super.update(dt * speedMod);
 
 		this.noticeSignT = Math.max(0, this.noticeSignT - dt);
@@ -433,6 +428,17 @@ public class Mob extends Creature {
 		}
 
 		if (this.freezed) {
+			this.velocity.x = 0;
+			this.velocity.y = 0;
+			this.acceleration.x = 0;
+			this.acceleration.y = 0;
+			this.knockback.x = 0;
+			this.knockback.y = 0;
+
+			if (this.body != null) {
+				this.body.setTransform(this.x, this.y, 0);
+			}
+
 			return;
 		}
 
@@ -805,16 +811,9 @@ public class Mob extends Creature {
 		}
 	}
 
-	private boolean toDead;
-
 	@Override
 	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
-
-		/*if (!this.saw && !(this instanceof Boss)) {
-			this.toDead = true;
-			return;
-		}*/
 
 		if (from instanceof Player) {
 			this.target = (Creature) from;
@@ -979,10 +978,6 @@ public class Mob extends Creature {
 
 					if (!self.state.equals("chase") && !self.state.equals("runaway")) {
 						self.become("alerted");
-					}
-				} else {
-					if (self.state.equals("idle") || self.state.equals("laugh")) {
-						self.become("chase");
 					}
 				}
 			} else if (self.saw) {

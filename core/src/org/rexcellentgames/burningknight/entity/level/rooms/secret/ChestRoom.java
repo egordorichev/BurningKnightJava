@@ -108,12 +108,12 @@ public class ChestRoom extends SecretRoom {
 
 	@Override
 	public int getMinWidth() {
-		return 8;
+		return 9;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 8;
+		return 9;
 	}
 
 	@Override

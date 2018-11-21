@@ -1,3 +1,4 @@
+
 package org.rexcellentgames.burningknight.entity.creature.buff;
 
 public class FreezeBuff extends Buff {

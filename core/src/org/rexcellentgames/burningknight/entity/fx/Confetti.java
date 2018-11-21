@@ -55,8 +55,7 @@ public class Confetti extends Entity {
 		this.y += this.vel.y * dt;
 		this.z += this.vel.y * dt;
 
-
-		this.vel.x -= this.vel.x * Math.min(1, dt * 3);
+		this.vel.x -= this.vel.x * Math.min(1, dt * 2.5f);
 
 		if (this.z > 0) {
 			this.vel.y -= 1f *dt * 60;
