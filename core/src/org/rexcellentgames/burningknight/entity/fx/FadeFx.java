@@ -52,12 +52,13 @@ public class FadeFx extends Entity {
 		}
 
 		a += aVel * dt * 320;
-		aVel *= (dt * 58);
+
+		this.vel.x -= this.vel.x * Math.min(1, dt * 3);
+		this.vel.y -= this.vel.y * Math.min(1, dt * 3);
+		this.aVel -= aVel * Math.min(1, dt * 3);
 
 		x += vel.x * dt;
 		y += vel.y * dt;
-		vel.x *= (dt * 58);
-		vel.y *= (dt * 58);
 
 		if (to) {
 			if (grow) {

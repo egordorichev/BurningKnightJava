@@ -88,8 +88,9 @@ public class SimpleFollowPet extends PetEntity {
 			this.y += this.velocity.y * dt;
 		}
 
-		this.velocity.x *= 0.9f;
-		this.velocity.y *= 0.9f;
+
+		this.velocity.x -= this.velocity.x * Math.min(1, dt * 3);
+		this.velocity.y -= this.velocity.y * Math.min(1, dt * 3);
 	}
 
 	@Override

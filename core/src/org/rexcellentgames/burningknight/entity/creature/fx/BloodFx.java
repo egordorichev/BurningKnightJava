@@ -56,7 +56,7 @@ public class BloodFx extends Entity {
 		this.x += this.vel.x * dt * 60;
 		this.y += this.vel.y * dt * 60;
 
-		this.vel.x *= 0.98f;
+		this.vel.x -= this.vel.x * Math.min(1, dt * 3);
 		this.vel.y -= dt;
 
 		this.angle += this.av * dt * 360;

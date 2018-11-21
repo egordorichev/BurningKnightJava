@@ -36,8 +36,8 @@ public class GrassBreakFx extends Entity {
 		this.x += this.vel.x * dt;
 		this.y += this.vel.y * dt;
 
-		this.vel.x *= 0.96f;
-		this.vel.y *= 0.96f;
+		this.vel.x -= this.vel.x * Math.min(1, dt * 3);
+		this.vel.y -= this.vel.y * Math.min(1, dt * 3);
 
 		if (this.second) {
 			this.size -= dt * 3f;

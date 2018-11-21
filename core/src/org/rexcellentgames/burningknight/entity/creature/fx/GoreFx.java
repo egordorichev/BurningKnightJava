@@ -69,7 +69,7 @@ public class GoreFx extends Entity {
 			this.vel.y = this.body.getLinearVelocity().y;
 		}
 
-		this.va *= (this.z == 0 ? 0.5f : 0.98f);
+		//this.va *= (this.z == 0 ? 0.5f : 0.98f);
 		this.a += this.va * dt * 60;
 
 		this.x += this.vel.x * dt * 60;
@@ -85,7 +85,9 @@ public class GoreFx extends Entity {
 		}
 
 		this.a += this.va * dt * 60;
-		this.va *= 0.95f;
+
+
+		this.va -= this.va * Math.min(1, dt * 3);
 
 		if (this.vel.x <= 0.1f || this.z == 0) {
 			this.vel.x = 0;

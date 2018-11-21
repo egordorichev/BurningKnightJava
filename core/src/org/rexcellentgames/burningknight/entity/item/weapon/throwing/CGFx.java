@@ -69,13 +69,14 @@ public class CGFx extends Entity {
 		this.y = this.body.getPosition().y;
 
 		this.a += this.va * dt;
-		this.va *= 0.99f;
+
+		this.va -= this.va * Math.min(1, dt * 3);
 
 		this.vel.x = this.body.getLinearVelocity().x;
 		this.vel.y = this.body.getLinearVelocity().y;
 
-		this.vel.x *= 0.99f;
-		this.vel.y *= 0.99f;
+		this.vel.x -= this.vel.x * Math.min(1, dt * 3);
+		this.vel.y -= this.vel.y * Math.min(1, dt * 3);
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
 		this.body.setLinearVelocity(this.vel.x, this.vel.y);

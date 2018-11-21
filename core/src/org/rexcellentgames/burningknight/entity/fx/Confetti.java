@@ -30,6 +30,8 @@ public class Confetti extends Entity {
 	public void init() {
 		super.init();
 
+		tran = Random.chance(50);
+
 		Color color = ColorUtils.HSV_to_RGB(Random.newFloat(360f), 100f, 100f);
 
 		this.r = color.r;
@@ -53,7 +55,8 @@ public class Confetti extends Entity {
 		this.y += this.vel.y * dt;
 		this.z += this.vel.y * dt;
 
-		this.vel.x *= 0.98f;
+
+		this.vel.x -= this.vel.x * Math.min(1, dt * 3);
 
 		if (this.z > 0) {
 			this.vel.y -= 1f *dt * 60;
@@ -68,13 +71,22 @@ public class Confetti extends Entity {
 		}
 	}
 
+	private boolean tran;
+
 	@Override
 	public void render() {
-		Graphics.startShape();
+		Graphics.startAlphaShape();
 
-		// float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float degrees)
-		Graphics.shape.setColor(this.r, this.g, this.b, 1);
-		Graphics.shape.rect(this.x, this.y, this.w / 2, this.h / 2, this.w, this.h, (float) Math.cos(this.t * 1.5f) * this.m,  (float) Math.sin(this.t * 0.9f) * this.m, this.a * this.m);
-		Graphics.endShape();
+		if (tran) {
+			Graphics.shape.setColor(this.r, this.g, this.b, 1);
+			Graphics.shape.rect(this.x, this.y, this.w / 2, this.h / 2, this.w, this.h, (float) Math.cos(this.t * 1.5f) * this.m,  (float) Math.sin(this.t * 0.9f) * this.m, this.a * this.m);
+		} else {
+			Graphics.shape.setColor(this.r, this.g, this.b, 0.5f);
+			Graphics.shape.rect(this.x, this.y, this.w / 2, this.h / 2, this.w, this.h, (float) Math.cos(this.t * 1.5f) * this.m, (float) Math.sin(this.t * 0.9f) * this.m, this.a * this.m);
+			Graphics.shape.setColor(this.r, this.g, this.b, 1);
+			Graphics.shape.rect(this.x, this.y, this.w / 2, this.h / 2, this.w, this.h, (float) Math.cos(this.t * 1.5f) * this.m * 0.5f, (float) Math.sin(this.t * 0.9f) * this.m * 0.5f, this.a * this.m);
+		}
+
+		Graphics.endAlphaShape();
 	}
 }

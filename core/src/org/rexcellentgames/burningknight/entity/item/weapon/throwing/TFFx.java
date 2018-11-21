@@ -52,6 +52,8 @@ public class TFFx extends Entity {
 		this.a += this.va * dt;
 		this.va *= 0.999f;
 
+		this.va -= this.va * Math.min(1, dt * 3);
+
 		if (this.z <= 0) {
 			this.done = true;
 			parts();

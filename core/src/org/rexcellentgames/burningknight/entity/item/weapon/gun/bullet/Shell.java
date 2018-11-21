@@ -74,8 +74,9 @@ public class Shell extends Entity {
 			}
 		}
 
-		this.vel.x *= (this.z == 0 ? 0.5f : 0.97f);
-		this.va *= (this.z == 0 ? 0.5f : 0.98f);
+
+		this.vel.x -= this.vel.x * Math.min(1, this.z == 0 ? dt * 2 : dt * 3);
+		this.va -= va * Math.min(1, z == 0 ? dt * 2 : dt * 3);
 		this.a += this.va * dt * 60;
 
 		if (this.vel.x <= 0.1f && this.z == 0) {
