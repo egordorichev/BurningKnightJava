@@ -13,7 +13,6 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class BloodSplatFx extends Entity {
@@ -74,7 +73,7 @@ public class BloodSplatFx extends Entity {
 		this.w = 64;
 		this.h = 64;
 	}
-
+ 
 	@Override
 	public boolean isOnScreen() {
 		OrthographicCamera camera = Camera.game;
