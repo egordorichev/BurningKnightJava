@@ -806,7 +806,7 @@ public class BurningKnight extends Boss {
 				if (i == 0 && false) {
 					self.become("laserAttack");
 				} else if (i == 1 || true) {
-					self.become("autoAttack"); // todo: telegraph
+					self.become("autoAttack");
 				} else if (i == 2) {
 					self.become("missileAttack");
 				} else {
@@ -1278,6 +1278,7 @@ public class BurningKnight extends Boss {
 				t = 0;
 				num ++;
 
+				// todo: telegraph
 				BulletProjectile ball = new BulletProjectile() {
 					@Override
 					protected void onDeath() {
