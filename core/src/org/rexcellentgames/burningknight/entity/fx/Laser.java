@@ -102,7 +102,7 @@ public class Laser extends Entity {
 		float yy = y;
 		float d = Display.GAME_WIDTH * 2;
 		closestFraction = 1f;
-		last = null;
+		last.x = -1;
 
 		float an = (float) Math.toRadians(a);
 		float x2 = xx + (float) Math.cos(an + Math.PI / 2) * d;
@@ -114,15 +114,13 @@ public class Laser extends Entity {
 
 		float dx, dy;
 
-		if (last != null) {
+		if (last.x != -1) {
 			dx = last.x - x;
 			dy = last.y - y;
 		} else {
 			dx = x2 - x;
 			dy = y2 - y;
 		}
-
-		// fixme: broken with chasms
 
 		w = (float) Math.sqrt(dx * dx + dy * dy) + (huge ? 8 : 4);
 
@@ -168,7 +166,7 @@ public class Laser extends Entity {
 
 	public boolean removing;
 	private static float closestFraction = 1.0f;
-	private static Vector2 last;
+	private static Vector2 last = new Vector2();
 
 	public void remove() {
 		removing = true;
@@ -198,12 +196,11 @@ public class Laser extends Entity {
 	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		Object data = fixture.getBody().getUserData();
 
-		if (!fixture.isSensor() && (data == null || ((data instanceof Door && !((Door) data).isOpen())) ||
-			data instanceof SolidProp || data instanceof RollingSpike)) {
-
+		if (data == null || (data instanceof Door && !((Door) data).isOpen()) || data instanceof SolidProp || data instanceof RollingSpike) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
-				last = point;
+				last.x = point.x;
+				last.y = point.y;
 			}
 		}
 
@@ -224,7 +221,7 @@ public class Laser extends Entity {
 
 		doRender((float) a);
 
-		if (this.al != 1 && !this.removing) {
+		if (fake && this.al != 1 && !this.removing) {
 			doRender((float) (a - Math.PI * 0.3f * (1 - this.al)));
 			doRender((float) (a + Math.PI * 0.3f * (1 - this.al)));
 		}

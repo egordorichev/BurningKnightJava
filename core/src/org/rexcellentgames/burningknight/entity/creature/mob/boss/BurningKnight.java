@@ -539,6 +539,7 @@ public class BurningKnight extends Boss {
 		// this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		super.renderStats();
+		// Graphics.print(this.state, Graphics.small, x, y);
 	}
 
 	private float time;
@@ -571,42 +572,6 @@ public class BurningKnight extends Boss {
 			}
 
 			super.update(dt);
-		}
-
-		protected void doAttack() {
-			if (self.dest) {
-				return;
-			}
-
-			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
-
-			//if (self.isActiveState() || self.rage) {
-			if (this.flyTo(self.lastSeen, self.speed * 8f, 128)) {
-				self.become("preattack");
-			}// else if (true || d < RANGED_ATTACK_DISTANCE && d > ATTACK_DISTANCE * 2 && this.t >= 1f && Random.chance(10f)) {
-			//	self.become("rangedAttack");
-			/*} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
-				self.attackTp = true;
-				self.become("fadeOut");
-			} else if (!self.onScreen) {
-				self.attackTp = true;
-				self.become("fadeOut");
-			} else {
-				if (this.t >= 1f) {
-					self.become("rangedAttack");
-				}
-
-				if (d < 48) {
-					self.attackTp = true;
-					self.become("fadeOut");
-				} else if (self.onScreen && d < TP_DISTANCE && d > RANGED_ATTACK_DISTANCE && Random.chance(0.2f)) {
-					self.attackTp = true;
-					self.become("fadeOut");
-				} else if (!self.onScreen) {
-					self.attackTp = true;
-					self.become("fadeOut");
-				}
-			}*/
 		}
 	}
 
@@ -737,11 +702,8 @@ public class BurningKnight extends Boss {
 				return;
 			}
 
-			doAttack();
-			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
-
-			if (d > 40f && self.t >= this.delay) {
-				self.become("dash");
+			if (this.flyTo(self.lastSeen, 20, 128f)) {
+				self.become("rangedAttack");
 				return;
 			}
 
@@ -783,8 +745,6 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
-			doAttack();
-
 			if (self.t >= this.delay) {
 				self.become("chase");
 				return;
@@ -1198,6 +1158,7 @@ public class BurningKnight extends Boss {
 			case "await": return new AwaitState();
 			case "defeated": return new DefeatedState();
 			case "spawnAttack": return new SpawnAttack();
+			case "rangedAttack": return new RangedAttackState();
 		}
 
 		return super.getAi(state);
@@ -1579,7 +1540,7 @@ public class BurningKnight extends Boss {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			swing = Random.chance(10);
+			/*swing = Random.chance(10);
 
 			if (swing) {
 				left = Random.chance(50);
@@ -1590,11 +1551,11 @@ public class BurningKnight extends Boss {
 
 			if (roll) {
 				return;
-			}
+			}*/
 
-			fast = Random.chance(40);
+			fast = Random.chance(50);
 			count = Random.newInt(2, 8);
-			auto = Random.chance(30);
+			// auto = Random.chance(30);
 		}
 
 		@Override

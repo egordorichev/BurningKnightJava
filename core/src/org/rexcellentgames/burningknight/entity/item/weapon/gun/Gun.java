@@ -8,21 +8,20 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -94,7 +93,7 @@ public class Gun extends WeaponBase {
 		useTime = 0.2f;
 	}
 
-	private static Vector2 last = null;
+	private static Vector2 last = new Vector2();
 	protected float lastAngle;
 
 	private static float closestFraction = 1.0f;
@@ -160,10 +159,11 @@ public class Gun extends WeaponBase {
 	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		Object data = fixture.getBody().getUserData();
 
-		if (!fixture.isSensor() && !(data instanceof Level || data instanceof ItemHolder || (data instanceof Door && ((Door) data).isOpen()) || data instanceof Projectile)) {
+		if (data == null || (data instanceof Door && !((Door) data).isOpen()) || data instanceof SolidProp || data instanceof RollingSpike || data instanceof Creature) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
-				last = point;
+				last.x = point.x;
+				last.y = point.y;
 			}
 		}
 
@@ -240,7 +240,7 @@ public class Gun extends WeaponBase {
 		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
 			float d = Display.GAME_WIDTH * 2;
 			closestFraction = 1f;
-			last = null;
+			last.x = -1;
 
 			float x2 = xx + (float) Math.cos(an) * d;
 			float y2 = yy + (float) Math.sin(an) * d;
@@ -251,7 +251,7 @@ public class Gun extends WeaponBase {
 
 			float tx, ty;
 
-			if (last != null) {
+			if (last.x != -1) {
 				tx = last.x;
 				ty = last.y;
 			} else {
