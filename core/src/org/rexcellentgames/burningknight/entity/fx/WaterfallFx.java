@@ -15,6 +15,7 @@ public class WaterfallFx extends Entity {
 	private float r;
 	private float g;
 	private float b;
+	public boolean lava;
 
 	{
 		alwaysActive = true;
@@ -26,14 +27,19 @@ public class WaterfallFx extends Entity {
 
 		size = 1;
 		al = Random.newFloat(0.8f, 1f);
-		tar = Random.newFloat(3, 6);
+		tar = Random.newFloat(3, 6) * 1.2f;
 		an = Random.newFloat(360f);
 		anVel = Random.newFloat(-1, 1) * 120;
 		vel = 0;
 
-		r = 1;
-		g = Random.newFloat(1.4f, 1.8f);
-		b = Random.newFloat(g, 2f);
+		if (lava) {
+			g = Random.newFloat(0.4f, 0.6f);
+			r = Random.newFloat(0.8f, 1.2f);
+		} else {
+			r = 1;
+			g = Random.newFloat(1.4f, 1.8f);
+			b = Random.newFloat(g, 2f);
+		}
 	}
 
 	@Override
@@ -57,9 +63,14 @@ public class WaterfallFx extends Entity {
 		an += anVel * dt;
 
 		if (b > 0.5f) {
-			r -= dt * 1.5f;
+			if (lava) {
+				r -= dt * 1;
+			} else {
+				r -= dt * 1.5f;
+				b -= dt * 1f;
+			}
+
 			g -= dt * 1f;
-			b -= dt * 1f;
 		}
 
 		if (al < 0 || size < 0) {

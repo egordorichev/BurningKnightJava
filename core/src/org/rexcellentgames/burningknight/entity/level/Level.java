@@ -1002,14 +1002,15 @@ public abstract class Level extends SaveableEntity {
 						} else if (i > WIDTH && this.data[i - WIDTH] == Terrain.CHASM) {
 							byte t = this.liquidData[i];
 
-							if (t == Terrain.WATER) {
+							if (t == Terrain.WATER || t == Terrain.LAVA) {
 								WaterfallFx fx = new WaterfallFx();
 
 								fx.x = x * 16 + Random.newFloat(16);
 								fx.y = y * 16 - 6;
+								fx.lava = t == Terrain.LAVA;
 
 								Dungeon.area.add(fx);
-							} // todo: other
+							}
 						}
 					}
 				}
@@ -1593,7 +1594,7 @@ public abstract class Level extends SaveableEntity {
 			maskShader.setUniformf("a", pattern == Terrain.waterPattern ? 0.5f : 1);
 		}
 
-		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? 0.3f : 1);
+		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? 0.4f : 1);
 		maskShader.setUniformi("u_texture2", 1);
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		texture.bind(0);
