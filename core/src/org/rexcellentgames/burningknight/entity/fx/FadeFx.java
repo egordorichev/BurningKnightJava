@@ -88,7 +88,7 @@ public class FadeFx extends Entity {
 		Graphics.shape.setColor(r, g, b, al * 0.5f);
 		Graphics.shape.rect(x, y, size / 2, size / 2, size, size, 1, 1, a);
 		Graphics.shape.setColor(r, g, b, al);
-		Graphics.shape.rect(x, y, size / 4, size / 4, size / 2, size / 2, 1, 1, a);
+		Graphics.shape.rect(x, y, size / 2, size / 2, size, size, 0.5f, 0.5f, a);
 		Graphics.endAlphaShape();
 	}
 }

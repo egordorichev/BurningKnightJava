@@ -35,6 +35,7 @@ public class Laser extends Entity {
 	private float al = 0.3f;
 	public int damage;
 	public boolean crit;
+	public boolean bad;
 	public Color shade = new Color(1, 0, 0, 1);
 	public Creature owner;
 	public boolean huge;
@@ -60,6 +61,8 @@ public class Laser extends Entity {
 				al = value;
 			}
 		});
+
+		recalc();
 	}
 
 	private boolean created;
@@ -74,7 +77,9 @@ public class Laser extends Entity {
 		if (huge) {
 			shade.g = (float) (Math.sin(this.t * 8) * 0.25f + 0.25f);
 		}
+	}
 
+	public void recalc() {
 		World.removeBody(body);
 
 		float xx = x;
@@ -206,7 +211,7 @@ public class Laser extends Entity {
 				Graphics.render(midHuge, this.x, this.y, this.a, 16, 0, false, false, 1, s);
 			}
 
-			Graphics.render(startHuge, this.x + (float) Math.cos(a) * (w - 16), this.y + (float) Math.sin(a) * (w - 16), this.a, 16, 16, false, false);
+			Graphics.render(startHuge, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 16, 16, false, false);
 			Graphics.batch.setColor(1, 1, 1, this.al);
 			Graphics.render(startOverlayHuge, this.x, this.y, this.a, 16, 16, false, false);
 
@@ -243,8 +248,8 @@ public class Laser extends Entity {
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
-		if (entity instanceof Mob) {
-			HpFx fx = ((Mob) entity).modifyHp(-this.damage, this.owner, true);
+		if (entity instanceof Creature && entity != this.owner && (entity instanceof Mob) != this.bad) {
+			HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, true);
 
 			if (fx != null) {
 				fx.crit = this.crit;

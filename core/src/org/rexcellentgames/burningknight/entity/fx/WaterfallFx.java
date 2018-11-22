@@ -71,9 +71,9 @@ public class WaterfallFx extends Entity {
 	public void render() {
 		Graphics.startAlphaShape();
 		Graphics.shape.setColor(r, g, b, al * 0.5f);
-		Graphics.shape.rect(x - size / 4, y - size / 4, size / 4, size / 4, size / 2, size / 2, 1, 1, an);
-		Graphics.shape.setColor(r, g, b, al);
 		Graphics.shape.rect(x - size / 2, y - size / 2, size / 2, size / 2, size, size, 1, 1, an);
+		Graphics.shape.setColor(r, g, b, al);
+		Graphics.shape.rect(x - size / 2, y - size / 2, size / 2, size / 2, size, size, 0.5f, 0.5f, an);
 		Graphics.endAlphaShape();
 	}
 }

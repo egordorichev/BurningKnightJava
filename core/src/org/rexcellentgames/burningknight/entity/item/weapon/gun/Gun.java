@@ -186,13 +186,13 @@ public class Gun extends WeaponBase {
 	}
 
 	public static float shortAngleDist(float a0, float a1) {
-		float max = (float) (Math.PI*2);
+		float max = (float) (Math.PI * 2);
 		float da = (a1 - a0) % max;
 		return 2 * da % max - da;
 	}
 
 	public static float angleLerp(float a0, float a1, float t, boolean freezed) {
-		return Dungeon.game.getState().isPaused() || (freezed) ? a0 : a0 + shortAngleDist(a0,a1) * (t * 60 * Gdx.graphics.getDeltaTime());
+		return Dungeon.game.getState().isPaused() || (freezed) ? a0 : a0 + shortAngleDist(a0, a1) * (t * 60 * Gdx.graphics.getDeltaTime());
 	}
 
 	protected float getAimX(float ex, float ey) {

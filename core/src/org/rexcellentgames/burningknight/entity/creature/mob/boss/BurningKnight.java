@@ -24,10 +24,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.fx.CurseFx;
-import org.rexcellentgames.burningknight.entity.fx.FadeFx;
-import org.rexcellentgames.burningknight.entity.fx.MissileAppear;
-import org.rexcellentgames.burningknight.entity.fx.MissileProjectile;
+import org.rexcellentgames.burningknight.entity.fx.*;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -531,9 +528,10 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+		// this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		super.renderStats();
+		Graphics.print(this.state, Graphics.small, this.x, this.y);
 	}
 
 	private float time;
@@ -801,7 +799,16 @@ public class BurningKnight extends Boss {
 		@Override
 		public void update(float dt) {
 			if (this.t >= 5f) {
-				self.become(lastAttack % 2 == 0 ? "autoAttack" : "missileAttack");
+				int i = lastAttack % 3;
+
+				if (i == 0 || true) {
+					self.become("laserAttack");
+				} else if (i == 1) {
+					self.become("autoAttack");
+				} else {
+					self.become("missileAttack");
+				}
+
 				lastAttack++;
 
 				return;
@@ -1315,7 +1322,76 @@ public class BurningKnight extends Boss {
 	}
 
 	public class LaserAttackState extends BKState {
-		// todo
+		private Laser laser;
+
+		@Override
+		public void onEnter() {
+			laser = new Laser();
+			float x = self.x + self.w / 2 + (self.isFlipped() ? -7 : 7);
+			float y = self.y + self.h / 4 + self.z;
+			double an = self.getAngleTo(self.getAim().x, self.getAim().y);
+
+			laser.x = x;
+			laser.y = y;
+			laser.a = (float) Math.toDegrees(an - Math.PI / 2);
+
+			laser.huge = true;
+
+			laser.w = 32f;
+			laser.bad = true;
+			laser.damage = 2;
+			laser.owner = self;
+
+			Dungeon.area.add(laser);
+		}
+
+		// todo: epic appear
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			float x = self.x + self.w / 2;
+			float y = self.y + self.h + self.z - 16;
+			double an = Math.toDegrees(self.getAngleTo(self.getAim().x, self.getAim().y) - Math.PI / 2);
+
+			laser.x = x;
+			laser.y = y;
+			laser.depth = 17;
+
+			float v = (float) (an - laser.a);
+			float f = 64 * (Math.abs(v) > Math.PI ? 3 : 1);
+
+			if (v > 0) {
+				aVel += dt * f;
+			} else {
+				aVel -= dt * f;
+			}
+
+			laser.a += aVel * dt;
+			aVel -= aVel * dt;
+			laser.recalc();
+
+			if (this.t >= 1000f) { // fixme: 10 or so
+				if (!this.removed) {
+					removed = true;
+					laser.remove();
+				} else if (this.laser.dead) {
+					self.become("chase");
+				}
+			}
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+
+			if (!laser.dead) { // For example on death
+				laser.remove();
+			}
+		}
+
+		private float aVel;
+		private boolean removed;
 	}
 
 	public class RangedAttackState extends BKState {

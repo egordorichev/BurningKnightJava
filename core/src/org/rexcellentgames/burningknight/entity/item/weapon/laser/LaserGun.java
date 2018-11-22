@@ -54,6 +54,7 @@ public class LaserGun extends Revolver {
 			laser.x = xx;
 			laser.y = yy;
 			laser.a = (float) Math.toDegrees(an - Math.PI / 2);
+			laser.recalc();
 
 			if (laser.done || laser.dead) {
 				laser = null;
