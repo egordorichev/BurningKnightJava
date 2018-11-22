@@ -411,18 +411,21 @@ public class Mob extends Creature {
 				}
 
 				this.drop = false;
-				ArrayList<Item> items = this.getDrops();
 
-				for (Item item : items) {
-					ItemHolder holder = new ItemHolder(item);
+				if (!noDrop) {
+					ArrayList<Item> items = this.getDrops();
 
-					holder.x = this.x;
-					holder.y = this.y;
-					holder.getItem().generate();
+					for (Item item : items) {
+						ItemHolder holder = new ItemHolder(item);
 
-					this.area.add(holder);
+						holder.x = this.x;
+						holder.y = this.y;
+						holder.getItem().generate();
 
-					LevelSave.add(holder);
+						this.area.add(holder);
+
+						LevelSave.add(holder);
+					}
 				}
 			}
 		}
@@ -757,6 +760,8 @@ public class Mob extends Creature {
 
 		super.become(state);
 	}
+
+	public boolean noDrop;
 
 	public class GetOutState extends State {
 		private float delay;

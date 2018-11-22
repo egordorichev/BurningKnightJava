@@ -262,7 +262,7 @@ public class Creature extends SaveableEntity {
 		BloodFx.add(this, 20);
 	}
 
-	protected void poof() {
+	public void poof() {
 		for (int i = 0; i < 10; i++) {
 			PoofFx fx = new PoofFx();
 

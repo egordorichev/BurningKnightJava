@@ -38,6 +38,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
+import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
@@ -385,10 +386,14 @@ public class BurningKnight extends Boss {
 		this.activityTimer += dt;
 		this.time += dt;
 
-		if (this.velocity.x < 0) {
-			this.flipped = true;
-		} else if (this.velocity.x > 0) {
-			this.flipped = false;
+		if (this.acceleration.len() > 9.9f) {
+			this.flipped = this.acceleration.x < 0;
+		} else {
+			if (this.velocity.x < 0) {
+				this.flipped = true;
+			} else if (this.velocity.x > 0) {
+				this.flipped = false;
+			}
 		}
 
 		if (!this.state.equals("defeated")) {
@@ -800,14 +805,16 @@ public class BurningKnight extends Boss {
 		@Override
 		public void update(float dt) {
 			if (this.t >= 5f) {
-				int i = lastAttack % 3;
+				int i = lastAttack % 4;
 
-				if (i == 0 && false) {
+				if (i == 0) {
 					self.become("laserAttack");
-				} else if (i == 1 || true) {
+				} else if (i == 1) {
 					self.become("autoAttack");
 				} else if (i == 2) {
 					self.become("missileAttack");
+				} else if (i == 3) {
+					self.become("spawnAttack");
 				} else {
 					self.become("laserAimAttack");
 				}
@@ -1104,6 +1111,7 @@ public class BurningKnight extends Boss {
 
 			self.a = 0;
 			self.setUnhittable(true);
+			self.tp(-100, -100);
 			Mob.every.remove(self);
 		}
 
@@ -1167,9 +1175,72 @@ public class BurningKnight extends Boss {
 			case "laserAimAttack": return new LaserAimAttackState();
 			case "await": return new AwaitState();
 			case "defeated": return new DefeatedState();
+			case "spawnAttack": return new SpawnAttack();
 		}
 
 		return super.getAi(state);
+	}
+
+	public class SpawnAttack extends BKState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			center = self.room.getCenter();
+			center.x *= 16;
+			center.y *= 16;
+		}
+
+		private Point center;
+		private int num;
+		private boolean reached;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (!reached) {
+				if (this.flyTo(center, 15f, 16f)) {
+					reached = true;
+					this.t = 0;
+				}
+
+				return;
+			}
+
+			float x = self.x + self.w / 2;
+			float y = self.y + self.h / 2;
+
+			if (num < 4 && this.t > num * 0.5f + 1f) {
+				Mob mob = MobPool.instance.generate();
+
+				if (mob == null) {
+					MobPool.instance.initForFloor();
+					mob = MobPool.instance.generate();
+				}
+
+				double a = Math.PI * 2 * (num * 0.25f);
+
+				mob.x = (float) (Math.cos(a) * 96) + x;
+				mob.y = (float) (Math.sin(a) * 96) + y;
+				mob.noDrop = true;
+
+				mob.poof();
+				Dungeon.area.add(mob);
+
+				num++;
+				return;
+			}
+
+			if (num == 4) {
+				for (Mob mob : Mob.all) {
+					if (mob.room == self.room) {
+						return;
+					}
+				}
+
+				self.become("chase");
+			}
+		}
 	}
 
 	public class DefeatedState extends BKState {
