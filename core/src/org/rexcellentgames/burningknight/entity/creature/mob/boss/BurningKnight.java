@@ -534,7 +534,6 @@ public class BurningKnight extends Boss {
 		// this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		super.renderStats();
-		Graphics.print(this.state, Graphics.small, this.x, this.y);
 	}
 
 	private float time;
@@ -1282,7 +1281,6 @@ public class BurningKnight extends Boss {
 				t = 0;
 				num ++;
 
-				// todo: telegraph
 				BulletProjectile ball = new BulletProjectile() {
 					@Override
 					protected void onDeath() {
@@ -1295,8 +1293,8 @@ public class BurningKnight extends Boss {
 								float a = (float) (i * Math.PI / 4);
 								ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * Mob.shotSpeedMod);
 
-								ball.x = (float) (this.x);
-								ball.y = (float) (this.y);
+								ball.x = (this.x);
+								ball.y = (this.y);
 								ball.damage = 2;
 								ball.bad = true;
 
@@ -1315,6 +1313,20 @@ public class BurningKnight extends Boss {
 				ball.damage = 2;
 				ball.bad = true;
 				ball.auto = true;
+				ball.delay = 1f;
+				ball.alp = 0;
+
+				Tween.to(new Tween.Task(1, 1) {
+					@Override
+					public float getValue() {
+						return ball.alp;
+					}
+
+					@Override
+					public void setValue(float value) {
+						ball.alp = value;
+					}
+				});
 
 				ball.letter = "bullet-skull";
 				Dungeon.area.add(ball);

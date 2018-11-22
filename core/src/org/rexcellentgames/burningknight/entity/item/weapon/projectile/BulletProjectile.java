@@ -56,6 +56,7 @@ public class BulletProjectile extends Projectile {
 	public boolean auto = false;
 	public boolean renderCircle = true;
 	public boolean brokeWeapon = false;
+	public float alp = 1f;
 
 	protected PointLight light;
 
@@ -65,6 +66,7 @@ public class BulletProjectile extends Projectile {
 	}
 
 	public boolean noRotation;
+	public float delay;
 
 	@Override
 	public void init() {
@@ -162,7 +164,7 @@ public class BulletProjectile extends Projectile {
 		RectFx.shader.setUniformf("r", 1f);
 		RectFx.shader.setUniformf("g", 1f);
 		RectFx.shader.setUniformf("b", 1f);
-		RectFx.shader.setUniformf("a", second ? 0.33f : 1f);
+		RectFx.shader.setUniformf("a", (second ? 0.33f : 1f) * alp);
 		RectFx.shader.setUniformf("remove", (!lightUp || second) ? 1f : 0f);
 
 		RectFx.shader.setUniformf("pos", new Vector2(((float) reg.getRegionX()) / texture.getWidth(), ((float) reg.getRegionY()) / texture.getHeight()));
@@ -178,7 +180,7 @@ public class BulletProjectile extends Projectile {
 				this.anim.render(this.x - 8, this.y - 8, false, false, 8, 8, 0, 2, 2);
 				Graphics.batch.end();
 				RectFx.shader.begin();
-				RectFx.shader.setUniformf("a", 1f);
+				RectFx.shader.setUniformf("a", alp);
 				RectFx.shader.setUniformf("remove", 0f);
 				RectFx.shader.end();
 				Graphics.batch.begin();
@@ -190,7 +192,7 @@ public class BulletProjectile extends Projectile {
 				Graphics.render(reg, this.x, this.y, this.noRotation ? 0 : this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, 2, 2);
 				Graphics.batch.end();
 				RectFx.shader.begin();
-				RectFx.shader.setUniformf("a", 1f);
+				RectFx.shader.setUniformf("a", alp);
 				RectFx.shader.setUniformf("remove", 0f);
 				RectFx.shader.end();
 				Graphics.batch.begin();
@@ -213,6 +215,10 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void onCollision(Entity entity) {
+		if (this.alp < 1) {
+			return;
+		}
+
 		super.onCollision(entity);
 
 		if (this.bad && entity instanceof WeaponBase && ((WeaponBase) entity).getOwner() instanceof Player) {
@@ -299,6 +305,13 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void logic(float dt) {
+		if (this.delay > 0) {
+			World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
+			light.setPosition(x, y);
+			this.delay -= dt;
+			return;
+		}
+
 		this.last += dt;
 
 		if (this.anim != null) {
@@ -363,11 +376,14 @@ public class BulletProjectile extends Projectile {
 			this.velocity.y = (float) (Math.sin(this.angle) * f);
 		}
 
-		this.x += this.velocity.x * dt;
-		this.y += this.velocity.y * dt;
+		if (delay <= 0) {
+			this.x += this.velocity.x * dt;
+			this.y += this.velocity.y * dt;
+
+			this.body.setLinearVelocity(this.velocity);
+		}
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
-		this.body.setLinearVelocity(this.velocity);
 
 		light.setPosition(x, y);
 	}
