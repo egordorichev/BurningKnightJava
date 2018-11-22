@@ -109,11 +109,19 @@ public class RangedKnight extends Knight {
 
 	public class RunAwayState extends KnightState {
 		@Override
+		public void onEnter() {
+			super.onEnter();
+			self.lastSeen = new Point(self.target.x, self.target.y);
+		}
+
+		@Override
 		public void update(float dt) {
 			super.update(dt);
+			this.checkForPlayer();
 
 			if (self.lastSeen == null) {
-				self.lastSeen = new Point(self.target.x, self.target.y);
+				self.become("idle");
+				return;
 			}
 
 			this.moveFrom(self.lastSeen, 20f, 6f);

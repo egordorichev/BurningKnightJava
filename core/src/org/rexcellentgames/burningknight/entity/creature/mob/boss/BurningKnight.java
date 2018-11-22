@@ -885,6 +885,10 @@ public class BurningKnight extends Boss {
 			self.setUnhittable(true);
 			self.rage = true;
 			self.body.getFixtureList().get(0).setSensor(true);
+			self.knockback.x = 0;
+			self.knockback.y = 0;
+			self.velocity.x = 0;
+			self.velocity.y = 0;
 
 			self.hp = 1;
 			self.ignoreRooms = true;

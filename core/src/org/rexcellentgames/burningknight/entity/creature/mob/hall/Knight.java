@@ -542,7 +542,8 @@ public class Knight extends Mob {
 			super.update(dt);
 
 			if (this.t >= 2f) {
-				self.become(self.getDistanceTo(self.target.x + 8, self.target.y + 8) < 64 ? "chase" : "idle");
+				self.become("chase");
+				// self.become(self.getDistanceTo(self.target.x + 8, self.target.y + 8) < 64 ? "chase" : "idle");
 			}
 		}
 	}

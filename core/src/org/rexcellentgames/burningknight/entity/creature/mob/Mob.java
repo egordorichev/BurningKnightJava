@@ -771,6 +771,12 @@ public class Mob extends Creature {
 		public void update(float dt) {
 			super.update(dt);
 			this.checkForPlayer();
+
+			if (self.lastSeen == null) {
+				self.become("idle");
+				return;
+			}
+
 			this.moveFrom(self.lastSeen, 25f, 5f);
 
 			if (this.t >= delay) {
@@ -957,13 +963,14 @@ public class Mob extends Creature {
 
 		public void checkForPlayer(boolean force) {
 			if (self.target != null) {
-				self.lastSeen = new Point(self.target.x, self.target.y);
-
 				if (self.target.room != self.room) {
 					self.saw = false;
+					self.lastSeen = null; // So no one follows ya
 
 					return;
 				}
+
+				self.lastSeen = new Point(self.target.x, self.target.y);
 			}
 
 			if (this.target == null && force) {
@@ -971,7 +978,7 @@ public class Mob extends Creature {
 			}
 
 			if (self.target != null) {
-				if (!self.saw && self.canSee(self.target)) {
+				if (self.target.room == self.room && !self.saw && self.canSee(self.target)) {
 					self.saw = true;
 					self.playSfx("enemy_alert");
 					self.noticeSignT = 2f;
