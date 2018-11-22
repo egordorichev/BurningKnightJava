@@ -7,6 +7,7 @@ uniform float a;
 uniform float r;
 uniform float g;
 uniform float b;
+uniform float white;
 uniform float remove;
 uniform vec2 size;
 uniform vec2 pos;
@@ -36,5 +37,9 @@ vec4 eff(vec4 colour) {
 }
 
 void main() {
-    gl_FragColor = eff(vec4(r, g, b, a));
+    if (white > 0.5) {
+        gl_FragColor = vec4(1.0, 1.0, 1.0, texture2D(u_texture, v_texCoord).a);
+    } else {
+        gl_FragColor = eff(vec4(r, g, b, a));
+    }
 }

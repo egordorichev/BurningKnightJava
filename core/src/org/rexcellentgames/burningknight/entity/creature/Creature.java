@@ -126,7 +126,13 @@ public class Creature extends SaveableEntity {
 		this.hw = w;
 		this.hh = h;
 
-		return World.createSimpleBody(this, x, y, w, h, type, sensor);
+		Body body = World.createSimpleBody(this, x, y, w, h, type, sensor);
+
+		if (body != null) {
+			body.setSleepingAllowed(false);
+		}
+
+		return body;
 	}
 
 	public void modifyDefense(int amount) {

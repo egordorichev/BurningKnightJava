@@ -115,6 +115,7 @@ public class BulletProjectile extends Projectile {
 				this.rectShape = false;
 				this.circleShape = true;
 				this.renderCircle = false;
+				this.dissappearWithTime = true;
 				this.lightUp = false;
 			} else if (this.letter.equals("bullet-kotlin")) {
 				this.second = false;
@@ -155,8 +156,8 @@ public class BulletProjectile extends Projectile {
 		Texture texture = reg.getTexture();
 
 		Graphics.batch.end();
-
 		RectFx.shader.begin();
+		RectFx.shader.setUniformf("white", (this.dissappearWithTime && this.t >= 4f && (this.t - 4f) % 0.3f > 0.15f) ? 1 : 0);
 
 		RectFx.shader.setUniformf("r", 1f);
 		RectFx.shader.setUniformf("g", 1f);

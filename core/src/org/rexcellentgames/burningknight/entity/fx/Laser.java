@@ -19,6 +19,8 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
+import java.util.ArrayList;
+
 public class Laser extends Entity {
 	public static TextureRegion start = Graphics.getTexture("laser-circ");
 	public static TextureRegion startOverlay = Graphics.getTexture("laser-circ_over");
@@ -32,13 +34,14 @@ public class Laser extends Entity {
 
 	private Body body;
 	public float a;
-	private float al = 0.3f;
+	public float al = 0.3f;
 	public int damage;
 	public boolean crit;
 	public boolean bad;
 	public Color shade = new Color(1, 0, 0, 1);
 	public Creature owner;
 	public boolean huge;
+	public boolean fake;
 
 	{
 		alwaysActive = true;
@@ -50,7 +53,7 @@ public class Laser extends Entity {
 	public void init() {
 		super.init();
 
-		Tween.to(new Tween.Task(1, 0.05f) {
+		Tween.to(new Tween.Task(1, fake ? 1f : 0.1f) {
 			@Override
 			public float getValue() {
 				return al;
@@ -65,7 +68,6 @@ public class Laser extends Entity {
 		recalc();
 	}
 
-	private boolean created;
 	private float t;
 
 	@Override
@@ -77,9 +79,23 @@ public class Laser extends Entity {
 		if (huge) {
 			shade.g = (float) (Math.sin(this.t * 8) * 0.25f + 0.25f);
 		}
+
+		if (!fake) {
+			for (Creature creature : colliding) {
+				HpFx fx = creature.modifyHp(-this.damage, this.owner, true);
+
+				if (fx != null) {
+					fx.crit = this.crit;
+				}
+			}
+		}
 	}
 
 	public void recalc() {
+		if (removing) {
+			return;
+		}
+
 		World.removeBody(body);
 
 		float xx = x;
@@ -150,10 +166,14 @@ public class Laser extends Entity {
 		World.checkLocked(this.body).setTransform(this.x, this.y, an);
 	}
 
+	public boolean removing;
 	private static float closestFraction = 1.0f;
 	private static Vector2 last;
 
 	public void remove() {
+		removing = true;
+		body = World.removeBody(body);
+
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
 			public float getValue() {
@@ -201,47 +221,58 @@ public class Laser extends Entity {
 		double a = Math.toRadians(this.a + 90);
 
 		shade.a = this.al;
-		Graphics.batch.setColor(shade);
 
-		if (huge) {
-			Graphics.render(startHuge, this.x, this.y, this.a, 16, 16, false, false);
-			float s = (this.w - 8) / 32f;
+		doRender((float) a);
 
-			if (this.w > 16) {
-				Graphics.render(midHuge, this.x, this.y, this.a, 16, 0, false, false, 1, s);
-			}
-
-			Graphics.render(startHuge, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 16, 16, false, false);
-			Graphics.batch.setColor(1, 1, 1, this.al);
-			Graphics.render(startOverlayHuge, this.x, this.y, this.a, 16, 16, false, false);
-
-			if (this.w > 16) {
-				Graphics.render(midOverlayHuge, this.x, this.y, this.a, 16, 0, false, false, 1, s);
-			}
-
-			Graphics.render(startOverlayHuge, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), this.a, 16, 16, false, false);
-		} else {
-			Graphics.render(start, this.x, this.y, this.a, 8, 8, false, false);
-
-			float s = (this.w - 4) / 16f;
-
-			if (this.w > 8) {
-				Graphics.render(mid, this.x, this.y, this.a, 8, 0, false, false, 1, s);
-			}
-
-			Graphics.render(start, this.x + (float) Math.cos(a) * (w - 4), this.y + (float) Math.sin(a) * (w - 4), this.a, 8, 8, false, false);
-			Graphics.batch.setColor(1, 1, 1, this.al);
-			Graphics.render(startOverlay, this.x, this.y, this.a, 8, 8, false, false);
-
-			if (this.w > 8) {
-				Graphics.render(midOverlay, this.x, this.y, this.a, 8, 0, false, false, 1, s);
-			}
-
-			Graphics.render(startOverlay, this.x + (float) Math.cos(a) * (w - 4), this.y + (float) Math.sin(a) * (w - 4), this.a, 8, 8, false, false);
+		if (this.al != 1 && !this.removing) {
+			doRender((float) (a - Math.PI * 0.3f * (1 - this.al)));
+			doRender((float) (a + Math.PI * 0.3f * (1 - this.al)));
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	}
+	
+	private void doRender(float a) {
+		float an = (float) Math.toDegrees(a) - 90;
+		Graphics.batch.setColor(shade);
+
+		if (huge) {
+			Graphics.render(startHuge, this.x, this.y, an, 16, 16, false, false);
+			float s = (this.w - 8) / 32f;
+
+			if (this.w > 16) {
+				Graphics.render(midHuge, this.x, this.y, an, 16, 0, false, false, 1, s);
+			}
+
+			Graphics.render(startHuge, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), an, 16, 16, false, false);
+			Graphics.batch.setColor(1, 1, 1, al);
+			Graphics.render(startOverlayHuge, this.x, this.y, an, 16, 16, false, false);
+
+			if (this.w > 16) {
+				Graphics.render(midOverlayHuge, this.x, this.y, an, 16, 0, false, false, 1, s);
+			}
+
+			Graphics.render(startOverlayHuge, this.x + (float) Math.cos(a) * (w - 8), this.y + (float) Math.sin(a) * (w - 8), an, 16, 16, false, false);
+		} else {
+			Graphics.render(start, this.x, this.y, an, 8, 8, false, false);
+
+			float s = (this.w - 4) / 16f;
+
+			if (this.w > 8) {
+				Graphics.render(mid, this.x, this.y, an, 8, 0, false, false, 1, s);
+			}
+
+			Graphics.render(start, this.x + (float) Math.cos(a) * (w - 4), this.y + (float) Math.sin(a) * (w - 4), an, 8, 8, false, false);
+			Graphics.batch.setColor(1, 1, 1, al);
+			Graphics.render(startOverlay, this.x, this.y, an, 8, 8, false, false);
+
+			if (this.w > 8) {
+				Graphics.render(midOverlay, this.x, this.y, an, 8, 0, false, false, 1, s);
+			}
+
+			Graphics.render(startOverlay, this.x + (float) Math.cos(a) * (w - 4), this.y + (float) Math.sin(a) * (w - 4), an, 8, 8, false, false);
+		}
 	}
 
 	@Override
@@ -249,11 +280,26 @@ public class Laser extends Entity {
 		super.onCollision(entity);
 
 		if (entity instanceof Creature && entity != this.owner && (entity instanceof Mob) != this.bad) {
-			HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, true);
+			if (!fake) {
+				HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, true);
 
-			if (fx != null) {
-				fx.crit = this.crit;
+				if (fx != null) {
+					fx.crit = this.crit;
+				}
 			}
+
+			this.colliding.add((Creature) entity);
 		}
 	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		super.onCollisionEnd(entity);
+
+		if (entity instanceof Creature) {
+			this.colliding.remove(entity);
+		}
+	}
+
+	private ArrayList<Creature> colliding = new ArrayList<>();
 }

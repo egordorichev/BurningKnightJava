@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.*;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
@@ -434,6 +435,8 @@ public class BurningKnight extends Boss {
 
 		if (this.target == null) {
 			this.assignTarget();
+		} else {
+			this.flipped = this.target.x + this.target.w / 2 < this.x + this.w / 2;
 		}
 
 		if (this.dead) {
@@ -777,7 +780,6 @@ public class BurningKnight extends Boss {
 		@Override
 		public void update(float dt) {
 			doAttack();
-			float d = self.getDistanceTo(self.lastSeen.x + 8, self.lastSeen.y + 8);
 
 			if (self.t >= this.delay) {
 				self.become("chase");
@@ -801,12 +803,14 @@ public class BurningKnight extends Boss {
 			if (this.t >= 5f) {
 				int i = lastAttack % 3;
 
-				if (i == 0 || true) {
+				if (i == 0 && false) {
 					self.become("laserAttack");
-				} else if (i == 1) {
-					self.become("autoAttack");
-				} else {
+				} else if (i == 1 || true) {
+					self.become("autoAttack"); // todo: telegraph
+				} else if (i == 2) {
 					self.become("missileAttack");
+				} else {
+					self.become("laserAimAttack");
 				}
 
 				lastAttack++;
@@ -1141,32 +1145,23 @@ public class BurningKnight extends Boss {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "idle":
-				return new IdleState();
+			case "idle": return new IdleState();
 			case "appear": return new AppearState();
-			case "roam":
-				return new RoamState();
-			case "alerted":
-				return new AlertedState();
-			case "chase": case "fleeing":
-				return new ChaseState();
-			case "dash":
-				return new DashState();
-			case "preattack":
-				return new PreattackState();
+			case "roam": return new RoamState();
+			case "alerted": return new AlertedState();
+			case "chase": case "fleeing": return new ChaseState();
+			case "dash": return new DashState();
+			case "preattack": return new PreattackState();
 			case "attack": return new AttackState();
-			case "fadeIn":
-				return new FadeInState();
-			case "fadeOut":
-				return new FadeOutState();
-			case "dialog":
-				return new DialogState();
-			case "wait":
-				return new WaitState();
+			case "fadeIn": return new FadeInState();
+			case "fadeOut": return new FadeOutState();
+			case "dialog": return new DialogState();
+			case "wait": return new WaitState();
 			case "unactive": return new UnactiveState();
 			case "missileAttack": return new MissileAttackState();
 			case "autoAttack": return new NewAttackState();
 			case "laserAttack": return new LaserAttackState();
+			case "laserAimAttack": return new LaserAimAttackState();
 			case "await": return new AwaitState();
 			case "defeated": return new DefeatedState();
 		}
@@ -1307,10 +1302,11 @@ public class BurningKnight extends Boss {
 					}
 				};
 
+				ball.depth = 17;
 				float a = self.getAngleTo(self.target.x + 8, self.target.y + 8);
 				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(40f * Mob.shotSpeedMod);
 				ball.x = (float) (self.x + self.w / 2);
-				ball.y = (float) (self.y + self.h - 16);
+				ball.y = (float) (self.y + self.h - 8);
 				ball.damage = 2;
 				ball.bad = true;
 				ball.auto = true;
@@ -1323,19 +1319,83 @@ public class BurningKnight extends Boss {
 
 	public class LaserAttackState extends BKState {
 		private Laser laser;
+		private float last;
+		private int num;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			float x = self.x + self.w / 2;
+			float y = self.y + self.h + self.z - 12;
+
+			if (laser != null) {
+				laser.x = x;
+				laser.y = y;
+			}
+
+			if (last <= 0) {
+				last = 3f;
+				t = 0;
+
+				laser = new Laser();
+				double an = self.getAngleTo(self.getAim().x, self.getAim().y);
+
+				laser.fake = true;
+				laser.x = x;
+				laser.y = y;
+				laser.a = (float) Math.toDegrees(an - Math.PI / 2);
+
+				laser.huge = false;
+
+				laser.w = 32f;
+				laser.bad = true;
+				laser.damage = 2;
+				laser.depth = 17;
+				laser.owner = self;
+
+				Dungeon.area.add(laser);
+			} else if (t >= 2.3f && !laser.removing) {
+				laser.remove();
+				num ++;
+			} else if (laser.al == 1) {
+				laser.huge = true;
+				laser.fake = false;
+			}
+
+			if (t >= 3f && num == 3) {
+				self.become("chase");
+			}
+
+			last -= dt;
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+
+			if (!laser.dead) { // For example on death
+				laser.remove();
+			}
+		}
+	}
+
+	public class LaserAimAttackState extends BKState {
+		private Laser laser;
 
 		@Override
 		public void onEnter() {
 			laser = new Laser();
-			float x = self.x + self.w / 2 + (self.isFlipped() ? -7 : 7);
-			float y = self.y + self.h / 4 + self.z;
+			float x = self.x + self.w / 2;
+			float y = self.y + self.h + self.z - 12;
 			double an = self.getAngleTo(self.getAim().x, self.getAim().y);
 
+			laser.fake = true;
 			laser.x = x;
 			laser.y = y;
-			laser.a = (float) Math.toDegrees(an - Math.PI / 2);
+			laser.a = (float) Math.toDegrees(an - Math.PI / 2) + (Random.chance(50) ? 10 : -10);
 
-			laser.huge = true;
+			laser.huge = false;
 
 			laser.w = 32f;
 			laser.bad = true;
@@ -1345,38 +1405,42 @@ public class BurningKnight extends Boss {
 			Dungeon.area.add(laser);
 		}
 
-		// todo: epic appear
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			float x = self.x + self.w / 2;
-			float y = self.y + self.h + self.z - 16;
-			double an = Math.toDegrees(self.getAngleTo(self.getAim().x, self.getAim().y) - Math.PI / 2);
+			if (this.t > 2 || this.laser.al == 1) {
+				laser.huge = true;
+				laser.fake = false;
 
-			laser.x = x;
-			laser.y = y;
-			laser.depth = 17;
+				float x = self.x + self.w / 2;
+				float y = self.y + self.h + self.z - 12;
+				double an = Math.toDegrees(self.getAngleTo(self.getAim().x, self.getAim().y) - Math.PI / 2);
 
-			float v = (float) (an - laser.a);
-			float f = 64 * (Math.abs(v) > Math.PI ? 3 : 1);
+				laser.x = x;
+				laser.y = y;
+				laser.depth = 17;
 
-			if (v > 0) {
-				aVel += dt * f;
-			} else {
-				aVel -= dt * f;
-			}
+				float v = (float) (an - laser.a);
+				float f = 64 * (Math.abs(v) > Math.PI ? 3 : 1);
 
-			laser.a += aVel * dt;
-			aVel -= aVel * dt;
-			laser.recalc();
+				if (Gun.shortAngleDist((float) Math.toRadians(laser.a), (float) Math.toRadians(an)) > 0) {
+					aVel += dt * f;
+				} else {
+					aVel -= dt * f;
+				}
 
-			if (this.t >= 1000f) { // fixme: 10 or so
-				if (!this.removed) {
-					removed = true;
-					laser.remove();
-				} else if (this.laser.dead) {
-					self.become("chase");
+				laser.a += aVel * dt;
+				aVel -= aVel * dt;
+				laser.recalc();
+
+				if (this.t >= 10) {
+					if (!this.removed) {
+						removed = true;
+						laser.remove();
+					} else if (this.laser.dead) {
+						self.become("chase");
+					}
 				}
 			}
 		}
