@@ -795,28 +795,50 @@ public class BurningKnight extends Boss {
 	}
 
 	private int lastAttack;
+	private int pattern = -1;
 
 	public class PreattackState extends BKState {
 		@Override
 		public void onEnter() {
 			super.onEnter();
+
+			if (pattern == -1) {
+				pattern = Random.newInt(3);
+			}
 		}
 
 		@Override
 		public void update(float dt) {
 			if (this.t >= 5f) {
-				int i = lastAttack % 4;
+				int i = lastAttack % 3;
 
-				if (i == 0) {
-					self.become("laserAttack");
-				} else if (i == 1) {
-					self.become("autoAttack");
-				} else if (i == 2) {
-					self.become("missileAttack");
-				} else if (i == 3) {
-					self.become("spawnAttack");
-				} else {
-					self.become("laserAimAttack");
+				if (self.pattern == 0) {
+					if (i == 0) {
+						self.become("laserAttack");
+					} else if (i == 1) {
+						self.become("missileAttack");
+					} else {
+						self.become("laserAimAttack");
+						pattern = Random.newInt(3);
+					}
+				} else if (self.pattern == 1) {
+					if (i == 0) {
+						self.become("autoAttack");
+					} else if (i == 1) {
+						self.become("missileAttack");
+					} else {
+						self.become("spawnAttack");
+						pattern = Random.newInt(3);
+					}
+				} else if (self.pattern == 2) {
+					if (i == 0) {
+						self.become("autoAttack");
+					} else if (i == 1) {
+						self.become("spawnAttack");
+					} else {
+						self.become("laserAimAttack");
+						pattern = Random.newInt(3);
+					}
 				}
 
 				lastAttack++;
