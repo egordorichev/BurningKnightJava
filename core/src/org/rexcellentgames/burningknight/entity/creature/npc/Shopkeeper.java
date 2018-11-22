@@ -93,8 +93,11 @@ public class Shopkeeper extends Npc {
 	@Override
 	public void initStats() {
 		super.initStats();
+
 		modifyStat("gun_use_time", 1);
 		modifyStat("reload_time", 1);
+		setStat("reload_time", 1);
+		setStat("ammo_capacity", 1);
 	}
 
 	@Override
@@ -260,6 +263,15 @@ public class Shopkeeper extends Npc {
 		super.renderStats();
 
 		// Graphics.print(this.state, Graphics.small, this.x, this.y);
+	}
+
+	@Override
+	public void renderSigns() {
+		super.renderSigns();
+
+		if (this.shotgun != null) {
+			this.shotgun.renderReload();
+		}
 	}
 
 	@Override

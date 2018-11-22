@@ -14,7 +14,7 @@ class ConfettiGun : Gun() {
 		accuracy = 20f
 		damage = 4
 		ammoMax = 1
-		sprite = "item-tada_gun"
+		sprite = "item-confetti_gun"
 		reloadRate = 3f
 	}
 

@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -126,7 +127,6 @@ public class Gun extends WeaponBase {
 			shown = true;
 			Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("reload"));
 		}
-
 
 		if (ammoLeft < ammoMax && (pressed || Input.instance.wasPressed("interact"))) {
 			if (!pressed) {
