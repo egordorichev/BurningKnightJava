@@ -30,8 +30,7 @@ public class LaserGun extends Revolver {
 
 				if (last >= 0.2f) {
 					last = 0;
-					// FIXME
-					// ammoLeft -= 1;
+					ammoLeft -= 1;
 
 					if (ammoLeft == 0) {
 						laser.remove();
