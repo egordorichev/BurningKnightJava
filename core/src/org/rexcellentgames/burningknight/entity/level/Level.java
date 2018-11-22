@@ -1531,6 +1531,11 @@ public abstract class Level extends SaveableEntity {
 		maskShader.setUniformf("activated", 1);
 		maskShader.setUniformf("spread", 1);
 		maskShader.setUniformf("water", water ? 1 : 0);
+
+		if (water) {
+			maskShader.setUniformf("a", pattern == Terrain.waterPattern ? 0.5f : 1);
+		}
+
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		maskShader.setUniformf("time", this.t);
 		maskShader.setUniformf("pos", new Vector2(((float) rx) / rw, ((float) ry) / rh));
@@ -1583,7 +1588,12 @@ public abstract class Level extends SaveableEntity {
 		t.bind(1);
 		maskShader.setUniformf("activated", 1);
 		maskShader.setUniformf("water", water ? 1 : 0);
-		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? -0.3f : 1);
+
+		if (water) {
+			maskShader.setUniformf("a", pattern == Terrain.waterPattern ? 0.5f : 1);
+		}
+
+		maskShader.setUniformf("speed", pattern == Terrain.lavaPattern ? 0.3f : 1);
 		maskShader.setUniformi("u_texture2", 1);
 		maskShader.setUniformf("tpos", new Vector2(((float) rr.getRegionX()) / rw, ((float) rr.getRegionY()) / rh));
 		texture.bind(0);

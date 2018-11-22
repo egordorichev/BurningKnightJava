@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -113,9 +112,9 @@ public class Slime extends Mob {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof Level && this.state.equals("jump")) {
+		/*if (entity instanceof Level && this.state.equals("jump")) {
 			return false;
-		}
+		}*/
 
 		return super.shouldCollide(entity, contact, fixture);
 	}
@@ -125,7 +124,7 @@ public class Slime extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 3f && self.animation.getFrame() == 3 && self.target != null) {
+			if (this.t >= 3f && self.animation.getFrame() == 3 && self.target != null && self.target.room == self.room) {
 				Tween.to(new Tween.Task(0.7f, 0.1f) {
 					@Override
 					public float getValue() {

@@ -31,7 +31,7 @@ public class PurpleSlime extends Slime {
 		ball.y = (float) (this.y + Math.sin(a) * 8 + 6);
 		ball.owner = this;
 		ball.bad = true;
-		ball.letter = "bad";
+		ball.letter = "bullet-nano";
 
 		Dungeon.area.add(ball);
 

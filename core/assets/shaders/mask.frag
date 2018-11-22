@@ -12,6 +12,7 @@ uniform float burnStep;
 uniform vec2 size;
 uniform vec2 tpos;
 uniform float spread;
+uniform float a;
 uniform float spreadStep;
 uniform float water;
 uniform float speed;
@@ -64,7 +65,7 @@ void main() {
             float m = (time * speed / (cof.y * 2.0));
             m -= floor(m / (size.y * 4.0) + 1.0) * (size.y * 4.0);
             gl_FragColor = texture2D(u_texture, vec2(v_texCoord.x, v_texCoord.y - m));
-            gl_FragColor.a = 0.5;
+            gl_FragColor.a = a;
         } else {
             gl_FragColor = edge;
         }

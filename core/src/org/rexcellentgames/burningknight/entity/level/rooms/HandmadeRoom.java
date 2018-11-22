@@ -378,6 +378,13 @@ public class HandmadeRoom extends RegularRoom {
 				prop.y = y + rect.y + 16 - 8;
 
 				Dungeon.area.add(prop.add());
+			} else if (name.equals("tutorial_end")) {
+				TutorialEnd end = new TutorialEnd();
+
+				end.x = x + rect.x + 16;
+				end.y = y + rect.y + 16 - 8;
+
+				Dungeon.area.add(end);
 			} else {
 				Log.error("Unknown entity " + name);
 			}

@@ -16,10 +16,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
-import org.rexcellentgames.burningknight.entity.item.Gold;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
+import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.permanent.BetterChestChance;
@@ -64,6 +61,7 @@ public class Chest extends SaveableEntity {
 	private TextureRegion broken = getAnim().getFrames("break").get(1).frame;
 
 	private byte hp = 14;
+	private float last;
 
 	{
 		h = 13;
@@ -153,7 +151,7 @@ public class Chest extends SaveableEntity {
 					Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"));
 					collided = true;
 				}
-			} else {
+			} else if (!this.open) {
 				this.locked = false;
 				this.open = true;
 				this.data = this.getOpenAnim();
@@ -335,6 +333,15 @@ public class Chest extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (!this.open) {
+			this.last += dt;
+
+			if (this.last >= 0.6f) {
+				last = 0;
+				Spark.randomOn(this);
+			}
+		}
 
 		if (this.hp == 0) {
 			this.burning = false;

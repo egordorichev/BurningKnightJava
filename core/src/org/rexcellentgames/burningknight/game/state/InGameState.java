@@ -64,6 +64,7 @@ public class InGameState extends State {
 	public void init() {
 		Audio.important = false;
 
+		Dungeon.dark = 1;
 		Ui.controls.clear();
 
 		shader.begin();
