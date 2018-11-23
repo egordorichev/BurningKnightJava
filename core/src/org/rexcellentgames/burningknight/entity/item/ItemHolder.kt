@@ -33,7 +33,6 @@ import java.util.*
 
 open class ItemHolder : SaveableEntity {
   var body: Body? = null
-    private set
 
 	constructor(item: Item? = null) {
 		this.item = item

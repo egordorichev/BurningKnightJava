@@ -36,6 +36,7 @@ public class HatSelector extends ItemHolder {
 			for (Map.Entry<String, ItemRegistry.Pair> pair : ItemRegistry.INSTANCE.getItems().entrySet()) {
 				if (!pair.getValue().getShown() && pair.getValue().getPool() == Upgrade.Type.DECOR) {
 					this.id = pair.getKey();
+					pair.getValue().setShown(true);
 
 					try {
 						this.setItem(ItemRegistry.INSTANCE.getItems().get(this.id).getType().newInstance());

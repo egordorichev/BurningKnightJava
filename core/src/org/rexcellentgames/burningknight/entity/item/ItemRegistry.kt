@@ -35,7 +35,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.*
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ConfettiGrenade
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ToxicFlask
 import org.rexcellentgames.burningknight.game.Achievements
 
 object ItemRegistry {
@@ -291,17 +290,7 @@ object ItemRegistry {
 		"flame" to Pair(FlameThrower::class.java, 1f, 0.1f, 0.3f, 1f, Quality.GOLDEN),
 		"bomb" to Pair(Bomb::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"matches" to Pair(Matches::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-		"confetti_grenade" to Pair(ConfettiGrenade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.WEAPON, 3),
-		"coboi_hat" to Pair(CoboiHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 10),
-		"dunce_hat" to Pair(DunceHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 5),
-		"fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 8),
-		"gold_hat" to Pair(GoldHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 50),
-		"moai_hat" to Pair(MoaiHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 20),
-		"rave_hat" to Pair(RaveHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 16),
-		"ruby_hat" to Pair(RubyHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 100),
-		"shroom_hat" to Pair(ShroomHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 13),
-		"skull_hat" to Pair(SkullHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 20),
-		"valkyre_hat" to Pair(ValkyreHat::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.DECOR, 18)
+		"confetti_grenade" to Pair(ConfettiGrenade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.WEAPON, 3)
 	).toList().sortedBy { (_, value) -> value }.toMap()
 
 	val modItems = mutableMapOf<String, Item>()
