@@ -557,7 +557,7 @@
 	"consumable_trader" : "Brastin",
 	"dialog_pppotions" : "3 halfs of a lit... {WAIT}Ah sorry, you are here? Want some nice things?",
 	"dialog_nice_things" : "Potions? {WAIT}Maps? {WAIT}Hmm... {WAIT}Food?",
-	"dialog_cend" : "{SHAKE}I SAID BUY MY STUFF!!!{ENDSHAKE}{WAIT}{WAIT} Oh, sorry for that :X",
+	"dialog_cend" : "{SHAKE}GET OUT OF HERE!{ENDSHAKE} {WAIT}{WAIT}{WAIT}Or buy those {WAVE}delicious{ENDWAVE} items at 1k diamonds each ;)",
 	"hat_trader" : "Fabulous Ben Astral",
 	"dialog_look_nicer" : "Heya, do you want to look {WAIT}{WAVE}fabulous{ENDWAVE}?",
 	"dialog_not_so" : "No, {WAIT}not so {WAVE}fabulous{ENDWAVE} like me. But still much better!",
