@@ -158,7 +158,7 @@ public class DialogData {
 		Graphics.render(right, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
 		Graphics.render(center, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
 
-		Graphics.render(bottom, x+ bottomLeft.getRegionWidth(),
+		Graphics.render(bottom, x + bottomLeft.getRegionWidth(),
 			y, 0, 0, 0, false, false, sx, 1);
 		Graphics.render(bottomLeft, x, y);
 		Graphics.render(bottomRight, x + this.w - topRight.getRegionWidth(), y);

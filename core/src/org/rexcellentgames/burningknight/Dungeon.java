@@ -42,6 +42,7 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.*;
 import org.rexcellentgames.burningknight.mod.ModManager;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -425,7 +426,7 @@ public class Dungeon extends ApplicationAdapter {
 			} else {
 				Settings.sfx = 0.5f;
 			}
-		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead()) {
+		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead() && Dialog.active == null) {
 			game.getState().setPaused(!game.getState().isPaused());
 		}
 

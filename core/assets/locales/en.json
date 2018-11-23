@@ -82,7 +82,7 @@
 	"bronze_shotgun": "Bronze shotgun",
 	"bronze_shotgun_desc": "Yesss, this shotgun is much better!",
 	"burn_to_death_achievement": "Burn to death",
-	"burn_to_death_achievement_desc": "Rest in peace",
+	"burn_to_death_achievement_desc": "Rest in pieces",
 	"burning_key": "Burning Key",
 	"burning_key_desc": "Oh that's probably the key from the door to the next level!\nIt's pulsing with dark energy.",
 	"burning_knight": "The Burning Knight",
@@ -547,7 +547,7 @@
 	"zoom_in": "Zoom in",
 	"zoom_out": "Zoom out",
 	"upgrade_trader" : "Litunia",
-	"dialog_how_is_it" : "Hi, how is it going? {WAIT}Thanks again for saving me! {WAIT}I hope other traders are doing fine.",
+	"dialog_how_is_it" : "Hi, how is it going? {WAIT}I hope other traders are doing fine.",
 	"dialog_buy_upgrades" : "I sell permanent upgrades, {WAIT}that will make all your runs stronger!",
 	"dialog_be_careful" : "And... {WAIT}Please, be careful!",
 	"weapon_trader" : "Cool looking dude",
@@ -565,5 +565,7 @@
 	"accessory_trader" : "Bob",
 	"dialog_sorry" : "No, sorry, I don't sell jetpacks yet. {WAIT}I'm working on that.",
 	"dialog_buy_accessory" : "In the mean while you still can buy some awesome things like{WAIT}.{WAIT}.{WAIT}. {WAIT}um.{WAIT}.{WAIT}.",
-	"dialog_see_self" : "Well, just have a look! {WAIT}{WAIT}Or two. {WAIT}{WAIT}One look is good two bought things are better!"
+	"dialog_see_self" : "Well, just have a look! {WAIT}{WAIT}Or two. {WAIT}{WAIT}One look is good two bought things are better!",
+	"tutorial_done_achievement" : "Prepared For More",
+	"tutorial_done_achievement_desc" : "Finish the Tutorial"
 }

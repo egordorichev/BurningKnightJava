@@ -11,27 +11,36 @@ public class ShopProp extends Prop {
 	private boolean shadow = false;
 
 	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (!parsed) {
+			parsed = true;
+			this.parseName();
+		}
+	}
+
+	private boolean parsed;
+
+	@Override
 	public void renderShadow() {
 		if (shadow) {
 			super.renderShadow();
 		}
 	}
 
-	@Override
-	public void init() {
-		super.init();
-
-		if (this.sprite != null) {
-			this.parseName();
-		}
-	}
-
 	private void parseName() {
-		if (this.sprite.equals("shop-carpet") || this.sprite.equals("shop-blood") || sprite.equals("shop-frame_a") || sprite.equals("shop-frame_b")) {
+		if (this.sprite.equals("shop-carpet") || this.sprite.equals("shop-blood")) {
 			this.depth = -9;
 			this.shadow = false;
 		} else if (this.sprite.equals("shop-bat") || this.sprite.equals("shop-frog") || this.sprite.equals("shop-bone") || this.sprite.equals("shop-skull")) {
 			this.depth = 1;
+		} else if (sprite.equals("shop-frame_a") || sprite.equals("shop-frame_b") || sprite.equals("shop-target") || sprite.equals("shop-shields") || sprite.equals("shop-maniken")) {
+			this.depth = 6;
+		}
+
+		if (sprite.startsWith("shop-frame")) {
+			this.shadow = false;
 		}
 
 		this.w = this.region.getRegionWidth();
@@ -43,8 +52,6 @@ public class ShopProp extends Prop {
 		super.load(reader);
 		this.sprite = reader.readString();
 		this.region = Graphics.getTexture(this.sprite);
-
-		parseName();
 	}
 
 	@Override

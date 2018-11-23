@@ -32,6 +32,7 @@ public class Achievements {
 	public static final String FIND_SECRET_ROOM = "FIND_SECRET_ROOM_ACHIEVEMENT";
 	public static final String UPGRADE = "UPGRADE_ACHIEVEMENT";
 	public static final String SAVE_ALL = "SAVE_ALL_ACHIEVEMENT";
+	public static final String TUTORIAL_DONE = "TUTORIAL_DONE_ACHIEVEMENT";
 	// Item unlocks
 	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
 	public static final String UNLOCK_MIMIC_TOTEM = "UNLOCK_MIMIC_TOTEM";

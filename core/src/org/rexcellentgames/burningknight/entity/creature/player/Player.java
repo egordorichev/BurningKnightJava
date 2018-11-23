@@ -557,7 +557,7 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (!this.rolling && this.ui != null && !before) {
+		if (!this.rolling && this.ui != null && !before && Dungeon.depth != -2) {
 			this.ui.renderOnPlayer(this, of);
 		}
 
@@ -760,6 +760,10 @@ public class Player extends Creature {
 	@Override
 	public void init() {
 		super.init();
+
+		if (Dungeon.depth == -2) {
+			Achievements.unlock(Achievements.TUTORIAL_DONE);
+		}
 
 		t = 0;
 

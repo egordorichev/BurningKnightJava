@@ -27,7 +27,7 @@ public class Game {
 		}
 
 		this.state.init();
-		Achievements.clear();
+		// Achievements.clear();
 	}
 
 	public void destroyState() {

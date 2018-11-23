@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -37,6 +38,7 @@ public class TutorialEnd extends SaveableEntity {
 
 		if (entity instanceof Player && !did) {
 			did = true;
+
 			Tween.to(new Tween.Task(0, 0.2f) {
 				@Override
 				public float getValue() {
