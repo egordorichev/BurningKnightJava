@@ -1,0 +1,7 @@
+{
+	"sorry" : {
+		"dialog_sorry" : {"name" : "accessory_trader", "next" : ["dialog_buy_accessory"]},
+		"dialog_buy_accessory" : {"name" : "accessory_trader", "next" : ["dialog_see_self"]},
+		"dialog_see_self" : {"name" : "accessory_trader"}
+	}
+}

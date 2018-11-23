@@ -1,14 +1,14 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
+import com.badlogic.gdx.Gdx;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -179,10 +179,30 @@ public class Trader extends Npc {
 			this.animation = Animation.make("actor-npc-hats-trader").get("idle");
 		}
 
-
 		if (this.animation != null) {
 			w = animation.getFrames().get(0).frame.getRegionWidth();
 			h = animation.getFrames().get(0).frame.getRegionHeight();
+		}
+	}
+
+	private Dialog up = Dialog.make("upgrade-trader");
+	private Dialog wp = Dialog.make("weapon-trader");
+	private Dialog cs = Dialog.make("consumable-trader");
+	private Dialog ha = Dialog.make("hat-trader");
+	private Dialog ac = Dialog.make("accessory-trader");
+
+	@Override
+	protected DialogData selectDialog() {
+		if (this.id.equals("b")) {
+			return up.get("how_is_it");
+		} else if (this.id.equals("d")) {
+			return wp.get("want_a_weapon");
+		} else if (this.id.equals("c")) {
+			return cs.get("pppotions");
+		} else if (this.id.equals("h")) {
+			return ha.get("nice");
+		} else {
+			return ac.get("sorry");
 		}
 	}
 
@@ -208,6 +228,35 @@ public class Trader extends Npc {
 	public void render() {
 		if (!this.saved && Dungeon.depth == -2) {
 			return;
+		}
+
+		float dt = Gdx.graphics.getDeltaTime();
+		this.al = MathUtils.clamp(0, 1, this.al + ((lastWhite ? 1 : 0) - this.al) * dt * 10);
+
+		if (this.al > 0.05f && !Ui.hideUi) {
+			Graphics.batch.end();
+			Mob.shader.begin();
+			Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
+			Mob.shader.setUniformf("u_a", this.al);
+			Mob.shader.end();
+			Graphics.batch.setShader(Mob.shader);
+			Graphics.batch.begin();
+
+			for (int xx = -1; xx < 2; xx++) {
+				for (int yy = 0; yy < 2; yy++) {
+					if (Math.abs(xx) + Math.abs(yy) == 1) {
+						if (this.animation != null) {
+							Graphics.render(this.animation.getCurrent().frame, this.x + xx, this.y + yy);
+						} else {
+							Graphics.render(Item.missing, this.x + xx, this.y + yy);
+						}
+					}
+				}
+			}
+
+			Graphics.batch.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
 		}
 
 		if (this.animation != null) {

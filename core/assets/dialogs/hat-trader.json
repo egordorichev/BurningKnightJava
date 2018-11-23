@@ -1,0 +1,7 @@
+{
+	"nice" : {
+		"dialog_look_nicer" : {"name" : "hat_trader", "next" : ["dialog_not_so"]},
+		"dialog_not_so" : {"name" : "hat_trader", "next" : ["dialog_try"]},
+		"dialog_try" : {"name" : "hat_trader"}
+	}
+}

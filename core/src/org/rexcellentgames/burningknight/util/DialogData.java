@@ -234,7 +234,7 @@ public class DialogData {
 
 	private void readPhrase() {
 		Dialog.Phrase phrase = this.phrases.get(this.current);
-		this.label = new TypingLabel("{COLOR=#FFFFFF}" + phrase.string, skin);
+		this.label = new TypingLabel("{COLOR=#FFFFFF}{SPEED=0.75}" + phrase.string, skin);
 		this.label.setSize(Display.UI_WIDTH - 64, 32);
 		this.label.setPosition(32, Display.UI_HEIGHT - 52 - 16 - 48 + 8);
 		this.label.setWrap(true);
@@ -302,11 +302,7 @@ public class DialogData {
 			return;
 		}
 
-		Dialog.Phrase phrase = this.phrases.get(this.current);
-
-		if (phrase.options == null) {
-			this.toNext();
-		} else if (this.label != null && !this.label.hasEnded()) {
+		if (this.label != null && !this.label.hasEnded()) {
 			this.label.skipToTheEnd();
 			this.showOptions();
 		} else {

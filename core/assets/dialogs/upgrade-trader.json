@@ -1,0 +1,7 @@
+{
+	"how_is_it" : {
+		"dialog_how_is_it" : {"name" : "upgrade_trader", "next" : ["dialog_buy_upgrades"]},
+		"dialog_buy_upgrades" : {"name" : "upgrade_trader", "next" : ["dialog_be_careful"]},
+		"dialog_be_careful" : {"name" : "upgrade_trader"}
+	}
+}

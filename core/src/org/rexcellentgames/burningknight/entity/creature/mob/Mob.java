@@ -270,6 +270,10 @@ public class Mob extends Creature {
 	};
 
 	public boolean canSee(Creature player) {
+		if (player == null) {
+			return false;
+		}
+
 		if (!(this instanceof Shopkeeper || this instanceof BurningKnight)) {
 			if (player.room != this.room) {
 				return false;

@@ -17,7 +17,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -112,65 +111,51 @@ public class Shopkeeper extends Npc {
 	public static DialogData stupid = dialogs.get("stupid");
 
 	@Override
+	protected DialogData selectDialog() {
+		Item item = Player.instance == null ? null : Player.instance.getInventory().getSlot(Player.instance.ui.getActive());
+		return item == null ? wannaBuy : (item instanceof Gold ? stupid : buy);
+	}
+
+	@Override
+	protected void setupDialog(DialogData dialog) {
+		super.setupDialog(dialog);
+		Item item = Player.instance == null ? null : Player.instance.getInventory().getSlot(Player.instance.ui.getActive());
+
+		if (item != null) {
+			int price = item.getPrice() * item.getCount();
+
+			dialog.setVariable("item", item.getName());
+			dialog.setVariable("gold", price + "");
+
+			dialog.onSelect(new Runnable() {
+				@Override
+				public void run() {
+					if (Dialog.active.getSelected() == 0) {
+						Player.instance.getInventory().setSlot(id, null);
+						ItemHolder gold = new ItemHolder(new Gold());
+
+						gold.getItem().setCount(price);
+						Player.instance.tryToPickup(gold);
+
+						int val = GlobalSave.getInt("num_sold_items") + 1;
+						GlobalSave.put("num_sold_items", val);
+
+						Achievements.unlock(Achievements.UNLOCK_GOLD_RING);
+
+						if (val >= 10) {
+							Achievements.unlock(Achievements.SELL_10_ITEMS);
+						}
+					}
+				}
+			});
+		}
+	}
+
+	@Override
 	public void update(float dt) {
 		this.saw = true;
 
 		super.update(dt);
-
-		lastWhite = (!this.talking && Player.instance.pickupFx == null && Player.instance.room == this.room && Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2) < 10);
-
-		if (lastWhite && Input.instance.wasPressed("interact")) {
-			Input.instance.putState("inventory", Input.State.UP);
-
-			talking = true;
-			this.become("talk_dialog");
-			int id = Player.instance.ui.getActive();
-
-			Item item = Player.instance == null ? null : Player.instance.getInventory().getSlot(id);
-
-			int price = item == null ? 0 : item.getPrice() * item.getCount();
-
-			Dialog.active = item == null ? wannaBuy : (item instanceof Gold ? stupid : buy);
-			Dialog.active.start();
-
-			if (item != null) {
-				Dialog.active.setVariable("item", item.getName());
-				Dialog.active.setVariable("gold", price + "");
-			}
-
-			Dialog.active.onEnd(new Runnable() {
-				@Override
-				public void run() {
-					talking = false;
-					become("idle");
-				}
-			});
-
-			if (item != null) {
-				Dialog.active.onSelect(new Runnable() {
-					@Override
-					public void run() {
-						if (Dialog.active.getSelected() == 0) {
-							Player.instance.getInventory().setSlot(id, null);
-							ItemHolder gold = new ItemHolder(new Gold());
-
-							gold.getItem().setCount(price);
-
-							Player.instance.tryToPickup(gold);
-
-							int val = GlobalSave.getInt("num_sold_items") + 1;
-							GlobalSave.put("num_sold_items", val);
-
-							Achievements.unlock(Achievements.UNLOCK_GOLD_RING);
-
-							if (val >= 10) {
-								Achievements.unlock(Achievements.SELL_10_ITEMS);
-							}
-						}
-					}
-				});
-			}
-		}
 
 		if (this.invt > 0) {
 			this.animation = hurt;
@@ -221,10 +206,6 @@ public class Shopkeeper extends Npc {
 		Achievements.unlock(Achievements.UNLOCK_SALE);
 	}
 
-	private float al;
-	private boolean talking;
-	private boolean lastWhite;
-
 	@Override
 	public void render() {
 		if (!this.enranged) {
@@ -241,7 +222,7 @@ public class Shopkeeper extends Npc {
 				Graphics.batch.begin();
 
 				for (int xx = -1; xx < 2; xx++) {
-					for (int yy = -1; yy < 2; yy++) {
+					for (int yy = 0; yy < 2; yy++) {
 						if (Math.abs(xx) + Math.abs(yy) == 1) {
 							animation.render(this.x + xx, this.y + yy, this.flipped);
 						}
@@ -471,6 +452,11 @@ public class Shopkeeper extends Npc {
 		}
 	}
 
+	@Override
+	public boolean wantToTalk() {
+		return !enranged;
+	}
+
 	public class SellState extends SKState {
 		private Point to;
 
@@ -586,14 +572,9 @@ public class Shopkeeper extends Npc {
 			case "sell": return new SellState();
 			case "talk": return new TalkState();
 			case "thanks": return new ThanksState();
-			case "talk_dialog": return new TalkDialogState();
 		}
 
 		return super.getAi(state);
-	}
-
-	public class TalkDialogState extends SKState {
-
 	}
 
 	@Override

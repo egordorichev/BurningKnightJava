@@ -50,7 +50,6 @@ import org.rexcellentgames.burningknight.entity.item.permanent.ExtraHeart;
 import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
-import org.rexcellentgames.burningknight.entity.item.plant.seed.GrassSeed;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -1105,7 +1104,6 @@ public class Player extends Creature {
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("interact")) {
 				Input.instance.putState("inventory", Input.State.UP);
-
 				Dialog.active.skip();
 			}
 		}

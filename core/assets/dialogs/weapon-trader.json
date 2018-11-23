@@ -1,0 +1,7 @@
+{
+	"want_a_weapon" : {
+		"dialog_weapon" : {"name" : "weapon_trader", "next" : ["dialog_how"]},
+		"dialog_how" : {"name" : "weapon_trader", "next" : ["dialog_take_care"]},
+		"dialog_take_care" : {"name" : "weapon_trader"}
+	}
+}

@@ -294,6 +294,10 @@ public class Knight extends Mob {
 					selectDirs();
 				}
 
+				if (canSee(self.target)) {
+					self.become("chase");
+				}
+
 				return;
 			}
 
@@ -310,6 +314,10 @@ public class Knight extends Mob {
 
 			self.lastAcceleration.x = self.acceleration.x * f;
 			self.lastAcceleration.y = self.acceleration.y * f;
+
+			if (canSee(self.target)) {
+				self.become("chase");
+			}
 		}
 	}
 

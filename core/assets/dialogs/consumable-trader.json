@@ -1,0 +1,7 @@
+{
+	"pppotions" : {
+		"dialog_pppotions" : {"name" : "consumable_trader", "next" : ["dialog_nice_things"]},
+		"dialog_nice_things" : {"name" : "consumable_trader", "next" : ["dialog_cend"]},
+		"dialog_cend" : {"name" : "consumable_trader"}
+	}
+}
