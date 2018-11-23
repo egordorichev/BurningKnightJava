@@ -1,15 +1,13 @@
 package org.rexcellentgames.burningknight.entity.item.autouse;
 
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
-import org.rexcellentgames.burningknight.ui.UiBanner;
 
 public class Autouse extends Consumable {
 	{
 		useOnPickup = true;
 	}
 
-	@Override
+	/*@Override
 	public void use() {
 		super.use();
 
@@ -17,5 +15,5 @@ public class Autouse extends Consumable {
 		banner.text = this.name;
 		banner.extra = this.description;
 		Dungeon.ui.add(banner);
-	}
+	}*/
 }
