@@ -27,7 +27,7 @@ public class ManaKnife extends Dagger {
 		super.onHit(creature);
 
 		if (this.owner instanceof Player) {
-			((Player) this.owner).modifyMana(1);
+			((Player) this.owner).modifyMana(6 + this.level * 2);
 		}
 	}
 }

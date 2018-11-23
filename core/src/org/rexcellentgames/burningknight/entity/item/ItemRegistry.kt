@@ -99,7 +99,7 @@ object ItemRegistry {
 	  "start_with_health_potion" to Pair(StartWithHealthPotion::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 3),
 	  "starting_armor" to Pair(StartingArmor::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 1),
 	  "more_gold" to Pair(MoreGold::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 15),
-	  "extra_upgrade" to Pair(ExtraUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 8),
+	  // "extra_upgrade" to Pair(ExtraUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 8),
 	  "better_chest_chance" to Pair(BetterChestChance::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 12),
 
 		// Decor
@@ -208,7 +208,7 @@ object ItemRegistry {
 		"firebolt" to Pair(Firebolt::class.java, 0.8f, 0.3f, 1f, 0.3f, Quality.IRON),
 		"mana_ring" to Pair(ManaRing::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
 		"mana_up" to Pair(StarOnAString::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
-		"mana_bottle" to Pair(ManaBottle::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
+		// "mana_bottle" to Pair(ManaBottle::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
 		"mana_heart" to Pair(ManaHeart::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
 		// "blue_bomb" to Pair(BlueBomb::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
 		"mana_knife" to Pair(ManaKnife::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN, Upgrade.Type.WEAPON, 4),
@@ -274,7 +274,7 @@ object ItemRegistry {
 		"big_bullet" to Pair(BigBullet::class.java, 1f, 0f, 0f, 1f, Quality.WOODEN),
 		"red_balloon" to Pair(RedBalloon::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 		"sale" to Pair(ShopSale::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_SALE),
-		"toxic_flask" to Pair(ToxicFlask::class.java, 1f, 1f, 0.3f, 1f, Quality.WOODEN),
+		// "toxic_flask" to Pair(ToxicFlask::class.java, 1f, 1f, 0.3f, 1f, Quality.WOODEN),
 		"mimic_totem" to Pair(MimicTotem::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MIMIC_TOTEM),
 		"mimic_summoner" to Pair(MimicSummoner::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_MIMIC_SUMMONER),
 		"fire_boots" to Pair(FireBoots::class.java, 1f, 1f, 1f, 1f, Quality.IRON),

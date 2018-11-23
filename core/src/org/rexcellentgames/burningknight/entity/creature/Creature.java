@@ -365,7 +365,7 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		if (!this.isFlying() && this.touches[Terrain.WATER] && (!(this instanceof Player) || !((Player) this).isRolling())) {
+		if (!this.isFlying() && this.touches[Terrain.WATER] && !ignoreWater() && (!(this instanceof Player) || !((Player) this).isRolling())) {
 			this.velocity.y -= dt * 1000;
 		}
 
@@ -384,6 +384,10 @@ public class Creature extends SaveableEntity {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y - this.lz;
 		}
+	}
+
+	protected boolean ignoreWater() {
+		return false;
 	}
 
 	public int slowLiquidResist = 0;

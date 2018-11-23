@@ -305,6 +305,11 @@ public class Player extends Creature {
 				this.hpMax += 2;
 				this.hp += 2;
 			}
+
+			if (this.type != Type.WIZARD) {
+				this.manaMax -= 2;
+				this.mana -= 2;
+			}
 		}
 	}
 
@@ -1215,6 +1220,7 @@ public class Player extends Creature {
 			} else if (!this.isFlying() && (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS)) {
 				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
 
+				/*
 				if (Random.chance(10)) {
 					ItemHolder holder = new ItemHolder(new GrassSeed());
 
@@ -1222,7 +1228,7 @@ public class Player extends Creature {
 					holder.y = y * 16 + (16 - holder.h) / 2;
 
 					Dungeon.area.add(holder.add());
-				}
+				}*/
 
 				for (int i = 0; i < 10; i++) {
 					GrassBreakFx fx = new GrassBreakFx();
@@ -1307,6 +1313,11 @@ public class Player extends Creature {
 				this.modifyMana(this.getManaMax());
 			}
 		}
+	}
+
+	@Override
+	protected boolean ignoreWater() {
+		return slowLiquidResist > 0;
 	}
 
 	@Override

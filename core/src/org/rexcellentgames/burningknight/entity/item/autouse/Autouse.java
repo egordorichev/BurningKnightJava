@@ -16,4 +16,12 @@ public class Autouse extends Consumable {
 		banner.extra = this.description;
 		Dungeon.ui.add(banner);
 	}*/
+
+	@Override
+	public StringBuilder buildInfo() {
+		StringBuilder builder = super.buildInfo();
+		builder.append("\n[green]Consumable");
+
+		return builder;
+	}
 }
