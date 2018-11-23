@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -42,6 +43,8 @@ public class ItemSelectState extends State {
 	@Override
 	public void init() {
 		super.init();
+
+		Audio.stop();
 
 		Dungeon.white = 0;
 		Dungeon.darkR = Dungeon.MAX_R;

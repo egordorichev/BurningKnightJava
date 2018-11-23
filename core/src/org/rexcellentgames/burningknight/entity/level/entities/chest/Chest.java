@@ -40,6 +40,7 @@ import org.rexcellentgames.burningknight.util.file.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Chest extends SaveableEntity {
 	private AnimationData data;
@@ -100,9 +101,11 @@ public class Chest extends SaveableEntity {
 	public static Pool<Item> makePool(ItemRegistry.Quality quality, boolean weapon, boolean any) {
 		Pool<Item> pool = new Pool<>();
 
-		for (ItemRegistry.Pair item : ItemRegistry.INSTANCE.getItems().values()) {
+		for (Map.Entry<String, ItemRegistry.Pair> both : ItemRegistry.INSTANCE.getItems().entrySet()) {
+			ItemRegistry.Pair item = both.getValue();
+
 			if (item.getQuality().check(quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.getType())))
-				&& item.unlocked() && Player.instance.getInventory().findItem(item.getType()) == null) {
+				&& item.unlocked(both.getKey()) && Player.instance.getInventory().findItem(item.getType()) == null) {
 
 				pool.add(item.getType(), item.getChance() * (
 					item.getWarrior() * Player.instance.getWarrior() +

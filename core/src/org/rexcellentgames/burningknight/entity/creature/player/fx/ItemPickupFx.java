@@ -10,7 +10,10 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.NullItem;
+import org.rexcellentgames.burningknight.entity.item.accessory.hat.*;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
+import org.rexcellentgames.burningknight.entity.level.entities.HatSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -41,6 +44,10 @@ public class ItemPickupFx extends Entity {
 			}
 		}
 
+		if (this.text.equals("null_item")) {
+			this.text = "";
+		}
+
 		this.item = item;
 		this.player = player;
 
@@ -60,6 +67,38 @@ public class ItemPickupFx extends Entity {
 		});
 	}
 
+	private void setSkin(String skin) {
+		if (skin == null || skin.equals("gobbo_head")) {
+			this.item.setItem(new NullItem());
+		} else if (skin.equals("knight")) {
+			this.item.setItem(new KnightHat());
+		} else if (skin.equals("stone")) {
+			this.item.setItem(new MoaiHat());
+		} else if (skin.equals("viking")) {
+			this.item.setItem(new VikingHat());
+		} else if (skin.equals("dunce")) {
+			this.item.setItem(new DunceHat());
+		} else if (skin.equals("ravi")) {
+			this.item.setItem(new RaveHat());
+		} else if (skin.equals("ushanka")) {
+			this.item.setItem(new UshankaHat());
+		} else if (skin.equals("ruby")) {
+			this.item.setItem(new RubyHat());
+		} else if (skin.equals("gold")) {
+			this.item.setItem(new GoldHat());
+		} else if (skin.equals("wings")) {
+			this.item.setItem(new ValkyreHat());
+		} else if (skin.equals("skull")) {
+			this.item.setItem(new SkullHat());
+		} else if (skin.equals("cowboy")) {
+			this.item.setItem(new CoboiHat());
+		} else if (skin.equals("red_mushroom")) {
+			this.item.setItem(new ShroomHat());
+		} else if (skin.equals("brown_mushroom")) {
+			this.item.setItem(new FungiHat());
+		}
+	}
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -71,7 +110,18 @@ public class ItemPickupFx extends Entity {
 		if (Input.instance.wasPressed("interact") && Dialog.active == null) {
 			Input.instance.putState("inventory", Input.State.UP);
 
-			if (this.item instanceof ClassSelector) {
+			if (this.item.getItem() instanceof NullItem) {
+				String skin = Player.hatId;
+				Player.instance.setHat("gobbo_head");
+				HatSelector.nullGot = false;
+				setSkin(skin);
+				Player.instance.playSfx("menu/select");
+			} else if (this.item.getItem() instanceof Hat && Dungeon.depth == -2) {
+				String skin = Player.hatId;
+				Player.instance.setHat(((Hat) this.item.getItem()).skin);
+				setSkin(skin);
+				Player.instance.playSfx("menu/select");
+			} else if (this.item instanceof ClassSelector) {
 				ClassSelector s = (ClassSelector) this.item;
 
 				// Item item = Player.instance.getInventory().getSlot(0);

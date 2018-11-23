@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -339,6 +340,10 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		if (Dungeon.depth == -2) {
+			Upgrade.Companion.setUpdateEvent(false);
+		}
+
 		if (!Player.instance.isDead()) {
 			GameSave.time += Gdx.graphics.getDeltaTime();
 		} else {

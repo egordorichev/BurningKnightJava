@@ -4,7 +4,6 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.fx.TextFx;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -162,7 +161,8 @@ public class Inventory {
 			}
 		}
 
-		Dungeon.area.add(new TextFx("No Space", Player.instance).setColor(Dungeon.ORANGE));
+		Player.instance.playSfx("item_nocash");
+		// Dungeon.area.add(new TextFx("No Space", Player.instance).setColor(Dungeon.ORANGE));
 
 		return false;
 	}

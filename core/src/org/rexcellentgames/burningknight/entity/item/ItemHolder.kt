@@ -63,6 +63,7 @@ open class ItemHolder : SaveableEntity {
       // This might be bad!
       if (!fake) {
         this.body = this.createSimpleBody(-2, -2, item!!.getSprite().regionWidth + 4, item!!.getSprite().regionHeight + 4, BodyDef.BodyType.DynamicBody, false)
+        this.body!!.setTransform(this.x, this.y + this.z, 0f)
       }
 
       this.w = item!!.getSprite().regionWidth.toFloat()

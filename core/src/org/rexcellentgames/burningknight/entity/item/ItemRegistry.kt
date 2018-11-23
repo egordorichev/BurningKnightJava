@@ -56,11 +56,11 @@ object ItemRegistry {
 		var shown: Boolean = false
 		var pool: Upgrade.Type = Upgrade.Type.NONE
 
-		fun unlocked(): Boolean {
+		fun unlocked(key: String): Boolean {
 			if (unlock != null) {
 				return Achievements.unlocked(unlock)
 			} else if (pool != Upgrade.Type.NONE) {
-				return Achievements.unlocked("SHOP_" + type.simpleName.toUpperCase())
+				return Achievements.unlocked("SHOP_" + key.toUpperCase())
 			}
 
 			return true
@@ -96,20 +96,25 @@ object ItemRegistry {
 	  "extra_heart" to Pair(ExtraHeart::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 10),
 	  "totally_shop" to Pair(TotallyShop::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 5),
 	  "start_with_health_potion" to Pair(StartWithHealthPotion::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 3),
-	  "starting_armor" to Pair(StartingArmor::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 1),
+	  // "starting_armor" to Pair(StartingArmor::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 1),
 	  "more_gold" to Pair(MoreGold::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 15),
 	  // "extra_upgrade" to Pair(ExtraUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 8),
 	  "better_chest_chance" to Pair(BetterChestChance::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 12),
 
 		// Decor
-	  "top_hat" to Pair(RaveHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
-	  "cowboy_hat" to Pair(CoboiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
-	  "dunce_hat" to Pair(DunceHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
-	  "fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
-	  "gold_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
-	  "moai_hat" to Pair(MoaiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
-	  "ruby_hat" to Pair(RubyHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
-	  "fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 3),
+	  "cowboy_hat" to Pair(CoboiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 10),
+	  "dunce_hat" to Pair(DunceHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 1),
+	  "fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 5),
+	  "gold_hat" to Pair(GoldHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 13),
+	  "moai_hat" to Pair(MoaiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 2),
+	  "ruby_hat" to Pair(RubyHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 16),
+	  "shroom_hat" to Pair(ShroomHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 6),
+	  "rave_hat" to Pair(RaveHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 10),
+	  "skull_hat" to Pair(SkullHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 4),
+	  "ushanka_hat" to Pair(UshankaHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 7),
+	  "viking_hat" to Pair(VikingHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 7),
+	  "valkyre_hat" to Pair(ValkyreHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 8),
+	  "knight_hat" to Pair(KnightHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 5),
 
 		// Items
 		"confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 3),

@@ -38,7 +38,6 @@ public class LaserGun extends Revolver {
 				}
 			}
 
-			// FIXME: wont detect key up
 			if (!Input.instance.isDown("use") || Player.instance.isRolling()) {
 				laser.remove();
 				endUse();

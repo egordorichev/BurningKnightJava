@@ -30,6 +30,7 @@ import java.io.IOException
 class Upgrade : SaveableEntity() {
 	companion object {
 		var all = ArrayList<Upgrade>()
+		var updateEvent = false
 		var activeUpgrade: Upgrade? = null
 	}
 
@@ -97,7 +98,7 @@ class Upgrade : SaveableEntity() {
 
 	protected fun generateItem(): Item? {
 		for ((key, value) in ItemRegistry.items) {
-			if (!value.busy && value.pool == this.type && !value.unlocked()) {
+			if (!value.busy && value.pool == this.type && !value.unlocked(key)) {
 				this.str = key
 				value.busy = true
 
@@ -189,6 +190,8 @@ class Upgrade : SaveableEntity() {
 				count -= this.price
 				GlobalSave.put("num_coins", count)
 				this.playSfx("item_purchase")
+
+				updateEvent = true
 
 				Achievements.unlock("SHOP_" + this.str!!.toUpperCase())
 

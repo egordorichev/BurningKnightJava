@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="494">
+<map version="1.0" tiledversion="2017.07.26" orientation="orthogonal" renderorder="right-down" width="129" height="128" tilewidth="16" tileheight="16" nextobjectid="499">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer name="tiles" width="129" height="128">
   <data encoding="csv">
@@ -230,7 +230,7 @@
   <object id="466" name="frame_a" x="784" y="232" width="18" height="13"/>
   <object id="468" name="frame_a" x="751" y="232" width="18" height="13"/>
   <object id="471" name="hat" x="944" y="336" width="16" height="16"/>
-  <object id="473" name="hat" x="975" y="336" width="16" height="16"/>
+  <object id="473" name="hat" x="976" y="336" width="16" height="16"/>
   <object id="474" name="hat" x="1008" y="336" width="16" height="16"/>
   <object id="475" name="hat" x="1040" y="336" width="16" height="16"/>
   <object id="478" name="hat" x="1008" y="368" width="16" height="16"/>
@@ -245,5 +245,10 @@
   <object id="488" name="blocker" x="913" y="181" width="29" height="16"/>
   <object id="489" name="tutorial_end" x="1552" y="240" width="64" height="16"/>
   <object id="491" name="enemy1" x="1792" y="864" width="16" height="16"/>
+  <object id="494" name="hat" x="960" y="352" width="16" height="16"/>
+  <object id="495" name="hat" x="992" y="352" width="16" height="16"/>
+  <object id="496" name="hat" x="1024" y="352" width="16" height="16"/>
+  <object id="497" name="hat" x="960" y="327" width="16" height="16"/>
+  <object id="498" name="hat" x="1024" y="326" width="16" height="16"/>
  </objectgroup>
 </map>

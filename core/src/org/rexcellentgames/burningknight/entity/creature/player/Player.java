@@ -232,6 +232,7 @@ public class Player extends Creature {
 	}
 
 	private TextureRegion hat;
+	public static String hatId;
 
 	public void setHat(String name) {
 		if (name.isEmpty()) {
@@ -239,6 +240,7 @@ public class Player extends Creature {
 			return;
 		}
 
+		hatId = name;
 		this.hat = Graphics.getTexture("hat-" + name + "-idle-00");
 	}
 
@@ -246,10 +248,13 @@ public class Player extends Creature {
 	private static AnimationData headIdle = headAnimations.get("idle");
 	private static AnimationData headRun = headAnimations.get("run");
 	private static AnimationData headHurt = headAnimations.get("hurt");
+
+	public static String skin;
 	private static AnimationData headRoll = headAnimations.get("roll");
 
 	public void setSkin(String add) {
 		Animation animations;
+		skin = add;
 
 		if (!add.isEmpty()) {
 			add = "-" + add;
@@ -1560,6 +1565,7 @@ public class Player extends Creature {
 		writer.writeByte((byte) numIronHearts);
 		writer.writeByte((byte) numGoldenHearts);
 		writer.writeBoolean(this.gotHit);
+		writer.writeString(hatId);
 	}
 
 	@Override
@@ -1582,6 +1588,7 @@ public class Player extends Creature {
 		this.gotHit = reader.readBoolean();
 
 		this.maxSpeed += (this.speed - last) * 7f;
+		this.setHat(reader.readString());
 
 		doTp(false);
 

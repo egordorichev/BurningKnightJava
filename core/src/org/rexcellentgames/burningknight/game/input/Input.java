@@ -417,6 +417,7 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		if (!this.bindings.containsKey(key)) {
+			Log.error("Unknown key " + key);
 			return false;
 		}
 
