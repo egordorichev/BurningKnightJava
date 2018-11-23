@@ -134,6 +134,7 @@ public class Trader extends Npc {
 	public void init() {
 		super.init();
 		all.add(this);
+		flipped = Random.chance(50);
 
 		if (this.id != null) {
 			this.saved = this.id.equals("b") || this.id.equals("f") || GlobalSave.isTrue("npc_" + this.id + "_saved");
@@ -206,10 +207,19 @@ public class Trader extends Npc {
 		}
 	}
 
+	private float toFlip;
+
 	@Override
 	public void update(float dt) {
 		if (!this.saved && Dungeon.depth == -2) {
 			return;
+		}
+
+		toFlip -= dt;
+
+		if (toFlip <= 0) {
+			flipped = !flipped;
+			toFlip = Random.newFloat(3, 20f);
 		}
 
 		if (Dungeon.depth != -2 && this.saved && !this.onScreen) {
@@ -246,7 +256,7 @@ public class Trader extends Npc {
 				for (int yy = 0; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
 						if (this.animation != null) {
-							Graphics.render(this.animation.getCurrent().frame, this.x + xx, this.y + yy);
+							Graphics.render(this.animation.getCurrent().frame, this.x + xx, this.y + yy, 0, 0, 0, this.flipped, false);
 						} else {
 							Graphics.render(Item.missing, this.x + xx, this.y + yy);
 						}
@@ -260,7 +270,7 @@ public class Trader extends Npc {
 		}
 
 		if (this.animation != null) {
-			Graphics.render(this.animation.getCurrent().frame, this.x, this.y);
+			Graphics.render(this.animation.getCurrent().frame, this.x, this.y, 0, 0, 0, this.flipped, false);
 		} else {
 			Graphics.render(Item.missing, this.x, this.y);
 		}
