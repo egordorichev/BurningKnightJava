@@ -581,9 +581,6 @@ public class Shopkeeper extends Npc {
 	protected void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 		this.playSfx("damage_towelknight");
-
-		if (from instanceof Player || from == null) {
-			this.become("hana");
-		}
+		this.become("hana");
 	}
 }

@@ -347,7 +347,6 @@ public class Door extends SaveableEntity {
 		return this.animation.getFrame() != 0;
 	}
 
-	// shopkeeper wont enrage with bullets
 	@Override
 	public void destroy() {
 		super.destroy();
