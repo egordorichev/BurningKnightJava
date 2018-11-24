@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 
 public class SignsLevel extends Entity {
 	{
@@ -21,6 +22,12 @@ public class SignsLevel extends Entity {
 
 		for (Upgrade upgrade : Upgrade.Companion.getAll()) {
 			upgrade.renderSigns();
+		}
+
+		for (Door door : Door.all) {
+			if (door.onScreen) {
+				door.renderSigns();
+			}
 		}
 
 		Player.instance.renderBuffs();

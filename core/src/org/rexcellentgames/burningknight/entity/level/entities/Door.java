@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -35,6 +36,7 @@ import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Door extends SaveableEntity {
 	private boolean vertical;
@@ -44,7 +46,7 @@ public class Door extends SaveableEntity {
 	private static Animation horizAnimation = Animation.make("actor-door-horizontal", "-wooden");
 	private static Animation ironLockAnimation = Animation.make("door-lock", "-iron");
 	private static Animation bronzeLockAnimation = Animation.make("door-lock", "-bronze");
-	private static Animation goldLockAnimation = Animation.make("door-lock", "-gold");
+	public static Animation goldLockAnimation = Animation.make("door-lock", "-gold");
 	private static Animation fireLockAnimation = Animation.make("door-lock", "-fire");
 	private AnimationData animation;
 	public AnimationData locked;
@@ -56,10 +58,13 @@ public class Door extends SaveableEntity {
 	public boolean lockable;
 	public boolean lock;
 	public Class<? extends Key> key;
+	private TextureRegion keyRegion;
 	private int sx;
 	private int sy;
 	private boolean collidingWithPlayer;
 	private float al;
+
+	public static ArrayList<Door> all = new ArrayList<>();
 
 	{
 		depth = -1;
@@ -84,6 +89,12 @@ public class Door extends SaveableEntity {
 		}
 
 		return goldLockAnimation;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		all.add(this);
 	}
 
 	public Door(int x, int y, boolean vertical) {
@@ -131,6 +142,10 @@ public class Door extends SaveableEntity {
 		}
 
 		boolean last = this.lock;
+
+		if (this.lock) {
+			vt = Math.max(0, vt - dt);
+		}
 
 		if (this.autoLock) {
 			this.lock = Player.instance.room != null && Player.instance.room.numEnemies > 0;
@@ -194,6 +209,7 @@ public class Door extends SaveableEntity {
 					}
 				}
 			} else {
+				vt = 1;
 				this.playSfx("item_nocash");
 				Camera.shake(6);
 			}
@@ -335,6 +351,7 @@ public class Door extends SaveableEntity {
 	public void destroy() {
 		super.destroy();
 		this.body = World.removeBody(this.body);
+		all.remove(this);
 	}
 
 	@Override
@@ -394,21 +411,8 @@ public class Door extends SaveableEntity {
 	}
 
 	private float clearT;
-	private int lastNum;
 
-	@Override
-	public void render() {
-		if (this.lock && this.lockAnim == null) {
-			this.lockAnim = this.locked;
-			this.setPas(false);
-		}
-
-		if (!Dungeon.game.getState().isPaused() && Player.instance.room != null) {
-			this.lastNum = Player.instance.room.numEnemies;
-		}
-
-		this.animation.render(this.x, this.y, false);
-
+	public void renderSigns() {
 		if (this.lockAnim != null) {
 			if (this.al > 0) {
 				Graphics.batch.end();
@@ -434,6 +438,36 @@ public class Door extends SaveableEntity {
 
 			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false);
 		}
+
+		if (keyRegion != null && al > 0) {
+			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
+			Graphics.batch.setColor(1, 1, 1, al);
+			Graphics.render(keyRegion, this.x - 3 + (16 - this.keyRegion.getRegionWidth()) / 2 + v, this.y + 16);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
+	}
+
+	private float vt;
+
+	@Override
+	public void render() {
+		if (this.key != null && this.key != KeyB.class && this.keyRegion == null) {
+			try {
+				Key key = this.key.newInstance();
+				this.keyRegion = key.getSprite();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (this.lock && this.lockAnim == null) {
+			this.lockAnim = this.locked;
+			this.setPas(false);
+		}
+
+		this.animation.render(this.x, this.y, false);
 	}
 
 	@Override

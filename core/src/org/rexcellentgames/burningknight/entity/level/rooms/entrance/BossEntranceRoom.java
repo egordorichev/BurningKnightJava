@@ -23,7 +23,7 @@ public class BossEntranceRoom extends RegularRoom {
 			Painter.fillEllipse(level, this, 1, Terrain.randomFloor());
 		}
 
-		if (Random.chance(50)) {
+		/*if (Random.chance(50)) {
 			int m = Random.newInt(2, 4);
 
 			if (Random.chance(50)) {
@@ -33,7 +33,7 @@ public class BossEntranceRoom extends RegularRoom {
 				Painter.fillEllipse(level, this, m, Random.chance(50) ? Terrain.CHASM : Terrain.WALL);
 				Painter.fillEllipse(level, this, m + 1, Terrain.randomFloor());
 			}
-		}
+		}*/
 
 		paintTunnel(level, Terrain.randomFloor());
 		this.place(level, this.getCenter());
@@ -55,12 +55,12 @@ public class BossEntranceRoom extends RegularRoom {
 
 	@Override
 	public int getMaxHeight() {
-		return 10;
+		return 6;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 10;
+		return 6;
 	}
 
 	@Override

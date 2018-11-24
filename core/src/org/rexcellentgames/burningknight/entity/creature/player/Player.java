@@ -235,7 +235,7 @@ public class Player extends Creature {
 	public static String hatId;
 
 	public void setHat(String name) {
-		if (name.isEmpty()) {
+		if (name == null || name.isEmpty()) {
 			hat = null;
 			return;
 		}

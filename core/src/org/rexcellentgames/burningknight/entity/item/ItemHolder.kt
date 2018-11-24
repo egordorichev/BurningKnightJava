@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
 import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
 import org.rexcellentgames.burningknight.entity.level.Terrain
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest
 import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.game.state.InGameState
@@ -135,7 +136,11 @@ open class ItemHolder : SaveableEntity {
   }
 
   override fun shouldCollide(entity: Any?, contact: Contact?, fixture: Fixture?): Boolean {
-    if (entity == null && item is Gold && !InGameState.dark) {
+    if (entity is Chest) {
+      return false
+    }
+
+    if (entity is Level && item is Gold && !InGameState.dark) {
       return false
     }
 

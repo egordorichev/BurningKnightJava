@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.ProtectiveBand;
-import org.rexcellentgames.burningknight.entity.item.accessory.hat.UshankaHat;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Guitar;
 import org.rexcellentgames.burningknight.physics.World;
@@ -81,9 +80,10 @@ public class Clown extends Mob {
 			items.add(new Guitar());
 		}
 
+		/*
 		if (Random.chance(5)) {
 			items.add(new UshankaHat());
-		}
+		}*/
 
 		if (Random.chance(5)) {
 			items.add(new ProtectiveBand());

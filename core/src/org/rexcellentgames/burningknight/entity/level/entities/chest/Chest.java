@@ -25,6 +25,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -54,9 +55,12 @@ public class Chest extends SaveableEntity {
 	public boolean locked = true;
 	public boolean burning;
 
+	public static TextureRegion keyRegion = Graphics.getTexture("item-key_c");
 	public static Animation lockAnimations = Animation.make("door-lock", "-gold");
 
 	private AnimationData unlock = lockAnimations.get("open");
+	private AnimationData lockUnlock = Door.goldLockAnimation.get("open");
+	private boolean renderUnlock;
 	public static TextureRegion idleLock = lockAnimations.getFrames("idle").get(0).frame;
 	private TextureRegion halfBroken = getAnim().getFrames("break").get(0).frame;
 	private TextureRegion broken = getAnim().getFrames("break").get(1).frame;
@@ -337,8 +341,18 @@ public class Chest extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		if (renderUnlock) {
+			if (lockUnlock.update(dt)) {
+				renderUnlock = false;
+			}
+		}
+
 		if (!this.open) {
 			this.last += dt;
+
+			if (locked) {
+				this.vt = Math.max(0, vt - dt);
+			}
 
 			if (this.last >= 0.6f) {
 				last = 0;
@@ -411,6 +425,7 @@ public class Chest extends SaveableEntity {
 
 				if (key == null) {
 					this.colliding = true;
+					vt = 1;
 					Player.instance.playSfx("item_nocash");
 
 					Camera.shake(6);
@@ -424,6 +439,7 @@ public class Chest extends SaveableEntity {
 				Player.instance.playSfx("unlock");
 
 				drawOpenAnim = true;
+				renderUnlock = true;
 
 				key.setCount(key.getCount() - 1);
 				this.locked = false;
@@ -593,7 +609,20 @@ public class Chest extends SaveableEntity {
 		} else if (drawOpenAnim) {
 			unlock.render(x, y, false);
 		}
+
+		if (this.locked || al > 0) {
+			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
+			Graphics.batch.setColor(1, 1, 1, al);
+			Graphics.render(keyRegion, this.x + (16 - keyRegion.getRegionWidth()) / 2 + v, this.y + 12);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
+
+		if (renderUnlock) {
+			lockUnlock.render(x, y, false);
+		}
 	}
+
+	private float vt;
 
 	@Override
 	public void renderShadow() {
