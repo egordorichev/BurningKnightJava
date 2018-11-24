@@ -32,6 +32,7 @@ public class Ui {
 	private TextureRegion upgrade;
 	public static boolean hideCursor;
 	public static boolean hideUi;
+	public static TextureRegion save = Graphics.getTexture("ui-save");
 
 	public static TextureRegion[] regions = new TextureRegion[] {
 		Graphics.getTexture("ui-cursor-standart"),
@@ -40,7 +41,8 @@ public class Ui {
 		Graphics.getTexture("ui-cursor-corner"),
 		Graphics.getTexture("ui-cursor-sniper"),
 		Graphics.getTexture("ui-cursor-round-sniper"),
-		Graphics.getTexture("ui-cursor-cross")
+		Graphics.getTexture("ui-cursor-cross"),
+		Graphics.getTexture("ui-cursor-nt")
 	};
 
 
@@ -51,6 +53,8 @@ public class Ui {
 
 	public void update(float dt) {
 		this.ca = Math.min(this.ca + dt, 1);
+		saveAlpha += ((SaveManager.saving > 0 ? 1 : 0) - saveAlpha) * dt * 4;
+		SaveManager.saving -= dt;
 
 		if (!dead) {
 			for (Boss boss : Boss.all) {
@@ -478,6 +482,17 @@ public class Ui {
 		tweened = true;
 	}
 
+	public static void renderSaveIcon(float upscale) {
+		// saveAlpha = 1;
+
+		if (saveAlpha > 0.05f) {
+			upscale = Math.max(1, upscale * 0.7f);
+			Graphics.batch.setColor(1, 1, 1, (float) Math.max(0, saveAlpha + Math.sin(Dungeon.time * 8) * 0.1f - 0.1f));
+			Graphics.render(save, Display.UI_WIDTH - 4 - save.getRegionWidth() * upscale, 4, 0, 0, 0, false, false,upscale, upscale);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
+	}
+
 	public void render() {
 		if (hideUi) {
 			return;
@@ -569,6 +584,7 @@ public class Ui {
 	public static boolean upgradeMouse;
 	public static boolean drawHint = true;
 	private static float alf;
+	public static float saveAlpha;
 
 	public void renderCursor() {
 		if (hideCursor) {

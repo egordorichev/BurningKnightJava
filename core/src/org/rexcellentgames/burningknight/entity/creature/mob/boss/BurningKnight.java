@@ -702,7 +702,9 @@ public class BurningKnight extends Boss {
 				return;
 			}
 
-			if (this.flyTo(self.lastSeen, 20, 128f)) {
+			if (!self.rage) {
+				self.become("preattack");
+			} else if (this.flyTo(self.lastSeen, 20, 128f)) {
 				self.become("rangedAttack");
 				return;
 			}

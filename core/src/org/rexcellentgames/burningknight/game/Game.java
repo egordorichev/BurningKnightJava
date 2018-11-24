@@ -26,6 +26,7 @@ public class Game {
 			old.destroy();
 		}
 
+		Ui.saveAlpha = 0;
 		this.state.init();
 		// Achievements.clear();
 	}
@@ -55,9 +56,10 @@ public class Game {
 	public void render(boolean ui) {
 		if (this.state != null) {
 			Graphics.shape.setProjectionMatrix(Camera.game.combined);
-			this.state.render();
 
-			if (ui) {
+			if (!ui) {
+				this.state.render();
+			} else {
 				renderUi();
 			}
 		}

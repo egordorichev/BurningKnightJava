@@ -24,7 +24,8 @@ public class Settings {
 		"cursor-corner",
 		"cursor-sniper",
 		"cursor-round-sniper",
-		"cursor-cross"
+		"cursor-cross",
+		"cursor-nt"
 	};
 
 	public static int getCursorId(String name) {

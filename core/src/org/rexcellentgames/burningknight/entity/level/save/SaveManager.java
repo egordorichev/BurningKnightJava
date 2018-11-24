@@ -23,6 +23,7 @@ public class SaveManager {
 	public static final String SAVE_DIR = "burning_knight/";
 	public static int slot = 0;
 	public static final byte version = 2;
+	public static float saving;
 
 	/*
 	 * Version change log:
@@ -44,6 +45,20 @@ public class SaveManager {
 
 	public static String getSavePath(Type type) {
 		return getSavePath(type, false);
+	}
+
+	public static void saveGame() {
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				super.run();
+				SaveManager.save(SaveManager.Type.LEVEL, false);
+				SaveManager.save(SaveManager.Type.PLAYER, false);
+			}
+		};
+
+		thread.setPriority(1);
+		thread.run();
 	}
 
 	public static String getSavePath(Type type, boolean old) {
@@ -73,6 +88,7 @@ public class SaveManager {
 	}
 
 	public static void save(Type type, boolean old) {
+		saving = 5;
 		FileHandle save = getFileHandle(getSavePath(type, old));
 		Log.info("Saving " + type + " " + (old ? Dungeon.lastDepth : Dungeon.depth));
 
