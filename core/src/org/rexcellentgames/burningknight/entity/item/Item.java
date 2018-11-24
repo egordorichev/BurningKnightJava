@@ -1,11 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.luaj.vm2.LuaError;
-import org.luaj.vm2.LuaFunction;
-import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -216,7 +211,6 @@ public class Item extends Entity {
 
   public void use() {
     this.delay = this.useTime;
-    triggerEvent("use");
   }
 
   public void secondUse() {
@@ -257,15 +251,7 @@ public class Item extends Entity {
 
   public TextureRegion getSprite() {
   	if (this.region == null) {
-      if (this.modId != null) {
-      	this.region = Graphics.getModTexture(this.modId, this.sprite);
-
-        if (this.region == null) {
-	        this.region = Graphics.getTexture(this.sprite);
-        }
-      } else {
-      	this.region = Graphics.getTexture(this.sprite);
-		  }
+  		this.region = Graphics.getTexture(this.sprite);
 
       if (this.region == null) {
         Log.error("Invalid item sprite " + this.getClass().getSimpleName());
@@ -281,19 +267,6 @@ public class Item extends Entity {
   }
 
   public boolean canBeUsed() {
-  	if (this.canBeUsedCallback != null) {
-  		try {
-			  LuaValue can = this.canBeUsedCallback.call(self, this.owner.self);
-
-			  if (can.isboolean()) {
-			  	return can.toboolean();
-			  }
-		  } catch (LuaError error) {
-  			Log.error("Internal mod error");
-  			error.printStackTrace();
-		  }
-	  }
-
   	return true;
   }
 
@@ -359,75 +332,4 @@ public class Item extends Entity {
   }
 
   private static String cursedLocale = Locale.get("cursed");
-
-  /*
-   * Lua logic
-   */
-
-  private HashMap<String, LuaFunction> events = new HashMap<>();
-
-  public void registerEvent(String name, LuaValue value) {
-  	LuaValue val = value.get(name);
-
-  	if (val != LuaValue.NIL && val.isfunction()) {
-  		events.put(name, (LuaFunction) val);
-	  }
-  }
-
-  public void triggerEvent(String name) {
-  	LuaFunction fun = events.get(name);
-
-  	if (fun != null) {
-  		try {
-			  fun.call(self, this.owner.self);
-		  } catch (LuaError error) {
-			  Log.error("Internal mod error!");
-  			error.printStackTrace();
-		  }
-	  }
-  }
-
-  private String modId;
-  protected LuaValue self;
-	protected LuaFunction canBeUsedCallback;
-
-  public void initFromMod(String modId, String name, LuaTable args) {
-	  this.modId = modId;
-
-	  this.name = Locale.get(name);
-	  this.description = Locale.get(name + "_desc");
-
-	  LuaValue val = args.get("sprite");
-
-	  if (val == LuaValue.NIL) {
-		  this.sprite = "item-" + name;
-	  } else {
-		  this.sprite = val.toString();
-	  }
-
-	  this.getSprite();
-	  this.self = CoerceJavaToLua.coerce(this);
-
-	  val = args.get("can_use");
-
-	  if (val != LuaValue.NIL && val.isfunction()) {
-		  this.canBeUsedCallback = (LuaFunction) val;
-    }
-
-	  registerEvents(args);
-  }
-
-  protected void registerEvents(LuaTable args) {
-	  registerEvent("use", args);
-  }
-
-  private HashMap<String, Object> fields = new HashMap<>();
-
-  public void set(String key, Object value) {
-  	fields.put(key, value);
-  }
-
-  public Object get(String key) {
-  	return fields.get(key);
-  }
 }

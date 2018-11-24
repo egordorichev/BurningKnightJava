@@ -22,7 +22,6 @@ import org.rexcellentgames.burningknight.entity.item.tool.Matches
 import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.MeatboyAxe
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.ManaKnife
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.*
@@ -131,7 +130,7 @@ object ItemRegistry {
 		"key_a" to Pair(KeyA::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"key_b" to Pair(KeyB::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"key" to Pair(KeyC::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
-		"bow" to Pair(Bow::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
+		// "bow" to Pair(Bow::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 		"launcher" to Pair(RocketLauncher::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 		"meatboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEATBOY),
 		"dendy" to Pair(Dendy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_DENDY),
@@ -222,7 +221,7 @@ object ItemRegistry {
 		"yellow_book" to Pair(YellowBook::class.java, 1f, 0f, 1f, 0f, Quality.IRON, Upgrade.Type.ACCESSORY, 3),
 		"green_book" to Pair(GreenBook::class.java, 1f, 0f, 1f, 0f, Quality.GOLDEN, Upgrade.Type.ACCESSORY, 3),
 		"arcane_shield" to Pair(ManaShield::class.java, 1f, 0.3f, 1f, 0.3f, Quality.WOODEN),
-		"flying_star" to Pair(FlyingStar::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN, Upgrade.Type.PET, 3),
+		"flying_star" to Pair(FlyingStar::class.java, 1f, 0f, 1f, 0f, Quality.WOODEN),
 		"diamond_sword" to Pair(DiamondSword::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN, Achievements.UNLOCK_DIAMOND_SWORD),
 		"blood_crown" to Pair(BloodCrown::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_BLOOD_CROWN),
 		"mana_boots" to Pair(ManaBoots::class.java, 1f, 0f, 1f, 0f, Quality.IRON),

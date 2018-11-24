@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.level.rooms;
 
-import org.luaj.vm2.LuaTable;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -25,18 +24,6 @@ public abstract class Room extends Rect implements GraphNode {
 	private int distance = 0;
 	public boolean hidden;
 	public int numEnemies;
-
-	public LuaTable getMobs() {
-		LuaTable mobs = new LuaTable();
-
-		for (Mob mob : Mob.all) {
-			if (mob.getRoom() == this) {
-				mobs.set(mobs.len(), mob.self);
-			}
-		}
-
-		return mobs;
-	}
 
 	public int getMinWidth() {
 		return 10;

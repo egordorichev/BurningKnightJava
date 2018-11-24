@@ -7,10 +7,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import org.luaj.vm2.LuaError;
-import org.luaj.vm2.LuaFunction;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.CoerceJavaToLua;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -86,34 +82,12 @@ public class Creature extends SaveableEntity {
 	public int hy;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
 	protected float invtt;
-	protected HashMap<String, ArrayList<LuaFunction>> events = new HashMap<>();
 	protected boolean shouldDie = false;
 	public boolean remove;
 
 	public float getWeaponAngle() {
 		Point aim = getAim();
 		return getAngleTo(aim.x, aim.y);
-	}
-
-	public int registerCallback(String name, LuaFunction runnable) {
-		ArrayList<LuaFunction> e = events.computeIfAbsent(name, k -> new ArrayList<>());
-		e.add(runnable);
-
-		return e.size() - 1;
-	}
-
-	public void removeCallback(String name, int id) {
-		ArrayList<LuaFunction> e = events.get(name);
-
-		if (e == null) {
-			return;
-		}
-
-		if (id >= e.size()) {
-			return;
-		}
-
-		e.remove(id);
 	}
 
 	public boolean isFlying() {
@@ -147,26 +121,7 @@ public class Creature extends SaveableEntity {
 			World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0);
 			this.lz = this.z;
 		}
-
-		this.triggerEvent("tp");
 	}
-
-	public void triggerEvent(String name) {
-		ArrayList<LuaFunction> e = events.get(name);
-
-		if (e != null) {
-			for (LuaFunction event : e) {
-				try {
-					event.call(self);
-				} catch (LuaError error) {
-					Log.error("Internal mod error!");
-					error.printStackTrace();
-				}
-			}
-		}
-	}
-
-	public LuaValue self = CoerceJavaToLua.coerce(this);
 
 	public float getInvt() {
 		return this.invt;
@@ -333,7 +288,6 @@ public class Creature extends SaveableEntity {
 		if (room != this.room) {
 			this.room = room;
 			this.onRoomChange();
-			this.triggerEvent("on_room_change");
 		}
 
 		super.update(dt);
@@ -596,10 +550,6 @@ public class Creature extends SaveableEntity {
 			}
 
 			BloodFx.add(this, 10);
-
-			this.triggerEvent("on_hurt");
-		} else {
-			this.triggerEvent("on_heal");
 		}
 
 		this.checkDeath();
@@ -636,7 +586,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void onHit(Creature who) {
-		this.triggerEvent("on_hit");
+
 	}
 
 	protected void onHurt(int a, Entity from) {
@@ -674,7 +624,6 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		this.triggerEvent("on_death");
 		this.remove = true;
 		this.dead = true;
 	}
@@ -795,8 +744,6 @@ public class Creature extends SaveableEntity {
 			if (buff instanceof PoisonBuff) {
 				this.removeBuff(BurningBuff.class);
 			}
-
-			this.triggerEvent("buff_added");
 		}
 	}
 

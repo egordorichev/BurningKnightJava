@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,10 +16,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.mod.Mod;
 import org.rexcellentgames.burningknight.util.Log;
-
-import java.util.HashMap;
 
 public class Graphics {
 	public static SpriteBatch batch;
@@ -38,8 +34,6 @@ public class Graphics {
 	public static FrameBuffer text;
 	public static FrameBuffer map;
 	public static FrameBuffer blood;
-
-	private static HashMap<String, HashMap<String, TextureRegion>> modSprites = new HashMap<>();
 
 	public static void delay() {
 		delay(20);
@@ -116,18 +110,6 @@ public class Graphics {
 
 		new Ui();
 	}
-	
-	public static void loadModAssets(Mod mod) {
-	  HashMap<String, TextureRegion> regions = new HashMap<>();
-	  
-	  for (FileHandle file : mod.getSpritesDirectory().list()) {
-	    if (!file.isDirectory() && file.extension().equals("png")) {
-	      regions.put(file.nameWithoutExtension(), new TextureRegion(new Texture(file)));
-      }
-    }
-
-    modSprites.put(mod.getId(), regions);
-  }
 
 	public static void resize(int w, int h) {
 		w = Math.max(w, Display.GAME_WIDTH);
@@ -148,10 +130,6 @@ public class Graphics {
 
 		return region;
 	}
-	
-	public static TextureRegion getModTexture(String modId, String name) {
-		return modSprites.get(modId).get(name);
-  }
 
 	public static void write(String s, BitmapFont font, float x, float y) {
 		write(s, font, x, y, 0, 1, 1);

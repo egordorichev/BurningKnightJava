@@ -40,7 +40,6 @@ import org.rexcellentgames.burningknight.game.Game;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.*;
-import org.rexcellentgames.burningknight.mod.ModManager;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Log;
@@ -50,18 +49,6 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.util.Date;
-
-/*
- * TODO:
- * introduce controls
- * area 1 boss
- * story
- *
- * rework bows, they feel bad
- * rebinding gamepad controls
- *
- *
- */
 
 public class Dungeon extends ApplicationAdapter {
 	public static ShaderProgram shader;
@@ -446,7 +433,6 @@ public class Dungeon extends ApplicationAdapter {
 		Achievements.update(dt);
 
 		game.update(dt);
-		ModManager.INSTANCE.update(dt);
 
 		if (AssetLoadState.done) {
 			updateMouse(dt);
@@ -603,7 +589,6 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.small.setColor(1, 1, 1, 1);
 		}
 
-		ModManager.INSTANCE.draw();
 		Achievements.render();
 
 		Graphics.batch.end();
@@ -696,8 +681,6 @@ public class Dungeon extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		HandmadeRoom.destroy();
-
-		ModManager.INSTANCE.destroy();
 
 		if (area != null) {
 			ui.destroy();

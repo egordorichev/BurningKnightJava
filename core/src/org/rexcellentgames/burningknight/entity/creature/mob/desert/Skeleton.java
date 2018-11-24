@@ -68,7 +68,6 @@ public class Skeleton extends Mob {
 		super.onHurt(a, from);
 
 		if (this.state.equals("dead")) {
-			this.triggerEvent("on_death");
 			this.remove = true;
 			this.dead = true;
 			this.done = true;

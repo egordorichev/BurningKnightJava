@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.assets
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.utils.JsonReader
-import org.rexcellentgames.burningknight.mod.Mod
 
 object Locale {
   private val map = HashMap<String, String>()
@@ -42,17 +41,6 @@ object Locale {
 
     if (locale != "en") {
       loadRaw(Gdx.files.internal("locales/en.json").readString(), "", true)
-    }
-  }
-  
-  @JvmStatic
-  fun loadForMod(locale: String, mod: Mod) {
-    if (mod.localesDirectory != null) {
-      for (file in mod.localesDirectory.list()) {
-        if (file.name() == "$locale.json") {
-          loadRaw(file.readString(), mod.id)
-        }
-      }
     }
   }
 
