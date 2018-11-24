@@ -26,7 +26,6 @@ public class Game {
 			old.destroy();
 		}
 
-		Ui.saveAlpha = 0;
 		this.state.init();
 		// Achievements.clear();
 	}

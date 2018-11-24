@@ -63,6 +63,7 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
+		Ui.saveAlpha = 0;
 		Audio.important = false;
 
 		Dungeon.dark = 1;
@@ -76,7 +77,6 @@ public class InGameState extends State {
 		shader.end();
 
 		Dungeon.white = 0;
-		// ModManager.INSTANCE.load();
 
 		if (Input.instance.activeController != null) {
 			Achievements.unlock(Achievements.UNLOCK_DENDY);
@@ -143,6 +143,7 @@ public class InGameState extends State {
 	private String depth;
 	private float w;
 
+	private float lastSave;
 	private Tween.Task lastTask;
 	private Tween.Task lastTaskSize;
 
@@ -291,6 +292,7 @@ public class InGameState extends State {
 	public void destroy() {
 		super.destroy();
 		Dungeon.white = 0;
+		Ui.saveAlpha = 0;
 		this.console.destroy();
 		Dungeon.battleDarkness = 0;
 
@@ -354,6 +356,12 @@ public class InGameState extends State {
 			Camera.instance.update(dt);
 		} else {
 			this.time += dt;
+			this.lastSave += dt;
+
+			if (lastSave >= 60f) {
+				lastSave = 0;
+				SaveManager.saveGame();
+			}
 		}
 
 		Orbital.updateTime(dt);

@@ -388,8 +388,6 @@ public class Dungeon extends ApplicationAdapter {
 		if (Input.instance.wasPressed("F10")) {
 			colorBlind = (colorBlind + 1) % 4;
 		} else if (Input.instance.wasPressed("F2")) {
-			SaveManager.saveGame();
-
 			Tween.to(new Tween.Task(fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {

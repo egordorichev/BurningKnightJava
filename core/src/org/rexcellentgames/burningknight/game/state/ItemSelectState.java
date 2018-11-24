@@ -168,6 +168,14 @@ public class ItemSelectState extends State {
 				}
 			}
 		});
+
+		Ui.saveAlpha = 0;
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		Ui.saveAlpha = 0;
 	}
 
 	@Override

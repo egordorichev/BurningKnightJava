@@ -513,7 +513,7 @@ public class Mob extends Creature {
 			this.become("idle");
 		}
 
-		if (!this.friendly) {
+		if (!this.friendly && !this.dd) {
 			for (Player player : colliding) {
 				player.modifyHp(-1, this, false);
 			}
