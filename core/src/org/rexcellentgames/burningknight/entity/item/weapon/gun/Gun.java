@@ -385,6 +385,7 @@ public class Gun extends WeaponBase {
 		getSprite();
 
 		this.owner.playSfx(getSfx());
+
 		Point aim = this.owner.getAim();
 
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);

@@ -68,6 +68,11 @@ public class Potion extends Consumable {
 	}
 
 	@Override
+	protected boolean canBeConsumed() {
+		return false;
+	}
+
+	@Override
 	public void identify() {
 		super.identify();
 		ChangableRegistry.identified.put(this.type, true);

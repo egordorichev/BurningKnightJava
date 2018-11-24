@@ -42,7 +42,6 @@ public class RollingSpike extends SaveableEntity {
 		if (this.body != null) {
 			this.body.setMassData(data);
 			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
-			this.body.setLinearVelocity(this.velocity);
 		}
 	}
 
@@ -52,7 +51,6 @@ public class RollingSpike extends SaveableEntity {
 
 		this.velocity.x = reader.readFloat();
 		this.velocity.y = reader.readFloat();
-		body.setLinearVelocity(this.velocity);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
@@ -91,10 +89,9 @@ public class RollingSpike extends SaveableEntity {
 
 		this.a += dt * -(this.velocity.x == 0 ? this.velocity.y : this.velocity.x) * 10;
 
-		this.x = this.body.getPosition().x;
-		this.y = this.body.getPosition().y;
-		body.setLinearVelocity(this.velocity);
-
+		this.x += this.velocity.x * dt;
+		this.y += this.velocity.y * dt;
+		this.body.setTransform(x, y, 0);
 
 		for (Player player : colliding) {
 			if (player.getInvt() == 0) {
@@ -113,10 +110,6 @@ public class RollingSpike extends SaveableEntity {
 		if (entity == null || entity instanceof Door || entity instanceof SolidProp) {
 			this.velocity.x *= -1f;
 			this.velocity.y *= -1f;
-
-			if (this.body != null) {
-				body.setLinearVelocity(this.velocity);
-			}
 		} else if (entity instanceof Player && !((Player) entity).isRolling()) {
 			this.colliding.add((Player) entity);
 		}

@@ -347,6 +347,7 @@ public class Door extends SaveableEntity {
 		return this.animation.getFrame() != 0;
 	}
 
+	// shopkeeper wont enrage with bullets
 	@Override
 	public void destroy() {
 		super.destroy();
@@ -439,7 +440,7 @@ public class Door extends SaveableEntity {
 			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false);
 		}
 
-		if (keyRegion != null && al > 0) {
+		if (lockAnim != null && keyRegion != null && al > 0) {
 			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
 			Graphics.batch.setColor(1, 1, 1, al);
 			Graphics.render(keyRegion, this.x - 3 + (16 - this.keyRegion.getRegionWidth()) / 2 + v, this.y + 16);
