@@ -18,7 +18,6 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.fx.BackgroundFx;
 import org.rexcellentgames.burningknight.game.fx.PixelFx;
-import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Random;
@@ -188,7 +187,7 @@ public class MainMenuState extends State {
 			fx.y = Random.newFloat(-32, Display.UI_HEIGHT_MAX + 32);
 		}
 
-		spread();
+		// spread();
 	}
 
 	private void spread() {
@@ -237,9 +236,10 @@ public class MainMenuState extends State {
 	public void update(float dt) {
 		super.update(dt);
 
+		/*
 		if (Input.instance.wasPressed("Space")) {
 			spread();
-		}
+		}*/
 	}
 
 	@Override
@@ -250,8 +250,7 @@ public class MainMenuState extends State {
 		Camera.ui.update();
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
-		// Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, 180 + logoY - 3, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
+		Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, 180 + logoY - 3, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
 		Dungeon.ui.render();
 
 		Ui.ui.renderCursor();
