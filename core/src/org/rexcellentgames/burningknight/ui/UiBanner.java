@@ -94,7 +94,6 @@ public class UiBanner extends Entity {
 
 							@Override
 							public void onEnd() {
-
 								Tween.to(new Tween.Task(0, 0.2f) {
 									@Override
 									public void onStart() {
@@ -261,10 +260,10 @@ public class UiBanner extends Entity {
 		float y = this.y + 48;
 
 		float sx = (this.w - 18);
-		float sy = (this.h - 14);
+		float sy = (this.h - 12);
 
 		Graphics.render(bottomLeft, x, y);
-		Graphics.render(bottom, x + bottomLeft.getRegionWidth(), y + 4, 0, 0, 0, false, false, sx, 1);
+		Graphics.render(bottom, x + bottomLeft.getRegionWidth(), y + 2, 0, 0, 0, false, false, sx, 1);
 		Graphics.render(bottomRight, x + this.w - bottomRight.getRegionWidth(), y);
 
 		Graphics.render(left, x, y + bottomLeft.getRegionHeight(), 0, 0, 0,  false, false, 1, sy);
@@ -277,10 +276,10 @@ public class UiBanner extends Entity {
 
 		if (this.a > 0) {
 			Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
-			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.UI_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 8);
+			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.UI_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 10);
 
 			if (this.extra != null) {
-				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.UI_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 8 - 12);
+				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.UI_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 10 - 12);
 			}
 
 			Graphics.smallSimple.setColor(1, 1, 1, 1);

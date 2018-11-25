@@ -539,10 +539,10 @@ public class Ui {
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Dungeon.depth == -2 || y > 0) {
-				Graphics.render(coin, 4, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 18 : y) + 2);
+				Graphics.render(coin, 4, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 16 : y - 4) + 2);
 				Graphics.print(GlobalSave.getInt("num_coins") + "",
-					Graphics.medium, 20,
-					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y - 2));
+					Graphics.small, 16,
+					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 14 : y - 6));
 			}
 
 			if (this.al > 0.05f && !Ui.hideUi) {

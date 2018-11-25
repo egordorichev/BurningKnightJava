@@ -648,7 +648,7 @@ public class Player extends Creature {
 							public void onEnd() {
 								GlobalSave.put("num_coins", GlobalSave.getInt("num_coins") + 1);
 							}
-						});
+						}).delay(0.5f);
 
 						Tween.to(new Tween.Task(0, 0.2f) {
 							@Override
