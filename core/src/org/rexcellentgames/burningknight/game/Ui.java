@@ -610,7 +610,7 @@ public class Ui {
 		} else {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : 1f;
+			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : this.scale;
 			float a = Settings.rotateCursor ? Dungeon.time * 60 : 0;
 
 			TextureRegion region = regions[Settings.cursorId];
