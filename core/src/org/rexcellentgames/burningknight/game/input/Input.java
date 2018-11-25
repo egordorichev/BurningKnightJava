@@ -417,8 +417,7 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		if (!this.bindings.containsKey(key)) {
-			Log.error("Unknown key " + key);
-			return false;
+			return Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.valueOf(key));
 		}
 
 		for (String id : this.bindings.get(key)) {

@@ -454,7 +454,7 @@ public class Dungeon extends ApplicationAdapter {
 	private void renderGame() {
 		Camera.applyShake();
 
-		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT);
+		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT) * Ui.upscale;
 
 		float sceneX = Camera.game.position.x;
 		float sceneY = Camera.game.position.y;

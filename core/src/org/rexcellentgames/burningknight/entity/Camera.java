@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.ItemSelectState;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -111,7 +112,7 @@ public class Camera extends Entity {
 		pushAm = Math.max(0, pushAm - dt * 50);
 		shake = Math.max(0, shake - dt * 10);
 
-		if (target != null) {
+		if (target != null && !Ui.hideUi && !Ui.hideCursor) {
 			int x = (int) (target.x + 8);
 			int y = (int) (target.y + 8);
 

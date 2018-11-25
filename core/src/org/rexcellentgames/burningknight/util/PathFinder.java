@@ -151,6 +151,10 @@ public class PathFinder {
 		int head = 0;
 		int tail = 0;
 
+		if (to < 0) {
+			return false;
+		}
+
 		queue[tail++] = to;
 		distance[to] = 0;
 

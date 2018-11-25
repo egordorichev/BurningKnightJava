@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.rexcellentgames.burningknight.Collisions;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Settings;
+import org.rexcellentgames.burningknight.*;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.debug.Console;
@@ -447,6 +444,16 @@ public class InGameState extends State {
 				Ui.hideUi = !Ui.hideUi;
 			} else if (Input.instance.wasPressed("F9")) {
 				Ui.hideCursor = !Ui.hideCursor;
+			}
+
+			if (Version.debug) {
+				if (Input.instance.wasPressed("O")) {
+					Ui.upscale = 1;
+				} else if (Input.instance.isDown("I")) {
+					Ui.upscale = Math.max(0.1f, Ui.upscale - dt * 3);
+				} else if (Input.instance.isDown("P")) {
+					Ui.upscale += dt * 3;
+				}
 			}
 		//}
 

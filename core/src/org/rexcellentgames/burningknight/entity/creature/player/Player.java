@@ -438,15 +438,26 @@ public class Player extends Creature {
 		return this.rolling;
 	}
 
+	private static TextureRegion wing = Graphics.getTexture("item-half_wing");
+
 	@Override
 	public void render() {
 		Graphics.batch.setColor(1, 1, 1, this.a);
+
+		float offset = 0;
+
+		if (this.isFlying() && this.inventory.find(Wings.class)) {
+			float a = (float) Math.cos(Dungeon.time * 9) * 40f - 10f;
+			offset = (float) -(Math.cos(Dungeon.time * 9) * 1.5f);
+			Graphics.render(wing, this.x + 12, this.y + 4 + offset, a, 0, 2, false, false);
+			Graphics.render(wing, this.x + 4, this.y + 4 + offset, -a, 0, 2, false, false, -1, 1);
+		}
 
 		if (this.rolling) {
 			this.animation = roll;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
-		} else if (this.state.equals("run")) {
+		} else if (!this.isFlying() && this.state.equals("run")) {
 			this.animation = run;
 		} else {
 			this.animation = idle;
@@ -461,26 +472,12 @@ public class Player extends Creature {
 
 		if (this.invt > 0) {
 			id += 16;
-		} else if (this.state.equals("run")) {
+		} else if (!this.isFlying() && this.state.equals("run")) {
 			id += 8;
 		}
 
 		if (this.ui != null) {
 			this.ui.renderBeforePlayer(this, of);
-		}
-
-		boolean before = false;
-
-		/*Item item = this.inventory.getSlot(this.inventory.activeController);
-
-		if (item instanceof WeaponBase) {
-			Point aim = this.getAim();
-			double a = this.getAngleTo(aim.x, aim.y);
-			before = (a > 0 && a < Math.PI);
-		}*/
-
-		if (!this.rolling && this.ui != null && before) {
-			this.ui.renderOnPlayer(this, of);
 		}
 
 		boolean shade = this.drawInvt && this.invtt > 0;
@@ -526,11 +523,11 @@ public class Player extends Creature {
 		}
 
 		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
-			this.y + this.z, false, false, region.getRegionWidth() / 2,
+			this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
 			0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 
 		if (this.hat != null && !this.isRolling()) {
-			Graphics.render(this.hat, this.x + w / 2 - (this.flipped ? -1 : 1) * 7, this.y + 1 + this.z + offsets[id] + region.getRegionHeight() / 2 - 2,
+			Graphics.render(this.hat, this.x + w / 2 - (this.flipped ? -1 : 1) * 7, this.y + 1 + this.z + offsets[id] + region.getRegionHeight() / 2 - 2 + offset,
 				0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 		} else {
 			AnimationData anim = headIdle;
@@ -547,7 +544,7 @@ public class Player extends Creature {
 			region = anim.getCurrent().frame;
 
 			anim.render(this.x - region.getRegionWidth() / 2 + 8,
-				this.y + this.z, false, false, region.getRegionWidth() / 2,
+				this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
 				0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 		}
 
@@ -557,8 +554,8 @@ public class Player extends Creature {
 			Graphics.batch.begin();
 		}
 
-		if (!this.rolling && this.ui != null && !before && Dungeon.depth != -2) {
-			this.ui.renderOnPlayer(this, of);
+		if (!this.rolling && this.ui != null && Dungeon.depth != -2) {
+			this.ui.renderOnPlayer(this, of + offset);
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);

@@ -33,6 +33,7 @@ public class Ui {
 	public static boolean hideCursor;
 	public static boolean hideUi;
 	public static TextureRegion save = Graphics.getTexture("ui-save");
+	public static float upscale = 1;
 
 	public static TextureRegion[] regions = new TextureRegion[] {
 		Graphics.getTexture("ui-cursor-standart"),
