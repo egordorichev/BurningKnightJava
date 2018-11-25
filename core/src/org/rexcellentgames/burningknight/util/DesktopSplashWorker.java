@@ -8,7 +8,5 @@ public class DesktopSplashWorker implements SplashWorker {
 		if (screen != null && screen.isVisible()) {
 			screen.close();
 		}*/
-
-		// todo: fix
 	}
 }

@@ -18,7 +18,7 @@ public class PetEntity extends SaveableEntity {
 	public Player owner;
 	public float z;
 	protected String sprite = "";
-	public TextureRegion region = Item.missing; // todo: replace with anim
+	public TextureRegion region = Item.missing;
 
 	{
 		alwaysActive = true;

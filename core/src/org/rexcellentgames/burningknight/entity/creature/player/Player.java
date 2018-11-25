@@ -285,7 +285,6 @@ public class Player extends Creature {
 		this.name = name;
 	}
 
-	// FIXME: always generates ranged items in pools
 	public void generate() {
 		this.inventory.clear();
 
