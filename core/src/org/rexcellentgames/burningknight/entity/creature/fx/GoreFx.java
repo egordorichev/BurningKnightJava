@@ -22,6 +22,10 @@ public class GoreFx extends Entity {
 	private Body body;
 	private float al = 1f;
 
+	{
+		alwaysActive = true;
+	}
+
 	@Override
 	public void init() {
 		super.init();

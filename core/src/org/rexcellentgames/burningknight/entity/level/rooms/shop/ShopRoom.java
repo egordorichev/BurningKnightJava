@@ -44,14 +44,11 @@ public class ShopRoom extends LockedRoom {
 			case 3: npc = new OrangeShopkeeper(); break;// doublePrice = true;
 		}
 
-		switch (Random.newInt(6)) {
-			// case 0: paintArmor(c); break;
-			// case 1: paintWeapon(c); break;
-			// case 2: paintAccessory(c); break;
-			// case 3: case 4: case 5: paintMixed(c); break;
+		switch (Random.newInt(4)) {
+			case 0: paintWeapon(c); break;
+			case 1: paintAccessory(c); break;
+			case 2: case 3: paintMixed(c); break;
 		}
-
-		paintMixed(c);
 
 		Point point = getSpawn();
 
@@ -148,8 +145,19 @@ public class ShopRoom extends LockedRoom {
 
 	private void paintWeapon(int c) {
 		ArrayList<Item> items = new ArrayList<>();
-
 		Pool<Item> pool = Chest.makePool(ItemRegistry.Quality.ANY, false, false);
+
+		if (Random.chance(50)) {
+			Bomb bomb = new Bomb();
+			bomb.generate();
+			c -= 1;
+			items.add(bomb);
+		}
+
+		if (Random.chance(50)) {
+			items.add(new KeyC());
+			c -= 1;
+		}
 
 		for (int i = 0; i < c; i++) {
 			items.add(pool.generate());
@@ -160,8 +168,19 @@ public class ShopRoom extends LockedRoom {
 
 	private void paintAccessory(int c) {
 		ArrayList<Item> items = new ArrayList<>();
-
 		Pool pool = Chest.makePool(ItemRegistry.Quality.ANY, false, false);
+		
+		if (Random.chance(50)) {
+			Bomb bomb = new Bomb();
+			bomb.generate();
+			c -= 1;
+			items.add(bomb);
+		}
+
+		if (Random.chance(50)) {
+			items.add(new KeyC());
+			c -= 1;
+		}
 
 		for (int i = 0; i < c; i++) {
 			items.add((Item) pool.generate());
@@ -186,6 +205,7 @@ public class ShopRoom extends LockedRoom {
 
 		if (Random.chance(50)) {
 			items.add(new KeyC());
+			c -= 1;
 		}
 
 		for (int i = 0; i < c; i++) {
