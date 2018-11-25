@@ -1,8 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.pet.impl;
 
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class JellyOrbitalImpl extends Orbital {
@@ -15,12 +14,10 @@ public class JellyOrbitalImpl extends Orbital {
 
 	@Override
 	protected void onHit(Entity entity) {
-		if (entity instanceof BulletProjectile) {
-			((BulletProjectile) entity).velocity.x *= -1;
-			((BulletProjectile) entity).velocity.y *= -1;
-		} else if (entity instanceof FireballProjectile) {
-			((FireballProjectile) entity).velocity.x *= -1;
-			((FireballProjectile) entity).velocity.y *= -1;
+		if (entity instanceof Projectile && ((Projectile) entity).bad) {
+			((Projectile) entity).velocity.x *= -1;
+			((Projectile) entity).velocity.y *= -1;
+			((Projectile) entity).bad = false;
 		}
 
 		if (this.xlast != null) {

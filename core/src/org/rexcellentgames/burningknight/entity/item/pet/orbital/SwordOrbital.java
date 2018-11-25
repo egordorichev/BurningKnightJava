@@ -30,7 +30,7 @@ public class SwordOrbital extends Pet {
 
 			if (entity instanceof Mob) {
 				((Mob) entity).modifyHp(-3, this.owner);
-				((Mob) entity).knockBackFrom(this, 1000f);
+				((Mob) entity).knockBackFrom(this, 100f);
 			}
 		}
 	}

@@ -1,7 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.pet;
 
-import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
-import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
@@ -11,6 +9,11 @@ import org.rexcellentgames.burningknight.util.Random;
 public class Pet extends Autouse {
 	public PetEntity create() {
 		return new PetEntity();
+	}
+
+	@Override
+	public void generate() {
+		setCount(Random.newInt(1, 4));
 	}
 
 	@Override

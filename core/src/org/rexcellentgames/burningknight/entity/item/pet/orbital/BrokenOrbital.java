@@ -1,15 +1,13 @@
 package org.rexcellentgames.burningknight.entity.item.pet.orbital;
 
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -34,16 +32,16 @@ public class BrokenOrbital extends Pet {
 		protected void onHit(Entity entity) {
 			super.onHit(entity);
 
-			if ((entity instanceof BulletProjectile || entity instanceof ArrowProjectile || entity instanceof FireballProjectile) && Random.chance(20)) {
+			if ((entity instanceof Projectile && ((Projectile) entity).bad && Random.chance(20))) {
 				this.done = true;
 
-				for (int i = 0; i < 20; i++) {
-					Part part = new Part();
+				for (int i = 0; i < 10; i++) {
+					PoofFx fx = new PoofFx();
 
-					part.x = this.x + Random.newFloat(this.w);
-					part.y = this.y + Random.newFloat(this.h);
+					fx.x = this.x + this.w / 2;
+					fx.y = this.y + this.h / 2;
 
-					Dungeon.area.add(part);
+					Dungeon.area.add(fx);
 				}
 
 				PlayerSave.remove(this);
