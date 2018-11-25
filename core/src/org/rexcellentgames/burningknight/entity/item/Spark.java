@@ -41,7 +41,6 @@ public class Spark extends Entity {
 
 		this.depth = 5;
 
-		// TODO: another tween function?
 		Tween.to(new Tween.Task(this.a + Random.newFloat(-90f, 90f), 1f) {
 			@Override
 			public float getValue() {

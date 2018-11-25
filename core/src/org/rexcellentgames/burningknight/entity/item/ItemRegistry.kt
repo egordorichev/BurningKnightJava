@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
+import org.rexcellentgames.burningknight.entity.item.consumable.food.Pill
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
@@ -65,8 +66,6 @@ object ItemRegistry {
 			return true
 		}
 	}
-
-	// todo: hats
 
 	enum class Quality {
 		WOODEN, IRON, GOLDEN,
@@ -130,6 +129,8 @@ object ItemRegistry {
 		"key_a" to Pair(KeyA::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"key_b" to Pair(KeyB::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"key" to Pair(KeyC::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
+	  "pill" to Pair(Pill::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+	  "infinite_bomb" to Pair(InfiniteBomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 		// "bow" to Pair(Bow::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 		"launcher" to Pair(RocketLauncher::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
 		"meatboy" to Pair(MeetBoy::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Achievements.UNLOCK_MEATBOY),

@@ -88,7 +88,6 @@ public class Item extends Entity {
 		return false;
 	}
 
-	// todo: depend on quality
   public int getPrice() {
   	return 5;
   }

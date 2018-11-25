@@ -94,6 +94,10 @@ public class Player extends Creature {
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
+	{
+		defense = 1;
+	}
+
 	public Type type;
 	public boolean flipRegenFormula;
 	public boolean manaCoins;
@@ -285,7 +289,6 @@ public class Player extends Creature {
 		this.name = name;
 	}
 
-	// FIXME: always generates ranged items in pools
 	public void generate() {
 		this.inventory.clear();
 
@@ -649,7 +652,7 @@ public class Player extends Creature {
 							public void onEnd() {
 								GlobalSave.put("num_coins", GlobalSave.getInt("num_coins") + 1);
 							}
-						});
+						}).delay(0.5f);
 
 						Tween.to(new Tween.Task(0, 0.2f) {
 							@Override

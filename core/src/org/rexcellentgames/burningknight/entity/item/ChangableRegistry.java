@@ -96,7 +96,6 @@ public class ChangableRegistry {
 			ManaSpell.class
 		));
 
-		// todo: finish this list
 		ArrayList<Type> spellTypes = new ArrayList<>(Arrays.asList(
 			Type.JERA, Type.THURISAZ, Type.FEHU//, Type.RAIDO
 			// Type.MANNAZ  , Type.TEIWAZ, Type.SOWULO, Type.HAGALAZ

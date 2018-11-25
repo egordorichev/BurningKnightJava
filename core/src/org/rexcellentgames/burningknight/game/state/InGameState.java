@@ -601,7 +601,7 @@ public class InGameState extends State {
 			water.pause();
 		}
 
-		water.setVolume(flowVolume * Settings.sfx * 0.5f);
+		water.setVolume(flowVolume * Settings.sfx * 0.25f);
 
 		flow = false;
 	}

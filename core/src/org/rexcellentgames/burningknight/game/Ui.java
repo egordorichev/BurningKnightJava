@@ -327,7 +327,7 @@ public class Ui {
 								super.onClick();
 
 								rst();
-								Dungeon.newGame(true, -1);
+								Dungeon.newGame(true, -2);
 								Camera.shake(3);
 							}
 						});
@@ -539,10 +539,10 @@ public class Ui {
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Dungeon.depth == -2 || y > 0) {
-				Graphics.render(coin, 4, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 18 : y) + 2);
+				Graphics.render(coin, 4, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 16 : y - 4) + 2);
 				Graphics.print(GlobalSave.getInt("num_coins") + "",
-					Graphics.medium, 20,
-					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 20 : y - 2));
+					Graphics.small, 16,
+					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 14 : y - 6));
 			}
 
 			if (this.al > 0.05f && !Ui.hideUi) {
@@ -610,7 +610,7 @@ public class Ui {
 		} else {
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
-			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : 1f;
+			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : this.scale;
 			float a = Settings.rotateCursor ? Dungeon.time * 60 : 0;
 
 			TextureRegion region = regions[Settings.cursorId];
