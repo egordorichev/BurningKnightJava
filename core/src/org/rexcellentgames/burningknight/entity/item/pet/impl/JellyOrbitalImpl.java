@@ -9,6 +9,10 @@ public class JellyOrbitalImpl extends Orbital {
 	private Tween.Task xlast;
 	private Tween.Task ylast;
 
+	{
+		sprite = "item-jelly";
+	}
+
 	@Override
 	protected void onHit(Entity entity) {
 		if (entity instanceof BulletProjectile) {

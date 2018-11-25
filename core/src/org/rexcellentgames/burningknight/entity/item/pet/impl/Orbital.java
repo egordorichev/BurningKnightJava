@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.physics.World;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class Orbital extends PetEntity {
 		this.h = this.region.getRegionHeight();
 
 		body = World.createCircleCentredBody(this, 0f, 0f, Math.min(region.getRegionWidth(), region.getRegionHeight()) / 2f, BodyDef.BodyType.DynamicBody, true);
+		body.setSleepingAllowed(false);
 		all.add(this);
 
 		readIndex();
@@ -65,7 +67,9 @@ public class Orbital extends PetEntity {
 	}
 
 	protected void onHit(Entity entity) {
-
+		if (entity instanceof Projectile && ((Projectile) entity).bad) {
+			((Projectile) entity).remove();
+		}
 	}
 
 	protected void readIndex() {

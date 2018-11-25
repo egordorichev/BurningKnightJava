@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
 import org.rexcellentgames.burningknight.entity.level.Terrain
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom
 import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.game.state.InGameState
@@ -140,7 +141,7 @@ open class ItemHolder : SaveableEntity {
       return false
     }
 
-    if (entity is Level && item is Gold && !InGameState.dark) {
+    if (entity != null && item is Gold) {
       return false
     }
 
@@ -228,7 +229,7 @@ open class ItemHolder : SaveableEntity {
     if (!InGameState.dark && item is Gold && item!!.autoPickup) {
       val room = Dungeon.level.findRoomFor(this.x + this.w / 2, this.y + this.h / 2)
 
-      if (room != null && !room.hidden) {
+      if (room != null && room !is ShopRoom && room == Player.instance.room && !room.hidden) {
         val dx = Player.instance.x + Player.instance.w / 2 - this.x - this.w / 2
         val dy = Player.instance.y + Player.instance.h / 2 - this.y - this.h / 2
         val d = Math.sqrt((dx * dx + dy * dy).toDouble())

@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.SimplePart;
+import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
@@ -403,7 +404,11 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity != null && !(entity instanceof BulletProjectile && ((Projectile) entity).bad != this.bad)) {
+		if (entity instanceof Orbital) {
+			return true;
+		}
+
+		if (entity != null && !((entity instanceof BulletProjectile && ((Projectile) entity).bad != this.bad))) {
 			return false;
 		}
 

@@ -1,13 +1,13 @@
 package org.rexcellentgames.burningknight.entity.item.pet.orbital;
 
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.ArrowProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class VampireOrbital extends Pet {
@@ -29,13 +29,13 @@ public class VampireOrbital extends Pet {
 
 		@Override
 		protected void onHit(Entity entity) {
-			super.onHit(entity);
-
-			if (entity instanceof BulletProjectile || entity instanceof ArrowProjectile || entity instanceof FireballProjectile) {
-				if (Random.chance(10)) {
+			if (entity instanceof Projectile && ((Projectile) entity).bad) {
+				if (Random.chance(80)) {
 					this.owner.modifyHp(2, null);
 				}
 			}
+
+			super.onHit(entity);
 		}
 	}
 }

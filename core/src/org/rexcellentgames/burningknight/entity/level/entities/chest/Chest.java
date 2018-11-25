@@ -415,7 +415,7 @@ public class Chest extends SaveableEntity {
 			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 
-		this.al += ((this.colliding ? 1f : 0f) - this.al) * dt * 8;
+		this.al += ((this.colliding && !drawOpenAnim ? 1f : 0f) - this.al) * dt * 8;
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
 			Input.instance.putState("inventory", Input.State.UP);
@@ -610,7 +610,7 @@ public class Chest extends SaveableEntity {
 			unlock.render(x, y, false);
 		}
 
-		if (this.locked || al > 0) {
+		if ((this.locked || drawOpenAnim) && al > 0) {
 			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
 			Graphics.batch.setColor(1, 1, 1, al);
 			Graphics.render(keyRegion, this.x + (16 - keyRegion.getRegionWidth()) / 2 + v, this.y + 12);

@@ -520,8 +520,8 @@ public class Knight extends Mob {
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 			this.vel = new Vector2();
-			this.vel.x = dx / (d + Random.newFloat(-d / 3, d / 3)) * 300;
-			this.vel.y = dy / (d + Random.newFloat(-d / 3, d / 3)) * 300;
+			this.vel.x = dx / (d + Random.newFloat(-d / 3, d / 3)) * 350;
+			this.vel.y = dy / (d + Random.newFloat(-d / 3, d / 3)) * 350;
 		}
 
 		@Override
@@ -530,8 +530,6 @@ public class Knight extends Mob {
 
 			this.vel.x -= this.vel.x * Math.min(1, dt * 3);
 			this.vel.y -= this.vel.y * Math.min(1, dt * 3);
-
-			// FIXME: no vsync == smaller dt == issues!!!!
 
 			self.velocity.x = this.vel.x;
 			self.velocity.y = this.vel.y;
