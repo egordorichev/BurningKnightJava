@@ -28,6 +28,7 @@ public class ConfettiGrenade extends Consumable {
 
 	@Override
 	public void generate() {
+		super.generate();
 		this.setCount(Random.newInt(10, 30));
 	}
 }

@@ -41,7 +41,7 @@ public class ShopRoom extends LockedRoom {
 		switch (Random.newInt(4)) {
 			case 0: case 1: npc = new Shopkeeper(); break;
 			case 2: npc = new BlueShopkeeper(); break;
-			case 3: npc = new OrangeShopkeeper(); doublePrice = true;
+			case 3: npc = new OrangeShopkeeper(); break;// doublePrice = true;
 		}
 
 		switch (Random.newInt(6)) {
@@ -219,6 +219,8 @@ public class ShopRoom extends LockedRoom {
 	}
 
 	protected void placeItem(Item item, int x, int y) {
+		item.generate();
+
 		Slab slab = new Slab();
 
 		slab.x = x + 1;

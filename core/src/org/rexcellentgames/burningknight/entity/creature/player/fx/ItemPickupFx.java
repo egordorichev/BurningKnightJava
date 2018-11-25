@@ -67,36 +67,38 @@ public class ItemPickupFx extends Entity {
 		});
 	}
 
-	private void setSkin(String skin) {
+	public static Item setSkin(String skin) {
 		if (skin == null || skin.equals("gobbo_head")) {
-			this.item.setItem(new NullItem());
+			return new NullItem();
 		} else if (skin.equals("knight")) {
-			this.item.setItem(new KnightHat());
+			return new KnightHat();
 		} else if (skin.equals("stone")) {
-			this.item.setItem(new MoaiHat());
+			return new MoaiHat();
 		} else if (skin.equals("viking")) {
-			this.item.setItem(new VikingHat());
+			return new VikingHat();
 		} else if (skin.equals("dunce")) {
-			this.item.setItem(new DunceHat());
+			return new DunceHat();
 		} else if (skin.equals("ravi")) {
-			this.item.setItem(new RaveHat());
+			return new RaveHat();
 		} else if (skin.equals("ushanka")) {
-			this.item.setItem(new UshankaHat());
+			return new UshankaHat();
 		} else if (skin.equals("ruby")) {
-			this.item.setItem(new RubyHat());
+			return new RubyHat();
 		} else if (skin.equals("gold")) {
-			this.item.setItem(new GoldHat());
+			return new GoldHat();
 		} else if (skin.equals("wings")) {
-			this.item.setItem(new ValkyreHat());
+			return new ValkyreHat();
 		} else if (skin.equals("skull")) {
-			this.item.setItem(new SkullHat());
+			return new SkullHat();
 		} else if (skin.equals("cowboy")) {
-			this.item.setItem(new CoboiHat());
+			return new CoboiHat();
 		} else if (skin.equals("red_mushroom")) {
-			this.item.setItem(new ShroomHat());
+			return new ShroomHat();
 		} else if (skin.equals("brown_mushroom")) {
-			this.item.setItem(new FungiHat());
+			return new FungiHat();
 		}
+		
+		return null;
 	}
 
 	@Override
@@ -113,13 +115,16 @@ public class ItemPickupFx extends Entity {
 			if (this.item.getItem() instanceof NullItem) {
 				String skin = Player.hatId;
 				Player.instance.setHat("gobbo_head");
+				Player.instance.getInventory().setSlot(6, null);
 				HatSelector.nullGot = false;
-				setSkin(skin);
+				this.item.setItem(setSkin(skin));
 				Player.instance.playSfx("menu/select");
 			} else if (this.item.getItem() instanceof Hat && Dungeon.depth == -2) {
 				String skin = Player.hatId;
 				Player.instance.setHat(((Hat) this.item.getItem()).skin);
-				setSkin(skin);
+				Player.instance.getInventory().setSlot(6, this.item.getItem());
+				this.item.getItem().setOwner(Player.instance);
+				this.item.setItem(setSkin(skin));
 				Player.instance.playSfx("menu/select");
 			} else if (this.item instanceof ClassSelector) {
 				ClassSelector s = (ClassSelector) this.item;

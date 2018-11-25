@@ -315,6 +315,10 @@ public class Player extends Creature {
 				this.mana -= 2;
 			}
 		}
+
+		if (hatId != null) {
+			this.give(ItemPickupFx.setSkin(hatId));
+		}
 	}
 
 	private int numIronHearts;
