@@ -94,6 +94,7 @@ public class UiBanner extends Entity {
 
 							@Override
 							public void onEnd() {
+
 								Tween.to(new Tween.Task(0, 0.2f) {
 									@Override
 									public void onStart() {
@@ -260,7 +261,7 @@ public class UiBanner extends Entity {
 		float y = this.y + 48;
 
 		float sx = (this.w - 18);
-		float sy = (this.h - 13);
+		float sy = (this.h - 14);
 
 		Graphics.render(bottomLeft, x, y);
 		Graphics.render(bottom, x + bottomLeft.getRegionWidth(), y + 4, 0, 0, 0, false, false, sx, 1);

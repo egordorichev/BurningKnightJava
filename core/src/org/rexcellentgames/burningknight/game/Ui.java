@@ -327,7 +327,7 @@ public class Ui {
 								super.onClick();
 
 								rst();
-								Dungeon.newGame(true, -1);
+								Dungeon.newGame(true, -2);
 								Camera.shake(3);
 							}
 						});

@@ -97,7 +97,6 @@
 	"buy_this": "BUY THIS",
 	"campfire_in_a_bottle": "Campfire In Bottle",
 	"campfire_in_a_bottle_desc": "Feels warm and comfy in my hands.",
-	"castle": "The Castle",
 	"challenge_rune": "Challenger's Rune",
 	"challenge_rune_desc": "It reads... Extra defense and extra challenge\n...I wonder what the challenge part is",
 	"chicken_sword": "Fried Chicken",
@@ -568,5 +567,7 @@
 	"dialog_buy_accessory" : "In the mean while you still can buy some awesome things like{WAIT}.{WAIT}.{WAIT}. {WAIT}um.{WAIT}.{WAIT}.",
 	"dialog_see_self" : "Well, just have a look! {WAIT}{WAIT}Or two. {WAIT}{WAIT}One look is good two bought things are better!",
 	"tutorial_done_achievement" : "Prepared For More",
-	"tutorial_done_achievement_desc" : "Finish the Tutorial"
+	"tutorial_done_achievement_desc" : "Finish the Tutorial",
+	"pill" : "Pill",
+	"pill_desc" : "Smells weird to me."
 }
