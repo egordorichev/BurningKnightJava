@@ -141,7 +141,7 @@ open class ItemHolder : SaveableEntity {
       return false
     }
 
-    if (entity != null && item is Gold) {
+    if (item is Gold) {
       return false
     }
 

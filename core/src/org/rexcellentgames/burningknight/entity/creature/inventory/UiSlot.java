@@ -12,10 +12,13 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.RedBalloon;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Wings;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -308,10 +311,15 @@ public class UiSlot {
 			this.inventory.getInventory().setSlot(this.id, current);
 			this.inventory.setCurrentSlot(null);
 		} else if (canAccept(this.id, current) || current == null) {
-			if (this.id > 5 && this.id < 12 && self != null && self.isCursed()) {
+			if (this.id > 5 && this.id < 12 && self != null &&
+				(self.isCursed() || ((inventory.getInventory().getSlot(id) instanceof Wings || inventory.getInventory().getSlot(id) instanceof RedBalloon)
+				&& (!Player.instance.isTouching(Terrain.FLOOR_A)) && (!Player.instance.isTouching(Terrain.FLOOR_B))
+				&& (!Player.instance.isTouching(Terrain.FLOOR_C)) && (!Player.instance.isTouching(Terrain.FLOOR_D))))) {
+
 				Audio.playSfx("item_nocash");
 				Camera.shake(6);
 				tweenClick();
+				return;
 			} else {
 				if (this.id > 5 && current != null) {
 					for (int i = 6; i < 12; i++) {

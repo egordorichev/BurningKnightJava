@@ -169,7 +169,7 @@ public class ShopRoom extends LockedRoom {
 	private void paintAccessory(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 		Pool pool = Chest.makePool(ItemRegistry.Quality.ANY, false, false);
-		
+
 		if (Random.chance(50)) {
 			Bomb bomb = new Bomb();
 			bomb.generate();
