@@ -241,6 +241,7 @@ public class Player extends Creature {
 			return;
 		}
 
+		GlobalSave.put("last_hat", name);
 		hatId = name;
 		this.hat = Graphics.getTexture("hat-" + name + "-idle-00");
 	}
@@ -319,6 +320,9 @@ public class Player extends Creature {
 
 		if (hatId != null) {
 			this.give(ItemPickupFx.setSkin(hatId));
+		} else {
+			String id = GlobalSave.getString("last_hat", null);
+			this.setHat(id);
 		}
 	}
 
