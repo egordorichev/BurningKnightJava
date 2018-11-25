@@ -87,6 +87,7 @@ public class Dungeon extends ApplicationAdapter {
 	public static float battleDarkness;
 	public static float white;
 	public static boolean goToSelect;
+	public static float blood;
 
 	public static String title;
 
@@ -539,6 +540,7 @@ public class Dungeon extends ApplicationAdapter {
 		shader.setUniformf("colorBlind", colorBlind);
 		shader.setUniformf("correct", colorBlindFix);
 		shader.setUniformf("grayscale", grayscale);
+		shader.setUniformf("blood", blood);
 		shader.setUniformf("ui", 0);
 		shader.setUniformf("white", white);
 		shader.setUniformf("battle", battleDarkness);

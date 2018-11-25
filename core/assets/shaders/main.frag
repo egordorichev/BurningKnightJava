@@ -23,6 +23,7 @@ uniform float grayscale;
 uniform float white;
 uniform float ui;
 uniform float battle;
+uniform float blood;
 uniform sampler2D u_texture;
 varying vec2 v_texCoord;
 varying vec4 v_color;
@@ -177,6 +178,11 @@ vec4 get(vec2 pos) {
         if (d >= transR) {
            realColor = vec4(0.0, 0.0, 0.0, 1.0);
         }
+    }
+
+    if (ui < 0.5 && blood > 0.0) {
+        realColor.g -= blood;
+        realColor.b -= blood;
     }
 
     if (dark < 1.0) {

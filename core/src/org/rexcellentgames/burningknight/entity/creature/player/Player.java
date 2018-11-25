@@ -25,6 +25,7 @@ import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
+import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
@@ -1321,6 +1322,25 @@ public class Player extends Creature {
 				this.modifyMana(this.getManaMax());
 			}
 		}
+	}
+
+	@Override
+	public HpFx modifyHp(int amount, Creature from) {
+		if (amount > 0 && this.hp + amount > 1) {
+			Tween.to(new Tween.Task(0, 0.4f) {
+				@Override
+				public float getValue() {
+					return Dungeon.blood;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Dungeon.blood = value;
+				}
+			});
+		}
+
+		return super.modifyHp(amount, from);
 	}
 
 	@Override

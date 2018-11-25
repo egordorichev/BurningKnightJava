@@ -26,6 +26,7 @@ public class Game {
 			old.destroy();
 		}
 
+		Dungeon.blood = 0;
 		this.state.init();
 		// Achievements.clear();
 	}

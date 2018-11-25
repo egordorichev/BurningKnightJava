@@ -501,6 +501,35 @@ public class InGameState extends State {
 			if (!setFrames) {
 				setFrames = true;
 
+				Tween.to(new Tween.Task(0.1f, 0.1f) {
+					@Override
+					public float getValue() {
+						return Dungeon.blood;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.blood = value;
+					}
+
+					@Override
+					public void onEnd() {
+						if (Player.instance.getHp() > 1) {
+							Tween.to(new Tween.Task(0, 0.4f) {
+								@Override
+								public float getValue() {
+									return Dungeon.blood;
+								}
+
+								@Override
+								public void setValue(float value) {
+									Dungeon.blood = value;
+								}
+							});
+						}
+					}
+				});
+
 				for (int i = 0; i < 64; i++) {
 					Bloodsplat splat = new Bloodsplat();
 

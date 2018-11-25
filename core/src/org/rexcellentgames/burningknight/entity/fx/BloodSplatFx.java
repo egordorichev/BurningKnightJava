@@ -18,7 +18,7 @@ import org.rexcellentgames.burningknight.util.Random;
 public class BloodSplatFx extends Entity {
 	private float al;
 	private PolygonSprite poly;
-	private static PolygonSpriteBatch polyBatch;
+	public static PolygonSpriteBatch polyBatch;
 	private static Texture textureSolid;
 	private static EarClippingTriangulator triangulator = new EarClippingTriangulator();
 	public float sizeMod = 1;
