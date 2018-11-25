@@ -207,6 +207,19 @@ public class Inventory {
 		return false;
 	}
 
+
+	public boolean findEquipped(Class<? extends Item> clazz) {
+		for (int i = 7; i < 11; i++) {
+			if (!this.isEmpty(i)) {
+				if (clazz.isInstance(this.getSlot(i))) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public Item findItem(Class<? extends Item> clazz) {
 		for (int i = 0; i < this.getSize(); i++) {
 			if (!this.isEmpty(i)) {

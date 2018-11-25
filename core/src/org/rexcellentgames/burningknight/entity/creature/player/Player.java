@@ -455,7 +455,7 @@ public class Player extends Creature {
 
 		float offset = 0;
 
-		if (this.isFlying() && this.inventory.find(Wings.class)) {
+		if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
 			float a = (float) Math.cos(Dungeon.time * 9) * 40f - 10f;
 			offset = (float) -(Math.cos(Dungeon.time * 9) * 1.5f);
 			Graphics.render(wing, this.x + 12, this.y + 4 + offset, a, 0, 2, false, false);

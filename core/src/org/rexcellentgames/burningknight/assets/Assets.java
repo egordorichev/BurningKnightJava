@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 public class Assets {
 	public static AssetManager manager;
 	private static boolean done;
+	public static boolean finishedLoading;
 
 	public static void init() {
 		manager = new AssetManager();
@@ -18,6 +19,7 @@ public class Assets {
 
 		if (val && !done) {
 			done = true;
+			finishedLoading = true;
 			loadAssets();
 		}
 
@@ -25,6 +27,7 @@ public class Assets {
 	}
 
 	public static void finishLoading() {
+		finishedLoading = true;
 		manager.finishLoading();
 		loadAssets();
 	}

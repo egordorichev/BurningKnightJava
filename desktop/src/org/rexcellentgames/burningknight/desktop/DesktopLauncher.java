@@ -7,6 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.*;
+import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -68,7 +69,7 @@ public class DesktopLauncher {
 
 			@Override
 			public boolean closeRequested() {
-				return true;
+				return Assets.finishedLoading;
 			}
 
 			@Override
