@@ -261,10 +261,6 @@ public class ShopRoom extends LockedRoom {
 
 		int cn = (int) Player.instance.getStat("sale");
 
-		if (cn == 0 && Random.chance(33)) {
-			cn ++;
-		}
-
 		for (int j = 0; j < cn; j++) {
 			holder.sale();
 		}

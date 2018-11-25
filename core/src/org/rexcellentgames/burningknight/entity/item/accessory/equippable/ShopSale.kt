@@ -20,7 +20,7 @@ class ShopSale : Equippable() {
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
-		this.owner.modifyStat("sale", 1f)
+		this.owner.modifyStat("sale", -1f)
 
 		for (item in ItemHolder.all) {
 			if (item.item!!.shop) {
