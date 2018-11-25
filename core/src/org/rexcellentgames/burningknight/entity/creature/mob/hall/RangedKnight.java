@@ -1,9 +1,16 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
+import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Aim;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.AmmoHolder;
+import org.rexcellentgames.burningknight.entity.item.pet.orbital.AmmoOrbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.util.ArrayList;
 
 public class RangedKnight extends Knight {
 	public static Animation animations = Animation.make("actor-knight", "-red");
@@ -29,6 +36,36 @@ public class RangedKnight extends Knight {
 
 		this.sword = new BadGun();
 		this.sword.setOwner(this);
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = new ArrayList<>();
+
+		if (Random.chance(5)) {
+			items.add(new Gun());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new Aim());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new AmmoHolder());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new Aim());
+		}
+
+		if (Random.chance(1)) {
+			AmmoOrbital item = new AmmoOrbital();
+			item.generate();
+
+			items.add(item);
+		}
+
+		return items;
 	}
 
 	@Override

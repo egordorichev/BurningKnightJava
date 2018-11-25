@@ -94,6 +94,10 @@ public class Player extends Creature {
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
+	{
+		defense = 1;
+	}
+
 	public Type type;
 	public boolean flipRegenFormula;
 	public boolean manaCoins;

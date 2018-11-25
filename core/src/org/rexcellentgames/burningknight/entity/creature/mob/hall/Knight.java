@@ -9,6 +9,10 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.DamageEmblem;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.DefenseEmblem;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.StopAndPlay;
+import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
@@ -19,6 +23,8 @@ import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
+
+import java.util.ArrayList;
 
 public class Knight extends Mob {
 	public static Animation animations = Animation.make("actor-knight", "-blue");
@@ -141,17 +147,32 @@ public class Knight extends Mob {
 		// Graphics.print(this.state, Graphics.small, this.x, this.y + 16);
 	}
 
-	/*
 	@Override
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = super.getDrops();
 
 		if (Random.chance(5)) {
-			items.add(new KnightHat());
+			items.add(new Sword());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new DefenseEmblem());
+		}
+
+		if (Random.chance(1)) {
+			items.add(new DamageEmblem());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new StopAndPlay());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new Bread());
 		}
 
 		return items;
-	}*/
+	}
 
 	@Override
 	public void destroy() {

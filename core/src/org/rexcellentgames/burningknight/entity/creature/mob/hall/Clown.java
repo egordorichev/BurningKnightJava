@@ -7,8 +7,9 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
+import org.rexcellentgames.burningknight.entity.item.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.ProtectiveBand;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Guitar;
 import org.rexcellentgames.burningknight.physics.World;
@@ -80,10 +81,25 @@ public class Clown extends Mob {
 			items.add(new Guitar());
 		}
 
-		/*
-		if (Random.chance(5)) {
-			items.add(new UshankaHat());
-		}*/
+		if (Random.chance(1)) {
+			items.add(new InfiniteBomb());
+		}
+
+		if (Random.chance(1)) {
+			items.add(new FireBombs());
+		}
+
+		if (Random.chance(1)) {
+			items.add(new IceBombs());
+		}
+
+		if (Random.chance(1)) {
+			items.add(new PoisonBombs());
+		}
+
+		if (Random.chance(1)) {
+			items.add(new BombInABomb());
+		}
 
 		if (Random.chance(5)) {
 			items.add(new ProtectiveBand());

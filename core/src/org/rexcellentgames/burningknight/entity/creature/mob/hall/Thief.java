@@ -9,6 +9,8 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
+import org.rexcellentgames.burningknight.entity.item.pet.orbital.NanoOrbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -18,6 +20,7 @@ import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Thief extends Mob {
 	public static Animation animations = Animation.make("actor-thief", "-purple");
@@ -229,6 +232,37 @@ public class Thief extends Mob {
 		if (d < 128f) {
 			this.become("unchase");
 		}
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = super.getDrops();
+
+		if (Random.chance(5)) {
+			items.add(new Dagger());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new GoldRing());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new VampireRing());
+		}
+
+		if (Random.chance(2)) {
+			items.add(new NanoOrbital());
+		}
+
+		if (Random.chance(3)) {
+			items.add(new Lootpick());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new StopWatch());
+		}
+
+		return items;
 	}
 
 	public class UnchaseState extends ThiefState {
