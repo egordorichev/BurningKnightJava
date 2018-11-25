@@ -406,10 +406,29 @@ public class Player extends Creature {
 				}
 
 				last = mob;
-				count ++;
+				count++;
 			}
 		}
 
+
+		if (this.isFlying() && inventory.findEquipped(RedBalloon.class)) {
+			float dx = Math.abs(this.acceleration.x) > 0.5f ? (this.acceleration.x > 0 ? 1 : -1) * 32 : 0;
+			float dy = Math.abs(this.acceleration.y) > 0.5f ? (this.acceleration.y > 0 ? 1 : -1) * 24 : 0;
+
+			float dt = Gdx.graphics.getDeltaTime();
+			bx += (dx - bx) * dt * 3;
+			by += (dy - by) * dt * 3;
+
+			float of = (float) (Math.cos(Dungeon.time * 4) * 2.5f);
+			Graphics.startAlphaShape();
+			Graphics.shape.setColor(1, 1, 1, 0.5f);
+			Graphics.shape.rectLine(this.x + 8, this.y + 14, this.x + 8 + bx, this.y + 20 + of + 14 + by, 1f);
+			Graphics.shape.setColor(1, 1, 1, 1);
+			Graphics.endAlphaShape();
+			float a = -bx * 1.2f;
+			Graphics.render(balloon, this.x + (16 - balloon.getRegionWidth()) / 2 + bx + balloon.getRegionWidth() / 2, this.y + of + 32 + by, a, balloon.getRegionWidth() / 2, 0, false, false);
+		}
+		
 		if (last != null) {
 			float dx = last.x + last.w / 2 - this.x - this.w / 2;
 			float dy = last.y + last.h / 2 - this.y - this.h / 2;
@@ -442,6 +461,11 @@ public class Player extends Creature {
 			Graphics.endAlphaShape();
 		}
 	}
+
+	private float bx;
+	private float by;
+
+	public static TextureRegion balloon = Graphics.getTexture("item-red_balloon");
 
 	public boolean isRolling() {
 		return this.rolling;

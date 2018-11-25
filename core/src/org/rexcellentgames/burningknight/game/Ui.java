@@ -571,7 +571,7 @@ public class Ui {
 			}
 
 			if (this.mainY != -128) {
-				Graphics.print(GameSave.defeatedBK ? kill2Locale : killLocale, Graphics.medium, y - 16 + this.mainY);
+				Graphics.print(killLocale, Graphics.medium, y - 16 + this.mainY);
 			}
 		}
 	}
