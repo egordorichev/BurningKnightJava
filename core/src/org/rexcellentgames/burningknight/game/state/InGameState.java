@@ -50,9 +50,9 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 public class InGameState extends State {
 	private Console console;
 	private Area pauseMenuUi;
-	public static TextureRegion noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
-	private static Music fire = Audio.getMusic("OnFire");
-	private static Music water = Audio.getMusic("water");
+	public static TextureRegion noise;
+	private static Music fire;
+	private static Music water;
 	private float volume = 0;
 	private float flowVolume;
 
@@ -60,6 +60,12 @@ public class InGameState extends State {
 
 	@Override
 	public void init() {
+		if (fire == null) {
+			fire = Audio.getMusic("OnFire");
+			water = Audio.getMusic("water");
+			noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
+		}
+
 		Ui.saveAlpha = 0;
 		Audio.important = false;
 

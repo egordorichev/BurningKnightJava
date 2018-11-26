@@ -145,6 +145,7 @@ public class UiMap extends UiEntity {
 		large = false;
 		instance = this;
 		setSize();
+		my = 0;
 
 		/*if (GlobalSave.isTrue("hide_minimap", false)) {
 			this.my = 96;

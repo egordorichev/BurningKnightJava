@@ -87,8 +87,6 @@ object ItemRegistry {
 		}
 	}
 
-	// todo: depend price on quality
-
   val items = mapOf(
 	  // Permanent upgrades
 	  "extra_heart" to Pair(ExtraHeart::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 10),

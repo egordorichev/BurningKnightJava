@@ -215,7 +215,7 @@ public class Ninjia extends Mob {
 				return;
 			}
 
-			if (this.t >= 0.5f) {
+			if (this.t >= 1f) {
 				this.t = 0;
 
 				if (!self.canSee(self.target)) {

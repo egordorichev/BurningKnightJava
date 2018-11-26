@@ -69,7 +69,7 @@ public class Tree extends SolidProp {
 			InGameState.burning = true;
 			Dungeon.level.setOnFire(Level.toIndex((int) Math.floor((this.x + 15) / 16), (int) Math.floor((this.y) / 16)), true);
 
-			this.damage += dt * 0.333f;
+			this.damage += dt * 0.8f;
 			lastFlame += dt;
 
 			if (this.lastFlame >= 0.05f) {

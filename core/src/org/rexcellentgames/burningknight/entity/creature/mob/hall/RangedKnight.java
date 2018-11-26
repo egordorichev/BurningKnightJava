@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equippable.AmmoHo
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.AmmoOrbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -43,7 +44,7 @@ public class RangedKnight extends Knight {
 		ArrayList<Item> items = new ArrayList<>();
 
 		if (Random.chance(5)) {
-			items.add(new Gun());
+			items.add(new Revolver());
 		}
 
 		if (Random.chance(2)) {

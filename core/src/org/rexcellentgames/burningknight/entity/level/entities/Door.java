@@ -442,7 +442,7 @@ public class Door extends SaveableEntity {
 		if (lockAnim != null && keyRegion != null && al > 0) {
 			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
 			Graphics.batch.setColor(1, 1, 1, al);
-			Graphics.render(keyRegion, this.x - 3 + (16 - this.keyRegion.getRegionWidth()) / 2 + v, this.y + 16);
+			Graphics.render(keyRegion, this.x - 3 + (16 - this.keyRegion.getRegionWidth()) / 2 + v + (this.vertical ? 0f : 4f), this.y + 16);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 	}
