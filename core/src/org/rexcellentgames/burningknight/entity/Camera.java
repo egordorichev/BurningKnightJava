@@ -12,7 +12,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.ItemSelectState;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -97,10 +96,12 @@ public class Camera extends Entity {
 		super.init();
 
 		depth = 80;
+		mousePosition.set(Input.instance.uiMouse.x, Input.instance.uiMouse.y);
 	}
 
 	private static Vector2 camPosition;
 	private static Room lastRoom;
+	private static Vector2 mousePosition = new Vector2();
 
 	@Override
 	public void update(float dt) {
@@ -112,25 +113,17 @@ public class Camera extends Entity {
 		shake = Math.max(0, shake - dt * 10);
 
 		if (target != null) {
-			int x = (int) (target.x + 8);
-			int y = (int) (target.y + 8);
+			int x = (int) (target.x + target.w / 2);
+			int y = (int) (target.y + target.h / 2);
 
 			if (target instanceof Player && !((Player) target).toDeath) {
-				//camPosition.x += ((Player) target).velocity.x * dt * 0.5f;
-				//camPosition.y += ((Player) target).velocity.y * dt * 0.5f;
-				x += (Input.instance.uiMouse.x - Display.UI_WIDTH / 2) / ((Player.seeMore ? 1.5f : 5f) / game.zoom * Display.UI_SCALE);
-				y += (Input.instance.uiMouse.y - Display.UI_HEIGHT / 2) / ((Player.seeMore ? 1.5f : 3f) / game.zoom * Display.UI_SCALE);
+				if (!Dungeon.game.getState().isPaused()) mousePosition = mousePosition.lerp(Input.instance.uiMouse, dt * 3);
 			} else {
 				y += target.h;
 			}
 
 			if (!Dungeon.game.getState().isPaused()) {
-				float dx = camPosition.x - this.x + 8;
-				float dy = camPosition.y - this.y + 8;
-
-				if (Math.sqrt(dx * dx + dy * dy) > 2f) {
-					camPosition.lerp(new Vector2(x + 8, y + 8), dt * speed);
-				}
+				camPosition.lerp(new Vector2(x, y), dt * speed);
 			}
 
 			if (Dungeon.depth == -3) {
@@ -148,47 +141,12 @@ public class Camera extends Entity {
 					game.position.y = MathUtils.clamp(Spawn.instance.room.top * 16 + 16 + Display.GAME_HEIGHT / 2 + 16,
 						Spawn.instance.room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 				}
-			} else if (Dungeon.depth == -1) {
-				Room room = Dungeon.level.getRooms().get(0);
-
-				game.position.x = MathUtils.clamp(room.left * 16 + Display.GAME_WIDTH / 2 + 16,
-					room.right * 16 - Display.GAME_WIDTH / 2, camPosition.x);
-				game.position.y = MathUtils.clamp(room.top * 16 + Display.GAME_HEIGHT / 2 + 16,
-					room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
-
-				if (Player.instance.y > room.bottom * 16 - 24 && !did) {
-					did = true;
-
-					Tween.to(new Tween.Task(0, 0.2f) {
-						@Override
-						public float getValue() {
-							return Dungeon.dark;
-						}
-
-						@Override
-						public void setValue(float value) {
-							Dungeon.dark = value;
-						}
-
-						@Override
-						public void onEnd() {
-							ItemSelectState.depth = 1;
-							Dungeon.game.setState(new ItemSelectState());
-						}
-					});
-				} else if (Player.instance.y <= room.top * 16 + 18 && !did) {
-					did = true;
-					Dungeon.goToMenu = true;
-				}
 			} else {
-				/*Room room = Player.instance.room;
+				float cx = (mousePosition.x - Display.UI_WIDTH / 2) / ((Player.seeMore ? 1.5f : 5f) / game.zoom * Display.UI_SCALE);
+				float cy = (mousePosition.y - Display.UI_HEIGHT / 2) / ((Player.seeMore ? 1.5f : 3f) / game.zoom * Display.UI_SCALE);
 
-				if (room != null) {
-					camPosition.lerp(new Vector2(room.left * 16f + ((float) room.getWidth() / 2) * 16, room.top * 16f + ((float) room.getHeight() / 2) * 16), dt * 0.2f);
-				}*/
-
-				game.position.x = camPosition.x;
-				game.position.y = camPosition.y;
+				game.position.x = camPosition.x + cx;
+				game.position.y = camPosition.y + cy;
 			}
 
 			game.update();
@@ -230,7 +188,7 @@ public class Camera extends Entity {
 
 	public static void follow(Entity entity, boolean jump) {
 		target = entity;
-		speed = entity instanceof Player ? ((Dungeon.depth == -1 || Dungeon.depth == -3) ? 2 : 1.5f) : 4;
+		speed = entity instanceof Player ? (5f) : 4;
 
 		if (target == null) {
 			return;
