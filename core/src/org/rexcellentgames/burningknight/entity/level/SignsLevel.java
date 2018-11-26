@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Door;
 
 public class SignsLevel extends Entity {
 	{
-		depth = 15;
+		depth = 6;
 		alwaysRender = true;
 	}
 

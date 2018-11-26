@@ -7,7 +7,9 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -32,11 +34,14 @@ public class HomingBook extends Book {
 		Achievements.unlock("UNLOCK_AIM_BOOK");
 	}
 
+	private float angle;
+
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
 			{
 				ignoreArmor = true;
+				alwaysActive = true;
 			}
 
 			private Mob target;
@@ -49,7 +54,7 @@ public class HomingBook extends Book {
 				float closest = 256;
 
 				for (Mob mob : Mob.all) {
-					if (mob.room == Player.instance.room && !mob.isDead()) {
+					if (mob.room == Player.instance.room && !mob.isDead() && (!(mob instanceof BurningKnight) || !((BurningKnight) mob).rage)) {
 						float d = this.getDistanceTo(mob.x + mob.w / 2, mob.y + mob.h / 2);
 
 						if (d < closest) {
@@ -98,13 +103,15 @@ public class HomingBook extends Book {
 				}
 
 				if (this.target != null) {
-					this.velocity.mul(0.9f);
 					float dx = this.target.x + this.target.w / 2 - this.x - this.w / 2;
 					float dy = this.target.y + this.target.h / 2 - this.y - this.h / 2;
-					float d = (float) Math.sqrt(dx * dx + dy * dy);
+					float angle = (float) Math.atan2(dy, dx);
 
-					this.velocity.x += dx / d * 4;
-					this.velocity.y += dy / d * 4;
+					this.angle = Gun.angleLerp(this.angle, angle, dt * 4f, false);
+
+					float f = 60f;
+					this.velocity.x = (float) (Math.cos(this.angle) * f);
+					this.velocity.y = (float) (Math.sin(this.angle) * f);
 
 					if (this.target.isDead()) {
 						this.target = null;
