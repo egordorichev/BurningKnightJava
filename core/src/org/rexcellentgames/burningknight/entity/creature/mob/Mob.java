@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
@@ -628,6 +629,8 @@ public class Mob extends Creature {
 			return;
 		}
 
+		Camera.shake(2);
+
 		// super.die(force);
 
 		this.dd = true;
@@ -664,6 +667,7 @@ public class Mob extends Creature {
 						dead = true;
 						remove = true;
 						deathEffects();
+						Camera.shake(2);
 
 						if (!force) {
 							GameSave.killCount ++;
