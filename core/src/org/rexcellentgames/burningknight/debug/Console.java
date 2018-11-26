@@ -13,6 +13,9 @@ public class Console implements InputProcessor {
 	private boolean open;
 	public static Console instance;
 	private ArrayList<ConsoleCommand> commands = new ArrayList<>();
+	private ArrayList<String> history = new ArrayList<>();
+	private int historyIndex = 0;
+	private String savedString;
 
 	public Console() {
 		instance = this;
@@ -54,7 +57,27 @@ public class Console implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Input.Keys.F1 && Version.debug) {
+		if (keycode == Input.Keys.UP) {
+			if (historyIndex == 0) {
+				savedString = this.input;
+			}
+
+			if (this.historyIndex + 1 <= history.size()) {
+				input = history.get(historyIndex);
+				this.historyIndex++;
+			}
+		} else if (keycode == Input.Keys.DOWN) {
+			if (historyIndex == 0) {
+				return false;
+			}
+
+			historyIndex--;
+
+			if (historyIndex == 0) {
+				input = this.savedString;
+				this.savedString = null;
+			}
+		} else if (keycode == Input.Keys.F1 && Version.debug) {
 			this.open = !this.open;
 			org.rexcellentgames.burningknight.game.input.Input.instance.blocked = this.open;
 		} else if (keycode == Input.Keys.ENTER && this.open) {
@@ -75,6 +98,8 @@ public class Console implements InputProcessor {
 			return;
 		}
 
+		history.add(0, input);
+
 		String[] parts = input.split("\\s+");
 		String name = parts[0];
 
@@ -83,7 +108,6 @@ public class Console implements InputProcessor {
 				String[] args = new String[parts.length - 1];
 
 				System.arraycopy(parts, 1, args, 0, args.length);
-
 				command.run(this, args);
 
 				return;
