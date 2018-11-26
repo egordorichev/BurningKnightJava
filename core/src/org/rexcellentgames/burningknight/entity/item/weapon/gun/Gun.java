@@ -31,7 +31,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class Gun extends WeaponBase {
-	protected float accuracy = 4f;
+	protected float accuracy = -3f;
 	protected float sx = 1f;
 	protected float sy = 1f;
 	protected float vel = 6f;
@@ -43,8 +43,8 @@ public class Gun extends WeaponBase {
 	protected boolean s;
 	protected Point origin = new Point(3, 1);
 	protected Point hole = new Point(13, 6);
-	protected int ammoMax = 20;
-	protected int ammoLeft = 20;
+	protected int ammoMax = 12;
+	protected int ammoLeft = 12;
 	protected float chargeProgress;
 	protected float reloadRate = 1;
 
@@ -139,7 +139,7 @@ public class Gun extends WeaponBase {
 				this.time = this.owner.getStat("reload_time");
 			}
 
-			this.chargeProgress += dt * this.time / 3f * reloadRate;
+			this.chargeProgress += dt * this.time * reloadRate;
 
 			if (this.chargeProgress >= 1f) {
 				pressed = false;
@@ -408,8 +408,9 @@ public class Gun extends WeaponBase {
 		this.owner.knockback.x -= Math.cos(a) * 90f;
 		this.owner.knockback.y -= Math.sin(a) * 90f;
 
-		Camera.push(a, 8f);
-		Camera.shake(2);
+		if (this.owner instanceof Player) {
+			Camera.push(a, 8f);
+		}
 
 		Tween.to(new Tween.Task(0.5f, 0.1f) {
 			@Override

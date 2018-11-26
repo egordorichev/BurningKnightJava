@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.StatefulEntity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -139,10 +138,6 @@ public class Projectile extends StatefulEntity {
 			fx.t += 0.5f;
 
 			Dungeon.area.add(fx);
-		}
-
-		if (this.isOnScreen()) {
-			Camera.shake(4);
 		}
 	}
 

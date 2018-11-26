@@ -7,13 +7,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Noise;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class Camera extends Entity {
@@ -29,10 +30,7 @@ public class Camera extends Entity {
 	private static float shake;
 	private static float pushA;
 	private static float pushAm;
-
-	public static void shake(float amount) {
-		shake = Math.max(amount * Settings.screenshake, shake);
-	}
+	private static float st;
 
 	private static Tween.Task last;
 
@@ -96,18 +94,26 @@ public class Camera extends Entity {
 		super.init();
 
 		depth = 80;
+		seed = new java.util.Random().nextLong();
 		mousePosition.set(Input.instance.uiMouse.x, Input.instance.uiMouse.y);
 	}
 
 	private static Vector2 camPosition;
 	private static Room lastRoom;
 	private static Vector2 mousePosition = new Vector2();
+	private static float t;
 
 	@Override
 	public void update(float dt) {
 		if (last != null && last.done) {
 			last = null;
 		}
+
+		if (!Dungeon.game.getState().isPaused()) {
+			t += dt;
+		}
+
+		st = Math.max(0, st - dt * 1f);
 
 		pushAm = Math.max(0, pushAm - dt * 50);
 		shake = Math.max(0, shake - dt * 10);
@@ -117,13 +123,23 @@ public class Camera extends Entity {
 			int y = (int) (target.y + target.h / 2);
 
 			if (target instanceof Player && !((Player) target).toDeath) {
-				if (!Dungeon.game.getState().isPaused()) mousePosition = mousePosition.lerp(Input.instance.uiMouse, dt * 3);
+				if (!Dungeon.game.getState().isPaused()) {
+					mousePosition.x = Input.instance.worldMouse.x;
+					mousePosition.y = Input.instance.worldMouse.y;
+				}
 			} else {
 				y += target.h;
 			}
 
 			if (!Dungeon.game.getState().isPaused()) {
-				camPosition.lerp(new Vector2(x, y), dt * speed);
+				camPosition = camPosition.lerp(new Vector2(x, y), dt * speed);
+
+				if (target instanceof Player) {
+					float f = 10;
+					float cx = (mousePosition.x);
+					float cy = (mousePosition.y);
+					camPosition = camPosition.lerp(new Vector2(cx, cy), dt * speed * 0.25f);
+				}
 			}
 
 			if (Dungeon.depth == -3) {
@@ -142,11 +158,8 @@ public class Camera extends Entity {
 						Spawn.instance.room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 				}
 			} else {
-				float cx = (mousePosition.x - Display.UI_WIDTH / 2) / ((Player.seeMore ? 1.5f : 5f) / game.zoom * Display.UI_SCALE);
-				float cy = (mousePosition.y - Display.UI_HEIGHT / 2) / ((Player.seeMore ? 1.5f : 3f) / game.zoom * Display.UI_SCALE);
-
-				game.position.x = camPosition.x + cx;
-				game.position.y = camPosition.y + cy;
+				game.position.x = camPosition.x;
+				game.position.y = camPosition.y;
 			}
 
 			game.update();
@@ -155,28 +168,48 @@ public class Camera extends Entity {
 
 	private static float mx;
 	private static float my;
+	public static float ma;
+	private static long seed;
 
 	public static void applyShake() {
 		mx = 0;
 		my = 0;
 
-		if (pushAm > 0) {
-			mx += (float) Math.cos(pushA) * pushAm;
-			my += (float) Math.sin(pushA) * pushAm;
-		}
+		float shake = st * st;
+		float tt = t * 13;
 
 		if (shake > 0) {
-			mx += Random.newFloat(-shake / 2, shake / 2);
-			my += Random.newFloat(-shake / 2, shake / 2);
+			mx = (Noise.instance.noise(tt) * shake);
+			my = (Noise.instance.noise(tt + 1) * shake);
+			ma = (Noise.instance.noise(tt + 2) * shake * 0.5f);
+		} else {
+			mx = 0;
+			my = 0;
+			ma = 0;
+		}
+
+		if (Dungeon.blood > 0) {
+			ma += (Noise.instance.noise(t * 3 + 3) * Dungeon.blood * 10);
+		}
+
+		if (pushAm > 0) {
+			float v = pushAm * pushAm * 0.3f;
+			mx += (float) Math.cos(pushA) * v;
+			my += (float) Math.sin(pushA) * v;
 		}
 
 		game.position.add(mx, my, 0);
-
+		//game.rotate(ma);
 		game.update();
+	}
+
+	public static void shake(float amount) {
+		st = Math.min(Settings.screenshake * 5, st + amount * Settings.screenshake * 0.5f);
 	}
 
 	public static void removeShake() {
 		game.position.add(-mx, -my, 0);
+		//game.rotate(-ma);
 		game.update();
 	}
 
@@ -186,13 +219,15 @@ public class Camera extends Entity {
 
 	private static float speed;
 
-	public static void follow(Entity entity, boolean jump) {
+	public static void follow(Entity entity, boolean jump) {// fixxme: weirdo jumps when opening shops area / I think other levels
 		target = entity;
 		speed = entity instanceof Player ? (5f) : 4;
 
 		if (target == null) {
 			return;
 		}
+
+		Log.error("Follow " + entity.getClass().getSimpleName());
 
 		if (jump) {
 			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + target.x + 8);

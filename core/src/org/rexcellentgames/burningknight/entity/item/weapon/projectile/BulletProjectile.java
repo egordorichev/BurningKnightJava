@@ -92,8 +92,8 @@ public class BulletProjectile extends Projectile {
 			this.w = sprite.getRegionWidth();
 			this.h = sprite.getRegionHeight();
 		}
-		light = World.newLight(32, new Color(1, 1, 1, 1f), 32, x, y);
 
+		light = World.newLight(32, new Color(1, 1, 1, 1f), 32, x, y, true);
 
 		if (this.letter != null) {
 			switch (this.letter) {

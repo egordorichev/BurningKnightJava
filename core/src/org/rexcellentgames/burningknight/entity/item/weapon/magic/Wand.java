@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
@@ -46,7 +47,7 @@ public class Wand extends WeaponBase {
 
 	@Override
 	public void use() {
-		int mn = Math.max(1, this.mana - this.level + 1);
+		int mn = (int) Math.max(1, this.mana - this.level * 0.5f + 1);
 
 		if (this.owner.getMana() < mn) {
 			return;
@@ -57,6 +58,10 @@ public class Wand extends WeaponBase {
 		super.use();
 		this.owner.modifyMana(-mn);
 		this.sendProjectiles();
+
+		Point aim = this.owner.getAim();
+		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
+		Camera.push(a, 8f);
 
 		sx = 2f;
 		sy = 0.5f;
@@ -107,7 +112,7 @@ public class Wand extends WeaponBase {
 		StringBuilder builder = super.buildInfo();
 
 		builder.append("\n[blue]Uses ");
-		builder.append(Math.max(1, this.mana - this.level + 1));
+		builder.append(Math.max(1, this.mana - this.level * 0.5f + 1));
 		builder.append(" mana[gray]");
 
 		return builder;

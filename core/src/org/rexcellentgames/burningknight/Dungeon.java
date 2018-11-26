@@ -555,8 +555,12 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 
+		Graphics.batch.setProjectionMatrix(Graphics.batch.getProjectionMatrix().rotate(0, 0, 1, Camera.ma));
 		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, (flip * -1) * Display.GAME_HEIGHT * upscale / 2, (Display.GAME_WIDTH) * upscale,
 			(flip) * (Display.GAME_HEIGHT) * upscale);
+		Graphics.batch.setProjectionMatrix(Graphics.batch.getProjectionMatrix().rotate(0, 0, 1, -Camera.ma));
+
+
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 

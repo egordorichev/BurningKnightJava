@@ -36,6 +36,10 @@ public class World {
 	private static ArrayList<PointLight> lightPool = new ArrayList<>();
 
 	public static PointLight newLight(int rays, Color color, int rad, float x, float y) {
+		return newLight(rays, color, rad, x, y, false);
+	}
+
+	public static PointLight newLight(int rays, Color color, int rad, float x, float y, boolean fast) {
 		if (lightPool.size() == 0) {
 			return new PointLight(lights, rays, color, rad, x, y);
 		}
@@ -48,17 +52,21 @@ public class World {
 
 				light.setColor(color);
 
-				Tween.to(new Tween.Task(rad, 0.2f) {
-					@Override
-					public float getValue() {
-						return light.getDistance();
-					}
+				if (fast) {
+					light.setDistance(rad);
+				} else {
+					Tween.to(new Tween.Task(rad, 0.2f) {
+						@Override
+						public float getValue() {
+							return light.getDistance();
+						}
 
-					@Override
-					public void setValue(float value) {
-						light.setDistance(value);
-					}
-				});
+						@Override
+						public void setValue(float value) {
+							light.setDistance(value);
+						}
+					});
+				}
 
 				light.setPosition(x, y);
 				light.setActive(true);
@@ -171,7 +179,9 @@ public class World {
 		}
 
 		for (Light light : lightPool) {
-			light.remove();
+			if (light != null) {
+				light.remove();
+			}
 		}
 
 		lights.dispose();

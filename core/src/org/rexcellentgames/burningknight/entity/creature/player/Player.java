@@ -209,6 +209,7 @@ public class Player extends Creature {
 	public Player(String name) {
 		if (Player.instance != null) {
 			Player.instance.done = true;
+			Player.instance.destroy();
 		}
 
 		all.add(this);

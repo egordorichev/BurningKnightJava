@@ -3,14 +3,16 @@ package org.rexcellentgames.burningknight.entity.trap;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.fx.FireFx;
 import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -264,10 +266,6 @@ public class Turret extends SolidProp {
 			this.on = true;
 			this.t = 0;
 		} else {
-			if (this.isOnScreen()) {
-				Camera.shake(4);
-			}
-
 			bullet.x = x;
 			bullet.y = y;
 			bullet.damage = 2;

@@ -219,6 +219,7 @@ public class UiInventory extends UiEntity {
 		// this.forceT = 1f; // Math.max(this.forceT - dt, 0);
 
 		if (Dialog.active == null && this.dn && !last && Input.instance.wasPressed("inventory")) {
+			Camera.shake(5);
 			if (!this.open) {
 				open();
 			} else {
