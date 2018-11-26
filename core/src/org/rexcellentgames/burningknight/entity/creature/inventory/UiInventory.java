@@ -17,8 +17,6 @@ import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
-import org.rexcellentgames.burningknight.ui.UiMap;
-import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -204,6 +202,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void update(float dt) {
+		/*
 		if (Dungeon.depth < 0 && Dungeon.depth != -3) {
 			return;
 		}
@@ -219,7 +218,6 @@ public class UiInventory extends UiEntity {
 		// this.forceT = 1f; // Math.max(this.forceT - dt, 0);
 
 		if (Dialog.active == null && this.dn && !last && Input.instance.wasPressed("inventory")) {
-			Camera.shake(5);
 			if (!this.open) {
 				open();
 			} else {
@@ -328,14 +326,14 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
+*/
+
 		if (Player.instance != null) {
 			for (UiSlot slot : this.slots) {
 				slot.update(dt);
 			}
 		}
-
 		checkUse();
-
 		this.inventory.active = this.active;
 	}
 
@@ -720,19 +718,6 @@ public class UiInventory extends UiEntity {
 				this.hoveredSlot = -1;
 			}
 		}
-
-		/*if (hoveredBuff != null) {
-			String info = hoveredBuff.getInfo();
-			Graphics.layout.setText(Graphics.small, info);
-
-			float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
-
-			Graphics.small.setColor(c, c, c, 1);
-			Graphics.print(info, Graphics.small,4, this.slots[this.inventory.getSize() - 1].y + 20 + Graphics.layout.height + 14 + 15);
-			Graphics.small.setColor(1, 1, 1, 1);
-
-			hoveredBuff = null;
-		}*/
 	}
 
 	public void renderOnPlayer(Player player, float of) {

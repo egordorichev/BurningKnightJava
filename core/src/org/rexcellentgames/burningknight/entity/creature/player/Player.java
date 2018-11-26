@@ -206,6 +206,8 @@ public class Player extends Creature {
 		this("player");
 	}
 
+	public float stopT;
+
 	public Player(String name) {
 		if (Player.instance != null) {
 			Player.instance.done = true;
@@ -1165,13 +1167,14 @@ public class Player extends Creature {
 		float v = this.acceleration.len2();
 		this.lastRun += dt;
 
+		if (this.velocity.len() + this.knockback.len() + v > 9f) {
+			this.stopT = 0;
+		} else {
+			stopT += dt;
+		}
+
 		if (v > 20) {
 			this.become("run");
-
-			/*if (this.lastRun >= 0.08f) {
-				this.lastRun = 0;
-				this.area.add(new RunFx(this.x, this.y - 8));
-			}*/
 		} else {
 			this.become("idle");
 		}

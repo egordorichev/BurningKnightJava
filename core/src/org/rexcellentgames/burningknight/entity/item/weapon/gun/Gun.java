@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
@@ -19,8 +18,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
-import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -124,17 +121,10 @@ public class Gun extends WeaponBase {
 
 		if (ammoLeft == 0 && Dungeon.depth == -3 && !shown) {
 			shown = true;
-			Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("reload"));
+			// Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("reload"));
 		}
 
-		if (ammoLeft < ammoMax && (pressed || Input.instance.wasPressed("interact"))) {
-			if (!pressed) {
-				Ui.ui.hideControlsFast();
-				this.owner.playSfx("reload_1");
-			}
-
-			pressed = true;
-
+		if (ammoLeft < ammoMax && pressed) {
 			if (this.chargeProgress == 0 || this.time == 0) {
 				this.time = this.owner.getStat("reload_time");
 			}
@@ -144,6 +134,14 @@ public class Gun extends WeaponBase {
 			if (this.chargeProgress >= 1f) {
 				pressed = false;
 				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
+				this.onAmmoAdded();
+				chargeProgress = 0;
+			}
+		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.3f) {
+			this.chargeProgress += dt * this.owner.getStat("reload_time") * reloadRate * ammoMax * this.owner.getStat("ammo_capacity");
+
+			if (this.chargeProgress >= 1f) {
+				ammoLeft ++;
 				this.onAmmoAdded();
 				chargeProgress = 0;
 			}
@@ -294,7 +292,7 @@ public class Gun extends WeaponBase {
 	}
 
 	public void renderReload() {
-		if (this.chargeA > 0) {
+		if (this.owner instanceof Mob && this.chargeA > 0) {
 			float x = this.owner.x + this.owner.w / 2 ;
 			float y = this.owner.y + this.owner.h;
 
@@ -335,7 +333,9 @@ public class Gun extends WeaponBase {
 			if (this.chargeProgress == 0 && (this.owner instanceof Mob)) {
 				pressed = true;
 			}
+		}
 
+		if (this.ammoLeft <= 0) {
 			return;
 		}
 
