@@ -45,6 +45,17 @@ public class ScrollOfUpgrade extends Scroll {
 	}
 
 	@Override
+	public boolean canBeUpgraded() {
+		return true;
+	}
+
+	@Override
+	public void upgrade() {
+		super.upgrade();
+		level += 1;
+	}
+
+	@Override
 	public boolean canBeUsed() {
 		return false;
 	}

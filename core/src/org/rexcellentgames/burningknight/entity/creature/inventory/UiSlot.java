@@ -253,11 +253,13 @@ public class UiSlot {
 					Dungeon.ui.add(fx);
 				}
 
-				((ScrollOfUpgrade) active).wasCursed = true;
+				((ScrollOfUpgrade) current).wasCursed = true;
 			}
 
 			this.tweenClick();
 			current.use();
+
+			self.setLevel((byte) (self.getLevel() + current.getLevel() - 1));
 			self.upgrade();
 
 			if (current.getCount() <= 0) {
@@ -300,6 +302,7 @@ public class UiSlot {
 			}
 
 			active.use();
+			self.setLevel((byte) (self.getLevel() + active.getLevel() - 1));
 			self.upgrade();
 			this.tweenClick();
 			return;

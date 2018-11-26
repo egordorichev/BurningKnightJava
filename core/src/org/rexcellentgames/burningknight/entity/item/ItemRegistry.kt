@@ -194,7 +194,7 @@ object ItemRegistry {
 		"gravity_booster" to Pair(GravityBooster::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 		"wings" to Pair(Wings::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UNLOCK_WINGS),
 		"throwing" to Pair(ThrowingDagger::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
-		"compass" to Pair(Compass::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 2),
+		// "compass" to Pair(Compass::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 2),
 		"fire_bombs" to Pair(FireBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 		"ice_bombs" to Pair(IceBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 		"poison_bombs" to Pair(PoisonBombs::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),

@@ -981,7 +981,7 @@ public class Player extends Creature {
 		}
 
 		this.z = Math.max(0, this.zvel * dt + this.z);
-		this.zvel = Math.max(-120, this.zvel - dt * 80);
+		this.zvel = this.zvel - dt * 220;
 
 		orbitalRing.lerp(new Vector2(this.x + this.w / 2, this.y + this.h / 2), 4 * dt);
 
@@ -1123,7 +1123,7 @@ public class Player extends Creature {
 
 					this.rolling = true;
 					this.mul = 1;
-					this.zvel = 20;
+					this.zvel = 40;
 
 					float f = 4;
 
@@ -1167,8 +1167,10 @@ public class Player extends Creature {
 		super.common();
 
 		if (this.animation != null && !this.freezed) {
-			if (this.animation.update(dt)) {
-				if (this.animation == this.roll) {
+			boolean rl = this.animation == this.roll;
+
+			if (this.animation.update(dt * (rl ? 1.5f : 1))) {
+				if (rl) {
 					this.animation = this.idle;
 					this.rolling = false;
 					this.mul = 0.7f;
