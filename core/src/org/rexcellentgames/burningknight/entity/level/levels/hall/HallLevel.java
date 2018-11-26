@@ -31,6 +31,6 @@ public class HallLevel extends RegularLevel {
 
 	@Override
 	protected Painter getPainter() {
-		return new HallPainter().setGrass(0.35f).setWater(0.39f).setDirt(0.35f).setCobweb(0.001f);
+		return new HallPainter().setGrass(0.35f).setWater(0.35f).setDirt(0.35f).setCobweb(0.001f);
 	}
 }

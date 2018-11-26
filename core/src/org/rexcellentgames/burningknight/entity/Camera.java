@@ -11,7 +11,6 @@ import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.ItemSelectState;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -112,13 +111,13 @@ public class Camera extends Entity {
 		pushAm = Math.max(0, pushAm - dt * 50);
 		shake = Math.max(0, shake - dt * 10);
 
-		if (target != null && !Ui.hideUi && !Ui.hideCursor) {
+		if (target != null) {
 			int x = (int) (target.x + 8);
 			int y = (int) (target.y + 8);
 
 			if (target instanceof Player && !((Player) target).toDeath) {
-				x += (Input.instance.uiMouse.x - Display.UI_WIDTH / 2) / ((Player.seeMore ? 1f : 1.5f) / game.zoom * Display.UI_SCALE);
-				y += (Input.instance.uiMouse.y - Display.UI_HEIGHT / 2) / ((Player.seeMore ? 1f : 1.5f) / game.zoom * Display.UI_SCALE);
+			//	x += (Input.instance.uiMouse.x - Display.UI_WIDTH / 2) / ((Player.seeMore ? 1f : 1.5f) / game.zoom * Display.UI_SCALE);
+			//	y += (Input.instance.uiMouse.y - Display.UI_HEIGHT / 2) / ((Player.seeMore ? 1f : 1.5f) / game.zoom * Display.UI_SCALE);
 			} else {
 				y += target.h;
 			}

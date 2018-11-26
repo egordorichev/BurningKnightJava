@@ -34,8 +34,6 @@ public class HomingBook extends Book {
 		Achievements.unlock("UNLOCK_AIM_BOOK");
 	}
 
-	private float angle;
-
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
 		BulletProjectile missile = new BulletProjectile() {
