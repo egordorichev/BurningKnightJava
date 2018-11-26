@@ -518,10 +518,10 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
-		for (int i = (this.slots[0].a == 1f ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
+		/*for (int i = (this.slots[0].a == 1f ? this.inventory.getSize() : 6) - 1; i >= 0; i--) {
 			Item item = this.inventory.getSlot(i);
 			this.slots[i].render(item);
-		}
+		}*/
 
 		boolean empty = false;
 
@@ -537,7 +537,7 @@ public class UiInventory extends UiEntity {
 			Achievements.unlock(Achievements.UNLOCK_BACKPACK);
 		}
 
-		float y = this.slots[this.inventory.getSize() - 1].y + 20;
+		float y = -3;//this.slots[this.inventory.getSize() - 1].y + 20;
 		float x = 4;
 
 		int mana = Player.instance.getMana();
