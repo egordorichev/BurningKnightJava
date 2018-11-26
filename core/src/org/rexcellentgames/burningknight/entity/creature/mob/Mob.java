@@ -722,7 +722,7 @@ public class Mob extends Creature {
 	}
 
 	protected float moveToPoint(float x, float y, float speed) {
-		// speed *= 0.75f;
+		speed *= 0.8f;
 
 		float dx = x - this.x - this.w / 2;
 		float dy = y - this.y - this.h / 2;
