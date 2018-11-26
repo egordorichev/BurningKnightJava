@@ -223,12 +223,14 @@ public class Dungeon extends ApplicationAdapter {
 			type = type.substring(0, 1).toUpperCase() + type.substring(1);
 
 			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(Version.string)
-				.setBigImage("hero_mercy", type).setTimestamps(System.currentTimeMillis() / 1000, 0)
+				.setBigImage("hero_mercy", type).setTimestamps(startTime, 0)
 				.setSmallImage("hero_mercy", type).build());
 		} else {
 			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Main menu").setDetails(Version.string).setBigImage("hero_mercy", "").setSmallImage("hero_mercy", "").build());
 		}
 	}
+
+	private static long startTime = System.currentTimeMillis() / 1000;
 
 	@Override
 	public void create() {
