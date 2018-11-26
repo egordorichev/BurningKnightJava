@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
@@ -212,6 +213,37 @@ public class Door extends SaveableEntity {
 				vt = 1;
 				this.playSfx("item_nocash");
 				Camera.shake(6);
+
+				if (this.key == BurningKey.class) {
+					ItemHolder holder = null;
+
+					for (ItemHolder h : ItemHolder.getAll()) {
+						if (h.getItem() instanceof BurningKey) {
+							holder = h;
+							break;
+						}
+					}
+
+					if (holder != null) {
+						ItemHolder finalHolder = holder;
+
+						Tween.to(new Tween.Task(0, 0.5f) {
+							@Override
+							public void onEnd() {
+								Player.instance.setUnhittable(true);
+								Camera.follow(finalHolder, true);
+
+								Tween.to(new Tween.Task(0, 3f) {
+									@Override
+									public void onEnd() {
+										Player.instance.setUnhittable(false);
+										Camera.follow(Player.instance, true);
+									}
+								});
+							}
+						});
+					}
+				}
 			}
 		}
 

@@ -376,7 +376,7 @@ public class Player extends Creature {
 			((Gun) item).renderReload();
 		}
 
-		if (this.seePath && Exit.instance != null) {
+		if (BurningKnight.instance != null && (BurningKnight.instance.rage) && Exit.instance != null) {
 			float dx = Exit.instance.x + 8 - x - w / 2;
 			float dy = Exit.instance.y + 8 - y - h / 2;
 			float a = (float) Math.atan2(dy, dx);
@@ -384,12 +384,18 @@ public class Player extends Creature {
 			Graphics.batch.end();
 			Graphics.shape.setProjectionMatrix(Camera.game.combined);
 			Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
-			Graphics.shape.setColor(1, 1, 1, 1);
 
-			float an = (float) Math.toRadians(20);
+			float an = (float) Math.toRadians(10);
+			float d = (float) (28 + Math.cos(Dungeon.time * 6) * 2.5f);
+			float d2 = d + 8;
 
-			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a - an) * 18), (float) (y + h / 2 + Math.sin(a - an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
-			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a + an) * 18), (float) (y + h / 2 + Math.sin(a + an) * 18), (float) (x + w / 2 + Math.cos(a) * 22), (float) (y + h / 2 + Math.sin(a) * 22), 2);
+			Graphics.shape.setColor(0, 0, 0, 1);
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a - an) * d), (float) (y + h / 2 + Math.sin(a - an) * d), (float) (x + w / 2 + Math.cos(a) * d2), (float) (y + h / 2 + Math.sin(a) * d2), 4f);
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a + an) * d), (float) (y + h / 2 + Math.sin(a + an) * d), (float) (x + w / 2 + Math.cos(a) * d2), (float) (y + h / 2 + Math.sin(a) * d2), 4f);
+			float v = (float) (Math.sin(Dungeon.time * 12) * 0.5f + 0.5f);
+			Graphics.shape.setColor(1, v, v, 1);
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a - an) * d), (float) (y + h / 2 + Math.sin(a - an) * d), (float) (x + w / 2 + Math.cos(a) * d2), (float) (y + h / 2 + Math.sin(a) * d2), 2);
+			Graphics.shape.rectLine((float) (x + w / 2 + Math.cos(a + an) * d), (float) (y + h / 2 + Math.sin(a + an) * d), (float) (x + w / 2 + Math.cos(a) * d2), (float) (y + h / 2 + Math.sin(a) * d2), 2);
 
 			Graphics.shape.end();
 			Graphics.batch.begin();
@@ -1544,7 +1550,7 @@ public class Player extends Creature {
 					Mob mob = Mob.all.get(i);
 
 					if (mob.getRoom() == this.room) {
-						mob.modifyHp((int) heart.getDamage(), this, true);
+						mob.modifyHp((int) -heart.getDamage(), this, true);
 					}
 				}
 			}
