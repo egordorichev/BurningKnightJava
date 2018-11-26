@@ -219,7 +219,7 @@ public class Camera extends Entity {
 
 	private static float speed;
 
-	public static void follow(Entity entity, boolean jump) {// fixxme: weirdo jumps when opening shops area / I think other levels
+	public static void follow(Entity entity, boolean jump) {
 		target = entity;
 		speed = entity instanceof Player ? (5f) : 4;
 
@@ -230,8 +230,8 @@ public class Camera extends Entity {
 		Log.error("Follow " + entity.getClass().getSimpleName());
 
 		if (jump) {
-			int x = (int) ((Input.instance.uiMouse.x - Display.GAME_WIDTH / 2) / 2 + target.x + 8);
-			int y = (int) ((Input.instance.uiMouse.y - Display.GAME_HEIGHT / 2) / 2 + target.y + 8);
+			int x = (int) (target.x + target.w / 2);
+			int y = (int) (target.y + target.h / 2);
 			game.position.set(x, y, 0);
 			game.update();
 			camPosition.set(x, y);

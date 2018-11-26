@@ -168,7 +168,7 @@ public class Player extends Creature {
 		manaMax = 6;
 		level = 1;
 		mul = 0.7f;
-		speed = 20;
+		speed = 25;
 		alwaysActive = true;
 
 		setSkin("body");
@@ -829,8 +829,6 @@ public class Player extends Creature {
 		this.inventory = new Inventory(this, inventorySize);
 		this.body = this.createSimpleBody(3, 0, 10, 11, BodyDef.BodyType.DynamicBody, false);
 
-		Camera.follow(this, true);
-
 		doTp(true);
 
 		switch (this.type) {
@@ -853,7 +851,6 @@ public class Player extends Creature {
 	public boolean leaveSmall;
 
 	private void doTp(boolean fromInit) {
-		// CRASH
 		if (this.teleport) {
 			this.tp(this.lastGround.x, this.lastGround.y);
 			return;
@@ -1001,7 +998,7 @@ public class Player extends Creature {
 
 		if (this.toDeath) {
 			this.t += dt;
-			this.animation.update(dt);
+			this.animation.update(dt * (this.flipped != this.acceleration.x < 0 && this.animation == run ? -1 : 1));
 
 			if (this.t >= 1f) {
 				Ui.ui.dead = true;

@@ -202,10 +202,11 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void update(float dt) {
-		/*
 		if (Dungeon.depth < 0 && Dungeon.depth != -3) {
 			return;
 		}
+
+		/*
 
 		depth = 1;
 

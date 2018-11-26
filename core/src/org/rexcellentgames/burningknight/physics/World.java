@@ -179,8 +179,10 @@ public class World {
 		}
 
 		for (Light light : lightPool) {
-			if (light != null) {
+			try {
 				light.remove();
+			} catch (RuntimeException e) {
+
 			}
 		}
 

@@ -117,7 +117,6 @@ public class InGameState extends State {
 			public void onEnd() {
 				super.onEnd();
 				Player.instance.setUnhittable(false);
-				Camera.follow(Player.instance);
 			}
 		});
 
@@ -323,7 +322,6 @@ public class InGameState extends State {
 		water.pause();
 	}
 
-	private boolean set;
 	private float last;
 	public static boolean burning;
 	public static boolean flow;
@@ -495,14 +493,6 @@ public class InGameState extends State {
 			Dialog.active.update(dt);
 		}
 
-		if (!set) {
-			if (Player.instance != null) {
-				Camera.follow(Player.instance);
-			}
-
-			set = true;
-		}
-
 		if (Player.instance != null && Player.instance.getHp() < lastHp) {
 			if (!setFrames) {
 				setFrames = true;
@@ -632,7 +622,7 @@ public class InGameState extends State {
 	public void render() {
 		super.render();
 
-		if (Dungeon.depth > -1) {
+		if (Dungeon.depth > -3) {
 			Graphics.batch.end();
 			Graphics.batch.setShader(shader);
 
