@@ -158,7 +158,7 @@
 	"dialog_sk_thanks": "Thanks!",
 	"dialog_sure": "Sure",
 	"dialog_wanna_sell_item": "Do you want to sell {VAR=item} for {VAR=gold} gold?",
-	"dialog_wanna_sell_something": "Wanna sell something? Then select it in your hot bar and talk to me again",
+	"dialog_wanna_sell_something": "Wanna sell something? Then select it in your hot bar and talk to me again.",
 	"dialog_why_are_you_killing_my_lieges": "Hey, {SHAKE}you{ENDSHAKE}! {WAIT}Why are you killing my lieges?",
 	"diamond": "Diamond",
 	"diamond_desc": "We found a lot of those\nin our mines. So many, that we started\nto throw those away. It looks like humans value them tho.",

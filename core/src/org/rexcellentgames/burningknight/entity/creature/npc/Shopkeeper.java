@@ -131,7 +131,7 @@ public class Shopkeeper extends Npc {
 				@Override
 				public void run() {
 					if (Dialog.active.getSelected() == 0) {
-						Player.instance.getInventory().setSlot(id, null);
+						Player.instance.getInventory().setSlot(Player.instance.ui.getActive(), null);
 						ItemHolder gold = new ItemHolder(new Gold());
 
 						gold.getItem().setCount(price);
