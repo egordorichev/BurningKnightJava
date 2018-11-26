@@ -105,6 +105,7 @@ public class BulletProjectile extends Projectile {
 
 			if (this.letter.equals("bullet-bone")) {
 				this.depth = 16;
+				second = false;
 			} else if (this.letter.equals("bullet-nano")) {
 				this.noRotation = true;
 				this.second = false;
@@ -122,6 +123,9 @@ public class BulletProjectile extends Projectile {
 				this.lightUp = false;
 			} else if (this.letter.equals("bullet-kotlin")) {
 				this.second = false;
+				lightUp = false;
+			} else if (this.letter.equals("bullet-bolt")) {
+				second = false;
 				lightUp = false;
 			}
 		}

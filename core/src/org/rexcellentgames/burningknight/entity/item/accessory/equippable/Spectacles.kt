@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
 import org.rexcellentgames.burningknight.assets.Locale
-import org.rexcellentgames.burningknight.entity.creature.player.Player
 
 class Spectacles : Equippable() {
 	init {
@@ -14,6 +13,7 @@ class Spectacles : Equippable() {
 		super.onEquip(load)
 
 		this.owner.seeSecrets = true
+		this.owner.checkSecrets()
 	}
 
 	override fun onUnequip(load: Boolean) {

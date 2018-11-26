@@ -2559,7 +2559,9 @@ public abstract class Level extends SaveableEntity {
 
 			for (int i = 0; i < count; i++) {
 				int in = reader.readByte();
-				this.rooms.get(in).neighbours.add(this.rooms.get(reader.readByte()));
+				Room room = this.rooms.get(reader.readByte());
+				this.rooms.get(in).connected.put(room, null);
+				this.rooms.get(in).neighbours.add(room);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

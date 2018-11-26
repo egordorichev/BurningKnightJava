@@ -569,5 +569,7 @@
 	"pill" : "Pill",
 	"pill_desc" : "Smells weird to me.",
 	"infinite_bomb" : "Infinite Bomb",
-	"infinite_bomb_desc" : "Just call me Bombini now."
+	"infinite_bomb_desc" : "Just call me Bombini now.",
+	"collect_300_gold_achievement" : "Payday",
+	"collect_300_gold_achievement_desc" : "Collect 300 gold"
 }

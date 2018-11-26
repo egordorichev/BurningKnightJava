@@ -1330,6 +1330,20 @@ public class Player extends Creature {
 			}
 		}
 
+		this.checkSecrets();
+
+		if (room != null) {
+			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
+				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
+			}
+
+			if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
+				this.modifyMana(this.getManaMax());
+			}
+		}
+	}
+
+	public void checkSecrets() {
 		if (this.seeSecrets) {
 			if (room != null) {
 				for (Room r : room.connected.keySet()) {
@@ -1349,16 +1363,6 @@ public class Player extends Creature {
 						}
 					}
 				}
-			}
-		}
-
-		if (room != null) {
-			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
-				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
-			}
-
-			if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
-				this.modifyMana(this.getManaMax());
 			}
 		}
 	}

@@ -13,6 +13,10 @@ public class Revolver extends Gun {
 		region = Graphics.getTexture(sprite);
 	}
 
+	{
+		accuracy = -3;
+	}
+
 	@Override
 	public int getMaxLevel() {
 		return 7;
