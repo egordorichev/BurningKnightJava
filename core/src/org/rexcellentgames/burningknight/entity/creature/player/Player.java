@@ -47,6 +47,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.permanent.ExtraHeart;
 import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
@@ -474,6 +475,8 @@ public class Player extends Creature {
 
 	public static TextureRegion balloon = Graphics.getTexture("item-red_balloon");
 
+	public boolean hasBkKey;
+
 	public boolean isRolling() {
 		return this.rolling;
 	}
@@ -482,6 +485,7 @@ public class Player extends Creature {
 
 	@Override
 	public void render() {
+		// fixme: player head blink white when hurt too (hat / body head)
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
 		float offset = 0;
@@ -497,6 +501,7 @@ public class Player extends Creature {
 			this.animation = roll;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
+			hurt.setFrame(0);
 		} else if (!this.isFlying() && this.state.equals("run")) {
 			this.animation = run;
 		} else {
@@ -520,7 +525,7 @@ public class Player extends Creature {
 			this.ui.renderBeforePlayer(this, of);
 		}
 
-		boolean shade = this.drawInvt && this.invtt > 0;
+		boolean shade = (this.drawInvt && this.invtt > 0)  || (invt > 0 && invt % 0.2f > 0.1f);
 		TextureRegion region = this.animation.getCurrent().frame;
 
 		if (shade) {
@@ -532,6 +537,7 @@ public class Player extends Creature {
 			shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
 			shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
 			shader.setUniformf("a", this.a);
+			shader.setUniformf("white", invt > 0 ? 1 : 0);
 			shader.end();
 			Graphics.batch.setShader(shader);
 			Graphics.batch.begin();
@@ -787,6 +793,7 @@ public class Player extends Creature {
 			UiMap.instance.remove();
 		}
 
+		hasBkKey = false;
 		Player.all.remove(this);
 	}
 
@@ -1657,6 +1664,8 @@ public class Player extends Creature {
 		this.setHat(reader.readString());
 
 		doTp(false);
+
+		hasBkKey = this.inventory.find(BurningKey.class);
 
 		onRoomChange();
 	}

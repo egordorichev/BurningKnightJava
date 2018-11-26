@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.NullItem;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*;
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.HatSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
@@ -181,6 +182,9 @@ public class ItemPickupFx extends Entity {
 				if (this.player.tryToPickup(this.item)) {
 					this.erase();
 					LevelSave.remove(item);
+					if (item.getItem() instanceof BurningKey) {
+						Player.instance.hasBkKey = true;
+					}
 				}
 			}
 		} else if (this.item.done) {

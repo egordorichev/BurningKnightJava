@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -451,6 +452,10 @@ public class UiInventory extends UiEntity {
 
 	private void drop(final Item slot) {
 		slot.disableAutoPickup();
+
+		if (slot instanceof BurningKey) {
+			Player.instance.hasBkKey = false;
+		}
 
 		Tween.to(new Tween.Task(0, 0.1f) {
 			@Override
