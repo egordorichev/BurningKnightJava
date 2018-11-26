@@ -30,6 +30,5 @@ public class SignsLevel extends Entity {
 			}
 		}
 
-		Player.instance.renderBuffs();
 	}
 }

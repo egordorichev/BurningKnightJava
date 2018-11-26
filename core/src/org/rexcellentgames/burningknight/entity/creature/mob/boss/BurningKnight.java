@@ -68,24 +68,6 @@ public class BurningKnight extends Boss {
 	public boolean pickedKey;
 	private PointLight light;
 
-	/*
-	 * Tests:
-	 * + Rolling
-	 * + Dodging
-	 * + Attacking
-	 * + Running
-	 *
-	 * Attacks:
-	 * + (boss defese) spins and releases wind that pushes player away
-	 * + (rolling) Fire beam (aka laser but with fire) that he aims at you with
-	 *  - same as fire beam, but it keeps aiming at you while you dodge it
-	 * + (dodging and attacking at the same time) missiles dropping from the sky
-	 *  = good time to attack him, cause he won't be doing direct attacks at you
-	 * + (dodging) fireball spam at you
-	 * + (boss defense / movement) disappeares in once place and appears in another
-	 * + (dodging) big fireball that splits into regular when hits the wall
-	 * + (dodging) homing projectiles that split into regular on destroy
-	 */
 
 	{
 		texture = "ui-bkbar-skull";
@@ -1347,7 +1329,7 @@ public class BurningKnight extends Boss {
 								BulletProjectile ball = new BulletProjectile();
 
 								float a = (float) (i * Math.PI / 4);
-								ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * Mob.shotSpeedMod);
+								ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(40f * Mob.shotSpeedMod);
 
 								ball.x = (this.x);
 								ball.y = (this.y);

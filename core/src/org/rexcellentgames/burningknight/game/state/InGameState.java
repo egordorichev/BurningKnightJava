@@ -652,6 +652,8 @@ public class InGameState extends State {
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
 		}
+
+		Player.instance.renderBuffs();
 	}
 
 	@Override

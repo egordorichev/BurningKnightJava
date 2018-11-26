@@ -110,7 +110,7 @@ public class RangedKnight extends Knight {
 			} else {
 				float att = 180;
 
-				if (this.moveTo(self.lastSeen, 18f, att)) {
+				if (this.moveTo(self.lastSeen, 18f, att) && self.onScreen) {
 					if (self.target != null && self.getDistanceTo((int) (self.target.x + self.target.w / 2),
 						(int) (self.target.y + self.target.h / 2)) <= att) {
 
