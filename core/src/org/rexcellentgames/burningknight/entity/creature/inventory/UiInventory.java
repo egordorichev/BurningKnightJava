@@ -126,18 +126,6 @@ public class UiInventory extends UiEntity {
 		this.active = this.inventory.active;
 
 		if (!UiMap.large) {
-			if (Input.instance.wasPressed("prev")) {
-				this.active -= 1;
-				Player.instance.playSfx("menu/moving");
-				this.validate(-1);
-			}
-
-			if (Input.instance.wasPressed("next")) {
-				this.active = this.active + 1;
-				Player.instance.playSfx("menu/moving");
-				this.validate(1);
-			}
-
 			if (Input.instance.wasPressed("scroll")) {
 				this.active = this.active + Input.instance.getAmount();
 				Player.instance.playSfx("menu/moving");

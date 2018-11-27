@@ -86,11 +86,11 @@ public class UiSlider extends UiButton {
 		super.update(dt);
 
 		if ((this.isSelected || this.hover)) {
-			if (Input.instance.wasPressed("uiLeft")) {
+			if (Input.instance.wasPressed("left")) {
 				this.val = MathUtils.clamp(this.min, this.max, this.val - (this.max - this.min) / 16);
 				Audio.playSfx("menu/moving");
 				this.onUpdate();
-			} else if (Input.instance.wasPressed("uiRight")) {
+			} else if (Input.instance.wasPressed("right")) {
 				this.val = MathUtils.clamp(this.min, this.max, this.val + (this.max - this.min) / 16);
 				Audio.playSfx("menu/moving");
 				this.onUpdate();

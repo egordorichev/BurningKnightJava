@@ -5,34 +5,17 @@
 	"down" : [ "S", "Down" ],
 
 	"shift" : [ "L-Shift", "R-Shift" ],
-	"roll" : [ "Mouse1", "ControllerL2", "Space" ],
+	"roll" : [ "Mouse1" ],
 
-	"use" : [ "Mouse0", "ControllerR2" ],
+	"use" : [ "Mouse0" ],
 	"second_use" : [ "Mouse1" ],
-	"scroll" : [ "MouseWheel", "Triggers" ],
+	"scroll" : [ "MouseWheel" ],
 
-	"interact" : [ "E", "ControllerX", "ControllerL3" ],
+	"interact" : [ "E" ],
+	"pause" : [ "Escape" ],
 
-	"prev" : [ "ControllerL1", "Numpad 7", "ControllerDPadLeft", "T" ],
-	"next" : [ "ControllerR1", "Numpad 9", "ControllerDPadRight", "Y" ],
-	"inventory_select" : [ "ControllerB" ],
-
-	"uiUp": [ "Up", "ControllerDPadUp" ],
-	"uiDown": [ "Down", "ControllerDPadDown" ],
-	"uiLeft": [ "Left", "ControllerDPadLeft", "ControllerL1" ],
-	"uiRight": [ "Right", "ControllerDPadRight", "ControllerR1" ],
-	"uiAccept": [ "Mouse0", "Enter", "ControllerA" ],
-
-	"pause" : [ "Escape", "ControllerStart" ],
-
-	"mouseX" : [ "ControllerRX" ],
-	"mouseY" : [ "ControllerRY" ],
-
-	"moveX" : [ "ControllerLX" ],
-	"moveY" : [ "ControllerLY" ],
-	"map" : [ "M", "ControllerA" ],
-
+	"map" : [ "M" ],
+	"toggle_minimap" : [ "Tab" ],
 	"zoom_out" : [ "-" ],
-	"zoom_in" : [ "=" ],
-	"toggle_minimap" : [ "Tab" ]
+	"zoom_in" : [ "=" ]
 }

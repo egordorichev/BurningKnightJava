@@ -60,7 +60,8 @@ public class Input implements InputProcessor, ControllerListener {
 	public void connected(Controller controller) {
 		String name = controller.getName().toLowerCase();
 
-		if ((!name.contains("gamepad") && !name.contains("joy") && !name.contains("stick") && !name.contains("controller")) || name.contains("wacom")) {
+		// disabled for now
+		if (true || (!name.contains("gamepad") && !name.contains("joy") && !name.contains("stick") && !name.contains("controller")) || name.contains("wacom")) {
 			Log.info("Controller " + controller.getName() + " was ignored");
 			return;
 		}
