@@ -109,6 +109,7 @@ public class LadderFx extends UiEntity {
 					if (Dungeon.depth == -2) {
 						Dungeon.goToSelect = true;
 					} else {
+						Dungeon.toInventory = true;
 						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 						Dungeon.ladderId = ((Exit) ladder).getType();
 						Dungeon.goToLevel(Dungeon.depth == -1 ? -2 : ((Dungeon.depth + 1)));

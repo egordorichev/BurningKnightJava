@@ -161,10 +161,6 @@ public class InGameState extends State {
 			Graphics.layout.setText(Graphics.medium, depth);
 			this.w = Graphics.layout.width;
 
-			if (Player.instance.ui != null && Player.instance.ui.isOpen()) {
-				Player.instance.ui.hide();
-			}
-
 			if (!wasHidden) {
 				UiMap.instance.hide();
 			}

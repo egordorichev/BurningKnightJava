@@ -8,7 +8,6 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.CurseFx;
 import org.rexcellentgames.burningknight.entity.fx.UpgradeFx;
-import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
@@ -22,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -32,8 +32,10 @@ public class UiSlot {
 	private static TextureRegion selected = Graphics.getTexture("ui-selected_slot");
 
 	private static TextureRegion armorBg = Graphics.getTexture("ui-hat_bg");
-	private static TextureRegion coinBg = Graphics.getTexture("ui-coin_bg");
+	private static TextureRegion weaponBg = Graphics.getTexture("ui-sword_bg");
+	private static TextureRegion actionBg = Graphics.getTexture("ui-bg_potion");
 	private static TextureRegion equipBg = Graphics.getTexture("ui-ring_bg");
+	private static TextureRegion trashBg = Graphics.getTexture("ui-bg_trash");
 
 	public int x;
 	public float y;
@@ -60,6 +62,7 @@ public class UiSlot {
 
 	public void update(float dt) {
 		Item item = this.inventory.getInventory().getSlot(this.id);
+		boolean full = Dungeon.game.getState() instanceof InventoryState;
 
 		this.r += (this.rr - this.r) * dt * 10;
 		this.g += (this.rg - this.g) * dt * 10;
@@ -73,50 +76,44 @@ public class UiSlot {
 			}
 		}
 
-		if (!this.inventory.isOpen() && this.id >= 6) {
-			return;
-		}
+		if (!full) {
+			if (this.inventory.getActive() == this.id && !this.active) {
+				this.active = true;
 
-		if (this.inventory.getActive() == this.id && !this.active) {
-			this.active = true;
+				Tween.remove(this.last);
+				this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
+					@Override
+					public float getValue() {
+						return scale;
+					}
 
-			Tween.remove(this.last);
-			this.last = Tween.to(new Tween.Task(1.2f, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
+					@Override
+					public void setValue(float value) {
+						scale = value;
+					}
+				});
+
+				Audio.playSfx("menu/moving");
+			} else if (this.inventory.getActive() != this.id && this.active) {
+				this.active = false;
+
+				if (item instanceof ScrollOfUpgrade) {
+					Ui.upgradeMouse = false;
 				}
 
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-			});
+				Tween.remove(this.last);
+				this.last = Tween.to(new Tween.Task(1f, 0.1f) {
+					@Override
+					public float getValue() {
+						return scale;
+					}
 
-			Audio.playSfx("menu/moving");
-		} else if (this.inventory.getActive() != this.id && this.active) {
-			this.active = false;
-
-			if (item instanceof ScrollOfUpgrade) {
-				Ui.upgradeMouse = false;
+					@Override
+					public void setValue(float value) {
+						scale = value;
+					}
+				});
 			}
-
-			Tween.remove(this.last);
-			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
-
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-			});
-		}
-
-		if (this.id > 5 && !this.inventory.isOpen()) {
-			return;
 		}
 
 		boolean h = this.hovered;
@@ -137,7 +134,7 @@ public class UiSlot {
 		}
 
 		if (this.hovered && !h) {
-			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
+			Tween.to(new Tween.Task(!full && this.inventory.getActive() == this.id ? 1.3f : 1.1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -151,7 +148,7 @@ public class UiSlot {
 
 			Audio.playSfx("menu/moving");
 		} else if (!this.hovered && h) {
-			Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
+			Tween.to(new Tween.Task(!full && this.inventory.getActive() == this.id ? 1.2f : 1f, 0.1f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -179,7 +176,7 @@ public class UiSlot {
 	public void tweenClick() {
 		Audio.playSfx("menu/select");
 
-		Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+		Tween.to(new Tween.Task(!(Dungeon.game.getState() instanceof InventoryState) && this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
 			@Override
 			public float getValue() {
 				return scale;
@@ -194,7 +191,7 @@ public class UiSlot {
 			public void onEnd() {
 				super.onEnd();
 
-				Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
+				Tween.to(new Tween.Task(!(Dungeon.game.getState() instanceof InventoryState) && inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -212,12 +209,10 @@ public class UiSlot {
 	public void leftClick() {
 		Item self = this.inventory.getInventory().getSlot(this.id);
 
-		if (this.inventory.isOpen() && self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
+		if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
 			if (self.canBeUsed()) {
 				self.use();
 			}
-
-			Player.instance.ui.checkClosed();
 
 			return;
 		}
@@ -308,7 +303,6 @@ public class UiSlot {
 			return;
 		}
 
-		Player.instance.ui.checkClosed();
 		if (current != null && self != null && current.getClass() == self.getClass() && self.isStackable()) {
 			current.setCount(current.getCount() + self.getCount());
 			this.inventory.getInventory().setSlot(this.id, current);
@@ -383,7 +377,6 @@ public class UiSlot {
 			this.b = 0;
 		}
 
-		Player.instance.ui.checkOpen();
 		tweenClick();
 	}
 
@@ -425,12 +418,14 @@ public class UiSlot {
 	}
 
 	public static boolean canAccept(int id, Item item) {
-		if (id == 6) {
+		if (id == 3) {
 			return item instanceof Hat;
-		} else if (id == 11) {
-			return item instanceof Gold;
-		} else if (id > 6 && id < 12) {
+		} else if (id == 2) {
+			return !(item instanceof Hat || item instanceof WeaponBase || item instanceof Equippable);
+		} else if (id > 3 && id < 8) {
 			return item instanceof Equippable;
+		} else if (id == 0 || id == 1) {
+			return item instanceof WeaponBase;
 		}
 
 		return true;
@@ -440,10 +435,12 @@ public class UiSlot {
 	public float a = 0.7f;
 
 	public void render(Item item) {
-		boolean h = this.inventory.getActive() == this.id;
+		boolean full = Dungeon.game.getState() instanceof InventoryState;
+
+		boolean h = !full && this.inventory.getActive() == this.id;
 		boolean upgrade = this.inventory.getInventory().getSlot(this.inventory.getActive()) instanceof ScrollOfUpgrade ||
 			this.inventory.getCurrentSlot() instanceof ScrollOfUpgrade;
-		boolean cursed = item != null && item.isIdentified() && item.isCursed();
+		// boolean cursed = item != null && item.isIdentified() && item.isCursed();
 
 		if (h) {
 			this.rr = 0.6f;
@@ -467,22 +464,28 @@ public class UiSlot {
 
 		float an = 0;//(float) (Math.cos(Dungeon.time) * 10f);
 
-		Graphics.batch.setColor(r, g, b, h ? 1 : a);
+		Graphics.batch.setColor(r, g, b, full ? 0.8f : (h ? 1 : a));
 
-		TextureRegion reg = h ? selected : (cursed ? cursedSlot : slot);
+		TextureRegion reg = h ? selected : (this.id > 7 ? cursedSlot : slot);
 		Graphics.render(reg, this.x + slot.getRegionWidth() / 2,
 			this.y + slot.getRegionHeight() / 2, an, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.scale, this.scale);
 
 		if (item == null) {
-			if (this.id == 6) {
-				Graphics.render(armorBg, this.x + 12 - armorBg.getRegionWidth() / 2,
-					this.y + 12 - armorBg.getRegionHeight() / 2);
-			} else if (this.id > 6 && this.id < 11) {
+			if (this.id == 2) {
+				Graphics.render(actionBg, this.x + 12 - actionBg.getRegionWidth() / 2,
+					this.y + 12 - actionBg.getRegionHeight() / 2);
+			} else if (this.id > 3 && this.id < 8) {
 				Graphics.render(equipBg, this.x + 12 - equipBg.getRegionWidth() / 2,
 					this.y + 12 - equipBg.getRegionHeight() / 2);
-			} else if (this.id == 11) {
-				Graphics.render(coinBg, this.x + 12 - coinBg.getRegionWidth() / 2,
-					this.y + 12 - coinBg.getRegionHeight() / 2);
+			} else if (this.id == 3) {
+				Graphics.render(armorBg, this.x + 12 - armorBg.getRegionWidth() / 2,
+					this.y + 12 - armorBg.getRegionHeight() / 2);
+			} else if (this.id == 0 || this.id == 1) {
+				Graphics.render(weaponBg, this.x + 12 - weaponBg.getRegionWidth() / 2,
+					this.y + 12 - weaponBg.getRegionHeight() / 2);
+			} else {
+				Graphics.render(trashBg, this.x + 12 - trashBg.getRegionWidth() / 2,
+					this.y + 12 - trashBg.getRegionHeight() / 2);
 			}
 		}
 
@@ -499,8 +502,8 @@ public class UiSlot {
 				region.getRegionHeight() / 2, false, false, this.scale, this.scale);
 			Graphics.batch.setColor(1, 1, 1, a);
 
-			if (!this.acted) {
-				Tween.to(new Tween.Task(this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
+			if (!this.acted && !full) {
+				Tween.to(new Tween.Task(!(Dungeon.game.getState() instanceof InventoryState) && this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
 					@Override
 					public float getValue() {
 						return scale;
@@ -515,7 +518,7 @@ public class UiSlot {
 					public void onEnd() {
 						super.onEnd();
 
-						Tween.to(new Tween.Task(inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
+						Tween.to(new Tween.Task(!(Dungeon.game.getState() instanceof InventoryState) && inventory.getActive() == id ? 1.3f : 1.1f, 0.1f, Tween.Type.BACK_OUT) {
 							@Override
 							public float getValue() {
 								return scale;

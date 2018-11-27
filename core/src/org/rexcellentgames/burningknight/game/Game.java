@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.game;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.game.state.LoadState;
 import org.rexcellentgames.burningknight.game.state.State;
 
@@ -14,9 +15,13 @@ public class Game {
 	}
 
 	public void setState(State state) {
-		if (!(this.state instanceof LoadState)) {
+		if (!(this.state instanceof LoadState || state instanceof InventoryState)) {
 			Dungeon.ui.destroy();
 			Dungeon.area.destroy();
+		}
+
+		if (state instanceof InventoryState) {
+			Dungeon.ui.destroy();
 		}
 
 		State old = this.state;

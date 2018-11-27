@@ -65,10 +65,6 @@ public class Equippable extends Accessory {
 	public void use() {
 		super.use();
 
-		if (!Player.instance.ui.isOpen()) {
-			Player.instance.ui.open();
-		}
-
 		Audio.playSfx("menu/select");
 
 		for (int i = 0; i < Player.instance.getInventory().getSize(); i++) {

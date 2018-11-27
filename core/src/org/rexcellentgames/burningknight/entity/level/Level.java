@@ -193,13 +193,13 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public static RegularLevel forDepth(int depth) {
-		if (depth < 5) {
+		if (depth < 3) {
 			return new HallLevel();
-		} else if (depth < 9) {
+		} else if (depth < 5) {
 			return new DesertLevel();
-		} else if (depth < 13) {
+		} else if (depth < 7) {
 			return new ForestLevel();
-		} else if (depth < 17) {
+		} else if (depth < 9) {
 			return new LibraryLevel();
 		}
 

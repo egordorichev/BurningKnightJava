@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public class Item extends Entity {
   public static TextureRegion missing = Graphics.getTexture("item-missing");
@@ -142,9 +141,9 @@ public class Item extends Entity {
 			if (this.canBeDegraded()) {
 				this.degrade();
 
-				if (Random.chance(50)) {
+				/*if (Random.chance(50)) {
 					this.cursed = true;
-				}
+				}*/
 
 				if (Random.chance(30)) {
 					this.degrade();

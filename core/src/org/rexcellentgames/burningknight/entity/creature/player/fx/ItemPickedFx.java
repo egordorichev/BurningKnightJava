@@ -2,11 +2,8 @@ package org.rexcellentgames.burningknight.entity.creature.player.fx;
 
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class ItemPickedFx extends Entity {
@@ -29,9 +26,6 @@ public class ItemPickedFx extends Entity {
 		this.y = item.y + item.h + 4;
 
 		this.tween();
-		if (Player.instance.ui != null) {
-			Player.instance.ui.forceT = 1f;
-		}
 	}
 
 	private void tween() {

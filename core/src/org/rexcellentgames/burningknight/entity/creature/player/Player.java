@@ -102,7 +102,7 @@ public class Player extends Creature {
 	public Type type;
 	public boolean flipRegenFormula;
 	public boolean manaCoins;
-	public int inventorySize = 12;
+	public int inventorySize = 16;
 	public boolean fireBombs;
 	public boolean iceBombs;
 	public boolean poisonBombs;
@@ -788,10 +788,6 @@ public class Player extends Creature {
 		super.destroy();
 		World.removeLight(light);
 
-		if (this.ui != null && !this.ui.done) {
-			this.ui.remove();
-		}
-
 		if (UiMap.instance != null) {
 			UiMap.instance.remove();
 		}
@@ -829,6 +825,7 @@ public class Player extends Creature {
 		this.inventory = new Inventory(this, inventorySize);
 		this.body = this.createSimpleBody(3, 0, 10, 11, BodyDef.BodyType.DynamicBody, false);
 
+		Camera.follow(this, true);
 		doTp(true);
 
 		switch (this.type) {
@@ -911,7 +908,6 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
@@ -1579,10 +1575,6 @@ public class Player extends Creature {
 			return;
 		}
 
-		if (this.ui != null) {
-			ui.hide();
-		}
-
 		UiMap.instance.hide();
 
 		Ui.ui.onDeath();
@@ -1663,6 +1655,7 @@ public class Player extends Creature {
 
 		this.maxSpeed += (this.speed - last) * 7f;
 		this.setHat(reader.readString());
+		Camera.follow(this, true);
 
 		doTp(false);
 

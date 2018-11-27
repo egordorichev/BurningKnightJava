@@ -125,7 +125,7 @@ public class BurningKnight extends Boss {
 			return;
 		}
 
-		Camera.shake(10);
+		Camera.shake(6);
 		this.invt = 3f;
 		this.dest = true;
 		Audio.stop();
@@ -324,8 +324,6 @@ public class BurningKnight extends Boss {
 			ft.vel = new Point((float) Math.cos(an) * fr, (float) Math.sin(an) * fr);
 			Dungeon.area.add(ft);
 
-			Camera.shake(10);
-
 			if (this.invt <= 0) {
 				ArrayList<Item> items = new ArrayList<>();
 				items.add(new BurningKey());
@@ -358,7 +356,7 @@ public class BurningKnight extends Boss {
 
 				Player.instance.setUnhittable(false);
 
-				Camera.shake(10);
+				Camera.shake(4);
 				Audio.highPriority("Reckless");
 			}
 
@@ -865,6 +863,7 @@ public class BurningKnight extends Boss {
 			self.hp = 1;
 			self.ignoreRooms = true;
 			Lamp.play();
+			Camera.shake(6);
 
 			// fixme: this is broken
 			/*Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
@@ -904,8 +903,6 @@ public class BurningKnight extends Boss {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-
-			Camera.shake(6);
 
 			if (this.t < 1.6f) {
 				FadeFx ft = new FadeFx();
@@ -947,12 +944,14 @@ public class BurningKnight extends Boss {
 					Camera.follow(Player.instance, false);
 				}
 			});
+
+			Camera.shake(6);
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-			Camera.shake(6);
+
 			if (t < 1.6f) {
 				FadeFx ft = new FadeFx();
 				float an = Random.newFloat((float) (Math.PI * 2));
@@ -990,12 +989,13 @@ public class BurningKnight extends Boss {
 					self.become("fadeIn");
 				}
 			});
+
+			Camera.shake(8);
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-			Camera.shake(6);
 
 			if (t < 1.6f) {
 				FadeFx ft = new FadeFx();
@@ -1062,7 +1062,7 @@ public class BurningKnight extends Boss {
 		instance = null;
 		this.done = true;
 		GameSave.defeatedBK = true;
-		Camera.shake(10);
+		Camera.shake(8);
 
 		deathEffect(killed);
 		PlayerSave.remove(this);
@@ -1108,7 +1108,7 @@ public class BurningKnight extends Boss {
 				self.a = 0;
 
 				Camera.follow(self, false);
-				Camera.shake(10);
+				Camera.shake(8);
 				Lamp.play();
 
 				if (Dungeon.depth == -3) {
