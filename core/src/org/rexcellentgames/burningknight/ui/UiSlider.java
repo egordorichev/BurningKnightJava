@@ -103,7 +103,7 @@ public class UiSlider extends UiButton {
 					float prev = this.val;
 
 					this.val = MathUtils.clamp(this.min, this.max,
-						MathUtils.map(Input.instance.uiMouse.x - (this.ox + 6), 0, (this.sw - 12) * scale, this.min, this.max)
+						MathUtils.map(Input.instance.uiMouse.x - (this.ox + 6) + 4, 0, (this.sw - 12) * scale, this.min, this.max)
 					);
 
 					this.val = (float) (Math.floor(this.val * 16) / 16);
