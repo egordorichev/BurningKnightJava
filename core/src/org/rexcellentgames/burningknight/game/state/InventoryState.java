@@ -21,6 +21,7 @@ public class InventoryState extends State {
 	private Inventory inventory;
 	private UiInventory ui;
 	private UiButton go;
+	public static int depth;
 
 	@Override
 	public void init() {
@@ -32,11 +33,11 @@ public class InventoryState extends State {
 		ui = Player.instance.ui;
 		ui.createSlots();
 
-		Dungeon.ui.add(new UiButton("go", Display.UI_WIDTH / 2, (int) (ui.slots[0].y + 20 + 32)) {
+		go = (UiButton) Dungeon.ui.add(new UiButton("go", Display.UI_WIDTH / 2, (int) (ui.slots[0].y + 20 + 32)) {
 			@Override
 			public void onClick() {
 				super.onClick();
-				Dungeon.goToLevel(Dungeon.depth);
+				Dungeon.goToLevel(depth);
 			}
 		});
 	}
