@@ -43,6 +43,7 @@ public class UiInventory extends UiEntity {
 	@Override
 	public void init() {
 		createSlots();
+		hp = Player.instance.getHp();
 	}
 
 	private float sx;
@@ -156,6 +157,14 @@ public class UiInventory extends UiEntity {
 			checkUse();
 		}
 
+		int hp = Player.instance.getHp();
+
+		if (this.hp > hp) {
+			this.hp = hp;
+		} else if (this.hp < hp) {
+			this.hp += dt * 10;
+		}
+
 		this.inventory.active = this.active;
 	}
 
@@ -245,6 +254,8 @@ public class UiInventory extends UiEntity {
 	private int lastMana;
 	private float invm;
 
+	private float hp;
+
 	@Override
 	public void render() {
 		if ((Dungeon.depth != -3 && Dungeon.depth < 0) || Ui.hideUi) {
@@ -311,7 +322,7 @@ public class UiInventory extends UiEntity {
 
 		lastMana = mana;
 
-		int hp = Player.instance.getHp();
+		int hp = (int) Math.floor(this.hp);
 		int iron = Player.instance.getIronHearts();
 		int golden = Player.instance.getGoldenHearts();
 
