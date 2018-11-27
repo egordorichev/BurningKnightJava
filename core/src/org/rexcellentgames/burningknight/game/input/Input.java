@@ -553,8 +553,14 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 	
 	private String toButtonWithId(String id) {
-    if (id.toLowerCase().startsWith("controller") && !id.toLowerCase().contains("dpad")) {
-      return "Controller" + map.getId(id);
+    if (id.toLowerCase().startsWith("controller")) {
+    	if (activeController == null) {
+    		return null;
+	    }
+
+    	if (!id.toLowerCase().contains("dpad")) {
+		    return "Controller" + map.getId(id);
+	    }
     }
     
     return id;

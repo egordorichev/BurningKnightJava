@@ -47,6 +47,7 @@ public class ItemSelectState extends State {
 		Audio.stop();
 
 		Dungeon.white = 0;
+		Dungeon.dark = 0;
 		Dungeon.darkR = Dungeon.MAX_R;
 
 		melee.clear();

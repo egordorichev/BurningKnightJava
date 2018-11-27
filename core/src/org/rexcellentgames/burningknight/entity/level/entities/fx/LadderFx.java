@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class LadderFx extends UiEntity {
@@ -61,17 +62,7 @@ public class LadderFx extends UiEntity {
 		if (Input.instance.wasPressed("interact") && Dialog.active == null && Player.instance.pickupFx == null) {
 			this.remove();
 			Input.instance.putState("inventory", Input.State.UP);
-
-			if (this.ladder instanceof Entrance) {
-				if (Dungeon.depth == -2) {
-					this.end();
-				} else if (Dungeon.depth <= 0) {
-				} else {
-					this.end();
-				}
-			} else if (this.ladder instanceof Exit) {
-				this.end();
-			}
+			this.end();
 		}
 	}
 
@@ -100,20 +91,13 @@ public class LadderFx extends UiEntity {
 
 			@Override
 			public void onEnd() {
-				if (ladder instanceof Entrance) {
-					Dungeon.loadType = Entrance.LoadType.GO_UP;
-					Dungeon.ladderId = ((Entrance) ladder).getType();
-
-					Dungeon.goToLevel(Dungeon.depth == -2 ? -1 : (Dungeon.depth - 1));
+				if (Dungeon.depth == -2) {
+					Dungeon.goToSelect = true;
 				} else {
-					if (Dungeon.depth == -2) {
-						Dungeon.goToSelect = true;
-					} else {
-						Dungeon.toInventory = true;
-						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-						Dungeon.ladderId = ((Exit) ladder).getType();
-						Dungeon.goToLevel(Dungeon.depth == -1 ? -2 : ((Dungeon.depth + 1)));
-					}
+					Dungeon.toInventory = true;
+					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+					Dungeon.ladderId = ((Exit) ladder).getType();
+					Dungeon.goToLevel(Dungeon.depth + 1);
 				}
 
 				Dungeon.setBackground2(new Color(0, 0, 0, 1));

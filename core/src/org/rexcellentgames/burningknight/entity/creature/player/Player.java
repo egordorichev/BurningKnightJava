@@ -44,6 +44,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
+import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
@@ -353,8 +354,8 @@ public class Player extends Creature {
 	}
 
 	public void give(Item item) {
-		if (item instanceof Accessory) {
-			this.inventory.setSlot(6, item);
+		if (item instanceof Hat) {
+			this.inventory.setSlot(3, item);
 			item.setOwner(this);
 			((Accessory) item).onEquip(false);
 		} else {
@@ -1128,23 +1129,54 @@ public class Player extends Creature {
 				if (Input.instance.wasPressed("roll")) {
 					rolled = true;
 
+					final Vector2 acceleration = new Vector2(this.acceleration.x, this.acceleration.y);
+					final Player self = this;
+
+					Tween.to(new Tween.Task(0, 0.1f) {
+						@Override
+						public void onStart() {
+							float f = 80;
+
+							if (acceleration.len() > 1f) {
+								double a = (Math.atan2(velocity.y, velocity.x));
+
+								self.velocity.x = (float) Math.cos(a) * speed * f;
+								self.velocity.y = (float) Math.sin(a) * speed * f;
+							} else {
+								double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+
+								self.velocity.x = (float) Math.cos(a) * speed * f;
+								self.velocity.y = (float) Math.sin(a) * speed * f;
+							}
+						}
+
+						@Override
+						public void onEnd() {
+							removeBuff(BurningBuff.class);
+
+							self.acceleration.x = 0;
+							self.acceleration.y = 0;
+
+							self.velocity.x = 0;
+							self.velocity.y = 0;
+
+							Tween.to(new Tween.Task(0, 0) {
+								@Override
+								public void onStart() {
+									animation = idle;
+									rolling = false;
+									mul = 0.7f;
+								}
+							}).delay(0.05f);
+						}
+					}).delay(0.05f);
+
 					this.rolling = true;
 					this.mul = 1;
 					this.zvel = 40;
 
-					float f = 4;
-
-					if (this.acceleration.len() > 1f) {
-						double a = (Math.atan2(this.velocity.y, this.velocity.x));
-
-						this.acceleration.x = (float) Math.cos(a) * this.speed * f;
-						this.acceleration.y = (float) Math.sin(a) * this.speed * f;
-					} else {
-						double a = (this.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
-
-						this.acceleration.x = (float) Math.cos(a) * this.speed * f;
-						this.acceleration.y = (float) Math.sin(a) * this.speed * f;
-					}
+					this.acceleration.x = 0;
+					this.acceleration.y = 0;
 
 					this.velocity.x = 0;
 					this.velocity.y = 0;
@@ -1178,12 +1210,7 @@ public class Player extends Creature {
 			boolean rl = this.animation == this.roll;
 
 			if (this.animation.update(dt * (rl ? 1.5f : 1))) {
-				if (rl) {
-					this.animation = this.idle;
-					this.rolling = false;
-					this.mul = 0.7f;
-					this.removeBuff(BurningBuff.class);
-				}
+
 			}
 		}
 

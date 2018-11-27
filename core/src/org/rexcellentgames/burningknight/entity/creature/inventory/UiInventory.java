@@ -21,13 +21,12 @@ import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiInventory extends UiEntity {
 	private Inventory inventory;
 	private Item currentSlot;
-	private UiSlot[] slots;
+	public UiSlot[] slots;
 	private int active = 0;
 	public boolean handled;
 	public int hoveredSlot = -1;
@@ -106,16 +105,7 @@ public class UiInventory extends UiEntity {
 	}
 
 	private void validate(int a) {
-		int m = (int) ((Math.floor((this.active - a) / 6) + 1) * 6);
-		int max = Math.min(m, this.slots.length);
-
-		if (this.active <= m - 7) {
-			this.active = max - 1;
-		} else if (this.active >= max) {
-			this.active = (int) ((Math.floor(max / 6)) * 6 - 6);
-		}
-
-		this.active = (int) MathUtils.clamp(0, this.slots.length - 1, this.active);
+		this.active = Math.abs(this.active % 2);
 	}
 
 	@Override
@@ -126,48 +116,46 @@ public class UiInventory extends UiEntity {
 
 		boolean full = Dungeon.game.getState() instanceof InventoryState;
 
-		if (full) {
-			depth = 1;
+		depth = 1;
 
-			if (Dungeon.game.getState().isPaused() || Dialog.active != null) {
-				return;
+		if (Dungeon.game.getState().isPaused() || Dialog.active != null) {
+			return;
+		}
+
+		this.handled = false;
+		this.active = this.inventory.active;
+
+		if (!UiMap.large) {
+			if (Input.instance.wasPressed("prev")) {
+				this.active -= 1;
+				Player.instance.playSfx("menu/moving");
+				this.validate(-1);
 			}
 
-			this.handled = false;
-			this.active = this.inventory.active;
-
-			if (!UiMap.large) {
-				if (Input.instance.wasPressed("inventory_up") && this.active + 6 < this.slots.length) {
-					this.active += 6;
-				}
-
-				if (Input.instance.wasPressed("inventory_down") && this.active > 5) {
-					this.active -= 6;
-				}
-
-				if (Input.instance.wasPressed("prev") && Dialog.active == null) {
-					this.active -= 1;
-					this.validate(-1);
-				}
-
-				if (Input.instance.wasPressed("next") && Dialog.active == null) {
-					this.active = this.active + 1;
-					this.validate(1);
-				}
-
-				if (!Input.instance.blocked && Input.instance.wasPressed("drop") && Dialog.active == null) {
-					Item slot = this.inventory.getSlot(this.active);
-					UiSlot ui = this.slots[this.active];
-
-					ui.tweenClick();
-
-					if (slot == null) {
-						return;
-					}
-
-					this.drop(slot);
-				}
+			if (Input.instance.wasPressed("next")) {
+				this.active = this.active + 1;
+				Player.instance.playSfx("menu/moving");
+				this.validate(1);
 			}
+
+			if (Input.instance.wasPressed("scroll")) {
+				this.active = this.active + Input.instance.getAmount();
+				Player.instance.playSfx("menu/moving");
+				this.validate(Input.instance.getAmount());
+			}
+
+			/*if (!Input.instance.blocked && Input.instance.wasPressed("drop") && Dialog.active == null) {
+				Item slot = this.inventory.getSlot(this.active);
+				UiSlot ui = this.slots[this.active];
+
+				ui.tweenClick();
+
+				if (slot == null) {
+					return;
+				}
+
+				this.drop(slot);
+			}*/
 		}
 
 		if (Player.instance != null) {
@@ -200,11 +188,9 @@ public class UiInventory extends UiEntity {
 							slot.setOwner(Player.instance);
 							slot.use();
 						}
-					} else {
-						if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
-							slot.setOwner(Player.instance);
-							slot.use();
-						}
+					} else if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
+						slot.setOwner(Player.instance);
+						slot.use();
 					}
 				}
 			}

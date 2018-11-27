@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.entity.PickupFx;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -118,6 +119,7 @@ public class Inventory {
 		Item item = holder.getItem();
 
 		if (item instanceof Gold) {
+			/*
 			Item slot = this.getSlot(11);
 
 			if (slot == null) {
@@ -130,6 +132,7 @@ public class Inventory {
 			holder.done = true;
 
 			this.onAdd(holder, 11);
+			*/ // FIXME: not in inventory
 
 			return true;
 		}
@@ -150,7 +153,7 @@ public class Inventory {
 		}
 
 		for (int i = 0; i < this.getSize(); i++) {
-			if (this.isEmpty(i) && UiSlot.canAccept(i, null)) {
+			if (this.isEmpty(i) && UiSlot.canAccept(i, item)) {
 				this.setSlot(i, item);
 				item.setOwner(Player.instance);
 				item.onPickup();
@@ -161,6 +164,7 @@ public class Inventory {
 			}
 		}
 
+		Log.error("Can't pickup item " + item);
 		Player.instance.playSfx("item_nocash");
 		// Dungeon.area.add(new TextFx("No Space", Player.instance).setColor(Dungeon.ORANGE));
 

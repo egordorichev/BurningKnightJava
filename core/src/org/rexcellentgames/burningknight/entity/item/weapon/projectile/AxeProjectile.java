@@ -91,7 +91,7 @@ public class AxeProjectile extends Projectile {
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 		if (d > 8) {
-			float f = 6;
+			float f = 6 * dt * 60;
 
 			if (d < 64 && this.t > 1) {
 				f = MathUtils.clamp(1f, 10f, 64 - d);

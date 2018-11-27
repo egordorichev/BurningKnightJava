@@ -4,7 +4,6 @@
 	"up" : [ "W", "Up" ],
 	"down" : [ "S", "Down" ],
 
-	"drop" : [ "ControllerY", "X" ],
 	"shift" : [ "L-Shift", "R-Shift" ],
 	"roll" : [ "Mouse1", "ControllerL2", "Space" ],
 
@@ -16,8 +15,6 @@
 
 	"prev" : [ "ControllerL1", "Numpad 7", "ControllerDPadLeft", "T" ],
 	"next" : [ "ControllerR1", "Numpad 9", "ControllerDPadRight", "Y" ],
-	"inventory_down" : [ "ControllerDPadDown" ],
-	"inventory_up" : [ "ControllerDPadUp" ],
 	"inventory_select" : [ "ControllerB" ],
 
 	"uiUp": [ "Up", "ControllerDPadUp" ],
@@ -25,14 +22,6 @@
 	"uiLeft": [ "Left", "ControllerDPadLeft", "ControllerL1" ],
 	"uiRight": [ "Right", "ControllerDPadRight", "ControllerR1" ],
 	"uiAccept": [ "Mouse0", "Enter", "ControllerA" ],
-	"inventory" : [ "Q", "ControllerX" ],
-
-	"1" : [ "1" ],
-	"2" : [ "2" ],
-	"3" : [ "3" ],
-	"4" : [ "4" ],
-	"5" : [ "5" ],
-	"6" : [ "6" ],
 
 	"pause" : [ "Escape", "ControllerStart" ],
 

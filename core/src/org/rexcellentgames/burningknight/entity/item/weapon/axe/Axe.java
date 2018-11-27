@@ -145,7 +145,7 @@ public class Axe extends Weapon {
 				fx.type = self.getClass();
 				fx.x = owner.x + (owner.w - 16) / 2;
 				fx.y = owner.y + (owner.h - 16) / 2;
-				fx.speed = speed;
+				fx.speed = (int) (speed);
 
 				fx.owner = owner;
 				fx.damage = rollDamage();
