@@ -67,6 +67,8 @@ public class BombEntity extends Entity {
 		super.init();
 		mod = Random.newFloat(0.95f, 1.05f);
 
+		toApply.add(new BurningBuff()); // fixme: remove
+
 		for (Buff buff : this.toApply) {
 			if (buff instanceof BurningBuff) {
 				this.burning = true;
@@ -357,7 +359,7 @@ public class BombEntity extends Entity {
 			return true;
 		}
 
-		if (entity != null && !(entity instanceof Player || entity instanceof BombEntity || entity instanceof SolidProp)) {
+		if (entity != null && !((entity instanceof Player && !((Player) entity).isRolling()) || entity instanceof BombEntity || entity instanceof SolidProp)) {
 			return false;
 		}
 

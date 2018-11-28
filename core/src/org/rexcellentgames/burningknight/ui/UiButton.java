@@ -120,7 +120,7 @@ public class UiButton extends UiEntity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Input.instance.wasPressed("interact") && !disableClick) {
+		if (Input.instance.wasPressed("use") && !disableClick) {
 			if ((this.hover && !Input.instance.wasPressed("use") && this.isSelected) || (checkHover() && Input.instance.wasPressed("use"))) {
 				Input.instance.putState("use", Input.State.HELD);
 

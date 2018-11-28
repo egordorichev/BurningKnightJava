@@ -629,7 +629,7 @@ public class Mob extends Creature {
 			return;
 		}
 
-		Camera.shake(2);
+		Camera.shake(3);
 
 		// super.die(force);
 
@@ -667,7 +667,7 @@ public class Mob extends Creature {
 						dead = true;
 						remove = true;
 						deathEffects();
-						Camera.shake(2);
+						Camera.shake(3);
 
 						if (!force) {
 							GameSave.killCount ++;

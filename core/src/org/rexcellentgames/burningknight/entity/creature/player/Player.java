@@ -422,7 +422,6 @@ public class Player extends Creature {
 			}
 		}
 
-
 		if (this.isFlying() && inventory.findEquipped(RedBalloon.class)) {
 			float dx = Math.abs(this.acceleration.x) > 0.5f ? (this.acceleration.x > 0 ? 1 : -1) * 32 : 0;
 			float dy = Math.abs(this.acceleration.y) > 0.5f ? (this.acceleration.y > 0 ? 1 : -1) * 24 : 0;
