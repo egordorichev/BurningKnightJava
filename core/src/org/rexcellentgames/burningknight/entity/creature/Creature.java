@@ -325,7 +325,7 @@ public class Creature extends SaveableEntity {
 			this.velocity.mul(this.mul);
 		} else {
 			this.velocity.mul(
-				(this.touches[Terrain.COBWEB] && !this.isFlying() ? 0.3f :
+				(this.touches[Terrain.COBWEB] && !this.isFlying() ? 0.5f :
 					(iceResitant == 0 && this.touches[Terrain.ICE] && !this.isFlying() ? 0.95f : this.mul))
 			);
 		}
