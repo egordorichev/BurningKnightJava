@@ -61,7 +61,6 @@ public class LadderFx extends UiEntity {
 
 		if (Input.instance.wasPressed("interact") && Dialog.active == null && Player.instance.pickupFx == null) {
 			this.remove();
-			Input.instance.putState("inventory", Input.State.UP);
 			this.end();
 		}
 	}

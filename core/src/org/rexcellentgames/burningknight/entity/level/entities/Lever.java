@@ -89,7 +89,6 @@ public class Lever extends SaveableEntity {
 		this.al += ((this.colliding ? 1 : 0) - this.al) * dt * 10;
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
-			Input.instance.putState("inventory", Input.State.UP);
 
 			this.on = !this.on;
 			Camera.shake(8);

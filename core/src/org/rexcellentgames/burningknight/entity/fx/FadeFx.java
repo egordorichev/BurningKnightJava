@@ -20,6 +20,7 @@ public class FadeFx extends Entity {
 
 	{
 		alwaysActive = true;
+		depth = 6;
 	}
 
 	@Override

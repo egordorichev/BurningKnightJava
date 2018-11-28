@@ -111,8 +111,6 @@ public class ItemPickupFx extends Entity {
 		}
 
 		if (Input.instance.wasPressed("interact") && Dialog.active == null) {
-			Input.instance.putState("inventory", Input.State.UP);
-
 			if (this.item.getItem() instanceof NullItem) {
 				String skin = Player.hatId;
 				Player.instance.setHat("gobbo_head");

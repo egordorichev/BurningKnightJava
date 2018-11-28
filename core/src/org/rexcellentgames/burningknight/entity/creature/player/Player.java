@@ -1157,7 +1157,6 @@ public class Player extends Creature {
 			}
 		} else if (Dialog.active != null) {
 			if (Input.instance.wasPressed("interact")) {
-				Input.instance.putState("inventory", Input.State.UP);
 				Dialog.active.skip();
 			}
 		}

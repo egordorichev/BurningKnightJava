@@ -40,7 +40,7 @@ public class Gun extends WeaponBase {
 	protected boolean s;
 	protected Point origin = new Point(3, 1);
 	protected Point hole = new Point(13, 6);
-	protected int ammoMax = 12;
+	public int ammoMax = 12;
 	protected int ammoLeft = 12;
 	protected float chargeProgress;
 	protected float reloadRate = 1;

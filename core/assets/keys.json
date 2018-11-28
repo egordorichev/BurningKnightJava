@@ -10,6 +10,8 @@
 	"use" : [ "Mouse0" ],
 	"second_use" : [ "Mouse1" ],
 	"scroll" : [ "MouseWheel" ],
+	"switch" : [ "L-Shift", "R-Shift" ],
+	"active" : [ "Space" ],
 
 	"interact" : [ "E" ],
 	"pause" : [ "Escape" ],

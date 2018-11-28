@@ -52,7 +52,6 @@ public class WellFx extends Entity {
 		Graphics.medium.setColor(1, 1, 1, 1);
 
 		if (Input.instance.wasPressed("interact") && Dialog.active == null) {
-			Input.instance.putState("inventory", Input.State.UP);
 
 			if (this.well.use()) {
 				this.remove();

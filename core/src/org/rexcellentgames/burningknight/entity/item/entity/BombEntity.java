@@ -67,8 +67,6 @@ public class BombEntity extends Entity {
 		super.init();
 		mod = Random.newFloat(0.95f, 1.05f);
 
-		toApply.add(new BurningBuff()); // fixme: remove
-
 		for (Buff buff : this.toApply) {
 			if (buff instanceof BurningBuff) {
 				this.burning = true;

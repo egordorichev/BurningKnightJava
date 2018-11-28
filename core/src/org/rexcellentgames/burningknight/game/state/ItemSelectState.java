@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BurstGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.NoppyGun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
@@ -55,7 +56,7 @@ public class ItemSelectState extends State {
 		mage.clear();
 
 		melee.add(new Sword());
-		ranged.add(new Gun());
+		ranged.add(new Revolver());
 		mage.add(new MagicMissileWand());
 
 		if (Player.instance != null) {

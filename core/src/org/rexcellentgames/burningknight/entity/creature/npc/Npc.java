@@ -62,8 +62,6 @@ public class Npc extends Mob {
 		lastWhite = (active == null && Upgrade.Companion.getActiveUpgrade() == null && !this.talking && Player.instance.pickupFx == null && Player.instance.room == this.room && wantToTalk() && Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2) < 10);
 
 		if (lastWhite && Input.instance.wasPressed("interact")) {
-			Input.instance.putState("inventory", Input.State.UP);
-
 			Dialog.active = selectDialog();
 
 			if (Dialog.active == null) {

@@ -418,8 +418,6 @@ public class Chest extends SaveableEntity {
 		this.al += ((this.colliding && !drawOpenAnim ? 1f : 0f) - this.al) * dt * 8;
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
-			Input.instance.putState("inventory", Input.State.UP);
-
 			if (this.locked) {
 				Item key = Player.instance.getInventory().findItem(KeyC.class);
 

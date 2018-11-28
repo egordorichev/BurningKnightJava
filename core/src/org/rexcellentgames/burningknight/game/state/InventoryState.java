@@ -13,8 +13,10 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.util.Log;
 
 public class InventoryState extends State {
 	private Inventory inventory;
@@ -42,6 +44,8 @@ public class InventoryState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
+				SaveManager.saveGame();
+				Log.error("Going to depth " + depth);
 				Dungeon.goToLevel(depth);
 			}
 		});

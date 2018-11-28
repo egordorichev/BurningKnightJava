@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.Wand;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -37,8 +38,7 @@ public class UiInventory extends UiEntity {
 	}
 
 	private float mana;
-	private float ammo;
-	
+
 	public UiInventory(Inventory inventory) {
 		this.inventory = inventory;
 		Player.instance.setUi(this);
@@ -132,10 +132,29 @@ public class UiInventory extends UiEntity {
 		this.active = this.inventory.active;
 
 		if (!UiMap.large) {
-			if (Input.instance.wasPressed("scroll")) {
+			if (Input.instance.wasPressed("switch")) {
+				this.active = this.active == 1 ? 0 : 1;
+				this.validate(Input.instance.getAmount());
+			} else if (Input.instance.wasPressed("scroll")) {
 				this.active = this.active + Input.instance.getAmount();
 				Player.instance.playSfx("menu/moving");
 				this.validate(Input.instance.getAmount());
+			}
+
+			if (Input.instance.wasPressed("active")) {
+				Item item = Player.instance.getInventory().getSlot(2);
+
+				if (item != null) {
+					if (item.canBeUsed()) {
+						item.use();
+
+						if (item.getCount() == 0) {
+							Player.instance.getInventory().setSlot(2, null);
+						}
+					} else {
+						Player.instance.playSfx("item_nocash");
+					}
+				}
 			}
 		}
 
@@ -162,7 +181,7 @@ public class UiInventory extends UiEntity {
 		if (this.mana > mana) {
 			this.mana = mana;
 		} else if (this.mana < mana) {
-			this.mana += dt * 10;
+			this.mana += dt * 20;
 		}
 
 		this.inventory.active = this.active;
@@ -251,10 +270,17 @@ public class UiInventory extends UiEntity {
 	private static TextureRegion halfStar = Graphics.getTexture("ui-half_star");
 	private static TextureRegion defense = Graphics.getTexture("ui-defense");
 
+	private static TextureRegion ammo_texture = Graphics.getTexture("ui-ammo");
+	private static TextureRegion ammo_bg = Graphics.getTexture("ui-ammo_bg");
+	private static TextureRegion ammo_change = Graphics.getTexture("ui-ammo_hurt_bg");
+
 	private int lastMana;
 	private float invm;
 
+	private float inva;
 	private float hp;
+
+	private int lastAmmo;
 
 	@Override
 	public void render() {
@@ -292,26 +318,57 @@ public class UiInventory extends UiEntity {
 		float x = sx;
 		float xx = x;
 
-		Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
+		if (!full) {
+			Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
 
-		if (item instanceof Wand) {
-			int mana = (int) this.mana;
+			if (item instanceof Wand) {
+				int mana = (int) this.mana;
 
-			for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
-				float s = 1f;
-				float yy = y + 10;
+				for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
+					float s = 1f;
+					float yy = y + 10;
 
-				boolean change = (invm > 0.7f || (invm > 0.5f && invm % 0.2f > 0.1f));
-				Graphics.render(change ? star_change : star_bg, xx + i * 11 + star.getRegionWidth() / 2 + (change ? -1 : 0),
-					yy + 8 + star.getRegionHeight() / 2 + (change ? -1 : 0), 0,
-					star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-
-				if (mana - 2 >= i * 2) {
-					Graphics.render(star, xx + i * 11 + star.getRegionWidth() / 2, yy + 8
-						+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-				} else if (mana - 2 >= i * 2 - 1) {
-					Graphics.render(halfStar, xx + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
+					boolean change = (invm > 0.7f || (invm > 0.5f && invm % 0.2f > 0.1f));
+					Graphics.render(change ? star_change : star_bg, xx + i * 11 + star.getRegionWidth() / 2 + (change ? -1 : 0),
+						yy + 8 + star.getRegionHeight() / 2 + (change ? -1 : 0), 0,
 						star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+
+					if (mana - 2 >= i * 2) {
+						Graphics.render(star, xx + i * 11 + star.getRegionWidth() / 2, yy + 8
+							+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+					} else if (mana - 2 >= i * 2 - 1) {
+						Graphics.render(halfStar, xx + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
+							star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+					}
+				}
+			} else if (item instanceof Gun) {
+				int ammo = ((Gun) item).getAmmoLeft();
+				int max = ((Gun) item).ammoMax;
+
+				if (lastAmmo < ammo) {
+					inva = 1.0f;
+				}
+
+				lastAmmo = ammo;
+
+				if (inva > 0) {
+					inva -= Gdx.graphics.getDeltaTime();
+				}
+
+				for (int i = 0; i < max; i++) {
+					float s = 1f;
+					float yy = y + 10;
+
+					boolean change = (inva > 0.7f || (inva > 0.5f && inva % 0.2f > 0.1f));
+					Graphics.render(change ? ammo_change : ammo_bg, xx + i * 3 + ammo_texture.getRegionWidth() / 2,
+						yy + 8 + ammo_texture.getRegionHeight() / 2, 0,
+						ammo_texture.getRegionWidth() / 2, ammo_texture.getRegionHeight() / 2, false, false, s, s);
+
+					if (i < ammo) {
+						Graphics.render(ammo_texture, xx + i * 3 + ammo_texture.getRegionWidth() / 2 + 1, yy + 9
+								+ ammo_texture.getRegionHeight() / 2, 0, ammo_texture.getRegionWidth() / 2,
+							ammo_texture.getRegionHeight() / 2, false, false, s, s);
+					}
 				}
 			}
 		}
@@ -381,6 +438,13 @@ public class UiInventory extends UiEntity {
 				Graphics.render(halfGolden, xx + i * 11 + 1 + heart.getRegionWidth() / 2, y + 9 + heart.getRegionHeight() / 2, 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, 1, 1);
 			}
+		}
+
+		Item item = Player.instance.getInventory().getSlot(2);
+
+		if (item != null) {
+			TextureRegion region = item.getSprite();
+			Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
 		}
 
 		this.renderCurrentSlot();
