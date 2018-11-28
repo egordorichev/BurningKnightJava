@@ -339,20 +339,21 @@ public class Dungeon extends ApplicationAdapter {
 		}
 
 		if (Version.debug && Input.instance.wasPressed("1")) {
-			to = 1;
+			InventoryState.depth = Dungeon.depth + 1;
 			toInventory = true;
+		}
+
+		if (toInventory) {
+			toInventory = false;
+			game.setState(new InventoryState());
+			return;
 		}
 
 		if (AssetLoadState.done && to > -10) {
 			Dungeon.lastDepth = depth;
 			Dungeon.depth = to;
 
-			if (toInventory) {
-				toInventory = false;
-				game.setState(new InventoryState());
-			} else {
-				game.setState(new LoadState());
-			}
+			game.setState(new LoadState());
 
 			Gdx.gl.glClearColor(0, 0, 0, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));

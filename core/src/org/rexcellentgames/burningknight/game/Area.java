@@ -85,7 +85,7 @@ public class Area {
 	    }
 
 	    if (Input.instance.activeController != null) {
-		    if (Input.instance.wasPressed("uiUp") && !UiMap.large) {
+		    if (Input.instance.wasPressed("up") && !UiMap.large) {
 			    if (this.selectedUiEntity != -1) {
 				    Entity e = this.entities.get(selectedUiEntity);
 
@@ -107,7 +107,7 @@ public class Area {
 					    ((UiEntity) e).select();
 				    }
 			    }
-		    } else if (Input.instance.wasPressed("uiDown") && !UiMap.large) {
+		    } else if (Input.instance.wasPressed("down") && !UiMap.large) {
 			    if (this.selectedUiEntity >= 0) {
 				    if (this.selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
 

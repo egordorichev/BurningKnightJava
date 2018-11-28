@@ -422,7 +422,6 @@ public class Player extends Creature {
 			}
 		}
 
-
 		if (this.isFlying() && inventory.findEquipped(RedBalloon.class)) {
 			float dx = Math.abs(this.acceleration.x) > 0.5f ? (this.acceleration.x > 0 ? 1 : -1) * 32 : 0;
 			float dy = Math.abs(this.acceleration.y) > 0.5f ? (this.acceleration.y > 0 ? 1 : -1) * 24 : 0;
@@ -1129,55 +1128,48 @@ public class Player extends Creature {
 				if (Input.instance.wasPressed("roll")) {
 					rolled = true;
 
-					final Vector2 acceleration = new Vector2(this.acceleration.x, this.acceleration.y);
+					float f = 80;
+					ignoreAcceleration = true;
+
+					if (acceleration.len() > 1f) {
+						double a = (Math.atan2(acceleration.y, acceleration.x));
+
+						acceleration.x = (float) Math.cos(a) * speed * f;
+						acceleration.y = (float) Math.sin(a) * speed * f;
+					} else {
+						double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+
+						acceleration.x = (float) Math.cos(a) * speed * f;
+						acceleration.y = (float) Math.sin(a) * speed * f;
+					}
+
 					final Player self = this;
 
-					Tween.to(new Tween.Task(0, 0.1f) {
-						@Override
-						public void onStart() {
-							float f = 80;
-
-							if (acceleration.len() > 1f) {
-								double a = (Math.atan2(velocity.y, velocity.x));
-
-								self.velocity.x = (float) Math.cos(a) * speed * f;
-								self.velocity.y = (float) Math.sin(a) * speed * f;
-							} else {
-								double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
-
-								self.velocity.x = (float) Math.cos(a) * speed * f;
-								self.velocity.y = (float) Math.sin(a) * speed * f;
-							}
-						}
-
+					Tween.to(new Tween.Task(0, 0.2f) {
 						@Override
 						public void onEnd() {
 							removeBuff(BurningBuff.class);
 
-							self.acceleration.x = 0;
-							self.acceleration.y = 0;
-
+							ignoreAcceleration = false;
 							self.velocity.x = 0;
 							self.velocity.y = 0;
 
 							Tween.to(new Tween.Task(0, 0) {
 								@Override
 								public void onStart() {
-									animation = idle;
 									rolling = false;
-									mul = 0.7f;
+								}
+
+								@Override
+								public void onEnd() {
+									super.onEnd();
+									animation = idle;
 								}
 							}).delay(0.05f);
 						}
 					}).delay(0.05f);
 
 					this.rolling = true;
-					this.mul = 1;
-					this.zvel = 40;
-
-					this.acceleration.x = 0;
-					this.acceleration.y = 0;
-
 					this.velocity.x = 0;
 					this.velocity.y = 0;
 				}
@@ -1207,9 +1199,7 @@ public class Player extends Creature {
 		super.common();
 
 		if (this.animation != null && !this.freezed) {
-			boolean rl = this.animation == this.roll;
-
-			if (this.animation.update(dt * (rl ? 1.5f : 1))) {
+			if (this.animation.update(dt)) {
 
 			}
 		}

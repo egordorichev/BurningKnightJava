@@ -229,6 +229,7 @@ public class Creature extends SaveableEntity {
 	protected boolean ignorePos;
 	protected Point acceleration = new Point();
 	protected boolean touches[] = new boolean[Terrain.SIZE];
+	protected boolean ignoreAcceleration;
 
 	@Override
 	public void update(float dt) {
@@ -262,8 +263,10 @@ public class Creature extends SaveableEntity {
 			}
 		}
 
-		this.acceleration.x = 0;
-		this.acceleration.y = 0;
+		if (!ignoreAcceleration) {
+			this.acceleration.x = 0;
+			this.acceleration.y = 0;
+		}
 
 		Buff[] buffs = this.buffs.values().toArray(new Buff[] {});
 		int sx = (int) (this.x + this.w / 2);

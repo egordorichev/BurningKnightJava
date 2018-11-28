@@ -60,7 +60,8 @@ public class Input implements InputProcessor, ControllerListener {
 	public void connected(Controller controller) {
 		String name = controller.getName().toLowerCase();
 
-		if ((!name.contains("gamepad") && !name.contains("joy") && !name.contains("stick") && !name.contains("controller")) || name.contains("wacom")) {
+		// disabled for now
+		if (true || (!name.contains("gamepad") && !name.contains("joy") && !name.contains("stick") && !name.contains("controller")) || name.contains("wacom")) {
 			Log.info("Controller " + controller.getName() + " was ignored");
 			return;
 		}
@@ -383,30 +384,6 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 	}
 
-	public boolean isDownAndNotPressed(String key) {
-		if (blocked) {
-			return false;
-		}
-
-		if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
-			return false;
-		}
-
-		if (!this.bindings.containsKey(key)) {
-			return false;
-		}
-
-		for (String id : this.bindings.get(key)) {
-			State state = this.keys.get(toButtonWithId(id));
-
-			if (state == State.DOWN) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public boolean isDown(String key) {
 		if (blocked) {
 			return false;
@@ -421,7 +398,13 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
-			State state = this.keys.get(toButtonWithId(id));
+			String idd = toButtonWithId(id);
+
+			if (idd == null) {
+				continue;
+			}
+
+			State state = this.keys.get(idd);
 
 			if (state == State.DOWN || state == State.HELD) {
 				return true;
@@ -449,7 +432,15 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
-		  if (this.keys.get(toButtonWithId(id)) == State.DOWN) {
+			String idd = toButtonWithId(id);
+
+			if (idd == null) {
+				continue;
+			}
+
+			State state = this.keys.get(toButtonWithId(idd));
+
+		  if (state == State.DOWN) {
 				return true;
 			}
 		}
@@ -467,7 +458,15 @@ public class Input implements InputProcessor, ControllerListener {
 		}
 
 		for (String id : this.bindings.get(key)) {
-		  if (this.keys.get(toButtonWithId(id)) == State.UP) {
+			String idd = toButtonWithId(id);
+
+			if (idd == null) {
+				continue;
+			}
+
+			State state = this.keys.get(toButtonWithId(idd));
+
+			if (state == State.UP) {
 				return true;
 			}
 		}
