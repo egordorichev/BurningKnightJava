@@ -146,8 +146,6 @@ public class Player extends Creature {
 	public ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private String name;
-	private float watery;
-	private float lastRun;
 	private float lastRegen;
 	private float lastMana;
 	private float fa;
@@ -218,23 +216,7 @@ public class Player extends Creature {
 		all.add(this);
 		instance = this;
 
-		run.setListener(new AnimationData.Listener() {
-			@Override
-			public void onFrame(int frame) {
-				if (frame == 2 || frame == 6) {
-					playStepSfx();
-				}
-			}
-		});
 		Ui.ui.dead = false;
-	}
-
-	protected void playStepSfx() {
-		if (this.watery > 4.5f) {
-			Audio.playSfx("step_gobbo_water_" + Random.newInt(1, 6), 1f, Random.newFloat(0.9f, 1.9f));
-		} else {
-			Audio.playSfx("step_gobbo_" + Random.newInt(1, 6), 1f, Random.newFloat(0.9f, 1.9f));
-		}
 	}
 
 	public Type getType() {
@@ -1057,7 +1039,6 @@ public class Player extends Creature {
 			}
 		}
 
-		this.watery = Math.max(0, this.watery - dt);
 
 		if (this.dead) {
 			super.common();
@@ -1182,7 +1163,6 @@ public class Player extends Creature {
 		}
 
 		float v = this.acceleration.len2();
-		this.lastRun += dt;
 
 		if (this.velocity.len() + this.knockback.len() + v > 9f) {
 			this.stopT = 0;
@@ -1267,8 +1247,6 @@ public class Player extends Creature {
 			if (this.leaveVenom > 0) {
 				Dungeon.level.venom(x, y);
 			}
-
-			this.watery = 5f;
 		} else {
 			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
 				this.addBuff(new BurningBuff());

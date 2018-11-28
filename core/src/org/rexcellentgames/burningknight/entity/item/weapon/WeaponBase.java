@@ -35,7 +35,7 @@ public class WeaponBase extends Item {
 	public float initialCrit;
 	
 	protected String getSfx() {
-		return "melee_1";
+		return "whoosh";
 	}
 
 	@Override

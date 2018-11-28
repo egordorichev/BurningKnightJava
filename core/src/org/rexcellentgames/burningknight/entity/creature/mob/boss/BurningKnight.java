@@ -264,6 +264,7 @@ public class BurningKnight extends Boss {
 
 		if (deathDepth != Dungeon.depth) {
 			restore();
+			deathDepth = Dungeon.depth;
 		}
 
 		if (def && !this.pickedKey) {

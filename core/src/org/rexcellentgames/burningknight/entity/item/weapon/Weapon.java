@@ -116,12 +116,12 @@ public class Weapon extends WeaponBase {
 	public void onCollision(Entity entity) {
 		if (!played) {
 			if (entity == null) {
-				this.owner.playSfx("clink_1");
+				this.owner.playSfx("clink");
 				played = true;
 				this.knockFrom(entity);
 				return;
 			} else if (entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Entrance || entity instanceof Chest) {
-				// this.owner.playSfx("clink_2");
+				this.owner.playSfx("clink");
 				played = true;
 				this.knockFrom(entity);
 				return;

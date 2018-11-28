@@ -61,47 +61,45 @@ public class Axe extends Weapon {
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
-		if (this.added > 0) {
-			float angle = this.added;
+		float angle = -this.added;
 
-			if (this.owner != null) {
-				if (this.owner instanceof Player) {
-					float dx = this.owner.x + this.owner.w / 2 - Input.instance.worldMouse.x - 8;
-					float dy = this.owner.y + this.owner.h / 2 - Input.instance.worldMouse.y - 8;
+		if (this.owner != null) {
+			if (this.owner instanceof Player) {
+				float dx = this.owner.x + this.owner.w / 2 - Input.instance.worldMouse.x - 8;
+				float dy = this.owner.y + this.owner.h / 2 - Input.instance.worldMouse.y - 8;
+				float a = (float) Math.toDegrees(Math.atan2(dy, dx));
+
+				angle += (flipped ? a : -a);
+
+				angle = flipped ? angle : 180 - angle;
+			} else if (this.owner instanceof Mob && this.added == 0) {
+				Mob mob = (Mob) this.owner;
+
+				if (mob.target != null && mob.saw && !mob.isDead()) {
+					float dx = this.owner.x + this.owner.w / 2 - mob.target .x - mob.target.w / 2;
+					float dy = this.owner.y + this.owner.h / 2 - mob.target .y - mob.target.h / 2;
 					float a = (float) Math.toDegrees(Math.atan2(dy, dx));
 
 					angle += (flipped ? a : -a);
-
-					angle = flipped ? angle : 180 - angle;
-				} else if (this.owner instanceof Mob && this.added == 0) {
-					Mob mob = (Mob) this.owner;
-
-					if (mob.target != null && mob.saw && !mob.isDead()) {
-						float dx = this.owner.x + this.owner.w / 2 - mob.target .x - mob.target.w / 2;
-						float dy = this.owner.y + this.owner.h / 2 - mob.target .y - mob.target.h / 2;
-						float a = (float) Math.toDegrees(Math.atan2(dy, dx));
-
-						angle += (flipped ? a : -a);
-					} else {
-						angle += (flipped ? 0 : 180);
-					}
-
-					angle = flipped ? angle : 180 - angle;
 				} else {
 					angle += (flipped ? 0 : 180);
-					angle = flipped ? angle : 180 - angle;
 				}
+
+				angle = flipped ? angle : 180 - angle;
+			} else {
+				angle += (flipped ? 0 : 180);
+				angle = flipped ? angle : 180 - angle;
 			}
-
-			TextureRegion sprite = this.getSprite();
-
-			float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
-			float yy = y + (this.ox == 0 ? h / 4 : h / 2);
-
-			this.renderAt(xx, yy,
-				angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy,
-				false, false, flipped ? -1f : 1f, 1f);
 		}
+
+		TextureRegion sprite = this.getSprite();
+
+		float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
+		float yy = y + (this.ox == 0 ? h / 4 : h / 2);
+
+		this.renderAt(xx, yy,
+			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy,
+			false, false, flipped ? -1f : 1f, 1f);
 	}
 
 	protected boolean canBeConsumed() {
@@ -122,7 +120,7 @@ public class Axe extends Weapon {
 		this.owner.knockback.x += Math.cos(a) * s * knockbackMod;
 		this.owner.knockback.y += Math.sin(a) * s * knockbackMod;
 
-		Tween.to(new Tween.Task(90, 0.2f) {
+		Tween.to(new Tween.Task(130, 0.3f) {
 			@Override
 			public float getValue() {
 				return added;
@@ -144,7 +142,7 @@ public class Axe extends Weapon {
 				fx.region = getSprite();
 				fx.type = self.getClass();
 				fx.x = owner.x + (owner.w - 16) / 2;
-				fx.y = owner.y + (owner.h - 16) / 2;
+				fx.y = owner.y + (owner.h) / 2;
 				fx.speed = (int) (speed);
 
 				fx.owner = owner;
@@ -157,5 +155,10 @@ public class Axe extends Weapon {
 				endUse();
 			}
 		});
+	}
+
+	@Override
+	protected void createHitbox() {
+
 	}
 }

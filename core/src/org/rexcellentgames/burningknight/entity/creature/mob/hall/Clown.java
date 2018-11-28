@@ -234,7 +234,7 @@ public class Clown extends Mob {
 		public void onEnter() {
 			super.onEnter();
 			self.placedBomb = false;
-			self.playSfx("laugh_" + Random.newInt(1, 3));
+			self.playSfx("laugh");
 		}
 
 		@Override

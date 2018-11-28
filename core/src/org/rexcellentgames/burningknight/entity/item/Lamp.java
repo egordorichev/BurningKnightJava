@@ -199,6 +199,6 @@ public class Lamp extends Item {
 	}
 
 	public static void play() {
-		Audio.playSfx("curse_lamp_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
+		Audio.playSfx("curse_lamp", 1f, Random.newFloat(0.9f, 1.9f));
 	}
 }
