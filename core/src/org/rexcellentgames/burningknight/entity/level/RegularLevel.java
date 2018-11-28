@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.Builder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.SingleRoomBuilder;
@@ -244,9 +243,10 @@ public abstract class RegularLevel extends Level {
 			}
 		} while (this.rooms == null);
 
+		/*
 		if (Dungeon.depth > 0) {
 			itemsToSpawn.add(new ScrollOfUpgrade());
-		}
+		}*/
 	}
 
 	protected ArrayList<Room> createRooms() {
@@ -270,9 +270,9 @@ public abstract class RegularLevel extends Level {
 			rooms.add(new HandmadeRoom("shops"));
 		} else if (Dungeon.depth == -1) {
 			rooms.add(new HandmadeRoom("hub"));
-		} else if (Random.chance(50)) {
+		}/* else if (Random.chance(50)) {
 			rooms.add(ItemRoomPool.instance.generate());
-		}
+		}*/
 
 		if (Dungeon.depth > 0) {
 			if (GlobalSave.isFalse("all_npcs_saved") && (Random.chance(25))) {
