@@ -296,6 +296,8 @@ public class InGameState extends State {
 		this.console.destroy();
 		Dungeon.battleDarkness = 0;
 
+		Camera.instance.resetShake();
+
 		if (Dungeon.reset || Player.instance == null || Player.instance.isDead()) {
 			Gdx.files.external(SaveManager.SAVE_DIR + SaveManager.slot).deleteDirectory();
 			Dungeon.reset = false;

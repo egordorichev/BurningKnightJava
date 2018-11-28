@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
+import org.rexcellentgames.burningknight.entity.item.weapon.magic.Wand;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
@@ -34,6 +35,9 @@ public class UiInventory extends UiEntity {
 	{
 		isSelectable = false;
 	}
+
+	private float mana;
+	private float ammo;
 	
 	public UiInventory(Inventory inventory) {
 		this.inventory = inventory;
@@ -44,6 +48,7 @@ public class UiInventory extends UiEntity {
 	public void init() {
 		createSlots();
 		hp = Player.instance.getHp();
+		mana = Player.instance.getMana();
 	}
 
 	private float sx;
@@ -132,19 +137,6 @@ public class UiInventory extends UiEntity {
 				Player.instance.playSfx("menu/moving");
 				this.validate(Input.instance.getAmount());
 			}
-
-			/*if (!Input.instance.blocked && Input.instance.wasPressed("drop") && Dialog.active == null) {
-				Item slot = this.inventory.getSlot(this.active);
-				UiSlot ui = this.slots[this.active];
-
-				ui.tweenClick();
-
-				if (slot == null) {
-					return;
-				}
-
-				this.drop(slot);
-			}*/
 		}
 
 		if (Player.instance != null) {
@@ -163,6 +155,14 @@ public class UiInventory extends UiEntity {
 			this.hp = hp;
 		} else if (this.hp < hp) {
 			this.hp += dt * 10;
+		}
+
+		int mana = Player.instance.getMana();
+
+		if (this.mana > mana) {
+			this.mana = mana;
+		} else if (this.mana < mana) {
+			this.mana += dt * 10;
 		}
 
 		this.inventory.active = this.active;
@@ -292,23 +292,27 @@ public class UiInventory extends UiEntity {
 		float x = sx;
 		float xx = x;
 
-		int mana = Player.instance.getMana();
+		Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
 
-		for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
-			float s = 1f;
-			float yy = y + 10;
+		if (item instanceof Wand) {
+			int mana = (int) this.mana;
 
-			boolean change = (invm > 0.7f || (invm > 0.5f && invm % 0.2f > 0.1f));
-			Graphics.render(change ? star_change : star_bg, xx + i * 11 + star.getRegionWidth() / 2 + (change ? -1 : 0),
-				yy + 8 + star.getRegionHeight() / 2 + (change ? -1 : 0), 0,
-				star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+			for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
+				float s = 1f;
+				float yy = y + 10;
 
-			if (mana - 2 >= i * 2) {
-				Graphics.render(star, xx + i * 11 + star.getRegionWidth() / 2, yy + 8
-					+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-			} else if (mana - 2 >= i * 2 - 1) {
-				Graphics.render(halfStar, xx + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
+				boolean change = (invm > 0.7f || (invm > 0.5f && invm % 0.2f > 0.1f));
+				Graphics.render(change ? star_change : star_bg, xx + i * 11 + star.getRegionWidth() / 2 + (change ? -1 : 0),
+					yy + 8 + star.getRegionHeight() / 2 + (change ? -1 : 0), 0,
 					star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+
+				if (mana - 2 >= i * 2) {
+					Graphics.render(star, xx + i * 11 + star.getRegionWidth() / 2, yy + 8
+						+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+				} else if (mana - 2 >= i * 2 - 1) {
+					Graphics.render(halfStar, xx + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
+						star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+				}
 			}
 		}
 
@@ -320,7 +324,7 @@ public class UiInventory extends UiEntity {
 			invm -= Gdx.graphics.getDeltaTime();
 		}
 
-		lastMana = mana;
+		lastMana = (int) mana;
 
 		int hp = (int) Math.floor(this.hp);
 		int iron = Player.instance.getIronHearts();

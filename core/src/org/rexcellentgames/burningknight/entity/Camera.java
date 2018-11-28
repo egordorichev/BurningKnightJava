@@ -31,6 +31,13 @@ public class Camera extends Entity {
 	private static float pushAm;
 	private static float st;
 
+	public void resetShake() {
+		shake = 0;
+		pushA = 0;
+		pushAm = 0;
+		st = 0;
+	}
+
 	private static Tween.Task last;
 
 	public static void push(float a, float am) {
