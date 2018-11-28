@@ -267,7 +267,7 @@ public class Door extends SaveableEntity {
 			}
 
 			MassData data = new MassData();
-			data.mass = 1000000000000000f;
+			data.mass = Float.MAX_VALUE;
 			
 			if (this.body != null) {
 				this.body.setMassData(data);
