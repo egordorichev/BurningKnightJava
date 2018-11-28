@@ -12,12 +12,11 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
 
 public class InventoryState extends State {
-	// fixme: game should keep track if it saved in this state or in-game
-
 	private Inventory inventory;
 	private UiInventory ui;
 	private UiButton go;
@@ -26,6 +25,12 @@ public class InventoryState extends State {
 	@Override
 	public void init() {
 		super.init();
+
+		GameSave.inventory = true;
+
+		Dungeon.dark = 1;
+		Dungeon.white = 0;
+		Dungeon.darkR = Dungeon.MAX_R;
 
 		Dungeon.setBackground2(Color.valueOf("#555555"));
 

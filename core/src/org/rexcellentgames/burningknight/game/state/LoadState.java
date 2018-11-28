@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -62,7 +63,7 @@ public class LoadState extends State {
 	public void update(float dt) {
 		if (this.ready) {
 			Dungeon.darkR = 0;
-			Dungeon.game.setState(new InGameState());
+			Dungeon.game.setState(GameSave.inventory ? new InventoryState() : new InGameState());
 		}
 	}
 

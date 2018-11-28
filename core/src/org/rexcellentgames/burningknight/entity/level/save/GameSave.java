@@ -14,6 +14,7 @@ public class GameSave {
 	public static boolean defeatedBK;
 	public static int killCount;
 	public static float time;
+	public static boolean inventory;
 
 	public static void save(FileWriter writer, boolean old) {
 		try {
@@ -25,6 +26,7 @@ public class GameSave {
 			writer.writeBoolean(defeatedBK);
 			writer.writeInt32(killCount);
 			writer.writeFloat(time);
+			writer.writeBoolean(inventory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -77,6 +79,7 @@ public class GameSave {
 		defeatedBK = reader.readBoolean();
 		killCount = reader.readInt32();
 		time = reader.readFloat();
+		inventory = reader.readBoolean();
 	}
 
 	public static void generate() {

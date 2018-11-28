@@ -384,7 +384,8 @@ public class Gun extends WeaponBase {
 
 		getSprite();
 
-		this.owner.playSfx(getSfx());
+		// fixme: use getSfx*(
+		this.owner.playSfx("gun_machinegun");
 
 		Point aim = this.owner.getAim();
 
