@@ -122,6 +122,7 @@ public class Door extends SaveableEntity {
 	}
 
 	private float lastFlame;
+	private Body sensor;
 
 	@Override
 	public void update(float dt) {
@@ -259,11 +260,18 @@ public class Door extends SaveableEntity {
 		}
 
 		if (this.body == null) {
-			this.body = World.createSimpleBody(this, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
+			this.body = World.createSimpleBody(null, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
 				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, false);
 
 			if (this.body != null) {
 				World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+			}
+
+			this.sensor = World.createSimpleBody(this, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
+				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, true);
+
+			if (this.sensor != null) {
+				World.checkLocked(this.sensor).setTransform(this.x, this.y, 0);
 			}
 
 			MassData data = new MassData();
@@ -384,6 +392,7 @@ public class Door extends SaveableEntity {
 	public void destroy() {
 		super.destroy();
 		this.body = World.removeBody(this.body);
+		this.sensor = World.removeBody(this.sensor);
 		all.remove(this);
 	}
 

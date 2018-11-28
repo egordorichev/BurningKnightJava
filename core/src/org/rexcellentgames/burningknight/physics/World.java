@@ -203,7 +203,7 @@ public class World {
 	}
 
 	public static Body createSimpleBody(Entity owner, float x, float y, float w, float h, BodyDef.BodyType type, boolean sensor, float den) {
-		Log.physics("Creating body for " + owner.getClass().getSimpleName() + " with params (" + x + ", " + y + ", " + w + ", " + h + ") and sensor = " + sensor);
+		Log.physics("Creating body for " + (owner == null ? null : owner.getClass().getSimpleName()) + " with params (" + x + ", " + y + ", " + w + ", " + h + ") and sensor = " + sensor);
 
 		if (world.isLocked()) {
 			Log.physics("World is locked! Failed to create body");
