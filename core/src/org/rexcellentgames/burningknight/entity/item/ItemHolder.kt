@@ -141,7 +141,7 @@ open class ItemHolder : SaveableEntity {
       return false
     }
 
-    if (item is Gold) {
+    if (item is Gold && entity !is Player) {
       return false
     }
 
@@ -226,7 +226,7 @@ open class ItemHolder : SaveableEntity {
 
     this.velocity.mul(0.9f)
 
-    if (!InGameState.dark && item is Gold && item!!.autoPickup) {
+    if (!InGameState.dark && item is Gold && item!!.autoPickup && !done) {
       val room = Dungeon.level.findRoomFor(this.x + this.w / 2, this.y + this.h / 2)
 
       if (room != null && room !is ShopRoom && room == Player.instance.room && !room.hidden) {

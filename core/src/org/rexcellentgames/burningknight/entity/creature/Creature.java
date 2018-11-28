@@ -440,7 +440,7 @@ public class Creature extends SaveableEntity {
 			return null;
 		}
 
-		if (this.done || this.dead || this.invtt > 0 || this.invt > 0) {
+		if (this.done || this.dead || this.invtt > 0 || (this.invt > 0 && !(this instanceof Mob))) {
 			return null;
 		} else if (amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class) &&
 			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||

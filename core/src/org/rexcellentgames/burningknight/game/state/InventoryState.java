@@ -44,6 +44,11 @@ public class InventoryState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
+
+				for (int i = 8; i < inventory.getSize(); i++) {
+					inventory.setSlot(i, null);
+				}
+
 				SaveManager.saveGame();
 				Log.error("Going to depth " + depth);
 				Dungeon.goToLevel(depth);

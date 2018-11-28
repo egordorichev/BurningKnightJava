@@ -17,10 +17,7 @@ import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
-import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
-import org.rexcellentgames.burningknight.entity.item.key.Key;
-import org.rexcellentgames.burningknight.entity.item.key.KeyA;
-import org.rexcellentgames.burningknight.entity.item.key.KeyB;
+import org.rexcellentgames.burningknight.entity.item.key.*;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
@@ -158,6 +155,7 @@ public class Door extends SaveableEntity {
 		if (this.lock && !last) {
 			this.playSfx("door_lock");
 
+			this.body.getFixtureList().get(0).setSensor(false);
 			this.lockAnim = this.lk;
 			this.animation.setBack(true);
 			this.animation.setPaused(false);
@@ -172,13 +170,20 @@ public class Door extends SaveableEntity {
 
 		if (this.lock && this.onScreen && this.al >= 0.5f && Input.instance.wasPressed("interact")) {
 			if (Player.instance.ui.hasEquipped(Lootpick.class)) {
+
+				this.body.getFixtureList().get(0).setSensor(false);
+				this.body.setTransform(0, 0, 0);
 				this.lock = false;
 				this.animation.setBack(false);
 				this.animation.setPaused(false);
 				this.lockAnim = this.unlock;
-			} else if (Player.instance.getInventory().find(this.key)) {
-				Item key = Player.instance.getInventory().findItem(this.key);
-				key.setCount(key.getCount() - 1);
+			} else if ((this.key == KeyC.class && Player.instance.getKeys() > 0) || Player.instance.getInventory().find(this.key)) {
+				if (this.key == KeyC.class) {
+					Player.instance.setKeys(Player.instance.getKeys() - 1);
+				} else {
+					Item key = Player.instance.getInventory().findItem(this.key);
+					key.setCount(key.getCount() - 1);
+				}
 
 				Player.instance.playSfx("unlock");
 
@@ -189,12 +194,14 @@ public class Door extends SaveableEntity {
 					Achievements.unlock(Achievements.UNLOCK_LOOTPICK);
 				}
 
+				this.body.getFixtureList().get(0).setSensor(false);
+				this.body.setTransform(0, 0, 0);
 				this.lock = false;
 				this.animation.setBack(false);
 				this.animation.setPaused(false);
 				this.lockAnim = this.unlock;
 
-				if (this.key == KeyA.class) {
+				if (this.key == KeyC.class) {
 					Room room = Dungeon.level.findRoomFor(this.x, this.y);
 
 					for (Trader trader : Trader.all) {
@@ -214,7 +221,7 @@ public class Door extends SaveableEntity {
 			} else {
 				vt = 1;
 				this.playSfx("item_nocash");
-				Camera.shake(6);
+				Camera.shake(3);
 
 				if (this.key == BurningKey.class) {
 					ItemHolder holder = null;
@@ -267,13 +274,6 @@ public class Door extends SaveableEntity {
 				World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 			}
 
-			this.sensor = World.createSimpleBody(this, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
-				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, true);
-
-			if (this.sensor != null) {
-				World.checkLocked(this.sensor).setTransform(this.x, this.y, 0);
-			}
-
 			MassData data = new MassData();
 			data.mass = 1000000000000000f;
 			
@@ -282,7 +282,19 @@ public class Door extends SaveableEntity {
 			}
 		}
 
-		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+		if (this.sensor == null) {
+			this.sensor = World.createSimpleBody(this, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
+				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, true);
+
+			if (this.sensor != null) {
+				World.checkLocked(this.sensor).setTransform(this.x, this.y, 0);
+			}
+		}
+
+		if (this.body != null) {
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+		}
+
 		super.update(dt);
 
 		if (this.animation.update(dt)) {
@@ -291,9 +303,9 @@ public class Door extends SaveableEntity {
 			}
 
 			if (this.numCollisions == 0 && animation.getFrame() == 0) {
-				Filter d = this.body.getFixtureList().get(0).getFilterData();
+				Filter d = this.sensor.getFixtureList().get(0).getFilterData();
 				d.maskBits = 0x0003;
-				this.body.getFixtureList().get(0).setFilterData(d);
+				this.sensor.getFixtureList().get(0).setFilterData(d);
 			}
 		}
 
@@ -414,15 +426,16 @@ public class Door extends SaveableEntity {
 			}
 
 			if (!this.isOpen()) {
+				this.body.getFixtureList().get(0).setSensor(true);
 				this.playSfx("door");
 			}
 
 			this.numCollisions += 1;
 
-			if (this.body != null) {
-				Filter d = this.body.getFixtureList().get(0).getFilterData();
+			if (this.sensor != null) {
+				Filter d = this.sensor.getFixtureList().get(0).getFilterData();
 				d.maskBits = 0x0002;
-				this.body.getFixtureList().get(0).setFilterData(d);
+				this.sensor.getFixtureList().get(0).setFilterData(d);
 			}
 
 			this.animation.setBack(false);

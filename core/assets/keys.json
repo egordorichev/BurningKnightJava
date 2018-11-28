@@ -12,6 +12,7 @@
 	"scroll" : [ "MouseWheel" ],
 	"switch" : [ "L-Shift", "R-Shift" ],
 	"active" : [ "Space" ],
+	"bomb" : [ "Q" ],
 
 	"interact" : [ "E" ],
 	"pause" : [ "Escape" ],

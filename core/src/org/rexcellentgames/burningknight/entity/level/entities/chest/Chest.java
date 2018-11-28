@@ -17,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.*;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.permanent.BetterChestChance;
@@ -419,38 +420,62 @@ public class Chest extends SaveableEntity {
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
 			if (this.locked) {
-				Item key = Player.instance.getInventory().findItem(KeyC.class);
+				if (Player.instance.ui.hasEquipped(Lootpick.class)) {
+					Player.instance.playSfx("unlock");
 
-				if (key == null) {
-					this.colliding = true;
-					vt = 1;
-					Player.instance.playSfx("item_nocash");
+					drawOpenAnim = true;
+					renderUnlock = true;
 
-					Camera.shake(6);
-					return;
-				}
+					this.locked = false;
 
-				if (Dungeon.depth == -3) {
-					Ui.ui.hideControlsFast();
-				}
+					this.open = true;
+					this.data = this.getOpenAnim();
 
-				Player.instance.playSfx("unlock");
+					this.data.setListener(new AnimationData.Listener() {
+						@Override
+						public void onEnd() {
+							create = true;
+						}
+					});
+				} else {
+					Item key = Player.instance.getInventory().findItem(KeyC.class);
 
-				drawOpenAnim = true;
-				renderUnlock = true;
+					if (key == null && (Player.instance.getKeys() == 0)) {
+						this.colliding = true;
+						vt = 1;
+						Player.instance.playSfx("item_nocash");
 
-				key.setCount(key.getCount() - 1);
-				this.locked = false;
-
-				this.open = true;
-				this.data = this.getOpenAnim();
-
-				this.data.setListener(new AnimationData.Listener() {
-					@Override
-					public void onEnd() {
-						create = true;
+						Camera.shake(6);
+						return;
 					}
-				});
+
+					if (Dungeon.depth == -3) {
+						Ui.ui.hideControlsFast();
+					}
+
+					Player.instance.playSfx("unlock");
+
+					drawOpenAnim = true;
+					renderUnlock = true;
+
+					if (key != null) {
+						key.setCount(key.getCount() - 1);
+					} else {
+						Player.instance.setKeys(Player.instance.getKeys() - 1);
+					}
+
+					this.locked = false;
+
+					this.open = true;
+					this.data = this.getOpenAnim();
+
+					this.data.setListener(new AnimationData.Listener() {
+						@Override
+						public void onEnd() {
+							create = true;
+						}
+					});
+				}
 			}
 		}
 

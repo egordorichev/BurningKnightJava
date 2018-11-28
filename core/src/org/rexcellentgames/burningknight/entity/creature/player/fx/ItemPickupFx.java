@@ -145,7 +145,7 @@ public class ItemPickupFx extends Entity {
 				this.erase();
 			} else {
 				if (this.item.getItem().shop) {
-					int g = this.player.getInventory().getGold();
+					int g = this.player.getMoney();
 
 					if (g < this.item.getItem().price) {
 						this.remove();
@@ -154,7 +154,7 @@ public class ItemPickupFx extends Entity {
 						Camera.shake(6);
 						return;
 					} else {
-						this.player.getInventory().removeGold(this.item.getItem().price);
+						this.player.setMoney(g - this.item.getItem().price);
 						this.item.getItem().shop = false;
 						this.item.getPrice().remove();
 						this.erase();

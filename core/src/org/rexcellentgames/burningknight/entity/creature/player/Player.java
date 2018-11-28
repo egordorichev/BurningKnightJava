@@ -39,6 +39,7 @@ import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
+import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -49,6 +50,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
+import org.rexcellentgames.burningknight.entity.item.key.Key;
 import org.rexcellentgames.burningknight.entity.item.permanent.ExtraHeart;
 import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
@@ -161,6 +163,33 @@ public class Player extends Creature {
 	public float accuracy;
 	public static boolean seeMore;
 	private PointLight light;
+	private int money;
+	private int bombs;
+	private int keys;
+
+	public int getKeys() {
+		return keys;
+	}
+
+	public int getBombs() {
+		return bombs;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	public void setKeys(int money) {
+		this.keys = Math.min(99, money);
+	}
+
+	public void setBombs(int money) {
+		this.bombs = Math.min(99, money);
+	}
 
 	{
 		hpMax = 8;
@@ -692,6 +721,7 @@ public class Player extends Creature {
 						}
 					}
 
+					item.done = true;
 					item.remove();
 				}
 			} else if (!item.getFalling()) {
@@ -742,7 +772,25 @@ public class Player extends Creature {
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
-			if (this.inventory.add(item)) {
+			if (item.getItem() instanceof Bomb) {
+				setBombs(bombs + item.getItem().getCount());
+				item.remove();
+				item.done = true;
+
+				return true;
+			} else if (item.getItem() instanceof Gold) {
+				setMoney(money + item.getItem().getCount());
+				item.remove();
+				item.done = true;
+
+				return true;
+			} else if (item.getItem() instanceof Key) {
+				setKeys(keys + item.getItem().getCount());
+				item.remove();
+				item.done = true;
+
+				return true;
+			} else if (this.inventory.add(item)) {
 				if (item.getItem().hasAutoPickup()) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
@@ -1626,6 +1674,10 @@ public class Player extends Creature {
 		writer.writeByte((byte) numGoldenHearts);
 		writer.writeBoolean(this.gotHit);
 		writer.writeString(hatId);
+
+		writer.writeByte((byte) this.bombs);
+		writer.writeByte((byte) this.keys);
+		writer.writeInt16((short) this.money);
 	}
 
 	@Override
@@ -1656,6 +1708,10 @@ public class Player extends Creature {
 		hasBkKey = this.inventory.find(BurningKey.class);
 
 		onRoomChange();
+
+		this.bombs = reader.readByte();
+		this.keys = reader.readByte();
+		this.money = reader.readInt16();
 	}
 
 	@Override

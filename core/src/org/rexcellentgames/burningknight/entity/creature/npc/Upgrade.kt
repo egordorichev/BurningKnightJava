@@ -184,7 +184,7 @@ class Upgrade : SaveableEntity() {
 
 			if (count < this.price) {
 				Audio.playSfx("item_nocash")
-				Camera.shake(6f)
+				Camera.shake(3f)
 			} else {
 				count -= this.price
 				GlobalSave.put("num_coins", count)

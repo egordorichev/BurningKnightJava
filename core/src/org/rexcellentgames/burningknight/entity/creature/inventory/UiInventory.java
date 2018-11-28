@@ -6,15 +6,18 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.Wand;
-import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
@@ -139,6 +142,40 @@ public class UiInventory extends UiEntity {
 				this.active = this.active + Input.instance.getAmount();
 				Player.instance.playSfx("menu/moving");
 				this.validate(Input.instance.getAmount());
+			}
+
+			if (Input.instance.wasPressed("bomb")) {
+				int count = Player.instance.getBombs();
+
+				if (count == 0) {
+					Player.instance.playSfx("item_nocash");
+				} else {
+					Player.instance.setBombs(count - 1);
+					BombEntity e = new BombEntity(Player.instance.x + (Player.instance.w - 16) / 2, Player.instance.y + (Player.instance.h - 16) / 2).toMouseVel();
+					e.owner = Player.instance;
+
+					Player player = Player.instance;
+
+					e.leaveSmall = player.leaveSmall;
+
+					if (player.fireBombs) {
+						e.toApply.add(new BurningBuff());
+					}
+
+					if (player.iceBombs) {
+						e.toApply.add(new FreezeBuff());
+					}
+
+					if (player.poisonBombs) {
+						e.toApply.add(new PoisonBuff());
+					}
+
+					if (player.manaBombs) {
+						player.modifyMana(player.getManaMax());
+					}
+
+					Dungeon.area.add(e);
+				}
 			}
 
 			if (Input.instance.wasPressed("active")) {
@@ -371,6 +408,9 @@ public class UiInventory extends UiEntity {
 					}
 				}
 			}
+
+			Graphics.print(Player.instance.getMoney() + "$ " + Player.instance.getBombs() + "b " + Player.instance.getKeys() + "k",
+				Graphics.small, 4, 32);
 		}
 
 		if (lastMana > mana) {
@@ -449,12 +489,6 @@ public class UiInventory extends UiEntity {
 
 		this.renderCurrentSlot();
 
-		this.al += ((Player.instance.room instanceof ShopRoom ? 1 : 0) - this.al) * Gdx.graphics.getDeltaTime() * 4;
-
-		if (this.al > 0.05f && !Ui.hideUi) {
-			this.slots[11].renderItem(this.inventory.getSlot(11), 6 * 29 + 4, 4, this.al);
-		}
-
 		if (full) {
 			float dy = 8 + y;
 			float dx = x + 4 * 29 - 5 - defense.getRegionWidth();
@@ -467,8 +501,6 @@ public class UiInventory extends UiEntity {
 			Graphics.print(s, Graphics.small, dx + (defense.getRegionWidth() - Graphics.layout.width) / 2, dy + (defense.getRegionHeight() - Graphics.layout.height) / 2 - 1);
 		}
 	}
-
-	private float al;
 
 	public UiBuff hoveredBuff;
 

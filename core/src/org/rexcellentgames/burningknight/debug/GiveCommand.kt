@@ -40,7 +40,7 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
         val itemHolder = ItemHolder()
         itemHolder.item = item
         
-        Player.instance.inventory.add(itemHolder)
+        Player.instance.tryToPickup(itemHolder)
       } catch (e: Exception) {
         Log.error("Failed to create item, consult @egordorichev")
         e.printStackTrace()

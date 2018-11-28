@@ -325,10 +325,6 @@ public class Gun extends WeaponBase {
 			return;
 		}
 
-		if (this.ammoLeft == 0) {
-			this.owner.playSfx("item_nocash");
-		}
-
 		if (this.ammoLeft <= 0 || this.chargeProgress != 0) {
 			if (this.chargeProgress == 0 && (this.owner instanceof Mob)) {
 				pressed = true;
