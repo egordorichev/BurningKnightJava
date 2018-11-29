@@ -564,5 +564,10 @@
 	"infinite_bomb" : "Infinite Bomb",
 	"infinite_bomb_desc" : "Just call me Bombini now.",
 	"collect_300_gold_achievement" : "Payday",
-	"collect_300_gold_achievement_desc" : "Collect 300 gold"
+	"collect_300_gold_achievement_desc" : "Collect 300 gold",
+	"upgrade_achievement": "Artificer",
+	"upgrade_achievement_desc": "Upgrade one of your items",
+	"upgrade_hint": "Upgrade",
+	"scroll_of_upgrade": "Scroll Of Upgrade",
+	"scroll_of_upgrade_desc": "Now I can upgrade one of my items!\nClick on it to upgrade!\nIt also removes curse.",
 }

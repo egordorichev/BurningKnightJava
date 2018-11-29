@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.Builder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.SingleRoomBuilder;
@@ -64,6 +65,8 @@ public abstract class RegularLevel extends Level {
 		this.itemsToSpawn.clear();
 
 		if (Dungeon.depth > 0) {
+			itemsToSpawn.add(new ScrollOfUpgrade());
+
 			for (int i = 0; i < Random.newInt(4); i++) {
 				this.itemsToSpawn.add(new Bomb());
 			}

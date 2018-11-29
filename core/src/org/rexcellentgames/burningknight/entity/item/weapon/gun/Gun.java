@@ -144,6 +144,10 @@ public class Gun extends WeaponBase {
 				ammoLeft ++;
 				this.onAmmoAdded();
 				chargeProgress = 0;
+
+				if (this.ammoLeft == this.ammoMax && this.owner instanceof Player) {
+					this.owner.playSfx("magnet_start");
+				}
 			}
 		}
 	}
