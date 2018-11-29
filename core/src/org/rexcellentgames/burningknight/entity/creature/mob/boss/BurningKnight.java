@@ -678,20 +678,20 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
-			if (self.lastSeen == null) {
-				self.become("roam");
-				return;
-			}
-
 			if (!self.rage) {
 				self.become("preattack");
-			} else if (this.flyTo(self.lastSeen, 20, 128f)) {
-				self.become("rangedAttack");
+			} else if (this.flyTo(Player.instance, 30, 48f)) {
+				self.become("missileAttack");
 				return;
 			}
 
 			super.update(dt);
 		}
+	}
+
+	@Override
+	public boolean isLow() {
+		return false;
 	}
 
 	@Override
@@ -702,10 +702,6 @@ public class BurningKnight extends Boss {
 
 		return items;
 	}
-
-	private static final float ATTACK_DISTANCE = 32;
-	private static final float RANGED_ATTACK_DISTANCE = 132;
-	private static final float TP_DISTANCE = 140;
 
 	@Override
 	public void destroy() {
@@ -1299,7 +1295,7 @@ public class BurningKnight extends Boss {
 				}
 			} else if (self.lookDown.isPaused()) {
 				self.anim = self.idle;
-				self.become("preattack");
+				self.become(self.rage ? "chase" : "preattack");
 			}
 		}
 	}

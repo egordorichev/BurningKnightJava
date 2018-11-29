@@ -112,7 +112,7 @@ public class MissileProjectile extends BulletProjectile {
 	@Override
 	public void destroy() {
 		super.destroy();
-		Camera.shake(6f);
+		Camera.shake(3f);
 	}
 
 	@Override

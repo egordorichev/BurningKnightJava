@@ -423,7 +423,7 @@ public class Door extends SaveableEntity {
 				this.collidingWithPlayer = true;
 			}
 
-			if (this.lock || (entity instanceof Mob)) {
+			if (this.lock || !(entity instanceof Player)) {
 				return;
 			}
 

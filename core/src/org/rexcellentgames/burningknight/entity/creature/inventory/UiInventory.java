@@ -311,6 +311,10 @@ public class UiInventory extends UiEntity {
 	private static TextureRegion ammo_bg = Graphics.getTexture("ui-ammo_bg");
 	private static TextureRegion ammo_change = Graphics.getTexture("ui-ammo_hurt_bg");
 
+	private static TextureRegion key = Graphics.getTexture("ui-key");
+	private static TextureRegion bomb = Graphics.getTexture("ui-bomb");
+	private static TextureRegion gold = Graphics.getTexture("ui-gold");
+
 	private int lastMana;
 	private float invm;
 
@@ -357,8 +361,10 @@ public class UiInventory extends UiEntity {
 
 		if (!full) {
 			Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
+			float by = 18;
 
 			if (item instanceof Wand) {
+				by += 10;
 				int mana = (int) this.mana;
 
 				for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
@@ -379,6 +385,7 @@ public class UiInventory extends UiEntity {
 					}
 				}
 			} else if (item instanceof Gun) {
+				by += 10;
 				int ammo = ((Gun) item).getAmmoLeft();
 				int max = ((Gun) item).ammoMax;
 
@@ -409,8 +416,14 @@ public class UiInventory extends UiEntity {
 				}
 			}
 
-			Graphics.print(Player.instance.getMoney() + "$ " + Player.instance.getBombs() + "b " + Player.instance.getKeys() + "k",
-				Graphics.small, 4, 32);
+
+			Graphics.render(bomb, 4, by);
+			Graphics.render(key, 4, by + 12);
+			Graphics.render(gold, 4, by + 24);
+
+			Graphics.print(Player.instance.getBombs() + "", Graphics.small, 16, by);
+			Graphics.print(Player.instance.getKeys() + "", Graphics.small, 16, by + 12);
+			Graphics.print(Player.instance.getMoney() + "", Graphics.small, 16, by + 24);
 		}
 
 		if (lastMana > mana) {

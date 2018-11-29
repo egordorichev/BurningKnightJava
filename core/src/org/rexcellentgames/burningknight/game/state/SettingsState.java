@@ -74,6 +74,7 @@ public class SettingsState extends State {
 			}
 		}.setSparks(true));
 
+		/*
 		Dungeon.ui.add(new UiButton("input", (int) (Display.UI_WIDTH_MAX * 1.5f), 128 - 24) {
 			@Override
 			public void onClick() {
@@ -95,7 +96,7 @@ public class SettingsState extends State {
 					}
 				});
 			}
-		}.setSparks(true));
+		}.setSparks(true));*/
 
 		Dungeon.ui.add(new UiButton("back", (int) (Display.UI_WIDTH_MAX * 1.5f), (int) (128 - 24 * 2.5f)) {
 			@Override

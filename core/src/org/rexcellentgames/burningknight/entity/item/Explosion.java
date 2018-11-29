@@ -78,7 +78,6 @@ public class Explosion extends Entity {
 			Dungeon.area.add(explosion);
 		}
 
-
 		for (int i = 0; i < Random.newInt(4, 12); i++) {
 			ParticleSpawner explosion = new ParticleSpawner(x + Random.newFloat(-8, 8), y + Random.newFloat(-8, 8));
 			Dungeon.area.add(explosion);
@@ -92,7 +91,7 @@ public class Explosion extends Entity {
 		Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
 		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
 
-		Camera.shake(20f);
+		Camera.shake(leave ? 20f : 5f+65);
 
 		if (leave) {
 			ExplosionLeftOver over = new ExplosionLeftOver();
