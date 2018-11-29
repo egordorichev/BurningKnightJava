@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -27,6 +28,8 @@ public class GameSave {
 			writer.writeInt32(killCount);
 			writer.writeFloat(time);
 			writer.writeBoolean(inventory);
+
+			Log.error("Save inventory " + inventory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -80,6 +83,8 @@ public class GameSave {
 		killCount = reader.readInt32();
 		time = reader.readFloat();
 		inventory = reader.readBoolean();
+
+		Log.error("Read inventory " + inventory);
 	}
 
 	public static void generate() {

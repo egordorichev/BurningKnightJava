@@ -774,18 +774,21 @@ public class Player extends Creature {
 		if (!item.done) {
 			if (item.getItem() instanceof Bomb) {
 				setBombs(bombs + item.getItem().getCount());
+				item.getItem().onPickup();
 				item.remove();
 				item.done = true;
 
 				return true;
 			} else if (item.getItem() instanceof Gold) {
 				setMoney(money + item.getItem().getCount());
+				item.getItem().onPickup();
 				item.remove();
 				item.done = true;
 
 				return true;
 			} else if (item.getItem() instanceof Key) {
 				setKeys(keys + item.getItem().getCount());
+				item.getItem().onPickup();
 				item.remove();
 				item.done = true;
 

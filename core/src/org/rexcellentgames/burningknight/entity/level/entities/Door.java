@@ -155,7 +155,10 @@ public class Door extends SaveableEntity {
 		if (this.lock && !last) {
 			this.playSfx("door_lock");
 
-			this.body.getFixtureList().get(0).setSensor(false);
+			if (this.body != null) {
+				this.body.getFixtureList().get(0).setSensor(false);
+			}
+
 			this.lockAnim = this.lk;
 			this.animation.setBack(true);
 			this.animation.setPaused(false);
@@ -171,8 +174,7 @@ public class Door extends SaveableEntity {
 		if (this.lock && this.onScreen && this.al >= 0.5f && Input.instance.wasPressed("interact")) {
 			if (Player.instance.ui.hasEquipped(Lootpick.class)) {
 
-				this.body.getFixtureList().get(0).setSensor(false);
-				this.body.setTransform(0, 0, 0);
+				this.body = World.removeBody(this.body);
 				this.lock = false;
 				this.animation.setBack(false);
 				this.animation.setPaused(false);
@@ -194,8 +196,7 @@ public class Door extends SaveableEntity {
 					Achievements.unlock(Achievements.UNLOCK_LOOTPICK);
 				}
 
-				this.body.getFixtureList().get(0).setSensor(false);
-				this.body.setTransform(0, 0, 0);
+				this.body = World.removeBody(this.body);
 				this.lock = false;
 				this.animation.setBack(false);
 				this.animation.setPaused(false);
@@ -266,7 +267,7 @@ public class Door extends SaveableEntity {
 			}
 		}
 
-		if (this.body == null) {
+		if (this.body == null && lock) {
 			this.body = World.createSimpleBody(null, this.vertical ? 2 : 0, this.vertical ? -4 : 8, this.vertical ? 4 : 16,
 				this.vertical ? 20 : 4, BodyDef.BodyType.DynamicBody, false);
 
@@ -426,7 +427,10 @@ public class Door extends SaveableEntity {
 			}
 
 			if (!this.isOpen()) {
-				this.body.getFixtureList().get(0).setSensor(true);
+				if (this.body != null) {
+					this.body.getFixtureList().get(0).setSensor(true);
+				}
+
 				this.playSfx("door");
 			}
 

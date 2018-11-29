@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BurstGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.NoppyGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
@@ -114,6 +113,7 @@ public class ItemSelectState extends State {
 			mage.add(new TripleShotBook());
 		}
 
+		picked = false;
 
 		Dungeon.dark = 0;
 		Tween.to(new Tween.Task(1, 0.3f) {
@@ -190,7 +190,15 @@ public class ItemSelectState extends State {
 		Ui.ui.renderCursor();
 	}
 
+	private static boolean picked;
+
 	public static void pick(Item item, Player.Type tp) {
+		if (picked) {
+			return;
+		}
+
+		picked = true;
+
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override
 			public float getValue() {

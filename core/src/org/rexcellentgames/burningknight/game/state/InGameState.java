@@ -71,7 +71,6 @@ public class InGameState extends State {
 
 		Dungeon.dark = 1;
 
-		GameSave.inventory = false;
 		Ui.controls.clear();
 
 		shader.begin();

@@ -210,7 +210,7 @@ public class Camera extends Entity {
 	}
 
 	public static void shake(float amount) {
-		st = Math.min(Settings.screenshake * 5, st + amount * Settings.screenshake * 0.5f);
+		st = Math.min(Settings.screenshake * 4, st + amount * Settings.screenshake * 0.5f);
 	}
 
 	public static void removeShake() {

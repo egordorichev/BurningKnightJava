@@ -344,7 +344,7 @@ public class UiSlot {
 
 				this.inventory.getInventory().setSlot(this.id, current);
 
-				if (this.id > 5 && this.id < 12) {
+				if (this.id > 3 && this.id < 8) {
 					if (current != null && current.isCursed()) {
 						for (int i = 0; i < 10; i++) {
 							CurseFx fx = new CurseFx();

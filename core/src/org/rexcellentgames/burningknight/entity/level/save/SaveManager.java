@@ -61,6 +61,19 @@ public class SaveManager {
 		thread.run();
 	}
 
+	public static void saveGames() {
+		Thread thread = new Thread() {
+			@Override
+			public void run() {
+				super.run();
+				SaveManager.save(SaveManager.Type.GAME, false);
+			}
+		};
+
+		thread.setPriority(1);
+		thread.run();
+	}
+
 	public static String getSavePath(Type type, boolean old) {
 		switch (type) {
 			case LEVEL: return ((old ? Dungeon.lastDepth : Dungeon.depth) <= -1 ? SAVE_DIR : getDir()) + "level" + (old ? Dungeon.lastDepth : Dungeon.depth) + ".sv";

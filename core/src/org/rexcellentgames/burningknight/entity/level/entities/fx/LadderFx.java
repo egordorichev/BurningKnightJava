@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -93,6 +94,7 @@ public class LadderFx extends UiEntity {
 				if (Dungeon.depth == -2) {
 					Dungeon.goToSelect = true;
 				} else {
+					GameSave.inventory = true;
 					Dungeon.toInventory = true;
 					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 					Dungeon.ladderId = ((Exit) ladder).getType();

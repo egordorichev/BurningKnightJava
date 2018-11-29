@@ -33,6 +33,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -340,6 +341,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		if (Version.debug && Input.instance.wasPressed("1")) {
 			InventoryState.depth = Dungeon.depth + 1;
+			GameSave.inventory = true;
 			toInventory = true;
 		}
 

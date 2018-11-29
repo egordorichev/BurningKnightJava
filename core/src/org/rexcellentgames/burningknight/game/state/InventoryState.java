@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.util.Log;
 
 public class InventoryState extends State {
 	private Inventory inventory;
@@ -28,8 +27,6 @@ public class InventoryState extends State {
 	public void init() {
 		super.init();
 
-		GameSave.inventory = true;
-
 		Dungeon.dark = 1;
 		Dungeon.white = 0;
 		Dungeon.darkR = Dungeon.MAX_R;
@@ -37,8 +34,17 @@ public class InventoryState extends State {
 		Dungeon.setBackground2(Color.valueOf("#555555"));
 
 		inventory = Player.instance.getInventory();
+
+		if (Player.instance.ui == null) {
+			depth = Dungeon.depth + 1;
+			UiInventory inventory = new UiInventory(Player.instance.getInventory());
+			Dungeon.ui.add(inventory);
+		}
+
 		ui = Player.instance.ui;
 		ui.createSlots();
+
+		Dungeon.area.destroy();
 
 		go = (UiButton) Dungeon.ui.add(new UiButton("go", Display.UI_WIDTH / 2, (int) (ui.slots[0].y + 20 + 32)) {
 			@Override
@@ -49,9 +55,9 @@ public class InventoryState extends State {
 					inventory.setSlot(i, null);
 				}
 
-				SaveManager.saveGame();
-				Log.error("Going to depth " + depth);
-				Dungeon.goToLevel(depth);
+				GameSave.inventory = false;
+				SaveManager.saveGames();
+				Dungeon.goToLevel(InventoryState.depth);
 			}
 		});
 	}
