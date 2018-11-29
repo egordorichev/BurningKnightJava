@@ -452,6 +452,8 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void onCollisionEnd(Entity entity) {
+		Log.error(entity == null ? "null" : entity.getClass().getSimpleName());
+
 		if (entity instanceof Creature && !((Creature) entity).isFlying()) {
 			if (this.lock) {
 				if (entity instanceof Player) {
@@ -461,9 +463,7 @@ public class Door extends SaveableEntity {
 				return;
 			}
 
-			this.numCollisions -= 1;
-
-			if (this.numCollisions <= 0) {
+			if (entity instanceof Player) {
 				this.numCollisions = 0; // to make sure
 				this.clearT = 0;
 			}

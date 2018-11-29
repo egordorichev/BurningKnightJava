@@ -103,7 +103,6 @@ public class ShopRoom extends LockedRoom {
 		return super.canConnect(r);
 	}
 
-
 	protected int getItemCount() {
 		return (this.getWidth() - 1) / 2;
 	}

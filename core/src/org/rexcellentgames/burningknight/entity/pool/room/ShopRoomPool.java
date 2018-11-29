@@ -1,3 +1,4 @@
+
 package org.rexcellentgames.burningknight.entity.pool.room;
 
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.*;
@@ -11,9 +12,9 @@ public class ShopRoomPool extends Pool<SpecialRoom> {
 		add(ClassicShopRoom.class, 1);
 		add(QuadShopRoom.class, 1);
 		add(GoldShopRoom.class, 1);
-		add(BigShop.class, 0.1f);
-		add(GiantShop.class, 0.03f);
-		add(TinyShop.class, 0.4f);
-		add(DoubleShop.class, 0.5f);
+		//add(BigShop.class, 0.1f);
+		//add(GiantShop.class, 0.03f);
+		//add(TinyShop.class, 0.4f);
+		//add(DoubleShop.class, 0.5f);
 	}
 }
