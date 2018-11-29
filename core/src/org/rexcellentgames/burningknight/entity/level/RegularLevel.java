@@ -273,9 +273,7 @@ public abstract class RegularLevel extends Level {
 			rooms.add(new HandmadeRoom("shops"));
 		} else if (Dungeon.depth == -1) {
 			rooms.add(new HandmadeRoom("hub"));
-		}/* else if (Random.chance(50)) {
-			rooms.add(ItemRoomPool.instance.generate());
-		}*/
+		}
 
 		if (Dungeon.depth > 0) {
 			if (GlobalSave.isFalse("all_npcs_saved") && (Random.chance(25))) {
@@ -288,7 +286,7 @@ public abstract class RegularLevel extends Level {
 		int connection = this.getNumConnectionRooms();
 		int secret = this.getNumSecretRooms();
 
-		Log.info("Creating " + regular + " " + special + " " + connection + " " + secret + " rooms");
+		Log.info("Creating r" + regular + " sp" + special + " c" + connection + " sc" + secret + " rooms");
 
 		for (int i = 0; i < regular; i++) {
 			RegularRoom room;
