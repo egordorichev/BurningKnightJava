@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
@@ -422,7 +423,7 @@ public class Door extends SaveableEntity {
 				this.collidingWithPlayer = true;
 			}
 
-			if (this.lock) {
+			if (this.lock || (entity instanceof Mob)) {
 				return;
 			}
 
@@ -606,7 +607,14 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof Creature || entity instanceof PetEntity) {
+		if (((entity instanceof Mob))) {
+			if (entity instanceof Knight) {
+				((Knight) entity).checkDir();
+			}
+			return true;
+		}
+
+		if ((entity instanceof Creature || entity instanceof PetEntity)) {
 			if (!this.lock || entity instanceof PetEntity) {
 				return false;
 			}

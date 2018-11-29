@@ -577,26 +577,30 @@ public class InGameState extends State {
 		boolean none = volume <= 0.05f;
 		volume += ((burning ? 1 : 0) - volume) * dt;
 
-		if (volume > 0.05f && none) {
-			fire.play();
-		} else if (volume < 0.05f && !none) {
-			fire.pause();
+		try {
+			if (volume > 0.05f && none) {
+				fire.play();
+			} else if (volume < 0.05f && !none) {
+				fire.pause();
+			}
+
+			fire.setVolume(volume * Settings.sfx);
+			burning = false;
+
+
+			none = volume <= 0.05f;
+			flowVolume += ((flow ? 1 : 0) - flowVolume) * dt;
+
+			if (flowVolume > 0.05f && none) {
+				water.play();
+			} else if (flowVolume < 0.05f && !none) {
+				water.pause();
+			}
+
+			water.setVolume(flowVolume * Settings.sfx * 0.25f);
+		} catch (GdxRuntimeException e) {
+			// Failed to allocate audio buffers
 		}
-
-		fire.setVolume(volume * Settings.sfx);
-		burning = false;
-
-
-		none = volume <= 0.05f;
-		flowVolume += ((flow ? 1 : 0) - flowVolume) * dt;
-
-		if (flowVolume > 0.05f && none) {
-			water.play();
-		} else if (flowVolume < 0.05f && !none) {
-			water.pause();
-		}
-
-		water.setVolume(flowVolume * Settings.sfx * 0.25f);
 
 		flow = false;
 	}

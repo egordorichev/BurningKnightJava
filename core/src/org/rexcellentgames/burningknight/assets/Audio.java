@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import org.rexcellentgames.burningknight.Settings;
@@ -63,10 +64,16 @@ public class Audio {
 
 		Sound sound = getSound(name);
 
-		long id = sound.play(volume * volumes.get(name) * Settings.sfx);
-		sound.setPitch(id, pitch);
+		try {
+			long id = sound.play(volume * volumes.get(name) * Settings.sfx);
+			sound.setPitch(id, pitch);
 
-		return id;
+			return id;
+		} catch (GdxRuntimeException e) {
+
+		}
+
+		return -1;
 	}
 
 	public static Sound getSound(String sfx) {
@@ -103,9 +110,13 @@ public class Audio {
 
 		fadeOut();
 
-		music.setLooping(false);
-		music.setVolume(Settings.music);
-		music.play();
+		try {
+			music.setLooping(false);
+			music.setVolume(Settings.music);
+			music.play();
+		} catch (GdxRuntimeException e) {
+
+		}
 
 		current = music;
 		last = name;

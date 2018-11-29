@@ -17,12 +17,10 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.*;
 
 import java.util.ArrayList;
 
@@ -226,10 +224,16 @@ public class Knight extends Mob {
 		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
 	}
 
-	@Override
-	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+	public void checkDir() {
 		if (this.ai instanceof RoamState) {
 			((RoamState) this.ai).selectDirs();
+		}
+	}
+
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (!(entity instanceof Mob)) {
+			checkDir();
 		}
 
 		return super.shouldCollide(entity, contact, fixture);
@@ -313,7 +317,7 @@ public class Knight extends Mob {
 					selectDirs();
 				}
 
-				if (canSee(self.target)) {
+				if (self.canSee(self.target)) {
 					self.become("chase");
 				}
 
@@ -334,7 +338,7 @@ public class Knight extends Mob {
 			self.lastAcceleration.x = self.acceleration.x * f;
 			self.lastAcceleration.y = self.acceleration.y * f;
 
-			if (canSee(self.target)) {
+			if (self.canSee(self.target)) {
 				self.become("chase");
 			}
 		}
