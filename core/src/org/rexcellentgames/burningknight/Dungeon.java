@@ -364,7 +364,7 @@ public class Dungeon extends ApplicationAdapter {
 			return;
 		}
 
-		float dt = Gdx.graphics.getDeltaTime() * speed;
+		float dt = Math.min(0.04f, Gdx.graphics.getDeltaTime()) * speed;
 		time += dt;
 		longTime += 1;
 		this.lastUpdate += dt;

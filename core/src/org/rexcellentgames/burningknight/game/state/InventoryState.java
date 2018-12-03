@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
@@ -14,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
 
 public class InventoryState extends State {
@@ -22,10 +22,13 @@ public class InventoryState extends State {
 	private UiInventory ui;
 	private UiButton go;
 	public static int depth;
+	public static Texture texture = new Texture(Gdx.files.internal("bricks.png"));
 
 	@Override
 	public void init() {
 		super.init();
+
+		texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
 		Dungeon.dark = 1;
 		Dungeon.white = 0;
@@ -46,7 +49,7 @@ public class InventoryState extends State {
 
 		Dungeon.area.destroy();
 
-		go = (UiButton) Dungeon.ui.add(new UiButton("go", Display.UI_WIDTH / 2, (int) (ui.slots[0].y + 20 + 32)) {
+		go = (UiButton) Dungeon.ui.add(new UiButton("go", Display.UI_WIDTH / 2, (int) (ui.slots[0].y + 14 + 32)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -56,6 +59,7 @@ public class InventoryState extends State {
 				}
 
 				GameSave.inventory = false;
+				SaveManager.saveGame();
 				SaveManager.saveGames();
 				Dungeon.goToLevel(InventoryState.depth);
 			}
@@ -78,6 +82,8 @@ public class InventoryState extends State {
 	@Override
 	public void render() {
 		super.render();
+		texture.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.end();
 		shader.begin();
@@ -92,12 +98,12 @@ public class InventoryState extends State {
 		float xm = (float) (Display.UI_HEIGHT * 0.5f);
 		float fm = (float) (Display.UI_WIDTH * 0.5f);
 
-		TextureRegion texture = Graphics.getTexture("item-missing");
+		TextureRegion region = new TextureRegion(texture);
 
-		float tx = texture.getU();
-		float ty = texture.getV();
-		float tw = texture.getU2();
-		float th = texture.getV2();
+		float u = region.getU();
+		float v = region.getV();
+		float u2 = region.getU2();
+		float v2 = region.getV2();
 
 		{
 			float h = Display.UI_HEIGHT;
@@ -105,15 +111,65 @@ public class InventoryState extends State {
 			float y = 0;
 			float c = Graphics.batch.getColor().toFloatBits();
 
-			// fixme: figure out uv so that it gets transformed
 			float[] vert = new float[] {
-				x, y, c, tx, ty + th,
-				x + fm + mvx, y + xm + mvy, c, tx + tw, ty,
-				x + fm + mvx, y + xm + mvy, c, tx + tw, ty,
-				x, y + h, c, tx, ty + th
+				x, y,             c, u, v,
+				x, y + h,         c, u, v2,
+				x + fm, y + xm,   c, u2, v + (v2 - v) * 0.5f,
+				x, y,             c, u, v
 			};
 
-			// Graphics.batch.draw(texture.getTexture(), vert, 0, 20);
+			Graphics.batch.draw(texture, vert, 0, 20);
+		}
+
+		{
+			float h = Display.UI_HEIGHT;
+			float w = Display.UI_WIDTH;
+			float x = 0;
+			float y = 0;
+			float c = Graphics.batch.getColor().toFloatBits();
+
+			float[] vert = new float[] {
+				x + w, y,             c, u, v,
+				x + w, y + h,         c, u, v2,
+				x + fm, y + xm,   c, u2, v + (v2 - v) * 0.5f,
+				x + w, y,             c, u, v
+			};
+
+			Graphics.batch.draw(texture, vert, 0, 20);
+		}
+
+		{
+			float h = Display.UI_HEIGHT;
+			float w = Display.UI_WIDTH;
+			float x = 0;
+			float y = 0;
+			float c = Graphics.batch.getColor().toFloatBits();
+
+			float[] vert = new float[] {
+				x, y + h,             c, u, v,
+				x + w, y + h,         c, u, v2,
+				x + w * 0.5f, y + h * 0.5f,   c, u2, v + (v2 - v) * 0.5f,
+				x, y + h,             c, u, v
+			};
+
+			Graphics.batch.draw(texture, vert, 0, 20);
+		}
+
+		{
+			float h = Display.UI_HEIGHT;
+			float w = Display.UI_WIDTH;
+			float x = 0;
+			float y = 0;
+			float c = Graphics.batch.getColor().toFloatBits();
+
+			float[] vert = new float[] {
+				x, y,             c, u, v,
+				x + w, y,         c, u, v2,
+				x + w * 0.5f, y + h * 0.5f,   c, u2, v + (v2 - v) * 0.5f,
+				x, y,             c, u, v
+			};
+
+			Graphics.batch.draw(texture, vert, 0, 20);
 		}
 
 		/*
@@ -211,8 +267,8 @@ public class InventoryState extends State {
 
 	@Override
 	public void renderUi() {
-		ui.render();
-		Dungeon.ui.render();
-		Ui.ui.renderCursor();
+		//ui.render();
+		//Dungeon.ui.render();
+		//Ui.ui.renderCursor();
 	}
 }
