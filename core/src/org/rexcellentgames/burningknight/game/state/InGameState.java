@@ -644,7 +644,14 @@ public class InGameState extends State {
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();
+
+			if (Dungeon.depth == -2) {
+				for (Upgrade upgrade : Upgrade.Companion.getAll()) {
+					upgrade.renderSigns();
+				}
+			}
 		}
+
 
 		Player.instance.renderBuffs();
 	}

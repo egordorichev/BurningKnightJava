@@ -1,14 +1,14 @@
 { "frames": {
    "actor_burning_knight 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 22, "h": 26 },
+    "frame": { "x": 0, "y": 0, "w": 28, "h": 32 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 26 },
+    "spriteSourceSize": { "x": 6, "y": 4, "w": 28, "h": 32 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 1.ase": {
-    "frame": { "x": 22, "y": 0, "w": 22, "h": 23 },
+    "frame": { "x": 28, "y": 0, "w": 22, "h": 23 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 10, "y": 4, "w": 22, "h": 23 },
@@ -16,31 +16,31 @@
     "duration": 100
    },
    "actor_burning_knight 2.ase": {
-    "frame": { "x": 44, "y": 0, "w": 22, "h": 24 },
+    "frame": { "x": 50, "y": 0, "w": 22, "h": 15 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 3, "w": 22, "h": 24 },
+    "spriteSourceSize": { "x": 10, "y": 3, "w": 22, "h": 15 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 3.ase": {
-    "frame": { "x": 66, "y": 0, "w": 22, "h": 24 },
+    "frame": { "x": 72, "y": 0, "w": 22, "h": 15 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 3, "w": 22, "h": 24 },
+    "spriteSourceSize": { "x": 10, "y": 3, "w": 22, "h": 15 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 4.ase": {
-    "frame": { "x": 88, "y": 0, "w": 22, "h": 25 },
+    "frame": { "x": 94, "y": 0, "w": 22, "h": 16 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 25 },
+    "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 16 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 5.ase": {
-    "frame": { "x": 110, "y": 0, "w": 22, "h": 25 },
+    "frame": { "x": 116, "y": 0, "w": 22, "h": 25 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 10, "y": 3, "w": 22, "h": 25 },
@@ -48,15 +48,15 @@
     "duration": 100
    },
    "actor_burning_knight 6.ase": {
-    "frame": { "x": 132, "y": 0, "w": 22, "h": 24 },
+    "frame": { "x": 138, "y": 0, "w": 22, "h": 16 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 4, "w": 22, "h": 24 },
+    "spriteSourceSize": { "x": 10, "y": 3, "w": 22, "h": 16 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 7.ase": {
-    "frame": { "x": 154, "y": 0, "w": 22, "h": 25 },
+    "frame": { "x": 160, "y": 0, "w": 22, "h": 25 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 10, "y": 4, "w": 22, "h": 25 },
@@ -64,31 +64,31 @@
     "duration": 100
    },
    "actor_burning_knight 8.ase": {
-    "frame": { "x": 176, "y": 0, "w": 22, "h": 27 },
+    "frame": { "x": 182, "y": 0, "w": 22, "h": 21 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 27 },
+    "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 21 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 9.ase": {
-    "frame": { "x": 198, "y": 0, "w": 22, "h": 27 },
+    "frame": { "x": 204, "y": 0, "w": 22, "h": 22 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 27 },
+    "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 22 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 10.ase": {
-    "frame": { "x": 220, "y": 0, "w": 22, "h": 28 },
+    "frame": { "x": 226, "y": 0, "w": 22, "h": 19 },
     "rotated": false,
     "trimmed": true,
-    "spriteSourceSize": { "x": 10, "y": 1, "w": 22, "h": 28 },
+    "spriteSourceSize": { "x": 10, "y": 1, "w": 22, "h": 19 },
     "sourceSize": { "w": 42, "h": 38 },
     "duration": 100
    },
    "actor_burning_knight 11.ase": {
-    "frame": { "x": 242, "y": 0, "w": 22, "h": 26 },
+    "frame": { "x": 248, "y": 0, "w": 22, "h": 26 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 10, "y": 2, "w": 22, "h": 26 },
@@ -96,7 +96,7 @@
     "duration": 100
    },
    "actor_burning_knight 12.ase": {
-    "frame": { "x": 264, "y": 0, "w": 23, "h": 22 },
+    "frame": { "x": 270, "y": 0, "w": 23, "h": 22 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 10, "y": 5, "w": 23, "h": 22 },
@@ -104,7 +104,7 @@
     "duration": 100
    },
    "actor_burning_knight 13.ase": {
-    "frame": { "x": 287, "y": 0, "w": 22, "h": 21 },
+    "frame": { "x": 293, "y": 0, "w": 22, "h": 21 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 10, "y": 6, "w": 22, "h": 21 },
@@ -120,7 +120,7 @@
     "duration": 100
    },
    "actor_burning_knight 15.ase": {
-    "frame": { "x": 309, "y": 0, "w": 9, "h": 14 },
+    "frame": { "x": 315, "y": 0, "w": 9, "h": 14 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 18, "y": 17, "w": 9, "h": 14 },
@@ -128,7 +128,7 @@
     "duration": 100
    },
    "actor_burning_knight 16.ase": {
-    "frame": { "x": 318, "y": 0, "w": 7, "h": 8 },
+    "frame": { "x": 324, "y": 0, "w": 7, "h": 8 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 15, "y": 15, "w": 7, "h": 8 },
@@ -136,7 +136,7 @@
     "duration": 100
    },
    "actor_burning_knight 17.ase": {
-    "frame": { "x": 325, "y": 0, "w": 6, "h": 7 },
+    "frame": { "x": 331, "y": 0, "w": 6, "h": 7 },
     "rotated": false,
     "trimmed": true,
     "spriteSourceSize": { "x": 17, "y": 14, "w": 6, "h": 7 },
@@ -147,8 +147,8 @@
  "meta": {
   "app": "http://www.aseprite.org/",
   "version": "1.3-dev",
-  "format": "RGBA8888",
-  "size": { "w": 331, "h": 28 },
+  "format": "I8",
+  "size": { "w": 337, "h": 32 },
   "scale": "1",
   "frameTags": [
    { "name": "idle", "from": 0, "to": 11, "direction": "forward" },
