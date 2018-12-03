@@ -77,6 +77,10 @@ public class UiSlot {
 		}
 
 		if (!full) {
+			return;
+		}
+
+		if (!full) {
 			if (this.inventory.getActive() == this.id && !this.active) {
 				this.active = true;
 

@@ -6,11 +6,6 @@ import org.rexcellentgames.burningknight.util.MathUtils;
 public class RedArcheologist extends Archeologist {
 	public static Animation animations = Animation.make("actor-archeologist", "-red");
 
-	{
-		skeletonChance = 0;
-		toPlayer = true;
-	}
-
 	@Override
 	public void generatePrefix() {
 

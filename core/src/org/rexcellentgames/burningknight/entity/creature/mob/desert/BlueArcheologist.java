@@ -10,9 +10,4 @@ public class BlueArcheologist extends Archeologist {
 		return animations;
 	}
 
-	{
-		triple = true;
-		skeletonChance = 100f;
-		bombs = true;
-	}
 }

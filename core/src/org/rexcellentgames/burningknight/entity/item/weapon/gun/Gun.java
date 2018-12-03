@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
@@ -209,6 +210,7 @@ public class Gun extends WeaponBase {
 	
 	protected boolean flipped;
 	protected boolean lastFlip;
+	public boolean showRedLine;
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped) {
@@ -239,7 +241,7 @@ public class Gun extends WeaponBase {
 		float xx = x + getAimX(0, 0);
 		float yy = y + getAimY(0, 0);
 
-		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
+		if (this.showRedLine || (this.owner instanceof Player && ((Player) this.owner).hasRedLine)) {
 			float d = Display.GAME_WIDTH * 2;
 			closestFraction = 1f;
 			last.x = -1;
@@ -329,14 +331,16 @@ public class Gun extends WeaponBase {
 			return;
 		}
 
-		if (this.ammoLeft <= 0 || this.chargeProgress != 0) {
-			if (this.chargeProgress == 0 && (this.owner instanceof Mob)) {
-				pressed = true;
+		if (!(this.owner instanceof Archeologist)) {
+			if (this.ammoLeft <= 0 || this.chargeProgress != 0) {
+				if (this.chargeProgress == 0 && (this.owner instanceof Mob)) {
+					pressed = true;
+				}
 			}
-		}
 
-		if (this.ammoLeft <= 0) {
-			return;
+			if (this.ammoLeft <= 0) {
+				return;
+			}
 		}
 
 		boolean rng = Random.chance(this.owner.getStat("restore_ammo_chance") * 100);

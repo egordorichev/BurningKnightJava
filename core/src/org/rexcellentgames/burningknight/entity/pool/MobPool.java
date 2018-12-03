@@ -32,7 +32,8 @@ public class MobPool extends Pool<Mob> {
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {
-			add(Mummy.class, 1f);
+			add(Archeologist.class, 1f);
+			// add(Mummy.class, 1f);
 		}
 
 		if (Dungeon.level instanceof LibraryLevel) {

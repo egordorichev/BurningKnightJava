@@ -293,7 +293,9 @@ object ItemRegistry {
 		"flame" to Pair(FlameThrower::class.java, 1f, 0.1f, 0.3f, 1f, Quality.GOLDEN),
 		"bomb" to Pair(Bomb::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"matches" to Pair(Matches::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-		"confetti_grenade" to Pair(ConfettiGrenade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.WEAPON, 3)
+		"confetti_grenade" to Pair(ConfettiGrenade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.WEAPON, 3),
+
+	  "snipper_gun" to Pair(SnipperGun::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN)
 	).toList().sortedBy { (_, value) -> value }.toMap()
 
 	val modItems = mutableMapOf<String, Item>()
