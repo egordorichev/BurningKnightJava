@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.physics.World;
@@ -74,12 +73,14 @@ public class Mummy extends Mob {
 	public class ChaseState extends MummyState {
 		private float delay;
 		private Point to;
+		private float speed;
 
 		@Override
 		public void onEnter() {
 			super.onEnter();
+			speed = Random.newFloat(15, 25f);
 
-			this.delay = Random.newFloat(7, 15);
+			this.delay = Random.newFloat(15, 25);
 		}
 
 		@Override
@@ -89,7 +90,7 @@ public class Mummy extends Mob {
 			this.checkForPlayer();
 
 			if (self.lastSeen != null) {
-				if (this.moveTo(self.lastSeen, 3f * speedModifer, 8f)) {
+				if (this.moveTo(self.lastSeen, speed * speedModifer, 4f)) {
 					if (self.target == null) {
 						self.noticeSignT = 0f;
 						self.hideSignT = 2f;
@@ -103,7 +104,7 @@ public class Mummy extends Mob {
 					to.y *= 16;
 				}
 
-				if (this.moveTo(this.to, 2f * speedModifer, 16f)) {
+				if (this.moveTo(this.to, 10f * speedModifer, 16f)) {
 					this.to = null;
 				}
 			}
@@ -138,7 +139,7 @@ public class Mummy extends Mob {
 	public void init() {
 		super.init();
 
-		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 1, 8, 12, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		speed = 100;
@@ -191,8 +192,7 @@ public class Mummy extends Mob {
 
 		if (this.lastHit > 1f) {
 			for (Player player : this.colliding) {
-				player.modifyHp(-4, this);
-				player.knockBackFrom(this, 1000f * mod);
+				player.modifyHp(-1, this);
 			}
 		}
 
@@ -212,8 +212,8 @@ public class Mummy extends Mob {
 		if (entity instanceof Player) {
 			colliding.add((Player) entity);
 			lastHit = 0;
-			((Player) entity).modifyHp(-4, this);
-			((Player) entity).knockBackFrom(this, 1000f * mod);
+			((Player) entity).modifyHp(-1, this);
+			((Player) entity).knockBackFrom(this, 2f * mod);
 
 			collide((Player) entity);
 		}

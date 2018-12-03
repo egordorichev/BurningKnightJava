@@ -32,24 +32,7 @@ public class MobPool extends Pool<Mob> {
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {
-			add(Archeologist.class, 1f);
-			add(BlueArcheologist.class, 0.8f);
-			add(RedArcheologist.class, 0.5f);
-			add(Thief.class, 1f);
-			add(InvisThief.class, 0.7f);
-			add(BossThief.class, 0.1f);
-
-			if (Dungeon.depth > 5) {
-				add(Mummy.class, 1f);
-				add(BrownMummy.class, 0.8f);
-				add(GrayMummy.class, 0.7f);
-
-				if (Dungeon.depth > 6) {
-					add(Skeleton.class, 1f);
-					add(BlackSkeleton.class, 1f);
-					add(BrownSkeleton.class, 0.7f);
-				}
-			}
+			add(Mummy.class, 1f);
 		}
 
 		if (Dungeon.level instanceof LibraryLevel) {
