@@ -570,7 +570,7 @@ public class UiInventory extends UiEntity {
 				float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 				Graphics.small.setColor(c, c, c, 1);
-				Graphics.print(info, Graphics.small, 4, this.slots[this.inventory.getSize() - 1].y + 20 + Graphics.layout.height + 14 + 8);
+				Graphics.print(info, Graphics.small, this.slots[0].x, this.slots[0].y + 20 + Graphics.layout.height + 14 + 8);
 				Graphics.small.setColor(1, 1, 1, 1);
 
 				this.hoveredSlot = -1;

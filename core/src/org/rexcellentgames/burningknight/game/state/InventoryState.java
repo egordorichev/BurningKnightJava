@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -80,6 +78,7 @@ public class InventoryState extends State {
 	public void render() {
 		super.render();
 
+		/*
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.batch.end();
 		shader.begin();
@@ -99,7 +98,7 @@ public class InventoryState extends State {
 
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
+		Graphics.batch.begin();*/
 	}
 
 	@Override

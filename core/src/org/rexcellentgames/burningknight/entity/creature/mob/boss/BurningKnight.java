@@ -407,7 +407,7 @@ public class BurningKnight extends Boss {
 
 		this.sword.update(dt * speedMod);
 
-		if (this.onScreen) {
+		if (this.onScreen && !this.state.equals("defeated")) {
 			float dx = this.x + 8 - Player.instance.x;
 			float dy = this.y + 8 - Player.instance.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);

@@ -786,7 +786,7 @@ public class Player extends Creature {
 				item.done = true;
 
 				return true;
-			} else if (item.getItem() instanceof Key) {
+			} else if (item.getItem() instanceof Key && !(item.getItem() instanceof BurningKey)) {
 				setKeys(keys + item.getItem().getCount());
 				item.getItem().onPickup();
 				item.remove();

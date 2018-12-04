@@ -119,16 +119,16 @@ public class AlphaWarningState extends State {
 		super.renderUi();
 
 		float v = did ? 0.7f : 1f;
-		Graphics.medium.setColor(v, v, v, this.alpha);
+		Graphics.small.setColor(v, v, v, this.alpha);
 
 		int y = Display.UI_HEIGHT / 3 * 2;
-		Graphics.print("Warning", Graphics.medium, y);
-		Graphics.print("This game is still in alpha", Graphics.medium, y - 32);
-		Graphics.print("This means, that it still might have bugs in it", Graphics.medium, y - 48);
-		Graphics.print("If you meet any, please report them", Graphics.medium, y - 64);
+		Graphics.print("Warning", Graphics.small, y);
+		Graphics.print("This game is still in alpha", Graphics.small, y - 32);
+		Graphics.print("This means, that it still might have bugs in it", Graphics.small, y - 48);
+		Graphics.print("If you meet any, please report them", Graphics.small, y - 64);
 
-		Graphics.print("Press X to continue", Graphics.medium, y - 96);
+		Graphics.print("Press X to continue", Graphics.small, y - 96);
 
-		Graphics.medium.setColor(1, 1, 1, 1);
+		Graphics.small.setColor(1, 1, 1, 1);
 	}
 }
