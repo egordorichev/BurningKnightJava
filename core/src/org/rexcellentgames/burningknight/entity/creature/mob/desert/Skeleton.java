@@ -1,10 +1,12 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -58,45 +60,9 @@ public class Skeleton extends Mob {
 
 		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
-	}
 
-	@Override
-	protected void onHurt(int a, Entity from) {
-		super.onHurt(a, from);
-
-		if (this.state.equals("dead")) {
-			this.remove = true;
-			this.dead = true;
-			this.done = true;
-			this.rem = true;
-
-			for (int i = 0; i < 10; i++) {
-				PoofFx fx = new PoofFx();
-
-				fx.x = this.x + this.w / 2;
-				fx.y = this.y + this.h / 2;
-
-				Dungeon.area.add(fx);
-			}
-		}
-	}
-
-	private boolean rem;
-
-	@Override
-	protected void deathEffects() {
-		if (this.rem) {
-			return;
-		}
-		super.deathEffects();
-
-		this.hp = this.hpMax;
-		this.done = false;
-		this.become("dead");
-
-		if (this.prefix != null) {
-			this.prefix.onDeath(this);
-		}
+		this.weapon = new Sword();
+		this.weapon.setOwner(this);
 	}
 
 	@Override
@@ -120,6 +86,10 @@ public class Skeleton extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
+
+		Graphics.batch.setColor(1, 1, 1, this.a);
+		this.weapon.render(this.x, this.y, this.w, this.h, this.flipped);
+
 		super.renderStats();
 	}
 
@@ -130,10 +100,126 @@ public class Skeleton extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-
+			case "idle": case "roam": return new IdleState();
+			case "alerted": return new AlertedState();
+			case "chase": return new ChaseState();
+			case "attack": return new AttackState();
 		}
 
 		return super.getAi(state);
+	}
+
+	private boolean justAttacked;
+	private Item weapon;
+
+	public class AttackState extends SkeletonState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			self.weapon.use();
+		}
+
+		@Override
+		public void update(float dt) {
+
+			super.update(dt);
+			if (t >= 1f) {
+				justAttacked = true;
+				self.become("chase");
+			}
+		}
+	}
+
+	public class IdleState extends SkeletonState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			checkForPlayer();
+		}
+	}
+
+	public class AlertedState extends SkeletonState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 0.75f) {
+				self.become("chase");
+			}
+		}
+	}
+
+
+	@Override
+	protected void deathEffects() {
+		super.deathEffects();
+		this.playSfx("death_clown");
+
+		this.done = true;
+		deathEffect(killed);
+	}
+
+	public class ChaseState extends SkeletonState {
+		private Point to;
+		private boolean canSee;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t < 0.6f) {
+				if (to == null) {
+					canSee = self.canSee(Player.instance, Terrain.HOLE);
+					float d = self.getDistanceTo(Player.instance.x, Player.instance.y);
+
+					if (d < 24f && !justAttacked) {
+						self.become("attack");
+						return;
+					}
+
+					justAttacked = false;
+
+					if (canSee) {
+						float f = 120f;
+						float a;
+
+						if (d < 64) {
+							if (Random.chance(50)) {
+								f = 50f;
+								a = self.getAngleTo(Player.instance.x, Player.instance.y);
+							} else {
+								a = Random.newFloat((float) (Math.PI * 2));
+							}
+						} else {
+							a = self.getAngleTo(Player.instance.x, Player.instance.y) + Random.newFloat(-1f, 1f);
+						}
+
+						to = new Point((float) Math.cos(a) * f, (float) Math.sin(a) * f);
+					} else {
+						to = new Point(Player.instance.x, Player.instance.y);
+					}
+				}
+
+
+				if (canSee) {
+					if (t < 0.4f) {
+						self.acceleration.x = to.x;
+						self.acceleration.y = to.y;
+					}
+				} else {
+					if (moveTo(to, 80f, 32f) || self.canSee(Player.instance)) {
+						to = null;
+					}
+				}
+			} else {
+				self.velocity.mul(0);
+				to = null;
+
+				if (this.t >= 0.61f) {
+					this.t = 0;
+				}
+			}
+		}
 	}
 
 	public void mod(Point vel, Point ivel, float a, float d, float time) {
@@ -153,6 +239,8 @@ public class Skeleton extends Mob {
 			this.animation.update(dt * speedMod);
 		}
 
+		this.weapon.update(dt * speedMod);
+
 		super.update(dt);
 
 		if (this.freezed) {
@@ -165,6 +253,12 @@ public class Skeleton extends Mob {
 		}
 
 		super.common();
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		weapon.destroy();
 	}
 
 	public static Skeleton random() {

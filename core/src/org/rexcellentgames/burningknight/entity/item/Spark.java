@@ -16,6 +16,10 @@ public class Spark extends Entity {
 	public boolean inUi;
 	private float val;
 
+	{
+		alwaysActive = true;
+	}
+
 	public static void randomOn(Entity entity) {
 		randomOn(entity.x, entity.y, entity.w, entity.h);
 	}

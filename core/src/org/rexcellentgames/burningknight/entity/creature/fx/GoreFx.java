@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -26,15 +27,24 @@ public class GoreFx extends Entity {
 		alwaysActive = true;
 	}
 
+	private float startX;
+	private float hz;
+	private float wz;
+
 	@Override
 	public void init() {
 		super.init();
 
+		this.startX = x;
 		this.depth = -1;
 		this.a = Random.newFloat(360);
 		this.va = Random.newFloat(-20f, 20f);
 
-		this.vel = new Point((Random.chance(50) ? -1 : 1) * Random.newFloat(0.5f, 0.7f) * 2, 2f);
+		float hz = Random.newFloat(-1f, 1f);
+		float wz = Random.newFloat(-1f, 1f);
+		this.vel = new Point((Random.chance(50) ? -1 : 1) * (Math.abs(this.wz) + 1f), 1.5f + hz);
+		this.hz = hz * 16f;
+		this.wz = wz * 32f;
 
 		if (!this.menu) {
 			this.body = World.createSimpleCentredBody(this, 0, 0, this.texture.getRegionWidth(), this.texture.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
@@ -76,11 +86,11 @@ public class GoreFx extends Entity {
 		//this.va *= (this.z == 0 ? 0.5f : 0.98f);
 		this.a += this.va * dt * 60;
 
-		this.x += this.vel.x * dt * 60;
+		this.x = MathUtils.clamp(this.startX - this.wz, this.startX + this.wz, this.x + this.vel.x * dt * 60);
 		this.vel.y -= dt * 8f;
 
 		if (!menu) {
-			this.z = Math.max(0, this.z + this.vel.y * dt * 60);
+			this.z = Math.max(hz, this.z + this.vel.y * dt * 60);
 		} else {
 			this.z += this.vel.y * dt * 60;
 			if (this.y + this.z < 0) {
@@ -93,8 +103,9 @@ public class GoreFx extends Entity {
 
 		this.va -= this.va * Math.min(1, dt * 3);
 
-		if (this.vel.x <= 0.1f || this.z == 0) {
+		if (Math.abs(this.vel.x) <= 0.1f || this.z == hz) {
 			this.vel.x = 0;
+			this.va = 0;
 
 			if (this.body != null) {
 				this.body = World.removeBody(this.body);

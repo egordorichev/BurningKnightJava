@@ -24,6 +24,7 @@ public class Firefly extends SaveableEntity {
 		super.init();
 		this.t = Random.newFloat(1024);
 		light = World.newLight(32, new Color(0, 1, 0.3f, 1f), 0, x, y);
+		light.setXray(true);
 	}
 
 	@Override

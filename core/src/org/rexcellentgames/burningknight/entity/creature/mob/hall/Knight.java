@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.DamageEmblem;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.DefenseEmblem;
@@ -17,10 +18,12 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
 
@@ -408,7 +411,7 @@ public class Knight extends Mob {
 				self.lastAcceleration.x = self.acceleration.x;
 				self.lastAcceleration.y = self.acceleration.y;
 
-				if (this.t >= this.delay) {
+				if (this.t >= this.delay && self.canSee(Player.instance, Terrain.HOLE)) {
 					self.become("predash");
 					return;
 				}
