@@ -19844,7 +19844,7 @@ item-lightsaber C
   index: -1
 item-lightsaber D
   rotate: false
-  xy: 1018, 488
+  xy: 1018, 479
   size: 4, 16
   orig: 4, 16
   offset: 0, 0
@@ -21468,14 +21468,14 @@ ui-ammo
   index: -1
 ui-ammo_bg
   rotate: false
-  xy: 1018, 477
+  xy: 1018, 468
   size: 4, 9
   orig: 4, 9
   offset: 0, 0
   index: -1
 ui-ammo_hurt_bg
   rotate: false
-  xy: 1018, 466
+  xy: 1018, 457
   size: 4, 9
   orig: 4, 9
   offset: 0, 0
@@ -21958,14 +21958,14 @@ ui-freezed
   index: -1
 ui-half_heart
   rotate: false
-  xy: 878, 843
-  size: 4, 7
-  orig: 4, 7
+  xy: 1018, 522
+  size: 5, 7
+  orig: 5, 7
   offset: 0, 0
   index: -1
 ui-half_heart_golden
   rotate: false
-  xy: 1018, 457
+  xy: 878, 843
   size: 4, 7
   orig: 4, 7
   offset: 0, 0
@@ -22077,14 +22077,14 @@ ui-mana_star_green
   index: -1
 ui-map_top_left
   rotate: false
-  xy: 1018, 524
+  xy: 1018, 515
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 ui-map_top_right
   rotate: false
-  xy: 1018, 517
+  xy: 1018, 508
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
@@ -22217,7 +22217,7 @@ ui-selected_slot
   index: -1
 ui-shop
   rotate: false
-  xy: 1018, 506
+  xy: 1018, 497
   size: 5, 9
   orig: 5, 9
   offset: 0, 0

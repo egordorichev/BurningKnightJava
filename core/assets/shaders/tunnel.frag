@@ -10,10 +10,7 @@ varying vec2 v_texCoord;
 varying vec4 v_color;
 
 void main() {
-   float v = max(0.0, v_texCoord.x * 1.0 + 1.0);
-   float x = v_texCoord.x + (time * sign * 3.0) * (1.0 - v);
-   x -= floor(x);
-   float y = 0.5 + (v_texCoord.y - 0.5) * v;
+   float y = v_texCoord.y + (time * sign * 16.0);
    y -= floor(y);
-   gl_FragColor = texture2D(u_texture, vec2(x * v, y));
+   gl_FragColor = texture2D(u_texture, vec2(v_texCoord.x, y));
 }

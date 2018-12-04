@@ -2,16 +2,13 @@ package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Skeleton extends Mob {
@@ -133,14 +130,7 @@ public class Skeleton extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "dead": return new DeadState();
-			case "kindadead": return new KindaDeadState();
-			case "revive": return new ReviveState();
-			case "idle": case "roam": return new IdleState();
-			case "alerted": case "chase": return new ChaseState();
-			case "attack": return new AttackState();
-			case "preattack": return new PreattackState();
-			case "todead": return new ToDeadState();
+
 		}
 
 		return super.getAi(state);
@@ -156,251 +146,6 @@ public class Skeleton extends Mob {
 	public int side;
 	public boolean eight;
 	public float boneSpeed = 120f;
-	public int bonesMissing;
-
-	public class AttackState extends SkeletonState {
-		private boolean attacked;
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			side = Random.chance(50) ? -1 : 1;
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			if (!this.attacked && this.t >= 2f) {
-				final float t = 0.3f;
-
-				Tween.to(new Tween.Task(32, t, Tween.Type.SINE_OUT) {
-					@Override
-					public float getValue() {
-						return self.z;
-					}
-
-					@Override
-					public void setValue(float value) {
-						self.z = value;
-						self.depth = (int) value;
-					}
-
-					@Override
-					public void onEnd() {
-						Tween.to(new Tween.Task(0, t, Tween.Type.SINE_IN) {
-							@Override
-							public float getValue() {
-								return self.z;
-							}
-
-							@Override
-							public void setValue(float value) {
-								self.z = value;
-								self.depth = (int) value;
-							}
-
-							@Override
-							public void onEnd() {
-								attack();
-							}
-						});
-					}
-				});
-
-				attacked = true;
-				self.unhittable = true;
-			}
-		}
-
-		@Override
-		public void onExit() {
-			self.unhittable = false;
-			super.onExit();
-		}
-
-		public void attack() {
-			bonesMissing = 4;
-			float add = Random.chance(50) ? (float) (Math.PI / 4) : 0;
-
-			for (int i = 0; i < (eight ? 8 : 4); i++) {
-				BulletProjectile ball = new BulletProjectile() {
-					@Override
-					public void control() {
-						mod(velocity, ivel, angle, dist, t);
-					}
-
-					@Override
-					public void onCollision(Entity entity) {
-						super.onCollision(entity);
-
-						if (entity == this.owner && t >= 0.1f) {
-							bonesMissing -= 1;
-							remove = true;
-						}
-					}
-
-					@Override
-					public void countRemove() {
-						super.countRemove();
-						bonesMissing -= 1;
-					}
-				};
-
-				float a = (float) (i * Math.PI / (eight ? 4 : 2)) + add;
-				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(boneSpeed * shotSpeedMod * 0.5f);
-				ball.x = (float) (self.x + self.w / 2 + Math.cos(a) * 8);
-				ball.damage = 2;
-				ball.canBeRemoved = false;
-				ball.owner = self;
-				ball.circleShape = true;
-				ball.rotates = true;
-				ball.second = false;
-				ball.y = (float) (self.y + Math.sin(a) * 8 + 6);
-
-				ball.letter = "bone";
-				ball.bad = true;
-				ball.canBeRemoved = false;
-
-				Dungeon.area.add(ball);
-			}
-
-			Camera.shake(4);
-			self.become("todead");
-		}
-	}
-
-	public class ToDeadState extends SkeletonState {
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-			if (this.t >= 0.3f) {
-				self.become("kindadead");
-			}
-		}
-	}
-
-	public float okm;
-
-	public class DeadState extends SkeletonState {
-		private float delay;
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-
-			if (self.rem) {
-				return;
-			}
-
-			self.ignoreRooms = true;
-			self.killed.setFrame(0);
-			self.killed.setPaused(false);
-			self.okm = self.getStat("knockback");
-			self.setStat("knockback", 0);
-			delay = Random.newFloat(40f, 60f);
-		}
-
-		@Override
-		public void onExit() {
-			super.onExit();
-			self.setStat("knockback", self.okm);
-			self.ignoreRooms = false;
-			depth = 0;
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			if (self.rem) {
-				return;
-			}
-
-			if (t >= delay) {
-				self.become("revive");
-			}
-		}
-	}
-
-	public class KindaDeadState extends SkeletonState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			self.killed.setFrame(0);
-			self.killed.setPaused(false);
-			self.okm = self.getStat("knockback");
-			self.setStat("knockback", 0);
-			self.setUnhittable(true);
-		}
-
-		@Override
-		public void onExit() {
-			super.onExit();
-			self.setStat("knockback", self.okm);
-			self.setUnhittable(false);
-			depth = 0;
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			if (bonesMissing <= 0) {
-				self.become("revive");
-			}
-		}
-	}
-
-	public class ReviveState extends SkeletonState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			revive.setFrame(0);
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-		}
-	}
-
-	public class IdleState extends SkeletonState {
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-			checkForPlayer();
-		}
-	}
-
-	public class ChaseState extends SkeletonState {
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-			checkForPlayer();
-
-			if (this.moveTo(self.lastSeen, 4f, distance)) {
-				if (self.target != null) {
-					self.become("preattack");
-				} else {
-					self.noticeSignT = 0f;
-					self.hideSignT = 2f;
-					self.become("idle");
-				}
-			}
-		}
-	}
-
-	public class PreattackState extends SkeletonState {
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			if (this.t >= 1f) {
-				self.become("attack");
-			}
-		}
-	}
 
 	@Override
 	public void update(float dt) {
