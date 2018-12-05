@@ -139,6 +139,30 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static boolean quick;
 
+	public static void backToCastle(boolean quick, int depth) {
+		reset = true;
+		Dungeon.quick = quick;
+		SaveManager.delete();
+		loadType = Entrance.LoadType.GO_DOWN;
+
+		Player.instance = null;
+		BurningKnight.instance = null;
+
+		level = null;
+
+		if (area != null) {
+			area.destroy();
+		}
+
+		Dungeon.depth = quick ? depth : (Dungeon.depth == -3 ? -3 : -2);
+
+		if (Dungeon.depth == -3) {
+			quick = false;
+		}
+
+		game.setState(new LoadState());
+	}
+
 	public static void newGame(boolean quick, int depth) {
 		reset = true;
 		Dungeon.quick = quick;
