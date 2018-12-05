@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Noise;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -14,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class InventoryState extends State {
@@ -42,8 +46,6 @@ public class InventoryState extends State {
 
 		Dungeon.white = 0;
 		Dungeon.darkR = Dungeon.MAX_R;
-
-		Dungeon.setBackground2(Color.valueOf("#555555"));
 
 		inventory = Player.instance.getInventory();
 
@@ -92,27 +94,30 @@ public class InventoryState extends State {
 	public void render() {
 		super.render();
 
-		/*
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		Graphics.batch.end();
-		shader.begin();
-		shader.setUniformf("sign", 1);
-		shader.setUniformf("time", Dungeon.time * 0.1f);
-		shader.end();
-		Graphics.batch.setShader(shader);
-		Graphics.batch.begin();
+		Graphics.startAlphaShape();
+		Graphics.shape.setProjectionMatrix(Camera.nil.combined);
+		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360, 360, 360);
+		Dungeon.setBackground2(new Color(cl.r * 0.4f, cl.g * 0.4f, cl.b * 0.4f, 1f));
 
-		float s = 1f;
+		for (int i = 0; i < 65; i++) {
+			float s = i * 0.015f;
+			float mx = (Noise.instance.noise(Dungeon.time * 0.25f + s) * 128f);
+			float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + s) * 128f);
+			float v = ((float) i) / 80f + 0.3f;
 
-		for (int x = 0; x < Display.UI_WIDTH; x += texture.getWidth() * s) {
-			for (int y = 0; y < Display.UI_WIDTH; y += texture.getWidth() * s) {
-				Graphics.batch.draw(texture, x, y, texture.getWidth() * s, texture.getHeight() * s);
-			}
+			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.2f) % 360, 360, 360);
+			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.9f);
+
+			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
+			float w = i * 2 + 64;
+			float d = i * 4f;
+			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56-i) / 56);
+			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56-i) / 56);
+
+			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1, 1, (float) Math.toDegrees(a + 0.1f));
 		}
 
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();*/
+		Graphics.endAlphaShape();
 	}
 
 	@Override
