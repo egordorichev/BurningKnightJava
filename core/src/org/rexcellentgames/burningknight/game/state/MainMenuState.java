@@ -100,7 +100,7 @@ public class MainMenuState extends State {
 					@Override
 					public void run() {
 						Dungeon.loadType = Entrance.LoadType.LOADING;
-						Dungeon.goToLevel(GlobalSave.isTrue("finished_tutorial") ? (info.free ? -1 : info.depth) : -3);
+						Dungeon.goToLevel(GlobalSave.isTrue("finished_tutorial") ? (info.free ? -2 : info.depth) : -3);
 					}
 				});
 			}

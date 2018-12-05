@@ -413,37 +413,40 @@ public class InGameState extends State {
 				});
 			}
 
-			if (Input.instance.wasPressed("F5")) {
-				for (Room room : Dungeon.level.getRooms()) {
-					if (room instanceof ShopRoom && !room.hidden) {
-						Point point = room.getRandomFreeCell();
-						Player.instance.tp(point.x * 16, point.y * 16);
+			if (Version.debug) {
+				if (Input.instance.wasPressed("F5")) {
+					for (Room room : Dungeon.level.getRooms()) {
+						if (room instanceof ShopRoom && !room.hidden) {
+							Point point = room.getRandomFreeCell();
+							Player.instance.tp(point.x * 16, point.y * 16);
 
-						break;
+							break;
+						}
+					}
+				} else if (Input.instance.wasPressed("F6")) {
+					for (Room room : Dungeon.level.getRooms()) {
+						if (room instanceof TreasureRoom) {
+							Point point = room.getRandomFreeCell();
+
+							Player.instance.tp(point.x * 16, point.y * 16);
+
+							break;
+						}
+					}
+				} else if (Input.instance.wasPressed("F7")) {
+					for (Room room : Dungeon.level.getRooms()) {
+						if (room instanceof BossRoom && room != Player.instance.room) {
+
+							Point point = room.getRandomFreeCell();
+
+							Player.instance.tp(point.x * 16, point.y * 16);
+
+							break;
+						}
 					}
 				}
-			} else if (Input.instance.wasPressed("F6")) {
-				for (Room room : Dungeon.level.getRooms()) {
-					if (room instanceof TreasureRoom) {
-						Point point = room.getRandomFreeCell();
-
-						Player.instance.tp(point.x * 16, point.y * 16);
-
-						break;
-					}
-				}
-			} else if (Input.instance.wasPressed("F7")) {
-				for (Room room : Dungeon.level.getRooms()) {
-					if (room instanceof BossRoom && room != Player.instance.room) {
-
-						Point point = room.getRandomFreeCell();
-
-						Player.instance.tp(point.x * 16, point.y * 16);
-
-						break;
-					}
-				}
-			} else if (Input.instance.wasPressed("F3")) {
+			}
+			if (Input.instance.wasPressed("F3")) {
 				Ui.hideUi = !Ui.hideUi;
 			} else if (Input.instance.wasPressed("F9")) {
 				Ui.hideCursor = !Ui.hideCursor;
