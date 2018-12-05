@@ -30,6 +30,7 @@ public class Camera extends Entity {
 	private static float pushA;
 	private static float pushAm;
 	private static float st;
+	public static boolean noMove;
 
 	public void resetShake() {
 		shake = 0;
@@ -100,7 +101,6 @@ public class Camera extends Entity {
 		super.init();
 
 		depth = 80;
-		seed = new java.util.Random().nextLong();
 		mousePosition.set(Input.instance.uiMouse.x, Input.instance.uiMouse.y);
 	}
 
@@ -124,7 +124,7 @@ public class Camera extends Entity {
 		pushAm = Math.max(0, pushAm - dt * 50);
 		shake = Math.max(0, shake - dt * 10);
 
-		if (target != null) {
+		if (target != null && !noMove) {
 			int x = (int) (target.x + target.w / 2);
 			int y = (int) (target.y + target.h / 2);
 
@@ -175,37 +175,38 @@ public class Camera extends Entity {
 	private static float mx;
 	private static float my;
 	public static float ma;
-	private static long seed;
 
 	public static void applyShake() {
 		mx = 0;
 		my = 0;
 
-		float shake = st * st;
-		float tt = t * 13;
+		if (!noMove) {
+			float shake = st * st;
+			float tt = t * 13;
 
-		if (shake > 0) {
-			mx = (Noise.instance.noise(tt) * shake);
-			my = (Noise.instance.noise(tt + 1) * shake);
-			ma = (Noise.instance.noise(tt + 2) * shake * 0.5f);
-		} else {
-			mx = 0;
-			my = 0;
-			ma = 0;
+			if (shake > 0) {
+				mx = (Noise.instance.noise(tt) * shake);
+				my = (Noise.instance.noise(tt + 1) * shake);
+				ma = (Noise.instance.noise(tt + 2) * shake * 0.5f);
+			} else {
+				mx = 0;
+				my = 0;
+				ma = 0;
+			}
+
+			if (Dungeon.blood > 0) {
+				ma += (Noise.instance.noise(t * 3 + 3) * Dungeon.blood * 10);
+			}
+
+			if (pushAm > 0) {
+				float v = pushAm * pushAm * 0.3f;
+				mx += (float) Math.cos(pushA) * v;
+				my += (float) Math.sin(pushA) * v;
+			}
+
+			game.position.add(mx, my, 0);
 		}
 
-		if (Dungeon.blood > 0) {
-			ma += (Noise.instance.noise(t * 3 + 3) * Dungeon.blood * 10);
-		}
-
-		if (pushAm > 0) {
-			float v = pushAm * pushAm * 0.3f;
-			mx += (float) Math.cos(pushA) * v;
-			my += (float) Math.sin(pushA) * v;
-		}
-
-		game.position.add(mx, my, 0);
-		//game.rotate(ma);
 		game.update();
 	}
 

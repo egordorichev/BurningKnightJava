@@ -15,6 +15,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equippable.RedBal
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Wings;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
+import org.rexcellentgames.burningknight.entity.item.key.Key;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -425,7 +426,7 @@ public class UiSlot {
 		if (id == 3) {
 			return item instanceof Hat;
 		} else if (id == 2) {
-			return !(item instanceof Hat || item instanceof WeaponBase || item instanceof Equippable);
+			return !(item instanceof Hat || item instanceof WeaponBase || item instanceof Equippable || item instanceof Key);
 		} else if (id > 3 && id < 8) {
 			return item instanceof Equippable;
 		} else if (id == 0 || id == 1) {

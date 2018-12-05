@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.game.state;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
@@ -30,6 +31,7 @@ public class InventoryState extends State {
 	public void init() {
 		super.init();
 
+		Dungeon.buildDiscordBadge();
 		Dungeon.dark = 0;
 
 		Tween.to(new Tween.Task(1, 0.5f) {
@@ -77,6 +79,8 @@ public class InventoryState extends State {
 		});
 	}
 
+	public static TextureRegion player = Graphics.getTexture("props-gobbo_full");
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -105,8 +109,8 @@ public class InventoryState extends State {
 			float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + s) * 128f);
 			float v = ((float) i) / 80f + 0.3f;
 
-			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.2f) % 360, 360, 360);
-			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.9f);
+			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
+			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.5f);
 
 			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
 			float w = i * 2 + 64;
@@ -114,10 +118,20 @@ public class InventoryState extends State {
 			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56-i) / 56);
 			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56-i) / 56);
 
-			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1, 1, (float) Math.toDegrees(a + 0.1f));
+			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1f, 1f, (float) Math.toDegrees(a + 0.1f));
+			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.9f);
+			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 0.9f, 0.9f, (float) Math.toDegrees(a + 0.1f));
 		}
 
+
+		float i = 32;
+		float mx = (Noise.instance.noise(Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56-i) / 56);
+		float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56-i) / 56);
+
 		Graphics.endAlphaShape();
+
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+		Graphics.render(player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8,false, false);
 	}
 
 	@Override

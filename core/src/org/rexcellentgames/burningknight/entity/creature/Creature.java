@@ -663,6 +663,11 @@ public class Creature extends SaveableEntity {
 
 	public void setHpMax(int hpMax) {
 		this.hpMax = Math.max(2, hpMax);
+
+		if (this instanceof Player) {
+			this.hpMax = Math.min(9, this.hpMax);
+		}
+
 		this.hp = (int) MathUtils.clamp(0, this.hpMax, this.hp);
 	}
 

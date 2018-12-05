@@ -73,6 +73,7 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.*;
@@ -377,6 +378,9 @@ public class Player extends Creature {
 		}
 	}
 
+	public boolean rotating;
+	public float al;
+
 	public void setUi(UiInventory ui) {
 		this.ui = ui;
 	}
@@ -447,7 +451,7 @@ public class Player extends Creature {
 			float of = (float) (Math.cos(Dungeon.time * 4) * 2.5f);
 			Graphics.startAlphaShape();
 			Graphics.shape.setColor(1, 1, 1, 0.5f);
-			Graphics.shape.rectLine(this.x + 8, this.y + 14, this.x + 8 + bx, this.y + 20 + of + 14 + by, 1f);
+			Graphics.shape.rectLine(this.x + 8, this.y + 10, this.x + 8 + bx, this.y + 20 + of + 14 + by, 1f);
 			Graphics.shape.setColor(1, 1, 1, 1);
 			Graphics.endAlphaShape();
 			float a = -bx * 1.2f;
@@ -514,111 +518,117 @@ public class Player extends Creature {
 			Graphics.render(wing, this.x + 4, this.y + 4 + offset, -a, 0, 2, false, false, -1, 1);
 		}
 
-		if (this.rolling) {
-			this.animation = roll;
-		} else if (this.invt > 0) {
-			this.animation = hurt;
-			hurt.setFrame(0);
-		} else if (!this.isFlying() && this.state.equals("run")) {
-			this.animation = run;
+		if (this.rotating) {
+			this.al += Gdx.graphics.getDeltaTime() * 960;
+			Graphics.render(InventoryState.player, this.x + 6.5f, this.y + 2.5f, this.al, 6.5f, 2.5f, false, false);
+			Graphics.batch.setColor(1, 1, 1, 1);
 		} else {
-			this.animation = idle;
-		}
-
-		if (this.invtt == 0) {
-			this.drawInvt = false;
-		}
-
-		int id = this.animation.getFrame();
-		float of = offsets[id] - 2;
-
-		if (this.invt > 0) {
-			id += 16;
-		} else if (!this.isFlying() && this.state.equals("run")) {
-			id += 8;
-		}
-
-		if (this.ui != null) {
-			this.ui.renderBeforePlayer(this, of);
-		}
-
-		boolean shade = (this.drawInvt && this.invtt > 0)  || (invt > 0 && invt % 0.2f > 0.1f);
-		TextureRegion region = this.animation.getCurrent().frame;
-
-		if (shade) {
-			Texture texture = region.getTexture();
-
-			Graphics.batch.end();
-			shader.begin();
-			shader.setUniformf("time", Dungeon.time);
-			shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
-			shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
-			shader.setUniformf("a", this.a);
-			shader.setUniformf("white", invt > 0 ? 1 : 0);
-			shader.end();
-			Graphics.batch.setShader(shader);
-			Graphics.batch.begin();
-		} else if (this.fa > 0) {
-			Graphics.batch.end();
-			Mob.frozen.begin();
-			Mob.frozen.setUniformf("time", Dungeon.time);
-			Mob.frozen.setUniformf("f", this.fa);
-			Mob.frozen.setUniformf("a", this.a);
-			Mob.frozen.setUniformf("freezed", this.wasFreezed ? 1f : 0f);
-			Mob.frozen.setUniformf("poisoned", this.wasPoisoned ? 1f : 0f);
-			Mob.frozen.end();
-			Graphics.batch.setShader(Mob.frozen);
-			Graphics.batch.begin();
-		}
-
-		if (this.freezed || this.poisoned) {
-			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
-
-			this.wasFreezed = this.freezed;
-			this.wasPoisoned = this.poisoned;
-		} else {
-			this.fa += (0 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
-
-			if (this.fa <= 0) {
-				this.wasFreezed = false;
-				this.wasPoisoned = false;
-			}
-		}
-
-		this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
-			this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
-			0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
-
-		if (this.hat != null && !this.isRolling()) {
-			Graphics.render(this.hat, this.x + w / 2 - (this.flipped ? -1 : 1) * 7, this.y + 1 + this.z + offsets[id] + region.getRegionHeight() / 2 - 2 + offset,
-				0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
-		} else {
-			AnimationData anim = headIdle;
-
 			if (this.rolling) {
-				anim = headRoll;
+				this.animation = roll;
 			} else if (this.invt > 0) {
-				anim = headHurt;
-			} else if (this.state.equals("run")) {
-				anim = headRun;
+				this.animation = hurt;
+				hurt.setFrame(0);
+			} else if (!this.isFlying() && this.state.equals("run")) {
+				this.animation = run;
+			} else {
+				this.animation = idle;
 			}
 
-			anim.setFrame(this.animation.getFrame());
-			region = anim.getCurrent().frame;
+			if (this.invtt == 0) {
+				this.drawInvt = false;
+			}
 
-			anim.render(this.x - region.getRegionWidth() / 2 + 8,
+			int id = this.animation.getFrame();
+			float of = offsets[id] - 2;
+
+			if (this.invt > 0) {
+				id += 16;
+			} else if (!this.isFlying() && this.state.equals("run")) {
+				id += 8;
+			}
+
+			if (this.ui != null) {
+				this.ui.renderBeforePlayer(this, of);
+			}
+
+			boolean shade = (this.drawInvt && this.invtt > 0) || (invt > 0 && invt % 0.2f > 0.1f);
+			TextureRegion region = this.animation.getCurrent().frame;
+
+			if (shade) {
+				Texture texture = region.getTexture();
+
+				Graphics.batch.end();
+				shader.begin();
+				shader.setUniformf("time", Dungeon.time);
+				shader.setUniformf("pos", new Vector2((float) region.getRegionX() / texture.getWidth(), (float) region.getRegionY() / texture.getHeight()));
+				shader.setUniformf("size", new Vector2((float) region.getRegionWidth() / texture.getWidth(), (float) region.getRegionHeight() / texture.getHeight()));
+				shader.setUniformf("a", this.a);
+				shader.setUniformf("white", invt > 0 ? 1 : 0);
+				shader.end();
+				Graphics.batch.setShader(shader);
+				Graphics.batch.begin();
+			} else if (this.fa > 0) {
+				Graphics.batch.end();
+				Mob.frozen.begin();
+				Mob.frozen.setUniformf("time", Dungeon.time);
+				Mob.frozen.setUniformf("f", this.fa);
+				Mob.frozen.setUniformf("a", this.a);
+				Mob.frozen.setUniformf("freezed", this.wasFreezed ? 1f : 0f);
+				Mob.frozen.setUniformf("poisoned", this.wasPoisoned ? 1f : 0f);
+				Mob.frozen.end();
+				Graphics.batch.setShader(Mob.frozen);
+				Graphics.batch.begin();
+			}
+
+			if (this.freezed || this.poisoned) {
+				this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+
+				this.wasFreezed = this.freezed;
+				this.wasPoisoned = this.poisoned;
+			} else {
+				this.fa += (0 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
+
+				if (this.fa <= 0) {
+					this.wasFreezed = false;
+					this.wasPoisoned = false;
+				}
+			}
+
+			this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 				this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
 				0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
-		}
 
-		if (shade || this.fa > 0) {
-			Graphics.batch.end();
-			Graphics.batch.setShader(null);
-			Graphics.batch.begin();
-		}
+			if (this.hat != null && !this.isRolling()) {
+				Graphics.render(this.hat, this.x + w / 2 - (this.flipped ? -1 : 1) * 7, this.y + 1 + this.z + offsets[id] + region.getRegionHeight() / 2 - 2 + offset,
+					0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
+			} else {
+				AnimationData anim = headIdle;
 
-		if (!this.rolling && this.ui != null && Dungeon.depth != -2) {
-			this.ui.renderOnPlayer(this, of + offset);
+				if (this.rolling) {
+					anim = headRoll;
+				} else if (this.invt > 0) {
+					anim = headHurt;
+				} else if (this.state.equals("run")) {
+					anim = headRun;
+				}
+
+				anim.setFrame(this.animation.getFrame());
+				region = anim.getCurrent().frame;
+
+				anim.render(this.x - region.getRegionWidth() / 2 + 8,
+					this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
+					0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+			}
+
+			if (shade || this.fa > 0) {
+				Graphics.batch.end();
+				Graphics.batch.setShader(null);
+				Graphics.batch.begin();
+			}
+
+			if (!this.rolling && this.ui != null && Dungeon.depth != -2) {
+				this.ui.renderOnPlayer(this, of + offset);
+			}
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);
@@ -889,6 +899,8 @@ public class Player extends Creature {
 	@Override
 	public void init() {
 		super.init();
+		al = 0;
+		rotating = false;
 
 		if (Dungeon.depth == -2) {
 			Achievements.unlock(Achievements.TUTORIAL_DONE);

@@ -35,6 +35,7 @@ public class UiInventory extends UiEntity {
 	private int active = 0;
 	public boolean handled;
 	public int hoveredSlot = -1;
+	public static UiInventory instance;
 
 	{
 		isSelectable = false;
@@ -49,6 +50,12 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void init() {
+		if (instance != null) {
+			instance.done = true;
+		}
+
+		instance = this;
+
 		createSlots();
 		hp = Player.instance.getHp();
 		mana = Player.instance.getMana();

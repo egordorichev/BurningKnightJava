@@ -23,7 +23,7 @@ public class AlphaWarningState extends State {
 
 		this.alpha += ((this.did ? 0 : 1) - this.alpha) * dt * 5;
 
-		if (!did && (Input.instance.wasPressed("X") || Input.instance.wasPressed("ControllerX"))) {
+		if (!did && (Input.instance.wasPressed("X"))) {
 			did = true;
 
 			Color color = Color.WHITE;

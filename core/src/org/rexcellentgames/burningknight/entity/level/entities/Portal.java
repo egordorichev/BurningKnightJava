@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -101,9 +102,10 @@ public class Portal extends SaveableEntity {
 		for (Particle p : parts) {
 			if (!p.junk) {
 				if (p.black) {
-					Graphics.shape.setColor(1, 0, 1, p.al);
+					Graphics.shape.setColor(0, 0, 0, p.al);
 				} else {
-					Graphics.shape.setColor(0.3f, 0, 0.5f, p.al);
+					Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360 - p.d, 360, 360);
+					Graphics.shape.setColor(cl.r, cl.g, cl.b, p.al);
 				}
 
 				Graphics.shape.circle(p.x, p.y, p.rad);
@@ -176,10 +178,12 @@ public class Portal extends SaveableEntity {
 			Player.sucked = true;
 
 			Dungeon.darkR = Dungeon.MAX_R;
+			Player.instance.rotating = true;
 			Player.instance.setUnhittable(true);
 			Camera.follow(null);
 
-			Vector3 vec = Camera.game.project(new Vector3(Player.instance.x, Player.instance.y, 0));
+			Vector3 vec = Camera.game.project(new Vector3(Player.instance.x, Player.instance.y + 8, 0));
+			Camera.noMove = true;
 			vec = Camera.ui.unproject(vec);
 			vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
 
@@ -217,9 +221,12 @@ public class Portal extends SaveableEntity {
 							} else {
 								GameSave.inventory = true;
 								Dungeon.toInventory = true;
+								Player.instance.rotating = false;
 								Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 								InventoryState.depth = Dungeon.depth + 1;
 							}
+
+							Camera.noMove = false;
 
 							Dungeon.setBackground2(new Color(0, 0, 0, 1));
 							Player.sucked = false;
@@ -229,6 +236,15 @@ public class Portal extends SaveableEntity {
 			}).delay(1f);
 		}
 	}
+
+	/*
+		ideas:
+		rotate player when sucking into the portal
+		box shadow under menu logo so it looks glowing
+		logo changing color with the bg?
+		things in portal
+		sx scale tweening instead of player/move flipping
+	 */
 
 	private ArrayList<Particle> parts = new ArrayList<>();
 

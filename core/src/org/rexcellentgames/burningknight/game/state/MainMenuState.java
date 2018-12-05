@@ -2,11 +2,11 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Noise;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -16,11 +16,10 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.game.fx.BackgroundFx;
-import org.rexcellentgames.burningknight.game.fx.PixelFx;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
-import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -28,14 +27,14 @@ import java.util.ArrayList;
 public class MainMenuState extends State {
 	public static MainMenuState instance;
 	private static TextureRegion logo = new TextureRegion(new Texture(Gdx.files.internal("artwork_logo (sticker).png")));
+
 	private ArrayList<UiButton> buttons = new ArrayList<>();
 	private float logoX = 0;
-	private float logoY = Display.UI_HEIGHT_MAX;
+	private float logoY = 0;
 	public static float cameraX = Display.UI_WIDTH_MAX / 2;
 	public static float cameraY = Display.UI_HEIGHT_MAX / 2;
 	public static final float MOVE_T = 0.2f;
 
-	private float scale = 1f;
 	public static UiEntity first;
 
 	public static boolean skip;
@@ -53,16 +52,16 @@ public class MainMenuState extends State {
 		Dungeon.setBackground(new Color(0, 0, 0, 1));
 
 		Tween.to(new Tween.Task(1, 0.2f) {
-				@Override
-				public float getValue() {
-					return Dungeon.dark;
-				}
+			@Override
+			public float getValue() {
+				return Dungeon.dark;
+			}
 
-				@Override
-				public void setValue(float value) {
-					Dungeon.dark = value;
-				}
-			});
+			@Override
+			public void setValue(float value) {
+				Dungeon.dark = value;
+			}
+		});
 
 		Dungeon.setBackground2(Color.valueOf("#000000")); // 1a1932
 
@@ -80,7 +79,7 @@ public class MainMenuState extends State {
 
 		Dungeon.buildDiscordBadge();
 
-		int y = -24;
+		int y = Display.UI_HEIGHT / 2 - 24;
 
 		float v = 0;
 		logoX = v;
@@ -89,7 +88,7 @@ public class MainMenuState extends State {
 		Dungeon.area.add(Camera.instance);
 		Camera.target = null;
 
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("play", -128, 128 - 24 + y) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("play", -128, (int) (y + 24)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -109,7 +108,7 @@ public class MainMenuState extends State {
 		first = buttons.get(0);
 		Dungeon.ui.select(first);
 
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.UI_WIDTH_MAX + 128 + v), (int) (128 - 24 * 2.5f + y)) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.UI_WIDTH_MAX + 128 + v), (int) (y)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -130,7 +129,7 @@ public class MainMenuState extends State {
 			}
 		}));
 
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("exit", -128, (int) (128 - 24 * 3.5f + y)) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("exit", -128, (int) (y - 24)) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
@@ -143,103 +142,75 @@ public class MainMenuState extends State {
 				});
 			}
 		}));
-
-		Tween.to(new Tween.Task(0, skip ? 0.001f : 0.6f, Tween.Type.BACK_OUT) {
-			@Override
-			public float getValue() {
-				return logoY;
-			}
-
-			@Override
-			public void setValue(float value) {
-				logoY = value;
-			}
-
-			@Override
-			public void onEnd() {
-				super.onEnd();
-
-				for (final UiButton button : buttons) {
-					Tween.to(new Tween.Task(Display.UI_WIDTH_MAX / 2 + v, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
-
-						@Override
-						public void setValue(float value) {
-							button.x = value;
-						}
-					});
-				}
-			}
-		});
-
-		// Particles
-
-		Camera.game.position.set(Display.UI_WIDTH_MAX / 2, Display.UI_HEIGHT_MAX / 2, 0);
-		Camera.game.update();
-
-		for (int i = 0; i < 100; i++) {
-			BackgroundFx fx = new BackgroundFx();
-			Dungeon.area.add(fx);
-
-			fx.y = Random.newFloat(-32, Display.UI_HEIGHT_MAX + 32);
-		}
-
-		// spread();
-	}
-
-	private void spread() {
-		if (!logo.getTexture().getTextureData().isPrepared()) {
-			logo.getTexture().getTextureData().prepare();
-		}
-
-		if (!InGameState.noise.getTexture().getTextureData().isPrepared()) {
-			InGameState.noise.getTexture().getTextureData().prepare();
-		}
-
-		Pixmap pixmap = logo.getTexture().getTextureData().consumePixmap();
-		Pixmap noise = InGameState.noise.getTexture().getTextureData().consumePixmap();
-
-		int h = logo.getRegionHeight();
-
-		float lx = Display.UI_WIDTH_MAX / 2 - logo.getRegionWidth() / 2;
-		float ly = 180 - 3 - h / 2;
-
-		for (int ry = 0; ry < h; ry++) {
-			for (int rx = 0; rx < logo.getRegionWidth(); rx++) {
-				Color color = new Color(pixmap.getPixel(rx, (h - ry)));
-
-				if (color.r != 0 || color.g != 0 || color.b != 0) {
-					PixelFx fx = new PixelFx();
-
-
-					float a = (float) (new Color(noise.getPixel(rx, ry)).r * Math.PI);
-					fx.vel.x = (float) Math.cos(a) * 90f;
-					fx.vel.y = (float) Math.sin(a) * 90f;
-
-					fx.x = lx + rx;
-					fx.y = ly + ry;
-
-					fx.r = color.r;
-					fx.g = color.g;
-					fx.b = color.b;
-
-					Dungeon.ui.add(fx);
-				}
-			}
-		}
 	}
 
 	@Override
-	public void update(float dt) {
-		super.update(dt);
+	public void render() {
+		super.render();
 
-		/*
-		if (Input.instance.wasPressed("Space")) {
-			spread();
-		}*/
+		Graphics.startAlphaShape();
+		Graphics.shape.setProjectionMatrix(Camera.nil.combined);
+		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360, 360, 360);
+		Dungeon.setBackground2(new Color(cl.r * 0.4f, cl.g * 0.4f, cl.b * 0.4f, 1f));
+
+		for (int i = 0; i < 65; i++) {
+			float s = i * 0.015f;
+			float mx = (Noise.instance.noise(Dungeon.time * 0.25f + s) * 128f);
+			float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + s) * 128f);
+			float v = ((float) i) / 80f + 0.3f;
+
+			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
+			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.5f);
+
+			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
+			float w = i * 2 + 64;
+			float d = i * 4f;
+			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56-i) / 56);
+			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56-i) / 56);
+
+			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1f, 1f, (float) Math.toDegrees(a + 0.1f));
+			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.9f);
+			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 0.9f, 0.9f, (float) Math.toDegrees(a + 0.1f));
+		}
+
+		float i = 32;
+		float mx = (Noise.instance.noise(Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56-i) / 56);
+		float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56-i) / 56);
+
+		Graphics.endAlphaShape();
+
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+		Graphics.render(InventoryState.player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8,false, false);
+
+		if (false && logoY == 0 && (Input.instance.wasPressed("use") ||
+			Input.instance.wasPressed("X") || Input.instance.wasPressed("Return"))) {
+
+			Tween.to(new Tween.Task(256, 0.7f, Tween.Type.QUAD_IN) {
+				@Override
+				public float getValue() {
+					return 0;
+				}
+
+				@Override
+				public void setValue(float value) {
+					logoY = value;
+				}
+			});
+
+			for (final UiButton button : buttons) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH_MAX / 2, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return button.x;
+					}
+
+					@Override
+					public void setValue(float value) {
+						button.x = value;
+					}
+				}).delay(0.4f);
+			}
+		}
 	}
 
 	@Override
@@ -250,9 +221,32 @@ public class MainMenuState extends State {
 		Camera.ui.update();
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-		Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, 180 + logoY - 3, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
+
+		if (logoY < 256f) {
+			float scale = 1f;
+			Graphics.batch.setColor(1, 1, 1, 1);
+			Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, (float) (Display.UI_HEIGHT / 2 + Math.cos(Dungeon.time * 3f) * 2.5f) + logoY, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
+		}
+
 		Dungeon.ui.render();
 
+		float size = 48f;
+
+		Camera.ui.position.set(Display.UI_WIDTH / 2, Display.UI_HEIGHT / 2, 0);
+		Camera.ui.update();
+
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+
+		Graphics.startShape();
+		Graphics.shape.setColor(0, 0, 0, 1);
+		Graphics.shape.rect(0, 0, Display.UI_WIDTH, size);
+		Graphics.shape.rect(0, Display.UI_HEIGHT - size, Display.UI_WIDTH, size);
+		Graphics.endShape();
+
+		Camera.ui.position.set(cameraX, cameraY, 0);
+		Camera.ui.update();
+
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 		Ui.ui.renderCursor();
 	}
 }

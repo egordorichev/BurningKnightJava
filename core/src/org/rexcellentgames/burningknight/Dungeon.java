@@ -246,15 +246,17 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	public static void buildDiscordBadge() {
-		if (Dungeon.level != null) {
+		if (Dungeon.game.getState() instanceof MainMenuState) {
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Main menu").setDetails(Version.string).setBigImage("hero_mercy", "").setSmallImage("hero_mercy", "").build());
+		} else if (Dungeon.game.getState() instanceof InventoryState) {
+			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Portal").setDetails(Version.string).setBigImage("hero_mercy", "").setSmallImage("hero_mercy", "").build());
+		} else if (Dungeon.level != null) {
 			String type = Player.instance.getType().toString().toLowerCase();
 			type = type.substring(0, 1).toUpperCase() + type.substring(1);
 
 			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(Version.string)
 				.setBigImage("hero_mercy", type).setTimestamps(startTime, 0)
 				.setSmallImage("hero_mercy", type).build());
-		} else {
-			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Main menu").setDetails(Version.string).setBigImage("hero_mercy", "").setSmallImage("hero_mercy", "").build());
 		}
 	}
 

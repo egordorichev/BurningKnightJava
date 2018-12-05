@@ -213,7 +213,7 @@ public class Inventory {
 
 
 	public boolean findEquipped(Class<? extends Item> clazz) {
-		for (int i = 7; i < 11; i++) {
+		for (int i = 4; i < 8; i++) {
 			if (!this.isEmpty(i)) {
 				if (clazz.isInstance(this.getSlot(i))) {
 					return true;
