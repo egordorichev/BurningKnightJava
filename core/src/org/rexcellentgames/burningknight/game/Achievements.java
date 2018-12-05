@@ -126,6 +126,8 @@ public class Achievements {
 				// todo
 			}
 
+			// achievement.icon = Item.missing;
+
 			toShow.add(achievement);
 		}
 	}

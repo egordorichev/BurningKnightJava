@@ -2,9 +2,10 @@ package org.rexcellentgames.burningknight.entity.item.tool;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.Level;
 
-public class Matches extends Tool {
+public class Matches extends Item {
 	{
 		useTime = 10f;
 	}
