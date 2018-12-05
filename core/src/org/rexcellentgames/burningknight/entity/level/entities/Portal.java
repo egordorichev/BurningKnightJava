@@ -1,19 +1,26 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -41,7 +48,7 @@ public class Portal extends SaveableEntity {
 	public void init() {
 		super.init();
 
-		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		this.body = World.createSimpleBody(this, 4, 4, 8, 8, BodyDef.BodyType.DynamicBody, true);
 
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
@@ -133,6 +140,17 @@ public class Portal extends SaveableEntity {
 			parts.add(new Particle(this));
 			parts.add(new Particle(this));
 		}
+
+		float dx = Player.instance.x - this.x - 2;
+		float dy = Player.instance.y - this.y - 4;
+		float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+		float dd = 64f;
+		if (d < dd) {
+			float f = (dd - d) / dd;
+			Player.instance.velocity.x -= dx / d * dt * 7000 * f;
+			Player.instance.velocity.y -= dy / d * dt * 7000 * f;
+		}
 	}
 
 	@Override
@@ -154,8 +172,61 @@ public class Portal extends SaveableEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity instanceof Player) {
+		if (entity instanceof Player && !Player.sucked) {
+			Player.sucked = true;
 
+			Dungeon.darkR = Dungeon.MAX_R;
+			Player.instance.setUnhittable(true);
+			Camera.follow(null);
+
+			Vector3 vec = Camera.game.project(new Vector3(Player.instance.x, Player.instance.y, 0));
+			vec = Camera.ui.unproject(vec);
+			vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
+
+			Dungeon.darkX = vec.x / Display.UI_SCALE;
+			Dungeon.darkY = vec.y;
+
+			Tween.to(new Tween.Task(Dungeon.MAX_R * 0.25f, 0.3f, Tween.Type.QUAD_OUT) {
+				@Override
+				public float getValue() {
+					return Dungeon.darkR;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Dungeon.darkR = value;
+				}
+
+				@Override
+				public void onEnd() {
+					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
+						@Override
+						public float getValue() {
+							return Dungeon.darkR;
+						}
+
+						@Override
+						public void setValue(float value) {
+							Dungeon.darkR = value;
+						}
+
+						@Override
+						public void onEnd() {
+							if (Dungeon.depth == -2) {
+								Dungeon.goToSelect = true;
+							} else {
+								GameSave.inventory = true;
+								Dungeon.toInventory = true;
+								Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+								InventoryState.depth = Dungeon.depth + 1;
+							}
+
+							Dungeon.setBackground2(new Color(0, 0, 0, 1));
+							Player.sucked = false;
+						}
+					}).delay(1f);
+				}
+			}).delay(1f);
 		}
 	}
 

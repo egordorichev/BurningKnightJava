@@ -773,6 +773,8 @@ public class Player extends Creature {
 		}
 	}
 
+	public static boolean sucked = false;
+
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
 			if (item.getItem() instanceof Bomb) {
@@ -1180,7 +1182,7 @@ public class Player extends Creature {
 
 		this.heat = Math.max(0, this.heat - dt / 3);
 
-		if (Dialog.active == null && !this.freezed && !UiMap.large) {
+		if (!sucked && Dialog.active == null && !this.freezed && !UiMap.large) {
 			if (!this.rolling) {
 				if (Input.instance.isDown("left")) {
 					this.acceleration.x -= this.speed;

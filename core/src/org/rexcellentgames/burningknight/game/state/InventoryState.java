@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.util.Tween;
 
 public class InventoryState extends State {
 	private Inventory inventory;
@@ -25,7 +26,20 @@ public class InventoryState extends State {
 	public void init() {
 		super.init();
 
-		Dungeon.dark = 1;
+		Dungeon.dark = 0;
+
+		Tween.to(new Tween.Task(1, 0.5f) {
+			@Override
+			public float getValue() {
+				return 0;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.dark = value;
+			}
+		});
+
 		Dungeon.white = 0;
 		Dungeon.darkR = Dungeon.MAX_R;
 

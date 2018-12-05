@@ -52,9 +52,6 @@ public class LoadState extends State {
 		}
 
 		Dungeon.setBackground(new Color(0, 0, 0, 1));
-
-		Dungeon.darkR = Dungeon.MAX_R;
-		Dungeon.dark = 1;
 	}
 
 	private boolean second;
@@ -89,8 +86,6 @@ public class LoadState extends State {
 		HandmadeRoom.init();
 
 		Dungeon.speed = 1f;
-		Dungeon.dark = 1;
-		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.ui.destroy();
 		Dungeon.area.destroy();
 		Exit.instance = null;
@@ -196,6 +191,8 @@ public class LoadState extends State {
 
 	@Override
 	public void renderUi() {
+		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.dark = 1;
 		this.alp += ((this.third ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 10;
 
 		if (this.alp >= 0.95f && !second) {
