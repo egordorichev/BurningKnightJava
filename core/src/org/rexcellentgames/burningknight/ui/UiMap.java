@@ -642,7 +642,8 @@ public class UiMap extends UiEntity {
 							l = t;
 						}
 
-						Graphics.shape.setColor(Terrain.getColor(l));
+						Color color = Terrain.getColor(l);
+						Graphics.shape.setColor(color == null ? Color.WHITE : color);
 						Graphics.shape.rect(xx * s + mx, yy * s + my, s, s);
 					}
 				}
