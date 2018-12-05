@@ -1,14 +1,26 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.desert;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.SnipperGun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Pickaxe;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Shovel;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.util.ArrayList;
 
 public class Archeologist extends Mob {
 	public static Animation animations = Animation.make("actor-archeologist", "-green");
@@ -174,7 +186,7 @@ public class Archeologist extends Mob {
 			float dx = self.target.x + self.target.w / 2 - lastAim.x;
 			float dy = self.target.y + self.target.h / 2 - lastAim.y;
 			// float d = (float) Math.sqrt(dx * dx + dy);
-			float s = 0.04f;
+			float s = 0.08f;
 
 			lastAim.x += dx * s;
 			lastAim.y += dy * s;
@@ -186,6 +198,7 @@ public class Archeologist extends Mob {
 			checkForRun();
 		}
 	}
+
 	private Point lastAim = new Point();
 
 	@Override
@@ -276,5 +289,56 @@ public class Archeologist extends Mob {
 
 		this.done = true;
 		deathEffect(killed);
+
+		this.playSfx("explosion");
+		this.done = true;
+		Explosion.make(this.x + 8, this.y + 8, false);
+
+		for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
+			Entity entity = Dungeon.area.getEntities().get(i);
+
+			if (entity instanceof Creature) {
+				Creature creature = (Creature) entity;
+
+				if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+					if (!creature.explosionBlock) {
+						if (creature instanceof Player) {
+							creature.modifyHp(-1000, this, true);
+						} else {
+							creature.modifyHp(-Math.round(Random.newFloatDice(20 / 3 * 2, 20)), this, true);
+						}
+					}
+
+					float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
+
+					float knockbackMod = creature.getStat("knockback");
+					creature.velocity.x += Math.cos(a) * 5000f * knockbackMod;
+					creature.velocity.y += Math.sin(a) * 5000f * knockbackMod;
+				}
+			} else if (entity instanceof Chest) {
+				if (entity.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+					((Chest) entity).explode();
+				}
+			}
+		}
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = super.getDrops();
+
+		if (Random.chance(5)) {
+			items.add(new Pickaxe());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new Shovel());
+		}
+
+		if (Random.chance(5)) {
+			items.add(new Shotgun());
+		}
+
+		return items;
 	}
 }

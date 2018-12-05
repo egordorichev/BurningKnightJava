@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.creature.npc;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -16,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeSh
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
-import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -208,7 +206,7 @@ public class Shopkeeper extends Npc {
 
 	@Override
 	public void render() {
-		if (!this.enranged) {
+		/*if (!this.enranged) {
 			float dt = Gdx.graphics.getDeltaTime();
 			this.al = MathUtils.clamp(0, 1, this.al + ((lastWhite ? 1 : 0) - this.al) * dt * 10);
 
@@ -233,7 +231,7 @@ public class Shopkeeper extends Npc {
 				Graphics.batch.setShader(null);
 				Graphics.batch.begin();
 			}
-		}
+		}*/
 
 		animation.render(this.x, this.y, this.flipped);
 

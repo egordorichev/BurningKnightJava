@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.item
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
-import org.rexcellentgames.burningknight.entity.item.autouse.Backpack
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
 import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
@@ -143,7 +142,7 @@ object ItemRegistry {
 		"magic_mushroom" to Pair(MagicMushroom::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.CONSUMABLE, 5),
 		"isaac_head" to Pair(IsaacHead::class.java, 1f, 0.3f, 0.1f, 1f, Quality.IRON, Achievements.UNLOCK_ISAAC_HEAD),
 		"fire_flower" to Pair(FireFlower::class.java, 1f, 1f, 1f, 1f, Quality.GOLDEN, Upgrade.Type.ACCESSORY, 1),
-		"backpack" to Pair(Backpack::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_BACKPACK),
+		// "backpack" to Pair(Backpack::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_BACKPACK),
 		"blood_ring" to Pair(BloodRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 		"claymore" to Pair(Claymore::class.java, 1f, 1f, 0.3f, 0.1f, Quality.WOODEN),
 		"goo" to Pair(GooOrbital::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
@@ -160,7 +159,8 @@ object ItemRegistry {
 		"vampire_orbital" to Pair(VampireOrbital::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 		"lightsaber" to Pair(Lightsaber::class.java, 1f, 1f, 0.3f, 0.11f, Quality.WOODEN),
 		"chicken_sword" to Pair(ChickenSword::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
-		"blue_shovel" to Pair(BlueShovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+	  "bone" to Pair(Bone::class.java, 0f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
+	  "blue_shovel" to Pair(BlueShovel::class.java, 1f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 		"magic_shield" to Pair(MagicShield::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY, 7),
 		"cobalt_shield" to Pair(CobaltShield::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.ACCESSORY, 3),
 		"cross" to Pair(Cross::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY, 10),

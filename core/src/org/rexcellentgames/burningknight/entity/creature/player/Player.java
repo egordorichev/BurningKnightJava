@@ -47,6 +47,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
+import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
@@ -316,6 +317,8 @@ public class Player extends Creature {
 			if (startingItem != null) {
 				this.give(startingItem);
 				startingItem = null;
+			} else {
+				this.give(new Sword());
 			}
 
 			if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
@@ -778,6 +781,15 @@ public class Player extends Creature {
 				item.remove();
 				item.done = true;
 
+				for (int j = 0; j < 3; j++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = item.x + item.w / 2;
+					fx.y = item.y + item.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
 				return true;
 			} else if (item.getItem() instanceof Gold) {
 				setMoney(money + item.getItem().getCount());
@@ -785,12 +797,51 @@ public class Player extends Creature {
 				item.remove();
 				item.done = true;
 
+				for (int j = 0; j < 3; j++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = item.x + item.w / 2;
+					fx.y = item.y + item.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
 				return true;
 			} else if (item.getItem() instanceof Key && !(item.getItem() instanceof BurningKey)) {
 				setKeys(keys + item.getItem().getCount());
 				item.getItem().onPickup();
 				item.remove();
 				item.done = true;
+
+				for (int j = 0; j < 3; j++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = item.x + item.w / 2;
+					fx.y = item.y + item.h / 2;
+
+					Dungeon.area.add(fx);
+				}
+
+				return true;
+			} else if (item.getItem() instanceof Autouse) {
+				Item i = item.getItem();
+				i.setOwner(this);
+
+				for (int j = 0; j < i.getCount(); j++) {
+					i.use();
+				}
+
+				item.remove();
+				item.done = true;
+
+				for (int j = 0; j < 3; j++) {
+					PoofFx fx = new PoofFx();
+
+					fx.x = item.x + item.w / 2;
+					fx.y = item.y + item.h / 2;
+
+					Dungeon.area.add(fx);
+				}
 
 				return true;
 			} else if (this.inventory.add(item)) {

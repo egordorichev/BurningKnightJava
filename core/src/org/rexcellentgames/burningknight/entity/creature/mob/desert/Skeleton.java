@@ -5,13 +5,15 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Bone;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.util.ArrayList;
 
 public class Skeleton extends Mob {
 	public static Animation animations = Animation.make("actor-skeleton", "-white");
@@ -61,7 +63,7 @@ public class Skeleton extends Mob {
 		this.body = this.createSimpleBody(2, 1, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
-		this.weapon = new Sword();
+		this.weapon = new Bone();
 		this.weapon.setOwner(this);
 	}
 
@@ -95,6 +97,17 @@ public class Skeleton extends Mob {
 
 	public class SkeletonState extends Mob.State<Skeleton> {
 
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = super.getDrops();
+
+		if (Random.chance(5)) {
+			items.add(new Bone());
+		}
+
+		return items;
 	}
 
 	@Override

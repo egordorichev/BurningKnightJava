@@ -7,7 +7,6 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
@@ -17,8 +16,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
-import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
-import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -162,7 +159,7 @@ public class Gun extends WeaponBase {
 	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
 		Object data = fixture.getBody().getUserData();
 
-		if (data == null || (data instanceof Door && !((Door) data).isOpen()) || data instanceof SolidProp || data instanceof RollingSpike || data instanceof Creature) {
+		if (data == null || (data instanceof Door && !((Door) data).isOpen())) {
 			if (fraction < closestFraction) {
 				closestFraction = fraction;
 				last.x = point.x;

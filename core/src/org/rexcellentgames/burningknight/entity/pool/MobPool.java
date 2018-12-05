@@ -17,24 +17,19 @@ public class MobPool extends Pool<Mob> {
 
 	public void initForFloor() {
 		clear();
-		// add(Thief.class, 1f);
 
 		if (Dungeon.level instanceof HallLevel) {
 			add(RangedKnight.class, 1f);
 			add(Knight.class, 1f);
-
-			if (Dungeon.depth > 1) {
-				add(Clown.class, 1f);
-				add(Thief.class, 1f);
-			}
-
-			// add(DashingKnight.class, 1f);
+			add(Clown.class, 1f);
+			add(Thief.class, 1f);
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {
-			// add(Archeologist.class, 1f);
-			// add(Mummy.class, 1f);
-			add(Skeleton.class, 1f);
+			add(Archeologist.class, 1f);
+			add(Mummy.class, 1f);
+			add(Skeleton.class, 0.5f);
+			add(Thief.class, 1f);
 		}
 
 		if (Dungeon.level instanceof LibraryLevel) {

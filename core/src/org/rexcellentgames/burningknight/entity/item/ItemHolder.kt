@@ -42,6 +42,9 @@ open class ItemHolder : SaveableEntity {
   
   constructor()
 
+  var startX = 0f
+  var startY = 0f
+
   var fake = false
   var item: Item? = null
     set(value) {
@@ -153,41 +156,43 @@ open class ItemHolder : SaveableEntity {
       return
     }
 
-	  var found = false
-    var x = Math.floor(((this.x) / 16).toDouble()).toInt() - 1
+    if (!this.item!!.shop) {
+      var found = false
+      var x = Math.floor(((this.x) / 16).toDouble()).toInt() - 1
 
-    while (x < Math.ceil(((this.x + this.hw.toFloat() + 8) / 16).toDouble())) {
-      var y = Math.floor(((this.y) / 16).toDouble()).toInt() - 1
+      while (x < Math.ceil(((this.x + this.hw.toFloat() + 8) / 16).toDouble())) {
+        var y = Math.floor(((this.y) / 16).toDouble()).toInt() - 1
 
-      while (y < Math.ceil(((this.y + 16f + this.hh.toFloat()) / 16).toDouble())) {
-        if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
-          y++
-          continue
-        }
-
-        if (CollisionHelper.check(this.x, this.y, w, h, x * 16f, y * 16f - 8f, 32f, 32f)) {
-          val i = Level.toIndex(x, y)
-          val l = Dungeon.level.liquidData[i]
-
-					if (l == Terrain.WATER)	{
-						velocity.y -= dt * 800
-						found = true
-						break
+        while (y < Math.ceil(((this.y + 16f + this.hh.toFloat()) / 16).toDouble())) {
+          if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
+            y++
+            continue
           }
+
+          if (CollisionHelper.check(this.x, this.y, w, h, x * 16f, y * 16f - 8f, 32f, 32f)) {
+            val i = Level.toIndex(x, y)
+            val l = Dungeon.level.liquidData[i]
+
+            if (l == Terrain.WATER) {
+              velocity.y -= dt * 800
+              found = true
+              break
+            }
+          }
+
+          if (found) {
+            break
+          }
+
+          y++
         }
 
-	      if (found) {
-		      break
-	      }
+        if (found) {
+          break
+        }
 
-        y++
+        x++
       }
-
-	    if (found) {
-		    break
-	    }
-
-      x++
     }
 
     if (this.item!!.shop && !added) {
@@ -220,8 +225,12 @@ open class ItemHolder : SaveableEntity {
     super.update(dt)
 
     if (this.body != null) {
-      this.x = this.body!!.position.x
-      this.y = this.body!!.position.y - this.z
+      if (this.item!!.shop) {
+        World.checkLocked(this.body).setTransform(this.x, this.y + this.z, 0f)
+      } else {
+        this.x = this.body!!.position.x
+        this.y = this.body!!.position.y - this.z
+      }
     }
 
     this.velocity.mul(0.9f)
@@ -279,6 +288,9 @@ open class ItemHolder : SaveableEntity {
 
   override fun init() {
     super.init()
+
+    startX = x
+    startY = y
 
     this.t = Random.newFloat(32f)
     this.last = Random.newFloat(1f)
