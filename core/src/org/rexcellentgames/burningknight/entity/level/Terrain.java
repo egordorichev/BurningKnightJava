@@ -31,8 +31,9 @@ public class Terrain {
 	public static byte COBWEB = 20;
 	public static byte VENOM = 21;
 	public static byte DISCO = 22;
+	public static byte PORTAL = 23;
 
-	public static byte SIZE = 23;
+	public static byte SIZE = 24;
 
 	public static int[] flags = new int[SIZE];
 	public static Color[] colors = new Color[SIZE];
@@ -69,6 +70,7 @@ public class Terrain {
 		flags[EMBER] = PASSABLE | LIQUID_LAYER;
 		flags[COBWEB] = PASSABLE | LIQUID_LAYER | BURNS;
 		flags[EXIT] = PASSABLE | LIQUID_LAYER;
+		flags[PORTAL] = PASSABLE | LIQUID_LAYER;
 		flags[DISCO] = PASSABLE;
 
 		colors[CHASM] = Color.valueOf("#000000");
@@ -81,6 +83,7 @@ public class Terrain {
 		colors[WATER] = Color.valueOf("#0098dc");
 		colors[LAVA] = Color.valueOf("#ff5000");
 		colors[EXIT] = Color.valueOf("#424c6e");
+		colors[PORTAL] = Color.valueOf("#424c6e");
 		colors[TABLE] = Color.valueOf("#f6ca9f");
 		colors[DISCO] = Color.valueOf("#ff0000");
 		colors[VENOM] = Color.valueOf("#93388f");

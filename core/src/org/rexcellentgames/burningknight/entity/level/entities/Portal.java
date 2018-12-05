@@ -1,0 +1,206 @@
+package org.rexcellentgames.burningknight.entity.level.entities;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
+import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.file.FileReader;
+import org.rexcellentgames.burningknight.util.file.FileWriter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Portal extends SaveableEntity {
+	private Body body;
+	private LadderFx fx;
+	private static TextureRegion region;
+	public static LadderFx exitFx;
+	public static float al;
+
+	private byte type;
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+	public byte getType() {
+		return this.type;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+
+		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+
+		if (this.body != null) {
+			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+		}
+
+		if (Level.GENERATED) {
+			this.addSelf();
+		}
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		this.body = World.removeBody(this.body);
+	}
+
+	private void addSelf() {
+		Log.info("Checking for exit ladder");
+
+		if (Dungeon.loadType != Entrance.LoadType.GO_DOWN && (Dungeon.ladderId == this.type || Player.ladder == null)) {
+			Player.ladder = this;
+			Log.info("Set exit ladder!");
+		}
+	}
+
+	@Override
+	public void render() {
+		Graphics.startAlphaShape();
+		float dt = Gdx.graphics.getDeltaTime();
+
+		Graphics.shape.setColor(0.5f, 0, 0.5f, 1);
+		Graphics.shape.circle(x + 8, y + 8, 4);
+
+		for (int i = parts.size() - 1; i >= 0; i--) {
+			Particle p = parts.get(i);
+			p.a += p.av * dt * 1.5f;
+			p.av += dt * 3;
+
+			p.d -= p.junk ? dt * 15 : dt * 10;
+			p.rad -= dt * 1f;
+
+			if (p.rad <= 0 || p.d <=0 ) {
+				parts.remove(i);
+			}
+
+			p.readPosition();
+			p.al = Math.min(0.6f, p.al + dt);
+		}
+
+		for (Particle p : parts) {
+			if (!p.junk) {
+				if (p.black) {
+					Graphics.shape.setColor(1, 0, 1, p.al);
+				} else {
+					Graphics.shape.setColor(0.3f, 0, 0.5f, p.al);
+				}
+
+				Graphics.shape.circle(p.x, p.y, p.rad);
+			}
+		}
+
+		for (Particle p : parts) {
+			if (p.junk) {
+				float size = p.rad;
+				float a = p.a * 10f;
+				Graphics.shape.setColor(1, 1, 1, p.al * 0.5f);
+				Graphics.shape.rect(p.x - size / 2, p.y - size / 2, size / 2, size / 2, size, size, 1, 1, a);
+				Graphics.shape.setColor(1, 1, 1, p.al);
+				Graphics.shape.rect(p.x - size / 2, p.y - size / 2, size / 2, size / 2, size, size, 0.5f, 0.5f, a);
+			}
+		}
+
+		Graphics.endAlphaShape();
+	}
+
+	private float last;
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		depth = -9;
+
+		last += dt;
+
+		if (last >= 0.01f) {
+			last = 0;
+			parts.add(new Particle(this));
+			parts.add(new Particle(this));
+			parts.add(new Particle(this));
+		}
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		this.type = reader.readByte();
+
+		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+		this.addSelf();
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeByte(this.type);
+	}
+
+	@Override
+	public void onCollision(Entity entity) {
+		if (entity instanceof Player) {
+
+		}
+	}
+
+	private ArrayList<Particle> parts = new ArrayList<>();
+
+	private class Particle {
+		public float x;
+		public float y;
+		public float rad;
+		public float sx;
+		public float sy;
+		public float a;
+		public float d;
+		public float av;
+		public boolean black;
+		public float al;
+		public boolean junk;
+
+		public Particle(Portal portal) {
+			al = 0;
+			a = Random.newFloat((float) (Math.PI * 2));
+			float v = (float) (Math.PI);
+			black = a % v > (v * 0.5f);
+
+			junk = Random.chance(1f);
+			d = junk ? Random.newFloat(16, 32f) : 16f;
+			rad = junk ? 6f : 3f;
+			sx = portal.x;
+			sy = portal.y;
+
+			readPosition();
+		}
+
+		public void readPosition() {
+			x = (float) (sx + 8 + Math.cos(a) * d);
+			y = (float) (sy + 8 + Math.sin(a) * d);
+		}
+	}
+
+	@Override
+	public void onCollisionEnd(Entity entity) {
+		if (entity instanceof Player && this.fx != null) {
+			this.fx.remove();
+			this.fx = null;
+			exitFx = null;
+		}
+	}
+}

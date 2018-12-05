@@ -35,6 +35,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.state.InGameState;
@@ -2374,7 +2375,7 @@ public abstract class Level extends SaveableEntity {
 		for (int i = 0; i < 10; i++) {
 			Room room = this.getRandomRoom(type);
 
-			if (room == null || room instanceof EntranceRoom) {
+			if (room == null || room instanceof EntranceRoom || room instanceof BossEntranceRoom) {
 				continue;
 			}
 

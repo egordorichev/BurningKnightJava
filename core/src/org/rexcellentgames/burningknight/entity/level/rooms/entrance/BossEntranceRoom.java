@@ -3,7 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.rooms.entrance;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -74,12 +74,12 @@ public class BossEntranceRoom extends RegularRoom {
 	}
 
 	protected void place(Level level, Point point) {
-		Exit exit = new Exit();
+		Portal exit = new Portal();
 
 		exit.x = point.x * 16;
 		exit.y = point.y * 16 - 8;
 
-		level.set((int) point.x, (int) point.y, Terrain.EXIT);
+		level.set((int) point.x, (int) point.y, Terrain.PORTAL);
 		LevelSave.add(exit);
 		Dungeon.area.add(exit);
 	}
