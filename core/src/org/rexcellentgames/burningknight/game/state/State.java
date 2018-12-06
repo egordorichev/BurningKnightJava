@@ -19,20 +19,21 @@ public class State {
 		Graphics.startAlphaShape();
 		Graphics.shape.setProjectionMatrix(Camera.nil.combined);
 		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360, 360, 360);
-		Dungeon.setBackground2(new Color(cl.r * 0.4f, cl.g * 0.4f, cl.b * 0.4f, 1f));
+		Dungeon.setBackground2(new Color(cl.r * 0.04f, cl.g * 0.04f,
+			cl.b * 0.04f, 1f));
 
 		for (int i = 0; i < 65; i++) {
 			float s = i * 0.015f;
 			float mx = (Noise.instance.noise(Dungeon.time * 0.25f + s) * 96);
 			float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + s) * 96);
-			float v = ((float) i) / 80f + 0.3f;
+			float v = ((float) i) / 65f;
 
 			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
 			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.5f);
 
 			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
 			float w = i * 2 + 64;
-			float d = i * 4f;
+			float d = i * 2.5f * (i * 0.01f + 0.99f);
 			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56-i) / 56);
 			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56-i) / 56);
 

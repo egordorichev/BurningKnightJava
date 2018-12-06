@@ -148,7 +148,7 @@ public class MainMenuState extends State {
 
 		renderPortal();
 
-		if (false && logoY == 0 && (Input.instance.wasPressed("use") ||
+		if (logoY == 0 && (Input.instance.wasPressed("use") ||
 			Input.instance.wasPressed("X") || Input.instance.wasPressed("Return"))) {
 
 			Tween.to(new Tween.Task(256, 0.7f, Tween.Type.QUAD_IN) {
