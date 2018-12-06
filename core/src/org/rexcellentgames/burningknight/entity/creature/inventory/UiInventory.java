@@ -505,7 +505,18 @@ public class UiInventory extends UiEntity {
 
 		if (item != null) {
 			TextureRegion region = item.getSprite();
-			Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
+			if (item.getDelay() > 0) {
+				int w = region.getRegionWidth();
+				Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
+				Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
+				Graphics.batch.setColor(1, 1, 1, 1);
+
+				region.setRegionWidth((int) (w * (1f - item.getDelay() / item.getUseTime())));
+				Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
+				region.setRegionWidth(w);
+			} else {
+				Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
+			}
 		}
 
 		this.renderCurrentSlot();
