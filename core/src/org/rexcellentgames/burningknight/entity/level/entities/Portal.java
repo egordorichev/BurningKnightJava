@@ -80,9 +80,6 @@ public class Portal extends SaveableEntity {
 		Graphics.startAlphaShape();
 		float dt = Gdx.graphics.getDeltaTime();
 
-		Graphics.shape.setColor(0.5f, 0, 0.5f, 1);
-		Graphics.shape.circle(x + 8, y + 8, 4);
-
 		for (int i = parts.size() - 1; i >= 0; i--) {
 			Particle p = parts.get(i);
 			p.a += p.av * dt * 1.5f;
@@ -90,6 +87,7 @@ public class Portal extends SaveableEntity {
 
 			p.d -= p.junk ? dt * 15 : dt * 10;
 			p.rad -= dt * 1f;
+			p.t += dt;
 
 			if (p.rad <= 0 || p.d <=0 ) {
 				parts.remove(i);
@@ -105,7 +103,8 @@ public class Portal extends SaveableEntity {
 					Graphics.shape.setColor(0, 0, 0, p.al);
 				} else {
 					Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360 - p.d, 360, 360);
-					Graphics.shape.setColor(cl.r, cl.g, cl.b, p.al);
+					float v = Math.max(0.1f, 1.2f - p.t * 0.7f);
+					Graphics.shape.setColor(cl.r * v, cl.g * v, cl.b * v, p.al);
 				}
 
 				Graphics.shape.circle(p.x, p.y, p.rad);
@@ -177,6 +176,8 @@ public class Portal extends SaveableEntity {
 		if (entity instanceof Player && !Player.sucked) {
 			Player.sucked = true;
 
+			Camera.shake(3);
+
 			Dungeon.darkR = Dungeon.MAX_R;
 			Player.instance.rotating = true;
 			Player.instance.setUnhittable(true);
@@ -239,7 +240,6 @@ public class Portal extends SaveableEntity {
 
 	/*
 		ideas:
-		rotate player when sucking into the portal
 		box shadow under menu logo so it looks glowing
 		logo changing color with the bg?
 		things in portal
@@ -259,6 +259,7 @@ public class Portal extends SaveableEntity {
 		public float av;
 		public boolean black;
 		public float al;
+		public float t;
 		public boolean junk;
 
 		public Particle(Portal portal) {

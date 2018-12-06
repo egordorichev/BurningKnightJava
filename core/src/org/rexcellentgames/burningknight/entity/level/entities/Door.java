@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
@@ -609,6 +610,10 @@ public class Door extends SaveableEntity {
 			if (entity instanceof Knight) {
 				((Knight) entity).checkDir();
 			}
+			return true;
+		}
+
+		if (entity instanceof RollingSpike) {
 			return true;
 		}
 

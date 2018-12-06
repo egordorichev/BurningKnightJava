@@ -29,6 +29,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
+import org.rexcellentgames.burningknight.entity.creature.inventory.UiSlot;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
@@ -39,10 +40,7 @@ import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
-import org.rexcellentgames.burningknight.entity.item.Bomb;
-import org.rexcellentgames.burningknight.entity.item.Gold;
-import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
@@ -56,6 +54,7 @@ import org.rexcellentgames.burningknight.entity.item.permanent.ExtraHeart;
 import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
 import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -787,11 +786,12 @@ public class Player extends Creature {
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
-			if (item.getItem() instanceof Bomb) {
+			if (item.getItem() instanceof Bomb && !(item.getItem() instanceof InfiniteBomb)) {
 				setBombs(bombs + item.getItem().getCount());
 				item.getItem().onPickup();
 				item.remove();
 				item.done = true;
+				this.playSfx("pickup_item");
 
 				for (int j = 0; j < 3; j++) {
 					PoofFx fx = new PoofFx();
@@ -808,6 +808,7 @@ public class Player extends Creature {
 				item.getItem().onPickup();
 				item.remove();
 				item.done = true;
+				this.playSfx("pickup_item");
 
 				for (int j = 0; j < 3; j++) {
 					PoofFx fx = new PoofFx();
@@ -824,6 +825,7 @@ public class Player extends Creature {
 				item.getItem().onPickup();
 				item.remove();
 				item.done = true;
+				this.playSfx("pickup_item");
 
 				for (int j = 0; j < 3; j++) {
 					PoofFx fx = new PoofFx();
@@ -845,6 +847,7 @@ public class Player extends Creature {
 
 				item.remove();
 				item.done = true;
+				this.playSfx("pickup_item");
 
 				for (int j = 0; j < 3; j++) {
 					PoofFx fx = new PoofFx();
@@ -856,7 +859,82 @@ public class Player extends Creature {
 				}
 
 				return true;
+			} else if (item.getItem() instanceof WeaponBase) {
+				if (inventory.getSlot(0) == null) {
+					inventory.setSlot(0, item.getItem());
+
+					item.getItem().setOwner(this);
+					item.remove();
+					item.done = true;
+					this.playSfx("pickup_item");
+
+					for (int j = 0; j < 3; j++) {
+						PoofFx fx = new PoofFx();
+
+						fx.x = item.x + item.w / 2;
+						fx.y = item.y + item.h / 2;
+
+						Dungeon.area.add(fx);
+					}
+
+					return true;
+				} else if (inventory.getSlot(1) == null) {
+					inventory.setSlot(1, item.getItem());
+					item.getItem().setOwner(this);
+
+					item.remove();
+					item.done = true;
+					this.playSfx("pickup_item");
+
+					for (int j = 0; j < 3; j++) {
+						PoofFx fx = new PoofFx();
+
+						fx.x = item.x + item.w / 2;
+						fx.y = item.y + item.h / 2;
+
+						Dungeon.area.add(fx);
+					}
+
+					return true;
+				} else {
+					Item it = item.getItem();
+					item.setItem(this.inventory.getSlot(this.inventory.active));
+					this.inventory.setSlot(this.inventory.active, it);
+					it.setOwner(this);
+					this.playSfx("pickup_item");
+					return false;
+				}
+			} else if (UiSlot.canAccept(2, item.getItem())) {
+				if (inventory.getSlot(2) == null) {
+					Log.error("set");
+					inventory.setSlot(2, item.getItem());
+
+					item.getItem().setOwner(this);
+					item.remove();
+					item.done = true;
+					this.playSfx("pickup_item");
+
+					for (int j = 0; j < 3; j++) {
+						PoofFx fx = new PoofFx();
+
+						fx.x = item.x + item.w / 2;
+						fx.y = item.y + item.h / 2;
+
+						Dungeon.area.add(fx);
+					}
+
+					return true;
+				} else {
+					Log.error("Replace");
+					Item it = item.getItem();
+					item.setItem(this.inventory.getSlot(2));
+					this.inventory.setSlot(2, it);
+					it.setOwner(this);
+					this.playSfx("pickup_item");
+					return false;
+				}
 			} else if (this.inventory.add(item)) {
+				Log.error("Normal pickup");
 				if (item.getItem().hasAutoPickup()) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
@@ -866,6 +944,8 @@ public class Player extends Creature {
 				if (item.getItem() instanceof Gold && this.manaCoins) {
 					this.modifyMana(2);
 				}
+
+				this.playSfx("pickup_item");
 
 				return true;
 			}

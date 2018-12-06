@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
@@ -441,14 +442,14 @@ public class Creature extends SaveableEntity {
 
 		if (this.done || this.dead || this.invtt > 0 || (this.invt > 0 && !(this instanceof Mob))) {
 			return null;
-		}/* else if (amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class)) {
-			// (((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
-			//(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense())))
+		} else if (this instanceof Player && amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class) &&
+			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
+			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
 
 			this.playSfx("block");
 			this.invt = this.getStat("inv_time");
 			return (HpFx) Dungeon.area.add(new HpFx(this, 0, true));
-		}*/
+		}
 
 		boolean hurt = false;
 
