@@ -390,6 +390,27 @@ public class Dungeon extends ApplicationAdapter {
 			return;
 		}
 
+		update();
+
+		Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+		renderGame();
+		renderUi();
+
+		if (Input.instance != null) {
+			Input.instance.update();
+		}
+	}
+
+	private static float fpsY;
+
+	private void update() {
+		if (Graphics.delayTime > 0) {
+			Graphics.delayTime -= Gdx.graphics.getDeltaTime();
+			return;
+		}
+
 		float dt = Math.min(0.04f, Gdx.graphics.getDeltaTime()) * speed;
 		time += dt;
 		longTime += 1;
@@ -482,19 +503,7 @@ public class Dungeon extends ApplicationAdapter {
 		if (AssetLoadState.done) {
 			updateMouse(dt);
 		}
-
-		Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
-		renderGame();
-		renderUi();
-
-		if (Input.instance != null) {
-			Input.instance.update();
-		}
 	}
-
-	private static float fpsY;
 
 	private void renderGame() {
 		Camera.applyShake();
