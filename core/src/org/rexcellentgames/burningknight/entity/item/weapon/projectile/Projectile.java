@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.StatefulEntity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -108,6 +109,7 @@ public class Projectile extends StatefulEntity {
 	protected void doHit(Entity entity) {
 		HpFx fx = ((Creature) entity).modifyHp(-this.damage, this, this.ignoreArmor);
 		((Creature) entity).knockBackFrom(this.owner, this.knockback);
+		Graphics.delay();
 
 		if (fx != null) {
 			if (this.crit) {

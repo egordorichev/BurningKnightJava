@@ -381,12 +381,33 @@ public class Dungeon extends ApplicationAdapter {
 			Dungeon.lastDepth = depth;
 			Dungeon.depth = to;
 
-			game.setState(new LoadState());
+			game.setState(to == 9 ? new WonState() : new LoadState());
 
 			Gdx.gl.glClearColor(0, 0, 0, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 			to = -10;
+			return;
+		}
+
+		update();
+
+		Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+
+		renderGame();
+		renderUi();
+
+		if (Input.instance != null) {
+			Input.instance.update();
+		}
+	}
+
+	private static float fpsY;
+
+	private void update() {
+		if (Graphics.delayTime > 0) {
+			Graphics.delayTime -= Gdx.graphics.getDeltaTime();
 			return;
 		}
 
@@ -482,19 +503,7 @@ public class Dungeon extends ApplicationAdapter {
 		if (AssetLoadState.done) {
 			updateMouse(dt);
 		}
-
-		Gdx.gl.glClearColor(getBackground().r, getBackground().g, getBackground().b, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-
-		renderGame();
-		renderUi();
-
-		if (Input.instance != null) {
-			Input.instance.update();
-		}
 	}
-
-	private static float fpsY;
 
 	private void renderGame() {
 		Camera.applyShake();
@@ -760,7 +769,6 @@ public class Dungeon extends ApplicationAdapter {
 			shader.dispose();
 			InGameState.shader.dispose();
 			Level.lightShader.dispose();
-			InventoryState.shader.dispose();
 		}
 
 		shutdownDiscord();

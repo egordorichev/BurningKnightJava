@@ -39,12 +39,11 @@ public class Graphics {
 		delay(20);
 	}
 
-	public static void delay(int ms) {
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public static float delayTime;
+
+	public static void delay(float ms) {
+		ms *= 0.001f;
+		delayTime = Math.max(delayTime, ms);
 	}
 
 	public static void startShadows() {

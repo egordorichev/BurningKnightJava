@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.fx.ExplosionLeftOver;
@@ -66,6 +67,8 @@ public class Explosion extends Entity {
 	}
 
 	public static void make(float x, float y, boolean leave) {
+		Graphics.delay(90);
+
 		for (int i = 0; i < Random.newInt(2, 5); i++) {
 			Explosion explosion = new Explosion(x + Random.newFloat(-16, 16), y + Random.newFloat(-16, 16));
 			explosion.delay = Random.newFloat(0, 0.25f);

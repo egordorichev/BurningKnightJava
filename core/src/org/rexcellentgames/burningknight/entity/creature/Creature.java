@@ -582,7 +582,7 @@ public class Creature extends SaveableEntity {
 	}
 
 	protected void onHurt(int a, Entity from) {
-		Graphics.delay(20);
+		Graphics.delay(40);
 	}
 
 	public boolean isUnhittable() {
