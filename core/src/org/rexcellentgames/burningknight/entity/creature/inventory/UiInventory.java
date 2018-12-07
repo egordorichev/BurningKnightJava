@@ -364,15 +364,13 @@ public class UiInventory extends UiEntity {
 		}
 
 		float y = full ? this.slots[0].y + 20 : -3;
-		float x = sx;
+		float x = sx + 24 + 4;
 		float xx = x;
 
 		if (!full) {
 			Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
-			float by = 18;
 
 			if (item instanceof Wand) {
-				by += 10;
 				int mana = (int) this.mana;
 
 				for (int i = 0; i < Player.instance.getManaMax() / 2; i++) {
@@ -393,7 +391,6 @@ public class UiInventory extends UiEntity {
 					}
 				}
 			} else if (item instanceof Gun) {
-				by += 10;
 				int ammo = ((Gun) item).getAmmoLeft();
 				int max = ((Gun) item).ammoMax;
 
@@ -424,6 +421,7 @@ public class UiInventory extends UiEntity {
 				}
 			}
 
+			float by = 24 + 8;
 
 			Graphics.render(bomb, 4, by);
 			Graphics.render(key, 4, by + 12);
@@ -502,20 +500,22 @@ public class UiInventory extends UiEntity {
 		}
 
 		Item item = Player.instance.getInventory().getSlot(2);
+		Graphics.render(UiSlot.slot, 4, 4);
 
 		if (item != null) {
 			TextureRegion region = item.getSprite();
+			int w = region.getRegionWidth();
+
 			if (item.getDelay() > 0) {
-				int w = region.getRegionWidth();
 				Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
-				Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
+				Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
 				Graphics.batch.setColor(1, 1, 1, 1);
 
 				region.setRegionWidth((int) (w * (1f - item.getDelay() / item.getUseTime())));
-				Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
+				Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
 				region.setRegionWidth(w);
 			} else {
-				Graphics.render(region, 4, Display.UI_HEIGHT - region.getRegionHeight() - 4);
+				Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
 			}
 		}
 

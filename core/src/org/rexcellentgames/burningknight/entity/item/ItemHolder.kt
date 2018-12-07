@@ -200,6 +200,9 @@ open class ItemHolder : SaveableEntity {
       
       val price = ItemPrice()
 
+      this.item!!.price = this.item!!.getPrice()
+	    this.item!!.price = Math.max(1, this.item!!.price + Random.newInt(-3, 3))
+
       price.x = this.x + this.w / 2
       price.y = this.y - 6f - (16 - this.h) / 2
       price.price = this.item!!.price

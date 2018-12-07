@@ -28,7 +28,7 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiSlot {
-	private static TextureRegion slot = Graphics.getTexture("ui-inventory_slot");
+	public static TextureRegion slot = Graphics.getTexture("ui-inventory_slot");
 	private static TextureRegion cursedSlot = Graphics.getTexture("ui-cursed_slot");
 	private static TextureRegion selected = Graphics.getTexture("ui-selected_slot");
 

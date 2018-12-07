@@ -5,6 +5,8 @@ public class InfiniteBomb extends Bomb {
 		sprite = "item-bomb_orbital";
 		stackable = false;
 		useTime = 0.4f;
+		name = "infinite_bomb";
+		description = "infinite_bomb_desc";
 	}
 
 	@Override
