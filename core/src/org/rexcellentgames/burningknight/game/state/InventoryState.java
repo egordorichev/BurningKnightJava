@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -19,6 +20,7 @@ public class InventoryState extends State {
 	@Override
 	public void init() {
 		super.init();
+		Audio.play("Void");
 
 		Dungeon.buildDiscordBadge();
 		Dungeon.dark = 0;

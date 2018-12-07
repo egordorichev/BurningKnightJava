@@ -44,7 +44,7 @@ public class ItemSelectState extends State {
 	public void init() {
 		super.init();
 
-		Audio.stop();
+		Audio.play("Void");
 
 		Dungeon.white = 0;
 		Dungeon.dark = 0;
