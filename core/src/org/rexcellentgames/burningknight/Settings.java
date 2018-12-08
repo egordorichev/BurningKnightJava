@@ -86,7 +86,7 @@ public class Settings {
 		GlobalSave.put("settings_vsync", true);
 
 		GlobalSave.put("settings_quality", 1);
-		GlobalSave.put("settings_screenshake", 0.7f);
+		GlobalSave.put("settings_screenshake", 0.3f);
 		GlobalSave.put("settings_music", 0.5f);
 		GlobalSave.put("settings_sfx", 0.75f);
 

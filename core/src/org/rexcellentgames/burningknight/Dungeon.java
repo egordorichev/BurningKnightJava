@@ -89,6 +89,13 @@ public class Dungeon extends ApplicationAdapter {
 	public static float white;
 	public static boolean goToSelect;
 	public static float blood;
+	public static Color flashColor;
+	public static float flashTime;
+
+	public static void flash(Color color, float time) {
+		flashColor = color;
+		flashTime = time;
+	}
 
 	public static String title;
 
@@ -479,8 +486,9 @@ public class Dungeon extends ApplicationAdapter {
 			} else {
 				Settings.sfx = 0.5f;
 			}
-		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead() && Dialog.active == null) {
-			game.getState().setPaused(!game.getState().isPaused());
+		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead() && Dialog.active == null && !game.getState().isPaused()) {
+			game.getState().setPaused(true);
+			Audio.playSfx("menu/select");
 		}
 
 		// Stopped working
@@ -660,6 +668,16 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.begin();
 		Graphics.batch.setShader(shader);
+
+		if (flashTime > 0) {
+			flashTime -= Gdx.graphics.getDeltaTime();
+			shader.setUniformf("ft", 1);
+			shader.setUniformf("fr", flashColor.r);
+			shader.setUniformf("fg", flashColor.g);
+			shader.setUniformf("fb", flashColor.b);
+		} else {
+			shader.setUniformf("ft", 0);
+		}
 
 		shader.setUniformf("u_sampleProperties", 0, 0, 0, 0);
 		shader.setUniformf("shockTime", 10);

@@ -1730,6 +1730,7 @@ public class Player extends Creature {
 
 		this.gotHit = true;
 
+		Dungeon.flash(Color.WHITE, 0.05f);
 		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
 
