@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -292,6 +293,8 @@ public class InGameState extends State {
 	@Override
 	public void destroy() {
 		super.destroy();
+		settingsX = 0;
+		Dungeon.grayscale = 0;
 		Dungeon.white = 0;
 		Ui.saveAlpha = 0;
 		this.console.destroy();
@@ -974,9 +977,11 @@ Settings:
 	+ Roll
 	+ Mouse lock
 * Game:
-	+ Speed timer
+	+ Speedrun timer
+	+ Speedrun mode
 	+ Blood and Gore
 	+ View credits
+	+ Reset progress
 		 */
 
 	public void addControls() {
@@ -990,7 +995,7 @@ Settings:
 
 	public void addAudio() {
 		clear();
-		
+
 		float s = 20;
 		float st = 60 + 20f;
 
@@ -1064,6 +1069,118 @@ Settings:
 
 	public void addGame() {
 		clear();
+
+		float s = 20;
+		float st = 60 + 10f;
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
+			@Override
+			public void render() {
+				super.render();
+
+				if (settingsX == Display.UI_WIDTH * 2 && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("view_credits", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				// todo
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("reset_progress", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return Dungeon.dark;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.dark = value;
+					}
+
+					@Override
+					public void onEnd() {
+						SaveManager.deleteAll();
+						Dungeon.depth = -2;
+						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+						Player.instance = null;
+						Player.ladder = null;
+						BurningKnight.instance = null;
+						Dungeon.game.setState(new MainMenuState());
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+
+				// todo: warning window
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
+			@Override
+			public void onClick() {
+				Settings.speedrun_mode = !Settings.speedrun_mode;
+				super.onClick();
+			}
+		}.setOn(Settings.speedrun_mode)));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_timer", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 5)) {
+			@Override
+			public void onClick() {
+				Settings.speedrun_timer = !Settings.speedrun_timer;
+				super.onClick();
+			}
+		}.setOn(Settings.speedrun_timer)));
+
+		/*
+	+ Blood and Gore
+	+ View credits
+		 */
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("blood_gore", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6)) {
+			@Override
+			public void onClick() {
+				Settings.blood = !Settings.blood;
+				Settings.gore = !Settings.gore;
+				super.onClick();
+			}
+		}.setOn(Settings.gore)));
 	}
 
 	@Override

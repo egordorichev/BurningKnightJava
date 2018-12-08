@@ -47,6 +47,20 @@ public class MainMenuState extends State {
 
 	@Override
 	public void init() {
+		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.dark = 0;
+		Tween.to(new Tween.Task(1, 0.2f) {
+			@Override
+			public float getValue() {
+				return Dungeon.dark;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.dark = value;
+			}
+		});
+
 		Audio.stop();
 		Dungeon.setBackground(new Color(0, 0, 0, 1));
 
