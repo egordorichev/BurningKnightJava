@@ -163,8 +163,7 @@ public class MainMenuState extends State {
 
 		renderPortal();
 
-		if (logoY == 0 && (Input.instance.wasPressed("use") ||
-			Input.instance.wasPressed("X") || Input.instance.wasPressed("Return"))) {
+		if (logoY == 0 && (Input.instance.wasPressed("use"))) {
 
 			Dungeon.flash(Color.WHITE, 0.05f);
 			Audio.stop();

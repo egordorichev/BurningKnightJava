@@ -1168,11 +1168,6 @@ Settings:
 			}
 		}.setOn(Settings.speedrun_timer)));
 
-		/*
-	+ Blood and Gore
-	+ View credits
-		 */
-
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("blood_gore", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6)) {
 			@Override
 			public void onClick() {

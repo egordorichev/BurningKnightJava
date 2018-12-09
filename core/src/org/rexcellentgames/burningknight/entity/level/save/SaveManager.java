@@ -223,42 +223,15 @@ public class SaveManager {
 	}
 
 	public static void deleteAll() {
-		// fixme: not working?
 		Log.info("Deleting all saves!");
 
 		LevelSave.all.clear();
 		PlayerSave.all.clear();
 
-		File file = getFileHandle(getDir()).file();
+		FileHandle file = getFileHandle(SAVE_DIR);
 
-		if (file == null) {
-			Log.error("Failed to delete!");
-			return;
-		}
-
-		File[] files = file.listFiles();
-
-		if (files == null) {
-			file.delete();
-			Log.error("Failed to detect inner files to delete!");
-			return;
-		}
-
-		for (File f : files) {
-			Log.error("Delete " + f.getName());
-			f.delete();
-		}
-
-		file.delete();
-		Log.error("Delete " + file.getName());
-
-		FileHandle handle = getFileHandle(getSavePath(Type.LEVEL, false));
-
-		if (handle.exists()) {
-			for (FileHandle h : handle.parent().list()) {
-				Log.error("Delete " + h.name());
-				h.delete();
-			}
+		if (file.exists()) {
+			file.deleteDirectory();
 		}
 
 		GlobalSave.values.clear();
