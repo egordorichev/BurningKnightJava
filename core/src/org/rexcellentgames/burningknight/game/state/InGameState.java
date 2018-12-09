@@ -2,7 +2,9 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -843,32 +845,7 @@ public class InGameState extends State {
 			}
 		});
 
-		this.pauseMenuUi.add(new UiButton("graphics", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 2)) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				addGraphics();
-
-				Tween.to(new Tween.Task(Display.UI_WIDTH * 2f, 0.15f, Tween.Type.QUAD_IN_OUT) {
-					@Override
-					public float getValue() {
-						return settingsX;
-					}
-
-					@Override
-					public void setValue(float value) {
-						settingsX = value;
-					}
-
-					@Override
-					public boolean runWhenPaused() {
-						return true;
-					}
-				});
-			}
-		});
-
-		this.pauseMenuUi.add(new UiButton("audio", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 3)) {
+		this.pauseMenuUi.add(new UiButton("audio", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 2)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -893,7 +870,7 @@ public class InGameState extends State {
 			}
 		});
 
-		this.pauseMenuUi.add(new UiButton("controls", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 4)) {
+		this.pauseMenuUi.add(new UiButton("controls", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 3)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -918,11 +895,36 @@ public class InGameState extends State {
 			}
 		});
 
-		this.pauseMenuUi.add(new UiButton("game", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 5)) {
+		this.pauseMenuUi.add(new UiButton("game", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 4)) {
 			@Override
 			public void onClick() {
 				super.onClick();
 				addGame();
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 2f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		});
+
+		this.pauseMenuUi.add(new UiButton("graphics", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 5)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				addGraphics();
 
 				Tween.to(new Tween.Task(Display.UI_WIDTH * 2f, 0.15f, Tween.Type.QUAD_IN_OUT) {
 					@Override
@@ -964,6 +966,7 @@ Settings:
 	+ Borderless window
 	+ Flash frames
 	+ Quality (Low, Good, Great)
+	+ Colorblind mode
 * Audio:
 	+ Music volume
 	+ Sfx volume
@@ -982,6 +985,7 @@ Settings:
 	+ Blood and Gore
 	+ View credits
 	+ Reset progress
+	+ Vegan mode
 		 */
 
 	public void addControls() {
@@ -991,6 +995,136 @@ Settings:
 	public void addGraphics() {
 		clear();
 
+		float s = 14;
+		float st = 60 + 5f;
+
+		/*
+	+ Quality (Low, Good, Great)
+	+ Fullscreen
+	+ Screen shake
+	+ Flash frames
+	+ Freeze frames
+	+ Colorblind mode
+	+ Cursor (+ native)
+	+ Cursor rotation
+	+ Side art
+	+ Borderless window
+		 */
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
+			@Override
+			public void render() {
+				super.render();
+
+				if (settingsX == Display.UI_WIDTH * 2 && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("borderless_window", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
+			@Override
+			public void onClick() {
+				Settings.borderless = !Settings.borderless;
+				((Lwjgl3Graphics) Gdx.graphics).setUndecorated(!Settings.borderless);
+				super.onClick();
+			}
+		}.setOn(Settings.uisfx)));
+
+		currentSettings.add(pauseMenuUi.add(new UiChoice("side_art", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
+			@Override
+			public void onUpdate() {
+				Settings.side_art = this.getCurrent();
+			}
+		}.setChoices(new String[] {
+			"0", "1", "2", "3", "4", "5", "6", "7", "none"
+		}).setCurrent(Settings.side_art)));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("rotate_cursor", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				Settings.rotateCursor = this.isOn();
+			}
+		}.setOn(Settings.rotateCursor)));
+
+		currentSettings.add(pauseMenuUi.add(new UiChoice("cursor", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 5)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				Settings.cursor = Settings.cursors[this.getCurrent()];
+				Settings.cursorId = this.getCurrent();
+
+				if (Settings.cursorId == Settings.cursors.length - 1) {
+					Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+				} else {
+					Gdx.graphics.setCursor(Dungeon.cursor);
+				}
+			}
+		}.setChoices(Settings.cursors.clone()).setCurrent(Settings.getCursorId(Settings.cursor))));
+
+		currentSettings.add(pauseMenuUi.add(new UiChoice("colorblind_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6)) {
+			@Override
+			public void onUpdate() {
+				Dungeon.colorBlind = getCurrent();
+			}
+		}.setChoices(new String[] {
+			"none", "protanope", "deuteranope", "tritanope"
+		}).setCurrent((int) Dungeon.colorBlind)));
+
+		currentSettings.add(pauseMenuUi.add(new UiSlider("freeze_frames", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 7)) {
+			@Override
+			public void onUpdate() {
+				Settings.freeze_frames = this.val;
+			}
+		}.setValue(Settings.freeze_frames)));
+
+		currentSettings.add(pauseMenuUi.add(new UiSlider("flash_frames", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 8)) {
+			@Override
+			public void onUpdate() {
+				Settings.flash_frames = this.val;
+			}
+		}.setValue(Settings.flash_frames)));
+
+		currentSettings.add(pauseMenuUi.add(new UiSlider("screenshake", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 9)) {
+			@Override
+			public void onUpdate() {
+				Settings.screenshake = this.val;
+			}
+		}.setValue(Settings.screenshake)));
+
+		currentSettings.add(pauseMenuUi.add(new UiChoice("quality", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 10)) {
+			@Override
+			public void onUpdate() {
+				Settings.quality = getCurrent();
+			}
+		}.setChoices(new String[] {
+			"bad", "good", "great"
+		}).setCurrent(Settings.quality)));
 	}
 
 	public void addAudio() {
@@ -1043,22 +1177,12 @@ Settings:
 
 		currentSettings.add(pauseMenuUi.add(new UiSlider("sfx", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
 			@Override
-			public void onClick() {
-				Audio.playSfx("menu/select");
-			}
-
-			@Override
 			public void onUpdate() {
 				Settings.sfx = this.val;
 			}
 		}.setValue(Settings.sfx)));
 
 		currentSettings.add(pauseMenuUi.add(new UiSlider("music", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
-			@Override
-			public void onClick() {
-				Audio.playSfx("menu/select");
-			}
-
 			@Override
 			public void onUpdate() {
 				Settings.music = this.val;

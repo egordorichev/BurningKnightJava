@@ -73,6 +73,7 @@
 	"bow_a": "Wooden Bow",
 	"bow_b": "Iron Bow",
 	"bow_c": "Golden Bow",
+	"low" : "Low",
 	"bow_desc": "It's time to learn how to use this thing.",
 	"bread": "Bread",
 	"bread_desc": "Finally, I found a gluten free bread!",
@@ -565,6 +566,15 @@
 	"upgrade_hint": "Upgrade",
 	"scroll_of_upgrade": "Scroll Of Upgrade",
 	"scroll_of_upgrade_desc": "Now I can upgrade one of my items!\nClick on it to upgrade!\nIt also removes curse.",
-	"speedrun_timer" : "Speedrun timer",
-	"speedrun_mode" : "Speedrun mode"
+	"speedrun_timer" : "Speedrun Timer",
+	"speedrun_mode" : "Speedrun Mode",
+	"borderless_window" : "Borderless Window",
+	"side_art" : "Side Art",
+	"native" : "Native",
+	"protanope" : "Protanope",
+	"deuteranope" : "Deuteranope",
+	"tritanope" : "Tritanope",
+	"colorblind_mode" : "Colorblind Correction",
+	"freeze_frames" : "Freeze Frames",
+	"flash_frames" : "Flash Frames"
 }

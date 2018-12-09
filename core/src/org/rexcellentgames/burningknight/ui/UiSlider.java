@@ -97,23 +97,28 @@ public class UiSlider extends UiButton {
 				this.onUpdate();
 			}
 
-			if ((Input.instance.isDown("use"))) {
-				if (CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
-					(int) (this.ox + 6), (int) this.y - 4, (int) ((int) (this.sw - 12) * scale), 9)) {
-
+			if (this.checkHover()) {
+				if ((Input.instance.isDown("use"))) {
 					float prev = this.val;
 
 					this.val = MathUtils.clamp(this.min, this.max,
-						MathUtils.map(Input.instance.uiMouse.x - (this.ox + 6) + 4, 0, (this.sw - 12) * scale, this.min, this.max)
+						MathUtils.map(Input.instance.uiMouse.x+ InGameState.settingsX - (this.ox + 6) + 4, 0, (this.sw - 12) * scale, this.min, this.max)
 					);
 
 					this.val = (float) (Math.floor(this.val * 16) / 16);
 
 					if (Float.compare(prev, this.val) != 0) {
 						Audio.playSfx("menu/moving");
+						this.onUpdate();
 					}
+				} else if (Input.instance.wasPressed("scroll")) {
+					float last = this.val;
+					this.val = MathUtils.clamp(this.min, this.max, this.val + 1f / 16f * Input.instance.getAmount());
 
-					this.onUpdate();
+					if (Float.compare(last, this.val) != 0) {
+						Audio.playSfx("menu/moving");
+						onUpdate();
+					}
 				}
 			}
 		}
@@ -125,7 +130,7 @@ public class UiSlider extends UiButton {
 
 	@Override
 	protected boolean checkHover() {
-		return CollisionHelper.check((int) (Input.instance.uiMouse.x+ InGameState.settingsX), (int) Input.instance.uiMouse.y,
+		return CollisionHelper.check((int) (Input.instance.uiMouse.x + InGameState.settingsX), (int) Input.instance.uiMouse.y,
 			(int) (this.ox - (this.w - this.sw) - 2),
 			(int) (this.y - this.h / 2),
 			(int) (this.w * scale), this.h);

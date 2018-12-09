@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -94,7 +95,7 @@ public class Dungeon extends ApplicationAdapter {
 
 	public static void flash(Color color, float time) {
 		flashColor = color;
-		flashTime = time;
+		flashTime = time * Settings.flash_frames * 2f;
 	}
 
 	public static String title;
@@ -169,6 +170,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		game.setState(new LoadState());
 	}
+	public static Lwjgl3Window window;
 
 	public static void newGame(boolean quick, int depth) {
 		reset = true;
@@ -446,9 +448,7 @@ public class Dungeon extends ApplicationAdapter {
 			Ui.ui.update(dt);
 		}
 
-		if (Input.instance.wasPressed("F10")) {
-			colorBlind = (colorBlind + 1) % 4;
-		} else if (Input.instance.wasPressed("F2")) {
+		if (Input.instance.wasPressed("F2")) {
 			Tween.to(new Tween.Task(fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
 				@Override
 				public float getValue() {
@@ -826,11 +826,14 @@ public class Dungeon extends ApplicationAdapter {
 		Controllers.addListener(new Input());
 	}
 
+	public static Cursor cursor;
+
 	private void setupCursor() {
 		Pixmap pm = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
 		pm.setBlending(null);
 		pm.setColor(0, 0, 0, 0);
-		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
+		cursor = Gdx.graphics.newCursor(pm, 0, 0);
+		Gdx.graphics.setCursor(cursor);
 		pm.dispose();
 	}
 

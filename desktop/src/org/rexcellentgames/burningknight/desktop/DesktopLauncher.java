@@ -44,12 +44,12 @@ public class DesktopLauncher {
 		config.setWindowListener(new Lwjgl3WindowListener() {
 			@Override
 			public void created(Lwjgl3Window window) {
-
+				Dungeon.window = window;
 			}
 
 			@Override
 			public void iconified(boolean isIconified) {
-
+				Dungeon.instance.pause();
 			}
 
 			@Override

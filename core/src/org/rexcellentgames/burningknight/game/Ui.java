@@ -43,7 +43,8 @@ public class Ui {
 		Graphics.getTexture("ui-cursor-sniper"),
 		Graphics.getTexture("ui-cursor-round-sniper"),
 		Graphics.getTexture("ui-cursor-cross"),
-		Graphics.getTexture("ui-cursor-nt")
+		Graphics.getTexture("ui-cursor-nt"),
+		null // native
 	};
 
 
@@ -608,12 +609,15 @@ public class Ui {
 				Graphics.medium.setColor(1, 1, 1, 1);
 			}
 		} else {
+			TextureRegion region = regions[Settings.cursorId];
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+			if (region == null) {
+				return;
+			}
 
 			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : this.scale;
 			float a = Settings.rotateCursor ? Dungeon.time * 60 : 0;
-
-			TextureRegion region = regions[Settings.cursorId];
 
 			Graphics.batch.setColor(1, 1, 1, this.ca);
 			Graphics.render(region, Input.instance.uiMouse.x,

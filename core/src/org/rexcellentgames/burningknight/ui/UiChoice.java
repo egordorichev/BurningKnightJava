@@ -23,7 +23,12 @@ public class UiChoice extends UiButton {
 			}
 		}
 
-		this.setCurrent(0);
+		if (current < 0) {
+			current += this.choices.length;
+		}
+
+		this.current = 0;
+		this.setLabel(this.def + ": " + this.choices[this.current]);
 
 		return this;
 	}

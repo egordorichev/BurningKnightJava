@@ -80,21 +80,23 @@ public class Portal extends SaveableEntity {
 		Graphics.startAlphaShape();
 		float dt = Gdx.graphics.getDeltaTime();
 
-		for (int i = parts.size() - 1; i >= 0; i--) {
-			Particle p = parts.get(i);
-			p.a += p.av * dt * 1.5f;
-			p.av += dt * 3;
+		if (!Dungeon.game.getState().isPaused()) {
+			for (int i = parts.size() - 1; i >= 0; i--) {
+				Particle p = parts.get(i);
+				p.a += p.av * dt * 1.5f;
+				p.av += dt * 3;
 
-			p.d -= p.junk ? dt * 15 : dt * 10;
-			p.rad -= dt * 1f;
-			p.t += dt;
+				p.d -= p.junk ? dt * 15 : dt * 10;
+				p.rad -= dt * 1f;
+				p.t += dt;
 
-			if (p.rad <= 0 || p.d <=0 ) {
-				parts.remove(i);
+				if (p.rad <= 0 || p.d <= 0) {
+					parts.remove(i);
+				}
+
+				p.readPosition();
+				p.al = Math.min(0.6f, p.al + dt);
 			}
-
-			p.readPosition();
-			p.al = Math.min(0.6f, p.al + dt);
 		}
 
 		for (Particle p : parts) {
@@ -149,8 +151,8 @@ public class Portal extends SaveableEntity {
 		float dd = 64f;
 		if (d < dd) {
 			float f = (dd - d) / dd;
-			Player.instance.velocity.x -= dx / d * dt * 7000 * f;
-			Player.instance.velocity.y -= dy / d * dt * 7000 * f;
+			Player.instance.velocity.x -= dx / d * dt * 4000 * f;
+			Player.instance.velocity.y -= dy / d * dt * 4000 * f;
 		}
 	}
 

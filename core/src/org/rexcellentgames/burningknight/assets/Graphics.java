@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import org.rexcellentgames.burningknight.Display;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.game.Ui;
@@ -43,7 +44,7 @@ public class Graphics {
 
 	public static void delay(float ms) {
 		ms *= 0.001f;
-		delayTime = Math.max(delayTime, ms);
+		delayTime = Math.max(delayTime, ms * Settings.freeze_frames * 2f);
 	}
 
 	public static void startShadows() {

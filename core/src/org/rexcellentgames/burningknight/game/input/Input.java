@@ -389,9 +389,9 @@ public class Input implements InputProcessor, ControllerListener {
 			return false;
 		}
 
-		if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
+		/*if (!key.equals("pause") && Dungeon.game.getState().isPaused()) {
 			return false;
-		}
+		}*/
 
 		if (!this.bindings.containsKey(key)) {
 			return Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.valueOf(key));
