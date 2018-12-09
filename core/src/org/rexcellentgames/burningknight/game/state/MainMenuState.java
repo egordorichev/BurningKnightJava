@@ -106,7 +106,7 @@ public class MainMenuState extends State {
 		first = buttons.get(0);
 		Dungeon.ui.select(first);
 
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.UI_WIDTH_MAX + 128 + v), (int) (y)) {
+		/*buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.UI_WIDTH_MAX + 128 + v), (int) (y)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -125,7 +125,7 @@ public class MainMenuState extends State {
 					}
 				});
 			}
-		}));
+		}));*/
 
 		buttons.add((UiButton) Dungeon.ui.add(new UiButton("exit", -128, (int) (y - 24)) {
 			@Override

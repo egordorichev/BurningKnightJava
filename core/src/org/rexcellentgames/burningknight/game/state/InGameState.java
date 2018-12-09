@@ -747,9 +747,8 @@ public class InGameState extends State {
 
 				transition(() -> {
 					Dungeon.grayscale = 0;
-					Dungeon.game.setState(new MainMenuState(true));
 					SettingsState.toGame = true;
-					SettingsState.add();
+					Dungeon.game.setState(new SettingsState());
 					MainMenuState.cameraX = Display.UI_WIDTH * 1.5f;
 				});
 			}
