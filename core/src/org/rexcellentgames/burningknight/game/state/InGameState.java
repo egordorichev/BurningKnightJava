@@ -635,7 +635,7 @@ public class InGameState extends State {
 	public void render() {
 		super.render();
 
-		if (Dungeon.depth > -3) {
+		if (Dungeon.depth > -3 && Settings.quality > 1) {
 			Graphics.batch.end();
 			Graphics.batch.setShader(shader);
 
@@ -990,6 +990,25 @@ Settings:
 
 	public void addControls() {
 		clear();
+
+		float s = 20;
+		float st = 60 + 20f;
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
+			@Override
+			public void render() {
+				super.render();
+
+				if (settingsX == Display.UI_WIDTH * 2 && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiKey("use", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
+
+		}));
 	}
 
 	public void addGraphics() {
@@ -997,19 +1016,6 @@ Settings:
 
 		float s = 14;
 		float st = 60 + 5f;
-
-		/*
-	+ Quality (Low, Good, Great)
-	+ Fullscreen
-	+ Screen shake
-	+ Flash frames
-	+ Freeze frames
-	+ Colorblind mode
-	+ Cursor (+ native)
-	+ Cursor rotation
-	+ Side art
-	+ Borderless window
-		 */
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
 			@Override

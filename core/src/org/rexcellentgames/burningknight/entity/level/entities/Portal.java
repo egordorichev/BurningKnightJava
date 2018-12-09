@@ -133,6 +133,7 @@ public class Portal extends SaveableEntity {
 	public void update(float dt) {
 		super.update(dt);
 
+		this.t += dt;
 		depth = -9;
 
 		last += dt;
@@ -175,7 +176,7 @@ public class Portal extends SaveableEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
-		if (entity instanceof Player && !Player.sucked) {
+		if (this.t >= 0.3f && entity instanceof Player && !Player.sucked) {
 			Player.sucked = true;
 
 			Camera.shake(3);
