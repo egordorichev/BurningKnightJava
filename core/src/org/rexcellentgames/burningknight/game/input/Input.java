@@ -208,6 +208,8 @@ public class Input implements InputProcessor, ControllerListener {
 		return this.keys;
 	}
 
+	public static final String KEYS = "keybindings.json";
+
 	public Input() {
 		instance = this;
 		multiplexer.addProcessor(this);
@@ -215,7 +217,7 @@ public class Input implements InputProcessor, ControllerListener {
 
 		JsonReader reader = new JsonReader();
 
-		FileHandle handle = Gdx.files.external(SaveManager.SAVE_DIR + "keys.json");
+		FileHandle handle = Gdx.files.external(SaveManager.SAVE_DIR + KEYS);
 
 		if (!handle.exists()) {
 			resetBindings();
@@ -305,7 +307,7 @@ public class Input implements InputProcessor, ControllerListener {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    File file = Gdx.files.external(SaveManager.SAVE_DIR + "keys.json").file();
+    File file = Gdx.files.external(SaveManager.SAVE_DIR + KEYS).file();
     
     if (!file.exists()) {
       try {

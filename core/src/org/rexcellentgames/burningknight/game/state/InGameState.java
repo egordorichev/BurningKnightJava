@@ -1066,7 +1066,7 @@ Settings:
 				Settings.side_art = this.getCurrent();
 			}
 		}.setChoices(new String[] {
-			"0", "1", "2", "3", "4", "5", "6", "7", "none"
+			"none", "0", "1", "2", "3", "4", "5", "6", "7"
 		}).setCurrent(Settings.side_art)));
 
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("rotate_cursor", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
@@ -1201,7 +1201,7 @@ Settings:
 		clear();
 
 		float s = 20;
-		float st = 60 + 10f;
+		float st = 60 + 5f;
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
 			@Override
@@ -1307,6 +1307,14 @@ Settings:
 				super.onClick();
 			}
 		}.setOn(Settings.gore)));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("vegan_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 7)) {
+			@Override
+			public void onClick() {
+				Settings.vegan = !Settings.vegan;
+				super.onClick();
+			}
+		}.setOn(Settings.vegan)));
 	}
 
 	@Override

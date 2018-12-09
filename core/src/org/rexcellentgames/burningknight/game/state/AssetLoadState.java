@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -10,7 +9,6 @@ import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class AssetLoadState extends State {
 	public static final boolean START_TO_MENU = !Version.debug;
@@ -58,111 +56,15 @@ public class AssetLoadState extends State {
 			return;
 		}
 
-		Tween.to(new Tween.Task(0, 0.1f) {
-			@Override
-			public float getValue() {
-				return a;
+		Gdx.graphics.setTitle(Dungeon.title);
+
+		if (START_TO_MENU) {
+			if (Version.showAlphaWarning) {
+				Dungeon.game.setState(new AlphaWarningState());
+			} else {
+				Dungeon.game.setState(new MainMenuState());
 			}
-
-			@Override
-			public void setValue(float value) {
-				a = value;
-			}
-		});
-
-		Color color = Color.WHITE;
-		float t = 0.1f;
-
-		Tween.to(new Tween.Task(color.r, t) {
-			@Override
-			public float getValue() {
-				return 0;
-			}
-
-			@Override
-			public void setValue(float value) {
-				Dungeon.getBackground2().r = value;
-			}
-
-			@Override
-			public void onEnd() {
-				Color color = Color.valueOf("#1a1932");
-				float t = 0.2f;
-
-				Tween.to(new Tween.Task(color.r, t) {
-					@Override
-					public float getValue() {
-						return Dungeon.getBackground2().r;
-					}
-
-					@Override
-					public void setValue(float value) {
-						Dungeon.getBackground2().r = value;
-					}
-
-					@Override
-					public void onEnd() {
-						Gdx.graphics.setTitle(Dungeon.title);
-
-						if (START_TO_MENU) {
-							if (Version.showAlphaWarning) {
-								Dungeon.game.setState(new AlphaWarningState());
-							} else {
-								Dungeon.game.setState(new MainMenuState());
-							}
-						}
-					}
-				});
-
-				Tween.to(new Tween.Task(color.g, t) {
-					@Override
-					public float getValue() {
-						return Dungeon.getBackground2().g;
-					}
-
-					@Override
-					public void setValue(float value) {
-						Dungeon.getBackground2().g = value;
-					}
-				});
-
-				Tween.to(new Tween.Task(color.b, t) {
-					@Override
-					public float getValue() {
-						return Dungeon.getBackground2().b;
-					}
-
-					@Override
-					public void setValue(float value) {
-						Dungeon.getBackground2().b = value;
-					}
-				});
-			}
-		});
-
-		Tween.to(new Tween.Task(color.g, t) {
-			@Override
-			public float getValue() {
-				return 0;
-			}
-
-			@Override
-			public void setValue(float value) {
-				Dungeon.getBackground2().g = value;
-			}
-		});
-
-		Tween.to(new Tween.Task(color.b, t) {
-			@Override
-			public float getValue() {
-				return 0;
-			}
-
-			@Override
-			public void setValue(float value) {
-				Dungeon.getBackground2().b = value;
-			}
-		});
+		}
 	}
 
 	@Override

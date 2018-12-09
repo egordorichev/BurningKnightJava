@@ -23,6 +23,7 @@ public class Settings {
 	public static int side_art = 0;
 	public static float freeze_frames = 0.5f;
 	public static float flash_frames = 0.5f;
+	public static boolean vegan = false;
 
 	public static final String[] cursors = new String[] {
 		"cursor-standart",
@@ -65,6 +66,7 @@ public class Settings {
 		music = GlobalSave.getFloat("settings_music");
 		cursor = GlobalSave.getString("settings_cursor", "cursor-standart");
 		rotateCursor = GlobalSave.isTrue("settings_rotate_cursor", true);
+		vegan = GlobalSave.isTrue("settings_v", false);
 
 		cursorId = getCursorId(cursor);
 
@@ -104,6 +106,7 @@ public class Settings {
 		GlobalSave.put("settings_rotate_cursor", rotateCursor);
 
 		GlobalSave.put("settings_cb", Dungeon.colorBlind);
+		GlobalSave.put("settings_v", vegan);
 	}
 
 	public static void generate() {
@@ -128,6 +131,7 @@ public class Settings {
 		GlobalSave.put("settings_rotate_cursor", true);
 
 		GlobalSave.put("settings_cb", 0);
+		GlobalSave.put("settings_v", false);
 
 		cursorId = getCursorId(cursor);
 		Dungeon.tweenTimer(false);

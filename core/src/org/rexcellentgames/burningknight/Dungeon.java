@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -514,10 +515,17 @@ public class Dungeon extends ApplicationAdapter {
 		}
 	}
 
+	public static TextureRegion[] sideArt;
+
 	private void renderGame() {
-		Camera.applyShake();
+		if (sideArt == null) {
+			sideArt = new TextureRegion[] {
+				Graphics.getTexture("side_art-0")
+			};
+		}
 
 		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT) * Ui.upscale;
+		Camera.applyShake();
 
 		float sceneX = Camera.game.position.x;
 		float sceneY = Camera.game.position.y;
@@ -536,6 +544,21 @@ public class Dungeon extends ApplicationAdapter {
 
 		Camera.game.position.set(sceneIX, sceneIY, 0);
 		Camera.game.update();
+
+		if (Settings.side_art != 0 && Settings.side_art <= sideArt.length) {
+			Graphics.batch.begin();
+			Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
+
+			int sz = 64 * 2;
+			for (float x = 0; x < Gdx.graphics.getWidth(); x += sz) {
+				for (float y = 0; y < Gdx.graphics.getHeight(); y += sz) {
+					Graphics.batch.draw(sideArt[Settings.side_art - 1], x - Gdx.graphics.getWidth() * 0.5f, y - Gdx.graphics.getHeight() * 0.5f,
+						sz, sz);
+				}
+			}
+
+			Graphics.batch.end();
+		}
 
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.setProjectionMatrix(Camera.game.combined);
@@ -678,7 +701,7 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.small.setColor(1, 1, 1, 1);
 		}
 
-		if (timerY > 0) {
+		if (timerY > 0 && !(game.getState() instanceof MainMenuState)) {
 			String time = String.format("%02d:%02d:%02d:%02d", (int) Math.floor(GameSave.time / 3600), (int)
 				Math.floor(GameSave.time / 60), (int) Math.floor(GameSave.time % 60), (int) Math.floor(GameSave.time % 1 * 100));
 

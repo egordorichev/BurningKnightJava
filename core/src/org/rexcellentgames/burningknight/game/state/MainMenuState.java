@@ -49,17 +49,7 @@ public class MainMenuState extends State {
 	public void init() {
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 0;
-		Tween.to(new Tween.Task(1, 0.2f) {
-			@Override
-			public float getValue() {
-				return Dungeon.dark;
-			}
 
-			@Override
-			public void setValue(float value) {
-				Dungeon.dark = value;
-			}
-		});
 
 		Audio.stop();
 		Dungeon.setBackground(new Color(0, 0, 0, 1));
@@ -76,7 +66,7 @@ public class MainMenuState extends State {
 			}
 		});
 
-		Dungeon.setBackground2(Color.valueOf("#000000")); // 1a1932
+		Dungeon.setBackground2(Color.valueOf("#000000"));
 
 		SettingsState.added = false;
 		InputSettingsState.added = false;
