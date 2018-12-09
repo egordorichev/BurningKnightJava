@@ -222,6 +222,22 @@ public class SaveManager {
 		}
 	}
 
+	public static void deleteAll() {
+		Log.info("Deleting all saves!");
+
+		LevelSave.all.clear();
+		PlayerSave.all.clear();
+
+		FileHandle file = getFileHandle(SAVE_DIR);
+
+		if (file.exists()) {
+			file.deleteDirectory();
+		}
+
+		GlobalSave.values.clear();
+		GlobalSave.generate();
+	}
+
 	public static void generate(Type type) {
 		Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 

@@ -13,5 +13,6 @@
 	"Shopkeeper" : 110,
 	"OnFire" : 0,
 	"water": 0,
-	"Void" : 0
+	"Void" : 0,
+	"Menu" : 0
 }

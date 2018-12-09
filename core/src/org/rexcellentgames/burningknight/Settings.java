@@ -9,6 +9,8 @@ public class Settings {
 	public static boolean blood = true;
 	public static boolean gore = true;
 	public static boolean uisfx = true;
+	public static boolean speedrun_mode = true;
+	public static boolean speedrun_timer = true;
 	public static int quality = 1;
 	public static float screenshake = 0.7f;
 	public static float music = 0.5f;
@@ -44,6 +46,8 @@ public class Settings {
 		uisfx = GlobalSave.isTrue("settings_uisfx");
 		gore = GlobalSave.isTrue("settings_gore");
 		vsync = GlobalSave.isTrue("settings_vsync");
+		speedrun_mode = GlobalSave.isTrue("settings_sm");
+		speedrun_timer = GlobalSave.isTrue("settings_st");
 		quality = GlobalSave.getInt("settings_quality");
 		screenshake = GlobalSave.getFloat("settings_screenshake");
 		sfx = GlobalSave.getFloat("settings_sfx");
@@ -60,6 +64,7 @@ public class Settings {
 		}
 
 		Gdx.graphics.setVSync(Settings.vsync);
+		Dungeon.tweenTimer(Settings.speedrun_timer);
 	}
 
 	public static void save() {
@@ -68,6 +73,8 @@ public class Settings {
 		GlobalSave.put("settings_uisfx", uisfx);
 		GlobalSave.put("settings_gore", gore);
 		GlobalSave.put("settings_vsync", vsync);
+		GlobalSave.put("settings_sm", speedrun_mode);
+		GlobalSave.put("settings_st", speedrun_timer);
 
 		GlobalSave.put("settings_quality", quality);
 		GlobalSave.put("settings_screenshake", screenshake);
@@ -84,9 +91,11 @@ public class Settings {
 		GlobalSave.put("settings_uisfx", true);
 		GlobalSave.put("settings_gore", true);
 		GlobalSave.put("settings_vsync", true);
+		GlobalSave.put("settings_sm", false);
+		GlobalSave.put("settings_st", false);
 
 		GlobalSave.put("settings_quality", 1);
-		GlobalSave.put("settings_screenshake", 0.7f);
+		GlobalSave.put("settings_screenshake", 0.3f);
 		GlobalSave.put("settings_music", 0.5f);
 		GlobalSave.put("settings_sfx", 0.75f);
 
@@ -94,5 +103,6 @@ public class Settings {
 		GlobalSave.put("settings_rotate_cursor", true);
 
 		cursorId = getCursorId(cursor);
+		Dungeon.tweenTimer(false);
 	}
 }

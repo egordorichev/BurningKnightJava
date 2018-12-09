@@ -101,6 +101,10 @@ public class Audio {
 	}
 
 	public static void highPriority(String name) {
+		if (last.equals(name)) {
+			return;
+		}
+
 		Music music = getMusic(name);
 
 		if (music == null) {
@@ -112,6 +116,7 @@ public class Audio {
 
 		try {
 			music.setLooping(false);
+			music.stop();
 			music.setVolume(Settings.music);
 			music.play();
 		} catch (GdxRuntimeException e) {
@@ -218,10 +223,10 @@ public class Audio {
 	}
 
 	public static long playSfx(String name) {
-		return playSfx(name, 1f, 0.95f + Random.newFloat(0.1f));
+		return playSfx(name, 1f, name.startsWith("menu") ? 1f : 0.95f + Random.newFloat(0.1f));
 	}
 
 	public static long playSfx(String name, float volume) {
-		return playSfx(name, volume, 0.95f + Random.newFloat(0.1f));
+		return playSfx(name, volume, name.startsWith("menu") ? 1f : 0.95f + Random.newFloat(0.1f));
 	}
 }

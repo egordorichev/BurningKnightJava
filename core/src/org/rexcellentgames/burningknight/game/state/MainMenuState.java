@@ -47,6 +47,21 @@ public class MainMenuState extends State {
 
 	@Override
 	public void init() {
+		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.dark = 0;
+		Tween.to(new Tween.Task(1, 0.2f) {
+			@Override
+			public float getValue() {
+				return Dungeon.dark;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.dark = value;
+			}
+		});
+
+		Audio.stop();
 		Dungeon.setBackground(new Color(0, 0, 0, 1));
 
 		Tween.to(new Tween.Task(1, 0.2f) {
@@ -72,8 +87,7 @@ public class MainMenuState extends State {
 		cameraX = Display.UI_WIDTH_MAX / 2;
 		cameraY = Display.UI_HEIGHT_MAX / 2;
 
-		String track = "Burning Knight";
-		Audio.play(track);
+		Audio.play("Void");
 
 		Dungeon.buildDiscordBadge();
 
@@ -148,8 +162,11 @@ public class MainMenuState extends State {
 
 		renderPortal();
 
-		if (logoY == 0 && (Input.instance.wasPressed("use") ||
-			Input.instance.wasPressed("X") || Input.instance.wasPressed("Return"))) {
+		if (logoY == 0 && (Input.instance.wasPressed("use"))) {
+
+			Dungeon.flash(Color.WHITE, 0.05f);
+			Audio.stop();
+			Audio.highPriority("Menu");
 
 			Tween.to(new Tween.Task(256, 0.7f, Tween.Type.QUAD_IN) {
 				@Override

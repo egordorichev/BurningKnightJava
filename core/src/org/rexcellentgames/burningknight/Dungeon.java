@@ -89,6 +89,13 @@ public class Dungeon extends ApplicationAdapter {
 	public static float white;
 	public static boolean goToSelect;
 	public static float blood;
+	public static Color flashColor;
+	public static float flashTime;
+
+	public static void flash(Color color, float time) {
+		flashColor = color;
+		flashTime = time;
+	}
 
 	public static String title;
 
@@ -167,6 +174,7 @@ public class Dungeon extends ApplicationAdapter {
 		reset = true;
 		Dungeon.quick = quick;
 		SaveManager.delete();
+		GameSave.time = 0;
 		loadType = Entrance.LoadType.GO_DOWN;
 
 		Player.instance = null;
@@ -479,8 +487,9 @@ public class Dungeon extends ApplicationAdapter {
 			} else {
 				Settings.sfx = 0.5f;
 			}
-		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead() && Dialog.active == null) {
-			game.getState().setPaused(!game.getState().isPaused());
+		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead() && Dialog.active == null && !game.getState().isPaused()) {
+			game.getState().setPaused(true);
+			Audio.playSfx("menu/select");
 		}
 
 		// Stopped working
@@ -618,6 +627,27 @@ public class Dungeon extends ApplicationAdapter {
 		// Gdx.gl20.glDisable(GL20.GL_SCISSOR_TEST);
 	}
 
+	public static float timerY = 0;
+
+	public static void tweenTimer(boolean on) {
+		Tween.to(new Tween.Task(on ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return timerY;
+			}
+
+			@Override
+			public void setValue(float value) {
+				timerY = value;
+			}
+
+			@Override
+			public boolean runWhenPaused() {
+				return true;
+			}
+		});
+	}
+
 	public void renderUi() {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
@@ -648,6 +678,13 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.small.setColor(1, 1, 1, 1);
 		}
 
+		if (timerY > 0) {
+			String time = String.format("%02d:%02d:%02d:%02d", (int) Math.floor(GameSave.time / 3600), (int)
+				Math.floor(GameSave.time / 60), (int) Math.floor(GameSave.time % 60), (int) Math.floor(GameSave.time % 1 * 100));
+
+			Graphics.print(time, Graphics.small, 2 + fpsY, Display.UI_HEIGHT - timerY + 8);
+		}
+
 		Achievements.render();
 
 		Graphics.batch.end();
@@ -660,6 +697,16 @@ public class Dungeon extends ApplicationAdapter {
 
 		Graphics.batch.begin();
 		Graphics.batch.setShader(shader);
+
+		if (flashTime > 0) {
+			flashTime -= Gdx.graphics.getDeltaTime();
+			shader.setUniformf("ft", 1);
+			shader.setUniformf("fr", flashColor.r);
+			shader.setUniformf("fg", flashColor.g);
+			shader.setUniformf("fb", flashColor.b);
+		} else {
+			shader.setUniformf("ft", 0);
+		}
 
 		shader.setUniformf("u_sampleProperties", 0, 0, 0, 0);
 		shader.setUniformf("shockTime", 10);

@@ -111,7 +111,7 @@ public class Entity extends Point {
 	}
 
 	public long playSfx(String sound) {
-		return playSfx(sound, 0.9f);
+		return playSfx(sound, 1f);
 	}
 
 	public long playSfx(String sound, float pitch) {
@@ -133,7 +133,7 @@ public class Entity extends Point {
 			return -1;
 		}
 
-		return Audio.playSfx(sound, (DISTANCE - d) / DISTANCE, Math.min(1.5f, pitch + Random.newFloat(0.3f)));
+		return Audio.playSfx(sound, (DISTANCE - d) / DISTANCE, sound.startsWith("menu") ? 1f : Math.min(1.5f, pitch + Random.newFloat(0.3f)));
 	}
 
 	private static final float DISTANCE = 256f;

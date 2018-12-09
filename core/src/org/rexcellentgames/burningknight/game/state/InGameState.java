@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -39,13 +40,13 @@ import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.fx.WindFx;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.ui.Bloodsplat;
-import org.rexcellentgames.burningknight.ui.UiButton;
-import org.rexcellentgames.burningknight.ui.UiMap;
+import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
+
+import java.util.ArrayList;
 
 public class InGameState extends State {
 	private Console console;
@@ -65,6 +66,8 @@ public class InGameState extends State {
 			water = Audio.getMusic("water");
 			noise = new TextureRegion(new Texture(Gdx.files.internal("noise.png")));
 		}
+
+		settingsX = 0;
 
 		Ui.saveAlpha = 0;
 		Audio.important = false;
@@ -290,6 +293,8 @@ public class InGameState extends State {
 	@Override
 	public void destroy() {
 		super.destroy();
+		settingsX = 0;
+		Dungeon.grayscale = 0;
 		Dungeon.white = 0;
 		Ui.saveAlpha = 0;
 		this.console.destroy();
@@ -346,7 +351,7 @@ public class InGameState extends State {
 			Upgrade.Companion.setUpdateEvent(false);
 		}
 
-		if (!Player.instance.isDead()) {
+		if (!isPaused() && !Player.instance.isDead()) {
 			GameSave.time += Gdx.graphics.getDeltaTime();
 		} else {
 			Dungeon.speed += (1 - Dungeon.speed) * dt * 5;
@@ -470,7 +475,7 @@ public class InGameState extends State {
 				last = 0;
 
 				if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
-					Audio.play("Rogue");
+					Audio.highPriority("Rogue");
 				} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
 					Audio.play("Cursed legend");
 				} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
@@ -691,7 +696,7 @@ public class InGameState extends State {
 			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
 			Graphics.endAlphaShape();*/
 
-			Camera.ui.translate(0, this.mv);
+			Camera.ui.translate(settingsX, this.mv);
 			Camera.ui.update();
 
 			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
@@ -700,7 +705,7 @@ public class InGameState extends State {
 
 			Graphics.print(this.depth, Graphics.medium, Display.UI_WIDTH / 2 - w / 2, 128 + 32 + 16);
 
-			Camera.ui.translate(0, -this.mv);
+			Camera.ui.translate(-settingsX, -this.mv);
 			Camera.ui.update();
 		}
 
@@ -718,8 +723,18 @@ public class InGameState extends State {
 		this.pauseMenuUi.add(new UiButton("resume", Display.UI_WIDTH / 2, 128 + 32 + y) {
 			@Override
 			public void onClick() {
-				super.onClick();
+				Audio.playSfx("menu/exit");
 				setPaused(false);
+			}
+
+			@Override
+			public void render() {
+				super.render();
+
+				if (settingsX == 0 && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
 			}
 		}.setSparks(true));
 
@@ -744,12 +759,23 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				super.onClick();
+				addSettings();
 
-				transition(() -> {
-					Dungeon.grayscale = 0;
-					SettingsState.toGame = true;
-					Dungeon.game.setState(new SettingsState());
-					MainMenuState.cameraX = Display.UI_WIDTH * 1.5f;
+				Tween.to(new Tween.Task(Display.UI_WIDTH, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
 				});
 			}
 		}.setSparks(true));
@@ -757,7 +783,7 @@ public class InGameState extends State {
 		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.UI_WIDTH / 2, 128 + 32 - 24 * 3 + y) {
 			@Override
 			public void onClick() {
-				super.onClick();
+				Audio.playSfx("menu/exit");
 
 				transition(() -> {
 					Dungeon.grayscale = 0;
@@ -769,6 +795,388 @@ public class InGameState extends State {
 		for (Entity entity : this.pauseMenuUi.getEntities()) {
 			entity.setActive(false);
 		}
+	}
+
+	public static float settingsX;
+	public boolean addedSettings;
+
+	private void addSettings() {
+		if (addedSettings) {
+			return;
+		}
+
+		addedSettings = true;
+		float s = 20;
+		float st = 60 + 20f;
+
+		this.pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 1.5f), (int) st) {
+			@Override
+			public void render() {
+				super.render();
+
+				if (settingsX == Display.UI_WIDTH && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(0, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		});
+
+		this.pauseMenuUi.add(new UiButton("graphics", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 2)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				addGraphics();
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 2f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		});
+
+		this.pauseMenuUi.add(new UiButton("audio", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 3)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				addAudio();
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 2f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		});
+
+		this.pauseMenuUi.add(new UiButton("controls", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 4)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				addControls();
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 2f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		});
+
+		this.pauseMenuUi.add(new UiButton("game", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 5)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				addGame();
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 2f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		});
+	}
+
+	private ArrayList<Entity> currentSettings = new ArrayList<>();
+
+	public void clear() {
+		for (Entity e : currentSettings) {
+			e.done = true;
+		}
+	}
+
+			/*
+Settings:
+* Video:
+	+ Screen shake
+	+ Freeze frames
+	+ Cursor (+ native)
+	+ Cursor rotation
+	+ Side art (new)
+	+ Fullscreen
+	+ Borderless window
+	+ Flash frames
+	+ Quality (Low, Good, Great)
+* Audio:
+	+ Music volume
+	+ Sfx volume
+	+ Ui sfx
+* Controls:
+	+ Use
+	+ Swap weapons
+	+ Interact
+	+ Active item
+	+ Movement
+	+ Roll
+	+ Mouse lock
+* Game:
+	+ Speedrun timer
+	+ Speedrun mode
+	+ Blood and Gore
+	+ View credits
+	+ Reset progress
+		 */
+
+	public void addControls() {
+		clear();
+	}
+
+	public void addGraphics() {
+		clear();
+
+	}
+
+	public void addAudio() {
+		clear();
+
+		float s = 20;
+		float st = 60 + 20f;
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
+			@Override
+			public void render() {
+				super.render();
+
+				if (settingsX == Display.UI_WIDTH * 2 && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("uisfx", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
+			@Override
+			public void onClick() {
+				Settings.uisfx = !Settings.uisfx;
+				super.onClick();
+			}
+		}.setOn(Settings.uisfx)));
+
+		currentSettings.add(pauseMenuUi.add(new UiSlider("sfx", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/select");
+			}
+
+			@Override
+			public void onUpdate() {
+				Settings.sfx = this.val;
+			}
+		}.setValue(Settings.sfx)));
+
+		currentSettings.add(pauseMenuUi.add(new UiSlider("music", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/select");
+			}
+
+			@Override
+			public void onUpdate() {
+				Settings.music = this.val;
+				Audio.update();
+			}
+		}.setValue(Settings.music)));
+	}
+
+	public void addGame() {
+		clear();
+
+		float s = 20;
+		float st = 60 + 10f;
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
+			@Override
+			public void render() {
+				super.render();
+
+				if (settingsX == Display.UI_WIDTH * 2 && Input.instance.wasPressed("pause")) {
+					Input.instance.putState("pause", Input.State.UP);
+					this.onClick();
+				}
+			}
+
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("view_credits", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+				// todo
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiButton("reset_progress", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				Tween.to(new Tween.Task(0, 0.1f) {
+					@Override
+					public float getValue() {
+						return Dungeon.dark;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.dark = value;
+					}
+
+					@Override
+					public void onEnd() {
+						SaveManager.deleteAll();
+						Dungeon.depth = -2;
+						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+						Player.instance = null;
+						Player.ladder = null;
+						BurningKnight.instance = null;
+						Dungeon.game.setState(new MainMenuState());
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+
+				// todo: warning window
+			}
+		}));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
+			@Override
+			public void onClick() {
+				Settings.speedrun_mode = !Settings.speedrun_mode;
+				super.onClick();
+			}
+		}.setOn(Settings.speedrun_mode)));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_timer", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 5)) {
+			@Override
+			public void onClick() {
+				Settings.speedrun_timer = !Settings.speedrun_timer;
+				Dungeon.tweenTimer(Settings.speedrun_timer);
+				super.onClick();
+			}
+		}.setOn(Settings.speedrun_timer)));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("blood_gore", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6)) {
+			@Override
+			public void onClick() {
+				Settings.blood = !Settings.blood;
+				Settings.gore = !Settings.gore;
+				super.onClick();
+			}
+		}.setOn(Settings.gore)));
 	}
 
 	@Override

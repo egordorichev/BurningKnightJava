@@ -182,21 +182,12 @@ public class Area {
   }
 
   public void hide() {
-    if (hasSelectableEntity) {
-      ((UiEntity) this.entities.get(selectedUiEntity)).unselect();
-    }
-    
     for (Entity entity: this.entities) {
       entity.setActive(false);
     }
   }
 
   public void show() {
-    if (hasSelectableEntity) {
-      this.selectedUiEntity = findFirstSelectableUiEntity();
-      ((UiEntity) this.entities.get(selectedUiEntity)).select();
-    }
-    
     for (Entity entity: this.entities) {
       entity.setActive(true);
     }

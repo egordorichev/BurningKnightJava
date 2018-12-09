@@ -22,6 +22,10 @@ uniform float correct;
 uniform float grayscale;
 uniform float white;
 uniform float ui;
+uniform float ft;
+uniform float fr;
+uniform float fg;
+uniform float fb;
 uniform float battle;
 uniform float blood;
 uniform sampler2D u_texture;
@@ -104,6 +108,10 @@ vec4 daltonize(vec4 inp) {
 }
 
 vec4 get(vec2 pos) {
+    if (ft > 0.0) {
+        return vec4(fr, fg, fb, 1.0);
+    }
+
     float x = pos.x;
     float y = pos.y;
 

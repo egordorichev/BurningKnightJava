@@ -276,6 +276,7 @@ public class BurningKnight extends Boss {
 			this.findStartPoint();
 			this.rage = true;
 			this.dead = false;
+			Dungeon.flash(Color.WHITE, 0.05f);
 			this.deathDepth = Dungeon.depth;
 			this.done = false;
 			this.unhittable = true;

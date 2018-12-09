@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import org.rexcellentgames.burningknight.Display;
@@ -95,6 +96,7 @@ public class Explosion extends Entity {
 		Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;
 
 		Camera.shake(leave ? 20f : 5f+65);
+		Dungeon.flash(Color.WHITE, 0.05f);
 
 		if (leave) {
 			ExplosionLeftOver over = new ExplosionLeftOver();

@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.MathUtils;
 
@@ -124,7 +125,7 @@ public class UiSlider extends UiButton {
 
 	@Override
 	protected boolean checkHover() {
-		return CollisionHelper.check((int) Input.instance.uiMouse.x, (int) Input.instance.uiMouse.y,
+		return CollisionHelper.check((int) (Input.instance.uiMouse.x+ InGameState.settingsX), (int) Input.instance.uiMouse.y,
 			(int) (this.ox - (this.w - this.sw) - 2),
 			(int) (this.y - this.h / 2),
 			(int) (this.w * scale), this.h);

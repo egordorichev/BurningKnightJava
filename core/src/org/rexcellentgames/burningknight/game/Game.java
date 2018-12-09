@@ -26,6 +26,7 @@ public class Game {
 		}
 
 		State old = this.state;
+		Camera.instance.resetShake();
 		Log.info("Set state to " + state.getClass().getSimpleName());
 		this.state = state;
 

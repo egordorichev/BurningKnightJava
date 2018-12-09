@@ -43,6 +43,7 @@ public class BloodSplatFx extends Entity {
 			textureSolid = new Texture(pix);
 		}
 
+		sizeMod *= 0.5f;
 		int count = (int) (Random.newInt(6, 15) * sizeMod);
 		float[] shape = new float[count * 2];
 		float am = 4;
