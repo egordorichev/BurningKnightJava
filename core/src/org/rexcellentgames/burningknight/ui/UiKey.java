@@ -4,6 +4,8 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
+import org.rexcellentgames.burningknight.util.CollisionHelper;
 
 public class UiKey extends UiButton {
 	private String keyId;
@@ -69,5 +71,13 @@ public class UiKey extends UiButton {
 		Graphics.medium.draw(Graphics.batch, this.label, this.x - w / 2 + 4, this.y - this.h / 2 + 16);
 		Graphics.medium.draw(Graphics.batch, this.secondLabel, this.x + w / 2 - this.secondW + 2, this.y - this.h / 2 + 16);
 		Graphics.medium.setColor(1, 1, 1, 1);
+	}
+
+	@Override
+	protected boolean checkHover() {
+		return CollisionHelper.check((int) (Input.instance.uiMouse.x + InGameState.settingsX), (int) Input.instance.uiMouse.y,
+			(int) (this.x - UiChoice.maxW / 2),
+			(int) (this.y - this.h / 2 + 3),
+			(int) (UiChoice.maxW), this.h);
 	}
 }

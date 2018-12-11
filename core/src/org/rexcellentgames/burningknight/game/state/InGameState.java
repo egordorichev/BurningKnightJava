@@ -987,7 +987,6 @@ Settings:
 	+ Active item
 	+ Movement
 	+ Roll
-	+ Mouse lock
 * Game:
 	+ Speedrun timer
 	+ Speedrun mode
@@ -1001,7 +1000,7 @@ Settings:
 		clear();
 
 		float s = 20;
-		float st = 60 + 20f;
+		float st = 60 + 5f;
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
 			@Override
@@ -1037,9 +1036,11 @@ Settings:
 			}
 		}));
 
-		currentSettings.add(pauseMenuUi.add(new UiKey("use", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
-
-		}));
+		currentSettings.add(pauseMenuUi.add(new UiKey("use", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6))));
+		currentSettings.add(pauseMenuUi.add(new UiKey("switch", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 5))));
+		currentSettings.add(pauseMenuUi.add(new UiKey("interact", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4))));
+		currentSettings.add(pauseMenuUi.add(new UiKey("active", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3))));
+		currentSettings.add(pauseMenuUi.add(new UiKey("roll", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2))));
 	}
 
 	public void addGraphics() {

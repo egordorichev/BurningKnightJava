@@ -77,6 +77,7 @@ public class LadderFx extends UiEntity {
 
 		Dungeon.darkX = vec.x / Display.UI_SCALE;
 		Dungeon.darkY = vec.y;
+		Player.instance.playSfx("menu/select");
 
 		Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
 			@Override

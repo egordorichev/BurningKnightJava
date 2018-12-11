@@ -336,6 +336,8 @@
 	"meatboy_desc": "Where did I see him before...",
 	"menu": "Menu",
 	"metal_ring": "Metal Ring",
+	"switch" : "Swap Weapons",
+	"active": "Active Item",
 	"metal_ring_desc": "Gives a {CHANCE}% chance to reflect\ndamage onto the attacker.",
 	"mimic_summoner": "Mimic Summoner",
 	"mimic_summoner_desc": "I should be careful, because this thing\ngives a {CHANCE}% chance for a regular chest\nto become a mimic.",

@@ -148,8 +148,8 @@ public class UiButton extends UiEntity {
 
 	protected boolean checkHover() {
 		return CollisionHelper.check((int) (Input.instance.uiMouse.x + InGameState.settingsX), (int) Input.instance.uiMouse.y,
-			(int) (this.x - this.w / 2 * 1.2f),
+			(int) (this.x - this.w / 2),
 			(int) (this.y - this.h / 2 + 3),
-			(int) (this.w * 1.2f), this.h);
+			(int) (this.w), this.h);
 	}
 }
