@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -17,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.game.state.InventoryState;
+import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Log;
@@ -150,10 +152,16 @@ public class Portal extends SaveableEntity {
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
 		float dd = 64f;
+
 		if (d < dd) {
+			MainMenuState.voidMusic.play();
 			float f = (dd - d) / dd;
+			MainMenuState.voidMusic.setVolume(f * Settings.music);
 			Player.instance.velocity.x -= dx / d * dt * 4000 * f;
 			Player.instance.velocity.y -= dy / d * dt * 4000 * f;
+		} else {
+			MainMenuState.voidMusic.setVolume(0);
+			MainMenuState.voidMusic.pause();
 		}
 	}
 

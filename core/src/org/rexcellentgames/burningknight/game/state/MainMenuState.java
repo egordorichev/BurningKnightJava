@@ -1,11 +1,13 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -45,11 +47,50 @@ public class MainMenuState extends State {
 		MainMenuState.skip = skip;
 	}
 
+	public static Music voidMusic = Audio.getMusic("Void");
+
+	public void startVoid() {
+		voidMusic.setLooping(true);
+		voidMusic.setVolume(0);
+		voidMusic.play();
+
+		Tween.to(new Tween.Task(Settings.music, 1f) {
+			@Override
+			public float getValue() {
+				return voidMusic.getVolume();
+			}
+
+			@Override
+			public void setValue(float value) {
+				voidMusic.setVolume(value);
+			}
+		});
+	}
+
+	public void endVoid() {
+		Tween.to(new Tween.Task(0, 0.2f) {
+			@Override
+			public float getValue() {
+				return voidMusic.getVolume();
+			}
+
+			@Override
+			public void setValue(float value) {
+				voidMusic.setVolume(value);
+			}
+		});
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		endVoid();
+	}
+
 	@Override
 	public void init() {
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 0;
-
 
 		Audio.stop();
 		Dungeon.setBackground(new Color(0, 0, 0, 1));
@@ -77,7 +118,7 @@ public class MainMenuState extends State {
 		cameraX = Display.UI_WIDTH_MAX / 2;
 		cameraY = Display.UI_HEIGHT_MAX / 2;
 
-		Audio.play("Void");
+		startVoid();
 
 		Dungeon.buildDiscordBadge();
 
@@ -157,6 +198,7 @@ public class MainMenuState extends State {
 			Dungeon.flash(Color.WHITE, 0.05f);
 			Audio.stop();
 			Audio.highPriority("Menu");
+			Audio.current.setLooping(true);
 
 			Tween.to(new Tween.Task(256, 0.7f, Tween.Type.QUAD_IN) {
 				@Override

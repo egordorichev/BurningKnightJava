@@ -906,7 +906,6 @@ public class Player extends Creature {
 				}
 			} else if (UiSlot.canAccept(2, item.getItem())) {
 				if (inventory.getSlot(2) == null) {
-					Log.error("set");
 					inventory.setSlot(2, item.getItem());
 
 					item.getItem().setOwner(this);
@@ -934,7 +933,6 @@ public class Player extends Creature {
 					return false;
 				}
 			} else if (this.inventory.add(item)) {
-				Log.error("Normal pickup");
 				if (item.getItem().hasAutoPickup()) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
