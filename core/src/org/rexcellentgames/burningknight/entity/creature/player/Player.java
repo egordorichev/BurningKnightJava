@@ -1318,6 +1318,17 @@ public class Player extends Creature {
 						acceleration.y = (float) Math.sin(a) * speed * f;
 					}
 
+					for (int i = 0; i < 3; i++) {
+						PoofFx fx = new PoofFx();
+
+						fx.x = this.x + this.w / 2;
+						fx.y = this.y + this.h / 2;
+						fx.t = 0.5f;
+
+						Dungeon.area.add(fx);
+					}
+					playSfx("dash_short");
+
 					final Player self = this;
 
 					Tween.to(new Tween.Task(0, 0.2f) {
@@ -1377,6 +1388,21 @@ public class Player extends Creature {
 			}
 		}
 
+		if (this.isRolling()) {
+			lastFx += dt;
+
+			if (lastFx >= 0.05f) {
+				PoofFx fx = new PoofFx();
+
+				fx.x = this.x + this.w / 2;
+				fx.y = this.y + this.h / 2;
+				fx.t = 0.5f;
+
+				Dungeon.area.add(fx);
+				lastFx = 0;
+			}
+		}
+
 		if (!this.freezed) {
 			float dx = this.x + this.w / 2 - Input.instance.worldMouse.x;
 			this.flipped = dx >= 0;
@@ -1399,6 +1425,8 @@ public class Player extends Creature {
 			}
 		}
 	}
+
+	private float lastFx = 0;
 
 	public int frostLevel;
 	private boolean rolling;
