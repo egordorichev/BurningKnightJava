@@ -154,6 +154,7 @@ public class InGameState extends State {
 	private float lastSave;
 	private Tween.Task lastTask;
 	private Tween.Task lastTaskSize;
+	private boolean wasInSettings;
 
 	@Override
 	public void setPaused(boolean paused) {
@@ -225,6 +226,11 @@ public class InGameState extends State {
 				}
 			});
 		} else {
+			if (wasInSettings) {
+				wasInSettings = false;
+				SaveManager.saveGames();
+			}
+
 			if (!wasHidden) {
 				UiMap.instance.show();
 			}
@@ -949,6 +955,7 @@ public class InGameState extends State {
 	private ArrayList<Entity> currentSettings = new ArrayList<>();
 
 	public void clear() {
+		wasInSettings = true;
 		UiChoice.maxW = 0;
 
 		for (Entity e : currentSettings) {
@@ -1079,7 +1086,7 @@ Settings:
 			@Override
 			public void onClick() {
 				Settings.borderless = !Settings.borderless;
-				((Lwjgl3Graphics) Gdx.graphics).setUndecorated(!Settings.borderless);
+				((Lwjgl3Graphics) Gdx.graphics).setUndecorated(Settings.borderless);
 				super.onClick();
 			}
 		}.setOn(Settings.borderless)));
@@ -1090,7 +1097,7 @@ Settings:
 				Settings.side_art = this.getCurrent();
 			}
 		}.setChoices(new String[] {
-			"none", "0", "1", "2", "3", "4", "5", "6", "7"
+			"none", "1/8", "2/8", "3/8", "4/8", "5/8", "6/8", "7/8", "8/8"
 		}).setCurrent(Settings.side_art)));
 
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("rotate_cursor", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
@@ -1115,7 +1122,9 @@ Settings:
 					Gdx.graphics.setCursor(Dungeon.cursor);
 				}
 			}
-		}.setChoices(Settings.cursors.clone()).setCurrent(Settings.getCursorId(Settings.cursor))));
+		}.setChoices(new String[] {
+			"1/9", "2/9", "3/9", "4/9", "5/9", "6/9", "7/9", "8/9", "native"
+		}).setCurrent(Settings.getCursorId(Settings.cursor))));
 
 		currentSettings.add(pauseMenuUi.add(new UiChoice("colorblind_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6)) {
 			@Override
@@ -1225,7 +1234,7 @@ Settings:
 		clear();
 
 		float s = 20;
-		float st = 60 - 5f;
+		float st = 60 - 2.5f;
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
 			@Override

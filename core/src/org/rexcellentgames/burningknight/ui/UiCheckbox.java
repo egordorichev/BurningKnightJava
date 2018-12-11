@@ -23,9 +23,9 @@ public class UiCheckbox extends UiChoice {
 	@Override
 	protected void setColor() {
 		if (isOn()) {
-			Graphics.batch.setColor(0.2f, 0.8f, 0.2f, 1f);
+			Graphics.medium.setColor(0.2f, 0.8f, 0.2f, 1f);
 		} else {
-			Graphics.batch.setColor(0.8f, 0.2f, 0.2f, 1f);
+			Graphics.medium.setColor(0.8f, 0.2f, 0.2f, 1f);
 		}
 	}
 }

@@ -64,8 +64,6 @@ public class UiKey extends UiButton {
 
 	@Override
 	public void render() {
-		scaleMod = 0.2f;
-
 		Graphics.batch.setColor(this.rr * this.ar, this.rg * this.ag, this.rb * this.ab, 1);
 
 		Graphics.batch.end();

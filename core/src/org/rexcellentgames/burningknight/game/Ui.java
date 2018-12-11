@@ -621,7 +621,7 @@ public class Ui {
 
 			Graphics.batch.setColor(1, 1, 1, this.ca);
 			Graphics.render(region, Input.instance.uiMouse.x,
-				Input.instance.uiMouse.y, a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, s, s);
+				Input.instance.uiMouse.y, a, ((float)region.getRegionWidth()) / 2, ((float)region.getRegionHeight()) / 2, false, false, s, s);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 	}

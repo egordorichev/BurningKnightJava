@@ -1,16 +1,11 @@
 package org.rexcellentgames.burningknight.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiButton extends UiEntity {
 	public int h;
@@ -18,7 +13,6 @@ public class UiButton extends UiEntity {
 
 	protected boolean hover;
 	public float scale = 1f;
-	private Tween.Task last;
 	protected String label;
 	protected float mx = 0f;
 	public boolean sparks;
@@ -77,36 +71,11 @@ public class UiButton extends UiEntity {
 
 	}
 
-	protected float scaleMod = 1;
-
 	@Override
 	public void render() {
-		Graphics.batch.setColor(this.r * this.ar, this.g * this.ag, this.b * this.ab, 1);
-
-		Graphics.batch.end();
-		Graphics.shadows.end();
-		Graphics.text.begin();
-		Graphics.batch.begin();
-
-		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
-		Gdx.gl.glClearColor(0, 0, 0, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
-		Graphics.medium.draw(Graphics.batch, this.label, 2, 16);
-
-		Graphics.batch.end();
-		Graphics.text.end();
-		Graphics.shadows.begin();
-		Graphics.batch.begin();
-		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
-
-		Texture texture = Graphics.text.getColorBufferTexture();
-		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
-		Graphics.batch.draw(texture, this.x - this.w / 2 + 2, this.y - h / 2, this.w / 2 + 4, this.h / 2,
-			this.w, this.h * 2, this.scale, this.scale, 0,
-			0, 0, this.w + 4, this.h * 2, false, true);
-
-		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.medium.setColor(this.r * this.ar, this.g * this.ag, this.b * this.ab, 1);
+		Graphics.medium.draw(Graphics.batch, this.label, this.x - this.w / 2 + 2, this.y - h / 2 + 16);
+		Graphics.medium.setColor(1, 1, 1, 1);
 	}
 
 	protected boolean playSfx = true;
@@ -124,64 +93,15 @@ public class UiButton extends UiEntity {
 			if ((this.hover && !Input.instance.wasPressed("use") && this.isSelected) || (checkHover() && Input.instance.wasPressed("use"))) {
 				Input.instance.putState("use", Input.State.HELD);
 
-				if (this.last != null) {
-					Tween.remove(this.last);
-				}
 
-				this.rr = 0.5f;
-				this.rg = 0.5f;
-				this.rb = 0.5f;
+				this.onClick();
+				this.rr = 0.3f;
+				this.rg = 0.3f;
+				this.rb = 0.3f;
 
-				this.last = Tween.to(new Tween.Task(1f - 0.2f * scaleMod, 0.05f) {
-					@Override
-					public float getValue() {
-						return scale;
-					}
-
-					@Override
-					public void setValue(float value) {
-						scale = value;
-					}
-
-					@Override
-					public void onEnd() {
-						super.onEnd();
-						last = null;
-						onClick();
-
-						r = 1f;
-						g = 1f;
-						b = 1f;
-
-						last = Tween.to(new Tween.Task(1 + 0.2f * scaleMod, 0.05f) {
-							@Override
-							public float getValue() {
-								return scale;
-							}
-
-							@Override
-							public void setValue(float value) {
-								scale = value;
-							}
-
-							@Override
-							public void onEnd() {
-								super.onEnd();
-								last = null;
-							}
-
-							@Override
-							public boolean runWhenPaused() {
-								return true;
-							}
-						});
-					}
-
-					@Override
-					public boolean runWhenPaused() {
-						return true;
-					}
-				});
+				r = 1f;
+				g = 1f;
+				b = 1f;
 			}
 		}
 
@@ -198,122 +118,27 @@ public class UiButton extends UiEntity {
 		this.hover = checkHover() || isSelected;
 
 		if (h && !this.hover) {
-			if (this.last != null) {
-				Tween.remove(this.last);
-			}
-
-			this.last = Tween.to(new Tween.Task(1f, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
-
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-
-				@Override
-				public void onEnd() {
-					super.onEnd();
-					last = null;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
-
-			Tween.remove(this.lastMx);
-			this.lastMx = Tween.to(new Tween.Task(0, 0.1f) {
-				@Override
-				public float getValue() {
-					return mx;
-				}
-
-				@Override
-				public void setValue(float value) {
-					mx = value;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
 
 		} else if ((!h && this.hover)) {
-			if (this.last != null) {
-				Tween.remove(this.last);
-			}
-
 			this.r = 1f;
 			this.g = 1f;
 			this.b = 1f;
 
 			Audio.playSfx("menu/moving");
-
-
-
-			Tween.remove(this.lastMx);
-			this.lastMx = Tween.to(new Tween.Task(20, 0.1f) {
-				@Override
-				public float getValue() {
-					return mx;
-				}
-
-				@Override
-				public void setValue(float value) {
-					mx = value;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
-
-			this.last = Tween.to(new Tween.Task(1f + 0.2f * scaleMod, 0.1f) {
-				@Override
-				public float getValue() {
-					return scale;
-				}
-
-				@Override
-				public void setValue(float value) {
-					scale = value;
-				}
-
-				@Override
-				public void onEnd() {
-					super.onEnd();
-					last = null;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
 		}
 
 		if (this.hover) {
-			float v = 0.7f;
+			float v = 0.5f;
 
 			this.r = v;
 			this.g = v;
 			this.b = v;
-
-			this.area.select(this);
 		} else {
 			r = 1f;
 			g = 1f;
 			b = 1f;
 		}
 	}
-
-	private Tween.Task lastMx;
 
 	public void onClick() {
 		if (this.playSfx) {

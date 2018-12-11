@@ -15,10 +15,6 @@ public class StartingItem extends UiButton {
 		super("", 0, 0);
 	}
 
-	{
-		scaleMod += 0.4f;
-	}
-
 	@Override
 	public void init() {
 		super.init();

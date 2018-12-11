@@ -67,6 +67,7 @@ public class SaveManager {
 			public void run() {
 				super.run();
 				SaveManager.save(SaveManager.Type.GAME, false);
+				SaveManager.save(Type.GLOBAL, false);
 			}
 		};
 

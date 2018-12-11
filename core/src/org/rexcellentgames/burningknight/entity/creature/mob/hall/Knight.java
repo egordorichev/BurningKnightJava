@@ -228,9 +228,7 @@ public class Knight extends Mob {
 	}
 
 	public void checkDir() {
-		if (this.ai instanceof RoamState) {
-			((RoamState) this.ai).selectDirs();
-		}
+
 	}
 
 	@Override
@@ -243,7 +241,7 @@ public class Knight extends Mob {
 	}
 
 	public class RoamState extends KnightState {
-		private float delay;
+		/*private float delay;
 		private float wait;
 		private Vector2 direction = new Vector2();
 		private Vector2 last = new Vector2();
@@ -280,7 +278,7 @@ public class Knight extends Mob {
 				selectDir();
 			} while (direction.x == last.x && direction.y == last.y);
 		}
-
+*/
 		@Override
 		public void update(float dt) {
 			super.update(dt);
@@ -312,7 +310,7 @@ public class Knight extends Mob {
 				}
 			}*/
 
-			if (this.wait > 0) {
+/*			if (this.wait > 0) {
 				this.wait -= dt;
 				this.checkForPlayer();
 
@@ -343,7 +341,7 @@ public class Knight extends Mob {
 
 			if (self.canSee(self.target)) {
 				self.become("chase");
-			}
+			}*/
 		}
 	}
 
