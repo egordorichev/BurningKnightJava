@@ -54,7 +54,6 @@ public class TutorialEnd extends SaveableEntity {
 				@Override
 				public void onEnd() {
 					Dungeon.goToLevel(-2);
-					Dungeon.dark = 1;
 				}
 			});
 		}
