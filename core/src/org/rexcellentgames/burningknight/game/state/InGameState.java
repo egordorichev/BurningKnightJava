@@ -1004,6 +1004,28 @@ Settings:
 					this.onClick();
 				}
 			}
+
+			@Override
+			public void onClick() {
+				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
+					@Override
+					public float getValue() {
+						return settingsX;
+					}
+
+					@Override
+					public void setValue(float value) {
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+			}
 		}));
 
 		currentSettings.add(pauseMenuUi.add(new UiKey("use", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {

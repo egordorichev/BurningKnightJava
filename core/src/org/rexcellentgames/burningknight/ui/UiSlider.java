@@ -69,8 +69,8 @@ public class UiSlider extends UiButton {
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		Graphics.batch.draw(texture, this.ox - 4 - (this.w - this.sw), this.y - this.h / 2, this.w / 2 + 4, this.h / 2,
-			this.w, this.h, scale, scale, 0,
-			0, 0, this.w + 4, this.h, false, true);
+			this.w, this.h * 2, scale, scale, 0,
+			0, 0, this.w + 4, this.h * 2, false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		float w = slider.getRegionWidth() - 4;
@@ -78,8 +78,8 @@ public class UiSlider extends UiButton {
 
 
 
-		Graphics.render(fill, this.ox + 6, this.y - 2, 0, 0, 0, false, false, v * scale, scale);
-		Graphics.render(slider, this.ox + 4, this.y - 4, 0, 0, 0, false, false, scale, scale);
+		Graphics.render(fill, this.ox + 6, this.y - 2 + h * 0.5f, 0, 0, 0, false, false, v * scale, scale * 1.1f);
+		Graphics.render(slider, this.ox + 4, this.y - 4 + h * 0.5f, 0, 0, 0, false, false, scale, scale);
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class UiSlider extends UiButton {
 	protected boolean checkHover() {
 		return CollisionHelper.check((int) (Input.instance.uiMouse.x + InGameState.settingsX), (int) Input.instance.uiMouse.y,
 			(int) (this.ox - (this.w - this.sw) - 2),
-			(int) (this.y - this.h / 2),
-			(int) (this.w * scale), this.h);
+			(int) (this.y - 4+ h * 0.5f),
+			(int) (this.w * scale), 10);
 	}
 }

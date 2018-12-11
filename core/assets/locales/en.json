@@ -253,6 +253,8 @@
 	"healing_potion_desc": "I guess it magically restores my health.",
 	"hey": "Hey!",
 	"hi": "Hi",
+	"on" : "On",
+	"off" : "Off",
 	"how_is_it_going": "How's it going?",
 	"ice_bombs": "Ice Bombs",
 	"ice_bombs_desc": "Used a lot in hot areas.",

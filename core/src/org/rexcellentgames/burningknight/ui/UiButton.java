@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -71,7 +70,7 @@ public class UiButton extends UiEntity {
 		Graphics.layout.setText(Graphics.medium, this.label);
 
 		this.w = (int) Graphics.layout.width;
-		this.h = (int) Graphics.layout.height * 2;
+		this.h = (int) Graphics.layout.height;
 	}
 
 	protected void modLabel(String old) {
@@ -103,9 +102,9 @@ public class UiButton extends UiEntity {
 		Texture texture = Graphics.text.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-		Graphics.batch.draw(texture, this.x - this.w / 2 + 2, this.y - this.h / 2, this.w / 2 + 4, this.h / 2,
-			this.w, this.h, this.scale, this.scale, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / this.w * 20)),
-			0, 0, this.w + 4, this.h, false, true);
+		Graphics.batch.draw(texture, this.x - this.w / 2 + 2, this.y - h / 2, this.w / 2 + 4, this.h / 2,
+			this.w, this.h * 2, this.scale, this.scale, 0,
+			0, 0, this.w + 4, this.h * 2, false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
@@ -325,7 +324,7 @@ public class UiButton extends UiEntity {
 	protected boolean checkHover() {
 		return CollisionHelper.check((int) (Input.instance.uiMouse.x + InGameState.settingsX), (int) Input.instance.uiMouse.y,
 			(int) (this.x - this.w / 2 * 1.2f),
-			(int) (this.y - this.h / 2),
+			(int) (this.y - this.h / 2 + 3),
 			(int) (this.w * 1.2f), this.h);
 	}
 }
