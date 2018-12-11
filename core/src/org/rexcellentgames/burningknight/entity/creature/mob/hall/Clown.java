@@ -112,7 +112,11 @@ public class Clown extends Mob {
 	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 		this.playSfx("damage_clown");
+
+		spawnBomb = true;
 	}
+
+	private boolean spawnBomb;
 
 	@Override
 	public boolean rollBlock() {
@@ -132,6 +136,21 @@ public class Clown extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (spawnBomb) {
+			spawnBomb = false;
+			BombEntity e = new BombEntity(this.x, this.y).velTo(this.lastSeen.x + 8, this.lastSeen.y + 8, 60f);
+
+			this.placedBomb = true;
+			this.apply(e);
+			Dungeon.area.add(e);
+
+			for (Mob mob : Mob.all) {
+				if (mob.room == this.room) {
+					mob.become("getout");
+				}
+			}
+		}
 
 		if (this.freezed) {
 			return;

@@ -40,7 +40,7 @@ public class BombEntity extends Entity {
 
 	private AnimationData animation;
 	private Body body;
-	private Point vel = new Point();
+	public Point vel = new Point();
 	public Creature owner;
 	public boolean bullets;
 	public ArrayList<Buff> toApply = new ArrayList<>();
@@ -153,7 +153,7 @@ public class BombEntity extends Entity {
 		this.x = this.body.getPosition().x;
 		this.y = this.body.getPosition().y;
 
-		this.vel.mul(0.9f);
+		this.vel.mul(0.95f);
 		this.body.setLinearVelocity(this.vel);
 
 		if (this.animation.update(dt * this.mod)) {
@@ -226,8 +226,8 @@ public class BombEntity extends Entity {
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
 						float knockbackMod = creature.getStat("knockback");
-						creature.velocity.x += Math.cos(a) * 5000f * knockbackMod;
-						creature.velocity.y += Math.sin(a) * 5000f * knockbackMod;
+						creature.knockback.x += Math.cos(a) * 10f * knockbackMod;
+						creature.knockback.y += Math.sin(a) * 10f * knockbackMod;
 
 						try {
 							for (Buff buff : toApply) {
@@ -241,6 +241,13 @@ public class BombEntity extends Entity {
 					if (entity.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
 						((Chest) entity).explode();
 					}
+				} else if (entity instanceof BombEntity) {
+					BombEntity b = (BombEntity) entity;
+
+					float a = (float) Math.atan2(b.y - this.y, b.x - this.x) + Random.newFloat(-0.5f, 0.5f);
+
+					b.vel.x += Math.cos(a) * 200f;
+					b.vel.y += Math.sin(a) * 200f;
 				}
 			}
 
