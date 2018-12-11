@@ -78,7 +78,7 @@ public class UiSlider extends UiButton {
 			}
 
 			if (this.checkHover()) {
-				if ((Input.instance.isDown("use"))) {
+				if ((Input.instance.isDown("mouse"))) {
 					float prev = this.val;
 
 					this.val = MathUtils.clamp(this.min, this.max,

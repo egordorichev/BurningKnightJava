@@ -486,7 +486,10 @@ public class Input implements InputProcessor, ControllerListener {
 
 		anyPressed = true;
 		if (listener != null) {
-			listener.set(id);
+			if (keycode != com.badlogic.gdx.Input.Keys.ESCAPE) {
+				listener.set(id);
+			}
+
 			return false;
 		}
 
@@ -512,6 +515,12 @@ public class Input implements InputProcessor, ControllerListener {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if (listener != null) {
+			listener.set("Mouse" + button);
+
+			return false;
+		}
+
 		this.keys.put("Mouse" + button, State.DOWN);
 
 		anyPressed = true;

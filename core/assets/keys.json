@@ -16,6 +16,7 @@
 
 	"interact" : [ "E" ],
 	"pause" : [ "Escape" ],
+	"mouse" : [ "Mouse0" ],
 
 	"map" : [ "M" ],
 	"toggle_minimap" : [ "Tab" ],
