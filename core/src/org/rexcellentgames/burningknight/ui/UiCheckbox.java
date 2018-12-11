@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.ui;
 
+import org.rexcellentgames.burningknight.assets.Graphics;
+
 public class UiCheckbox extends UiChoice {
 	public UiCheckbox(String label, int x, int y) {
 		super(label, x, y);
@@ -16,5 +18,14 @@ public class UiCheckbox extends UiChoice {
 
 	public boolean isOn() {
 		return getCurrent() == 0;
+	}
+
+	@Override
+	protected void setColor() {
+		if (isOn()) {
+			Graphics.batch.setColor(0.2f, 0.8f, 0.2f, 1f);
+		} else {
+			Graphics.batch.setColor(0.8f, 0.2f, 0.2f, 1f);
+		}
 	}
 }

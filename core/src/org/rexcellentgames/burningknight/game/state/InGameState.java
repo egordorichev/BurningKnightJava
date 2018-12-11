@@ -949,6 +949,8 @@ public class InGameState extends State {
 	private ArrayList<Entity> currentSettings = new ArrayList<>();
 
 	public void clear() {
+		UiChoice.maxW = 0;
+
 		for (Entity e : currentSettings) {
 			e.done = true;
 		}
@@ -1037,7 +1039,7 @@ Settings:
 		clear();
 
 		float s = 14;
-		float st = 60 + 5f;
+		float st = 60;
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
 			@Override
@@ -1080,7 +1082,7 @@ Settings:
 				((Lwjgl3Graphics) Gdx.graphics).setUndecorated(!Settings.borderless);
 				super.onClick();
 			}
-		}.setOn(Settings.uisfx)));
+		}.setOn(Settings.borderless)));
 
 		currentSettings.add(pauseMenuUi.add(new UiChoice("side_art", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
 			@Override
@@ -1223,7 +1225,7 @@ Settings:
 		clear();
 
 		float s = 20;
-		float st = 60 + 5f;
+		float st = 60 - 5f;
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
 			@Override

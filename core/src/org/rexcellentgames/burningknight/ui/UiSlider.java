@@ -28,6 +28,8 @@ public class UiSlider extends UiButton {
 		this.min = 0;
 		this.max = 1;
 		this.val = 1;
+
+		scaleMod = 0.5f;
 	}
 
 	public UiSlider setValue(float val) {
@@ -43,6 +45,8 @@ public class UiSlider extends UiButton {
 		this.x += this.w / 2;
 		this.sw = slider.getRegionWidth() + 8;
 		this.w += this.sw;
+
+		UiChoice.maxW = Math.max(w, UiChoice.maxW);
 	}
 
 	@Override
@@ -65,26 +69,30 @@ public class UiSlider extends UiButton {
 		Graphics.batch.begin();
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
+		float w = UiChoice.maxW;
+
 		Texture texture = Graphics.text.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-		Graphics.batch.draw(texture, this.ox - 4 - (this.w - this.sw), this.y - this.h / 2, this.w / 2 + 4, this.h / 2,
-			this.w, this.h * 2, scale, scale, 0,
-			0, 0, this.w + 4, this.h * 2, false, true);
+		Graphics.batch.draw(texture, this.ox - (w) * 0.5f + 2, this.y - this.h / 2, w / 2 + 4, this.h / 2,
+			w, this.h * 2, scale, scale, 0,
+			0, 0, (int) (w + 4), this.h * 2, false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		float w = slider.getRegionWidth() - 4;
+		w = slider.getRegionWidth() - 4;
 		float v = MathUtils.map(this.val, this.min, this.max, 0, w / 4);
 
 
 
-		Graphics.render(fill, this.ox + 6, this.y - 2 + h * 0.5f, 0, 0, 0, false, false, v * scale, scale * 1.1f);
-		Graphics.render(slider, this.ox + 4, this.y - 4 + h * 0.5f, 0, 0, 0, false, false, scale, scale);
+		Graphics.render(fill, this.ox + UiChoice.maxW * 0.5f - w + 2, this.y - 2 + h * 0.5f, 0, 0, 0, false, false, v * scale, scale * 1.1f);
+		Graphics.render(slider, this.ox + UiChoice.maxW * 0.5f - w, this.y - 4 + h * 0.5f, 0, 0, 0, false, false, scale, scale);
 	}
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		scaleMod = 0.5f;
 
 		if ((this.isSelected || this.hover)) {
 			if (Input.instance.wasPressed("left")) {
@@ -102,7 +110,7 @@ public class UiSlider extends UiButton {
 					float prev = this.val;
 
 					this.val = MathUtils.clamp(this.min, this.max,
-						MathUtils.map(Input.instance.uiMouse.x+ InGameState.settingsX - (this.ox + 6) + 4, 0, (this.sw - 12) * scale, this.min, this.max)
+						MathUtils.map(Input.instance.uiMouse.x+ InGameState.settingsX - (this.ox + UiChoice.maxW * 0.5f - (slider.getRegionWidth() - 6)), 0, (this.sw - 12) * scale, this.min, this.max)
 					);
 
 					this.val = (float) (Math.floor(this.val * 16) / 16);
@@ -131,8 +139,8 @@ public class UiSlider extends UiButton {
 	@Override
 	protected boolean checkHover() {
 		return CollisionHelper.check((int) (Input.instance.uiMouse.x + InGameState.settingsX), (int) Input.instance.uiMouse.y,
-			(int) (this.ox - (this.w - this.sw) - 2),
+			(int) (this.ox - (UiChoice.maxW * 0.5f)),
 			(int) (this.y - 4+ h * 0.5f),
-			(int) (this.w * scale), 10);
+			(int) (UiChoice.maxW * scale), 10);
 	}
 }
