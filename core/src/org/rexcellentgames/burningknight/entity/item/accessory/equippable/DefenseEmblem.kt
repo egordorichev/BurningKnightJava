@@ -15,11 +15,13 @@ class DefenseEmblem : Equippable() {
 	override fun onEquip(load: Boolean) {
 		super.onEquip(load)
 
+		this.owner.modifyDefense(1)
 		this.owner.defenseModifier += mod / 100f
 	}
 
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
+		this.owner.modifyDefense(-1)
 		this.owner.defenseModifier -= mod / 100f
 	}
 

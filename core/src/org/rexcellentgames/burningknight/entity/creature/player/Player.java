@@ -1018,6 +1018,7 @@ public class Player extends Creature {
 		}
 
 		light = World.newLight(256, new Color(1, 1, 1, 1f), 180, x, y);
+		light.attachToBody(this.body, 8, 8, 0);
 
 		if (Dungeon.depth == -3) {
 			this.inventory.clear();
@@ -1094,6 +1095,7 @@ public class Player extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 		light.setPosition(this.x + 8, this.y + 8);
+		light.attachToBody(this.body, 8, 8, 0);
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;

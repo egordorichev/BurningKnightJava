@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.item.entity.PickupFx;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -132,9 +133,8 @@ public class Inventory {
 			holder.done = true;
 
 			this.onAdd(holder, 11);
-			*/ // FIXME: not in inventory
 
-			return true;
+			return true;*/
 		}
 
 		if (item.isStackable()) {
@@ -143,6 +143,7 @@ public class Inventory {
 
 				if (slot != null && slot.getClass() == item.getClass() && UiSlot.canAccept(i, slot)) {
 					slot.setCount(slot.getCount() + item.getCount());
+					item.setOwner(Player.instance);
 					item.onPickup();
 					holder.done = true;
 
@@ -159,7 +160,12 @@ public class Inventory {
 				item.onPickup();
 				holder.done = true;
 
+				if (item instanceof Equippable) {
+					((Equippable) item).onEquip(false);
+				}
+
 				this.onAdd(holder, i);
+
 				return true;
 			}
 		}

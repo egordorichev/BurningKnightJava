@@ -63,7 +63,7 @@ public class BulletProjectile extends Projectile {
 
 	{
 		alwaysActive = true;
-		depth = 1;
+		depth = 16;
 	}
 
 	public boolean noRotation;

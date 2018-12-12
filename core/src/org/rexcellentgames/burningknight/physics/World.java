@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -129,7 +130,8 @@ public class World {
 	}
 
 	private static void setBits(FixtureDef fixture, Entity owner) {
-		if (!(owner instanceof SolidProp) && (owner instanceof HeartFx || owner instanceof Upgrade || owner instanceof Exit || owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell)) {
+		if (!(owner instanceof SolidProp) && (fixture.isSensor || owner instanceof HeartFx || owner instanceof Upgrade || owner instanceof Exit
+			|| owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell || owner instanceof Chest)) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.groupIndex = -1;
 			fixture.filter.maskBits = -1;

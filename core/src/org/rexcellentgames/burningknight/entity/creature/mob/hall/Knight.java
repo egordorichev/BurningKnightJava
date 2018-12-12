@@ -282,8 +282,14 @@ public class Knight extends Mob {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-
 			this.checkForPlayer();
+
+			if (self.target != null && self.canSee(self.target)) {
+				self.saw = true;
+				self.noticeSignT = 2f;
+				self.playSfx("enemy_alert");
+				self.become("alerted");
+			}
 
 			/*if (self.target != null) {
 				float dx = self.target.x + self.target.w / 2 - self.x - self.w / 2;
