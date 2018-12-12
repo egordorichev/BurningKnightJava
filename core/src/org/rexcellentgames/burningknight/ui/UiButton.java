@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
+import org.rexcellentgames.burningknight.util.Log;
 
 public class UiButton extends UiEntity {
 	public int h;
@@ -89,20 +90,15 @@ public class UiButton extends UiEntity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (Input.instance.wasPressed("mouse") && !disableClick) {
-			if ((this.hover && !Input.instance.wasPressed("mouse") && this.isSelected) || (checkHover() && Input.instance.wasPressed("mouse"))) {
-				Input.instance.putState("mouse", Input.State.HELD);
+		if (Input.instance.wasPressed("mouse") && !disableClick && checkHover()) {
+			this.onClick();
+			this.rr = 0.3f;
+			this.rg = 0.3f;
+			this.rb = 0.3f;
 
-
-				this.onClick();
-				this.rr = 0.3f;
-				this.rg = 0.3f;
-				this.rb = 0.3f;
-
-				r = 1f;
-				g = 1f;
-				b = 1f;
-			}
+			r = rr;
+			g = rg;
+			b = rb;
 		}
 
 		if (this.sparks) {

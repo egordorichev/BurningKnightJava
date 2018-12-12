@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.EarClippingTriangulator;
 import org.rexcellentgames.burningknight.Display;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -87,16 +88,27 @@ public class BloodSplatFx extends Entity {
 			this.y - this.h <= camera.position.y + this.h + Display.GAME_HEIGHT / 2 * zoom;
 	}
 
+	private float t;
+	private float alp = 1;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		t += dt;
+
+		if (Settings.quality == 0 && this.t >= 5f) {
+			this.alp -= dt * 0.3f;
+
+			if (this.alp <= 0) {
+				this.done = true;
+			}
+		}
 
 		if (this.al < 1f) {
 			this.al = Math.min(1f, this.al + dt * 10f);
 		}
 	}
-
-	// fixme: not always render but make sure off screen before render is disabled
 
 	@Override
 	public void render() {
@@ -108,9 +120,9 @@ public class BloodSplatFx extends Entity {
 		polyBatch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
 
 		if (lng) {
-			poly.setScale(al, 1);
+			poly.setScale(al * this.alp, this.alp);
 		} else {
-			poly.setScale(al);
+			poly.setScale(al * this.alp);
 		}
 
 		poly.draw(polyBatch);

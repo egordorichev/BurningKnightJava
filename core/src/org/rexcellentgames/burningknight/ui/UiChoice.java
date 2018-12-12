@@ -59,8 +59,8 @@ public class UiChoice extends UiButton {
 	@Override
 	public void onClick() {
 		super.onClick();
-		// fixme: not working
-		// this.setCurrent((this.current + (Input.instance.isDown("Mouse1") ? -1 : 1)) % this.choices.length);
+		// fixme: not working with lmb
+		this.setCurrent((this.current + (Input.instance.isDown("Mouse1") ? -1 : 1)) % this.choices.length);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.physics.World;
@@ -54,9 +55,21 @@ public class GoreFx extends Entity {
 		}
 	}
 
+	private float t;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		t += dt;
+
+		if (Settings.quality == 0 && this.t >= 5f) {
+			this.al -= dt;
+
+			if (this.al <= 0) {
+				this.done = true;
+			}
+		}
 
 		/*if (this.t > 5f && !this.tweened) {
 			this.tweened = true;
