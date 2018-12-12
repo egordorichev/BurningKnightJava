@@ -361,7 +361,7 @@ public class InGameState extends State {
 			Upgrade.Companion.setUpdateEvent(false);
 		}
 
-		if (!isPaused() && !Player.instance.isDead()) {
+		if (!isPaused() && !Player.instance.isDead() && Dungeon.depth != -2) {
 			GameSave.time += Gdx.graphics.getDeltaTime();
 		} else {
 			Dungeon.speed += (1 - Dungeon.speed) * dt * 5;

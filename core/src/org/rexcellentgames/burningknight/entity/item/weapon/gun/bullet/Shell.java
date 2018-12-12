@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.physics.World;
@@ -36,10 +37,13 @@ public class Shell extends Entity {
 
 		ArrayList<Animation.Frame> frames = animations.getFrames("idle");
 		this.sprite = frames.get(Random.newInt(frames.size())).frame;
-		this.body = World.createSimpleCentredBody(this, 0, 0, this.sprite.getRegionWidth(), this.sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
-		World.checkLocked(this.body).setTransform(this.x + this.sprite.getRegionWidth() / 2, this.y + this.sprite.getRegionHeight() / 2, 0);
-		this.body.setLinearVelocity(this.vel.x, this.vel.y);
-		this.body.setBullet(true);
+
+		if (Settings.quality > 1) {
+			this.body = World.createSimpleCentredBody(this, 0, 0, this.sprite.getRegionWidth(), this.sprite.getRegionHeight(), BodyDef.BodyType.DynamicBody, false);
+			World.checkLocked(this.body).setTransform(this.x + this.sprite.getRegionWidth() / 2, this.y + this.sprite.getRegionHeight() / 2, 0);
+			this.body.setLinearVelocity(this.vel.x, this.vel.y);
+			this.body.setBullet(true);
+		}
 	}
 
 	@Override
@@ -83,6 +87,7 @@ public class Shell extends Entity {
 			this.vel.x = 0;
 
 			if (this.body != null) {
+				playSfx("shell");
 				this.body = World.removeBody(this.body);
 			}
 		}

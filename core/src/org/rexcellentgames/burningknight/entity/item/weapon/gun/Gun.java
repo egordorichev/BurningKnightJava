@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
@@ -392,20 +393,22 @@ public class Gun extends WeaponBase {
 
 		float a = (float) (this.owner.getAngleTo(aim.x, aim.y) - Math.PI * 2);
 
-		Shell shell = new Shell();
+		if (Settings.quality > 0) {
+			Shell shell = new Shell();
 
-		float x = this.owner.x + this.owner.w / 2f;
-		float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
+			float x = this.owner.x + this.owner.w / 2f;
+			float y = this.owner.y + this.owner.h / 4 + region.getRegionHeight() / 2 - 2;
 
-		shell.x = x;
-		shell.y = y - 10;
+			shell.x = x;
+			shell.y = y - 10;
 
-		shell.vel = new Point(
-			(float) -Math.cos(a) * 1f,
-			1.5f
-		);
+			shell.vel = new Point(
+				(float) -Math.cos(a) * 1f,
+				1.5f
+			);
 
-		Dungeon.area.add(shell);
+			Dungeon.area.add(shell);
+		}
 
 		this.owner.knockback.x -= Math.cos(a) * 90f;
 		this.owner.knockback.y -= Math.sin(a) * 90f;

@@ -548,10 +548,12 @@ public abstract class Level extends SaveableEntity {
 
 		OrthographicCamera camera = Camera.game;
 
+		Graphics.batch.end();
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.setProjectionMatrix(Camera.game.combined);
-
-		Graphics.startAlphaShape();
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
 
 		float zoom = camera.zoom;
 
@@ -586,13 +588,14 @@ public abstract class Level extends SaveableEntity {
 					continue;
 				}
 
-				Graphics.shape.setColor(color.r, color.g, color.b, 1f - v * 0.7f);
+				Graphics.shape.setColor(color.r, color.g, color.b, 1f - v);
 				Graphics.shape.rect(x * 16, y * 16 - 8, 16, 16);
 			}
 		}
 
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
+		Graphics.batch.begin();
 
 		/*float s = 0.5f;
 		float md = 1f / s;
@@ -619,36 +622,6 @@ public abstract class Level extends SaveableEntity {
 		}*/
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-
-		boolean light = Dungeon.depth > -3 && Settings.quality > 0;
-
-		if (light) {
-			Graphics.surface.end();
-		}
-
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
-
-		if (light) {
-			World.lights.setCombinedMatrix(Camera.game.combined);
-			World.lights.update();
-			World.lights.render();
-
-			Graphics.batch.end();
-
-			Graphics.surface.begin();
-			Graphics.batch.setShader(lightShader);
-			Graphics.batch.begin();
-
-			Texture texture = World.lights.getLightMapTexture();
-			Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
-
-			Graphics.batch.flush();
-			Graphics.batch.end();
-
-			Graphics.batch.setShader(null);
-			Graphics.batch.begin();
-		}
 	}
 
 	private boolean isBitSet(short data, int bit) {
@@ -1340,7 +1313,7 @@ public abstract class Level extends SaveableEntity {
 						byte variant = this.variants[i];
 
 						if (variant != Terrain.variants[tile].length && Terrain.variants[tile][variant] != null) {
-							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8); 
+							Graphics.render(Terrain.variants[tile][variant], x * 16, y * 16 - 8);
 						}
 					}
 				}
@@ -1805,8 +1778,43 @@ public abstract class Level extends SaveableEntity {
 
 		Graphics.batch.end();
 
+		boolean light = Dungeon.depth > -3 && Settings.quality > 0;
+
+		if (light) {
+			Graphics.surface.end();
+		}
+
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+
+		if (light) {
+			World.lights.setCombinedMatrix(Camera.game.combined);
+			World.lights.update();
+			World.lights.render();
+
+			Graphics.batch.end();
+
+			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
+			float x = -Camera.game.position.x + Display.GAME_WIDTH / 2;
+			float y = -Camera.game.position.y + Display.GAME_HEIGHT / 2 - 8;
+
+			Gdx.gl.glScissor((int) x, (int) y,getWidth() * 16, getHeight() * 16);
+
+			Graphics.surface.begin();
+			Graphics.batch.setShader(lightShader);
+			Graphics.batch.begin();
+
+			Texture texture = World.lights.getLightMapTexture();
+			Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
+
+			Graphics.batch.flush();
+			Graphics.batch.end();
+
+			Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+		}
 	}
 
 	public static ShaderProgram lightShader;

@@ -56,12 +56,11 @@ public class UiChoice extends UiButton {
 		return this;
 	}
 
-	private int setNum = 0;
-
 	@Override
 	public void onClick() {
 		super.onClick();
-		this.setCurrent((this.current + (Input.instance.isDown("second_use") ? -1 : 1)) % this.choices.length);
+		// fixme: not working
+		// this.setCurrent((this.current + (Input.instance.isDown("Mouse1") ? -1 : 1)) % this.choices.length);
 	}
 
 	@Override
