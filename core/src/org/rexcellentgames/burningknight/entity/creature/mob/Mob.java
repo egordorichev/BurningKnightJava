@@ -528,7 +528,7 @@ public class Mob extends Creature {
 		}
 	}
 
-	protected boolean friendly = false;
+	public boolean friendly = false;
 
 	@Override
 	protected void common() {

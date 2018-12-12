@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.fx;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class BloodDropFx extends Entity {
@@ -69,10 +68,9 @@ public class BloodDropFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShape();
-		Graphics.shape.setColor(r, g, b, 1);
-
+		Graphics.startAlphaShape();
+		Graphics.shape.setColor(r, g, b, 0.6f);
 		Graphics.shape.rect(this.x + this.owner.x, this.y + this.owner.y + this.owner.z, this.sz / 2, this.sz / 2, this.sz, this.sz, 1, 1, this.a);
-		Graphics.endShape();
+		Graphics.endAlphaShape();
 	}
 }

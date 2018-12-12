@@ -258,7 +258,7 @@ public class Thief extends Mob {
 			items.add(new Lootpick());
 		}
 
-		if (Random.chance(5)) {
+		if (Random.chance(1)) {
 			items.add(new StopWatch());
 		}
 

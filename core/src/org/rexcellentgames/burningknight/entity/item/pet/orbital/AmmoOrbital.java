@@ -48,7 +48,7 @@ public class AmmoOrbital extends Pet {
 
 				if (Player.instance.room != null) {
 					for (Mob mob : Mob.every) {
-						if (mob.onScreen && mob.room == this.owner.room && !mob.getState().equals("unactive") && !mob.getState().equals("defeated")) {
+						if (mob.onScreen && !mob.friendly && mob.room == this.owner.room && !mob.getState().equals("unactive") && !mob.getState().equals("defeated")) {
 							BulletProjectile ball = new BulletProjectile();
 							playSfx("gun_machinegun");
 

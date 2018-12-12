@@ -46,6 +46,7 @@ public class WonState extends State {
 
 				@Override
 				public void onEnd() {
+					MainMenuState.voidMusic.stop();
 					Dungeon.newGame(false, -2);
 				}
 			});
