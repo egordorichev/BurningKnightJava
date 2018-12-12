@@ -990,6 +990,8 @@ Settings:
 	+ Movement
 	+ Roll
 * Game:
+  + Show FPS
+  + Hide HUD
 	+ Speedrun timer
 	+ Speedrun mode
 	+ Blood and Gore
@@ -1236,7 +1238,7 @@ Settings:
 	public void addGame() {
 		clear();
 
-		float s = 20;
+		float s = 18;
 		float st = 60 - 2.5f;
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
@@ -1351,6 +1353,37 @@ Settings:
 				super.onClick();
 			}
 		}.setOn(Settings.vegan)));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("show_fps", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 8)) {
+			@Override
+			public void update(float dt) {
+				super.update(dt);
+
+				setOn(Dungeon.fpsY != 0);
+			}
+
+			@Override
+			public void onClick() {
+				Tween.to(new Tween.Task(Dungeon.fpsY == 0 ? 18 : 0, 0.3f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return Dungeon.fpsY;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.fpsY = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+
+				super.onClick();
+			}
+		}.setOn(Dungeon.fpsY != 0)));
 	}
 
 	@Override

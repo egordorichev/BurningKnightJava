@@ -67,6 +67,7 @@ public class Settings {
 		cursor = GlobalSave.getString("settings_cursor", "cursor-standart");
 		rotateCursor = GlobalSave.isTrue("settings_rotate_cursor", true);
 		vegan = GlobalSave.isTrue("settings_v", false);
+		Dungeon.fpsY = GlobalSave.isTrue("settings_sf", false) ? 18 : 0;
 
 		cursorId = getCursorId(cursor);
 
@@ -107,6 +108,7 @@ public class Settings {
 
 		GlobalSave.put("settings_cb", Dungeon.colorBlind);
 		GlobalSave.put("settings_v", vegan);
+		GlobalSave.put("settings_sf", Dungeon.fpsY == 18);
 	}
 
 	public static void generate() {

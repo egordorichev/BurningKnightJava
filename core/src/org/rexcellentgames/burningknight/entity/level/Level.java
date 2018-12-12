@@ -548,12 +548,10 @@ public abstract class Level extends SaveableEntity {
 
 		OrthographicCamera camera = Camera.game;
 
-		Graphics.batch.end();
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.setProjectionMatrix(Camera.game.combined);
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		Graphics.shape.begin(ShapeRenderer.ShapeType.Filled);
+
+		Graphics.startAlphaShape();
 
 		float zoom = camera.zoom;
 
@@ -588,7 +586,7 @@ public abstract class Level extends SaveableEntity {
 					continue;
 				}
 
-				Graphics.shape.setColor(color.r, color.g, color.b, 1f - v);
+				Graphics.shape.setColor(color.r, color.g, color.b, 1f - v * 0.7f);
 				Graphics.shape.rect(x * 16, y * 16 - 8, 16, 16);
 			}
 		}

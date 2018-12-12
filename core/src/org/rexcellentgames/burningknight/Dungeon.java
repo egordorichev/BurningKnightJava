@@ -414,7 +414,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 	}
 
-	private static float fpsY;
+	public static float fpsY;
 
 	private void update() {
 		if (Graphics.delayTime > 0) {
