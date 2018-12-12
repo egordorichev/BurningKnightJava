@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.util.Random;
 
 public class Firefly extends SaveableEntity {
 	{
-		depth = 14;
+		depth = 16;
 		w = 12;
 		h = 12;
 	}

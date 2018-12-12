@@ -105,7 +105,7 @@ public class Mob extends Creature {
 	}
 
 	public Mob generate() {
-		if (challenge || Random.chance(10)) {
+		if (challenge) { //  || Random.chance(10)
 			this.generatePrefix();
 		}
 

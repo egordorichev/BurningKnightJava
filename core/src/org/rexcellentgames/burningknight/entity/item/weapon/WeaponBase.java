@@ -288,10 +288,9 @@ public class WeaponBase extends Item {
 	@Override
 	public void generate() {
 		super.generate();
-
-		if (Random.chance(25)) {
+		/*if (Random.chance(25)) {
 			this.generateModifier();
-		}
+		}*/
 	}
 
 	public void generateModifier() {
