@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class FireWand extends Wand {
@@ -38,13 +39,13 @@ public class FireWand extends Wand {
 	@Override
 	public void onPickup() {
 		super.onPickup();
+		Log.error("On pickup " + showed);
 
 		if (Dungeon.depth == -3 && !showed) {
 			showed = true;
 
 			Ui.ui.addControl("[white]" + Input.instance.getMapping("use") + " [gray]" + Locale.get("use"));
-			Ui.ui.addControl("[white]" + Input.instance.getMapping("scroll") + " [gray]" + Locale.get("select_item"));
-			Ui.ui.addControl("[white]" + Input.instance.getMapping("inventory") + " [gray]" + Locale.get("inventory"));
+			Ui.ui.addControl("[white]" + Input.instance.getMapping("switch") + " [gray]" + Locale.get("select_item"));
 		}
 
 		if (Dungeon.depth != -3) {

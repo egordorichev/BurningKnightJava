@@ -154,11 +154,6 @@ public class Chest extends SaveableEntity {
 		if (entity instanceof Player) {
 			if (this.locked) {
 				this.colliding = true;
-
-				if (!collided && Dungeon.depth == -3 && Ui.controls.size() == 0) {
-					Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"));
-					collided = true;
-				}
 			} else if (!this.open) {
 				this.locked = false;
 				this.open = true;

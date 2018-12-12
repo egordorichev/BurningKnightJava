@@ -864,6 +864,7 @@ public class Player extends Creature {
 					inventory.setSlot(0, item.getItem());
 
 					item.getItem().setOwner(this);
+					item.getItem().onPickup();
 					item.remove();
 					item.done = true;
 					this.playSfx("pickup_item");
@@ -881,6 +882,7 @@ public class Player extends Creature {
 				} else if (inventory.getSlot(1) == null) {
 					inventory.setSlot(1, item.getItem());
 					item.getItem().setOwner(this);
+					item.getItem().onPickup();
 
 					item.remove();
 					item.done = true;
@@ -901,6 +903,7 @@ public class Player extends Creature {
 					item.setItem(this.inventory.getSlot(this.inventory.active));
 					this.inventory.setSlot(this.inventory.active, it);
 					it.setOwner(this);
+					it.onPickup();
 					this.playSfx("pickup_item");
 					return false;
 				}
@@ -909,6 +912,7 @@ public class Player extends Creature {
 					inventory.setSlot(2, item.getItem());
 
 					item.getItem().setOwner(this);
+					item.getItem().onPickup();
 					item.remove();
 					item.done = true;
 					this.playSfx("pickup_item");
@@ -929,6 +933,7 @@ public class Player extends Creature {
 					item.setItem(this.inventory.getSlot(2));
 					this.inventory.setSlot(2, it);
 					it.setOwner(this);
+					it.onPickup();
 					this.playSfx("pickup_item");
 					return false;
 				}

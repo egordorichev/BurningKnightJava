@@ -379,10 +379,11 @@ open class ItemHolder : SaveableEntity {
   override fun onCollision(entity: Entity?) {
     super.onCollision(entity)
 
-	  if (!collided && Dungeon.depth == -3 && Ui.controls.size == 0 && this.item is Key) {
-		  Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"))
-		  collided = true
-	  }
+
+    if (item is Key && !collided && Dungeon.depth == -3 && Ui.controls.size == 0) {
+      Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"))
+      collided = true
+    }
 
     if (entity is Creature) {
       Tween.to(object : Tween.Task(4f, 0.3f) {
