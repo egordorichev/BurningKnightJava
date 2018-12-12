@@ -32,25 +32,26 @@ public class Ui {
 	private TextureRegion upgrade;
 	public static boolean hideCursor;
 	public static boolean hideUi;
-	public static TextureRegion save = Graphics.getTexture("ui-save");
+	public static TextureRegion save;
 	public static float upscale = 1;
 
-	public static TextureRegion[] regions = new TextureRegion[] {
-		Graphics.getTexture("ui-cursor-standart"),
-		Graphics.getTexture("ui-cursor-small"),
-		Graphics.getTexture("ui-cursor-rect"),
-		Graphics.getTexture("ui-cursor-corner"),
-		Graphics.getTexture("ui-cursor-sniper"),
-		Graphics.getTexture("ui-cursor-round-sniper"),
-		Graphics.getTexture("ui-cursor-cross"),
-		Graphics.getTexture("ui-cursor-nt"),
-		null // native
-	};
-
+	public static TextureRegion[] regions;
 
 	public Ui() {
 		ui = this;
 		upgrade = Graphics.getTexture("ui-upgrade_cursor");
+		save = Graphics.getTexture("ui-save");
+		regions =  new TextureRegion[] {
+			Graphics.getTexture("ui-cursor-standart"),
+			Graphics.getTexture("ui-cursor-small"),
+			Graphics.getTexture("ui-cursor-rect"),
+			Graphics.getTexture("ui-cursor-corner"),
+			Graphics.getTexture("ui-cursor-sniper"),
+			Graphics.getTexture("ui-cursor-round-sniper"),
+			Graphics.getTexture("ui-cursor-cross"),
+			Graphics.getTexture("ui-cursor-nt"),
+			null // native
+		};
 	}
 
 	public void update(float dt) {

@@ -163,70 +163,72 @@ public class InGameState extends State {
 		Dungeon.darkR = Dungeon.MAX_R;
 
 		if (this.isPaused()) {
-			this.mv = -256;
-			depth = Dungeon.level.formatDepth();
-			this.wasHidden = !UiMap.instance.isOpen();
+			if (!Player.instance.isDead()) {
+				this.mv = -256;
+				depth = Dungeon.level.formatDepth();
+				this.wasHidden = !UiMap.instance.isOpen();
 
-			Graphics.layout.setText(Graphics.medium, depth);
-			this.w = Graphics.layout.width;
+				Graphics.layout.setText(Graphics.medium, depth);
+				this.w = Graphics.layout.width;
 
-			if (!wasHidden) {
-				UiMap.instance.hide();
+				if (!wasHidden) {
+					UiMap.instance.hide();
+				}
+
+				Tween.to(new Tween.Task(1, 0.3f) {
+					@Override
+					public float getValue() {
+						return Dungeon.grayscale;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Dungeon.grayscale = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+
+				Tween.remove(lastTask);
+				lastTask = Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+					@Override
+					public float getValue() {
+						return mv;
+					}
+
+					@Override
+					public void setValue(float value) {
+						mv = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+
+
+				Tween.remove(lastTaskSize);
+				lastTaskSize = Tween.to(new Tween.Task(52, 0.2f) {
+					@Override
+					public float getValue() {
+						return size;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+
+					@Override
+					public void setValue(float value) {
+						size = value;
+					}
+				});
 			}
-
-			Tween.to(new Tween.Task(1, 0.3f) {
-				@Override
-				public float getValue() {
-					return Dungeon.grayscale;
-				}
-
-				@Override
-				public void setValue(float value) {
-					Dungeon.grayscale = value;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
-
-			Tween.remove(lastTask);
-			lastTask = Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
-				@Override
-				public float getValue() {
-					return mv;
-				}
-
-				@Override
-				public void setValue(float value) {
-					mv = value;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-			});
-
-
-			Tween.remove(lastTaskSize);
-			lastTaskSize = Tween.to(new Tween.Task(52, 0.2f) {
-				@Override
-				public float getValue() {
-					return size;
-				}
-
-				@Override
-				public boolean runWhenPaused() {
-					return true;
-				}
-
-				@Override
-				public void setValue(float value) {
-					size = value;
-				}
-			});
 		} else {
 			if (wasInSettings) {
 				wasInSettings = false;
@@ -1390,6 +1392,9 @@ Settings:
 	@Override
 	public void onPause() {
 		super.onPause();
-    this.pauseMenuUi.show();
+
+		if (!Player.instance.isDead()) {
+			this.pauseMenuUi.show();
+		}
 	}
 }

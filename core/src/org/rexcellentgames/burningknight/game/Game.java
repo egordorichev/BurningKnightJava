@@ -15,27 +15,10 @@ public class Game {
 
 	}
 
+	private State toSet;
+
 	public void setState(State state) {
-		if (!(this.state instanceof LoadState || state instanceof InventoryState)) {
-			Dungeon.ui.destroy();
-			Dungeon.area.destroy();
-		}
-
-		if (state instanceof InventoryState) {
-			Dungeon.ui.destroy();
-		}
-
-		State old = this.state;
-		Camera.instance.resetShake();
-		Log.info("Set state to " + state.getClass().getSimpleName());
-		this.state = state;
-
-		if (old != null) {
-			old.destroy();
-		}
-
-		Dungeon.blood = 0;
-		this.state.init();
+		toSet = state;
 		// Achievements.clear();
 	}
 
@@ -52,6 +35,32 @@ public class Game {
 	}
 
 	public void update(float dt) {
+		if (toSet != null) {
+			if (this.state != null) {
+				if (!(this.state instanceof LoadState || state instanceof InventoryState)) {
+					Dungeon.ui.destroy();
+					Dungeon.area.destroy();
+				}
+
+				if (state instanceof InventoryState) {
+					Dungeon.ui.destroy();
+				}
+			}
+
+			State old = this.state;
+			Camera.instance.resetShake();
+			Log.info("Set state to " + toSet.getClass().getSimpleName());
+			this.state = toSet;
+			toSet = null;
+
+			if (old != null) {
+				old.destroy();
+			}
+
+			Dungeon.blood = 0;
+			this.state.init();
+		}
+
 		if (this.state != null) {
 			this.state.update(dt);
 		}

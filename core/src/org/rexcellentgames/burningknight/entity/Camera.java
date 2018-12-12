@@ -115,7 +115,7 @@ public class Camera extends Entity {
 			last = null;
 		}
 
-		if (!Dungeon.game.getState().isPaused()) {
+		if (Dungeon.game.getState() != null && !Dungeon.game.getState().isPaused()) {
 			t += dt;
 		}
 
