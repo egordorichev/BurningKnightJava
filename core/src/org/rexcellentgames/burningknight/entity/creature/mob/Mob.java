@@ -37,6 +37,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -425,15 +426,17 @@ public class Mob extends Creature {
 					ArrayList<Item> items = this.getDrops();
 
 					for (Item item : items) {
-						ItemHolder holder = new ItemHolder(item);
+						if (Chest.isVeganFine(item.getClass())) {
+							ItemHolder holder = new ItemHolder(item);
 
-						holder.x = this.x;
-						holder.y = this.y;
-						holder.getItem().generate();
+							holder.x = this.x;
+							holder.y = this.y;
+							holder.getItem().generate();
 
-						this.area.add(holder);
+							this.area.add(holder);
 
-						LevelSave.add(holder);
+							LevelSave.add(holder);
+						}
 					}
 				}
 			}

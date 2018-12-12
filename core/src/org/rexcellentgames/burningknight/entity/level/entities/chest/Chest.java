@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -23,6 +24,8 @@ import org.rexcellentgames.burningknight.entity.item.permanent.BetterChestChance
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.ChickenSword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -111,11 +114,13 @@ public class Chest extends SaveableEntity {
 			if (item.getQuality().check(quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.getType())))
 				&& item.unlocked(both.getKey()) && Player.instance.getInventory().findItem(item.getType()) == null) {
 
-				pool.add(item.getType(), item.getChance() * (
-					item.getWarrior() * Player.instance.getWarrior() +
-						item.getMage() * Player.instance.getMage() +
-						item.getRanged() * Player.instance.getRanger()
-				));
+				if (isVeganFine(item.getType())) {
+					pool.add(item.getType(), item.getChance() * (
+						item.getWarrior() * Player.instance.getWarrior() +
+							item.getMage() * Player.instance.getMage() +
+							item.getRanged() * Player.instance.getRanger()
+					));
+				}
 			}
 		}
 
@@ -520,6 +525,18 @@ public class Chest extends SaveableEntity {
 	private float damage;
 	private float lastFlame;
 	private boolean drawOpenAnim;
+
+	public static boolean isVeganFine(Class<? extends Item> item) {
+		if (!Settings.vegan) {
+			return true;
+		}
+
+		if (Butcher.class.isAssignableFrom(item) || ChickenSword.class.isAssignableFrom(item)) {
+			return false;
+		}
+
+		return true;
+	}
 
 	public void open() {
 		if (this.collided) {
