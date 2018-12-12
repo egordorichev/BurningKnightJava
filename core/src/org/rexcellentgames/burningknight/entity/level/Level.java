@@ -595,7 +595,6 @@ public abstract class Level extends SaveableEntity {
 
 		Graphics.shape.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
-		Graphics.batch.begin();
 
 		/*float s = 0.5f;
 		float md = 1f / s;
@@ -622,6 +621,43 @@ public abstract class Level extends SaveableEntity {
 		}*/
 
 		Graphics.batch.setColor(1, 1, 1, 1);
+		boolean light = Dungeon.depth > -3 && Settings.quality > 0;
+
+		if (light) {
+			Graphics.surface.end();
+			Graphics.batch.setShader(null);
+			Graphics.batch.begin();
+			World.lights.setCombinedMatrix(Camera.game.combined);
+			World.lights.update();
+			World.lights.render();
+
+			Graphics.batch.end();
+
+			//Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
+			float x = -Camera.game.position.x + Display.GAME_WIDTH / 2;
+			float y = -Camera.game.position.y + Display.GAME_HEIGHT / 2 - 8;
+
+			//Gdx.gl.glScissor((int) x, (int) y,getWidth() * 16, getHeight() * 16);
+
+			Graphics.surface.begin();
+			int src = Graphics.batch.getBlendSrcFunc();
+			int dst = Graphics.batch.getBlendDstFunc();
+			Graphics.batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
+			Graphics.batch.begin();
+
+			Texture texture = World.lights.getLightMapTexture();
+			Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
+
+			Graphics.batch.flush();
+			Graphics.batch.end();
+
+			//Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+
+			Graphics.batch.begin();
+			Graphics.batch.setBlendFunction(src, dst);
+		} else {
+			Graphics.batch.begin();
+		}
 	}
 
 	private boolean isBitSet(short data, int bit) {
@@ -1777,51 +1813,8 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		Graphics.batch.end();
-
-		boolean light = Dungeon.depth > -3 && Settings.quality > 0;
-
-		if (light) {
-			Graphics.surface.end();
-		}
-
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
-
-		if (light) {
-			World.lights.setCombinedMatrix(Camera.game.combined);
-			World.lights.update();
-			World.lights.render();
-
-			Graphics.batch.end();
-
-			Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-			float x = -Camera.game.position.x + Display.GAME_WIDTH / 2;
-			float y = -Camera.game.position.y + Display.GAME_HEIGHT / 2 - 8;
-
-			Gdx.gl.glScissor((int) x, (int) y,getWidth() * 16, getHeight() * 16);
-
-			Graphics.surface.begin();
-			Graphics.batch.setShader(lightShader);
-			Graphics.batch.begin();
-
-			Texture texture = World.lights.getLightMapTexture();
-			Graphics.batch.draw(texture, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y + Display.GAME_HEIGHT / 2, Display.GAME_WIDTH, -Display.GAME_HEIGHT);
-
-			Graphics.batch.flush();
-			Graphics.batch.end();
-
-			Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
-
-			Graphics.batch.setShader(null);
-			Graphics.batch.begin();
-		}
-	}
-
-	public static ShaderProgram lightShader;
-
-	static {
-		lightShader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(), Gdx.files.internal("shaders/light.frag").readString());
-		if (!lightShader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + lightShader.getLog());
 	}
 
 	@Override

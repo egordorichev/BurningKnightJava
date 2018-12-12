@@ -62,7 +62,7 @@ public class Shell extends Entity {
 		} else {
 			this.t += dt;
 
-			if (this.t >= 30f && !this.tweened) {
+			if (this.t >= 10f && !this.tweened) {
 				this.tweened = true;
 				Tween.to(new Tween.Task(0, 3f, Tween.Type.QUAD_IN) {
 					@Override
@@ -73,6 +73,12 @@ public class Shell extends Entity {
 					@Override
 					public void setValue(float value) {
 						al = value;
+					}
+
+					@Override
+					public void onEnd() {
+						super.onEnd();
+						done = true;
 					}
 				});
 			}

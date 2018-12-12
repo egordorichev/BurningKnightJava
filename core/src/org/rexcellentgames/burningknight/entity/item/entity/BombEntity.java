@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.entity;
 
+import box2dLight.PointLight;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -49,10 +51,14 @@ public class BombEntity extends Entity {
 		alwaysActive = true;
 	}
 
+	private PointLight light;
+
 	public BombEntity(float x, float y) {
 		this.x = x;
 		this.y = y;
 		this.fliped = Random.chance(50);
+		light = World.newLight(32, new Color(1, 0, 0, 1), 64, 0, 0);
+		light.setPosition(this.x + 8, this.y + 8);
 	}
 
 	private boolean burning;
@@ -117,6 +123,7 @@ public class BombEntity extends Entity {
 	@Override
 	public void destroy() {
 		super.destroy();
+		World.removeLight(this.light);
 		this.body = World.removeBody(this.body);
 	}
 
@@ -303,6 +310,8 @@ public class BombEntity extends Entity {
 				Dungeon.level.addPhysics();
 			}
 		}
+
+		light.setPosition(this.x + 8, this.y + 8);
 	}
 
 	public boolean check(Room room) {

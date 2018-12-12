@@ -121,6 +121,9 @@ public class World {
 		lights.setLightMapRendering(false);
 		lights.setBlurNum(5);
 
+		float v = 0.2f;
+		lights.setAmbientLight(v, v, v, 1f);
+
 		// categoryBits, groupIndex, maskBits
 		Light.setGlobalContactFilter((short) 1, (short) -1, (short) 0x0003);
 	}

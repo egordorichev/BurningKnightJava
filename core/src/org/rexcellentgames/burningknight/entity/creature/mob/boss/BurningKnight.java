@@ -237,7 +237,7 @@ public class BurningKnight extends Boss {
 
 		this.tp(0, 0);
 
-		light = World.newLight(256, new Color(1, 0.5f, 0, 1f), 128, x, y);
+		light = World.newLight(256, new Color(1, 0f, 0, 1f), 128, x, y);
 	}
 
 	public void restore() {

@@ -1017,7 +1017,7 @@ public class Player extends Creature {
 			case WARRIOR: case WIZARD: this.accuracy -= 5; break;
 		}
 
-		light = World.newLight(256, new Color(1, 1, 1, 1f), 120, x, y);
+		light = World.newLight(256, new Color(1, 1, 1, 1f), 180, x, y);
 
 		if (Dungeon.depth == -3) {
 			this.inventory.clear();
@@ -1093,6 +1093,7 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		light.setPosition(this.x + 8, this.y + 8);
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
@@ -1128,12 +1129,10 @@ public class Player extends Creature {
 		}
 
 		if (this.hasBuff(BurningBuff.class)) {
-			this.light.setColor(1, 0.5f, 0f, 0.3f);
+			this.light.setColor(1, 0.5f, 0f, 1);
 		} else {
-			this.light.setColor(1, 1, 0.5f, 0.3f);
+			this.light.setColor(1, 1, 0.5f, 1);
 		}
-
-		light.setPosition(this.x + this.w / 2, this.y + this.h / 2);
 
 		if (!this.rolling) {
 			if (this.isFlying() || this.touches[Terrain.WALL] || this.touches[Terrain.FLOOR_A] || this.touches[Terrain.FLOOR_B] || this.touches[Terrain.FLOOR_C] || this.touches[Terrain.FLOOR_D] || this.touches[Terrain.DISCO]) {
