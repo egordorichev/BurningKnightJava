@@ -581,5 +581,9 @@
 	"flash_frames" : "Flash Frames",
 	"vegan_mode" : "Vegan Mode",
 	"show_fps" : "Show FPS",
-	"hide_hud" : "Hide HUD"
+	"hide_hud" : "Hide HUD",
+	"bomb_summoner" : "Bomb Summoner",
+	"bomb_summoner_desc" : "Note on the side: use with care",
+	"teleporter" : "Teleporter",
+	"teleporter_desc" : "Whooosh... Where I am?sp"
 }

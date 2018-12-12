@@ -933,7 +933,6 @@ public class Player extends Creature {
 
 					return true;
 				} else {
-					Log.error("Replace");
 					Item it = item.getItem();
 					item.setItem(this.inventory.getSlot(2));
 					this.inventory.setSlot(2, it);
@@ -1100,6 +1099,9 @@ public class Player extends Creature {
 	public void update(float dt) {
 		super.update(dt);
 		light.setActive(true);
+		light.attachToBody(body, 8, 8, 0);
+		light.setPosition(x + 8, y + 8);
+		light.setDistance((float) (180 + Math.cos(Dungeon.time * 3) * 30));
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
