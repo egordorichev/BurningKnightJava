@@ -179,6 +179,7 @@ public class Dungeon extends ApplicationAdapter {
 		SaveManager.delete();
 		GameSave.time = 0;
 		loadType = Entrance.LoadType.GO_DOWN;
+		GameSave.runId ++;
 
 		Player.instance = null;
 		BurningKnight.instance = null;

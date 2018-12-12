@@ -1094,6 +1094,8 @@ public class Player extends Creature {
 		super.common();
 	}
 
+	public static boolean dullDamage;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
@@ -1763,7 +1765,7 @@ public class Player extends Creature {
 	}
 
 	@Override
-	protected void onHurt(int a, Entity from) {
+	public void onHurt(int a, Entity from) {
 		super.onHurt(a, from);
 
 		this.gotHit = true;

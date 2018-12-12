@@ -510,8 +510,9 @@ public class InGameState extends State {
 			Dialog.active.update(dt);
 		}
 
-		if (Player.instance != null && Player.instance.getHp() < lastHp) {
+		if (Player.instance != null && (Player.instance.getHp() < lastHp || Player.dullDamage)) {
 			if (!setFrames) {
+				Player.dullDamage = false;
 				setFrames = true;
 
 				Tween.to(new Tween.Task(0.1f, 0.1f) {

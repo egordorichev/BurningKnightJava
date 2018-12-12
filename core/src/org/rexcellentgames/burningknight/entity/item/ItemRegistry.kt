@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item
 
+import org.rexcellentgames.burningknight.entity.DullBlade
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
@@ -294,6 +295,9 @@ object ItemRegistry {
 		"bomb" to Pair(Bomb::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"matches" to Pair(Matches::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 		"confetti_grenade" to Pair(ConfettiGrenade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Upgrade.Type.WEAPON, 3),
+		"dull_blade" to Pair(DullBlade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+	  "sharp_blade" to Pair(SharpBlade::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
+	  "killer_item" to Pair(KillerItem::class.java, 0.05f, 1f, 1f, 1f, Quality.WOODEN),
 
 	  "snipper_gun" to Pair(SnipperGun::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN)
 	).toList().sortedBy { (_, value) -> value }.toMap()

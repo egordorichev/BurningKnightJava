@@ -265,7 +265,7 @@ public class Item extends Entity {
   }
 
   public boolean canBeUsed() {
-  	return true;
+  	return delay == 0;
   }
 
   public String getName() {

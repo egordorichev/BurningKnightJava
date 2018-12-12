@@ -16,6 +16,7 @@ public class GameSave {
 	public static float time;
 	public static boolean inventory;
 	public static boolean playedAlpha;
+	public static int runId;
 
 	public static void save(FileWriter writer, boolean old) {
 		try {
@@ -29,6 +30,7 @@ public class GameSave {
 			writer.writeFloat(time);
 			writer.writeBoolean(inventory);
 			writer.writeBoolean(playedAlpha);
+			writer.writeInt32(runId);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,12 +85,16 @@ public class GameSave {
 		time = reader.readFloat();
 		inventory = reader.readBoolean();
 		playedAlpha = reader.readBoolean();
+		runId = reader.readInt32();
 	}
 
 	public static void generate() {
 		killCount = 0;
 		time = 0;
 		defeatedBK = false;
+		inventory = false;
+		runId = 0;
+		playedAlpha = false;
 
 		ChangableRegistry.generate();
 	}

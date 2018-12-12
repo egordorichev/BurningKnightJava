@@ -30,6 +30,7 @@ import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
@@ -532,6 +533,10 @@ public class Chest extends SaveableEntity {
 		}
 
 		if (Butcher.class.isAssignableFrom(item) || ChickenSword.class.isAssignableFrom(item)) {
+			return false;
+		}
+
+		if (item == KillerItem.class && GameSave.runId < 10) {
 			return false;
 		}
 
