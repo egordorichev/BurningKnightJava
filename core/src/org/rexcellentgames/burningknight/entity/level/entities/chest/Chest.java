@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -157,6 +156,7 @@ public class Chest extends SaveableEntity {
 			} else if (!this.open) {
 				this.locked = false;
 				this.open = true;
+				this.playSfx("chest");
 				this.data = this.getOpenAnim();
 
 				this.data.setListener(new AnimationData.Listener() {
@@ -420,6 +420,7 @@ public class Chest extends SaveableEntity {
 
 					drawOpenAnim = true;
 					renderUnlock = true;
+					this.playSfx("chest");
 
 					this.locked = false;
 
@@ -449,6 +450,7 @@ public class Chest extends SaveableEntity {
 					}
 
 					Player.instance.playSfx("unlock");
+					this.playSfx("chest");
 
 					drawOpenAnim = true;
 					renderUnlock = true;
@@ -520,8 +522,6 @@ public class Chest extends SaveableEntity {
 	private boolean drawOpenAnim;
 
 	public void open() {
-		this.playSfx("chest_open");
-
 		if (this.collided) {
 			Ui.ui.hideControlsFast();
 		}

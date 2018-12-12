@@ -186,6 +186,7 @@ public class Portal extends SaveableEntity {
 	public void onCollision(Entity entity) {
 		if (this.t >= 0.3f && entity instanceof Player && !Player.sucked) {
 			Player.sucked = true;
+			Player.instance.setUnhittable(true);
 
 			Camera.shake(3);
 

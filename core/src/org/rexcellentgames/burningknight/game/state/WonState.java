@@ -55,7 +55,13 @@ public class WonState extends State {
 	@Override
 	public void renderUi() {
 		super.renderUi();
-		Graphics.printCenter("You won", Graphics.medium, 0, Display.UI_HEIGHT / 2);
-		Graphics.printCenter("Press X", Graphics.medium, 0, Display.UI_HEIGHT / 2 - 64);
+		float s = 14;
+		Graphics.printCenter("You won!", Graphics.medium, 0, Display.UI_HEIGHT / 2 + s * 2);
+		Graphics.printCenter("(kind-of, that's only small part of the game)", Graphics.medium, 0, Display.UI_HEIGHT / 2 + s);
+		Graphics.printCenter("Thanks so much for playing!", Graphics.medium, 0, Display.UI_HEIGHT / 2 - s);
+		Graphics.printCenter("This was an alpha build of the game,", Graphics.medium, 0, Display.UI_HEIGHT / 2 - s * 2);
+		Graphics.printCenter("so much more stuff will be added", Graphics.medium, 0, Display.UI_HEIGHT / 2 - s * 3);
+		Graphics.printCenter("and fixed. Please come back later :)", Graphics.medium, 0, Display.UI_HEIGHT / 2 - s * 4);
+		Graphics.printCenter("Press X", Graphics.medium, 0, Display.UI_HEIGHT / 2  - s * 6);
 	}
 }

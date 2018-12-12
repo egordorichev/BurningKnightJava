@@ -518,6 +518,10 @@ public class Player extends Creature {
 		}
 
 		if (this.rotating) {
+			if (InventoryState.player == null) {
+				InventoryState.player = Graphics.getTexture("props-gobbo_full");
+			}
+
 			this.al += Gdx.graphics.getDeltaTime() * 960;
 			Graphics.render(InventoryState.player, this.x + 6.5f, this.y + 2.5f, this.al, 6.5f, 2.5f, false, false);
 			Graphics.batch.setColor(1, 1, 1, 1);
